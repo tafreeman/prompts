@@ -4,6 +4,32 @@
 
 This is a community-driven prompt library designed for diverse users—from developers to business professionals. The repository provides well-organized, reusable prompts for AI/LLM interactions across various use cases.
 
+## Working with Copilot
+
+### What Copilot Should Do
+When assigned to an issue or PR, Copilot should:
+- Add new prompt files following the established template and format
+- Update existing prompts to improve clarity, examples, or fix errors
+- Enhance documentation for better user understanding
+- Fix typos, broken links, or formatting issues
+- Ensure all prompts meet quality standards before submission
+- Make minimal, focused changes that directly address the issue
+
+### What Copilot Should NOT Do
+- Do not modify or delete working prompt files unless specifically requested
+- Do not change the repository structure without explicit approval
+- Do not add build tools, linters, or testing frameworks (this is a documentation-only repo)
+- Do not create prompts outside the established categories without discussion
+- Do not make sweeping changes across multiple prompts in a single PR
+- Do not add dependencies or executable code
+
+### Task Scoping Guidelines
+- Each task should focus on a single prompt or related set of prompts
+- New prompts should be complete with all required sections
+- Updates should be incremental and reviewable
+- Documentation changes should maintain existing tone and style
+- Always validate that changes align with repository goals
+
 ## Repository Structure
 
 ```
@@ -237,6 +263,34 @@ Examples:
 - `Fix: Typo in data analysis prompt YAML frontmatter`
 - `Docs: Update README with new category information`
 
+## Examples of Good Contributions
+
+### ✅ Good: Adding a New Prompt
+- Create file `prompts/developers/api-design-helper.md`
+- Include complete YAML frontmatter with all required fields
+- Provide clear description, use cases, and examples
+- Test the prompt with real inputs before submission
+- Follow the exact template structure
+
+### ✅ Good: Improving an Existing Prompt
+- Update version number from 1.0 to 1.1
+- Add more detailed example in the Example Usage section
+- Clarify variables with better descriptions
+- Add a changelog entry explaining improvements
+
+### ✅ Good: Fixing Documentation
+- Correct typos in README.md
+- Update broken links in documentation
+- Improve clarity of instructions in CONTRIBUTING.md
+- Add missing information to getting-started guide
+
+### ❌ Avoid: Problematic Changes
+- Renaming multiple files without discussion
+- Deleting working prompts to "clean up"
+- Adding new categories not in the structure
+- Modifying YAML structure without approval
+- Making changes across many unrelated files
+
 ## Additional Notes
 
 - This is a documentation-only repository with no code execution
@@ -244,3 +298,5 @@ Examples:
 - Prioritize user experience for diverse skill levels
 - Maintain accessibility for both technical and non-technical users
 - Follow existing patterns and conventions
+- When in doubt, make smaller, more focused changes
+- Always reference the issue you're addressing in commits and PRs
