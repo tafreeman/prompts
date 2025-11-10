@@ -11,11 +11,16 @@ on:
 
 env:
   PYTHON_VERSION: '3.11'
+
+permissions:
+  contents: read
   
 jobs:
   test:
     name: Test Application
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
@@ -47,6 +52,8 @@ jobs:
     name: Build Docker Image
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
@@ -73,6 +80,8 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
@@ -107,6 +116,8 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
@@ -138,6 +149,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write  # Needed for gh-pages deployment
     
     steps:
     - uses: actions/checkout@v4
