@@ -1,0 +1,78 @@
+---
+title: "Prompt Title Here"
+category: "developers|business|creative|analysis|system"
+tags: ["tag1", "tag2", "tag3"]
+author: "Your Name"
+version: "1.0"
+date: "YYYY-MM-DD"
+difficulty: "beginner|intermediate|advanced"
+---
+
+# Prompt Title Here
+
+## Description
+Provide a clear, concise description of what this prompt does and its primary purpose. Explain the problem it solves or the task it accomplishes.
+
+## Use Cases
+List 3-5 specific scenarios where this prompt would be useful:
+- Use case 1: Describe when and why someone would use this
+- Use case 2: Another practical application
+- Use case 3: A third example scenario
+- Use case 4: (Optional) Additional scenario
+- Use case 5: (Optional) Another scenario
+
+## Prompt
+
+```
+[Write your actual prompt here. Be specific, clear, and provide all necessary context.
+Include any instructions, constraints, or format requirements.
+
+Use [brackets] to indicate variables that users should replace with their own values.
+
+Example structure:
+- Clearly state the role or context
+- Specify the task or goal
+- Provide constraints or requirements
+- Define the expected output format]
+```
+
+## Variables
+Explain what each variable in your prompt means and what users should replace it with:
+- `[variable_name_1]`: Clear explanation of what to put here
+- `[variable_name_2]`: Another variable description
+- `[variable_name_3]`: What this variable represents
+
+## Example Usage
+
+**Input:**
+```
+Show a concrete example of your prompt with real values filled in.
+This helps users understand how to actually use the prompt.
+```
+
+**Output:**
+```
+Provide an example of what the AI would generate or respond with.
+This sets expectations for users about what they should receive.
+```
+
+## Tips
+Share helpful tips for getting the best results:
+- Tip 1: How to customize the prompt for specific needs
+- Tip 2: Common pitfalls to avoid
+- Tip 3: Suggestions for better results
+- Tip 4: Variations or alternatives to consider
+
+## Related Prompts
+(Optional) Link to similar or complementary prompts:
+- [Related Prompt 1](../path/to/prompt.md)
+- [Related Prompt 2](../path/to/prompt.md)
+
+## Changelog
+
+### Version 1.0 (YYYY-MM-DD)
+- Initial version
+
+---
+
+**Note**: Update the version number and changelog when making improvements to this prompt.
