@@ -1,13 +1,45 @@
 # Enterprise AI Prompt Library - IIS Deployment Guide
 
+Deploy the Enterprise AI Prompt Library to IIS with a single PowerShell command!
+
+## Quick Start (One Command)
+
+```powershell
+# Run as Administrator
+.\deployment\iis\deploy.ps1
+```
+
+That's it! The script will automatically:
+- ✅ Detect your Python installation
+- ✅ Install all dependencies (Flask, wfastcgi, etc.)
+- ✅ Create application directories
+- ✅ Configure IIS and FastCGI
+- ✅ Initialize the database with prompts
+- ✅ Set correct permissions
+- ✅ Start the website
+
+**Access your site at**: `http://localhost`
+
+### Custom Configuration
+
+```powershell
+# Custom port and location
+.\deployment\iis\deploy.ps1 -Port 8080 -AppPath "D:\MyApps\prompt_library"
+
+# With hostname
+.\deployment\iis\deploy.ps1 -HostName "prompts.company.com" -Port 80
+```
+
 ## Prerequisites
 
-1. **Windows Server 2016 or higher**
-2. **IIS 10.0 or higher** with CGI module installed
-3. **Python 3.8+** installed on the server
-4. **wfastcgi** installed: `pip install wfastcgi`
+The deployment script will check and configure these automatically:
 
-## Step-by-Step Deployment
+1. **Windows Server 2016 or higher**
+2. **IIS 10.0 or higher** with CGI module (auto-installed by script)
+3. **Python 3.8+** in your PATH
+4. **Administrator privileges** (required to configure IIS)
+
+## Manual Step-by-Step Deployment (If Needed)
 
 ### 1. Prepare Application Directory
 
@@ -111,7 +143,24 @@ Edit `C:\inetpub\wwwroot\prompt_library\src\web.config`:
 
 ## Troubleshooting
 
+### Issue: "Script must be run as Administrator"
+
+**Solution:**
+Right-click PowerShell and select "Run as Administrator", then run the deploy script again.
+
+### Issue: "Python is not found in PATH"
+
+**Solution:**
+Install Python 3.8+ and ensure it's added to your system PATH, or specify the full path when running Python commands.
+
+### Issue: PowerShell Script Errors
+
+**Solution:**
+Ensure you're using PowerShell 5.1 or later. Run `$PSVersionTable.PSVersion` to check your version.
+
 ### Issue: "500 Internal Server Error"
+
+The deploy.ps1 script should prevent this, but if it occurs:
 
 **Check:**
 1. Python path in web.config is correct

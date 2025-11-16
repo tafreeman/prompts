@@ -56,6 +56,7 @@ docker-compose -f deployment/docker/docker-compose.yml up -d
 - Python 3.8 or higher
 - Flask 3.1.2
 - SQLite 3.x (included with Python)
+- wfastcgi 3.0.0 (for IIS deployment only)
 - Modern web browser with JavaScript enabled
 
 ## 🏗️ Project Structure
@@ -153,7 +154,7 @@ DATABASE = '/path/to/your/database.db'
 The application includes prompts from:
 
 1. **Existing Repository**: All prompts from `prompts/` directory are automatically loaded
-2. **Enhanced Collection**: 20+ additional enterprise prompts covering:
+2. **Enhanced Collection**: 15+ additional enterprise prompts covering:
    - Code generation & review
    - API documentation
    - Test case generation
@@ -174,20 +175,20 @@ All prompts are optimized for **Claude Sonnet 4.5** and **Code 5**.
 
 See [deployment/iis/README.md](deployment/iis/README.md) for detailed instructions.
 
-**Quick setup:**
+**One-command deployment:**
 ```powershell
-# Copy files to IIS directory
-Copy-Item -Path "src\*" -Destination "C:\inetpub\wwwroot\prompt_library" -Recurse
-
-# Install dependencies
-cd C:\inetpub\wwwroot\prompt_library
-pip install -r requirements.txt
-
-# Initialize database
-python load_prompts.py
-
-# Configure IIS (see IIS README)
+# Run as Administrator
+.\deployment\iis\deploy.ps1
 ```
+
+This automated script will:
+- Detect your Python installation
+- Install all dependencies (including wfastcgi)
+- Create application directories
+- Configure IIS and FastCGI
+- Initialize the database
+- Set permissions
+- Start the website
 
 **Cost**: Free (uses existing Windows Server)
 
@@ -369,11 +370,11 @@ This project is licensed under the MIT License - see the [LICENSE](../LICENSE) f
 
 ## 📊 Stats
 
-- **70+ Prompts**: Comprehensive library
+- **20+ Prompts**: Growing library with 5 from repository + 15 enterprise prompts
 - **5 Personas**: Developer, Business, Creative, Analyst, System
 - **Multiple Platforms**: Claude Sonnet 4.5, Code 5, and more
-- **Deployment Options**: 6+ deployment methods
-- **Cost-Effective**: Starting at $7/month
+- **Deployment Options**: 6+ deployment methods (IIS one-command!)
+- **Cost-Effective**: Free (IIS) to $7/month (AWS)
 
 ---
 

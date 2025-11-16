@@ -11,7 +11,7 @@ We've built a full-featured web application to make browsing and using prompts e
 - **✓ Spell-Check Built-in**: Automatic spell checking and autocorrect for your inputs
 - **📊 Analytics Dashboard**: Track prompt usage and popular prompts
 - **📱 Responsive Design**: Works on desktop, tablet, and mobile
-- **🚀 Multiple Deployment Options**: Deploy to IIS, AWS, Azure, Docker, or run locally
+- **🚀 One-Command Deployment**: Deploy to IIS, AWS, Azure, Docker, or run locally
 
 ### Quick Start - Web Application
 
@@ -77,10 +77,10 @@ python app.py           # Start the application
 ```
 
 **Or Deploy to Cloud:**
+- **IIS (One Command)**: `deployment\iis\deploy.ps1` - Free on Windows Server
 - **Docker**: `docker-compose -f deployment/docker/docker-compose.yml up -d`
 - **AWS Lightsail**: $7/month (see [deployment/aws/README.md](deployment/aws/README.md))
 - **Azure Container**: $10-20/month (see [deployment/azure/README.md](deployment/azure/README.md))
-- **IIS**: Free on Windows Server (see [deployment/iis/README.md](deployment/iis/README.md))
 
 ### Option 2: Browse Markdown Files
 
