@@ -80,3 +80,6 @@ NOTES.md
 TODO.md
 personal/
 scratch/
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
