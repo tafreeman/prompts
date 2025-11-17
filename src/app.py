@@ -57,6 +57,10 @@ def index():
     category_filter = request.args.get('category', '')
     platform_filter = request.args.get('platform', '')
     search_query = request.args.get('search', '')
+    # Governance filters
+    risk_level_filter = request.args.get('risk_level', '')
+    data_classification_filter = request.args.get('data_classification', '')
+    approval_required_filter = request.args.get('approval_required', '')
     
     # Build query with filters
     query = 'SELECT * FROM prompts WHERE 1=1'
@@ -79,6 +83,19 @@ def index():
         search_param = f'%{search_query}%'
         params.extend([search_param, search_param, search_param])
     
+    # Governance filters
+    if risk_level_filter:
+        query += ' AND risk_level = ?'
+        params.append(risk_level_filter)
+    
+    if data_classification_filter:
+        query += ' AND data_classification = ?'
+        params.append(data_classification_filter)
+    
+    if approval_required_filter:
+        query += ' AND approval_required = ?'
+        params.append(approval_required_filter)
+    
     query += ' ORDER BY title'
     
     prompts = conn.execute(query, params).fetchall()
@@ -87,6 +104,10 @@ def index():
     personas = conn.execute('SELECT DISTINCT persona FROM prompts ORDER BY persona').fetchall()
     categories = conn.execute('SELECT DISTINCT category FROM prompts ORDER BY category').fetchall()
     platforms = conn.execute('SELECT DISTINCT platform FROM prompts ORDER BY platform').fetchall()
+    # Governance filter options
+    risk_levels = conn.execute('SELECT DISTINCT risk_level FROM prompts WHERE risk_level IS NOT NULL AND risk_level != "" ORDER BY risk_level').fetchall()
+    data_classifications = conn.execute('SELECT DISTINCT data_classification FROM prompts WHERE data_classification IS NOT NULL AND data_classification != "" ORDER BY data_classification').fetchall()
+    approval_required_options = conn.execute('SELECT DISTINCT approval_required FROM prompts WHERE approval_required IS NOT NULL AND approval_required != "" ORDER BY approval_required').fetchall()
     
     conn.close()
     
@@ -95,11 +116,17 @@ def index():
                          personas=personas,
                          categories=categories,
                          platforms=platforms,
+                         risk_levels=risk_levels,
+                         data_classifications=data_classifications,
+                         approval_required_options=approval_required_options,
                          current_filters={
                              'persona': persona_filter,
                              'category': category_filter,
                              'platform': platform_filter,
-                             'search': search_query
+                             'search': search_query,
+                             'risk_level': risk_level_filter,
+                             'data_classification': data_classification_filter,
+                             'approval_required': approval_required_filter
                          })
 
 @app.route('/prompt/<int:prompt_id>')
@@ -199,6 +226,45 @@ def analytics():
         ORDER BY usage DESC
     ''').fetchall()
     
+    # Get governance statistics
+    risk_level_stats = conn.execute('''
+        SELECT risk_level, COUNT(*) as count 
+        FROM prompts 
+        WHERE risk_level IS NOT NULL AND risk_level != ""
+        GROUP BY risk_level 
+        ORDER BY 
+            CASE risk_level
+                WHEN 'Low' THEN 1
+                WHEN 'Medium' THEN 2
+                WHEN 'High' THEN 3
+                WHEN 'Critical' THEN 4
+                ELSE 5
+            END
+    ''').fetchall()
+    
+    data_classification_stats = conn.execute('''
+        SELECT data_classification, COUNT(*) as count 
+        FROM prompts 
+        WHERE data_classification IS NOT NULL AND data_classification != ""
+        GROUP BY data_classification 
+        ORDER BY count DESC
+    ''').fetchall()
+    
+    approval_required_stats = conn.execute('''
+        SELECT approval_required, COUNT(*) as count 
+        FROM prompts 
+        WHERE approval_required IS NOT NULL AND approval_required != ""
+        GROUP BY approval_required 
+        ORDER BY count DESC
+    ''').fetchall()
+    
+    # Count prompts with governance metadata
+    governance_count = conn.execute('''
+        SELECT COUNT(*) as count FROM prompts 
+        WHERE (governance_tags IS NOT NULL AND governance_tags != "") 
+           OR (risk_level IS NOT NULL AND risk_level != "")
+    ''').fetchone()['count']
+    
     conn.close()
     
     return render_template('analytics.html',
@@ -207,7 +273,11 @@ def analytics():
                          top_prompts=top_prompts,
                          persona_stats=persona_stats,
                          platform_stats=platform_stats,
-                         category_stats=category_stats)
+                         category_stats=category_stats,
+                         risk_level_stats=risk_level_stats,
+                         data_classification_stats=data_classification_stats,
+                         approval_required_stats=approval_required_stats,
+                         governance_count=governance_count)
 
 @app.route('/api/search')
 def api_search():

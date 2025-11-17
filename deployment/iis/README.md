@@ -5,7 +5,7 @@ Deploy the Enterprise AI Prompt Library to IIS with a single PowerShell command!
 ## Quick Start (One Command)
 
 ```powershell
-# Run as Administrator
+# Run as Administrator from the repository root
 .\deployment\iis\deploy.ps1
 ```
 
@@ -46,10 +46,13 @@ The deployment script will check and configure these automatically:
 ```powershell
 # Create application directory
 New-Item -ItemType Directory -Path "C:\inetpub\wwwroot\prompt_library"
+New-Item -ItemType Directory -Path "C:\inetpub\wwwroot\prompt_library\src"
 
-# Copy application files
+# Copy application files (includes web.config)
 Copy-Item -Path "src\*" -Destination "C:\inetpub\wwwroot\prompt_library\src" -Recurse
-Copy-Item -Path "deployment\iis\web.config" -Destination "C:\inetpub\wwwroot\prompt_library\src"
+
+# Copy prompts directory (required by load_prompts.py)
+Copy-Item -Path "prompts\*" -Destination "C:\inetpub\wwwroot\prompt_library\prompts" -Recurse
 ```
 
 ### 2. Install Dependencies
