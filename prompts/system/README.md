@@ -9,6 +9,11 @@ This directory contains system-level prompts for configuring AI assistants, chat
   - Difficulty: Advanced
   - Tags: system-prompt, ai-assistant, configuration, behavior
 
+### AI Evaluation & Analysis
+- **[Tree-of-Thoughts Repository Evaluator](tree-of-thoughts-repository-evaluator.md)** - GPT-5.1 ToT framework for analyzing repositories
+  - Difficulty: Advanced
+  - Tags: tree-of-thoughts, tot, evaluation, repository-analysis, gpt-5.1, enterprise
+
 ## What Are System Prompts?
 
 System prompts define the foundational behavior, personality, and capabilities of an AI assistant. They are typically:
