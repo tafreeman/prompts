@@ -15,6 +15,13 @@ platform: "GPT-5.1, Claude Sonnet 4.5, Code 5"
 ## Description
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
 
+## Research Foundation
+
+This technique is based on the paper:
+**Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T. L., Cao, Y., & Narasimhan, K. (2023).** "Tree of Thoughts: Deliberate Problem Solving with Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2305.10601](https://arxiv.org/abs/2305.10601)
+
+Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
+
 ## Use Cases
 - Architecture decisions with multiple valid approaches
 - Strategic planning requiring trade-off analysis

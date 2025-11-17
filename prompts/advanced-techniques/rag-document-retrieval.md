@@ -15,6 +15,13 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 ## Description
 Retrieval-Augmented Generation (RAG) is a pattern that grounds AI responses in specific documents or knowledge bases. This template provides a structured approach to chunking documents, retrieving relevant context, and generating answers with proper citations. Essential for enterprise applications where accuracy, attribution, and auditability are critical.
 
+## Research Foundation
+
+This technique is based on the paper:
+**Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020).** "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems (NeurIPS) 33*. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+
+Lewis et al. introduced RAG models that combine parametric memory (pre-trained seq2seq model) with non-parametric memory (dense vector index of Wikipedia accessed with a pre-trained neural retriever). This approach allows models to access and leverage knowledge in a more modular and interpretable way than storing all knowledge in model parameters, achieving state-of-the-art results on knowledge-intensive tasks while providing transparency through retrieved document citations.
+
 ## Use Cases
 - Internal documentation Q&A systems
 - Code repository search and explanation

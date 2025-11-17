@@ -15,6 +15,13 @@ platform: "All AI Models"
 ## Description
 A practical decision framework for choosing when and how to use Chain-of-Thought (CoT) prompting. This guide helps you select the right CoT mode (none, concise, or detailed) based on your situation, and provides best practices for maximizing reasoning quality while managing token costs.
 
+## Research Foundation
+
+This technique is based on the paper:
+**Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022).** "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 35*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+
+Wei et al. demonstrated that prompting large language models to generate intermediate reasoning steps (a "chain of thought") significantly improves performance on complex reasoning tasks including arithmetic, commonsense, and symbolic reasoning. The paper showed accuracy improvements from 17.7% to 58.1% on GSM8K math problems when using Chain-of-Thought prompting.
+
 ## Use Cases
 - Deciding whether to use CoT for a specific task
 - Choosing between concise and detailed CoT modes

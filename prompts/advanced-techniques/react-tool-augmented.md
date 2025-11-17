@@ -15,6 +15,16 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 ## Description
 ReAct (Reasoning + Acting) is an advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction. The AI explicitly articulates its thought process (Think), takes actions using tools (Act), observes the results (Observe), and reflects on whether the goal is achieved (Reflect). This creates a transparent, auditable loop ideal for complex tasks requiring information retrieval, API calls, or multi-step workflows.
 
+## Research Foundation
+
+This technique builds upon foundational work in tool-augmented reasoning:
+**Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2022).** "ReAct: Synergizing Reasoning and Acting in Language Models." *International Conference on Learning Representations (ICLR) 2023*. [arXiv:2210.03629](https://arxiv.org/abs/2210.03629)
+
+The pattern has been further refined through reflection mechanisms:
+**Shinn, N., Cassano, F., Gopinath, A., Narasimhan, K., & Yao, S. (2023).** "Reflexion: Language Agents with Verbal Reinforcement Learning." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2303.11366](https://arxiv.org/abs/2303.11366)
+
+Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
+
 ## Use Cases
 - Research tasks requiring multiple information sources
 - Data analysis workflows with API calls or database queries
