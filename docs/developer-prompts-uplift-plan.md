@@ -10,9 +10,33 @@
 
 ## Executive Summary
 
-**Current State**: All 17 developer prompts are Tier 3 (3/10 average), consisting of minimal templates with placeholder examples and no governance metadata.
+**Current State (Updated, Nov 17 2025)**:
 
-**Target State**: Top 10 prompts upgraded to Tier 1 (9-10/10) with:
+- **Tier 1 (9–10/10, already uplifted)**  
+  - `security-code-auditor` (v2.0)  
+  - `code-review-expert` (v2.0)  
+  - `test-automation-engineer` (v2.0)  
+  - `api-design-consultant` (v2.0)  
+
+- **Tier 2 (6–8/10, partial uplift)**  
+  - `microservices-architect` (v2.0 header/persona/governance; body still v1.0-style template)  
+
+- **Tier 3 (≤5/10, legacy template-style)**  
+  - `devops-pipeline-architect`  
+  - `database-schema-designer`  
+  - `code-generation-assistant`  
+  - `performance-optimization-specialist`  
+  - `legacy-system-modernization`  
+  - `cloud-migration-specialist`  
+  - `data-pipeline-engineer`  
+  - `documentation-generator`  
+  - `frontend-architecture-consultant`  
+  - `mobile-app-developer`  
+  - `code-review-assistant`
+
+Most of the Tier 3 prompts share the same pattern: minimal persona, a single generic prompt block, no realistic examples, no structured output, and no governance metadata.
+
+**Target State**: Top 10 prompts upgraded to Tier 1 (9–10/10) with:
 - Expert persona definitions with methodologies
 - Structured output templates (JSON schemas, checklists)
 - Realistic, comprehensive examples demonstrating full capabilities
@@ -162,25 +186,42 @@ Requirements → Design → Implementation → Testing → Deployment → Operat
 - ✅ Branch B ensures achievable quality with clear standards
 - ✅ Branch C prevents costly architectural mistakes
 
-**Weighted Scoring** (Usage × 0.3 + Gap × 0.3 + Strategic × 0.4):
+**Weighted Scoring (Updated)**  
+_Note: Scores now distinguish between **"remaining uplift gap"** and **current Tier 1 prompts**, which are marked as "Done" and excluded from further uplift priority ranking._
 
-| # | Prompt | Usage | Gap | Strategic | **Final Score** | Priority Tier |
-|---|--------|-------|-----|-----------|----------------|---------------|
-| 1 | **security-code-auditor** | 9 | 10 | 9 | **9.3** | **P0** |
-| 2 | **code-review-expert** | 10 | 9 | 8 | **8.9** | **P0** |
-| 3 | **microservices-architect** | 6 | 10 | 10 | **8.8** | **P0** |
-| 4 | **api-design-consultant** | 8 | 10 | 9 | **9.0** | **P0** |
-| 5 | **devops-pipeline-architect** | 8 | 10 | 8 | **8.8** | **P0** |
-| 6 | **test-automation-engineer** | 9 | 10 | 7 | **8.6** | **P1** |
-| 7 | **database-schema-designer** | 7 | 10 | 9 | **8.8** | **P1** |
-| 8 | **code-generation-assistant** | 10 | 8 | 6 | **7.8** | **P1** |
-| 9 | **performance-optimization-specialist** | 7 | 10 | 7 | **8.0** | **P1** |
-| 10 | **legacy-system-modernization** | 5 | 9 | 9 | **8.0** | **P2** |
+Scoring dimensions remain: Usage × 0.3 + Gap × 0.3 + Strategic × 0.4. Prompts already at Tier 1 are shown first and marked as completed; remaining prompts are ranked for uplift.
 
-**Winner**: **Combined approach with strategic bias**
-- P0 (Top 5): High usage + high strategic impact + clear improvement path
-- P1 (6-9): Either high usage or high strategic impact
-- P2 (10): Specialized but high impact when needed
+**Completed (Tier 1, no uplift required)**
+
+| Prompt | Current Tier | Notes |
+|--------|-------------|-------|
+| **security-code-auditor** | Tier 1 | v2.0 with OWASP/CWE/CVSS, JSON schema, examples, governance |
+| **code-review-expert** | Tier 1 | v2.0 with Google Eng Practices, SOLID, structured triage |
+| **test-automation-engineer** | Tier 1 | v2.0 with Test Pyramid, CI/CD, detailed example |
+| **api-design-consultant** | Tier 1 | v2.0 with full OpenAPI 3.1 example, STRIDE, governance |
+
+**Remaining prompts prioritized for uplift**
+
+| # | Prompt | Current Tier | Usage | Gap | Strategic | **Uplift Priority** |
+|---|--------|-------------|-------|-----|-----------|---------------------|
+| 1 | **microservices-architect** | Tier 2 (partial v2.0) | 6 | 4 | 10 | **P0** |
+| 2 | **devops-pipeline-architect** | Tier 3 | 8 | 7 | 8 | **P0** |
+| 3 | **database-schema-designer** | Tier 3 | 7 | 7 | 9 | **P0** |
+| 4 | **code-generation-assistant** | Tier 3 | 10 | 5 | 6 | **P1** |
+| 5 | **performance-optimization-specialist** | Tier 3 | 7 | 7 | 7 | **P1** |
+| 6 | **legacy-system-modernization** | Tier 3 | 5 | 6 | 9 | **P1** |
+| 7 | **frontend-architecture-consultant** | Tier 3 | 7 | 6 | 7 | **P2** |
+| 8 | **cloud-migration-specialist** | Tier 3 | 6 | 6 | 7 | **P2** |
+| 9 | **data-pipeline-engineer** | Tier 3 | 6 | 6 | 7 | **P2** |
+|10 | **documentation-generator** | Tier 3 | 6 | 5 | 6 | **P3** |
+|11 | **mobile-app-developer** | Tier 3 | 6 | 5 | 6 | **P3** |
+|12 | **code-review-assistant** | Tier 3 | 5 | 4 | 5 | **P3** |
+
+Interpretation:
+- **P0**: Highest priority remaining uplift work (architecture/DevOps/data design).  
+- **P1**: High-value support prompts (code gen, perf, modernization) once P0 is stable.  
+- **P2**: Important but less central to the initial top-10 goal.  
+- **P3**: Nice-to-have; uplift after core developer workflows are Tier 1.
 
 ---
 

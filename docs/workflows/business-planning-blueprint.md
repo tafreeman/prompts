@@ -423,6 +423,300 @@ Annual Churn: 15% (competitive for SaaS)
 
 ---
 
+## End-to-End Example: CreativeFlow Launching AI Resource Planner
+
+### Company & Product Background
+
+**Company**: CreativeFlow (project management SaaS for creative agencies)
+- 100 employees, $10M ARR, 250 customers
+- Core product: Project management and collaboration platform tailored to creative agencies (advertising, design, video production)
+- Primary pain: Agencies struggle with over/under-allocation of designers, copywriters, and producers, leading to burnout, missed deadlines, and margin erosion.
+
+**New Product**: AI Resource Planner
+- Predictive module that forecasts project resourcing needs 4 weeks in advance using historical time-tracking, project, and capacity data.
+- Value proposition: Reduces resource conflicts by 60%, improves project gross margin by 15%.
+- Monetization: Premium add-on at $1,999/month on top of existing Professional tier.
+- Strategic goal: Add $3M in ARR over 24 months (+30% ARR lift).
+
+**Timeline**: 18 months total
+- 6 months: Planning (Phases 1-3)
+- 12 months: Execution and optimization (Phase 4)
+
+Below is how CreativeFlow used the workflow and chained prompts in each phase.
+
+---
+
+### Phase 1 Example: Strategic Analysis & Positioning (Month 1-2)
+
+**Objective**: Confirm there is a large, growing market and a specific, monetizable niche for AI-powered resource planning in creative agencies, then define clear differentiation and positioning.
+
+**Prompts used**:
+- `market-research-analyst`
+- `competitive-analysis-researcher`
+- `consumer-behavior-researcher`
+- `strategic-planning-consultant`
+
+#### Step 1: Market sizing with `market-research-analyst`
+
+**Prompt input (excerpt)**:
+> You are a market research analyst. Estimate TAM/SAM/SOM for an AI-powered resource planning module for mid-market creative agencies (100-1,000 employees) in North America and Western Europe. Use current data on project management and professional services automation tools.
+
+**Output (simplified)**:
+```
+TAM: $12B (Global project management & PSA software)
+SAM: $2.5B (Creative agencies 50-1,000 employees in NA + WE)
+SOM (3-year target): $400M (assuming 16% share of AI-enabled resource planning niche)
+Growth: 18–22% CAGR for AI-enabled PSA tools
+```
+
+#### Step 2: Competitive landscape with `competitive-analysis-researcher`
+
+The team analyzed Monday.com, Asana, ClickUp, and niche agency tools.
+
+**Key findings**:
+- Generic PM tools: Strong task/project features, weak on deep resource forecasting.
+- Niche agency tools: Timesheets and scheduling exist, but minimal AI/forecasting.
+- No major vendor offered an AI resource forecast tuned to creative agency workflows.
+
+**Outcome**: Differentiation angle: "AI-native resource forecasting purpose-built for creative agencies".
+
+#### Step 3: Customer discovery with `consumer-behavior-researcher`
+
+They interviewed 75 leaders (COOs, Heads of Delivery, Agency Owners):
+- 81% said "resource firefighting" was a weekly occurrence.
+- 68% said they only see over/under-allocation after a project is already late.
+- 72% expressed strong interest in "predictive resourcing" if accuracy ≥ 80%.
+- 64% said they would consider a $1,500–$2,500/month add-on if it genuinely reduced overtime and rework.
+
+The prompt synthesized these interviews into 4 personas (Agency Ops Leader, Creative Director, Account Director, Finance Lead) with clear pains and jobs-to-be-done.
+
+#### Step 4: Positioning with `strategic-planning-consultant`
+
+Using the previous outputs, they developed this positioning statement:
+
+```
+For mid-sized creative agencies (50–500 employees)
+who constantly firefight resource conflicts and burnout,
+CreativeFlow AI Resource Planner is a predictive resourcing module
+that forecasts staffing needs 4 weeks ahead with ~85% accuracy.
+Unlike generic project tools that only show current allocations,
+CreativeFlow combines historical timesheet data, project mix,
+and pipeline to prevent over/under-staffing before it happens.
+```
+
+**Phase 1 decision**: Proceed.
+- TAM and SAM large with high growth.
+- Clear differentiation vs generic PM tools.
+- 68% of interviewees said they were "very likely" to buy if claims were met.
+
+---
+
+### Phase 2 Example: Product-Market Fit Validation (Month 3-4)
+
+**Objective**: Validate that agencies will use and pay for the AI Resource Planner at the intended price point, and that the UX enables rapid adoption.
+
+**Prompts used**:
+- `user-experience-analyst`
+- `business-case-developer`
+- `financial-modeling-expert`
+
+#### Step 1: Prototype testing with `user-experience-analyst`
+
+The team built a Figma prototype showing:
+- Pipeline and active projects.
+- Designer/copywriter capacity per week.
+- Forecasted conflicts 4 weeks ahead with suggested staffing changes.
+
+**Prompt input (excerpt)**:
+> You are a UX analyst testing a Figma prototype for a predictive resource planner. We ran 10 usability sessions with agency operations leaders. Summarize: key pain points, confusion areas, top delight moments, and specific design changes.
+
+**Output (simplified)**:
+- 8/10 users rated the concept "very useful" (9 or 10/10).
+- Initial confusion around color-coding of conflicts and severity.
+- Users loved the "what-if" forecast (e.g., "What if we land a new $250K campaign?").
+- Recommended simplifying the conflict view from 4 severity levels → 2 (At Risk / Critical).
+
+The team iterated to a simplified conflict heatmap and in-context explanations, then re-ran 5 sessions (all rated 9–10/10).
+
+#### Step 2: Pricing research with `business-case-developer`
+
+Using survey data from 60 agencies, the prompt helped synthesize a Van Westendorp analysis:
+
+```
+Too cheap: $499/month
+Cheap: $999/month
+Expensive: $2,499/month
+Too expensive: $3,999/month
+Recommended sweet spot: $1,999/month as Professional tier add-on
+```
+
+They defined tiers:
+- Core platform: existing pricing unchanged.
+- Professional + AI Resource Planner: +$1,999/month.
+
+Design partners were asked directly: "Would you pay $1,999/month if this reduced overtime and rework by 15–20%?"
+- 8 of 10 said "Yes" or "Very likely".
+
+#### Step 3: Financial modeling with `financial-modeling-expert`
+
+**Assumptions**:
+- Target 150 agencies on AI Resource Planner by Month 24.
+- Average price: $1,850/month after discounts.
+- CAC: $8,000 (inside sales + marketing spend).
+- Churn: 10% annually, expansion via seat growth and added modules.
+
+**Output (summary)**:
+```
+ARR target end of Year 2: ~$3.3M
+Average customer lifetime: 19 months
+LTV: $35,000–$40,000 per customer
+LTV:CAC: ~4.8x
+CAC payback: ~8 months
+```
+
+**Phase 2 decision**: Proceed.
+- Prototype validated (8/10 design partners very positive).
+- Pricing and unit economics attractive.
+- 8 design partners signed LOIs to participate in paid beta.
+
+---
+
+### Phase 3 Example: GTM Execution Planning (Month 5-6)
+
+**Objective**: Design an executable launch plan with clear milestones, metrics, and ownership.
+
+**Prompts used**:
+- `project-charter-creator`
+- `marketing-campaign-strategist`
+- `sales-strategy-consultant`
+- `metrics-and-kpi-designer`
+- `change-management-coordinator`
+
+#### Step 1: Launch roadmap with `project-charter-creator`
+
+The team defined a 4-stage roadmap:
+1. Private beta (10 agencies, Month 7-8).
+2. Public beta (up to 40 additional agencies, Month 9-10).
+3. Limited release (20 new customers per month, Month 11-12).
+4. General availability (steady-state growth, Month 13+).
+
+The project charter prompt clarified scope, risks, dependencies, and RACI.
+
+#### Step 2: Marketing plan with `marketing-campaign-strategist`
+
+**Budget**: $120K dedicated launch budget.
+
+Activities:
+- 3 flagship content pieces (whitepapers) on "The Cost of Poor Resource Allocation".
+- 6 webinars co-hosted with design partners.
+- Sponsorship of 2 creative industry conferences.
+- Targeted LinkedIn campaigns to Creative Directors and Operations Leaders (~$40K spend).
+
+The prompt helped sequence campaigns by phase and align content to objections uncovered in discovery.
+
+#### Step 3: Sales & CS enablement with `sales-strategy-consultant` and `change-management-coordinator`
+
+Deliverables:
+- ROI calculator demonstrating a typical agency saving $50K/year through reduced overtime and rework.
+- Sales playbook with discovery questions tied to resourcing pains.
+- 2-day training bootcamp for AEs and CSMs.
+- Onboarding program: 30-60-90 day milestone plan and success criteria.
+
+#### Step 4: Metrics with `metrics-and-kpi-designer`
+
+Defined a metrics hierarchy:
+- North Star: Weekly active accounts using AI Resource Planner forecasts.
+- Core metrics: Trial-to-paid conversion (%), activation (% of accounts running first forecast within 14 days), retention, and expansion.
+- Leading indicators: Number of forecasts run per week, users per account, usage of "what-if" scenarios.
+
+**Phase 3 decision**: Proceed.
+- Leadership approved $120K launch budget.
+- Sales and CS committed to the enablement plan.
+- Beta customers lined up from Phase 2.
+
+---
+
+### Phase 4 Example: Launch & Optimization (Month 7-18)
+
+**Objective**: Execute the launch, monitor performance, and iterate based on data.
+
+**Prompts used**:
+- `innovation-strategy-consultant`
+- `metrics-and-kpi-designer`
+- `data-analysis-specialist`
+
+#### Private beta (Month 7-8)
+
+**Results**:
+- 10 agencies onboarded.
+- 9/10 reported high satisfaction; NPS 65.
+- Early activation only 42% of invited end users (vs 70% target).
+
+Using `data-analysis-specialist`, the team discovered drop-off during a 7-step onboarding flow.
+
+**Action**: With guidance from `innovation-strategy-consultant`, they simplified onboarding:
+- From 7 → 3 key steps:
+   1. Connect data sources.
+   2. Run first forecast.
+   3. Share forecast in weekly resourcing meeting.
+
+**Result**: Activation improved from 42% → 71% within 3 weeks.
+
+#### Public beta (Month 9-10)
+
+**Performance**:
+- 45 agencies in public beta.
+- Trial-to-paid conversion: 28%.
+- MRR: ~$35K from AI Resource Planner.
+- Weekly active usage strong, but feedback indicated a missing Slack integration for sharing forecasts.
+
+They again used `innovation-strategy-consultant` to prioritize this feature and scheduled a 2-week sprint. Post-launch, forecast-sharing increased by 35%.
+
+#### Limited release (Month 11-12)
+
+**Metrics**:
+- 65 paying customers.
+- $125K MRR on AI Resource Planner.
+- Retention: 94% monthly logo retention.
+- 15% of existing CreativeFlow customers upgraded from Starter to Professional + AI.
+
+The team noticed the average sales cycle was 68 days (vs 60-day goal). Using `data-analysis-specialist`, they identified friction in procurement; they added a self-service trial path with pre-approved security documentation.
+
+**Outcome**: Sales cycle reduced to 54 days over the next quarter.
+
+#### General availability (Month 13-18)
+
+By Month 18:
+- AI Resource Planner ARR: $400K.
+- 140 customers on the add-on.
+- Net revenue retention (NRR): 115%.
+- G2 rating: 4.7/5 (driven by improved predictability and team morale).
+
+Using `metrics-and-kpi-designer`, they maintained a weekly metrics review and a monthly portfolio review with executives. `innovation-strategy-consultant` helped identify 3 roadmap bets based on usage data (scenario planning, agency benchmarking, profit forecasting).
+
+**Product-market fit check (Sean Ellis test)**:
+- 52% of surveyed users said they would be "very disappointed" if the product were removed.
+
+**Phase 4 decision**: Scale further.
+- Increase sales coverage.
+- Explore expansion into adjacent segments (consultancies, digital agencies in new regions).
+
+---
+
+### Lessons Learned from CreativeFlow
+
+1. **Onboarding is critical**: Simplifying from 7 → 3 steps increased activation by 29 percentage points.
+2. **Design partners are invaluable**: 8 of 10 design partners became paying customers and produced case studies that lowered sales friction.
+3. **Validate pricing early**: Running Van Westendorp analysis and willingness-to-pay interviews avoided a 6–9 month underpricing/overpricing detour.
+4. **Integrations drive stickiness**: Slack integration emerged as a must-have; fast-tracking it increased sharing and internal visibility.
+5. **Metrics guide pivots**: Weekly dashboards and a clear North Star metric allowed the team to detect activation and sales cycle issues early and respond.
+
+This example demonstrates how an enterprise team can use the full Product Launch Strategy workflow – and the underlying prompts – to go from high-level idea ("AI resource planner") to validated product, successful launch, and measurable business impact ($400K ARR, 115% NRR) in 18 months.
+
+---
+
+---
+
 ### Phase 3: Go-to-Market Execution Planning (4-6 weeks)
 
 **Objective**: Build comprehensive launch plan with marketing, sales, customer success readiness
