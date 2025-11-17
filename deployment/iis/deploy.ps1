@@ -77,13 +77,26 @@ Write-Host "   ✓ Logs directory created: $logsPath" -ForegroundColor Green
 Write-Host "[5/10] Copying application files..." -ForegroundColor Yellow
 $repoRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $sourceSrc = Join-Path $repoRoot "src"
+$sourcePrompts = Join-Path $repoRoot "prompts"
 
 if (Test-Path $sourceSrc) {
     Copy-Item -Path "$sourceSrc\*" -Destination $srcPath -Recurse -Force
-    Write-Host "   ✓ Files copied from: $sourceSrc" -ForegroundColor Green
+    Write-Host "   ✓ Application files copied from: $sourceSrc" -ForegroundColor Green
 } else {
     Write-Error "Source directory not found: $sourceSrc"
     exit 1
+}
+
+# Copy prompts directory (required by load_prompts.py)
+$promptsPath = Join-Path $AppPath "prompts"
+if (Test-Path $sourcePrompts) {
+    if (-not (Test-Path $promptsPath)) {
+        New-Item -ItemType Directory -Path $promptsPath -Force | Out-Null
+    }
+    Copy-Item -Path "$sourcePrompts\*" -Destination $promptsPath -Recurse -Force
+    Write-Host "   ✓ Prompts copied from: $sourcePrompts" -ForegroundColor Green
+} else {
+    Write-Warning "Prompts directory not found at $sourcePrompts - database will only contain embedded prompts"
 }
 
 # Install Python dependencies
