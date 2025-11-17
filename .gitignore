@@ -25,6 +25,25 @@ Thumbs.db
 *.log
 *.cache
 
+# Archive Files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Backup and duplicate files (with numbering patterns)
+*\ (1).*
+*\ (2).*
+*\ (3).*
+*\ (4).*
+*\ (5).*
+*\ (1)/
+*\ (2)/
+*\ (3)/
+*\ (4)/
+*\ (5)/
+
 # Python
 __pycache__/
 *.py[cod]
