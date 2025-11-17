@@ -33,7 +33,33 @@ For deployment options (IIS, AWS, Azure, Docker), see [src/README.md](src/README
 - **Business Professionals**: Prompts for analysis, strategy, reporting, and communication
 - **Creative Teams**: Content creation, marketing, and storytelling prompts
 - **Data Analysts**: Prompts for data analysis, insights extraction, and visualization
+- **Advanced Users**: Chain-of-Thought, ReAct, RAG, and Tree-of-Thoughts patterns 🆕
+- **Enterprise Teams**: Legal, compliance, security, and governance prompts with audit controls 🆕
 - **Everyone**: General-purpose system prompts and templates
+
+## ✨ New: Advanced Techniques & Enterprise Governance
+
+### Advanced Prompting Techniques
+Frontier model capabilities require advanced prompting patterns. We now include:
+
+- **Chain-of-Thought (CoT)**: Step-by-step reasoning with concise and detailed modes
+- **ReAct**: Reasoning + Acting patterns for tool-augmented tasks
+- **RAG (Retrieval-Augmented Generation)**: Document retrieval with citation frameworks
+- **Reflection**: Self-critique and iterative improvement patterns
+- **Tree-of-Thoughts (ToT)**: Multi-branch reasoning with backtracking
+
+📚 **[Explore Advanced Techniques →](prompts/advanced-techniques/)**
+
+### Enterprise Governance & Compliance
+Production AI requires governance, risk management, and compliance controls:
+
+- **Legal Prompts**: Contract review, compliance checks, policy drafting
+- **Security Prompts**: Incident response, threat modeling, vulnerability assessment
+- **Governance Metadata**: PII-handling, risk levels, approval requirements, audit trails
+- **Regulatory Compliance**: GDPR, CCPA, SOX, HIPAA, ISO 27001, NIST frameworks
+- **Access Controls**: Role-based permissions, human review requirements
+
+📋 **[Explore Governance & Compliance →](prompts/governance-compliance/)**
 
 ## 📁 Repository Structure
 
@@ -55,7 +81,9 @@ prompts/
 │   ├── business/         # Business analysis & strategy prompts
 │   ├── creative/         # Content creation & marketing prompts
 │   ├── analysis/         # Data analysis & research prompts
-│   └── system/           # System-level AI agent prompts
+│   ├── system/           # System-level AI agent prompts
+│   ├── advanced-techniques/  # 🆕 Advanced prompting (CoT, ReAct, RAG, ToT)
+│   └── governance-compliance/  # 🆕 Legal, security, compliance prompts
 ├── templates/            # Reusable prompt templates
 ├── examples/             # Example usage and outputs
 ├── docs/                 # Documentation and guides

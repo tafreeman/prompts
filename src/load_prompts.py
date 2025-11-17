@@ -11,7 +11,7 @@ def load_prompts_from_repo():
     prompts_dir = os.path.join(os.path.dirname(__file__), '..', 'prompts')
     
     # Categories to scan
-    categories = ['developers', 'business', 'creative', 'analysis', 'system']
+    categories = ['developers', 'business', 'creative', 'analysis', 'system', 'advanced-techniques', 'governance-compliance']
     
     for category in categories:
         category_path = os.path.join(prompts_dir, category)
@@ -68,10 +68,17 @@ def parse_markdown_prompt(content, category):
                     'persona': metadata.get('category', category).capitalize(),
                     'use_case': metadata.get('tags', '').split(',')[0] if metadata.get('tags') else category,
                     'category': category.capitalize(),
-                    'platform': 'Claude Sonnet 4.5',  # Default to Sonnet 4.5 per requirement
+                    'platform': metadata.get('platform', 'Claude Sonnet 4.5'),  # Use metadata platform if available
                     'template': template,
                     'description': description[:500],  # Limit description length
-                    'tags': metadata.get('tags', category)
+                    'tags': metadata.get('tags', category),
+                    'difficulty': metadata.get('difficulty', 'intermediate'),
+                    'governance_tags': metadata.get('governance_tags', ''),
+                    'data_classification': metadata.get('data_classification', 'Internal'),
+                    'risk_level': metadata.get('risk_level', 'Low'),
+                    'regulatory_scope': metadata.get('regulatory_scope', ''),
+                    'approval_required': metadata.get('approval_required', 'None'),
+                    'retention_period': metadata.get('retention_period', 'Standard')
                 }
     except Exception as e:
         print(f"Error parsing markdown: {e}")
@@ -96,7 +103,14 @@ def load_expanded_prompts():
         description TEXT,
         tags TEXT,
         created_date TEXT,
-        usage_count INTEGER DEFAULT 0
+        usage_count INTEGER DEFAULT 0,
+        difficulty TEXT,
+        governance_tags TEXT,
+        data_classification TEXT,
+        risk_level TEXT,
+        regulatory_scope TEXT,
+        approval_required TEXT,
+        retention_period TEXT
     )''')
     
     # Clear existing data
@@ -495,11 +509,19 @@ Format reviews with:
     # Insert prompts
     for prompt in all_prompts:
         c.execute('''INSERT INTO prompts 
-                     (title, persona, use_case, category, platform, template, description, tags, created_date, usage_count)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                     (title, persona, use_case, category, platform, template, description, tags, created_date, usage_count,
+                      difficulty, governance_tags, data_classification, risk_level, regulatory_scope, approval_required, retention_period)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                   (prompt['title'], prompt['persona'], prompt['use_case'], prompt['category'],
                    prompt['platform'], prompt['template'], prompt['description'], prompt['tags'],
-                   datetime.now().isoformat(), 0))
+                   datetime.now().isoformat(), 0,
+                   prompt.get('difficulty', 'intermediate'),
+                   prompt.get('governance_tags', ''),
+                   prompt.get('data_classification', 'Internal'),
+                   prompt.get('risk_level', 'Low'),
+                   prompt.get('regulatory_scope', ''),
+                   prompt.get('approval_required', 'None'),
+                   prompt.get('retention_period', 'Standard')))
     
     conn.commit()
     conn.close()
