@@ -62,6 +62,53 @@
                         </select>
                     </div>
                     
+                    <hr class="my-3">
+                    
+                    <!-- Governance Filters Section -->
+                    <h6 class="text-muted mb-3"><i class="fas fa-shield-alt me-2"></i>Governance</h6>
+                    
+                    <!-- Risk Level Filter -->
+                    <div class="mb-3">
+                        <label for="riskLevelFilter" class="form-label">Risk Level</label>
+                        <select class="form-select" id="riskLevelFilter" name="risk_level">
+                            <option value="">All Risk Levels</option>
+                            {% for risk in risk_levels %}
+                            <option value="{{ risk.risk_level }}" 
+                                    {% if current_filters.risk_level == risk.risk_level %}selected{% endif %}>
+                                {{ risk.risk_level }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Data Classification Filter -->
+                    <div class="mb-3">
+                        <label for="dataClassificationFilter" class="form-label">Data Classification</label>
+                        <select class="form-select" id="dataClassificationFilter" name="data_classification">
+                            <option value="">All Classifications</option>
+                            {% for classification in data_classifications %}
+                            <option value="{{ classification.data_classification }}" 
+                                    {% if current_filters.data_classification == classification.data_classification %}selected{% endif %}>
+                                {{ classification.data_classification }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Approval Required Filter -->
+                    <div class="mb-3">
+                        <label for="approvalRequiredFilter" class="form-label">Approval Required</label>
+                        <select class="form-select" id="approvalRequiredFilter" name="approval_required">
+                            <option value="">All Approval Types</option>
+                            {% for approval in approval_required_options %}
+                            <option value="{{ approval.approval_required }}" 
+                                    {% if current_filters.approval_required == approval.approval_required %}selected{% endif %}>
+                                {{ approval.approval_required }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-search me-2"></i>Apply Filters

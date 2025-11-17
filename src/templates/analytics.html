@@ -54,6 +54,80 @@
             </div>
         </div>
     </div>
+    <div class="col-md-3">
+        <div class="card bg-secondary text-white">
+            <div class="card-body text-center">
+                <div class="stat-item">
+                    <h4>{{ governance_count }}</h4>
+                    <small>With Governance</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Governance Statistics Section -->
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-shield-alt me-2"></i>Governance Statistics
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Risk Level Distribution -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm mb-3 mb-lg-0">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Risk Level Distribution</h6>
+                            </div>
+                            <div class="card-body">
+                                {% if risk_level_stats %}
+                                <canvas id="riskLevelChart"></canvas>
+                                {% else %}
+                                <p class="text-muted text-center">No risk level data available</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Classification Distribution -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm mb-3 mb-lg-0">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Data Classification</h6>
+                            </div>
+                            <div class="card-body">
+                                {% if data_classification_stats %}
+                                <canvas id="dataClassificationChart"></canvas>
+                                {% else %}
+                                <p class="text-muted text-center">No classification data available</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Approval Required Statistics -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Approval Required</h6>
+                            </div>
+                            <div class="card-body">
+                                {% if approval_required_stats %}
+                                <canvas id="approvalRequiredChart"></canvas>
+                                {% else %}
+                                <p class="text-muted text-center">No approval data available</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Charts Row -->
@@ -203,5 +277,130 @@ const platformChart = new Chart(platformCtx, {
         }
     }
 });
+
+// Risk Level Chart
+{% if risk_level_stats %}
+const riskLevelCtx = document.getElementById('riskLevelChart').getContext('2d');
+const riskLevelChart = new Chart(riskLevelCtx, {
+    type: 'doughnut',
+    data: {
+        labels: [
+            {% for stat in risk_level_stats %}
+            '{{ stat.risk_level }}'{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            data: [
+                {% for stat in risk_level_stats %}
+                {{ stat.count }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#198754',  // Low - green
+                '#ffc107',  // Medium - yellow
+                '#fd7e14',  // High - orange
+                '#dc3545'   // Critical - red
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                    font: {
+                        size: 11
+                    }
+                }
+            }
+        }
+    }
+});
+{% endif %}
+
+// Data Classification Chart
+{% if data_classification_stats %}
+const dataClassificationCtx = document.getElementById('dataClassificationChart').getContext('2d');
+const dataClassificationChart = new Chart(dataClassificationCtx, {
+    type: 'pie',
+    data: {
+        labels: [
+            {% for stat in data_classification_stats %}
+            '{{ stat.data_classification }}'{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            data: [
+                {% for stat in data_classification_stats %}
+                {{ stat.count }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#17a2b8',  // Public - info
+                '#0d6efd',  // Internal - primary
+                '#ffc107',  // Confidential - warning
+                '#dc3545'   // Restricted - danger
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                    font: {
+                        size: 11
+                    }
+                }
+            }
+        }
+    }
+});
+{% endif %}
+
+// Approval Required Chart
+{% if approval_required_stats %}
+const approvalRequiredCtx = document.getElementById('approvalRequiredChart').getContext('2d');
+const approvalRequiredChart = new Chart(approvalRequiredCtx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for stat in approval_required_stats %}
+            '{{ stat.approval_required }}'{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Count',
+            data: [
+                {% for stat in approval_required_stats %}
+                {{ stat.count }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ],
+            backgroundColor: '#6f42c1'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        indexAxis: 'y',
+        scales: {
+            x: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+});
+{% endif %}
 </script>
 {% endblock %}
