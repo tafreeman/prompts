@@ -1,302 +1,69 @@
 # GitHub Copilot Instructions for Prompts Library
 
-## Repository Overview
+## 1. Big Picture
 
-This is a community-driven prompt library designed for diverse users—from developers to business professionals. The repository provides well-organized, reusable prompts for AI/LLM interactions across various use cases.
+- This repo is both a **prompt library** and a small **Flask web app** in `src/` that lets users browse, customize, and analyze prompts.
+- Markdown prompts live under `prompts/` and follow a strict YAML + sections template; they are also loaded into SQLite via `src/load_prompts.py`.
+- The web app (`src/app.py`, `src/templates/`, `src/static/`) is optimized for **Claude Sonnet 4.5 / Code 5**, but should remain model‑agnostic at the code level.
+- Deployment is documented and scripted for IIS, Docker, AWS, and Azure in `deployment/`.
 
-## Working with Copilot
+## 2. What Copilot Should Focus On
 
-### What Copilot Should Do
-When assigned to an issue or PR, Copilot should:
-- Add new prompt files following the established template and format
-- Update existing prompts to improve clarity, examples, or fix errors
-- Enhance documentation for better user understanding
-- Fix typos, broken links, or formatting issues
-- Ensure all prompts meet quality standards before submission
-- Make minimal, focused changes that directly address the issue
+- For **prompt files** in `prompts/**`:
+	- Keep the existing frontmatter + section structure described in `README.md` and `templates/prompt-template.md`.
+	- Improve clarity, examples, variables, and tips; avoid large structural rewrites unless the issue explicitly asks.
+	- Ensure new prompts fit the existing categories (`developers`, `business`, `creative`, `analysis`, `system`) and tagging style.
+- For the **Flask app** in `src/`:
+	- Keep changes small and localized; follow the current patterns in `app.py` and `load_prompts.py`.
+	- Preserve SQLite usage and the schema/fields referenced in templates (e.g., `title`, `persona`, `use_case`, `platform`, `tags`, `template`).
+	- Maintain compatibility with the analytics UI in `templates/analytics.html` and spell‑check features in `static/js/app.js`.
+- For **deployment docs/scripts** in `deployment/**`:
+	- Update commands, paths, and options; do not introduce new tooling or platforms without an explicit requirement.
 
-### What Copilot Should NOT Do
-- Do not modify or delete working prompt files unless specifically requested
-- Do not change the repository structure without explicit approval
-- Do not add build tools, linters, or testing frameworks (this is a documentation-only repo)
-- Do not create prompts outside the established categories without discussion
-- Do not make sweeping changes across multiple prompts in a single PR
-- Do not add dependencies or executable code
+## 3. Things to Avoid
 
-### Task Scoping Guidelines
-- Each task should focus on a single prompt or related set of prompts
-- New prompts should be complete with all required sections
-- Updates should be incremental and reviewable
-- Documentation changes should maintain existing tone and style
-- Always validate that changes align with repository goals
+- Do **not** change repository layout (folders, key filenames) without a clear issue asking for it.
+- Do **not** introduce new frameworks (e.g., swap Flask, add ORMs, JS frameworks) or extra services.
+- Do **not** change the database type (keep SQLite) or the core prompt fields without updating all call sites (`load_prompts.py`, `app.py`, templates, and docs).
+- Do **not** make sweeping edits across many prompts or docs in a single PR unless explicitly requested.
 
-## Repository Structure
+## 4. Architecture & Patterns
 
-```
-prompts/
-├── prompts/              # Main prompt collection
-│   ├── developers/       # Technical & coding prompts
-│   ├── business/         # Business analysis & strategy prompts
-│   ├── creative/         # Content creation & marketing prompts
-│   ├── analysis/         # Data analysis & research prompts
-│   └── system/           # System-level AI agent prompts
-├── templates/            # Reusable prompt templates
-├── examples/             # Example usage and outputs
-├── docs/                 # Documentation and guides
-└── .github/             # GitHub configuration and workflows
-```
+- **Backend:**
+	- Single Flask app in `src/app.py` with routes for listing prompts, detail view, customization, copy, and analytics.
+	- SQLite database file (`prompt_library.db` in `src/`) accessed via simple helper functions, using parameterized queries.
+	- Prompt content originates from markdown in `prompts/` plus additional records defined in `load_prompts.py`.
+- **Frontend:**
+	- Jinja2 templates in `src/templates/` follow a shared layout in `base.html`; reuse that structure when adding new views.
+	- `static/css/style.css` contains accessibility and text‑visibility fixes—preserve the contrast and typography decisions.
+	- `static/js/app.js` handles spell‑check/autocorrect, copy‑to‑clipboard, and small UX enhancements; keep JS minimal and vanilla.
+- **Deployment:**
+	- Local dev: `cd src`, `pip install -r requirements.txt`, `python load_prompts.py`, then `python app.py`.
+	- Production guidance lives in `deployment/iis/README.md`, `deployment/docker/README.md`, `deployment/aws/README.md`, and `deployment/azure/README.md`; align any new instructions with these.
 
-## File Naming Conventions
+## 5. Conventions & Examples
 
-- Use lowercase filenames with hyphens for word separation
-- Examples: `code-review-assistant.md`, `marketing-email-generator.md`
-- Avoid: `prompt1.md`, `MyPrompt.md`, spaces in filenames
+- Use lowercase, hyphenated filenames for prompts (e.g., `code-review-assistant.md`).
+- Keep YAML fields aligned with examples in `prompts/**/README.md` and the root `README.md` (include `title`, `category`, `tags`, `author`, `version`, `date`, `difficulty`).
+- When adding new enterprise prompts via `load_prompts.py`, follow the existing dict structure:
+	- Keys: `title`, `persona`, `use_case`, `category`, `platform`, `template`, `description`, `tags`.
+	- Templates should use `[placeholders]` to enable dynamic forms in the UI.
+- Preserve optimization notes for Claude (e.g., `platform: 'Claude Sonnet 4.5'`) but avoid hard‑coding model assumptions into logic.
 
-## Prompt File Format
+## 6. Testing & Validation
 
-All prompts MUST follow this standard structure with YAML frontmatter:
+- For prompt changes:
+	- Manually sanity‑check that YAML parses, sections are present, and example usage matches the prompt.
+- For app changes:
+	- At minimum, run the app locally using the quick‑start commands in `README.md`/`src/README.md` and verify:
+		- Prompt list loads without errors.
+		- A prompt detail page renders with tags, placeholders, and copy button.
+		- Analytics page still renders charts if data is present.
+- Keep dependencies in `src/requirements.txt` minimal; only add a package if absolutely required and update relevant deployment docs when you do.
 
-```markdown
----
-title: "Descriptive Prompt Title"
-category: "developers|business|creative|analysis|system"
-tags: ["tag1", "tag2", "tag3"]
-author: "Author Name"
-version: "1.0"
-date: "YYYY-MM-DD"
-difficulty: "beginner|intermediate|advanced"
----
+## 7. Contribution Scope
 
-# Prompt Title
-
-## Description
-Brief description of what this prompt does and when to use it.
-
-## Use Cases
-- Use case 1
-- Use case 2
-- Use case 3
-
-## Prompt
-
-[The actual prompt text goes here]
-
-## Variables
-- `[variable1]`: Description of what to replace this with
-- `[variable2]`: Description of what to replace this with
-
-## Example Usage
-
-**Input:**
-```
-Example of the prompt with real values
-```
-
-**Output:**
-```
-Example of expected output
-```
-
-## Tips
-- Tip 1 for better results
-- Tip 2 for customization
-```
-
-## YAML Frontmatter Requirements
-
-### Required Fields
-- `title`: Clear, descriptive title in title case
-- `category`: Must be one of: developers, business, creative, analysis, system
-- `tags`: Array of relevant tags (minimum 3, maximum 10)
-- `author`: Author's name or GitHub username
-- `version`: Semantic versioning (e.g., "1.0", "1.1", "2.0")
-- `date`: ISO format (YYYY-MM-DD)
-- `difficulty`: Must be one of: beginner, intermediate, advanced
-
-### Tag Guidelines
-- Use lowercase, hyphenated tags
-- Include category-specific tags: `code-generation`, `debugging`, `testing`, `analysis`, `strategy`, etc.
-- Include technology tags when relevant: `python`, `javascript`, `react`, etc.
-- Include skill level: `beginner`, `intermediate`, or `advanced`
-
-## Quality Standards
-
-All prompts must:
-- ✅ Include complete YAML frontmatter with all required fields
-- ✅ Have clear, specific descriptions
-- ✅ Provide at least 2-3 use cases
-- ✅ Include example usage with input and output
-- ✅ Define all variables used in the prompt
-- ✅ Provide practical tips for better results
-- ✅ Be tested and validated before submission
-- ✅ Use professional, unbiased language
-- ✅ Follow consistent formatting
-
-## Version Management
-
-When updating existing prompts:
-- **Minor improvements** (1.0 → 1.1): Typo fixes, clarity improvements, additional examples
-- **Major changes** (1.0 → 2.0): Significant rewrites, structural changes
-- Update the `version` field in YAML frontmatter
-- Update the `date` field to current date
-- Add a `## Changelog` section at the bottom documenting changes
-
-Example changelog:
-```markdown
-## Changelog
-
-### Version 1.1 (2025-11-10)
-- Improved clarity in prompt instructions
-- Added additional example usage
-
-### Version 1.0 (2025-10-15)
-- Initial version
-```
-
-## Category Placement Guidelines
-
-### developers/
-Technical and coding-related prompts:
-- Code generation and review
-- Debugging and testing
-- Architecture and design
-- Documentation
-- Refactoring
-
-### business/
-Business analysis and strategy:
-- Strategic planning
-- Market research
-- Financial analysis
-- Reporting
-- Decision-making support
-
-### creative/
-Content creation and marketing:
-- Copywriting
-- Marketing campaigns
-- Social media content
-- Storytelling
-- Brand development
-
-### analysis/
-Data analysis and research:
-- Data interpretation
-- Research synthesis
-- Statistical analysis
-- Trend analysis
-- Insight generation
-
-### system/
-System-level AI agent configuration:
-- Role definitions
-- Behavior guidelines
-- General-purpose configurations
-- System prompts
-
-## Documentation
-
-When making changes to documentation:
-- Keep consistent with existing style and tone
-- Update table of contents if adding new sections
-- Ensure links are valid and working
-- Follow markdown best practices
-- Keep language clear and accessible
-
-## Testing Expectations
-
-Before submitting new or updated prompts:
-1. Test the prompt with at least 2-3 different inputs
-2. Verify outputs match expectations
-3. Check for edge cases
-4. Ensure all variables are clearly defined
-5. Validate YAML frontmatter is properly formatted
-
-## Building and Linting
-
-This repository does not require build steps or linting tools as it contains markdown documentation only. However:
-- Ensure markdown syntax is valid
-- Check YAML frontmatter can be parsed
-- Verify all links are functional
-- Use markdown preview to check formatting
-
-## Code Review Focus Areas
-
-When reviewing changes:
-1. **Frontmatter Validation**: All required YAML fields present and correctly formatted
-2. **Content Quality**: Clear, specific, and useful prompts
-3. **Examples**: Practical, realistic examples provided
-4. **Consistency**: Follows repository format and style
-5. **Categorization**: Prompt is in correct category folder
-6. **File Naming**: Follows conventions (lowercase, hyphenated)
-7. **Professional Tone**: Language is appropriate and unbiased
-
-## Prohibited Content
-
-Do NOT accept prompts that:
-- ❌ Contain plagiarized content
-- ❌ Include harmful, malicious, or unethical instructions
-- ❌ Violate privacy or security principles
-- ❌ Contain spam or promotional content
-- ❌ Use biased or discriminatory language
-
-## Contribution Workflow
-
-1. Place new prompts in the appropriate category folder
-2. Use the template from `templates/prompt-template.md`
-3. Ensure all required fields are complete
-4. Test the prompt thoroughly
-5. Create descriptive commit messages
-6. Reference related issues in PRs
-
-## Commit Message Format
-
-Use clear, descriptive commit messages:
-- `Add: [prompt name]` for new prompts
-- `Update: [prompt name]` for improvements
-- `Fix: [issue description]` for bug fixes
-- `Docs: [documentation change]` for documentation updates
-
-Examples:
-- `Add: SQL query optimization prompt for developers`
-- `Update: Marketing email generator with more examples`
-- `Fix: Typo in data analysis prompt YAML frontmatter`
-- `Docs: Update README with new category information`
-
-## Examples of Good Contributions
-
-### ✅ Good: Adding a New Prompt
-- Create file `prompts/developers/api-design-helper.md`
-- Include complete YAML frontmatter with all required fields
-- Provide clear description, use cases, and examples
-- Test the prompt with real inputs before submission
-- Follow the exact template structure
-
-### ✅ Good: Improving an Existing Prompt
-- Update version number from 1.0 to 1.1
-- Add more detailed example in the Example Usage section
-- Clarify variables with better descriptions
-- Add a changelog entry explaining improvements
-
-### ✅ Good: Fixing Documentation
-- Correct typos in README.md
-- Update broken links in documentation
-- Improve clarity of instructions in CONTRIBUTING.md
-- Add missing information to getting-started guide
-
-### ❌ Avoid: Problematic Changes
-- Renaming multiple files without discussion
-- Deleting working prompts to "clean up"
-- Adding new categories not in the structure
-- Modifying YAML structure without approval
-- Making changes across many unrelated files
-
-## Additional Notes
-
-- This is a documentation-only repository with no code execution
-- Focus on content quality and consistency
-- Prioritize user experience for diverse skill levels
-- Maintain accessibility for both technical and non-technical users
-- Follow existing patterns and conventions
-- When in doubt, make smaller, more focused changes
-- Always reference the issue you're addressing in commits and PRs
+- Prefer PRs that:
+	- Touch a single prompt or a small cohesive group.
+	- Make focused improvements to one area of the app (backend route, template, JS, or deployment script).
+- Use clear commit messages like `Add: [prompt name]`, `Update: web analytics chart labels`, or `Docs: clarify IIS deployment script usage`.
