@@ -46,6 +46,83 @@
                     
                     <hr>
                     
+                    <!-- Governance Information Section -->
+                    {% if prompt.risk_level or prompt.data_classification or prompt.governance_tags or prompt.regulatory_scope or prompt.approval_required or prompt.retention_period %}
+                    <h5><i class="fas fa-shield-alt me-2"></i>Governance Information</h5>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                {% if prompt.risk_level and prompt.risk_level != '' %}
+                                <div class="col-md-6 mb-3">
+                                    <strong>Risk Level:</strong><br>
+                                    {% if prompt.risk_level == 'Low' %}
+                                        <span class="badge bg-success">Low</span>
+                                    {% elif prompt.risk_level == 'Medium' %}
+                                        <span class="badge bg-warning text-dark">Medium</span>
+                                    {% elif prompt.risk_level == 'High' %}
+                                        <span class="badge bg-orange text-white" style="background-color: #fd7e14;">High</span>
+                                    {% elif prompt.risk_level == 'Critical' %}
+                                        <span class="badge bg-danger">Critical</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ prompt.risk_level }}</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                
+                                {% if prompt.data_classification and prompt.data_classification != '' %}
+                                <div class="col-md-6 mb-3">
+                                    <strong>Data Classification:</strong><br>
+                                    {% if prompt.data_classification == 'Public' %}
+                                        <span class="badge bg-info">Public</span>
+                                    {% elif prompt.data_classification == 'Internal' %}
+                                        <span class="badge bg-primary">Internal</span>
+                                    {% elif prompt.data_classification == 'Confidential' %}
+                                        <span class="badge bg-warning text-dark">Confidential</span>
+                                    {% elif prompt.data_classification == 'Restricted' %}
+                                        <span class="badge bg-danger">Restricted</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ prompt.data_classification }}</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                
+                                {% if prompt.approval_required and prompt.approval_required != '' and prompt.approval_required != 'None' %}
+                                <div class="col-md-6 mb-3">
+                                    <strong>Approval Required:</strong><br>
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="fas fa-check-circle me-1"></i>{{ prompt.approval_required }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if prompt.retention_period and prompt.retention_period != '' and prompt.retention_period != 'Standard' %}
+                                <div class="col-md-6 mb-3">
+                                    <strong>Retention Period:</strong><br>
+                                    <span class="badge bg-info">{{ prompt.retention_period }}</span>
+                                </div>
+                                {% endif %}
+                                
+                                {% if prompt.governance_tags and prompt.governance_tags != '' %}
+                                <div class="col-12 mb-3">
+                                    <strong>Governance Tags:</strong><br>
+                                    {% for tag in prompt.governance_tags.split(',') %}
+                                        <span class="badge bg-dark me-1 mt-1">{{ tag.strip() }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                
+                                {% if prompt.regulatory_scope and prompt.regulatory_scope != '' %}
+                                <div class="col-12 mb-3">
+                                    <strong>Regulatory Scope:</strong><br>
+                                    <span class="badge bg-purple text-white" style="background-color: #6f42c1;">{{ prompt.regulatory_scope }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {% endif %}
+                    
                     <h5>Prompt Template</h5>
                     <div class="bg-light p-3 rounded">
                         <pre class="mb-0" style="white-space: pre-wrap; font-family: 'Monaco', monospace;">{{ prompt.template }}</pre>
