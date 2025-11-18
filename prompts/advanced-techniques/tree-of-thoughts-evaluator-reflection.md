@@ -83,7 +83,7 @@ Deliver a single Markdown document:
 ## Prompt
 
 ```text
-You will evaluate the GitHub repository `[REPOSITORY_NAME]` using a **two-phase Tree-of-Thoughts + Reflection pattern**.
+You will evaluate the **local workspace copy** of the repository identified as `[REPOSITORY_NAME]` using a **two-phase Tree-of-Thoughts + Reflection pattern**. Do not pull from or browse any remote repository; rely only on the files and context available in the current local workspace.
 
 ### Phase 1 – Tree-of-Thoughts Evaluation
 Follow the complete instructions from `Tree-of-Thoughts Repository Evaluator for GPT-5.1` (System + User message). Produce the required Markdown sections verbatim:

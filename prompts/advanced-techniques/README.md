@@ -10,6 +10,8 @@ This directory contains advanced prompting techniques optimized for frontier AI 
    - `chain-of-thought-concise.md` - Concise reasoning mode
    - `chain-of-thought-detailed.md` - Detailed reasoning mode
    - `chain-of-thought-guide.md` - When and how to use CoT
+   - `chain-of-thought-debugging.md` - **NEW**: Systematic debugging and root cause analysis
+   - `chain-of-thought-performance-analysis.md` - **NEW**: Performance profiling and optimization
 
 2. **ReAct** - Reasoning + Acting patterns for tool-augmented tasks
    - `react-tool-augmented.md` - Think/Act/Observe/Reflect framework
@@ -30,6 +32,7 @@ This directory contains advanced prompting techniques optimized for frontier AI 
    - `tree-of-thoughts-template.md` - Multi-branch exploration
    - `tree-of-thoughts-vs-linear.md` - Comparative analysis
    - `tree-of-thoughts-decision-guide.md` - When to escalate to ToT
+   - `tree-of-thoughts-architecture-evaluator.md` - **NEW**: Architecture decision evaluation with multi-branch analysis
 
 ## When to Use Advanced Techniques
 
