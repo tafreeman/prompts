@@ -5,11 +5,13 @@ This directory contains system-level prompts for configuring AI assistants, chat
 ## Available Prompts
 
 ### AI Configuration
+
 - **[AI Assistant System Prompt](ai-assistant-system-prompt.md)** - Comprehensive system prompt template
   - Difficulty: Advanced
   - Tags: system-prompt, ai-assistant, configuration, behavior
 
 ### AI Evaluation & Analysis
+
 - **[Tree-of-Thoughts Repository Evaluator](tree-of-thoughts-repository-evaluator.md)** - GPT-5.1 ToT framework for analyzing repositories
   - Difficulty: Advanced
   - Tags: tree-of-thoughts, tot, evaluation, repository-analysis, gpt-5.1, enterprise
@@ -17,6 +19,7 @@ This directory contains system-level prompts for configuring AI assistants, chat
 ## What Are System Prompts?
 
 System prompts define the foundational behavior, personality, and capabilities of an AI assistant. They are typically:
+
 - Set at the beginning of a conversation
 - Persistent across interactions
 - Used to establish consistent behavior
@@ -25,18 +28,23 @@ System prompts define the foundational behavior, personality, and capabilities o
 ## Categories
 
 ### AI Assistant Configuration
+
 Prompts for setting up general-purpose AI assistants.
 
 ### Chatbot Personality
+
 Prompts for defining chatbot personalities and tone.
 
 ### Domain-Specific Agents
+
 Prompts for specialized AI agents (customer service, technical support, etc.).
 
 ### Behavioral Guidelines
+
 Prompts for setting boundaries and ethical guidelines.
 
 ### Role-Based Assistants
+
 Prompts for specific roles (tutor, coach, advisor, consultant).
 
 ## Using System Prompts
@@ -60,7 +68,8 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
 
 ## Best Practices
 
-### Do:
+### Do
+
 ✅ Be specific about capabilities and limitations
 ✅ Define clear behavioral guidelines
 ✅ Include example interactions
@@ -68,7 +77,8 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
 ✅ Update based on user feedback
 ✅ Set appropriate ethical boundaries
 
-### Don't:
+### Don't
+
 ❌ Make claims about capabilities the AI doesn't have
 ❌ Be vague about role or purpose
 ❌ Forget to define what it should NOT do
@@ -77,7 +87,7 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
 
 ## System Prompt Structure
 
-```
+```text
 1. Core Identity
    - Role and expertise
    - Personality traits
@@ -113,6 +123,7 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
 ## Testing Your System Prompts
 
 Test with these scenarios:
+
 - ✅ Normal use cases
 - ✅ Edge cases
 - ✅ Unclear requests
@@ -124,24 +135,28 @@ Test with these scenarios:
 ## Examples by Use Case
 
 ### Customer Service Agent
+
 - Helpful, patient, solution-oriented
 - Escalation protocols
 - Empathy and understanding
 - Product knowledge
 
 ### Technical Support
+
 - Diagnostic approach
 - Step-by-step guidance
 - Troubleshooting protocols
 - Technical accuracy
 
 ### Educational Tutor
+
 - Socratic method
 - Encouraging tone
 - Progressive difficulty
 - Understanding checks
 
 ### Business Advisor
+
 - Analytical approach
 - Risk consideration
 - Strategic thinking
@@ -150,15 +165,19 @@ Test with these scenarios:
 ## Advanced Techniques
 
 ### Context Windows
+
 Manage what the AI remembers across conversations.
 
 ### Dynamic Behavior
+
 Adjust behavior based on user expertise level.
 
 ### Multi-Turn Protocols
+
 Define how to handle complex, multi-step interactions.
 
 ### Error Recovery
+
 Specify how to recover from mistakes or misunderstandings.
 
 ## Real-World Applications
@@ -184,6 +203,7 @@ Specify how to recover from mistakes or misunderstandings.
 ## Version Control
 
 System prompts should be versioned:
+
 - Track what changes were made
 - Document why changes were made
 - Test each version thoroughly
@@ -192,6 +212,7 @@ System prompts should be versioned:
 ## Performance Monitoring
 
 Track these metrics:
+
 - User satisfaction
 - Task completion rate
 - Error rate
@@ -204,6 +225,7 @@ Track these metrics:
 Share your system prompt templates! [Contribution guidelines](../../CONTRIBUTING.md)
 
 **What to include:**
+
 - Clear use case description
 - Complete prompt template
 - Example interactions

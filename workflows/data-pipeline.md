@@ -24,22 +24,26 @@ This blueprint covers the full data pipeline lifecycle:
 **Goal:** Understand source data and identify quality issues before building the pipeline.
 
 **Prompts to Use:**
+
 - **[Data Quality Assessment](../prompts/analysis/data-quality-assessment.md)**
   - Assess source data across six quality dimensions
   - Identify completeness, accuracy, consistency, timeliness, validity, and uniqueness issues
   - Generate quantified quality scores and recommended fixes
 
 **Inputs:**
+
 - Source dataset (sample or full)
 - Schema/column definitions
 - Context (how data will be used)
 
 **Outputs:**
+
 - Data Quality Assessment Report (see `docs/domain-schemas.md`)
 - List of data issues to address
 - Validation rules to implement
 
 **Key Questions:**
+
 - What percentage of critical fields are missing?
 - Are there schema drift or type mismatch issues?
 - What validation rules are currently violated?
@@ -51,6 +55,7 @@ This blueprint covers the full data pipeline lifecycle:
 **Goal:** Design target schemas (warehouse/lakehouse) that support analytics and ML use cases.
 
 **Prompts to Use:**
+
 - **[Database Schema Designer](../prompts/developers/database-schema-designer.md)**
   - Design normalized or denormalized schemas
   - Plan indexing, partitioning, and constraints
@@ -61,16 +66,19 @@ This blueprint covers the full data pipeline lifecycle:
   - Compare trade-offs (query performance, storage, complexity)
 
 **Inputs:**
+
 - Source data assessment from Stage 1
 - Analytics requirements (reports, dashboards, ML models)
 - Performance targets (query latency, data freshness)
 
 **Outputs:**
+
 - Target schema (tables, columns, types, keys, indexes)
 - Partitioning strategy
 - Data retention policy
 
 **Key Decisions:**
+
 - Normalize vs denormalize?
 - What grain for fact tables?
 - How to handle slowly changing dimensions (SCD Type 1/2/3)?
@@ -82,6 +90,7 @@ This blueprint covers the full data pipeline lifecycle:
 **Goal:** Architect the ETL/ELT pipeline to transform source data into target schema.
 
 **Prompts to Use:**
+
 - **[Data Pipeline Engineer](../prompts/developers/data-pipeline-engineer.md)**
   - Design extraction, transformation, and loading steps
   - Plan scheduling, dependencies, and orchestration
@@ -92,17 +101,20 @@ This blueprint covers the full data pipeline lifecycle:
   - Identify bottlenecks (network, CPU, I/O)
 
 **Inputs:**
+
 - Source data assessment (Stage 1)
 - Target schema (Stage 2)
 - Data volume and freshness requirements
 
 **Outputs:**
+
 - Pipeline architecture diagram
 - DAG (directed acyclic graph) for orchestration
 - Transformation logic (SQL, Python, Spark, etc.)
 - Incremental vs full refresh strategy
 
 **Key Decisions:**
+
 - ETL (transform before load) vs ELT (transform after load)?
 - Batch vs streaming?
 - How to handle late-arriving data?
@@ -115,20 +127,24 @@ This blueprint covers the full data pipeline lifecycle:
 **Goal:** Implement automated data quality checks within the pipeline.
 
 **Prompts to Use:**
+
 - **[Data Quality Assessment](../prompts/analysis/data-quality-assessment.md)** (revisit)
   - Generate validation rules based on Stage 1 assessment
   - Define acceptance criteria for each stage of the pipeline
 
 **Inputs:**
+
 - Data quality issues from Stage 1
 - Target schema constraints (NOT NULL, foreign keys, ranges)
 
 **Outputs:**
+
 - Validation rules (SQL checks, great_expectations tests, dbt tests)
 - Failure actions (block, alert, log)
 - Data quality SLOs (e.g., "completeness >95%")
 
 **Example Validation Rules:**
+
 ```sql
 -- Completeness check
 SELECT COUNT(*) AS missing_count
@@ -157,16 +173,19 @@ HAVING COUNT(*) > 1;
 **Goal:** Observe pipeline health and data quality in production.
 
 **Prompts to Use:**
+
 - **[Metrics and KPI Designer](../prompts/analysis/metrics-and-kpi-designer.md)**
   - Define pipeline SLIs (Service Level Indicators)
   - Set SLOs (latency, throughput, data quality scores)
 
 **Inputs:**
+
 - Pipeline design from Stage 3
 - Validation rules from Stage 4
 - Business requirements (data freshness, uptime)
 
 **Outputs:**
+
 - Monitoring dashboard (Datadog, Grafana, CloudWatch)
 - Alerts (email, Slack, PagerDuty) for:
   - Pipeline failures
@@ -175,6 +194,7 @@ HAVING COUNT(*) > 1;
   - Resource utilization spikes
 
 **Key Metrics:**
+
 - **Pipeline Execution Time** (p50, p95, p99)
 - **Data Freshness** (time since last successful run)
 - **Data Quality Scores** (completeness, accuracy, consistency %)
@@ -188,6 +208,7 @@ HAVING COUNT(*) > 1;
 **Goal:** Quickly diagnose and fix pipeline failures.
 
 **Prompts to Use:**
+
 - **[Chain-of-Thought: Debugging](../prompts/advanced-techniques/chain-of-thought-debugging.md)**
   - Systematic root cause analysis for pipeline failures
   - Generate hypotheses, test them, propose fixes
@@ -197,17 +218,20 @@ HAVING COUNT(*) > 1;
   - Identify preventive measures
 
 **Inputs:**
+
 - Error logs, stack traces, or alerts
 - Pipeline code and configuration
 - Recent changes (code deploys, schema changes, data source updates)
 
 **Outputs:**
+
 - Root cause analysis report
 - Fix (code change, schema update, config tweak)
 - Regression tests to prevent recurrence
 - Postmortem document
 
 **Common Failure Modes:**
+
 - **Schema drift**: Source system added/removed columns
 - **Data volume spike**: Unexpected traffic or batch size
 - **Upstream system failure**: Source API or database down
@@ -223,12 +247,14 @@ HAVING COUNT(*) > 1;
 **Stage 1: Data Discovery**
 
 Use **Data Quality Assessment** on source `customer_orders` table:
+
 - Result: 8% missing `customer_id`, 2% negative `total_amount`, inconsistent `status` casing
 - Action: Document issues, plan fixes
 
 **Stage 2: Schema Design**
 
 Use **Database Schema Designer** to create star schema:
+
 - Fact table: `fact_orders` (order_id, customer_id, date_id, amount, quantity)
 - Dimension tables: `dim_customers`, `dim_dates`, `dim_products`
 - Partitioning: by `order_date` (monthly partitions)
@@ -237,6 +263,7 @@ Use **Database Schema Designer** to create star schema:
 **Stage 3: Pipeline Design**
 
 Use **Data Pipeline Engineer**:
+
 - **Extract**: Incremental load from source DB (WHERE order_date > last_run_date)
 - **Transform**: Join orders with customers/products, handle missing customer_id, convert status to lowercase
 - **Load**: Upsert into fact/dim tables
@@ -245,6 +272,7 @@ Use **Data Pipeline Engineer**:
 **Stage 4: Validation Rules**
 
 Implement checks:
+
 - Completeness: `customer_id` missing rate <5%
 - Accuracy: No negative `total_amount`
 - Consistency: `status` matches enum ('pending', 'shipped', 'delivered', 'cancelled')
@@ -253,6 +281,7 @@ Implement checks:
 **Stage 5: Monitoring**
 
 Set up dashboard:
+
 - Pipeline execution time (target: <15 minutes p95)
 - Data freshness (target: <2 hours)
 - Quality scores per dimension
@@ -261,6 +290,7 @@ Set up dashboard:
 **Stage 6: Incident Handling**
 
 Pipeline fails with "Out of Memory" error:
+
 - Use **Chain-of-Thought: Debugging** to analyze
 - Hypothesis: Data volume spike (Black Friday sales)
 - Root cause: Batch size too large for memory
@@ -285,6 +315,7 @@ Pipeline fails with "Out of Memory" error:
 ## Best Practices
 
 ### General
+
 - **Start with data quality assessment** – Don't build pipelines on bad data
 - **Design for idempotency** – Pipelines should be re-runnable without side effects
 - **Validate early and often** – Catch issues in dev, not prod
@@ -292,18 +323,21 @@ Pipeline fails with "Out of Memory" error:
 - **Document assumptions** – What does "good data" look like?
 
 ### Performance
+
 - **Incremental loads** – Only process new/changed data
 - **Partitioning** – Enables parallel processing and faster queries
 - **Batch sizing** – Balance memory usage and throughput
 - **Parallelization** – Process independent partitions in parallel
 
 ### Reliability
+
 - **Retries with backoff** – Handle transient failures
 - **Alerting** – Detect failures fast
 - **Rollback plans** – How to recover from bad data loads
 - **Testing** – Unit tests for transforms, integration tests for full pipeline
 
 ### Governance
+
 - **Data lineage** – Track where data comes from and where it goes
 - **Access control** – Who can read/write data?
 - **Retention policies** – How long to keep raw vs aggregated data
@@ -320,19 +354,23 @@ Pipeline fails with "Out of Memory" error:
 ## Related Prompts
 
 ### Discovery & Analysis
+
 - [Data Quality Assessment](../prompts/analysis/data-quality-assessment.md)
 - [Data Analysis Specialist](../prompts/analysis/data-analysis-specialist.md)
 - [Trend Analysis Specialist](../prompts/analysis/trend-analysis-specialist.md)
 
 ### Design
+
 - [Database Schema Designer](../prompts/developers/database-schema-designer.md)
 - [Tree-of-Thoughts: Architecture Evaluator](../prompts/advanced-techniques/tree-of-thoughts-architecture-evaluator.md)
 
 ### Implementation
+
 - [Data Pipeline Engineer](../prompts/developers/data-pipeline-engineer.md)
 - [SQL Query Optimizer (Advanced)](../prompts/developers/sql-query-optimizer-advanced.md)
 
 ### Operations
+
 - [Metrics and KPI Designer](../prompts/analysis/metrics-and-kpi-designer.md)
 - [Chain-of-Thought: Debugging](../prompts/advanced-techniques/chain-of-thought-debugging.md)
 - [Chain-of-Thought: Performance Analysis](../prompts/advanced-techniques/chain-of-thought-performance-analysis.md)

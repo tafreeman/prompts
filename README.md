@@ -53,6 +53,7 @@ For deployment options (IIS, AWS, Azure, Docker), see [src/README.md](src/README
 ## ✨ New: Advanced Techniques & Enterprise Governance
 
 ### Advanced Prompting Techniques
+
 Frontier model capabilities require advanced prompting patterns. We now include:
 
 - **Chain-of-Thought (CoT)**: Step-by-step reasoning with concise and detailed modes
@@ -64,6 +65,7 @@ Frontier model capabilities require advanced prompting patterns. We now include:
 📚 **[Explore Advanced Techniques →](prompts/advanced-techniques/)**
 
 ### Enterprise Governance & Compliance
+
 Production AI requires governance, risk management, and compliance controls:
 
 - **Legal Prompts**: Contract review, compliance checks, policy drafting
@@ -76,7 +78,7 @@ Production AI requires governance, risk management, and compliance controls:
 
 ## 📁 Repository Structure
 
-```
+```text
 prompts/
 ├── src/                   # 🆕 Web Application
 │   ├── app.py            # Flask application
@@ -108,6 +110,7 @@ prompts/
 ### Option 1: Use the Web Application (Recommended)
 
 **Run Locally:**
+
 ```bash
 git clone https://github.com/tafreeman/prompts.git
 cd prompts/src
@@ -118,6 +121,7 @@ python app.py           # Start the application
 ```
 
 **Or Deploy to Cloud:**
+
 - **IIS (One Command)**: `deployment\iis\deploy.ps1` - Free on Windows Server
 - **Docker**: `docker-compose -f deployment/docker/docker-compose.yml up -d`
 - **AWS Lightsail**: $7/month (see [deployment/aws/README.md](deployment/aws/README.md))
@@ -141,6 +145,7 @@ For direct access to prompt markdown files:
 ### For Developers
 
 1. **Clone the repository**:
+
    ```bash
    git clone https://github.com/tafreeman/prompts.git
    cd prompts
@@ -193,13 +198,17 @@ Brief description of what this prompt does and when to use it.
 
 **Input:**
 ```
+
 Example of the prompt with real values
-```
+
+```text
 
 **Output:**
 ```
+
 Example of expected output
-```
+
+```text
 
 ## Tips
 - Tip 1 for better results
@@ -209,6 +218,7 @@ Example of expected output
 ## 🤝 Contributing
 
 We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+
 - Adding new prompts
 - Improving existing prompts
 - Reporting issues
@@ -222,6 +232,7 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 - **[Prompt Effectiveness Methodology](docs/prompt-effectiveness-scoring-methodology.md)**: Scientific scoring system based on academic research and industry standards
 
 ### Web Application
+
 - **[Web App README](src/README.md)**: Complete guide for the web application
 - **[IIS Deployment](deployment/iis/README.md)**: Windows Server deployment
 - **[Docker Deployment](deployment/docker/README.md)**: Containerized deployment
@@ -229,6 +240,7 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 - **[Azure Deployment](deployment/azure/README.md)**: Microsoft Azure options
 
 ### General Documentation
+
 - **[Getting Started Guide](docs/getting-started.md)**: For first-time users
 - **[Best Practices](docs/best-practices.md)**: Tips for effective prompt engineering
 - **[Prompt Template](templates/prompt-template.md)**: Template for creating new prompts
@@ -236,18 +248,23 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 ## 🏷️ Categories
 
 ### Developers
+
 Code generation, debugging, testing, architecture design, documentation, refactoring, and technical problem-solving.
 
 ### Business
+
 Business analysis, strategy planning, market research, financial analysis, reporting, and decision-making support.
 
 ### Creative
+
 Content creation, copywriting, marketing campaigns, social media, storytelling, brainstorming, and brand development.
 
 ### Analysis
+
 Data analysis, research synthesis, statistical interpretation, trend analysis, and insight generation.
 
 ### System
+
 System-level prompts for AI agents, role definitions, behavior guidelines, and general-purpose configurations.
 
 ## 🎨 Web Application Features
@@ -255,6 +272,7 @@ System-level prompts for AI agents, role definitions, behavior guidelines, and g
 The web application provides an enhanced user experience:
 
 ### Core Features
+
 - **📚 20+ Prompts**: Loaded from repository + additional enterprise prompts
 - **🔍 Advanced Search**: Filter by persona, category, platform, or search text
 - **✏️ Smart Customization**: Dynamic forms based on prompt placeholders
@@ -264,6 +282,7 @@ The web application provides an enhanced user experience:
 - **🎯 One-Click Copy**: Copy prompts to clipboard instantly
 
 ### Technical Features
+
 - **Flask Backend**: Lightweight Python web framework
 - **SQLite Database**: Simple, file-based storage
 - **Bootstrap 5 UI**: Modern, accessible interface
@@ -271,6 +290,7 @@ The web application provides an enhanced user experience:
 - **No External APIs**: Runs completely offline
 
 ### Fixed Issues
+
 - ✅ **Text Visibility Fixed**: All text now shows with proper contrast and colors
 - ✅ **Spell-Check Added**: HTML5 + custom autocorrect for typos and model names
 - ✅ **Easy Deployment**: Multiple options from $7/month to free (IIS)
@@ -292,6 +312,7 @@ The web application provides an enhanced user experience:
 ## 📊 Prompt Quality Standards
 
 All prompts in this library:
+
 - ✅ Are tested and validated
 - ✅ Include clear descriptions and examples
 - ✅ Follow consistent formatting
@@ -301,6 +322,7 @@ All prompts in this library:
 ## 🔄 Version History
 
 Prompts are versioned to track improvements:
+
 - **1.0**: Initial version
 - **1.1**: Minor improvements
 - **2.0**: Major changes or rewrites
@@ -314,6 +336,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🌟 Acknowledgments
 
 This library is inspired by popular prompt libraries including:
+
 - weam-ai/weam
 - danielrosehill/System-Prompt-Library
 - kevin-hammond/prompt-library

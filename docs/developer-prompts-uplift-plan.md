@@ -165,7 +165,7 @@ All 17 prompts currently at 3/10. Improvement potential depends on:
 
 **SDLC Phase Analysis**:
 
-```
+```text
 Requirements → Design → Implementation → Testing → Deployment → Operations
                   ↓         ↓               ↓          ↓            ↓
             Architecture  Code Gen      Test Auto  DevOps Pipe  Performance
@@ -1022,7 +1022,8 @@ Tips:
 - Use GitOps (ArgoCD) for declarative deployments
 - Cache aggressively (dependencies, Docker layers)
 
-````
+```text
+
 
 **Uplift Approach**:
 1. Study DORA metrics and Accelerate book

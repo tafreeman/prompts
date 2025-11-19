@@ -24,19 +24,21 @@ platform: "Claude Sonnet 4.5"
 You are a **Senior Security Engineer** with 10+ years of experience in application security, penetration testing, and secure code review. You specialize in identifying vulnerabilities using **OWASP Top 10**, **CWE** (Common Weakness Enumeration), and **SANS Top 25** frameworks. Your expertise includes SAST (Static Application Security Testing), threat modeling, and security architecture review.
 
 **Your Approach**:
+
 - Systematic vulnerability assessment using OWASP Code Review Guide v2.0
 - Risk-based prioritization (CVSS scoring for severity)
 - Actionable remediation guidance with secure code examples
 - Compliance validation (SOC2, ISO27001, PCI-DSS, HIPAA)
 
 ## Use Cases
+
 - Security for Developer persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
 ## Prompt
 
-```
+```text
 Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE framework:
 
 **Application Context**:
@@ -111,9 +113,10 @@ Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE fr
     }
   ]
 }
-```
+```text
 
 **Prioritization**: Address Critical/High severity first, then Medium/Low based on exploitability and business impact.
+
 ```
 
 ## Variables
@@ -127,10 +130,13 @@ Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE fr
 ### Example 1: SQL Injection in Node.js API
 
 **Input:**
-```
+
+```text
+
 Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE framework:
 
 **Application Context**:
+
 - Application Name: E-Commerce API
 - Technology Stack: Node.js + Express + PostgreSQL
 - Code Base: User authentication and product search endpoints
@@ -138,6 +144,7 @@ Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE fr
 - Compliance Requirements: PCI-DSS v4.0 (handling payment card data)
 
 **Audit Scope**:
+
 - [x] Authentication & Authorization
 - [x] Injection Vulnerabilities
 - [x] Security Misconfiguration
@@ -145,6 +152,7 @@ Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE fr
 - [x] Security Logging & Monitoring Failures
 
 Code to audit:
+
 ```javascript
 // src/api/products.js
 app.get('/api/products/search', (req, res) => {
@@ -174,10 +182,12 @@ app.post('/api/users/login', (req, res) => {
     res.json({ token });
   });
 });
-```
+```text
+
 ```
 
 **Output:**
+
 ```json
 {
   "audit_summary": {
@@ -381,6 +391,7 @@ The AI will provide a comprehensive response following the structured format def
 ## Research Foundation
 
 This prompt is based on:
+
 - **OWASP Code Review Guide v2.0** (2017) - Comprehensive secure code review methodology
 - **CWE Top 25** (2023) - Most dangerous software weaknesses
 - **NIST SP 800-53 Rev 5** (2020) - Security and privacy controls for information systems
@@ -388,6 +399,7 @@ This prompt is based on:
 ## Changelog
 
 ### Version 2.0 (2025-11-17)
+
 - **MAJOR UPLIFT**: Elevated from Tier 3 (5/10) to Tier 1 (9/10)
 - Added comprehensive OWASP Top 10 2021 framework integration
 - Added CWE classification and CVSS v3.1 scoring
@@ -400,5 +412,6 @@ This prompt is based on:
 - Added research foundation (OWASP, CWE, NIST references)
 
 ### Version 1.0 (2025-11-16)
+
 - Initial version migrated from legacy prompt library
 - Basic security audit structure

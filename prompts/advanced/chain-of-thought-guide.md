@@ -13,6 +13,7 @@ platform: "All AI Models"
 # Chain-of-Thought: Decision Guide
 
 ## Description
+
 A practical decision framework for choosing when and how to use Chain-of-Thought (CoT) prompting. This guide helps you select the right CoT mode (none, concise, or detailed) based on your situation, and provides best practices for maximizing reasoning quality while managing token costs.
 
 ## Research Foundation
@@ -23,6 +24,7 @@ This technique is based on the paper:
 Wei et al. demonstrated that prompting large language models to generate intermediate reasoning steps (a "chain of thought") significantly improves performance on complex reasoning tasks including arithmetic, commonsense, and symbolic reasoning. The paper showed accuracy improvements from 17.7% to 58.1% on GSM8K math problems when using Chain-of-Thought prompting.
 
 ## Use Cases
+
 - Deciding whether to use CoT for a specific task
 - Choosing between concise and detailed CoT modes
 - Understanding the cost-benefit trade-offs of CoT
@@ -31,7 +33,7 @@ Wei et al. demonstrated that prompting large language models to generate interme
 
 ## The CoT Decision Tree
 
-```
+```text
 START: Do you have a task that needs AI reasoning?
 │
 ├─→ Is it a simple lookup or straightforward task?
@@ -56,13 +58,16 @@ START: Do you have a task that needs AI reasoning?
 ## When to Use Each Mode
 
 ### No CoT (Direct Prompting)
+
 **Use for:**
+
 - Simple lookups (facts, definitions, syntax)
 - Straightforward formatting tasks
 - Well-defined, routine operations
 - Very token-sensitive applications
 
 **Example tasks:**
+
 - "Translate this to Spanish"
 - "Extract email addresses from this text"
 - "Convert CSV to JSON"
@@ -71,7 +76,9 @@ START: Do you have a task that needs AI reasoning?
 **Tokens saved:** Baseline (no overhead)
 
 ### Concise CoT
+
 **Use for:**
+
 - Moderate complexity problems
 - Debugging and troubleshooting
 - Quick technical decisions
@@ -79,6 +86,7 @@ START: Do you have a task that needs AI reasoning?
 - Time-sensitive situations
 
 **Example tasks:**
+
 - "Debug why this API call is failing"
 - "Recommend database indexes for this query"
 - "Review this code for security issues"
@@ -89,7 +97,9 @@ START: Do you have a task that needs AI reasoning?
 **Time to completion:** +20-30%
 
 ### Detailed CoT
+
 **Use for:**
+
 - Complex, novel problems
 - High-stakes decisions (>$10K impact)
 - Architecture and strategic choices
@@ -97,6 +107,7 @@ START: Do you have a task that needs AI reasoning?
 - Compliance documentation needs
 
 **Example tasks:**
+
 - "Design migration strategy for legacy system"
 - "Evaluate build vs. buy for core platform"
 - "Create incident postmortem with root cause analysis"
@@ -113,14 +124,17 @@ START: Do you have a task that needs AI reasoning?
 **Problem:** "Our API returns 401 errors sporadically"
 
 **Direct Prompt** (No CoT):
-```
+
+```text
 Fix: Check authentication tokens are being passed correctly.
 ```
+
 *Token count: ~15*
 *Accuracy: May miss root cause*
 
 **Concise CoT:**
-```
+
+```text
 Step 1: 401 means authentication failure - not authorization (that's 403).
 Step 2: "Sporadically" suggests timing issue - likely token expiration.
 Step 3: Check if tokens are being refreshed before expiration.
@@ -128,14 +142,17 @@ Step 4: Also verify clock sync between client and server (JWT timestamps).
 
 Fix: Implement token refresh 5 minutes before expiration. Verify NTP sync.
 ```
+
 *Token count: ~70*
 *Accuracy: Good - covers main scenarios*
 
 **Detailed CoT:**
-```
+
+```text
 [10+ steps analyzing authentication flow, token types, edge cases, 
 alternative hypotheses, considering rate limiting, caching, etc.]
 ```
+
 *Token count: ~300*
 *Accuracy: Excellent - comprehensive analysis*
 
@@ -146,14 +163,17 @@ alternative hypotheses, considering rate limiting, caching, etc.]
 **Problem:** "Should we use microservices or monolith for new project?"
 
 **Direct Prompt** (No CoT):
-```
+
+```text
 Use microservices - they're more scalable and modern.
 ```
+
 *Token count: ~15*
 *Accuracy: Poor - no context consideration*
 
 **Concise CoT:**
-```
+
+```text
 Step 1: Team size? Small team (<10) → monolith easier to manage.
 Step 2: Expected scale? <100K users → monolith sufficient.
 Step 3: Domain complexity? Simple domain → monolith fine.
@@ -161,15 +181,18 @@ Step 4: Time to market? Monolith faster for MVP.
 
 Recommendation: Start with modular monolith, extract services later if needed.
 ```
+
 *Token count: ~80*
 *Accuracy: Good for common cases*
 
 **Detailed CoT:**
-```
+
+```text
 [Comprehensive analysis of team structure, Conway's Law, deployment pipeline,
 monitoring requirements, database strategy, service boundaries, operational
 overhead, cost analysis, gradual migration path, etc.]
 ```
+
 *Token count: ~500*
 *Accuracy: Excellent - considers all factors*
 
@@ -178,7 +201,8 @@ overhead, cost analysis, gradual migration path, etc.]
 ## Best Practices
 
 ### 1. Start Simple, Escalate if Needed
-```
+
+```text
 Try: Direct prompt
 ↓ (if answer insufficient)
 Try: Concise CoT
@@ -187,12 +211,14 @@ Try: Detailed CoT or Tree-of-Thoughts
 ```
 
 ### 2. Match CoT Mode to Audience
+
 - **For yourself:** Concise often sufficient
 - **For team review:** Concise to detailed, depending on complexity
 - **For stakeholders:** Detailed for major decisions
 - **For compliance:** Detailed with full justification
 
 ### 3. Use CoT Selectively in Production
+
 ```python
 def should_use_cot(task_type, stakes, complexity):
     if stakes > 10000:  # High financial impact
@@ -206,11 +232,13 @@ def should_use_cot(task_type, stakes, complexity):
 ```
 
 ### 4. Optimize Token Usage
+
 - For batch processing: Use concise CoT only for failures/edge cases
 - For interactive use: Let users toggle CoT mode
 - For APIs: Cache common CoT reasoning patterns
 
 ### 5. Validate CoT Effectiveness
+
 ```python
 # A/B test CoT vs no CoT
 results = {
@@ -226,25 +254,29 @@ optimal_mode = optimize(results, cost_constraint=budget)
 ## Common Mistakes to Avoid
 
 ### ❌ Using CoT for Simple Tasks
-```
+
+```text
 Bad: "Using detailed CoT to convert Celsius to Fahrenheit"
 Waste: 300 tokens for a simple formula
 ```
 
 ### ❌ Not Using CoT for Complex Tasks
-```
+
+```text
 Bad: "Direct prompt for system architecture decision"
 Risk: Missing critical considerations, expensive mistakes
 ```
 
 ### ❌ Asking for CoT but Not Providing Enough Context
-```
+
+```text
 Bad: "Debug my code (step-by-step)" with no code or error shown
 Result: Generic, unhelpful steps
 ```
 
 ### ❌ Using Detailed CoT Under Time Pressure
-```
+
+```text
 Bad: "Production is down, need detailed analysis of all possibilities"
 Problem: Too slow, need concise CoT for quick fix first
 ```
@@ -252,6 +284,7 @@ Problem: Too slow, need concise CoT for quick fix first
 ## Integration Patterns
 
 ### Pattern 1: Tiered Reasoning
+
 ```python
 # Try fast approach first
 quick_answer = llm.generate(prompt, mode="direct")
@@ -266,6 +299,7 @@ if quick_answer.confidence < 0.7:
 ```
 
 ### Pattern 2: Human-in-the-Loop
+
 ```python
 # Use CoT for reasoning
 reasoning = llm.generate(prompt, mode="concise_cot")
@@ -280,6 +314,7 @@ else:
 ```
 
 ### Pattern 3: Caching CoT Patterns
+
 ```python
 # For repeated similar tasks, cache reasoning patterns
 reasoning_pattern = cache.get(f"cot_{task_category}")
@@ -296,6 +331,7 @@ else:
 ## Cost-Benefit Analysis
 
 ### Token Cost Estimates
+
 | Mode | Input Overhead | Output Overhead | Total Overhead |
 |------|---------------|----------------|----------------|
 | No CoT | 0 tokens | 0 tokens | 0 tokens |
@@ -303,8 +339,10 @@ else:
 | Detailed CoT | +30-50 | +200-400 | +230-450 |
 
 ### When CoT Pays Off
+
 **Break-even calculation:**
-```
+
+```text
 CoT is worth it when:
 (Accuracy Gain) × (Cost of Error) > (Token Cost) × (Price per Token)
 
@@ -336,12 +374,14 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 | Batch processing | None or Concise | Token costs add up |
 
 ## Related Prompts
+
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - Quick step-by-step reasoning
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - Comprehensive analysis
 - [Tree-of-Thoughts: Decision Guide](tree-of-thoughts-decision-guide.md) - When to explore multiple paths
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks with external tools
 
 ## Governance Notes
+
 - **PII Safety**: No PII handling in this guide
 - **Human Review**: Detailed CoT outputs for >$10K decisions should be reviewed by domain experts
 - **Audit Requirements**: Save CoT reasoning for compliance-critical decisions (7-year retention recommended)
@@ -350,6 +390,7 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Decision tree for choosing CoT mode
 - Comparative examples across modes

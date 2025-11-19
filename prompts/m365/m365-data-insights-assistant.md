@@ -12,38 +12,47 @@ platform: "Microsoft 365 Copilot"
 # M365 Data Insights Assistant
 
 ## Description
+
 This prompt helps an individual quickly interpret and analyze data in Excel workbooks using Microsoft 365 Copilot. It identifies trends, highlights anomalies, and recommends visualizations, all explained in plain language suitable for non-technical audiences.
 
 ## Goal
+
 Enable a user to extract meaningful insights from Excel data without deep statistical or technical expertise, and communicate those insights effectively to stakeholders.
 
 ## Context
+
 Assume the user works in Microsoft 365 with access to Excel, OneDrive/SharePoint, and Teams. Data often lives in Excel tables, workbooks, or CSV files, and the user needs to quickly understand what the data is telling them and how to present it.
 
 The AI can reference:
+
 - The current Excel workbook, table, or data range
 - Column headers, data types, and visible patterns
 - The user's specified audience and focus areas
 
 ## Inputs
+
 The user provides:
+
 - `[audience]`: Who will receive the insights (e.g., "finance leadership", "product team", "sales managers").
 - `[time_window]`: Optional time range if the data is time-based (e.g., "last 6 months", "Q4 2025").
 - Optional: `[focus_areas]`: Specific topics to investigate (e.g., "regional performance", "cost trends", "customer churn").
 
 ## Assumptions
+
 - The AI should focus on the most impactful insights, not exhaustive analysis.
 - If the data contains dates or time series, the AI should look for trends over time.
 - If the data has categories (regions, products, customer segments), the AI should compare them.
 - The user wants plain-language explanations, not heavy statistical jargon.
 
 ## Constraints
+
 - Keep the entire analysis under 500 words.
 - Use short paragraphs and bullet points for scannability.
 - Avoid technical terms like "p-value" or "standard deviation" unless the audience is technical; use plain language instead (e.g., "much higher than average").
 - Recommend 2–3 specific chart types and explain why they would communicate the insights effectively.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Scan the data for patterns, trends, outliers, and comparisons.
   - Identify the most important insights based on magnitude, change, or risk.
@@ -54,6 +63,7 @@ The user provides:
   - Provide specific, actionable visualization recommendations.
 
 ## Output Requirements
+
 Return the output in Markdown with these sections:
 
 - `## Data Overview`
@@ -66,6 +76,7 @@ Return the output in Markdown with these sections:
   - 2–3 chart suggestions with explanations (e.g., "Line chart to show revenue growth over time").
 
 ## Use Cases
+
 - Use case 1: A manager analyzing sales performance data to prepare for a quarterly business review.
 - Use case 2: A finance analyst reviewing cost trends and identifying budget risks.
 - Use case 3: A product manager examining feature adoption metrics to inform roadmap priorities.
@@ -74,7 +85,7 @@ Return the output in Markdown with these sections:
 
 ## Prompt
 
-```
+```text
 You are my Data Insights Assistant working in a Microsoft 365 environment.
 
 Goal:
@@ -126,6 +137,7 @@ if specified.
 ```
 
 ## Variables
+
 - `[audience]`: Who will receive the insights (e.g., "finance leadership").
 - `[time_window]`: Optional time range if the data is time-based.
 - `[focus_areas]`: Optional specific topics to investigate.
@@ -133,7 +145,8 @@ if specified.
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [audience]: "executive leadership"
 [time_window]: "last 6 months"
 [focus_areas]: "revenue trends and regional performance"
@@ -142,7 +155,8 @@ You are my Data Insights Assistant working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Data Overview
 This dataset contains revenue data across four regions (North America, EMEA, APAC, LATAM) for the last 6 months (May–October 2025), broken down by product category.
 
@@ -164,16 +178,19 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 ```
 
 ## Tips
+
 - Tip 1: Use this prompt when preparing data-driven presentations or reports to ensure you're highlighting the right insights.
 - Tip 2: Adjust `[focus_areas]` to zoom in on specific questions (e.g., "Why did costs increase in Q3?" or "Which customer segments are growing fastest?").
 - Tip 3: After getting the initial insights, ask Copilot to "create a pivot table showing X by Y" or "draft a formula to calculate Z."
 - Tip 4: Pair this with `m365-presentation-outline-generator.md` to turn data insights into slides quickly.
 
 ## Related Prompts
+
 - `m365-presentation-outline-generator.md`
 - `m365-project-status-reporter.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

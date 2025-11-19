@@ -12,38 +12,47 @@ platform: "Microsoft 365 Copilot"
 # M365 Document Summarizer
 
 ## Description
+
 This prompt helps an individual quickly summarize long documents in Microsoft 365 for specific audiences. It extracts key points, highlights relevant sections, and recommends next steps, tailored to the reader's role or needs.
 
 ## Goal
+
 Enable a user to transform lengthy documents (reports, proposals, designs, policies) into concise, audience-specific summaries that communicate essential information without overwhelming the reader.
 
 ## Context
+
 Assume the user works in Microsoft 365 with access to Word, SharePoint, OneDrive, and Teams. Documents are often long, technical, or dense, and different audiences (executives, customers, engineers, legal) need different levels of detail and framing.
 
 The AI can reference:
+
 - The full content of the document
 - Any related emails, chats, or documents that provide additional context
 - The user's specified audience and focus areas
 
 ## Inputs
+
 The user provides:
+
 - `[audience]`: Who will read the summary (e.g., "executives", "customers", "engineering team", "legal reviewers").
 - `[focus_topics]`: Specific topics to emphasize (e.g., "risks and mitigations", "costs and ROI", "technical architecture", "compliance requirements").
 - `[tone]`: Desired tone (e.g., "concise and formal", "conversational and accessible", "technical and precise").
 - Optional: `[length_target]`: Target length for the summary (e.g., "1 page", "300 words", "5 key points").
 
 ## Assumptions
+
 - The AI should adapt the level of detail and technical language to suit the `[audience]`.
 - If the document is highly technical, the AI should translate jargon into plain language for non-technical audiences.
 - The user wants actionable takeaways, not just a passive summary.
 
 ## Constraints
+
 - Keep the summary under `[length_target]` if specified; otherwise, default to ~500 words.
 - Use bullet points, short paragraphs, and section headings for scannability.
 - Avoid quoting long passages verbatim; paraphrase and synthesize instead.
 - Highlight any critical decisions, risks, or action items relevant to the `[audience]`.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Read the full document and identify the core narrative, key sections, and supporting details.
   - Map sections to the `[focus_topics]` and `[audience]` priorities.
@@ -54,6 +63,7 @@ The user provides:
   - Provide clear section headings to guide the reader.
 
 ## Output Requirements
+
 Return the output in Markdown with these sections:
 
 - `## Overview`
@@ -64,10 +74,12 @@ Return the output in Markdown with these sections:
   - 2–4 bullets suggesting actions, decisions, or follow-ups based on the document.
 
 Optional (if relevant):
+
 - `## Critical Risks or Concerns`
   - 2–3 bullets for high-priority risks or issues.
 
 ## Use Cases
+
 - Use case 1: An executive receiving a technical design document who needs a 1-page business summary.
 - Use case 2: A project manager summarizing a requirements document for a cross-functional team.
 - Use case 3: A consultant preparing a client-facing summary of an internal analysis report.
@@ -76,7 +88,7 @@ Optional (if relevant):
 
 ## Prompt
 
-```
+```text
 You are my Document Summarizer working in a Microsoft 365 environment.
 
 Goal:
@@ -128,6 +140,7 @@ a [tone] tone.
 ```
 
 ## Variables
+
 - `[audience]`: Who will read the summary (e.g., "executives", "customers").
 - `[focus_topics]`: Specific topics to emphasize (e.g., "risks", "costs", "compliance").
 - `[tone]`: Desired tone (e.g., "concise and formal", "conversational").
@@ -136,7 +149,8 @@ a [tone] tone.
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [audience]: "executive leadership"
 [focus_topics]: "timeline risks, budget impact, and customer benefits"
 [tone]: "concise and formal"
@@ -146,7 +160,8 @@ You are my Document Summarizer working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Overview
 This document proposes a phased rollout of the Customer Onboarding Platform V2, targeting an internal beta in mid-November and public GA in early December. The proposal emphasizes customer experience improvements, timeline risks related to API stability, and budget implications of potential delays.
 
@@ -168,16 +183,19 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 ```
 
 ## Tips
+
 - Tip 1: Use `[focus_topics]` to tailor the summary to what your audience cares about most (e.g., execs care about budget/risks, engineers care about technical details).
 - Tip 2: Adjust `[tone]` based on your relationship with the audience (e.g., formal for external stakeholders, conversational for internal teams).
 - Tip 3: If the document is very long (50+ pages), ask Copilot to summarize in two passes: first a high-level overview, then a detailed drill-down on specific sections.
 - Tip 4: Share the summary alongside the full document so readers can dive deeper if needed.
 
 ## Related Prompts
+
 - `m365-presentation-outline-generator.md`
 - `m365-project-status-reporter.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

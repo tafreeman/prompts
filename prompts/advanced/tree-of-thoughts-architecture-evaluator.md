@@ -14,18 +14,23 @@ platform: "Claude Sonnet 4.5"
 # Tree-of-Thoughts: Architecture Evaluator
 
 ## Description
+
 A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning. Explores alternatives (e.g., monolith vs microservices, SQL vs NoSQL, sync vs async), compares them across key dimensions, and converges on a justified recommendation with documented trade-offs.
 
 ## Research Foundation
+
 Based on Tree-of-Thoughts (Yao et al., NeurIPS 2023) adapted for software architecture decisions. Incorporates principles from "Software Architecture in Practice" (Bass et al.) and architecture decision records (ADRs).
 
 ## Goal
+
 Enable teams to evaluate architecture options systematically, document trade-offs explicitly, and make evidence-based decisions that can be reviewed and revisited as requirements evolve.
 
 ## Context
+
 Use this prompt when facing architectural crossroads: choosing between patterns (monolith/microservices, layered/hexagonal), data stores (relational/document/graph), communication styles (REST/GraphQL/gRPC/events), deployment models (serverless/containers/VMs), or technology stacks. Best for decisions with long-term impact and multiple stakeholders.
 
 ## Inputs
+
 - Problem statement or architectural challenge
 - Current system context (if applicable)
 - Requirements (functional and non-functional)
@@ -33,17 +38,20 @@ Use this prompt when facing architectural crossroads: choosing between patterns 
 - Key evaluation criteria (scalability, cost, complexity, etc.)
 
 ## Assumptions
+
 - User has basic architecture knowledge
 - Requirements are relatively stable (or areas of uncertainty are identified)
 - Team can invest time in systematic evaluation (not emergency decisions)
 
 ## Constraints
+
 - Focus on 3–5 architecture options (avoid analysis paralysis)
 - Each option must be feasible within constraints
 - Evaluation must be data-driven (benchmarks, case studies, team experience)
 - Final recommendation must include risks and mitigations
 
 ## Process / Reasoning Style
+
 **Tree-of-Thoughts (multi-branch exploration with evaluation and pruning)**
 
 1. **Problem & Context:** Understand the architectural challenge
@@ -58,6 +66,7 @@ Use this prompt when facing architectural crossroads: choosing between patterns 
 All branches and reasoning must be visible in the output.
 
 ## Output Requirements
+
 Structured Markdown with the following sections:
 
 1. **Problem & Context**
@@ -72,6 +81,7 @@ Structured Markdown with the following sections:
 10. **Decision Record** (ADR-style summary)
 
 ## Use Cases
+
 - Choosing between monolithic and microservices architectures
 - Evaluating database technologies (SQL vs NoSQL vs polyglot)
 - Selecting communication patterns (REST, GraphQL, gRPC, event-driven)
@@ -81,7 +91,7 @@ Structured Markdown with the following sections:
 
 ## Prompt
 
-```
+```text
 You are an expert software architect using Tree-of-Thoughts (ToT) reasoning to evaluate architecture options systematically.
 
 ## Architectural Challenge
@@ -284,6 +294,7 @@ Based on the analysis, select the best option:
 ```
 
 ## Variables
+
 - `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
 - `[EXISTING_ARCHITECTURE_OR_GREENFIELD]`: Current system (if any) or "greenfield"
 - `[FUNCTIONAL_REQUIREMENT_X]`: Core features or capabilities needed
@@ -301,11 +312,13 @@ Based on the analysis, select the best option:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
 ```
 
 **Output:** (abbreviated)
+
 ```markdown
 ### Step 1: Problem & Context
 We need to scale an e-commerce platform from 10K to 1M users in 12 months. Current monolith (Rails + PostgreSQL) is experiencing:
@@ -380,6 +393,7 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 ```
 
 ## Tips
+
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach
 - **Use quantitative criteria:** Score options numerically to enable objective comparison
 - **Document trade-offs explicitly:** Every architecture has downsides; make them visible
@@ -389,12 +403,14 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Involve stakeholders:** Share this analysis with engineering, product, and leadership for alignment
 
 ## Related Prompts
+
 - [Tree-of-Thoughts: Database Migration](tree-of-thoughts-database-migration.md) - For data migration decisions
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance optimization
 - [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes
 - [System Design Interview Prep](../developers/system-design-interview-prep.md) - Related system design patterns
 
 ## Governance Notes
+
 - **Architecture Decision Record (ADR):** Save this analysis as an ADR for future reference
 - **Human Review Required:** All architecture decisions should be reviewed by senior engineers and stakeholders
 - **Cost Approval:** Ensure budget stakeholders approve cost estimates
@@ -402,4 +418,5 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Compliance Check:** Ensure architecture meets regulatory requirements (GDPR, HIPAA, etc.)
 
 ## Changelog
+
 - 2025-11-18: Initial version based on ToT repository evaluation recommendations

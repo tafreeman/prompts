@@ -14,35 +14,43 @@ platform: "Claude Sonnet 4.5"
 # Refactoring Plan Designer
 
 ## Description
+
 Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
 
 ## Goal
+
 Enable developers to safely refactor complex codebases by creating detailed, phased plans that minimize risk and maintain system stability throughout the process.
 
 ## Context
+
 Use this prompt when planning large refactorings (extracting services, changing data models, migrating frameworks), technical debt paydown initiatives, or any code changes that can't be done in a single pull request.
 
 ## Inputs
+
 - Code or system to refactor
 - Refactoring goal (what you want to achieve)
 - Current pain points or technical debt
 - Constraints (team size, timeline, uptime requirements)
 
 ## Assumptions
+
 - User can dedicate time to incremental refactoring
 - System has some test coverage (or tests will be added)
 - Changes need to be production-safe (no big bang rewrites)
 
 ## Constraints
+
 - Each phase must be independently deployable
 - Risk must be quantified and mitigated
 - Rollback plans required for each phase
 - Must preserve system functionality throughout
 
 ## Process / Reasoning Style
+
 Structured planning with risk analysis. Output is a phased plan with explicit pre-checks, steps, validations, and rollbacks.
 
 ## Output Requirements
+
 Markdown with the following sections:
 
 1. **Refactoring Overview** (goal, scope, success criteria)
@@ -54,6 +62,7 @@ Markdown with the following sections:
 7. **Timeline Estimate**
 
 ## Use Cases
+
 - Extracting a microservice from a monolith
 - Migrating from one framework/library to another
 - Changing database schemas or data models
@@ -62,7 +71,7 @@ Markdown with the following sections:
 
 ## Prompt
 
-```
+```text
 You are a senior software architect creating a phased refactoring plan.
 
 ## Refactoring Request
@@ -220,6 +229,7 @@ Before starting, ensure:
 ```
 
 ## Variables
+
 - `[SYSTEM_OR_CODE_DESCRIPTION]`: High-level description of what's being refactored
 - `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]`: Current state
 - `[PAIN_POINT_X]`: Problems with current code
@@ -234,7 +244,8 @@ Before starting, ensure:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 **System/Code:** E-commerce monolith (Rails app, 200K LOC)
 
 **Current State:**
@@ -261,6 +272,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 ```
 
 **Output (abbreviated):**
+
 ```markdown
 ### 1. Refactoring Overview
 
@@ -351,6 +363,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 ```
 
 ## Tips
+
 - **Start small:** First phase should be low-risk preparation (tests, boundaries)
 - **Use feature flags:** Enable gradual rollout and instant rollback
 - **Monitor everything:** Track latency, error rates, data consistency
@@ -359,15 +372,18 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - **Iterate:** Adjust phases based on learnings from early phases
 
 ## Related Prompts
+
 - [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
 - [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
 
 ## Governance Notes
+
 - **Architecture Review:** Large refactorings should be reviewed by senior engineers
 - **Stakeholder Approval:** Get buy-in from product/leadership on timeline and resource allocation
 - **Documentation:** Document the plan and share with team
 - **Post-Mortem:** After completion, document what worked and what didn't for future refactorings
 
 ## Changelog
+
 - 2025-11-18: Initial version based on ToT repository evaluation recommendations

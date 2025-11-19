@@ -40,7 +40,7 @@ This guide shares proven techniques for creating and using effective prompts wit
 
 **R**ole - **A**ction - **C**ontext - **E**xpectation
 
-```
+```text
 [ROLE] You are a senior data analyst
 [ACTION] analyzing quarterly sales performance
 [CONTEXT] for a SaaS company with declining user engagement
@@ -51,7 +51,7 @@ This guide shares proven techniques for creating and using effective prompts wit
 
 Encourage step-by-step reasoning:
 
-```
+```text
 Analyze this business problem step by step:
 1. First, identify the key issues
 2. Then, consider possible root causes
@@ -63,7 +63,7 @@ Analyze this business problem step by step:
 
 Provide examples of what you want:
 
-```
+```text
 Create product descriptions in this style:
 
 Example 1: "The CloudDesk Pro transforms your workspace with its whisper-quiet motor and memory presets. Stand up, sit down, stay productive—all with the touch of a button."
@@ -79,7 +79,7 @@ Now create one for: [your product]
 
 Be explicit about what to include or avoid:
 
-```
+```text
 Write a product announcement email:
 - Maximum 150 words
 - Professional but warm tone
@@ -92,7 +92,7 @@ Write a product announcement email:
 
 Define who the AI should be:
 
-```
+```text
 You are an experienced UX designer with 10 years at consumer tech companies. You prioritize user research, accessibility, and simple, intuitive interfaces. You're skeptical of adding features without clear user needs.
 
 Review this feature proposal...
@@ -102,7 +102,7 @@ Review this feature proposal...
 
 Start broad, then narrow:
 
-```
+```text
 First request: "Suggest ideas for improving our customer onboarding"
 Follow-up: "Focus on the top 3 ideas and provide implementation details"
 Final: "For idea #2, create a week-by-week implementation plan"
@@ -112,7 +112,7 @@ Final: "For idea #2, create a week-by-week implementation plan"
 
 Ask for multiple options:
 
-```
+```text
 Provide 3 different approaches to [problem]:
 1. Conservative approach (low risk, moderate impact)
 2. Balanced approach (medium risk, high impact)
@@ -126,12 +126,14 @@ For each, explain pros, cons, and resource requirements.
 ### ❌ Overly Complex Prompts
 
 **Problem:** Trying to do too much in one prompt
-```
+
+```text
 Write a blog post, create social media posts, design an email campaign, and develop a content calendar for Q3...
 ```
 
 **Solution:** Break into separate, focused prompts
-```
+
+```text
 Step 1: "Write a blog post about..."
 Step 2: "Based on this blog post, create 5 social media posts..."
 Step 3: "Now create an email campaign..."
@@ -140,36 +142,42 @@ Step 3: "Now create an email campaign..."
 ### ❌ Assuming Knowledge
 
 **Problem:** Not providing necessary information
-```
+
+```text
 "Optimize this SQL query" [without showing the query or explaining the problem]
 ```
 
 **Solution:** Include all relevant details
-```
+
+```text
 "Optimize this SQL query that's timing out on our production database (PostgreSQL 14, 5M rows). Current query: [query]. It's used in the dashboard that loads user analytics."
 ```
 
 ### ❌ Ignoring Edge Cases
 
 **Problem:** Not addressing exceptions
-```
+
+```text
 "Create a function to divide two numbers"
 ```
 
 **Solution:** Specify handling of edge cases
-```
+
+```text
 "Create a function to divide two numbers, with error handling for division by zero, type validation for inputs, and rounding to 2 decimal places"
 ```
 
 ### ❌ Vague Quality Criteria
 
 **Problem:** Not defining success
-```
+
+```text
 "Make this better"
 ```
 
 **Solution:** Specify what "better" means
-```
+
+```text
 "Improve this paragraph by: 1) Reducing word count by 30%, 2) Using more active voice, 3) Adding a concrete example, 4) Making the main point clearer in the first sentence"
 ```
 
@@ -177,7 +185,7 @@ Step 3: "Now create an email campaign..."
 
 ### For Code Generation
 
-```
+```text
 ✅ Good prompt structure:
 - Language and version
 - Purpose and context
@@ -189,7 +197,8 @@ Step 3: "Now create an email campaign..."
 ```
 
 Example:
-```
+
+```text
 Write a Python 3.10 function that validates email addresses:
 - Input: string
 - Output: boolean
@@ -200,7 +209,7 @@ Write a Python 3.10 function that validates email addresses:
 
 ### For Content Creation
 
-```
+```text
 ✅ Good prompt structure:
 - Target audience
 - Tone and style
@@ -213,7 +222,7 @@ Write a Python 3.10 function that validates email addresses:
 
 ### For Data Analysis
 
-```
+```text
 ✅ Good prompt structure:
 - Data description
 - Analysis goals
@@ -226,7 +235,7 @@ Write a Python 3.10 function that validates email addresses:
 
 ### For Business Strategy
 
-```
+```text
 ✅ Good prompt structure:
 - Current situation
 - Goals and constraints
@@ -243,7 +252,7 @@ Write a Python 3.10 function that validates email addresses:
 
 Keep track of what works:
 
-```
+```text
 v1.0: Basic request
 v1.1: Added context about audience
 v1.2: Specified output format → Best results!
@@ -274,7 +283,7 @@ Build a library of prompts that work well for your use cases.
 
 ### Set Appropriate Boundaries
 
-```
+```text
 Good practice:
 "Generate ideas for inclusive marketing campaigns that celebrate diversity"
 
@@ -287,6 +296,7 @@ Requests for content that stereotypes or excludes groups
 ### Quality Criteria
 
 Rate prompts on:
+
 1. **Accuracy**: Does it produce correct information?
 2. **Relevance**: Does it address your actual need?
 3. **Consistency**: Does it produce similar quality repeatedly?
@@ -296,7 +306,8 @@ Rate prompts on:
 ### Keep a Prompt Journal
 
 Document what works:
-```
+
+```text
 Date: 2025-10-29
 Task: Product description
 Prompt: [your prompt]

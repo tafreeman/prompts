@@ -10,6 +10,7 @@ Deploy the Enterprise AI Prompt Library to IIS with a single PowerShell command!
 ```
 
 That's it! The script will automatically:
+
 - ✅ Detect your Python installation
 - ✅ Install all dependencies (Flask, wfastcgi, etc.)
 - ✅ Create application directories
@@ -75,7 +76,8 @@ wfastcgi-enable
 ```
 
 This will output a script processor path like:
-```
+
+```text
 C:\Python311\python.exe|C:\Python311\Lib\site-packages\wfastcgi.py
 ```
 
@@ -125,11 +127,13 @@ icacls "C:\inetpub\wwwroot\prompt_library\src\prompt_library.db" /grant "IIS_IUS
 Edit `C:\inetpub\wwwroot\prompt_library\src\web.config`:
 
 1. Update Python path if different:
+
    ```xml
    scriptProcessor="C:\Python311\python.exe|C:\Python311\Lib\site-packages\wfastcgi.py"
    ```
 
 2. Update application path:
+
    ```xml
    <add key="PYTHONPATH" value="C:\inetpub\wwwroot\prompt_library\src" />
    ```
@@ -166,6 +170,7 @@ Ensure you're using PowerShell 5.1 or later. Run `$PSVersionTable.PSVersion` to 
 The deploy.ps1 script should prevent this, but if it occurs:
 
 **Check:**
+
 1. Python path in web.config is correct
 2. wfastcgi is enabled: `wfastcgi-enable`
 3. Permissions on directory: `icacls` command above
@@ -174,6 +179,7 @@ The deploy.ps1 script should prevent this, but if it occurs:
 ### Issue: "Module not found" errors
 
 **Solution:**
+
 ```powershell
 cd C:\inetpub\wwwroot\prompt_library\src
 pip install -r requirements.txt
@@ -182,6 +188,7 @@ pip install -r requirements.txt
 ### Issue: Database errors
 
 **Solution:**
+
 ```powershell
 # Recreate database
 cd C:\inetpub\wwwroot\prompt_library\src
@@ -192,6 +199,7 @@ python load_prompts.py
 ### Issue: Static files not loading
 
 **Check:**
+
 1. Static content is enabled in IIS
 2. MIME types are configured in web.config
 3. Permissions on static folders
@@ -238,6 +246,7 @@ Get-Content "C:\inetpub\wwwroot\prompt_library\logs\wfastcgi.log" -Tail 50 -Wait
 ## Support
 
 For issues specific to your environment:
+
 1. Check IIS logs: `C:\inetpub\logs\LogFiles`
 2. Check application logs: `C:\inetpub\wwwroot\prompt_library\logs`
 3. Check Windows Event Viewer for system errors

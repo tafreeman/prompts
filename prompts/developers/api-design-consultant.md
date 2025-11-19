@@ -24,6 +24,7 @@ platform: "Claude Sonnet 4.5"
 You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, and the **Richardson Maturity Model** (Levels 0-3). Your expertise includes API versioning strategies, backward compatibility, developer experience (DX), and API security patterns (OAuth 2.0, API keys, rate limiting).
 
 **Your Approach**:
+
 - API-first: Design API contracts before implementation
 - REST maturity: Follow Richardson Model for true RESTful design (HATEOAS when appropriate)
 - Developer-centric: Optimize for client ease-of-use (clear naming, predictable patterns, comprehensive docs)
@@ -33,6 +34,7 @@ You are a **Staff-level API Architect** with 10+ years of experience designing R
 ## Research Foundation
 
 This prompt is based on:
+
 - **REST Architectural Style** (Fielding, 2000) - Foundational dissertation on REST principles
 - **Richardson Maturity Model** (Martin Fowler, 2010) - REST maturity levels (0-3)
 - **OpenAPI Specification 3.1** (2021) - API description format standard
@@ -41,13 +43,14 @@ This prompt is based on:
 - **API Design Patterns** (Daigneau, 2011) - Common API design patterns
 
 ## Use Cases
+
 - API Design for Developer persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows with long-term API contracts
 
 ## Prompt
 
-```
+```text
 Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richardson Maturity Model:
 
 **API Context**:
@@ -138,14 +141,16 @@ Standardized error format:
   "balance": 50,
   "transaction_amount": 100
 }
-```
+```text
 
 ### 8. Client SDK Generation Plan
+
 - Use OpenAPI generators for SDKs (Python, JavaScript, Java, Go)
 - Provide usage examples for each SDK
 - Document installation and authentication setup
 
 ### 9. API Documentation Strategy
+
 - Interactive docs (Swagger UI, Redoc, Stoplight)
 - Getting started guide
 - Authentication tutorials
@@ -153,6 +158,7 @@ Standardized error format:
 - Postman/Insomnia collection
 
 **Output Format**: Provide as structured document with YAML code blocks for OpenAPI spec.
+
 ```
 
 ## Variables
@@ -178,10 +184,13 @@ Standardized error format:
 ### Example 1: E-Commerce Order Management API
 
 **Input:**
-```
+
+```text
+
 Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richardson Maturity Model:
 
 **API Context**:
+
 - Service Name: Order Management API
 - Domain: E-commerce
 - Target Clients: Mobile apps (iOS/Android), Web frontend, Third-party fulfillment systems
@@ -189,11 +198,13 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 - Technology Stack: Python + FastAPI + PostgreSQL
 
 **Functional Requirements**:
+
 - Core Features: Create orders, retrieve order history, update order status, cancel orders, search/filter orders, webhook notifications for order events
 - Data Models: Order (id, user_id, items, total, status, timestamps), OrderItem (product_id, quantity, price), Payment (method, status, transaction_id)
 - Business Rules: Orders can only be cancelled within 1 hour of placement, refunds require manual approval for amounts > $500, orders transition through states (pending → confirmed → shipped → delivered)
 
 **Non-Functional Requirements**:
+
 - Authentication: OAuth 2.0 (authorization code flow for web/mobile, client credentials for B2B partners)
 - Authorization: RBAC (customer, partner, admin roles) + resource ownership (users can only access their own orders)
 - Rate Limiting: Customers: 100 req/min, Partners: 1000 req/min, Admins: unlimited
@@ -201,6 +212,7 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 - Pagination: Cursor-based for order history (handles large datasets efficiently)
 - API Versioning: URL versioning (/v1/, /v2/) with 12-month support window for N-1 version
 - SLA Targets: 99.9% uptime, P95 latency < 300ms, P99 < 800ms
+
 ```
 
 **Output:**
@@ -212,11 +224,13 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 **Decision**: RESTful API (Richardson Maturity Model Level 2)
 
 **Rationale**:
+
 - **REST over GraphQL**: Order management has predictable access patterns (CRUD + list/search), doesn't require flexible querying like GraphQL. REST is simpler for mobile clients and third-party integrations.
 - **REST over gRPC**: External partners need web-friendly protocol. gRPC is overkill for this use case (no high-frequency streaming needs).
 - **Richardson Level 2** (HTTP verbs + status codes): Provides good RESTful design without complexity of Level 3 (HATEOAS). Clients don't need dynamic discovery of resources.
 
 **Resource Modeling**:
+
 - Primary resource: `/orders` (collection), `/orders/{orderId}` (item)
 - Sub-resources: `/orders/{orderId}/items`, `/orders/{orderId}/payments`
 - Actions as sub-resources: `/orders/{orderId}/cancel` (POST)
@@ -234,6 +248,7 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 ### 2. Resource Model & Endpoint Design
 
 **Resources**:
+
 1. **Orders** (primary resource)
 2. **OrderItems** (sub-resource, embedded in order by default)
 3. **Webhooks** (for event subscriptions)
@@ -253,6 +268,7 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 | DELETE | `/v1/webhooks/{webhookId}` | Unregister webhook | OAuth 2.0 | 10/min |
 
 **Query Parameters** (for `/v1/orders`):
+
 - `status`: Filter by order status (pending, confirmed, shipped, delivered, cancelled)
 - `user_id`: Filter by user (admin only)
 - `created_after`, `created_before`: Date range filtering
@@ -957,6 +973,7 @@ components:
 | **Elevation of Privilege** (Unauthorized access) | HIGH - Attackers gain admin rights | - Principle of least privilege (scoped OAuth tokens)<br>- Separate admin endpoints with stricter auth<br>- Multi-factor authentication for admin users<br>- Regular permission audits |
 
 **Additional Security Measures**:
+
 - **API Key Rotation**: Partners must rotate API keys every 90 days
 - **Webhook Signature Verification**: HMAC-SHA256 signatures on webhook payloads
 - **CORS Policy**: Whitelist allowed origins for browser-based clients
@@ -967,6 +984,7 @@ components:
 ### 5. Rate Limiting & Throttling Strategy
 
 **Rate Limit Tiers**:
+
 | User Type | Requests/Minute | Requests/Hour | Requests/Day |
 |-----------|----------------|---------------|--------------|
 | **Free Customer** | 60 | 1,000 | 10,000 |
@@ -975,7 +993,8 @@ components:
 | **Admin** | Unlimited | Unlimited | Unlimited |
 
 **HTTP Headers** (every response):
-```
+
+```text
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1700000000  (Unix timestamp)
@@ -983,6 +1002,7 @@ X-RateLimit-Tier: premium
 ```
 
 **429 Too Many Requests Response**:
+
 ```json
 {
   "type": "https://api.example.com/docs/errors/rate-limit-exceeded",
@@ -999,15 +1019,18 @@ X-RateLimit-Tier: premium
 **Retry-After Header**: `Retry-After: 60` (seconds)
 
 **Burst Handling**:
+
 - Allow burst of up to 20 requests over limit in 1-second window
 - Use token bucket algorithm (not fixed window) to avoid reset stampede
 
 **Endpoint-Specific Overrides**:
+
 - `POST /orders`: 20 req/min (more expensive operation)
 - `POST /orders/{id}/cancel`: 10 req/min (prevent abuse)
 - `GET /orders`: 100 req/min (read-heavy, less expensive)
 
 **Partner Rate Limit Exceeded Notifications**:
+
 - Send email alert at 80% of quota
 - Provide usage dashboard at `/v1/usage` endpoint
 
@@ -1016,6 +1039,7 @@ X-RateLimit-Tier: premium
 ### 6. Versioning & Deprecation Policy
 
 **Version Format**: Semantic versioning (MAJOR.MINOR.PATCH)
+
 - **MAJOR** (v1 → v2): Breaking changes (e.g., remove endpoint, change response structure)
 - **MINOR** (v1.1 → v1.2): Backward-compatible features (e.g., new optional field)
 - **PATCH** (v1.1.0 → v1.1.1): Bug fixes only
@@ -1023,11 +1047,12 @@ X-RateLimit-Tier: premium
 **URL Versioning**: `/v1/orders`, `/v2/orders` (explicit, easy to route)
 
 **Support Timeline**:
+
 - **Current version** (v2): Full support, all new features
 - **Previous version** (v1): Maintained for 12 months after v2 launch
   - Bug fixes only, no new features
   - Security patches continue
-- **Deprecated version** (v1 after 12 months): 
+- **Deprecated version** (v1 after 12 months):
   - 6-month deprecation notice via email, API headers, documentation
   - `Sunset` HTTP header: `Sunset: Sat, 31 Dec 2025 23:59:59 GMT`
   - Warning in response: `X-API-Warn: "This API version is deprecated. Migrate to /v2/ by Dec 31, 2025"`
@@ -1036,6 +1061,7 @@ X-RateLimit-Tier: premium
 **Breaking vs Non-Breaking Changes**:
 
 **Breaking Changes** (require new major version):
+
 - Remove endpoint or field
 - Change field type (string → integer)
 - Change HTTP status code for existing behavior
@@ -1044,6 +1070,7 @@ X-RateLimit-Tier: premium
 - Rename field
 
 **Non-Breaking Changes** (can be done in minor version):
+
 - Add new endpoint
 - Add new optional field
 - Add new HTTP status code (e.g., add 429)
@@ -1052,6 +1079,7 @@ X-RateLimit-Tier: premium
 - Add new query parameter
 
 **Migration Guide** (v1 → v2 example):
+
 - Side-by-side comparison table
 - Code examples (before/after)
 - Automated migration tool (SDK method to convert v1 requests → v2)
@@ -1062,9 +1090,11 @@ X-RateLimit-Tier: premium
 ### 7. Client SDK Generation Plan
 
 **Supported Languages**:
+
 - Python, JavaScript/TypeScript, Java, Go, Ruby, PHP, C#
 
 **SDK Generation**:
+
 ```bash
 # Using OpenAPI Generator
 openapi-generator generate \
@@ -1082,6 +1112,7 @@ openapi-generator generate \
 ```
 
 **Python SDK Example**:
+
 ```python
 from order_api_client import OrderAPI, Configuration
 
@@ -1117,6 +1148,7 @@ print(f"Created order: {new_order.id}")
 ```
 
 **SDK Features**:
+
 - Automatic retry with exponential backoff (3 retries, 1s/2s/4s delays)
 - Rate limit handling (parse `Retry-After`, sleep automatically)
 - Pagination helpers (`list_all_pages()` generator)
@@ -1128,11 +1160,13 @@ print(f"Created order: {new_order.id}")
 ### 8. API Documentation Strategy
 
 **Interactive Documentation**:
-- **Swagger UI**: https://api.example.com/docs (auto-generated from OpenAPI spec)
-- **Redoc**: https://api.example.com/redoc (alternative, cleaner UI)
+
+- **Swagger UI**: <https://api.example.com/docs> (auto-generated from OpenAPI spec)
+- **Redoc**: <https://api.example.com/redoc> (alternative, cleaner UI)
 - **Stoplight Elements**: Embedded in developer portal
 
-**Developer Portal** (https://developer.example.com):
+**Developer Portal** (<https://developer.example.com>):
+
 1. **Getting Started Guide**
    - Create account → get API keys → make first request (5-min quickstart)
    - Authentication tutorial (OAuth 2.0 flow walkthrough)
@@ -1159,6 +1193,7 @@ print(f"Created order: {new_order.id}")
    - Migration guides
 
 **Postman Collection**:
+
 - Pre-configured requests for all endpoints
 - Environment variables for API keys
 - Examples with realistic data
@@ -1203,6 +1238,7 @@ print(f"Created order: {new_order.id}")
 ## Changelog
 
 ### Version 2.0 (2025-11-17)
+
 - **MAJOR UPLIFT**: Elevated from Tier 3 (3/10) to Tier 1 (9/10)
 - Added comprehensive OpenAPI 3.1 specification with complete Order Management API example
 - Added Richardson Maturity Model guidance and ADR template
@@ -1218,7 +1254,6 @@ print(f"Created order: {new_order.id}")
 - Added realistic e-commerce API example with 800+ lines of validated OpenAPI YAML
 
 ### Version 1.0 (2025-11-16)
+
 - Initial version migrated from legacy prompt library
 - Basic API design structure
-
-
