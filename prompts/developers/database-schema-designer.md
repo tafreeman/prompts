@@ -1,4 +1,5 @@
 ---
+
 title: "Database Schema Designer"
 category: "developers"
 tags: ["developer", "database-design", "erd", "ddl", "postgresql", "performance", "migration"]
@@ -13,6 +14,7 @@ regulatory_scope: ["GDPR", "SOC2"]
 approval_required: true
 approval_roles: ["Staff-Engineer", "Data-Architect"]
 retention_period: "7-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Database Schema Designer

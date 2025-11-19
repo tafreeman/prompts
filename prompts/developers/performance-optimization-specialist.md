@@ -1,4 +1,5 @@
 ---
+
 title: "Performance Optimization Specialist"
 category: "developers"
 tags: ["developer", "performance", "profiling", "observability", "scalability", "apm"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2"]
 approval_required: true
 approval_roles: ["SRE-Lead", "Platform-Architect"]
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Performance Optimization Specialist

@@ -1,4 +1,5 @@
 ---
+
 title: "DevOps Pipeline Architect"
 category: "developers"
 tags: ["developer", "devops", "cicd", "github-actions", "gitops", "dora-metrics", "security"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2", "ISO27001"]
 approval_required: true
 approval_roles: ["DevOps-Lead", "Security-Lead"]
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # DevOps Pipeline Architect

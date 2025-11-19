@@ -1,4 +1,5 @@
 ---
+
 title: "Legacy System Modernization"
 category: "developers"
 tags: ["developer", "modernization", "migration", "integration", "compliance", "cloud"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOX", "GDPR"]
 approval_required: true
 approval_roles: ["Enterprise-Architect", "Security-Officer"]
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Legacy System Modernization

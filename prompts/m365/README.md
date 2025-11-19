@@ -15,9 +15,11 @@ All prompts in this package are:
 ### Daily & Weekly Planning
 - **[m365-daily-standup-assistant.md](m365-daily-standup-assistant.md)**: Generate daily standup talking points (Yesterday / Today / Blockers) from recent M365 activity.
 - **[m365-weekly-review-coach.md](m365-weekly-review-coach.md)**: Reflect on the past week and plan next week's priorities using calendar, emails, and documents.
+- **[m365-manager-sync-planner.md](m365-manager-sync-planner.md)**: Prepare a structured agenda for 1:1s with your manager, covering wins, blockers, and career topics.
 
 ### Communication & Email
 - **[m365-email-triage-helper.md](m365-email-triage-helper.md)**: Triage inbox by urgency and draft replies for high-priority messages.
+- **[m365-handover-document-creator.md](m365-handover-document-creator.md)**: Create a comprehensive handover guide for role transitions or project transfers.
 
 ### Meetings
 - **[m365-meeting-prep-brief.md](m365-meeting-prep-brief.md)**: Prepare for meetings with context, talking points, and questions based on invite and related M365 data.
@@ -30,9 +32,19 @@ All prompts in this package are:
 ### Content & Document Work
 - **[m365-document-summarizer.md](m365-document-summarizer.md)**: Summarize long documents for specific audiences with key points and next steps.
 - **[m365-presentation-outline-generator.md](m365-presentation-outline-generator.md)**: Create PowerPoint outlines with slide titles, bullets, and visual suggestions.
+- **[m365-slide-content-refiner.md](m365-slide-content-refiner.md)**: Transform dense text into punchy, slide-ready content with speaker notes.
 
 ### Data & Insights
 - **[m365-data-insights-assistant.md](m365-data-insights-assistant.md)**: Analyze Excel data, identify trends and anomalies, and recommend visualizations in plain language.
+- **[m365-excel-formula-expert.md](m365-excel-formula-expert.md)**: Generate complex Excel formulas from plain English descriptions and explain how they work.
+- **[m365-customer-feedback-analyzer.md](m365-customer-feedback-analyzer.md)**: Analyze unstructured customer feedback to identify sentiment, themes, and actionable insights.
+
+### Creative & Visual Design
+- **[m365-designer-image-prompt-generator.md](m365-designer-image-prompt-generator.md)**: Create detailed, artistic prompts for Microsoft Designer to generate professional imagery.
+- **[m365-designer-infographic-brief.md](m365-designer-infographic-brief.md)**: Transform data points into a structured design brief for creating infographics.
+- **[m365-designer-social-media-kit.md](m365-designer-social-media-kit.md)**: Generate a cohesive set of image prompts for Instagram, LinkedIn, and Twitter assets.
+- **[m365-sway-document-to-story.md](m365-sway-document-to-story.md)**: Convert standard documents into engaging Sway storylines with visual suggestions.
+- **[m365-sway-visual-newsletter.md](m365-sway-visual-newsletter.md)**: Compile team updates into a modern, mobile-friendly Sway newsletter structure.
 
 ## How to Use These Prompts
 

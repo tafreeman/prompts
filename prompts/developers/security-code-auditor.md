@@ -1,4 +1,5 @@
 ---
+
 title: "Security Code Auditor"
 category: "developers"
 tags: ["developer", "security", "enterprise", "owasp", "cwe", "sast", "vulnerability-assessment"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2", "ISO27001", "PCI-DSS", "HIPAA"]
 approval_required: true
 approval_roles: ["CISO", "Security-Lead"]
 retention_period: "7-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Security Code Auditor

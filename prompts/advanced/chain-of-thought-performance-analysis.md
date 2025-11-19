@@ -1,4 +1,5 @@
 ---
+
 title: "Chain-of-Thought: Performance Analysis & Profiling"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "performance", "profiling", "optimization", "developers"]
@@ -6,6 +7,7 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Chain-of-Thought: Performance Analysis & Profiling

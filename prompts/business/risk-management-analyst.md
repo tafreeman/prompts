@@ -1,4 +1,5 @@
 ---
+
 title: "Risk Management Analyst"
 category: "business"
 tags: ["project-manager", "risk-management", "enterprise"]
@@ -12,6 +13,7 @@ risk_level: "medium"
 regulatory_scope: ["compliance"]
 approval_required: false
 retention_period: "3-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Risk Management Analyst

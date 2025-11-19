@@ -1,4 +1,5 @@
 ---
+
 title: "Refactoring Plan Designer"
 category: "developers"
 tags: ["refactoring", "technical-debt", "developers", "planning", "risk-management"]
@@ -7,6 +8,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
 governance_tags: ["architectural-change", "requires-review"]
+platform: "Claude Sonnet 4.5"
 ---
 
 # Refactoring Plan Designer

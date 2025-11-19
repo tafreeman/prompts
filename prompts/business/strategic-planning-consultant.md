@@ -1,4 +1,5 @@
 ---
+
 title: "Strategic Planning Consultant"
 category: "business"
 tags: ["consultant", "strategy", "enterprise"]
@@ -12,6 +13,7 @@ risk_level: "high"
 regulatory_scope: ["internal-governance"]
 approval_required: true
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Strategic Planning Consultant

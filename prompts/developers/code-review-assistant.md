@@ -1,4 +1,5 @@
 ---
+
 title: "Code Review Assistant"
 category: "developers"
 tags: ["code-review", "quality", "best-practices", "refactoring", "beginner-friendly"]
@@ -12,6 +13,7 @@ risk_level: "low"
 regulatory_scope: ["internal-standards"]
 approval_required: false
 retention_period: "1-year"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Code Review Assistant

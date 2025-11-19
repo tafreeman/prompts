@@ -1,4 +1,5 @@
 ---
+
 title: "API Design Consultant"
 category: "developers"
 tags: ["developer", "api-design", "enterprise", "rest", "openapi", "graphql", "api-versioning", "api-security"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2", "GDPR"]
 approval_required: true
 approval_roles: ["Staff-Engineer", "API-Architect"]
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # API Design Consultant

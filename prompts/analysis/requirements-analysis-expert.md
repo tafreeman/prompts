@@ -1,4 +1,5 @@
 ---
+
 title: "Requirements Analysis Expert"
 category: "analysis"
 tags: ["business-analyst", "requirements", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Requirements Analysis Expert

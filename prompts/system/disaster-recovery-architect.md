@@ -1,4 +1,5 @@
 ---
+
 title: "Disaster Recovery Architect"
 category: "system"
 tags: ["architect", "disaster-recovery", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Disaster Recovery Architect

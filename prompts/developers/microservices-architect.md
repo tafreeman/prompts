@@ -1,4 +1,5 @@
 ---
+
 title: "Microservices Architect"
 category: "developers"
 tags: ["developer", "architecture", "enterprise", "ddd", "event-storming", "microservices", "saga-pattern", "service-mesh"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2"]
 approval_required: true
 approval_roles: ["Principal-Engineer", "CTO"]
 retention_period: "10-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Microservices Architect

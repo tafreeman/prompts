@@ -1,4 +1,5 @@
 ---
+
 title: "Library Network Graph Generator"
 category: "analysis"
 tags: ["visualization", "network-graph", "relationships", "workflow"]
@@ -6,6 +7,7 @@ author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 <!-- markdownlint-disable MD025 -->
