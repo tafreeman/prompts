@@ -3,9 +3,15 @@ title: "Strategic Planning Consultant"
 category: "business"
 tags: ["consultant", "strategy", "enterprise"]
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+version: "1.1"
+date: "2025-11-18"
 difficulty: "advanced"
+governance_tags: ["strategic-decision", "requires-executive-review"]
+data_classification: "confidential"
+risk_level: "high"
+regulatory_scope: ["internal-governance"]
+approval_required: true
+retention_period: "5-years"
 ---
 
 # Strategic Planning Consultant

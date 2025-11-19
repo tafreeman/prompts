@@ -17,7 +17,12 @@ def get_db_connection():
     return conn
 
 def init_db():
-    """Initialize database with required tables"""
+    """Initialize database with required tables.
+
+    This uses the same schema as `load_prompts.py` to avoid drift between
+    the web app and the ingestion script. If you change the schema here,
+    make the same change in `load_prompts.load_expanded_prompts`.
+    """
     conn = get_db_connection()
     conn.execute('''CREATE TABLE IF NOT EXISTS prompts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,7 +35,14 @@ def init_db():
         description TEXT,
         tags TEXT,
         created_date TEXT,
-        usage_count INTEGER DEFAULT 0
+        usage_count INTEGER DEFAULT 0,
+        difficulty TEXT,
+        governance_tags TEXT,
+        data_classification TEXT,
+        risk_level TEXT,
+        regulatory_scope TEXT,
+        approval_required TEXT,
+        retention_period TEXT
     )''')
     conn.commit()
     conn.close()

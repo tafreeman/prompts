@@ -10,8 +10,8 @@ def load_prompts_from_repo():
     # Define the prompts directory
     prompts_dir = os.path.join(os.path.dirname(__file__), '..', 'prompts')
     
-    # Categories to scan
-    categories = ['developers', 'business', 'creative', 'analysis', 'system', 'advanced-techniques', 'governance-compliance']
+    # Categories to scan (must match actual folder names on disk)
+    categories = ['developers', 'business', 'creative', 'analysis', 'system', 'advanced', 'governance']
     
     for category in categories:
         category_path = os.path.join(prompts_dir, category)
@@ -86,12 +86,16 @@ def parse_markdown_prompt(content, category):
     return None
 
 def load_expanded_prompts():
-    """Load comprehensive enterprise prompts into the database"""
-    
+    """Load comprehensive enterprise prompts into the database.
+
+    The table schema here is intentionally kept in sync with `app.init_db()`
+    so that whether the database is first created by the web app or by this
+    loader script, the `prompts` table has the same columns.
+    """
     conn = sqlite3.connect('prompt_library.db')
     c = conn.cursor()
     
-    # Create tables if they don't exist
+    # Create tables if they don't exist (schema must match app.init_db)
     c.execute('''CREATE TABLE IF NOT EXISTS prompts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL,

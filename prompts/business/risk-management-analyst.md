@@ -3,9 +3,15 @@ title: "Risk Management Analyst"
 category: "business"
 tags: ["project-manager", "risk-management", "enterprise"]
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+version: "1.1"
+date: "2025-11-18"
 difficulty: "intermediate"
+governance_tags: ["risk-assessment", "audit-trail"]
+data_classification: "internal"
+risk_level: "medium"
+regulatory_scope: ["compliance"]
+approval_required: false
+retention_period: "3-years"
 ---
 
 # Risk Management Analyst

@@ -3,9 +3,15 @@ title: "Code Review Assistant"
 category: "developers"
 tags: ["code-review", "quality", "best-practices", "refactoring", "beginner-friendly"]
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
+version: "1.1"
+date: "2025-11-18"
 difficulty: "beginner"
+governance_tags: ["quality-assurance", "human-review-recommended"]
+data_classification: "internal"
+risk_level: "low"
+regulatory_scope: ["internal-standards"]
+approval_required: false
+retention_period: "1-year"
 ---
 
 # Code Review Assistant
@@ -150,6 +156,7 @@ This refactored version:
 ## Related Prompts
 - [Bug Finder and Fixer](bug-finder.md)
 - [Code Documentation Generator](code-documentation-generator.md)
+- [Code Review Expert: Structured Output](code-review-expert-structured.md)
 - [Refactoring Assistant](refactoring-assistant.md)
 
 ## Changelog

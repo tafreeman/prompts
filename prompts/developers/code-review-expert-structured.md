@@ -12,7 +12,7 @@ governance_tags: ["code-quality", "automation-ready"]
 # Code Review Expert: Structured Output
 
 ## Description
-An enhanced code review prompt that outputs structured, machine-readable reports conforming to the schema defined in `docs/domain-schemas.md`. Ideal for CI/CD integration, automated reporting, and dashboard analytics.
+An enhanced code review prompt that outputs structured, machine-readable reports conforming to the schema defined in `guides/domain-schemas.md`. Ideal for CI/CD integration, automated reporting, and dashboard analytics.
 
 ## Goal
 Provide comprehensive code reviews with structured outputs (JSON or Markdown) that can be consumed by automation pipelines, stored in databases, or displayed in dashboards.
@@ -32,7 +32,7 @@ Use this prompt when you need code reviews that integrate with tools (GitHub Act
 - Basic context (file paths, line numbers) is available
 
 ## Constraints
-- Output must conform to the Code Review Report Schema (see `docs/domain-schemas.md`)
+- Output must conform to the Code Review Report Schema (see `guides/domain-schemas.md`)
 - Issues must be categorized by severity and category
 - Suggested fixes must be actionable
 
@@ -40,7 +40,7 @@ Use this prompt when you need code reviews that integrate with tools (GitHub Act
 Direct analysis with structured output. No extended reasoning visible unless requested.
 
 ## Output Requirements
-JSON or Markdown conforming to the Code Review Report Schema in `docs/domain-schemas.md`:
+JSON or Markdown conforming to the Code Review Report Schema in `guides/domain-schemas.md`:
 
 **JSON Fields:**
 - `review_id`, `repository`, `branch`, `commit_sha`
