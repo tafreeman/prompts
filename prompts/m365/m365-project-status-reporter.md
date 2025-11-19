@@ -12,39 +12,48 @@ platform: "Microsoft 365 Copilot"
 # M365 Project Status Reporter
 
 ## Description
+
 This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a summary suitable for stakeholders, highlighting progress, risks, and upcoming milestones.
 
 ## Goal
+
 Enable a user to produce a clear, accurate project status update without manually compiling information from multiple sources, saving time and ensuring nothing important is missed.
 
 ## Context
+
 Assume the user manages or contributes to a project within Microsoft 365, using Outlook, Teams, OneDrive/SharePoint, and a calendar. Status updates typically cover progress since the last update, current risks or issues, upcoming milestones, and requests for help or decisions.
 
 The AI can reference:
+
 - Recent emails and Teams chats related to the project
 - Documents and files updated in project-related folders
 - Calendar events (meetings, milestones, deadlines)
 - Previous status updates if available
 
 ## Inputs
+
 The user provides:
+
 - `[project_name]`: Name of the project (e.g., "Customer Onboarding Platform V2").
 - `[time_window]`: Period to review (e.g., "last 7 days", "since last status update").
 - `[stakeholder_audience]`: Who will read this update (e.g., "executives", "cross-functional team", "project sponsors").
 - Optional: `[focus_areas]`: Specific topics to emphasize (e.g., "budget", "timeline risks", "customer impact").
 
 ## Assumptions
+
 - If the user has sent previous status updates, the AI should compare progress since then; if not, provide a point-in-time snapshot.
 - The audience may not be deeply familiar with day-to-day details, so the AI should avoid jargon and provide context where needed.
 - The user wants a balanced view: celebrate wins, surface risks honestly, and propose clear next steps or asks.
 
 ## Constraints
+
 - Keep the entire status update under 600 words.
 - Use short paragraphs, bullet points, and section headings for scannability.
 - Avoid exposing unnecessary technical or sensitive details unless critical for the audience.
 - Highlight any decisions or approvals needed from stakeholders.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Scan recent project-related activity in the specified `[time_window]`.
   - Identify accomplishments, blockers, and patterns (e.g., repeated delays, new risks).
@@ -55,6 +64,7 @@ The user provides:
   - Be specific about what is done, what is at risk, and what help is needed.
 
 ## Output Requirements
+
 Return the output in Markdown with these sections:
 
 - `## Summary`
@@ -69,6 +79,7 @@ Return the output in Markdown with these sections:
   - 1–3 bullets identifying where stakeholder input, approval, or resources are required.
 
 ## Use Cases
+
 - Use case 1: A project manager preparing a weekly status email for executives.
 - Use case 2: A team lead summarizing progress for a cross-functional steering committee.
 - Use case 3: An individual contributor reporting on a feature or workstream within a larger project.
@@ -77,7 +88,7 @@ Return the output in Markdown with these sections:
 
 ## Prompt
 
-```
+```text
 You are my Project Status Reporter working in a Microsoft 365 environment.
 
 Goal:
@@ -134,6 +145,7 @@ the project status update for [stakeholder_audience].
 ```
 
 ## Variables
+
 - `[project_name]`: Name of the project.
 - `[time_window]`: Period to review (e.g., "last 7 days").
 - `[stakeholder_audience]`: Who will read this (e.g., "executives", "project sponsors").
@@ -142,7 +154,8 @@ the project status update for [stakeholder_audience].
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [project_name]: "Customer Onboarding Platform V2"
 [time_window]: "last 7 days"
 [stakeholder_audience]: "executive leadership"
@@ -152,7 +165,8 @@ You are my Project Status Reporter working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Summary
 The Customer Onboarding Platform V2 project made solid progress this week on stabilization and beta readiness, but timeline risks remain due to unresolved API performance issues.
 
@@ -181,16 +195,19 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 ```
 
 ## Tips
+
 - Tip 1: Run this prompt weekly or before key stakeholder meetings to stay ahead of reporting deadlines.
 - Tip 2: Use `[focus_areas]` to tailor the update to what your audience cares about most (e.g., budget, timeline, customer impact).
 - Tip 3: Share the draft with your team before sending it to stakeholders to confirm accuracy and tone.
 - Tip 4: Archive previous status updates in a shared folder so Copilot can compare progress over time.
 
 ## Related Prompts
+
 - `m365-weekly-review-coach.md`
 - `m365-meeting-recap-assistant.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5"
 # Business Strategy Analysis
 
 ## Description
+
 A comprehensive business strategy analyzer that helps evaluate strategic options, identify opportunities and threats, and provide actionable recommendations. Perfect for business leaders, consultants, and strategists planning new initiatives or evaluating current strategies.
 
 ## Use Cases
+
 - Evaluate new business opportunities or market entries
 - Analyze competitive positioning and market dynamics
 - Support strategic planning sessions and workshops
@@ -24,7 +26,7 @@ A comprehensive business strategy analyzer that helps evaluate strategic options
 
 ## Prompt
 
-```
+```text
 You are a senior business strategy consultant with expertise in strategic planning and market analysis. I need your help analyzing a strategic situation.
 
 **Company/Organization:** [COMPANY NAME]
@@ -69,6 +71,7 @@ Please provide:
 ```
 
 ## Variables
+
 - `[COMPANY NAME]`: Your organization's name
 - `[INDUSTRY]`: The industry or market sector
 - `[BRIEF DESCRIPTION OF CURRENT STATE]`: Current business situation and challenges
@@ -81,7 +84,8 @@ Please provide:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are a senior business strategy consultant with expertise in strategic planning and market analysis. I need your help analyzing a strategic situation.
 
 **Company/Organization:** TechStart Solutions
@@ -126,7 +130,8 @@ Please provide:
 ```
 
 **Output:**
-```
+
+```text
 ## 1. Situational Analysis
 
 **Current Market Dynamics:**
@@ -269,6 +274,7 @@ Please provide:
 ```
 
 ## Tips
+
 - Be as specific as possible about your situation for more tailored advice
 - Include quantitative data (revenue, growth rates, market size) when available
 - Mention any constraints or non-negotiables upfront
@@ -277,6 +283,7 @@ Please provide:
 - Share the output with your team to stimulate strategic discussions
 
 ## Related Prompts
+
 - [Market Research Analysis](market-research-analysis.md)
 - [Competitive Analysis Framework](competitive-analysis.md)
 - [Financial Planning Assistant](financial-planning-assistant.md)
@@ -284,4 +291,5 @@ Please provide:
 ## Changelog
 
 ### Version 1.0 (2025-10-29)
+
 - Initial version

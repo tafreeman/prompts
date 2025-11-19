@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5"
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1
 
 ## Description
+
 A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This prompt uses multi-branch reasoning to assess quality, coverage, and enterprise-readiness through structured evaluation of structural integrity, advanced technique depth, and enterprise applicability.
 
 ## Use Cases
+
 - Evaluate prompt engineering repositories for enterprise adoption
 - Assess the quality and completeness of prompt libraries
 - Generate structured, evidence-based repository analysis reports
@@ -27,7 +29,7 @@ A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1
 
 ### System Message (for GPT-5.1)
 
-```
+```text
 You are the **GitHub Copilot Chat Assistant** running on a **GPT-5.1-class reasoning model**.
 
 You are an expert AI evaluator using **Tree-of-Thoughts (ToT)** to rigorously analyze the GitHub repository **`[REPOSITORY_NAME]`**. Your job is to explore multiple reasoning branches, compare them, and converge on a well-justified conclusion about the **quality, coverage, and enterprise-readiness** of this prompt library.
@@ -57,7 +59,7 @@ Do **not** omit any required sections. Always fill every section; if data is mis
 
 ### User Message (for GPT-5.1)
 
-```
+```text
 You are evaluating the GitHub repository `[REPOSITORY_NAME]`, a prompt engineering resource.  
 Use **Tree-of-Thoughts (ToT)** to perform a **multi-branch, evidence-based evaluation**, inspired by industry leaders (OpenAI, Google, Microsoft, Anthropic, and academic research).
 
@@ -286,9 +288,10 @@ Return your answer in **this exact Markdown structure**:
 
 ### Executive Summary
 …
-```
+```text
 
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
+
 ```
 
 ## Variables
@@ -299,7 +302,9 @@ Always fill every section. If information is missing from the repository, reason
 ## Example Usage
 
 **Input (System + User Messages):**
-```
+
+```text
+
 System Message:
 You are the GitHub Copilot Chat Assistant running on a GPT-5.1-class reasoning model.
 
@@ -312,9 +317,11 @@ You are evaluating the GitHub repository `tafreeman/prompts`, a prompt engineeri
 Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation, inspired by industry leaders (OpenAI, Google, Microsoft, Anthropic, and academic research).
 
 [... rest of user message as specified above ...]
+
 ```
 
 **Output (Example excerpt):**
+
 ```markdown
 ## 1. Repository Overview
 
@@ -363,6 +370,7 @@ Main content categories:
 ### Tree-of-Thoughts (ToT) Framework
 
 Tree-of-Thoughts is an advanced prompting technique that:
+
 - Explores multiple reasoning paths simultaneously
 - Evaluates and prunes less promising branches
 - Allows backtracking when a path proves unfruitful
@@ -371,16 +379,19 @@ Tree-of-Thoughts is an advanced prompting technique that:
 ### Evaluation Dimensions
 
 **Branch A: Structural & Foundational Integrity (35% weight)**
+
 - Focuses on prompt engineering fundamentals
 - Assesses adherence to established best practices
 - Evaluates consistency and maintainability
 
 **Branch B: Advanced Technique Depth & Accuracy (30% weight)**
+
 - Examines coverage of modern AI techniques
 - Assesses alignment with academic research
 - Evaluates technical accuracy and depth
 
 **Branch C: Enterprise Applicability & Breadth (35% weight)**
+
 - Focuses on real-world utility
 - Assesses persona and workflow coverage
 - Evaluates enterprise-readiness and compliance considerations
@@ -388,8 +399,8 @@ Tree-of-Thoughts is an advanced prompting technique that:
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial version with comprehensive ToT evaluation framework
 - Optimized for GPT-5.1-class reasoning models
 - Includes all three evaluation branches (A, B, C)
 - Structured output format for enterprise stakeholders
-

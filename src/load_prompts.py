@@ -3,16 +3,17 @@ from datetime import datetime
 import os
 import re
 
+
 def load_prompts_from_repo():
     """Load prompts from existing markdown files in the repository"""
     prompts_from_files = []
-    
+
     # Define the prompts directory
     prompts_dir = os.path.join(os.path.dirname(__file__), '..', 'prompts')
-    
+
     # Categories to scan (must match actual folder names on disk)
     categories = ['developers', 'business', 'creative', 'analysis', 'system', 'advanced', 'governance']
-    
+
     for category in categories:
         category_path = os.path.join(prompts_dir, category)
         if os.path.exists(category_path):
@@ -27,8 +28,9 @@ def load_prompts_from_repo():
                                 prompts_from_files.append(prompt_data)
                     except Exception as e:
                         print(f"Error loading {filepath}: {e}")
-    
+
     return prompts_from_files
+
 
 def parse_markdown_prompt(content, category):
     """Parse a markdown prompt file and extract metadata"""
@@ -39,14 +41,14 @@ def parse_markdown_prompt(content, category):
             if len(parts) >= 3:
                 frontmatter = parts[1]
                 body = parts[2]
-                
+
                 # Parse frontmatter
                 metadata = {}
                 for line in frontmatter.strip().split('\n'):
                     if ':' in line:
                         key, value = line.split(':', 1)
                         metadata[key.strip()] = value.strip().strip('"\'[]')
-                
+
                 # Extract prompt template from body
                 prompt_match = re.search(r'```\n(.*?)\n```', body, re.DOTALL)
                 if prompt_match:
@@ -58,11 +60,11 @@ def parse_markdown_prompt(content, category):
                         template = prompt_section.group(1).strip()
                     else:
                         template = "No template found in file"
-                
+
                 # Extract description
                 desc_match = re.search(r'## Description\s*\n+(.*?)(?=\n##|\Z)', body, re.DOTALL)
                 description = desc_match.group(1).strip() if desc_match else metadata.get('title', 'No description')
-                
+
                 return {
                     'title': metadata.get('title', 'Untitled'),
                     'persona': metadata.get('category', category).capitalize(),
@@ -82,8 +84,9 @@ def parse_markdown_prompt(content, category):
                 }
     except Exception as e:
         print(f"Error parsing markdown: {e}")
-    
+
     return None
+
 
 def load_expanded_prompts():
     """Load comprehensive enterprise prompts into the database.
@@ -94,7 +97,7 @@ def load_expanded_prompts():
     """
     conn = sqlite3.connect('prompt_library.db')
     c = conn.cursor()
-    
+
     # Create tables if they don't exist (schema must match app.init_db)
     c.execute('''CREATE TABLE IF NOT EXISTS prompts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -116,15 +119,15 @@ def load_expanded_prompts():
         approval_required TEXT,
         retention_period TEXT
     )''')
-    
+
     # Clear existing data
     c.execute('DELETE FROM prompts')
-    
+
     # Load prompts from existing markdown files
     print("Loading prompts from repository files...")
     prompts_from_repo = load_prompts_from_repo()
     print(f"Found {len(prompts_from_repo)} prompts from repository files")
-    
+
     # Add additional comprehensive enterprise prompts (existing + migrated set)
     additional_prompts = [
         # DEVELOPER PERSONA
@@ -447,7 +450,8 @@ Please analyze:
             'use_case': 'Documentation',
             'category': 'System',
             'platform': 'Claude Sonnet 4.5',
-            'template': '''You are a technical documentation specialist. Your role is to create clear, comprehensive, and user-friendly documentation.
+            'template': '''You are a technical documentation specialist. Your role is to create clear, \
+comprehensive, and user-friendly documentation.
 
 Guidelines:
 - Write in clear, concise language
@@ -475,7 +479,8 @@ When creating documentation:
             'use_case': 'Development',
             'category': 'System',
             'platform': 'Claude Sonnet 4.5',
-            'template': '''You are an experienced software engineer conducting code reviews. Your expertise spans multiple programming languages, design patterns, and best practices.
+            'template': '''You are an experienced software engineer conducting code reviews. Your expertise \
+spans multiple programming languages, design patterns, and best practices.
 
 Review Focus Areas:
 1. **Code Quality**: Readability, maintainability, consistency
@@ -506,15 +511,16 @@ Format reviews with:
 
     # Merge in migrated prompts from the historical expanded dataset
     additional_prompts.extend(get_migrated_prompts_from_legacy_dataset())
-    
+
     # Combine all prompts
     all_prompts = prompts_from_repo + additional_prompts
-    
+
     # Insert prompts
     for prompt in all_prompts:
-        c.execute('''INSERT INTO prompts 
-                     (title, persona, use_case, category, platform, template, description, tags, created_date, usage_count,
-                      difficulty, governance_tags, data_classification, risk_level, regulatory_scope, approval_required, retention_period)
+        c.execute('''INSERT INTO prompts
+                     (title, persona, use_case, category, platform, template, description, tags,
+                      created_date, usage_count, difficulty, governance_tags, data_classification,
+                      risk_level, regulatory_scope, approval_required, retention_period)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                   (prompt['title'], prompt['persona'], prompt['use_case'], prompt['category'],
                    prompt['platform'], prompt['template'], prompt['description'], prompt['tags'],
@@ -526,10 +532,14 @@ Format reviews with:
                    prompt.get('regulatory_scope', ''),
                    prompt.get('approval_required', 'None'),
                    prompt.get('retention_period', 'Standard')))
-    
+
     conn.commit()
     conn.close()
-    print(f"✅ Loaded {len(all_prompts)} prompts into the database ({len(prompts_from_repo)} from repo, {len(additional_prompts)} additional).")
+    print(
+        f"✅ Loaded {
+            len(all_prompts)} prompts into the database ({
+            len(prompts_from_repo)} from repo, {
+                len(additional_prompts)} additional).")
 
 
 def get_migrated_prompts_from_legacy_dataset():
@@ -562,7 +572,9 @@ def get_migrated_prompts_from_legacy_dataset():
         return ",".join(base)
 
     legacy = [
-        ("Code Generation Assistant", "Generates clean, efficient code based on requirements", "Developer", "Code Generation",
+        ("Code Generation Assistant",
+         "Generates clean, efficient code based on requirements",
+         "Developer", "Code Generation",
          "Generate {language} code for the following requirements:\n\nFunctionality: {functionality}\nInput: {input_format}\nOutput: {output_format}\nConstraints: {constraints}\n\nPlease provide:\n1. Clean, well-commented code\n2. Error handling\n3. Unit tests\n4. Documentation\n5. Performance considerations"),
         ("API Design Consultant", "Creates RESTful API specifications", "Developer", "API Design",
          "Design a RESTful API for {service_name} with the following requirements:\n\nCore Functionality: {core_features}\nData Models: {data_models}\nAuthentication: {auth_method}\nRate Limiting: {rate_limits}\n\nProvide:\n1. Endpoint specifications\n2. Request/Response schemas\n3. Error handling\n4. Security considerations\n5. Documentation structure"),
@@ -600,7 +612,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Analyze risks for:\n\nProject: {project_name}\nProject Phase: {phase}\nKey Concerns: {concerns}\nStakeholder Impact: {impact}\n\nProvide:\n1. Risk identification matrix\n2. Probability and impact assessment\n3. Risk mitigation strategies\n4. Contingency plans\n5. Monitoring procedures\n6. Escalation protocols"),
         ("Stakeholder Communication Manager", "Manages stakeholder communications", "Project Manager", "Communication",
          "Develop communication strategy for:\n\nProject: {project_name}\nStakeholders: {stakeholders}\nProject Phase: {phase}\nCommunication Challenges: {challenges}\n\nInclude:\n1. Stakeholder analysis\n2. Communication matrix\n3. Meeting schedules\n4. Reporting templates\n5. Escalation procedures\n6. Feedback mechanisms"),
-        ("Resource Allocation Optimizer", "Optimizes project resource allocation", "Project Manager", "Resource Management",
+        ("Resource Allocation Optimizer",
+         "Optimizes project resource allocation",
+         "Project Manager", "Resource Management",
          "Optimize resources for:\n\nProject: {project_name}\nAvailable Resources: {resources}\nProject Constraints: {constraints}\nPriority Areas: {priorities}\n\nProvide:\n1. Resource allocation matrix\n2. Skill gap analysis\n3. Workload balancing\n4. Timeline optimization\n5. Cost efficiency measures\n6. Contingency planning"),
         ("Quality Assurance Planner", "Develops QA strategies and plans", "Project Manager", "Quality Assurance",
          "Create QA plan for:\n\nProject: {project_name}\nQuality Standards: {standards}\nDeliverables: {deliverables}\nTesting Requirements: {testing}\n\nInclude:\n1. Quality objectives\n2. QA processes and procedures\n3. Testing strategy\n4. Quality metrics\n5. Review and approval workflows\n6. Continuous improvement"),
@@ -614,7 +628,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Plan project closure for:\n\nProject: {project_name}\nDeliverables Status: {deliverables}\nStakeholder Satisfaction: {satisfaction}\nLessons Learned: {lessons}\n\nProvide:\n1. Closure checklist\n2. Final deliverable review\n3. Stakeholder sign-off\n4. Documentation handover\n5. Team transition plan\n6. Post-project evaluation"),
         ("Vendor Management Coordinator", "Manages vendor relationships", "Project Manager", "Vendor Management",
          "Manage vendors for:\n\nProject: {project_name}\nVendor Services: {services}\nContract Terms: {terms}\nPerformance Issues: {issues}\n\nInclude:\n1. Vendor evaluation criteria\n2. Contract management\n3. Performance monitoring\n4. Relationship management\n5. Issue resolution\n6. Payment processing"),
-        ("Timeline and Milestone Tracker", "Tracks project progress and milestones", "Project Manager", "Progress Tracking",
+        ("Timeline and Milestone Tracker",
+         "Tracks project progress and milestones",
+         "Project Manager", "Progress Tracking",
          "Track progress for:\n\nProject: {project_name}\nCurrent Phase: {phase}\nUpcoming Milestones: {milestones}\nProgress Concerns: {concerns}\n\nProvide:\n1. Progress dashboard\n2. Milestone analysis\n3. Schedule variance\n4. Critical path assessment\n5. Recovery planning\n6. Stakeholder updates"),
         ("Meeting Facilitator", "Facilitates effective project meetings", "Project Manager", "Meeting Management",
          "Plan meeting for:\n\nMeeting Purpose: {purpose}\nAttendees: {attendees}\nDuration: {duration}\nKey Decisions Needed: {decisions}\n\nInclude:\n1. Meeting agenda\n2. Pre-meeting preparation\n3. Facilitation techniques\n4. Decision-making process\n5. Action item tracking\n6. Follow-up procedures"),
@@ -622,7 +638,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Organize documentation for:\n\nProject: {project_name}\nDocument Types: {doc_types}\nAudience: {audience}\nCompliance Requirements: {compliance}\n\nProvide:\n1. Documentation strategy\n2. Template library\n3. Version control\n4. Access management\n5. Review processes\n6. Archive procedures"),
         ("Crisis Management Coordinator", "Manages project crises", "Project Manager", "Crisis Management",
          "Handle crisis for:\n\nProject: {project_name}\nCrisis Description: {crisis}\nImpact Assessment: {impact}\nUrgency Level: {urgency}\n\nProvide:\n1. Crisis response plan\n2. Stakeholder communication\n3. Resource mobilization\n4. Risk mitigation\n5. Recovery strategy\n6. Lessons learned"),
-        ("Solution Architecture Designer", "Designs comprehensive solution architectures", "Architect", "Solution Design",
+        ("Solution Architecture Designer",
+         "Designs comprehensive solution architectures",
+         "Architect", "Solution Design",
          "Design solution architecture for:\n\nBusiness Problem: {problem}\nFunctional Requirements: {functional_req}\nNon-functional Requirements: {nonfunctional_req}\nConstraints: {constraints}\nIntegration Needs: {integrations}\n\nProvide:\n1. High-level architecture diagram\n2. Component specifications\n3. Technology stack recommendations\n4. Integration patterns\n5. Scalability considerations\n6. Security architecture"),
         ("Enterprise Integration Architect", "Designs enterprise integration solutions", "Architect", "Integration",
          "Design integration architecture for:\n\nSystems to Integrate: {systems}\nData Flow Requirements: {data_flow}\nPerformance Requirements: {performance}\nSecurity Requirements: {security}\n\nInclude:\n1. Integration patterns\n2. API design strategy\n3. Data transformation\n4. Error handling\n5. Monitoring and logging\n6. Governance framework"),
@@ -640,7 +658,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Design API architecture for:\n\nBusiness Domain: {domain}\nAPI Consumers: {consumers}\nIntegration Requirements: {integrations}\nSecurity Needs: {security}\nScalability Goals: {scalability}\n\nInclude:\n1. API design patterns\n2. Authentication strategy\n3. Rate limiting and throttling\n4. Versioning strategy\n5. Documentation framework\n6. Monitoring and analytics"),
         ("DevOps Architecture Planner", "Designs DevOps and CI/CD architectures", "Architect", "DevOps",
          "Design DevOps architecture for:\n\nDevelopment Team: {team}\nTechnology Stack: {stack}\nDeployment Environments: {environments}\nQuality Requirements: {quality}\n\nProvide:\n1. CI/CD pipeline design\n2. Infrastructure as code\n3. Monitoring and observability\n4. Security integration\n5. Deployment strategies\n6. Automation framework"),
-        ("Mobile Architecture Consultant", "Designs mobile application architectures", "Architect", "Mobile Architecture",
+        ("Mobile Architecture Consultant",
+         "Designs mobile application architectures",
+         "Architect", "Mobile Architecture",
          "Design mobile architecture for:\n\nApp Type: {app_type}\nTarget Platforms: {platforms}\nUser Base: {users}\nPerformance Requirements: {performance}\nSecurity Needs: {security}\n\nInclude:\n1. Architecture patterns\n2. Backend integration\n3. Offline capabilities\n4. Security implementation\n5. Performance optimization\n6. Testing strategy"),
         ("IoT Architecture Designer", "Designs IoT system architectures", "Architect", "IoT",
          "Design IoT architecture for:\n\nUse Case: {use_case}\nDevice Types: {devices}\nData Volume: {data_volume}\nConnectivity: {connectivity}\nSecurity Requirements: {security}\n\nProvide:\n1. Device architecture\n2. Communication protocols\n3. Data processing pipeline\n4. Cloud integration\n5. Security framework\n6. Management platform"),
@@ -652,13 +672,17 @@ def get_migrated_prompts_from_legacy_dataset():
          "Plan modernization for:\n\nLegacy System: {system}\nBusiness Drivers: {drivers}\nModernization Goals: {goals}\nConstraints: {constraints}\nTimeline: {timeline}\n\nInclude:\n1. Current state assessment\n2. Target architecture\n3. Migration strategy\n4. Risk mitigation\n5. Phased approach\n6. Success metrics"),
         ("Compliance Architecture Designer", "Designs compliance-focused architectures", "Architect", "Compliance",
          "Design compliant architecture for:\n\nRegulatory Requirements: {regulations}\nBusiness Domain: {domain}\nData Sensitivity: {sensitivity}\nAudit Requirements: {audit}\n\nProvide:\n1. Compliance framework\n2. Control implementation\n3. Data governance\n4. Audit trail design\n5. Monitoring strategy\n6. Reporting mechanisms"),
-        ("Requirements Analysis Expert", "Analyzes and documents business requirements", "Business Analyst", "Requirements",
+        ("Requirements Analysis Expert",
+         "Analyzes and documents business requirements",
+         "Business Analyst", "Requirements",
          "Analyze requirements for:\n\nProject: {project_name}\nStakeholders: {stakeholders}\nBusiness Objectives: {objectives}\nCurrent Challenges: {challenges}\n\nProvide:\n1. Functional requirements\n2. Non-functional requirements\n3. User stories\n4. Acceptance criteria\n5. Requirements traceability\n6. Impact analysis"),
         ("Process Optimization Consultant", "Optimizes business processes", "Business Analyst", "Process Improvement",
          "Optimize process for:\n\nProcess Name: {process_name}\nCurrent Issues: {issues}\nStakeholders: {stakeholders}\nSuccess Metrics: {metrics}\n\nInclude:\n1. Current state analysis\n2. Process mapping\n3. Bottleneck identification\n4. Optimization recommendations\n5. Implementation roadmap\n6. Change management"),
         ("Data Analysis Specialist", "Performs comprehensive data analysis", "Business Analyst", "Data Analysis",
          "Analyze data for:\n\nBusiness Question: {question}\nData Sources: {sources}\nAnalysis Scope: {scope}\nDecision Context: {context}\n\nProvide:\n1. Data exploration\n2. Statistical analysis\n3. Trend identification\n4. Insights and findings\n5. Recommendations\n6. Visualization strategy"),
-        ("Stakeholder Requirements Gatherer", "Gathers and manages stakeholder requirements", "Business Analyst", "Stakeholder Management",
+        ("Stakeholder Requirements Gatherer",
+         "Gathers and manages stakeholder requirements",
+         "Business Analyst", "Stakeholder Management",
          "Gather requirements from:\n\nProject: {project_name}\nStakeholder Groups: {groups}\nBusiness Domain: {domain}\nComplexity Level: {complexity}\n\nInclude:\n1. Stakeholder analysis\n2. Interview planning\n3. Requirements elicitation\n4. Conflict resolution\n5. Prioritization framework\n6. Communication strategy"),
         ("Business Case Developer", "Develops compelling business cases", "Business Analyst", "Business Case",
          "Develop business case for:\n\nInitiative: {initiative}\nInvestment Required: {investment}\nExpected Benefits: {benefits}\nRisks: {risks}\nTimeline: {timeline}\n\nProvide:\n1. Executive summary\n2. Cost-benefit analysis\n3. ROI calculations\n4. Risk assessment\n5. Implementation plan\n6. Success metrics"),
@@ -666,7 +690,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Perform gap analysis for:\n\nCurrent State: {current_state}\nDesired State: {desired_state}\nBusiness Area: {area}\nConstraints: {constraints}\n\nInclude:\n1. Current state assessment\n2. Future state definition\n3. Gap identification\n4. Impact analysis\n5. Bridging strategy\n6. Implementation roadmap"),
         ("User Experience Analyst", "Analyzes and improves user experiences", "Business Analyst", "User Experience",
          "Analyze user experience for:\n\nSystem/Process: {system}\nUser Groups: {users}\nCurrent Pain Points: {pain_points}\nBusiness Goals: {goals}\n\nProvide:\n1. User journey mapping\n2. Pain point analysis\n3. Improvement opportunities\n4. Solution recommendations\n5. Success metrics\n6. Implementation approach"),
-        ("Competitive Analysis Researcher", "Conducts competitive market analysis", "Business Analyst", "Market Analysis",
+        ("Competitive Analysis Researcher",
+         "Conducts competitive market analysis",
+         "Business Analyst", "Market Analysis",
          "Analyze competition for:\n\nProduct/Service: {product}\nMarket Segment: {segment}\nKey Competitors: {competitors}\nAnalysis Focus: {focus}\n\nInclude:\n1. Competitive landscape\n2. Feature comparison\n3. Pricing analysis\n4. Market positioning\n5. Opportunities and threats\n6. Strategic recommendations"),
         ("Workflow Designer", "Designs efficient business workflows", "Business Analyst", "Workflow Design",
          "Design workflow for:\n\nBusiness Process: {process}\nStakeholders: {stakeholders}\nComplexity Level: {complexity}\nAutomation Goals: {automation}\n\nProvide:\n1. Workflow diagram\n2. Role definitions\n3. Decision points\n4. Exception handling\n5. Automation opportunities\n6. Performance metrics"),
@@ -674,11 +700,15 @@ def get_migrated_prompts_from_legacy_dataset():
          "Design metrics for:\n\nBusiness Objective: {objective}\nStakeholders: {stakeholders}\nData Availability: {data}\nReporting Frequency: {frequency}\n\nInclude:\n1. KPI framework\n2. Metric definitions\n3. Data sources\n4. Calculation methods\n5. Reporting strategy\n6. Action triggers"),
         ("Strategic Planning Consultant", "Develops strategic plans and roadmaps", "Consultant", "Strategy",
          "Develop strategic plan for:\n\nOrganization: {organization}\nIndustry: {industry}\nCurrent Challenges: {challenges}\nGrowth Objectives: {objectives}\nTimeframe: {timeframe}\n\nProvide:\n1. Situation analysis\n2. Strategic options\n3. Recommended strategy\n4. Implementation roadmap\n5. Success metrics\n6. Risk mitigation"),
-        ("Digital Transformation Advisor", "Guides digital transformation initiatives", "Consultant", "Digital Transformation",
+        ("Digital Transformation Advisor",
+         "Guides digital transformation initiatives",
+         "Consultant", "Digital Transformation",
          "Plan digital transformation for:\n\nOrganization: {organization}\nCurrent State: {current_state}\nTransformation Goals: {goals}\nBudget: {budget}\nTimeline: {timeline}\n\nInclude:\n1. Digital maturity assessment\n2. Transformation strategy\n3. Technology roadmap\n4. Change management\n5. Implementation phases\n6. Success measurement"),
         ("Management Consulting Expert", "Provides management consulting solutions", "Consultant", "Management",
          "Provide consulting for:\n\nClient: {client}\nBusiness Challenge: {challenge}\nIndustry Context: {industry}\nStakeholders: {stakeholders}\nSuccess Criteria: {criteria}\n\nDeliver:\n1. Problem diagnosis\n2. Root cause analysis\n3. Solution alternatives\n4. Recommendation\n5. Implementation plan\n6. Change management"),
-        ("Organizational Change Manager", "Manages organizational change initiatives", "Consultant", "Change Management",
+        ("Organizational Change Manager",
+         "Manages organizational change initiatives",
+         "Consultant", "Change Management",
          "Manage change for:\n\nOrganization: {organization}\nChange Initiative: {initiative}\nImpacted Groups: {groups}\nResistance Factors: {resistance}\n\nProvide:\n1. Change impact assessment\n2. Stakeholder analysis\n3. Communication strategy\n4. Training plan\n5. Resistance management\n6. Success measurement"),
         ("Business Process Reengineering", "Reengineers business processes", "Consultant", "Process Reengineering",
          "Reengineer process for:\n\nProcess: {process_name}\nCurrent Performance: {performance}\nTarget Improvements: {targets}\nConstraints: {constraints}\n\nInclude:\n1. Process analysis\n2. Reengineering approach\n3. New process design\n4. Technology enablers\n5. Implementation strategy\n6. Performance metrics"),
@@ -700,7 +730,9 @@ def get_migrated_prompts_from_legacy_dataset():
          "Research consumer behavior for:\n\nProduct/Service: {product}\nTarget Demographics: {demographics}\nBehavior Focus: {behavior}\nResearch Methods: {methods}\n\nProvide:\n1. Research methodology\n2. Data collection approach\n3. Behavioral analysis\n4. Consumer insights\n5. Implications for business\n6. Recommendations"),
         ("Trend Analysis Specialist", "Identifies and analyzes market trends", "Researcher", "Trend Analysis",
          "Analyze trends for:\n\nIndustry/Market: {market}\nTrend Categories: {categories}\nTime Horizon: {horizon}\nBusiness Impact: {impact}\n\nInclude:\n1. Trend identification\n2. Trend analysis\n3. Impact assessment\n4. Future projections\n5. Business implications\n6. Strategic responses"),
-        ("Competitive Intelligence Researcher", "Gathers competitive intelligence", "Researcher", "Competitive Intelligence",
+        ("Competitive Intelligence Researcher",
+         "Gathers competitive intelligence",
+         "Researcher", "Competitive Intelligence",
          "Research competitive intelligence for:\n\nCompany: {company}\nCompetitors: {competitors}\nIntelligence Focus: {focus}\nDecision Context: {context}\n\nProvide:\n1. Intelligence framework\n2. Data collection strategy\n3. Competitive analysis\n4. Strategic insights\n5. Threat assessment\n6. Opportunity identification")
     ]
 
@@ -718,6 +750,7 @@ def get_migrated_prompts_from_legacy_dataset():
         })
 
     return migrated
+
 
 if __name__ == '__main__':
     # Change to src directory to access database

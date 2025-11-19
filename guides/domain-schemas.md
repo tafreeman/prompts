@@ -91,7 +91,8 @@ For prompts like `code-review-expert-structured.md` and related developer workfl
 - **Suggested Fix:**
   ```language
   [code snippet or description]
-  ```
+  ```text
+
 - **References:** [link1], [link2]
 
 ---
@@ -107,6 +108,7 @@ For prompts like `code-review-expert-structured.md` and related developer workfl
 
 1. [Action item 1]
 2. [Action item 2]
+
 ```
 
 ---
@@ -245,7 +247,8 @@ For prompts like `test-suite-generator-advanced.md` and test-related workflows.
 - **Contract Definition:**
   ```json
   {schema or payload}
-  ```
+  ```text
+
 - **Validation Rules:** [list rules]
 
 ---
@@ -267,6 +270,7 @@ For prompts like `test-suite-generator-advanced.md` and test-related workflows.
 - **Test Framework:** [name]
 - **Mocking Library:** [name]
 - **Additional Libraries:** [list]
+
 ```
 
 ---
@@ -333,7 +337,7 @@ For prompts like `sql-query-optimizer-advanced.md` and database performance work
 
 ```sql
 [original query]
-```
+```text
 
 ---
 
@@ -368,9 +372,10 @@ For prompts like `sql-query-optimizer-advanced.md` and database performance work
 - **Estimated Improvement:** [percentage or description]
 
 **DDL:**
+
 ```sql
 CREATE INDEX [index_name] ON [table_name] ([columns]) USING [type];
-```
+```text
 
 ---
 
@@ -378,7 +383,7 @@ CREATE INDEX [index_name] ON [table_name] ([columns]) USING [type];
 
 ```sql
 [rewritten query]
-```
+```text
 
 ---
 
@@ -401,6 +406,7 @@ CREATE INDEX [index_name] ON [table_name] ([columns]) USING [type];
 ## Rollback Plan
 
 [How to revert the change if issues arise]
+
 ```
 
 ---

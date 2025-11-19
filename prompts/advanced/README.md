@@ -36,31 +36,36 @@ This directory contains advanced prompting techniques optimized for frontier AI 
 
 ## When to Use Advanced Techniques
 
-### Use Chain-of-Thought When:
+### Use Chain-of-Thought When
+
 - Problems require step-by-step logical reasoning
 - You need to show your work or explain reasoning
 - Breaking down complex problems into steps improves accuracy
 - **Example**: Math problems, logical puzzles, debugging complex issues
 
-### Use ReAct When:
+### Use ReAct When
+
 - You need to interact with external tools or APIs
 - Tasks require iterative information gathering
 - You want to see the reasoning behind each action
 - **Example**: Research tasks, data analysis, multi-step workflows
 
-### Use RAG When:
+### Use RAG When
+
 - You need to ground responses in specific documents or code
 - Working with proprietary or recent information not in training data
 - Citation and source attribution are critical
 - **Example**: Internal documentation queries, code repository questions
 
-### Use Reflection When:
+### Use Reflection When
+
 - Quality and accuracy are paramount
 - You want to improve initial responses iteratively
 - Self-assessment can catch errors or gaps
 - **Example**: Critical decision-making, high-stakes communications
 
-### Use Tree-of-Thoughts When:
+### Use Tree-of-Thoughts When
+
 - Multiple solution paths exist and need evaluation
 - You want to explore trade-offs systematically
 - Complex decisions require comparing alternatives
@@ -69,6 +74,7 @@ This directory contains advanced prompting techniques optimized for frontier AI 
 ## Integration with Enterprise Workflows
 
 All prompts in this directory include:
+
 - **Governance tags**: PII-safe, requires-human-review, audit-required
 - **Platform adaptations**: Copilot, chat interfaces, API usage
 - **Output schemas**: JSON, XML, YAML templates for automation
@@ -77,6 +83,7 @@ All prompts in this directory include:
 ## Contributing
 
 When adding new advanced technique prompts:
+
 1. Follow the template in `/templates/prompt-template.md`
 2. Include governance metadata in frontmatter
 3. Add comparative examples showing when to use vs. simpler approaches

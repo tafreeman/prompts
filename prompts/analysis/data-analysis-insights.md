@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5"
 # Data Analysis and Insights Generator
 
 ## Description
+
 Transform raw data into meaningful insights and actionable recommendations. This prompt helps data analysts, business intelligence professionals, and decision-makers extract valuable patterns, trends, and insights from their data.
 
 ## Use Cases
+
 - Analyze sales, marketing, or operational data
 - Generate executive summaries from complex datasets
 - Identify trends, patterns, and anomalies
@@ -24,7 +26,7 @@ Transform raw data into meaningful insights and actionable recommendations. This
 
 ## Prompt
 
-```
+```text
 You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.
 
 **Dataset Description:**
@@ -80,6 +82,7 @@ Please provide:
 ```
 
 ## Variables
+
 - `[WHAT KIND OF DATA]`: Type of data you're analyzing (sales, customer, marketing, etc.)
 - `[TIME RANGE COVERED]`: Period your data covers
 - `[NUMBER OF RECORDS/ROWS]`: Size of your dataset
@@ -93,7 +96,8 @@ Please provide:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.
 
 **Dataset Description:**
@@ -154,7 +158,8 @@ Please provide:
 ```
 
 **Output:**
-```
+
+```text
 ## 1. Executive Summary
 
 **Key Takeaways:**
@@ -380,6 +385,7 @@ To communicate these insights effectively, create:
 ```
 
 ## Tips
+
 - Provide as much context as possible about your business and goals
 - Include summary statistics rather than raw data dumps for cleaner analysis
 - Be specific about what decisions you're trying to make
@@ -389,6 +395,7 @@ To communicate these insights effectively, create:
 - Follow up with deeper dives on specific findings
 
 ## Related Prompts
+
 - [Statistical Analysis Helper](statistical-analysis-helper.md)
 - [A/B Test Results Analyzer](ab-test-analyzer.md)
 - [Market Research Synthesizer](market-research-synthesizer.md)
@@ -592,4 +599,5 @@ For investigative purposes, the most informative next steps are:
 ## Changelog
 
 ### Version 1.0 (2025-10-29)
+
 - Initial version

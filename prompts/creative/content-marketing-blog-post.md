@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5"
 # Content Marketing Blog Post Generator
 
 ## Description
+
 Generate engaging, SEO-optimized blog posts for content marketing. This prompt helps content creators, marketers, and business owners produce high-quality blog content that attracts readers and ranks well in search engines.
 
 ## Use Cases
+
 - Create blog posts for company blogs or personal websites
 - Generate content marketing materials
 - Develop thought leadership articles
@@ -24,7 +26,7 @@ Generate engaging, SEO-optimized blog posts for content marketing. This prompt h
 
 ## Prompt
 
-```
+```text
 You are an expert content marketing writer specializing in creating engaging, SEO-optimized blog posts. Please write a comprehensive blog post based on the following details:
 
 **Topic:** [YOUR BLOG TOPIC]
@@ -58,6 +60,7 @@ Make it engaging, valuable, and optimized for both readers and search engines.
 ```
 
 ## Variables
+
 - `[YOUR BLOG TOPIC]`: The main subject of your blog post
 - `[WHO YOU'RE WRITING FOR]`: Your target audience (e.g., small business owners, software developers, fitness enthusiasts)
 - `[PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]`: Choose the appropriate tone
@@ -70,7 +73,8 @@ Make it engaging, valuable, and optimized for both readers and search engines.
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an expert content marketing writer specializing in creating engaging, SEO-optimized blog posts. Please write a comprehensive blog post based on the following details:
 
 **Topic:** How to Choose the Right Project Management Tool for Small Teams
@@ -104,7 +108,8 @@ Make it engaging, valuable, and optimized for both readers and search engines.
 ```
 
 **Output:**
-```
+
+```text
 # The Complete Guide to Choosing Project Management Tools for Small Teams in 2025
 
 **Meta Description:** Find the perfect project management tools for small teams. Compare features, pricing, and get practical tips to boost your team's productivity today.
@@ -302,6 +307,7 @@ The right project management tool won't just organize your tasks—it will free 
 ```
 
 ## Tips
+
 - Provide specific details about your audience for more targeted content
 - Include any specific keywords naturally throughout the brief
 - Request multiple headline options if you're not sure which will perform best
@@ -310,6 +316,7 @@ The right project management tool won't just organize your tasks—it will free 
 - Request specific CTAs that align with your business goals
 
 ## Related Prompts
+
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Email Newsletter Writer](email-newsletter-writer.md)
 - [SEO Content Optimizer](seo-content-optimizer.md)
@@ -317,4 +324,5 @@ The right project management tool won't just organize your tasks—it will free 
 ## Changelog
 
 ### Version 1.0 (2025-10-29)
+
 - Initial version

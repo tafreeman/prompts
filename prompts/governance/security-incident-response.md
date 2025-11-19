@@ -19,9 +19,11 @@ platform: "Claude Sonnet 4.5"
 # Security: Incident Response Framework
 
 ## Description
+
 A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows NIST Cybersecurity Framework and includes breach notification requirements for GDPR/CCPA compliance.
 
 ## Use Cases
+
 - Active security incident triage and response
 - Data breach assessment and notification
 - Ransomware incident handling
@@ -32,7 +34,7 @@ A structured incident response framework for Security Operations Center (SOC) an
 
 ## Prompt
 
-```
+```text
 You are a security incident response assistant following NIST IR framework (NIST SP 800-61).
 
 **Incident Alert**: [INCIDENT_DESCRIPTION]
@@ -239,6 +241,7 @@ Provide structured incident report:
 ```
 
 ## Variables
+
 - `[INCIDENT_DESCRIPTION]`: Nature of the security event
 - `[SYMPTOMS_OR_ALERTS]`: Initial detection method and indicators
 - `[AFFECTED_SYSTEMS]`: Systems, networks, or data involved
@@ -248,7 +251,8 @@ Provide structured incident report:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are a security incident response assistant following NIST IR framework.
 
 **Incident Alert**: Suspicious login activity and potential data exfiltration detected
@@ -272,7 +276,8 @@ You are a security incident response assistant following NIST IR framework.
 ```
 
 **Output:**
-```
+
+```text
 **INCIDENT SUMMARY**
 - ID: INC-2024-11-17-001
 - Type: Data Breach + Unauthorized Access + Data Exfiltration
@@ -644,6 +649,7 @@ You are a security incident response assistant following NIST IR framework.
 ```
 
 ## Tips
+
 - **Act fast**: Minutes matter in containment - automate where possible
 - **Document everything**: Timeline, actions, decisions for legal/regulatory needs
 - **Assume breach until proven otherwise**: Treat all suspicious activity as confirmed compromise
@@ -655,12 +661,14 @@ You are a security incident response assistant following NIST IR framework.
 ## Governance & Compliance
 
 ### Access Control
+
 - **SOC/IR Teams Only**: Restricted to trained security personnel
 - **CISO Approval Required**: For access grant
 - **Background Check Required**: For IR team members
 - **NDA Required**: All IR activities confidential
 
 ### Audit Requirements
+
 - **Log all incidents**: Every alert, even false positives
 - **Incident ID**: Unique identifier (INC-YYYY-MM-DD-XXX)
 - **Retain for 7 years**: Legal/regulatory requirement
@@ -668,6 +676,7 @@ You are a security incident response assistant following NIST IR framework.
 - **Post-incident review**: Mandatory within 30 days
 
 ### Regulatory Compliance
+
 - **GDPR**: 72-hour breach notification to DPA, data subject notification if high risk
 - **CCPA**: California AG + affected residents notification
 - **SOC 2**: Incident response procedures documented and tested
@@ -709,6 +718,7 @@ You are a security incident response assistant following NIST IR framework.
 ```
 
 ## Related Prompts
+
 - [Security: Threat Modeling](security-threat-modeling.md) - Proactive threat assessment
 - [Security: Vulnerability Assessment](security-vulnerability-assessment.md) - Security review
 - [Compliance: Risk Assessment](compliance-risk-assessment.md) - Risk evaluation
@@ -716,6 +726,7 @@ You are a security incident response assistant following NIST IR framework.
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - NIST SP 800-61 framework implementation
 - GDPR breach notification guidance

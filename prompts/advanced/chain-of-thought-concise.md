@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 # Chain-of-Thought: Concise Mode
 
 ## Description
+
 A streamlined Chain-of-Thought prompt template that encourages step-by-step reasoning while maintaining brevity. This mode is ideal for situations where you need logical progression without extensive elaboration. Perfect for time-sensitive decisions, quick problem-solving, or when working with token constraints.
 
 ## Use Cases
+
 - Quick debugging sessions where you need logical steps but not extensive explanation
 - Real-time code review with step-by-step analysis
 - Rapid technical decision-making with clear reasoning trail
@@ -24,7 +26,7 @@ A streamlined Chain-of-Thought prompt template that encourages step-by-step reas
 
 ## Prompt
 
-```
+```text
 You are an expert problem solver using concise chain-of-thought reasoning.
 
 **Task**: [DESCRIBE_YOUR_TASK]
@@ -48,6 +50,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ```
 
 ## Variables
+
 - `[DESCRIBE_YOUR_TASK]`: The specific problem, question, or task you need to solve
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
@@ -55,7 +58,8 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an expert problem solver using concise chain-of-thought reasoning.
 
 **Task**: Debug why our API is returning 500 errors intermittently
@@ -79,7 +83,8 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ```
 
 **Output:**
-```
+
+```text
 **Step 1**: Calculate peak load: 50 req/min = 0.83 req/sec. If each request holds connection for 2-3 sec, we need 2-3 simultaneous connections typically.
 
 **Step 2**: Connection pool of 20 should handle this easily. Timeouts suggest connections aren't being released or pool is exhausted by long-running queries.
@@ -92,6 +97,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ```
 
 ## Tips
+
 - **When to use Concise CoT**: Use when you need reasoning transparency but not extensive justification. Ideal for experienced audiences who can fill in obvious steps.
 - **Step granularity**: Each step should represent a meaningful logical leap. Skip trivial steps like "read the problem" or "understand the context".
 - **Balance**: Aim for 3-6 steps for most problems. More than 8 suggests you might need detailed mode instead.
@@ -100,6 +106,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 - **Switch when needed**: If a step reveals unexpected complexity, acknowledge it and switch to detailed mode for that sub-problem.
 
 ## When NOT to Use
+
 - High-stakes decisions requiring full justification
 - Teaching contexts where elaboration aids learning
 - Novel or unfamiliar problems where more exploration is needed
@@ -108,7 +115,8 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ## Variations
 
 ### Ultra-Concise (Bullet Mode)
-```
+
+```text
 Think through this in bullet steps:
 • [Key insight 1]
 • [Key insight 2]
@@ -117,13 +125,15 @@ Think through this in bullet steps:
 ```
 
 ### Numbered Steps with Confidence
-```
+
+```text
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
 ```
 
 ## Related Prompts
+
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems requiring elaboration
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks requiring external tool interaction
@@ -147,6 +157,7 @@ For automation pipelines, request output in this format:
 ```
 
 ## Governance Notes
+
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
 - **Human Review**: Not required for general use, but recommended for:
   - Decisions with >$10K impact
@@ -157,11 +168,13 @@ For automation pipelines, request output in this format:
 ## Platform Adaptations
 
 ### GitHub Copilot Chat
-```
+
+```text
 @workspace /explain [your-code-or-issue] using concise chain-of-thought reasoning
 ```
 
 ### API Integration
+
 ```python
 response = client.chat.completions.create(
     model="gpt-5.1",
@@ -175,6 +188,7 @@ response = client.chat.completions.create(
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Concise CoT template with 3-6 step guidance
 - JSON schema for automation

@@ -13,7 +13,7 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 
 ### Methodology Selection Framework
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │ Choose Your SDLC Approach                                       │
 ├─────────────────────────────────────────────────────────────────┤
@@ -41,18 +41,21 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 **Duration**: 1-3 days (one-time setup per project)
 
 **Prompts to Use**:
+
 1. **[business-case-developer](../../prompts/analysis/business-case-developer.md)** - Validate project ROI and strategic alignment
 2. **[stakeholder-requirements-gatherer](../../prompts/analysis/stakeholder-requirements-gatherer.md)** - Identify all stakeholders and their needs
 3. **[requirements-analysis-expert](../../prompts/analysis/requirements-analysis-expert.md)** - Translate business needs into functional/non-functional requirements
 4. **[solution-architecture-designer](../../prompts/developers/solution-architecture-designer.md)** - Create high-level architecture and technology stack decisions
 
 **Deliverables**:
+
 - Business case document with success metrics
 - Stakeholder map and communication plan
 - Requirements backlog (prioritized using MoSCoW or story points)
 - Architecture decision record (ADR) with technology choices
 
 **Decision Point**: Proceed to Sprint 1 if:
+
 - ✓ Business case approved
 - ✓ Minimum 2-3 sprints of backlog ready
 - ✓ Architecture reviewed by technical leadership
@@ -66,12 +69,14 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 **Duration**: 4 hours (every 2 weeks for standard sprints)
 
 **Prompts to Use**:
+
 1. **[agile-sprint-planner](../../prompts/business/agile-sprint-planner.md)** - Facilitate sprint planning ceremony
 2. **[requirements-analysis-expert](../../prompts/analysis/requirements-analysis-expert.md)** - Refine user stories with acceptance criteria
 3. **[metrics-and-kpi-designer](../../prompts/analysis/metrics-and-kpi-designer.md)** - Define sprint success metrics (velocity, quality gates)
 
 **Workflow**:
-```
+
+```text
 1. Review previous sprint (velocity, completed stories, blockers)
 2. Product Owner presents prioritized backlog
 3. Team estimates stories (planning poker or t-shirt sizing)
@@ -81,13 +86,15 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 ```
 
 **Deliverables**:
+
 - Sprint backlog (user stories with story points)
 - Sprint goal statement (1-2 sentences)
 - Team capacity plan (accounting for PTO, holidays)
 - Risk register (blockers, dependencies, assumptions)
 
 **Example User Story Format** (use requirements-analysis-expert):
-```
+
+```text
 As a [persona]
 I want [functionality]
 So that [business value]
@@ -111,13 +118,15 @@ Dependencies: [List any blocking stories or external dependencies]
 **Duration**: 2 days (parallelized across team members)
 
 **Prompts to Use**:
+
 1. **[solution-architecture-designer](../../prompts/developers/solution-architecture-designer.md)** - Design system components and interactions
 2. **[api-design-consultant](../../prompts/developers/api-design-consultant.md)** - Define API contracts (RESTful or GraphQL endpoints)
 3. **[database-schema-designer](../../prompts/developers/database-schema-designer.md)** - Design database tables, relationships, indexes
 4. **[security-code-auditor](../../prompts/governance-compliance/security-code-auditor.md)** - Identify security requirements early (authentication, authorization, data protection)
 
 **Workflow**:
-```
+
+```text
 1. Technical lead assigns design tasks to engineers
 2. Each engineer uses prompts to generate design artifacts
 3. Peer review of designs (1-hour design review meeting)
@@ -126,6 +135,7 @@ Dependencies: [List any blocking stories or external dependencies]
 ```
 
 **Deliverables**:
+
 - Component diagrams (C4 model: Context → Container → Component)
 - API specifications (OpenAPI/Swagger or GraphQL schema)
 - Database schema with migrations
@@ -133,6 +143,7 @@ Dependencies: [List any blocking stories or external dependencies]
 - Architecture Decision Records (ADRs) for non-trivial choices
 
 **DevOps Integration**:
+
 - Store design artifacts in Git repository (version controlled)
 - Link designs to user stories in project management tool (Jira, Azure DevOps)
 - Automated diagram generation from code (e.g., PlantUML, Mermaid)
@@ -146,6 +157,7 @@ Dependencies: [List any blocking stories or external dependencies]
 **Duration**: 6 days (60% of sprint time)
 
 **Prompts to Use**:
+
 1. **[code-generation-assistant](../../prompts/developers/code-generation-assistant.md)** - Generate boilerplate code, functions, classes
 2. **[api-design-consultant](../../prompts/developers/api-design-consultant.md)** - Implement API endpoints with validation
 3. **[database-schema-designer](../../prompts/developers/database-schema-designer.md)** - Write database queries, ORM models, migrations
@@ -153,7 +165,8 @@ Dependencies: [List any blocking stories or external dependencies]
 5. **[refactoring-specialist](../../prompts/developers/refactoring-specialist.md)** - Clean up code, reduce technical debt
 
 **Workflow**:
-```
+
+```text
 1. Create feature branch from main/develop branch (Git Flow)
 2. Implement user story following design specifications
 3. Write unit tests alongside code (TDD: Test-Driven Development)
@@ -163,6 +176,7 @@ Dependencies: [List any blocking stories or external dependencies]
 ```
 
 **DevOps Integration (CI/CD Pipeline Triggers)**:
+
 ```yaml
 # Example GitHub Actions / Azure Pipelines workflow
 on:
@@ -185,10 +199,12 @@ jobs:
 ```
 
 **Prompts for CI/CD Setup**:
+
 1. **[devops-pipeline-architect](../../prompts/system/devops-pipeline-architect.md)** - Design CI/CD pipeline stages
 2. **[test-automation-engineer](../../prompts/developers/test-automation-engineer.md)** - Write automated tests
 
 **Deliverables**:
+
 - Feature code with 80%+ test coverage
 - Unit tests and integration tests
 - Updated documentation (README, API docs)
@@ -203,13 +219,15 @@ jobs:
 **Duration**: 2 days (overlaps with late development)
 
 **Prompts to Use**:
+
 1. **[code-review-expert](../../prompts/developers/code-review-expert.md)** - Conduct thorough peer reviews
 2. **[security-code-auditor](../../prompts/governance-compliance/security-code-auditor.md)** - Audit code for vulnerabilities
 3. **[performance-optimization-specialist](../../prompts/developers/performance-optimization-specialist.md)** - Identify performance bottlenecks
 4. **[refactoring-specialist](../../prompts/developers/refactoring-specialist.md)** - Suggest improvements for maintainability
 
 **Workflow**:
-```
+
+```text
 1. Engineer opens Pull Request (PR) / Merge Request (MR)
 2. Automated checks run (CI/CD pipeline, code coverage, linting)
 3. Assign 1-2 peer reviewers (rotating to spread knowledge)
@@ -226,6 +244,7 @@ jobs:
 ```
 
 **Quality Gates** (must pass before merge):
+
 - ✓ All automated tests passing (unit, integration, E2E)
 - ✓ Code coverage ≥ 80% for new code
 - ✓ No high/critical security vulnerabilities (Snyk, SonarQube)
@@ -234,6 +253,7 @@ jobs:
 - ✓ Acceptance criteria met (verified by Product Owner or QA)
 
 **Deliverables**:
+
 - Approved and merged Pull Request
 - Code review comments and resolution log
 - Updated test suite with passing results
@@ -248,12 +268,14 @@ jobs:
 **Duration**: 2 days (can overlap with code review)
 
 **Prompts to Use**:
+
 1. **[test-automation-engineer](../../prompts/developers/test-automation-engineer.md)** - Create automated test suites
 2. **[user-experience-analyst](../../prompts/analysis/user-experience-analyst.md)** - Validate user workflows and usability
 3. **[performance-optimization-specialist](../../prompts/developers/performance-optimization-specialist.md)** - Run load tests and benchmarks
 
 **Workflow**:
-```
+
+```text
 1. QA Engineer writes/updates end-to-end (E2E) test scenarios
 2. Run automated E2E tests (Selenium, Cypress, Playwright, etc.)
 3. Perform exploratory testing (manual testing for edge cases)
@@ -264,7 +286,8 @@ jobs:
 ```
 
 **Testing Layers**:
-```
+
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ E2E Tests (GUI, User Workflows) - Slowest, Most Realistic  │
 ├─────────────────────────────────────────────────────────────┤
@@ -275,6 +298,7 @@ jobs:
 ```
 
 **Deliverables**:
+
 - E2E test suite with passing results
 - Performance test report (response times, throughput, error rates)
 - Accessibility audit report (WCAG compliance)
@@ -282,6 +306,7 @@ jobs:
 - Defect log (if any critical bugs found)
 
 **Decision Point**: Proceed to deployment if:
+
 - ✓ All E2E tests passing
 - ✓ No critical or high-priority bugs
 - ✓ Performance benchmarks met (e.g., API response time < 500ms p95)
@@ -296,12 +321,14 @@ jobs:
 **Duration**: 1 day (typically last day of sprint or start of next sprint)
 
 **Prompts to Use**:
+
 1. **[devops-pipeline-architect](../../prompts/system/devops-pipeline-architect.md)** - Orchestrate deployment pipeline
 2. **[cloud-architecture-consultant](../../prompts/developers/cloud-architecture-consultant.md)** - Optimize cloud resources (AWS, Azure, GCP)
 3. **[database-migration-specialist](../../prompts/developers/database-migration-specialist.md)** - Execute database migrations safely
 
 **Workflow**:
-```
+
+```text
 1. Merge develop branch to release branch (Git Flow)
 2. Tag release version (Semantic Versioning: v1.2.3)
 3. Deploy to staging environment (automated via CI/CD)
@@ -318,17 +345,20 @@ jobs:
 ```
 
 **Deployment Strategies**:
+
 - **Blue-Green**: Deploy to new environment (green), switch traffic from old (blue)
 - **Canary**: Gradually roll out to 5% → 25% → 50% → 100% of users
 - **Rolling**: Update instances one-by-one with health checks
 
 **DevOps Automation** (example tools):
+
 - **CI/CD**: GitHub Actions, GitLab CI, Jenkins, Azure Pipelines, CircleCI
 - **Infrastructure as Code**: Terraform, Pulumi, AWS CloudFormation, Azure ARM templates
 - **Container Orchestration**: Kubernetes, Docker Swarm, AWS ECS
 - **Monitoring**: Prometheus, Grafana, Datadog, New Relic, Azure Monitor
 
 **Deliverables**:
+
 - Deployed application to production
 - Release notes (changelog with new features, bug fixes)
 - Rollback plan documented (in case of issues)
@@ -343,12 +373,14 @@ jobs:
 **Duration**: Continuous (throughout sprint and post-deployment)
 
 **Prompts to Use**:
+
 1. **[metrics-and-kpi-designer](../../prompts/analysis/metrics-and-kpi-designer.md)** - Define success metrics and alerts
 2. **[data-analysis-insights](../../prompts/analysis/data-analysis-insights.md)** - Analyze user behavior and system performance
 3. **[incident-response-coordinator](../../prompts/governance-compliance/security-incident-response.md)** - Handle production incidents (see [Incident Response Playbook](./incident-response-playbook.md))
 
 **Workflow**:
-```
+
+```text
 1. Configure monitoring dashboards (real-time and historical)
 2. Set up alerting rules (e.g., error rate > 1%, latency p95 > 2s)
 3. Monitor production logs for errors and warnings
@@ -361,18 +393,21 @@ jobs:
 ```
 
 **Key Metrics to Monitor** (Four Golden Signals):
+
 1. **Latency**: Response time (p50, p95, p99 percentiles)
 2. **Traffic**: Requests per second, active users
 3. **Errors**: Error rate (%), 4xx/5xx HTTP status codes
 4. **Saturation**: CPU usage, memory usage, disk I/O, network bandwidth
 
 **Observability Stack** (example):
+
 - **Logs**: ELK Stack (Elasticsearch, Logstash, Kibana), Splunk, Datadog
 - **Metrics**: Prometheus + Grafana, CloudWatch, Azure Monitor
 - **Traces**: Jaeger, Zipkin, OpenTelemetry, AWS X-Ray
 - **Alerts**: PagerDuty, Opsgenie, Slack integrations
 
 **Deliverables**:
+
 - Monitoring dashboards with SLA tracking
 - Weekly production health report
 - User feedback summary (feature requests, pain points)
@@ -387,11 +422,13 @@ jobs:
 **Duration**: 3 hours (last day of sprint)
 
 **Prompts to Use**:
+
 1. **[meeting-facilitator](../../prompts/business/meeting-facilitator.md)** - Run effective retrospectives
 2. **[process-optimization-consultant](../../prompts/analysis/process-optimization-consultant.md)** - Identify process improvements
 
 **Workflow - Sprint Review (1 hour)**:
-```
+
+```text
 1. Product Owner introduces sprint goal and completed stories
 2. Engineers demo new features (live in staging or production)
 3. Stakeholders provide feedback (feature requests, usability issues)
@@ -400,7 +437,8 @@ jobs:
 ```
 
 **Workflow - Retrospective (1-2 hours)**:
-```
+
+```text
 1. Facilitator sets ground rules (blameless, constructive)
 2. Team reflects on sprint using framework (e.g., Start/Stop/Continue or 4Ls)
 3. Identify 3 things that went well (celebrate wins)
@@ -410,11 +448,13 @@ jobs:
 ```
 
 **Retrospective Frameworks**:
+
 - **Start/Stop/Continue**: What should we start doing? Stop doing? Continue doing?
 - **4Ls**: What did we Love? What did we Learn? What did we Lack? What do we Long for?
 - **Mad/Sad/Glad**: Categorize experiences by emotion
 
 **Deliverables**:
+
 - Sprint demo recordings (for stakeholders who couldn't attend)
 - Stakeholder feedback log
 - Retrospective action items (tracked in next sprint)
@@ -427,6 +467,7 @@ jobs:
 ### Scenario: E-Commerce Platform - Adding "Gift Card Purchase" Feature
 
 **Context**:
+
 - Team: 8 engineers (3 backend, 3 frontend, 1 DevOps, 1 QA)
 - Sprint Duration: 2 weeks
 - Tech Stack: React (frontend), Node.js (backend), PostgreSQL (database), AWS (cloud)
@@ -462,8 +503,9 @@ jobs:
 
 2. **Story Refinement** (use requirements-analysis-expert):
    - Prompt: "Refine user story: 'As a customer, I want to purchase a gift card with custom amount ($25-$500) so that I can give it as a gift.' Add acceptance criteria."
-   - Output: 
-     ```
+   - Output:
+
+     ```text
      Acceptance Criteria:
      - [ ] User can select gift card amount ($25, $50, $100, $250, $500, or custom)
      - [ ] User can enter recipient email and personal message (optional)
@@ -496,7 +538,8 @@ jobs:
 
 1. **Backend Implementation** (use code-generation-assistant):
    - Prompt: "Generate Node.js Express API endpoint for gift card purchase. Use Stripe SDK for payment, generate 16-digit code with crypto.randomBytes(), save to PostgreSQL with Knex ORM, send email with SendGrid."
-   - Output: 
+   - Output:
+
      ```javascript
      // routes/giftCards.js
      const express = require('express');
@@ -637,7 +680,8 @@ jobs:
    - ✓ Deployment successful
 
 3. **Release Notes**:
-   ```
+
+   ```text
    # Release v2.5.0 - Gift Card Feature
    
    ## New Features
@@ -722,12 +766,14 @@ jobs:
 ## Scaling Considerations
 
 ### Small Teams (2-5 engineers)
+
 - Reduce sprint duration to 1 week (faster feedback loops)
 - Combine roles (e.g., one engineer handles code review + testing)
 - Use fewer prompts (focus on core: requirements, code generation, code review, testing)
 - Simpler deployment (Heroku, Vercel, Netlify instead of Kubernetes)
 
 ### Large Teams (20-50+ engineers)
+
 - Organize into squads (5-8 engineers per squad, each squad owns a feature area)
 - Implement stricter quality gates (require 2+ peer reviews, 90%+ test coverage)
 - Use advanced DevOps (Kubernetes, service mesh, blue-green deployments)
@@ -735,6 +781,7 @@ jobs:
 - Use all prompts for comprehensive coverage
 
 ### Enterprise Scale (100+ engineers)
+
 - Multiple scrum teams coordinating via Scrum of Scrums
 - Shared services team (authentication, payments, notifications)
 - Platform team (infrastructure, CI/CD, monitoring)
@@ -746,18 +793,22 @@ jobs:
 ## Troubleshooting Common Issues
 
 ### Issue 1: Sprint Velocity is Inconsistent
+
 **Symptoms**: Team commits to 80 story points but only completes 40-50  
 **Root Cause**: Over-optimistic estimates, unclear requirements, frequent context switching  
 **Solution**:
+
 1. Use agile-sprint-planner to analyze historical velocity (last 3-5 sprints)
 2. Commit to 70% of theoretical capacity (leave buffer for unknowns)
 3. Refine user stories earlier (use requirements-analysis-expert in backlog refinement sessions)
 4. Reduce work-in-progress (WIP) limits (no engineer should have >2 stories in progress)
 
 ### Issue 2: Code Reviews are Bottleneck (PRs waiting 2-3 days)
+
 **Symptoms**: PRs pile up, engineers blocked, frustration  
 **Root Cause**: Too few reviewers, unclear review expectations, large PRs  
 **Solution**:
+
 1. Implement rotating reviewer schedule (use agile-sprint-planner to assign)
 2. Set PR review SLA: 4 hours for urgent, 1 day for normal
 3. Break large PRs into smaller chunks (<300 lines of code)
@@ -765,9 +816,11 @@ jobs:
 5. Automate trivial checks (linting, formatting) so reviewers focus on logic
 
 ### Issue 3: Production Incidents are Frequent (weekly outages)
+
 **Symptoms**: Pager alerts at 3am, customer complaints, revenue loss  
 **Root Cause**: Insufficient testing, lack of monitoring, no rollback plan  
 **Solution**:
+
 1. Increase test coverage to 80%+ (use test-automation-engineer)
 2. Add comprehensive monitoring (use metrics-and-kpi-designer to define SLIs/SLOs)
 3. Implement blue-green deployments or canary releases (use devops-pipeline-architect)
@@ -775,9 +828,11 @@ jobs:
 5. Create runbooks for common issues (use documentation-generator)
 
 ### Issue 4: Technical Debt is Accumulating (codebase is messy)
+
 **Symptoms**: Developers complain about code quality, velocity decreasing over time  
 **Root Cause**: "Move fast" culture without refactoring, tight deadlines  
 **Solution**:
+
 1. Allocate 20% of sprint capacity to technical debt reduction (use agile-sprint-planner)
 2. Use refactoring-specialist to identify high-impact refactoring opportunities
 3. Implement strict code review standards (use code-review-expert checklist)
@@ -807,6 +862,7 @@ After implementing this SDLC workflow, consider exploring:
 ## Contributing
 
 To improve this blueprint:
+
 1. Test workflow with your team (document pain points)
 2. Suggest additional prompts or phases
 3. Share real-world examples from your projects

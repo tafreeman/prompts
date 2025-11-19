@@ -23,19 +23,21 @@ platform: "Claude Sonnet 4.5"
 You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, 20% integration, 10% E2E) and framework selection (Jest, Pytest, JUnit, Cypress, Selenium, Playwright). Your focus is on fast, reliable, maintainable test suites that catch bugs early in the SDLC.
 
 **Your Approach**:
+
 - Test Pyramid prioritization: More unit tests (fast, isolated), fewer E2E tests (slow, brittle)
 - TDD mindset: Write tests before code when possible
 - Coverage-driven: Aim for 80%+ code coverage with meaningful tests (not just lines covered)
 - CI/CD integration: Tests must run in < 10 minutes for fast feedback
 
 ## Use Cases
+
 - Testing for Developer persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
 ## Prompt
 
-```
+```text
 Design a comprehensive test automation strategy using the Test Pyramid framework:
 
 **Application Context**:
@@ -128,7 +130,8 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
-```
+```text
+
 ```
 
 ## Variables
@@ -143,19 +146,24 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 ## Example Usage
 
 **Input:**
-```
+
+```text
+
 Design a comprehensive test automation strategy using the Test Pyramid framework:
 
 **Application Context**:
+
 - Application Name: E-Commerce Checkout
 - Technology Stack: React (frontend) + Node.js Express (backend) + PostgreSQL (database)
 - Testing Scope: User authentication, product search, shopping cart, payment processing
 - Quality Goals: 80% code coverage, tests complete in < 10 minutes, < 5% flaky test rate
 - CI/CD Pipeline: GitHub Actions
 - Test Budget: 10 minutes per pipeline run
+
 ```
 
 **Output** (condensed):
+
 ```markdown
 # Test Automation Strategy: E-Commerce Checkout
 
@@ -248,30 +256,35 @@ jobs:
         with:
           name: playwright-screenshots
           path: test-results/
-```
+```text
 
 ## Test Data Management
+
 - **Strategy**: Factory pattern with Faker.js for realistic data generation
 - **Database Reset**: Use `beforeEach(() => db.truncateAll())` for test isolation
 - **Fixtures**: Seed 10 sample products, 5 users, 3 categories before each test suite
 - **Example Seed Data**:
+
   ```javascript
   const testProducts = [
     { id: 1, name: 'Laptop', price: 999.99, category: 'electronics', stock: 50 },
     { id: 2, name: 'Keyboard', price: 79.99, category: 'accessories', stock: 200 }
   ];
-  ```
+  ```text
 
 ## Success Metrics
+
 - **Code Coverage**: 82% (exceeds 80% goal)
 - **Test Execution Time**: 5 minutes (within 10-minute budget)
 - **Flakiness Rate**: 2% (8 tests flagged as occasionally flaky, retry logic added)
 - **CI/CD Pass Rate**: 95% (indicates stable test suite)
 
 ## Maintenance Plan
+
 - **Weekly**: Review flaky test report, refactor unstable tests
 - **Monthly**: Update test data fixtures, review coverage gaps
 - **Quarterly**: Performance test review (load testing with k6)
+
 ```
 
 ## Tips
@@ -299,6 +312,7 @@ jobs:
 ## Research Foundation
 
 Based on:
+
 - **Test Pyramid** - Mike Cohn, Succeeding with Agile (2009)
 - **Google Testing Blog** - Just Say No to More End-to-End Tests (2015)
 - **Martin Fowler** - TestPyramid (2012), Practical Test Pyramid (2018)
@@ -306,6 +320,7 @@ Based on:
 ## Changelog
 
 ### Version 2.0 (2025-11-17)
+
 - **MAJOR UPLIFT**: Elevated from Tier 3 (5/10) to Tier 1 (9/10)
 - Added Test Pyramid framework (70/20/10 split with time budgets)
 - Added comprehensive testing layers (unit, integration, E2E, performance, security, accessibility)
@@ -317,5 +332,6 @@ Based on:
 - Added research foundation (Cohn, Google, Fowler)
 
 ### Version 1.0 (2025-11-16)
+
 - Initial version migrated from legacy prompt library
 - Basic test strategy structure

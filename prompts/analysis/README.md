@@ -5,6 +5,7 @@ This directory contains prompts for data analysts, researchers, and anyone worki
 ## Available Prompts
 
 ### Data Analysis
+
 - **[Data Analysis and Insights Generator](data-analysis-insights.md)** - Transform data into actionable insights
   - Difficulty: Intermediate
   - Tags: data-analysis, insights, reporting, statistics
@@ -12,24 +13,31 @@ This directory contains prompts for data analysts, researchers, and anyone worki
 ## Categories
 
 ### Data Analysis
+
 Prompts for analyzing datasets, finding patterns, generating insights.
 
 ### Research & Synthesis
+
 Prompts for literature review, research summaries, meta-analysis.
 
 ### Statistical Analysis
+
 Prompts for statistical testing, hypothesis testing, significance analysis.
 
 ### Reporting & Visualization
+
 Prompts for creating reports, dashboards, data visualizations.
 
 ### Trend Analysis
+
 Prompts for identifying trends, forecasting, time series analysis.
 
 ### Market Research
+
 Prompts for competitive analysis, market sizing, customer research.
 
 ### Performance Metrics
+
 Prompts for KPI analysis, performance tracking, goal monitoring.
 
 ## Using Analysis Prompts
@@ -64,6 +72,7 @@ Prompts for KPI analysis, performance tracking, goal monitoring.
 ## Data Privacy Note
 
 ⚠️ **Important**: Never share personally identifiable information (PII), confidential data, or sensitive business information in prompts. Use:
+
 - Aggregated data
 - Sample data
 - Anonymized examples
@@ -73,6 +82,7 @@ Prompts for KPI analysis, performance tracking, goal monitoring.
 ## Getting Better Insights
 
 **Provide this context:**
+
 - Industry or business type
 - Time period covered
 - Sample size
@@ -81,6 +91,7 @@ Prompts for KPI analysis, performance tracking, goal monitoring.
 - Decision to be made
 
 **Ask for:**
+
 - Executive summaries
 - Specific recommendations
 - Statistical significance
@@ -90,6 +101,7 @@ Prompts for KPI analysis, performance tracking, goal monitoring.
 ## Statistical Significance
 
 When analyzing data:
+
 - Mention sample sizes
 - Ask about statistical significance
 - Request confidence intervals
