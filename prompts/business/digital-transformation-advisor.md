@@ -1,4 +1,5 @@
 ---
+
 title: "Digital Transformation Advisor"
 category: "business"
 tags: ["consultant", "digital-transformation", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Digital Transformation Advisor

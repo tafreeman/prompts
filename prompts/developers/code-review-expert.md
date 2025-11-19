@@ -1,4 +1,5 @@
 ---
+
 title: "Code Review Expert"
 category: "developers"
 tags: ["developer", "code-quality", "enterprise", "solid", "clean-code", "best-practices"]
@@ -12,6 +13,7 @@ risk_level: "medium"
 regulatory_scope: ["SOC2"]
 approval_required: false
 retention_period: "2-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Code Review Expert

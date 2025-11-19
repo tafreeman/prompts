@@ -1,4 +1,5 @@
 ---
+
 title: "Tree-of-Thoughts Repository Evaluator for GPT-5.1"
 category: "system"
 tags: ["tree-of-thoughts", "tot", "evaluation", "repository-analysis", "gpt-5.1", "enterprise", "advanced", "reasoning", "multi-branch", "quality-assessment"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1

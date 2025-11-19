@@ -1,4 +1,5 @@
 ---
+
 title: "Performance Architecture Optimizer"
 category: "system"
 tags: ["architect", "performance", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Performance Architecture Optimizer

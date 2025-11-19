@@ -1,4 +1,5 @@
 ---
+
 title: "Quality Assurance Planner"
 category: "business"
 tags: ["project-manager", "quality-assurance", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Quality Assurance Planner

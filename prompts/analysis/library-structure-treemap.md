@@ -1,4 +1,5 @@
 ---
+
 title: "Library Structure Treemap Generator"
 category: "analysis"
 tags: ["visualization", "treemap", "library-structure", "overview"]
@@ -6,6 +7,7 @@ author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 <!-- markdownlint-disable MD025 -->

@@ -6,6 +6,7 @@ author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "beginner"
+platform: "Microsoft 365 Copilot"
 ---
 
 # M365 Daily Standup Assistant

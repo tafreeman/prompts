@@ -1,4 +1,5 @@
 ---
+
 title: "Library Capability Radar Chart Generator"
 category: "analysis"
 tags: ["visualization", "radar-chart", "capability-assessment", "gap-analysis"]
@@ -6,6 +7,7 @@ author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 <!-- markdownlint-disable MD025 -->

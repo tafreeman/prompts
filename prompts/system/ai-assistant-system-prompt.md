@@ -1,4 +1,5 @@
 ---
+
 title: "AI Assistant System Prompt"
 category: "system"
 tags: ["system-prompt", "ai-assistant", "configuration", "behavior", "advanced"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # AI Assistant System Prompt

@@ -1,4 +1,5 @@
 ---
+
 title: "Code Generation Assistant"
 category: "developers"
 tags: ["developer", "code-generation", "best-practices", "testing", "documentation", "multi-language"]
@@ -13,6 +14,7 @@ regulatory_scope: ["SOC2"]
 approval_required: true
 approval_roles: ["Tech-Lead", "Security-Engineer"]
 retention_period: "5-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Code Generation Assistant

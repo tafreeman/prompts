@@ -1,4 +1,5 @@
 ---
+
 title: "Test Automation Engineer"
 category: "developers"
 tags: ["developer", "testing", "enterprise", "test-pyramid", "tdd", "ci-cd", "quality-assurance"]
@@ -12,6 +13,7 @@ risk_level: "medium"
 regulatory_scope: ["SOC2"]
 approval_required: false
 retention_period: "2-years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Test Automation Engineer

@@ -1,4 +1,5 @@
 ---
+
 title: "Legal: Contract Review Assistant"
 category: "governance-compliance"
 tags: ["legal", "contract-review", "risk-assessment", "compliance", "enterprise"]
@@ -12,6 +13,7 @@ risk_level: "High"
 regulatory_scope: ["general-commercial-law", "contract-law"]
 approval_required: "Legal Counsel"
 retention_period: "7 years"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Legal: Contract Review Assistant

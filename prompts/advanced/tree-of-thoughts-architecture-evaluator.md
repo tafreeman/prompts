@@ -1,4 +1,5 @@
 ---
+
 title: "Tree-of-Thoughts: Architecture Evaluator"
 category: "advanced-techniques"
 tags: ["tree-of-thoughts", "architecture", "system-design", "developers", "trade-offs"]
@@ -7,6 +8,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "advanced"
 governance_tags: ["requires-human-review", "architecture-decision-record"]
+platform: "Claude Sonnet 4.5"
 ---
 
 # Tree-of-Thoughts: Architecture Evaluator

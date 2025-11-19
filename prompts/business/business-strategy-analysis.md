@@ -1,4 +1,5 @@
 ---
+
 title: "Business Strategy Analysis"
 category: "business"
 tags: ["strategy", "analysis", "swot", "planning", "decision-making"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Business Strategy Analysis

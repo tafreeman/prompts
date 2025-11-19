@@ -1,4 +1,5 @@
 ---
+
 title: "Cloud Migration Specialist"
 category: "developers"
 tags: ["developer", "cloud-migration", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Cloud Migration Specialist

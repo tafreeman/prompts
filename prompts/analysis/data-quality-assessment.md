@@ -1,4 +1,5 @@
 ---
+
 title: "Data Quality Assessment"
 category: "analysis"
 tags: ["data-quality", "analysis", "validation", "data-governance"]
@@ -7,6 +8,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
 governance_tags: ["data-governance", "quality-metrics"]
+platform: "Claude Sonnet 4.5"
 ---
 
 # Data Quality Assessment

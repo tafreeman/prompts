@@ -1,4 +1,5 @@
 ---
+
 title: "Code Review Expert: Structured Output"
 category: "developers"
 tags: ["code-review", "developers", "structured-output", "automation", "ci-cd"]
@@ -7,6 +8,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
 governance_tags: ["code-quality", "automation-ready"]
+platform: "Claude Sonnet 4.5"
 ---
 
 # Code Review Expert: Structured Output

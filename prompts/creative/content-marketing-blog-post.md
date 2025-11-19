@@ -1,4 +1,5 @@
 ---
+
 title: "Content Marketing Blog Post Generator"
 category: "creative"
 tags: ["content-marketing", "blogging", "seo", "copywriting", "beginner-friendly"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 difficulty: "beginner"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Content Marketing Blog Post Generator

@@ -1,4 +1,5 @@
 ---
+
 title: "Chain-of-Thought: Debugging & Root Cause Analysis"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "debugging", "root-cause-analysis", "developers", "reasoning"]
@@ -6,6 +7,7 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Chain-of-Thought: Debugging & Root Cause Analysis

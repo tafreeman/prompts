@@ -1,4 +1,5 @@
 ---
+
 title: "Project Closure Specialist"
 category: "business"
 tags: ["project-manager", "project-closure", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Project Closure Specialist

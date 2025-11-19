@@ -1,4 +1,5 @@
 ---
+
 title: "Security Architecture Specialist"
 category: "system"
 tags: ["architect", "security", "enterprise"]
@@ -6,6 +7,7 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
+platform: "Claude Sonnet 4.5"
 ---
 
 # Security Architecture Specialist
