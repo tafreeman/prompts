@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 # Reflection: Initial Answer + Self-Critique Pattern
 
 ## Description
+
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
 
 ## Use Cases
+
 - Critical business decisions requiring validation
 - Complex technical solutions needing error-checking
 - High-stakes communications (executive briefings, client proposals)
@@ -26,7 +28,7 @@ The Reflection pattern involves generating an initial answer and then systematic
 
 ## Prompt
 
-```
+```text
 You will answer a question using a two-phase reflection pattern.
 
 **Question**: [USER_QUESTION]
@@ -95,13 +97,15 @@ Based on this critique, provide:
 ```
 
 ## Variables
+
 - `[USER_QUESTION]`: The question or problem to solve
 - `[BACKGROUND_AND_CONSTRAINTS]`: Context, requirements, constraints, success criteria
 
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You will answer a question using a two-phase reflection pattern.
 
 **Question**: Should we migrate our monolithic application to microservices?
@@ -123,7 +127,8 @@ You will answer a question using a two-phase reflection pattern.
 ```
 
 **Output:**
-```
+
+```text
 **Phase 1: Initial Answer**
 
 **Initial Answer**:
@@ -298,6 +303,7 @@ These unknowns prevent High confidence in any specific recommendation.
 ```
 
 ## Tips
+
 - **Be harsh in critique**: The goal is to find problems, not justify the initial answer
 - **Look for unstated assumptions**: What did you assume without explicitly stating?
 - **Consider alternatives seriously**: Don't just list them to dismiss them
@@ -308,14 +314,16 @@ These unknowns prevent High confidence in any specific recommendation.
 
 ## When to Use Reflection
 
-### Use When:
+### Use When
+
 - **High stakes**: >$10K impact, affects >5 people, irreversible decisions
 - **Novel problems**: Unfamiliar territory where assumptions are risky
 - **Complex analysis**: Multiple factors, trade-offs, or interdependencies
 - **Compliance/legal**: Correctness is critical
 - **Teaching**: Modeling good thinking for others
 
-### Don't Use When:
+### Don't Use When
+
 - Simple, factual questions
 - Time-critical situations requiring fast response
 - Low-stakes, easily reversible decisions
@@ -350,11 +358,13 @@ These unknowns prevent High confidence in any specific recommendation.
 ```
 
 ## Related Prompts
+
 - [Reflection: Iterative Improvement](reflection-iterative-improvement.md) - Multi-round refinement
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - Explore multiple approaches
 
 ## Governance Notes
+
 - **PII Safety**: No inherent PII handling; ensure question/context don't contain sensitive data
 - **Human Review Required**: For critiques of high-impact decisions (>$100K, legal, compliance)
 - **Audit Trail**: Save both initial answer and revised answer for accountability
@@ -363,6 +373,7 @@ These unknowns prevent High confidence in any specific recommendation.
 ## Platform Adaptations
 
 ### API Integration
+
 ```python
 def reflection_pattern(question, context):
     # Phase 1: Initial answer
@@ -390,6 +401,7 @@ def reflection_pattern(question, context):
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Two-phase reflection pattern (initial + critique)
 - Comprehensive critique framework

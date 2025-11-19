@@ -5,21 +5,25 @@ This directory contains prompts tailored for governance, compliance, legal, secu
 ## What's Inside
 
 ### Legal Team Prompts
+
 - `legal-contract-review.md` - Contract analysis and risk identification
 - `legal-compliance-check.md` - Regulatory compliance verification
 - `legal-policy-drafting.md` - Policy and terms creation
 
 ### Compliance Officer Prompts
+
 - `compliance-audit-trail.md` - Audit trail documentation
 - `compliance-risk-assessment.md` - Risk evaluation frameworks
 - `compliance-policy-enforcement.md` - Policy compliance verification
 
 ### Customer Support Prompts
+
 - `support-ticket-triage.md` - Ticket categorization and priority
 - `support-escalation.md` - Escalation decision framework
 - `support-response-template.md` - Response drafting with empathy
 
 ### Security Operations Prompts
+
 - `security-incident-response.md` - Incident handling and containment
 - `security-threat-modeling.md` - Threat identification and mitigation
 - `security-vulnerability-assessment.md` - Security review and recommendations
@@ -29,6 +33,7 @@ This directory contains prompts tailored for governance, compliance, legal, secu
 All prompts in this directory include:
 
 ### Governance Tags
+
 - **PII-handling**: Indicates if prompt processes personally identifiable information
 - **requires-human-review**: Specifies when human oversight is mandatory
 - **audit-required**: Whether activity must be logged for compliance
@@ -36,6 +41,7 @@ All prompts in this directory include:
 - **regulatory-scope**: Relevant regulations (GDPR, HIPAA, SOX, PCI-DSS, etc.)
 
 ### Risk Assessment Metadata
+
 - **risk-level**: Low, Medium, High, Critical
 - **business-impact**: Financial, reputational, operational, legal consequences
 - **approval-required**: Who must approve use (Manager, Director, VP, Legal, CISO)
@@ -44,24 +50,28 @@ All prompts in this directory include:
 ## Usage Guidelines
 
 ### For Legal Teams
+
 - All legal prompts require human review before final decisions
 - Output must be reviewed by licensed attorney
 - Do not use for legal advice to external parties without attorney approval
 - Log all usage for privilege and work product protection
 
 ### For Compliance Officers
+
 - Document all compliance assessments
 - Maintain audit trail of all decisions
 - Escalate findings per company policy
 - Review prompts quarterly for regulatory updates
 
 ### For Customer Support
+
 - PII must be redacted before using prompts
 - Sensitive cases (legal, security, executive) require immediate escalation
 - Log all customer interactions per retention policy
 - Quality assurance review required for high-risk responses
 
 ### For Security Operations
+
 - Incident response prompts for SOC/IR teams only
 - All security findings must be logged in SIEM
 - Critical findings require immediate escalation to CISO

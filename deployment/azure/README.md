@@ -103,7 +103,8 @@ az webapp deployment container config \
 echo "App URL: https://prompt-library-app.azurewebsites.net"
 ```
 
-**Cost**: 
+**Cost**:
+
 - Basic (B1): $13/month (1 core, 1.75GB RAM)
 - Standard (S1): $55/month (1 core, 1.75GB RAM, auto-scale, deployment slots)
 
@@ -431,6 +432,6 @@ az group delete --name prompt-library-rg --yes --no-wait
 
 ## Support
 
-- Azure Documentation: https://docs.microsoft.com/azure/
-- App Service: https://docs.microsoft.com/azure/app-service/
-- Container Instances: https://docs.microsoft.com/azure/container-instances/
+- Azure Documentation: <https://docs.microsoft.com/azure/>
+- App Service: <https://docs.microsoft.com/azure/app-service/>
+- Container Instances: <https://docs.microsoft.com/azure/container-instances/>

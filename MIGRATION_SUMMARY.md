@@ -8,7 +8,7 @@
 
 ### ✅ New Structure Created
 
-```
+```text
 prompts/
 ├── guides/              # NEW - Essential how-to guides
 ├── workflows/           # NEW - Pre-built workflow blueprints
@@ -20,11 +20,13 @@ prompts/
 ### ✅ Files Migrated
 
 **To `guides/`:**
+
 - getting-started.md (from docs/)
 - best-practices.md (from docs/)
 - domain-schemas.md (from docs/)
 
 **To `workflows/`:**
+
 - sdlc.md (from docs/workflows/sdlc-blueprint.md)
 - incident-response.md (from docs/workflows/incident-response-playbook.md)
 - data-pipeline.md (from docs/workflows/data-pipeline-blueprint.md)
@@ -33,6 +35,7 @@ prompts/
 ### ✅ Files Removed (Internal Process Documents)
 
 **Root level:**
+
 - IMPLEMENTATION_SUMMARY.md
 - IMPLEMENTATION_SUMMARY_2025-11-18.md
 - EVALUATION_PROMPT.md (kept in RESTRUCTURE_PLAN.md reference)
@@ -40,6 +43,7 @@ prompts/
 - evaluate-with-api.py
 
 **From docs/:**
+
 - IMPLEMENTATION_PROGRESS.md
 - business-prompts-uplift-plan.md
 - developer-prompts-uplift-plan.md
@@ -70,12 +74,14 @@ prompts/
 ## Benefits Achieved
 
 ### For Users
+
 - **80% less clutter** - Removed 15+ internal planning documents
 - **Cleaner navigation** - Industry-standard flat structure
 - **Clear purpose** - guides/ vs workflows/ distinction
 - **Professional appearance** - Focus on content, not process
 
 ### For Maintainers
+
 - **Easier to manage** - Less documentation cruft
 - **Clear organization** - Obvious where content belongs
 - **Better onboarding** - New contributors see clean structure
@@ -98,23 +104,27 @@ prompts/
 ## Files to Update (Next Phase)
 
 ### README.md
+
 - Simplify intro
 - Update folder paths
 - Remove references to deleted docs
 - Add guides/ and workflows/ sections
 
 ### CONTRIBUTING.md
+
 - Update folder structure
 - Remove references to planning docs
 - Add guidance for guides/ vs workflows/
 
 ### src/load_prompts.py (if keeping web app)
+
 - Update paths: `governance-compliance` → `governance`
 - Update paths: `advanced-techniques` → `advanced`
 
 ## Rollback Instructions
 
 If needed, can rollback by:
+
 ```powershell
 git checkout main
 git branch -D restructure-clean-deployment

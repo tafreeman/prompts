@@ -12,39 +12,48 @@ platform: "Microsoft 365 Copilot"
 # M365 Meeting Prep Brief
 
 ## Description
+
 This prompt helps an individual quickly prepare for an upcoming meeting using Microsoft 365 context. It generates a brief that includes meeting purpose, key talking points, questions to ask, and potential risks or sensitive topics based on the meeting invite, related emails, chats, and documents.
 
 ## Goal
+
 Enable a user to walk into any meeting confident and well-prepared, with clear talking points and an understanding of context, even when preparation time is limited.
 
 ## Context
+
 Assume the user works in Microsoft 365 with access to Outlook, Teams, OneDrive/SharePoint, and calendar. Meetings often reference prior discussions, documents, and email threads that the AI can surface to help the user prepare efficiently.
 
 The AI can reference:
+
 - The meeting invite (subject, attendees, agenda if available)
 - Recent emails and Teams chats involving the attendees or meeting topic
 - Documents shared or mentioned in relation to the meeting
 - Calendar context (previous meetings with the same participants)
 
 ## Inputs
+
 The user provides:
+
 - `[meeting_title]`: Title or subject of the meeting.
 - `[meeting_date]`: Date and time of the meeting.
 - `[focus]`: Optional emphasis area (e.g., "budget review", "risk assessment", "customer feedback").
 - `[time_window]`: How far back to look for relevant context (e.g., "last 2 weeks", "since last meeting").
 
 ## Assumptions
+
 - If the meeting has a formal agenda, the AI should reference it; if not, infer purpose from title, attendees, and recent context.
 - The AI should prioritize high-impact or decision-oriented topics.
 - The user wants to be briefed on both opportunities (positive outcomes) and risks (sensitive topics or potential conflicts).
 
 ## Constraints
+
 - Keep the entire brief under 600 words.
 - Use bullet points and short paragraphs for scannability.
 - Avoid exposing unnecessary sensitive details; summarize instead of quoting verbatim.
 - Highlight any gaps in context where the user may need to gather more information before the meeting.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Review the meeting invite and identify attendees, agenda items, and stated purpose.
   - Scan recent emails, chats, and documents for relevant background.
@@ -55,6 +64,7 @@ The user provides:
   - Flag topics that may require diplomatic handling or deeper preparation.
 
 ## Output Requirements
+
 Return the output in Markdown with these sections:
 
 - `## Meeting Overview`
@@ -69,6 +79,7 @@ Return the output in Markdown with these sections:
   - 1–3 bullets flagging any areas requiring careful handling, or "None identified" if the context is straightforward.
 
 ## Use Cases
+
 - Use case 1: A project manager preparing for a stakeholder sync with limited time.
 - Use case 2: An engineer reviewing context before a design review or technical discussion.
 - Use case 3: A consultant preparing for a client check-in using recent emails and shared documents.
@@ -77,7 +88,7 @@ Return the output in Markdown with these sections:
 
 ## Prompt
 
-```
+```text
 You are my Meeting Prep Assistant working in a Microsoft 365 environment.
 
 Goal:
@@ -134,6 +145,7 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 ```
 
 ## Variables
+
 - `[meeting_title]`: Title or subject of the meeting.
 - `[meeting_date]`: Date and time of the meeting (e.g., "November 20, 2025 at 2 PM").
 - `[focus]`: Optional emphasis area (e.g., "budget review", "customer feedback").
@@ -142,7 +154,8 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [meeting_title]: "Q4 Onboarding Roadmap Review"
 [meeting_date]: "November 20, 2025 at 2 PM"
 [focus]: "risk assessment and timeline feasibility"
@@ -152,7 +165,8 @@ You are my Meeting Prep Assistant working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Meeting Overview
 This meeting is a review of the Q4 onboarding roadmap with product, engineering, and support stakeholders. The goal is to align on priorities, assess timeline feasibility, and identify risks before committing to a phased rollout.
 
@@ -178,16 +192,19 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 ```
 
 ## Tips
+
 - Tip 1: Run this prompt 15–30 minutes before the meeting for a quick refresh even if you're generally familiar with the topic.
 - Tip 2: Use `[focus]` to zoom in on a specific aspect (e.g., "budget", "risks", "decisions needed") when the meeting has multiple themes.
 - Tip 3: After the meeting, pair this with `m365-meeting-recap-assistant.md` to capture decisions and actions.
 - Tip 4: Share the "Your Talking Points" section with your manager or a peer if you want feedback before the meeting.
 
 ## Related Prompts
+
 - `m365-meeting-recap-assistant.md`
 - `m365-daily-standup-assistant.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

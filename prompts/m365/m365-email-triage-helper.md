@@ -12,32 +12,40 @@ platform: "Microsoft 365 Copilot"
 # M365 Email Triage Helper
 
 ## Description
+
 This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate.
 
 ## Goal
+
 Reduce inbox overwhelm by organizing recent emails into clear categories and providing ready-to-send response drafts for high-priority messages.
 
 ## Context
+
 Assume the user primarily works in Outlook as part of Microsoft 365. They receive many emails of mixed importance and need help deciding what to respond to now, what can wait, and what is informational only.
 
 The AI can:
+
 - Look at emails received within a specified `[time_window]`.
 - Prioritize emails based on flags, sender importance, subject, and content.
 - Draft replies that match the user's desired tone.
 
 ## Inputs
+
 The user provides:
+
 - `[time_window]`: Period to consider (e.g., "today", "last 24 hours", "since Monday").
 - `[max_urgent]`: Maximum number of "respond today" emails to highlight.
 - `[tone]`: Desired tone for replies (e.g., "professional and concise", "friendly but direct").
 - Optional: `[exclude_senders]`: List of senders or domains to ignore.
 
 ## Assumptions
+
 - Flagged or replied-to emails may already have partial attention; the AI should treat them appropriately (e.g., deprioritize already-resolved threads).
 - Not every email needs a drafted response; drafts are most useful for high-impact or time-sensitive messages.
 - The user prefers short, to-the-point replies that can be easily edited before sending.
 
 ## Constraints
+
 - For each email that needs a response, draft a reply no longer than 150 words.
 - Group emails into three categories:
   - "Need response today"
@@ -47,6 +55,7 @@ The user provides:
 - Do not include confidential details not already in the email content.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Evaluate importance based on sender, subject, and context.
   - Detect time-sensitive or action-requesting emails.
@@ -57,6 +66,7 @@ The user provides:
   - Avoid showing chain-of-thought; present final groupings and drafts.
 
 ## Output Requirements
+
 Return the output in Markdown with:
 
 - `## Inbox Summary`
@@ -70,6 +80,7 @@ Return the output in Markdown with:
   - Bulleted list of informational emails.
 
 ## Use Cases
+
 - Use case 1: Start of the day triage for a busy manager.
 - Use case 2: After returning from time off with a large backlog of emails.
 - Use case 3: Afternoon "clean-up" session to stay on top of communications.
@@ -78,7 +89,7 @@ Return the output in Markdown with:
 
 ## Prompt
 
-```
+```text
 You are my Email Triage Helper working in Microsoft 365 Outlook.
 
 Goal:
@@ -126,8 +137,10 @@ Return the result in Markdown:
    - Why it matters: [one-line explanation]
    - Draft reply:
    ```
+
    [reply text]
-   ```
+
+   ```text
 
 ## Need Response This Week
 - **Subject:** [subject] — [what is needed]
@@ -142,6 +155,7 @@ provide reply drafts as specified.
 ```
 
 ## Variables
+
 - `[time_window]`: Time range of emails to analyze.
 - `[max_urgent]`: Maximum number of "today" emails to highlight.
 - `[tone]`: Reply tone (e.g., "professional and concise").
@@ -150,7 +164,8 @@ provide reply drafts as specified.
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [time_window]: "last 24 hours"
 [max_urgent]: "5"
 [tone]: "professional and concise"
@@ -160,7 +175,8 @@ You are my Email Triage Helper working in Microsoft 365 Outlook...
 ```
 
 **Output:**
-```
+
+```text
 ## Inbox Summary
 You received 32 emails in the last 24 hours. Five require same-day attention,
 seven can be handled later this week, and the rest are informational.
@@ -170,6 +186,7 @@ seven can be handled later this week, and the rest are informational.
    - Why it matters: High-priority customer escalation with a requested update today.
    - Draft reply:
    ```
+
    Hi [Name],
 
    Thanks for raising this. I'm reviewing the onboarding delay with the
@@ -180,7 +197,8 @@ seven can be handled later this week, and the rest are informational.
 
    Best regards,
    [Your Name]
-   ```
+
+   ```text
 
 ## Need Response This Week
 - **Subject:** Q4 planning deck review — Provide feedback on slides by Thursday.
@@ -192,16 +210,19 @@ seven can be handled later this week, and the rest are informational.
 ```
 
 ## Tips
+
 - Tip 1: Run this at the start and end of your day to keep your inbox manageable.
 - Tip 2: Adjust `[max_urgent]` when your schedule is packed so you don't overcommit.
 - Tip 3: Ask Copilot to "shorten the reply further" for busy recipients.
 - Tip 4: Use folder or search filters in Outlook along with this prompt for project-specific triage.
 
 ## Related Prompts
+
 - `m365-daily-standup-assistant.md`
 - `m365-weekly-review-coach.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

@@ -114,6 +114,7 @@ Save as `task-definition.json`:
 ```
 
 Register the task:
+
 ```bash
 aws ecs register-task-definition --cli-input-json file://task-definition.json
 ```
@@ -348,6 +349,6 @@ aws ecr delete-repository --repository-name prompt-library --force
 
 ## Support
 
-- AWS Documentation: https://docs.aws.amazon.com/
-- ECS Guide: https://docs.aws.amazon.com/ecs/
-- Lightsail Guide: https://lightsail.aws.amazon.com/ls/docs/
+- AWS Documentation: <https://docs.aws.amazon.com/>
+- ECS Guide: <https://docs.aws.amazon.com/ecs/>
+- Lightsail Guide: <https://lightsail.aws.amazon.com/ls/docs/>

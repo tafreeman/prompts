@@ -5,6 +5,7 @@ Thank you for your interest in contributing to the Prompts Library! This guide w
 ## 🌟 How to Contribute
 
 There are many ways to contribute:
+
 - **Add new prompts** to expand the library
 - **Improve existing prompts** with better wording or examples
 - **Fix errors** or typos
@@ -16,25 +17,33 @@ There are many ways to contribute:
 
 1. **Fork the repository** to your GitHub account
 2. **Clone your fork** to your local machine:
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/prompts.git
    cd prompts
    ```
+
 3. **Create a new branch** for your changes:
+
    ```bash
    git checkout -b add-new-prompt
    ```
+
 4. **Make your changes** following the guidelines below
 5. **Test your prompt** to ensure it works as expected
 6. **Commit your changes** with a clear message:
+
    ```bash
    git add .
    git commit -m "Add: Code review assistant prompt for developers"
    ```
+
 7. **Push to your fork**:
+
    ```bash
    git push origin add-new-prompt
    ```
+
 8. **Create a Pull Request** from your fork to the main repository
 
 ## 📝 Adding a New Prompt
@@ -42,6 +51,7 @@ There are many ways to contribute:
 ### Step 1: Choose the Right Category
 
 Place your prompt in the appropriate directory:
+
 - `prompts/developers/` - Technical and coding-related prompts
 - `prompts/business/` - Business analysis and strategy prompts
 - `prompts/creative/` - Content creation and marketing prompts
@@ -85,13 +95,17 @@ Clear, concise description of what this prompt does.
 
 **Input:**
 ```
+
 Show a real example with actual values
-```
+
+```text
 
 **Output:**
 ```
+
 Show the expected result
-```
+
+```text
 
 ## Tips
 - Helpful tip for better results
@@ -101,6 +115,7 @@ Show the expected result
 ### Step 3: Follow Best Practices
 
 **Good Prompt Characteristics:**
+
 - ✅ Clear and specific
 - ✅ Includes context and constraints
 - ✅ Has well-defined variables
@@ -109,6 +124,7 @@ Show the expected result
 - ✅ Appropriate difficulty level
 
 **Things to Avoid:**
+
 - ❌ Vague or ambiguous language
 - ❌ Missing examples
 - ❌ Untested prompts
@@ -118,6 +134,7 @@ Show the expected result
 ### Step 4: Name Your File
 
 Use descriptive, lowercase filenames with hyphens:
+
 - ✅ `code-review-assistant.md`
 - ✅ `marketing-email-generator.md`
 - ✅ `data-visualization-helper.md`
@@ -135,6 +152,7 @@ When improving an existing prompt:
 2. **Update the date** to the current date
 
 3. **Add a changelog** at the bottom of the file:
+
    ```markdown
    ## Changelog
    
@@ -153,20 +171,24 @@ When improving an existing prompt:
 Use relevant, specific tags to help users find prompts:
 
 **Category Tags:**
+
 - `code-generation`, `debugging`, `testing`, `documentation`
 - `analysis`, `strategy`, `reporting`, `planning`
 - `content`, `copywriting`, `social-media`, `marketing`
 - `data-analysis`, `research`, `visualization`, `insights`
 
 **Technology Tags:**
+
 - `python`, `javascript`, `java`, `typescript`, etc.
 - `react`, `node`, `django`, `flask`, etc.
 
 **Use Case Tags:**
+
 - `beginner-friendly`, `team-collaboration`, `automation`
 - `seo`, `email`, `presentation`, `documentation`
 
 **Skill Level:**
+
 - Always include one: `beginner`, `intermediate`, or `advanced`
 
 ## 📋 Pull Request Guidelines
@@ -185,6 +207,7 @@ When creating a pull request:
    - Any special considerations?
 
 3. **Link related issues** if applicable:
+
    ```markdown
    Closes #123
    Related to #456
@@ -212,6 +235,7 @@ Assign appropriate difficulty levels:
 ## ⚖️ Content Guidelines
 
 All contributions must:
+
 - ✅ Be original or properly attributed
 - ✅ Respect intellectual property rights
 - ✅ Be free from bias, discrimination, or harmful content
@@ -219,6 +243,7 @@ All contributions must:
 - ✅ Follow professional and respectful language
 
 We do **NOT** accept:
+
 - ❌ Plagiarized content
 - ❌ Harmful, malicious, or unethical prompts
 - ❌ Spam or promotional content
@@ -233,6 +258,7 @@ We do **NOT** accept:
 ## 🎖️ Recognition
 
 Contributors are recognized in several ways:
+
 - Listed as the author in prompt metadata
 - Mentioned in release notes for significant contributions
 - Special recognition for major contributors

@@ -5,6 +5,7 @@ This directory contains prompts for business professionals, strategists, manager
 ## Available Prompts
 
 ### Strategy & Analysis
+
 - **[Business Strategy Analysis](business-strategy-analysis.md)** - Comprehensive strategic analysis and recommendations
   - Difficulty: Intermediate
   - Tags: strategy, analysis, swot, planning
@@ -12,21 +13,27 @@ This directory contains prompts for business professionals, strategists, manager
 ## Categories
 
 ### Strategic Planning
+
 Prompts for business strategy, market analysis, competitive positioning.
 
 ### Financial Analysis
+
 Prompts for financial planning, budgeting, ROI analysis, forecasting.
 
 ### Operations
+
 Prompts for process improvement, efficiency, operations management.
 
 ### Human Resources
+
 Prompts for hiring, team management, performance reviews, culture.
 
 ### Sales & Business Development
+
 Prompts for sales strategies, proposals, pipeline management.
 
 ### Product Management
+
 Prompts for product strategy, roadmaps, feature prioritization.
 
 ## Using Business Prompts

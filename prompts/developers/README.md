@@ -5,6 +5,7 @@ This directory contains prompts specifically designed for software developers, e
 ## Available Prompts
 
 ### Code Quality & Review
+
 - **[Code Review Assistant](code-review-assistant.md)** - Get thorough code reviews with improvement suggestions
   - Difficulty: Beginner
   - Tags: code-review, quality, best-practices
@@ -12,24 +13,31 @@ This directory contains prompts specifically designed for software developers, e
 ## Categories
 
 ### Code Generation
+
 Prompts for generating new code, functions, classes, and modules.
 
 ### Code Review & Quality
+
 Prompts for reviewing code, identifying issues, and suggesting improvements.
 
 ### Debugging & Troubleshooting
+
 Prompts for finding and fixing bugs, understanding error messages.
 
 ### Testing
+
 Prompts for writing tests, test cases, and test strategies.
 
 ### Documentation
+
 Prompts for generating code documentation, API docs, and technical guides.
 
 ### Architecture & Design
+
 Prompts for system design, architecture decisions, and technical planning.
 
 ### Refactoring
+
 Prompts for improving existing code, modernizing legacy systems.
 
 ## Using Developer Prompts

@@ -14,37 +14,46 @@ platform: "Claude Sonnet 4.5"
 # Data Quality Assessment
 
 ## Description
+
 Systematically evaluates dataset quality across six dimensions (completeness, accuracy, consistency, timeliness, validity, uniqueness) and generates structured reports with recommended actions conforming to the schema in `docs/domain-schemas.md`.
 
 ## Goal
+
 Identify data quality issues before they impact analytics, ML models, or business decisions, and provide actionable recommendations to improve data quality.
 
 ## Context
+
 Use this prompt when onboarding new datasets, auditing existing data pipelines, preparing data for ML training, or investigating data-related issues (unexpected model behavior, incorrect reports).
 
 ## Inputs
+
 - Dataset description (name, source, schema)
 - Sample data or summary statistics
 - Context (how the data will be used)
 - Known issues or concerns (optional)
 
 ## Assumptions
+
 - User has access to the dataset or representative sample
 - Basic data profiling has been done (row/column counts, types)
 - User can implement validation rules or fixes
 
 ## Constraints
+
 - Assessment must be quantitative (scores, percentages)
 - Recommendations must be actionable and prioritized
 - Output must conform to Data Quality Assessment Schema (see `docs/domain-schemas.md`)
 
 ## Process / Reasoning Style
+
 Systematic evaluation across six data quality dimensions with quantified scores and evidence-based recommendations.
 
 ## Output Requirements
+
 Structured Markdown or JSON conforming to the Data Quality Assessment Schema in `docs/domain-schemas.md`:
 
 **Sections:**
+
 1. Overall Score (0–100%)
 2. Dimension Scores (Completeness, Accuracy, Consistency, Timeliness, Validity, Uniqueness)
 3. Issue Details (per dimension)
@@ -52,6 +61,7 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 5. Validation Rules (proposed checks)
 
 ## Use Cases
+
 - Onboarding new data sources into a data warehouse
 - Auditing data pipelines for quality issues
 - Preparing datasets for ML model training
@@ -60,7 +70,7 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 
 ## Prompt
 
-```
+```text
 You are a data quality expert assessing a dataset across six quality dimensions.
 
 ## Dataset Information
@@ -73,16 +83,20 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 
 **Schema:**
 ```
+
 [TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]
-```
+
+```text
 
 **Row Count:** [N]  
 **Column Count:** [M]
 
 **Sample Data (first 5 rows):**
 ```
+
 [SAMPLE_DATA_OR_SUMMARY_STATS]
-```
+
+```text
 
 **Usage Context:** [HOW_DATA_WILL_BE_USED]
 
@@ -242,6 +256,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 ```
 
 ## Variables
+
 - `[DATASET_NAME]`: Name of the dataset
 - `[SOURCE_SYSTEM_OR_FILE]`: Where the data comes from
 - `[TIME_RANGE]`: Date range of the data
@@ -254,7 +269,8 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 **Dataset Name:** customer_orders
 
 **Source:** PostgreSQL production database
@@ -285,6 +301,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 ```
 
 **Output (abbreviated):**
+
 ```markdown
 # Data Quality Assessment
 
@@ -397,6 +414,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 ```
 
 ## Tips
+
 - **Quantify everything:** Use percentages and counts, not vague terms like "some" or "many"
 - **Prioritize by impact:** Focus on issues that affect critical use cases first
 - **Provide examples:** Show actual invalid values, not just descriptions
@@ -404,15 +422,18 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Track over time:** Re-run assessment periodically to measure improvement
 
 ## Related Prompts
+
 - [Experiment Design Analyst](experiment-design-analyst.md) - For A/B test data validation
 - [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
 - [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For investigating data issues
 
 ## Governance Notes
+
 - **Data Classification:** Ensure sample data doesn't contain PII
 - **Compliance:** Data quality issues may violate regulatory requirements (GDPR, CCPA)
 - **Stakeholder Communication:** Share assessment with data governance team and data consumers
 - **Remediation Tracking:** Create tickets/tasks for recommended actions and track completion
 
 ## Changelog
+
 - 2025-11-18: Initial version based on ToT repository evaluation recommendations

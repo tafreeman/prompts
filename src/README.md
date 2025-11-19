@@ -61,7 +61,7 @@ docker-compose -f deployment/docker/docker-compose.yml up -d
 
 ## 🏗️ Project Structure
 
-```
+```text
 prompts/
 ├── src/                          # Application source code
 │   ├── app.py                    # Main Flask application
@@ -93,6 +93,7 @@ prompts/
 ### Text Visibility Fix
 
 The application includes comprehensive CSS fixes to ensure all text is visible:
+
 - Explicit color definitions for all text elements
 - High-contrast color schemes
 - Proper text rendering on all backgrounds
@@ -101,6 +102,7 @@ The application includes comprehensive CSS fixes to ensure all text is visible:
 ### Spell-Check & Autocorrect
 
 Built-in spell-checking features:
+
 - Browser-native spell checking enabled on all text inputs
 - Custom autocorrect for common typos
 - Automatic correction of Claude model names (e.g., "Sonnet 4" → "Sonnet 4.5")
@@ -110,6 +112,7 @@ Built-in spell-checking features:
 ### Prompt Customization
 
 Dynamic form generation based on prompt placeholders:
+
 1. System detects `[placeholder]` tokens in prompt templates
 2. Generates form fields automatically
 3. Validates required fields
@@ -119,6 +122,7 @@ Dynamic form generation based on prompt placeholders:
 ### Analytics Dashboard
 
 Track prompt usage with visual insights:
+
 - Total prompts and usage statistics
 - Usage by persona (doughnut chart)
 - Usage by platform (bar chart)
@@ -176,12 +180,14 @@ All prompts are optimized for **Claude Sonnet 4.5** and **Code 5**.
 See [deployment/iis/README.md](deployment/iis/README.md) for detailed instructions.
 
 **One-command deployment:**
+
 ```powershell
 # Run as Administrator
 .\deployment\iis\deploy.ps1
 ```
 
 This automated script will:
+
 - Detect your Python installation
 - Install all dependencies (including wfastcgi)
 - Create application directories
@@ -208,6 +214,7 @@ docker-compose -f deployment/docker/docker-compose.yml up -d
 See [deployment/aws/README.md](deployment/aws/README.md) for detailed instructions.
 
 **Options:**
+
 - AWS Lightsail Container: $7/month
 - ECS Fargate: $15-30/month
 - Elastic Beanstalk: $20-40/month
@@ -217,6 +224,7 @@ See [deployment/aws/README.md](deployment/aws/README.md) for detailed instructio
 See [deployment/azure/README.md](deployment/azure/README.md) for detailed instructions.
 
 **Options:**
+
 - Container Instances: $10-20/month
 - App Service: $13-55/month
 - AKS: $70+/month

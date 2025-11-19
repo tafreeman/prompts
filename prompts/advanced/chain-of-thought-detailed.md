@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 # Chain-of-Thought: Detailed Mode
 
 ## Description
+
 A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations, justifications, and consideration of alternatives. This mode is ideal for complex problems, high-stakes decisions, teaching contexts, or when stakeholders need to understand the complete reasoning process.
 
 ## Use Cases
+
 - Complex architectural decisions requiring full justification
 - Critical business decisions with significant financial or strategic impact
 - Teaching or mentoring contexts where explanation aids learning
@@ -25,7 +27,7 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 
 ## Prompt
 
-```
+```text
 You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Task**: [DESCRIBE_YOUR_TASK]
@@ -75,6 +77,7 @@ Format your response as:
 ```
 
 ## Variables
+
 - `[DESCRIBE_YOUR_TASK]`: The complete problem statement with all relevant details
 - `[PROVIDE_COMPREHENSIVE_CONTEXT]`: Full background, history, constraints, stakeholders, prior attempts
 - `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria and acceptance conditions
@@ -83,7 +86,8 @@ Format your response as:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Task**: Design a microservices migration strategy for our monolithic e-commerce platform
@@ -116,7 +120,8 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 ```
 
 **Output:**
-```
+
+```text
 **Understanding the Problem**
 
 *Restating the problem*: We need to decompose a large, business-critical monolith into microservices while the system continues serving 50M users and processing transactions worth $500M annually. The previous attempt failed, so we must learn from that and design a more cautious, incremental approach.
@@ -350,6 +355,7 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 ```
 
 ## Tips
+
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
 - **Be thorough but structured**: Use the template sections to organize thoughts. Don't just ramble - follow the format.
 - **Explicitly state assumptions**: Hidden assumptions are the source of most reasoning errors.
@@ -359,12 +365,14 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - **Synthesis matters**: The "Synthesis and Validation" section is where you tie everything together - don't skip it.
 
 ## When NOT to Use
+
 - Simple, straightforward problems with obvious solutions
 - Time-critical situations requiring quick decisions
 - When audience is already expert and doesn't need explanation
 - Resource-constrained environments (token limits, etc.)
 
 ## Related Prompts
+
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
@@ -408,6 +416,7 @@ For automation pipelines, request output in this format:
 ```
 
 ## Governance Notes
+
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
 - **Human Review Required For**:
   - Decisions with >$100K impact
@@ -420,11 +429,13 @@ For automation pipelines, request output in this format:
 ## Platform Adaptations
 
 ### GitHub Copilot Chat
-```
+
+```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
 ```
 
 ### API Integration
+
 ```python
 response = client.chat.completions.create(
     model="gpt-5.1",
@@ -440,6 +451,7 @@ response = client.chat.completions.create(
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Comprehensive detailed CoT template with structured sections
 - JSON schema for automation

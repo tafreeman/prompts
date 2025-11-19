@@ -34,6 +34,7 @@ open http://localhost:5000
 ### AWS ECS (Elastic Container Service)
 
 1. **Push image to ECR**:
+
 ```bash
 # Authenticate Docker to ECR
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin YOUR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com
@@ -46,7 +47,7 @@ docker tag prompt-library:latest YOUR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/pr
 docker push YOUR_ACCOUNT.dkr.ecr.us-east-1.amazonaws.com/prompt-library:latest
 ```
 
-2. **Create ECS Task Definition** (see AWS section below)
+1. **Create ECS Task Definition** (see AWS section below)
 
 ### Azure Container Instances
 
@@ -166,6 +167,7 @@ docker-compose -f deployment/docker/docker-compose.yml up -d --build
 ### Container won't start
 
 Check logs:
+
 ```bash
 docker logs prompt-library
 ```
@@ -173,6 +175,7 @@ docker logs prompt-library
 ### Permission errors
 
 Ensure volumes have correct permissions:
+
 ```bash
 docker run -it --rm -v prompt_data:/data alpine chmod -R 777 /data
 ```
@@ -180,6 +183,7 @@ docker run -it --rm -v prompt_data:/data alpine chmod -R 777 /data
 ### Database initialization fails
 
 Manually initialize:
+
 ```bash
 docker exec -it prompt-library python load_prompts.py
 ```
@@ -194,17 +198,21 @@ docker exec -it prompt-library python load_prompts.py
 ## Cost Optimization
 
 ### AWS (Approximate costs)
+
 - **ECS Fargate**: ~$15-30/month (0.25 vCPU, 0.5GB RAM)
 - **Lightsail Container**: $7/month (512MB RAM, 0.25 vCPU)
 
 ### Azure (Approximate costs)
+
 - **Container Instances**: ~$10-20/month (0.5 vCPU, 1GB RAM)
 - **App Service**: $13/month (Basic tier)
 
 ### Google Cloud (Approximate costs)
+
 - **Cloud Run**: Pay per request, ~$5-15/month for low traffic
 
 For minimal costs, use:
+
 1. AWS Lightsail Container Service ($7/month)
 2. Azure Container Instances with reserved pricing
 3. Google Cloud Run (often within free tier for low traffic)

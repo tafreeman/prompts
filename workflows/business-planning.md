@@ -20,6 +20,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 ### Problem Statement
 
 **Challenge**: Enterprises need a flexible business planning workflow that:
+
 - Supports diverse strategic objectives (growth, efficiency, innovation)
 - Scales from startup to enterprise (10-10,000 employees)
 - Integrates with existing SDLC and operational workflows
@@ -31,6 +32,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 **Focus**: Expanding into new geographic markets or customer segments
 
 **Core Phases**:
+
 1. **Market Research & Validation** (4-6 weeks)
    - Target market identification and sizing
    - Competitive landscape analysis
@@ -56,9 +58,11 @@ Before defining the workflow, we evaluated three distinct business planning stra
    - Pivot decision framework
 
 **Prompts Chain**:
+
 - market-research-analyst → competitive-intelligence-researcher → industry-analysis-expert → consumer-behavior-researcher → market-entry-strategist → business-case-developer → financial-modeling-expert → risk-management-analyst → metrics-and-kpi-designer → change-management-coordinator
 
 **Pros**:
+
 - ✓ **Highly specialized**: Tailored for geographic/segment expansion
 - ✓ **Risk-focused**: Heavy emphasis on market validation before investment
 - ✓ **Regulatory depth**: Addresses compliance and localization challenges
@@ -66,6 +70,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✓ **Measurable outcomes**: Market share, revenue per region, customer acquisition cost
 
 **Cons**:
+
 - ✗ **Narrow scope**: Only applicable to market expansion initiatives (~20% of business planning needs)
 - ✗ **Long timeline**: 14-16 weeks planning + 12-24 months execution (slow for fast-moving markets)
 - ✗ **Resource intensive**: Requires dedicated market research team and investment
@@ -73,6 +78,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✗ **Limited reusability**: Framework doesn't transfer well to product innovation or operational efficiency goals
 
 **Score**: **7.0/10**
+
 - Depth: 9/10 (comprehensive for market entry)
 - Flexibility: 4/10 (not adaptable to other strategic objectives)
 - Prompt integration: 8/10 (10 prompts chained logically)
@@ -88,6 +94,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 **Focus**: Introducing new products, features, or services to market
 
 **Core Phases**:
+
 1. **Strategic Analysis & Positioning** (3-4 weeks)
    - Market opportunity assessment
    - Competitive differentiation analysis
@@ -114,9 +121,11 @@ Before defining the workflow, we evaluated three distinct business planning stra
    - Quarterly business reviews and pivot decisions
 
 **Prompts Chain**:
+
 - market-research-analyst → competitive-analysis-researcher → consumer-behavior-researcher → strategic-planning-consultant → business-case-developer → user-experience-analyst → metrics-and-kpi-designer → marketing-campaign-strategist → sales-strategy-consultant → financial-modeling-expert → project-charter-creator → change-management-coordinator → innovation-strategy-consultant
 
 **Pros**:
+
 - ✓ **Broad applicability**: Relevant to ~40% of business planning needs (new products, features, services)
 - ✓ **Fast iteration**: 11-16 weeks planning, 6-12 months execution (adaptable to agile environments)
 - ✓ **Customer-centric**: Heavy emphasis on validation and product-market fit
@@ -125,6 +134,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✓ **Scalable**: Works for startups launching first product or enterprises launching new business units
 
 **Cons**:
+
 - ✗ **Execution risk**: Success depends on product quality and timing (not just planning)
 - ✗ **Market uncertainty**: Customer feedback may invalidate initial assumptions (pivot risk)
 - ✗ **Cross-functional complexity**: Requires coordination across product, engineering, marketing, sales, support
@@ -132,6 +142,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✗ **Not applicable to**: Cost reduction, operational efficiency, or organizational transformation initiatives
 
 **Score**: **8.5/10**
+
 - Depth: 8/10 (comprehensive product launch coverage)
 - Flexibility: 7/10 (adaptable to products/features but not cost reduction or ops initiatives)
 - Prompt integration: 9/10 (13 prompts chained across business and analysis categories)
@@ -147,6 +158,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 **Focus**: Improving efficiency, reducing costs, and streamlining operations
 
 **Core Phases**:
+
 1. **Current State Assessment** (3-4 weeks)
    - Process mapping and documentation
    - Cost structure analysis (fixed vs variable)
@@ -173,9 +185,11 @@ Before defining the workflow, we evaluated three distinct business planning stra
    - Post-implementation reviews and optimization
 
 **Prompts Chain**:
+
 - process-optimization-consultant → gap-analysis-expert → data-analysis-specialist → business-process-reengineering → performance-improvement-consultant → management-consulting-expert → financial-modeling-expert → change-management-coordinator → project-charter-creator → risk-management-analyst → metrics-and-kpi-designer → organizational-change-manager
 
 **Pros**:
+
 - ✓ **High ROI**: Cost reduction directly impacts bottom line (typical 10-30% savings)
 - ✓ **Measurable impact**: Clear financial metrics ($ saved, efficiency %, headcount reduction)
 - ✓ **Low external risk**: Success depends on internal execution (less market uncertainty)
@@ -184,6 +198,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✓ **Technology leverage**: Opportunities for automation and AI (connects to digital transformation)
 
 **Cons**:
+
 - ✗ **Change fatigue**: Can create employee resistance and morale issues
 - ✗ **Short-term focus**: May sacrifice long-term growth for immediate savings
 - ✗ **Limited growth**: Cost cutting alone doesn't drive revenue or market share
@@ -192,6 +207,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 - ✗ **Risk of over-optimization**: Cutting too deep can harm quality, innovation, customer experience
 
 **Score**: **7.5/10**
+
 - Depth: 9/10 (comprehensive operational excellence coverage)
 - Flexibility: 5/10 (not applicable to growth or innovation initiatives)
 - Prompt integration: 8/10 (12 prompts chained across analysis and business categories)
@@ -220,6 +236,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 ### Selected Approach: **Branch B - Product Launch Strategy Framework**
 
 **Rationale**:
+
 1. **Broadest applicability**: 40% of enterprise business planning needs involve product/feature launches
 2. **Prompt repository fit**: Leverages 13 prompts across business, analysis, and creative categories (most comprehensive)
 3. **Agile alignment**: Natural integration with existing SDLC workflow (MVP → Beta → GA aligns with sprint cycles)
@@ -228,11 +245,13 @@ Before defining the workflow, we evaluated three distinct business planning stra
 6. **Measurable outcomes**: Clear success metrics (adoption, revenue, NPS) that resonate with executives
 
 **Adaptation for Other Use Cases**:
+
 - **Market Entry**: Use Phase 1-2 (Strategic Analysis + Validation) with enhanced competitive intelligence and regulatory research
 - **Cost Optimization**: Use Phase 1 (Strategic Analysis) + add gap-analysis-expert and process-optimization-consultant for current state assessment
 - **Organizational Change**: Use Phase 3-4 (Execution Planning + Monitoring) with organizational-change-manager and change-management-coordinator
 
 **Hybrid Approach**: For complex strategic initiatives (e.g., "Launch AI product in APAC market while optimizing unit economics"), chain all three frameworks sequentially:
+
 1. Market Entry (Phases 1-2) → Validate market opportunity and regulatory feasibility
 2. Product Launch (Phases 2-3) → Develop and validate product-market fit
 3. Cost Optimization (Phase 3) → Ensure sustainable unit economics before scaling
@@ -258,7 +277,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 
 **Workflow**:
 
-```
+```text
 Step 1: Market Sizing (Week 1)
 ├─ Use market-research-analyst to calculate:
 │  ├─ TAM: Total market size ($B, global)
@@ -292,6 +311,7 @@ Step 4: Strategic Positioning (Week 3-4)
 ```
 
 **Deliverables**:
+
 - Market sizing report (TAM/SAM/SOM with growth projections)
 - Competitive landscape map with SWOT analysis
 - Customer persona profiles (3-5 personas with pain points, behaviors, buying patterns)
@@ -299,6 +319,7 @@ Step 4: Strategic Positioning (Week 3-4)
 - Strategic positioning statement (target, need, category, benefit, proof points)
 
 **Decision Point**: Proceed to Phase 2 if:
+
 - ✓ TAM > $1B and growing (>10% CAGR)
 - ✓ SAM > $100M with clear path to reach
 - ✓ SOM achievable (competitive differentiation validated)
@@ -308,7 +329,8 @@ Step 4: Strategic Positioning (Week 3-4)
 **Example Outputs**:
 
 **Market Sizing** (AI Analytics for B2B SaaS):
-```
+
+```text
 TAM: $50B (Global Business Intelligence market)
 SAM: $8B (AI-powered predictive analytics for mid-market SaaS)
 SOM: $120M (Year 3 target, assuming 1.5% market capture)
@@ -316,7 +338,8 @@ Growth: 22% CAGR (2024-2027)
 ```
 
 **Positioning Statement**:
-```
+
+```text
 For mid-market SaaS companies (100-1000 employees) 
 who struggle with siloed data and reactive decision-making, 
 our AI Analytics Platform is a no-code predictive analytics solution 
@@ -343,7 +366,7 @@ our platform enables business users to build ML models with natural language.
 
 **Workflow**:
 
-```
+```text
 Step 1: MVP/Prototype Development (Week 1-2)
 ├─ Use user-experience-analyst to:
 │  ├─ Design clickable prototype (Figma, Sketch)
@@ -379,6 +402,7 @@ Step 4: Financial Modeling (Week 4-6)
 ```
 
 **Deliverables**:
+
 - Validated MVP/prototype with user testing results (usability score, NPS, feature priorities)
 - Pricing strategy document (tier definitions, pricing rationale, competitive positioning)
 - Channel partnership plan (partner types, candidate list, economics)
@@ -386,6 +410,7 @@ Step 4: Financial Modeling (Week 4-6)
 - Risk register (product risks, market risks, execution risks with mitigation strategies)
 
 **Decision Point**: Proceed to Phase 3 if:
+
 - ✓ Usability testing: 40%+ users rate prototype as "very useful" (9-10/10)
 - ✓ Pricing validation: 30%+ prospects express strong purchase intent at proposed pricing
 - ✓ Unit economics: LTV:CAC > 3x, CAC payback < 12 months
@@ -395,7 +420,8 @@ Step 4: Financial Modeling (Week 4-6)
 **Example Outputs**:
 
 **Pricing Tiers** (AI Analytics Platform):
-```
+
+```text
 Tier 1: Starter ($499/month)
 - 5 users, 3 data sources, 10 ML models
 - Basic dashboards, email support
@@ -413,7 +439,8 @@ Tier 3: Enterprise ($4,999/month + custom)
 ```
 
 **Unit Economics**:
-```
+
+```text
 CAC: $6,000 (blended across channels)
 LTV: $28,800 (24-month average customer lifetime × $1,499 monthly ARPU × 80% gross margin)
 LTV:CAC Ratio: 4.8x (healthy, target > 3x)
@@ -428,17 +455,20 @@ Annual Churn: 15% (competitive for SaaS)
 ### Company & Product Background
 
 **Company**: CreativeFlow (project management SaaS for creative agencies)
+
 - 100 employees, $10M ARR, 250 customers
 - Core product: Project management and collaboration platform tailored to creative agencies (advertising, design, video production)
 - Primary pain: Agencies struggle with over/under-allocation of designers, copywriters, and producers, leading to burnout, missed deadlines, and margin erosion.
 
 **New Product**: AI Resource Planner
+
 - Predictive module that forecasts project resourcing needs 4 weeks in advance using historical time-tracking, project, and capacity data.
 - Value proposition: Reduces resource conflicts by 60%, improves project gross margin by 15%.
 - Monetization: Premium add-on at $1,999/month on top of existing Professional tier.
 - Strategic goal: Add $3M in ARR over 24 months (+30% ARR lift).
 
 **Timeline**: 18 months total
+
 - 6 months: Planning (Phases 1-3)
 - 12 months: Execution and optimization (Phase 4)
 
@@ -451,6 +481,7 @@ Below is how CreativeFlow used the workflow and chained prompts in each phase.
 **Objective**: Confirm there is a large, growing market and a specific, monetizable niche for AI-powered resource planning in creative agencies, then define clear differentiation and positioning.
 
 **Prompts used**:
+
 - `market-research-analyst`
 - `competitive-analysis-researcher`
 - `consumer-behavior-researcher`
@@ -462,7 +493,8 @@ Below is how CreativeFlow used the workflow and chained prompts in each phase.
 > You are a market research analyst. Estimate TAM/SAM/SOM for an AI-powered resource planning module for mid-market creative agencies (100-1,000 employees) in North America and Western Europe. Use current data on project management and professional services automation tools.
 
 **Output (simplified)**:
-```
+
+```text
 TAM: $12B (Global project management & PSA software)
 SAM: $2.5B (Creative agencies 50-1,000 employees in NA + WE)
 SOM (3-year target): $400M (assuming 16% share of AI-enabled resource planning niche)
@@ -474,6 +506,7 @@ Growth: 18–22% CAGR for AI-enabled PSA tools
 The team analyzed Monday.com, Asana, ClickUp, and niche agency tools.
 
 **Key findings**:
+
 - Generic PM tools: Strong task/project features, weak on deep resource forecasting.
 - Niche agency tools: Timesheets and scheduling exist, but minimal AI/forecasting.
 - No major vendor offered an AI resource forecast tuned to creative agency workflows.
@@ -483,6 +516,7 @@ The team analyzed Monday.com, Asana, ClickUp, and niche agency tools.
 #### Step 3: Customer discovery with `consumer-behavior-researcher`
 
 They interviewed 75 leaders (COOs, Heads of Delivery, Agency Owners):
+
 - 81% said "resource firefighting" was a weekly occurrence.
 - 68% said they only see over/under-allocation after a project is already late.
 - 72% expressed strong interest in "predictive resourcing" if accuracy ≥ 80%.
@@ -494,7 +528,7 @@ The prompt synthesized these interviews into 4 personas (Agency Ops Leader, Crea
 
 Using the previous outputs, they developed this positioning statement:
 
-```
+```text
 For mid-sized creative agencies (50–500 employees)
 who constantly firefight resource conflicts and burnout,
 CreativeFlow AI Resource Planner is a predictive resourcing module
@@ -505,6 +539,7 @@ and pipeline to prevent over/under-staffing before it happens.
 ```
 
 **Phase 1 decision**: Proceed.
+
 - TAM and SAM large with high growth.
 - Clear differentiation vs generic PM tools.
 - 68% of interviewees said they were "very likely" to buy if claims were met.
@@ -516,6 +551,7 @@ and pipeline to prevent over/under-staffing before it happens.
 **Objective**: Validate that agencies will use and pay for the AI Resource Planner at the intended price point, and that the UX enables rapid adoption.
 
 **Prompts used**:
+
 - `user-experience-analyst`
 - `business-case-developer`
 - `financial-modeling-expert`
@@ -523,6 +559,7 @@ and pipeline to prevent over/under-staffing before it happens.
 #### Step 1: Prototype testing with `user-experience-analyst`
 
 The team built a Figma prototype showing:
+
 - Pipeline and active projects.
 - Designer/copywriter capacity per week.
 - Forecasted conflicts 4 weeks ahead with suggested staffing changes.
@@ -531,6 +568,7 @@ The team built a Figma prototype showing:
 > You are a UX analyst testing a Figma prototype for a predictive resource planner. We ran 10 usability sessions with agency operations leaders. Summarize: key pain points, confusion areas, top delight moments, and specific design changes.
 
 **Output (simplified)**:
+
 - 8/10 users rated the concept "very useful" (9 or 10/10).
 - Initial confusion around color-coding of conflicts and severity.
 - Users loved the "what-if" forecast (e.g., "What if we land a new $250K campaign?").
@@ -542,7 +580,7 @@ The team iterated to a simplified conflict heatmap and in-context explanations, 
 
 Using survey data from 60 agencies, the prompt helped synthesize a Van Westendorp analysis:
 
-```
+```text
 Too cheap: $499/month
 Cheap: $999/month
 Expensive: $2,499/month
@@ -551,22 +589,26 @@ Recommended sweet spot: $1,999/month as Professional tier add-on
 ```
 
 They defined tiers:
+
 - Core platform: existing pricing unchanged.
 - Professional + AI Resource Planner: +$1,999/month.
 
 Design partners were asked directly: "Would you pay $1,999/month if this reduced overtime and rework by 15–20%?"
+
 - 8 of 10 said "Yes" or "Very likely".
 
 #### Step 3: Financial modeling with `financial-modeling-expert`
 
 **Assumptions**:
+
 - Target 150 agencies on AI Resource Planner by Month 24.
 - Average price: $1,850/month after discounts.
 - CAC: $8,000 (inside sales + marketing spend).
 - Churn: 10% annually, expansion via seat growth and added modules.
 
 **Output (summary)**:
-```
+
+```text
 ARR target end of Year 2: ~$3.3M
 Average customer lifetime: 19 months
 LTV: $35,000–$40,000 per customer
@@ -575,6 +617,7 @@ CAC payback: ~8 months
 ```
 
 **Phase 2 decision**: Proceed.
+
 - Prototype validated (8/10 design partners very positive).
 - Pricing and unit economics attractive.
 - 8 design partners signed LOIs to participate in paid beta.
@@ -586,6 +629,7 @@ CAC payback: ~8 months
 **Objective**: Design an executable launch plan with clear milestones, metrics, and ownership.
 
 **Prompts used**:
+
 - `project-charter-creator`
 - `marketing-campaign-strategist`
 - `sales-strategy-consultant`
@@ -595,6 +639,7 @@ CAC payback: ~8 months
 #### Step 1: Launch roadmap with `project-charter-creator`
 
 The team defined a 4-stage roadmap:
+
 1. Private beta (10 agencies, Month 7-8).
 2. Public beta (up to 40 additional agencies, Month 9-10).
 3. Limited release (20 new customers per month, Month 11-12).
@@ -607,6 +652,7 @@ The project charter prompt clarified scope, risks, dependencies, and RACI.
 **Budget**: $120K dedicated launch budget.
 
 Activities:
+
 - 3 flagship content pieces (whitepapers) on "The Cost of Poor Resource Allocation".
 - 6 webinars co-hosted with design partners.
 - Sponsorship of 2 creative industry conferences.
@@ -617,6 +663,7 @@ The prompt helped sequence campaigns by phase and align content to objections un
 #### Step 3: Sales & CS enablement with `sales-strategy-consultant` and `change-management-coordinator`
 
 Deliverables:
+
 - ROI calculator demonstrating a typical agency saving $50K/year through reduced overtime and rework.
 - Sales playbook with discovery questions tied to resourcing pains.
 - 2-day training bootcamp for AEs and CSMs.
@@ -625,11 +672,13 @@ Deliverables:
 #### Step 4: Metrics with `metrics-and-kpi-designer`
 
 Defined a metrics hierarchy:
+
 - North Star: Weekly active accounts using AI Resource Planner forecasts.
 - Core metrics: Trial-to-paid conversion (%), activation (% of accounts running first forecast within 14 days), retention, and expansion.
 - Leading indicators: Number of forecasts run per week, users per account, usage of "what-if" scenarios.
 
 **Phase 3 decision**: Proceed.
+
 - Leadership approved $120K launch budget.
 - Sales and CS committed to the enablement plan.
 - Beta customers lined up from Phase 2.
@@ -641,6 +690,7 @@ Defined a metrics hierarchy:
 **Objective**: Execute the launch, monitor performance, and iterate based on data.
 
 **Prompts used**:
+
 - `innovation-strategy-consultant`
 - `metrics-and-kpi-designer`
 - `data-analysis-specialist`
@@ -648,6 +698,7 @@ Defined a metrics hierarchy:
 #### Private beta (Month 7-8)
 
 **Results**:
+
 - 10 agencies onboarded.
 - 9/10 reported high satisfaction; NPS 65.
 - Early activation only 42% of invited end users (vs 70% target).
@@ -655,6 +706,7 @@ Defined a metrics hierarchy:
 Using `data-analysis-specialist`, the team discovered drop-off during a 7-step onboarding flow.
 
 **Action**: With guidance from `innovation-strategy-consultant`, they simplified onboarding:
+
 - From 7 → 3 key steps:
    1. Connect data sources.
    2. Run first forecast.
@@ -665,6 +717,7 @@ Using `data-analysis-specialist`, the team discovered drop-off during a 7-step o
 #### Public beta (Month 9-10)
 
 **Performance**:
+
 - 45 agencies in public beta.
 - Trial-to-paid conversion: 28%.
 - MRR: ~$35K from AI Resource Planner.
@@ -675,6 +728,7 @@ They again used `innovation-strategy-consultant` to prioritize this feature and 
 #### Limited release (Month 11-12)
 
 **Metrics**:
+
 - 65 paying customers.
 - $125K MRR on AI Resource Planner.
 - Retention: 94% monthly logo retention.
@@ -687,6 +741,7 @@ The team noticed the average sales cycle was 68 days (vs 60-day goal). Using `da
 #### General availability (Month 13-18)
 
 By Month 18:
+
 - AI Resource Planner ARR: $400K.
 - 140 customers on the add-on.
 - Net revenue retention (NRR): 115%.
@@ -695,9 +750,11 @@ By Month 18:
 Using `metrics-and-kpi-designer`, they maintained a weekly metrics review and a monthly portfolio review with executives. `innovation-strategy-consultant` helped identify 3 roadmap bets based on usage data (scenario planning, agency benchmarking, profit forecasting).
 
 **Product-market fit check (Sean Ellis test)**:
+
 - 52% of surveyed users said they would be "very disappointed" if the product were removed.
 
 **Phase 4 decision**: Scale further.
+
 - Increase sales coverage.
 - Explore expansion into adjacent segments (consultancies, digital agencies in new regions).
 
@@ -735,7 +792,7 @@ This example demonstrates how an enterprise team can use the full Product Launch
 
 **Workflow**:
 
-```
+```text
 Step 1: Project Charter & Timeline (Week 1)
 ├─ Use project-charter-creator to define:
 │  ├─ Launch timeline (beta, limited release, general availability)
@@ -791,6 +848,7 @@ Step 6: Internal Change Management (Week 4-6)
 ```
 
 **Deliverables**:
+
 - Project charter with phased launch roadmap (beta, limited release, GA)
 - Marketing campaign plan (content calendar, media plan, budget allocation)
 - Sales enablement package (playbook, pitch deck, one-pager, ROI calculator, case studies)
@@ -799,6 +857,7 @@ Step 6: Internal Change Management (Week 4-6)
 - Change management plan (communication, training, readiness checklist)
 
 **Decision Point**: Proceed to Phase 4 (Launch) if:
+
 - ✓ Beta program: 10+ design partners onboarded with 80%+ satisfaction
 - ✓ Marketing: Campaign assets complete, launch event scheduled, press/analyst briefings confirmed
 - ✓ Sales: Team trained (80%+ pass certification), pipeline > 3x quota, demo conversion > 20%
@@ -809,7 +868,8 @@ Step 6: Internal Change Management (Week 4-6)
 **Example Outputs**:
 
 **Launch Timeline** (Phased Approach):
-```
+
+```text
 Phase 1: Private Beta (Month 1-2)
 - 10 design partner customers (hand-selected, high-touch)
 - Goal: Validate core workflows, gather feedback, refine UX
@@ -832,7 +892,8 @@ Phase 4: General Availability (Month 7+)
 ```
 
 **Marketing Campaign** (12-Week Launch Campaign):
-```
+
+```text
 Pre-Launch (Weeks 1-4):
 - Teaser campaign: "AI is Coming to SaaS Analytics" (thought leadership content)
 - Analyst briefings: Gartner, Forrester (category positioning)
@@ -869,7 +930,7 @@ Post-Launch (Weeks 9-12):
 
 **Workflow**:
 
-```
+```text
 Month 1-2: Private Beta Execution
 ├─ Activities:
 │  ├─ Weekly check-ins with design partners (feedback sessions)
@@ -926,6 +987,7 @@ Month 7-12: General Availability & Scaling
 ```
 
 **Deliverables**:
+
 - Weekly metrics dashboard (North Star, OKRs, leading/lagging indicators)
 - Monthly QBR slide deck (progress vs targets, insights, recommendations)
 - Customer feedback synthesis (themes from support tickets, user interviews, NPS surveys)
@@ -936,7 +998,7 @@ Month 7-12: General Availability & Scaling
 
 If metrics are consistently below targets for 2+ months, evaluate pivot options:
 
-```
+```text
 Scenario 1: Low Activation (< 40%)
 ├─ Signal: Users sign up but don't create first ML model
 ├─ Root Cause Analysis:
@@ -974,7 +1036,8 @@ Scenario 3: High CAC (> $10K)
 **Example Outputs**:
 
 **Monthly QBR Metrics** (Month 6):
-```
+
+```text
 North Star: 500 Weekly Active Users creating ML models (vs 450 target) ✅
 
 Leading Indicators:
@@ -1008,6 +1071,7 @@ Actions:
 ### Product-Market Fit Indicators
 
 **Quantitative Signals**:
+
 - ✅ 40%+ of users are "very disappointed" if product went away (Sean Ellis test)
 - ✅ Organic growth rate > 15% MoM (word-of-mouth, referrals)
 - ✅ Net Revenue Retention (NRR) > 110% (customers expanding usage)
@@ -1015,6 +1079,7 @@ Actions:
 - ✅ Sales cycle < 60 days (clear value proposition, minimal friction)
 
 **Qualitative Signals**:
+
 - ✅ Customers use product daily/weekly (high engagement)
 - ✅ Unprompted case studies and testimonials (customer advocacy)
 - ✅ Inbound sales leads > 30% of pipeline (market pull)
@@ -1041,21 +1106,25 @@ Actions:
 This business planning workflow naturally integrates with the [SDLC Blueprint](./sdlc-blueprint.md):
 
 **Phase 1 (Strategic Analysis) feeds SDLC Phase 0 (Pre-Sprint Planning)**:
+
 - Market research and customer discovery → Requirements backlog
 - Competitive analysis → Non-functional requirements (performance, security)
 - Value proposition → User stories with business context
 
 **Phase 2 (Product-Market Fit Validation) feeds SDLC Phase 1 (Sprint Planning)**:
+
 - MVP scope definition → Sprint 1-3 commitments
 - User testing results → Acceptance criteria refinement
 - Prioritized feature list → Product backlog ordering
 
 **Phase 3 (GTM Execution Planning) feeds SDLC Phase 7 (Deployment)**:
+
 - Launch timeline → Deployment schedule (beta, limited, GA)
 - Marketing campaign → Release announcement coordination
 - Customer success readiness → Post-deployment support
 
 **Phase 4 (Launch & Optimization) feeds SDLC Phase 8 (Monitoring & Retrospectives)**:
+
 - User behavior analytics → Product roadmap prioritization
 - Customer feedback → Bug prioritization and feature requests
 - Churn analysis → Quality improvement initiatives
@@ -1069,5 +1138,6 @@ This business planning workflow naturally integrates with the [SDLC Blueprint](.
 ---
 
 **Version History**:
+
 - **v1.0 (2025-11-17)**: Initial Tree-of-Thoughts evaluation and framework selection
 - **v1.1 (2025-11-17)**: Added complete 4-phase workflow with 13 prompt chains, deliverables, decision frameworks, success metrics, and SDLC integration

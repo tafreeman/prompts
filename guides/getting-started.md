@@ -14,7 +14,7 @@ Prompts are instructions you give to AI language models (like ChatGPT, Claude, o
    - `business/` - For analysis, strategy, and business tasks
    - `creative/` - For content creation and marketing
    - `analysis/` - For data analysis and insights
-   
+
 2. **Look at the file name** - they're descriptive (e.g., `business-strategy-analysis.md`)
 
 3. **Open the file** - Each prompt includes:
@@ -44,6 +44,7 @@ Prompts are instructions you give to AI language models (like ChatGPT, Claude, o
 ### Step 4: Refine if Needed
 
 If the response isn't quite what you wanted:
+
 - Provide more details
 - Ask follow-up questions
 - Try again with different information
@@ -174,6 +175,7 @@ dev_prompts = library.get_by_category('developers')
 ### Can I modify prompts?
 
 Absolutely! Prompts are starting points. Feel free to:
+
 - Add more specific details
 - Adjust the tone or style
 - Combine multiple prompts

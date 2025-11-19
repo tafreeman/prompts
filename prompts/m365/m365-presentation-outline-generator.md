@@ -12,21 +12,27 @@ platform: "Microsoft 365 Copilot"
 # M365 Presentation Outline Generator
 
 ## Description
+
 This prompt helps an individual quickly create a structured PowerPoint presentation outline using Microsoft 365 context. It generates slide titles, bullet points, and visual suggestions based on a topic, source document, or project context, tailored to a specific audience.
 
 ## Goal
+
 Enable a user to go from idea or source material to a complete presentation outline in minutes, reducing the time spent on structure and allowing more focus on content refinement and design.
 
 ## Context
+
 Assume the user works in Microsoft 365 with access to PowerPoint, Word, OneDrive/SharePoint, and Teams. Presentations are often built from scratch or based on existing documents, meeting notes, or project updates.
 
 The AI can reference:
+
 - A source document (e.g., a Word doc, report, or meeting notes)
 - Recent emails, chats, or documents related to the presentation topic
 - The user's specified audience, topic, and emphasis areas
 
 ## Inputs
+
 The user provides:
+
 - `[topic]`: The main topic or title of the presentation (e.g., "Q4 Product Roadmap", "Customer Onboarding Strategy").
 - `[audience]`: Who will see the presentation (e.g., "executives", "customers", "engineering team", "board of directors").
 - `[emphasis]`: What to emphasize (e.g., "benefits and ROI", "technical details", "risks and mitigations", "customer stories").
@@ -34,12 +40,14 @@ The user provides:
 - Optional: `[slide_count_target]`: Desired number of slides (e.g., "8–12 slides").
 
 ## Assumptions
+
 - If a source document is provided, the AI should extract key themes and structure the presentation around them.
 - If no source document is provided, the AI should infer structure from the topic and recent context (emails, chats, documents).
 - The user wants slide titles that are clear and action-oriented, not generic.
 - The user wants 3–5 bullet points per slide, plus suggestions for where visuals (charts, images, diagrams) would help.
 
 ## Constraints
+
 - Generate a slide outline with the following for each slide:
   - Slide title
   - 3–5 bullet points summarizing content
@@ -49,6 +57,7 @@ The user provides:
 - Aim for `[slide_count_target]` if specified; otherwise, default to 10–12 slides.
 
 ## Process / Reasoning Style
+
 - Internally:
   - If a source document exists, extract the main narrative, key sections, and supporting data.
   - If no source document, synthesize from the topic and recent related context.
@@ -60,6 +69,7 @@ The user provides:
   - Provide actionable visual suggestions that the user can execute in PowerPoint.
 
 ## Output Requirements
+
 Return the output in Markdown with:
 
 - `## Presentation Title`
@@ -71,6 +81,7 @@ Return the output in Markdown with:
     - Visual suggestion
 
 ## Use Cases
+
 - Use case 1: A product manager creating a roadmap presentation for executive review.
 - Use case 2: A consultant building a client presentation from a project report.
 - Use case 3: An engineer preparing a technical deep-dive for a design review.
@@ -79,7 +90,7 @@ Return the output in Markdown with:
 
 ## Prompt
 
-```
+```text
 You are my Presentation Outline Generator working in a Microsoft 365 environment.
 
 Goal:
@@ -137,6 +148,7 @@ emphasizing [emphasis].
 ```
 
 ## Variables
+
 - `[topic]`: Main topic or title of the presentation.
 - `[audience]`: Who will see the presentation (e.g., "executives").
 - `[emphasis]`: What to emphasize (e.g., "benefits and ROI").
@@ -146,7 +158,8 @@ emphasizing [emphasis].
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [topic]: "Q4 Customer Onboarding Roadmap"
 [audience]: "executive leadership"
 [emphasis]: "timeline, risks, and customer impact"
@@ -157,7 +170,8 @@ You are my Presentation Outline Generator working in a Microsoft 365 environment
 ```
 
 **Output:**
-```
+
+```text
 ## Presentation Title
 Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 
@@ -225,16 +239,19 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 ```
 
 ## Tips
+
 - Tip 1: Use `[source_document]` to quickly turn a report or Word doc into a presentation without starting from scratch.
 - Tip 2: Adjust `[emphasis]` based on your audience's priorities (e.g., execs care about ROI, engineers care about architecture).
 - Tip 3: After generating the outline, ask Copilot to "expand slide 5 with more detail" or "suggest alternative visuals for slide 3."
 - Tip 4: Copy the outline into PowerPoint's Outline View for fast slide creation.
 
 ## Related Prompts
+
 - `m365-document-summarizer.md`
 - `m365-project-status-reporter.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version
