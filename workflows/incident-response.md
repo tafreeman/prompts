@@ -13,7 +13,7 @@ This playbook provides a structured approach to detecting, triaging, investigati
 
 ### When to Use This Playbook
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │ Activate This Playbook IF:                                      │
 ├─────────────────────────────────────────────────────────────────┤
@@ -44,9 +44,11 @@ This playbook provides a structured approach to detecting, triaging, investigati
 ## Phase 1: Detection (0-15 Minutes)
 
 ### Objective
+
 Identify and confirm potential security incident through monitoring, alerts, or reports
 
 ### Duration
+
 **5-15 minutes** from initial alert to incident confirmation
 
 ### Prompts to Use
@@ -58,6 +60,7 @@ Identify and confirm potential security incident through monitoring, alerts, or 
 ### Detection Sources
 
 **Automated Alerts** (SIEM, IDS/IPS, EDR):
+
 - Failed authentication attempts (threshold: > 10 in 5 minutes)
 - Unusual outbound traffic (data exfiltration indicators)
 - Malware signature detected
@@ -65,18 +68,20 @@ Identify and confirm potential security incident through monitoring, alerts, or 
 - File integrity monitoring alerts (critical system files modified)
 
 **Manual Reports**:
+
 - Employee reports suspicious email or activity
 - Customer reports unauthorized access to account
 - Third-party security researcher reports vulnerability
 
 **Threat Intelligence**:
+
 - CVE published for software in use
 - Industry peer reports attack campaign
 - Dark web monitoring detects credentials
 
 ### Detection Workflow
 
-```
+```text
 Step 1: Alert Received
   ↓
 Step 2: Initial Classification (Severity P0-P3)
@@ -95,7 +100,8 @@ Step 4: If CONFIRMED incident → Escalate to Phase 2 (Triage)
 **Alert**: EDR (Endpoint Detection & Response) detects suspicious file encryption activity on file server (FS-PROD-01)
 
 **Use metrics-and-kpi-designer prompt**:
-```
+
+```text
 Prompt: "Analyze the following EDR alert for ransomware indicators. Data: Host FS-PROD-01, 
 Process: powershell.exe, Activity: Rapid file modifications (500+ files in 2 minutes), 
 File extension changes (.docx → .encrypted), Network: Outbound connection to IP 203.0.113.45.
@@ -127,6 +133,7 @@ Regulatory: GDPR breach notification may be required (assess data affected)"
 ### Detection Checklists
 
 **For Security Alerts**:
+
 - [ ] Alert source and timestamp recorded
 - [ ] Affected system(s) identified (hostname, IP address)
 - [ ] Alert severity classified (P0-P3)
@@ -135,6 +142,7 @@ Regulatory: GDPR breach notification may be required (assess data affected)"
 - [ ] Incident ticket created (include alert details)
 
 **For User Reports**:
+
 - [ ] Reporter contact information captured
 - [ ] Incident description documented (what, when, where)
 - [ ] Screenshots or evidence collected
@@ -155,11 +163,13 @@ Regulatory: GDPR breach notification may be required (assess data affected)"
 ### Decision Point: Proceed to Phase 2?
 
 **YES if**:
+
 - ✓ Confirmed security incident (not false positive)
 - ✓ Severity P0-P2 (requires formal response)
 - ✓ Incident ticket created and assigned
 
 **NO if** (close incident):
+
 - ✗ Confirmed false positive (e.g., legitimate maintenance activity)
 - ✗ Severity P3 with no actual compromise (e.g., weak password warning handled by auto-reset)
 
@@ -168,9 +178,11 @@ Regulatory: GDPR breach notification may be required (assess data affected)"
 ## Phase 2: Triage (15 Minutes - 1 Hour)
 
 ### Objective
+
 Assess incident scope, impact, and urgency; activate appropriate response team and resources
 
 ### Duration
+
 **15 minutes to 1 hour** depending on severity and complexity
 
 ### Prompts to Use
@@ -190,7 +202,7 @@ Assess incident scope, impact, and urgency; activate appropriate response team a
 
 ### Triage Workflow
 
-```
+```text
 Step 1: Assemble Incident Response Team
   - Incident Commander (IC): Coordinates response
   - Security Analyst: Technical investigation
@@ -234,7 +246,8 @@ Step 6: Activate Response Plan
 **Incident**: Ransomware detected on file server FS-PROD-01
 
 **Use security-incident-response prompt**:
-```
+
+```text
 Prompt: "Triage this ransomware incident. Context: File server FS-PROD-01 compromised, 
 500+ files encrypted, PowerShell execution detected, outbound connection to suspicious IP 
 203.0.113.45. File server hosts:
@@ -302,6 +315,7 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 ### Triage Checklists
 
 **Incident Response Team Activation**:
+
 - [ ] Incident Commander assigned and acknowledged
 - [ ] Security Analyst(s) assigned (minimum 1, preferably 2-3 for P0)
 - [ ] System Admin with access to affected systems on standby
@@ -311,6 +325,7 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 - [ ] Communication channels set up (dedicated Slack channel or Teams channel)
 
 **Scope Assessment**:
+
 - [ ] Affected systems documented (hostnames, IP addresses, asset tags)
 - [ ] Affected users/customers quantified (exact count or estimate)
 - [ ] Attack vector hypothesis documented (will be validated in Phase 3)
@@ -318,6 +333,7 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 - [ ] Data classification reviewed (Public, Internal, Confidential, Restricted)
 
 **Regulatory Assessment** (for P0/P1 involving personal data):
+
 - [ ] GDPR applicability checked (EU citizens' data affected?)
 - [ ] HIPAA applicability checked (PHI affected?)
 - [ ] PCI-DSS applicability checked (payment card data affected?)
@@ -326,6 +342,7 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 - [ ] Breach notification template prepared (draft, not sent yet)
 
 **Response Strategy Selection**:
+
 - [ ] Contain & Investigate (isolate, then analyze)
 - [ ] Immediate Eradication (remove threat first, analyze later)
 - [ ] Monitor & Gather Intelligence (track attacker under controlled conditions)
@@ -354,7 +371,8 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 ### Communication Templates
 
 **P0 Incident - Executive Notification** (send within 30 min of triage):
-```
+
+```text
 Subject: P0 SECURITY INCIDENT - Ransomware on File Server [CONFIDENTIAL]
 
 INCIDENT SUMMARY:
@@ -390,7 +408,8 @@ WAR ROOM: Conference Bridge +1-555-123-4567, Slack #incident-2025-11-17-ransomwa
 ```
 
 **P1/P2 Incident - IT Team Notification**:
-```
+
+```text
 Subject: P1 Security Incident - Investigating Suspicious Activity on Web Server
 
 Team,
@@ -415,11 +434,13 @@ Updates every 30 minutes in #incident-response Slack channel.
 ### Escalation Triggers (When to Escalate Severity)
 
 **P2 → P1 Escalation**:
+
 - Confirmed data access (not just attempt)
 - More than 100 users affected
 - Service disruption > 1 hour
 
 **P1 → P0 Escalation**:
+
 - Personal data (PII, PHI, financial) confirmed exposed
 - Ransomware or destructive malware deployed
 - C-level executive account compromised
@@ -431,9 +452,11 @@ Updates every 30 minutes in #incident-response Slack channel.
 ## Phase 3: Investigation (1-4 Hours)
 
 ### Objective
+
 Conduct deep forensic analysis to understand attack timeline, tactics, techniques, and procedures (TTPs); determine full scope of compromise
 
 ### Duration
+
 **1-4 hours** for initial investigation (P0/P1)  
 **Up to 8 hours** for complex Advanced Persistent Threats (APTs)
 
@@ -463,7 +486,7 @@ Use MITRE ATT&CK framework to categorize attacker tactics:
 
 ### Investigation Workflow
 
-```
+```text
 Step 1: Preserve Evidence (First 15 Minutes)
   - Take forensic images (memory dump, disk image)
   - Collect logs (system, application, security, firewall, SIEM)
@@ -509,7 +532,7 @@ Step 6: Data Impact Assessment
 
 **Use security-incident-response + data-analysis-insights prompts**:
 
-```
+```text
 Prompt: "Conduct forensic investigation of ransomware incident. Evidence collected:
 
 1. Memory Dump: 8GB RAM dump from FS-PROD-01 (captured at 14:50 UTC)
@@ -708,6 +731,7 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 ### Investigation Checklists
 
 **Evidence Preservation**:
+
 - [ ] Forensic images captured (memory dump, disk image)
 - [ ] Logs collected from all relevant sources (SIEM, firewall, EDR, email gateway)
 - [ ] Screenshots taken (ransom notes, error messages, system states)
@@ -715,6 +739,7 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 - [ ] Evidence stored securely (encrypted, access-controlled, hash verified)
 
 **Timeline Construction**:
+
 - [ ] Initial access timestamp identified (first malicious activity)
 - [ ] Attack progression mapped (each stage of kill chain)
 - [ ] Dwell time calculated (time between initial access and detection)
@@ -722,6 +747,7 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 - [ ] Detection timestamp recorded (when incident was discovered)
 
 **IOC Extraction**:
+
 - [ ] File hashes documented (MD5, SHA256 of malware samples)
 - [ ] IP addresses logged (C2 servers, data exfiltration destinations)
 - [ ] Domain names recorded (malicious domains contacted)
@@ -730,12 +756,14 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 - [ ] Registry keys/file paths documented (persistence mechanisms)
 
 **Scope Expansion Hunt**:
+
 - [ ] IOC search completed across all systems (workstations, servers, network devices)
 - [ ] Lateral movement analysis completed (which systems did attacker access)
 - [ ] Compromised account usage reviewed (authentication logs, access history)
 - [ ] Similar attack patterns identified (other phishing emails, same vulnerability exploited)
 
 **Root Cause Analysis**:
+
 - [ ] Initial vulnerability or weakness identified (phishing, unpatched software, weak password)
 - [ ] Security control failures analyzed (why AV didn't detect, why SIEM alert ignored)
 - [ ] Prevention recommendations documented (immediate, short-term, long-term)
@@ -767,18 +795,21 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 ### Tool Recommendations
 
 **Forensic Analysis**:
+
 - **Memory Analysis**: Volatility Framework (analyze memory dumps for malware, credentials, network connections)
 - **Disk Forensics**: Autopsy, FTK Imager (timeline analysis, file carving, artifact extraction)
 - **Log Analysis**: Splunk, ELK Stack, Azure Sentinel (correlate logs from multiple sources)
 - **Malware Analysis**: IDA Pro, Ghidra, REMnux (reverse engineer malware samples)
 
 **Threat Intelligence**:
+
 - **VirusTotal**: Check file hashes against global malware database
 - **AlienVault OTX**: Research IOCs and attacker infrastructure
 - **MISP**: Share IOCs with industry peers (ISACs)
 - **Shodan**: Research attacker IP addresses and infrastructure
 
 **Network Forensics**:
+
 - **Wireshark**: Analyze packet captures (PCAP files) for C2 traffic and data exfiltration
 - **Zeek (Bro)**: Network traffic analysis and logging
 - **NetworkMiner**: Extract files and artifacts from network traffic
@@ -788,17 +819,17 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 ## Next Steps
 
 **Phases 4-6 will be added in subsequent iterations**:
+
 - **Phase 4: Containment** (Isolate threat, prevent spread)
 - **Phase 5: Remediation** (Eradicate malware, restore services)
 - **Phase 6: Post-Mortem** (Lessons learned, process improvements)
-
-**[Continue to Iteration 2 →]()**
 
 ---
 
 ## Changelog
 
 | Version | Date | Changes |
+
 |---------|------|---------|
 | 1.0 | 2025-11-17 | Initial playbook created (Phases 1-3: Detection, Triage, Investigation) |
 

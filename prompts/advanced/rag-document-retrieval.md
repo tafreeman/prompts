@@ -13,6 +13,7 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 # RAG: Document Retrieval and Citation Framework
 
 ## Description
+
 Retrieval-Augmented Generation (RAG) is a pattern that grounds AI responses in specific documents or knowledge bases. This template provides a structured approach to chunking documents, retrieving relevant context, and generating answers with proper citations. Essential for enterprise applications where accuracy, attribution, and auditability are critical.
 
 ## Research Foundation
@@ -23,6 +24,7 @@ This technique is based on the paper:
 Lewis et al. introduced RAG models that combine parametric memory (pre-trained seq2seq model) with non-parametric memory (dense vector index of Wikipedia accessed with a pre-trained neural retriever). This approach allows models to access and leverage knowledge in a more modular and interpretable way than storing all knowledge in model parameters, achieving state-of-the-art results on knowledge-intensive tasks while providing transparency through retrieved document citations.
 
 ## Use Cases
+
 - Internal documentation Q&A systems
 - Code repository search and explanation
 - Policy and compliance document queries
@@ -33,7 +35,7 @@ Lewis et al. introduced RAG models that combine parametric memory (pre-trained s
 
 ## Prompt
 
-```
+```text
 You are an AI assistant using Retrieval-Augmented Generation (RAG) to answer questions grounded in specific documents.
 
 **Question**: [USER_QUESTION]
@@ -100,6 +102,7 @@ Relevance Score: [DOC_2_SCORE]
 ```
 
 ## Variables
+
 - `[USER_QUESTION]`: The specific question to answer using retrieved documents
 - `[BACKGROUND_INFORMATION]`: Context about the user's goal, constraints, or situation
 - `[DOC_X_ID]`: Unique identifier for each retrieved document chunk
@@ -110,7 +113,8 @@ Relevance Score: [DOC_2_SCORE]
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an AI assistant using Retrieval-Augmented Generation (RAG) to answer questions grounded in specific documents.
 
 **Question**: What is our API rate limiting policy and how do we handle violations?
@@ -144,7 +148,8 @@ Relevance Score: 0.41
 ```
 
 **Output:**
-```
+
+```text
 **Answer**:
 
 Our API rate limiting policy varies by customer tier. Standard accounts are limited to 1,000 requests per hour per API key, while Enterprise Premium customers receive 10,000 requests per hour [Doc_1]. These limits reset at the top of each hour in UTC timezone [Doc_1].
@@ -184,6 +189,7 @@ The retrieved documents comprehensively cover rate limiting policy, error handli
 ```
 
 ## Tips
+
 - **Ground firmly**: Never add information not in retrieved documents, even if you "know" it's true
 - **Cite everything**: Every factual claim needs a citation. When in doubt, cite.
 - **Assess confidence**: Be honest about information gaps. "I don't have that information" is better than guessing.
@@ -196,7 +202,8 @@ The retrieved documents comprehensively cover rate limiting policy, error handli
 ## Document Chunking Best Practices
 
 ### For Code Repositories
-```
+
+```text
 Chunk by:
 - Function/method (including docstring and signature)
 - Class definition (with methods)
@@ -211,7 +218,8 @@ Metadata to include:
 ```
 
 ### For Documentation
-```
+
+```text
 Chunk by:
 - Section (heading-based)
 - 300-500 tokens with 50-token overlap
@@ -225,7 +233,8 @@ Metadata to include:
 ```
 
 ### For Logs/Incident Data
-```
+
+```text
 Chunk by:
 - Time range (e.g., 5-minute windows)
 - Log level groups (errors together)
@@ -241,6 +250,7 @@ Metadata to include:
 ## Retrieval Strategies
 
 ### Semantic Search
+
 ```python
 # Using embedding-based retrieval
 query_embedding = embed(user_question)
@@ -252,6 +262,7 @@ chunks = vector_db.similarity_search(
 ```
 
 ### Hybrid Search
+
 ```python
 # Combine semantic + keyword search
 semantic_results = vector_db.similarity_search(query, k=10)
@@ -262,6 +273,7 @@ chunks = rerank(semantic_results + keyword_results, top_k=5)
 ```
 
 ### Contextual Retrieval
+
 ```python
 # Retrieve chunk + surrounding context
 main_chunk = retrieve(query)
@@ -300,6 +312,7 @@ For automation pipelines:
 ```
 
 ## Governance Notes
+
 - **PII Safety**: Documents may contain PII. Implement:
   - PII detection before indexing
   - Access control on document retrieval
@@ -321,11 +334,13 @@ For automation pipelines:
 ## Platform Adaptations
 
 ### GitHub Copilot with Retrieval
-```
+
+```text
 @workspace search for rate limiting policy and explain with citations
 ```
 
 ### LangChain RAG Implementation
+
 ```python
 from langchain.chains import RetrievalQA
 from langchain.vectorstores import Chroma
@@ -350,6 +365,7 @@ sources = result["source_documents"]
 ```
 
 ### Custom RAG Pipeline
+
 ```python
 def rag_answer(question, context=""):
     # 1. Retrieve relevant documents
@@ -381,6 +397,7 @@ def rag_answer(question, context=""):
 ```
 
 ## Related Prompts
+
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
 - [RAG: Code Ingestion](rag-code-ingestion.md) - Code-specific RAG patterns
 - [Citation: Quality Framework](rag-citation-framework.md) - Citation best practices
@@ -388,7 +405,8 @@ def rag_answer(question, context=""):
 ## Error Handling
 
 ### Insufficient Retrieved Documents
-```
+
+```text
 If fewer than 3 relevant documents (score >0.7) retrieved:
 
 "I found limited information about [topic]. Based on available documents:
@@ -403,7 +421,8 @@ Would you like me to search differently, or can you provide more context?"
 ```
 
 ### Contradictory Information
-```
+
+```text
 "I found contradictory information in the documentation:
 
 - Document A [Doc_1] states: [quote A]
@@ -416,7 +435,8 @@ Which scenario applies to your situation? Or would you like me to escalate this 
 ```
 
 ### No Relevant Documents Found
-```
+
+```text
 "I couldn't find relevant documentation about [topic]. 
 
 Possible reasons:
@@ -433,6 +453,7 @@ Would you like me to:
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Comprehensive RAG template with citation framework
 - Chunking and retrieval best practices

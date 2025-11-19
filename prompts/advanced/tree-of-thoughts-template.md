@@ -13,6 +13,7 @@ platform: "GPT-5.1, Claude Sonnet 4.5, Code 5"
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
 ## Description
+
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
 
 ## Research Foundation
@@ -23,6 +24,7 @@ This technique is based on the paper:
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
 
 ## Use Cases
+
 - Architecture decisions with multiple valid approaches
 - Strategic planning requiring trade-off analysis
 - Complex problem-solving with no obvious solution
@@ -33,7 +35,7 @@ Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "ch
 
 ## Prompt
 
-```
+```text
 You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 
 **Problem**: [PROBLEM_STATEMENT]
@@ -110,6 +112,7 @@ Compare all viable paths explored:
 ```
 
 ## Variables
+
 - `[PROBLEM_STATEMENT]`: The complex problem requiring multi-approach exploration
 - `[BACKGROUND_AND_CONSTRAINTS]`: Context, limitations, requirements, stakeholders
 - `[WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria for evaluating solutions
@@ -119,7 +122,8 @@ Compare all viable paths explored:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 
 **Problem**: Design a caching strategy for our global e-commerce platform that minimizes latency while controlling costs
@@ -146,7 +150,8 @@ You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 ```
 
 **Output:**
-```
+
+```text
 **Problem Understanding**:
 
 The core challenge is designing a multi-tier caching strategy that:
@@ -427,6 +432,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 ```
 
 ## Tips
+
 - **Generate genuinely different branches**: Don't create branches that are minor variations - aim for fundamentally different approaches
 - **Score honestly**: Don't inflate scores to favor your preferred approach - be objective
 - **Prune decisively**: Don't explore every branch equally - prune low-scoring branches early
@@ -446,6 +452,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 | **Reflection** | Need self-validation | "Is this business case sound?" |
 
 **Use ToT specifically when**:
+
 - Multiple valid approaches exist
 - Trade-offs require explicit comparison
 - You need creative exploration
@@ -492,11 +499,13 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 ```
 
 ## Related Prompts
+
 - [Tree-of-Thoughts: Decision Guide](tree-of-thoughts-decision-guide.md) - When to use ToT
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative
 - [Reflection: Self-Critique](reflection-self-critique.md) - Validate ToT conclusions
 
 ## Governance Notes
+
 - **PII Safety**: No inherent PII processing; ensure problem/context don't contain sensitive data
 - **Human Review Required**: For decisions with >$100K impact, affecting >50 people, or strategic choices
 - **Audit Trail**: Save complete ToT exploration (all branches) for accountability and learning
@@ -505,6 +514,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Multi-branch exploration with scoring
 - Backtracking demonstration

@@ -12,34 +12,42 @@ platform: "Microsoft 365 Copilot"
 # M365 Daily Standup Assistant
 
 ## Description
+
 This prompt helps an individual knowledge worker quickly generate clear, concise daily standup talking points using their recent Microsoft 365 activity. It leverages emails, calendar events, Teams chats, and recently edited files to draft what they did yesterday, what they plan to do today, and any blockers.
 
 ## Goal
+
 Enable a user to walk into a daily standup with ready-made, accurate talking points that reflect their recent work and highlight priorities and blockers.
 
 ## Context
+
 Assume the user is working in a Microsoft 365 environment with access to Outlook, Teams, OneDrive/SharePoint, and calendar data. Standups typically follow an agile format ("yesterday / today / blockers") and are time-boxed, so responses must be concise and easy to read aloud.
 
 The AI can reference:
+
 - Recent emails and Teams chats
 - Calendar events
 - Recently opened or edited documents
 - Tasks and meetings related to the user’s team or project
 
 ## Inputs
+
 The user provides:
+
 - `[time_window]`: How far back to look for activity (e.g., "24 hours", "since yesterday’s standup").
 - `[team_or_project_name]`: The primary team or project for the standup.
 - `[max_bullets_per_section]`: Maximum bullet points for each section (yesterday, today, blockers).
 - Optional: `[focus_topics]`: Any specific topics to emphasize (e.g., "risks", "customer issues", "dependencies").
 
 ## Assumptions
+
 - If specific data isn’t available (for example, no relevant emails or meetings in the time window), the AI should infer likely work items from whatever context exists and clearly note uncertainty.
 - If the team or project is ambiguous, the AI should ask a brief clarifying question before finalizing the output.
 - The user prefers succinct bullets they can read verbatim in a standup, not long paragraphs.
 - The AI should avoid including confidential details that are not necessary for the standup context.
 
 ## Constraints
+
 - Keep each section (yesterday, today, blockers) to a maximum of `[max_bullets_per_section]` bullets.
 - Use short, action-oriented bullet points (10–20 words each).
 - Use a neutral, professional tone.
@@ -47,6 +55,7 @@ The user provides:
 - Do not include personally identifiable information about others beyond names and roles (no private data, passwords, or secrets).
 
 ## Process / Reasoning Style
+
 - Internally:
   - Aggregate and cluster recent activity by theme (tasks, meetings, documents).
   - Map activities to "yesterday", "today", and "blockers" based on timing and context.
@@ -57,6 +66,7 @@ The user provides:
   - Optionally offer a second, more streamlined version if the first draft is too long.
 
 ## Output Requirements
+
 Return the output in Markdown with the following sections:
 
 - `## Yesterday`
@@ -71,6 +81,7 @@ Return the output in Markdown with the following sections:
 Ensure the bullets are concise, specific, and ready to be read aloud.
 
 ## Use Cases
+
 - Use case 1: A developer preparing daily standup notes for an agile delivery team in Microsoft Teams.
 - Use case 2: A project manager quickly summarizing their work across multiple projects for a cross-functional standup.
 - Use case 3: A support engineer summarizing tickets, customer interactions, and follow-ups for a daily operations call.
@@ -79,7 +90,7 @@ Ensure the bullets are concise, specific, and ready to be read aloud.
 
 ## Prompt
 
-```
+```text
 You are my Daily Standup Assistant working in a Microsoft 365 environment.
 
 Goal:
@@ -146,6 +157,7 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ```
 
 ## Variables
+
 - `[time_window]`: How far back to consider activity (e.g., "24 hours", "since yesterday’s standup").
 - `[team_or_project_name]`: Name of the team or project the standup is for (e.g., "Payments Platform Squad").
 - `[max_bullets_per_section]`: Maximum number of bullets for Yesterday, Today, and Blockers (e.g., 3 or 5).
@@ -154,7 +166,8 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are my Daily Standup Assistant working in a Microsoft 365 environment.
 
 [time_window]: "24 hours"
@@ -167,7 +180,8 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ```
 
 **Output:**
-```
+
+```text
 ## Yesterday
 - Investigated delayed account activations and confirmed root cause in onboarding API timeout.
 - Aligned with product owner on scope and timeline for onboarding flow hotfix.
@@ -188,16 +202,19 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ```
 
 ## Tips
+
 - Tip 1: Adjust `[time_window]` (e.g., "48 hours" or "since last Friday") if you missed a standup or had an unusually busy period.
 - Tip 2: Use `[focus_topics]` to emphasize specific themes (e.g., "dependencies on other teams" or "customer incidents") so Copilot highlights what matters most.
 - Tip 3: After the first draft, ask Copilot to "shorten this further" or "make this more informal" to match your team culture.
 - Tip 4: Reuse the prompt before multiple standups across different teams by changing only `[team_or_project_name]`.
 
 ## Related Prompts
+
 - (Optional) `m365-weekly-review-coach.md`
 - (Optional) `m365-project-status-reporter.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

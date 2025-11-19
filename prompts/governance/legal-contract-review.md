@@ -19,9 +19,11 @@ platform: "Claude Sonnet 4.5"
 # Legal: Contract Review Assistant
 
 ## Description
+
 An AI-powered contract review assistant for legal teams to identify risks, unusual clauses, and compliance issues in commercial agreements. This prompt systematically analyzes contracts, highlights areas of concern, and provides structured risk assessments. **IMPORTANT: Output must be reviewed by licensed attorney before use.**
 
 ## Use Cases
+
 - Initial contract review and risk triage
 - Vendor agreement analysis
 - NDA and partnership agreement review
@@ -32,7 +34,7 @@ An AI-powered contract review assistant for legal teams to identify risks, unusu
 
 ## Prompt
 
-```
+```text
 You are a legal contract review assistant helping attorneys analyze commercial agreements.
 
 **Contract Type**: [CONTRACT_TYPE]
@@ -108,6 +110,7 @@ List any immediate concerns requiring escalation:
 ```
 
 ## Variables
+
 - `[CONTRACT_TYPE]`: Type of agreement (NDA, MSA, SaaS Agreement, Employment Contract, etc.)
 - `[PARTY_NAMES_AND_ROLES]`: Who is signing (Company A as Provider, Company B as Customer, etc.)
 - `[FULL_CONTRACT_TEXT_OR_KEY_SECTIONS]`: Complete contract or specific sections to review
@@ -116,7 +119,8 @@ List any immediate concerns requiring escalation:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are a legal contract review assistant helping attorneys analyze commercial agreements.
 
 **Contract Type**: Software-as-a-Service (SaaS) Agreement
@@ -145,7 +149,8 @@ Section 11.3 Governing Law:
 ```
 
 **Output:**
-```
+
+```text
 **1. Contract Summary**
 - **Type**: Software-as-a-Service (SaaS) Agreement
 - **Parties**: CloudTech Solutions (Provider) / Acme Corporation (Customer)
@@ -351,6 +356,7 @@ Section 11.3 Governing Law:
 ```
 
 ## Tips
+
 - **Always include full context**: Contract type, parties, industry, jurisdiction
 - **Prioritize risks**: Lead with Critical and High severity issues
 - **Be specific**: Reference exact clause numbers and quote relevant text
@@ -363,6 +369,7 @@ Section 11.3 Governing Law:
 ## Governance & Compliance
 
 ### Required Workflow
+
 1. **Input Validation**: Ensure contract is redacted of unnecessary PII before analysis
 2. **AI Analysis**: Use this prompt to generate initial review
 3. **Attorney Review**: Licensed attorney must review and validate all findings
@@ -372,12 +379,14 @@ Section 11.3 Governing Law:
 7. **Audit Logging**: Log analysis, review, approval in legal management system
 
 ### Audit Requirements
+
 - **Log all usage**: Timestamp, user, contract ID, risk findings
 - **Retain analysis**: 7 years (standard legal document retention)
 - **Track outcomes**: Document which risks were negotiated, accepted, or rejected
 - **Review accuracy**: Quarterly review of AI findings vs. attorney assessment
 
 ### Access Control
+
 - **Who can use**: Legal team, compliance officers (with attorney supervision)
 - **Not for use by**: Sales, general employees, external parties
 - **Approval required**: Legal Counsel must review output before sharing with business
@@ -427,6 +436,7 @@ Section 11.3 Governing Law:
 ```
 
 ## Related Prompts
+
 - [Legal: Compliance Check](legal-compliance-check.md) - Regulatory compliance verification
 - [Compliance: Risk Assessment](compliance-risk-assessment.md) - General risk evaluation
 - [Security: Vendor Assessment](security-vendor-assessment.md) - Security review of vendors
@@ -434,6 +444,7 @@ Section 11.3 Governing Law:
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Comprehensive contract review framework
 - GDPR and privacy compliance focus

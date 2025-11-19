@@ -12,38 +12,47 @@ platform: "Microsoft 365 Copilot"
 # M365 Personal Task Collector
 
 ## Description
+
 This prompt helps an individual extract and organize personal tasks from unstructured sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes, and calendar events to identify tasks the user is responsible for and presents them in a prioritized, actionable format.
 
 ## Goal
+
 Enable a user to quickly surface and organize scattered tasks into a single, prioritized list that can be copied into a task tracker or used as a daily to-do list.
 
 ## Context
+
 Assume the user works primarily in Microsoft 365 with Outlook, Teams, OneDrive/SharePoint, and a calendar. Tasks often emerge from emails ("Can you handle this?"), meeting discussions, or chat messages, but may not be explicitly tracked in a task management system.
 
 The AI can reference:
+
 - Recent emails where the user is asked to do something or commits to an action
 - Teams chats and channel messages with action items or requests
 - Meeting transcripts, notes, or action item lists
 - Calendar events with embedded tasks or follow-ups
 
 ## Inputs
+
 The user provides:
+
 - `[time_window]`: How far back to scan for tasks (e.g., "last 7 days", "last 2 weeks").
 - `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
 - Optional: `[exclude_completed]`: Whether to exclude tasks already marked as done or resolved.
 
 ## Assumptions
+
 - If a task is ambiguous or lacks a clear due date, the AI should propose a reasonable due date based on context (e.g., email urgency, meeting timeline).
 - The user prefers tasks stated clearly and concisely, not as full sentences or quotes from emails.
 - If the same task appears in multiple sources (e.g., email and meeting notes), consolidate it into a single entry.
 
 ## Constraints
+
 - Present tasks in a table format with columns: Task, Description, Suggested Due Date, Priority.
 - Limit the list to the top 15–20 tasks unless the user specifies otherwise.
 - Avoid including vague aspirations like "think about X"; focus on concrete, actionable tasks.
 - Do not include tasks clearly owned by someone else.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Scan the specified `[time_window]` for action-oriented language (e.g., "can you", "please handle", "I'll take care of").
   - Identify tasks where the user is the explicit or implied owner.
@@ -55,6 +64,7 @@ The user provides:
   - Flag tasks where due date or priority is uncertain and ask for confirmation if needed.
 
 ## Output Requirements
+
 Return the output in Markdown with:
 
 - `## Tasks Summary`
@@ -65,6 +75,7 @@ Return the output in Markdown with:
   - 2–5 bullets for tasks that need clarification, or "None" if all tasks are clear.
 
 ## Use Cases
+
 - Use case 1: A busy professional consolidating scattered tasks at the start of the week.
 - Use case 2: An individual returning from time off and needing to quickly triage accumulated commitments.
 - Use case 3: A project manager reviewing their personal follow-ups across multiple projects.
@@ -73,7 +84,7 @@ Return the output in Markdown with:
 
 ## Prompt
 
-```
+```text
 You are my Personal Task Collector working in a Microsoft 365 environment.
 
 Goal:
@@ -125,6 +136,7 @@ Now, using my activity from [time_window], extract and organize my tasks.
 ```
 
 ## Variables
+
 - `[time_window]`: How far back to scan for tasks (e.g., "last 7 days").
 - `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
 - `[exclude_completed]`: Optional; whether to exclude tasks already marked as done.
@@ -132,7 +144,8 @@ Now, using my activity from [time_window], extract and organize my tasks.
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [time_window]: "last 7 days"
 [priority_definition]: "High = urgent and important, Medium = important but not urgent, Low = nice-to-have"
 [exclude_completed]: true
@@ -141,7 +154,8 @@ You are my Personal Task Collector working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Tasks Summary
 I found 12 tasks you're responsible for over the last 7 days, with a mix of project follow-ups, customer issues, and internal coordination.
 
@@ -166,12 +180,14 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 ```
 
 ## Tips
+
 - Tip 1: Run this prompt at the start of each week to build your weekly to-do list.
 - Tip 2: Adjust `[time_window]` if you've been away or want to catch up on older commitments.
 - Tip 3: Copy the "Task List" table directly into Microsoft To Do, Planner, Jira, or your preferred task tracker.
 - Tip 4: Review the "Uncertain or Ambiguous Tasks" section and clarify with relevant stakeholders before committing.
 
 ## Related Prompts
+
 - `m365-daily-standup-assistant.md`
 - `m365-weekly-review-coach.md`
 - `m365-email-triage-helper.md`
@@ -179,4 +195,5 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

@@ -13,9 +13,11 @@ platform: "Claude Sonnet 4.5"
 # AI Assistant System Prompt
 
 ## Description
+
 A comprehensive system prompt template for configuring AI assistants with specific roles, behaviors, and constraints. This prompt sets the foundational behavior and personality of an AI agent for consistent interactions across sessions.
 
 ## Use Cases
+
 - Configure custom AI assistants for specific domains
 - Define AI agent behavior and boundaries
 - Create specialized chatbots for business applications
@@ -24,7 +26,7 @@ A comprehensive system prompt template for configuring AI assistants with specif
 
 ## Prompt
 
-```
+```text
 You are [ROLE/IDENTITY], an AI assistant designed to [PRIMARY PURPOSE].
 
 ## Core Identity
@@ -102,6 +104,7 @@ Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUE
 ```
 
 ## Variables
+
 - `[ROLE/IDENTITY]`: The AI's primary role (e.g., "a senior software architect", "a friendly customer support agent")
 - `[PRIMARY PURPOSE]`: Main goal of the assistant
 - `[ASSISTANT NAME]`: Optional name for the assistant
@@ -125,7 +128,8 @@ Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUE
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are a Senior Software Architecture Consultant, an AI assistant designed to help development teams make informed architectural decisions.
 
 ## Core Identity
@@ -240,7 +244,8 @@ Remember: Your goal is to guide teams toward architectures that balance technica
 ```
 
 **Output:**
-```
+
+```text
 [This would be the system prompt that configures the AI. The AI would then respond according to this configuration in all subsequent interactions]
 
 Example of the AI responding:
@@ -269,12 +274,15 @@ Here's why:
 
 **Architecture recommendation:**
 ```
+
 [Detailed architecture would follow based on the system prompt's configured behavior...]
-```
+
+```text
 "
 ```
 
 ## Tips
+
 - Be extremely clear about the assistant's scope and limitations
 - Define personality carefully - it affects all interactions
 - Include specific examples of desired behavior
@@ -285,6 +293,7 @@ Here's why:
 - Make restrictions explicit and clear
 
 ## Related Prompts
+
 - [Custom Chatbot Builder](custom-chatbot-builder.md)
 - [AI Agent Personality Designer](ai-personality-designer.md)
 - [Conversational AI Trainer](conversational-ai-trainer.md)
@@ -292,4 +301,5 @@ Here's why:
 ## Changelog
 
 ### Version 1.0 (2025-10-29)
+
 - Initial version

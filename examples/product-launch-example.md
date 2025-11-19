@@ -5,6 +5,7 @@ This example demonstrates how to use multiple prompts from the library to suppor
 ## Scenario
 
 You're launching a new project management tool for small teams. You need to:
+
 1. Develop the product strategy
 2. Create marketing content
 3. Analyze early user data
@@ -17,6 +18,7 @@ Let's see how prompts from this library can help at each stage.
 ### Prompt Used: [Business Strategy Analysis](../prompts/business/business-strategy-analysis.md)
 
 **How to use it:**
+
 1. Navigate to `prompts/business/business-strategy-analysis.md`
 2. Copy the prompt template
 3. Fill in your details:
@@ -26,6 +28,7 @@ Let's see how prompts from this library can help at each stage.
    - Context: Small startup, limited budget
 
 **What you get:**
+
 - SWOT analysis for your product
 - Strategic options (e.g., freemium vs. paid, B2B vs. B2C)
 - Recommendations with rationale
@@ -38,6 +41,7 @@ Let's see how prompts from this library can help at each stage.
 ### Prompt Used: [Content Marketing Blog Post](../prompts/creative/content-marketing-blog-post.md)
 
 **How to use it:**
+
 1. Open `prompts/creative/content-marketing-blog-post.md`
 2. Customize for your needs:
    - Topic: "5 Ways Project Management Tools Save Small Teams Time"
@@ -46,12 +50,14 @@ Let's see how prompts from this library can help at each stage.
    - Keywords: "project management for small teams", "team productivity"
 
 **What you get:**
+
 - Complete blog post (1000-1200 words)
 - SEO-optimized content
 - Clear CTAs
 - Meta description for search engines
 
 **Repeat this for:**
+
 - Launch announcement
 - Feature explanation posts
 - Customer success stories
@@ -62,6 +68,7 @@ Let's see how prompts from this library can help at each stage.
 ### Additional Creative Prompts
 
 You could also use:
+
 - Social media post generator (if available) for launch posts
 - Email marketing templates for launch announcements
 - Product description writer for your website
@@ -71,6 +78,7 @@ You could also use:
 ### Prompt Used: [Code Review Assistant](../prompts/developers/code-review-assistant.md)
 
 **How to use it:**
+
 1. Open `prompts/developers/code-review-assistant.md`
 2. Submit your code for review:
    - Language: JavaScript/React
@@ -78,6 +86,7 @@ You could also use:
    - Paste your code
 
 **What you get:**
+
 - Code quality assessment
 - Bug identification
 - Performance suggestions
@@ -85,6 +94,7 @@ You could also use:
 - Refactoring examples
 
 **Apply this to:**
+
 - Frontend components
 - Backend API endpoints
 - Database queries
@@ -99,6 +109,7 @@ You could also use:
 **Scenario:** You've launched to 100 beta users and collected usage data.
 
 **How to use it:**
+
 1. Open `prompts/analysis/data-analysis-insights.md`
 2. Provide your data summary:
    - Type: User behavior and signup data
@@ -107,6 +118,7 @@ You could also use:
    - Summary: "100 signups, 60% activated, 40% weekly active users"
 
 **What you get:**
+
 - Insights on user behavior
 - Identification of drop-off points
 - Feature usage patterns
@@ -114,6 +126,7 @@ You could also use:
 - Visualization suggestions
 
 **Decisions informed:**
+
 - Which features to prioritize
 - Where to focus onboarding improvements
 - Marketing message refinement
@@ -126,6 +139,7 @@ You could also use:
 ### Prompt Used: [AI Assistant System Prompt](../prompts/system/ai-assistant-system-prompt.md)
 
 **How to use it:**
+
 1. Open `prompts/system/ai-assistant-system-prompt.md`
 2. Customize for customer support:
    - Role: "Customer support specialist for TaskFlow"
@@ -134,12 +148,14 @@ You could also use:
    - Boundaries: Can't access user accounts, escalates billing issues
 
 **What you get:**
+
 - Complete system prompt for your support chatbot
 - Consistent support personality
 - Clear escalation protocols
 - Behavioral guidelines
 
 **Result:**
+
 - 24/7 automated support
 - Consistent responses
 - Faster response times
@@ -150,11 +166,13 @@ You could also use:
 ## Results Summary
 
 ### Total Time Investment
+
 - Learning to use prompts: 2-3 hours
 - Customizing prompts: 5-6 hours
 - **Total: ~8 hours**
 
 ### Time Saved
+
 - Strategy work: 8-10 hours
 - Content creation: 20-25 hours (5 blog posts)
 - Code reviews: 10-15 hours
@@ -163,11 +181,13 @@ You could also use:
 - **Total: 59-78 hours saved**
 
 ### ROI
+
 **~7-9x return on time invested**
 
 ## Key Learnings
 
 ### What Worked Well
+
 ✅ Starting with strategy prompts to align the team
 ✅ Using content prompts for consistent brand voice
 ✅ Regular code reviews improved quality
@@ -175,6 +195,7 @@ You could also use:
 ✅ System prompts created consistent support experience
 
 ### What to Adjust
+
 🔄 Customize prompts more for your specific brand voice
 🔄 Iterate on outputs - first draft is starting point
 🔄 Combine multiple prompts for complex tasks
@@ -193,25 +214,30 @@ You could also use:
 ### Map Your Needs to Prompt Categories
 
 **Business/Strategy Phase:**
+
 - Business Strategy Analysis
 - Market Research (if available)
 - Competitive Analysis (if available)
 
 **Development Phase:**
+
 - Code Review Assistant
 - Documentation Generator (if available)
 - Bug Finder (if available)
 
 **Marketing Phase:**
+
 - Content Marketing Blog Posts
 - Social Media Generator (if available)
 - Email Marketing (if available)
 
 **Launch Phase:**
+
 - Data Analysis and Insights
 - Customer Feedback Synthesis (if available)
 
 **Support Phase:**
+
 - AI Assistant System Prompt
 - FAQ Generator (if available)
 

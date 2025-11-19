@@ -12,38 +12,47 @@ platform: "Microsoft 365 Copilot"
 # M365 Meeting Recap Assistant
 
 ## Description
+
 This prompt helps an individual quickly turn a meeting transcript or notes into a structured summary with decisions, action items, and follow-ups. It leverages Microsoft 365 context (Teams meeting transcripts, chat, and shared documents) to produce actionable outputs.
 
 ## Goal
+
 Enable a user to capture and communicate meeting outcomes clearly and efficiently, ensuring nothing important is missed and follow-ups are tracked.
 
 ## Context
+
 Assume the user works in Microsoft 365 with access to Teams, Outlook, and OneDrive/SharePoint. Meetings often generate transcripts, chat messages, and references to documents that the AI can synthesize into a cohesive summary.
 
 The AI can reference:
+
 - Meeting transcript (if available)
 - Meeting chat messages
 - Documents or links shared during the meeting
 - Calendar invite and attendee list
 
 ## Inputs
+
 The user provides:
+
 - `[priority_scheme]`: How to categorize action items (e.g., "High/Medium/Low" or "Urgent/Important/Nice-to-have").
 - `[due_date_horizon]`: Suggested timeframe for action items (e.g., "within 2 weeks", "by end of quarter").
 - Optional: `[focus_topics]`: Specific topics to emphasize in the recap (e.g., "risks", "budget", "customer impact").
 
 ## Assumptions
+
 - If a transcript is available, the AI should use it as the primary source; if not, it should work from chat messages and any notes the user provides.
 - Not every discussion point needs to be captured—focus on decisions, action items, and unresolved questions.
 - The user prefers action items with clear owners and realistic due dates, even if those are suggestions that need confirmation.
 
 ## Constraints
+
 - Keep the entire recap under 800 words.
 - Use bullet points, tables, and short paragraphs for scannability.
 - Avoid quoting verbatim from the transcript unless it's a critical decision statement; summarize instead.
 - Action items should be specific and actionable, not vague aspirations.
 
 ## Process / Reasoning Style
+
 - Internally:
   - Parse the transcript and chat for key themes, decisions, and commitments.
   - Identify who committed to what, even if not stated explicitly (infer from context).
@@ -54,6 +63,7 @@ The user provides:
   - Provide a table for action items for easy copy/paste into task trackers.
 
 ## Output Requirements
+
 Return the output in Markdown with these sections:
 
 - `## Meeting Summary`
@@ -66,6 +76,7 @@ Return the output in Markdown with these sections:
   - 2–5 bullets for unresolved issues or topics that need follow-up discussions.
 
 ## Use Cases
+
 - Use case 1: A project manager capturing outcomes from a sprint planning or retrospective meeting.
 - Use case 2: A team lead summarizing a stakeholder sync for distribution to attendees and non-attendees.
 - Use case 3: An engineer documenting decisions from a design review or architecture discussion.
@@ -74,7 +85,7 @@ Return the output in Markdown with these sections:
 
 ## Prompt
 
-```
+```text
 You are my Meeting Recap Assistant working in a Microsoft 365 environment.
 
 Goal:
@@ -135,6 +146,7 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 ```
 
 ## Variables
+
 - `[priority_scheme]`: How to categorize action items (e.g., "High/Medium/Low").
 - `[due_date_horizon]`: Suggested timeframe for action items (e.g., "within 2 weeks").
 - `[focus_topics]`: Optional specific topics to emphasize (e.g., "risks", "budget").
@@ -142,7 +154,8 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 ## Example Usage
 
 **Input:**
-```
+
+```text
 [priority_scheme]: "High/Medium/Low"
 [due_date_horizon]: "within 2 weeks"
 [focus_topics]: "timeline risks and customer impact"
@@ -151,7 +164,8 @@ You are my Meeting Recap Assistant working in a Microsoft 365 environment...
 ```
 
 **Output:**
-```
+
+```text
 ## Meeting Summary
 This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibility for the phased rollout. The team aligned on success criteria for the internal beta, discussed risks related to API stability, and identified several action items to de-risk the public GA launch.
 
@@ -176,16 +190,19 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 ```
 
 ## Tips
+
 - Tip 1: Run this prompt immediately after the meeting while the context is fresh.
 - Tip 2: Share the recap with attendees and ask them to confirm action item ownership and due dates.
 - Tip 3: Use the "Action Items" table directly in your task tracker (Planner, Jira, etc.) by copying and pasting.
 - Tip 4: Pair this with `m365-meeting-prep-brief.md` for full meeting lifecycle coverage (prep → meeting → recap).
 
 ## Related Prompts
+
 - `m365-meeting-prep-brief.md`
 - `m365-project-status-reporter.md`
 
 ## Changelog
 
 ### Version 1.0 (2025-11-18)
+
 - Initial version

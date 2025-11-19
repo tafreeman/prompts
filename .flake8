@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 120
+# Ignore E501 (line too long) for lines that are prompt templates in tuples
+per-file-ignores =
+    src/load_prompts.py:E501

@@ -13,18 +13,23 @@ platform: "Claude Sonnet 4.5"
 # Chain-of-Thought: Performance Analysis & Profiling
 
 ## Description
+
 A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces. Guides developers through systematic performance analysis with explicit reasoning and data-driven conclusions.
 
 ## Research Foundation
+
 Based on Chain-of-Thought prompting (Wei et al., NeurIPS 2022) adapted for performance engineering workflows. Incorporates profiling best practices from "Systems Performance" (Gregg, 2020) and data-driven optimization methodologies.
 
 ## Goal
+
 Enable developers to identify and prioritize performance bottlenecks systematically, using profiling data and explicit step-by-step reasoning to propose targeted, measurable optimizations.
 
 ## Context
+
 Use this prompt when analyzing CPU flamegraphs, memory profiles, database query traces, or network latency measurements. Best suited for performance regressions, scalability issues, or resource optimization tasks.
 
 ## Inputs
+
 - Performance profile data (CPU, memory, I/O, network)
 - Baseline performance metrics (before issue or target SLO)
 - System architecture overview
@@ -32,17 +37,20 @@ Use this prompt when analyzing CPU flamegraphs, memory profiles, database query 
 - Code snippets related to hotspots (optional)
 
 ## Assumptions
+
 - User has profiling data (e.g., flamegraph, heap dump, query log)
 - Performance issue is measurable and reproducible
 - User has basic understanding of profiling tools
 
 ## Constraints
+
 - Focus on measurable, high-impact optimizations
 - Avoid premature optimization (optimize bottlenecks, not assumptions)
 - Proposed changes must preserve correctness
 - Consider cost/benefit trade-offs (dev time vs performance gain)
 
 ## Process / Reasoning Style
+
 **Chain-of-Thought (explicit reasoning)**
 
 1. **Baseline Analysis:** Understand current performance and targets
@@ -55,6 +63,7 @@ Use this prompt when analyzing CPU flamegraphs, memory profiles, database query 
 All reasoning steps must be visible in the output.
 
 ## Output Requirements
+
 Structured Markdown with the following sections:
 
 1. **Baseline Performance Summary**
@@ -68,6 +77,7 @@ Structured Markdown with the following sections:
 Reference `docs/domain-schemas.md` for structured performance report schemas.
 
 ## Use Cases
+
 - Analyzing CPU flamegraphs to identify computation hotspots
 - Memory profiling to find leaks or excessive allocations
 - Database query optimization using slow query logs
@@ -76,7 +86,7 @@ Reference `docs/domain-schemas.md` for structured performance report schemas.
 
 ## Prompt
 
-```
+```text
 You are an expert performance engineer using Chain-of-Thought reasoning to analyze profiling data and identify optimization opportunities.
 
 ## Performance Profile
@@ -223,6 +233,7 @@ How will you validate that the optimization works?
 ```
 
 ## Variables
+
 - `[SYSTEM_NAME]`: Name of the system being profiled
 - `[PROFILE_DATA_OR_SUMMARY]`: Profiling output (flamegraph, top functions, slow queries, etc.)
 - `[CURRENT_METRIC]`: Current performance measurement (e.g., latency, throughput)
@@ -238,7 +249,8 @@ How will you validate that the optimization works?
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an expert performance engineer using Chain-of-Thought reasoning to analyze profiling data and identify optimization opportunities.
 
 ## Performance Profile
@@ -276,6 +288,7 @@ Node.js API (Express) → PostgreSQL (products, orders) → Redis cache (not cur
 ```
 
 **Output:**
+
 ```markdown
 **Baseline Performance Summary:**
 - Current: 800ms p99 latency
@@ -354,7 +367,7 @@ async function loadProductsFromDB(filters) {
   
   return products;
 }
-```
+```text
 
 **Rationale:**
 Product data is relatively static (updated infrequently). Caching in Redis eliminates 30% CPU and ~90% of DB queries for product listings. Cache TTL of 5 minutes balances freshness and performance.
@@ -363,14 +376,17 @@ Product data is relatively static (updated infrequently). Caching in Redis elimi
 ~400ms latency reduction (50% of gap), throughput increase to ~450 req/s
 
 **Risks/Trade-offs:**
+
 - Stale data for up to 5 minutes after product updates (acceptable for this use case)
 - Redis memory usage: ~50MB for 100K products (negligible)
 - Cache invalidation needed if products updated (add invalidation logic on product write endpoints)
 
 ### Optimization 2: Fix N+1 Query Pattern in fetchOrderHistory
+
 **Target Hotspot:** fetchOrderHistory()
 
 **Proposed Change:**
+
 ```javascript
 // Before (N+1 pattern):
 async function fetchOrderHistory(userId) {
@@ -397,7 +413,7 @@ async function fetchOrderHistory(userId) {
   
   return result.rows;
 }
-```
+```text
 
 **Rationale:**
 Eliminates N+1 pattern by fetching orders and items in a single query using JOIN and json_agg. Reduces database round-trips from (1 + N) to 1, cutting 20% CPU and improving latency.
@@ -406,6 +422,7 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 ~180ms latency reduction (30% of gap), reduced DB load
 
 **Risks/Trade-offs:**
+
 - More complex query (requires PostgreSQL knowledge)
 - JSON aggregation has slight CPU cost on DB, but overall win due to reduced round-trips
 - Requires testing with large order histories (ensure performance with 100+ items per order)
@@ -413,23 +430,28 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 **Validation & Measurement Plan:**
 
 **Metrics to Track:**
+
 - p99 Latency (baseline: 800ms, target: 200ms, expected after opt: 220ms)
 - Throughput (baseline: 250 req/s, expected: 450 req/s)
 - Database Query Count (baseline: ~300 queries/sec, expected: ~50 queries/sec)
 - Redis Hit Rate (new metric, target: >90%)
 
 **Benchmarks:**
+
 1. Load test with 500 concurrent users hitting GET /api/products and GET /api/orders
 2. Measure p50, p95, p99 latency before and after each optimization
 3. Monitor DB CPU and connection pool saturation
 
 **Regression Prevention:**
+
 - Add performance tests to CI: p99 latency must stay <300ms under 100 concurrent users
 - Set up CloudWatch alarms: alert if p99 > 400ms or throughput drops below 200 req/s
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
+
 ```
 
 ## Tips
+
 - **Start with profiling data, not intuition:** Always base hypotheses on measured data
 - **Focus on hotspots:** Optimize the 20% of code that consumes 80% of resources
 - **Quantify expected improvements:** Use profiling data to estimate gains before coding
@@ -439,12 +461,14 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - **Profile in production (carefully):** Sampling profilers add minimal overhead; use them to find real-world bottlenecks
 
 ## Related Prompts
+
 - [Chain-of-Thought: Debugging](chain-of-thought-debugging.md) - For functional bugs
 - [SQL Query Optimizer (Advanced)](../developers/sql-query-optimizer-advanced.md) - For database performance
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For system-level design decisions
 - [Data Quality Assessment](../analysis/data-quality-assessment.md) - For data pipeline performance
 
 ## Governance Notes
+
 - **PII Safety:** Redact user data from profiling output (user IDs, emails, etc.)
 - **Security:** Ensure profiling data doesn't expose secrets, API keys, or internal system details
 - **Cost Awareness:** Some optimizations (e.g., caching, read replicas) have infrastructure costs; document trade-offs
@@ -452,4 +476,5 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - **Production Safety:** Test optimizations in staging before production; use feature flags for gradual rollout
 
 ## Changelog
+
 - 2025-11-18: Initial version based on ToT repository evaluation recommendations

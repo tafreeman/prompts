@@ -13,6 +13,7 @@ platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
 # ReAct: Tool-Augmented Reasoning
 
 ## Description
+
 ReAct (Reasoning + Acting) is an advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction. The AI explicitly articulates its thought process (Think), takes actions using tools (Act), observes the results (Observe), and reflects on whether the goal is achieved (Reflect). This creates a transparent, auditable loop ideal for complex tasks requiring information retrieval, API calls, or multi-step workflows.
 
 ## Research Foundation
@@ -26,6 +27,7 @@ The pattern has been further refined through reflection mechanisms:
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
 ## Use Cases
+
 - Research tasks requiring multiple information sources
 - Data analysis workflows with API calls or database queries
 - Multi-step troubleshooting with diagnostic tools
@@ -36,7 +38,7 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 
 ## Prompt
 
-```
+```text
 You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve tasks.
 
 **Task**: [DESCRIBE_TASK_GOAL]
@@ -81,6 +83,7 @@ Continue this cycle until you can provide:
 ```
 
 ## Variables
+
 - `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
 - `[PROVIDE_BACKGROUND]`: Context, constraints, success criteria
 - `[LIST_TOOLS_WITH_DESCRIPTIONS]`: Available tools with their purposes and parameters
@@ -88,7 +91,8 @@ Continue this cycle until you can provide:
 ## Example Usage
 
 **Input:**
-```
+
+```text
 You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve tasks.
 
 **Task**: Analyze the security vulnerabilities in our API and provide a risk-ranked report
@@ -125,7 +129,8 @@ You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve ta
 ```
 
 **Output:**
-```
+
+```text
 **Thought 1**: To assess security vulnerabilities, I should start with an automated security scan to get an overview. A full scan will give comprehensive results, which is important for risk prioritization. After seeing the vulnerabilities, I can investigate specific high-risk areas deeper.
 
 **Action 1**:
@@ -372,6 +377,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ```
 
 ## Tips
+
 - **Think explicitly**: Don't skip the Thought step - it's what makes reasoning transparent
 - **One tool per cycle**: Don't call multiple tools in one Action - break them into separate cycles
 - **Observe accurately**: Never hallucinate tool results - wait for actual system output
@@ -393,6 +399,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 | Need action audit trail | ✓ | Partial | ✗ |
 
 ## Related Prompts
+
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
 - [ReAct: API Integration](react-api-integration.md) - API calling patterns
 - [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
@@ -425,6 +432,7 @@ For automation pipelines:
 ```
 
 ## Governance Notes
+
 - **PII Safety**: Exercise caution when using tools that query databases or APIs containing PII
 - **Human Review Required**: When tools interact with external systems, production databases, or modify data
 - **Audit Trail**: The Think-Act-Observe-Reflect cycle provides natural audit trail - log all cycles
@@ -434,11 +442,13 @@ For automation pipelines:
 ## Platform Adaptations
 
 ### GitHub Copilot with MCP Tools
-```
+
+```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
 ```
 
 ### LangChain Integration
+
 ```python
 from langchain.agents import initialize_agent, AgentType
 from langchain.tools import Tool
@@ -459,6 +469,7 @@ result = agent.run("Analyze security vulnerabilities...")
 ```
 
 ### Custom API Implementation
+
 ```python
 def react_loop(task, tools, max_cycles=10):
     for cycle in range(1, max_cycles + 1):
@@ -482,6 +493,7 @@ def react_loop(task, tools, max_cycles=10):
 ## Changelog
 
 ### Version 1.0 (2025-11-17)
+
 - Initial release
 - Think-Act-Observe-Reflect cycle template
 - Comprehensive security analysis example
