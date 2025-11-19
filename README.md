@@ -2,7 +2,20 @@
 
 A comprehensive, community-driven prompt library with a **web application** designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
-## 🌟 New: Web Application
+## 🎯 New: Curated Top 20% Prompts!
+
+Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):
+
+- ✅ **Research-Backed Methodology**: Based on academic papers from NeurIPS, ICLR, and industry standards from Anthropic, OpenAI, Microsoft
+- 📊 **Scored on 5 Dimensions**: Clarity, Structure, Usefulness, Technical Quality, Ease of Use
+- 🏆 **11 Tier-1 Prompts**: Exceptional quality (85-100 points) across advanced techniques, development, and analysis
+- 🚀 **Platform-Specific**: Templates for GitHub Copilot, M365 Copilot, Windows Copilot, Claude, GPT
+
+📖 **[Explore the Ultimate Prompting Guide →](docs/ultimate-prompting-guide.md)**  
+⚡ **[Quick Start Templates →](docs/platform-specific-templates.md)**  
+🔬 **[View Scoring Methodology →](docs/prompt-effectiveness-scoring-methodology.md)**
+
+## 🌟 New: Web Application!
 
 We've built a full-featured web application to make browsing and using prompts even easier:
 
@@ -212,6 +225,11 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 - Suggesting new categories
 
 ## 📚 Documentation
+
+### 🆕 Curated Guides (Research-Backed)
+- **[Ultimate Prompting Guide](docs/ultimate-prompting-guide.md)**: Top 20% most effective prompts, platform-specific templates, research-backed best practices
+- **[Platform-Specific Templates](docs/platform-specific-templates.md)**: Ready-to-use templates for GitHub Copilot, M365, Windows Copilot, and more
+- **[Prompt Effectiveness Methodology](docs/prompt-effectiveness-scoring-methodology.md)**: Scientific scoring system based on academic research and industry standards
 
 ### Web Application
 
