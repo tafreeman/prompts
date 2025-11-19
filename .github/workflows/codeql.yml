@@ -45,7 +45,7 @@ jobs:
         include:
         - language: actions
           build-mode: none
-        - language: markdown
+        - language: javascript
           build-mode: none
         - language: python
           build-mode: none
