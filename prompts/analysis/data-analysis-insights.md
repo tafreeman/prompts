@@ -400,6 +400,202 @@ To communicate these insights effectively, create:
 - [A/B Test Results Analyzer](ab-test-analyzer.md)
 - [Market Research Synthesizer](market-research-synthesizer.md)
 
+## Phone Communication Analysis: Relationship Networks and Trigger Chains
+
+### 1. Phone A – 321‑247‑2011: real‑number relationships
+
+```mermaid
+graph LR
+  A["321‑247‑2011 (Phone A)"]
+
+  %% Strong recurring real-number contacts (examples)
+  A ---|"direct link, 27+ min"| C3212036834["321‑203‑6834"]
+  A ---|"multiple calls/texts"| C2513870679["251‑387‑0679"]
+  A ---|"multiple calls/texts"| C3525310249["352‑531‑0249"]
+  A ---|"multiple calls/texts"| C4078406831["407‑840‑6831"]
+  A ---|"incoming/outgoing calls"| C2512983293["251‑298‑3293"]
+  A ---|"ongoing contact"| C3214190372["321‑419‑0372"]
+  A ---|"ongoing contact"| C3213483031["321‑348‑3031"]
+```
+
+### 2. Phone A – 321‑247‑2011: real‑number trigger chains
+
+```mermaid
+graph LR
+  subgraph Phone_A_Real_Trigger_Chains
+    A3212036834["321‑203‑6834"]
+    A2513870679["251‑387‑0679"]
+    A2512891444["251‑289‑1444"]
+    A2512213186["251‑221‑3186"]
+    A2513449828["251‑344‑9828"]
+    A3525310249["352‑531‑0249"]
+    A3216171112["321‑617‑1112"]
+    A7137026074["713‑702‑6074"]
+    A7133632335["713‑363‑2335"]
+  end
+
+  %% Real-number relay patterns (examples)
+
+  %% 3525310249 often followed by 2513870679
+  A3525310249 -->|"1 chain ≤15 min"| A2513870679
+
+  %% 2513870679 then 2512891444
+  A2513870679 -->|"1 chain"| A2512891444
+
+  %% 2512213186 branching to 2513449828 and 3525310249
+  A2512213186 -->|"1 chain"| A2513449828
+  A2512213186 -->|"1 chain"| A3525310249
+
+  %% 7137026074 and 7133632335 interaction
+  A7137026074 -->|"3 chains"| A7133632335
+  A7137026074 -->|"1 chain"| A3216171112
+```
+
+### 3. Phone B – 321‑203‑6834: real‑number relationships
+
+```mermaid
+graph LR
+  B["321‑203‑6834 (Phone B)"]
+
+  %% Strong real-number relationships for Phone B
+  B ---|"36 texts, 6 min total"| B2514014731["251‑401‑4731"]
+  B ---|"55 min calls (8 in / 2 out)"| B4075059164["407‑505‑9164"]
+  B ---|"27 min calls over 10 days"| B3212472011["321‑247‑2011"]
+  B ---|"26 min calls"| B8135458827["813‑545‑8827"]
+  B ---|"calls + texts"| B2512579377["251‑257‑9377"]
+  B ---|"calls, repeated days"| B2517860562["251‑786‑0562"]
+  B ---|"incoming calls"| B6362689016["636‑268‑9016"]
+  B ---|"incoming calls"| B6892674697["689‑267‑4697"]
+```
+
+### 4. Phone B – 321‑203‑6834: real‑number trigger chains
+
+```mermaid
+graph LR
+  subgraph Phone_B_Real_Trigger_Chains
+    B2514014731["251‑401‑4731"]
+    B9192145402["919‑214‑5402"]
+    B7248243292["724‑824‑3292"]
+    B8009455159["800‑945‑5159"]
+    B6362689016["636‑268‑9016"]
+    B6363479198["636‑347‑9198"]
+  end
+
+  %% Example human-only trigger sequences
+
+  %% 8009455159 often followed by 2514014731
+  B8009455159 -->|"1 chain ≤15 min"| B2514014731
+
+  %% 6363479198 sometimes followed by an event with no recorded contact
+  B6363479198 -->|"1 chain (no next contact)"| B6363479198_null["(unidentified next event)"]
+
+  %% 2514014731 and 9192145402 in sequence
+  B2514014731 -->|"1 chain"| B9192145402
+```
+
+### 5. Joint overview: both phones and key real‑number contacts
+
+```mermaid
+graph LR
+  A["321‑247‑2011 (Phone A)"]
+  B["321‑203‑6834 (Phone B)"]
+
+  %% Direct tie between the two phones
+  A ---|"multiple calls, ~27 min total"| B
+
+  %% Phone A's key real contacts
+  A ---|"strong tie"| A2513870679["251‑387‑0679"]
+  A ---|"strong tie"| A3525310249["352‑531‑0249"]
+  A ---|"strong tie"| A4078406831["407‑840‑6831"]
+
+  %% Phone B's key real contacts
+  B ---|"strong texts/calls"| B2514014731["251‑401‑4731"]
+  B ---|"long calls"| B4075059164["407‑505‑9164"]
+  B ---|"long call"| B8135458827["813‑545‑8827"]
+```
+
+## Communication Patterns: Investigator's Summary
+
+### 1. Overall structure
+
+The phone records describe two distinct users:
+
+- **Phone A – 321‑247‑2011** (your primary line)  
+- **Phone B – 321‑203‑6834** (a line you loaned to someone else)
+
+Both phones show sustained activity over the period, but they operate in **partially overlapping, partially separate social circles**.
+
+### 2. Relationship strength by contact
+
+**Phone A (321‑247‑2011)**  
+- Communication is concentrated in a **small set of recurring contacts**.  
+- Several numbers show high relationship scores driven by repeated calls, texts, and multi‑day activity.  
+- Directional metrics indicate a mix of:
+  - **Mutual ties** (roughly balanced incoming/outgoing),
+  - Contacts that **primarily call in** to A (A receives far more than it initiates),
+  - And a few that A **chases** (A dials out more than it receives).
+
+**Phone B (321‑203‑6834)**  
+- Also has a tight cluster of strong contacts, but the **top numbers differ** from Phone A's list.  
+- Some contacts generate substantial call minutes (long conversations) rather than just frequent short calls.  
+- A notable feature is the **repeated, bidirectional traffic between B and A (321‑247‑2011)**: the two phones are in regular contact with each other, suggesting coordination, check‑ins, or logistical communication.
+
+**Shared vs unique contacts**  
+- The overlap heatmap shows a **small set of shared contacts** that both phones interact with.  
+- Most strong ties, however, are **phone‑specific**, consistent with the phones being used by two different people with some shared environment but their own circles.
+
+### 3. Temporal behavior
+
+**Daily volume**  
+- Both phones exhibit **uneven but recognizable rhythms**: periods of routine traffic with intermittent spikes.  
+- Some high‑activity days line up across both phones, indicating days where both users were more communicative or involved in shared events.
+
+**Time of day**  
+- Heatmaps reveal:
+  - A concentration of traffic in **daytime and early evening hours** for normal business/personal activity.
+  - Additional **late‑night or very early‑morning events** clustered around certain contacts, which stand out from the baseline and may represent sensitive or higher‑risk interactions.
+
+### 4. Trigger and relay patterns
+
+The trigger‑chain analysis (events within 15 minutes of each other) highlights:
+
+- **Stable chains between specific contact pairs** for each phone.  
+  - Example patterns: after contact X calls/texts, contact Y often appears next within a short window.
+- These repeated A→B or B→C sequences suggest **coordinated or relay‑style communication**, where information or decisions may be passed along quickly between two or more parties.
+- Some chains involve:
+  - **One of the primary phones and a secondary contact**, indicating that person tends to be brought into conversations following certain interactions.
+  - Occasional chains that include the **other primary phone**, hinting at back‑and‑forth coordination between the two users around particular episodes.
+
+### 5. Network centrality (non‑short‑code numbers)
+
+When short‑code/service numbers are excluded and only full phone numbers are considered:
+
+- A small group of contacts emerge as **network hubs**:
+  - They accumulate high relationship scores across one or both phones.
+  - Some connect exclusively to one phone (owner‑specific hubs).
+  - A few connect to **both** phones and appear in multiple trigger chains, making them prime **bridge nodes** between the two users' networks.
+- These hubs represent the **best candidates for deeper scrutiny**:
+  - Their behavior aligns strongly with overall activity spikes.
+  - Changes in their contact frequency over time are likely to align with key events or shifts in the relationship between the two people.
+
+### 6. High‑level interpretation
+
+Putting the charts together:
+
+- The two phones behave as **distinct but interacting actors**.  
+- Each maintains its own core contact set, but there are several **shared connections and recurring trigger sequences**, implying that the users operate in related contexts.
+- Communication is **not random**:
+  - It clusters in time,
+  - Centers on a small number of high‑intensity relationships,
+  - And shows structured chains and substitution patterns rather than independent one‑off interactions.
+
+For investigative purposes, the most informative next steps are:
+
+1. Focus on **top non‑short‑code contacts** by relationship score for each phone.  
+2. Pay particular attention to:
+   - Contacts that are **strong for both phones** (bridges), and  
+   - Contacts that frequently appear in **trigger chains** before or after calls involving the other phone.
+
 ## Changelog
 
 ### Version 1.0 (2025-10-29)
