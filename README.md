@@ -2,7 +2,7 @@
 
 A comprehensive, community-driven prompt library with a **web application** designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
-## 🎯 New: Curated Top 20% Prompts!
+
 
 Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):
 
