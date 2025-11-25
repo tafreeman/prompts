@@ -136,6 +136,40 @@ class PromptTestRunner:
     
     def _initialize_components(self):
         """Initialize validators, evaluators, and metrics"""
+        # Import here to avoid circular dependencies
+        from .validators import (
+            JSONValidator, 
+            CodeValidator, 
+            SemanticValidator,
+            SafetyValidator,
+            PerformanceValidator
+        )
+        from .evaluators import (
+            CorrectnessEvaluator,
+            QualityEvaluator,
+            SafetyEvaluator
+        )
+        from .metrics import MetricsCollector
+        
+        # Initialize validators
+        self.validators = {
+            'json': JSONValidator(),
+            'code_python': CodeValidator(language='python'),
+            'code_javascript': CodeValidator(language='javascript'),
+            'semantic': SemanticValidator([]),
+            'safety': SafetyValidator(),
+            'performance': PerformanceValidator()
+        }
+        
+        # Initialize evaluators
+        self.evaluators = {
+            'correctness': CorrectnessEvaluator(),
+            'quality': QualityEvaluator(),
+            'safety': SafetyEvaluator()
+        }
+        
+        # Initialize metrics collector
+        self.metrics_collector = MetricsCollector()
         # Import validators that exist
         from ..validators import (
             CodeValidator,
