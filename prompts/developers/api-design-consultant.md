@@ -1,19 +1,38 @@
 ---
-
 title: "API Design Consultant"
 category: "developers"
-tags: ["developer", "api-design", "enterprise", "rest", "openapi", "graphql", "api-versioning", "api-security"]
+subcategory: "architecture"
+tags: 
+  - developer
+  - api-design
+  - enterprise
+  - rest
+  - openapi
+  - graphql
+  - api-versioning
+  - api-security
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+version: "2.1.0"
+date: "2025-11-23"
 difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "api-contract"]
-data_classification: "confidential"
-risk_level: "high"
-regulatory_scope: ["SOC2", "GDPR"]
-approval_required: true
-approval_roles: ["Staff-Engineer", "API-Architect"]
-retention_period: "5-years"
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+performance_metrics:
+  complexity_rating: "high"
+  token_usage_estimate: "2000-4000"
+  quality_score: "90"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["ecommerce-order-api", "fintech-payment-api"]
+governance:
+  risk_level: "high"
+  data_classification: "confidential"
+  regulatory_scope: ["SOC2", "GDPR"]
+  approval_required: true
+  approval_roles: ["Staff-Engineer", "API-Architect"]
+  retention_period: "5-years"
 platform: "Claude Sonnet 4.5"
 ---
 

@@ -1,0 +1,99 @@
+name: Prompt Quality Gate
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "**.md"
+      - "prompts/**"
+      - "techniques/**"
+      - "frameworks/**"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "**.md"
+      - "prompts/**"
+      - "techniques/**"
+      - "frameworks/**"
+
+jobs:
+  validate-prompts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pyyaml
+
+      - name: Run Prompt Validator
+        run: |
+          # Find all markdown files in relevant directories
+          find techniques frameworks prompts -name "*.md" -print0 | xargs -0 -I {} python tools/validators/prompt_validator.py "{}" --min-score 75.0
+        continue-on-error: false
+
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: validate-prompts
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Run Security Scan
+        run: |
+          # Run validator specifically checking for security issues
+          # We use a stricter score for security-critical paths if needed
+          find techniques frameworks prompts -name "*.md" -print0 | xargs -0 -I {} python tools/validators/prompt_validator.py "{}" --min-score 80.0
+
+  generate-report:
+    runs-on: ubuntu-latest
+    needs: [validate-prompts, security-scan]
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Generate Quality Report
+        run: |
+          echo "# Prompt Quality Report" > report.md
+          echo "Date: $(date)" >> report.md
+          echo "" >> report.md
+          echo "## Validation Summary" >> report.md
+
+          # Re-run validation to capture JSON output for reporting
+          echo "```json" >> report.md
+          find techniques frameworks prompts -name "*.md" -print0 | xargs -0 -I {} python tools/validators/prompt_validator.py "{}" --json >> report.md
+          echo "```" >> report.md
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: prompt-quality-report
+          path: report.md

@@ -1,0 +1,46 @@
+name: Prompt Performance Benchmark
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Run weekly on Sunday
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install pyyaml openai anthropic langchain
+        
+    - name: Run Performance Benchmarks
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      run: |
+        # Run benchmarks on key prompt patterns
+        python tools/benchmarks/performance_evaluator.py --all --output-format json > benchmark_results.json
+        
+    - name: Upload Benchmark Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-results
+        path: benchmark_results.json
+        
+    - name: Create Summary
+      run: |
+        echo "# Weekly Performance Benchmark" >> $GITHUB_STEP_SUMMARY
+        echo "Run Date: $(date)" >> $GITHUB_STEP_SUMMARY
+        # Simple parsing of results to summary (assuming JSON structure)
+        # This is a placeholder for more complex parsing logic
+        cat benchmark_results.json >> $GITHUB_STEP_SUMMARY

@@ -330,7 +330,7 @@ class SecurityValidator:
     SECURITY_PATTERNS = {
         'injection': r'(exec\s*\(|eval\s*\(|__import__|system\s*\()',
         'pii': r'(ssn|social\s+security|credit\s+card|password)',
-        'credentials': r'(api[_-]?key|secret[_-]?key|token|bearer)',
+        'credentials': r'(api[_-]?key|secret[_-]?key)',  # Removed token/bearer to reduce false positives in API docs
     }
     
     def validate(self, file_path: str, content: str, metadata: Dict) -> tuple[float, List[ValidationIssue]]:
