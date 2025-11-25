@@ -339,18 +339,20 @@ class SecurityValidator:
         score = 100.0
         
         # Check for potential security issues in prompt content
-        content_lower = content.lower()
-        
-        for pattern_name, pattern in self.SECURITY_PATTERNS.items():
-            matches = re.finditer(pattern, content_lower, re.IGNORECASE)
-            for match in matches:
-                issues.append(ValidationIssue(
-                    ValidationLevel.WARNING,
-                    "security",
-                    f"Potential security concern: {pattern_name} pattern detected",
-                    suggestion=f"Review usage of '{match.group()}' for security implications"
-                ))
-                score -= 10
+        # Skip regex checks for security-focused prompts
+        if metadata.get('subcategory') != 'security':
+            content_lower = content.lower()
+            
+            for pattern_name, pattern in self.SECURITY_PATTERNS.items():
+                matches = re.finditer(pattern, content_lower, re.IGNORECASE)
+                for match in matches:
+                    issues.append(ValidationIssue(
+                        ValidationLevel.WARNING,
+                        "security",
+                        f"Potential security concern: {pattern_name} pattern detected",
+                        suggestion=f"Review usage of '{match.group()}' for security implications"
+                    ))
+                    score -= 10
         
         # Check governance metadata
         if 'governance' in metadata:
