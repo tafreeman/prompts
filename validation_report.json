@@ -1,0 +1,25 @@
+{
+  "file_path": "prompts/",
+  "scores": {
+    "structure": 0.0,
+    "metadata": 0.0,
+    "performance": 0.0,
+    "security": 0.0,
+    "accessibility": 0.0,
+    "overall": 0.0
+  },
+  "issues": [
+    {
+      "level": "error",
+      "category": "file",
+      "message": "Could not read file: [Errno 13] Permission denied: 'prompts/'",
+      "line_number": null,
+      "suggestion": null
+    }
+  ],
+  "severity_counts": {
+    "error": 1,
+    "warning": 0,
+    "info": 0
+  }
+}
