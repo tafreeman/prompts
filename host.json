@@ -1,0 +1,26 @@
+{
+  "version": "2.0",
+  "logging": {
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": true,
+        "excludedTypes": "Request"
+      },
+      "enableLiveMetricsFilters": true
+    }
+  },
+  "extensions": {
+    "mcp": {
+      "instructions": "Some test instructions on how to use the server",
+      "serverName": "TestServer",
+      "serverVersion": "2.0.0",
+      "encryptClientState": true,
+      "messageOptions": {
+        "useAbsoluteUriForEndpoint": false
+      },
+      "system": {
+        "webhookAuthorizationLevel": "System"
+      }
+    }
+  }
+}

@@ -1,86 +1,261 @@
-# GitHub Copilot Instructions for `prompts`
+# GitHub Copilot Instructions for `prompting` Prompt Library
 
-These instructions guide AI coding agents working in this repo.
+> Audience: GitHub Copilot and similar AI coding assistants used by mid-level and senior engineers maintaining this prompt library.
 
-## 1. Big Picture
+## Overview
 
-- This repo is both a **Markdown prompt library** (`prompts/`) and a **Flask web app** in `src/` for browsing, customizing, and analyzing prompts.
-- Markdown prompts follow a strict YAML-frontmatter + sections template defined in `templates/prompt-template.md` and described in `README.md` / `docs/getting-started.md`.
-- The web app (`src/app.py`, `src/templates/`, `src/static/`) reads prompts via `src/load_prompts.py` into a SQLite DB (`prompt_library.db`), then exposes search, customization, copy, and analytics.
-- Prompts are optimized for **Claude Sonnet 4.5 / Code 5**, but all code should remain **model-agnostic** (no hard-coded provider SDKs).
+This repository contains a curated prompt library for .NET / C# / SQL Server / MuleSoft development. These instructions guide:
 
-## 2. What to Prioritize
+- Maintaining the intended folder and file structure
+- Extending prompts using established metadata, format, and personas
+- Keeping this repo content-first (not a generic code project)
 
-- **Prompt files (`prompts/**`)**
-	- Preserve the existing sections: frontmatter, Description, Use Cases, Prompt, Variables, Example Usage, Tips, Related Prompts, Changelog.
-	- Focus on improving clarity, placeholder naming, and concrete examples; avoid re-structuring the template unless explicitly requested.
-	- Keep categories aligned with the five main groups (`developers`, `business`, `creative`, `analysis`, `system`) plus `advanced-techniques` and `governance-compliance`.
-- **Web app (`src/`)**
-	- Keep changes small and localized; follow existing patterns in `app.py` and `load_prompts.py` for DB access and prompt loading.
-	- Maintain the current schema used in `load_prompts.py` and templates: `title`, `persona`, `use_case`, `category`, `platform`, `template`, `description`, `tags`, plus governance fields.
-	- Preserve spell-check/autocorrect and copy-to-clipboard behavior in `static/js/app.js`, and text-visibility/accessibility fixes in `static/css/style.css`.
-- **Deployment and docs (`deployment/**`, `docs/**`, `src/README.md`)**
-	- Align any new instructions with existing IIS / Docker / AWS / Azure flows; do not introduce new platforms or deployment stacks without an explicit requirement.
+---
 
-## 3. Architecture & Data Flow
+## Repository Structure
 
-- **Backend (Flask)**
-	- Single app in `src/app.py` with routes:
-		- `/` for list + filters (persona/category/platform/search) using parameterized SQLite queries.
-		- `/prompt/<id>` and `/customize/<id>` for detail and dynamic placeholder forms.
-		- `/api/customize` for JSON-based customization (replacing `[placeholder]` values) and `/analytics` for usage dashboards.
-	- Database access is via `get_db_connection()` with `row_factory=sqlite3.Row`; **keep this pattern** when adding queries.
-- **Prompt ingestion (`src/load_prompts.py`)**
-	- `load_prompts_from_repo()` scans `prompts/` subfolders, parses YAML frontmatter + markdown sections, and normalizes into a dict.
-	- `load_expanded_prompts()` wipes and recreates table `prompts`, merges markdown-derived prompts with `additional_prompts` and legacy-migrated prompts from `get_migrated_prompts_from_legacy_dataset()`.
-	- All templates must use `[placeholders]` (not `{var}`) so the UI can auto-detect them via `extract_placeholders()` in `app.py`.
-- **Frontend**
-	- Jinja2 templates in `src/templates/` share `base.html`; new views should extend it and reuse existing card/table/chart patterns.
-	- `analytics.html` expects aggregated stats per persona/category/platform and a “top prompts” list; preserve these keys when modifying queries.
+```
+prompting/
+├── README.md                    # Brief description and docs link
+├── .github/
+│   └── copilot-instructions.md  # This file
+├── dotnet-prompts/              # All prompt content
+│   ├── developers/              # C#/.NET/SQL developer prompts
+│   ├── integration/             # MuleSoft and integration prompts
+│   ├── analysis/                # Analysis and triage prompts
+│   ├── system/                  # System-level and architecture prompts
+│   └── governance/              # Security/compliance prompts
+├── docs/                        # Documentation
+│   ├── PLAN.md                  # Overall improvement plan and catalog
+│   ├── PROMPT_STANDARDS.md      # Required frontmatter and quality bar
+│   ├── TODO-PROMPTS.md          # Backlog and status tracking
+│   └── dotnet-prompt-library-design.md  # Long-form design and examples
+└── instructions/                # Reusable instruction files
+    ├── csharp-standards.instructions.md
+    ├── project-structure.instructions.md
+    ├── razor-standards.instructions.md
+    ├── security-compliance.instructions.md
+    └── sql-security.instructions.md
+```
 
-## 4. Conventions & Patterns
+**Important**: If these folders don't exist, **create them and move existing files** into place rather than adding ad-hoc files at the root.
 
-- **Prompt files**
-	- Use lowercase, hyphenated filenames (e.g., `code-review-expert.md`).
-	- Frontmatter should always include at least: `title`, `category`, `tags`, `author`, `version`, `date`, `difficulty`; governance-related fields (when present) should map cleanly into `load_prompts.py` keys: `governance_tags`, `data_classification`, `risk_level`, `regulatory_scope`, `approval_required`, `retention_period`.
-	- Variables are written as `[variable_name]` and must be documented under a `## Variables` section.
-- **Enterprise prompts in Python**
-	- When adding prompts directly in `load_prompts.py`, match the dict structure used in `additional_prompts` / `get_migrated_prompts_from_legacy_dataset()` and keep `platform` as a plain string (e.g., `'Claude Sonnet 4.5'`).
-	- Provide short, human-readable `description` values (≤ ~500 chars) and concise comma-separated `tags`.
-- **Database / schema**
-	- Keep `prompt_library.db` in `src/` and SQLite as the only DB; if you change the `prompts` schema, update `init_db()`, `load_expanded_prompts()`, and any templates that read those fields.
+---
 
-## 5. Workflows & Commands
+## Prompt File Conventions
 
-- **Run the web app locally**
-	- From repo root:
-		- `cd src`
-		- `pip install -r requirements.txt`
-		- `python load_prompts.py`  # rebuilds `prompt_library.db`
-		- `python app.py` and open `http://localhost:5000`.
-- **Docker workflow**
-	- From repo root: `docker-compose -f deployment/docker/docker-compose.yml up -d`.
-- **IIS one-command deploy (Windows)**
-	- Run `deployment\iis\deploy.ps1` from repo root in an elevated PowerShell session (see `deployment/iis/README.md` for details).
+All prompt files are **Markdown with YAML frontmatter** and follow a standard section layout.
 
-## 6. Testing & Validation
+### Required Frontmatter Structure
 
-- For **prompt edits**:
-	- Ensure YAML frontmatter is valid and matches `templates/prompt-template.md`.
-	- Verify that all `[placeholders]` have entries in the `## Variables` section and that “Example Usage” uses realistic values.
-- For **app changes**:
-	- Start the app and verify: index list and filters work, prompt detail pages show placeholder-driven forms, `/analytics` renders with charts.
-	- If you alter SQL, keep parameterized queries and confirm filter combinations still behave as expected.
-- Keep `src/requirements.txt` lean; if you must add a dependency, update deployment docs that reference it.
+```yaml
+---
+title: "Descriptive Title"
+category: "Developer|Integration|Analysis|System|Governance"
+tags:
+  - tag1
+  - tag2
+  - tag3
+author: "Author Name"
+version: "1.0.0"
+date: "YYYY-MM-DD"
+difficulty: "Beginner|Intermediate|Advanced"
+platform: ".NET|Java|MuleSoft|SQL Server"
 
-## 7. Scope & PR Style
+# Governance Metadata
+governance_tags:
+  - security-review
+  - compliance
+data_classification: "Public|Internal|Confidential|Restricted"
+risk_level: "Low|Medium|High|Critical"
+regulatory_scope:
+  - SOC2
+  - ISO27001
+  - NIST
+approval_required: true|false
+approval_roles:
+  - role1
+  - role2
+retention_period: "X years"
+---
+```
 
-- Prefer focused changes:
-	- Single prompt or a small related set per change.
-	- One area of the app per PR (backend route, template, JS behavior, or deployment docs).
-- Commit message patterns that fit this repo:
-	- `Add: [prompt name]`
-	- `Update: analytics persona breakdown`
-	- `Docs: clarify Docker deployment steps`
+### Required Content Sections
 
-If anything in these instructions conflicts with an explicit issue or PR description, follow the issue/PR first and update this file if needed.
+Each prompt file must include these sections in order:
+
+1. **`# <Title>`** - Matches `title` in frontmatter
+2. **`## Description`** - Clear purpose and scope
+3. **`## Use Cases`** - Bullet list of scenarios
+4. **`## Prompt`** - The actual template with `[variable_name]` placeholders
+5. **`## Variables`** - Table defining all placeholders
+6. **`## Example Usage`** - Real-world examples with inputs/outputs
+7. **`## Tips`** - Best practices and gotchas
+8. **`## Related Prompts`** - Links to complementary prompts
+9. **`## Changelog`** - Version history table
+
+### Variable Syntax
+
+Use **square brackets** for all template variables:
+
+✅ **Correct**: `[csharp_code]`, `[database_name]`, `[user_role]`  
+❌ **Incorrect**: `{csharp_code}`, `${database_name}`, `<user_role>`
+
+---
+
+## Personas and SDLC Alignment
+
+Prompts are written for specific personas and software development lifecycle phases. See PLAN.md and TODO-PROMPTS.md for the complete catalog.
+
+### Target Personas
+
+- **Developer** (C#, .NET, SQL)
+- **QA / Tester**
+- **Functional / Business Analyst**
+- **Architect**
+- **Project Manager**
+- **Security Engineer** (governance prompts)
+
+### Persona Language in Prompts
+
+Use explicit role framing in the `## Prompt` section:
+
+```markdown
+## Prompt
+
+You are a Senior .NET Architect with expertise in cloud-native design patterns...
+
+**Context:**
+
+- [context_variable]
+
+**Task:**
+[task_description]
+
+**Requirements:**
+
+1. [requirement_1]
+2. [requirement_2]
+```
+
+### Output Format Expectations
+
+Unless a specific prompt overrides it, instruct AI assistants to respond using this structure:
+
+1. **Summary paragraph** – ≤3 sentences capturing goal and constraints.
+2. **Bullet list of actions or review findings** – ordered by impact.
+3. **Code block examples** – ≤2 focused snippets with language tags.
+4. **Fallback note** – what to do or explain if a requirement cannot be met.
+
+---
+
+## How to Modify or Extend the Library
+
+### What This Repository Is
+
+- ✅ A **prompt library** (Markdown documentation)
+- ✅ **Templates** for AI-assisted development
+- ✅ **Standards and best practices** documentation
+
+### What This Repository Is NOT
+
+- ❌ Application source code
+- ❌ Compiled binaries or build artifacts
+- ❌ CI/CD pipelines or deployment scripts
+
+### Adding a New Prompt
+
+1. **Choose the correct subfolder** under dotnet-prompts based on persona and category
+2. **Copy an existing high-quality prompt** (e.g., `csharp-refactoring-assistant.md`) as a template
+3. **Update all sections**:
+   - Frontmatter (title, tags, governance metadata)
+   - Description, use cases, and prompt text
+   - Variables table with examples
+   - Real-world example usage
+4. **Add to backlog**: Create or update entry in TODO-PROMPTS.md
+5. **Follow naming convention**: Use kebab-case (e.g., `sql-query-analyzer.md`)
+
+#### Minimal Frontmatter Example
+
+```yaml
+applyTo: "**/*.cs"
+audience: "Mid-level backend engineers"
+intent: "Enforce secure async data access standards"
+version: "2.0"
+```
+
+### Changing Standards or Structure
+
+1. **Update PROMPT_STANDARDS.md first** (source of truth)
+2. **Adjust affected prompts** to match new standards
+3. **Update this file** if structure changes
+4. **Document in changelog** of affected files
+
+---
+
+## Style and Tone
+
+### Writing Guidelines
+
+- **Concrete examples**: Use realistic .NET/SQL/MuleSoft scenarios
+- **Model-agnostic**: Don't hard-code specific LLM names (e.g., "GPT-4", "Claude") unless the prompt explicitly requires it
+- **Targeted snippets**: Short, focused code examples; avoid large copy-paste blocks
+- **Professional tone**: Technical but accessible
+
+### Code Examples
+
+- Use proper syntax highlighting (` ```csharp`, ` ```sql`, ` ```xml`)
+- Include comments for complex logic
+- Show both before/after for refactoring prompts
+- Provide realistic context (file paths, namespaces)
+
+---
+
+## What NOT to Do
+
+### Prohibited Actions
+
+❌ **Do not** introduce build tools, CI pipelines, or SDK-based code  
+❌ **Do not** change governance fields casually (follow existing risk classifications)  
+❌ **Do not** remove or drastically rewrite core docs (`PLAN.md`, `PROMPT_STANDARDS.md`, `TODO-PROMPTS.md`) without updating all three  
+❌ **Do not** create new top-level folders without justification  
+❌ **Do not** use curly braces `{}` or dollar signs `${}` for variables
+
+### When Making Changes
+
+⚠️ **High-risk prompts** (governance, security) require extra scrutiny  
+⚠️ **Breaking changes** to prompt structure must be documented in changelog  
+⚠️ **Deprecated prompts** should be marked in frontmatter, not deleted immediately
+
+---
+
+## Quick Reference: Example Prompts
+
+| Prompt File                       | Category   | Persona           | Location                     |
+| --------------------------------- | ---------- | ----------------- | ---------------------------- |
+| `csharp-refactoring-assistant.md` | Developer  | C# Developer      | `dotnet-prompts/developers/` |
+| `sql-query-analyzer.md`           | Developer  | SQL Developer     | `dotnet-prompts/developers/` |
+| `dotnet-api-designer.md`          | Developer  | API Developer     | `dotnet-prompts/developers/` |
+| `secure-dotnet-code-generator.md` | Governance | Security Engineer | `dotnet-prompts/governance/` |
+
+---
+
+## Version History
+
+| Version | Date       | Changes                                          |
+| ------- | ---------- | ------------------------------------------------ |
+| 1.0.0   | 2024-XX-XX | Initial instructions                             |
+| 1.1.0   | 2025-11-21 | Reformatted for readability and model processing |
+
+---
+
+## Support and Contributions
+
+For questions or suggestions:
+
+1. Check `docs/PROMPT_STANDARDS.md` for detailed guidelines
+2. Review `docs/TODO-PROMPTS.md` for planned work
+3. Follow the structure of existing high-quality prompts
+4. Ensure all required sections and frontmatter are complete
+
+**Remember**: This is a **documentation repository**. All contributions should enhance the prompt library, not turn it into an application codebase.
