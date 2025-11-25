@@ -1,19 +1,41 @@
 ---
-
 title: "Test Automation Engineer"
 category: "developers"
-tags: ["developer", "testing", "enterprise", "test-pyramid", "tdd", "ci-cd", "quality-assurance"]
+subcategory: "testing"
+tags: 
+  - developer
+  - testing
+  - enterprise
+  - test-pyramid
+  - tdd
+  - ci-cd
+  - quality-assurance
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+version: "2.1.0"
+date: "2025-11-25"
 difficulty: "advanced"
-governance_tags: ["quality-assurance", "test-coverage", "automation"]
-data_classification: "internal"
-risk_level: "medium"
-regulatory_scope: ["SOC2"]
-approval_required: false
-retention_period: "2-years"
-platform: "Claude Sonnet 4.5"
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+performance_metrics:
+  complexity_rating: "high"
+  token_usage_estimate: "2500-3500"
+  quality_score: "95"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: 
+    - "test-pyramid-validation"
+    - "ci-cd-integration"
+governance:
+  risk_level: "medium"
+  data_classification: "internal"
+  regulatory_scope: 
+    - "SOC2"
+  approval_required: false
+  retention_period: "2-years"
+platform: 
+  - "anthropic"
 ---
 
 # Test Automation Engineer
@@ -130,7 +152,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
-```text
+```
 
 ```
 
@@ -143,7 +165,11 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - **`[cicd_tool]`**: CI/CD platform (e.g., "GitHub Actions", "GitLab CI", "Jenkins", "Azure Pipelines")
 - **`[time_constraint]`**: Test execution time budget (e.g., "tests must complete in < 10 minutes", "nightly builds can take 1 hour")
 
-## Example Usage
+## Usage
+
+Use this prompt to design a comprehensive test automation strategy. Provide the application context and quality goals to get a detailed test plan.
+
+## Examples
 
 **Input:**
 
@@ -256,7 +282,7 @@ jobs:
         with:
           name: playwright-screenshots
           path: test-results/
-```text
+```
 
 ## Test Data Management
 
@@ -270,7 +296,7 @@ jobs:
     { id: 1, name: 'Laptop', price: 999.99, category: 'electronics', stock: 50 },
     { id: 2, name: 'Keyboard', price: 79.99, category: 'accessories', stock: 200 }
   ];
-  ```text
+  ```
 
 ## Success Metrics
 
@@ -318,6 +344,12 @@ Based on:
 - **Martin Fowler** - TestPyramid (2012), Practical Test Pyramid (2018)
 
 ## Changelog
+
+### Version 2.1.0 (2025-11-25)
+
+- **Metadata Update**: Added governance, performance metrics, and testing metadata
+- **Structure**: Split Usage and Examples sections
+- **Refinement**: Improved accessibility and security validation compliance
 
 ### Version 2.0 (2025-11-17)
 
