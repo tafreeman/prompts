@@ -51,10 +51,34 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[organization]: Automotive Tier 1 Supplier (Traditional Powertrain)
+[goals]: Transition revenue mix from 90% ICE (Internal Combustion) to 50% EV (Electric Vehicle) by 2030
+[capabilities]: Strong mechanical engineering, world-class manufacturing; Weak software/electronics
+[opportunities]: Battery Management Systems (BMS), Thermal Management for EVs
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Innovation Strategy
+
+### 1. Innovation Assessment
+*   **Gap:** "Software Defined Vehicle" trend requires capabilities we lack (Embedded C++, AI).
+*   **Asset:** Deep relationships with OEMs (Ford, GM, VW) and manufacturing scale.
+
+### 2. Innovation Framework (Three Horizons)
+*   **Horizon 1 (Core):** Light-weighting existing mechanical parts for EVs.
+*   **Horizon 2 (Adjacent):** Thermal management systems (leveraging existing HVAC expertise).
+*   **Horizon 3 (Transformational):** AI-driven predictive maintenance software.
+
+### 3. Implementation Roadmap
+*   **Buy vs Build:** Acquire a small BMS software startup to jumpstart Horizon 2.
+*   **Partnership:** Joint Venture with battery cell manufacturer.
+
+[... continues with governance and success metrics ...]
+```
 
 ## Tips
 

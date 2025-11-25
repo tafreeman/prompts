@@ -51,10 +51,32 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[process]: Content Publishing (Corporate Blog)
+[stakeholders]: Writers, Editors, SEO Specialist, Legal Compliance, CMS Admin
+[complexity]: Medium (Multi-stage approval required)
+[automation]: Auto-post to LinkedIn/Twitter upon publish; Slack notifications for approvals
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Workflow Design Document
+
+### 1. Workflow Diagram (Logic)
+*   **Draft** -> **SEO Review** (If Fail: Return to Draft) -> **Editorial Review** -> **Legal Review** (Only if "Product Claim" tag is present) -> **Publish**.
+
+### 2. Role Definitions
+*   **SEO Specialist:** Gatekeeper. Must approve keyword usage before Editor sees it.
+*   **Legal:** Consulted only on specific topics (Medical/Financial claims).
+
+### 3. Automation Opportunities
+*   **Trigger:** When status = "Published" in CMS.
+*   **Action:** Zapier webhook posts title + link to Company LinkedIn Page.
+
+[... continues with exception handling and performance metrics ...]
+```
 
 ## Tips
 

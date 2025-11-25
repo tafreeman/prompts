@@ -51,10 +51,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Mobile Banking "Bill Split" Feature
+[stakeholders]: Product Manager, iOS Dev Team, Legal/Compliance
+[objectives]: Increase P2P transaction volume by 20% among Gen Z users
+[challenges]: Complex logic for unequal splits, recurring bills, and cross-border payments
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Requirements Analysis Document
+
+### 1. Functional Requirements
+*   **FR-01:** User must be able to select a transaction from history and click "Split".
+*   **FR-02:** User must be able to select contacts from phone book or enter email/phone.
+*   **FR-03:** System must calculate split amounts (Equal or Custom).
+
+### 2. Non-functional Requirements
+*   **Security:** All split requests must be authenticated via FaceID/TouchID.
+*   **Performance:** Split notification must be delivered < 5 seconds.
+
+### 3. User Stories
+*   **US-1:** "As a roommate, I want to split the rent unequally (based on room size), so we pay our fair share."
+*   **Acceptance Criteria:** Input fields accept decimal values; Total must equal 100%.
+
+[... continues with traceability and impact analysis ...]
+```
 
 ## Tips
 

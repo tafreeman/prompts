@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[current_state]: Manual inventory tracking in Excel; Stock counts updated once/week
+[desired_state]: Real-time automated inventory management; <1% stockout rate
+[area]: Supply Chain Operations
+[constraints]: Budget < $50k, Must integrate with Shopify
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Gap Analysis Report
+
+### 1. Current State Assessment
+*   **Process:** Warehouse staff manually count items on Fridays. Data entry errors are common.
+*   **Metric:** Stock accuracy is 85%.
+
+### 2. Gap Identification
+*   **Technology Gap:** No barcode scanning or WMS (Warehouse Management System).
+*   **Process Gap:** No "Cycle Counting" procedure; reliance on full physical counts.
+
+### 3. Bridging Strategy
+*   **Tech:** Implement "TradeGecko" (or similar lightweight WMS) integrated with Shopify.
+*   **Process:** Equip staff with handheld scanners for real-time "Pick and Pack" updates.
+
+[... continues with impact analysis and roadmap ...]
+```
 
 ## Tips
 

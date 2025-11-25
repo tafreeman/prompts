@@ -53,10 +53,38 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[app_type]: Telehealth Patient Companion App
+[platforms]: iOS (SwiftUI) and Android (Kotlin/Jetpack Compose)
+[users]: 1M+ patients, elderly demographic (accessibility focus)
+[performance]: <2s startup time, smooth video calls on 4G networks
+[security]: HIPAA compliant, biometric auth, no sensitive data stored on device
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Mobile Architecture Design
+
+### 1. Architecture Pattern
+*   **MVVM-C (Model-View-ViewModel + Coordinator):**
+    *   Decouples UI from business logic for testability.
+    *   Coordinators handle navigation flow, enabling deep linking support.
+*   **Modularization:** Feature-based modules (Auth, Appointments, VideoCall, Prescriptions) to speed up build times.
+
+### 2. Backend Integration
+*   **Protocol:** GraphQL (Apollo Client) to minimize over-fetching on mobile networks.
+*   **Real-time:** WebSockets for chat and appointment status updates.
+*   **Resilience:** Circuit breaker pattern for flaky network conditions.
+
+### 3. Offline Capabilities
+*   **Strategy:** "Offline-First" for read-only data (Prescription history).
+*   **Storage:** Encrypted Realm/Room database.
+*   **Sync:** Background sync worker to upload vitals when connectivity restores.
+
+[... continues with security implementation and testing ...]
+```
 
 ## Tips
 

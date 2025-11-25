@@ -51,10 +51,33 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[organization]: Global Manufacturing Co. (Engineering Division)
+[initiative]: Agile Transformation (Waterfall to Scrum)
+[groups]: Engineering (500 staff), Product Mgmt (50 staff), QA (100 staff)
+[resistance]: Middle management fears loss of control; Senior engineers skeptical of "meetings overhead"
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Change Management Strategy (ADKAR Model)
+
+### 1. Change Impact Assessment
+*   **High Impact:** Project Managers (Role changes to Scrum Master/Product Owner).
+*   **Medium Impact:** Developers (New cadence, daily standups).
+
+### 2. Stakeholder Analysis
+*   **Resistors:** Engineering Directors. *Strategy:* Involve them in defining "Definition of Done" to maintain quality control authority.
+*   **Champions:** Junior Developers (Eager for modern practices).
+
+### 3. Communication Strategy
+*   **The "Why":** "We are moving to Agile to reduce our 18-month release cycle to 3 months, keeping us competitive."
+*   **Channels:** Town Halls for vision, "Lunch & Learns" for tactics.
+
+[... continues with training plan and resistance management ...]
+```
 
 ## Tips
 

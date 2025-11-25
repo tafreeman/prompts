@@ -53,10 +53,35 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[systems]: Critical Patient Records Database (SQL Server), Medical Imaging Archive (PACS/Blob Storage)
+[rto]: 15 minutes (Maximum downtime)
+[rpo]: 5 minutes (Maximum data loss)
+[budget]: $50k/year for standby infrastructure
+[compliance]: HIPAA (Encryption required, data sovereignty within US)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Disaster Recovery Strategy
+
+### 1. DR Design: "Warm Standby" (Pilot Light)
+*   **Primary Region:** US-East (N. Virginia)
+*   **DR Region:** US-West (Oregon) - Sufficient distance for geographic redundancy.
+
+### 2. Replication Strategy
+*   **Database:** SQL Server Always On Availability Groups with Async commit to DR region.
+*   **Imaging Data:** S3 Cross-Region Replication (CRR) with versioning enabled (RPO < 1 min).
+
+### 3. Failover Procedures
+1.  **Detection:** CloudWatch alarm triggers if Primary Health Check fails for 3 consecutive minutes.
+2.  **Database:** Script promotes DR Read Replica to Primary Master.
+3.  **DNS:** Route53 Health Check automatically updates DNS records to point to DR Load Balancer.
+
+[... continues with testing framework and recovery automation ...]
+```
 
 ## Tips
 

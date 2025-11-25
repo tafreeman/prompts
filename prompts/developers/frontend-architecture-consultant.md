@@ -51,10 +51,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[app_name]: "MarketPulse" - Marketing Analytics Dashboard
+[user_requirements]: Real-time data visualization, Dark/Light mode toggle, Export to PDF, Responsive for tablets
+[tech_stack]: React 18, TypeScript, Tailwind CSS, TanStack Query, Recharts
+[performance]: Core Web Vitals (LCP < 2.5s, CLS < 0.1), Time to Interactive < 3s on 4G
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Frontend Architecture Design
+
+### 1. Component Architecture
+*   **Atomic Design:** Atoms (Buttons), Molecules (SearchField), Organisms (DataGrid), Templates (DashboardLayout).
+*   **Composition:** Use "Compound Components" pattern for complex UI widgets (e.g., DateRangePicker).
+
+### 2. State Management Strategy
+*   **Server State:** TanStack Query (React Query) for caching API responses and optimistic updates.
+*   **Client State:** Zustand for global UI state (Sidebar open/close, Theme preference).
+*   **Form State:** React Hook Form for validation performance.
+
+### 3. Performance Optimization
+*   **Code Splitting:** Lazy load heavy chart libraries (`React.lazy`) and route-based splitting.
+*   **Virtualization:** Use `tanstack-virtual` for rendering large data tables (1000+ rows).
+
+[... continues with accessibility and testing ...]
+```
 
 ## Tips
 

@@ -51,10 +51,33 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[question]: Why did customer churn increase by 15% in Q3?
+[sources]: CRM (Salesforce), Support Tickets (Zendesk), Usage Logs (Mixpanel)
+[scope]: US Market, Enterprise Segment
+[context]: We implemented a 10% price increase on July 1st
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Data Analysis Report
+
+### 1. Data Exploration
+*   **Dataset:** 500 churned accounts in Q3 vs 430 in Q2.
+*   **Segment:** 80% of churn came from "Legacy Plan" users who were forced to upgrade.
+
+### 2. Statistical Analysis
+*   **Correlation:** Strong correlation (r=0.85) between "Support Ticket Volume" and "Churn" in the month prior to cancellation.
+*   **Price Sensitivity:** Churn rate doubled for customers with usage < 5 hours/week.
+
+### 3. Insights and Findings
+*   **Finding:** The price hike triggered a "value re-evaluation" for low-usage customers.
+*   **Finding:** Support response time increased by 4 hours in Q3, compounding frustration.
+
+[... continues with recommendations and visualization ...]
+```
 
 ## Tips
 

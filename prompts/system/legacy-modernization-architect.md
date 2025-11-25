@@ -53,10 +53,36 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[system]: Core Banking System (Mainframe COBOL/DB2, 20 years old)
+[drivers]: High maintenance costs ($10M/yr), shortage of COBOL developers, inability to launch mobile features
+[goals]: Move to cloud-native microservices, enable real-time transaction processing, reduce TCO by 40%
+[constraints]: Zero downtime migration required, strict regulatory compliance (OCC/FDIC), 3-year timeline
+[timeline]: Phase 1 (Read-only) in 6 months, Phase 2 (write-path) in 18 months, Decom in 36 months
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Modernization Strategy
+
+### 1. Current State Assessment
+*   **Technical Debt:** High coupling, brittle point-to-point integrations.
+*   **Risk:** Knowledge silo concentrated in retiring staff.
+
+### 2. Target Architecture
+*   **Pattern:** Strangler Fig Pattern to incrementally replace functionality.
+*   **Stack:** Java Spring Boot microservices on Kubernetes (EKS), Aurora PostgreSQL.
+*   **Integration:** Kafka for event streaming between Mainframe (CDC) and Cloud.
+
+### 3. Migration Strategy (Phased)
+*   **Phase 1 (Hollow Core):** Build read-only APIs on cloud, syncing data via CDC (Change Data Capture) from DB2.
+*   **Phase 2 (Vertical Slice):** Migrate "Customer Profile" module completely (read/write).
+*   **Phase 3 (Transaction Core):** Migrate ledger logic.
+
+[... continues with risk mitigation and success metrics ...]
+```
 
 ## Tips
 

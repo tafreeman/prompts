@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[process_name]: Employee Onboarding (IT Provisioning)
+[issues]: Takes 2 weeks for new hires to get laptop/email access; 40% dissatisfaction rate
+[stakeholders]: HR Director, IT Service Desk, Hiring Managers
+[metrics]: "Time to Productivity" (Target: Day 1 Access), Ticket Re-open Rate
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Process Optimization Plan
+
+### 1. Current State Analysis
+*   **Bottleneck:** HR sends new hire list via email on Friday; IT manually creates tickets on Monday.
+*   **Waste:** 30% of tickets bounce back due to missing "Role/Permissions" info.
+
+### 2. Process Mapping
+*   **As-Is:** HR Email -> IT Inbox -> Ticket Creation -> Laptop Order (3 days lag).
+*   **To-Be:** HRIS (Workday) -> API -> IT Service Management (ServiceNow) -> Auto-provisioning.
+
+### 3. Optimization Recommendations
+*   **Automation:** Implement SCIM integration to auto-create Active Directory accounts upon offer acceptance.
+*   **Policy:** Maintain "Buffer Stock" of 5 laptops to eliminate shipping delays.
+
+[... continues with implementation roadmap and change management ...]
+```
 
 ## Tips
 

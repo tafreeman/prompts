@@ -51,10 +51,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[app_concept]: "FitSocial" - A running tracker with competitive social leaderboards
+[platforms]: iOS (Swift/SwiftUI) and Android (Kotlin/Jetpack Compose)
+[features]: GPS tracking, Real-time pace calculation, Friend challenges, Apple Health/Google Fit sync
+[ux_goals]: "One-tap start", High contrast for outdoor visibility, Haptic feedback for milestones
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Mobile App Development Plan
+
+### 1. Technical Architecture
+*   **Pattern:** MVVM-C (Model-View-ViewModel + Coordinator) for testability and navigation management.
+*   **Local Storage:** Realm (fast read/write for GPS coordinates).
+*   **Sync:** Background work manager to upload workout data when Wi-Fi is available.
+
+### 2. Platform-Specific Considerations
+*   **iOS:** Use `CoreLocation` for GPS and `LiveActivities` for lock screen updates.
+*   **Android:** Use `Foreground Service` for reliable tracking while app is backgrounded.
+
+### 3. Performance Optimization
+*   **Battery:** Adaptive GPS polling (high accuracy only when moving).
+*   **Startup:** Lazy load social feed images; prioritize "Start Run" button interactivity.
+
+[... continues with security and testing ...]
+```
 
 ## Tips
 

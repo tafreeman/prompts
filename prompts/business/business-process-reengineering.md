@@ -51,10 +51,34 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[process_name]: Order-to-Cash (O2C)
+[performance]: Cycle time 14 days, Error rate 12% (mostly pricing disputes), Manual touchpoints: 8
+[targets]: Cycle time < 3 days, Error rate < 1%, Touchless processing > 80%
+[constraints]: Cannot replace core SAP ERP system; Budget limited to $200k
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Process Reengineering Plan
+
+### 1. Process Analysis
+*   **Bottleneck:** "Pricing Approval" step takes 4 days due to email ping-pong between Sales and Finance.
+*   **Waste:** 30% of orders are manually re-keyed from PDF purchase orders.
+
+### 2. Reengineering Approach
+*   **Eliminate:** Remove manual pricing approval for standard discount tiers (<10%).
+*   **Automate:** Implement RPA (UiPath) to scrape PDF orders and input to SAP.
+
+### 3. New Process Design (To-Be)
+*   **Step 1:** Customer portal order entry (Self-service).
+*   **Step 2:** Auto-validation of credit & stock.
+*   **Step 3:** Auto-release to warehouse (if standard pricing).
+
+[... continues with technology enablers and implementation ...]
+```
 
 ## Tips
 

@@ -51,10 +51,37 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Mobile App Launch v2.0
+[phase]: User Acceptance Testing (UAT)
+[milestones]: Code Freeze (Done 11/15), Beta Release (Due 11/22), App Store Submission (Due 11/30)
+[concerns]: 3 Critical bugs still open, QA lead out sick, Apple review times unpredictable
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Project Progress Tracker
+
+### 1. Progress Dashboard
+*   **Overall Status:** 🟡 AMBER (At Risk)
+*   **Schedule:** 3 days behind
+*   **Budget:** On track
+*   **Scope:** Stable
+
+### 2. Milestone Analysis
+*   **Code Freeze:** ✅ Complete.
+*   **Beta Release:** ⚠️ At Risk. Needs 3 critical bugs fixed by EOD tomorrow.
+*   **Submission:** 📅 Scheduled for 11/30, but buffer is depleted.
+
+### 3. Critical Path Assessment
+*   **Current Blocker:** Bug #402 (Login Crash on iOS 17).
+*   **Impact:** Cannot start Beta testing until fixed.
+*   **Mitigation:** Reallocated Senior iOS Dev from feature work to bug fixing immediately.
+
+[... continues with recovery planning and stakeholder updates ...]
+```
 
 ## Tips
 

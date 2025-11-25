@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[market]: Digital Marketing
+[categories]: AI Content Generation, Privacy/Cookie Deprecation
+[horizon]: 12-24 Months
+[impact]: High (Disruption of organic search traffic and ad targeting)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Trend Analysis Report
+
+### 1. Trend Identification
+*   **Trend:** "Zero-Click Search" (SGE). Users getting answers directly in search results without clicking links.
+*   **Trend:** First-party data reliance due to 3rd party cookie death.
+
+### 2. Impact Assessment
+*   **SEO Traffic:** Predicted 20-30% drop in top-of-funnel blog traffic.
+*   **Ad Efficiency:** CAC (Customer Acquisition Cost) likely to rise by 15% as targeting gets broader.
+
+### 3. Strategic Responses
+*   **Pivot:** Shift content strategy from "SEO Keywords" to "Thought Leadership" (Video/Podcasts) that AI can't easily replicate.
+*   **Invest:** Build owned communities (Newsletters) to reduce platform dependency.
+
+[... continues with future projections and business implications ...]
+```
 
 ## Tips
 

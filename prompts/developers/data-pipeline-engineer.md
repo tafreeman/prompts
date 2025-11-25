@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[data_sources]: IoT Sensors (MQTT Stream), Weather API (REST Polling), ERP System (SQL Batch)
+[processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
+[targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
+[scale]: 1M events/minute peak, <1s latency for alerts
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Data Pipeline Design
+
+### 1. Pipeline Architecture (Lambda Architecture)
+*   **Speed Layer:** Kinesis Data Streams -> Flink (Windowed Aggregation) -> DynamoDB.
+*   **Batch Layer:** Kinesis Firehose -> S3 (Parquet) -> Snowpipe -> Snowflake.
+
+### 2. Data Transformation Logic
+*   **Normalization:** Convert all sensor units to metric (Celsius, Joules).
+*   **Enrichment:** Join sensor stream with static "Device Metadata" (Location, Model) cached in Redis.
+
+### 3. Error Handling and Recovery
+*   **Bad Data:** Send malformed JSON to S3 "Dead Letter Bucket" for manual inspection.
+*   **Backpressure:** Kinesis automatically buffers spikes; Flink handles checkpointing for exactly-once processing.
+
+[... continues with monitoring and scalability ...]
+```
 
 ## Tips
 

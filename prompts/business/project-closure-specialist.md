@@ -51,10 +51,38 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Corporate Website Redesign v3.0
+[deliverables]: New Site Live (Done), CMS Training (Done), SEO Audit (Done), Analytics Setup (Done)
+[satisfaction]: Client NPS 9/10 ("Love the design"), but complained about SEO report being 2 days late
+[lessons]: Content migration took 2x longer than estimated due to unstructured legacy data
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Project Closure Plan
+
+### 1. Closure Checklist
+*   [x] **Financial:** Final invoice sent and paid.
+*   [x] **Technical:** Admin credentials transferred to client IT.
+*   [ ] **Marketing:** Case study draft approved by client.
+
+### 2. Final Deliverable Review
+*   **Scope Verification:** All SOW items delivered.
+*   **Quality:** SEO Audit delay noted; root cause was tool API outage (force majeure).
+
+### 3. Stakeholder Sign-off
+*   **Action:** Schedule "Final Walkthrough & Sign-off" meeting for Friday.
+*   **Document:** "Project Acceptance Form" ready for digital signature.
+
+### 4. Lessons Learned (Retrospective)
+*   **Issue:** Content Migration delay.
+*   **Action:** Update estimation template to include "Content Audit" phase *before* quoting migration hours.
+
+[... continues with handover and team transition ...]
+```
 
 ## Tips
 

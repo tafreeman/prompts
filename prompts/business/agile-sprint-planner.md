@@ -53,10 +53,33 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: E-commerce Mobile App
+[duration]: 2 Weeks (Sprint 12)
+[capacity]: 80 Story Points (Reduced from 100 due to Thanksgiving Holiday)
+[features]: "One-click Checkout", "Apple Pay Integration", "Wishlist Sync"
+[dod]: Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Sprint Plan
+
+### 1. Sprint Goal
+"Enable frictionless payments to reduce cart abandonment by 15% before Black Friday."
+
+### 2. User Story Breakdown
+*   **Story 1 (13 pts):** As a user, I want to pay with Apple Pay so I don't have to enter card details.
+*   **Story 2 (8 pts):** As a user, I want my "Default Card" pre-selected in Checkout.
+
+### 3. Capacity Planning
+*   **Total Load:** 75 Points (leaving 5 pts buffer for production hotfixes).
+*   **Risk:** Apple Pay certification may take >2 days. *Mitigation:* Start certification process on Day 1.
+
+[... continues with task estimation and success metrics ...]
+```
 
 ## Tips
 

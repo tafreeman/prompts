@@ -170,6 +170,22 @@ class PromptTestRunner:
         
         # Initialize metrics collector
         self.metrics_collector = MetricsCollector()
+        # Import validators that exist
+        from ..validators import (
+            CodeValidator,
+            SafetyValidator
+        )
+        
+        # Initialize validators
+        self.validators = {
+            'code_python': CodeValidator(language='python'),
+            'code_javascript': CodeValidator(language='javascript'),
+            'safety': SafetyValidator()
+        }
+        
+        # Evaluators and metrics collector will be implemented in future PRs
+        self.evaluators = {}
+        self.metrics_collector = None
     
     def load_test_suite(self, suite_path: str):
         """Load test suite from file"""

@@ -51,10 +51,34 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[organization]: Regional Hospital Network (3 locations)
+[issues]: Patient wait times in ER > 4 hours, low nursing staff retention
+[metrics]: Avg ER Wait Time: 260 mins (Benchmark: 120), Nurse Turnover: 22% (Benchmark: 12%)
+[goals]: Reduce wait time to < 2 hours by Q4, reduce turnover to < 15%
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Performance Improvement Plan
+
+### 1. Performance Diagnosis
+*   **Process Bottleneck:** Triage process takes 45 mins due to manual paperwork.
+*   **Staffing:** Peak hours (6pm-10pm) are understaffed by 30%.
+
+### 2. Root Cause Analysis (Fishbone)
+*   **People:** High burnout due to mandatory overtime.
+*   **Process:** No "Fast Track" for minor injuries.
+*   **Technology:** EHR system slow during shift changes.
+
+### 3. Action Plan
+*   **Quick Win:** Implement "Fast Track" lane for ESI Level 4/5 patients (minor injuries).
+*   **Strategic:** Invest in mobile triage tablets to reduce paperwork time by 50%.
+
+[... continues with implementation support and monitoring ...]
+```
 
 ## Tips
 

@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[industry]: Electric Vehicle Charging Infrastructure
+[scope]: North America, Public Charging Stations (Level 2 & DC Fast)
+[questions]: "Will Tesla's NACS standard dominate?" "How will NEVI funding impact deployment?"
+[stakeholders]: Utility Companies, Auto OEMs, Infrastructure Investors
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Industry Analysis Report
+
+### 1. Industry Overview
+*   **Size:** $3B market in 2024, projected to reach $15B by 2030 (CAGR 25%).
+*   **Structure:** Fragmented market consolidating around 3-4 major networks (Tesla, Electrify America, ChargePoint).
+
+### 2. Market Dynamics
+*   **Driver:** Federal NEVI funding ($5B) accelerating highway corridor buildout.
+*   **Constraint:** Grid capacity bottlenecks delaying site energization by 12-18 months.
+
+### 3. Future Outlook
+*   **Standardization:** NACS (Tesla) adoption by Ford/GM signals the end of the "Connector War."
+*   **Prediction:** 40% of smaller CPOs (Charge Point Operators) will be acquired by 2026.
+
+[... continues with strategic recommendations ...]
+```
 
 ## Tips
 

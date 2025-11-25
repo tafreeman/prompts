@@ -1,19 +1,37 @@
 ---
-
 title: "Security Code Auditor"
 category: "developers"
-tags: ["developer", "security", "enterprise", "owasp", "cwe", "sast", "vulnerability-assessment"]
+subcategory: "security"
+tags: 
+  - developer
+  - security
+  - enterprise
+  - owasp
+  - cwe
+  - sast
+  - vulnerability-assessment
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+version: "2.1.0"
+date: "2025-11-23"
 difficulty: "advanced"
-governance_tags: ["security", "compliance", "vulnerability-management"]
-data_classification: "confidential"
-risk_level: "critical"
-regulatory_scope: ["SOC2", "ISO27001", "PCI-DSS", "HIPAA"]
-approval_required: true
-approval_roles: ["CISO", "Security-Lead"]
-retention_period: "7-years"
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+performance_metrics:
+  complexity_rating: "high"
+  token_usage_estimate: "3000-5000"
+  quality_score: "95"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["sql-injection-audit", "xss-audit"]
+governance:
+  risk_level: "critical"
+  data_classification: "confidential"
+  regulatory_scope: ["SOC2", "ISO27001", "PCI-DSS", "HIPAA"]
+  approval_required: true
+  approval_roles: ["CISO", "Security-Lead"]
+  retention_period: "7-years"
 platform: "Claude Sonnet 4.5"
 ---
 
@@ -126,6 +144,8 @@ Perform a comprehensive security code audit using OWASP Top 10 (2021) and CWE fr
 - **`[code_description]`**: Brief description of code being audited (e.g., "User authentication module", "Payment processing API", "File upload functionality")
 - **`[security_framework]`**: Security standards/frameworks to audit against (default: "OWASP Top 10 2021", optional: "CWE Top 25", "SANS Top 25", "NIST SP 800-53")
 - **`[compliance_requirements]`**: Regulatory requirements (e.g., "PCI-DSS v4.0", "HIPAA Security Rule", "SOC2 Type II", "GDPR Article 32")
+
+## Usage
 
 ### Example 1: SQL Injection in Node.js API
 

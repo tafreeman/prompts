@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[team_name]: "Alpha Squad" (Backend Engineering - 6 members)
+[challenges]: High burnout risk, low velocity (missed last 2 sprints), knowledge silos in senior devs
+[goals]: Increase velocity by 20%, reduce bug reopen rate to <5%, improve team morale score
+[dynamics]: 2 senior devs dominate architectural decisions, 3 junior devs hesitant to speak up
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Team Performance Improvement Plan
+
+### 1. Performance Assessment
+*   **Root Cause:** "Hero Culture" leading to bottlenecks at senior devs; juniors blocked waiting for reviews.
+*   **Metric Analysis:** Cycle time is high due to long code review wait times (avg 2 days).
+
+### 2. Skill Development Plan
+*   **Pair Programming:** Mandate 2 hours/day pairing (Senior + Junior) to transfer knowledge.
+*   **Tech Talks:** Weekly rotation where juniors present a technical topic to build confidence.
+
+### 3. Motivation Strategies
+*   **Autonomy:** Assign end-to-end ownership of smaller features to juniors.
+*   **Purpose:** Connect sprint tasks directly to customer impact metrics in planning meetings.
+
+[... continues with communication and conflict resolution ...]
+```
 
 ## Tips
 

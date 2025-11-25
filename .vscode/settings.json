@@ -1,0 +1,20 @@
+{
+    "azureFunctions.deploySubpath": "bin/Release/net10.0/publish",
+    "azureFunctions.projectLanguage": "C#",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "publish (functions)",
+    "azureFunctions.mcpProjectType": "McpExtensionServer",
+    "chat.mcp.serverSampling": {
+        "prompts/.vscode/mcp.json: prompts-local-server": {
+            "allowedModels": [
+                "copilot/auto",
+                "copilot/claude-haiku-4.5",
+                "copilot/gpt-4.1",
+                "copilot/gpt-4o",
+                "copilot/gpt-5-mini",
+                "copilot/oswe-vscode-secondary"
+            ]
+        }
+    }
+}

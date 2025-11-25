@@ -51,10 +51,35 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[purpose]: Q3 Quarterly Business Review (QBR)
+[attendees]: Regional Sales Directors (x4), VP Sales, Marketing Lead, Finance Partner
+[duration]: 4 Hours (Half-day offsite)
+[decisions]: Finalize Q4 Quotas, Approve Q4 Marketing Budget Allocation, Go/No-Go on "Winter Promo"
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Meeting Plan
+
+### 1. Agenda
+*   **09:00 - 10:00:** Q3 Performance Review (Data Deep Dive).
+*   **10:00 - 11:00:** Marketing Retrospective & Q4 Plan.
+*   **11:15 - 12:30:** Q4 Quota Setting & "Winter Promo" Decision.
+*   **12:30 - 13:00:** Action Items & Lunch.
+
+### 2. Pre-meeting Preparation
+*   **Requirement:** All Regional Directors must update Salesforce pipeline by Friday 5pm.
+*   **Read-ahead:** Finance to circulate "Q3 Variance Report" 48hrs prior.
+
+### 3. Facilitation Techniques
+*   **"Parking Lot":** Use for tactical issues (e.g., specific deal blockers) to keep QBR strategic.
+*   **ELMO Rule:** "Enough, Let's Move On" if quota debates circle for >10 mins.
+
+[... continues with decision process and follow-up ...]
+```
 
 ## Tips
 

@@ -53,10 +53,39 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[domain]: Open Banking Platform (PSD2 Compliant)
+[consumers]: Third-Party Providers (TPPs), Fintech Apps, Internal Mobile App
+[integrations]: Legacy Core Banking (SOAP), KYC Provider (REST), Fraud Detection System
+[security]: FAPI (Financial-grade API) Profile, OAuth 2.0 / OIDC, mTLS
+[scalability]: 1000 TPS, <100ms latency
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## API Architecture Design
+
+### 1. API Design Patterns
+*   **Style:** REST Level 3 (HATEOAS) for discoverability.
+*   **Gateway:** API Gateway pattern for cross-cutting concerns (Auth, Rate Limiting).
+*   **BFF:** Backend for Frontend pattern for the Internal Mobile App to aggregate calls.
+
+### 2. Authentication Strategy
+*   **Protocol:** OAuth 2.0 with OpenID Connect (OIDC).
+*   **Security Profile:** FAPI Read/Write profile (requires mTLS for token endpoint, signed JWTs).
+*   **Consent Management:** Granular scopes (`accounts:read`, `payments:write`) with explicit user consent UI.
+
+### 3. Rate Limiting and Throttling
+*   **Strategy:** Token Bucket algorithm.
+*   **Tiers:**
+    *   **Free:** 10 req/sec (Public data).
+    *   **Partner:** 100 req/sec (Account access).
+    *   **Internal:** Unlimited.
+
+[... continues with versioning and documentation ...]
+```
 
 ## Tips
 

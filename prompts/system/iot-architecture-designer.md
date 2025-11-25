@@ -53,10 +53,35 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[use_case]: Smart Factory Predictive Maintenance
+[devices]: Vibration sensors (10k units), Temperature gauges (5k units), PLC controllers
+[data_volume]: 1TB/day streaming telemetry
+[connectivity]: LoRaWAN for sensors (low power), MQTT over Wi-Fi for controllers
+[security]: Mutual TLS (mTLS) for device auth, end-to-end encryption, air-gapped OT network
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## IoT Architecture Design
+
+### 1. Device Architecture
+*   **Edge Gateway:** Aggregates sensor data via LoRaWAN, performs local anomaly detection (Edge ML), and batches uploads to cloud.
+*   **Protocol:** MQTT over TLS for efficient, lightweight messaging.
+
+### 2. Data Processing Pipeline
+*   **Ingestion:** AWS IoT Core (MQTT Broker).
+*   **Hot Path (Real-time):** IoT Rules -> Kinesis Data Streams -> Lambda (Alerting if temp > threshold).
+*   **Cold Path (Analytics):** Kinesis Firehose -> S3 Data Lake -> Athena/Quicksight for historical trend analysis.
+
+### 3. Security Framework
+*   **Device Identity:** X.509 Certificates provisioned at manufacturing.
+*   **Network:** Network segmentation separating OT (Operational Tech) from IT networks.
+
+[... continues with management platform and cloud integration ...]
+```
 
 ## Tips
 

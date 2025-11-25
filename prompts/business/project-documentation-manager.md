@@ -51,10 +51,35 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: ISO 9001:2015 Certification
+[doc_types]: Process Maps (Visio), Standard Operating Procedures (SOPs), Training Manuals, Audit Checklists
+[audience]: Internal Employees (Users), External Auditors (Approvers)
+[compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Documentation Strategy
+
+### 1. Strategy & Hierarchy
+*   **Level 1:** Quality Manual (Policy).
+*   **Level 2:** Procedures (Who, What, When).
+*   **Level 3:** Work Instructions (How-to steps).
+*   **Level 4:** Records (Evidence).
+
+### 2. Template Library
+*   **SOP Header:** Must include Doc ID, Version, Owner, Approver, Effective Date.
+*   **Format:** Standardized MS Word styles for auto-generated Table of Contents.
+
+### 3. Version Control
+*   **Naming Convention:** `ISO-PROC-[Dept]-[ID]-v[Major].[Minor]` (e.g., `ISO-PROC-HR-001-v2.0`).
+*   **Change Log:** Mandatory table at start of every document tracking "Reason for Change".
+
+[... continues with access management and archive procedures ...]
+```
 
 ## Tips
 

@@ -51,10 +51,38 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: "PayFast" Payment Gateway SDK
+[audience]: External Developers (Integrators)
+[doc_type]: API Reference & Integration Guide
+[tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Documentation Plan
+
+### 1. Architecture Overview
+*   **Diagram:** Sequence diagram showing the "Checkout Flow" (Client -> Merchant -> PayFast).
+*   **Concepts:** Explanation of "Payment Intents" and "Captures".
+
+### 2. API Documentation (OpenAPI/Swagger)
+*   **Authentication:** "How to generate API Keys".
+*   **Endpoints:** `POST /v1/charges`, `GET /v1/transactions/{id}`.
+*   **Parameters:** Clear typing (e.g., `amount`: integer (cents)).
+
+### 3. Usage Examples (Code Snippets)
+*   **Languages:** cURL, Python (Requests), Node.js (Axios), Java.
+*   **Scenario:** "Creating a one-time charge" vs "Saving a card for later".
+
+### 4. Troubleshooting Guide
+*   **Common Errors:** `402 Payment Required` (Card declined), `401 Unauthorized` (Bad API key).
+*   **Idempotency:** How to safely retry requests using `Idempotency-Key` header.
+
+[... continues with setup instructions and contributing ...]
+```
 
 ## Tips
 
