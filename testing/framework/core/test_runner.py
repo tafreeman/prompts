@@ -136,40 +136,22 @@ class PromptTestRunner:
     
     def _initialize_components(self):
         """Initialize validators, evaluators, and metrics"""
-        # Import here to avoid circular dependencies
-        from .validators import (
-            JSONValidator, 
-            CodeValidator, 
-            SemanticValidator,
-            SafetyValidator,
-            PerformanceValidator
+        # Import validators that exist
+        from ..validators import (
+            CodeValidator,
+            SafetyValidator
         )
-        from .evaluators import (
-            CorrectnessEvaluator,
-            QualityEvaluator,
-            SafetyEvaluator
-        )
-        from .metrics import MetricsCollector
         
         # Initialize validators
         self.validators = {
-            'json': JSONValidator(),
             'code_python': CodeValidator(language='python'),
             'code_javascript': CodeValidator(language='javascript'),
-            'semantic': SemanticValidator([]),
-            'safety': SafetyValidator(),
-            'performance': PerformanceValidator()
+            'safety': SafetyValidator()
         }
         
-        # Initialize evaluators
-        self.evaluators = {
-            'correctness': CorrectnessEvaluator(),
-            'quality': QualityEvaluator(),
-            'safety': SafetyEvaluator()
-        }
-        
-        # Initialize metrics collector
-        self.metrics_collector = MetricsCollector()
+        # Evaluators and metrics collector will be implemented in future PRs
+        self.evaluators = {}
+        self.metrics_collector = None
     
     def load_test_suite(self, suite_path: str):
         """Load test suite from file"""
