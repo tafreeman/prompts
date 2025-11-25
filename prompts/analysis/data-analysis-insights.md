@@ -394,13 +394,11 @@ To communicate these insights effectively, create:
 - Request statistical significance testing if you're comparing groups
 - Follow up with deeper dives on specific findings
 
-## Related Prompts
+## Changelog
 
-- [Statistical Analysis Helper](statistical-analysis-helper.md)
-- [A/B Test Results Analyzer](ab-test-analyzer.md)
-- [Market Research Synthesizer](market-research-synthesizer.md)
+### Version 1.0 (2025-10-29)
 
-## Phone Communication Analysis: Relationship Networks and Trigger Chains
+- Initial version
 
 ### 1. Phone A – 321‑247‑2011: real‑number relationships
 
@@ -528,6 +526,7 @@ Both phones show sustained activity over the period, but they operate in **parti
 ### 2. Relationship strength by contact
 
 **Phone A (321‑247‑2011)**  
+
 - Communication is concentrated in a **small set of recurring contacts**.  
 - Several numbers show high relationship scores driven by repeated calls, texts, and multi‑day activity.  
 - Directional metrics indicate a mix of:
@@ -536,21 +535,25 @@ Both phones show sustained activity over the period, but they operate in **parti
   - And a few that A **chases** (A dials out more than it receives).
 
 **Phone B (321‑203‑6834)**  
+
 - Also has a tight cluster of strong contacts, but the **top numbers differ** from Phone A's list.  
 - Some contacts generate substantial call minutes (long conversations) rather than just frequent short calls.  
 - A notable feature is the **repeated, bidirectional traffic between B and A (321‑247‑2011)**: the two phones are in regular contact with each other, suggesting coordination, check‑ins, or logistical communication.
 
 **Shared vs unique contacts**  
+
 - The overlap heatmap shows a **small set of shared contacts** that both phones interact with.  
 - Most strong ties, however, are **phone‑specific**, consistent with the phones being used by two different people with some shared environment but their own circles.
 
 ### 3. Temporal behavior
 
 **Daily volume**  
+
 - Both phones exhibit **uneven but recognizable rhythms**: periods of routine traffic with intermittent spikes.  
 - Some high‑activity days line up across both phones, indicating days where both users were more communicative or involved in shared events.
 
 **Time of day**  
+
 - Heatmaps reveal:
   - A concentration of traffic in **daytime and early evening hours** for normal business/personal activity.
   - Additional **late‑night or very early‑morning events** clustered around certain contacts, which stand out from the baseline and may represent sensitive or higher‑risk interactions.

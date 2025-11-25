@@ -53,10 +53,36 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[requirements]: Unified Customer 360 View, Real-time Personalization, Churn Prediction
+[sources]: Salesforce CRM (Structured), SAP ERP (Structured), Website Clickstream (JSON), Zendesk Tickets (Unstructured)
+[volume]: 500GB/day ingestion, 2PB total retention
+[analytics]: Real-time dashboards (Tableau), Ad-hoc SQL queries, ML model training
+[governance]: GDPR "Right to be Forgotten", Data Quality score > 95%
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Data Architecture Design
+
+### 1. Data Model Design (Lakehouse)
+*   **Bronze Layer (Raw):** Immutable landing zone for all source data (Parquet format).
+*   **Silver Layer (Cleansed):** Conformed dimensions, PII tokenized, data quality checks applied.
+*   **Gold Layer (Curated):** Aggregated "Customer 360" tables optimized for BI.
+
+### 2. Storage Strategy
+*   **Data Lake:** S3 (Standard for hot, Glacier Deep Archive for >3 years).
+*   **Warehouse:** Snowflake (Separation of storage and compute).
+
+### 3. Data Pipeline Architecture
+*   **Ingestion:** Kafka Connect for real-time streams (Clickstream), Airbyte for batch (CRM/ERP).
+*   **Transformation:** dbt (Data Build Tool) for SQL-based transformations in Snowflake.
+*   **Orchestration:** Airflow for dependency management.
+
+[... continues with governance and quality management ...]
+```
 
 ## Tips
 

@@ -53,10 +53,33 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[topic]: Smart Home Security Adoption
+[market]: US Homeowners aged 30-50, Household Income > $100k
+[objectives]: Understand barriers to entry (Privacy concerns vs Cost) and feature preferences
+[methodology]: Mixed Methods (Online Survey N=1500 + 20 In-home Ethnographic Interviews)
+[timeline]: 8 Weeks
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Market Research Plan
+
+### 1. Research Design
+*   **Phase 1 (Qual):** In-home interviews to observe current security setups and frustrations.
+*   **Phase 2 (Quant):** MaxDiff survey to rank feature importance (e.g., "Face Recognition" vs "Local Storage").
+
+### 2. Data Collection Plan
+*   **Recruitment:** Use panel provider (e.g., UserInterviews.com) targeting suburban homeowners.
+*   **Incentive:** $100 Amazon Gift Card for 60-min interview.
+
+### 3. Analysis Framework
+*   **Segmentation:** Cluster analysis to identify "Privacy Purists" vs "Tech Enthusiasts."
+
+[... continues with key findings and strategic implications ...]
+```
 
 ## Tips
 

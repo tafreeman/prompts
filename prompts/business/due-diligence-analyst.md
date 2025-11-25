@@ -53,10 +53,35 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[transaction]: Series B Venture Investment ($20M)
+[target]: "FinAI" (AI-driven Credit Scoring Startup)
+[focus]: Technical Due Diligence (IP ownership, Code Quality, Security Compliance)
+[timeline]: 2 Weeks (Expedited)
+[stakeholders]: Investment Committee, CTO (Acquirer)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Technical Due Diligence Report
+
+### 1. Due Diligence Plan
+*   **Day 1-3:** Codebase scan (Black Duck) for Open Source license violations.
+*   **Day 4-7:** Architecture review and key personnel interviews.
+
+### 2. Findings Summary
+*   **IP Risk:** 🔴 HIGH. Core AI algorithm contains GPL v3 licensed code (Copyleft), contaminating proprietary IP.
+*   **Security:** 🟢 LOW. SOC2 Type II certified; Pen test remediation complete.
+*   **Scalability:** 🟡 MEDIUM. Monolithic Python backend may struggle with 10x user growth.
+
+### 3. Recommendations
+*   **Deal Breaker:** Require "FinAI" to rewrite the GPL-contaminated module *before* closing.
+*   **Post-Close:** Budget $500k for microservices refactoring in Year 1.
+
+[... continues with information requests and risk assessment ...]
+```
 
 ## Tips
 

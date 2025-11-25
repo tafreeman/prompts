@@ -51,10 +51,39 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[domain]: Global Logistics and Supply Chain Management
+[capabilities]: Order tracking, Fleet management, Route optimization, Inventory forecasting, Driver payroll
+[scale]: 50k trucks, 10M packages/day, global distribution
+[teams]: 12 squads (approx 8-10 devs each), distributed across 3 time zones
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Microservices Architecture Design
+
+### 1. Service Decomposition (Domain-Driven Design)
+
+**Bounded Contexts:**
+*   **Logistics Core:**
+    *   `Shipment Service` (Lifecycle of a package)
+    *   `Routing Service` (Graph algorithms for pathfinding)
+*   **Fleet Operations:**
+    *   `Vehicle Telemetry Service` (IoT stream ingestion)
+    *   `Driver Service` (Shifts, compliance)
+*   **Commerce:**
+    *   `Billing Service` (Invoicing)
+    *   `Payroll Service` (Driver compensation)
+
+### 2. Communication Patterns
+*   **Synchronous (Internal):** gRPC for high-performance inter-service communication (e.g., Routing -> Telemetry).
+*   **Asynchronous (Event-Driven):** Kafka for domain events (e.g., `PackageDelivered` event triggers `Billing` and `Notification`).
+*   **External:** GraphQL Gateway for mobile apps and web dashboard.
+
+[... continues with data management and service mesh ...]
+```
 
 ## Tips
 

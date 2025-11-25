@@ -51,10 +51,35 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Mobile Banking App v2.0
+[standards]: ISO 25010 (Software Quality), WCAG 2.1 AA (Accessibility), PCI-DSS (Security)
+[deliverables]: Test Plan, Defect Report, UAT Sign-off, Security Audit Certificate
+[testing]: Functional, Security (Pen Test), Performance (Load Test), Accessibility Audit
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Quality Assurance Plan
+
+### 1. Quality Objectives
+*   **Functional:** Zero Critical/High severity bugs at launch.
+*   **Performance:** App load time < 2s on 4G.
+*   **Security:** Pass external Pen Test with no high-risk findings.
+
+### 2. Testing Strategy
+*   **Shift Left:** Static code analysis (SonarQube) in CI/CD pipeline.
+*   **Manual Testing:** Exploratory testing for "Check Deposit" flow (high risk).
+*   **Automation:** Appium for regression suite (Target: 80% coverage).
+
+### 3. Review Workflows
+*   **Defect Triage:** Daily meeting (PM, Dev Lead, QA Lead) to prioritize bugs.
+*   **Exit Criteria:** 100% of Test Cases executed, 95% Pass rate.
+
+[... continues with metrics and continuous improvement ...]
+```
 
 ## Tips
 

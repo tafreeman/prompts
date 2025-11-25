@@ -51,10 +51,36 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Cloud Migration Initiative
+[services]: Cloud Hosting (AWS), Migration Consulting (Accenture), Security Audit (Deloitte)
+[terms]: Net-60 payment, 99.9% SLA, 24/7 Support, Penalty clauses for downtime > 1hr
+[issues]: Missed deadlines on Phase 1 delivery, SLA breach in October (4 hours downtime)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Vendor Management Plan
+
+### 1. Vendor Evaluation Criteria
+*   **Technical Capability:** AWS Advanced Partner status required.
+*   **Cultural Fit:** Agile methodology alignment.
+*   **Financial Health:** D&B Score > 80.
+
+### 2. Contract Management
+*   **SLA Monitoring:** Monthly review of uptime reports.
+*   **Penalty Enforcement:** Apply 5% credit for October SLA breach per contract clause 4.2.
+*   **Renewal Strategy:** Negotiate volume discounts for 3-year Reserved Instances.
+
+### 3. Performance Monitoring (KPIs)
+*   **Delivery:** On-time milestone completion rate (Target: >90%).
+*   **Quality:** Defect density in delivered code (Target: <0.5 per KLOC).
+*   **Responsiveness:** Mean Time to Respond (MTTR) to support tickets.
+
+[... continues with relationship management and issue resolution ...]
+```
 
 ## Tips
 

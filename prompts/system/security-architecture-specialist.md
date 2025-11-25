@@ -51,10 +51,41 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[system_name]: Global Fintech Payment Gateway (processing $5B/year)
+[security_req]: End-to-end encryption, zero trust architecture, MFA for all admin access, real-time fraud detection
+[compliance]: PCI-DSS Level 1, GDPR, SOC2 Type II, PSD2 (Open Banking)
+[threats]: Advanced Persistent Threats (APTs), DDoS attacks, Insider threats, Supply chain attacks, SQL injection
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Security Architecture Framework
+
+### 1. Security Controls Framework (NIST CSF Aligned)
+
+**Identify:**
+*   Asset Management: AWS Config + Tagging policies
+*   Risk Assessment: Quarterly penetration testing (external)
+
+**Protect:**
+*   **Data Protection:**
+    *   At Rest: AES-256 (AWS KMS with customer-managed keys)
+    *   In Transit: TLS 1.3 with mTLS for service-to-service
+    *   Tokenization: VGS (Very Good Security) for PAN data isolation
+*   **Identity (IAM):**
+    *   Workforce: Okta + AWS SSO (Just-in-Time access)
+    *   Service: IAM Roles with least privilege (IRSA for Kubernetes)
+
+**Detect:**
+*   GuardDuty (Threat detection)
+*   WAF (Web Application Firewall) with managed rules for OWASP Top 10
+*   Macie (Sensitive data discovery)
+
+[... continues with network security and incident response ...]
+```
 
 ## Tips
 

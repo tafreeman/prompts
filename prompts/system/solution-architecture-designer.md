@@ -53,10 +53,45 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[problem]: Legacy monolithic e-commerce platform crashing during peak traffic events (Black Friday)
+[functional_req]: Support 50k concurrent users, real-time inventory sync, personalized recommendations, omnichannel cart
+[nonfunctional_req]: 99.99% uptime, <200ms page load, auto-scaling, disaster recovery RTO < 1 hour
+[constraints]: AWS cloud, Java/Spring Boot backend, React frontend, budget cap $50k/month run rate
+[integrations]: Salesforce CRM, SAP ERP, Stripe Payments, SendGrid Email
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## High-Level Architecture
+
+**Pattern:** Event-Driven Microservices on AWS
+
+1.  **Frontend Layer:**
+    *   CloudFront CDN for static assets
+    *   React SPA hosted on S3
+    *   BFF (Backend for Frontend) pattern using GraphQL (AppSync)
+
+2.  **API Gateway Layer:**
+    *   AWS API Gateway for request routing, throttling, and auth
+    *   Cognito for customer identity management
+
+3.  **Service Layer (Microservices):**
+    *   **Product Service:** ECS Fargate (read-heavy, cached)
+    *   **Order Service:** Lambda (burst scaling)
+    *   **Inventory Service:** ECS Fargate (high consistency)
+    *   **Recommendation Service:** SageMaker endpoint
+
+4.  **Data Layer:**
+    *   **Operational DB:** Aurora PostgreSQL (Orders, Customers)
+    *   **Cache:** ElastiCache Redis (Sessions, Product Catalog)
+    *   **Search:** OpenSearch (Product search)
+    *   **Event Bus:** EventBridge for async decoupling (OrderPlaced -> InventoryUpdate)
+
+[... continues with component specs and integration patterns ...]
+```
 
 ## Tips
 

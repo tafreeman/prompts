@@ -51,10 +51,32 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[product]: Plant-based Meat Alternatives
+[demographics]: Millennials and Gen Z, Urban, Income > $75k
+[behavior]: "Flexitarian" diet adoption (reducing meat consumption without going full vegan)
+[methods]: Social Listening (Reddit/TikTok), Online Surveys (N=1000)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Consumer Behavior Research Plan
+
+### 1. Research Methodology
+*   **Social Listening:** Analyze sentiment on r/PlantBasedDiet and TikTok #VeganRecipes to identify taste preferences.
+*   **Survey:** Quantitative validation of "Price vs Taste" trade-offs.
+
+### 2. Behavioral Analysis
+*   **Driver:** Health consciousness is the #1 driver, followed by Climate Change.
+*   **Barrier:** "Ultra-processed" perception is a growing concern among target demographic.
+
+### 3. Consumer Insights
+*   **Insight:** Consumers want "Clean Label" (pea protein) over "Hyper-realistic" (heme/soy) if it means fewer additives.
+
+[... continues with implications and recommendations ...]
+```
 
 ## Tips
 

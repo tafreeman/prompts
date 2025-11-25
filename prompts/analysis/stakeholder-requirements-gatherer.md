@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: CRM Migration (Salesforce to HubSpot)
+[groups]: Sales Reps (End Users), Sales Ops (Admins), Marketing (Lead Gen)
+[domain]: B2B SaaS Sales
+[complexity]: High (Data migration + Process re-engineering required)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Stakeholder Requirements Plan
+
+### 1. Stakeholder Analysis
+*   **Sales Reps:** High Influence / High Interest. Concern: "Will this slow me down?"
+*   **Marketing:** Medium Influence / High Interest. Concern: "Will lead attribution break?"
+
+### 2. Interview Planning
+*   **Format:** "Day in the Life" shadowing sessions with top 3 sales reps.
+*   **Key Question:** "Show me the most frustrating part of logging a deal today."
+
+### 3. Requirements Elicitation
+*   **Requirement (Sales):** "Must be able to log calls from mobile app in < 2 clicks."
+*   **Requirement (Ops):** "Must enforce 'Deal Stage' validation rules."
+
+[... continues with conflict resolution and communication ...]
+```
 
 ## Tips
 

@@ -53,10 +53,35 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[organization]: National Insurance Provider ("SafeGuard")
+[current_state]: Paper-based claims processing (fax/mail), legacy mainframe core, siloed customer data
+[goals]: Achieve 100% digital claims submission, implement AI-driven underwriting, 360-degree customer view
+[budget]: $50M Capital Investment
+[timeline]: 3 Years (2025-2027)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Digital Transformation Plan
+
+### 1. Digital Maturity Assessment
+*   **Current Score:** 1.5/5 (Ad-hoc Digital).
+*   **Gap:** Heavy reliance on manual data entry (OCR) creates 3-day lag in claims visibility.
+
+### 2. Transformation Strategy
+*   **Core Modernization:** Wrap legacy mainframe in API layer (MuleSoft) rather than full rewrite.
+*   **Customer Experience:** Mobile-first "Claims Bot" for instant photo upload and status tracking.
+
+### 3. Technology Roadmap
+*   **Year 1:** API Gateway & Cloud Data Lake setup.
+*   **Year 2:** Mobile App launch & AI Pilot for simple claims.
+*   **Year 3:** Full AI Underwriting rollout.
+
+[... continues with change management and success measurement ...]
+```
 
 ## Tips
 

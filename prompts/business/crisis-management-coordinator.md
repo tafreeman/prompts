@@ -51,10 +51,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: Global ERP Rollout
+[crisis]: Ransomware attack detected on Staging Environment servers
+[impact]: All test data encrypted, rollout to APAC region (scheduled for Monday) blocked, potential PII leak
+[urgency]: Critical (Level 1) - Immediate Action Required
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Crisis Response Plan
+
+### 1. Immediate Response (Containment)
+*   **Action:** Isolate Staging VPC from Production and Corporate networks immediately.
+*   **Owner:** CISO & Network Ops Lead.
+*   **Status:** Execute "Kill Switch" protocol.
+
+### 2. Stakeholder Communication
+*   **Internal:** Notify Steering Committee via out-of-band channel (Signal/WhatsApp) - Do not use email.
+*   **External:** Prepare statement for APAC partners regarding "Technical Maintenance Delay" (holding statement).
+
+### 3. Risk Mitigation
+*   **Forensics:** Engage 3rd party incident response team to determine entry point.
+*   **Recovery:** Do not pay ransom. Restore Staging from immutable backups (WORM storage) once environment is clean.
+
+[... continues with resource mobilization and lessons learned ...]
+```
 
 ## Tips
 

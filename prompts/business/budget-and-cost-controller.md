@@ -53,10 +53,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: HQ Office Relocation
+[budget]: $2.5M Total CapEx
+[current_spend]: $1.8M (72% utilized)
+[timeline]: Month 8 of 12 (66% elapsed)
+[concerns]: Furniture costs came in 20% over estimate due to supply chain surcharges; IT cabling bids are pending
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Budget Control Report
+
+### 1. Budget Variance Analysis
+*   **Status:** 🔴 Over Budget Trend. Spend is at 72% while timeline is at 66%.
+*   **Driver:** Furniture category is +$150k variance.
+
+### 2. Cost Forecasting
+*   **Projected Final Spend:** $2.75M (10% overage) if no action taken.
+*   **Risk:** IT Cabling bids may also reflect inflation.
+
+### 3. Expense Optimization
+*   **Action:** Value Engineering on IT Audio/Visual equipment. Switch from Cisco Webex Boards to standard 4K TVs with soundbars (Savings: $50k).
+*   **Action:** Defer "Phase 2" breakroom renovation to next fiscal year.
+
+[... continues with financial reporting and corrective actions ...]
+```
 
 ## Tips
 

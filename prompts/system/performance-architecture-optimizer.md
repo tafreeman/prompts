@@ -53,10 +53,36 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[system_name]: Global Video Streaming Platform (10M concurrent viewers)
+[issues]: High latency during live events (p99 > 5s), database CPU spikes to 100%, "thundering herd" on cache miss
+[targets]: p99 latency < 500ms, 99.99% availability, reduce infrastructure cost by 20%
+[load]: 500k requests/sec peak, 10PB data transfer/month
+[budget]: $200k/month cloud spend limit
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Performance Optimization Strategy
+
+### 1. Bottleneck Analysis
+*   **Root Cause:** Synchronous calls to user profile DB on every video segment request.
+*   **Impact:** DB CPU saturation causes cascading latency.
+*   **Inefficiency:** Cache stampede when popular live streams start.
+
+### 2. Architecture Optimization
+*   **Edge Compute:** Move auth verification to CloudFront Functions (Edge) to offload origin.
+*   **Async Processing:** Decouple analytics writing using Kinesis Firehose (fire-and-forget).
+
+### 3. Caching Strategy (Multi-Layer)
+*   **L1 (Browser):** Aggressive Cache-Control headers for video segments (immutable).
+*   **L2 (CDN):** Origin Shield architecture to collapse concurrent requests.
+*   **L3 (App):** Request coalescing (singleflight pattern) to prevent thundering herd on cache misses.
+
+[... continues with database optimization and monitoring ...]
+```
 
 ## Tips
 

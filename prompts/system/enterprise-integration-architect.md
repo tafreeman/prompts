@@ -51,10 +51,35 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[systems]: Salesforce (CRM), SAP S/4HANA (ERP), Custom Logistics App (PostgreSQL), Stripe (Payments)
+[data_flow]: Order-to-Cash process (Order placed -> Payment captured -> Inventory reserved -> Shipping label created -> Invoice generated)
+[performance]: Real-time inventory checks (<500ms), eventual consistency for reporting (15 min lag ok)
+[security]: OAuth 2.0 for all APIs, PII masking in logs, encrypted message queues
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Integration Architecture
+
+### 1. Integration Patterns
+*   **Orchestration:** MuleSoft/Camel for complex Order-to-Cash workflow state management.
+*   **Event-Driven:** "Order Created" event published to Kafka topic to trigger parallel downstream processes (Billing, Fulfillment).
+
+### 2. Data Flow Design
+1.  **Order Entry:** Salesforce triggers webhook to Integration Layer.
+2.  **Validation:** Integration Layer calls SAP synchronously to check Inventory (Real-time).
+3.  **Payment:** If stock exists, call Stripe to capture funds.
+4.  **Fulfillment:** Publish `OrderConfirmed` event. Logistics App consumes event to schedule shipment.
+
+### 3. Error Handling (Reliability)
+*   **Dead Letter Queues (DLQ):** For failed messages (e.g., SAP downtime) to allow manual replay.
+*   **Circuit Breaker:** Stop calling SAP if error rate > 10% to prevent cascading failure.
+
+[... continues with monitoring and governance ...]
+```
 
 ## Tips
 

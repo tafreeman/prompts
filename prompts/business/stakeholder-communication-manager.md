@@ -51,10 +51,34 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: SAP S/4HANA Implementation
+[stakeholders]: CFO (Sponsor), VP Supply Chain (Key User), IT Director, Warehouse Staff (End Users)
+[phase]: Blueprinting / Design
+[challenges]: Resistance to change from warehouse staff (fear of automation), CFO demanding faster ROI visibility
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Communication Strategy
+
+### 1. Stakeholder Analysis
+*   **CFO (High Power/High Interest):** Needs weekly executive summary focused on budget and milestones.
+*   **Warehouse Staff (Low Power/High Interest):** Needs reassurance, training, and "What's in it for me?" (WIIFM).
+
+### 2. Communication Matrix
+*   **Steering Committee (CFO/VP):** Bi-weekly status meeting (Tuesday 10am).
+*   **Project Team:** Daily Standup (9am).
+*   **All Hands (Warehouse):** Monthly Town Hall with Q&A.
+
+### 3. Key Messages
+*   **To CFO:** "We are on track to deliver inventory visibility by Q3, enabling 15% stock reduction."
+*   **To Staff:** "The new system eliminates manual paper counting, making your job safer and faster."
+
+[... continues with reporting templates and feedback mechanisms ...]
+```
 
 ## Tips
 

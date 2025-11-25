@@ -53,10 +53,34 @@ Deliver:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[client]: Fortune 500 CPG Company ("SnackCo")
+[challenge]: Declining market share in "Healthy Snacks" segment (-5% YoY) despite growing market
+[industry]: Food & Beverage / FMCG
+[stakeholders]: CMO, VP Innovation, Board of Directors
+[criteria]: Identify $100M growth opportunity executable within 18 months
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Management Consulting Report
+
+### 1. Problem Diagnosis
+*   **Issue:** SnackCo's "Healthy" line is perceived as "processed" by Gen Z consumers.
+*   **Data:** Competitors with "Clean Label" (5 ingredients or less) grew 20%.
+
+### 2. Root Cause Analysis
+*   **R&D:** Innovation cycle (2 years) is too slow to catch micro-trends (e.g., Keto, Paleo).
+*   **Marketing:** Brand messaging focuses on "Low Calorie" (outdated) vs "High Protein" (trending).
+
+### 3. Recommendation
+*   **Strategy:** "Acquire & Scale". Don't build internally.
+*   **Target:** Acquire a high-growth indie brand ($20M-$50M revenue) with authentic "Clean Label" credentials.
+
+[... continues with implementation plan and change management ...]
+```
 
 ## Tips
 

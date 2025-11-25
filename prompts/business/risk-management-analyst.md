@@ -57,10 +57,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[project_name]: New Data Center Build (DC-04)
+[phase]: Construction / Fit-out
+[concerns]: Supply chain delays for cooling units, potential labor strikes in region, power grid connection permit delays
+[impact]: Critical path delay costs $500k/month in penalties; potential loss of anchor tenant
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Risk Management Plan
+
+### 1. Risk Identification Matrix
+*   **Risk ID R-01:** Cooling Unit Delivery Delay.
+*   **Risk ID R-02:** Local Union Labor Strike.
+*   **Risk ID R-03:** Utility Grid Connection Permit Rejection.
+
+### 2. Probability and Impact Assessment
+*   **R-01:** High Probability (80%), High Impact (3-month delay). **Score: Critical.**
+*   **R-02:** Medium Probability (40%), Medium Impact (2-week delay). **Score: Major.**
+
+### 3. Risk Mitigation Strategies
+*   **R-01 (Avoid):** Pre-order units from secondary supplier (paying 10% premium) to secure stock.
+*   **R-03 (Mitigate):** Hire specialized local expeditor to manage permit application process.
+
+[... continues with contingency plans and monitoring ...]
+```
 
 ## Tips
 

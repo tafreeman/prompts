@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[use_case]: Luxury Goods Supply Chain Provenance (Anti-counterfeiting)
+[blockchain_type]: Permissioned Consortium (Hyperledger Fabric)
+[consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
+[integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Blockchain Architecture
+
+### 1. Platform Selection
+*   **Hyperledger Fabric:** Chosen for privacy channels (competitors don't see each other's volume) and high throughput (3000+ tps).
+
+### 2. Smart Contract (Chaincode) Architecture
+*   **Asset:** `LuxuryItem` (ID, Manufacturer, CurrentOwner, Status, History).
+*   **Functions:** `Mint()` (Factory), `TransferOwnership()` (Logistics/Retail), `VerifyAuthenticity()` (Public).
+*   **Endorsement Policy:** Requires signature from Manufacturer Org + Logistics Org.
+
+### 3. Integration Patterns
+*   **Off-Chain Storage:** Store high-res product photos/certificates in IPFS, store hash on-chain (Cost optimization).
+*   **Event Listener:** Node.js service listening for `ItemTransferred` events to update SAP ERP status.
+
+[... continues with security and scalability ...]
+```
 
 ## Tips
 

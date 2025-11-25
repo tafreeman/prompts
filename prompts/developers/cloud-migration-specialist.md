@@ -51,10 +51,35 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[app_name]: Legacy CRM System (Monolith)
+[current_infra]: On-premise VMWare, Oracle 11g Database, WebLogic Server
+[target_cloud]: Microsoft Azure
+[requirements]: Reduce licensing costs by 30%, Improve availability to 99.9%, Enable geo-redundancy
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Cloud Migration Plan
+
+### 1. Migration Assessment (6 Rs)
+*   **Strategy:** "Re-platform" (Lift, Tinker, and Shift).
+*   **Rationale:** Codebase is too large to rewrite immediately, but infrastructure needs modernization.
+
+### 2. Cloud Architecture Design
+*   **Compute:** Azure App Service (Linux Containers) to replace WebLogic.
+*   **Database:** Azure SQL Managed Instance (compatible with Oracle via SSMA migration tool).
+*   **Storage:** Azure Blob Storage for documents.
+
+### 3. Migration Phases
+*   **Phase 1 (Proof of Concept):** Migrate non-prod environment and run regression tests.
+*   **Phase 2 (Data Sync):** Setup Data Migration Service (DMS) for continuous replication.
+*   **Phase 3 (Cutover):** Weekend maintenance window; switch DNS to Azure Traffic Manager.
+
+[... continues with cost optimization and security ...]
+```
 
 ## Tips
 

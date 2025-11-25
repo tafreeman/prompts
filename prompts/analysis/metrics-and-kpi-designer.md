@@ -51,10 +51,33 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[objective]: Improve Software Engineering Productivity & Developer Experience (DevEx)
+[stakeholders]: CTO, VP Engineering, Team Leads
+[data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
+[frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Metrics and KPI Design
+
+### 1. KPI Framework (DORA Metrics + SPACE)
+*   **Velocity is NOT a KPI:** Explicitly avoiding "Lines of Code" or "Story Points" as performance targets to prevent gaming.
+*   **Focus:** Flow efficiency and stability.
+
+### 2. Metric Definitions
+*   **Deployment Frequency:** How often code is deployed to production (Target: Daily).
+*   **Lead Time for Changes:** Time from commit to production (Target: < 24 hours).
+*   **Change Failure Rate:** % of deployments causing outages (Target: < 5%).
+
+### 3. Action Triggers
+*   **Red Flag:** If "Lead Time" > 3 days, trigger a "Pipeline Bottleneck" review.
+
+[... continues with reporting strategy and calculation methods ...]
+```
 
 ## Tips
 

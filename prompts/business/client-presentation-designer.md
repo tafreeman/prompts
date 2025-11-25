@@ -53,10 +53,34 @@ Include:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[client]: Global Logistics Firm ("LogiWorld")
+[purpose]: Pitch for $5M "Digital Twin" Warehouse Project
+[audience]: CTO (Technical), COO (Operational Efficiency), VP Operations (End User)
+[messages]: "Reduce downtime by 20%", "Predictive maintenance ROI in 18 months", "Seamless integration with existing SAP ERP"
+[duration]: 45 minutes (30 min presentation, 15 min Q&A)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Presentation Outline
+
+### 1. Executive Summary (5 mins)
+*   **Hook:** "LogiWorld loses $2M/year to unplanned conveyor belt downtime."
+*   **Solution:** A Digital Twin provides real-time visibility and predictive alerts.
+
+### 2. Situation Analysis (5 mins)
+*   **Current State:** Reactive maintenance (fix it when it breaks).
+*   **Pain Points:** Missed SLAs during peak season.
+
+### 3. Recommendations (10 mins)
+*   **Phase 1:** Sensor deployment on critical sorting lines.
+*   **Phase 2:** AI model training for failure prediction.
+
+[... continues with implementation approach and next steps ...]
+```
 
 ## Tips
 

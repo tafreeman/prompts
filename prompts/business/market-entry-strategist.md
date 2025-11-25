@@ -53,10 +53,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[company]: US-based SaaS HR Platform ("HR-Flow")
+[market]: Germany (DACH Region)
+[offering]: Employee Engagement & Performance Software
+[competition]: Personio (Local incumbent), SAP SuccessFactors (Enterprise), Workday
+[resources]: $2M Budget, 1 Local Sales Rep, No local office yet
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Market Entry Strategy: Germany
+
+### 1. Market Analysis
+*   **Regulatory:** GDPR compliance is non-negotiable; Local data residency (Frankfurt region) required.
+*   **Culture:** Preference for "Trust" and "Certifications" over "Innovation" marketing.
+
+### 2. Entry Strategy Options
+*   **Option A:** Direct Sales (Hire local team). High control, slow scale.
+*   **Option B:** Channel Partners (Resellers). Lower margin, faster reach. (Recommended)
+
+### 3. Go-to-Market Plan
+*   **Positioning:** " The GDPR-compliant alternative for modern SMEs."
+*   **Channel:** Partner with local HR consultancies who implement software.
+
+[... continues with resource requirements and risk assessment ...]
+```
 
 ## Tips
 

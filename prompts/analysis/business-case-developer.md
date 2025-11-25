@@ -53,10 +53,34 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[initiative]: AI-Powered Customer Support Chatbot
+[investment]: $250k (Software License + Implementation Services)
+[benefits]: Reduce Tier 1 support ticket volume by 30%, Enable 24/7 support availability, Improve CSAT by 5 points
+[risks]: Low user adoption, poor answer quality damaging brand reputation
+[timeline]: 6 Months (Pilot in Month 3)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Business Case
+
+### 1. Executive Summary
+Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/year in support costs and providing 24/7 service. Payback period is 9 months.
+
+### 2. Cost-Benefit Analysis
+*   **Costs:** $250k Year 1 (One-time setup + License).
+*   **Savings:** $400k/year (Equivalent to 6 FTEs).
+*   **Net Benefit (Year 1):** $150k.
+
+### 3. Risk Assessment
+*   **Risk:** "Hallucinations" providing wrong answers.
+*   **Mitigation:** Implement "Human in the Loop" handoff for low-confidence answers (<80%).
+
+[... continues with implementation plan and success metrics ...]
+```
 
 ## Tips
 

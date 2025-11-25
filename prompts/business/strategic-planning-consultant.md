@@ -59,10 +59,36 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[organization]: "ShopMart" (Mid-sized Retail Chain, 50 stores)
+[industry]: Retail / E-commerce
+[challenges]: Declining foot traffic (-10% YoY), fierce competition from Amazon, aging loyalty program
+[objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
+[timeframe]: 3 Years (2025-2028)
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## Strategic Plan (2025-2028)
+
+### 1. Situation Analysis (SWOT)
+*   **Strengths:** Strong local brand presence, experienced store staff.
+*   **Weaknesses:** Legacy IT systems, no mobile app.
+*   **Opportunities:** "Buy Online, Pick Up In-Store" (BOPIS), hyper-local marketing.
+*   **Threats:** Big-box price wars, supply chain inflation.
+
+### 2. Strategic Options
+*   **Option A (Defensive):** Cut costs, close 10 stores, focus on profitability.
+*   **Option B (Pivot):** Aggressive digital transformation, omnichannel focus. (Recommended)
+
+### 3. Recommended Strategy: "Omnichannel Neighborhood Hub"
+*   Transform stores into fulfillment centers for online orders.
+*   Launch "ShopMart Rewards" app to drive foot traffic via personalized offers.
+
+[... continues with implementation roadmap and success metrics ...]
+```
 
 ## Tips
 

@@ -51,10 +51,37 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[team]: 50 developers, 5 squads (Checkout, Search, Profile, Inventory, Payments)
+[stack]: Java/Spring Boot microservices, Angular frontend, Kubernetes (EKS), PostgreSQL
+[environments]: Dev, QA, Staging, Prod (Blue/Green)
+[quality]: 80% code coverage gate, automated security scanning (SAST/DAST), zero critical vulns
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## DevOps Architecture
+
+### 1. CI/CD Pipeline Design (GitLab CI / GitHub Actions)
+*   **Commit Stage:** Unit Tests, Checkstyle, SAST (SonarQube).
+*   **Build Stage:** Build Docker container, tag with commit SHA, push to ECR.
+*   **Deploy Dev:** Helm upgrade to Dev namespace.
+*   **Integration Test:** Run API integration tests against Dev.
+*   **Promote:** Manual approval gate for Staging/Prod.
+
+### 2. Infrastructure as Code (IaC)
+*   **Tool:** Terraform with remote state locking (S3 + DynamoDB).
+*   **Structure:** Modular approach (VPC module, EKS module, RDS module) to enforce standards across squads.
+
+### 3. Deployment Strategy
+*   **Production:** Blue/Green deployment using ArgoCD Rollouts.
+    *   Traffic shifted 1% -> 10% -> 50% -> 100% based on health metrics (Error rate < 1%).
+    *   Instant rollback if metrics degrade.
+
+[... continues with observability and security integration ...]
+```
 
 ## Tips
 

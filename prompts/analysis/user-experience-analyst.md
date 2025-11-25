@@ -51,10 +51,32 @@ Provide:
 ## Example Usage
 
 **Input:**
-Replace the bracketed placeholders with your specific values, then use with Claude Sonnet 4.5 or Code 5.
+
+```text
+[system]: Employee Expense Portal (Legacy Web App)
+[users]: Frequent Travelers (Sales Reps), Finance Approvers
+[pain_points]: "Receipt upload fails on mobile", "Too many clicks to submit a meal", "Status is unclear"
+[goals]: Reduce submission time by 50%, Reduce "Returned for Correction" rate by 20%
+```
 
 **Output:**
-The AI will provide a comprehensive response following the structured format defined in the prompt.
+
+```text
+## UX Analysis Report
+
+### 1. User Journey Mapping (Current)
+*   **Step 4 (Friction):** User must scan receipt, email to self, save to desktop, then upload. (Time: 5 mins).
+*   **Step 7 (Friction):** "Category" dropdown has 50 options not sorted alphabetically.
+
+### 2. Pain Point Analysis
+*   **Severity: Critical.** Mobile incompatibility forces users to do expenses on weekends (unpaid time), leading to resentment.
+
+### 3. Improvement Opportunities
+*   **Quick Win:** Enable "Drag and Drop" for receipt images.
+*   **Feature:** Implement OCR (Optical Character Recognition) to auto-fill Date and Amount.
+
+[... continues with solution recommendations and metrics ...]
+```
 
 ## Tips
 
