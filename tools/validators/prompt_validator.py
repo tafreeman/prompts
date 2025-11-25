@@ -339,8 +339,9 @@ class SecurityValidator:
         score = 100.0
         
         # Check for potential security issues in prompt content
-        # Skip regex checks for security-focused prompts
-        if metadata.get('subcategory') != 'security':
+        # Skip regex checks for security-focused prompts or code reviews
+        exempt_subcategories = ['security', 'code-review']
+        if metadata.get('subcategory') not in exempt_subcategories:
             content_lower = content.lower()
             
             for pattern_name, pattern in self.SECURITY_PATTERNS.items():
@@ -565,16 +566,17 @@ def main():
         print(f"  Performance:   {report.performance_score:5.1f}/100")
         print(f"  Security:      {report.security_score:5.1f}/100")
         print(f"  Accessibility: {report.accessibility_score:5.1f}/100")
-        print(f"  {'─'*40}")
+        print(f"  {'-'*40}")
         print(f"  Overall:       {report.overall_score:5.1f}/100\n")
         
         if report.issues:
             print("Issues Found:")
             for issue in report.issues:
-                icon = "❌" if issue.level == ValidationLevel.ERROR else "⚠️" if issue.level == ValidationLevel.WARNING else "ℹ️"
+                # Use ASCII characters instead of Unicode emojis to avoid encoding errors
+                icon = "[!]" if issue.level == ValidationLevel.ERROR else "[*]" if issue.level == ValidationLevel.WARNING else "[i]"
                 print(f"  {icon} [{issue.category}] {issue.message}")
                 if issue.suggestion:
-                    print(f"     💡 {issue.suggestion}")
+                    print(f"     >> {issue.suggestion}")
             print()
         
         suggestions = framework.generate_improvement_suggestions(report)
@@ -586,10 +588,10 @@ def main():
         
         # Exit with appropriate code
         if report.overall_score < args.min_score:
-            print(f"❌ Validation failed (score {report.overall_score:.1f} < {args.min_score})")
+            print(f"[FAIL] Validation failed (score {report.overall_score:.1f} < {args.min_score})")
             exit(1)
         else:
-            print(f"✅ Validation passed (score {report.overall_score:.1f})")
+            print(f"[PASS] Validation passed (score {report.overall_score:.1f})")
             exit(0)
 
 

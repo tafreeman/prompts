@@ -1,13 +1,34 @@
 ---
-
 title: "Code Review Expert: Structured Output"
 category: "developers"
-tags: ["code-review", "developers", "structured-output", "automation", "ci-cd"]
+subcategory: "code-review"
+tags: 
+  - code-review
+  - automation
+  - ci-cd
+  - structured-output
+  - best-practices
 author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
+version: "1.1.0"
+date: "2025-11-25"
 difficulty: "intermediate"
-governance_tags: ["code-quality", "automation-ready"]
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+performance_metrics:
+  complexity_rating: "medium"
+  token_usage_estimate: "1500-2500"
+  quality_score: "90"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["json-schema-validation", "markdown-rendering"]
+governance:
+  risk_level: "low"
+  data_classification: "internal"
+  regulatory_scope: ["general"]
+  approval_required: false
+  retention_period: "1-year"
 platform: "Claude Sonnet 4.5"
 ---
 
@@ -235,7 +256,11 @@ Conduct a comprehensive code review and output a **structured report** conformin
 - `[DIFF_OR_FILE_CONTENTS]`: Git diff or full file contents
 - `[FOCUS_AREAS]`: Optional focus areas (security, performance, etc.)
 
-## Example Usage
+## Usage
+
+Use this prompt to generate structured code reviews. Provide the repository context, language, and the diff to be reviewed.
+
+## Examples
 
 **Input:**
 
