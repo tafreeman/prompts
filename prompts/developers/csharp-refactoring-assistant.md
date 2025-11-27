@@ -1,206 +1,154 @@
 ---
 title: "C# Refactoring Assistant"
 category: "developers"
-tags: ["csharp", "refactoring", "dotnet", "solid", "clean-code", "async-await"]
-author: "Platform Engineering Team"
+subcategory: "refactoring"
+tags: ["csharp", "refactoring", "legacy-code", "clean-code", "modernization"]
+author: "Prompts Library Team"
 version: "1.0"
-date: "2025-11-19"
+date: "2025-11-26"
 difficulty: "intermediate"
-platform: "model-agnostic"
-governance_tags: ["code-quality", "technical-debt", "requires-review"]
-data_classification: "internal"
-risk_level: "medium"
-regulatory_scope: ["SOC2"]
-approval_required: true
-approval_roles: ["Tech-Lead"]
-retention_period: "3-years"
+platform: "Claude Sonnet 4.5"
+framework_compatibility: ["net8.0", "net9.0"]
 ---
 
 # C# Refactoring Assistant
 
 ## Description
 
-You are a **Senior .NET Architect** specializing in C# refactoring following SOLID principles, async/await best practices, and Clean Code methodology. You identify code smells, suggest incremental refactors, and ensure compatibility with .NET 6/7/8 LTS versions. You prioritize maintainability, testability, and performance without breaking existing functionality.
+A specialized assistant for refactoring C# code to improve readability, maintainability, and performance while preserving behavior. Focuses on breaking down monoliths, modernizing syntax, and applying design patterns.
 
 ## Use Cases
 
-- Refactor legacy C# code to modern async/await patterns
-- Apply SOLID principles (SRP, OCP, LSP, ISP, DIP)
-- Simplify complex methods with high cyclomatic complexity
-- Extract reusable logic into services/helpers
-- Improve testability by removing tight coupling
-- Migrate from .NET Framework patterns to .NET 6+ idioms
+- Modernizing legacy .NET Framework code to .NET 8+
+- Breaking down "God Classes" or long methods
+- Reducing Cyclomatic Complexity
+- Replacing imperative loops with LINQ (where appropriate)
+- Introducing Dependency Injection
 
 ## Prompt
 
 ```text
-You are a Senior .NET Architect refactoring C# code.
+You are an expert C# Refactoring Assistant. Your goal is to improve the provided code's quality without changing its external behavior (unless explicitly asked to fix bugs).
 
-**Code to Refactor:**
-[csharp_code]
+Refactor the following code:
+[code_snippet]
 
-**Context:**
-- .NET Version: [dotnet_version]
-- Framework: [aspnet_core/wpf/console]
-- Architecture Style: [layered/clean-architecture/ddd]
-- Current Issues: [code_smells]
+Refactoring Goals:
+[goals]
 
-**Instructions:**
-Analyze the code and provide:
+Constraints:
+[constraints]
 
-1. **Code Smells Identified** (with line references):
-   - Violations of SOLID principles
-   - Long methods (>50 lines), god classes (>500 lines)
-   - Synchronous blocking calls (should be async)
-   - Magic numbers/strings
-   - Tight coupling, hidden dependencies
+Apply the following strategies:
+1. **Simplify**: Reduce complexity (cyclomatic complexity, nesting depth).
+2. **Modernize**: Use modern C# features (switch expressions, records, pattern matching, null coalescing).
+3. **Decouple**: Extract interfaces, use Dependency Injection, separate concerns.
+4. **Clean Up**: Remove dead code, fix naming, add meaningful comments.
+5. **Optimize**: Improve performance if obvious (e.g., StringBuilder for loops, async I/O).
 
-2. **Refactoring Plan** (prioritized):
-   - High Priority: Breaking changes, async conversion, SOLID violations
-   - Medium Priority: Readability, method extraction, naming
-   - Low Priority: Minor optimizations, style consistency
-
-3. **Refactored Code** (with explanations):
-   - Show before/after for key refactors
-   - Explain the principle applied (e.g., "Extract Method", "Dependency Injection")
-   - Ensure backward compatibility or clearly flag breaking changes
-
-4. **Testing Recommendations**:
-   - Suggest unit tests for refactored methods
-   - Identify integration tests needed for async or database changes
-
-**Output Format:**
-- Structured Markdown with headings for "Code Smells", "Refactoring Plan", "Refactored Code", and "Testing Recommendations".
-- Use fenced C# code blocks for code samples.
+Output Format:
+1. **Analysis**: Brief explanation of what was wrong (Code Smells).
+2. **Refactored Code**: The improved code.
+3. **Changes**: Bullet points explaining key changes.
 ```
 
 ## Variables
 
-- `[csharp_code]`: The C# code to refactor (class, method, or file).
-- `[dotnet_version]`: Target .NET version (e.g., ".NET 6", ".NET 7").
-- `[aspnet_core/wpf/console]`: Application type.
-- `[layered/clean-architecture/ddd]`: Architectural pattern.
-- `[code_smells]`: Known issues (e.g., "method is too long", "synchronous DB calls").
+- `[code_snippet]`: The code to refactor
+- `[goals]`: Specific goals (e.g., "Make it async", "Split into smaller methods")
+- `[constraints]`: Limitations (e.g., "Must remain static", "Cannot change public API signature")
 
 ## Example Usage
 
 **Input:**
 
-````text
-[csharp_code]:
-```csharp
-public class OrderService
-{
-	private SqlConnection _conn;
-
-	public OrderService()
-	{
-		_conn = new SqlConnection("Server=...;Database=...;");
-	}
-
-	public List<Order> GetOrders(int userId)
-	{
-		_conn.Open();
-		var cmd = new SqlCommand($"SELECT * FROM Orders WHERE UserId = {userId}", _conn);
-		var reader = cmd.ExecuteReader();
-		var orders = new List<Order>();
-		while (reader.Read())
-		{
-			orders.Add(new Order
-			{
-				Id = (int)reader["Id"],
-				Total = (decimal)reader["Total"]
-			});
-		}
-		_conn.Close();
-		return orders;
-	}
-}
-````
-
-[dotnet_version]: .NET 8
-[aspnet_core/wpf/console]: ASP.NET Core Web API
-[layered/clean-architecture/ddd]: Clean Architecture
-[code_smells]: SQL injection, synchronous DB calls, tight coupling to SqlConnection
-
-````
-
-**Output (abridged):**
-
 ```text
-## Code Smells Identified
+Goals: Modernize syntax and handle nulls better.
 
-1. SQL injection via string interpolation in SQL command.
-2. Synchronous database calls using ExecuteReader.
-3. Tight coupling to SqlConnection in the service constructor.
-4. Manual connection open/close without using statements.
+Code:
+public string GetUserInfo(int id)
+{
+    User u = _repo.GetUser(id);
+    if (u != null)
+    {
+        if (u.IsActive)
+        {
+            string role = "User";
+            if (u.Type == 1) role = "Admin";
+            else if (u.Type == 2) role = "SuperAdmin";
+            
+            return "Name: " + u.Name + ", Role: " + role;
+        }
+        else
+        {
+            return "User is not active";
+        }
+    }
+    return "User not found";
+}
+```
 
-## Refactoring Plan
+**Output:**
 
-- High: Parameterize SQL, convert DB calls to async, introduce DI for connection.
-- Medium: Introduce repository abstraction, reduce method size if it grows.
+```markdown
+# Refactoring Analysis
 
-## Refactored Code
+**Code Smells Detected**:
+- **Deep Nesting**: Arrow code pattern makes logic hard to follow.
+- **Magic Numbers**: `1` and `2` for user types.
+- **String Concatenation**: Inefficient for complex strings (though minor here).
+- **Legacy Syntax**: `if/else` chains for role assignment.
+
+# Refactored Code
 
 ```csharp
-public class OrderService : IOrderService
+public string GetUserInfo(int id)
 {
-	private readonly IDbConnection _dbConnection;
+    var user = _repo.GetUser(id);
 
-	public OrderService(IDbConnection dbConnection)
-	{
-		_dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
-	}
+    if (user is null)
+    {
+        return "User not found";
+    }
 
-	public async Task<List<Order>> GetOrdersAsync(int userId)
-	{
-		const string sql = "SELECT Id, Total FROM Orders WHERE UserId = @UserId";
+    if (!user.IsActive)
+    {
+        return "User is not active";
+    }
 
-		await using var cmd = _dbConnection.CreateCommand();
-		cmd.CommandText = sql;
-		cmd.Parameters.Add(new SqlParameter("@UserId", userId));
+    var role = user.Type switch
+    {
+        1 => "Admin",
+        2 => "SuperAdmin",
+        _ => "User"
+    };
 
-		await _dbConnection.OpenAsync();
-		await using var reader = await cmd.ExecuteReaderAsync();
-
-		var orders = new List<Order>();
-		while (await reader.ReadAsync())
-		{
-			orders.Add(new Order
-			{
-				Id = reader.GetInt32(0),
-				Total = reader.GetDecimal(1)
-			});
-		}
-
-		return orders;
-	}
+    return $"Name: {user.Name}, Role: {role}";
 }
-````
+```
 
-## Testing Recommendations
+# Changes Made
 
-- Unit tests with mocked `IDbConnection`/`IDbCommand`/`IDataReader` to validate mapping.
-- Integration tests against a test SQL Server (e.g., using Testcontainers) to validate query and schema.
+- **Guard Clauses**: Inverted `if` statements to return early, reducing nesting depth.
+- **Pattern Matching**: Used `is null` and `is not null` (or implied via flow).
+- **Switch Expression**: Replaced `if/else if` chain with a concise C# 8+ switch expression.
+- **String Interpolation**: Replaced `+` concatenation with `$` interpolation for readability.
+- **Naming**: Renamed `u` to `user` for clarity.
 
 ```
 
 ## Tips
 
-- Always use **parameterized queries** to prevent SQL injection.
-- Prefer **async/await** for all I/O (DB, HTTP, file) operations.
-- Use **`await using`** for disposable resources in async code.
-- Inject dependencies via constructor (avoid `new` in business logic).
-- Keep methods focused; extract helper methods instead of adding branches.
+- If the code is very complex, ask for a "Step-by-step refactoring" to see the intermediate states.
+- Always verify that the refactored code handles edge cases (nulls, empty lists) correctly.
+- Use this prompt to learn *why* a change is better, not just to get the result.
 
 ## Related Prompts
 
-- `dotnet-api-designer.md` – For API-level design and refactoring.
-- `sql-query-analyzer.md` – For optimizing SQL queries used by this code.
-- `ef-core-database-designer.md` – For moving from raw ADO.NET to EF Core.
+- [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
+- [code-review-expert-structured](../developers/code-review-expert-structured.md)
 
 ## Changelog
 
-### Version 1.0 (2025-11-19)
-- Initial version derived from design doc and aligned with `PROMPT_STANDARDS.md`.
-```
+### Version 1.0 (2025-11-26)
+- Initial release
