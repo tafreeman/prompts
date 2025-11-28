@@ -76,17 +76,47 @@ Production AI requires governance, risk management, and compliance controls:
 
 📋 **[Explore Governance & Compliance →](prompts/governance-compliance/)**
 
+## 🤖 GitHub Copilot Custom Agents
+
+We provide a library of pre-built custom agents optimized for GitHub Copilot:
+
+| Agent | Description | Best For |
+|-------|-------------|----------|
+| **[@docs_agent](agents/docs-agent.agent.md)** | Technical writing specialist | README, API docs, guides |
+| **[@code_review_agent](agents/code-review-agent.agent.md)** | Code quality reviewer | PR reviews, best practices |
+| **[@test_agent](agents/test-agent.agent.md)** | Test generation expert | Unit tests, integration tests |
+| **[@refactor_agent](agents/refactor-agent.agent.md)** | Code improvement specialist | Code cleanup, optimization |
+| **[@prompt_agent](agents/prompt-agent.agent.md)** | Prompt creation expert | AI prompts, templates |
+| **[@security_agent](agents/security-agent.agent.md)** | Security analysis expert | Vulnerability review, hardening |
+| **[@architecture_agent](agents/architecture-agent.agent.md)** | System design specialist | Design decisions, patterns |
+
+### Quick Start with Agents
+
+1. Copy an agent to `.github/agents/` in your repository
+2. Merge to your default branch
+3. Use `@agent_name` in Copilot Chat
+
+📖 **[Complete Agents Guide →](agents/AGENTS_GUIDE.md)**  
+📋 **[Agent Template →](agents/agent-template.md)**
+
+---
+
 ## 📁 Repository Structure
 
 ```text
 prompts/
-├── src/                   # 🆕 Web Application
+├── agents/               # 🆕 GitHub Copilot Custom Agents
+│   ├── docs-agent.agent.md      # Documentation specialist
+│   ├── test-agent.agent.md      # Test generation expert
+│   ├── code-review-agent.agent.md  # Code reviewer
+│   └── AGENTS_GUIDE.md          # Agent usage guide
+├── src/                   # Web Application
 │   ├── app.py            # Flask application
 │   ├── templates/        # HTML templates  
 │   ├── static/           # CSS, JavaScript
 │   ├── load_prompts.py  # Database initialization
 │   └── README.md         # Web app documentation
-├── deployment/           # 🆕 Deployment Configurations
+├── deployment/           # Deployment Configurations
 │   ├── iis/              # IIS deployment guide
 │   ├── docker/           # Docker & docker-compose
 │   ├── aws/              # AWS deployment guide
@@ -97,8 +127,8 @@ prompts/
 │   ├── creative/         # Content creation & marketing prompts
 │   ├── analysis/         # Data analysis & research prompts
 │   ├── system/           # System-level AI agent prompts
-│   ├── advanced-techniques/  # 🆕 Advanced prompting (CoT, ReAct, RAG, ToT)
-│   └── governance-compliance/  # 🆕 Legal, security, compliance prompts
+│   ├── advanced-techniques/  # Advanced prompting (CoT, ReAct, RAG, ToT)
+│   └── governance-compliance/  # Legal, security, compliance prompts
 ├── templates/            # Reusable prompt templates
 ├── examples/             # Example usage and outputs
 ├── docs/                 # Documentation and guides
