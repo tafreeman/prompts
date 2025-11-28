@@ -1,193 +1,122 @@
 ---
-title: "SQL Query Analyzer & Optimizer"
+title: "SQL Query Analyzer"
 category: "developers"
-tags: ["sql", "sql-server", "performance", "query-optimization", "indexes"]
-author: "Platform Engineering Team"
+subcategory: "database"
+tags: ["sql", "performance", "security", "optimization", "indexing"]
+author: "Prompts Library Team"
 version: "1.0"
-date: "2025-11-19"
-difficulty: "advanced"
-platform: "model-agnostic"
-governance_tags: ["performance", "cost-optimization", "requires-review"]
-data_classification: "internal"
-risk_level: "medium"
-regulatory_scope: ["SOC2"]
-approval_required: true
-approval_roles: ["Database-Admin", "Tech-Lead"]
-retention_period: "3-years"
+date: "2025-11-26"
+difficulty: "intermediate"
+platform: "Claude Sonnet 4.5"
+framework_compatibility: ["sql-server", "postgresql", "mysql"]
 ---
 
-# SQL Query Analyzer & Optimizer
+# SQL Query Analyzer
 
 ## Description
 
-You are a **Senior Database Performance Engineer** specializing in SQL Server optimization. You analyze query execution plans, identify missing indexes, rewrite inefficient queries, and recommend partitioning/indexing strategies. You understand SQL Server internals (query optimizer, statistics, locks, SARG-ability) and balance performance with maintainability.
+A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
 
 ## Use Cases
 
-- Analyze slow-running queries from production logs.
-- Suggest missing indexes based on query patterns.
-- Rewrite queries to eliminate table scans, nested loops, or key lookups.
-- Identify parameter sniffing issues.
-- Optimize JOINs, subqueries, and CTEs.
-- Recommend partitioning for large tables (>100M rows).
+- Optimizing slow-running queries
+- Reviewing database migrations
+- Identifying missing indexes
+- Detecting SQL injection vulnerabilities in dynamic SQL
 
 ## Prompt
 
 ```text
-You are a Senior Database Performance Engineer analyzing SQL Server queries.
+You are a Senior Database Administrator (DBA) and SQL Performance Expert. Analyze the following SQL query.
 
-**Query to Analyze:**
+Query:
 [sql_query]
 
-**Database Context:**
-- SQL Server Version: [sql_server_version]
-- Table Schemas: [table_schemas]
-- Row Counts: [row_counts]
-- Current Indexes: [existing_indexes]
-- Execution Plan (XML or text): [execution_plan]
+Schema Context (Optional):
+[schema_context]
 
-**Performance Symptoms:**
-[performance_issues]
+Database Engine: [engine] (Default: SQL Server)
 
-**Instructions:**
-Analyze the query and provide:
+Analyze for:
+1. **Performance**: SARGability, Index usage, expensive operations (scans, sorts).
+2. **Security**: SQL Injection risks, permission issues.
+3. **Correctness**: Logic errors, potential NULL handling issues.
+4. **Readability**: Formatting, aliasing, CTE usage.
 
-1. **Execution Plan Analysis:**
-	- Identify costly operations (table scans, index scans, sorts, nested loops).
-	- Highlight missing index warnings.
-	- Check for implicit conversions and parameter sniffing.
-
-2. **Query Rewrite Recommendations:**
-	- Rewrite the query for better performance.
-	- Explain each change (e.g., "replaced subquery with JOIN").
-	- Preserve semantic equivalence.
-
-3. **Index Recommendations:**
-	- Suggest new indexes (covering, filtered, columnstore).
-	- Provide `CREATE INDEX` statements.
-	- Estimate impact on write performance.
-
-4. **Statistics & Maintenance:**
-	- Identify if statistics may be stale.
-	- Recommend `UPDATE STATISTICS` or auto-update settings.
-
-5. **Alternative Approaches (if applicable):**
-	- Suggest stored procedures, indexed views, or partitioning.
-
-**Output Format:**
-- Markdown sections: "Execution Plan Analysis", "Query Rewrite", "Index Recommendations", "Statistics & Maintenance", "Alternative Approaches", and "Summary".
-- Use fenced SQL blocks for DDL/DML examples.
+Output Format:
+- **Analysis Summary**: Brief overview.
+- **Findings**: Bulleted list of issues (Critical/Major/Minor).
+- **Optimized Query**: Rewritten SQL.
+- **Index Recommendations**: Suggested indexes to support the query.
 ```
 
 ## Variables
 
-- `[sql_query]`: The SQL query to analyze.
-- `[sql_server_version]`: SQL Server version (e.g., 2016, 2019, 2022).
-- `[table_schemas]`: Table definitions (columns, data types).
-- `[row_counts]`: Approximate row counts for relevant tables.
-- `[existing_indexes]`: Current indexes (per table).
-- `[execution_plan]`: Actual execution plan (XML or text description).
-- `[performance_issues]`: Observed behavior (e.g., "45s runtime, high CPU").
+- `[sql_query]`: The raw SQL to analyze.
+- `[schema_context]`: Table definitions, existing indexes, or row counts (helps with execution plan estimation).
+- `[engine]`: Target DB (SQL Server, PostgreSQL, MySQL, Oracle).
 
 ## Example Usage
 
 **Input:**
 
-````text
-[sql_query]:
-```sql
-SELECT o.OrderId, o.OrderDate, c.CustomerName, SUM(oi.Quantity * oi.UnitPrice) AS Total
-FROM Orders o
-JOIN Customers c ON o.CustomerId = c.CustomerId
-JOIN OrderItems oi ON o.OrderId = oi.OrderId
-WHERE o.OrderDate >= '2023-01-01'
-GROUP BY o.OrderId, o.OrderDate, c.CustomerName
-ORDER BY Total DESC
-````
-
-[sql_server_version]: SQL Server 2019
-[table_schemas]:
-
-- Orders (OrderId INT PK, CustomerId INT, OrderDate DATETIME)
-- Customers (CustomerId INT PK, CustomerName NVARCHAR(100))
-- OrderItems (OrderItemId INT PK, OrderId INT, Quantity INT, UnitPrice DECIMAL(10,2))
-
-[row_counts]:
-
-- Orders: 5,000,000 rows
-- Customers: 100,000 rows
-- OrderItems: 20,000,000 rows
-
-[existing_indexes]:
-
-- Orders: Clustered PK on OrderId
-- Customers: Clustered PK on CustomerId
-- OrderItems: Clustered PK on OrderItemId
-
-[execution_plan]: Full table scan on Orders, nested loops on OrderItems, missing index warning on Orders(OrderDate).
-
-[performance_issues]: Query takes 45 seconds with high CPU usage.
-
-````
-
-**Output (abridged):**
-
 ```text
-## Execution Plan Analysis
+Engine: SQL Server
+Query:
+SELECT * FROM Orders WHERE YEAR(OrderDate) = 2024 AND CustomerName LIKE '%Corp%'
+```
 
-- Table scan on Orders due to missing index on OrderDate.
-- Nested loop joins leading to many lookups on OrderItems.
-- Expensive sort on Total DESC without supporting index.
+**Output:**
 
-## Query Rewrite
+```markdown
+# SQL Analysis
 
-(No semantic change required; indexing and statistics will resolve most issues.)
+**Summary**: ⚠️ **Performance Risk** - The query contains non-SARGable predicates that will force a full table scan.
+
+## Findings
+
+### Critical (Performance)
+1.  **Non-SARGable Predicate**: `YEAR(OrderDate) = 2024` wraps the column in a function. This prevents the database from using an index on `OrderDate`.
+    - *Fix*: Use a range search: `OrderDate >= '2024-01-01' AND OrderDate < '2025-01-01'`.
+2.  **Leading Wildcard**: `LIKE '%Corp%'` prevents index seek. It forces a scan of the entire index/table.
+    - *Fix*: If possible, remove leading wildcard (`'Corp%'`). If full-text search is needed, use Full-Text Indexing (`CONTAINS`).
+
+### Minor (Best Practices)
+1.  **SELECT ***: Selecting all columns is inefficient. Specify only needed columns to reduce I/O and network payload.
+
+## Optimized Query
+
+```sql
+SELECT OrderId, OrderDate, CustomerName, TotalAmount
+FROM Orders
+WHERE OrderDate >= '2024-01-01' 
+  AND OrderDate < '2025-01-01'
+  AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
+```
 
 ## Index Recommendations
 
 ```sql
-CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_CustomerId
-ON Orders (OrderDate)
-INCLUDE (CustomerId)
-WHERE OrderDate >= '2020-01-01';
-
-CREATE NONCLUSTERED INDEX IX_OrderItems_OrderId
-ON OrderItems (OrderId)
-INCLUDE (Quantity, UnitPrice);
-````
-
-## Statistics & Maintenance
-
-- Review `sys.dm_db_stats_properties` for Orders and OrderItems.
-- If last_updated > 7 days and workload is heavy, run:
-
-```sql
-UPDATE STATISTICS Orders WITH FULLSCAN;
+-- Supports the Date range filter and includes the other columns
+CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
+ON Orders (OrderDate) 
+INCLUDE (CustomerName, TotalAmount);
 ```
-
-## Summary
-
-- Estimated improvement: 80–90% reduction in query duration.
-- Trade-off: Slightly higher write overhead due to new indexes.
 
 ```
 
 ## Tips
 
-- Always analyze **actual** execution plans (not just estimated).
-- Index foreign keys; SQL Server does not do this automatically.
-- Use filtered indexes for common `WHERE` clauses to reduce index size.
-- Avoid implicit conversions (e.g., comparing INT to VARCHAR).
-- For frequently queried aggregations, consider indexed views with caution.
+- Always specify the **Database Engine** as syntax and optimization rules vary (e.g., `LIMIT` vs `TOP`).
+- Provide **Row Counts** if possible (e.g., "Orders table has 10M rows")—this changes the advice significantly.
+- If using ORMs (EF Core), paste the *generated* SQL here for analysis.
 
 ## Related Prompts
 
-- `csharp-refactoring-assistant.md` – Optimize C# code that builds or executes SQL.
-- `ef-core-database-designer.md` – Align EF Core mappings and indexes with SQL recommendations.
-- `incident-triage-react-agent.md` – Use during production incidents with SQL performance issues.
+- [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
+- [data-migration-architect](./data-migration-architect.md)
 
 ## Changelog
 
-### Version 1.0 (2025-11-19)
-- Initial version derived from design doc and aligned with `PROMPT_STANDARDS.md`.
-```
+### Version 1.0 (2025-11-26)
+- Initial release
