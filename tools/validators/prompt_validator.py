@@ -9,7 +9,6 @@ This module provides a comprehensive validation system for prompt templates,
 including structure, metadata, performance, security, and accessibility validation.
 """
 
-import os
 import re
 import yaml
 from pathlib import Path
@@ -199,13 +198,13 @@ class MetadataValidator:
             'title', 'category', 'difficulty', 'version', 'author', 'last_updated'
         ])
         
-        for field in required_fields:
-            if field not in metadata:
+        for field_name in required_fields:
+            if field_name not in metadata:
                 issues.append(ValidationIssue(
                     ValidationLevel.ERROR,
                     "metadata",
-                    f"Missing required field: {field}",
-                    suggestion=f"Add '{field}' to the metadata frontmatter"
+                    f"Missing required field: {field_name}",
+                    suggestion=f"Add '{field_name}' to the metadata frontmatter"
                 ))
                 score -= 15
         
@@ -246,13 +245,13 @@ class MetadataValidator:
         
         # Check for recommended optional fields
         recommended_fields = ['tags', 'use_cases', 'framework_compatibility']
-        for field in recommended_fields:
-            if field not in metadata:
+        for field_name in recommended_fields:
+            if field_name not in metadata:
                 issues.append(ValidationIssue(
                     ValidationLevel.INFO,
                     "metadata",
-                    f"Missing recommended field: {field}",
-                    suggestion=f"Consider adding '{field}' for better discoverability"
+                    f"Missing recommended field: {field_name}",
+                    suggestion=f"Consider adding '{field_name}' for better discoverability"
                 ))
                 score -= 3
         

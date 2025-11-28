@@ -1,0 +1,67 @@
+{
+  "criteria": [
+    {
+      "name": "Completeness",
+      "weight": 25,
+      "description": "All required sections must be present and fully populated.",
+      "checklist": [
+        "YAML frontmatter (title, category, tags, version, date, difficulty, platform)",
+        "Description (2-3 sentences, enterprise-focused)",
+        "Use Cases (5 specific scenarios)",
+        "Prompt (detailed template with square-bracket variables)",
+        "Variables (with realistic example values)",
+        "Example Usage (Input/Output with 200+ lines of detailed scenario)",
+        "Tips (6-7 actionable, specific recommendations)",
+        "Related Prompts (3-5 cross-references)",
+        "Changelog (version 1.0 entry)"
+      ]
+    },
+    {
+      "name": "Example Quality",
+      "weight": 30,
+      "description": "Examples must be realistic, detailed, and free of placeholders.",
+      "checklist": [
+        "Scenario uses actual data (no 'replace placeholder' text)",
+        "Input/Output demonstrates a complex, real-world use case",
+        "Example length is sufficient (>150 lines) to show depth",
+        "Includes quantifiable metrics ($, %, time savings)"
+      ]
+    },
+    {
+      "name": "Specificity",
+      "weight": 20,
+      "description": "Content must be specific to the domain and actionable.",
+      "checklist": [
+        "Tips are actionable and specific (not generic 'check your work')",
+        "Variables have realistic, domain-specific example values",
+        "Use cases are concrete and distinct"
+      ]
+    },
+    {
+      "name": "Format Adherence",
+      "weight": 15,
+      "description": "Must strictly follow the markdown and YAML standards.",
+      "checklist": [
+        "Valid YAML frontmatter",
+        "Correct markdown headers (H1, H2, H3)",
+        "Square-bracket variables used consistently in prompt and examples"
+      ]
+    },
+    {
+      "name": "Enterprise Quality",
+      "weight": 10,
+      "description": "Must be suitable for professional/enterprise use.",
+      "checklist": [
+        "References industry frameworks (ISO, PMI, NIST, etc.)",
+        "Professional, objective tone",
+        "Addresses security, compliance, or scalability where relevant"
+      ]
+    }
+  ],
+  "scoring": {
+    "tier1": { "min_score": 90, "label": "Excellent" },
+    "tier2": { "min_score": 75, "label": "Good" },
+    "tier3": { "min_score": 60, "label": "Acceptable" },
+    "tier4": { "min_score": 0, "label": "Poor" }
+  }
+}
