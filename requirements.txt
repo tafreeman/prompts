@@ -19,10 +19,13 @@ pytest-cov>=4.1.0
 # langchain-core>=0.1.10
 
 # Anthropic
-# anthropic>=0.8.0
+anthropic>=0.8.0
 
 # OpenAI
-# openai>=1.0.0
+openai>=1.0.0
+
+# Google Gemini
+google-generativeai>=0.3.0
 
 # Microsoft Semantic Kernel
 # semantic-kernel>=0.5.0
