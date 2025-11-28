@@ -138,7 +138,7 @@ tools: ["read", "write", "search"]
 
 - [GitHub Copilot Custom Agents Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents)
 - [Custom Agents Configuration Reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
-- [How to Write Great agents.md](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/)
+- [How to Write Great Custom Agents](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/)
 - [Community Examples](https://github.com/github/awesome-copilot)
 
 ## 🔄 Deployment Locations

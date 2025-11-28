@@ -105,7 +105,7 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 ```text
 prompts/
-├── agents/               # 🆕 GitHub Copilot Custom Agents
+├── agents/               # GitHub Copilot Custom Agents
 │   ├── docs-agent.agent.md      # Documentation specialist
 │   ├── test-agent.agent.md      # Test generation expert
 │   ├── code-review-agent.agent.md  # Code reviewer

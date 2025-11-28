@@ -325,7 +325,7 @@ your-repo/
 
 ### Community Resources
 
-- [GitHub Blog: Writing Great agents.md](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/)
+- [GitHub Blog: Writing Great Custom Agents](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/)
 - [Awesome Copilot Repository](https://github.com/github/awesome-copilot)
 - [Community Agent Examples](https://montemagno.com/building-better-apps-with-github-copilot-custom-agents/)
 
