@@ -1,220 +1,165 @@
-# Validation & Automation Tools
+# Universal Code Generator
 
-Comprehensive tooling for prompt development, validation, and optimization.
+AI-powered code/prompt generation with multi-model quality review.
 
-## 📁 Directory Structure
+## Overview
+
+The Universal Code Generator applies a three-step workflow to create Tier 1 quality content:
+
+1. **Generate** (Gemini 1.5 Pro) - Create initial draft
+2. **Review** (Claude Sonnet 4) - Score against quality rubric (0-100)
+3. **Refine** (Gemini 1.5 Pro) - Improve based on feedback
+
+## Installation
+
+```bash
+# Install dependencies
+pip install click
+
+# Optional: Set model preferences via environment variables
+│   ├── ModelConfig (default models, temperatures)
+│   └── PathConfig (templates, rubrics)
+├── LLMClient (tools/llm_client.py)
+│   └── Provider dispatch (Gemini/Claude/GPT)
+├── Generator (tools/models/generator.py)
+├── Reviewer (tools/models/reviewer.py)
+│   └── Quality rubric (tools/rubrics/quality_standards.json)
+└── Refiner (tools/models/refiner.py)
+```
+
+## Configuration
+
+### Via Environment Variables
+
+```bash
+export GEN_MODEL="gemini-1.5-pro"        # Generation model
+export REV_MODEL="claude-sonnet-4"       # Review model
+export REF_MODEL="gemini-1.5-pro"        # Refinement model
+```
+
+### Via Code
+
+```python
+from tools.config import Config, ModelConfig
+from tools.code_generator import UniversalCodeGenerator
+
+custom_config = Config()
+custom_config.models = ModelConfig(
+    generator_model="gemini-2.0-flash-thinking",
+    reviewer_model="claude-sonnet-4",
+    refiner_model="gemini-1.5-pro"
+)
+
+generator = UniversalCodeGenerator(config=custom_config)
+```
+
+## Quality Rubric
+
+The reviewer scores content against 5 criteria:
+
+| Criterion | Weight | Description |
+|-----------|--------|-------------|
+| **Completeness** | 25% | All required sections present |
+| **Example Quality** | 30% | Realistic, detailed scenarios |
+| **Specificity** | 20% | Actionable, concrete content |
+| **Format Adherence** | 15% | Valid YAML, markdown structure |
+| **Enterprise Quality** | 10% | References frameworks, metrics |
+
+**Scoring**:
+
+- **90-100**: Tier 1 (Excellent)
+- **75-89**: Tier 2 (Good)
+- **60-74**: Tier 3 (Acceptable)
+- **<60**: Tier 4 (Poor)
+
+## Current Status
+
+✅ **Phases A-D Complete**
+
+- Core generator class
+- Quality review with rubric
+- Refinement loop
+- CLI interface (interactive + non-interactive)
+
+⏳ **Phase E: In Progress**
+
+- Real API integration (currently mocked)
+- Regression testing
+- Documentation
+
+## Examples
+
+### Example 1: Generate Business Prompt
+
+```bash
+python -m tools.cli.main create \
+  --category business \
+  --use-case "Project Risk Register for IT Transformations" \
+  --variables '{"project_name": "ERP Modernization", "risk_categories": "Technical, Financial, Organizational"}' \
+  --output risk-register.md
+```
+
+### Example 2: Interactive Wizard
+
+```bash
+$ python -m tools.cli.main interactive
+
+🎯 Universal Code Generator - Interactive Mode
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Category: business
+📝 Use Case (be specific): Create executive budget tracker
+📝 Enter variables (leave empty to finish):
+Variable name: project_name
+Value for 'project_name': Cloud Platform Migration
+
+🚀 Generating content...
+✅ Generation Complete!
+Review Score: 88
+```
+
+## Testing
+
+```bash
+# Run core workflow test
+python -m tools.test_generator
+
+# Run CLI test
+python -m tools.cli.test_cli
+```
+
+## File Structure
 
 ```
 tools/
-├── validators/      # Validation frameworks and schema
-├── benchmarks/      # Performance evaluation tools
-├── generators/      # Prompt generation utilities
-├── optimizers/      # Optimization engines
-└── integrations/    # IDE and platform integrations
+├── README.md                  # This file
+├── config.py                  # Configuration management
+├── llm_client.py              # LLM provider abstraction
+├── code_generator.py          # Main UniversalCodeGenerator class
+├── test_generator.py          # Core verification tests
+├── models/
+│   ├── generator.py           # Generation step
+│   ├── reviewer.py            # Quality review step
+│   └── refiner.py             # Refinement step
+├── rubrics/
+│   └── quality_standards.json # Tier 1 quality criteria
+└── cli/
+    ├── main.py                # CLI entry point
+    ├── interactive.py         # Interactive wizard
+    └── test_cli.py            # CLI tests
 ```
 
-## 🛠️ Core Tools
+## Next Steps
 
-### Prompt Validator
+1. **Connect Real APIs**: Replace mocked LLMClient with actual API calls
+2. **Template System**: Build template selection logic
+3. **Batch Processing**: Add `upgrade-stubs` command for bulk prompt upgrades
+4. **Performance Tracking**: Log generation times and costs
 
-**Path:** `validators/prompt_validator.py`
+## Support
 
-Comprehensive validation framework with 5 validators:
+For issues or questions, refer to:
 
-- Structure validation
-- Metadata compliance
-- Performance assessment
-- Security scanning
-- Accessibility checks
-
-**Usage:**
-
-```bash
-python tools/validators/prompt_validator.py path/to/prompt.md
-
-# JSON output
-python tools/validators/prompt_validator.py path/to/prompt.md --json
-
-# Custom minimum score
-python tools/validators/prompt_validator.py path/to/prompt.md --min-score 80
-```
-
-### Performance Evaluator
-
-**Path:** `benchmarks/performance_evaluator.py`
-
-Automated performance benchmarking with 4 benchmark suites:
-
-- Accuracy benchmarking
-- Latency measurement
-- Cost efficiency analysis
-- Robustness testing
-
-**Usage:**
-
-```bash
-python tools/benchmarks/performance_evaluator.py path/to/prompt.md
-
-# With test cases
-python tools/benchmarks/performance_evaluator.py path/to/prompt.md --test-cases tests.json
-```
-
-### Metadata Schema
-
-**Path:** `validators/metadata_schema.yaml`
-
-Enhanced metadata schema defining:
-
-- Required and optional fields
-- Framework compatibility specifications
-- Performance metrics structure
-- Governance and testing fields
-
-## 🚀 Quick Start
-
-### Validate a Prompt
-
-```bash
-cd d:/source/tafreeman/prompts
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Validate prompt
-python tools/validators/prompt_validator.py techniques/reflexion/basic-reflexion/basic-reflexion.md
-```
-
-### Benchmark Performance
-
-```bash
-python tools/benchmarks/performance_evaluator.py techniques/reflexion/basic-reflexion/basic-reflexion.md
-```
-
-## 📊 Validation Report Example
-
-```
-======================================================================
-Validation Report: techniques/reflexion/basic-reflexion.md
-======================================================================
-
-Scores:
-  Structure:      95.0/100
-  Metadata:       98.0/100
-  Performance:    85.0/100
-  Security:       92.0/100
-  Accessibility:  88.0/100
-  ────────────────────────────────────────
-  Overall:        92.1/100
-
-✅ Validation passed (score 92.1)
-```
-
-## 🔧 Python API
-
-### Validation Framework
-
-```python
-from tools.validators.prompt_validator import PromptValidationFramework
-
-# Initialize framework
-validator = PromptValidationFramework()
-
-# Validate prompt
-report = validator.validate_prompt("path/to/prompt.md")
-
-# Get suggestions
-suggestions = validator.generate_improvement_suggestions(report)
-
-print(f"Overall Score: {report.overall_score}/100")
-for suggestion in suggestions:
-    print(f"- {suggestion}")
-```
-
-### Performance Evaluator
-
-```python
-from tools.benchmarks.performance_evaluator import PromptPerformanceEvaluator
-
-# Initialize evaluator
-evaluator = PromptPerformanceEvaluator()
-
-# Evaluate prompt
-report = evaluator.evaluate_prompt_file("path/to/prompt.md")
-
-# Get recommendations
-recommendations = evaluator.generate_recommendations(report)
-
-print(f"Performance Score: {report.overall_score}/100")
-```
-
-## 📝 Metadata Schema Usage
-
-All prompts must include YAML frontmatter following the schema:
-
-```yaml
----
-title: "Your Prompt Title"
-category: "techniques"
-subcategory: "reflexion"
-difficulty: "advanced"
-framework_compatibility:
-  langchain: ">=0.1.0"
-  anthropic: ">=0.8.0"
-performance_metrics:
-  accuracy_improvement: "20-30%"
-  latency_impact: "medium"
-version: "1.0.0"
-author: "Your Name"
-last_updated: "2025-11-23"
----
-```
-
-See [`validators/metadata_schema.yaml`](./validators/metadata_schema.yaml) for complete specification.
-
-## 🧪 Testing
-
-Run validator tests:
-
-```bash
-pytest tools/validators/test_prompt_validator.py -v
-```
-
-Run evaluator tests:
-
-```bash
-pytest tools/benchmarks/test_performance_evaluator.py -v
-```
-
-## 🎯 Quality Standards
-
-Our automated tools enforce:
-
-- **Metadata Compliance:** >95% required fields present
-- **Structure Quality:** >80% well-formed sections
-- **Performance Documentation:** Metrics documented
-- **Security:** No high-risk patterns detected
-- **Overall Score:** >75 for acceptance
-
-## 🤝 Contributing
-
-When adding new tools:
-
-1. Follow existing code structure
-2. Include comprehensive docstrings
-3. Add unit tests (pytest)
-4. Update this README
-5. Document CLI interface
-
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) for details.
-
-## 📚 Tool Dependencies
-
-- Python 3.8+
-- pyyaml>=6.0.1
-- pytest>=7.4.0 (for testing)
-
-Optional for specific features:
-
-- langchain (for framework integrations)
-- anthropic (for Claude-specific tools)
-- openai (for GPT-specific tools)
+- `walkthrough.md` - Detailed implementation walkthrough
+- `implementation_plan.md` - Full architecture plan
+- `quality_standards.json` - Complete rubric criteria

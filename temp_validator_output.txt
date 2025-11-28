@@ -1,0 +1,35 @@
+
+======================================================================
+Validation Report: prompts/developers/security-code-auditor.md
+======================================================================
+
+Scores:
+  Structure:     100.0/100
+  Metadata:       82.0/100
+  Performance:    55.0/100
+  Security:      100.0/100
+  Accessibility:  90.0/100
+  ----------------------------------------
+  Overall:        85.5/100
+
+Issues Found:
+  [!] [metadata] Missing required field: last_updated
+     >> Add 'last_updated' to the metadata frontmatter
+  [i] [metadata] Missing recommended field: use_cases
+     >> Consider adding 'use_cases' for better discoverability
+  [i] [performance] Missing performance metric: accuracy_improvement
+     >> Document expected accuracy_improvement
+  [i] [performance] Missing performance metric: latency_impact
+     >> Document expected latency_impact
+  [i] [performance] Missing performance metric: cost_multiplier
+     >> Document expected cost_multiplier
+  [*] [performance] Large prompt detected (~2724 tokens)
+     >> Consider optimizing prompt length for cost efficiency
+  [i] [accessibility] Long document without table of contents
+     >> Add a table of contents for better navigation
+
+Improvement Suggestions:
+  1. Fix 1 critical errors before deployment
+  2. Document performance metrics and testing results
+
+[PASS] Validation passed (score 85.5)
