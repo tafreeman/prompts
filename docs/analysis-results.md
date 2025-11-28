@@ -301,7 +301,7 @@ Prompts must meet **at least 3 of 4** criteria:
 ### Medium-Term (Next 90 Days)
 - [ ] Expand to 50+ curated prompts
 - [ ] Add industry-specific sections (healthcare, finance, legal)
-- [ ] Create interactive prompt builder in web app
+- [ ] Create interactive prompt builder
 - [ ] Implement A/B testing framework
 
 ### Long-Term (Next 180 Days)

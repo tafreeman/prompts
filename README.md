@@ -1,8 +1,6 @@
 # Enterprise AI Prompt Library
 
-A comprehensive, community-driven prompt library with a **web application** designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
-
-
+A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
 Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):
 
@@ -14,31 +12,6 @@ Based on **scientific research** and analysis of 95+ prompts, we've identified a
 📖 **[Explore the Ultimate Prompting Guide →](docs/ultimate-prompting-guide.md)**  
 ⚡ **[Quick Start Templates →](docs/platform-specific-templates.md)**  
 🔬 **[View Scoring Methodology →](docs/prompt-effectiveness-scoring-methodology.md)**
-
-## 🌟 New: Web Application!
-
-We've built a full-featured web application to make browsing and using prompts even easier:
-
-- **🔍 Smart Search & Filtering**: Find prompts quickly by persona, category, platform, or keywords
-- **✏️ Dynamic Customization**: Fill in placeholders with an easy-to-use form interface
-- **✓ Spell-Check Built-in**: Automatic spell checking and autocorrect for your inputs
-- **📊 Analytics Dashboard**: Track prompt usage and popular prompts
-- **📱 Responsive Design**: Works on desktop, tablet, and mobile
-- **🚀 One-Command Deployment**: Deploy to IIS, AWS, Azure, Docker, or run locally
-
-### Quick Start - Web Application
-
-```bash
-# Clone and run locally
-git clone https://github.com/tafreeman/prompts.git
-cd prompts/src
-pip install -r requirements.txt
-python load_prompts.py
-python app.py
-# Open http://localhost:5000
-```
-
-For deployment options (IIS, AWS, Azure, Docker), see [src/README.md](src/README.md).
 
 ## 🎯 Who This Library Is For
 
@@ -137,30 +110,6 @@ prompts/
 
 ## 🚀 Quick Start
 
-### Option 1: Use the Web Application (Recommended)
-
-**Run Locally:**
-
-```bash
-git clone https://github.com/tafreeman/prompts.git
-cd prompts/src
-pip install -r requirements.txt
-python load_prompts.py  # Initialize database with 20+ prompts
-python app.py           # Start the application
-# Open http://localhost:5000
-```
-
-**Or Deploy to Cloud:**
-
-- **IIS (One Command)**: `deployment\iis\deploy.ps1` - Free on Windows Server
-- **Docker**: `docker-compose -f deployment/docker/docker-compose.yml up -d`
-- **AWS Lightsail**: $7/month (see [deployment/aws/README.md](deployment/aws/README.md))
-- **Azure Container**: $10-20/month (see [deployment/azure/README.md](deployment/azure/README.md))
-
-### Option 2: Browse Markdown Files
-
-For direct access to prompt markdown files:
-
 ### For Non-Technical Users
 
 1. **Browse by Category**: Navigate to the folder that matches your need (business, creative, etc.)
@@ -256,18 +205,10 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 
 ## 📚 Documentation
 
-### 🆕 Curated Guides (Research-Backed)
+### Curated Guides (Research-Backed)
 - **[Ultimate Prompting Guide](docs/ultimate-prompting-guide.md)**: Top 20% most effective prompts, platform-specific templates, research-backed best practices
 - **[Platform-Specific Templates](docs/platform-specific-templates.md)**: Ready-to-use templates for GitHub Copilot, M365, Windows Copilot, and more
 - **[Prompt Effectiveness Methodology](docs/prompt-effectiveness-scoring-methodology.md)**: Scientific scoring system based on academic research and industry standards
-
-### Web Application
-
-- **[Web App README](src/README.md)**: Complete guide for the web application
-- **[IIS Deployment](deployment/iis/README.md)**: Windows Server deployment
-- **[Docker Deployment](deployment/docker/README.md)**: Containerized deployment
-- **[AWS Deployment](deployment/aws/README.md)**: Amazon Web Services options
-- **[Azure Deployment](deployment/azure/README.md)**: Microsoft Azure options
 
 ### General Documentation
 
@@ -296,35 +237,6 @@ Data analysis, research synthesis, statistical interpretation, trend analysis, a
 ### System
 
 System-level prompts for AI agents, role definitions, behavior guidelines, and general-purpose configurations.
-
-## 🎨 Web Application Features
-
-The web application provides an enhanced user experience:
-
-### Core Features
-
-- **📚 20+ Prompts**: Loaded from repository + additional enterprise prompts
-- **🔍 Advanced Search**: Filter by persona, category, platform, or search text
-- **✏️ Smart Customization**: Dynamic forms based on prompt placeholders
-- **✓ Spell-Check**: Built-in spell checking with autocorrect
-- **📊 Analytics**: Usage tracking and insights dashboard
-- **📱 Responsive**: Works on all devices
-- **🎯 One-Click Copy**: Copy prompts to clipboard instantly
-
-### Technical Features
-
-- **Flask Backend**: Lightweight Python web framework
-- **SQLite Database**: Simple, file-based storage
-- **Bootstrap 5 UI**: Modern, accessible interface
-- **Chart.js Analytics**: Visual data representation
-- **No External APIs**: Runs completely offline
-
-### Fixed Issues
-
-- ✅ **Text Visibility Fixed**: All text now shows with proper contrast and colors
-- ✅ **Spell-Check Added**: HTML5 + custom autocorrect for typos and model names
-- ✅ **Easy Deployment**: Multiple options from $7/month to free (IIS)
-- ✅ **Optimized for Claude**: All prompts work with Sonnet 4.5 and Code 5
 
 ## 📖 Learning Resources
 
