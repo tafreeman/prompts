@@ -16,5 +16,6 @@
                 "copilot/oswe-vscode-secondary"
             ]
         }
-    }
+    },
+    "gemini-cli.debug.logging.enabled": true
 }
