@@ -1,4 +1,6 @@
 name: Prompt Quality Gate
+permissions:
+  contents: read
 
 on:
   push:
