@@ -325,7 +325,7 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 ```markdown
 ## 1. Repository Overview
 
-The `tafreeman/prompts` repository is a community-driven prompt engineering library containing well-organized, reusable prompts for AI/LLM interactions. It targets diverse users from developers to business professionals, providing prompts across categories including developers, business, creative, analysis, and system. The repository includes a web application for browsing and customizing prompts, with deployment options for various cloud platforms.
+The `tafreeman/prompts` repository is a community-driven prompt engineering library containing well-organized, reusable prompts for AI/LLM interactions. It targets diverse users from developers to business professionals, providing prompts across categories including developers, business, creative, analysis, and system.
 
 Main content categories:
 - Technical/coding prompts (developers)

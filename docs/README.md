@@ -140,7 +140,6 @@ Complete analysis of 95 prompts:
 
 ### Main Repository
 - [Browse All Prompts](../prompts/) - Complete prompt library
-- [Web Application](../src/README.md) - Interactive web interface
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
 
 ### External Resources
