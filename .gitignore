@@ -262,3 +262,12 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+# Temporary and debug output files
+*_output.txt
+*_debug.txt
+*_report.json
+*_audit*.csv
+temp_*.txt
+*.db
+*.swp
