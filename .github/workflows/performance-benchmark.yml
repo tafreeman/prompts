@@ -32,7 +32,7 @@ jobs:
         python tools/benchmarks/performance_evaluator.py --all --output-format json > benchmark_results.json
         
     - name: Upload Benchmark Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: benchmark_results.json

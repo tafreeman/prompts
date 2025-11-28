@@ -93,7 +93,7 @@ jobs:
           echo "```" >> report.md
 
       - name: Upload Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: prompt-quality-report
           path: report.md
