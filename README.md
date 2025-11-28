@@ -35,7 +35,7 @@ Frontier model capabilities require advanced prompting patterns. We now include:
 - **Reflection**: Self-critique and iterative improvement patterns
 - **Tree-of-Thoughts (ToT)**: Multi-branch reasoning with backtracking
 
-📚 **[Explore Advanced Techniques →](prompts/advanced-techniques/)**
+📚 **[Explore Advanced Techniques →](prompts/advanced/)**
 
 ### Enterprise Governance & Compliance
 
@@ -47,7 +47,7 @@ Production AI requires governance, risk management, and compliance controls:
 - **Regulatory Compliance**: GDPR, CCPA, SOX, HIPAA, ISO 27001, NIST frameworks
 - **Access Controls**: Role-based permissions, human review requirements
 
-📋 **[Explore Governance & Compliance →](prompts/governance-compliance/)**
+📋 **[Explore Governance & Compliance →](prompts/governance/)**
 
 ## 🤖 GitHub Copilot Custom Agents
 
@@ -78,34 +78,30 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 ```text
 prompts/
-├── agents/               # GitHub Copilot Custom Agents
-│   ├── docs-agent.agent.md      # Documentation specialist
-│   ├── test-agent.agent.md      # Test generation expert
+├── agents/                 # GitHub Copilot Custom Agents
+│   ├── docs-agent.agent.md         # Documentation specialist
+│   ├── test-agent.agent.md         # Test generation expert
 │   ├── code-review-agent.agent.md  # Code reviewer
-│   └── AGENTS_GUIDE.md          # Agent usage guide
-├── src/                   # Web Application
-│   ├── app.py            # Flask application
-│   ├── templates/        # HTML templates  
-│   ├── static/           # CSS, JavaScript
-│   ├── load_prompts.py  # Database initialization
-│   └── README.md         # Web app documentation
-├── deployment/           # Deployment Configurations
-│   ├── iis/              # IIS deployment guide
-│   ├── docker/           # Docker & docker-compose
-│   ├── aws/              # AWS deployment guide
-│   └── azure/            # Azure deployment guide
-├── prompts/              # Markdown prompt collection
-│   ├── developers/       # Technical & coding prompts
-│   ├── business/         # Business analysis & strategy prompts
-│   ├── creative/         # Content creation & marketing prompts
-│   ├── analysis/         # Data analysis & research prompts
-│   ├── system/           # System-level AI agent prompts
-│   ├── advanced-techniques/  # Advanced prompting (CoT, ReAct, RAG, ToT)
-│   └── governance-compliance/  # Legal, security, compliance prompts
-├── templates/            # Reusable prompt templates
-├── examples/             # Example usage and outputs
-├── docs/                 # Documentation and guides
-└── README.md            # This file
+│   ├── refactor-agent.agent.md     # Code improvement specialist
+│   ├── security-agent.agent.md     # Security analysis expert
+│   ├── architecture-agent.agent.md # System design specialist
+│   └── AGENTS_GUIDE.md             # Agent usage guide
+├── prompts/                # Markdown prompt collection
+│   ├── developers/         # Technical & coding prompts
+│   ├── business/           # Business analysis & strategy prompts
+│   ├── creative/           # Content creation & marketing prompts
+│   ├── analysis/           # Data analysis & research prompts
+│   ├── system/             # System-level AI agent prompts
+│   ├── advanced/           # Advanced prompting (CoT, ReAct, RAG, ToT)
+│   ├── governance/         # Legal, security, compliance prompts
+│   └── m365/               # Microsoft 365 Copilot prompts
+├── templates/              # Reusable prompt templates
+├── examples/               # Example usage and outputs
+├── techniques/             # Advanced prompting technique patterns
+├── frameworks/             # Prompting frameworks and methodologies
+├── tools/                  # Validation and CLI tools
+├── docs/                   # Documentation and guides
+└── README.md               # This file
 ```
 
 ## 🚀 Quick Start
