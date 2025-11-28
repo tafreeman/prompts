@@ -2,7 +2,10 @@
 
 **Date**: 2025-11-28  
 **Repository**: tafreeman/prompts  
-**Analysis Scope**: Full repository scan for over-complexity and adoption barriers
+**Analysis Scope**: Full repository scan for over-complexity and adoption barriers  
+**Environment**: Ubuntu Linux, Python 3.12, Bash 5.x  
+
+> **Note**: Command outputs and validation results shown in this report are snapshots from the analysis date. Actual output may vary based on system configuration, tool versions, and subsequent repository changes.
 
 ---
 
@@ -380,7 +383,7 @@ Running the validator on all prompts:
 
 ## Appendix: Validation Tool Output
 
-Sample validation of a well-structured prompt:
+Sample validation of a well-structured prompt (output captured 2025-11-28):
 
 ```bash
 $ python3 tools/validators/prompt_validator.py prompts/developers/code-review-assistant.md
@@ -394,7 +397,7 @@ Scores:
   Overall:        77.0/100
 ```
 
-Even a "good" prompt only scores 77/100 due to schema mismatches.
+Even a "good" prompt only scores 77/100 due to schema mismatches. Scores may vary as the validator or prompts are updated.
 
 ---
 
