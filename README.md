@@ -78,30 +78,30 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 ```text
 prompts/
-├── agents/               # GitHub Copilot Custom Agents
-│   ├── docs-agent.agent.md       # Documentation specialist
-│   ├── test-agent.agent.md       # Test generation expert
+├── agents/                 # GitHub Copilot Custom Agents
+│   ├── docs-agent.agent.md         # Documentation specialist
+│   ├── test-agent.agent.md         # Test generation expert
 │   ├── code-review-agent.agent.md  # Code reviewer
-│   ├── refactor-agent.agent.md   # Code improvement specialist
-│   ├── security-agent.agent.md   # Security analysis expert
+│   ├── refactor-agent.agent.md     # Code improvement specialist
+│   ├── security-agent.agent.md     # Security analysis expert
 │   ├── architecture-agent.agent.md # System design specialist
-│   └── AGENTS_GUIDE.md           # Agent usage guide
-├── prompts/              # Markdown prompt collection
-│   ├── developers/       # Technical & coding prompts
-│   ├── business/         # Business analysis & strategy prompts
-│   ├── creative/         # Content creation & marketing prompts
-│   ├── analysis/         # Data analysis & research prompts
-│   ├── system/           # System-level AI agent prompts
-│   ├── advanced/         # Advanced prompting (CoT, ReAct, RAG, ToT)
-│   ├── governance/       # Legal, security, compliance prompts
-│   └── m365/             # Microsoft 365 Copilot prompts
-├── templates/            # Reusable prompt templates
-├── examples/             # Example usage and outputs
-├── techniques/           # Advanced prompting technique patterns
-├── frameworks/           # Prompting frameworks and methodologies
-├── tools/                # Validation and CLI tools
-├── docs/                 # Documentation and guides
-└── README.md             # This file
+│   └── AGENTS_GUIDE.md             # Agent usage guide
+├── prompts/                # Markdown prompt collection
+│   ├── developers/         # Technical & coding prompts
+│   ├── business/           # Business analysis & strategy prompts
+│   ├── creative/           # Content creation & marketing prompts
+│   ├── analysis/           # Data analysis & research prompts
+│   ├── system/             # System-level AI agent prompts
+│   ├── advanced/           # Advanced prompting (CoT, ReAct, RAG, ToT)
+│   ├── governance/         # Legal, security, compliance prompts
+│   └── m365/               # Microsoft 365 Copilot prompts
+├── templates/              # Reusable prompt templates
+├── examples/               # Example usage and outputs
+├── techniques/             # Advanced prompting technique patterns
+├── frameworks/             # Prompting frameworks and methodologies
+├── tools/                  # Validation and CLI tools
+├── docs/                   # Documentation and guides
+└── README.md               # This file
 ```
 
 ## 🚀 Quick Start
