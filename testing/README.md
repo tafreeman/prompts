@@ -366,7 +366,7 @@ jobs:
             --output test-results.json
       
       - name: Upload results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: test-results.json

@@ -277,7 +277,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install
       - run: npm run test:e2e
-      - uses: actions/upload-artifact@v3  # Upload screenshots on failure
+      - uses: actions/upload-artifact@v4  # Upload screenshots on failure
         if: failure()
         with:
           name: playwright-screenshots
