@@ -131,15 +131,40 @@ Complete analysis of 95 prompts:
 
 ---
 
+## 🤖 GitHub Copilot Custom Agents
+
+We now provide a library of pre-built custom agents for GitHub Copilot:
+
+- **[Agents Guide](../agents/AGENTS_GUIDE.md)** - Complete guide to using custom agents
+- **[Agent Template](../agents/agent-template.md)** - Create your own agents
+- **[Pre-built Agents](../agents/README.md)** - Ready-to-use specialized agents
+
+### Available Agents
+
+| Agent | Use Case |
+|-------|----------|
+| `@docs_agent` | Documentation and README generation |
+| `@code_review_agent` | Code review and best practices |
+| `@test_agent` | Unit and integration test generation |
+| `@refactor_agent` | Code improvement and cleanup |
+| `@security_agent` | Security analysis and vulnerability detection |
+| `@architecture_agent` | System design and architecture decisions |
+| `@prompt_agent` | AI prompt creation and optimization |
+
+---
+
 ## 🔗 Additional Resources
 
 ### In This Repository
 - [Getting Started Guide](./getting-started.md) - First-time user guide
 - [Best Practices](./best-practices.md) - General prompt engineering tips
 - [Domain Schemas](./domain-schemas.md) - Structured output templates
+- [Custom Agents](../agents/AGENTS_GUIDE.md) - GitHub Copilot custom agents
 
 ### Main Repository
 - [Browse All Prompts](../prompts/) - Complete prompt library
+- [Custom Agents](../agents/) - GitHub Copilot agents
+- [Web Application](../src/README.md) - Interactive web interface
 - [Contributing Guide](../CONTRIBUTING.md) - How to contribute
 
 ### External Resources
@@ -147,6 +172,7 @@ Complete analysis of 95 prompts:
 - [OpenAI Best Practices](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api)
 - [Microsoft Copilot Adoption](https://adoption.microsoft.com/en-us/copilot/)
 - [GitHub Copilot Docs](https://docs.github.com/en/copilot)
+- [GitHub Copilot Custom Agents](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents)
 
 ---
 
