@@ -31,6 +31,8 @@ from typing import Dict, List, Optional, Any, Tuple
 
 SCORE_MIN = 1.0
 SCORE_MAX = 5.0
+BASELINE_SCORE = 3.0  # Starting score for most dimensions
+BASELINE_SCORE_EXAMPLES = 2.5  # Lower baseline for examples (many prompts lack good examples)
 
 # Weights from the rubric
 WEIGHTS = {
@@ -147,7 +149,7 @@ def analyze_clarity(frontmatter: Dict, body: str, file_path: str) -> DimensionSc
     - Logical structure?
     - Would work for a newcomer?
     """
-    score = 3.0  # Start with acceptable baseline
+    score = BASELINE_SCORE  # Start with acceptable baseline
     flags = []
     rationale_parts = []
 
@@ -239,7 +241,7 @@ def analyze_effectiveness(frontmatter: Dict, body: str, file_path: str) -> Dimen
     - Is the output quality meeting expectations?
     - Does it work across different AI platforms?
     """
-    score = 3.0  # Start with acceptable baseline
+    score = BASELINE_SCORE  # Start with acceptable baseline
     flags = []
     rationale_parts = []
 
@@ -321,7 +323,7 @@ def analyze_reusability(frontmatter: Dict, body: str, file_path: str) -> Dimensi
     - Does it require significant modification per use?
     - Would other teams find this useful?
     """
-    score = 3.0  # Start with acceptable baseline
+    score = BASELINE_SCORE  # Start with acceptable baseline
     flags = []
     rationale_parts = []
 
@@ -396,7 +398,7 @@ def analyze_simplicity(frontmatter: Dict, body: str, file_path: str, line_count:
     - Are there redundant instructions?
     - Does it follow the minimal structure template?
     """
-    score = 3.0  # Start with acceptable baseline
+    score = BASELINE_SCORE  # Start with acceptable baseline
     flags = []
     rationale_parts = []
 
@@ -481,7 +483,8 @@ def analyze_examples(frontmatter: Dict, body: str, file_path: str) -> DimensionS
     - Are examples comprehensive enough?
     - Do examples help understand edge cases?
     """
-    score = 2.5  # Start below acceptable (many prompts lack good examples)
+    # Note: Lower baseline for examples as many prompts lack good examples
+    score = BASELINE_SCORE_EXAMPLES
     flags = []
     rationale_parts = []
 
@@ -762,8 +765,18 @@ def generate_scorecard(results: List[PromptAnalysis], output_path: Optional[Path
         ])
 
         for p in cat_prompts:
-            # Create relative path link
-            rel_path = Path(p.file_path).relative_to(Path(p.file_path).parents[2])
+            # Create relative path link - handle variable depth
+            try:
+                file_path = Path(p.file_path)
+                # Find the 'prompts' directory in the path
+                parts = file_path.parts
+                prompts_idx = next((i for i, part in enumerate(parts) if part == 'prompts'), -1)
+                if prompts_idx >= 0:
+                    rel_path = Path(*parts[prompts_idx:])
+                else:
+                    rel_path = file_path.name
+            except (IndexError, StopIteration):
+                rel_path = Path(p.file_path).name
             link = f"[{p.title[:40]}](../{rel_path})"
             lines.append(
                 f"| {link} | **{p.total_score}** | {p.rating_stars} | "
