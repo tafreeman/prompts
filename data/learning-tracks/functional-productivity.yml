@@ -1,0 +1,62 @@
+# Functional Team Productivity Learning Track
+# 2 hours for AI assistance with business tasks (no code required)
+
+title: "Functional Team Productivity"
+description: "AI assistance for business tasks without writing code"
+featured: false
+estimatedTime: "2 hours"
+audience:
+  - business-analyst
+  - project-manager
+  - functional-team
+
+modules:
+  - path: /get-started/quickstart-m365
+    title: "Quickstart: M365 Copilot"
+    time: "15 min"
+    type: quickstart
+    description: "Get productive with Microsoft 365 Copilot"
+
+  - path: /concepts/about-prompt-engineering
+    title: "About Prompt Engineering"
+    time: "20 min"
+    type: conceptual
+    description: "Understand the basics of effective prompting"
+
+  - path: /prompts/m365/writing-business-documents
+    title: "Writing Business Documents"
+    time: "20 min"
+    type: how_to
+    description: "Create reports, proposals, and memos with AI"
+
+  - path: /prompts/m365/data-analysis-excel
+    title: "Data Analysis with Excel Copilot"
+    time: "25 min"
+    type: how_to
+    description: "Analyze data and create visualizations"
+
+  - path: /prompts/business/meeting-summaries
+    title: "Meeting Summaries"
+    time: "15 min"
+    type: how_to
+    description: "Generate comprehensive meeting notes"
+
+  - path: /prompts/business/stakeholder-communications
+    title: "Stakeholder Communications"
+    time: "20 min"
+    type: how_to
+    description: "Draft professional emails and updates"
+
+  - path: /reference/cheat-sheet
+    title: "Prompt Patterns Cheat Sheet"
+    time: "15 min"
+    type: reference
+    description: "Quick reference for common patterns"
+
+outcomes:
+  - Create professional business documents faster
+  - Analyze data and generate insights
+  - Summarize meetings and action items
+  - Communicate effectively with stakeholders
+
+next_track: null

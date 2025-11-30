@@ -1,11 +1,30 @@
 ---
 title: "Prompt Title Here"
-category: "developers|business|creative|analysis|system"
-tags: ["tag1", "tag2", "tag3"]
+shortTitle: "Short Title"
+intro: "One-sentence summary of what this prompt does."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+topics:
+  - "code-generation"
+technique: "chain-of-thought"
+estimatedTime: "15 min"
+prerequisites:
+  - "/get-started/quickstart-copilot"
+learningTrack: "engineer-quickstart"
 author: "Your Name"
 version: "1.0"
 date: "YYYY-MM-DD"
-difficulty: "beginner|intermediate|advanced"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Prompt Title Here
