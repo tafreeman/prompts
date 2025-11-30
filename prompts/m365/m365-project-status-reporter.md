@@ -1,32 +1,29 @@
 ---
-title: M365 Project Status Reporter
-shortTitle: M365 Project Status Repo...
-intro: A prompt for m365 project status reporter tasks.
-type: conceptual
-difficulty: beginner
+title: "M365 Project Status Reporter"
+shortTitle: "M365 Project Status Repo..."
+intro: "This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a sum..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "project-management"
+  - "m365"
+  - "business"
+  - "copilot"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- project-management
-- status-update
-- reporting
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Project Status Reporter
 
 ## Description

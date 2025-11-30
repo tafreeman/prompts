@@ -3,11 +3,6 @@ title: "Tree-of-Thoughts: Architecture Evaluator"
 shortTitle: "ToT Architecture Evaluator"
 intro: "A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["tree-of-thoughts", "architecture", "system-design", "developers", "trade-offs"]
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -19,11 +14,15 @@ platforms:
 topics:
   - "architecture"
   - "decision-making"
-governance_tags: ["requires-human-review", "architecture-decision-record"]
+author: "Prompt Engineering Team"
+version: "1.0"
+date: "2025-11-18"
+governance_tags:
+  - "requires-human-review"
+  - "architecture-decision-record"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Tree-of-Thoughts: Architecture Evaluator
 
 ## Description

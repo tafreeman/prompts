@@ -1,54 +1,32 @@
 ---
-title: Code Review Expert
-shortTitle: Code Review Expert
-intro: A prompt for code review expert tasks.
-type: how_to
-difficulty: advanced
+title: "Code Review Expert"
+shortTitle: "Code Review Expert"
+intro: "You are a **Senior Software Engineer** with 10+ years of experience conducting code reviews across multiple languages and frameworks. You follow **Google's Engineering Practices** and emphasize **SOLID"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: 2.2.0
-date: '2025-11-27'
+  - "claude"
+topics:
+  - "developer"
+  - "enterprise"
+  - "developers"
+  - "code-quality"
+author: "Prompts Library Team"
+version: "2.2.0"
+date: "2025-11-27"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: developers
-subcategory: code-review
-tags:
-- developer
-- code-quality
-- enterprise
-- solid
-- clean-code
-- best-practices
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: high
-  token_usage_estimate: 2000-3000
-  quality_score: '98'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-  - security-audit
-  - performance-check
-governance:
-  risk_level: medium
-  data_classification: internal
-  regulatory_scope:
-  - SOC2
-  - ISO27001
-  - GDPR
-  approval_required: false
-  retention_period: 2-years
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "code-review"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '2000-3000', 'quality_score': '98'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['security-audit', 'performance-check']}
+governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'ISO27001', 'GDPR'], 'approval_required': False, 'retention_period': '2-years'}
 ---
-
 # Code Review Expert
 
 ## Purpose

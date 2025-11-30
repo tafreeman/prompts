@@ -3,11 +3,6 @@ title: "Library Capability Radar Chart Generator"
 shortTitle: "Capability Radar"
 intro: "Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains."
 type: "how_to"
-category: "analysis"
-tags: ["visualization", "radar-chart", "capability-assessment", "gap-analysis"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "visualization"
   - "analysis"
+author: "GitHub Copilot"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
 

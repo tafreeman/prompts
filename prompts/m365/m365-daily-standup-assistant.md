@@ -1,32 +1,29 @@
 ---
-title: M365 Daily Standup Assistant
-shortTitle: M365 Daily Standup
-intro: A prompt for m365 daily standup assistant tasks.
-type: how_to
-difficulty: beginner
+title: "M365 Daily Standup Assistant"
+shortTitle: "M365 Daily Standup"
+intro: "This prompt helps an individual knowledge worker quickly generate clear, concise daily standup talking points using their recent Microsoft 365 activity. It leverages emails, calendar events, Teams ..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "copilot"
+  - "standup"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- standup
-- productivity
-- teams
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Daily Standup Assistant
 
 ## Description

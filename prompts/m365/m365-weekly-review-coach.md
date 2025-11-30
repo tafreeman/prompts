@@ -1,32 +1,29 @@
 ---
-title: M365 Weekly Review Coach
-shortTitle: M365 Weekly Review Coach
-intro: A prompt for m365 weekly review coach tasks.
-type: troubleshooting
-difficulty: beginner
+title: "M365 Weekly Review Coach"
+shortTitle: "M365 Weekly Review Coach"
+intro: "This prompt helps an individual knowledge worker run a weekly review using Microsoft 365 data. It summarizes key accomplishments, lessons learned, and generates a prioritized list of focus items fo..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "copilot"
+  - "weekly-review"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- weekly-review
-- productivity
-- planning
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Weekly Review Coach
 
 ## Description

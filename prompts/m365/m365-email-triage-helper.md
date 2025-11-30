@@ -1,32 +1,29 @@
 ---
-title: M365 Email Triage Helper
-shortTitle: M365 Email Triage Helper
-intro: A prompt for m365 email triage helper tasks.
-type: conceptual
-difficulty: beginner
+title: "M365 Email Triage Helper"
+shortTitle: "M365 Email Triage Helper"
+intro: "This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "email"
+  - "copilot"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- email
-- outlook
-- productivity
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Email Triage Helper
 
 ## Description

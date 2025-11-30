@@ -1,34 +1,30 @@
 ---
-title: M365 Meeting Recap Assistant
-shortTitle: M365 Meeting Recap
-intro: A prompt for m365 meeting recap assistant tasks.
-type: conceptual
-difficulty: beginner
+title: "M365 Meeting Recap Assistant"
+shortTitle: "M365 Meeting Recap"
+intro: "This prompt helps an individual quickly turn a meeting transcript or notes into a structured summary with decisions, action items, and follow-ups. It leverages Microsoft 365 context (Teams meeting ..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "meetings"
+  - "copilot"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 effectivenessScore: 4.2
-category: business
-tags:
-- m365
-- copilot
-- meetings
-- recap
-- teams
-- action-items
-platform: Microsoft 365 Copilot
 ---
-
 # M365 Meeting Recap Assistant
 
 ## Description

@@ -3,11 +3,6 @@ title: "Competitive Intelligence Researcher"
 shortTitle: "Competitive Intelligence"
 intro: "Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors."
 type: "how_to"
-category: "analysis"
-tags: ["researcher", "competitive-intelligence", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,13 +14,15 @@ platforms:
 topics:
   - "research"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.4
 ---
-
 # Competitive Intelligence Researcher
 
 ## Description

@@ -3,11 +3,6 @@ title: "Gap Analysis Expert"
 shortTitle: "Gap Analysis"
 intro: "Conducts comprehensive gap analyses to identify differences between current and desired states with bridging strategies."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "gap-analysis", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,13 +14,15 @@ platforms:
 topics:
   - "analysis"
   - "planning"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 3.2
 ---
-
 # Gap Analysis Expert
 
 ## Description

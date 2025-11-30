@@ -1,36 +1,32 @@
 ---
-title: SQL Query Analyzer
-shortTitle: SQL Query Analyzer
-intro: A prompt for sql query analyzer tasks.
-type: how_to
-difficulty: intermediate
+title: "SQL Query Analyzer"
+shortTitle: "SQL Query Analyzer"
+intro: "A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations."
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-26'
+  - "claude"
+topics:
+  - "sql"
+  - "developers"
+  - "security"
+  - "performance"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-26"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: developers
-subcategory: database
-tags:
-- sql
-- performance
-- security
-- optimization
-- indexing
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "database"
 framework_compatibility:
-- sql-server
-- postgresql
-- mysql
+  - "sql-server"
+  - "postgresql"
+  - "mysql"
 ---
-
 # SQL Query Analyzer
 
 ## Description

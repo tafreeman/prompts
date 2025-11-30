@@ -1,28 +1,28 @@
 ---
-title: DevOps Architecture Planner
-shortTitle: DevOps Architecture Planner
-intro: A prompt for devops architecture planner tasks.
-type: how_to
-difficulty: advanced
+title: "DevOps Architecture Planner"
+shortTitle: "DevOps Architecture Planner"
+intro: "Designs DevOps and CI/CD architectures"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "enterprise"
+  - "devops"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: system
-tags:
-- architect
-- devops
-- enterprise
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # DevOps Architecture Planner
 
 ## Description

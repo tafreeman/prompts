@@ -3,11 +3,6 @@ title: "Tree-of-Thoughts: Multi-Branch Reasoning Template"
 shortTitle: "ToT Multi-Branch Template"
 intro: "An advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when needed."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["tree-of-thoughts", "tot", "multi-branch", "reasoning", "exploration", "decision-making"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -19,11 +14,15 @@ platforms:
 topics:
   - "reasoning"
   - "decision-making"
-governance_tags: ["PII-safe", "requires-human-review-for-critical-decisions"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-critical-decisions"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
 ## Description

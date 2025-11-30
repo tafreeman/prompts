@@ -1,28 +1,28 @@
 ---
-title: IoT Architecture Designer
-shortTitle: IoT Architecture Designer
-intro: A prompt for iot architecture designer tasks.
-type: how_to
-difficulty: advanced
+title: "IoT Architecture Designer"
+shortTitle: "IoT Architecture Designer"
+intro: "Designs IoT system architectures"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "iot"
+  - "enterprise"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: system
-tags:
-- architect
-- iot
-- enterprise
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # IoT Architecture Designer
 
 ## Description

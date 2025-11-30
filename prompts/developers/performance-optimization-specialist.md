@@ -1,42 +1,36 @@
 ---
-title: Performance Optimization Specialist
-shortTitle: Performance Optimization
-intro: A prompt for performance optimization specialist tasks.
-type: how_to
-difficulty: advanced
+title: "Performance Optimization Specialist"
+shortTitle: "Performance Optimization..."
+intro: "You are a **Principal Performance Engineer** specializing in profiling, benchmarking, and tuning distributed systems. You follow the **Scientific Method** for performance: form hypothesis → instrum..."
+type: "how_to"
+difficulty: "advanced"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '2.0'
-date: '2025-11-17'
+  - "claude"
+topics:
+  - "developer"
+  - "profiling"
+  - "developers"
+  - "performance"
+author: "Prompts Library Team"
+version: "2.0"
+date: "2025-11-17"
 governance_tags:
-- requires-human-review
-- production-impact
-dataClassification: internal
-reviewStatus: draft
-category: developers
-tags:
-- developer
-- performance
-- profiling
-- observability
-- scalability
-- apm
-data_classification: confidential
-risk_level: medium
+  - "requires-human-review"
+  - "production-impact"
+dataClassification: "internal"
+reviewStatus: "draft"
+data_classification: "confidential"
+risk_level: "medium"
 regulatory_scope:
-- SOC2
-approval_required: true
+  - "SOC2"
+approval_required: True
 approval_roles:
-- SRE-Lead
-- Platform-Architect
-retention_period: 5-years
-platform: Claude Sonnet 4.5
+  - "SRE-Lead"
+  - "Platform-Architect"
+retention_period: "5-years"
 ---
-
 # Performance Optimization Specialist
 
 ## Description

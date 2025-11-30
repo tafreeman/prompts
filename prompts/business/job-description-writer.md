@@ -3,7 +3,6 @@ title: "Job Description Writer"
 shortTitle: "Job Description"
 intro: "Generate compelling, inclusive job descriptions that attract qualified candidates while accurately representing role requirements."
 type: "how_to"
-category: "business"
 difficulty: "beginner"
 audience:
   - "project-manager"
@@ -23,7 +22,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Job Description Writer
 
 ## Description

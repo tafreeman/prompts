@@ -1,35 +1,30 @@
 ---
-title: M365 Sway Document to Story
-shortTitle: M365 Sway Document to Story
-intro: Converts a standard Word document or report into an engaging Microsoft Sway
-  storyline structure with visual suggestions.
-type: how_to
-difficulty: beginner
+title: "M365 Sway Document to Story"
+shortTitle: "M365 Sway Document to Story"
+intro: "Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway's native "..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "storytelling"
+  - "m365"
+  - "creative"
+  - "sway"
+author: "GitHub Copilot"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-description: Converts a standard Word document or report into an engaging Microsoft
-  Sway storyline structure with visual suggestions.
-category: creative
-tags:
-- m365
-- sway
-- storytelling
-- presentation
-- content-creation
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Converts a standard Word document or report into an engaging Microsoft Sway storyline structure with visual suggestions."
 ---
-
 ## Description
 
 Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway's native "Card" format—suggesting where to use Headings, Text Cards, Image Stacks, and Comparisons to make the content interactive and visually appealing.

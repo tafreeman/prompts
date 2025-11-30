@@ -3,11 +3,6 @@ title: "Strategic Planning Consultant"
 shortTitle: "Strategic Planning"
 intro: "Develops strategic plans and roadmaps for organizations with comprehensive analysis and implementation guidance."
 type: "how_to"
-category: "business"
-tags: ["consultant", "strategy", "enterprise"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-18"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,11 +14,15 @@ platforms:
 topics:
   - "strategy"
   - "planning"
-governance_tags: ["strategic-decision", "requires-executive-review"]
+author: "Prompts Library Team"
+version: "1.1"
+date: "2025-11-18"
+governance_tags:
+  - "strategic-decision"
+  - "requires-executive-review"
 dataClassification: "confidential"
 reviewStatus: "draft"
 ---
-
 # Strategic Planning Consultant
 
 ## Description

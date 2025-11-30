@@ -3,11 +3,6 @@ title: "User Experience Analyst"
 shortTitle: "UX Analysis"
 intro: "Analyzes and improves user experiences through journey mapping, pain point analysis, and improvement recommendations."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "user-experience", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "ux"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # User Experience Analyst
 
 ## Description

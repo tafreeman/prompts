@@ -1,28 +1,28 @@
 ---
-title: Blockchain Architecture Specialist
-shortTitle: Blockchain Architecture
-intro: A prompt for blockchain architecture specialist tasks.
-type: how_to
-difficulty: advanced
+title: "Blockchain Architecture Specialist"
+shortTitle: "Blockchain Architecture ..."
+intro: "Designs blockchain-based architectures"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "enterprise"
+  - "blockchain"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: system
-tags:
-- architect
-- blockchain
-- enterprise
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Blockchain Architecture Specialist
 
 ## Description

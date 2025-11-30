@@ -3,11 +3,6 @@ title: "Team Performance Manager"
 shortTitle: "Team Performance"
 intro: "Optimizes team performance with assessment, skill development, motivation strategies, and recognition programs."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "team-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "team-management"
   - "leadership"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Team Performance Manager
 
 ## Description

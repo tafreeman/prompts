@@ -24,7 +24,6 @@ governance_tags:
 dataClassification: "public"
 reviewStatus: "approved"
 ---
-
 # Example Research Output: Modern Prompting Techniques (2025)
 
 ## Executive Summary

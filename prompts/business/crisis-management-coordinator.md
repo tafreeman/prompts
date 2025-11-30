@@ -3,11 +3,6 @@ title: "Crisis Management Coordinator"
 shortTitle: "Crisis Management"
 intro: "Manages project crises with response plans, stakeholder communication, resource mobilization, and recovery strategy."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "crisis-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "risk-management"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Crisis Management Coordinator
 
 ## Description

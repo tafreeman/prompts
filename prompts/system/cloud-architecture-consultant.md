@@ -1,29 +1,29 @@
 ---
-title: Cloud Architecture Consultant
-shortTitle: Cloud Architecture
-intro: A prompt for cloud architecture consultant tasks.
-type: how_to
-difficulty: advanced
+title: "Cloud Architecture Consultant"
+shortTitle: "Cloud Architecture Consu..."
+intro: "Designs cloud-native architectures"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "cloud-architecture"
+  - "enterprise"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 effectivenessScore: 3.0
-category: system
-tags:
-- architect
-- cloud-architecture
-- enterprise
-platform: Claude Sonnet 4.5
 ---
-
 # Cloud Architecture Consultant
 
 ## Description

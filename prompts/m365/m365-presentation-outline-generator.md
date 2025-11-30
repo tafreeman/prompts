@@ -1,32 +1,29 @@
 ---
-title: M365 Presentation Outline Generator
-shortTitle: M365 Presentation Outline
-intro: A prompt for m365 presentation outline generator tasks.
-type: how_to
-difficulty: beginner
+title: "M365 Presentation Outline Generator"
+shortTitle: "M365 Presentation Outlin..."
+intro: "This prompt helps an individual quickly create a structured PowerPoint presentation outline using Microsoft 365 context. It generates slide titles, bullet points, and visual suggestions based on a ..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "powerpoint"
+  - "m365"
+  - "business"
+  - "copilot"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- powerpoint
-- presentation
-- slides
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Presentation Outline Generator
 
 ## Description

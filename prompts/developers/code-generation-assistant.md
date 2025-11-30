@@ -1,41 +1,36 @@
 ---
-title: Code Generation Assistant
-shortTitle: Code Generation Assistant
-intro: A prompt for code generation assistant tasks.
-type: how_to
-difficulty: advanced
+title: "Code Generation Assistant"
+shortTitle: "Code Generation"
+intro: "You are a **Principal Software Engineer** who produces production-grade code with language-idiomatic patterns, comprehensive tests, docs, and security considerations. You understand **SOLID**, **Cl..."
+type: "tutorial"
+difficulty: "advanced"
 audience:
-- qa-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '2.0'
-date: '2025-11-17'
+  - "claude"
+topics:
+  - "developer"
+  - "code-generation"
+  - "developers"
+  - "best-practices"
+author: "Prompts Library Team"
+version: "2.0"
+date: "2025-11-17"
 governance_tags:
-- requires-human-review
-- secure-coding
-dataClassification: internal
-reviewStatus: draft
-category: developers
-tags:
-- developer
-- code-generation
-- best-practices
-- testing
-- documentation
-- multi-language
-data_classification: confidential
-risk_level: medium
+  - "requires-human-review"
+  - "secure-coding"
+dataClassification: "internal"
+reviewStatus: "draft"
+data_classification: "confidential"
+risk_level: "medium"
 regulatory_scope:
-- SOC2
-approval_required: true
+  - "SOC2"
+approval_required: True
 approval_roles:
-- Tech-Lead
-- Security-Engineer
-retention_period: 5-years
-platform: Claude Sonnet 4.5
+  - "Tech-Lead"
+  - "Security-Engineer"
+retention_period: "5-years"
 ---
-
 # Code Generation Assistant
 
 ## Description

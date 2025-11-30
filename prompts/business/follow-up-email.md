@@ -3,7 +3,6 @@ title: "Follow-Up Email Generator"
 shortTitle: "Follow-Up Email"
 intro: "Generate effective follow-up email sequences that re-engage prospects without being pushy or annoying."
 type: "how_to"
-category: "business"
 difficulty: "beginner"
 audience:
   - "business-analyst"
@@ -24,7 +23,6 @@ dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.8
 ---
-
 # Follow-Up Email Generator
 
 ## Description

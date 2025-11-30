@@ -1,45 +1,38 @@
 ---
-title: Database Schema Designer
-shortTitle: Database Schema Designer
-intro: A prompt for database schema designer tasks.
-type: how_to
-difficulty: advanced
+title: "Database Schema Designer"
+shortTitle: "Database Schema Designer"
+intro: "You are a **Staff-level Data/Database Architect** who designs relational schemas for mission-critical platforms. You specialize in **Entity-Relationship modeling**, **normalization vs denormalizati..."
+type: "how_to"
+difficulty: "advanced"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '2.0'
-date: '2025-11-17'
+  - "claude"
+topics:
+  - "database-design"
+  - "developer"
+  - "developers"
+  - "erd"
+author: "Prompts Library Team"
+version: "2.0"
+date: "2025-11-17"
 governance_tags:
-- architecture-decision
-- requires-human-review
-- data-governance
-dataClassification: internal
-reviewStatus: draft
-category: developers
-tags:
-- developer
-- database-design
-- erd
-- ddl
-- postgresql
-- performance
-- migration
-data_classification: confidential
-risk_level: high
+  - "architecture-decision"
+  - "requires-human-review"
+  - "data-governance"
+dataClassification: "internal"
+reviewStatus: "draft"
+data_classification: "confidential"
+risk_level: "high"
 regulatory_scope:
-- GDPR
-- SOC2
-approval_required: true
+  - "GDPR"
+  - "SOC2"
+approval_required: True
 approval_roles:
-- Staff-Engineer
-- Data-Architect
-retention_period: 7-years
-platform: Claude Sonnet 4.5
+  - "Staff-Engineer"
+  - "Data-Architect"
+retention_period: "7-years"
 ---
-
 # Database Schema Designer
 
 ## Description

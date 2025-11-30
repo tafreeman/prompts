@@ -1,35 +1,30 @@
 ---
-title: M365 Designer Social Media Kit
-shortTitle: M365 Designer Social Med...
-intro: Generates a cohesive set of image prompts for Microsoft Designer to create
-  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
-type: how_to
-difficulty: intermediate
+title: "M365 Designer Social Media Kit"
+shortTitle: "M365 Designer Social Med..."
+intro: "Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Micr..."
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "designer"
+  - "m365"
+  - "creative"
+  - "social-media"
+author: "GitHub Copilot"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-description: Generates a cohesive set of image prompts for Microsoft Designer to create
-  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
-category: creative
-tags:
-- m365
-- designer
-- social-media
-- marketing
-- branding
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Generates a cohesive set of image prompts for Microsoft Designer to create matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece."
 ---
-
 ## Description
 
 Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Microsoft Designer prompts for a "Square" (Instagram), "Landscape" (LinkedIn/Twitter), and "Story" (Vertical) format, ensuring visual consistency across the campaign.

@@ -3,11 +3,6 @@ title: "Meeting Facilitator"
 shortTitle: "Meeting Facilitator"
 intro: "Facilitates effective project meetings with agendas, facilitation techniques, decision-making process, and follow-up procedures."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "meeting-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "communication"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Meeting Facilitator
 
 ## Description

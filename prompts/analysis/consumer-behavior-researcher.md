@@ -1,28 +1,27 @@
 ---
-title: Consumer Behavior Researcher
-shortTitle: Consumer Behavior Resear...
-intro: A prompt for consumer behavior researcher tasks.
-type: how_to
-difficulty: intermediate
+title: "Consumer Behavior Researcher"
+shortTitle: "Consumer Behavior"
+intro: "Studies consumer behavior patterns with research methodology, behavioral analysis, and business recommendations."
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- solution-architect
+  - "business-analyst"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "research"
+  - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: analysis
-tags:
-- researcher
-- consumer-research
-- enterprise
-platform: Claude Sonnet 4.5
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Consumer Behavior Researcher
 
 ## Description

@@ -1,28 +1,27 @@
 ---
-title: Data Pipeline Engineer
-shortTitle: Data Pipeline Engineer
-intro: A prompt for data pipeline engineer tasks.
-type: how_to
-difficulty: intermediate
+title: "Data Pipeline Engineer"
+shortTitle: "Data Pipeline Engineer"
+intro: "Designs data processing pipelines"
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- solution-architect
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "data-engineering"
+  - "developer"
+  - "enterprise"
+  - "developers"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: developers
-tags:
-- developer
-- data-engineering
-- enterprise
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Data Pipeline Engineer
 
 ## Description

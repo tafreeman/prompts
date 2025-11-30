@@ -1,36 +1,31 @@
 ---
-title: M365 Excel Formula Expert
-shortTitle: M365 Excel Formula Expert
-intro: Translates plain English descriptions of data problems into complex Excel formulas,
-  explaining the logic and syntax.
-type: how_to
-difficulty: intermediate
+title: "M365 Excel Formula Expert"
+shortTitle: "M365 Excel Formula Expert"
+intro: "This prompt acts as an expert Excel consultant. It helps users who know what they want to calculate but don't know the specific function syntax. It generates the correct formula (e.g., XLOOKUP, IND..."
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "excel"
+  - "m365"
+  - "analysis"
+  - "data-analysis"
+author: "GitHub Copilot"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Translates plain English descriptions of data problems into complex Excel formulas, explaining the logic and syntax."
 effectivenessScore: 3.9
-description: Translates plain English descriptions of data problems into complex Excel
-  formulas, explaining the logic and syntax.
-category: analysis
-tags:
-- m365
-- excel
-- data-analysis
-- formulas
-- productivity
-platform: Microsoft 365 Copilot
 ---
-
 ## Description
 
 This prompt acts as an expert Excel consultant. It helps users who know what they want to calculate but don't know the specific function syntax. It generates the correct formula (e.g., XLOOKUP, INDEX/MATCH, nested IFs) and explains how it works so the user can learn.

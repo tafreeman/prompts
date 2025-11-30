@@ -1,35 +1,31 @@
 ---
-title: .NET API Designer
-shortTitle: .NET API Designer
-intro: A prompt for .net api designer tasks.
-type: reference
-difficulty: advanced
+title: ".NET API Designer"
+shortTitle: ".NET API Designer"
+intro: "Expert architect for designing RESTful APIs using ASP.NET Core. Focuses on resource modeling, URL structure, HTTP verbs, status codes, OpenAPI (Swagger) documentation, and versioning strategies."
+type: "how_to"
+difficulty: "advanced"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-26'
+  - "claude"
+topics:
+  - "dotnet"
+  - "rest"
+  - "developers"
+  - "api"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-26"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: developers
-subcategory: api-design
-tags:
-- dotnet
-- api
-- rest
-- openapi
-- aspnet-core
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "api-design"
 framework_compatibility:
-- net8.0
-- net9.0
+  - "net8.0"
+  - "net9.0"
 ---
-
 # .NET API Designer
 
 ## Description

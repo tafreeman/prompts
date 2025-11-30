@@ -3,7 +3,6 @@ title: "Cold Email Generator"
 shortTitle: "Cold Email"
 intro: "Generate personalized, high-converting cold outreach emails for sales prospecting and business development."
 type: "how_to"
-category: "business"
 difficulty: "beginner"
 audience:
   - "business-analyst"
@@ -24,7 +23,6 @@ dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.8
 ---
-
 # Cold Email Generator
 
 ## Description

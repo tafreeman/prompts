@@ -3,11 +3,6 @@ title: "Due Diligence Analyst"
 shortTitle: "Due Diligence"
 intro: "Conducts comprehensive due diligence with analysis frameworks, risk assessment, findings summary, and recommendations."
 type: "how_to"
-category: "business"
-tags: ["consultant", "due-diligence", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "analysis"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Due Diligence Analyst
 
 ## Description

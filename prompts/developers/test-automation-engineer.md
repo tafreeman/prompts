@@ -1,55 +1,33 @@
 ---
-title: Test Automation Engineer
-shortTitle: Test Automation Engineer
-intro: A prompt for test automation engineer tasks.
-type: how_to
-difficulty: advanced
+title: "Test Automation Engineer"
+shortTitle: "Test Automation Engineer"
+intro: "You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, ..."
+type: "how_to"
+difficulty: "advanced"
 audience:
-- qa-engineer
-- solution-architect
-platforms: []
-author: Prompts Library Team
-version: 2.1.0
-date: '2025-11-25'
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "testing"
+  - "enterprise"
+  - "developers"
+author: "Prompts Library Team"
+version: "2.1.0"
+date: "2025-11-25"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "testing"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '2500-3500', 'quality_score': '95'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['test-pyramid-validation', 'ci-cd-integration']}
+governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulatory_scope': ['SOC2'], 'approval_required': False, 'retention_period': '2-years'}
 effectivenessScore: 4.6
-category: developers
-subcategory: testing
-tags:
-- developer
-- testing
-- enterprise
-- test-pyramid
-- tdd
-- ci-cd
-- quality-assurance
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: high
-  token_usage_estimate: 2500-3500
-  quality_score: '95'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-  - test-pyramid-validation
-  - ci-cd-integration
-governance:
-  risk_level: medium
-  data_classification: internal
-  regulatory_scope:
-  - SOC2
-  approval_required: false
-  retention_period: 2-years
-platform:
-- anthropic
 ---
-
 # Test Automation Engineer
 
 ## Description

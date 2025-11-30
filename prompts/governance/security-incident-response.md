@@ -1,46 +1,40 @@
 ---
-title: 'Security: Incident Response Framework'
-shortTitle: 'Security: Incident Respo...'
-intro: 'A prompt for security: incident response framework tasks.'
-type: how_to
-difficulty: advanced
+title: "Security: Incident Response Framework"
+shortTitle: "Security: Incident Respo..."
+intro: "A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows N..."
+type: "tutorial"
+difficulty: "advanced"
 audience:
-- senior-engineer
-- junior-engineer
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-17'
+  - "claude"
+topics:
+  - "governance-compliance"
+  - "incident-response"
+  - "cybersecurity"
+  - "security"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
 governance_tags:
-- restricted-access
-- audit-required
-- CISO-approval-required
-- sensitive
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 4.4
-category: governance-compliance
-tags:
-- security
-- incident-response
-- cybersecurity
-- SOC
-- IR
-- threat
-- containment
-data_classification: Restricted
-risk_level: Critical
+  - "restricted-access"
+  - "audit-required"
+  - "CISO-approval-required"
+  - "sensitive"
+dataClassification: "internal"
+reviewStatus: "draft"
+data_classification: "Restricted"
+risk_level: "Critical"
 regulatory_scope:
-- SOC2
-- ISO27001
-- NIST-CSF
-- GDPR-breach-notification
-approval_required: CISO or Security Director
-retention_period: 7 years (incident records)
-platform: Claude Sonnet 4.5
+  - "SOC2"
+  - "ISO27001"
+  - "NIST-CSF"
+  - "GDPR-breach-notification"
+approval_required: "CISO or Security Director"
+retention_period: "7 years (incident records)"
+effectivenessScore: 4.4
 ---
-
 # Security: Incident Response Framework
 
 ## Description

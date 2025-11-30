@@ -3,11 +3,6 @@ title: "Innovation Strategy Consultant"
 shortTitle: "Innovation Strategy"
 intro: "Develops innovation strategies with opportunity identification, innovation frameworks, and implementation roadmaps."
 type: "how_to"
-category: "business"
-tags: ["consultant", "innovation", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "innovation"
   - "strategy"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Innovation Strategy Consultant
 
 ## Description

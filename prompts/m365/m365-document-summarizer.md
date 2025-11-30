@@ -1,32 +1,29 @@
 ---
-title: M365 Document Summarizer
-shortTitle: M365 Document Summarizer
-intro: A prompt for m365 document summarizer tasks.
-type: how_to
-difficulty: beginner
+title: "M365 Document Summarizer"
+shortTitle: "M365 Document Summarizer"
+intro: "This prompt helps an individual quickly summarize long documents in Microsoft 365 for specific audiences. It extracts key points, highlights relevant sections, and recommends next steps, tailored t..."
+type: "how_to"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "document"
+  - "copilot"
+author: "Your Name"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: business
-tags:
-- m365
-- copilot
-- document
-- summarization
-- word
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Document Summarizer
 
 ## Description

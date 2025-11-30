@@ -1,28 +1,28 @@
 ---
-title: Enterprise Integration Architect
-shortTitle: Enterprise Integration A...
-intro: A prompt for enterprise integration architect tasks.
-type: how_to
-difficulty: advanced
+title: "Enterprise Integration Architect"
+shortTitle: "Enterprise Integration A..."
+intro: "Designs enterprise integration solutions"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- solution-architect
+  - "solution-architect"
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "enterprise"
+  - "integration"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-category: system
-tags:
-- architect
-- integration
-- enterprise
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Enterprise Integration Architect
 
 ## Description

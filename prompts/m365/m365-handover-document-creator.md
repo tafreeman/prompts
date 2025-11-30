@@ -1,35 +1,30 @@
 ---
-title: M365 Handover Document Creator
-shortTitle: M365 Handover Document C...
-intro: Generates a comprehensive handover document for role transitions or project
-  transfers, ensuring no critical knowledge is lost.
-type: how_to
-difficulty: beginner
+title: "M365 Handover Document Creator"
+shortTitle: "M365 Handover Document C..."
+intro: "This prompt is essential for employees leaving a role, going on extended leave, or transferring a project. It interviews the user (via the prompt inputs) to extract key responsibilities, contacts, ..."
+type: "tutorial"
+difficulty: "beginner"
 audience:
-- senior-engineer
-- junior-engineer
+  - "junior-engineer"
+  - "business-analyst"
 platforms:
-- m365-copilot
-- github-copilot
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "handover"
+  - "documentation"
+author: "GitHub Copilot"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-description: Generates a comprehensive handover document for role transitions or project
-  transfers, ensuring no critical knowledge is lost.
-category: business
-tags:
-- m365
-- documentation
-- handover
-- knowledge-management
-- onboarding
-platform: Microsoft 365 Copilot
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Generates a comprehensive handover document for role transitions or project transfers, ensuring no critical knowledge is lost."
 ---
-
 ## Description
 
 This prompt is essential for employees leaving a role, going on extended leave, or transferring a project. It interviews the user (via the prompt inputs) to extract key responsibilities, contacts, and outstanding tasks, then formats them into a professional handover guide.

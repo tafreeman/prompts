@@ -1,32 +1,26 @@
 ---
-title: Refactoring Plan Designer
-shortTitle: Refactoring Plan Designer
-intro: A prompt for refactoring plan designer tasks.
-type: how_to
-difficulty: intermediate
+title: "Refactoring Plan Designer"
+shortTitle: "Refactoring Plan Designer"
+intro: "Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates."
+type: "how_to"
+difficulty: "intermediate"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompt Engineering Team
-version: '1.0'
-date: '2025-11-18'
+  - "claude"
+topics:
+  - "refactoring"
+  - "technical-debt"
+  - "developers"
+author: "Prompt Engineering Team"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
-- architectural-change
-- requires-review
-dataClassification: internal
-reviewStatus: draft
-category: developers
-tags:
-- refactoring
-- technical-debt
-- developers
-- planning
-- risk-management
-platform: Claude Sonnet 4.5
+  - "architectural-change"
+  - "requires-review"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Refactoring Plan Designer
 
 ## Description

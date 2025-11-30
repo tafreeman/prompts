@@ -3,11 +3,6 @@ title: "Industry Analysis Expert"
 shortTitle: "Industry Analysis"
 intro: "Performs detailed industry analysis including market dynamics, competitive landscape, and strategic recommendations."
 type: "how_to"
-category: "analysis"
-tags: ["researcher", "industry-analysis", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "research"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Industry Analysis Expert
 
 ## Description

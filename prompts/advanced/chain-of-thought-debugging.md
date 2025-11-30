@@ -3,11 +3,6 @@ title: "Chain-of-Thought: Debugging & Root Cause Analysis"
 shortTitle: "CoT Debugging"
 intro: "A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis using explicit step-by-step reasoning."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["chain-of-thought", "debugging", "root-cause-analysis", "developers", "reasoning"]
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -18,12 +13,14 @@ platforms:
 topics:
   - "debugging"
   - "development"
+author: "Prompt Engineering Team"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
 ## Description

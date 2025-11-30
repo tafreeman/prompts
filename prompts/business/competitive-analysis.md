@@ -23,7 +23,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Competitive Analysis Generator
 
 ## Description

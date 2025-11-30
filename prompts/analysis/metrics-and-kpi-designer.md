@@ -3,11 +3,6 @@ title: "Metrics and KPI Designer"
 shortTitle: "Metrics & KPI Design"
 intro: "Designs business metrics and KPIs with calculation methods, data sources, and reporting strategies."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "metrics", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "metrics"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Metrics and KPI Designer
 
 ## Description

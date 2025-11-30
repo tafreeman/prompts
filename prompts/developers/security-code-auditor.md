@@ -1,63 +1,32 @@
 ---
-title: Security Code Auditor
-shortTitle: Security Code Auditor
-intro: A prompt for security code auditor tasks.
-type: how_to
-difficulty: advanced
+title: "Security Code Auditor"
+shortTitle: "Security Code Auditor"
+intro: "You are a **Principal Security Engineer** and **Penetration Tester** with 15+ years of experience in application security. Your expertise covers the **OWASP Top 10**, **CWE Top 25**, and **NIST 800-53*"
+type: "how_to"
+difficulty: "advanced"
 audience:
-- senior-engineer
-- junior-engineer
+  - "senior-engineer"
 platforms:
-- claude
-author: Prompts Library Team
-version: 2.3.0
-date: '2025-11-28'
+  - "claude"
+topics:
+  - "audit"
+  - "code-review"
+  - "developers"
+  - "security"
+author: "Prompts Library Team"
+version: "2.3.0"
+date: "2025-11-28"
 governance_tags:
-- requires-human-review
-- audit-required
-- internal-only
-dataClassification: confidential
-reviewStatus: draft
-category: developers
-subcategory: security
-tags:
-- security
-- code-review
-- audit
-- owasp
-- vulnerability
-- cwe
-- nist
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: high
-  token_usage_estimate: 1500-2500
-  quality_score: '98'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-  - sql-injection-audit
-  - xss-audit
-  - auth-bypass-audit
-governance:
-  risk_level: critical
-  data_classification: confidential
-  regulatory_scope:
-  - PCI-DSS
-  - GDPR
-  - HIPAA
-  - NIST-800-53
-  approval_required: true
-  approval_roles:
-  - Security-Architect
-  - CISO
-  retention_period: 7-years
-platform: Claude Sonnet 4.5
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "security"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '1500-2500', 'quality_score': '98'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['sql-injection-audit', 'xss-audit', 'auth-bypass-audit']}
+governance: {'risk_level': 'critical', 'data_classification': 'confidential', 'regulatory_scope': ['PCI-DSS', 'GDPR', 'HIPAA', 'NIST-800-53'], 'approval_required': True, 'approval_roles': ['Security-Architect', 'CISO'], 'retention_period': '7-years'}
 ---
-
 # Security Code Auditor
 
 ## Purpose

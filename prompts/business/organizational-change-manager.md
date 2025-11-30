@@ -3,11 +3,6 @@ title: "Organizational Change Manager"
 shortTitle: "Org Change Manager"
 intro: "Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management."
 type: "how_to"
-category: "business"
-tags: ["consultant", "change-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "change-management"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Organizational Change Manager
 
 ## Description
