@@ -1,185 +1,140 @@
 ---
-title: "Tree-of-Thoughts Evaluator: Reflection & Self-Critique"
-shortTitle: "ToT Evaluator Reflection"
-intro: "A rigorous reflection/self-critique cycle layered on top of Tree-of-Thoughts repository evaluation for enterprise-ready assessments."
+title: "ToT Evaluator: OSINT Resource Assessment"
+shortTitle: "OSINT Resource Evaluator"
+intro: "A rigorous Tree-of-Thoughts evaluation pattern for assessing the safety, quality, and operational utility of OSINT and Cyber resources."
 type: "how_to"
 difficulty: "advanced"
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+  - "security-engineer"
+  - "soc-manager"
+  - "compliance-officer"
 platforms:
   - "chatgpt"
   - "claude"
 topics:
   - "evaluation"
-  - "quality"
+  - "osint"
+  - "supply-chain-security"
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+version: "2.0"
+date: "2025-11-30"
 governance_tags:
-  - "requires-human-review"
+  - "risk-assessment"
+  - "supply-chain"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
 ## Description
 
-Layer a rigorous reflection/self-critique cycle on top of the Tree-of-Thoughts repository evaluation workflow described in [`Tree-of-Thoughts Repository Evaluator for GPT-5.1`](../system/tree-of-thoughts-repository-evaluator.md). Phase 1 runs the full ToT-based assessment, while Phase 2 audits that output for accuracy, completeness, bias, and enterprise-readiness gaps, then produces a refined, leadership-ready verdict.
+This prompt applies the **Tree-of-Thoughts (ToT)** reasoning framework to evaluate OSINT tools, repositories, and datasets. It is designed to prevent the inclusion of malicious, abandoned, or legally risky tools in your intelligence library. Phase 1 performs a deep technical and functional assessment, while Phase 2 reflects on safety, ethics, and long-term viability.
 
 ## Goal
 
-Enable GPT-5.1-class (or similar) evaluators to generate a structured ToT report and then critically assess and improve it before publishing enterprise-facing, decision-grade recommendations.
+To produce a **Decision-Grade Verdict** on whether a specific OSINT resource should be adopted by an enterprise or investigation team.
 
 ## Context
 
-- Repository: `[REPOSITORY_NAME]`, positioned as an enterprise prompt library.
-- Phase 1 must follow the ToT structure (Branches A/B/C, scoring, synthesis).
-- Phase 2 applies the reflection checklist to the Phase 1 draft, tightening evidence, scores, and recommendations.
-
-## Inputs
-
-- `[REPOSITORY_NAME]`
-- `[REPO_CONTEXT_SUMMARY]`
-- `[OBSERVED_STRENGTHS]`
-- `[OBSERVED_GAPS]`
-- `[ENTERPRISE_CONCERNS]`
-- Optional artifacts: links to prompt categories, analytics screenshots, governance notes.
-
-## Assumptions
-
-- Evaluator can browse the repo or is provided sufficient excerpts.
-- Enterprise adoption is the default target unless contradicted.
-- Missing data should be flagged as assumptions rather than fabricated.
-
-## Constraints
-
-- Maintain the mandatory Markdown structure from the ToT evaluator.
-- Cite observable evidence; label inferred points as “Assumption”.
-- Scores must stay within stated ranges (0–10, 0–100 weighted).
-- Keep critique constructive and actionable.
+- **Target**: A GitHub repo, software tool, or data service identified for potential use.
+- **Risks**: Malware in scripts, abandoned code, violation of Terms of Service (ToS), poor OPSEC.
 
 ## Process / Reasoning Style
 
 1. **Phase 1 – Tree-of-Thoughts Evaluation**
-   - Run full multi-branch reasoning as defined in the evaluator prompt.
-   - Document candidate thoughts, selections, analyses, and scores.
+   - **Branch A (Functionality)**: Does it work? Is it unique?
+   - **Branch B (Security/Safety)**: Is the code safe? Who maintains it? Any obfuscated code?
+   - **Branch C (Viability)**: Is it actively maintained? Is the community healthy?
 
 2. **Phase 2 – Reflection & Self-Critique**
-   - Re-read Phase 1 output and apply the checklist:
-     - Accuracy, Completeness, Quality, Bias, Risk.
-   - Summarize strengths/weaknesses of the Phase 1 draft.
-   - Produce a revised final section (scores + executive summary) if needed.
-   - State confidence level and remaining uncertainties.
-
-- During Phase 2, do not regenerate Phase 1 from scratch; only critique and minimally adjust the existing Phase 1 output where clearly justified.
-
-## Output Requirements
-
-Deliver a single Markdown document:
-
-1. **Phase 1 Output** – exact structure required in the evaluator prompt.
-2. **Phase 2 Reflection** – sections:
-   - `Critique Summary` (Strengths, Weaknesses, Gaps, Risks)
-   - `Corrections / Adjustments` (bullet list)
-   - `Revised Scores & Narrative` (only if changes were needed)
-   - `Confidence Level` (High/Medium/Low) with justification
-   - `Next Actions / Validation Needed`
-
-## Use Cases
-
-- Enterprise prompt-library due diligence.
-- Internal QA before sharing audit reports with leadership.
-- Vendor risk assessments for AI prompt packs.
-- Regression testing after repository updates.
-- Training AI evaluators on self-checking workflows.
+   - **Safety Check**: Did we miss any red flags? (e.g., "install.sh" piping to bash)
+   - **Legal/Ethical Check**: Does this tool violate platform ToS (e.g., scraping)?
+   - **Verdict Refinement**: Adjust the final score based on these risks.
 
 ## Prompt
 
 ```text
-You will evaluate the **local workspace copy** of the repository identified as `[REPOSITORY_NAME]` using a **two-phase Tree-of-Thoughts + Reflection pattern**. Do not pull from or browse any remote repository; rely only on the files and context available in the current local workspace.
+You are a Senior Security Engineer evaluating a new OSINT resource for inclusion in our secure library. Use a **Two-Phase Tree-of-Thoughts + Reflection** pattern.
+
+**Resource to Evaluate**: [RESOURCE_NAME] ([URL])
+**Context/Use Case**: [USE_CASE]
 
 ### Phase 1 – Tree-of-Thoughts Evaluation
-Follow the complete instructions from `Tree-of-Thoughts Repository Evaluator for GPT-5.1` (System + User message). Produce the required Markdown sections verbatim:
-- Repository Overview
-- ToT Setup (Branches A/B/C with candidate thoughts and selections)
-- Branch Analyses (A, B, C)
-- Cross-Branch Synthesis & Final Score
-- Key Strengths, Key Risks, Executive Summary
+
+Explore three reasoning branches to assess the resource:
+
+**Branch A: Functionality & Utility**
+- Thoughts: Does this solve a unique problem? Is it better than existing standard tools?
+- Evidence: Features, documentation quality, ease of use.
+
+**Branch B: Security & Integrity**
+- Thoughts: Is the code visible? Are there binary blobs? Does it require excessive permissions?
+- Evidence: Code review (simulated), dependency analysis, author reputation.
+
+**Branch C: Maintenance & Viability**
+- Thoughts: When was the last commit? How many open issues? Is the author responsive?
+- Evidence: Commit history, issue tracker health.
+
+**Synthesis & Initial Score (0-100)**:
+Combine findings into an initial assessment.
 
 ### Phase 2 – Reflection & Self-Critique
-Critically review your own Phase 1 output:
 
-1. **Accuracy Check**
-   - Are all factual statements grounded in repository evidence or clearly marked as assumptions?
-   - Did any scores lack justification?
+Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 
-2. **Completeness Check**
-   - Did you cover every subsection from the instructions?
-   - Were enterprise concerns `[ENTERPRISE_CONCERNS]` addressed?
+1. **Malware/Supply Chain Risk**:
+   - Did I check for "curled-to-bash" scripts?
+   - Are there suspicious dependencies?
 
-3. **Quality Check**
-   - Is reasoning coherent, non-redundant, and senior-executive ready?
-   - Are improvement recommendations actionable?
+2. **Legal & OPSEC Risk**:
+   - Does this tool aggressively scrape in a way that triggers IP bans?
+   - Does it leak analyst data (e.g., "phone home" telemetry)?
 
-4. **Bias & Risk Check**
-   - Did you overweight certain personas or categories?
-   - Are there unstated assumptions about tooling, hosting, or governance?
-   - What could go wrong if stakeholders rely on this report?
+3. **Final Verdict**:
+   - **Approved**: Safe and useful.
+   - **Provisional**: Useful but requires sandboxing/code audit.
+   - **Rejected**: Too risky or broken.
 
-5. **Confidence Assessment**
-   - Assign High/Medium/Low confidence.
-   - List remaining uncertainties or data you would need.
+**Output Format**:
 
-Output Phase 2 as:
+#### Executive Summary
+- **Verdict**: [Approved/Provisional/Rejected]
+- **Risk Level**: [High/Medium/Low]
+- **Score**: [0-100]
 
-#### Phase 2 – Reflection & Self-Critique
-- **Critique Summary**
-  - Strengths:
-  - Weaknesses:
-  - Gaps:
-  - Risks:
-- **Corrections / Adjustments** (if none, state "None")
-- **Revised Scores & Narrative** (only include if changes were made; otherwise state "No changes")
-- **Confidence Level**: High/Medium/Low
-- **Confidence Justification**:
-- **Next Actions / Validation Needed**:
+#### Detailed Analysis
+- **Strengths**: ...
+- **Risks**: ...
+- **OPSEC Warnings**: ...
 
-Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
+#### Reflection Notes
+- "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
 ```
 
 ## Variables
 
-- `[REPOSITORY_NAME]`
-- `[REPO_CONTEXT_SUMMARY]`
-- `[OBSERVED_STRENGTHS]`
-- `[OBSERVED_GAPS]`
-- `[ENTERPRISE_CONCERNS]`
+- `[RESOURCE_NAME]`: Name of the tool/repo.
+- `[URL]`: Link to the resource.
+- `[USE_CASE]`: How you intend to use it (e.g., "Automated daily scraping of Twitter").
 
 ## Example Usage
 
-### Input Context
+### Input
 
-- `[REPOSITORY_NAME]`: `tafreeman/prompts`
-- `[REPO_CONTEXT_SUMMARY]`: "Advanced prompt library targeting enterprise developers and architects, featuring categorized prompts, with templates and additional resources."
-- `[OBSERVED_STRENGTHS]`: “Robust template, governance metadata, analytics dashboard.”
-- `[OBSERVED_GAPS]`: “Need to be developer and architect focused. Most of the prompts should be in that area. needs cookbooks or similar section with easy to explan examples and prompts. sparse deployment docs for Azure, limited support prompts.”
-- `[ENTERPRISE_CONCERNS]`: “Need evidence of compliance workflows and persona breadth. Need adoptoption eased by sample prompts per role and simple to use templates.”
+- **Resource**: `Twint` (Twitter Intelligence Tool)
+- **Use Case**: Historical tweet retrieval for sentiment analysis.
 
 ### Output Excerpt
 
-- Phase 1 delivers the mandated ToT evaluation Markdown.
-- Phase 2 notes that scores for Branch B lacked citations, adjusts them from 8 → 7, flags missing Azure governance notes, sets Confidence to Medium, and recommends sampling prompts per persona for validation.
-- Phase 1 remains as initially generated; Phase 2 only annotates and minimally adjusts scores/narratives where explicitly justified.
+```text
+...
+**Branch C (Maintenance)**: Twint is legendary but has been largely broken since Twitter's 2023 API changes.
+...
+**Phase 2 Reflection**:
+- **Critique**: Phase 1 correctly identified it as "broken", but I need to be stronger on the *rejection*. Using this tool now is a waste of time.
+- **Legal Check**: It bypasses API limits, which is a ToS violation. Enterprise risk is high.
 
-## Tips
-
-- Keep Phase 1 and Phase 2 clearly separated to avoid mixing reasoning states.
-- During Phase 2, quote specific lines from Phase 1 when flagging issues.
-- Treat assumptions explicitly—enterprise readers value transparency.
-- If no corrections are needed, still document why the critique passed.
-- Use the reflection step to align recommendations with executive decision needs.
-
-## Related Prompts
-
-- [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
-- [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)
-- [Chain-of-Thought Guide](chain-of-thought-guide.md)
+**Executive Summary**:
+- **Verdict**: Rejected
+- **Risk Level**: High (Functional & Legal)
+- **Score**: 15/100
+- **Reason**: Tool is unmaintained and non-functional against current Twitter defenses.
+```
