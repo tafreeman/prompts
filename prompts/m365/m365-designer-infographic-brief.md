@@ -1,7 +1,7 @@
 ---
 title: "M365 Designer Infographic Brief"
 shortTitle: "M365 Designer Infographi..."
-intro: "Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a "Design Brief" that describes the layout, icon..."
+intro: 'Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a Design Brief that describes the layout, iconography, and text hierarchy.'
 type: "tutorial"
 difficulty: "beginner"
 audience:

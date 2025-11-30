@@ -1,7 +1,7 @@
 ---
 title: "Mid-Level Developer Architecture Coach"
 shortTitle: "Mid-Level Developer Arch..."
-intro: "A mentor persona designed to help mid-level developers bridge the gap to senior roles. Focuses on explaining the "why" behind architectural decisions, analyzing trade-offs, and teaching system desi..."
+intro: 'A mentor persona designed to help mid-level developers bridge the gap to senior roles. Focuses on explaining the "why" behind architectural decisions, analyzing trade-offs, and teaching system design concepts.'
 type: "how_to"
 difficulty: "intermediate"
 audience:

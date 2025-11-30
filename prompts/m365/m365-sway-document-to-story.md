@@ -1,7 +1,7 @@
 ---
 title: "M365 Sway Document to Story"
 shortTitle: "M365 Sway Document to Story"
-intro: "Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway's native "..."
+intro: 'Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway\'s native "Card" format.'
 type: "how_to"
 difficulty: "beginner"
 audience:
