@@ -1,28 +1,43 @@
 ---
-title: "GitHub Copilot Instruction Patterns"
-category: "frameworks"
-subcategory: "microsoft"
-technique_type: "copilot-instructions"
+title: GitHub Copilot Instruction Patterns
+shortTitle: GitHub Copilot Instructi...
+intro: A prompt for github copilot instruction patterns tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: frameworks
+subcategory: microsoft
+technique_type: copilot-instructions
 framework_compatibility:
-  vscode: ">=1.80.0"
-  github-copilot: ">=1.0.0"
-difficulty: "beginner"
+  vscode: '>=1.80.0'
+  github-copilot: '>=1.0.0'
 use_cases:
-  - code-generation
-  - code-review
-  - refactoring
-  - documentation
+- code-generation
+- code-review
+- refactoring
+- documentation
 performance_metrics:
-  productivity_improvement: "30-50%"
-  accuracy_improvement: "20-30%"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  productivity_improvement: 30-50%
+  accuracy_improvement: 20-30%
+last_updated: '2025-11-23'
 tags:
-  - github-copilot
-  - vscode
-  - copilot-instructions
-  - workspace
+- github-copilot
+- vscode
+- copilot-instructions
+- workspace
 ---
 
 # GitHub Copilot Instruction Patterns

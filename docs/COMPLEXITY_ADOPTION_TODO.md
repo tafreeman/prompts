@@ -1,3 +1,24 @@
+---
+title: Repository Complexity & Adoption - Action Items
+shortTitle: Repository Complexity & ...
+intro: A prompt for repository complexity & adoption   action items tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Repository Complexity & Adoption - Action Items
 
 **Created**: 2025-11-28  

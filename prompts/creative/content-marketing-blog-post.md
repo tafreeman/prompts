@@ -1,14 +1,30 @@
 ---
-
-title: "Content Marketing Blog Post Generator"
-category: "creative"
-tags: ["content-marketing", "blogging", "seo", "copywriting", "beginner-friendly"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
-difficulty: "beginner"
-platform: "Claude Sonnet 4.5"
+title: Content Marketing Blog Post Generator
+shortTitle: Content Marketing Blog Post
+intro: A prompt for content marketing blog post generator tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-10-29'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 4.3
+category: creative
+tags:
+- content-marketing
+- blogging
+- seo
+- copywriting
+- beginner-friendly
+platform: Claude Sonnet 4.5
 ---
 
 # Content Marketing Blog Post Generator

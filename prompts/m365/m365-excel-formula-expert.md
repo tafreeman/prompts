@@ -1,14 +1,34 @@
 ---
-title: "M365 Excel Formula Expert"
-description: "Translates plain English descriptions of data problems into complex Excel formulas, explaining the logic and syntax."
-category: "analysis"
-tags: ["m365", "excel", "data-analysis", "formulas", "productivity"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Intermediate"
-platform: "Microsoft 365 Copilot"
+title: M365 Excel Formula Expert
+shortTitle: M365 Excel Formula Expert
+intro: Translates plain English descriptions of data problems into complex Excel formulas,
+  explaining the logic and syntax.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 3.9
+description: Translates plain English descriptions of data problems into complex Excel
+  formulas, explaining the logic and syntax.
+category: analysis
+tags:
+- m365
+- excel
+- data-analysis
+- formulas
+- productivity
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

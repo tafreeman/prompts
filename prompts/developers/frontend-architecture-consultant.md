@@ -1,13 +1,26 @@
 ---
-
-title: "Frontend Architecture Consultant"
-category: "developers"
-tags: ["developer", "frontend", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+title: Frontend Architecture Consultant
+shortTitle: Frontend Architecture
+intro: A prompt for frontend architecture consultant tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- frontend
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Frontend Architecture Consultant

@@ -1,14 +1,31 @@
 ---
-title: "Mid-Level Developer Architecture Coach"
-category: "developers"
-subcategory: "coaching"
-tags: ["mentoring", "architecture", "career-growth", "design-patterns", "soft-skills"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
-framework_compatibility: ["agnostic"]
+title: Mid-Level Developer Architecture Coach
+shortTitle: Mid-Level Developer Arch...
+intro: A prompt for mid level developer architecture coach tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-26'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+subcategory: coaching
+tags:
+- mentoring
+- architecture
+- career-growth
+- design-patterns
+- soft-skills
+platform: Claude Sonnet 4.5
+framework_compatibility:
+- agnostic
 ---
 
 # Mid-Level Developer Architecture Coach

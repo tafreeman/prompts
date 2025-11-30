@@ -1,37 +1,53 @@
 ---
-title: "Semantic Compression"
-category: "techniques"
-subcategory: "context-optimization"
-technique_type: "compression"
+title: Semantic Compression
+shortTitle: Semantic Compression
+intro: A prompt for semantic compression tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: context-optimization
+technique_type: compression
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-difficulty: "intermediate"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 use_cases:
-  - long-document-summarization
-  - chat-history-management
-  - token-optimization
-  - cost-reduction
+- long-document-summarization
+- chat-history-management
+- token-optimization
+- cost-reduction
 performance_metrics:
-  compression_ratio: "40-60%"
-  information_retention: "high"
-  cost_reduction: "50%"
+  compression_ratio: 40-60%
+  information_retention: high
+  cost_reduction: 50%
 testing:
-  framework: "pytest"
-  coverage: "90%"
-  validation_status: "passed"
+  framework: pytest
+  coverage: 90%
+  validation_status: passed
 governance:
-  data_classification: "internal"
-  risk_level: "low"
-  compliance_standards: ["GDPR"]
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  data_classification: internal
+  risk_level: low
+  compliance_standards:
+  - GDPR
+last_updated: '2025-11-23'
 tags:
-  - compression
-  - summarization
-  - token-optimization
-  - python
+- compression
+- summarization
+- token-optimization
+- python
 ---
 
 # Semantic Compression

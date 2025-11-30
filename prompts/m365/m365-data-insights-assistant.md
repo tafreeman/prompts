@@ -1,12 +1,30 @@
 ---
-title: "M365 Data Insights Assistant"
-category: "business"
-tags: ["m365", "copilot", "excel", "data-analysis", "insights"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Data Insights Assistant
+shortTitle: M365 Data Insights
+intro: A prompt for m365 data insights assistant tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- excel
+- data-analysis
+- insights
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Data Insights Assistant

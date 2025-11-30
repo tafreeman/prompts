@@ -1,13 +1,33 @@
 ---
-title: "M365 Sway Document to Story"
-description: "Converts a standard Word document or report into an engaging Microsoft Sway storyline structure with visual suggestions."
-category: "creative"
-tags: ["m365", "sway", "storytelling", "presentation", "content-creation"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Sway Document to Story
+shortTitle: M365 Sway Document to Story
+intro: Converts a standard Word document or report into an engaging Microsoft Sway
+  storyline structure with visual suggestions.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Converts a standard Word document or report into an engaging Microsoft
+  Sway storyline structure with visual suggestions.
+category: creative
+tags:
+- m365
+- sway
+- storytelling
+- presentation
+- content-creation
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

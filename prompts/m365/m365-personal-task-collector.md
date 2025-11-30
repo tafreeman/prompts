@@ -1,12 +1,30 @@
 ---
-title: "M365 Personal Task Collector"
-category: "business"
-tags: ["m365", "copilot", "task-management", "productivity", "to-do"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Personal Task Collector
+shortTitle: M365 Personal Task Colle...
+intro: A prompt for m365 personal task collector tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- task-management
+- productivity
+- to-do
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Personal Task Collector

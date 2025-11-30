@@ -1,13 +1,26 @@
 ---
-
-title: "Mobile App Developer"
-category: "developers"
-tags: ["developer", "mobile-development", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+title: Mobile App Developer
+shortTitle: Mobile App Developer
+intro: A prompt for mobile app developer tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- mobile-development
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Mobile App Developer

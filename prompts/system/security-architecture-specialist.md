@@ -1,13 +1,26 @@
 ---
-
-title: "Security Architecture Specialist"
-category: "system"
-tags: ["architect", "security", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: Security Architecture Specialist
+shortTitle: Security Architecture
+intro: A prompt for security architecture specialist tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- architect
+- security
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Security Architecture Specialist

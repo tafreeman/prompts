@@ -1,7 +1,27 @@
 ---
-applyTo: "**/*.cs,**/*.cshtml,**/*.razor"
-name: "dotnet-enterprise-technology-stack"
-description: "Standardize the default .NET, database, and security stack for enterprise applications"
+title: .NET Enterprise Technology Stack
+shortTitle: .NET Enterprise Technolo...
+intro: Standardize the default.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+applyTo: '**/*.cs,**/*.cshtml,**/*.razor'
+name: dotnet-enterprise-technology-stack
+description: Standardize the default .NET, database, and security stack for enterprise
+  applications
 ---
 
 # .NET Enterprise Technology Stack

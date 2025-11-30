@@ -1,7 +1,31 @@
 ---
+title: Prompt Engineering Agent
+shortTitle: Prompt Engineering Agent
+intro: Expert in AI prompt engineering, creating effective prompts for LLMs and AI
+  assistants.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: prompt_agent
-description: Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
-tools: ["read", "write", "search"]
+description: Expert in AI prompt engineering, creating effective prompts for LLMs
+  and AI assistants
+tools:
+- read
+- write
+- search
 ---
 
 # Prompt Engineering Agent

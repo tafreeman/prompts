@@ -1,14 +1,32 @@
 ---
-title: "C# Enterprise Standards Enforcer"
-category: "developers"
-subcategory: "code-review"
-tags: ["csharp", "dotnet", "standards", "clean-architecture", "code-review"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
-framework_compatibility: ["net8.0", "net9.0"]
+title: C# Enterprise Standards Enforcer
+shortTitle: C# Enterprise Standards ...
+intro: A prompt for c# enterprise standards enforcer tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.1'
+date: '2025-11-26'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+subcategory: code-review
+tags:
+- csharp
+- dotnet
+- standards
+- clean-architecture
+- code-review
+platform: Claude Sonnet 4.5
+framework_compatibility:
+- net8.0
+- net9.0
 ---
 
 # C# Enterprise Standards Enforcer

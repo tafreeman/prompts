@@ -1,13 +1,26 @@
 ---
-
-title: "Disaster Recovery Architect"
-category: "system"
-tags: ["architect", "disaster-recovery", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: Disaster Recovery Architect
+shortTitle: Disaster Recovery Architect
+intro: A prompt for disaster recovery architect tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- architect
+- disaster-recovery
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Disaster Recovery Architect

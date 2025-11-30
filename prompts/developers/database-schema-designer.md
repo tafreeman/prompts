@@ -1,20 +1,43 @@
 ---
-
-title: "Database Schema Designer"
-category: "developers"
-tags: ["developer", "database-design", "erd", "ddl", "postgresql", "performance", "migration"]
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "data-governance"]
-data_classification: "confidential"
-risk_level: "high"
-regulatory_scope: ["GDPR", "SOC2"]
+title: Database Schema Designer
+shortTitle: Database Schema Designer
+intro: A prompt for database schema designer tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
+governance_tags:
+- architecture-decision
+- requires-human-review
+- data-governance
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- database-design
+- erd
+- ddl
+- postgresql
+- performance
+- migration
+data_classification: confidential
+risk_level: high
+regulatory_scope:
+- GDPR
+- SOC2
 approval_required: true
-approval_roles: ["Staff-Engineer", "Data-Architect"]
-retention_period: "7-years"
-platform: "Claude Sonnet 4.5"
+approval_roles:
+- Staff-Engineer
+- Data-Architect
+retention_period: 7-years
+platform: Claude Sonnet 4.5
 ---
 
 # Database Schema Designer

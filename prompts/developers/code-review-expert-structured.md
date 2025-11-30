@@ -1,36 +1,53 @@
 ---
-title: "Code Review Expert: Structured Output"
-category: "developers"
-subcategory: "code-review"
-tags: 
-  - code-review
-  - automation
-  - ci-cd
-  - structured-output
-  - best-practices
-  - json-schema
-author: "Prompts Library Team"
-version: "1.2.0"
-date: "2025-11-27"
-difficulty: "intermediate"
+title: 'Code Review Expert: Structured Output'
+shortTitle: 'Code Review Expert: Stru...'
+intro: 'A prompt for code review expert: structured output tasks.'
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: 1.2.0
+date: '2025-11-27'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+subcategory: code-review
+tags:
+- code-review
+- automation
+- ci-cd
+- structured-output
+- best-practices
+- json-schema
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 performance_metrics:
-  complexity_rating: "medium"
-  token_usage_estimate: "1500-2500"
-  quality_score: "98"
+  complexity_rating: medium
+  token_usage_estimate: 1500-2500
+  quality_score: '98'
 testing:
-  framework: "manual"
-  validation_status: "passed"
-  test_cases: ["json-schema-validation", "markdown-rendering"]
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - json-schema-validation
+  - markdown-rendering
 governance:
-  risk_level: "low"
-  data_classification: "internal"
-  regulatory_scope: ["SOC2", "ISO27001", "GDPR"]
+  risk_level: low
+  data_classification: internal
+  regulatory_scope:
+  - SOC2
+  - ISO27001
+  - GDPR
   approval_required: false
-  retention_period: "1-year"
-platform: "Claude Sonnet 4.5"
+  retention_period: 1-year
+platform: Claude Sonnet 4.5
 ---
 
 # Code Review Expert: Structured Output

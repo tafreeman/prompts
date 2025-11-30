@@ -1,13 +1,33 @@
 ---
-title: "M365 Customer Feedback Analyzer"
-description: "Analyzes unstructured customer feedback (emails, notes, surveys) to identify key themes, sentiment, and actionable insights."
-category: "analysis"
-tags: ["m365", "customer-success", "feedback", "sentiment-analysis", "summarization"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Intermediate"
-platform: "Microsoft 365 Copilot"
+title: M365 Customer Feedback Analyzer
+shortTitle: M365 Customer Feedback
+intro: Analyzes unstructured customer feedback (emails, notes, surveys) to identify
+  key themes, sentiment, and actionable insights.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Analyzes unstructured customer feedback (emails, notes, surveys) to identify
+  key themes, sentiment, and actionable insights.
+category: analysis
+tags:
+- m365
+- customer-success
+- feedback
+- sentiment-analysis
+- summarization
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

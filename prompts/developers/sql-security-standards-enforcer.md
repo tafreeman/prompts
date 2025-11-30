@@ -1,37 +1,55 @@
 ---
-title: "SQL Security Standards Enforcer"
-category: "developers"
-subcategory: "security"
-tags: 
-  - sql
-  - sql-server
-  - security
-  - code-review
-  - database
-  - injection-prevention
-  - least-privilege
-author: "Prompts Library Team"
-version: "1.1.0"
-date: "2025-11-27"
-difficulty: "intermediate"
+title: SQL Security Standards Enforcer
+shortTitle: SQL Security Standards E...
+intro: A prompt for sql security standards enforcer tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: 1.1.0
+date: '2025-11-27'
+governance_tags:
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+category: developers
+subcategory: security
+tags:
+- sql
+- sql-server
+- security
+- code-review
+- database
+- injection-prevention
+- least-privilege
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 performance_metrics:
-  complexity_rating: "medium"
-  token_usage_estimate: "1500-2500"
-  quality_score: "98"
+  complexity_rating: medium
+  token_usage_estimate: 1500-2500
+  quality_score: '98'
 testing:
-  framework: "manual"
-  validation_status: "passed"
-  test_cases: ["sql-injection-check", "permission-audit"]
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - sql-injection-check
+  - permission-audit
 governance:
-  risk_level: "high"
-  data_classification: "internal"
-  regulatory_scope: ["SOC2", "GDPR", "PCI-DSS", "HIPAA"]
+  risk_level: high
+  data_classification: internal
+  regulatory_scope:
+  - SOC2
+  - GDPR
+  - PCI-DSS
+  - HIPAA
   approval_required: false
-  retention_period: "permanent"
-platform: "Claude Sonnet 4.5"
+  retention_period: permanent
+platform: Claude Sonnet 4.5
 ---
 
 # SQL Security Standards Enforcer

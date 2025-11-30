@@ -1,40 +1,61 @@
 ---
-title: "API Design Consultant"
-category: "developers"
-subcategory: "architecture"
-tags: 
-  - developer
-  - api-design
-  - enterprise
-  - rest
-  - openapi
-  - graphql
-  - api-versioning
-  - api-security
-author: "Prompts Library Team"
-version: "2.2.0"
-date: "2025-11-27"
-difficulty: "advanced"
-framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-performance_metrics:
-  complexity_rating: "high"
-  token_usage_estimate: "2000-4000"
-  quality_score: "98"
-testing:
-  framework: "manual"
-  validation_status: "passed"
-  test_cases: ["ecommerce-order-api", "fintech-payment-api"]
-governance:
-  risk_level: "high"
-  data_classification: "confidential"
-  regulatory_scope: ["SOC2", "GDPR", "PCI-DSS", "HIPAA"]
-  approval_required: true
-  approval_roles: ["Staff-Engineer", "API-Architect"]
-  retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+title: API Design Consultant
+shortTitle: API Design Consultant
+intro: A prompt for api design consultant tasks.
+type: reference
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: 2.2.0
+date: '2025-11-27'
+governance_tags:
+- requires-human-review
+- audit-required
+- internal-only
+dataClassification: confidential
+reviewStatus: draft
 effectivenessScore: 4.5
+category: developers
+subcategory: architecture
+tags:
+- developer
+- api-design
+- enterprise
+- rest
+- openapi
+- graphql
+- api-versioning
+- api-security
+framework_compatibility:
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
+performance_metrics:
+  complexity_rating: high
+  token_usage_estimate: 2000-4000
+  quality_score: '98'
+testing:
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - ecommerce-order-api
+  - fintech-payment-api
+governance:
+  risk_level: high
+  data_classification: confidential
+  regulatory_scope:
+  - SOC2
+  - GDPR
+  - PCI-DSS
+  - HIPAA
+  approval_required: true
+  approval_roles:
+  - Staff-Engineer
+  - API-Architect
+  retention_period: 5-years
+platform: Claude Sonnet 4.5
 ---
 
 # API Design Consultant

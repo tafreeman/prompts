@@ -1,7 +1,28 @@
 ---
-applyTo: "**/*.cshtml,**/*.razor"
-name: "razor-pages-ui-standards"
-description: "Enforce security, accessibility, and performance standards for Razor Pages and Razor Components"
+title: Razor Pages and UI Standards
+shortTitle: Razor Pages and UI Stand...
+intro: Enforce security, accessibility, and performance standards for Razor Pages
+  and Razor Components.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+applyTo: '**/*.cshtml,**/*.razor'
+name: razor-pages-ui-standards
+description: Enforce security, accessibility, and performance standards for Razor
+  Pages and Razor Components
 ---
 
 # Razor Pages and UI Standards

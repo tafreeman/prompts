@@ -1,12 +1,29 @@
 ---
-title: "Cloud Migration Specialist"
-category: "developers"
-tags: ["developer", "cloud-migration", "enterprise", "azure", "aws", "modernization"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: Cloud Migration Specialist
+shortTitle: Cloud Migration Specialist
+intro: A prompt for cloud migration specialist tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.1'
+date: '2025-11-26'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- cloud-migration
+- enterprise
+- azure
+- aws
+- modernization
+platform: Claude Sonnet 4.5
 ---
 
 # Cloud Migration Specialist

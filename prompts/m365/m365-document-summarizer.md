@@ -1,12 +1,30 @@
 ---
-title: "M365 Document Summarizer"
-category: "business"
-tags: ["m365", "copilot", "document", "summarization", "word"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Document Summarizer
+shortTitle: M365 Document Summarizer
+intro: A prompt for m365 document summarizer tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- document
+- summarization
+- word
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Document Summarizer

@@ -1,25 +1,25 @@
 ---
-title: "Prompt Title Here"
-shortTitle: "Short Title"
-intro: "One-sentence summary of what this prompt does."
-type: "how_to"
-difficulty: "beginner"
+title: Prompt Title Here
+shortTitle: Short Title
+intro: One-sentence summary of what this prompt does.
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "senior-engineer"
+- junior-engineer
+- senior-engineer
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "code-generation"
-author: "Your Name"
-version: "1.0"
-date: "YYYY-MM-DD"
+- code-generation
+author: Your Name
+version: '1.0'
+date: '2025-11-30'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 0.0
 ---
 

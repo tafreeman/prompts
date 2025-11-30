@@ -1,14 +1,27 @@
 ---
-
-title: "Documentation Generator"
-category: "developers"
-tags: ["developer", "documentation", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+title: Documentation Generator
+shortTitle: Documentation Generator
+intro: A prompt for documentation generator tasks.
+type: troubleshooting
+difficulty: intermediate
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 3.2
+category: developers
+tags:
+- developer
+- documentation
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Documentation Generator

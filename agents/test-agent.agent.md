@@ -1,7 +1,32 @@
 ---
+title: Testing Agent
+shortTitle: Testing Agent
+intro: Expert in test generation for comprehensive code coverage using modern testing
+  frameworks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: test_agent
-description: Expert in test generation for comprehensive code coverage using modern testing frameworks
-tools: ["read", "write", "search", "execute"]
+description: Expert in test generation for comprehensive code coverage using modern
+  testing frameworks
+tools:
+- read
+- write
+- search
+- execute
 ---
 
 # Testing Agent

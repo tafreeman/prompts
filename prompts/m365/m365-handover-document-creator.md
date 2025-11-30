@@ -1,13 +1,33 @@
 ---
-title: "M365 Handover Document Creator"
-description: "Generates a comprehensive handover document for role transitions or project transfers, ensuring no critical knowledge is lost."
-category: "business"
-tags: ["m365", "documentation", "handover", "knowledge-management", "onboarding"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Handover Document Creator
+shortTitle: M365 Handover Document C...
+intro: Generates a comprehensive handover document for role transitions or project
+  transfers, ensuring no critical knowledge is lost.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Generates a comprehensive handover document for role transitions or project
+  transfers, ensuring no critical knowledge is lost.
+category: business
+tags:
+- m365
+- documentation
+- handover
+- knowledge-management
+- onboarding
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

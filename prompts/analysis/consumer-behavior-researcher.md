@@ -1,13 +1,26 @@
 ---
-
-title: "Consumer Behavior Researcher"
-category: "analysis"
-tags: ["researcher", "consumer-research", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+title: Consumer Behavior Researcher
+shortTitle: Consumer Behavior Resear...
+intro: A prompt for consumer behavior researcher tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: analysis
+tags:
+- researcher
+- consumer-research
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Consumer Behavior Researcher

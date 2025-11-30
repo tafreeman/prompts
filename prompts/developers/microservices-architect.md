@@ -1,21 +1,43 @@
 ---
-
-title: "Microservices Architect"
-category: "developers"
-tags: ["developer", "architecture", "enterprise", "ddd", "event-storming", "microservices", "saga-pattern", "service-mesh"]
-author: "Prompts Library Team"
-version: "2.1"
-date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "adr-required"]
-data_classification: "confidential"
-risk_level: "critical"
-regulatory_scope: ["SOC2"]
-approval_required: true
-approval_roles: ["Principal-Engineer", "CTO"]
-retention_period: "10-years"
-platform: "Claude Sonnet 4.5"
+title: Microservices Architect
+shortTitle: Microservices Architect
+intro: A prompt for microservices architect tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '2.1'
+date: '2025-11-17'
+governance_tags:
+- architecture-decision
+- requires-human-review
+- adr-required
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 4.3
+category: developers
+tags:
+- developer
+- architecture
+- enterprise
+- ddd
+- event-storming
+- microservices
+- saga-pattern
+- service-mesh
+data_classification: confidential
+risk_level: critical
+regulatory_scope:
+- SOC2
+approval_required: true
+approval_roles:
+- Principal-Engineer
+- CTO
+retention_period: 10-years
+platform: Claude Sonnet 4.5
 ---
 
 # Microservices Architect

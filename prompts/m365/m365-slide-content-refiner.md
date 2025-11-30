@@ -1,13 +1,33 @@
 ---
-title: "M365 Slide Content Refiner"
-description: "Transforms dense text or rough bullet points into concise, punchy slide content optimized for presentations."
-category: "creative"
-tags: ["m365", "powerpoint", "presentation", "copywriting", "communication"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Slide Content Refiner
+shortTitle: M365 Slide Content Refiner
+intro: Transforms dense text or rough bullet points into concise, punchy slide content
+  optimized for presentations.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Transforms dense text or rough bullet points into concise, punchy slide
+  content optimized for presentations.
+category: creative
+tags:
+- m365
+- powerpoint
+- presentation
+- copywriting
+- communication
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

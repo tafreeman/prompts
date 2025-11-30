@@ -1,3 +1,24 @@
+---
+title: Knowledge Base Architecture Research Report
+shortTitle: Knowledge Base Architect...
+intro: A prompt for knowledge base architecture research report tasks.
+type: reference
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Knowledge Base Architecture Research Report
 
 **Date**: November 29, 2025  

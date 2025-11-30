@@ -1,13 +1,26 @@
 ---
-
-title: "Compliance Architecture Designer"
-category: "system"
-tags: ["architect", "compliance", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: Compliance Architecture Designer
+shortTitle: Compliance Architecture
+intro: A prompt for compliance architecture designer tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- architect
+- compliance
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Compliance Architecture Designer

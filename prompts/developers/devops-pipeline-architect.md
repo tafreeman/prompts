@@ -1,20 +1,43 @@
 ---
-
-title: "DevOps Pipeline Architect"
-category: "developers"
-tags: ["developer", "devops", "cicd", "github-actions", "gitops", "dora-metrics", "security"]
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "security-critical"]
-data_classification: "confidential"
-risk_level: "high"
-regulatory_scope: ["SOC2", "ISO27001"]
+title: DevOps Pipeline Architect
+shortTitle: DevOps Pipeline Architect
+intro: A prompt for devops pipeline architect tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
+governance_tags:
+- architecture-decision
+- requires-human-review
+- security-critical
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- devops
+- cicd
+- github-actions
+- gitops
+- dora-metrics
+- security
+data_classification: confidential
+risk_level: high
+regulatory_scope:
+- SOC2
+- ISO27001
 approval_required: true
-approval_roles: ["DevOps-Lead", "Security-Lead"]
-retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+approval_roles:
+- DevOps-Lead
+- Security-Lead
+retention_period: 5-years
+platform: Claude Sonnet 4.5
 ---
 
 # DevOps Pipeline Architect

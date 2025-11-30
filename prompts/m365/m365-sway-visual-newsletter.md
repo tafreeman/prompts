@@ -1,13 +1,33 @@
 ---
-title: "M365 Sway Visual Newsletter"
-description: "Compiles team updates, news, and announcements into a modern, mobile-friendly newsletter format for Microsoft Sway."
-category: "communication"
-tags: ["m365", "sway", "newsletter", "internal-comms", "updates"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Sway Visual Newsletter
+shortTitle: M365 Sway Visual Newsletter
+intro: Compiles team updates, news, and announcements into a modern, mobile-friendly
+  newsletter format for Microsoft Sway.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Compiles team updates, news, and announcements into a modern, mobile-friendly
+  newsletter format for Microsoft Sway.
+category: communication
+tags:
+- m365
+- sway
+- newsletter
+- internal-comms
+- updates
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

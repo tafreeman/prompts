@@ -1,27 +1,40 @@
 ---
-title: "Office Agent Deep Research: Modern Prompting"
-category: "system"
+title: 'Office Agent Deep Research: Modern Prompting'
+shortTitle: Office Agent Deep Resear...
+intro: 'A prompt for office agent deep research: modern prompting tasks.'
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompt Library Maintainer
+version: '2.0'
+date: '2025-11-23'
+governance_tags:
+- research
+- knowledge-synthesis
+dataClassification: internal
+reviewStatus: draft
+category: system
 tags:
-  [
-    "office-agent",
-    "deep-research",
-    "e2b",
-    "agentic-workflow",
-    "python",
-    "automation",
-  ]
-author: "Prompt Library Maintainer"
-version: "2.0"
-date: "2025-11-23"
-difficulty: "advanced"
-platform: "Office Agent (E2B Sandbox)"
-governance_tags: ["research", "knowledge-synthesis"]
-data_classification: "public"
-risk_level: "medium"
-regulatory_scope: ["none"]
+- office-agent
+- deep-research
+- e2b
+- agentic-workflow
+- python
+- automation
+platform: Office Agent (E2B Sandbox)
+data_classification: public
+risk_level: medium
+regulatory_scope:
+- none
 approval_required: false
 approval_roles: []
-retention_period: "permanent"
+retention_period: permanent
 ---
 
 # Office Agent Deep Research: Modern Prompting Techniques

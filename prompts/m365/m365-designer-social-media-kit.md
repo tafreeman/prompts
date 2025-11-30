@@ -1,13 +1,33 @@
 ---
-title: "M365 Designer Social Media Kit"
-description: "Generates a cohesive set of image prompts for Microsoft Designer to create matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece."
-category: "creative"
-tags: ["m365", "designer", "social-media", "marketing", "branding"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Intermediate"
-platform: "Microsoft 365 Copilot"
+title: M365 Designer Social Media Kit
+shortTitle: M365 Designer Social Med...
+intro: Generates a cohesive set of image prompts for Microsoft Designer to create
+  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Generates a cohesive set of image prompts for Microsoft Designer to create
+  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
+category: creative
+tags:
+- m365
+- designer
+- social-media
+- marketing
+- branding
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

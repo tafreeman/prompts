@@ -1,13 +1,32 @@
 ---
-title: "M365 Meeting Recap Assistant"
-category: "business"
-tags: ["m365", "copilot", "meetings", "recap", "teams", "action-items"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Meeting Recap Assistant
+shortTitle: M365 Meeting Recap
+intro: A prompt for m365 meeting recap assistant tasks.
+type: conceptual
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 4.2
+category: business
+tags:
+- m365
+- copilot
+- meetings
+- recap
+- teams
+- action-items
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Meeting Recap Assistant

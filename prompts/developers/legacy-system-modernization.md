@@ -1,20 +1,41 @@
 ---
-
-title: "Legacy System Modernization"
-category: "developers"
-tags: ["developer", "modernization", "migration", "integration", "compliance", "cloud"]
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["requires-human-review", "change-management"]
-data_classification: "confidential"
-risk_level: "high"
-regulatory_scope: ["SOX", "GDPR"]
+title: Legacy System Modernization
+shortTitle: Legacy System Modernization
+intro: A prompt for legacy system modernization tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
+governance_tags:
+- requires-human-review
+- change-management
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- modernization
+- migration
+- integration
+- compliance
+- cloud
+data_classification: confidential
+risk_level: high
+regulatory_scope:
+- SOX
+- GDPR
 approval_required: true
-approval_roles: ["Enterprise-Architect", "Security-Officer"]
-retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+approval_roles:
+- Enterprise-Architect
+- Security-Officer
+retention_period: 5-years
+platform: Claude Sonnet 4.5
 ---
 
 # Legacy System Modernization

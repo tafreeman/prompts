@@ -1,13 +1,33 @@
 ---
-title: "M365 Designer Infographic Brief"
-description: "Transforms raw data points and key messages into a structured design brief for creating infographics in Microsoft Designer."
-category: "creative"
-tags: ["m365", "designer", "infographic", "data-visualization", "communication"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Designer Infographic Brief
+shortTitle: M365 Designer Infographi...
+intro: Transforms raw data points and key messages into a structured design brief
+  for creating infographics in Microsoft Designer.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Transforms raw data points and key messages into a structured design
+  brief for creating infographics in Microsoft Designer.
+category: creative
+tags:
+- m365
+- designer
+- infographic
+- data-visualization
+- communication
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

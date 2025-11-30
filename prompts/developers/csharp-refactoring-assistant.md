@@ -1,15 +1,34 @@
 ---
-title: "C# Refactoring Assistant"
-category: "developers"
-subcategory: "refactoring"
-tags: ["csharp", "refactoring", "legacy-code", "clean-code", "modernization"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
-framework_compatibility: ["net8.0", "net9.0"]
+title: C# Refactoring Assistant
+shortTitle: C# Refactoring Assistant
+intro: A prompt for c# refactoring assistant tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-26'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 4.2
+category: developers
+subcategory: refactoring
+tags:
+- csharp
+- refactoring
+- legacy-code
+- clean-code
+- modernization
+platform: Claude Sonnet 4.5
+framework_compatibility:
+- net8.0
+- net9.0
 ---
 
 # C# Refactoring Assistant

@@ -1,3 +1,24 @@
+---
+title: 'Quick Start: Platform-Specific Prompt Templates'
+shortTitle: 'Quick Start: Platform-Sp...'
+intro: 'A prompt for quick start: platform specific prompt templates tasks.'
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Quick Start: Platform-Specific Prompt Templates
 
 Ready-to-use templates for GitHub Copilot, Microsoft 365, Windows Copilot, and other AI tools.

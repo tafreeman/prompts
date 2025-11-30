@@ -1,3 +1,24 @@
+---
+title: Domain Schemas for Prompt Outputs
+shortTitle: Domain Schemas for Promp...
+intro: A prompt for domain schemas for prompt outputs tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Domain Schemas for Prompt Outputs
 
 This document defines standard JSON and Markdown schemas for high-frequency developer and data/database workflows. Use these schemas across prompts to ensure consistent, machine-consumable outputs that integrate cleanly into automation pipelines, dashboards, and enterprise tools.

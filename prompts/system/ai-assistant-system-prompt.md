@@ -1,13 +1,29 @@
 ---
-
-title: "AI Assistant System Prompt"
-category: "system"
-tags: ["system-prompt", "ai-assistant", "configuration", "behavior", "advanced"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: AI Assistant System Prompt
+shortTitle: AI Assistant System Prompt
+intro: A prompt for ai assistant system prompt tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-10-29'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- system-prompt
+- ai-assistant
+- configuration
+- behavior
+- advanced
+platform: Claude Sonnet 4.5
 ---
 
 # AI Assistant System Prompt

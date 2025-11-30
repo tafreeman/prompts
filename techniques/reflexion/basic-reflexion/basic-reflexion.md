@@ -1,44 +1,57 @@
 ---
-title: "Basic Reflexion Pattern for Code Analysis"
-category: "techniques"
-subcategory: "reflexion"
-technique_type: "self-correction"
+title: Basic Reflexion Pattern for Code Analysis
+shortTitle: Basic Reflexion Pattern ...
+intro: A prompt for basic reflexion pattern for code analysis tasks.
+type: reference
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- azure-openai
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: reflexion
+technique_type: self-correction
 framework_compatibility:
-  langchain: ">=0.1.0"
-  anthropic: ">=0.8.0"
-  openai: ">=1.0.0"
-difficulty: "advanced"
+  langchain: '>=0.1.0'
+  anthropic: '>=0.8.0'
+  openai: '>=1.0.0'
 use_cases:
-  - code-generation
-  - problem-solving
-  - analysis
+- code-generation
+- problem-solving
+- analysis
 performance_metrics:
-  accuracy_improvement: "20-30%"
-  latency_impact: "medium"
-  cost_multiplier: "1.3-1.6x"
+  accuracy_improvement: 20-30%
+  latency_impact: medium
+  cost_multiplier: 1.3-1.6x
 dependencies:
-  - base-prompt-template
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+- base-prompt-template
+last_updated: '2025-11-23'
 governance:
-  data_classification: "internal"
-  risk_level: "low"
+  data_classification: internal
+  risk_level: low
   approval_required: false
 testing:
   benchmark_score: 87
-  validation_status: "passed"
-  last_tested: "2025-11-23"
+  validation_status: passed
+  last_tested: '2025-11-23'
   test_coverage: 95
 tags:
-  - reflexion
-  - code-analysis
-  - self-correction
-  - iterative-improvement
+- reflexion
+- code-analysis
+- self-correction
+- iterative-improvement
 platform:
-  - openai
-  - anthropic
-  - azure-openai
+- openai
+- anthropic
+- azure-openai
 ---
 
 # Basic Reflexion Pattern for Code Analysis

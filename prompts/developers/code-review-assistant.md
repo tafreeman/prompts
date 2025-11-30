@@ -1,19 +1,36 @@
 ---
-
-title: "Code Review Assistant"
-category: "developers"
-tags: ["code-review", "quality", "best-practices", "refactoring", "beginner-friendly"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-18"
-difficulty: "beginner"
-governance_tags: ["quality-assurance", "human-review-recommended"]
-data_classification: "internal"
-risk_level: "low"
-regulatory_scope: ["internal-standards"]
+title: Code Review Assistant
+shortTitle: Code Review Assistant
+intro: A prompt for code review assistant tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.1'
+date: '2025-11-18'
+governance_tags:
+- quality-assurance
+- human-review-recommended
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- code-review
+- quality
+- best-practices
+- refactoring
+- beginner-friendly
+data_classification: internal
+risk_level: low
+regulatory_scope:
+- internal-standards
 approval_required: false
-retention_period: "1-year"
-platform: "Claude Sonnet 4.5"
+retention_period: 1-year
+platform: Claude Sonnet 4.5
 ---
 
 # Code Review Assistant

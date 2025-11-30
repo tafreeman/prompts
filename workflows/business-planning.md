@@ -1,3 +1,24 @@
+---
+title: Enterprise Business Planning Workflow Blueprint
+shortTitle: Enterprise Business Plan...
+intro: A prompt for enterprise business planning workflow blueprint tasks.
+type: quickstart
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Enterprise Business Planning Workflow Blueprint
 
 **Version**: 1.0  

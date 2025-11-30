@@ -1,12 +1,30 @@
 ---
-title: "M365 Project Status Reporter"
-category: "business"
-tags: ["m365", "copilot", "project-management", "status-update", "reporting"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Project Status Reporter
+shortTitle: M365 Project Status Repo...
+intro: A prompt for m365 project status reporter tasks.
+type: conceptual
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- project-management
+- status-update
+- reporting
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Project Status Reporter

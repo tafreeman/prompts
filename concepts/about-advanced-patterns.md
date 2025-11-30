@@ -1,30 +1,31 @@
 ---
-title: "About Advanced Prompting Patterns"
-shortTitle: "Advanced Patterns"
-intro: "Understand advanced prompting techniques like Chain-of-Thought, few-shot learning, and agentic patterns, and when to use them."
-type: "conceptual"
-difficulty: "intermediate"
+title: About Advanced Prompting Patterns
+shortTitle: Advanced Patterns
+intro: Understand advanced prompting techniques like Chain-of-Thought, few-shot learning,
+  and agentic patterns, and when to use them.
+type: conceptual
+difficulty: intermediate
 audience:
-  - "mid-engineer"
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- senior-engineer
+- solution-architect
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-  - "azure-openai"
+- github-copilot
+- claude
+- chatgpt
+- azure-openai
 topics:
-  - "advanced-patterns"
-  - "chain-of-thought"
-  - "few-shot"
-  - "agentic"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- advanced-patterns
+- chain-of-thought
+- few-shot
+- agentic
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-dataClassification: "public"
-reviewStatus: "approved"
+- PII-safe
+dataClassification: public
+reviewStatus: approved
 ---
 
 # About Advanced Prompting Patterns

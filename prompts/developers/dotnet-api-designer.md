@@ -1,14 +1,33 @@
 ---
-title: ".NET API Designer"
-category: "developers"
-subcategory: "api-design"
-tags: ["dotnet", "api", "rest", "openapi", "aspnet-core"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
-framework_compatibility: ["net8.0", "net9.0"]
+title: .NET API Designer
+shortTitle: .NET API Designer
+intro: A prompt for .net api designer tasks.
+type: reference
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-26'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: developers
+subcategory: api-design
+tags:
+- dotnet
+- api
+- rest
+- openapi
+- aspnet-core
+platform: Claude Sonnet 4.5
+framework_compatibility:
+- net8.0
+- net9.0
 ---
 
 # .NET API Designer

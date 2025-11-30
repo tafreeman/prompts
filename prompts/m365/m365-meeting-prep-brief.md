@@ -1,12 +1,30 @@
 ---
-title: "M365 Meeting Prep Brief"
-category: "business"
-tags: ["m365", "copilot", "meetings", "preparation", "teams"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Meeting Prep Brief
+shortTitle: M365 Meeting Prep Brief
+intro: A prompt for m365 meeting prep brief tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- meetings
+- preparation
+- teams
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Meeting Prep Brief

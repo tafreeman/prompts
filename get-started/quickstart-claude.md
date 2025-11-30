@@ -1,27 +1,30 @@
 ---
-title: "Quickstart for Claude"
-shortTitle: "Claude Quickstart"
-intro: "Get productive with Anthropic Claude in 15 minutes. Learn the essential prompting patterns for analysis, writing, and code generation."
-type: "quickstart"
-difficulty: "beginner"
+title: Quickstart for Claude
+shortTitle: Claude Quickstart
+intro: Get productive with Anthropic Claude in 15 minutes. Learn the essential prompting
+  patterns for analysis, writing, and code generation.
+type: quickstart
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "mid-engineer"
-  - "senior-engineer"
-  - "product-manager"
-  - "business-analyst"
+- junior-engineer
+- senior-engineer
+- senior-engineer
+- project-manager
+- business-analyst
 platforms:
-  - "claude"
+- claude
 topics:
-  - "quickstart"
-  - "claude"
-  - "analysis"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- quickstart
+- claude
+- analysis
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-learningTrack: "engineer-quickstart"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+learningTrack: engineer-quickstart
 ---
 
 # Quickstart for Claude

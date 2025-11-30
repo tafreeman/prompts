@@ -1,3 +1,24 @@
+---
+title: Prompts Prompts
+shortTitle: Prompts
+intro: Overview of prompts prompts available in this library.
+type: reference
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # 📚 Documentation Guide
 
 Welcome to the comprehensive documentation for the Enterprise AI Prompt Library. This documentation is research-backed and designed to help you get the most out of AI prompting across multiple platforms.

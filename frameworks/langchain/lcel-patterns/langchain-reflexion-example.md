@@ -1,31 +1,43 @@
 ---
-title: "LangChain LCEL Pattern with Reflexion"
-category: "frameworks"
-subcategory: "langchain"
-technique_type: "self-correction"
+title: LangChain LCEL Pattern with Reflexion
+shortTitle: LangChain LCEL Pattern w...
+intro: A prompt for langchain lcel pattern with reflexion tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms: []
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: frameworks
+subcategory: langchain
+technique_type: self-correction
 framework_compatibility:
-  langchain: ">=0.1.0"
-  openai: ">=1.0.0"
-difficulty: "advanced"
+  langchain: '>=0.1.0'
+  openai: '>=1.0.0'
 use_cases:
-  - chain-composition
-  - iterative-improvement
-  - error-correction
+- chain-composition
+- iterative-improvement
+- error-correction
 performance_metrics:
-  accuracy_improvement: "18-28%"
-  latency_impact: "medium"
-  cost_multiplier: "1.3-1.5x"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 18-28%
+  latency_impact: medium
+  cost_multiplier: 1.3-1.5x
+last_updated: '2025-11-23'
 tags:
-  - langchain
-  - lcel
-  - reflexion
-  - chains
+- langchain
+- lcel
+- reflexion
+- chains
 platform:
-  - openai
-  - anthropic
+- openai
+- anthropic
 ---
 
 # LangChain LCEL Pattern with Reflexion

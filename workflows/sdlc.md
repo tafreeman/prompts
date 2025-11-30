@@ -1,3 +1,24 @@
+---
+title: Enterprise SDLC Workflow Blueprint
+shortTitle: Enterprise SDLC Workflow...
+intro: A prompt for enterprise sdlc workflow blueprint tasks.
+type: troubleshooting
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Enterprise SDLC Workflow Blueprint
 
 **Version**: 1.0  

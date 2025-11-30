@@ -1,13 +1,33 @@
 ---
-title: "M365 Manager Sync Planner"
-description: "Generates a structured agenda for 1:1 meetings with your manager, highlighting achievements, blockers, and career development topics."
-category: "business"
-tags: ["m365", "management", "career", "productivity", "meeting-prep"]
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Manager Sync Planner
+shortTitle: M365 Manager Sync Planner
+intro: Generates a structured agenda for 1:1 meetings with your manager, highlighting
+  achievements, blockers, and career development topics.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Generates a structured agenda for 1:1 meetings with your manager, highlighting
+  achievements, blockers, and career development topics.
+category: business
+tags:
+- m365
+- management
+- career
+- productivity
+- meeting-prep
+platform: Microsoft 365 Copilot
 ---
 
 ## Description

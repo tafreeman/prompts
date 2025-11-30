@@ -1,20 +1,39 @@
 ---
-
-title: "Code Generation Assistant"
-category: "developers"
-tags: ["developer", "code-generation", "best-practices", "testing", "documentation", "multi-language"]
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["requires-human-review", "secure-coding"]
-data_classification: "confidential"
-risk_level: "medium"
-regulatory_scope: ["SOC2"]
+title: Code Generation Assistant
+shortTitle: Code Generation Assistant
+intro: A prompt for code generation assistant tasks.
+type: how_to
+difficulty: advanced
+audience:
+- qa-engineer
+platforms:
+- claude
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
+governance_tags:
+- requires-human-review
+- secure-coding
+dataClassification: internal
+reviewStatus: draft
+category: developers
+tags:
+- developer
+- code-generation
+- best-practices
+- testing
+- documentation
+- multi-language
+data_classification: confidential
+risk_level: medium
+regulatory_scope:
+- SOC2
 approval_required: true
-approval_roles: ["Tech-Lead", "Security-Engineer"]
-retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+approval_roles:
+- Tech-Lead
+- Security-Engineer
+retention_period: 5-years
+platform: Claude Sonnet 4.5
 ---
 
 # Code Generation Assistant

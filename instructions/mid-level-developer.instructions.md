@@ -1,7 +1,26 @@
 ---
-applyTo: "**/*.cs,**/*.cshtml"
-name: "mid-level-developer-guidance"
-description: "Guidance for mid-level developers focusing on architecture and optimization"
+title: Mid-Level Developer Guidance
+shortTitle: Mid-Level Developer Guid...
+intro: Guidance for mid-level developers focusing on architecture and optimization.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+applyTo: '**/*.cs,**/*.cshtml'
+name: mid-level-developer-guidance
+description: Guidance for mid-level developers focusing on architecture and optimization
 ---
 
 # Mid-Level Developer Guidance

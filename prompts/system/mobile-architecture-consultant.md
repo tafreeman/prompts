@@ -1,13 +1,26 @@
 ---
-
-title: "Mobile Architecture Consultant"
-category: "system"
-tags: ["architect", "mobile-architecture", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: Mobile Architecture Consultant
+shortTitle: Mobile Architecture
+intro: A prompt for mobile architecture consultant tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- architect
+- mobile-architecture
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # Mobile Architecture Consultant

@@ -1,27 +1,30 @@
 ---
-title: "Quickstart for ChatGPT"
-shortTitle: "ChatGPT Quickstart"
-intro: "Get productive with OpenAI ChatGPT in 15 minutes. Learn the essential prompting patterns for conversation, analysis, and creative tasks."
-type: "quickstart"
-difficulty: "beginner"
+title: Quickstart for ChatGPT
+shortTitle: ChatGPT Quickstart
+intro: Get productive with OpenAI ChatGPT in 15 minutes. Learn the essential prompting
+  patterns for conversation, analysis, and creative tasks.
+type: quickstart
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "mid-engineer"
-  - "senior-engineer"
-  - "product-manager"
-  - "business-analyst"
+- junior-engineer
+- senior-engineer
+- senior-engineer
+- project-manager
+- business-analyst
 platforms:
-  - "chatgpt"
+- chatgpt
 topics:
-  - "quickstart"
-  - "chatgpt"
-  - "conversation"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- quickstart
+- chatgpt
+- conversation
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-learningTrack: "engineer-quickstart"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+learningTrack: engineer-quickstart
 ---
 
 # Quickstart for ChatGPT

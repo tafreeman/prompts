@@ -1,27 +1,40 @@
 ---
-title: "Office Agent Technical Specifications"
-category: "system"
+title: Office Agent Technical Specifications
+shortTitle: Office Agent Technical S...
+intro: A prompt for office agent technical specifications tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompt Library Maintainer
+version: '1.0'
+date: '2025-11-23'
+governance_tags:
+- system-architecture
+- technical-documentation
+dataClassification: internal
+reviewStatus: draft
+category: system
 tags:
-  [
-    "office-agent",
-    "technical-specs",
-    "e2b",
-    "sandbox",
-    "capabilities",
-    "infrastructure",
-  ]
-author: "Prompt Library Maintainer"
-version: "1.0"
-date: "2025-11-23"
-difficulty: "advanced"
-platform: "Office Agent (E2B Sandbox)"
-governance_tags: ["system-architecture", "technical-documentation"]
-data_classification: "internal"
-risk_level: "low"
-regulatory_scope: ["none"]
+- office-agent
+- technical-specs
+- e2b
+- sandbox
+- capabilities
+- infrastructure
+platform: Office Agent (E2B Sandbox)
+data_classification: internal
+risk_level: low
+regulatory_scope:
+- none
 approval_required: false
 approval_roles: []
-retention_period: "permanent"
+retention_period: permanent
 ---
 
 # Office Agent Technical Specifications

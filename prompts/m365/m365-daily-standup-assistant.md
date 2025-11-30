@@ -1,12 +1,30 @@
 ---
-title: "M365 Daily Standup Assistant"
-category: "business"
-tags: ["m365", "copilot", "standup", "productivity", "teams"]
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+title: M365 Daily Standup Assistant
+shortTitle: M365 Daily Standup
+intro: A prompt for m365 daily standup assistant tasks.
+type: how_to
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- m365-copilot
+- github-copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: business
+tags:
+- m365
+- copilot
+- standup
+- productivity
+- teams
+platform: Microsoft 365 Copilot
 ---
 
 # M365 Daily Standup Assistant

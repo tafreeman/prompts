@@ -1,13 +1,26 @@
 ---
-
-title: "API Architecture Designer"
-category: "system"
-tags: ["architect", "api-design", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+title: API Architecture Designer
+shortTitle: API Architecture Designer
+intro: A prompt for api architecture designer tasks.
+type: reference
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- claude
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: system
+tags:
+- architect
+- api-design
+- enterprise
+platform: Claude Sonnet 4.5
 ---
 
 # API Architecture Designer

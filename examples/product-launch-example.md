@@ -1,3 +1,24 @@
+---
+title: 'Example: Using Prompts for a Product Launch'
+shortTitle: 'Example: Using Prompts f...'
+intro: 'A prompt for example: using prompts for a product launch tasks.'
+type: troubleshooting
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Example: Using Prompts for a Product Launch
 
 This example demonstrates how to use multiple prompts from the library to support a real-world task: launching a new product.

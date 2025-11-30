@@ -1,35 +1,49 @@
 ---
-title: "Analysis Reflexion Pattern"
-category: "techniques"
-subcategory: "reflexion"
-technique_type: "domain-specific"
+title: Analysis Reflexion Pattern
+shortTitle: Analysis Reflexion Pattern
+intro: A prompt for analysis reflexion pattern tasks.
+type: how_to
+difficulty: advanced
+audience:
+- solution-architect
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: reflexion
+technique_type: domain-specific
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-difficulty: "advanced"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 use_cases:
-  - architectural-review
-  - security-audit
-  - requirements-analysis
-  - root-cause-analysis
+- architectural-review
+- security-audit
+- requirements-analysis
+- root-cause-analysis
 performance_metrics:
-  depth_improvement: "high"
-  hallucination_reduction: "high"
-  cost_multiplier: "1.5x"
+  depth_improvement: high
+  hallucination_reduction: high
+  cost_multiplier: 1.5x
 testing:
-  framework: "manual"
-  validation_status: "passed"
+  framework: manual
+  validation_status: passed
 governance:
-  data_classification: "internal"
-  risk_level: "medium"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  data_classification: internal
+  risk_level: medium
+last_updated: '2025-11-23'
 tags:
-  - reflexion
-  - analysis
-  - architecture
-  - audit
+- reflexion
+- analysis
+- architecture
+- audit
 ---
 
 # Analysis Reflexion Pattern

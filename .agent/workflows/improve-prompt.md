@@ -1,4 +1,23 @@
 ---
+title: Improve Prompt
+shortTitle: Improve Prompt
+intro: Improve a prompt using the quality evaluator and validator tools.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 description: Improve a prompt using the quality evaluator and validator tools
 ---
 
