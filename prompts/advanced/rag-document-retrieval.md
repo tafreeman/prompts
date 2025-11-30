@@ -3,11 +3,6 @@ title: "RAG: Document Retrieval and Citation"
 shortTitle: "RAG Document Retrieval"
 intro: "Retrieval-Augmented Generation pattern for grounding AI responses in specific documents with proper citations and attribution."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["rag", "retrieval-augmented-generation", "document-search", "citations", "context", "grounding"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -20,11 +15,16 @@ platforms:
 topics:
   - "rag"
   - "retrieval"
-governance_tags: ["PII-safe", "requires-human-review-for-sensitive-docs", "audit-required"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-sensitive-docs"
+  - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # RAG: Document Retrieval and Citation Framework
 
 ## Description

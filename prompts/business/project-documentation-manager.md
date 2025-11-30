@@ -3,11 +3,6 @@ title: "Project Documentation Manager"
 shortTitle: "Project Documentation"
 intro: "Manages project documentation with strategy, template libraries, version control, and archive procedures."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "documentation", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "documentation"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Project Documentation Manager
 
 ## Description

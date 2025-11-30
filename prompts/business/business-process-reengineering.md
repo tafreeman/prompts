@@ -3,11 +3,6 @@ title: "Business Process Reengineering"
 shortTitle: "Process Reengineering"
 intro: "Reengineers business processes with analysis, new design, technology enablers, and implementation strategy."
 type: "how_to"
-category: "business"
-tags: ["consultant", "process-reengineering", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "process-improvement"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Business Process Reengineering
 
 ## Description

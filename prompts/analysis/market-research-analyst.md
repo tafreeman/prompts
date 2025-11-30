@@ -3,11 +3,6 @@ title: "Market Research Analyst"
 shortTitle: "Market Research"
 intro: "Conducts comprehensive market research with research design, data collection plans, and strategic implications."
 type: "how_to"
-category: "analysis"
-tags: ["researcher", "market-research", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "research"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Market Research Analyst
 
 ## Description

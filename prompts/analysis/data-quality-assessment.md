@@ -3,11 +3,6 @@ title: "Data Quality Assessment"
 shortTitle: "Data Quality"
 intro: "Systematically evaluates dataset quality across six dimensions and generates structured reports with recommended actions."
 type: "how_to"
-category: "analysis"
-tags: ["data-quality", "analysis", "validation", "data-governance"]
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -19,12 +14,16 @@ platforms:
 topics:
   - "data-quality"
   - "analysis"
-governance_tags: ["data-governance", "quality-metrics"]
+author: "Prompt Engineering Team"
+version: "1.0"
+date: "2025-11-18"
+governance_tags:
+  - "data-governance"
+  - "quality-metrics"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.6
 ---
-
 # Data Quality Assessment
 
 ## Description

@@ -1,15 +1,30 @@
 ---
 title: "M365 Designer Infographic Brief"
-description: "Transforms raw data points and key messages into a structured design brief for creating infographics in Microsoft Designer."
-category: "creative"
-tags: ["m365", "designer", "infographic", "data-visualization", "communication"]
+shortTitle: "M365 Designer Infographi..."
+intro: "Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a "Design Brief" that describes the layout, icon..."
+type: "tutorial"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "designer"
+  - "m365"
+  - "creative"
+  - "infographic"
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Transforms raw data points and key messages into a structured design brief for creating infographics in Microsoft Designer."
 ---
-
 ## Description
 
 Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a "Design Brief" that describes the layout, icons, and text hierarchy. You can use this brief to prompt Designer or as a guide for manual assembly.

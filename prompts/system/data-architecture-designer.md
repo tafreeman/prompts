@@ -1,15 +1,28 @@
 ---
-
 title: "Data Architecture Designer"
-category: "system"
-tags: ["architect", "data-architecture", "enterprise"]
+shortTitle: "Data Architecture Designer"
+intro: "Designs enterprise data architectures"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "enterprise"
+  - "data-architecture"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Data Architecture Designer
 
 ## Description

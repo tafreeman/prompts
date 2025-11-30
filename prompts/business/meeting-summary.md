@@ -23,7 +23,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Meeting Summary Generator
 
 ## Description

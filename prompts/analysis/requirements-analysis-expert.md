@@ -3,11 +3,6 @@ title: "Requirements Analysis Expert"
 shortTitle: "Requirements Analysis"
 intro: "Analyzes and documents business requirements with user stories, acceptance criteria, and traceability."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "requirements", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "requirements"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Requirements Analysis Expert
 
 ## Description

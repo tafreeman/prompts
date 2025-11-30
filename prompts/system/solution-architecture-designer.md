@@ -1,15 +1,28 @@
 ---
-
 title: "Solution Architecture Designer"
-category: "system"
-tags: ["architect", "solution-design", "enterprise"]
+shortTitle: "Solution Architecture De..."
+intro: "Designs comprehensive solution architectures"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "solution-design"
+  - "enterprise"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Solution Architecture Designer
 
 ## Description

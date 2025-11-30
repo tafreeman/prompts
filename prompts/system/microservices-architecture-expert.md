@@ -1,15 +1,28 @@
 ---
-
 title: "Microservices Architecture Expert"
-category: "system"
-tags: ["architect", "microservices", "enterprise"]
+shortTitle: "Microservices Architectu..."
+intro: "Designs microservices ecosystems"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "enterprise"
+  - "microservices"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Microservices Architecture Expert
 
 ## Description

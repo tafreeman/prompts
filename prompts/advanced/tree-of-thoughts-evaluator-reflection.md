@@ -3,11 +3,6 @@ title: "Tree-of-Thoughts Evaluator: Reflection & Self-Critique"
 shortTitle: "ToT Evaluator Reflection"
 intro: "A rigorous reflection/self-critique cycle layered on top of Tree-of-Thoughts repository evaluation for enterprise-ready assessments."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["tree-of-thoughts", "reflection", "self-critique", "repository-evaluation", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -18,12 +13,14 @@ platforms:
 topics:
   - "evaluation"
   - "quality"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
 governance_tags:
   - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 ## Description
 
 Layer a rigorous reflection/self-critique cycle on top of the Tree-of-Thoughts repository evaluation workflow described in [`Tree-of-Thoughts Repository Evaluator for GPT-5.1`](../system/tree-of-thoughts-repository-evaluator.md). Phase 1 runs the full ToT-based assessment, while Phase 2 audits that output for accuracy, completeness, bias, and enterprise-readiness gaps, then produces a refined, leadership-ready verdict.

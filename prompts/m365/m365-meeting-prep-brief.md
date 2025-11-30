@@ -1,14 +1,29 @@
 ---
 title: "M365 Meeting Prep Brief"
-category: "business"
-tags: ["m365", "copilot", "meetings", "preparation", "teams"]
+shortTitle: "M365 Meeting Prep Brief"
+intro: "This prompt helps an individual quickly prepare for an upcoming meeting using Microsoft 365 context. It generates a brief that includes meeting purpose, key talking points, questions to ask, and po..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "meetings"
+  - "copilot"
 author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Meeting Prep Brief
 
 ## Description

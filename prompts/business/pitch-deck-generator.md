@@ -3,7 +3,6 @@ title: "Pitch Deck Generator"
 shortTitle: "Pitch Deck"
 intro: "Generate compelling pitch deck outlines and content for investor presentations, sales pitches, and business proposals."
 type: "how_to"
-category: "business"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -23,7 +22,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Pitch Deck Generator
 
 ## Description

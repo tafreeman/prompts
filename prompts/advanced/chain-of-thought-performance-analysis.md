@@ -3,11 +3,6 @@ title: "Chain-of-Thought: Performance Analysis & Profiling"
 shortTitle: "CoT Performance Analysis"
 intro: "A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["chain-of-thought", "performance", "profiling", "optimization", "developers"]
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -17,12 +12,14 @@ platforms:
 topics:
   - "performance"
   - "development"
+author: "Prompt Engineering Team"
+version: "1.0"
+date: "2025-11-18"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Chain-of-Thought: Performance Analysis & Profiling
 
 ## Description

@@ -3,11 +3,6 @@ title: "ReAct: Library Structure & Content Analysis"
 shortTitle: "ReAct Library Analysis"
 intro: "A specialized ReAct pattern for analyzing the structure, quality, and completeness of a prompt library or code repository."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["react", "library-analysis", "audit", "structure", "content-quality", "maintenance"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-25"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -19,11 +14,15 @@ platforms:
 topics:
   - "analysis"
   - "documentation"
-governance_tags: ["internal-use-only", "safe-for-automated-analysis"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-25"
+governance_tags:
+  - "internal-use-only"
+  - "safe-for-automated-analysis"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # ReAct: Library Structure & Content Analysis
 
 ## Description

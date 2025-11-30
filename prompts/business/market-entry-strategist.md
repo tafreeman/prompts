@@ -3,11 +3,6 @@ title: "Market Entry Strategist"
 shortTitle: "Market Entry Strategy"
 intro: "Develops market entry strategies with market analysis, go-to-market plans, and risk assessment."
 type: "how_to"
-category: "business"
-tags: ["consultant", "market-entry", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "strategy"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Market Entry Strategist
 
 ## Description

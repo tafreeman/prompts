@@ -3,11 +3,6 @@ title: "Business Case Developer"
 shortTitle: "Business Case"
 intro: "Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "business-case", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "business"
   - "planning"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Business Case Developer
 
 ## Description

@@ -3,7 +3,6 @@ title: "Sales Objection Handler"
 shortTitle: "Objection Handler"
 intro: "Generate effective responses to common sales objections with persuasive rebuttals and conversation frameworks."
 type: "how_to"
-category: "business"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -23,7 +22,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Sales Objection Handler
 
 ## Description

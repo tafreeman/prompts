@@ -23,7 +23,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-
 # ReAct: Prompt Library Analysis
 
 ## Description

@@ -1,15 +1,30 @@
 ---
 title: "M365 Designer Image Prompt Generator"
-description: "Converts abstract concepts or document themes into highly detailed, artistic prompts for Microsoft Designer to generate professional imagery."
-category: "creative"
-tags: ["m365", "designer", "image-generation", "dall-e", "visuals"]
+shortTitle: "M365 Designer Image Prom..."
+intro: "Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a "pro..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "designer"
+  - "m365"
+  - "creative"
+  - "image-generation"
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Converts abstract concepts or document themes into highly detailed, artistic prompts for Microsoft Designer to generate professional imagery."
 ---
-
 ## Description
 
 Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a "prompt engineering" format that specifies style, lighting, composition, and mood, ensuring you get the perfect visual asset.

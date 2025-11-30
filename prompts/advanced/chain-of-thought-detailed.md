@@ -3,11 +3,6 @@ title: "Chain-of-Thought: Detailed Mode"
 shortTitle: "CoT Detailed Mode"
 intro: "A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations and justifications."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["chain-of-thought", "cot", "reasoning", "detailed", "comprehensive", "problem-solving"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -19,11 +14,15 @@ platforms:
 topics:
   - "reasoning"
   - "problem-solving"
-governance_tags: ["PII-safe", "requires-human-review-for-critical-decisions"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-critical-decisions"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Chain-of-Thought: Detailed Mode
 
 ## Description

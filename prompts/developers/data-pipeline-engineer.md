@@ -1,15 +1,27 @@
 ---
-
 title: "Data Pipeline Engineer"
-category: "developers"
-tags: ["developer", "data-engineering", "enterprise"]
+shortTitle: "Data Pipeline Engineer"
+intro: "Designs data processing pipelines"
+type: "how_to"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "data-engineering"
+  - "developer"
+  - "enterprise"
+  - "developers"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Data Pipeline Engineer
 
 ## Description

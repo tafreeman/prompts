@@ -3,12 +3,6 @@ title: "Reflection: Initial Answer + Self-Critique"
 shortTitle: "Reflection Self-Critique"
 intro: "A two-phase reflection pattern that generates an initial answer and systematically critiques it to improve quality and accuracy."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["reflection", "self-critique", "iterative", "improvement", "quality", "validation"]
-author: "Prompts Library Team"
-version: "1.0.1"
-date: "2025-11-17"
-last_updated: "2025-11-27"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -20,21 +14,19 @@ platforms:
 topics:
   - "quality"
   - "reasoning"
-performance_metrics:
-  accuracy_improvement: "High (reduces hallucination rate)"
-  latency_impact: "High (2x token generation)"
-  cost_multiplier: "2.0x"
-testing:
-  validated_on: ["Claude Sonnet 4.5", "GPT-4"]
-  pass_rate: "90%"
-governance:
-  data_classification: "public"
-  risk_level: "low"
-governance_tags: ["PII-safe", "requires-human-review-for-critical-decisions"]
+author: "Prompts Library Team"
+version: "1.0.1"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-critical-decisions"
 dataClassification: "internal"
 reviewStatus: "draft"
+last_updated: "2025-11-27"
+performance_metrics: {'accuracy_improvement': 'High (reduces hallucination rate)', 'latency_impact': 'High (2x token generation)', 'cost_multiplier': '2.0x'}
+testing: {'validated_on': ['Claude Sonnet 4.5', 'GPT-4'], 'pass_rate': '90%'}
+governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
-
 # Reflection: Initial Answer + Self-Critique Pattern
 
 ## Purpose

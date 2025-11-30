@@ -3,11 +3,6 @@ title: "Business Strategy Analysis"
 shortTitle: "Strategy Analysis"
 intro: "Comprehensive business strategy analyzer for evaluating strategic options, SWOT analysis, and actionable recommendations."
 type: "how_to"
-category: "business"
-tags: ["strategy", "analysis", "swot", "planning", "decision-making"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
 difficulty: "intermediate"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "strategy"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-10-29"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Business Strategy Analysis
 
 ## Description

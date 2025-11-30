@@ -1,16 +1,28 @@
 ---
-
 title: "Documentation Generator"
-category: "developers"
-tags: ["developer", "documentation", "enterprise"]
+shortTitle: "Documentation Generator"
+intro: "Creates technical documentation"
+type: "conceptual"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "enterprise"
+  - "developers"
+  - "documentation"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 effectivenessScore: 3.2
 ---
-
 # Documentation Generator
 
 ## Description

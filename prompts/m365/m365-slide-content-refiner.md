@@ -1,15 +1,30 @@
 ---
 title: "M365 Slide Content Refiner"
-description: "Transforms dense text or rough bullet points into concise, punchy slide content optimized for presentations."
-category: "creative"
-tags: ["m365", "powerpoint", "presentation", "copywriting", "communication"]
+shortTitle: "M365 Slide Content Refiner"
+intro: "This prompt helps users overcome the "wall of text" problem in presentations. It takes detailed source material (like a Word doc or email) and converts it into slide-ready content: catchy headlines..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "powerpoint"
+  - "m365"
+  - "creative"
+  - "presentation"
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Transforms dense text or rough bullet points into concise, punchy slide content optimized for presentations."
 ---
-
 ## Description
 
 This prompt helps users overcome the "wall of text" problem in presentations. It takes detailed source material (like a Word doc or email) and converts it into slide-ready content: catchy headlines, concise bullet points, and speaker notes.

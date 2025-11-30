@@ -23,7 +23,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-
 # ReAct: Knowledge Base Research
 
 ## Description

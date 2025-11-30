@@ -1,14 +1,29 @@
 ---
 title: "M365 Personal Task Collector"
-category: "business"
-tags: ["m365", "copilot", "task-management", "productivity", "to-do"]
+shortTitle: "M365 Personal Task Colle..."
+intro: "This prompt helps an individual extract and organize personal tasks from unstructured sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes, and calendar events to identi..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "copilot"
+  - "task-management"
 author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Personal Task Collector
 
 ## Description

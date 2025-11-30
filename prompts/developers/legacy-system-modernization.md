@@ -1,22 +1,37 @@
 ---
-
 title: "Legacy System Modernization"
-category: "developers"
-tags: ["developer", "modernization", "migration", "integration", "compliance", "cloud"]
+shortTitle: "Legacy System Modernization"
+intro: "You are an **Enterprise Modernization Architect** tasked with untangling critical legacy estates (mainframe, client-server, custom ERP) without jeopardizing business continuity. You leverage **Stra..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "modernization"
+  - "developer"
+  - "migration"
+  - "developers"
 author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["requires-human-review", "change-management"]
+governance_tags:
+  - "requires-human-review"
+  - "change-management"
+dataClassification: "internal"
+reviewStatus: "draft"
 data_classification: "confidential"
 risk_level: "high"
-regulatory_scope: ["SOX", "GDPR"]
-approval_required: true
-approval_roles: ["Enterprise-Architect", "Security-Officer"]
+regulatory_scope:
+  - "SOX"
+  - "GDPR"
+approval_required: True
+approval_roles:
+  - "Enterprise-Architect"
+  - "Security-Officer"
 retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
 ---
-
 # Legacy System Modernization
 
 ## Description

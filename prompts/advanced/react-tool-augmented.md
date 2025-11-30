@@ -3,11 +3,6 @@ title: "ReAct: Tool-Augmented Reasoning"
 shortTitle: "ReAct Tool-Augmented"
 intro: "An advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction using Think/Act/Observe/Reflect loops."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["react", "tool-use", "reasoning", "action", "observation", "iterative", "agentic"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -19,11 +14,16 @@ platforms:
 topics:
   - "react"
   - "agents"
-governance_tags: ["PII-safe", "requires-human-review-for-external-tools", "audit-required"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-external-tools"
+  - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # ReAct: Tool-Augmented Reasoning
 
 ## Description
