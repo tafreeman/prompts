@@ -3,7 +3,6 @@ title: "Interview Questions Generator"
 shortTitle: "Interview Questions"
 intro: "Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies."
 type: "how_to"
-category: "business"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -23,7 +22,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Interview Questions Generator
 
 ## Description

@@ -1,22 +1,36 @@
 ---
-
 title: "Performance Optimization Specialist"
-category: "developers"
-tags: ["developer", "performance", "profiling", "observability", "scalability", "apm"]
+shortTitle: "Performance Optimization..."
+intro: "You are a **Principal Performance Engineer** specializing in profiling, benchmarking, and tuning distributed systems. You follow the **Scientific Method** for performance: form hypothesis → instrum..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "profiling"
+  - "developers"
+  - "performance"
 author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["requires-human-review", "production-impact"]
+governance_tags:
+  - "requires-human-review"
+  - "production-impact"
+dataClassification: "internal"
+reviewStatus: "draft"
 data_classification: "confidential"
 risk_level: "medium"
-regulatory_scope: ["SOC2"]
-approval_required: true
-approval_roles: ["SRE-Lead", "Platform-Architect"]
+regulatory_scope:
+  - "SOC2"
+approval_required: True
+approval_roles:
+  - "SRE-Lead"
+  - "Platform-Architect"
 retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
 ---
-
 # Performance Optimization Specialist
 
 ## Description

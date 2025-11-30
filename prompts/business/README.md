@@ -1,3 +1,30 @@
+---
+title: "Business Prompts"
+shortTitle: "Business"
+intro: "Prompts for business professionals, strategists, managers, and entrepreneurs including strategy, HR, and project management."
+type: "reference"
+category: "business"
+difficulty: "intermediate"
+audience:
+  - "business-analyst"
+  - "project-manager"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "business"
+  - "strategy"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+---
+
 # Business Prompts
 
 This directory contains prompts for business professionals, strategists, managers, and entrepreneurs.

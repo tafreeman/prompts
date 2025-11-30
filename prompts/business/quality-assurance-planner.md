@@ -3,11 +3,6 @@ title: "Quality Assurance Planner"
 shortTitle: "QA Planner"
 intro: "Develops QA strategies and plans with quality objectives, testing strategies, and continuous improvement."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "quality-assurance", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "quality"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Quality Assurance Planner
 
 ## Description

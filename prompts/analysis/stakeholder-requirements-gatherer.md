@@ -3,11 +3,6 @@ title: "Stakeholder Requirements Gatherer"
 shortTitle: "Stakeholder Requirements"
 intro: "Gathers and manages stakeholder requirements with interview planning, conflict resolution, and communication strategies."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "stakeholder-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "requirements"
   - "stakeholder-management"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Stakeholder Requirements Gatherer
 
 ## Description

@@ -3,11 +3,6 @@ title: "Performance Improvement Consultant"
 shortTitle: "Performance Improvement"
 intro: "Improves organizational performance with diagnosis, root cause analysis, action plans, and monitoring frameworks."
 type: "how_to"
-category: "business"
-tags: ["consultant", "performance", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "performance"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Performance Improvement Consultant
 
 ## Description

@@ -1,14 +1,29 @@
 ---
 title: "M365 Project Status Reporter"
-category: "business"
-tags: ["m365", "copilot", "project-management", "status-update", "reporting"]
+shortTitle: "M365 Project Status Repo..."
+intro: "This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a sum..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "project-management"
+  - "m365"
+  - "business"
+  - "copilot"
 author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # M365 Project Status Reporter
 
 ## Description

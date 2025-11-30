@@ -3,11 +3,6 @@ title: "ReAct: Document Search and Synthesis"
 shortTitle: "ReAct Document Search"
 intro: "ReAct pattern for iterative document search and synthesis, combining reasoning with strategic retrieval for complex research questions."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["react", "document-search", "rag", "synthesis", "reasoning", "retrieval", "research"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-25"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
@@ -19,12 +14,17 @@ platforms:
 topics:
   - "react"
   - "research"
-governance_tags: ["PII-safe", "requires-human-review-for-sensitive-docs", "audit-required"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-25"
+governance_tags:
+  - "PII-safe"
+  - "requires-human-review-for-sensitive-docs"
+  - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.6
 ---
-
 # ReAct: Document Search and Synthesis
 
 ## Description

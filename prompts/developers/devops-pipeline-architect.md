@@ -1,22 +1,38 @@
 ---
-
 title: "DevOps Pipeline Architect"
-category: "developers"
-tags: ["developer", "devops", "cicd", "github-actions", "gitops", "dora-metrics", "security"]
+shortTitle: "DevOps Pipeline Architect"
+intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change-f..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "cicd"
+  - "developer"
+  - "developers"
+  - "devops"
 author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "security-critical"]
+governance_tags:
+  - "architecture-decision"
+  - "requires-human-review"
+  - "security-critical"
+dataClassification: "internal"
+reviewStatus: "draft"
 data_classification: "confidential"
 risk_level: "high"
-regulatory_scope: ["SOC2", "ISO27001"]
-approval_required: true
-approval_roles: ["DevOps-Lead", "Security-Lead"]
+regulatory_scope:
+  - "SOC2"
+  - "ISO27001"
+approval_required: True
+approval_roles:
+  - "DevOps-Lead"
+  - "Security-Lead"
 retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
 ---
-
 # DevOps Pipeline Architect
 
 ## Description

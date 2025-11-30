@@ -3,11 +3,6 @@ title: "Budget and Cost Controller"
 shortTitle: "Budget Controller"
 intro: "Project budget controller using Earned Value Management (EVM) for variance analysis, cost forecasting, and corrective actions."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "financial-management", "enterprise", "evm", "cost-control"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "finance"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.1"
+date: "2025-11-26"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Budget and Cost Controller
 
 ## Description

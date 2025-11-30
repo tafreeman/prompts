@@ -1,15 +1,28 @@
 ---
-
 title: "Legacy Modernization Architect"
-category: "system"
-tags: ["architect", "modernization", "enterprise"]
+shortTitle: "Legacy Modernization Arc..."
+intro: "Architects legacy system modernization"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "modernization"
+  - "enterprise"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Legacy Modernization Architect
 
 ## Description

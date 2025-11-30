@@ -3,11 +3,6 @@ title: "Chain-of-Thought: Concise Mode"
 shortTitle: "CoT Concise Mode"
 intro: "A concise Chain-of-Thought prompt template for efficient step-by-step reasoning when detailed explanations aren't needed."
 type: "how_to"
-category: "advanced-techniques"
-tags: ["chain-of-thought", "cot", "reasoning", "concise", "efficient", "problem-solving"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
@@ -19,12 +14,16 @@ platforms:
 topics:
   - "reasoning"
   - "problem-solving"
-governance_tags: ["PII-safe", "general-use"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "general-use"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.9
 ---
-
 # Chain-of-Thought: Concise Mode
 
 ## Description

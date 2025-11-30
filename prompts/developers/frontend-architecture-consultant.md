@@ -1,15 +1,27 @@
 ---
-
 title: "Frontend Architecture Consultant"
-category: "developers"
-tags: ["developer", "frontend", "enterprise"]
+shortTitle: "Frontend Architecture Co..."
+intro: "Designs frontend architectures"
+type: "how_to"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "frontend"
+  - "enterprise"
+  - "developers"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Frontend Architecture Consultant
 
 ## Description

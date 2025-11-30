@@ -1,42 +1,33 @@
 ---
 title: "API Design Consultant"
-category: "developers"
-subcategory: "architecture"
-tags: 
-  - developer
-  - api-design
-  - enterprise
-  - rest
-  - openapi
-  - graphql
-  - api-versioning
-  - api-security
+shortTitle: "API Design Consultant"
+intro: "You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, a"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "enterprise"
+  - "developers"
+  - "api-design"
 author: "Prompts Library Team"
 version: "2.2.0"
 date: "2025-11-27"
-difficulty: "advanced"
-framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-performance_metrics:
-  complexity_rating: "high"
-  token_usage_estimate: "2000-4000"
-  quality_score: "98"
-testing:
-  framework: "manual"
-  validation_status: "passed"
-  test_cases: ["ecommerce-order-api", "fintech-payment-api"]
-governance:
-  risk_level: "high"
-  data_classification: "confidential"
-  regulatory_scope: ["SOC2", "GDPR", "PCI-DSS", "HIPAA"]
-  approval_required: true
-  approval_roles: ["Staff-Engineer", "API-Architect"]
-  retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "architecture"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '2000-4000', 'quality_score': '98'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['ecommerce-order-api', 'fintech-payment-api']}
+governance: {'risk_level': 'high', 'data_classification': 'confidential', 'regulatory_scope': ['SOC2', 'GDPR', 'PCI-DSS', 'HIPAA'], 'approval_required': True, 'approval_roles': ['Staff-Engineer', 'API-Architect'], 'retention_period': '5-years'}
 effectivenessScore: 4.5
 ---
-
 # API Design Consultant
 
 ## Purpose

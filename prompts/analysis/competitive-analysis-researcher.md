@@ -3,11 +3,6 @@ title: "Competitive Analysis Researcher"
 shortTitle: "Competitive Analysis"
 intro: "Conducts comprehensive competitive market analysis including landscape mapping, feature comparison, and strategic recommendations."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "market-analysis", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "analysis"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Competitive Analysis Researcher
 
 ## Description

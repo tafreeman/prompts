@@ -3,11 +3,6 @@ title: "Chain-of-Thought: Decision Guide"
 shortTitle: "CoT Decision Guide"
 intro: "A practical decision framework for choosing when and how to use Chain-of-Thought prompting, including mode selection and best practices."
 type: "reference"
-category: "advanced-techniques"
-tags: ["chain-of-thought", "cot", "reasoning", "guide", "decision-framework", "best-practices"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
 difficulty: "beginner"
 audience:
   - "junior-engineer"
@@ -20,11 +15,15 @@ platforms:
 topics:
   - "reasoning"
   - "best-practices"
-governance_tags: ["PII-safe", "general-use"]
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-17"
+governance_tags:
+  - "PII-safe"
+  - "general-use"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Chain-of-Thought: Decision Guide
 
 ## Description

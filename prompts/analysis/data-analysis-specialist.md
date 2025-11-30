@@ -3,11 +3,6 @@ title: "Data Analysis Specialist"
 shortTitle: "Data Analysis"
 intro: "Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy."
 type: "how_to"
-category: "analysis"
-tags: ["business-analyst", "data-analysis", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "intermediate"
 audience:
   - "business-analyst"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "data-analysis"
   - "analysis"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Data Analysis Specialist
 
 ## Description

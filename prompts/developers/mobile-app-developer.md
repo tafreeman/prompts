@@ -1,15 +1,27 @@
 ---
-
 title: "Mobile App Developer"
-category: "developers"
-tags: ["developer", "mobile-development", "enterprise"]
+shortTitle: "Mobile App Developer"
+intro: "Guides mobile application development"
+type: "tutorial"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "developer"
+  - "mobile-development"
+  - "developers"
+  - "enterprise"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Mobile App Developer
 
 ## Description

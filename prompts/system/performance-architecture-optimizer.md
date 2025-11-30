@@ -1,15 +1,28 @@
 ---
-
 title: "Performance Architecture Optimizer"
-category: "system"
-tags: ["architect", "performance", "enterprise"]
+shortTitle: "Performance Architecture..."
+intro: "Optimizes system performance architecture"
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architect"
+  - "system"
+  - "performance"
+  - "enterprise"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Performance Architecture Optimizer
 
 ## Description

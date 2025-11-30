@@ -1,14 +1,27 @@
 ---
 title: "Cloud Migration Specialist"
-category: "developers"
-tags: ["developer", "cloud-migration", "enterprise", "azure", "aws", "modernization"]
+shortTitle: "Cloud Migration Specialist"
+intro: "Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan ..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "cloud-migration"
+  - "developer"
+  - "enterprise"
+  - "developers"
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
-
 # Cloud Migration Specialist
 
 ## Description

@@ -3,11 +3,6 @@ title: "Agile Sprint Planner"
 shortTitle: "Sprint Planner"
 intro: "Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "agile", "scrum", "sprint-planning", "velocity"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,13 +14,15 @@ platforms:
 topics:
   - "agile"
   - "project-management"
+author: "Prompts Library Team"
+version: "1.1"
+date: "2025-11-26"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.5
 ---
-
 # Agile Sprint Planner
 
 ## Description

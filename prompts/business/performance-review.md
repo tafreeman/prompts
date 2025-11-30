@@ -3,7 +3,6 @@ title: "Performance Review Writer"
 shortTitle: "Performance Review"
 intro: "Generate constructive, balanced performance reviews with specific feedback, goal tracking, and development recommendations."
 type: "how_to"
-category: "business"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -23,7 +22,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Performance Review Writer
 
 ## Description

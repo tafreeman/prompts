@@ -1,15 +1,30 @@
 ---
 title: "M365 Customer Feedback Analyzer"
-description: "Analyzes unstructured customer feedback (emails, notes, surveys) to identify key themes, sentiment, and actionable insights."
-category: "analysis"
-tags: ["m365", "customer-success", "feedback", "sentiment-analysis", "summarization"]
+shortTitle: "M365 Customer Feedback A..."
+intro: "This prompt is designed for Product Managers, Support Leads, and Sales teams who receive scattered feedback from customers. It uses the LLM's summarization capabilities to aggregate multiple feedba..."
+type: "how_to"
+difficulty: "intermediate"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "feedback"
+  - "customer-success"
+  - "m365"
+  - "analysis"
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "Intermediate"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Analyzes unstructured customer feedback (emails, notes, surveys) to identify key themes, sentiment, and actionable insights."
 ---
-
 ## Description
 
 This prompt is designed for Product Managers, Support Leads, and Sales teams who receive scattered feedback from customers. It uses the LLM's summarization capabilities to aggregate multiple feedback points into a coherent report with identified trends and recommended actions.

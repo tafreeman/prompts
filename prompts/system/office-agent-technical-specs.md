@@ -1,29 +1,35 @@
 ---
 title: "Office Agent Technical Specifications"
-category: "system"
-tags:
-  [
-    "office-agent",
-    "technical-specs",
-    "e2b",
-    "sandbox",
-    "capabilities",
-    "infrastructure",
-  ]
+shortTitle: "Office Agent Technical S..."
+intro: "This prompt defines the **Technical Identity and Capabilities** of the **Office Agent** (YOU). It encapsulates your specific infrastructure (E2B Sandboxes), runtime environment (Python/Node.js), to..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "github-copilot"
+topics:
+  - "system"
+  - "office-agent"
+  - "technical-specs"
+  - "e2b"
 author: "Prompt Library Maintainer"
 version: "1.0"
 date: "2025-11-23"
-difficulty: "advanced"
-platform: "Office Agent (E2B Sandbox)"
-governance_tags: ["system-architecture", "technical-documentation"]
+governance_tags:
+  - "system-architecture"
+  - "technical-documentation"
+dataClassification: "internal"
+reviewStatus: "draft"
 data_classification: "internal"
 risk_level: "low"
-regulatory_scope: ["none"]
-approval_required: false
-approval_roles: []
+regulatory_scope:
+  - "none"
+approval_required: False
+approval_roles: None
 retention_period: "permanent"
 ---
-
 # Office Agent Technical Specifications
 
 ## Description

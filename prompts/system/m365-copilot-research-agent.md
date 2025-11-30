@@ -23,7 +23,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-
 # M365 Copilot Frontier Research Agent
 
 ## Description

@@ -3,11 +3,6 @@ title: "Digital Transformation Advisor"
 shortTitle: "Digital Transformation"
 intro: "Guides digital transformation initiatives with maturity assessment, technology roadmaps, and change management."
 type: "how_to"
-category: "business"
-tags: ["consultant", "digital-transformation", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "digital-transformation"
   - "strategy"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Digital Transformation Advisor
 
 ## Description

@@ -3,11 +3,6 @@ title: "Stakeholder Communication Manager"
 shortTitle: "Stakeholder Comms"
 intro: "Strategic communications specialist for complex stakeholder management with executive updates and crisis communication."
 type: "how_to"
-category: "business"
-tags: ["project-manager", "communication", "enterprise", "stakeholder-management", "change-management"]
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
 difficulty: "intermediate"
 audience:
   - "project-manager"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "communication"
   - "stakeholder-management"
+author: "Prompts Library Team"
+version: "1.1"
+date: "2025-11-26"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Stakeholder Communication Manager
 
 ## Description

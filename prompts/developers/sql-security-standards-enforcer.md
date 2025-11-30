@@ -1,39 +1,32 @@
 ---
 title: "SQL Security Standards Enforcer"
-category: "developers"
-subcategory: "security"
-tags: 
-  - sql
-  - sql-server
-  - security
-  - code-review
-  - database
-  - injection-prevention
-  - least-privilege
+shortTitle: "SQL Security Standards E..."
+intro: "You are a **Senior Database Security Engineer** and **SQL Server Expert**. Your mission is to enforce strict security standards on T-SQL code, ensuring every query, stored procedure, and view is harden"
+type: "how_to"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "sql"
+  - "sql-server"
+  - "developers"
+  - "security"
 author: "Prompts Library Team"
 version: "1.1.0"
 date: "2025-11-27"
-difficulty: "intermediate"
-framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-performance_metrics:
-  complexity_rating: "medium"
-  token_usage_estimate: "1500-2500"
-  quality_score: "98"
-testing:
-  framework: "manual"
-  validation_status: "passed"
-  test_cases: ["sql-injection-check", "permission-audit"]
-governance:
-  risk_level: "high"
-  data_classification: "internal"
-  regulatory_scope: ["SOC2", "GDPR", "PCI-DSS", "HIPAA"]
-  approval_required: false
-  retention_period: "permanent"
-platform: "Claude Sonnet 4.5"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "security"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'medium', 'token_usage_estimate': '1500-2500', 'quality_score': '98'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['sql-injection-check', 'permission-audit']}
+governance: {'risk_level': 'high', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'GDPR', 'PCI-DSS', 'HIPAA'], 'approval_required': False, 'retention_period': 'permanent'}
 ---
-
 # SQL Security Standards Enforcer
 
 ## Purpose

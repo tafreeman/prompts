@@ -25,7 +25,6 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
 ## Description

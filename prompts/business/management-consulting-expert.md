@@ -3,11 +3,6 @@ title: "Management Consulting Expert"
 shortTitle: "Management Consulting"
 intro: "Provides management consulting solutions with problem diagnosis, root cause analysis, and implementation plans."
 type: "how_to"
-category: "business"
-tags: ["consultant", "management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
 difficulty: "advanced"
 audience:
   - "solution-architect"
@@ -19,12 +14,14 @@ platforms:
 topics:
   - "consulting"
   - "business"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-16"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-
 # Management Consulting Expert
 
 ## Description

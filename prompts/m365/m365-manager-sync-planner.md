@@ -1,15 +1,30 @@
 ---
 title: "M365 Manager Sync Planner"
-description: "Generates a structured agenda for 1:1 meetings with your manager, highlighting achievements, blockers, and career development topics."
-category: "business"
-tags: ["m365", "management", "career", "productivity", "meeting-prep"]
+shortTitle: "M365 Manager Sync Planner"
+intro: "This prompt helps employees prepare for effective one-on-one meetings with their managers. It takes raw notes about the week's work, challenges, and future goals, and organizes them into a professi..."
+type: "conceptual"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "management"
+  - "m365"
+  - "business"
+  - "career"
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "Beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+description: "Generates a structured agenda for 1:1 meetings with your manager, highlighting achievements, blockers, and career development topics."
 ---
-
 ## Description
 
 This prompt helps employees prepare for effective one-on-one meetings with their managers. It takes raw notes about the week's work, challenges, and future goals, and organizes them into a professional, time-boxed agenda that ensures all critical topics are covered.

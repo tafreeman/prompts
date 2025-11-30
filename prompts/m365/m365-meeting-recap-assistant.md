@@ -1,15 +1,30 @@
 ---
 title: "M365 Meeting Recap Assistant"
-category: "business"
-tags: ["m365", "copilot", "meetings", "recap", "teams", "action-items"]
+shortTitle: "M365 Meeting Recap"
+intro: "This prompt helps an individual quickly turn a meeting transcript or notes into a structured summary with decisions, action items, and follow-ups. It leverages Microsoft 365 context (Teams meeting ..."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "m365-copilot"
+topics:
+  - "m365"
+  - "business"
+  - "meetings"
+  - "copilot"
 author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
-difficulty: "beginner"
-platform: "Microsoft 365 Copilot"
+governance_tags:
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 effectivenessScore: 4.2
 ---
-
 # M365 Meeting Recap Assistant
 
 ## Description

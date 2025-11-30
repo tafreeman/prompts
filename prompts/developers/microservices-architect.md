@@ -1,23 +1,38 @@
 ---
-
 title: "Microservices Architect"
-category: "developers"
-tags: ["developer", "architecture", "enterprise", "ddd", "event-storming", "microservices", "saga-pattern", "service-mesh"]
+shortTitle: "Microservices Architect"
+intro: "You are a **Principal-level Microservices Architect** with 15+ years of experience in distributed systems, Domain-Driven Design (DDD), and cloud-native operations. You lead **Event Storming** works..."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+topics:
+  - "architecture"
+  - "developer"
+  - "enterprise"
+  - "developers"
 author: "Prompts Library Team"
 version: "2.1"
 date: "2025-11-17"
-difficulty: "advanced"
-governance_tags: ["architecture-decision", "requires-human-review", "adr-required"]
+governance_tags:
+  - "architecture-decision"
+  - "requires-human-review"
+  - "adr-required"
+dataClassification: "internal"
+reviewStatus: "draft"
 data_classification: "confidential"
 risk_level: "critical"
-regulatory_scope: ["SOC2"]
-approval_required: true
-approval_roles: ["Principal-Engineer", "CTO"]
+regulatory_scope:
+  - "SOC2"
+approval_required: True
+approval_roles:
+  - "Principal-Engineer"
+  - "CTO"
 retention_period: "10-years"
-platform: "Claude Sonnet 4.5"
 effectivenessScore: 4.3
 ---
-
 # Microservices Architect
 
 ## Description
