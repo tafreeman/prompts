@@ -1,3 +1,24 @@
+---
+title: Getting Started with the Enterprise AI Prompt Library
+shortTitle: Getting Started with the...
+intro: A prompt for getting started with the enterprise ai prompt library tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Getting Started with the Enterprise AI Prompt Library
 
 Welcome to the Enterprise AI Prompt Library! This guide will help you get started with using, customizing, and contributing to our curated collection of AI prompts.

@@ -1,33 +1,34 @@
 ---
-title: "About Prompt Engineering"
-shortTitle: "Prompt Engineering"
-intro: "Understand what prompt engineering is, why it matters for AI productivity, and how to approach crafting effective prompts."
-type: "conceptual"
-difficulty: "beginner"
+title: About Prompt Engineering
+shortTitle: Prompt Engineering
+intro: Understand what prompt engineering is, why it matters for AI productivity,
+  and how to approach crafting effective prompts.
+type: conceptual
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "mid-engineer"
-  - "senior-engineer"
-  - "product-manager"
-  - "business-analyst"
-  - "solution-architect"
+- junior-engineer
+- senior-engineer
+- senior-engineer
+- project-manager
+- business-analyst
+- solution-architect
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-  - "azure-openai"
-  - "m365-copilot"
+- github-copilot
+- claude
+- chatgpt
+- azure-openai
+- m365-copilot
 topics:
-  - "prompt-engineering"
-  - "best-practices"
-  - "fundamentals"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- prompt-engineering
+- best-practices
+- fundamentals
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-dataClassification: "public"
-reviewStatus: "approved"
+- PII-safe
+dataClassification: public
+reviewStatus: approved
 ---
 
 # About Prompt Engineering

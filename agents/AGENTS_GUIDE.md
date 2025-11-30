@@ -1,3 +1,24 @@
+---
+title: 🤖 GitHub Copilot Custom Agents Guide
+shortTitle: 🤖 GitHub Copilot Custom ...
+intro: A prompt for 🤖 github copilot custom agents guide tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # 🤖 GitHub Copilot Custom Agents Guide
 
 A comprehensive guide to creating, deploying, and using custom agents with GitHub Copilot for effective AI-assisted development.

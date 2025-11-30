@@ -1,43 +1,55 @@
 ---
-title: "Multi-Agent Workflow Orchestration Pattern"
-category: "techniques"
-subcategory: "agentic"
-technique_type: "multi-agent"
+title: Multi-Agent Workflow Orchestration Pattern
+shortTitle: Multi-Agent Workflow Orc...
+intro: A prompt for multi agent workflow orchestration pattern tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms: []
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: agentic
+technique_type: multi-agent
 framework_compatibility:
-  langchain: ">=0.1.0"
-  anthropic: ">=0.8.0"
-  openai: ">=1.0.0"
-difficulty: "advanced"
+  langchain: '>=0.1.0'
+  anthropic: '>=0.8.0'
+  openai: '>=1.0.0'
 use_cases:
-  - complex-problem-solving
-  - task-decomposition
-  - parallel-processing
-  - distributed-analysis
+- complex-problem-solving
+- task-decomposition
+- parallel-processing
+- distributed-analysis
 performance_metrics:
-  accuracy_improvement: "25-40%"
-  latency_impact: "variable"
-  cost_multiplier: "1.5-2.5x"
+  accuracy_improvement: 25-40%
+  latency_impact: variable
+  cost_multiplier: 1.5-2.5x
 dependencies:
-  - base-agent-template
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+- base-agent-template
+last_updated: '2025-11-23'
 governance:
-  data_classification: "internal"
-  risk_level: "medium"
+  data_classification: internal
+  risk_level: medium
   approval_required: false
 testing:
   benchmark_score: 82
-  validation_status: "passed"
-  last_tested: "2025-11-23"
+  validation_status: passed
+  last_tested: '2025-11-23'
 tags:
-  - multi-agent
-  - orchestration
-  - workflow
-  - task-decomposition
+- multi-agent
+- orchestration
+- workflow
+- task-decomposition
 platform:
-  - openai
-  - anthropic
+- openai
+- anthropic
 ---
 
 # Multi-Agent Workflow Orchestration Pattern

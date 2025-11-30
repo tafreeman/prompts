@@ -1,25 +1,28 @@
 ---
-title: "Quickstart for GitHub Copilot"
-shortTitle: "Copilot Quickstart"
-intro: "Get productive with GitHub Copilot in 15 minutes. Learn the essential prompting patterns for code generation, testing, and documentation."
-type: "quickstart"
-difficulty: "beginner"
+title: Quickstart for GitHub Copilot
+shortTitle: Copilot Quickstart
+intro: Get productive with GitHub Copilot in 15 minutes. Learn the essential prompting
+  patterns for code generation, testing, and documentation.
+type: quickstart
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "mid-engineer"
-  - "senior-engineer"
+- junior-engineer
+- senior-engineer
+- senior-engineer
 platforms:
-  - "github-copilot"
+- github-copilot
 topics:
-  - "code-generation"
-  - "quickstart"
-  - "copilot"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- code-generation
+- quickstart
+- copilot
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-learningTrack: "engineer-quickstart"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+learningTrack: engineer-quickstart
 ---
 
 # Quickstart for GitHub Copilot

@@ -1,42 +1,54 @@
 ---
-title: "Many-Shot Learning Pattern"
-category: "techniques"
-subcategory: "context-optimization"
-technique_type: "many-shot-learning"
+title: Many-Shot Learning Pattern
+shortTitle: Many-Shot Learning Pattern
+intro: A prompt for many shot learning pattern tasks.
+type: tutorial
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms: []
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: context-optimization
+technique_type: many-shot-learning
 framework_compatibility:
-  anthropic: ">=0.8.0"
-  openai: ">=1.0.0"
-  google-vertex: ">=1.0.0"
-difficulty: "intermediate"
+  anthropic: '>=0.8.0'
+  openai: '>=1.0.0'
+  google-vertex: '>=1.0.0'
 use_cases:
-  - complex-pattern-learning
-  - domain-specific-tasks
-  - edge-case-handling
-  - consistent-formatting
+- complex-pattern-learning
+- domain-specific-tasks
+- edge-case-handling
+- consistent-formatting
 performance_metrics:
-  accuracy_improvement: "15-35%"
-  latency_impact: "low"
-  cost_multiplier: "1.2-1.8x"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 15-35%
+  latency_impact: low
+  cost_multiplier: 1.2-1.8x
+last_updated: '2025-11-23'
 governance:
-  data_classification: "internal"
-  risk_level: "low"
+  data_classification: internal
+  risk_level: low
   approval_required: false
 testing:
   benchmark_score: 88
-  validation_status: "passed"
-  last_tested: "2025-11-23"
+  validation_status: passed
+  last_tested: '2025-11-23'
 tags:
-  - many-shot
-  - few-shot
-  - in-context-learning
-  - long-context
+- many-shot
+- few-shot
+- in-context-learning
+- long-context
 platform:
-  - anthropic
-  - openai
-  - google-vertex
+- anthropic
+- openai
+- google-vertex
 ---
 
 # Many-Shot Learning Pattern

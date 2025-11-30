@@ -1,7 +1,29 @@
 ---
+title: Security Agent
+shortTitle: Security Agent
+intro: Expert in security analysis, vulnerability detection, and secure coding practices.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: security_agent
-description: Expert in security analysis, vulnerability detection, and secure coding practices
-tools: ["read", "search"]
+description: Expert in security analysis, vulnerability detection, and secure coding
+  practices
+tools:
+- read
+- search
 ---
 
 # Security Agent

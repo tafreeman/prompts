@@ -1,3 +1,24 @@
+---
+title: Data Pipeline Blueprint
+shortTitle: Data Pipeline Blueprint
+intro: A prompt for data pipeline blueprint tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Data Pipeline Blueprint
 
 A comprehensive workflow guide for designing, building, and operating data pipelines (ETL/ELT) from initial data discovery through production monitoring. This blueprint chains together prompts from the library to create an end-to-end data pipeline development process.

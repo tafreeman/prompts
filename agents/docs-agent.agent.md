@@ -1,7 +1,29 @@
 ---
+title: Documentation Agent
+shortTitle: Documentation Agent
+intro: Expert technical writer for documentation, READMEs, API docs, and guides.
+type: troubleshooting
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: docs_agent
 description: Expert technical writer for documentation, READMEs, API docs, and guides
-tools: ["read", "write", "search"]
+tools:
+- read
+- write
+- search
 ---
 
 # Documentation Agent

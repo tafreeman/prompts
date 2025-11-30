@@ -1,26 +1,29 @@
 ---
-title: "Quickstart for Microsoft 365 Copilot"
-shortTitle: "M365 Copilot Quickstart"
-intro: "Get productive with Microsoft 365 Copilot in 15 minutes. Learn the essential prompting patterns for Word, Excel, PowerPoint, Outlook, and Teams."
-type: "quickstart"
-difficulty: "beginner"
+title: Quickstart for Microsoft 365 Copilot
+shortTitle: M365 Copilot Quickstart
+intro: Get productive with Microsoft 365 Copilot in 15 minutes. Learn the essential
+  prompting patterns for Word, Excel, PowerPoint, Outlook, and Teams.
+type: quickstart
+difficulty: beginner
 audience:
-  - "product-manager"
-  - "business-analyst"
-  - "junior-engineer"
-  - "mid-engineer"
+- project-manager
+- business-analyst
+- junior-engineer
+- senior-engineer
 platforms:
-  - "m365-copilot"
+- m365-copilot
 topics:
-  - "quickstart"
-  - "m365-copilot"
-  - "productivity"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- quickstart
+- m365-copilot
+- productivity
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-learningTrack: "functional-productivity"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+learningTrack: functional-productivity
 ---
 
 # Quickstart for Microsoft 365 Copilot

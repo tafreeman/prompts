@@ -1,3 +1,24 @@
+---
+title: Prompts Prompts
+shortTitle: Prompts
+intro: Overview of prompts prompts available in this library.
+type: reference
+difficulty: beginner
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Microsoft 365 Copilot Prompts
 
 This folder contains end-user prompts optimized for **Microsoft 365 Copilot**, designed to help knowledge workers be more productive across Outlook, Teams, Word, Excel, PowerPoint, and other M365 apps.

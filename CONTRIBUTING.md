@@ -1,3 +1,25 @@
+---
+title: "Contributing to Prompts Library"
+shortTitle: "Contributing"
+intro: "Guidelines for contributing new prompts and improvements to the library."
+type: "how_to"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "public"
+reviewStatus: "approved"
+---
+
 # Contributing to Prompts Library
 
 Thank you for your interest in contributing to the Prompts Library! This guide will help you get started.

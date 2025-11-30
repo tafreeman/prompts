@@ -1,37 +1,54 @@
 ---
-title: "OpenAI Assistants API Patterns"
-category: "frameworks"
-subcategory: "openai"
-technique_type: "assistants-api"
+title: OpenAI Assistants API Patterns
+shortTitle: OpenAI Assistants API Pa...
+intro: A prompt for openai assistants api patterns tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- internal-only
+dataClassification: confidential
+reviewStatus: draft
+category: frameworks
+subcategory: openai
+technique_type: assistants-api
 framework_compatibility:
-  openai: ">=1.0.0"
-difficulty: "intermediate"
+  openai: '>=1.0.0'
 use_cases:
-  - persistent-conversations
-  - code-interpreter
-  - file-retrieval
-  - customer-support
+- persistent-conversations
+- code-interpreter
+- file-retrieval
+- customer-support
 performance_metrics:
-  conversation_retention: "high"
-  file_processing: "excellent"
-  cost_efficiency: "medium"
+  conversation_retention: high
+  file_processing: excellent
+  cost_efficiency: medium
 testing:
-  framework: "pytest"
-  coverage: "85%"
-  validation_status: "passed"
+  framework: pytest
+  coverage: 85%
+  validation_status: passed
 governance:
-  data_classification: "confidential"
-  risk_level: "medium"
-  compliance_standards: ["GDPR", "SOC2"]
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  data_classification: confidential
+  risk_level: medium
+  compliance_standards:
+  - GDPR
+  - SOC2
+last_updated: '2025-11-23'
 tags:
-  - openai
-  - assistants
-  - persistent-state
-  - code-interpreter
-  - retrieval
+- openai
+- assistants
+- persistent-state
+- code-interpreter
+- retrieval
 ---
 
 # OpenAI Assistants API Patterns

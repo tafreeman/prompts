@@ -1,3 +1,24 @@
+---
+title: Introduction to AI Prompts
+shortTitle: Introduction to AI Prompts
+intro: A prompt for introduction to ai prompts tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Introduction to AI Prompts
 
 A beginner-friendly guide to understanding and using AI prompts effectively.

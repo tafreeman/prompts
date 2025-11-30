@@ -1,3 +1,24 @@
+---
+title: Repository Complexity & User Adoption Analysis Report
+shortTitle: Repository Complexity & ...
+intro: A prompt for repository complexity & user adoption analysis report tasks.
+type: quickstart
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Repository Complexity & User Adoption Analysis Report
 
 **Date**: 2025-11-28  

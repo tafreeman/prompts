@@ -1,26 +1,41 @@
 ---
-title: "Claude Tool Use Pattern"
-category: "frameworks"
-subcategory: "anthropic"
-technique_type: "tool-use"
+title: Claude Tool Use Pattern
+shortTitle: Claude Tool Use Pattern
+intro: A prompt for claude tool use pattern tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: frameworks
+subcategory: anthropic
+technique_type: tool-use
 framework_compatibility:
-  anthropic: ">=0.8.0"
-difficulty: "intermediate"
+  anthropic: '>=0.8.0'
 use_cases:
-  - data-extraction
-  - api-integration
-  - complex-workflows
+- data-extraction
+- api-integration
+- complex-workflows
 performance_metrics:
-  accuracy_improvement: "20-30%"
-  latency_impact: "medium"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 20-30%
+  latency_impact: medium
+last_updated: '2025-11-23'
 tags:
-  - anthropic
-  - claude
-  - tool-use
-  - function-calling
+- anthropic
+- claude
+- tool-use
+- function-calling
 ---
 
 # Claude Tool Use Pattern

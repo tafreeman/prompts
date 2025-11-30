@@ -1,3 +1,24 @@
+---
+title: Prompt Effectiveness Scoring Methodology
+shortTitle: Prompt Effectiveness Sco...
+intro: A prompt for prompt effectiveness scoring methodology tasks.
+type: reference
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Prompt Effectiveness Scoring Methodology
 
 ## Overview

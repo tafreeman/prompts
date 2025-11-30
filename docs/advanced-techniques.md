@@ -1,3 +1,24 @@
+---
+title: Advanced Prompting Techniques
+shortTitle: Advanced Prompting Techn...
+intro: A prompt for advanced prompting techniques tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Advanced Prompting Techniques
 
 A comprehensive guide to Chain-of-Thought, ReAct, RAG, Reflection, and Tree-of-Thoughts prompting patterns.

@@ -1,3 +1,24 @@
+---
+title: Unified Prompt Library Refactoring Guide (ReAct Synthesis)
+shortTitle: Unified Prompt Library R...
+intro: A prompt for unified prompt library refactoring guide (react synthesis) tasks.
+type: troubleshooting
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Unified Prompt Library Refactoring Guide (ReAct Synthesis)
 
 **Version**: 1.0  

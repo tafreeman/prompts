@@ -1,30 +1,45 @@
 ---
-title: "Multi-Step Reflexion Pattern"
-category: "techniques"
-subcategory: "reflexion"
-technique_type: "self-correction"
+title: Multi-Step Reflexion Pattern
+shortTitle: Multi-Step Reflexion Pat...
+intro: A prompt for multi step reflexion pattern tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: reflexion
+technique_type: self-correction
 framework_compatibility:
-  langchain: ">=0.1.0"
-  anthropic: ">=0.8.0"
-  openai: ">=1.0.0"
-difficulty: "advanced"
+  langchain: '>=0.1.0'
+  anthropic: '>=0.8.0'
+  openai: '>=1.0.0'
 use_cases:
-  - complex-reasoning
-  - code-generation
-  - mathematical-proofs
-  - creative-writing
+- complex-reasoning
+- code-generation
+- mathematical-proofs
+- creative-writing
 performance_metrics:
-  accuracy_improvement: "25-40%"
-  latency_impact: "high"
-  cost_multiplier: "2.0-3.0x"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 25-40%
+  latency_impact: high
+  cost_multiplier: 2.0-3.0x
+last_updated: '2025-11-23'
 tags:
-  - reflexion
-  - multi-step
-  - iterative
-  - self-correction
+- reflexion
+- multi-step
+- iterative
+- self-correction
 ---
 
 # Multi-Step Reflexion Pattern
