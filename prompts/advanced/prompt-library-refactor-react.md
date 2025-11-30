@@ -1,692 +1,352 @@
 ---
-title: "ReAct: Prompt Library Refactoring and Architecture Analysis"
-category: "advanced-techniques"
-tags: ["react", "repository-refactoring", "documentation-architecture", "prompt-library", "github-docs", "enterprise"]
-author: "Deloitte AI & Engineering Portfolio"
-version: "1.0"
-date: "2025-11-29"
+title: "ReAct: Prompt Library Analysis"
+shortTitle: "Repo Analysis ReAct"
+intro: "ReAct-based prompt for analyzing and improving prompt library repository structure, content gaps, and quality."
+type: "how_to"
 difficulty: "advanced"
 audience:
-  - "solution-architect"
   - "senior-engineer"
-governance_tags: ["internal-only", "architecture-guidance"]
+  - "solution-architect"
 platforms:
   - "github-copilot"
   - "claude"
-  - "gpt-4"
+  - "chatgpt"
+topics:
+  - "analysis"
+  - "architecture"
+  - "quality-assurance"
+author: "Prompt Library Team"
+version: "3.0"
+date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "approved"
 ---
 
-# ReAct: Prompt Library Refactoring and Architecture Analysis
+# ReAct: Prompt Library Analysis
 
 ## Description
 
-You are an AI repository refactoring and documentation architecture assistant using the ReAct (Reasoning + Acting) pattern for **large-scale prompt library analysis and redesign**.
+This is an executable ReAct (Reasoning + Acting) prompt for analyzing prompt library repositories. Use this prompt to systematically audit content, identify gaps, validate standards compliance, and generate improvement recommendations.
 
-Your mission is to analyze, organize, and propose improvements to the `tafreeman/prompts` repository so that it becomes a **world-class prompt engineering resource for Deloitte's AI & Engineering portfolio**, following best practices and layout inspired by the GitHub Docs repository (`github/docs`).
-The following reference directories from the GitHub Docs repository are available locally:
-- `D:/source/githubdocs`
-- `D:/source/githubdocs/content/contributing`
-- `D:/source/githubdocs/content/copilot`
-- `D:/source/githubdocs/content/repositories`
-- `D:/source/githubdocs/content/communities`
----
+## Goal
 
-## Organizational Context
+Perform comprehensive analysis of a prompt library repository to:
 
-**Organization**: Deloitte AI & Engineering Portfolio  
-**Repository Owner**: Solution Architecture Team  
-**Primary Users**:
-
-| Persona | Role | Primary Need | Content Depth |
-|---------|------|--------------|---------------|
-| **Junior Engineers** | Developers new to AI/LLMs | Quick-start guides, copy-paste templates | Beginner |
-| **Mid-Level Engineers** | Developers with some AI experience | How-to guides, pattern selection | Intermediate |
-| **Senior Engineers** | Experienced practitioners | Advanced patterns, optimization | Advanced |
-| **Solution Architects** | Technical leads, system designers | Reference architecture, governance | Advanced |
-| **Functional Team Members** | PMs, BAs, non-technical staff | Business prompts, M365 integration | Beginner-Intermediate |
-
-**Dual Goals**:
-1. **Quick-Start & Ramp-Up**: Enable engineers to become productive with code generation and prompting techniques within days, not weeks
-2. **Advanced Depth**: Provide sophisticated patterns (ReAct, Chain-of-Thought, Reflexion, RAG) for experienced practitioners tackling complex enterprise problems
+1. **Map repository structure** - Document folder hierarchy and content distribution
+2. **Audit frontmatter compliance** - Validate all files against schema requirements
+3. **Identify content gaps** - Find missing prompt categories and coverage holes
+4. **Assess quality** - Evaluate prompt effectiveness and documentation completeness
+5. **Generate expansion roadmap** - Prioritize new content creation
 
 ---
 
-## Objective
+## Current Repository Context
 
-Transform the `tafreeman/prompts` repository into a **coherent, well-architected prompt library** that:
+> **Note**: This context reflects the `tafreeman/prompts` repository state as of November 2025.
 
-- Serves **multiple skill levels** with clear learning paths (beginner → intermediate → advanced)
-- Enables **rapid onboarding** for new Deloitte engineers joining AI projects
-- Provides **production-ready patterns** for enterprise code generation and AI-assisted development
-- Mirrors the **organizational clarity** of GitHub Docs (content model, frontmatter, navigation)
-- Follows **Deloitte/enterprise governance** requirements (audit trails, human review flags, compliance metadata)
-- Applies **GitHub Well-Architected Framework** principles (productivity, collaboration, security, governance, architecture)
-- Supports **automation tooling** for validation, export, and quality control
+### Completed State
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| Frontmatter schema | ✅ Complete | 19 standardized fields |
+| Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
+| Total prompts | 145+ | Across 8 categories |
+| Validation tooling | ✅ Complete | `tools/validators/frontmatter_validator.py` |
+
+### Known Gaps (Expansion Targets)
+
+| Category | Current Count | Target | Priority |
+|----------|---------------|--------|----------|
+| Creative | 2 prompts | 15-20 | **HIGH** |
+| Business | 26 prompts | 35-40 | MEDIUM |
 
 ---
 
-## Reference Architecture
+## Available Tools
 
-### GitHub Docs Content Model
+When executing this analysis, you have access to:
 
-**Hierarchical Structure**:
+### 1. `file_search`
+Search for files matching glob patterns.
 ```
-Top-level doc set (product/domain)
-├── Categories (task-based, gerund titles)
-│   ├── Map topics (specific workflow groupings)
-│   │   └── Articles
-│   └── Articles
-└── Articles
+file_search("**/*.md") → Find all markdown files
+file_search("prompts/**/*.md") → Find all prompts
 ```
 
-**Content Types** (each prompt maps to one):
-
-| Type | Purpose | Title Pattern | Deloitte Use Case |
-|------|---------|---------------|-------------------|
-| **Conceptual** | Explain what/why | "About [subject]" | "About Chain-of-Thought prompting" |
-| **Quickstart** | First success in <15 min | "Quickstart for [topic]" | "Quickstart for GitHub Copilot" |
-| **How-to** | Complete a specific task | Gerund/imperative | "Generating unit tests with AI" |
-| **Tutorial** | End-to-end guided learning | Task-based | "Building a RAG pipeline" |
-| **Reference** | Lookup information | Noun-based | "Prompt template schema" |
-| **Troubleshooting** | Problem/solution pairs | "Troubleshooting [topic]" | "Troubleshooting code completion" |
-
-**Content Order** (within categories):
-1. Conceptual → 2. Reference → 3. Enable → 4. Use → 5. Manage → 6. Disable → 7. Troubleshoot
-
-### GitHub Docs Frontmatter Standard
-
-**Required**:
-- `title` — Human-friendly title
-- `versions` — Applicable platforms
-
-**Strongly Recommended**:
-- `shortTitle` — Navigation label (≤27 chars)
-- `intro` — One-sentence description
-- `type` — `overview`, `quick_start`, `tutorial`, `how_to`, `reference`
-- `topics` — Array of topic tags
-
-**Optional**: `permissions`, `layout`, `children`, `featuredLinks`, `learningTracks`, `defaultTool`
-
-### Well-Architected Framework Application
-
-| Pillar | Prompt Library Application |
-|--------|---------------------------|
-| **Productivity** | Templates, reusable components, validation automation |
-| **Collaboration** | Clear contribution guidelines, consistent structure |
-| **Security** | Governance tags, PII handling, sensitive content flags |
-| **Governance** | Audit trails, versioning, ownership, compliance metadata |
-| **Architecture** | Scalable structure, separation of concerns, extensibility |
-
----
-
-## Research Question
-
-> How should we refactor the `tafreeman/prompts` repository to:
-> 1. **Enable rapid ramp-up** for engineers new to AI/code generation
-> 2. **Provide advanced depth** for experienced practitioners
-> 3. **Support multiple personas** (engineers, architects, functional teams)
-> 4. **Align with GitHub Docs patterns** (content model, frontmatter, navigation)
-> 5. **Meet Deloitte enterprise standards** (governance, audit, compliance)
-
----
-
-## Current Repository Structure (`tafreeman/prompts`)
-
+### 2. `read_file`
+Read file contents to inspect frontmatter and content.
 ```
-prompts/
-├── prompts/           # Core prompt templates
-│   ├── advanced/      # Advanced techniques (ReAct, CoT, etc.)
-│   ├── analysis/
-│   ├── business/
-│   ├── creative/
-│   ├── developers/
-│   ├── governance/
-│   ├── m365/
-│   └── system/
-├── agents/            # Agent definitions (*.agent.md)
-├── docs/              # Documentation and standards
-├── instructions/      # Role/persona instructions (*.instructions.md)
-├── templates/         # Prompt templates
-├── techniques/        # Prompting technique guides
-├── frameworks/        # Framework-specific (anthropic/, langchain/, microsoft/)
-├── guides/            # Best practices, getting started
-├── workflows/         # Business workflows
-├── tools/             # Python utilities, validators
-├── testing/           # Test harness
-└── src/               # Core Python scripts
+read_file("/path/to/file.md") → Get file content
+```
+
+### 3. `grep_search`
+Search for patterns across files.
+```
+grep_search("type: how_to") → Find all how_to prompts
+grep_search("difficulty: beginner") → Find beginner content
+```
+
+### 4. `list_dir`
+List directory contents to map structure.
+```
+list_dir("/prompts/") → Get folder structure
+```
+
+### 5. `run_in_terminal`
+Execute validation scripts.
+```
+python tools/validators/frontmatter_validator.py <file>
+python tools/validate_all.py
 ```
 
 ---
 
-## Available Analysis Tools
+## ReAct Analysis Loop
 
-### Target Repository (`d:\source\prompts`)
+Execute analysis using iterative Thought → Action → Observation cycles:
 
-1. **prompts_semantic_search** — Semantic search over prompts repo
-2. **prompts_keyword_search** — Exact/regex matching
-3. **prompts_file_fetch** — Retrieve file content
-4. **prompts_frontmatter_audit** — Analyze frontmatter consistency
-5. **prompts_structure_map** — Folder structure with metadata
+### Phase 1: Structure Mapping
 
-### Reference Repository (`d:\source\githubdocs`)
+**Thought**: I need to understand the repository structure before analyzing content.
 
-6. **githubdocs_search** — Search GitHub Docs patterns
-7. **githubdocs_file_fetch** — Retrieve reference files
-8. **githubdocs_pattern_extract** — Extract frontmatter/structure patterns
+**Action**: Map the folder hierarchy
+```
+list_dir("/") → Get top-level structure
+list_dir("/prompts/") → Get prompt categories
+```
 
-### Cross-Repository
-
-9. **compare_structures** — Compare prompts vs. githubdocs patterns
-10. **gap_analysis** — Identify gaps against GitHub Docs standards
+**Observation**: Document the folder tree and note category organization.
 
 ---
 
-## Working Style: ReAct Loop
+### Phase 2: Content Inventory
 
-### Thought [N]
-- What aspect am I investigating? (content model, frontmatter, structure, personas)
-- Which persona's needs am I addressing? (junior eng, architect, functional)
-- How does this support quick-start OR advanced depth goals?
-- Which repo should I query?
+**Thought**: I need to count and categorize all prompts to identify distribution.
 
-### Action [N]
+**Action**: Search and count files by category
 ```
-Tool: <tool_name>
-Parameters: { ... }
+file_search("prompts/creative/*.md") → Count creative prompts
+file_search("prompts/business/*.md") → Count business prompts
+file_search("prompts/developers/*.md") → Count developer prompts
 ```
 
-### Observation [N]
-- Files/patterns found
-- Alignment with GitHub Docs
-- Gaps for Deloitte use cases
-
-### Synthesis [N]
-- Design decisions supported
-- Migration steps informed
-- Ready to propose?
+**Observation**: Create inventory table showing prompts per category.
 
 ---
 
-## Required Analysis Phases
+### Phase 3: Frontmatter Audit
 
-### Phase 1: Persona & Learning Path Analysis
-- [ ] Map existing content to personas (who is it for?)
-- [ ] Identify quick-start gaps (what's missing for day-1 productivity?)
-- [ ] Identify advanced depth gaps (what patterns need more detail?)
-- [ ] Define learning tracks per persona
+**Thought**: I need to verify all files comply with the frontmatter schema.
 
-### Phase 2: Reference Pattern Extraction
-- [ ] Extract GitHub Docs frontmatter schema
-- [ ] Extract index.md navigation patterns
-- [ ] Extract content type templates
-- [ ] Extract `content/copilot/` structure (most relevant reference)
+**Action**: Run validation and check specific fields
+```
+run_in_terminal("python tools/validate_all.py")
+grep_search("governance_tags:") → Check governance compliance
+grep_search("dataClassification:") → Check classification coverage
+```
 
-### Phase 3: Current State Audit
-- [ ] Frontmatter consistency across prompts
-- [ ] Content type distribution
-- [ ] Difficulty level coverage (beginner/intermediate/advanced)
-- [ ] Platform coverage (Copilot, Claude, GPT, etc.)
+**Observation**: Document validation results, noting any failures or warnings.
+
+---
 
 ### Phase 4: Gap Analysis
-- [ ] Missing quick-start content
-- [ ] Missing advanced patterns
-- [ ] Frontmatter standardization needs
-- [ ] Navigation/discoverability gaps
 
-### Phase 5: Architecture Design
-- [ ] Target folder structure (persona-aware)
-- [ ] Frontmatter schema (Deloitte-extended)
-- [ ] Learning tracks definition
-- [ ] Index page templates
+**Thought**: I need to compare current content against target coverage.
+
+**Action**: Analyze content distribution
+```
+grep_search("type: quickstart") → Count quickstarts per platform
+grep_search("difficulty: beginner") → Count beginner-friendly content
+grep_search("audience:.*junior") → Count junior engineer content
+```
+
+**Observation**: Identify gaps in:
+- Platform coverage (github-copilot, claude, chatgpt, azure-openai, m365-copilot)
+- Difficulty balance (beginner vs intermediate vs advanced)
+- Audience coverage (junior, senior, architect, business)
 
 ---
 
-## End State Deliverables
+### Phase 5: Quality Assessment
 
-### 1. Target Architecture: Persona-Aware Folder Structure
+**Thought**: I need to evaluate prompt quality and documentation completeness.
 
+**Action**: Sample and review prompts
 ```
-prompts/
-├── index.md                           # Landing page with persona navigation
-│
-├── get-started/                       # 🚀 QUICK-START (All personas)
-│   ├── index.md
-│   ├── quickstart-copilot.md          # 15-min first success
-│   ├── quickstart-claude.md
-│   ├── quickstart-chatgpt.md
-│   ├── choosing-the-right-pattern.md
-│   └── first-prompts-for-developers.md
-│
-├── concepts/                          # 📚 CONCEPTUAL (Understanding)
-│   ├── index.md
-│   ├── about-prompt-engineering.md
-│   ├── about-code-generation.md
-│   ├── about-chain-of-thought.md
-│   ├── about-react-pattern.md
-│   └── about-rag-retrieval.md
-│
-├── how-tos/                           # 🔧 PROCEDURAL (Task completion)
-│   ├── index.md
-│   ├── developers/                    # Engineer-focused
-│   │   ├── index.md
-│   │   ├── generating-unit-tests.md
-│   │   ├── refactoring-legacy-code.md
-│   │   ├── writing-documentation.md
-│   │   ├── debugging-with-ai.md
-│   │   └── code-review-assistance.md
-│   ├── architects/                    # Architect-focused
-│   │   ├── index.md
-│   │   ├── designing-ai-solutions.md
-│   │   ├── evaluating-ai-patterns.md
-│   │   └── governance-implementation.md
-│   ├── business/                      # Functional team-focused
-│   │   ├── index.md
-│   │   ├── writing-business-documents.md
-│   │   ├── analyzing-requirements.md
-│   │   └── creating-presentations.md
-│   └── m365/                          # Microsoft 365 integration
-│       ├── index.md
-│       ├── copilot-for-excel.md
-│       ├── copilot-for-word.md
-│       └── copilot-for-teams.md
-│
-├── tutorials/                         # 📖 END-TO-END LEARNING
-│   ├── index.md
-│   ├── building-your-first-ai-feature.md
-│   ├── implementing-rag-pipeline.md
-│   ├── creating-custom-agents.md
-│   └── enterprise-prompt-governance.md
-│
-├── techniques/                        # ⚡ ADVANCED PATTERNS
-│   ├── index.md
-│   ├── chain-of-thought/
-│   │   ├── index.md
-│   │   ├── basic-cot.md
-│   │   ├── zero-shot-cot.md
-│   │   └── self-consistency.md
-│   ├── react/
-│   │   ├── index.md
-│   │   ├── react-fundamentals.md
-│   │   ├── react-tool-use.md
-│   │   └── react-document-search.md    # Current file
-│   ├── reflexion/
-│   │   ├── index.md
-│   │   └── self-critique-patterns.md
-│   ├── rag/
-│   │   ├── index.md
-│   │   ├── basic-rag.md
-│   │   └── advanced-retrieval.md
-│   └── agentic/
-│       ├── index.md
-│       ├── multi-agent-patterns.md
-│       └── agent-orchestration.md
-│
-├── reference/                         # 📋 LOOKUP CONTENT
-│   ├── index.md
-│   ├── frontmatter-schema.md
-│   ├── platform-compatibility.md
-│   ├── prompt-template-reference.md
-│   ├── governance-tags.md
-│   └── difficulty-levels.md
-│
-├── troubleshooting/                   # 🔍 PROBLEM/SOLUTION
-│   ├── index.md
-│   ├── troubleshooting-copilot.md
-│   ├── troubleshooting-code-generation.md
-│   └── common-prompting-mistakes.md
-│
-├── agents/                            # 🤖 AGENT DEFINITIONS
-│   ├── index.md
-│   ├── code-review-agent.agent.md
-│   ├── architecture-agent.agent.md
-│   ├── docs-agent.agent.md
-│   └── ...
-│
-├── instructions/                      # 📝 PERSONA INSTRUCTIONS
-│   ├── index.md
-│   ├── junior-developer.instructions.md
-│   ├── senior-developer.instructions.md
-│   ├── solution-architect.instructions.md
-│   └── ...
-│
-└── frameworks/                        # 🏗️ FRAMEWORK-SPECIFIC
-    ├── index.md
-    ├── langchain/
-    ├── semantic-kernel/
-    └── autogen/
+read_file("/prompts/creative/[sample].md") → Check content quality
+read_file("/prompts/business/[sample].md") → Check documentation
 ```
 
-### 2. Frontmatter Schema (Deloitte-Extended)
+**Observation**: Score prompts on:
+- Clear description (1-5)
+- Complete frontmatter (1-5)
+- Example quality (1-5)
+- Practical usability (1-5)
 
-```yaml
 ---
-# ═══════════════════════════════════════════════════════════════
-# REQUIRED FIELDS
-# ═══════════════════════════════════════════════════════════════
-title: "Human-friendly title"
-type: "conceptual|quickstart|how_to|tutorial|reference|troubleshooting"
 
-# ═══════════════════════════════════════════════════════════════
-# STRONGLY RECOMMENDED
-# ═══════════════════════════════════════════════════════════════
-shortTitle: "Nav title (≤27 chars)"
-intro: "One-sentence description for search and preview"
-difficulty: "beginner|intermediate|advanced"
-topics: ["code-generation", "testing", "refactoring"]
+### Phase 6: Expansion Recommendations
 
-# Persona targeting (who is this for?)
-audience:
-  - "junior-engineer"
-  - "senior-engineer"
-  - "solution-architect"
-  - "functional-team"
+**Thought**: Based on gaps identified, I need to prioritize new content.
 
-# Platform compatibility
-platforms:
-  - "github-copilot"
-  - "claude"
-  - "gpt-4"
-  - "azure-openai"
+**Action**: Cross-reference gaps with research
+```
+# Reference the Knowledge Base Research prompt for external best practices
+# Compare against industry prompt libraries
+```
 
-# ═══════════════════════════════════════════════════════════════
-# RECOMMENDED
-# ═══════════════════════════════════════════════════════════════
-author: "Author name"
-date: "YYYY-MM-DD"
-version: "1.0"
-estimatedTime: "15 min"  # For tutorials/quickstarts
+**Observation**: Generate prioritized expansion roadmap.
 
-# Learning path placement
-learningTrack: "engineer-quickstart|architect-depth|functional-productivity"
-prerequisites:
-  - "/get-started/quickstart-copilot"
-
-# ═══════════════════════════════════════════════════════════════
-# GOVERNANCE (Deloitte Enterprise)
-# ═══════════════════════════════════════════════════════════════
-governance_tags:
-  - "PII-safe"
-  - "client-safe"
-  - "requires-human-review"
-  - "audit-required"
-  - "internal-only"
-
-# Compliance metadata
-dataClassification: "public|internal|confidential"
-reviewStatus: "draft|reviewed|approved"
-lastReviewedBy: "Reviewer name"
-lastReviewedDate: "YYYY-MM-DD"
-
-# ═══════════════════════════════════════════════════════════════
-# NAVIGATION (for index.md files)
-# ═══════════════════════════════════════════════════════════════
-children:
-  - /path/to/child
-
-featuredLinks:
-  gettingStarted:
-    - /get-started/quickstart-copilot
-  popular:
-    - /techniques/react/react-fundamentals
-  forArchitects:
-    - /how-tos/architects/designing-ai-solutions
-
-# ═══════════════════════════════════════════════════════════════
-# OPTIONAL
-# ═══════════════════════════════════════════════════════════════
-redirect_from:
-  - /old/path
-defaultPlatform: "github-copilot"
-relatedPrompts:
-  - /techniques/chain-of-thought/basic-cot
 ---
-```
 
-### 3. Learning Tracks (Persona-Based)
+## Required Deliverables
 
-```yaml
-# data/learning-tracks/engineer-quickstart.yml
-title: "Engineer Quick-Start"
-description: "Get productive with AI code generation in your first week"
-audience: ["junior-engineer", "mid-engineer"]
-estimatedTime: "4 hours"
-track:
-  - title: "Day 1: First Success"
-    guides:
-      - /get-started/quickstart-copilot
-      - /concepts/about-code-generation
-      - /how-tos/developers/generating-unit-tests
-  
-  - title: "Day 2: Core Patterns"
-    guides:
-      - /concepts/about-prompt-engineering
-      - /how-tos/developers/refactoring-legacy-code
-      - /how-tos/developers/writing-documentation
-  
-  - title: "Day 3: Intermediate Skills"
-    guides:
-      - /concepts/about-chain-of-thought
-      - /techniques/chain-of-thought/basic-cot
-      - /how-tos/developers/debugging-with-ai
+After completing the ReAct loop, produce:
 
-# data/learning-tracks/architect-depth.yml
-title: "Architect Deep Dive"
-description: "Advanced patterns and governance for solution architects"
-audience: ["solution-architect", "senior-engineer"]
-estimatedTime: "8 hours"
-track:
-  - title: "Advanced Patterns"
-    guides:
-      - /techniques/react/react-fundamentals
-      - /techniques/rag/advanced-retrieval
-      - /techniques/agentic/multi-agent-patterns
-  
-  - title: "Enterprise Governance"
-    guides:
-      - /tutorials/enterprise-prompt-governance
-      - /how-tos/architects/governance-implementation
-      - /reference/governance-tags
-  
-  - title: "Architecture Design"
-    guides:
-      - /how-tos/architects/designing-ai-solutions
-      - /how-tos/architects/evaluating-ai-patterns
+### 1. Repository Health Report
 
-# data/learning-tracks/functional-productivity.yml
-title: "Functional Team Productivity"
-description: "AI assistance for business documents and analysis"
-audience: ["functional-team"]
-estimatedTime: "2 hours"
-track:
-  - title: "Getting Started"
-    guides:
-      - /get-started/quickstart-chatgpt
-      - /how-tos/business/writing-business-documents
-  
-  - title: "M365 Integration"
-    guides:
-      - /how-tos/m365/copilot-for-word
-      - /how-tos/m365/copilot-for-excel
-```
-
-### 4. Migration Plan
-
-**Phase 1: Foundation (Week 1)**
-- [ ] Define final frontmatter schema
-- [ ] Create `prompt-template.md` with Deloitte fields
-- [ ] Create `index-template.md` for navigation
-- [ ] Update `tools/validators/` for new schema
-
-**Phase 2: Quick-Start Content (Week 2)**
-- [ ] Create `get-started/` folder with quickstarts
-- [ ] Write `quickstart-copilot.md` (15-min first success)
-- [ ] Write `choosing-the-right-pattern.md`
-- [ ] Add `difficulty: beginner` to all quickstarts
-
-**Phase 3: Structure Migration (Week 3)**
-- [ ] Migrate `prompts/advanced/` → `techniques/`
-- [ ] Create `concepts/` with "About X" articles
-- [ ] Reorganize `how-tos/` by persona (developers/, architects/, business/)
-- [ ] Add `index.md` to every folder
-
-**Phase 4: Frontmatter Normalization (Week 4)**
-- [ ] Add `type` field to all prompts
-- [ ] Add `difficulty` field to all prompts
-- [ ] Add `audience` field to all prompts
-- [ ] Add `platforms` field to all prompts
-- [ ] Standardize `topics` against allowlist
-
-**Phase 5: Learning Tracks & Navigation (Week 5)**
-- [ ] Create `data/learning-tracks/` YAML files
-- [ ] Create landing page with persona navigation
-- [ ] Add `featuredLinks` to index pages
-- [ ] Create `reference/` content (schema docs, etc.)
-
-**Phase 6: Governance & Tooling (Week 6)**
-- [ ] Add governance fields to sensitive prompts
-- [ ] Update CI validation for required fields
-- [ ] Create PR template with checklist
-- [ ] Write `CONTRIBUTING.md` with new standards
-- [ ] Create `ARCHITECTURE.md` documentation
-
-### 5. Prioritized Work Items
-
-**🔴 P0 - Critical (Enable Quick-Start)**
-```
-[ ] QS-001: Create get-started/quickstart-copilot.md
-[ ] QS-002: Create get-started/quickstart-claude.md
-[ ] QS-003: Create get-started/choosing-the-right-pattern.md
-[ ] QS-004: Create concepts/about-prompt-engineering.md
-[ ] SCHEMA-001: Define and document frontmatter schema
-```
-
-**🟠 P1 - High (Structure & Navigation)**
-```
-[ ] STRUCT-001: Create index.md for every folder
-[ ] STRUCT-002: Migrate prompts/advanced/ → techniques/
-[ ] STRUCT-003: Create how-tos/developers/ subfolder
-[ ] STRUCT-004: Create how-tos/architects/ subfolder
-[ ] NAV-001: Create landing page with persona cards
-```
-
-**🟡 P2 - Medium (Standardization)**
-```
-[ ] SCHEMA-002: Add type field to all prompts
-[ ] SCHEMA-003: Add difficulty field to all prompts
-[ ] SCHEMA-004: Add audience field to all prompts
-[ ] SCHEMA-005: Standardize topics across all prompts
-[ ] TOOL-001: Update validate_prompts.py for new schema
-```
-
-**🟢 P3 - Low (Enhancement)**
-```
-[ ] TRACK-001: Create engineer-quickstart learning track
-[ ] TRACK-002: Create architect-depth learning track
-[ ] TRACK-003: Create functional-productivity learning track
-[ ] GOV-001: Add governance tags to sensitive prompts
-[ ] DOCS-001: Create ARCHITECTURE.md
-```
-
-### 6. Governance & Quality Controls
-
-**Validation Rules** (CI/CD):
-```yaml
-required_fields:
-  - title
-  - type
-  - intro
-  - difficulty
-
-recommended_fields:
-  - audience
-  - platforms
-  - topics
-
-governance_required_for:
-  - paths: ["**/governance/**", "**/business/**"]
-    fields: ["governance_tags", "dataClassification"]
-
-title_patterns:
-  conceptual: "^About .+"
-  quickstart: "^Quickstart for .+"
-  troubleshooting: "^Troubleshooting .+"
-```
-
-**PR Checklist**:
 ```markdown
-## Prompt Contribution Checklist
-- [ ] Frontmatter includes all required fields
-- [ ] `type` matches content and title pattern
-- [ ] `difficulty` accurately reflects complexity
-- [ ] `audience` specifies target persona(s)
-- [ ] Tested with at least one platform in `platforms`
-- [ ] Governance tags added if sensitive content
-- [ ] Added to appropriate index.md `children`
+## Repository Analysis Summary
+
+**Analysis Date**: YYYY-MM-DD
+**Total Files Analyzed**: X
+**Validation Pass Rate**: X%
+
+### Structure Overview
+[Folder tree with file counts]
+
+### Content Distribution
+| Category | Count | % of Total | Health |
+|----------|-------|------------|--------|
+| ...      | ...   | ...        | ✅/⚠️/❌ |
 ```
 
-### 7. Summary for Maintainers
+### 2. Gap Analysis Matrix
 
-**What Changed**:
-The prompt library is restructured around the GitHub Docs content model to serve Deloitte's dual goals:
+```markdown
+## Content Gap Analysis
 
-1. **Quick-Start Path**: `get-started/` provides <15 minute quickstarts for each platform, enabling day-1 productivity for new engineers
+### By Platform
+| Platform | Quickstart | How-To | Tutorial | Reference |
+|----------|------------|--------|----------|-----------|
+| github-copilot | ✅ | ⚠️ | ❌ | ✅ |
+| ...      | ...        | ...    | ...      | ...       |
 
-2. **Advanced Depth**: `techniques/` contains sophisticated patterns (ReAct, CoT, RAG, Agentic) for experienced practitioners
+### By Audience
+| Audience | Beginner | Intermediate | Advanced |
+|----------|----------|--------------|----------|
+| junior-engineer | X prompts | X prompts | X prompts |
+| ...      | ...      | ...          | ...      |
+```
 
-3. **Persona Navigation**: Content organized by who it's for (developers, architects, functional teams) with explicit `audience` metadata
+### 3. Expansion Roadmap
 
-4. **Enterprise Governance**: Frontmatter supports Deloitte compliance requirements with `governance_tags`, `dataClassification`, and review tracking
+```markdown
+## Priority Expansion Roadmap
 
-**How to Navigate**:
-- **New to AI?** → Start at `get-started/quickstart-copilot.md`
-- **Know the basics?** → Browse `how-tos/` by your role
-- **Need advanced patterns?** → Explore `techniques/`
-- **Looking something up?** → Check `reference/`
+### P0 - Critical (Creative Category)
+| Prompt | Type | Difficulty | Effort |
+|--------|------|------------|--------|
+| professional-email-writer.md | how_to | beginner | S |
+| blog-post-generator.md | how_to | intermediate | M |
+| ...    | ...  | ...        | ...    |
 
-**How to Contribute**:
-1. Choose the right content type (conceptual, how-to, tutorial, etc.)
-2. Use the appropriate template from `templates/`
-3. Fill all required frontmatter fields
-4. Add to the appropriate `index.md` children list
-5. Run `python tools/validate_prompts.py` before PR
+### P1 - High (Business Expansion)
+| Prompt | Type | Difficulty | Effort |
+|--------|------|------------|--------|
+| pitch-deck-generator.md | how_to | intermediate | M |
+| ...    | ...  | ...        | ...    |
+```
+
+### 4. Quality Scorecard
+
+```markdown
+## Quality Assessment
+
+**Overall Score**: X/5
+
+### By Dimension
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+| Frontmatter Compliance | X/5 | ... |
+| Documentation Completeness | X/5 | ... |
+| Example Quality | X/5 | ... |
+| Practical Usability | X/5 | ... |
+```
 
 ---
 
-## ReAct Execution Instructions
+## Expansion Priorities
 
-Begin your analysis using the Thought → Action → Observation → Synthesis cycle to:
+Based on current repository state, prioritize analysis on these areas:
 
-1. **Extract patterns** from `d:\source\githubdocs` (focus on `content/copilot/` as most relevant reference)
-2. **Audit current state** of `d:\source\prompts` (frontmatter, structure, content types)
-3. **Identify persona gaps** (what's missing for quick-start? what's missing for architects?)
-4. **Map existing content** to new structure
-5. **Create migration plan** with Deloitte-specific priorities
+### Creative Category (CRITICAL - 2 prompts → 15-20 target)
 
-**Key Questions to Answer**:
-- Which existing prompts are "quick-start" ready vs. need simplification?
-- Which advanced patterns have the depth architects need?
-- What's the current frontmatter consistency level?
-- Which folders need index.md files?
-- What validation rules exist vs. what's needed?
+**Research Focus Areas**:
+- Professional writing prompts (emails, reports, proposals)
+- Marketing content generation (blogs, social, ads)
+- Editing and refinement tools (tone, simplification)
+- Storytelling and narrative (case studies, presentations)
 
-Continue cycles until you deliver all seven end-state deliverables with specific, actionable recommendations grounded in both repositories and aligned with Deloitte AI & Engineering portfolio needs.
+**Recommended Additions**:
+1. `professional-email-writer.md` - Formal business emails
+2. `blog-post-generator.md` - Long-form content
+3. `social-media-creator.md` - Platform-specific posts
+4. `tone-adjuster.md` - Formal ↔ casual conversion
+5. `report-summarizer.md` - Executive summaries
+6. `proposal-generator.md` - Project proposals
+7. `case-study-builder.md` - Customer success stories
+8. `content-simplifier.md` - Plain language conversion
+
+### Business Category (MEDIUM - 26 prompts → 35-40 target)
+
+**Research Focus Areas**:
+- Sales enablement (pitch, objection handling, follow-up)
+- HR and recruiting (job descriptions, interviews)
+- Executive communications (board updates, all-hands)
+
+**Recommended Additions**:
+1. `pitch-deck-generator.md` - Sales presentations
+2. `objection-handler.md` - Sales objection responses
+3. `job-description-writer.md` - Role descriptions
+4. `interview-question-generator.md` - Role-specific questions
+5. `board-update-generator.md` - Executive summaries
 
 ---
 
-## Related Prompts
+## Execution Instructions
 
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - Original ReAct pattern for document research
-- [Chain-of-Thought: Detailed](../chain-of-thought/chain-of-thought-detailed.md) - Reasoning pattern foundation
-- [Architecture Agent](../../agents/architecture-agent.agent.md) - Agent for architecture decisions
+To run this analysis:
+
+1. **Initialize**: Load this prompt into your AI assistant
+2. **Scope**: Specify the repository path to analyze
+3. **Execute**: Follow the ReAct loop phases sequentially
+4. **Iterate**: Use observations to refine subsequent actions
+5. **Synthesize**: Compile deliverables from all observations
+6. **Validate**: Run validation tools to confirm findings
+
+---
+
+## Related Resources
+
+- [Knowledge Base Research](/prompts/advanced/react-knowledge-base-research) - External research prompt
+- [Frontmatter Validator](/tools/validators/frontmatter_validator.py) - Validation tooling
+- [Prompt Template](/templates/prompt-template.md) - Template for new prompts
+
+---
 
 ## Changelog
 
-### Version 1.0 (2025-11-29)
+### Version 3.0 (2025-11-30)
+- Restored as functional ReAct prompt (not static guide)
+- Added current repository context with expansion targets
+- Updated tool documentation and deliverable templates
+- Added detailed expansion priorities for creative and business
 
-- Initial release
-- Adapted from ReAct Document Search pattern for repository refactoring
-- Added Deloitte AI & Engineering context
-- Added persona-based navigation and learning tracks
-- Added enterprise governance frontmatter schema
-- Integrated GitHub Docs content model reference
-- Integrated GitHub Well-Architected Framework principles
+### Version 2.0 (2025-11-30)
+- Converted to reference guide (reverted in v3.0)
+
+### Version 1.0 (2025-11-29)
+- Initial release as refactoring analysis prompt
