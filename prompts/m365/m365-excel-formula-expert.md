@@ -83,7 +83,3 @@ Please provide:
 
 - `m365-data-insights-assistant`
 - `data-analysis-specialist`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

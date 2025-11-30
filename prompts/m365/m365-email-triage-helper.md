@@ -220,9 +220,3 @@ seven can be handled later this week, and the rest are informational.
 
 - `m365-daily-standup-assistant.md`
 - `m365-weekly-review-coach.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

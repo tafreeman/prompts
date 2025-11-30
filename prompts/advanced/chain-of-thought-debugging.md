@@ -1,13 +1,27 @@
 ---
-
 title: "Chain-of-Thought: Debugging & Root Cause Analysis"
+shortTitle: "CoT Debugging"
+intro: "A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis using explicit step-by-step reasoning."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "debugging", "root-cause-analysis", "developers", "reasoning"]
 author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "senior-engineer"
+  - "junior-engineer"
+platforms:
+  - "claude"
+  - "github-copilot"
+topics:
+  - "debugging"
+  - "development"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Chain-of-Thought: Debugging & Root Cause Analysis
@@ -431,7 +445,3 @@ async function verifyToken(token) {
 - **Human Review:** Critical production bugs should be reviewed by senior engineers before deployment
 - **Audit Trail:** Save complete CoT reasoning for postmortems and knowledge sharing
 - **Cost:** CoT debugging can be token-intensive; use for non-trivial bugs where systematic analysis adds value
-
-## Changelog
-
-- 2025-11-18: Initial version based on ToT repository evaluation recommendations

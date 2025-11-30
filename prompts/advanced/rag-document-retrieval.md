@@ -1,13 +1,28 @@
 ---
 title: "RAG: Document Retrieval and Citation"
+shortTitle: "RAG Document Retrieval"
+intro: "Retrieval-Augmented Generation pattern for grounding AI responses in specific documents with proper citations and attribution."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["rag", "retrieval-augmented-generation", "document-search", "citations", "context", "grounding"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+  - "azure-openai"
+topics:
+  - "rag"
+  - "retrieval"
 governance_tags: ["PII-safe", "requires-human-review-for-sensitive-docs", "audit-required"]
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # RAG: Document Retrieval and Citation Framework
@@ -449,14 +464,3 @@ Would you like me to:
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
 ```
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Comprehensive RAG template with citation framework
-- Chunking and retrieval best practices
-- JSON schema for automation
-- Platform integration examples
-- Governance metadata and error handling patterns

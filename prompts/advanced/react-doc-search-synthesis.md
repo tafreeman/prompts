@@ -1,13 +1,27 @@
 ---
 title: "ReAct: Document Search and Synthesis"
+shortTitle: "ReAct Document Search"
+intro: "ReAct pattern for iterative document search and synthesis, combining reasoning with strategic retrieval for complex research questions."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["react", "document-search", "rag", "synthesis", "reasoning", "retrieval", "research"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-25"
 difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "react"
+  - "research"
 governance_tags: ["PII-safe", "requires-human-review-for-sensitive-docs", "audit-required"]
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # ReAct: Document Search and Synthesis
@@ -743,15 +757,3 @@ I need to:
 - Use more specific keywords
 - Narrow the semantic query
 ```
-
-## Changelog
-
-### Version 1.0 (2025-11-25)
-
-- Initial release
-- Comprehensive ReAct pattern for document search and synthesis
-- Multi-cycle research example with enterprise onboarding scenario
-- Search strategy patterns (broad-to-narrow, keyword-then-expand, iterative refinement)
-- JSON schema for automation
-- Platform integration examples (LangChain, custom pipeline)
-- Governance metadata and audit trail guidance

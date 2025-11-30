@@ -433,7 +433,3 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Compliance:** Data quality issues may violate regulatory requirements (GDPR, CCPA)
 - **Stakeholder Communication:** Share assessment with data governance team and data consumers
 - **Remediation Tracking:** Create tickets/tasks for recommended actions and track completion
-
-## Changelog
-
-- 2025-11-18: Initial version based on ToT repository evaluation recommendations

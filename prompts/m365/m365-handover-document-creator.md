@@ -100,7 +100,3 @@ Lead responsibility for the Q3 campaign, focusing on agency management, content 
 
 - `m365-project-status-reporter`
 - `process-optimization-consultant`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

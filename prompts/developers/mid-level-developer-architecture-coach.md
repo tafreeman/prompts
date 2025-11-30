@@ -96,9 +96,3 @@ For a critical "Order Confirmation", **start with a Queue** (or at least a backg
 
 - [system-design-interviewer](../system/system-design-interviewer.md)
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
-
-## Changelog
-
-### Version 1.0 (2025-11-26)
-
-- Initial release

@@ -1,13 +1,26 @@
 ---
-
 title: "Chain-of-Thought: Performance Analysis & Profiling"
+shortTitle: "CoT Performance Analysis"
+intro: "A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "performance", "profiling", "optimization", "developers"]
 author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "github-copilot"
+topics:
+  - "performance"
+  - "development"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Chain-of-Thought: Performance Analysis & Profiling
@@ -474,7 +487,3 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - **Cost Awareness:** Some optimizations (e.g., caching, read replicas) have infrastructure costs; document trade-offs
 - **Human Review:** Major optimizations (query rewrites, architecture changes) should be reviewed by senior engineers
 - **Production Safety:** Test optimizations in staging before production; use feature flags for gradual rollout
-
-## Changelog
-
-- 2025-11-18: Initial version based on ToT repository evaluation recommendations

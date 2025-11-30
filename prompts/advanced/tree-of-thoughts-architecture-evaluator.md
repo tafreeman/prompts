@@ -1,14 +1,27 @@
 ---
-
 title: "Tree-of-Thoughts: Architecture Evaluator"
+shortTitle: "ToT Architecture Evaluator"
+intro: "A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["tree-of-thoughts", "architecture", "system-design", "developers", "trade-offs"]
 author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "architecture"
+  - "decision-making"
 governance_tags: ["requires-human-review", "architecture-decision-record"]
-platform: "Claude Sonnet 4.5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Tree-of-Thoughts: Architecture Evaluator
@@ -416,7 +429,3 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Cost Approval:** Ensure budget stakeholders approve cost estimates
 - **Security Review:** Involve security team if architecture handles sensitive data
 - **Compliance Check:** Ensure architecture meets regulatory requirements (GDPR, HIPAA, etc.)
-
-## Changelog
-
-- 2025-11-18: Initial version based on ToT repository evaluation recommendations

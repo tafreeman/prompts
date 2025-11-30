@@ -1,13 +1,27 @@
 ---
 title: "ReAct: Tool-Augmented Reasoning"
+shortTitle: "ReAct Tool-Augmented"
+intro: "An advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction using Think/Act/Observe/Reflect loops."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["react", "tool-use", "reasoning", "action", "observation", "iterative", "agentic"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "react"
+  - "agents"
 governance_tags: ["PII-safe", "requires-human-review-for-external-tools", "audit-required"]
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # ReAct: Tool-Augmented Reasoning
@@ -489,14 +503,3 @@ def react_loop(task, tools, max_cycles=10):
     
     return "Max cycles reached without solution"
 ```
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Think-Act-Observe-Reflect cycle template
-- Comprehensive security analysis example
-- JSON schema for automation
-- Tool integration patterns
-- Governance metadata

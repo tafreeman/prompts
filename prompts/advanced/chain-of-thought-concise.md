@@ -1,13 +1,27 @@
 ---
 title: "Chain-of-Thought: Concise Mode"
+shortTitle: "CoT Concise Mode"
+intro: "A concise Chain-of-Thought prompt template for efficient step-by-step reasoning when detailed explanations aren't needed."
+type: "how_to"
 category: "advanced-techniques"
-tags: ["chain-of-thought", "cot", "reasoning", "concise", "step-by-step", "problem-solving"]
+tags: ["chain-of-thought", "cot", "reasoning", "concise", "efficient", "problem-solving"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "reasoning"
+  - "problem-solving"
 governance_tags: ["PII-safe", "general-use"]
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Chain-of-Thought: Concise Mode
@@ -184,13 +198,3 @@ response = client.chat.completions.create(
     ]
 )
 ```
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Concise CoT template with 3-6 step guidance
-- JSON schema for automation
-- Platform adaptation examples
-- Governance metadata included

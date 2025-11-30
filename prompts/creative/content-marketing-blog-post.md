@@ -320,9 +320,3 @@ The right project management tool won't just organize your tasks—it will free 
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Email Newsletter Writer](email-newsletter-writer.md)
 - [SEO Content Optimizer](seo-content-optimizer.md)
-
-## Changelog
-
-### Version 1.0 (2025-10-29)
-
-- Initial version

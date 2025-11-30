@@ -4,7 +4,6 @@ shortTitle: "Claude Quickstart"
 intro: "Get productive with Anthropic Claude in 15 minutes. Learn the essential prompting patterns for analysis, writing, and code generation."
 type: "quickstart"
 difficulty: "beginner"
-estimatedTime: "15 min"
 audience:
   - "junior-engineer"
   - "mid-engineer"

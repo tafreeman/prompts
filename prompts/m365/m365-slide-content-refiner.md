@@ -86,7 +86,3 @@ Please generate content for **one slide** with the following structure:
 
 - `m365-presentation-outline-generator`
 - `client-presentation-designer`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

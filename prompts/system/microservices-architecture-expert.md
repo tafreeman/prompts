@@ -96,10 +96,3 @@ Include:
 
 - Browse other Architect prompts in this category
 - Check the system folder for similar templates
-
-## Changelog
-
-### Version 1.0 (2025-11-16)
-
-- Initial version migrated from legacy prompt library
-- Optimized for Claude Sonnet 4.5 and Code 5

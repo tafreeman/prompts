@@ -115,8 +115,3 @@ INCLUDE (CustomerName, TotalAmount);
 
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
 - [data-migration-architect](./data-migration-architect.md)
-
-## Changelog
-
-### Version 1.0 (2025-11-26)
-- Initial release

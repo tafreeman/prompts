@@ -205,9 +205,3 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 
 - `m365-weekly-review-coach.md`
 - `m365-meeting-recap-assistant.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

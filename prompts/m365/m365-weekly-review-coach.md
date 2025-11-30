@@ -218,9 +218,3 @@ incident response and began shaping a clearer roadmap.
 
 - `m365-daily-standup-assistant.md`
 - `m365-project-status-reporter.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

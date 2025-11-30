@@ -287,9 +287,3 @@ Please provide:
 - [Market Research Analysis](market-research-analysis.md)
 - [Competitive Analysis Framework](competitive-analysis.md)
 - [Financial Planning Assistant](financial-planning-assistant.md)
-
-## Changelog
-
-### Version 1.0 (2025-10-29)
-
-- Initial version

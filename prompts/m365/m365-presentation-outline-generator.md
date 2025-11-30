@@ -249,9 +249,3 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 
 - `m365-document-summarizer.md`
 - `m365-project-status-reporter.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

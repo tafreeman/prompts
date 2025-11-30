@@ -92,7 +92,3 @@ A central illustration of a steaming coffee cup with three arrows pointing outwa
 
 - `m365-designer-image-prompt-generator`
 - `m365-slide-content-refiner`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

@@ -1,13 +1,27 @@
 ---
 title: "Tree-of-Thoughts: Multi-Branch Reasoning Template"
+shortTitle: "ToT Multi-Branch Template"
+intro: "An advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when needed."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["tree-of-thoughts", "tot", "multi-branch", "reasoning", "exploration", "decision-making"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "chatgpt"
+  - "claude"
+  - "github-copilot"
+topics:
+  - "reasoning"
+  - "decision-making"
 governance_tags: ["PII-safe", "requires-human-review-for-critical-decisions"]
-platform: "GPT-5.1, Claude Sonnet 4.5, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
@@ -510,14 +524,3 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - **Human Review Required**: For decisions with >$100K impact, affecting >50 people, or strategic choices
 - **Audit Trail**: Save complete ToT exploration (all branches) for accountability and learning
 - **Stakeholder Communication**: ToT output can be overwhelming - create executive summary
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Multi-branch exploration with scoring
-- Backtracking demonstration
-- Cross-branch synthesis
-- Comprehensive caching architecture example
-- JSON schema for automation

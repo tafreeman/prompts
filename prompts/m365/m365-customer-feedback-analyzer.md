@@ -94,7 +94,3 @@ Based on the text above, please generate a **Feedback Analysis Report**:
 
 - `m365-data-insights-assistant`
 - `consumer-behavior-researcher`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

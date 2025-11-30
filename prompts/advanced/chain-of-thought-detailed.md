@@ -1,13 +1,27 @@
 ---
 title: "Chain-of-Thought: Detailed Mode"
+shortTitle: "CoT Detailed Mode"
+intro: "A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations and justifications."
+type: "how_to"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "cot", "reasoning", "detailed", "comprehensive", "problem-solving"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "reasoning"
+  - "problem-solving"
 governance_tags: ["PII-safe", "requires-human-review-for-critical-decisions"]
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Chain-of-Thought: Detailed Mode
@@ -447,13 +461,3 @@ response = client.chat.completions.create(
     max_tokens=4000   # Detailed mode needs more tokens
 )
 ```
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Comprehensive detailed CoT template with structured sections
-- JSON schema for automation
-- Governance metadata for enterprise use
-- Platform adaptation examples

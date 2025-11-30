@@ -146,12 +146,3 @@ namespace Application.Services
 
 - [csharp-refactoring-assistant](./csharp-refactoring-assistant.md)
 - [security-code-auditor](../governance/security-code-auditor.md)
-
-## Changelog
-
-### Version 1.1 (2025-11-26)
-- Updated with realistic examples and improved metadata
-- Aligned with new validation schema
-
-### Version 1.0 (2025-11-21)
-- Initial release
