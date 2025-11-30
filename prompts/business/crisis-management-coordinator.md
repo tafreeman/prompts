@@ -1,13 +1,28 @@
 ---
-
 title: "Crisis Management Coordinator"
+shortTitle: "Crisis Management"
+intro: "Manages project crises with response plans, stakeholder communication, resource mobilization, and recovery strategy."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "crisis-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "risk-management"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Crisis Management Coordinator

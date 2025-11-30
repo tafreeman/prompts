@@ -1,13 +1,28 @@
 ---
-
 title: "Business Strategy Analysis"
+shortTitle: "Strategy Analysis"
+intro: "Comprehensive business strategy analyzer for evaluating strategic options, SWOT analysis, and actionable recommendations."
+type: "how_to"
 category: "business"
 tags: ["strategy", "analysis", "swot", "planning", "decision-making"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "solution-architect"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "strategy"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Business Strategy Analysis

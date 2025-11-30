@@ -8,6 +8,7 @@ version: "1.0"
 date: "2025-10-29"
 difficulty: "beginner"
 platform: "Claude Sonnet 4.5"
+effectivenessScore: 4.3
 ---
 
 # Content Marketing Blog Post Generator

@@ -22,6 +22,7 @@ topics:
 governance_tags: ["PII-safe", "requires-human-review-for-sensitive-docs", "audit-required"]
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 4.6
 ---
 
 # ReAct: Document Search and Synthesis

@@ -1,19 +1,27 @@
 ---
-
 title: "Strategic Planning Consultant"
+shortTitle: "Strategic Planning"
+intro: "Develops strategic plans and roadmaps for organizations with comprehensive analysis and implementation guidance."
+type: "how_to"
 category: "business"
 tags: ["consultant", "strategy", "enterprise"]
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-18"
 difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "strategy"
+  - "planning"
 governance_tags: ["strategic-decision", "requires-executive-review"]
-data_classification: "confidential"
-risk_level: "high"
-regulatory_scope: ["internal-governance"]
-approval_required: true
-retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+dataClassification: "confidential"
+reviewStatus: "draft"
 ---
 
 # Strategic Planning Consultant

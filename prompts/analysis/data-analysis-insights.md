@@ -1,13 +1,28 @@
 ---
-
 title: "Data Analysis and Insights Generator"
+shortTitle: "Data Insights"
+intro: "Transforms raw data into meaningful insights and actionable recommendations for decision-makers."
+type: "how_to"
 category: "analysis"
 tags: ["data-analysis", "insights", "reporting", "statistics", "visualization"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "data-analysis"
+  - "insights"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Data Analysis and Insights Generator

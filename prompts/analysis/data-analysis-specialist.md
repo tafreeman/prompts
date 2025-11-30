@@ -1,13 +1,28 @@
 ---
-
 title: "Data Analysis Specialist"
+shortTitle: "Data Analysis"
+intro: "Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "data-analysis", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "data-analysis"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Data Analysis Specialist

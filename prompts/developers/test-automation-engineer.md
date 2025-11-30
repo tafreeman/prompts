@@ -36,6 +36,7 @@ governance:
   retention_period: "2-years"
 platform: 
   - "anthropic"
+effectivenessScore: 4.6
 ---
 
 # Test Automation Engineer

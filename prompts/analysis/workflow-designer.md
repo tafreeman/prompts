@@ -1,13 +1,28 @@
 ---
-
 title: "Workflow Designer"
+shortTitle: "Workflow Design"
+intro: "Designs efficient business workflows with role definitions, decision points, exception handling, and automation opportunities."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "workflow-design", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "workflow"
+  - "automation"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Workflow Designer

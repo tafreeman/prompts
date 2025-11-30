@@ -15,6 +15,7 @@ approval_required: true
 approval_roles: ["Principal-Engineer", "CTO"]
 retention_period: "10-years"
 platform: "Claude Sonnet 4.5"
+effectivenessScore: 4.3
 ---
 
 # Microservices Architect

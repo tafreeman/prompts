@@ -1,13 +1,28 @@
 ---
-
 title: "Timeline and Milestone Tracker"
+shortTitle: "Milestone Tracker"
+intro: "Tracks project progress and milestones with dashboards, schedule variance analysis, and recovery planning."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "progress-tracking", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "tracking"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Timeline and Milestone Tracker

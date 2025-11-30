@@ -1,13 +1,28 @@
 ---
-
 title: "Industry Analysis Expert"
+shortTitle: "Industry Analysis"
+intro: "Performs detailed industry analysis including market dynamics, competitive landscape, and strategic recommendations."
+type: "how_to"
 category: "analysis"
 tags: ["researcher", "industry-analysis", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "research"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Industry Analysis Expert

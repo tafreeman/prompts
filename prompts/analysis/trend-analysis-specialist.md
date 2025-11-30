@@ -1,13 +1,29 @@
 ---
-
 title: "Trend Analysis Specialist"
+shortTitle: "Trend Analysis"
+intro: "Identifies and analyzes market trends including impact assessment, future projections, and strategic responses."
+type: "how_to"
 category: "analysis"
 tags: ["researcher", "trend-analysis", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "research"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+effectivenessScore: 3.2
 ---
 
 # Trend Analysis Specialist

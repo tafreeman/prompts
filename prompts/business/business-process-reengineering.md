@@ -1,13 +1,28 @@
 ---
-
 title: "Business Process Reengineering"
+shortTitle: "Process Reengineering"
+intro: "Reengineers business processes with analysis, new design, technology enablers, and implementation strategy."
+type: "how_to"
 category: "business"
 tags: ["consultant", "process-reengineering", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "solution-architect"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "process-improvement"
+  - "business"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Business Process Reengineering

@@ -1,11 +1,22 @@
 ---
 title: "Prompt Title"
-category: "developers|business|creative|analysis|system"
-tags: ["tag1", "tag2"]
+shortTitle: "Short Title"
+intro: "One-sentence summary."
+type: "how_to"
+difficulty: "beginner"
+platforms:
+  - "github-copilot"
+  - "claude"
+topics:
+  - "topic1"
 author: "Your Name"
 version: "1.0"
 date: "YYYY-MM-DD"
-difficulty: "beginner|intermediate|advanced"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 
 # Prompt Title

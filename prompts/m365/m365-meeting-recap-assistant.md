@@ -7,6 +7,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "beginner"
 platform: "Microsoft 365 Copilot"
+effectivenessScore: 4.2
 ---
 
 # M365 Meeting Recap Assistant

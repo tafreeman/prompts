@@ -1,13 +1,28 @@
 ---
-
 title: "Business Case Developer"
+shortTitle: "Business Case"
+intro: "Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "business-case", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "project-manager"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "business"
+  - "planning"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Business Case Developer

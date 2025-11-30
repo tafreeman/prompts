@@ -1,13 +1,28 @@
 ---
-
 title: "Stakeholder Requirements Gatherer"
+shortTitle: "Stakeholder Requirements"
+intro: "Gathers and manages stakeholder requirements with interview planning, conflict resolution, and communication strategies."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "stakeholder-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "project-manager"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "requirements"
+  - "stakeholder-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Stakeholder Requirements Gatherer

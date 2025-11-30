@@ -1,13 +1,28 @@
 ---
-
 title: "User Experience Analyst"
+shortTitle: "UX Analysis"
+intro: "Analyzes and improves user experiences through journey mapping, pain point analysis, and improvement recommendations."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "user-experience", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "ux"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # User Experience Analyst

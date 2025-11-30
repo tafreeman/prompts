@@ -1,13 +1,28 @@
 ---
-
 title: "Change Management Coordinator"
+shortTitle: "Change Management"
+intro: "Manages project changes with impact analysis, approval workflow, communication strategy, and implementation planning."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "change-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "change-management"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Change Management Coordinator

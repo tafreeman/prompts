@@ -9,6 +9,7 @@ date: "2025-11-26"
 difficulty: "intermediate"
 platform: "Claude Sonnet 4.5"
 framework_compatibility: ["net8.0", "net9.0"]
+effectivenessScore: 4.2
 ---
 
 # C# Refactoring Assistant

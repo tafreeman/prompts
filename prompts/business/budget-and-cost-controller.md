@@ -1,12 +1,28 @@
 ---
 title: "Budget and Cost Controller"
+shortTitle: "Budget Controller"
+intro: "Project budget controller using Earned Value Management (EVM) for variance analysis, cost forecasting, and corrective actions."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "financial-management", "enterprise", "evm", "cost-control"]
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "finance"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Budget and Cost Controller

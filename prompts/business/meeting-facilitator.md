@@ -1,13 +1,28 @@
 ---
-
 title: "Meeting Facilitator"
+shortTitle: "Meeting Facilitator"
+intro: "Facilitates effective project meetings with agendas, facilitation techniques, decision-making process, and follow-up procedures."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "meeting-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "communication"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Meeting Facilitator
