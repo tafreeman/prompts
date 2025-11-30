@@ -3,17 +3,39 @@ title: "Get Started with AI Prompting"
 shortTitle: "Get Started"
 intro: "Quick-start guides to become productive with AI code generation in 15 minutes or less."
 type: "reference"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+  - "solution-architect"
+  - "business-analyst"
+  - "project-manager"
+  - "functional-team"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+  - "azure-openai"
+  - "m365-copilot"
+author: "Prompt Library Team"
+version: "1.0"
+date: "2025-11-29"
+governance_tags:
+  - "PII-safe"
+dataClassification: "public"
+reviewStatus: "approved"
 layout: "category-landing"
 children:
-  - quickstart-copilot
-  - quickstart-claude
-  - quickstart-m365
-  - choosing-the-right-pattern
+  - /get-started/quickstart-copilot
+  - /get-started/quickstart-claude
+  - /get-started/quickstart-chatgpt
+  - /get-started/quickstart-m365
+  - /get-started/choosing-the-right-pattern
 featuredLinks:
   gettingStarted:
-    - quickstart-copilot
+    - /get-started/quickstart-copilot
   popular:
-    - choosing-the-right-pattern
+    - /get-started/choosing-the-right-pattern
 ---
 
 # Get Started with AI Prompting

@@ -673,7 +673,84 @@ modules:
 
 ---
 
-## Appendix A: Migration Cheat Sheet
+## Appendix A: Recommended AI Models by Task
+
+### Model Selection Guide
+
+Use this reference to select the optimal AI model for each task type. Rankings are based on capability, cost-efficiency, and task fit.
+
+#### Phase 1: Foundation + Navigation
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| F-01: Schema documentation | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
+| F-02: index.md template | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
+| F-03: prompt-template.md | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
+| F-04: Validation script | Claude Sonnet 4.5 | GPT-4o | Gemini 2.5 Pro |
+| F-05 to F-08: index.md files | Claude Haiku 4.5 | Gemini 2.5 Flash | Claude Sonnet 4.5 |
+| F-09: data/ YAML files | Claude Sonnet 4.5 | Claude Haiku 4.5 | GPT-4o-mini |
+| F-10: Content types doc | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
+
+#### Phase 2: Quick-Start Content
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| QS-01 to QS-04: Quickstarts | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
+| QS-05: Pattern guide | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
+| QS-06 to QS-07: Conceptual | Gemini 2.5 Pro | Claude Opus 4.5 | Claude Sonnet 4.5 |
+
+#### Phase 3: Category Navigation
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| NAV-01 to NAV-10: index.md | Claude Haiku 4.5 | Gemini 2.5 Flash | GPT-4o-mini |
+| NAV-11: Learning tracks | Claude Sonnet 4.5 | Claude Haiku 4.5 | GPT-4o |
+
+#### Phase 4: Frontmatter Normalization
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| FM-01 to FM-07: Bulk updates | Gemini 2.5 Flash | Claude Haiku 4.5 | Claude Sonnet 4.5 |
+| FM-08: Validation & fixes | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
+
+**Note**: Gemini 2.5 Flash is optimal for bulk updates due to its **1M token context window**, allowing all 137 files to be processed in a single pass.
+
+#### Phase 5: New Sections
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| NS-01, NS-05, NS-07: Folders | Claude Haiku 4.5 | Gemini 2.5 Flash | GPT-4o-mini |
+| NS-02: Cheat sheet | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
+| NS-03: Platform comparison | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
+| NS-04: Glossary | Claude Haiku 4.5 | GPT-4o-mini | Claude Sonnet 4.5 |
+| NS-06: Troubleshooting | GPT-4o | Claude Sonnet 4.5 | Claude Opus 4.5 |
+| NS-08: First tutorial | Claude Opus 4.5 | Claude Sonnet 4.5 | Gemini 2.5 Pro |
+
+#### Phase 6: Polish & Validation
+
+| Task | 1st Choice | 2nd Choice | 3rd Choice |
+|------|------------|------------|------------|
+| PV-01: Full validation | Claude Opus 4.5 | Claude Sonnet 4.5 | Gemini 2.5 Pro |
+| PV-02: Fix errors | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
+| PV-03: Update README | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
+| PV-04: Peer review | Claude Opus 4.5 | Gemini 2.5 Pro | GPT-4o |
+| PV-05: Archive docs | Claude Haiku 4.5 | GPT-4o-mini | Gemini 2.5 Flash |
+
+### Model Quick Reference
+
+| Model | Best For | Context | Cost (MTok) |
+|-------|----------|---------|-------------|
+| **Claude Opus 4.5** | Complex reasoning, QA, synthesis | 200K | $5/$25 |
+| **Claude Sonnet 4.5** | Coding, templates, balanced tasks | 200K-1M | $3/$15 |
+| **Claude Haiku 4.5** | Bulk repetitive edits, speed | 200K | $1/$5 |
+| **GPT-4o** | Content writing, debugging | 128K | $2.50/$10 |
+| **GPT-4o-mini** | Simple tasks, cost-sensitive | 128K | $0.15/$0.60 |
+| **Gemini 2.5 Pro** | Long context analysis, reasoning | 1M+ | ~$1.25/$5 |
+| **Gemini 2.5 Flash** | Bulk ops, massive context | 1M | ~$0.08/$0.30 |
+
+---
+
+## Appendix B: Migration Cheat Sheet
 
 ### Quick Commands
 
@@ -693,7 +770,7 @@ python tools/cli/find_orphans.py
 
 ### File Naming Convention
 
-```
+```text
 ✅ kebab-case-file-name.md
 ❌ PascalCaseFileName.md
 ❌ snake_case_file_name.md
@@ -740,3 +817,6 @@ After Phase 6 completion, archive these superseded documents:
 ---
 
 *This guide was synthesized using the ReAct (Reasoning + Acting) pattern, systematically comparing sections, merging recommendations, and validating consistency across both source documents.*
+
+```yaml---
+# ═══════════════════════════════════════════════════════════════════════════════

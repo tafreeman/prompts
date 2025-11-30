@@ -1,0 +1,70 @@
+# Architect Deep Dive Learning Track
+# 8 hours to master advanced patterns and enterprise governance
+
+title: "Architect Deep Dive"
+description: "Master advanced patterns and enterprise governance for AI-assisted development"
+featured: false
+estimatedTime: "8 hours"
+audience:
+  - senior-engineer
+  - solution-architect
+
+prerequisites:
+  - engineer-quickstart
+
+modules:
+  - path: /concepts/about-advanced-patterns
+    title: "About Advanced Patterns"
+    time: "30 min"
+    type: conceptual
+    description: "Overview of Chain-of-Thought, ReAct, Tree-of-Thought"
+
+  - path: /prompts/advanced/react/tool-augmented
+    title: "ReAct: Tool-Augmented Reasoning"
+    time: "45 min"
+    type: how_to
+    description: "Combine reasoning with tool use for complex tasks"
+
+  - path: /prompts/advanced/tree-of-thought/architecture-evaluator
+    title: "Tree-of-Thoughts for Architecture"
+    time: "60 min"
+    type: how_to
+    description: "Evaluate architectural decisions with branching exploration"
+
+  - path: /prompts/advanced/rag/document-retrieval
+    title: "RAG Patterns"
+    time: "45 min"
+    type: how_to
+    description: "Implement Retrieval-Augmented Generation"
+
+  - path: /prompts/advanced/reflection/self-critique
+    title: "Reflection & Self-Critique"
+    time: "45 min"
+    type: how_to
+    description: "Build prompts that improve their own output"
+
+  - path: /tutorials/implementing-rag-pipeline
+    title: "Tutorial: Building a RAG Pipeline"
+    time: "90 min"
+    type: tutorial
+    description: "End-to-end implementation of a RAG system"
+
+  - path: /tutorials/enterprise-prompt-governance
+    title: "Enterprise Prompt Governance"
+    time: "60 min"
+    type: tutorial
+    description: "Implement governance controls for AI usage"
+
+  - path: /reference/governance-tags
+    title: "Governance Tags Reference"
+    time: "15 min"
+    type: reference
+    description: "Quick reference for compliance tagging"
+
+outcomes:
+  - Master advanced prompting techniques (CoT, ReAct, ToT)
+  - Implement RAG for knowledge-augmented AI
+  - Design enterprise governance frameworks
+  - Evaluate architectural decisions with AI assistance
+
+next_track: null

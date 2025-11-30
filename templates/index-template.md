@@ -3,6 +3,24 @@ title: "Index Page Template"
 shortTitle: "Folder Name"
 intro: "One-sentence description of what this section contains."
 type: "reference"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+  - "azure-openai"
+  - "m365-copilot"
+author: "Prompt Library Team"
+version: "1.0"
+date: "2025-11-29"
+governance_tags:
+  - "PII-safe"
+dataClassification: "public"
+reviewStatus: "draft"
 layout: "category-landing"
 children:
   - /path/to/first-child
@@ -25,10 +43,12 @@ Brief introduction paragraph explaining what content is in this section and who 
 <!-- Auto-generated from children field, or manually curated -->
 
 ### Getting Started
+
 - [Quickstart for GitHub Copilot](/get-started/quickstart-copilot) - Get productive in 15 minutes
 - [Choosing the Right Pattern](/get-started/choosing-the-right-pattern) - Decision guide
 
 ### Popular
+
 - [Chain-of-Thought: Detailed](/prompts/advanced/chain-of-thought-detailed) - Step-by-step reasoning
 - [Code Review Assistant](/prompts/developers/code-review-assistant) - AI-powered code review
 

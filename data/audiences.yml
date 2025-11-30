@@ -1,0 +1,67 @@
+# Audiences YAML
+# Valid values for the 'audience' frontmatter field
+# Defines target user personas
+
+audiences:
+  - id: junior-engineer
+    name: Junior Engineer
+    description: Engineers with 0-2 years of experience
+    typical_needs:
+      - Copy-paste templates
+      - Clear step-by-step instructions
+      - Beginner-friendly explanations
+    learning_track: engineer-quickstart
+
+  - id: senior-engineer
+    name: Senior Engineer
+    description: Engineers with 3+ years of experience
+    typical_needs:
+      - Customizable patterns
+      - Best practices
+      - Performance optimization
+    learning_track: engineer-quickstart
+
+  - id: solution-architect
+    name: Solution Architect
+    description: Technical architects and tech leads
+    typical_needs:
+      - System design prompts
+      - Architecture evaluation
+      - Enterprise patterns
+    learning_track: architect-depth
+
+  - id: qa-engineer
+    name: QA Engineer
+    description: Quality assurance and test engineers
+    typical_needs:
+      - Test generation
+      - Test strategy
+      - Bug analysis
+    learning_track: engineer-quickstart
+
+  - id: business-analyst
+    name: Business Analyst
+    description: Business and requirements analysts
+    typical_needs:
+      - Requirements analysis
+      - Documentation
+      - Data insights
+    learning_track: functional-productivity
+
+  - id: project-manager
+    name: Project Manager
+    description: Project and program managers
+    typical_needs:
+      - Status reports
+      - Meeting summaries
+      - Risk assessment
+    learning_track: functional-productivity
+
+  - id: functional-team
+    name: Functional Team Member
+    description: Non-technical roles using AI for productivity
+    typical_needs:
+      - Document creation
+      - Email drafting
+      - Data analysis
+    learning_track: functional-productivity
