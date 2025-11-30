@@ -1,12 +1,28 @@
 ---
 title: "Stakeholder Communication Manager"
+shortTitle: "Stakeholder Comms"
+intro: "Strategic communications specialist for complex stakeholder management with executive updates and crisis communication."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "communication", "enterprise", "stakeholder-management", "change-management"]
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "communication"
+  - "stakeholder-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Stakeholder Communication Manager

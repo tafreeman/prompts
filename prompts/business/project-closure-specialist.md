@@ -1,13 +1,28 @@
 ---
-
 title: "Project Closure Specialist"
+shortTitle: "Project Closure"
+intro: "Manages project closure activities with checklists, deliverable review, stakeholder sign-off, and post-project evaluation."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "project-closure", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "project-management"
+  - "closure"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Project Closure Specialist

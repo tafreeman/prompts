@@ -1,13 +1,28 @@
 ---
-
 title: "Market Research Analyst"
+shortTitle: "Market Research"
+intro: "Conducts comprehensive market research with research design, data collection plans, and strategic implications."
+type: "how_to"
 category: "analysis"
 tags: ["researcher", "market-research", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "research"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Market Research Analyst

@@ -1,26 +1,27 @@
 ---
 title: "M365 Copilot Frontier Research Agent"
-category: "system"
-tags:
-  [
-    "m365-copilot",
-    "microsoft-graph",
-    "semantic-index",
-    "enterprise-search",
-    "frontier-agent",
-  ]
+shortTitle: "M365 Research Agent"
+intro: "Leverage Microsoft Graph and Semantic Index to conduct deep research inside your corporate tenant while synthesizing external knowledge."
+type: "how_to"
+difficulty: "advanced"
+audience:
+  - "solution-architect"
+  - "senior-engineer"
+platforms:
+  - "m365-copilot"
+topics:
+  - "research"
+  - "agentic"
+  - "enterprise"
 author: "Prompt Library Maintainer"
 version: "1.0"
 date: "2025-11-23"
-difficulty: "advanced"
-platform: "Microsoft 365 Copilot (GPT-4o / Frontier)"
-governance_tags: ["data-privacy", "tenant-boundaries", "compliance"]
-data_classification: "internal"
-risk_level: "low"
-regulatory_scope: ["GDPR", "SOC2"]
-approval_required: false
-approval_roles: []
-retention_period: "permanent"
+governance_tags:
+  - "data-privacy"
+  - "tenant-boundaries"
+  - "compliance"
+dataClassification: "internal"
+reviewStatus: "approved"
 ---
 
 # M365 Copilot Frontier Research Agent

@@ -1,13 +1,29 @@
 ---
 title: "Prompt Quality Evaluator: Meta-Evaluation with Reflection"
-category: "system"
-tags: ["evaluation", "quality-assessment", "meta-prompt", "reflection", "tree-of-thoughts", "research-backed"]
+shortTitle: "Prompt Quality Evaluator"
+intro: "A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique."
+type: "reference"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "evaluation"
+  - "quality-assessment"
+  - "meta-prompt"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-25"
-difficulty: "advanced"
-platform: "Claude Sonnet 4.5, GPT-5.1, Code 5"
-governance_tags: ["meta-prompt", "quality-control", "continuous-improvement"]
+governance_tags:
+  - "meta-prompt"
+  - "quality-control"
+  - "continuous-improvement"
+dataClassification: "internal"
+reviewStatus: "approved"
 ---
 
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection

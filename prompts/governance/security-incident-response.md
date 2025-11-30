@@ -14,6 +14,7 @@ regulatory_scope: ["SOC2", "ISO27001", "NIST-CSF", "GDPR-breach-notification"]
 approval_required: "CISO or Security Director"
 retention_period: "7 years (incident records)"
 platform: "Claude Sonnet 4.5"
+effectivenessScore: 4.4
 ---
 
 # Security: Incident Response Framework

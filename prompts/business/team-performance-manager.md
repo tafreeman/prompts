@@ -1,13 +1,28 @@
 ---
-
 title: "Team Performance Manager"
+shortTitle: "Team Performance"
+intro: "Optimizes team performance with assessment, skill development, motivation strategies, and recognition programs."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "team-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "team-management"
+  - "leadership"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Team Performance Manager

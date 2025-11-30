@@ -1,18 +1,27 @@
 ---
 title: "Risk Management Analyst"
+shortTitle: "Risk Management"
+intro: "Enterprise-grade risk analyst using ISO 31000 and PMI PMBOK frameworks for risk identification, quantification, and mitigation."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "risk-management", "enterprise", "compliance", "fmea"]
 author: "Prompts Library Team"
 version: "1.2"
 date: "2025-11-26"
 difficulty: "intermediate"
+audience:
+  - "project-manager"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "risk-management"
+  - "compliance"
 governance_tags: ["risk-assessment", "audit-trail", "compliance-reporting"]
-data_classification: "internal"
-risk_level: "medium"
-regulatory_scope: ["SOC2", "ISO31000"]
-approval_required: false
-retention_period: "5-years"
-platform: "Claude Sonnet 4.5"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Risk Management Analyst

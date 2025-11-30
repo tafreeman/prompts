@@ -8,6 +8,7 @@ version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
 platform: "Claude Sonnet 4.5"
+effectivenessScore: 3.2
 ---
 
 # Documentation Generator

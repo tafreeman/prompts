@@ -3,11 +3,11 @@ title: "Sales Objection Handler"
 shortTitle: "Objection Handler"
 intro: "Generate effective responses to common sales objections with persuasive rebuttals and conversation frameworks."
 type: "how_to"
+category: "business"
 difficulty: "intermediate"
 audience:
-  - "sales-professional"
-  - "account-executive"
-  - "business-development"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "github-copilot"
   - "claude"
@@ -15,10 +15,13 @@ platforms:
 topics:
   - "sales"
   - "negotiation"
-  - "communication"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Sales Objection Handler

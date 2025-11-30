@@ -1,13 +1,28 @@
 ---
-
 title: "Organizational Change Manager"
+shortTitle: "Org Change Manager"
+intro: "Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management."
+type: "how_to"
 category: "business"
 tags: ["consultant", "change-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "solution-architect"
+  - "project-manager"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "change-management"
+  - "business"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Organizational Change Manager

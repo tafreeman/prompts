@@ -3,11 +3,11 @@ title: "Pitch Deck Generator"
 shortTitle: "Pitch Deck"
 intro: "Generate compelling pitch deck outlines and content for investor presentations, sales pitches, and business proposals."
 type: "how_to"
+category: "business"
 difficulty: "intermediate"
 audience:
-  - "entrepreneur"
-  - "sales-professional"
-  - "product-manager"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "github-copilot"
   - "claude"
@@ -15,10 +15,13 @@ platforms:
 topics:
   - "sales"
   - "presentations"
-  - "fundraising"
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Pitch Deck Generator

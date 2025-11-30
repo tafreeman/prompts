@@ -22,6 +22,7 @@ topics:
 governance_tags: ["PII-safe", "general-use"]
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 4.9
 ---
 
 # Chain-of-Thought: Concise Mode

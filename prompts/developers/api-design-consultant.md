@@ -34,6 +34,7 @@ governance:
   approval_roles: ["Staff-Engineer", "API-Architect"]
   retention_period: "5-years"
 platform: "Claude Sonnet 4.5"
+effectivenessScore: 4.5
 ---
 
 # API Design Consultant

@@ -1,13 +1,28 @@
 ---
-
 title: "Competitive Analysis Researcher"
+shortTitle: "Competitive Analysis"
+intro: "Conducts comprehensive competitive market analysis including landscape mapping, feature comparison, and strategic recommendations."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "market-analysis", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "analysis"
+  - "business"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Competitive Analysis Researcher

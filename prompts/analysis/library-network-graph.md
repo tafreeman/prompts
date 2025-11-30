@@ -1,13 +1,28 @@
 ---
-
 title: "Library Network Graph Generator"
+shortTitle: "Network Graph Generator"
+intro: "Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library."
+type: "how_to"
 category: "analysis"
 tags: ["visualization", "network-graph", "relationships", "workflow"]
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "visualization"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 <!-- markdownlint-disable MD025 -->

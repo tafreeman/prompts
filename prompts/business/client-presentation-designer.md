@@ -1,13 +1,28 @@
 ---
-
 title: "Client Presentation Designer"
+shortTitle: "Presentation Designer"
+intro: "Creates compelling client presentations with executive summaries, recommendations, and implementation approaches."
+type: "how_to"
 category: "business"
 tags: ["consultant", "presentations", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "advanced"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "solution-architect"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "communication"
+  - "business"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Client Presentation Designer

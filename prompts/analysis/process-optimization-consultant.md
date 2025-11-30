@@ -1,13 +1,28 @@
 ---
-
 title: "Process Optimization Consultant"
+shortTitle: "Process Optimization"
+intro: "Optimizes business processes through current state analysis, bottleneck identification, and implementation roadmaps."
+type: "how_to"
 category: "analysis"
 tags: ["business-analyst", "process-improvement", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "business-analyst"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "process-improvement"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Process Optimization Consultant

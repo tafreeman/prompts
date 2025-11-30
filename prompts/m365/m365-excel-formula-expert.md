@@ -8,6 +8,7 @@ version: "1.0"
 date: "2025-11-18"
 difficulty: "Intermediate"
 platform: "Microsoft 365 Copilot"
+effectivenessScore: 3.9
 ---
 
 ## Description

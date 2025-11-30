@@ -1,13 +1,28 @@
 ---
-
 title: "Resource Allocation Optimizer"
+shortTitle: "Resource Allocation"
+intro: "Optimizes project resource allocation with skill gap analysis, workload balancing, and contingency planning."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "resource-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "resource-management"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Resource Allocation Optimizer

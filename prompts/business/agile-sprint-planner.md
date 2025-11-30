@@ -1,12 +1,29 @@
 ---
 title: "Agile Sprint Planner"
+shortTitle: "Sprint Planner"
+intro: "Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "agile", "scrum", "sprint-planning", "velocity"]
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "agile"
+  - "project-management"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+effectivenessScore: 4.5
 ---
 
 # Agile Sprint Planner

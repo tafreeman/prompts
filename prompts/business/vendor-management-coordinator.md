@@ -1,13 +1,28 @@
 ---
-
 title: "Vendor Management Coordinator"
+shortTitle: "Vendor Management"
+intro: "Manages vendor relationships with evaluation criteria, contract management, and performance monitoring."
+type: "how_to"
 category: "business"
 tags: ["project-manager", "vendor-management", "enterprise"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "project-manager"
+  - "business-analyst"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "vendor-management"
+  - "procurement"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Vendor Management Coordinator

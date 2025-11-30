@@ -1,13 +1,28 @@
 ---
-
 title: "Library Structure Treemap Generator"
+shortTitle: "Treemap Generator"
+intro: "Guides generation of a hierarchical Treemap chart to visualize the structure and distribution of prompts across categories."
+type: "how_to"
 category: "analysis"
 tags: ["visualization", "treemap", "library-structure", "overview"]
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+topics:
+  - "visualization"
+  - "analysis"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 <!-- markdownlint-disable MD025 -->
