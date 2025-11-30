@@ -1,7 +1,28 @@
 ---
-applyTo: "**/*.cs,**/*.cshtml"
-name: "dod-security-compliance-standards"
-description: "Enforce DoD security controls, NIST, STIG, and FIPS compliance for all code and configurations"
+title: DoD Security and Compliance Standards
+shortTitle: DoD Security and Complia...
+intro: Enforce DoD security controls, NIST, STIG, and FIPS compliance for all code
+  and configurations.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+applyTo: '**/*.cs,**/*.cshtml'
+name: dod-security-compliance-standards
+description: Enforce DoD security controls, NIST, STIG, and FIPS compliance for all
+  code and configurations
 ---
 
 # DoD Security and Compliance Standards

@@ -1,36 +1,52 @@
 ---
-title: "Hierarchical Compression"
-category: "techniques"
-subcategory: "context-optimization"
-technique_type: "compression"
+title: Hierarchical Compression
+shortTitle: Hierarchical Compression
+intro: A prompt for hierarchical compression tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: context-optimization
+technique_type: compression
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-difficulty: "advanced"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 use_cases:
-  - book-summarization
-  - large-codebase-analysis
-  - multi-document-synthesis
+- book-summarization
+- large-codebase-analysis
+- multi-document-synthesis
 performance_metrics:
-  compression_ratio: "80-90%"
-  information_retention: "medium"
-  cost_reduction: "70%"
+  compression_ratio: 80-90%
+  information_retention: medium
+  cost_reduction: 70%
 testing:
-  framework: "pytest"
-  coverage: "85%"
-  validation_status: "passed"
+  framework: pytest
+  coverage: 85%
+  validation_status: passed
 governance:
-  data_classification: "internal"
-  risk_level: "low"
-  compliance_standards: ["GDPR"]
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  data_classification: internal
+  risk_level: low
+  compliance_standards:
+  - GDPR
+last_updated: '2025-11-23'
 tags:
-  - compression
-  - hierarchy
-  - recursive-summarization
-  - python
+- compression
+- hierarchy
+- recursive-summarization
+- python
 ---
 
 # Hierarchical Compression

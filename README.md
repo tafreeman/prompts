@@ -1,3 +1,26 @@
+---
+title: "Enterprise AI Prompt Library"
+shortTitle: "Prompt Library"
+intro: "A comprehensive, community-driven prompt library for AI/LLM interactions across diverse use cases."
+type: "reference"
+difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+  - "business-analyst"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "public"
+reviewStatus: "approved"
+---
+
 # Enterprise AI Prompt Library
 
 A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.

@@ -1,7 +1,28 @@
 ---
-applyTo: "**/*"
-name: "enterprise-project-structure"
-description: "Define the standard layered solution structure, responsibilities, and testing organization for enterprise .NET projects"
+title: Enterprise Project Structure
+shortTitle: Enterprise Project Struc...
+intro: Define the standard layered solution structure, responsibilities, and testing
+  organization for enterprise.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+applyTo: '**/*'
+name: enterprise-project-structure
+description: Define the standard layered solution structure, responsibilities, and
+  testing organization for enterprise .NET projects
 ---
 
 # Enterprise Project Structure

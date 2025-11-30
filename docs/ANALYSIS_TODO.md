@@ -1,3 +1,24 @@
+---
+title: Prompt Library Analysis - Parallel Work TODO
+shortTitle: Prompt Library Analysis ...
+intro: A prompt for prompt library analysis   parallel work todo tasks.
+type: troubleshooting
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Prompt Library Analysis - Parallel Work TODO
 
 **Generated**: 2025-11-30  

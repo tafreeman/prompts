@@ -1,30 +1,45 @@
 ---
-title: "Single-Agent Code Review Workflow"
-category: "techniques"
-subcategory: "agentic"
-technique_type: "autonomous-agent"
+title: Single-Agent Code Review Workflow
+shortTitle: Single-Agent Code Review...
+intro: A prompt for single agent code review workflow tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: agentic
+technique_type: autonomous-agent
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-difficulty: "intermediate"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 use_cases:
-  - code-review
-  - refactoring
-  - technical-debt-analysis
-  - security-scanning
+- code-review
+- refactoring
+- technical-debt-analysis
+- security-scanning
 performance_metrics:
-  accuracy_improvement: "25-35%"
-  latency_impact: "low"
-  cost_multiplier: "1.2-1.5x"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 25-35%
+  latency_impact: low
+  cost_multiplier: 1.2-1.5x
+last_updated: '2025-11-23'
 tags:
-  - single-agent
-  - code-review
-  - autonomous
-  - dotnet
-  - csharp
+- single-agent
+- code-review
+- autonomous
+- dotnet
+- csharp
 ---
 
 # Single-Agent Code Review Workflow

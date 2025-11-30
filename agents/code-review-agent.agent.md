@@ -1,7 +1,28 @@
 ---
+title: Code Review Agent
+shortTitle: Code Review Agent
+intro: Expert code reviewer focused on quality, best practices, and maintainability.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: code_review_agent
 description: Expert code reviewer focused on quality, best practices, and maintainability
-tools: ["read", "search"]
+tools:
+- read
+- search
 ---
 
 # Code Review Agent

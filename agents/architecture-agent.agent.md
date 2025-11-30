@@ -1,7 +1,29 @@
 ---
+title: Architecture Agent
+shortTitle: Architecture Agent
+intro: Expert in system design, architectural patterns, and technical decision-making.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: architecture_agent
 description: Expert in system design, architectural patterns, and technical decision-making
-tools: ["read", "write", "search"]
+tools:
+- read
+- write
+- search
 ---
 
 # Architecture Agent

@@ -1,3 +1,24 @@
+---
+title: Prompt Library Analysis Results
+shortTitle: Prompt Library Analysis ...
+intro: A prompt for prompt library analysis results tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Prompt Library Analysis Results
 
 ## Executive Summary

@@ -1,3 +1,24 @@
+---
+title: Best Practices for Prompt Engineering
+shortTitle: Best Practices for Promp...
+intro: A prompt for best practices for prompt engineering tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Best Practices for Prompt Engineering
 
 A comprehensive guide to writing effective prompts based on research from Anthropic, OpenAI, Microsoft, and academic papers.

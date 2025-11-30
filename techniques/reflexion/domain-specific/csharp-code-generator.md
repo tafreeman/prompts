@@ -1,29 +1,44 @@
 ---
-title: "C# Code Generator with Reflexion"
-category: "techniques"
-subcategory: "reflexion"
-technique_type: "domain-specific"
+title: C# Code Generator with Reflexion
+shortTitle: C# Code Generator with R...
+intro: A prompt for c# code generator with reflexion tasks.
+type: how_to
+difficulty: advanced
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: techniques
+subcategory: reflexion
+technique_type: domain-specific
 framework_compatibility:
-  openai: ">=1.0.0"
-  anthropic: ">=0.8.0"
-difficulty: "advanced"
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
 use_cases:
-  - code-generation
-  - refactoring
-  - boilerplate-reduction
-  - dotnet-development
+- code-generation
+- refactoring
+- boilerplate-reduction
+- dotnet-development
 performance_metrics:
-  accuracy_improvement: "30-45%"
-  latency_impact: "medium"
-  cost_multiplier: "1.5-2.0x"
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  accuracy_improvement: 30-45%
+  latency_impact: medium
+  cost_multiplier: 1.5-2.0x
+last_updated: '2025-11-23'
 tags:
-  - reflexion
-  - csharp
-  - code-generation
-  - domain-specific
+- reflexion
+- csharp
+- code-generation
+- domain-specific
 ---
 
 # C# Code Generator with Reflexion

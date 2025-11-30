@@ -1,7 +1,32 @@
 ---
+title: Refactoring Agent
+shortTitle: Refactoring Agent
+intro: Expert in code refactoring, optimization, and improving code quality without
+  changing behavior.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 name: refactor_agent
-description: Expert in code refactoring, optimization, and improving code quality without changing behavior
-tools: ["read", "write", "search", "execute"]
+description: Expert in code refactoring, optimization, and improving code quality
+  without changing behavior
+tools:
+- read
+- write
+- search
+- execute
 ---
 
 # Refactoring Agent

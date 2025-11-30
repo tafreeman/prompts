@@ -1,3 +1,24 @@
+---
+title: Enterprise Security Incident Response Playbook
+shortTitle: Enterprise Security Inci...
+intro: A prompt for enterprise security incident response playbook tasks.
+type: conceptual
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+---
 # Enterprise Security Incident Response Playbook
 
 **Version**: 1.0  

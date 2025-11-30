@@ -1,4 +1,23 @@
 ---
+title: Generate Prompt
+shortTitle: Generate Prompt
+intro: Generate a high-quality prompt using the Agent (no API keys required).
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
 description: Generate a high-quality prompt using the Agent (no API keys required)
 ---
 

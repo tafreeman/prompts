@@ -1,32 +1,33 @@
 ---
-title: "Choosing the Right Prompting Pattern"
-shortTitle: "Choose Your Pattern"
-intro: "A decision guide to help you select the most effective prompting pattern for your specific task and context."
-type: "how_to"
-difficulty: "beginner"
+title: Choosing the Right Prompting Pattern
+shortTitle: Choose Your Pattern
+intro: A decision guide to help you select the most effective prompting pattern for
+  your specific task and context.
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "mid-engineer"
-  - "senior-engineer"
-  - "product-manager"
-  - "business-analyst"
+- junior-engineer
+- senior-engineer
+- senior-engineer
+- project-manager
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-  - "azure-openai"
-  - "m365-copilot"
+- github-copilot
+- claude
+- chatgpt
+- azure-openai
+- m365-copilot
 topics:
-  - "patterns"
-  - "best-practices"
-  - "quickstart"
-author: "Deloitte AI & Engineering"
-date: "2025-11-29"
-version: "1.0"
+- patterns
+- best-practices
+- quickstart
+author: Deloitte AI & Engineering
+version: '1.0'
+date: '2025-11-29'
 governance_tags:
-  - "PII-safe"
-dataClassification: "public"
-reviewStatus: "approved"
+- PII-safe
+dataClassification: public
+reviewStatus: approved
 ---
 
 # Choosing the Right Prompting Pattern

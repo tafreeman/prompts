@@ -1,38 +1,54 @@
 ---
-title: "Semantic Kernel Integration Patterns"
-category: "frameworks"
-subcategory: "microsoft"
-technique_type: "semantic-kernel"
+title: Semantic Kernel Integration Patterns
+shortTitle: Semantic Kernel Integrat...
+intro: A prompt for semantic kernel integration patterns tasks.
+type: how_to
+difficulty: intermediate
+audience:
+- senior-engineer
+- junior-engineer
+platforms:
+- github-copilot
+- claude
+- chatgpt
+author: AI Research Team
+version: 1.0.0
+date: '2025-11-30'
+governance_tags:
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+category: frameworks
+subcategory: microsoft
+technique_type: semantic-kernel
 framework_compatibility:
-  dotnet: ">=6.0"
-  semantic-kernel: ">=1.0.0"
-difficulty: "intermediate"
+  dotnet: '>=6.0'
+  semantic-kernel: '>=1.0.0'
 use_cases:
-  - enterprise-orchestration
-  - plugin-architecture
-  - planner-usage
-  - memory-integration
+- enterprise-orchestration
+- plugin-architecture
+- planner-usage
+- memory-integration
 performance_metrics:
-  productivity_improvement: "40-60%"
-  integration_speed: "high"
-  cost_multiplier: "1.0x"
+  productivity_improvement: 40-60%
+  integration_speed: high
+  cost_multiplier: 1.0x
 testing:
-  framework: "xUnit"
-  coverage: "85%"
-  validation_status: "passed"
+  framework: xUnit
+  coverage: 85%
+  validation_status: passed
 governance:
-  data_classification: "internal"
-  risk_level: "low"
-  compliance_standards: ["ISO27001"]
-version: "1.0.0"
-author: "AI Research Team"
-last_updated: "2025-11-23"
+  data_classification: internal
+  risk_level: low
+  compliance_standards:
+  - ISO27001
+last_updated: '2025-11-23'
 tags:
-  - semantic-kernel
-  - csharp
-  - dotnet
-  - plugins
-  - planners
+- semantic-kernel
+- csharp
+- dotnet
+- plugins
+- planners
 ---
 
 # Semantic Kernel Integration Patterns

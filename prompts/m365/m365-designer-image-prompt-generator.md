@@ -1,7 +1,7 @@
 ---
 title: "M365 Designer Image Prompt Generator"
 shortTitle: "M365 Designer Image Prom..."
-intro: "Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a "pro..."
+intro: 'Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a prompt-engineering format that specifies style, lighting, composition, and mood.'
 type: "how_to"
 difficulty: "beginner"
 audience:
