@@ -88,7 +88,3 @@ Please write **3 distinct prompt options** for Microsoft Designer. Each option s
 
 - `m365-designer-infographic-brief`
 - `m365-slide-content-refiner`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

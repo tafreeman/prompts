@@ -86,7 +86,3 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 
 - `m365-designer-image-prompt-generator`
 - `m365-sway-visual-newsletter`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

@@ -1,13 +1,28 @@
 ---
 title: "Chain-of-Thought: Decision Guide"
+shortTitle: "CoT Decision Guide"
+intro: "A practical decision framework for choosing when and how to use Chain-of-Thought prompting, including mode selection and best practices."
+type: "reference"
 category: "advanced-techniques"
 tags: ["chain-of-thought", "cot", "reasoning", "guide", "decision-framework", "best-practices"]
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 difficulty: "beginner"
+audience:
+  - "junior-engineer"
+  - "senior-engineer"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+  - "azure-openai"
+topics:
+  - "reasoning"
+  - "best-practices"
 governance_tags: ["PII-safe", "general-use"]
-platform: "All AI Models"
+dataClassification: "internal"
+reviewStatus: "draft"
 ---
 
 # Chain-of-Thought: Decision Guide
@@ -386,13 +401,3 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 - **Human Review**: Detailed CoT outputs for >$10K decisions should be reviewed by domain experts
 - **Audit Requirements**: Save CoT reasoning for compliance-critical decisions (7-year retention recommended)
 - **Cost Management**: Monitor CoT usage in production; implement automatic fallback if token budgets exceeded
-
-## Changelog
-
-### Version 1.0 (2025-11-17)
-
-- Initial release
-- Decision tree for choosing CoT mode
-- Comparative examples across modes
-- Cost-benefit analysis framework
-- Integration patterns for production use

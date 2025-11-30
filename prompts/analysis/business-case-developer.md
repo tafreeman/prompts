@@ -93,10 +93,3 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 
 - Browse other Business Analyst prompts in this category
 - Check the analysis folder for similar templates
-
-## Changelog
-
-### Version 1.0 (2025-11-16)
-
-- Initial version migrated from legacy prompt library
-- Optimized for Claude Sonnet 4.5 and Code 5

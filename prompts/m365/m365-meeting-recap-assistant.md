@@ -200,9 +200,3 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 
 - `m365-meeting-prep-brief.md`
 - `m365-project-status-reporter.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

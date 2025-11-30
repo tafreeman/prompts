@@ -212,9 +212,3 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 
 - (Optional) `m365-weekly-review-coach.md`
 - (Optional) `m365-project-status-reporter.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

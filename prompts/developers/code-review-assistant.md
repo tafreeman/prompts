@@ -182,9 +182,3 @@ This refactored version:
 - [Code Documentation Generator](code-documentation-generator.md)
 - [Code Review Expert: Structured Output](code-review-expert-structured.md)
 - [Refactoring Assistant](refactoring-assistant.md)
-
-## Changelog
-
-### Version 1.0 (2025-10-29)
-
-- Initial version

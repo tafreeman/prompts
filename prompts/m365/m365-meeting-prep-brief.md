@@ -202,9 +202,3 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 
 - `m365-meeting-recap-assistant.md`
 - `m365-daily-standup-assistant.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

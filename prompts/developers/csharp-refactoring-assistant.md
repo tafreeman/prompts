@@ -147,8 +147,3 @@ public string GetUserInfo(int id)
 
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
 - [code-review-expert-structured](../developers/code-review-expert-structured.md)
-
-## Changelog
-
-### Version 1.0 (2025-11-26)
-- Initial release

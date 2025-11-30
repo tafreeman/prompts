@@ -99,7 +99,3 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 
 - `m365-sway-visual-newsletter`
 - `m365-slide-content-refiner`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

@@ -193,9 +193,3 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 
 - `m365-presentation-outline-generator.md`
 - `m365-project-status-reporter.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

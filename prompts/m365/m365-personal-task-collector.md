@@ -191,9 +191,3 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 - `m365-daily-standup-assistant.md`
 - `m365-weekly-review-coach.md`
 - `m365-email-triage-helper.md`
-
-## Changelog
-
-### Version 1.0 (2025-11-18)
-
-- Initial version

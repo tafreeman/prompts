@@ -4,7 +4,6 @@ shortTitle: "M365 Copilot Quickstart"
 intro: "Get productive with Microsoft 365 Copilot in 15 minutes. Learn the essential prompting patterns for Word, Excel, PowerPoint, Outlook, and Teams."
 type: "quickstart"
 difficulty: "beginner"
-estimatedTime: "15 min"
 audience:
   - "product-manager"
   - "business-analyst"

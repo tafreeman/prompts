@@ -336,17 +336,3 @@ To run this analysis:
 - [Prompt Template](/templates/prompt-template.md) - Template for new prompts
 
 ---
-
-## Changelog
-
-### Version 3.0 (2025-11-30)
-- Restored as functional ReAct prompt (not static guide)
-- Added current repository context with expansion targets
-- Updated tool documentation and deliverable templates
-- Added detailed expansion priorities for creative and business
-
-### Version 2.0 (2025-11-30)
-- Converted to reference guide (reverted in v3.0)
-
-### Version 1.0 (2025-11-29)
-- Initial release as refactoring analysis prompt

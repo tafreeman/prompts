@@ -132,9 +132,3 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 
 - [api-design-consultant](../developers/api-design-consultant.md) (More general)
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
-
-## Changelog
-
-### Version 1.0 (2025-11-26)
-- Initial release
-Create 5 missing developer prompts (conversation 68330b60)

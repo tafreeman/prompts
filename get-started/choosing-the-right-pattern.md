@@ -4,7 +4,6 @@ shortTitle: "Choose Your Pattern"
 intro: "A decision guide to help you select the most effective prompting pattern for your specific task and context."
 type: "how_to"
 difficulty: "beginner"
-estimatedTime: "10 min"
 audience:
   - "junior-engineer"
   - "mid-engineer"

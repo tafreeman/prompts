@@ -4,7 +4,6 @@ shortTitle: "Copilot Quickstart"
 intro: "Get productive with GitHub Copilot in 15 minutes. Learn the essential prompting patterns for code generation, testing, and documentation."
 type: "quickstart"
 difficulty: "beginner"
-estimatedTime: "15 min"
 audience:
   - "junior-engineer"
   - "mid-engineer"

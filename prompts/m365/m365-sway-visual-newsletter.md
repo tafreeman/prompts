@@ -107,7 +107,3 @@ For each section, provide the **exact text** to paste and a **visual description
 
 - `m365-sway-document-to-story`
 - `m365-email-triage-helper`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

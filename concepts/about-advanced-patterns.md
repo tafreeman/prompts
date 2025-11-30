@@ -4,7 +4,6 @@ shortTitle: "Advanced Patterns"
 intro: "Understand advanced prompting techniques like Chain-of-Thought, few-shot learning, and agentic patterns, and when to use them."
 type: "conceptual"
 difficulty: "intermediate"
-estimatedTime: "20 min"
 audience:
   - "mid-engineer"
   - "senior-engineer"

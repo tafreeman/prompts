@@ -99,7 +99,3 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 
 - `m365-meeting-prep-brief`
 - `m365-weekly-review-coach`
-
-## Changelog
-
-- 2025-11-18: Initial version created.

@@ -4,7 +4,6 @@ shortTitle: "Prompt Engineering"
 intro: "Understand what prompt engineering is, why it matters for AI productivity, and how to approach crafting effective prompts."
 type: "conceptual"
 difficulty: "beginner"
-estimatedTime: "15 min"
 audience:
   - "junior-engineer"
   - "mid-engineer"

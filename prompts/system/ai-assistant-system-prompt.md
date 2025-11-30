@@ -297,9 +297,3 @@ Here's why:
 - [Custom Chatbot Builder](custom-chatbot-builder.md)
 - [AI Agent Personality Designer](ai-personality-designer.md)
 - [Conversational AI Trainer](conversational-ai-trainer.md)
-
-## Changelog
-
-### Version 1.0 (2025-10-29)
-
-- Initial version

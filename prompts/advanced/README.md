@@ -1,3 +1,30 @@
+---
+title: "Advanced Prompting Techniques"
+shortTitle: "Advanced Techniques"
+intro: "Advanced prompting techniques optimized for frontier AI models including Chain-of-Thought, ReAct, RAG, Reflection, and Tree-of-Thoughts."
+type: "reference"
+category: "advanced-techniques"
+difficulty: "advanced"
+audience:
+  - "senior-engineer"
+  - "solution-architect"
+platforms:
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
+  - "azure-openai"
+topics:
+  - "reasoning"
+  - "agents"
+author: "Prompts Library Team"
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+---
+
 # Advanced Prompting Techniques
 
 This directory contains advanced prompting techniques optimized for frontier AI models (GPT-5.1, Claude Sonnet 4.5/Code 5, and similar reasoning-capable models).
