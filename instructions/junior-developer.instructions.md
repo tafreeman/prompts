@@ -1,23 +1,4 @@
 ---
-title: Junior Developer Guidance
-shortTitle: Junior Developer Guidance
-intro: Guidance for junior developers focusing on fundamentals and best practices.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cs,**/*.cshtml'
 name: junior-developer-guidance
 description: Guidance for junior developers focusing on fundamentals and best practices

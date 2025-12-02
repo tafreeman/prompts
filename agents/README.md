@@ -1,24 +1,23 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
-type: reference
-difficulty: beginner
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
+title: GitHub Copilot Custom Agents
+shortTitle: Agents Overview
+intro: Overview of specialized GitHub Copilot custom agents for development tasks.
+type: conceptual
+difficulty: intermediate
+author: Prompt Library Team
+version: "1.0"
+date: "2025-12-02"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - PII-safe
+dataClassification: public
+reviewStatus: approved
+audience:
+  - senior-engineer
+  - solution-architect
+platforms:
+  - github-copilot
 ---
+
 # GitHub Copilot Custom Agents
 
 This directory contains specialized GitHub Copilot custom agents designed for common development tasks. These agents are optimized for use with GitHub Copilot's coding agent feature.

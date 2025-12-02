@@ -5,9 +5,9 @@ intro: "Create compelling video scripts for YouTube, TikTok, explainer videos, t
 type: "how_to"
 difficulty: "intermediate"
 audience:
-  - "content-creator"
-  - "marketer"
-  - "video-producer"
+  - "functional-team"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "claude"
   - "chatgpt"

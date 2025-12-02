@@ -1,28 +1,7 @@
 ---
-title: Senior Developer Guidance
-shortTitle: Senior Developer Guidance
-intro: Advanced guidance for senior developers focusing on system design, architecture,
-  and technical leadership.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cs,**/*.cshtml'
 name: senior-developer-guidance
-description: Advanced guidance for senior developers focusing on system design, architecture,
-  and technical leadership
+description: Advanced guidance for senior developers focusing on system design, architecture, and technical leadership
 ---
 
 # Senior Developer Guidance

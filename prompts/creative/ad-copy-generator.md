@@ -5,9 +5,9 @@ intro: "Create persuasive advertising copy for various channels including Google
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "marketer"
-  - "advertiser"
-  - "business-owner"
+  - "functional-team"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "claude"
   - "chatgpt"

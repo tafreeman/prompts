@@ -1,7 +1,7 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
+title: Code Generation Tools
+shortTitle: Tools
+intro: AI-powered code and prompt generation tools with multi-model quality review workflow.
 type: reference
 difficulty: beginner
 audience:

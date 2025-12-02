@@ -8,7 +8,6 @@ difficulty: beginner
 audience:
 - junior-engineer
 - senior-engineer
-- senior-engineer
 platforms:
 - github-copilot
 topics:

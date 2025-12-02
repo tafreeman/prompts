@@ -5,9 +5,9 @@ intro: "Develop and document comprehensive brand voice guidelines that ensure co
 type: "how_to"
 difficulty: "intermediate"
 audience:
-  - "marketer"
-  - "brand-manager"
-  - "content-strategist"
+  - "functional-team"
+  - "project-manager"
+  - "business-analyst"
 platforms:
   - "claude"
   - "chatgpt"

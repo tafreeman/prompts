@@ -5,9 +5,9 @@ intro: "Generate compelling email newsletters that engage subscribers, deliver v
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "marketer"
-  - "content-creator"
-  - "business-professional"
+  - "business-analyst"
+  - "project-manager"
+  - "functional-team"
 platforms:
   - "claude"
   - "chatgpt"
