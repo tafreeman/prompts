@@ -1,28 +1,7 @@
 ---
-title: C# Enterprise Coding Standards
-shortTitle: C# Enterprise Coding Sta...
-intro: Enforce secure, consistent enterprise C# coding and data access standards for
-  mid-level and senior.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cs'
 name: csharp-enterprise-coding-standards
-description: Enforce secure, consistent enterprise C# coding and data access standards
-  for mid-level and senior .NET backend engineers
+description: Enforce secure, consistent enterprise C# coding and data access standards for mid-level and senior .NET backend engineers
 ---
 
 # C# Enterprise Coding Standards

@@ -5,9 +5,9 @@ intro: "Create engaging social media posts optimized for various platforms inclu
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "content-creator"
-  - "marketer"
-  - "business-professional"
+  - "functional-team"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "claude"
   - "chatgpt"

@@ -5,9 +5,9 @@ intro: "Generate attention-grabbing headlines and memorable taglines for marketi
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "marketer"
-  - "copywriter"
-  - "content-creator"
+  - "functional-team"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "claude"
   - "chatgpt"

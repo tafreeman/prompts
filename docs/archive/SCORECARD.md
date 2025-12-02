@@ -1,3 +1,29 @@
+---
+title: Prompt Library Scorecard
+shortTitle: Prompt Scorecard
+intro: Quantitative quality assessment of the entire prompt library using the standard scoring rubric.
+type: report
+difficulty: intermediate
+audience:
+	- senior-engineer
+	- project-manager
+platforms:
+	- github-copilot
+	- claude
+	- chatgpt
+topics:
+	- governance
+	- analysis
+author: Prompt Library Team
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+	- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Consolidated scorecard summarizing prompt coverage, average ratings, and dimension-level performance for the library.
+---
+
 # Prompt Library Scorecard
 
 **Generated**: 2025-11-30 11:30  

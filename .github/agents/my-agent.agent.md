@@ -1,11 +1,8 @@
 ---
-# Fill in the fields below to create a basic custom agent for your repository.
-# The Copilot CLI can be used for local testing: https://gh.io/customagents/cli
-# To make this agent available, merge this file into the default repository branch.
-# For format details, see: https://gh.io/customagents/config
-
-name: library trimmer  
-description: gets the best
+name: LibraryTrimmer
+description: Analyzes top AI prompt libraries and creates curated prompting guides from the best examples
+tools:
+  ['search', 'edit', 'new', 'fetch', 'githubRepo', 'openSimpleBrowser', 'runSubagent']
 ---
 
 # My Agent

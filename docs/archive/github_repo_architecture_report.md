@@ -1,3 +1,27 @@
+---
+title: Guidance on Architecting GitHub Repositories
+shortTitle: GitHub Repo Architecture
+intro: Practical interpretation of the GitHub Well-Architected Framework applied to repository structure, collaboration, and automation.
+type: reference
+difficulty: intermediate
+audience:
+	- solution-architect
+	- senior-engineer
+platforms:
+	- github
+	- github-copilot
+topics:
+	- governance
+	- architecture
+author: Prompt Library Team
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+	- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Comprehensive guide aligning repository design with the five pillars of the GitHub Well-Architected Framework.
+---
 
 # Guidance on Architecting GitHub Repositories
 

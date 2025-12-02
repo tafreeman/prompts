@@ -5,9 +5,9 @@ intro: "Write compelling, conversion-focused product descriptions for e-commerce
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "e-commerce"
-  - "marketer"
-  - "business-owner"
+  - "functional-team"
+  - "business-analyst"
+  - "project-manager"
 platforms:
   - "claude"
   - "chatgpt"
