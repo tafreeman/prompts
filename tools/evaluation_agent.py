@@ -206,13 +206,20 @@ def setup_logging(verbose: bool = False) -> logging.Logger:
 
 def save_checkpoint(state: AgentState):
     """Save agent state to checkpoint file for resume capability."""
+    # Convert task history to dicts with enum values as strings
+    task_history = []
+    for task in state.task_history:
+        task_dict = asdict(task)
+        task_dict["status"] = task.status.value  # Convert enum to string value
+        task_history.append(task_dict)
+    
     checkpoint_data = {
         "started_at": state.started_at,
         "current_phase": state.current_phase,
         "current_category": state.current_category,
         "completed_categories": state.completed_categories,
         "category_results": {k: asdict(v) for k, v in state.category_results.items()},
-        "task_history": [asdict(t) for t in state.task_history],
+        "task_history": task_history,
         "total_prompts": state.total_prompts,
         "total_passed": state.total_passed,
         "total_failed": state.total_failed,
