@@ -1,27 +1,32 @@
 ---
 title: "Microservices Architect"
 shortTitle: "Microservices Architect"
-intro: "You are a **Principal-level Microservices Architect** with 15+ years of experience in distributed systems, Domain-Driven Design (DDD), and cloud-native operations. You lead **Event Storming** works..."
+intro: "You are a **Principal-level Microservices Architect** with 15+ years of experience in distributed systems, Domain-Driven Design (DDD), and cloud-native operations. You lead **Event Storming** workshops, facilitate bounded context mapping, and anchor every recommendation in 12-Factor App and Team Topologies principles."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "tech-lead"
+  - "principal-engineer"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "architecture"
   - "developer"
   - "enterprise"
   - "developers"
+  - "microservices"
+  - "ddd"
 author: "Prompts Library Team"
-version: "2.1"
-date: "2025-11-17"
+version: "2.2"
+date: "2025-12-02"
 governance_tags:
   - "architecture-decision"
   - "requires-human-review"
   - "adr-required"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 data_classification: "confidential"
 risk_level: "critical"
 regulatory_scope:
@@ -31,7 +36,6 @@ approval_roles:
   - "Principal-Engineer"
   - "CTO"
 retention_period: "10-years"
-effectivenessScore: 4.3
 ---
 # Microservices Architect
 
@@ -140,17 +144,19 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 
 ## Variables
 
-- `[business_summary]`: 3–4 sentences describing the product/problem statement
-- `[business_goal]`: Desired business outcomes (ARR targets, latency goals, etc.)
-- `[current_state]`: Monolith, modular monolith, partial services, tech debt context
-- `[domains]`: Primary business domains / capabilities
-- `[domain_events]`: Key domain events discovered via Event Storming
-- `[nfrs]`: Non-functional requirements (latency, availability, compliance, etc.)
-- `[scale]`: User, transaction, data volume forecasts
-- `[tech_prefs]`: Preferred stacks + prohibited technologies
-- `[team_structure]`: Team Topology summary (stream-aligned, enabling, platform)
-- `[migration_context]`: Greenfield, strangler, coexistence window, etc.
-- `[governance]`: Regulatory/compliance constraints that influence architecture
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[business_summary]` | 3–4 sentences describing the product/problem statement | "MercuryCart is a B2C marketplace processing 40M orders/year..." |
+| `[business_goal]` | Desired business outcomes (ARR targets, latency goals, etc.) | "Reduce checkout latency to <250ms p95, enable weekly deploys" |
+| `[current_state]` | Monolith, modular monolith, partial services, tech debt context | "Monolith + background workers, shared Postgres, manual Jenkins" |
+| `[domains]` | Primary business domains / capabilities | "Catalog, Pricing, Promotions, Checkout, Payment, Inventory" |
+| `[domain_events]` | Key domain events discovered via Event Storming | "ProductListed, PriceChanged, CartCheckedOut, PaymentCaptured" |
+| `[nfrs]` | Non-functional requirements (latency, availability, compliance) | "99.95% availability, PCI DSS Level 1, <1% order failure" |
+| `[scale]` | User, transaction, data volume forecasts | "15K RPS peak reads, 2K RPS writes, 6TB growth annually" |
+| `[tech_prefs]` | Preferred stacks + prohibited technologies | "JVM/TypeScript, Kubernetes, Postgres, Kafka, no vendor lock-in" |
+| `[team_structure]` | Team Topology summary (stream-aligned, enabling, platform) | "6 stream-aligned squads + 1 enabling DevX team" |
+| `[migration_context]` | Greenfield, strangler, coexistence window, etc. | "Strangler fig around checkout/payment; co-exist 12 months" |
+| `[governance]` | Regulatory/compliance constraints that influence architecture | "Architecture Review Board, ADRs in Notion, SOC2 quarterly" |
 
 ## Example Usage
 
@@ -208,12 +214,53 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ## Tips
 
-- Bring real Event Storming outputs (events, aggregates, policies) to improve decomposition fidelity.
-- Provide team topology details—architecture adapts to Conway's Law, so clarity prevents org-architecture mismatch.
-- Include regulatory constraints (PCI, HIPAA, GDPR) so the architecture can prescribe isolated trust zones.
-- Specify latency/error budgets to drive protocol choices (REST vs gRPC vs Kafka).
-- Reference legacy coupling patterns (shared DB tables, cron jobs) to get precise strangler recommendations.
-- Attach ADR templates or review checklists so the output can populate decision IDs correctly.
+### When to Use This Prompt
+- **Greenfield**: Starting a new platform where you can design services from scratch
+- **Strangler Fig**: Gradually replacing a monolith piece by piece
+- **Post-Mortem**: After a major incident revealed architectural weaknesses
+- **Scale Crisis**: When current architecture can't handle growth projections
+
+### Service Count Decision Guide
+| Team Size | Services | Notes |
+|-----------|----------|-------|
+| 1-2 teams | 3-5 | Start with modular monolith, extract sparingly |
+| 3-5 teams | 5-10 | One service per stream-aligned team |
+| 6-10 teams | 10-20 | Platform team required, service mesh recommended |
+| 10+ teams | 20+ | Dedicated architecture team, strong governance |
+
+### Input Quality Checklist
+- [ ] Bring real Event Storming outputs (events, aggregates, policies) to improve decomposition fidelity
+- [ ] Provide team topology details—architecture adapts to Conway's Law
+- [ ] Include regulatory constraints (PCI, HIPAA, GDPR) for isolated trust zones
+- [ ] Specify latency/error budgets to drive protocol choices
+- [ ] Reference legacy coupling patterns (shared DB tables, cron jobs)
+- [ ] Attach ADR templates so output can populate decision IDs correctly
+
+### Common Decomposition Mistakes
+| Mistake | Why It's Bad | Better Approach |
+|---------|--------------|-----------------|
+| Service per entity | Creates chatty APIs, distributed monolith | Service per bounded context |
+| Shared database | Couples services at data layer | Database per service + events |
+| Sync-only calls | Cascading failures, high latency | Event-driven for non-critical paths |
+| Big Bang rewrite | High risk, long feedback loop | Strangler fig, feature-by-feature |
+| No ownership model | "Everyone's problem is no one's problem" | Clear service ownership per team |
+
+### ADR Template Quick Reference
+```markdown
+# ADR-XXX: [Title]
+
+## Status
+Proposed | Accepted | Deprecated | Superseded by ADR-YYY
+
+## Context
+What forces are at play? What is the issue we're deciding?
+
+## Decision
+What is the change we're proposing and/or doing?
+
+## Consequences
+What becomes easier or harder because of this decision?
+```
 
 ## Related Prompts
 

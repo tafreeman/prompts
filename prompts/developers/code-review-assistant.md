@@ -1,32 +1,29 @@
 ---
 title: "Code Review Assistant"
 shortTitle: "Code Review"
-intro: "An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on thei..."
+intro: "An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests."
 type: "how_to"
 difficulty: "beginner"
 audience:
   - "senior-engineer"
+  - "junior-engineer"
 platforms:
   - "claude"
+  - "chatgpt"
+  - "github-copilot"
 topics:
   - "code-review"
   - "quality"
   - "developers"
   - "best-practices"
 author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-18"
+version: "2.0"
+date: "2025-12-02"
 governance_tags:
   - "quality-assurance"
   - "human-review-recommended"
 dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "internal"
-risk_level: "low"
-regulatory_scope:
-  - "internal-standards"
-approval_required: False
-retention_period: "1-year"
+reviewStatus: "approved"
 ---
 # Code Review Assistant
 
@@ -76,9 +73,39 @@ Focus on:
 
 ## Variables
 
-- `[LANGUAGE]`: The programming language (e.g., Python, JavaScript, Java, Go)
-- `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]`: A one-line explanation of the code's purpose
-- `[PASTE YOUR CODE HERE]`: The actual code you want reviewed
+| Variable | Description | Example Values |
+|----------|-------------|----------------|
+| `[LANGUAGE]` | Programming language | `Python`, `JavaScript`, `TypeScript`, `Java`, `Go`, `C#`, `Rust` |
+| `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]` | One-line explanation of the code's purpose | `User authentication middleware`, `Shopping cart calculation`, `File upload handler` |
+| `[PASTE YOUR CODE HERE]` | The actual code to review | 50-300 lines recommended per review |
+
+## Review Criteria Checklist
+
+Use this checklist to ensure comprehensive reviews:
+
+### Critical Issues (Must Address)
+- [ ] **Security vulnerabilities** - SQL injection, XSS, hardcoded secrets, auth bypass
+- [ ] **Data loss risks** - Unvalidated deletes, missing transactions, race conditions
+- [ ] **Breaking changes** - API contract violations, removed public methods
+
+### Major Issues (Should Address)
+- [ ] **Logic errors** - Off-by-one, null handling, boundary conditions
+- [ ] **Error handling** - Uncaught exceptions, silent failures, poor error messages
+- [ ] **Performance** - N+1 queries, memory leaks, inefficient algorithms
+
+### Minor Issues (Consider Addressing)
+- [ ] **Code style** - Naming conventions, formatting, organization
+- [ ] **Documentation** - Missing comments, outdated docs, unclear intent
+- [ ] **Test coverage** - Missing tests, edge cases not covered
+
+### Severity Classification Guide
+
+| Severity | Criteria | Examples |
+|----------|----------|----------|
+| **Critical** | Could cause security breach, data loss, or system failure | SQL injection, plaintext passwords, null pointer in hot path |
+| **Major** | Causes incorrect behavior or significant technical debt | Unhandled exceptions, race conditions, missing validation |
+| **Minor** | Affects readability or maintainability | Poor naming, missing docs, style inconsistencies |
+| **Suggestion** | Nice-to-have improvements | Refactoring opportunities, alternative approaches |
 
 ## Example Usage
 
@@ -188,9 +215,82 @@ This refactored version:
 - Mention your experience level if you want feedback adjusted to your skill level
 - Include any specific standards or style guides your team follows
 
+## Language-Specific Considerations
+
+### Python
+- Check for type hints and proper use of `Optional`
+- Look for `with` statements for resource management
+- Verify PEP 8 compliance
+- Check for mutable default arguments
+
+### JavaScript/TypeScript
+- Verify proper async/await usage (no floating promises)
+- Check for proper null/undefined handling
+- Look for TypeScript type safety (`any` overuse)
+- Verify proper event listener cleanup
+
+### Java
+- Check for proper exception handling (no empty catches)
+- Verify resource management (try-with-resources)
+- Look for null safety (Optional usage)
+- Check for thread safety in concurrent code
+
+### Go
+- Verify error handling (no ignored errors)
+- Check for proper defer usage
+- Look for goroutine leaks
+- Verify context propagation
+
+## Example Feedback Snippets
+
+### Critical: Security Issue
+```
+🔴 **CRITICAL - Security Vulnerability**
+**Line 15**: SQL injection vulnerability
+
+The query uses string concatenation with user input:
+`query = "SELECT * FROM users WHERE id = " + user_id`
+
+**Fix**: Use parameterized queries:
+`cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
+
+**Why**: Attackers can inject malicious SQL to access/delete data.
+```
+
+### Major: Missing Error Handling
+```
+🟡 **MAJOR - Missing Error Handling**
+**Lines 23-25**: API call has no error handling
+
+The `requests.get()` call will crash if the network fails.
+
+**Fix**:
+```python
+try:
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+except requests.RequestException as e:
+    logger.error(f"API call failed: {e}")
+    return None
+```
+
+**Why**: Unhandled exceptions cause poor user experience and make debugging harder.
+```
+
+### Minor: Naming Improvement
+```
+🟢 **MINOR - Naming Suggestion**
+**Line 8**: Variable name `x` is not descriptive
+
+**Suggestion**: Rename to `user_count` or `total_records` based on its purpose.
+
+**Why**: Descriptive names make code self-documenting.
+```
+
 ## Related Prompts
 
-- [Bug Finder and Fixer](bug-finder.md)
-- [Code Documentation Generator](code-documentation-generator.md)
-- [Code Review Expert: Structured Output](code-review-expert-structured.md)
-- [Refactoring Assistant](refactoring-assistant.md)
+- [Bug Finder and Fixer](bug-finder.md) - Specialized bug detection
+- [Code Documentation Generator](code-documentation-generator.md) - Generate docs
+- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
+- [Refactoring Assistant](refactoring-assistant.md) - Detailed refactoring guidance
+- [Security Code Auditor](security-code-auditor.md) - Security-focused review

@@ -1,27 +1,30 @@
 ---
 title: "DevOps Pipeline Architect"
-shortTitle: "DevOps Pipeline Architect"
-intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change-f..."
+shortTitle: "DevOps Pipeline"
+intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change failure rate), enforce shift-left security, and champion GitOps + Infrastructure-as-Code."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "devops-engineer"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "cicd"
   - "developer"
   - "developers"
   - "devops"
+  - "kubernetes"
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+version: "2.1"
+date: "2025-12-02"
 governance_tags:
   - "architecture-decision"
   - "requires-human-review"
   - "security-critical"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 data_classification: "confidential"
 risk_level: "high"
 regulatory_scope:
@@ -103,17 +106,19 @@ Include:
 
 ## Variables
 
-- `[repo_structure]`: Monorepo vs multi-repo, service count, shared libraries
-- `[languages]`: Languages, build systems, package managers
-- `[targets]`: Runtime targets (Kubernetes, Lambda, VM, mobile stores, etc.)
-- `[environments]`: Dev/Test/Staging/Prod, regional splits, air-gapped notes
-- `[testing]`: Unit/integration/E2E/performance requirements, coverage targets
-- `[security]`: Regulatory frameworks, signing, SBOM, threat models
-- `[observability]`: Metrics/logs/traces stack (Datadog, Prometheus, OTEL, etc.)
-- `[deployment]`: Desired strategy (blue/green, canary, GitOps, feature flags)
-- `[approvals]`: Required reviewers, CAB windows, segregation-of-duties rules
-- `[dora_targets]`: Deployment frequency, lead time, MTTR, change failure rate goals
-- `[constraints]`: Tooling mandates/prohibitions, air-gapped or budget limits
+| Variable | Description | Example |
+|----------|-------------|---------||
+| `[repo_structure]` | Monorepo vs multi-repo, service count | "Polyrepo (20 Node.js + Go services)" |
+| `[languages]` | Languages, build systems, package managers | "Node.js 18 (npm), Go 1.21, Terraform" |
+| `[targets]` | Runtime targets | "Kubernetes (EKS), AWS Lambda, Terraform" |
+| `[environments]` | Dev/Test/Staging/Prod, regions | "Dev → QA → Staging → Prod (us-east-1 + eu-west-1)" |
+| `[testing]` | Test requirements and coverage | "Unit <5 min, contract tests, E2E nightly" |
+| `[security]` | Regulatory frameworks and tools | "SOC2, Cosign signing, SBOM (CycloneDX), CodeQL" |
+| `[observability]` | Metrics/logs/traces stack | "Prometheus + Grafana, Loki, OpenTelemetry" |
+| `[deployment]` | Deployment strategy | "GitOps via Argo CD, canary 10%→50%→100%" |
+| `[approvals]` | Required reviewers and windows | "DevOps lead + Security sign-off, CAB Wednesdays" |
+| `[dora_targets]` | DORA metric goals | "Daily deploys, <1h lead time, MTTR <15 min" |
+| `[constraints]` | Tooling mandates/prohibitions | "GitHub-hosted runners only, AWS Secrets Manager" |
 
 ## Example Usage
 
