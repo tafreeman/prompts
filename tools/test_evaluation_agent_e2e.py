@@ -16,7 +16,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from evaluation_agent import (
     AgentConfig,
+    AgentState,
+    CategoryResult,
     EvaluationAgent,
+    TaskResult,
     TaskStatus,
 )
 
@@ -46,8 +49,6 @@ class TestEndToEndExecution(unittest.TestCase):
         mock_prereqs,
     ):
         """Test full pipeline execution in dry-run mode."""
-        from evaluation_agent import TaskResult, CategoryResult
-        
         # Mock prerequisite check to pass
         mock_prereqs.return_value = True
         
@@ -107,8 +108,6 @@ class TestEndToEndExecution(unittest.TestCase):
         mock_prereqs,
     ):
         """Test single phase execution."""
-        from evaluation_agent import TaskResult
-        
         # Mock prerequisite check
         mock_prereqs.return_value = True
         
@@ -135,8 +134,6 @@ class TestEndToEndExecution(unittest.TestCase):
     @patch('evaluation_agent.load_checkpoint')
     def test_resume_from_checkpoint(self, mock_load):
         """Test resuming from a checkpoint."""
-        from evaluation_agent import AgentState
-        
         # Mock checkpoint loading
         mock_state = AgentState(
             started_at="2025-12-03T10:00:00",

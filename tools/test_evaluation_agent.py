@@ -103,10 +103,14 @@ class TestCheckpointManagement(unittest.TestCase):
     
     def tearDown(self):
         """Clean up temporary files."""
-        if self.checkpoint_file.exists():
-            self.checkpoint_file.unlink()
-        Path(self.temp_dir).rmdir()
-        AgentConfig.CHECKPOINT_FILE = self.original_checkpoint
+        try:
+            if self.checkpoint_file.exists():
+                self.checkpoint_file.unlink()
+            if Path(self.temp_dir).exists():
+                Path(self.temp_dir).rmdir()
+        finally:
+            # Always restore original checkpoint path
+            AgentConfig.CHECKPOINT_FILE = self.original_checkpoint
     
     def test_save_checkpoint_creates_file(self):
         """Verify checkpoint file is created."""
