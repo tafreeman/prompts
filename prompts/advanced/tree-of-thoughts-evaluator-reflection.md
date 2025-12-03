@@ -10,6 +10,7 @@ audience:
 platforms:
   - "chatgpt"
   - "claude"
+  - "github-copilot"
 topics:
   - "evaluation"
   - "quality"
@@ -19,7 +20,8 @@ date: "2025-11-17"
 governance_tags:
   - "requires-human-review"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
+effectivenessScore: 4.7
 ---
 ## Description
 
@@ -148,35 +150,102 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 
 ## Variables
 
-- `[REPOSITORY_NAME]`
-- `[REPO_CONTEXT_SUMMARY]`
-- `[OBSERVED_STRENGTHS]`
-- `[OBSERVED_GAPS]`
-- `[ENTERPRISE_CONCERNS]`
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[REPOSITORY_NAME]` | Repository identifier (org/repo format or local path) | `tafreeman/prompts`, `./my-prompts` |
+| `[REPO_CONTEXT_SUMMARY]` | Brief description of the repository's purpose and target audience | "Enterprise prompt library targeting senior developers and architects" |
+| `[OBSERVED_STRENGTHS]` | Known positive attributes from initial assessment | "Strong template structure, comprehensive metadata, clear categorization" |
+| `[OBSERVED_GAPS]` | Identified weaknesses or missing elements | "Limited deployment docs, sparse persona coverage" |
+| `[ENTERPRISE_CONCERNS]` | Specific organizational requirements to validate | "Compliance workflows, governance metadata, security review status" |
 
 ## Example Usage
 
-### Input Context
+### Input
 
-- `[REPOSITORY_NAME]`: `tafreeman/prompts`
-- `[REPO_CONTEXT_SUMMARY]`: "Advanced prompt library targeting enterprise developers and architects, featuring categorized prompts, with templates and additional resources."
-- `[OBSERVED_STRENGTHS]`: “Robust template, governance metadata, analytics dashboard.”
-- `[OBSERVED_GAPS]`: “Need to be developer and architect focused. Most of the prompts should be in that area. needs cookbooks or similar section with easy to explan examples and prompts. sparse deployment docs for Azure, limited support prompts.”
-- `[ENTERPRISE_CONCERNS]`: “Need evidence of compliance workflows and persona breadth. Need adoptoption eased by sample prompts per role and simple to use templates.”
+```text
+You will evaluate the local workspace copy of tafreeman/prompts using ToT + Reflection.
+
+**Context Summary**: Advanced prompt library for enterprise developers and architects.
+**Observed Strengths**: Robust template, governance metadata, analytics dashboard.
+**Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
+**Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
+```
 
 ### Output Excerpt
 
-- Phase 1 delivers the mandated ToT evaluation Markdown.
-- Phase 2 notes that scores for Branch B lacked citations, adjusts them from 8 → 7, flags missing Azure governance notes, sets Confidence to Medium, and recommends sampling prompts per persona for validation.
-- Phase 1 remains as initially generated; Phase 2 only annotates and minimally adjusts scores/narratives where explicitly justified.
+```markdown
+## Phase 1 – Tree-of-Thoughts Evaluation
+
+### Repository Overview
+- Name: tafreeman/prompts
+- Purpose: Enterprise prompt library
+- Target Audience: Senior developers, architects
+
+### Branch A: Content Quality Analysis
+**Candidate Thoughts**:
+1. Evaluate prompt clarity and specificity
+2. Assess template completeness
+
+**Selected Thought**: Evaluate prompt clarity
+**Score**: 8/10 - Strong template structure
+
+## Phase 2 – Reflection & Self-Critique
+
+- **Critique Summary**
+  - Strengths: Clear scoring methodology
+  - Weaknesses: Branch B scores lacked citations
+  - Gaps: Azure governance not addressed
+  - Risks: Persona breadth relied on sampling
+
+- **Corrections / Adjustments**
+  - Branch B score: 8 → 7
+
+- **Confidence Level**: Medium
+- **Next Actions**: Sample prompts per persona, request Azure docs
+```
 
 ## Tips
 
-- Keep Phase 1 and Phase 2 clearly separated to avoid mixing reasoning states.
-- During Phase 2, quote specific lines from Phase 1 when flagging issues.
-- Treat assumptions explicitly—enterprise readers value transparency.
-- If no corrections are needed, still document why the critique passed.
-- Use the reflection step to align recommendations with executive decision needs.
+- **Maintain Phase Separation**: Keep Phase 1 and Phase 2 clearly separated in your output. Use clear headers and avoid mixing reasoning states between phases.
+- **Quote Specific Evidence**: During Phase 2, quote specific lines or scores from Phase 1 when flagging issues (e.g., "Branch B scored 8/10 but cited only 2 files").
+- **Explicit Assumptions**: Mark all inferences with "[Assumption]" tags. Enterprise readers value transparency about what is observed vs. inferred.
+- **Document Passing Critiques**: If Phase 2 finds no corrections needed, still document why the critique passed (e.g., "All scores supported by ≥3 file references").
+- **Executive Alignment**: Frame recommendations in terms of business impact (risk, cost, timeline) rather than purely technical terms.
+- **Confidence Calibration**: Use High (90%+), Medium (70-89%), Low (<70%) based on evidence coverage—not optimism.
+
+## Platform Adaptations
+
+### Claude (Anthropic)
+
+Claude excels at self-critique. Add explicit permission to be critical:
+
+```text
+During Phase 2, be genuinely critical. I want you to find real flaws in your Phase 1 analysis, not just validate it. If everything checks out, explain why with specific evidence.
+```
+
+### GPT-4/GPT-5 (OpenAI)
+
+For longer evaluations, consider using system messages to establish the two-phase pattern:
+
+```text
+System: You are an enterprise repository evaluator using Tree-of-Thoughts methodology with built-in self-reflection. Always complete Phase 1 fully before beginning Phase 2.
+```
+
+### GitHub Copilot Chat
+
+```text
+@workspace Evaluate this repository using the ToT + Reflection pattern. Phase 1: Score content, organization, and enterprise-readiness. Phase 2: Critique your own assessment and adjust scores where evidence is weak.
+```
+
+## Governance Notes
+
+- **Human Review Required**: This prompt is tagged `requires-human-review`. All evaluation outputs should be reviewed by a human before sharing with stakeholders or making decisions based on them.
+- **Data Classification**: Internal use only. Evaluation results may contain sensitive information about repository weaknesses.
+- **Audit Trail**: Both Phase 1 and Phase 2 outputs provide natural audit trail. Archive complete outputs for compliance tracking.
+- **Bias Awareness**: Phase 2's bias check should explicitly look for:
+  - Over-representation of certain languages or frameworks
+  - Assumptions about team size or skill level
+  - Unstated preferences for specific tools or vendors
 
 ## Related Prompts
 

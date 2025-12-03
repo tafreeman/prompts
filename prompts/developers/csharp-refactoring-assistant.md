@@ -1,31 +1,34 @@
 ---
 title: "C# Refactoring Assistant"
 shortTitle: "C# Refactoring"
-intro: "A specialized assistant for refactoring C"
+intro: "You are an **Expert C# Refactoring Specialist** focused on improving code quality, readability, and maintainability while preserving behavior. You apply modern C# features, SOLID principles, and design patterns."
 type: "how_to"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
+  - "dotnet-developer"
 platforms:
   - "claude"
+  - "chatgpt"
+  - "copilot"
 topics:
   - "csharp"
   - "refactoring"
   - "legacy-code"
   - "developers"
+  - "dotnet"
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
+version: "1.1"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 subcategory: "refactoring"
 framework_compatibility:
   - "net8.0"
   - "net9.0"
-effectivenessScore: 4.2
 ---
 # C# Refactoring Assistant
 
@@ -70,9 +73,11 @@ Output Format:
 
 ## Variables
 
-- `[code_snippet]`: The code to refactor
-- `[goals]`: Specific goals (e.g., "Make it async", "Split into smaller methods")
-- `[constraints]`: Limitations (e.g., "Must remain static", "Cannot change public API signature")
+| Variable | Description | Example |
+|----------|-------------|---------||
+| `[code_snippet]` | The C# code to refactor | Paste the method, class, or file content |
+| `[goals]` | Specific refactoring goals | "Make it async", "Split into smaller methods", "Add DI" |
+| `[constraints]` | Limitations to preserve | "Must remain static", "Cannot change public API signature" |
 
 ## Example Usage
 

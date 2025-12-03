@@ -1,26 +1,30 @@
 ---
 title: "Cloud Migration Specialist"
-shortTitle: "Cloud Migration Specialist"
-intro: "Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan ..."
+shortTitle: "Cloud Migration"
+intro: "You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "cloud-architect"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "cloud-migration"
   - "developer"
   - "enterprise"
   - "developers"
+  - "azure"
+  - "aws"
 author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
+version: "1.2"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 ---
 # Cloud Migration Specialist
 
@@ -60,10 +64,12 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 
 ## Variables
 
-- `[app_name]`: Application name and architecture (e.g., "Legacy CRM System - Java/Oracle monolith, 5000 concurrent users")
-- `[current_infra]`: Current hosting environment (e.g., "On-premise VMware ESXi 7.0, Oracle 11g RAC (2-node cluster), F5 load balancer")
-- `[target_cloud]`: Target cloud provider and services (e.g., "Microsoft Azure - App Services, Azure SQL Managed Instance, Application Gateway")
-- `[requirements]`: Business drivers and constraints (e.g., "Reduce licensing costs by 30%, achieve 99.9% SLA, enable geo-redundancy for DR, complete migration in 9 months")
+| Variable | Description | Example |
+|----------|-------------|---------||
+| `[app_name]` | Application name, architecture, and scale | "Legacy CRM - Java/Oracle monolith, 5000 concurrent users" |
+| `[current_infra]` | Current hosting environment and stack | "VMware ESXi 7.0, Oracle 11g RAC, F5 load balancer" |
+| `[target_cloud]` | Target cloud provider and services | "Azure App Services, SQL Managed Instance, App Gateway" |
+| `[requirements]` | Business drivers and constraints | "30% cost reduction, 99.9% SLA, 9-month timeline" |
 
 ## Example Usage
 

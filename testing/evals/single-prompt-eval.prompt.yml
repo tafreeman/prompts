@@ -1,0 +1,70 @@
+# Single Prompt Evaluator
+# Evaluates a single prompt for quality
+# Usage: gh models eval testing/evals/single-prompt-eval.prompt.yml
+#
+# To evaluate a different prompt, modify the testData section below
+
+name: Single Prompt Evaluation
+description: Quick evaluation of a single prompt
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+
+testData:
+  # Edit this section with your prompt to evaluate
+  - promptTitle: "Your Prompt Title"
+    promptContent: |
+      # Paste your prompt content here
+      
+      You are a helpful assistant that...
+      
+      Please provide:
+      1. Step one
+      2. Step two
+      3. Step three
+    difficulty: "intermediate"
+    type: "how_to"
+
+messages:
+  - role: system
+    content: |
+      You are an expert prompt engineer. Evaluate the given prompt for quality.
+      
+      Score each criterion 1-10:
+      - Clarity: Are instructions clear and unambiguous?
+      - Specificity: Enough detail for consistent results?
+      - Actionability: Can the AI determine what to do?
+      - Structure: Well-organized with clear sections?
+      - Completeness: Covers all necessary aspects?
+      
+      Respond as JSON:
+      {
+        "scores": {"clarity": N, "specificity": N, "actionability": N, "structure": N, "completeness": N},
+        "overall_score": N.N,
+        "grade": "A/B/C/D/F",
+        "strengths": ["..."],
+        "improvements": ["..."],
+        "summary": "..."
+      }
+
+  - role: user
+    content: |
+      Evaluate this prompt:
+      
+      **Title:** {{promptTitle}}
+      **Difficulty:** {{difficulty}}
+      **Type:** {{type}}
+      
+      **Content:**
+      ```
+      {{promptContent}}
+      ```
+
+evaluators:
+  - name: has-scores
+    string:
+      contains: '"scores"'
+  - name: has-grade
+    string:
+      contains: '"grade"'

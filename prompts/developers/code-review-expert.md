@@ -112,11 +112,85 @@ For each finding, provide:
 
 ## Variables
 
-- **`[language]`**: Programming language (e.g., "Python", "JavaScript/TypeScript", "Java", "Go", "C#")
-- **`[code_snippet]`**: The code to be reviewed (paste actual code, typically 50-300 lines per review)
-- **`[context]`**: Component description (e.g., "User authentication service", "Payment processing API", "React dashboard component")
-- **`[pr_goal]`**: What this PR aims to accomplish (e.g., "Add password reset functionality", "Refactor database layer", "Fix memory leak in caching")
-- **`[focus_areas]`**: Specific concerns to prioritize (e.g., "Performance of query", "Thread safety", "Error handling", "Test coverage")
+| Variable | Description | Example Values |
+|----------|-------------|----------------|
+| `[language]` | Programming language/framework | `Python + Django`, `TypeScript + React`, `Java + Spring Boot`, `Go`, `C# + .NET` |
+| `[code_snippet]` | Code to review (50-300 lines optimal) | Paste actual code from PR |
+| `[context]` | Component description | `User authentication service`, `Payment processing API`, `React dashboard component` |
+| `[pr_goal]` | What the PR aims to accomplish | `Add password reset`, `Fix memory leak`, `Refactor database layer` |
+| `[focus_areas]` | Specific concerns to prioritize | `Performance`, `Thread safety`, `Error handling`, `Test coverage` |
+
+## Output Format Specification
+
+Structure your review using this format for consistency:
+
+```markdown
+## Code Review Summary
+
+### 🔴 BLOCKERS (Must Fix)
+[List critical issues that block merge]
+
+### 🟡 IMPORTANT (Should Fix)
+[List major issues that should be addressed]
+
+### 🟢 SUGGESTIONS (Nice to Have)
+[List minor improvements and optional changes]
+
+---
+
+### Detailed Findings
+
+#### Finding 1: [Title]
+- **Category**: 🔴 Blocker / 🟡 Important / 🟢 Suggestion
+- **Location**: `file.py`, lines 10-15, function `process_data()`
+- **Issue**: What's wrong
+- **Impact**: Why it matters
+- **Recommendation**:
+  ```python
+  # Fixed code here
+  ```
+- **Rationale**: Principle or best practice being applied
+
+---
+
+## Strengths
+- [Positive observation 1]
+- [Positive observation 2]
+
+## Overall Assessment
+**APPROVE** / **REQUEST CHANGES** / **COMMENT**
+```
+
+## Review Checklist by Category
+
+### 🔴 Security Checklist
+- [ ] No SQL injection (parameterized queries used)
+- [ ] No XSS vulnerabilities (output encoding)
+- [ ] No hardcoded secrets (use env vars/secrets manager)
+- [ ] Authentication/authorization properly implemented
+- [ ] Input validation on all user data
+- [ ] Sensitive data encrypted at rest and in transit
+
+### 🟡 Code Quality Checklist (SOLID)
+- [ ] **Single Responsibility**: Each class/function has one reason to change
+- [ ] **Open/Closed**: Open for extension, closed for modification
+- [ ] **Liskov Substitution**: Subtypes substitutable for base types
+- [ ] **Interface Segregation**: No unused method dependencies
+- [ ] **Dependency Inversion**: Depend on abstractions
+
+### 🟡 Error Handling Checklist
+- [ ] All exceptions caught and handled appropriately
+- [ ] No empty catch blocks
+- [ ] Meaningful error messages provided
+- [ ] Errors logged with context
+- [ ] Resources properly cleaned up (finally/using/defer)
+
+### 🟢 Maintainability Checklist
+- [ ] Clear, descriptive naming
+- [ ] Appropriate comments (why, not what)
+- [ ] No magic numbers (use named constants)
+- [ ] DRY principle followed
+- [ ] Reasonable function/method length (<50 lines)
 
 ## Usage
 

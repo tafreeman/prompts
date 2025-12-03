@@ -1,32 +1,34 @@
 ---
 title: "API Design Consultant"
 shortTitle: "API Design Consultant"
-intro: "You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, a"
+intro: "You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, and the Richardson Maturity Model (Levels 0-3)."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "api-architect"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "developer"
   - "enterprise"
   - "developers"
   - "api-design"
+  - "architecture"
 author: "Prompts Library Team"
-version: "2.2.0"
-date: "2025-11-27"
+version: "2.3.0"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 subcategory: "architecture"
 framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
 performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '2000-4000', 'quality_score': '98'}
 testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['ecommerce-order-api', 'fintech-payment-api']}
 governance: {'risk_level': 'high', 'data_classification': 'confidential', 'regulatory_scope': ['SOC2', 'GDPR', 'PCI-DSS', 'HIPAA'], 'approval_required': True, 'approval_roles': ['Staff-Engineer', 'API-Architect'], 'retention_period': '5-years'}
-effectivenessScore: 4.5
 ---
 # API Design Consultant
 
@@ -163,21 +165,23 @@ Standardized error format:
 
 ## Variables
 
-- **`[service_name]`**: API service name (e.g., "Payment Processing API", "Order Management API", "User Profile API")
-- **`[business_domain]`**: Business domain (e.g., "E-commerce", "Healthcare", "Fintech", "SaaS")
-- **`[client_types]`**: Target API consumers (e.g., "Mobile apps (iOS/Android)", "Web frontend", "Third-party integrations", "Internal microservices")
-- **`[scale_requirements]`**: Expected load (e.g., "10K requests/min peak", "100M users", "99.99% uptime SLA")
-- **`[tech_stack]`**: Technology preferences (e.g., "Node.js + Express", "Python + FastAPI", "Java + Spring Boot", "Go + Gin")
-- **`[core_features]`**: Main API capabilities (e.g., "CRUD operations on orders", "Search and filter products", "Webhook management")
-- **`[data_models]`**: Core entities (e.g., "User, Order, Product, Payment", "Patient, Appointment, Prescription")
-- **`[business_rules]`**: Domain constraints (e.g., "Orders can't be cancelled after shipment", "Users can have max 3 active subscriptions")
-- **`[auth_method]`**: Authentication mechanism (e.g., "OAuth 2.0 (authorization code flow)", "JWT tokens", "API keys", "mTLS")
-- **`[authz_model]`**: Authorization model (e.g., "RBAC (Role-Based)", "ABAC (Attribute-Based)", "Resource ownership", "Scopes")
-- **`[rate_limits]`**: Rate limit policy (e.g., "100 req/min per user, 10K req/hour per API key", "Tiered: Free 1K/day, Pro 100K/day")
-- **`[caching]`**: Caching approach (e.g., "CDN for static data, ETags for conditional requests, Cache-Control headers")
-- **`[pagination_strategy]`**: Pagination method (e.g., "Cursor-based (for large datasets)", "Offset-based (simpler)", "Keyset (for sorted data)")
-- **`[versioning_strategy]`**: Version strategy (e.g., "URL versioning /v1/", "Header-based (Accept: application/vnd.api.v1+json)", "Query param ?version=1")
-- **`[sla_targets]`**: Service level objectives (e.g., "99.9% uptime, P95 latency < 200ms, P99 < 500ms")
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[service_name]` | API service name | "Payment Processing API", "Order Management API" |
+| `[business_domain]` | Business domain | "E-commerce", "Healthcare", "Fintech", "SaaS" |
+| `[client_types]` | Target API consumers | "Mobile apps (iOS/Android)", "Third-party integrations" |
+| `[scale_requirements]` | Expected load | "10K requests/min peak", "99.99% uptime SLA" |
+| `[tech_stack]` | Technology preferences | "Python + FastAPI", "Java + Spring Boot" |
+| `[core_features]` | Main API capabilities | "CRUD on orders", "Webhook management" |
+| `[data_models]` | Core entities | "User, Order, Product, Payment" |
+| `[business_rules]` | Domain constraints | "Orders can't be cancelled after shipment" |
+| `[auth_method]` | Authentication mechanism | "OAuth 2.0 (authorization code)", "JWT tokens" |
+| `[authz_model]` | Authorization model | "RBAC", "ABAC", "Resource ownership" |
+| `[rate_limits]` | Rate limit policy | "100 req/min per user, 10K req/hour per key" |
+| `[caching]` | Caching approach | "CDN for static, ETags for conditional requests" |
+| `[pagination_strategy]` | Pagination method | "Cursor-based", "Offset-based", "Keyset" |
+| `[versioning_strategy]` | Version strategy | "URL /v1/", "Header-based", "Query param" |
+| `[sla_targets]` | Service level objectives | "99.9% uptime, P95 < 200ms" |
 
 ## Usage
 

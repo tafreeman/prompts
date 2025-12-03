@@ -204,12 +204,49 @@ Conduct a comprehensive code review and output a **structured report** conformin
 
 ## Variables
 
-- `[REPOSITORY_NAME]`: Repository name or URL
-- `[BRANCH_NAME]`: Branch being reviewed (e.g., `feature/add-auth`)
-- `[COMMIT_SHA]`: Commit hash (optional)
-- `[PROGRAMMING_LANGUAGE]`: Language (e.g., Python, JavaScript, Java)
-- `[DIFF_OR_FILE_CONTENTS]`: Git diff or full file contents
-- `[FOCUS_AREAS]`: Optional focus areas (security, performance, etc.)
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[REPOSITORY_NAME]` | Repository name or URL | `ecommerce-api`, `github.com/acme/payments` |
+| `[BRANCH_NAME]` | Branch being reviewed | `feature/add-auth`, `fix/memory-leak` |
+| `[COMMIT_SHA]` | Commit hash (optional) | `a1b2c3d4e5f6` |
+| `[PROGRAMMING_LANGUAGE]` | Primary language | `Python`, `TypeScript`, `Java`, `Go`, `C#` |
+| `[DIFF_OR_FILE_CONTENTS]` | Git diff or full file contents | See examples below |
+| `[FOCUS_AREAS]` | Optional focus areas | `security`, `performance`, `PCI compliance` |
+
+## Review Criteria Reference
+
+Use this guide to classify issues consistently:
+
+### Severity Classification
+
+| Severity | Criteria | Examples | Action |
+|----------|----------|----------|--------|
+| **CRITICAL** | Security vulnerabilities, data loss risk, breaking production | SQL injection, plaintext passwords, null pointer in hot path | Block merge, fix immediately |
+| **MAJOR** | Logic bugs, missing error handling, performance issues | Unhandled exceptions, N+1 queries, memory leaks | Should fix before merge |
+| **MINOR** | Code quality, maintainability, style | Missing docs, non-idiomatic code, long methods | Consider fixing |
+| **INFO** | Suggestions, nice-to-haves | Refactoring opportunities, alternative approaches | Optional |
+
+### Category Classification
+
+| Category | What to Look For | Impact Area |
+|----------|------------------|-------------|
+| **security** | Injection, auth bypass, XSS, CSRF, secrets exposure | Data breach, compliance violation |
+| **performance** | N+1 queries, inefficient algorithms, memory leaks | User experience, infrastructure cost |
+| **bug** | Logic errors, race conditions, edge cases | Incorrect behavior, data corruption |
+| **maintainability** | SOLID violations, code duplication, tight coupling | Technical debt, velocity slowdown |
+| **style** | Naming, formatting, conventions | Readability, team consistency |
+| **best-practice** | Missing tests, no error handling, hardcoded values | Reliability, debugging difficulty |
+
+### Recommendation Decision Tree
+
+```
+Has CRITICAL issues? 
+  → Yes: REQUEST_CHANGES (must fix before merge)
+  → No: Has MAJOR issues?
+    → Yes: REQUEST_CHANGES (should fix) OR COMMENT (if minor risk)
+    → No: Has only MINOR/INFO?
+      → APPROVE (with optional comments)
+```
 
 ## Usage
 
@@ -378,8 +415,57 @@ You are a senior software engineer conducting a structured code review.
 - **JSON for Machines**: Use JSON output when piping results to other tools (e.g., `jq`, dashboards).
 - **Markdown for Humans**: Use Markdown when posting to GitHub/GitLab PR comments.
 - **Strict Schema**: Do not deviate from the schema keys; automation depends on them.
-- **Severity Thresholds**: Agree with your team on what constitutes "CRITICAL" (e.g., security flaws, build breaks) vs "MAJOR" (logic bugs).
+- **Severity Thresholds**: Use the Review Criteria Reference above—agree with your team on classification.
 - **Idempotency**: Ensure the review output is consistent if run multiple times on the same code.
+- **Focus Areas**: Specify `[FOCUS_AREAS]` to prioritize specific concerns (e.g., "security" for payment code).
+- **Batch Size**: Review 200-400 lines per invocation for best results; larger diffs reduce detection accuracy.
+
+## Example Issue Classifications
+
+### Example: CRITICAL Security Issue
+```json
+{
+  "issue_id": "SEC-001",
+  "severity": "CRITICAL",
+  "category": "security",
+  "line_start": 15,
+  "line_end": 18,
+  "description": "SQL injection vulnerability via string concatenation",
+  "rationale": "User input is concatenated directly into SQL query, allowing attackers to execute arbitrary SQL commands",
+  "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
+  "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
+}
+```
+
+### Example: MAJOR Bug Issue
+```json
+{
+  "issue_id": "BUG-001",
+  "severity": "MAJOR",
+  "category": "bug",
+  "line_start": 42,
+  "line_end": 42,
+  "description": "Division by zero when list is empty",
+  "rationale": "calculate_average(numbers) will raise ZeroDivisionError if numbers is empty, crashing the request",
+  "suggested_fix": "Add guard clause: if not numbers: return 0.0 or raise ValueError('Empty list')",
+  "references": []
+}
+```
+
+### Example: MINOR Style Issue
+```json
+{
+  "issue_id": "STYLE-001",
+  "severity": "MINOR",
+  "category": "style",
+  "line_start": 5,
+  "line_end": 5,
+  "description": "Variable name 'x' is not descriptive",
+  "rationale": "Descriptive names improve code readability and reduce cognitive load for future maintainers",
+  "suggested_fix": "Rename 'x' to 'user_count' or 'total_items' based on its purpose",
+  "references": ["PEP 8 - Naming Conventions"]
+}
+```
 
 ## Related Prompts
 

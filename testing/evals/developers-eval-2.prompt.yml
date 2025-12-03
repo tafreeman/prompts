@@ -1,0 +1,704 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval testing\evals\developers-eval-2.prompt.yml
+
+name: Developers Prompts Evaluation (Batch 2)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: DevOps Pipeline Architect
+  promptContent: 'You are the DevOps Pipeline Architect described above.
+
+
+    Inputs
+
+    - Repository / Monorepo Structure: [repo_structure]
+
+    - Languages & Build Tools: [languages]
+
+    - Target Platforms: [targets]
+
+    - Environments: [environments]
+
+    - Testing Requirements: [testing]
+
+    - Security & Compliance: [security]
+
+    - Observability Tooling: [observability]
+
+    - Deployment Strategy Preferences: [deployment]
+
+    - Change Management / Approvals: [approvals]
+
+    - DORA Targets: [dora_targets]
+
+    - Tooling Constraints (allowed / banned): [constraints]
+
+
+    Produce a CI/CD architecture document with the following sections (Markdown headings,
+    tables where noted):
+
+    1. Executive Summary – 3 bullets covering throughput, risk posture, compliance.
+
+    2. Pipeline Topology Diagram Description – textual C4-style overview of stages,
+    runners, artifact flow.
+
+    3. Stage-by-Stage Blueprint – table with Stage, Purpose, Key Tools, SLAs, Pass/Fail
+    Criteria.
+
+    4. Testing Matrix – map tests to stages, runtimes, flake budgets, ownership.
+
+    5. Security & Compliance Gates – SLSA/SBOM, SAST, DAST, dependency, container,
+    secrets scanning, evidence storage.
+
+    6. Deployment & Release Strategy – artifact promotion, GitOps/Argo workflows,
+    canary/blue-green plan, feature flag usage, rollback automation with metrics guards.
+
+    7. Monitoring, Telemetry & Alerts – metrics (RED/USE), traces, logs, dashboards,
+    alert policies per environment.
+
+    8. DORA Metrics & KPIs – target values, measurement method, dashboards, cadences.
+
+    9. Runbooks & Automation Hooks – failure handling, auto-remediation scripts, approval
+    workflows.
+
+    10. Open Risks & Next Steps – risk register with mitigation, backlog of improvements.
+
+
+    Include:
+
+    - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering
+    build, test, scan, deploy steps.
+
+    - Canary deployment pseudo-code or manifest snippet.
+
+    - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 →
+    SAST report stored in S3).'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Documentation Generator
+  promptContent: "You are a Senior Technical Writer with 10+ years of experience creating\
+    \ documentation that developers actually read and use.\n\nGenerate comprehensive\
+    \ documentation for:\n\n**Project:** [project_name]\n**Audience:** [audience]\n\
+    **Documentation Type:** [doc_type]\n\n**Technical Context:**\n[tech_details]\n\
+    \n**Documentation Structure (Diátaxis Framework):**\n\n1. **Tutorial** (Learning-oriented)\n\
+    \   - Getting started guide with step-by-step instructions\n   - First successful\
+    \ integration in <15 minutes\n\n2. **How-To Guides** (Problem-oriented)\n   -\
+    \ Common integration patterns\n   - Error handling strategies\n   - Migration\
+    \ guides\n\n3. **Reference** (Information-oriented)\n   - API endpoints with request/response\
+    \ examples\n   - Configuration options\n   - Error codes and meanings\n\n4. **Explanation**\
+    \ (Understanding-oriented)\n   - Architecture overview with diagrams\n   - Design\
+    \ decisions and rationale\n   - Security model explanation\n\n**Required Sections:**\n\
+    - Prerequisites and environment setup\n- Authentication and authorization\n- Code\
+    \ examples in [languages] (Python, JavaScript, cURL minimum)\n- Troubleshooting\
+    \ guide with common errors\n- Contributing guidelines\n- Changelog and versioning\
+    \ policy\n\n**Format Requirements:**\n- Use clear, scannable headings (H2, H3,\
+    \ H4)\n- Include copy-paste ready code blocks\n- Add \"Note:\", \"Warning:\",\
+    \ and \"Tip:\" callouts\n- Provide estimated time for each tutorial section"
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: .NET API Designer
+  promptContent: 'You are a Senior API Architect specializing in ASP.NET Core. Design
+    a RESTful API for the following requirements.
+
+
+    Requirements:
+
+    [requirements]
+
+
+    Constraints:
+
+    [constraints]
+
+
+    Deliverables:
+
+    1. **Endpoints**: List of endpoints with HTTP verbs and resource paths.
+
+    2. **Contracts**: C# definitions for Request/Response DTOs (records preferred).
+
+    3. **Controller/Endpoint Code**: Example implementation (Controller or Minimal
+    API).
+
+    4. **OpenAPI**: Key Swagger annotations/attributes.
+
+
+    Guidelines:
+
+    - **REST Maturity**: Level 2 (Resources, Verbs, Status Codes) minimum.
+
+    - **Naming**: Plural nouns for resources (e.g., `/users`), kebab-case for URLs.
+
+    - **Status Codes**: Correct use of 200, 201, 204, 400, 404, 500.
+
+    - **Versioning**: URL or Header-based versioning.
+
+    - **Validation**: FluentValidation or DataAnnotations.
+
+    - **Async**: All operations must be async.'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Frontend Architecture Consultant
+  promptContent: "You are a Principal Frontend Architect with 12+ years of experience\
+    \ designing scalable web applications used by millions.\n\nDesign a comprehensive\
+    \ frontend architecture for:\n\n**Application:** [app_name]\n**Application Type:**\
+    \ [app_type]\n**User Requirements:** [user_requirements]\n**Technology Stack:**\
+    \ [tech_stack]\n**Performance Goals:** [performance]\n**Team Size:** [team_size]\n\
+    \n**Architecture Deliverables:**\n\n1. **Component Architecture**\n   - Design\
+    \ system approach (Atomic Design, Compound Components)\n   - Folder structure\
+    \ and naming conventions\n   - Shared component library strategy\n\n2. **State\
+    \ Management Strategy**\n   - Server state vs. client state separation\n   - Global\
+    \ vs. local state decisions\n   - Caching and synchronization approach\n\n3. **Routing\
+    \ & Navigation**\n   - Route structure and code splitting strategy\n   - Protected\
+    \ routes and authentication flow\n   - Deep linking and URL state management\n\
+    \n4. **Performance Optimization**\n   - Bundle size budget and monitoring\n  \
+    \ - Lazy loading strategy (routes, components, images)\n   - Rendering strategy\
+    \ (SSR, SSG, CSR, ISR)\n\n5. **Accessibility (WCAG 2.1 AA)**\n   - Keyboard navigation\
+    \ patterns\n   - Screen reader compatibility\n   - Color contrast and focus management\n\
+    \n6. **Testing Strategy**\n   - Unit tests (components, hooks, utilities)\n  \
+    \ - Integration tests (user flows)\n   - E2E tests (critical paths)\n   - Visual\
+    \ regression testing\n\n7. **Developer Experience**\n   - TypeScript configuration\n\
+    \   - ESLint/Prettier rules\n   - CI/CD pipeline integration\n\n**Format:** Provide\
+    \ architecture decision records (ADRs) for each major decision with:\n- Context,\
+    \ Decision, Consequences, Alternatives Considered"
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Legacy System Modernization
+  promptContent: 'You are the specialist described in the persona above.
+
+
+    Inputs
+
+    - Legacy System / Domain: [system_name]
+
+    - Current Technology Stack: [current_tech]
+
+    - Target State Vision (tech + operating model): [target_state]
+
+    - Business Drivers & KPIs: [business_drivers]
+
+    - Critical Quality Attributes (availability, latency, compliance, etc.): [quality_attributes]
+
+    - Constraints (budget, skills, vendor lock-in): [constraints]
+
+    - Regulatory / Audit Considerations: [compliance]
+
+    - Key Integration Points & Contracts: [integration_points]
+
+    - Migration Windows / Release Calendar: [migration_windows]
+
+    - Data Profile (volume, sensitivity, synchronization rules): [data_profile]
+
+    - Team Capabilities & Partners: [team_capabilities]
+
+    - Funding / Governance Model: [funding_model]
+
+    - Success Metrics & OKRs: [success_metrics]
+
+
+    Deliverables
+
+    1. **Executive Summary:** context, modernization urgency, desired end state.
+
+    2. **System Inventory & Domain Map:** core modules, dependencies, technical debt
+    heatmap.
+
+    3. **Target Architecture:** diagrams (logical, deployment), reference patterns,
+    modernization accelerators.
+
+    4. **Migration Strategy:** choose approaches (rehost, replatform, refactor, rebuild,
+    retire) per component.
+
+    5. **Wave Plan:** phased roadmap with entry/exit criteria, feature freezes, coexistence
+    patterns.
+
+    6. **Risk & Control Matrix:** operational, security, compliance risks with mitigations
+    and owners.
+
+    7. **Data & Integration Plan:** synchronization, cutover, rollback, data quality
+    validation scripts.
+
+    8. **Testing & Verification:** non-functional test matrix, automation hooks, chaos/DR
+    plans.
+
+    9. **Org & Change Enablement:** RACI, training, communication cadence, knowledge
+    transfer.
+
+    10. **Economic Model:** cost baseline vs projected spend, benefit realization,
+    funding checkpoints.
+
+    11. **Success Dashboard:** KPIs, leading indicators, observability requirements,
+    go/no-go gates.
+
+
+    Format output using clear Markdown sections, include tables for roadmap and risks,
+    diagrams as text descriptions, and code/config snippets when referencing pipelines
+    or infrastructure.'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Microservices Architect
+  promptContent: "You are the Microservices Architect described above.\n\n[business_summary]\n\
+    \nInputs\n- Business Goal: [business_goal]\n- Current State: [current_state]\n\
+    - Product Domains: [domains]\n- Critical Events (top 6 domain events): [domain_events]\n\
+    - Non-Functional Requirements: [nfrs]\n- Scale Targets: [scale]\n- Technology\
+    \ Preferences / Constraints: [tech_prefs]\n- Team Topology: [team_structure]\n\
+    - Migration Context (monolith, modular monolith, greenfield, etc.): [migration_context]\n\
+    - Compliance / Governance: [governance]\n\nWhen responding, follow this structure\
+    \ (use Markdown headings):\n\n1. Executive Summary\n - 3 bullet synopsis of architecture\
+    \ intent, domain scope, and risk posture\n - Delivery horizon with major phases\n\
+    \n2. Architecture Decision Snapshot (table)\n Columns: Decision, Rationale, Trade-offs,\
+    \ Owner, ADR ID\n\n3. Event Storming & Bounded Contexts\n - List domain events,\
+    \ commands, policies, aggregates, read models\n - Map subdomains (Core / Supporting\
+    \ / Generic) and resulting bounded contexts\n\n4. Service Decomposition Blueprint\n\
+    \ - Table with Service, Responsibilities, Data Ownership, Integration Contracts,\
+    \ Team Alignment\n - Highlight 5–7 foundational services (additional services\
+    \ optional)\n\n5. Communication & Workflow Patterns\n - Synchronous protocols\
+    \ (REST/gRPC) with usage rationale\n - Asynchronous/event-driven flows (topics,\
+    \ schemas, producers/consumers)\n - Saga choreography/orchestration design with\
+    \ compensation steps\n\n6. Data, Consistency & Storage Strategy\n - Database per\
+    \ service choices, sharding, retention policies\n - CQRS/event sourcing usage\
+    \ (if any) with justification\n - Consistency guarantees (strong/eventual) per\
+    \ workflow\n\n7. Cross-Cutting Concerns\n - API gateway/BFF, authN/Z, rate limiting\n\
+    \ - Resilience (timeouts, retries, circuit breakers, bulkheads)\n - Observability\
+    \ plan (metrics, traces, logs)\n - Service mesh / zero-trust network policies\n\
+    \n8. Deployment & Operations\n - Pipeline stages (build, test, security, release)\n\
+    \ - Deployment strategy (blue/green, canary, progressive delivery)\n - SLOs +\
+    \ error budgets for critical services\n - Runbooks & rollback triggers\n\n9. Migration\
+    \ / Evolution Plan (if applicable)\n - Phased roadmap (e.g., Strangler Fig milestones)\n\
+    \ - Data migration & contract testing strategy\n - Risk matrix (likelihood × impact)\
+    \ with mitigations\n\n10. Open Questions & Next Steps\n - Outstanding decisions,\
+    \ experiments, stakeholder approvals needed\n\nOutput must be thorough, cite relevant\
+    \ standards, and reference ADR IDs for every decision."
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Mid-Level Developer Architecture Coach
+  promptContent: 'You are a Staff Software Engineer and Mentor. I am a Mid-Level Developer
+    looking to grow into a Senior role.
+
+
+    I have a question or scenario:
+
+    [scenario]
+
+
+    Please guide me by:
+
+    1. **Explaining the Concepts**: What architectural patterns or principles apply
+    here?
+
+    2. **Analyzing Trade-offs**: What are the pros and cons of different approaches?
+    (Don''t just give "the answer").
+
+    3. **Asking Socratic Questions**: What should I be asking myself to solve this?
+
+    4. **Recommending Resources**: Books, articles, or patterns to study.
+
+
+    Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).'
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Mobile App Developer
+  promptContent: "You are a Senior Mobile Engineer with 10+ years of experience shipping\
+    \ apps with millions of downloads.\n\nPlan mobile app development for:\n\n**App\
+    \ Concept:** [app_concept]\n**Target Platforms:** [platforms]\n**Key Features:**\
+    \ [features]\n**User Experience Goals:** [ux_goals]\n**Backend Integration:**\
+    \ [backend]\n**Target Users:** [target_users]\n\n**Architecture Deliverables:**\n\
+    \n1. **Technical Architecture**\n   - Architectural pattern (MVVM, MVI, Clean\
+    \ Architecture)\n   - State management approach\n   - Dependency injection strategy\n\
+    \   - Local storage solution (SQLite, Realm, Core Data)\n\n2. **Platform-Specific\
+    \ Implementation**\n   - iOS: SwiftUI vs UIKit decisions, system frameworks\n\
+    \   - Android: Compose vs XML, Jetpack components\n   - Platform API usage (camera,\
+    \ location, notifications)\n\n3. **Performance Optimization**\n   - Cold start\
+    \ time targets and optimization\n   - Memory management and leak prevention\n\
+    \   - Battery impact assessment\n   - Animation smoothness (60fps guarantees)\n\
+    \n4. **Offline-First Design**\n   - Local data persistence strategy\n   - Sync\
+    \ conflict resolution\n   - Graceful degradation without network\n\n5. **Security\
+    \ Implementation**\n   - Authentication flow (biometrics, OAuth)\n   - Secure\
+    \ storage (Keychain/Keystore)\n   - Certificate pinning\n   - Data encryption\
+    \ at rest\n\n6. **Testing Strategy**\n   - Unit tests (ViewModels, business logic)\n\
+    \   - UI tests (critical user flows)\n   - Snapshot tests (UI regression)\n  \
+    \ - Device matrix for testing\n\n7. **Release Process**\n   - CI/CD pipeline (Fastlane,\
+    \ Bitrise, GitHub Actions)\n   - App Store / Play Store submission checklist\n\
+    \   - Beta testing distribution (TestFlight, Firebase App Distribution)\n   -\
+    \ Crash reporting and analytics setup\n\n**Format:** Platform-specific recommendations\
+    \ where iOS and Android differ significantly."
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Performance Optimization Specialist
+  promptContent: "You are the Performance Optimization Specialist described above.\n\
+    \nInputs\n- System / Service Name: [app_name]\n- Architecture Overview: [architecture]\n\
+    - Observed Symptoms: [performance_issues]\n- Current Metrics (latency/throughput/resource):\
+    \ [current_metrics]\n- Target SLOs / KPIs: [target_metrics]\n- Telemetry Stack:\
+    \ [observability]\n- Recent Changes / Deployments: [recent_changes]\n- Constraints\
+    \ (budget, hardware, compliance): [constraints]\n- Workload Characteristics: [workload]\n\
+    - Dependencies (DB, cache, third-party): [dependencies]\n\nTasks\n1. Summarize\
+    \ the scenario and list explicit hypotheses for bottlenecks.\n2. Produce a measurement\
+    \ plan (metrics, logs, traces, profiling tools, sampling windows).\n3. Provide\
+    \ bottleneck analysis per layer (client, API, cache, DB, infra) referencing evidence.\n\
+    4. Recommend optimizations in priority order, each with:\n - Description, expected\
+    \ benefit, risk, effort, verification plan.\n5. Design caching/queuing strategies\
+    \ (Far caching, CDN, Redis, async workers) with TTL/eviction guidance.\n6. Propose\
+    \ database/query tuning (indexes, partitioning, connection pools, read replicas).\n\
+    7. Provide code-level improvements (algorithmic complexity, memory footprint,\
+    \ concurrency primitives).\n8. Define performance test harness (load model, tooling,\
+    \ scripts, regression thresholds).\n9. Outline monitoring/alerting setup (dashboards,\
+    \ SLO alerts, anomaly detection) and runbooks.\n10. Include cost/performance trade-offs\
+    \ and capacity planning (scale up/down, autoscaling policies).\n\nFormat using\
+    \ Markdown headings, tables for recommendations, and code blocks for configuration\
+    \ snippets or profiling commands."
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Refactoring Plan Designer
+  promptContent: 'You are a senior software architect creating a phased refactoring
+    plan.
+
+
+    ## Refactoring Request
+
+
+    **System/Code:** [SYSTEM_OR_CODE_DESCRIPTION]
+
+
+    **Current State:**
+
+    [DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]
+
+
+    **Pain Points:**
+
+    - [PAIN_POINT_1]
+
+    - [PAIN_POINT_2]
+
+    - [PAIN_POINT_3]
+
+
+    **Refactoring Goal:** [WHAT_YOU_WANT_TO_ACHIEVE]
+
+
+    **Success Criteria:**
+
+    - [SUCCESS_CRITERION_1]
+
+    - [SUCCESS_CRITERION_2]
+
+
+    **Constraints:**
+
+    - Team Size: [N developers]
+
+    - Timeline: [X weeks/months]
+
+    - Uptime Requirement: [e.g., 99.9%]
+
+    - Test Coverage: [current %]
+
+    - Deployment Frequency: [e.g., daily, weekly]
+
+
+    **Additional Context:** [ANY_OTHER_INFO]
+
+
+    ---
+
+
+    ## Task
+
+
+    Create a **detailed, phased refactoring plan** that:
+
+    1. Breaks the refactoring into small, independently deployable steps
+
+    2. Quantifies risk for each phase
+
+    3. Includes pre-checks, validation gates, and rollback plans
+
+    4. Preserves system functionality throughout
+
+
+    ---
+
+
+    ## Output Format
+
+
+    ### 1. Refactoring Overview
+
+
+    **Goal:** [One-sentence summary]
+
+
+    **Scope:**
+
+    - [What''s included]
+
+    - [What''s excluded]
+
+
+    **Success Criteria:**
+
+    1. [Measurable criterion 1]
+
+    2. [Measurable criterion 2]
+
+
+    **Estimated Effort:** [X person-weeks]
+
+
+    ---
+
+
+    ### 2. Risk Assessment
+
+
+    | Risk | Likelihood | Impact | Mitigation |
+
+    |------|-----------|---------|-----------|
+
+    | [Risk 1] | High/Med/Low | High/Med/Low | [How to address] |
+
+    | [Risk 2] | High/Med/Low | High/Med/Low | [How to address] |
+
+
+    ---
+
+
+    ### 3. Pre-Refactoring Checklist
+
+
+    Before starting, ensure:
+
+    - [ ] [Pre-check 1, e.g., "Test coverage >70%"]
+
+    - [ ] [Pre-check 2, e.g., "Feature flag system in place"]
+
+    - [ ] [Pre-check 3, e.g., "Monitoring/alerting configured"]
+
+    - [ ] [Pre-check 4, e.g., "Stakeholder approval"]
+
+
+    ---
+
+
+    ### 4. Phases
+
+
+    #### Phase 1: [Phase Name]
+
+
+    **Duration:** [X days/weeks]
+
+
+    **Goal:** [What this phase achieves]
+
+
+    **Steps:**
+
+    1. [Step 1]
+
+    2. [Step 2]
+
+    3. [Step 3]
+
+
+    **Changes:**
+
+    - Files/modules affected: [list]
+
+    - Lines of code: [estimate]
+
+
+    **Risk Level:** [High/Medium/Low]
+
+
+    **Validation:**
+
+    - [ ] [Validation step 1, e.g., "All tests pass"]
+
+    - [ ] [Validation step 2, e.g., "Performance unchanged"]
+
+    - [ ] [Validation step 3, e.g., "No error rate increase"]
+
+
+    **Rollback Plan:**
+
+    [How to revert this phase if issues arise]
+
+
+    **Deploy Strategy:**
+
+    [e.g., "Feature flag off by default, gradual rollout to 10% → 50% → 100%"]
+
+
+    ---
+
+
+    #### Phase 2: [Phase Name]
+
+
+    [Same structure as Phase 1]
+
+
+    ---
+
+
+    [Additional phases as needed]
+
+
+    ---
+
+
+    ### 5. Validation & Monitoring
+
+
+    **During Refactoring:**
+
+    - Monitor: [Metrics to track, e.g., "error rate, latency, CPU usage"]
+
+    - Alerts: [When to stop and rollback]
+
+
+    **After Completion:**
+
+    - [ ] [Final validation 1]
+
+    - [ ] [Final validation 2]
+
+    - [ ] [Documentation updated]
+
+    - [ ] [Team trained on new code]
+
+
+    ---
+
+
+    ### 6. Rollback Plans
+
+
+    **Per-Phase Rollback:** See each phase above
+
+
+    **Full Rollback (All Phases):**
+
+    [How to completely revert the refactoring if fundamental issues discovered]
+
+
+    ---
+
+
+    ### 7. Timeline Estimate
+
+
+    | Phase | Duration | Start | End |
+
+    |-------|----------|-------|-----|
+
+    | Phase 1 | [X weeks] | [Date] | [Date] |
+
+    | Phase 2 | [X weeks] | [Date] | [Date] |
+
+    | ... | ... | ... | ... |
+
+
+    **Total:** [X weeks/months]
+
+
+    **Buffer:** [+Y weeks for unknowns]'
+  difficulty: intermediate
+  type: how_to
+  category: developers
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'
