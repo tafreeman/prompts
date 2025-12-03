@@ -127,6 +127,12 @@ class TaskResult:
     output: Optional[str] = None
     error: Optional[str] = None
     metrics: Dict[str, Any] = field(default_factory=dict)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary with proper enum serialization."""
+        data = asdict(self)
+        data["status"] = self.status.value
+        return data
 
 
 @dataclass
@@ -212,7 +218,7 @@ def save_checkpoint(state: AgentState):
         "current_category": state.current_category,
         "completed_categories": state.completed_categories,
         "category_results": {k: asdict(v) for k, v in state.category_results.items()},
-        "task_history": [asdict(t) for t in state.task_history],
+        "task_history": [task.to_dict() for task in state.task_history],
         "total_prompts": state.total_prompts,
         "total_passed": state.total_passed,
         "total_failed": state.total_failed,
