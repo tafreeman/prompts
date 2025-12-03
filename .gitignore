@@ -271,6 +271,10 @@ __pycache__/
 temp_*.txt
 *.db
 *.swp
+
+# Evaluation agent checkpoint file and logs
+.eval_checkpoint.json
+logs/
 app.prompts.library/mockups/mobile-view.jpg
 app.prompts.library/mockups/wizard-fill-variables.jpg
 app.prompts.library/mockups/prompt-detail-code-review.jpg
