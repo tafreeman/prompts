@@ -19,7 +19,11 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from evaluation_agent import (
     AgentConfig,
+    AgentState,
+    CategoryResult,
     EvaluationAgent,
+    TaskResult,
+    TaskStatus,
     check_prerequisites,
     main,
 )
@@ -61,8 +65,6 @@ class TestFullPipelineIntegration(unittest.TestCase):
         # Run phase 1 in dry-run mode
         with patch('evaluation_agent.generate_eval_files') as mock_gen:
             with patch('evaluation_agent.run_evaluations') as mock_eval:
-                from evaluation_agent import TaskResult, TaskStatus
-                
                 # Mock the task results
                 mock_gen.return_value = TaskResult(
                     task_name="test",
@@ -149,8 +151,6 @@ class TestAgentStateManagement(unittest.TestCase):
     
     def test_state_accumulates_metrics(self):
         """Verify state properly accumulates metrics."""
-        from evaluation_agent import AgentState, CategoryResult
-        
         state = AgentState(started_at="2025-12-03T12:00:00")
         
         # Add category results
@@ -185,8 +185,6 @@ class TestAgentStateManagement(unittest.TestCase):
     
     def test_state_calculates_pass_rate(self):
         """Verify state calculates overall pass rate correctly."""
-        from evaluation_agent import AgentState
-        
         state = AgentState(started_at="2025-12-03T12:00:00")
         state.total_prompts = 100
         state.total_passed = 90
