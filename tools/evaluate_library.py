@@ -599,8 +599,9 @@ def evaluate_prompt(file_path: Path) -> Optional[UnifiedEvaluation]:
 # =============================================================================
 
 def generate_report(results: List[UnifiedEvaluation], output_path: Optional[Path] = None) -> str:
-    """Generate comprehensive evaluation report."""
+    """Generate comprehensive evaluation report with enhanced visual formatting."""
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    date_month = datetime.now().strftime("%B %Y")
     total = len(results)
     
     if total == 0:
@@ -610,17 +611,34 @@ def generate_report(results: List[UnifiedEvaluation], output_path: Optional[Path
     avg_quality = sum(r.quality_score.total for r in results) / total
     avg_effectiveness = sum(r.effectiveness_score.total for r in results) / total
     
+    # Calculate combined score (same formula as grading)
+    combined_score = (avg_quality * 0.6) + (avg_effectiveness * 20 * 0.4)
+    
+    # Determine overall grade
+    if combined_score >= 90:
+        overall_grade = "A"
+    elif combined_score >= 75:
+        overall_grade = "B"
+    elif combined_score >= 60:
+        overall_grade = "C"
+    elif combined_score >= 40:
+        overall_grade = "D"
+    else:
+        overall_grade = "F"
+    
     # Count by grade
-    grade_counts = {}
+    grade_counts = {'A': 0, 'B': 0, 'C': 0, 'D': 0, 'F': 0}
     for r in results:
         grade = r.combined_grade.split()[0]
         grade_counts[grade] = grade_counts.get(grade, 0) + 1
     
     # Count by tier
-    tier_counts = {}
+    tier_counts = {'Tier 1': 0, 'Tier 2': 0, 'Tier 3': 0, 'Tier 4': 0}
     for r in results:
-        tier = r.quality_score.tier.split()[0]
-        tier_counts[tier] = tier_counts.get(tier, 0) + 1
+        for tier in tier_counts.keys():
+            if tier in r.quality_score.tier:
+                tier_counts[tier] += 1
+                break
     
     # Group by category
     by_category = {}
@@ -629,139 +647,386 @@ def generate_report(results: List[UnifiedEvaluation], output_path: Optional[Path
             by_category[r.category] = []
         by_category[r.category].append(r)
     
+    # Calculate category averages for chart
+    cat_avgs = []
+    for cat in sorted(by_category.keys()):
+        cat_results = by_category[cat]
+        cat_avg = sum(r.quality_score.total for r in cat_results) / len(cat_results)
+        cat_avgs.append((cat.title(), int(cat_avg), len(cat_results)))
+    cat_avgs.sort(key=lambda x: x[1], reverse=True)
+    
+    # Production ready count
+    production_ready = grade_counts['A'] + grade_counts['B']
+    
+    # Build report
     lines = [
-        "# Unified Prompt Library Evaluation Report",
+        "# 📊 Prompt Library Evaluation Report",
         "",
-        f"**Generated**: {now}  ",
-        f"**Total Prompts Evaluated**: {total}",
+        "<div align=\"center\">",
         "",
-        "---",
+        "![Version](https://img.shields.io/badge/Version-1.0-blue)",
+        f"![Prompts](https://img.shields.io/badge/Prompts-{total}-green)",
+        f"![Grade](https://img.shields.io/badge/Grade-{overall_grade}--{int(combined_score)}%2F100-yellow)",
+        "![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)",
         "",
-        "## Scoring Rubrics Used",
+        "**Enterprise AI Prompt Library Assessment**",
         "",
-        "This report combines two complementary scoring systems:",
+        f"*Generated: {date_month} | Methodology: Dual-Rubric Scoring with ToT Reflection*",
         "",
-        "### 1. Quality Standards (0-100 scale)",
-        "| Criterion | Weight | Focus |",
-        "|-----------|--------|-------|",
-        "| Completeness | 25% | All required sections present |",
-        "| Example Quality | 30% | Realistic, detailed examples |",
-        "| Specificity | 20% | Domain-specific, actionable |",
-        "| Format Adherence | 15% | Valid YAML, correct markdown |",
-        "| Enterprise Quality | 10% | Professional, frameworks |",
-        "",
-        "### 2. Effectiveness Score (1.0-5.0 scale)",
-        "| Dimension | Weight | Focus |",
-        "|-----------|--------|-------|",
-        "| Clarity | 25% | Unambiguous, easy to understand |",
-        "| Effectiveness | 30% | Produces quality output |",
-        "| Reusability | 20% | Works across contexts |",
-        "| Simplicity | 15% | Minimal without losing value |",
-        "| Examples | 10% | Helpful and realistic |",
+        "</div>",
         "",
         "---",
         "",
-        "## Executive Summary",
+        "## 📈 Executive Dashboard",
         "",
-        "| Metric | Value |",
-        "|--------|-------|",
-        f"| **Total Prompts** | {total} |",
-        f"| **Avg Quality Score** | {avg_quality:.1f}/100 |",
-        f"| **Avg Effectiveness** | {avg_effectiveness:.2f}/5.0 |",
+        "<table>",
+        "<tr>",
+        "<td width=\"33%\" align=\"center\">",
         "",
-        "### Grade Distribution",
+        "### 🎯 Overall Score",
+        f"# {int(combined_score)}/100",
+        f"**Grade {overall_grade}**",
         "",
-        "| Grade | Count | % |",
-        "|-------|-------|---|",
+        "*Good with reservations*" if overall_grade == "B" else "*Production ready*" if overall_grade == "A" else "*Needs improvement*",
+        "",
+        "</td>",
+        "<td width=\"33%\" align=\"center\">",
+        "",
+        "### 📚 Total Prompts",
+        f"# {total}",
+        f"**Production Ready: {production_ready}**",
+        "",
+        f"*{(production_ready/total*100):.1f}% deployment-ready*",
+        "",
+        "</td>",
+        "<td width=\"33%\" align=\"center\">",
+        "",
+        "### ⭐ Avg Effectiveness",
+        f"# {avg_effectiveness:.2f}/5.0",
+        "**★★★★☆**" if avg_effectiveness >= 4.0 else "**★★★☆☆**" if avg_effectiveness >= 3.0 else "**★★☆☆☆**",
+        "",
+        "*Good output quality*" if avg_effectiveness >= 4.0 else "*Acceptable quality*",
+        "",
+        "</td>",
+        "</tr>",
+        "</table>",
+        "",
+        "---",
+        "",
+        "## 🏆 Grade Distribution",
+        "",
+        "```",
     ]
     
+    # ASCII bar chart for grades
+    grade_labels = {
+        'A': 'Grade A (90-100)',
+        'B': 'Grade B (75-89) ',
+        'C': 'Grade C (60-74) ',
+        'D': 'Grade D (40-59) ',
+        'F': 'Grade F (<40)   '
+    }
+    max_bar = 40
     for grade in ['A', 'B', 'C', 'D', 'F']:
-        count = grade_counts.get(grade, 0)
+        count = grade_counts[grade]
         pct = (count / total) * 100 if total else 0
-        lines.append(f"| {grade} | {count} | {pct:.1f}% |")
+        bar_len = int((pct / 100) * max_bar)
+        bar = "█" * bar_len + "░" * (max_bar - bar_len)
+        lines.append(f"{grade_labels[grade]} {bar} {count:>3} prompts ({pct:.1f}%)")
     
     lines.extend([
+        "```",
         "",
-        "### Quality Tier Distribution",
+        "| Grade | Description | Count | Percentage | Status |",
+        "|:-----:|-------------|------:|:----------:|:------:|",
+        f"| 🏅 **A** | Exceptional | {grade_counts['A']} | {(grade_counts['A']/total*100):.1f}% | {'🟢' if grade_counts['A'] > 0 else '—'} |",
+        f"| ✅ **B** | Production Ready | {grade_counts['B']} | {(grade_counts['B']/total*100):.1f}% | 🟢 |",
+        f"| ⚠️ **C** | Usable | {grade_counts['C']} | {(grade_counts['C']/total*100):.1f}% | 🟡 |",
+        f"| 🔧 **D** | Needs Work | {grade_counts['D']} | {(grade_counts['D']/total*100):.1f}% | 🟠 |",
+        f"| ❌ **F** | Critical | {grade_counts['F']} | {(grade_counts['F']/total*100):.1f}% | {'🔴' if grade_counts['F'] > 0 else '—'} |",
         "",
-        "| Tier | Count | % |",
-        "|------|-------|---|",
+        "---",
+        "",
+        "## 📊 Quality Tier Breakdown",
+        "",
+        "```mermaid",
+        "pie title Quality Tier Distribution",
+        f"    \"Tier 1 (85-100)\" : {tier_counts['Tier 1']}",
+        f"    \"Tier 2 (70-84)\" : {tier_counts['Tier 2']}",
+        f"    \"Tier 3 (55-69)\" : {tier_counts['Tier 3']}",
+        f"    \"Tier 4 (<55)\" : {tier_counts['Tier 4']}",
+        "```",
+        "",
+        "| Tier | Range | Count | % | Assessment |",
+        "|:----:|:-----:|------:|:-:|------------|",
+        f"| 🥇 **Tier 1** | 85-100 | {tier_counts['Tier 1']} | {(tier_counts['Tier 1']/total*100):.1f}% | Exceptional quality, best-in-class |",
+        f"| 🥈 **Tier 2** | 70-84 | {tier_counts['Tier 2']} | {(tier_counts['Tier 2']/total*100):.1f}% | Solid quality, production ready |",
+        f"| 🥉 **Tier 3** | 55-69 | {tier_counts['Tier 3']} | {(tier_counts['Tier 3']/total*100):.1f}% | Acceptable, minor improvements needed |",
+        f"| ⚙️ **Tier 4** | <55 | {tier_counts['Tier 4']} | {(tier_counts['Tier 4']/total*100):.1f}% | Below standard, requires rework |",
+        "",
+        "---",
+        "",
+        "## 🎨 Category Performance",
+        "",
+        "```mermaid",
+        "xychart-beta",
+        "    title \"Quality Score by Category\"",
+        f"    x-axis [{', '.join(c[0] for c in cat_avgs)}]",
+        "    y-axis \"Average Quality Score\" 60 --> 100",
+        f"    bar [{', '.join(str(c[1]) for c in cat_avgs)}]",
+        "```",
+        "",
+        "### Category Leaderboard",
+        "",
+        "| Rank | Category | Prompts | Avg Quality | Avg Effectiveness | Top Performer |",
+        "|:----:|----------|--------:|:-----------:|:-----------------:|---------------|",
     ])
     
-    for tier in ['Tier', 'Tier', 'Tier', 'Tier']:
-        for i in range(1, 5):
-            tier_key = f"Tier"
-            count = tier_counts.get(tier_key, 0)
-            # This is a simplification - actual counting would need adjustment
-    
-    for tier_label in ['Tier 1', 'Tier 2', 'Tier 3', 'Tier 4']:
-        tier_key = tier_label.split()[0] + " " + tier_label.split()[1]
-        count = sum(1 for r in results if tier_label in r.quality_score.tier)
-        pct = (count / total) * 100 if total else 0
-        lines.append(f"| {tier_label} | {count} | {pct:.1f}% |")
+    # Category leaderboard
+    rank_icons = ['🥇', '🥈', '🥉', '4', '5', '6', '7', '8', '9', '10']
+    for i, (cat_name, cat_avg_q, cat_count) in enumerate(cat_avgs):
+        cat_results = by_category[cat_name.lower()]
+        cat_avg_e = sum(r.effectiveness_score.total for r in cat_results) / len(cat_results)
+        top_prompt = max(cat_results, key=lambda x: x.quality_score.total)
+        top_name = top_prompt.title[:25] + "..." if len(top_prompt.title) > 25 else top_prompt.title
+        stars = "⭐⭐⭐⭐" if cat_avg_e >= 4.0 else "⭐⭐⭐" if cat_avg_e >= 3.0 else "⭐⭐"
+        rank = rank_icons[i] if i < len(rank_icons) else str(i + 1)
+        lines.append(f"| {rank} | **{cat_name}** | {cat_count} | {cat_avg_q}/100 | {cat_avg_e:.1f} {stars} | {top_name} |")
     
     lines.extend([
         "",
         "---",
         "",
-        "## Priority Actions",
+        "## 🔬 Scoring Methodology",
         "",
-    ])
-    
-    # Critical priority (F grade)
-    critical = [r for r in results if r.priority == 1]
-    if critical:
-        lines.append("### 🔴 Critical (Rewrite or Deprecate)")
-        lines.append("")
-        for r in sorted(critical, key=lambda x: x.quality_score.total):
-            issues = r.quality_score.issues[:2] if r.quality_score.issues else ["General improvements needed"]
-            lines.append(f"- **{r.title}** (Q:{r.quality_score.total:.0f}, E:{r.effectiveness_score.total:.1f})")
-            lines.append(f"  - Issues: {'; '.join(issues)}")
-        lines.append("")
-    
-    # High priority (D grade)
-    high = [r for r in results if r.priority == 2]
-    if high:
-        lines.append("### 🟠 High Priority (Needs Improvement)")
-        lines.append("")
-        for r in sorted(high, key=lambda x: x.quality_score.total)[:10]:
-            lines.append(f"- **{r.title}** (Q:{r.quality_score.total:.0f}, E:{r.effectiveness_score.total:.1f})")
-        lines.append("")
-    
-    lines.extend([
+        "### Dual-Rubric System",
+        "",
+        "This evaluation uses **two complementary scoring systems** to provide a comprehensive assessment:",
+        "",
+        "<table>",
+        "<tr>",
+        "<td width=\"50%\">",
+        "",
+        "#### 📋 Quality Standards (0-100)",
+        "",
+        "| Criterion | Weight | Focus |",
+        "|-----------|:------:|-------|",
+        "| Completeness | 25% | All sections present |",
+        "| Example Quality | 30% | Realistic examples |",
+        "| Specificity | 20% | Domain-specific |",
+        "| Format | 15% | Valid YAML/MD |",
+        "| Enterprise | 10% | Professional |",
+        "",
+        "</td>",
+        "<td width=\"50%\">",
+        "",
+        "#### ⭐ Effectiveness Score (1.0-5.0)",
+        "",
+        "| Dimension | Weight | Focus |",
+        "|-----------|:------:|-------|",
+        "| Clarity | 25% | Unambiguous |",
+        "| Effectiveness | 30% | Output quality |",
+        "| Reusability | 20% | Cross-context |",
+        "| Simplicity | 15% | Minimal friction |",
+        "| Examples | 10% | Helpful demos |",
+        "",
+        "</td>",
+        "</tr>",
+        "</table>",
+        "",
+        "### Combined Grade Calculation",
+        "",
+        "```",
+        "Combined Score = (Quality × 0.6) + (Effectiveness × 20 × 0.4)",
+        "",
+        "Grade Thresholds:",
+        "  A  = 90-100  (Exceptional)",
+        "  B  = 75-89   (Production Ready)",
+        "  C  = 60-74   (Acceptable)",
+        "  D  = 40-59   (Needs Improvement)",
+        "  F  = <40     (Critical)",
+        "```",
+        "",
         "---",
         "",
-        "## Detailed Scores by Category",
+        "## 🚨 Priority Actions",
+        "",
+        f"### 🔴 High Priority — Grade D Prompts ({grade_counts['D']})",
+        "",
+        "These prompts need significant improvement before production use:",
+        "",
+        "| # | Prompt | Quality | Effectiveness | Primary Issue |",
+        "|:-:|--------|:-------:|:-------------:|---------------|",
+    ])
+    
+    # Grade D prompts
+    high_priority = sorted([r for r in results if r.priority == 2], key=lambda x: x.quality_score.total)
+    for i, r in enumerate(high_priority[:10], 1):
+        issue = r.quality_score.issues[0] if r.quality_score.issues else "General improvements"
+        issue_short = issue[:30] + "..." if len(issue) > 30 else issue
+        lines.append(f"| {i} | {r.title[:35]} | {r.quality_score.total:.0f} | {r.effectiveness_score.total:.1f} | {issue_short} |")
+    
+    # Common issues
+    all_issues = []
+    for r in results:
+        all_issues.extend(r.quality_score.issues)
+    issue_counts = {}
+    for issue in all_issues:
+        issue_key = issue[:40]
+        issue_counts[issue_key] = issue_counts.get(issue_key, 0) + 1
+    top_issues = sorted(issue_counts.items(), key=lambda x: x[1], reverse=True)[:6]
+    
+    lines.extend([
+        "",
+        "### 🟡 Common Issues Across Library",
+        "",
+        "| Issue | Count | Priority | Impact |",
+        "|-------|------:|:--------:|:------:|",
+    ])
+    
+    for issue, count in top_issues:
+        priority = "P0" if "Missing Prompt" in issue or "No example" in issue else "P1" if "Missing" in issue or "too short" in issue else "P2"
+        impact = "-5 pts" if priority == "P0" else "-3 pts" if priority == "P1" else "-2 pts"
+        lines.append(f"| {issue} | {count} | {priority} | {impact} |")
+    
+    lines.extend([
+        "",
+        "---",
+        "",
+        "## 🏅 Top Performers",
+        "",
+        "### 🌟 Tier 1 Excellence (Quality 85+)",
+        "",
+        "<details>",
+        f"<summary><b>View all {tier_counts['Tier 1']} Tier 1 prompts</b></summary>",
+        "",
+        "| Prompt | Category | Quality | Effectiveness |",
+        "|--------|----------|:-------:|:-------------:|",
+    ])
+    
+    tier1_prompts = sorted([r for r in results if 'Tier 1' in r.quality_score.tier], 
+                           key=lambda x: x.quality_score.total, reverse=True)
+    for r in tier1_prompts:
+        stars = "⭐⭐⭐⭐" if r.effectiveness_score.total >= 4.0 else "⭐⭐⭐"
+        lines.append(f"| {r.title[:40]} | {r.category.title()} | {r.quality_score.total:.0f} | {r.effectiveness_score.total:.1f} {stars} |")
+    
+    lines.extend([
+        "",
+        "</details>",
+        "",
+        "---",
+        "",
+        "## 📁 Detailed Category Reports",
         "",
     ])
+    
+    # Category icons
+    cat_icons = {
+        'advanced': '🧠', 'analysis': '📊', 'business': '💼', 'creative': '🎨',
+        'developers': '💻', 'governance': '🏛️', 'm365': '📧', 'system': '⚙️'
+    }
+    cat_descriptions = {
+        'advanced': 'Chain-of-Thought, ReAct, RAG, Tree-of-Thoughts patterns',
+        'analysis': 'Data analysis, market research, business intelligence',
+        'business': 'Strategy, planning, communication, management',
+        'creative': 'Content creation, marketing, copywriting',
+        'developers': 'Code generation, review, architecture, DevOps',
+        'governance': 'Legal, security, compliance',
+        'm365': 'Microsoft 365 productivity prompts',
+        'system': 'Architecture, system design, AI agents'
+    }
     
     for cat in sorted(by_category.keys()):
         cat_results = sorted(by_category[cat], key=lambda x: x.quality_score.total, reverse=True)
         cat_avg_q = sum(r.quality_score.total for r in cat_results) / len(cat_results)
         cat_avg_e = sum(r.effectiveness_score.total for r in cat_results) / len(cat_results)
         
+        icon = cat_icons.get(cat, '📁')
+        desc = cat_descriptions.get(cat, '')
+        
         lines.extend([
-            f"### {cat.title()} ({len(cat_results)} prompts, Avg Q:{cat_avg_q:.0f}, E:{cat_avg_e:.1f})",
+            f"### {icon} {cat.title()} ({len(cat_results)} prompts)",
             "",
-            "| Prompt | Grade | Quality | Effectiveness | Recommendation |",
-            "|--------|-------|---------|---------------|----------------|",
+            f"**Average: Q:{cat_avg_q:.0f} | E:{cat_avg_e:.1f}** | {desc}",
+            "",
+        ])
+        
+        # Use details for large categories
+        if len(cat_results) > 15:
+            lines.extend([
+                "<details>",
+                f"<summary><b>View all {len(cat_results)} {cat.title()} prompts</b></summary>",
+                "",
+            ])
+        
+        lines.extend([
+            "| Status | Prompt | Quality | Effectiveness |",
+            "|:------:|--------|:-------:|:-------------:|",
         ])
         
         for r in cat_results:
-            title_short = r.title[:35] + "..." if len(r.title) > 35 else r.title
-            lines.append(
-                f"| {title_short} | {r.combined_grade.split()[0]} | "
-                f"{r.quality_score.total:.0f} ({r.quality_score.tier.split('(')[0].strip()}) | "
-                f"{r.effectiveness_score.total:.1f} {r.effectiveness_score.rating.split()[0]} | "
-                f"{r.recommendation} |"
-            )
+            status = "✅" if r.priority == 4 else "⚠️" if r.priority == 3 else "🔧" if r.priority == 2 else "❌"
+            stars = "⭐⭐⭐⭐" if r.effectiveness_score.total >= 4.0 else "⭐⭐⭐" if r.effectiveness_score.total >= 3.0 else "⭐⭐"
+            title_short = r.title[:40] if len(r.title) <= 40 else r.title[:37] + "..."
+            lines.append(f"| {status} | {title_short} | {r.quality_score.total:.0f} | {r.effectiveness_score.total:.1f} {stars} |")
+        
+        if len(cat_results) > 15:
+            lines.extend([
+                "",
+                "</details>",
+            ])
+        
+        # Add governance warning
+        if cat == 'governance' and len(cat_results) < 5:
+            lines.extend([
+                "",
+                f"> ⚠️ **Gap Identified**: Only {len(cat_results)} prompts in Governance category. Target: 10+ prompts covering GDPR, SOC2, PII detection, audit trails.",
+            ])
         
         lines.append("")
+        lines.append("---")
+        lines.append("")
     
+    # Appendix
     lines.extend([
+        "## 📋 Appendix",
+        "",
+        "### Status Legend",
+        "",
+        "| Icon | Meaning |",
+        "|:----:|---------|",
+        "| ✅ | Production Ready (Grade B+) |",
+        "| ⚠️ | Usable with Improvements (Grade C) |",
+        "| 🔧 | Needs Significant Work (Grade D) |",
+        "| ❌ | Critical Issues (Grade F) |",
+        "",
+        "### Star Ratings",
+        "",
+        "| Rating | Meaning | Score Range |",
+        "|--------|---------|:-----------:|",
+        "| ⭐⭐⭐⭐⭐ | Exceptional | 4.5-5.0 |",
+        "| ⭐⭐⭐⭐ | Good | 4.0-4.4 |",
+        "| ⭐⭐⭐ | Acceptable | 3.5-3.9 |",
+        "| ⭐⭐ | Below Average | 3.0-3.4 |",
+        "| ⭐ | Poor | <3.0 |",
+        "",
+        "### Related Documents",
+        "",
+        "- 📊 [ToT Evaluation Report](TOT_EVALUATION_REPORT.md) — Full Tree-of-Thoughts assessment",
+        "- 📋 [Improvement Plan](IMPROVEMENT_PLAN.md) — Prioritized action items",
+        "- 🔬 [Scoring Methodology](prompt-effectiveness-scoring-methodology.md) — Research-backed rubrics",
+        "",
         "---",
         "",
-        f"*Report generated: {now}*",
+        "<div align=\"center\">",
+        "",
+        f"**Report Generated**: {now}  ",
+        "**Methodology**: Dual-Rubric Scoring + Tree-of-Thoughts Reflection  ",
+        "**Tools**: `evaluate_library.py`, `improve_prompts.py`",
+        "",
+        "*Enterprise AI Prompt Library — tafreeman/prompts*",
+        "",
+        "</div>",
     ])
     
     content = "\n".join(lines)

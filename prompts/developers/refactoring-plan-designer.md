@@ -16,8 +16,8 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
-  - "architectural-change"
-  - "requires-review"
+  - "PII-safe"
+  - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

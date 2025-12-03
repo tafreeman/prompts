@@ -20,8 +20,8 @@ author: "Prompts Library Team"
 version: "2.0"
 date: "2025-12-02"
 governance_tags:
-  - "quality-assurance"
-  - "human-review-recommended"
+  - "PII-safe"
+  - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "approved"
 ---

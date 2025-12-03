@@ -19,9 +19,8 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-25"
 governance_tags:
-  - "meta-prompt"
-  - "quality-control"
-  - "continuous-improvement"
+  - "PII-safe"
+  - "general-use"
 dataClassification: "internal"
 reviewStatus: "approved"
 ---

@@ -18,8 +18,8 @@ author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-18"
 governance_tags:
-  - "strategic-decision"
-  - "requires-executive-review"
+  - "PII-safe"
+  - "requires-human-review"
 dataClassification: "confidential"
 reviewStatus: "draft"
 ---

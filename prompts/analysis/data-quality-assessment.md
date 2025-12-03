@@ -18,8 +18,8 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
-  - "data-governance"
-  - "quality-metrics"
+  - "PII-safe"
+  - "general-use"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.6

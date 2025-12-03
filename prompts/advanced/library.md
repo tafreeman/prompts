@@ -18,7 +18,8 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 governance_tags:
-  - "internal-use-only"
+  - "PII-safe"
+  - "internal-only"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

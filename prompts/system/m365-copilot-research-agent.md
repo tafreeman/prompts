@@ -17,9 +17,8 @@ author: "Prompt Library Maintainer"
 version: "1.0"
 date: "2025-11-23"
 governance_tags:
-  - "data-privacy"
-  - "tenant-boundaries"
-  - "compliance"
+  - "PII-safe"
+  - "internal-only"
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
