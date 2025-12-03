@@ -36,6 +36,7 @@ import subprocess
 import sys
 import time
 import shutil
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
@@ -71,17 +72,17 @@ class AgentConfig:
     ]
     
     # Model configuration per category
-    # Updated 2025-12-03 with best-in-class models from multiple vendors
-    # Optimized for quality evaluation with vendor diversity
+    # Updated 2025-12-03 - Using MINI models for faster execution
+    # All models validated via `gh models run`
     CATEGORY_CONFIG = {
-        "analysis":    {"model": "xai/grok-3",               "runs": 3, "priority": 1},  # OpenAI latest flagship
-        "business":    {"model": "gemini-3-pro",             "runs": 3, "priority": 1},  # Google flagship
-        "m365":        {"model": "gemini-3-pro",             "runs": 3, "priority": 2},  # OpenAI - M365 ecosystem
-        "developers":  {"model": "openai/gpt-5.1-codex",     "runs": 3, "priority": 1},  # OpenAI code specialist
-        "system":      {"model": "claude-sonnet-4.5",        "runs": 3, "priority": 2},  # Anthropic - balanced
-        "advanced":    {"model": "claude-opus-4.5",          "runs": 5, "priority": 3},  # Anthropic flagship
-        "creative":    {"model": "gemini-2.5-pro",           "runs": 3, "priority": 3},  # Google - creative
-        "governance":  {"model": "claude-sonnet-4",          "runs": 3, "priority": 4},  # Anthropic - compliance
+        "analysis":    {"model": "openai/gpt-5-mini",   "runs": 3, "priority": 1},
+        "business":    {"model": "xai/grok-3-mini",     "runs": 3, "priority": 1},
+        "m365":        {"model": "openai/gpt-5-mini",   "runs": 3, "priority": 2},
+        "developers":  {"model": "openai/o4-mini",      "runs": 3, "priority": 2},
+        "system":      {"model": "openai/gpt-4.1-mini", "runs": 3, "priority": 3},
+        "advanced":    {"model": "openai/o3-mini",      "runs": 3, "priority": 3},
+        "creative":    {"model": "xai/grok-3-mini",     "runs": 3, "priority": 4},
+        "governance":  {"model": "openai/gpt-5-mini",   "runs": 3, "priority": 4},
     }
     
     # Thresholds
@@ -92,11 +93,18 @@ class AgentConfig:
     
     # Retry configuration
     MAX_RETRIES = 3
-    RETRY_DELAY_SECONDS = 30
+    RETRY_DELAY_SECONDS = 10
+    
+    # Timeouts (increased for reliability)
+    EVAL_TIMEOUT_SECONDS = 600  # 10 minutes per eval
+    COMMAND_TIMEOUT_SECONDS = 900  # 15 minutes for batch commands
     
     # Rate limiting (avoid API throttling)
-    DELAY_BETWEEN_EVALS_SECONDS = 2
-    DELAY_BETWEEN_CATEGORIES_SECONDS = 10
+    DELAY_BETWEEN_EVALS_SECONDS = 1
+    DELAY_BETWEEN_CATEGORIES_SECONDS = 5
+    
+    # Parallel execution
+    MAX_PARALLEL_EVALS = 3  # Run up to 3 evals concurrently
 
 
 class TaskStatus(Enum):
@@ -462,24 +470,51 @@ def run_evaluations(
     
     all_results = []
     
-    for eval_file in eval_files:
-        for run_num in range(1, runs + 1):
-            logger.debug(f"   Run {run_num}/{runs}: {eval_file.name}")
+    def run_single_eval(eval_file, run_num):
+        """Run a single evaluation (for parallel execution)."""
+        cmd = ["gh", "models", "eval", str(eval_file), "--json"]
+        success, stdout, stderr = run_command(cmd, logger, timeout=AgentConfig.EVAL_TIMEOUT_SECONDS)
+        
+        if success and stdout:
+            try:
+                result = json.loads(stdout)
+                result["run_number"] = run_num
+                result["eval_file"] = eval_file.name
+                return result
+            except json.JSONDecodeError:
+                logger.warning(f"   Could not parse JSON from {eval_file.name}")
+        return None
+    
+    # Build list of all eval tasks
+    eval_tasks = [
+        (eval_file, run_num)
+        for eval_file in eval_files
+        for run_num in range(1, runs + 1)
+    ]
+    
+    logger.info(f"   📊 Running {len(eval_tasks)} evaluations with {AgentConfig.MAX_PARALLEL_EVALS} parallel workers...")
+    
+    # Run evaluations in parallel
+    with ThreadPoolExecutor(max_workers=AgentConfig.MAX_PARALLEL_EVALS) as executor:
+        futures = {
+            executor.submit(run_single_eval, ef, rn): (ef, rn)
+            for ef, rn in eval_tasks
+        }
+        
+        completed = 0
+        for future in as_completed(futures):
+            eval_file, run_num = futures[future]
+            completed += 1
             
-            # Run evaluation
-            cmd = ["gh", "models", "eval", str(eval_file), "--json"]
-            success, stdout, stderr = run_command(cmd, logger, timeout=300)
-            
-            if success and stdout:
-                try:
-                    result = json.loads(stdout)
-                    result["run_number"] = run_num
-                    result["eval_file"] = eval_file.name
+            try:
+                result = future.result()
+                if result:
                     all_results.append(result)
-                except json.JSONDecodeError:
-                    logger.warning(f"   Could not parse JSON from {eval_file.name}")
+                logger.debug(f"   [{completed}/{len(eval_tasks)}] {eval_file.name} run {run_num}")
+            except Exception as e:
+                logger.warning(f"   Error in {eval_file.name} run {run_num}: {e}")
             
-            # Rate limiting
+            # Small delay to avoid rate limiting
             time.sleep(AgentConfig.DELAY_BETWEEN_EVALS_SECONDS)
     
     # Save results
