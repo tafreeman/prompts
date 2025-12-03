@@ -19,7 +19,7 @@ version: "1.0"
 date: "2025-11-25"
 governance_tags:
   - "PII-safe"
-  - "requires-human-review-for-sensitive-docs"
+  - "requires-human-review"
   - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"

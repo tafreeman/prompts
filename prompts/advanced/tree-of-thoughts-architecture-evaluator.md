@@ -18,8 +18,8 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
+  - "PII-safe"
   - "requires-human-review"
-  - "architecture-decision-record"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

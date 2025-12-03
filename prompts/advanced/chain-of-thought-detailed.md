@@ -19,7 +19,7 @@ version: "1.0"
 date: "2025-11-17"
 governance_tags:
   - "PII-safe"
-  - "requires-human-review-for-critical-decisions"
+  - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

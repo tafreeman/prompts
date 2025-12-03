@@ -20,7 +20,7 @@ date: "2025-11-17"
 governance_tags:
   - "requires-human-review"
   - "audit-required"
-  - "attorney-approval-required"
+  - "CISO-approval-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 data_classification: "Confidential"

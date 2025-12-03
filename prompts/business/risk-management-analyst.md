@@ -18,9 +18,8 @@ author: "Prompts Library Team"
 version: "1.2"
 date: "2025-11-26"
 governance_tags:
-  - "risk-assessment"
-  - "audit-trail"
-  - "compliance-reporting"
+  - "PII-safe"
+  - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
