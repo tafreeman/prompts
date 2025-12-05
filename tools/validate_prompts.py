@@ -11,7 +11,7 @@ REQUIRED_FRONTMATTER = ['title', 'description']
 
 def extract_frontmatter(content: str) -> dict:
     """Extract YAML frontmatter from markdown content."""
-    match = re.search(r'^\s*---\n(.*?)\n---', content, re.DOTALL | re.MULTILINE)
+    match = re.search(r'^\s*---\r?\n(.*?)\r?\n---', content, re.DOTALL | re.MULTILINE)
     if match:
         try:
             return yaml.safe_load(match.group(1))
@@ -39,8 +39,9 @@ def validate_file(path: Path) -> list:
     
     # Check sections
     sections = extract_sections(content)
+    sections_lower = [s.lower() for s in sections]
     for section in REQUIRED_SECTIONS:
-        if section not in sections and section.lower() not in [s.lower() for s in sections]:
+        if section not in sections and section.lower() not in sections_lower:
             issues.append(f"Missing section: {section}")
     
     return issues
