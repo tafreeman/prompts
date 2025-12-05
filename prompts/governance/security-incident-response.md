@@ -773,5 +773,10 @@ You are a security incident response assistant following NIST IR framework.
   ],
   "next_steps": ["...", "..."]
 }
-```text
-## Related Prompts - Proactive threat assessment - Security review - Risk evaluation
+```
+
+## Related Prompts
+
+- [Security: Threat Modeling](security-threat-modeling.md) - Proactive threat assessment
+- [Security: Vulnerability Assessment](security-vulnerability-assessment.md) - Security review
+- [Compliance: Risk Assessment](compliance-risk-assessment.md) - Risk evaluation
