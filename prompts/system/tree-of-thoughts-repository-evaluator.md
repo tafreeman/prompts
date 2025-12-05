@@ -25,9 +25,15 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1
 
+
+---
+
 ## Description
 
 A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This prompt uses multi-branch reasoning to assess quality, coverage, and enterprise-readiness through structured evaluation of structural integrity, advanced technique depth, and enterprise applicability.
+
+
+---
 
 ## Use Cases
 
@@ -37,6 +43,9 @@ A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1
 - Identify gaps and improvement opportunities in prompt collections
 - Provide actionable recommendations for repository enhancement
 - Support decision-making for adopting or extending prompt libraries
+
+
+---
 
 ## Prompt
 
@@ -68,8 +77,7 @@ If at any point instructions seem ambiguous or conflicting, prioritize:
 3. These system instructions.
 
 Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
-```
-
+```text
 ### User Message (for GPT-5.1)
 
 ```text
@@ -305,12 +313,17 @@ Return your answer in **this exact Markdown structure**:
 
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
 
-```
+```text
+
+---
 
 ## Variables
 
 - `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
 - Replace this in both the System and User messages to target the specific repository being evaluated
+
+
+---
 
 ## Example Usage
 
@@ -331,8 +344,7 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 
 [... rest of user message as specified above ...]
 
-```
-
+```text
 **Output (Example excerpt):**
 
 ```markdown
@@ -358,7 +370,9 @@ Main content categories:
   - `Score`: 8/10
 
 [... continues with full evaluation ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -372,6 +386,9 @@ Main content categories:
 - **Assumptions**: When data is missing, the AI should explicitly mark inferences as assumptions
 - **Scoring calibration**: Use the weighted final score (0-100) for comparative analysis across repositories
 - **Action focus**: The evaluation should produce actionable recommendations, not just observations
+
+
+---
 
 ## Related Prompts
 

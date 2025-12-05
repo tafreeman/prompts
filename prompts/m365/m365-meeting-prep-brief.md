@@ -26,6 +26,9 @@ reviewStatus: "draft"
 ---
 # M365 Meeting Prep Brief
 
+
+---
+
 ## Description
 
 This prompt helps an individual quickly prepare for an upcoming meeting using Microsoft 365 context. It generates a brief that includes meeting purpose, key talking points, questions to ask, and potential risks or sensitive topics based on the meeting invite, related emails, chats, and documents.
@@ -93,6 +96,9 @@ Return the output in Markdown with these sections:
 - `## Risks or Sensitive Topics`
   - 1–3 bullets flagging any areas requiring careful handling, or "None identified" if the context is straightforward.
 
+
+---
+
 ## Use Cases
 
 - Use case 1: A project manager preparing for a stakeholder sync with limited time.
@@ -100,6 +106,9 @@ Return the output in Markdown with these sections:
 - Use case 3: A consultant preparing for a client check-in using recent emails and shared documents.
 - Use case 4: A team lead getting ready for a 1:1 with a direct report.
 - Use case 5: A cross-functional team member preparing for a planning or retrospective meeting.
+
+
+---
 
 ## Prompt
 
@@ -157,7 +166,9 @@ Return the result in Markdown with these sections:
 - [bullet, or "None identified"]
 
 Now, using the context around [meeting_title] on [meeting_date], prepare my meeting brief.
-```
+```text
+
+---
 
 ## Variables
 
@@ -165,6 +176,9 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 - `[meeting_date]`: Date and time of the meeting (e.g., "November 20, 2025 at 2 PM").
 - `[focus]`: Optional emphasis area (e.g., "budget review", "customer feedback").
 - `[time_window]`: How far back to consider relevant context (e.g., "last 2 weeks").
+
+
+---
 
 ## Example Usage
 
@@ -177,8 +191,7 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 [time_window]: "last 2 weeks"
 
 You are my Meeting Prep Assistant working in a Microsoft 365 environment...
-```
-
+```text
 **Output:**
 
 ```text
@@ -204,7 +217,9 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 ## Risks or Sensitive Topics
 - Tension between product's aggressive timeline and engineering/support's concerns about readiness may surface; approach diplomatically.
 - If the API fix timeline slips, the phased rollout plan may need significant revision; be prepared to propose alternatives.
-```
+```text
+
+---
 
 ## Tips
 
@@ -212,6 +227,9 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 - Tip 2: Use `[focus]` to zoom in on a specific aspect (e.g., "budget", "risks", "decisions needed") when the meeting has multiple themes.
 - Tip 3: After the meeting, pair this with `m365-meeting-recap-assistant.md` to capture decisions and actions.
 - Tip 4: Share the "Your Talking Points" section with your manager or a peer if you want feedback before the meeting.
+
+
+---
 
 ## Related Prompts
 

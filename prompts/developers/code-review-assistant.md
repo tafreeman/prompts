@@ -27,9 +27,15 @@ reviewStatus: "approved"
 ---
 # Code Review Assistant
 
+
+---
+
 ## Description
 
 An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests.
+
+
+---
 
 ## Use Cases
 
@@ -38,6 +44,9 @@ An AI assistant that performs thorough code reviews, identifying potential issue
 - Learn best practices for a specific programming language
 - Identify potential bugs or security vulnerabilities
 - Improve code readability and maintainability
+
+
+---
 
 ## Prompt
 
@@ -69,12 +78,14 @@ Focus on:
 - Readability and maintainability
 - Potential edge cases
 
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description | Example Values |
-|----------|-------------|----------------|
+| :--- |-------------| :--- |
 | `[LANGUAGE]` | Programming language | `Python`, `JavaScript`, `TypeScript`, `Java`, `Go`, `C#`, `Rust` |
 | `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]` | One-line explanation of the code's purpose | `User authentication middleware`, `Shopping cart calculation`, `File upload handler` |
 | `[PASTE YOUR CODE HERE]` | The actual code to review | 50-300 lines recommended per review |
@@ -101,11 +112,14 @@ Use this checklist to ensure comprehensive reviews:
 ### Severity Classification Guide
 
 | Severity | Criteria | Examples |
-|----------|----------|----------|
+| :--- |----------| :--- |
 | **Critical** | Could cause security breach, data loss, or system failure | SQL injection, plaintext passwords, null pointer in hot path |
 | **Major** | Causes incorrect behavior or significant technical debt | Unhandled exceptions, race conditions, missing validation |
 | **Minor** | Affects readability or maintainability | Poor naming, missing docs, style inconsistencies |
 | **Suggestion** | Nice-to-have improvements | Refactoring opportunities, alternative approaches |
+
+
+---
 
 ## Example Usage
 
@@ -145,8 +159,7 @@ Focus on:
 - Readability and maintainability
 - Potential edge cases
 
-```
-
+```text
 **Output:**
 
 ```text
@@ -205,7 +218,9 @@ This refactored version:
 - Has type hints and docstring
 - Follows Python best practices (PEP 8)
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -244,7 +259,7 @@ This refactored version:
 ## Example Feedback Snippets
 
 ### Critical: Security Issue
-```
+```text
 🔴 **CRITICAL - Security Vulnerability**
 **Line 15**: SQL injection vulnerability
 
@@ -255,10 +270,9 @@ The query uses string concatenation with user input:
 `cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
 
 **Why**: Attackers can inject malicious SQL to access/delete data.
-```
-
+```text
 ### Major: Missing Error Handling
-```
+```text
 🟡 **MAJOR - Missing Error Handling**
 **Lines 23-25**: API call has no error handling
 
@@ -272,25 +286,18 @@ try:
 except requests.RequestException as e:
     logger.error(f"API call failed: {e}")
     return None
-```
-
+```text
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
-```
-
+```text
 ### Minor: Naming Improvement
-```
+```text
 🟢 **MINOR - Naming Suggestion**
 **Line 8**: Variable name `x` is not descriptive
 
 **Suggestion**: Rename to `user_count` or `total_records` based on its purpose.
 
 **Why**: Descriptive names make code self-documenting.
-```
-
-## Related Prompts
-
-- [Bug Finder and Fixer](bug-finder.md) - Specialized bug detection
-- [Code Documentation Generator](code-documentation-generator.md) - Generate docs
-- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
-- [Refactoring Assistant](refactoring-assistant.md) - Detailed refactoring guidance
+```text
+## Related Prompts - Specialized bug detection - Generate docs
+- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output - Detailed refactoring guidance
 - [Security Code Auditor](security-code-auditor.md) - Security-focused review

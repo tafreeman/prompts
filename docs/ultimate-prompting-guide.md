@@ -803,7 +803,7 @@ Before using a prompt, verify:
 ### Common Reasoning Styles
 
 | Style | When to Use | Best For |
-|-------|-------------|----------|
+| :--- |-------------| :--- |
 | **Direct** | Simple, straightforward tasks | Data extraction, formatting, quick edits |
 | **Chain-of-Thought (CoT)** | Complex reasoning needed | Debugging, analysis, problem-solving |
 | **Tree-of-Thoughts (ToT)** | Multiple approaches exist | Architecture, strategic decisions, trade-offs |
@@ -815,7 +815,7 @@ Before using a prompt, verify:
 Rate your prompt on each dimension (0-20):
 
 | Dimension | Key Questions |
-|-----------|---------------|
+| :--- |---------------|
 | **Clarity** | Is the goal clear? Are instructions specific? |
 | **Structure** | Are all sections present? Is documentation complete? |
 | **Usefulness** | Does it solve a common problem? Is it reusable? |

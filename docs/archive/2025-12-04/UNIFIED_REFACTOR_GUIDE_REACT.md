@@ -37,7 +37,7 @@ This guide is the **single source of truth** for refactoring the `tafreeman/prom
 ### Synthesis Decisions
 
 | Topic | Research Doc | Refactor Plan | **Decision** | Rationale |
-|-------|--------------|---------------|--------------|-----------|
+| :--- |--------------| :--- |--------------| :--- |
 | `shortTitle` length | ≤30 chars | ≤27 chars | **≤27 chars** | GitHub Docs standard |
 | Folder nesting | Flat | Nested `prompts/prompts/` | **Flat** | Simpler, clearer |
 | index.md timing | Week 1 | Week 3 | **Week 1** | Critical dependency |
@@ -152,7 +152,7 @@ featuredLinks:
 ### Field Quick Reference
 
 | Field | Required | Constraint | Source |
-|-------|----------|------------|--------|
+| :--- |----------| :--- |--------|
 | `title` | ✅ | ≤60 chars | Both |
 | `shortTitle` | ✅ | ≤27 chars | GitHub Docs |
 | `intro` | ✅ | 1-2 sentences | Both |
@@ -328,7 +328,7 @@ prompts/                                    # Repository root
 ### Folder Count Summary
 
 | Category | Count | Status |
-|----------|-------|--------|
+| :--- |-------| :--- |
 | New top-level folders | 5 | concepts, tutorials, reference, troubleshooting, data |
 | Existing folders preserved | 8 | agents, instructions, templates, techniques, frameworks, tools, docs, get-started |
 | index.md files needed | 25+ | See implementation plan |
@@ -340,7 +340,7 @@ prompts/                                    # Repository root
 **Source**: Both documents define identical content types.
 
 | Type | Purpose | Title Pattern | Example |
-|------|---------|---------------|---------|
+| :--- |---------| :--- |---------|
 | **conceptual** | Explain what/why/when | "About [Subject]" | "About Chain-of-Thought" |
 | **quickstart** | 15-min first success | "Quickstart for [Platform]" | "Quickstart for Copilot" |
 | **how_to** | Complete a specific task | Gerund/imperative | "Generating Unit Tests" |
@@ -383,7 +383,7 @@ Is this about fixing a problem?
 ### Timeline Overview
 
 | Phase | Week | Focus | Source |
-|-------|------|-------|--------|
+| :--- |------| :--- |--------|
 | 1 | Week 1 | Foundation + Navigation | Merged (Research prioritizes index.md) |
 | 2 | Week 2 | Quick-Start Content | Both agree |
 | 3 | Week 3 | Category Navigation | Both agree |
@@ -400,7 +400,7 @@ Is this about fixing a problem?
 **Key Decision**: index.md files moved to Week 1 (was Week 3 in Refactor Plan)
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | F-01 | Document unified frontmatter schema | P0 | 2h | None |
 | F-02 | Create `index.md` template | P0 | 1h | F-01 |
 | F-03 | Update `prompt-template.md` | P0 | 2h | F-01 |
@@ -420,7 +420,7 @@ Is this about fixing a problem?
 **Effort**: 16-20 hours
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | QS-01 | Update/complete `quickstart-copilot.md` | P0 | 3h | F-06 |
 | QS-02 | Write `quickstart-claude.md` | P0 | 3h | F-06 |
 | QS-03 | Write `quickstart-chatgpt.md` | P0 | 3h | F-06 |
@@ -437,7 +437,7 @@ Is this about fixing a problem?
 **Effort**: 12-16 hours
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | NAV-01 | Create `prompts/advanced/index.md` | P1 | 1.5h | F-02 |
 | NAV-02 | Create `prompts/developers/index.md` | P1 | 1.5h | F-02 |
 | NAV-03 | Create `prompts/business/index.md` | P1 | 1h | F-02 |
@@ -458,7 +458,7 @@ Is this about fixing a problem?
 **Effort**: 20-24 hours
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | FM-01 | Add `type` field to all 137 prompts | P0 | 8h | F-04 |
 | FM-02 | Add `audience` field to all prompts | P1 | 4h | F-04 |
 | FM-03 | Add `shortTitle` field (≤27 chars) | P1 | 3h | F-04 |
@@ -476,7 +476,7 @@ Is this about fixing a problem?
 **Effort**: 16-20 hours
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | NS-01 | Create `reference/` folder + index.md | P2 | 1h | F-02 |
 | NS-02 | Write `reference/cheat-sheet.md` | P2 | 3h | NS-01 |
 | NS-03 | Write `reference/platform-comparison.md` | P2 | 2h | NS-01 |
@@ -494,7 +494,7 @@ Is this about fixing a problem?
 **Effort**: 8-12 hours
 
 | ID | Task | Priority | Effort | Dependency |
-|----|------|----------|--------|------------|
+| :--- |------| :--- |--------| :--- |
 | PV-01 | Full validation run | P0 | 2h | All |
 | PV-02 | Fix all validation errors | P0 | 4h | PV-01 |
 | PV-03 | Update README.md | P1 | 2h | All |
@@ -670,7 +670,7 @@ modules:
 ### Actions Taken
 
 | Action | Input | Output | Conflicts Resolved |
-|--------|-------|--------|-------------------|
+| :--- |-------| :--- |-------------------|
 | compare_sections | Frontmatter schemas | Field differences table | shortTitle length, new governance fields |
 | compare_sections | Folder structures | Merged architecture | Flat vs nested, existing folders |
 | merge_recommendations | Content types | Unified definitions | None (aligned) |
@@ -703,7 +703,7 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 #### Phase 1: Foundation + Navigation
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | F-01: Schema documentation | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
 | F-02: index.md template | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
 | F-03: prompt-template.md | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
@@ -715,7 +715,7 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 #### Phase 2: Quick-Start Content
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | QS-01 to QS-04: Quickstarts | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
 | QS-05: Pattern guide | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
 | QS-06 to QS-07: Conceptual | Gemini 2.5 Pro | Claude Opus 4.5 | Claude Sonnet 4.5 |
@@ -723,14 +723,14 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 #### Phase 3: Category Navigation
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | NAV-01 to NAV-10: index.md | Claude Haiku 4.5 | Gemini 2.5 Flash | GPT-4o-mini |
 | NAV-11: Learning tracks | Claude Sonnet 4.5 | Claude Haiku 4.5 | GPT-4o |
 
 #### Phase 4: Frontmatter Normalization
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | FM-01 to FM-07: Bulk updates | Gemini 2.5 Flash | Claude Haiku 4.5 | Claude Sonnet 4.5 |
 | FM-08: Validation & fixes | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
 
@@ -739,7 +739,7 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 #### Phase 5: New Sections
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | NS-01, NS-05, NS-07: Folders | Claude Haiku 4.5 | Gemini 2.5 Flash | GPT-4o-mini |
 | NS-02: Cheat sheet | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
 | NS-03: Platform comparison | Claude Opus 4.5 | Gemini 2.5 Pro | Claude Sonnet 4.5 |
@@ -750,7 +750,7 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 #### Phase 6: Polish & Validation
 
 | Task | 1st Choice | 2nd Choice | 3rd Choice |
-|------|------------|------------|------------|
+| :--- |------------| :--- |------------|
 | PV-01: Full validation | Claude Opus 4.5 | Claude Sonnet 4.5 | Gemini 2.5 Pro |
 | PV-02: Fix errors | Claude Sonnet 4.5 | GPT-4o | Claude Haiku 4.5 |
 | PV-03: Update README | Claude Sonnet 4.5 | GPT-4o | Claude Opus 4.5 |
@@ -760,7 +760,7 @@ Use this reference to select the optimal AI model for each task type. Rankings a
 ### Model Quick Reference
 
 | Model | Best For | Context | Cost (MTok) |
-|-------|----------|---------|-------------|
+| :--- |----------| :--- |-------------|
 | **Claude Opus 4.5** | Complex reasoning, QA, synthesis | 200K | $5/$25 |
 | **Claude Sonnet 4.5** | Coding, templates, balanced tasks | 200K-1M | $3/$15 |
 | **Claude Haiku 4.5** | Bulk repetitive edits, speed | 200K | $1/$5 |
@@ -829,7 +829,7 @@ reviewStatus: "draft"
 After Phase 6 completion, archive these superseded documents:
 
 | Document | Action | Reason |
-|----------|--------|--------|
+| :--- |--------| :--- |
 | `KNOWLEDGE_BASE_ARCHITECTURE_RESEARCH.md` | Archive | Merged into this guide |
 | `LIBRARY_REFACTOR_PLAN.md` | Archive | Merged into this guide |
 | `COMPLEXITY_AND_ADOPTION_REPORT.md` | Archive | Analysis complete |

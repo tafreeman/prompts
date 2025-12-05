@@ -41,6 +41,9 @@ To generate accurate, efficient Excel formulas from natural language description
 - **Column/Cell References**: [cell_references]
 - **Excel Version**: [excel_version]
 
+
+---
+
 ## Prompt
 
 You are an expert Excel Data Analyst. I need a formula to solve a specific problem in my spreadsheet.
@@ -59,12 +62,18 @@ Please provide:
 3. An **alternative approach** if a more efficient function exists (e.g., XLOOKUP vs VLOOKUP).
 4. **Error handling**: How to modify the formula to handle missing data or errors (e.g., IFERROR).
 
+
+---
+
 ## Variables
 
 - `[data_description]`: Description of the dataset (e.g., "Sales data with dates in Col A and amounts in Col B").
 - `[desired_outcome]`: What you are trying to find (e.g., "Sum of sales for 'North' region in January").
 - `[cell_references]`: Specific ranges (e.g., "A2:A100", "Sheet1!B:B").
 - `[excel_version]`: e.g., "Excel 365", "Excel 2019" (important for function availability).
+
+
+---
 
 ## Example Usage
 
@@ -81,8 +90,7 @@ Please provide:
 
 ```excel
 =XLOOKUP(A2, Sheet1!A:A, Sheet1!B:B, "Not Found")
-```
-
+```text
 ### Explanation
 
 - **Lookup_value (A2)**: The ID you are searching for in the current sheet.
@@ -90,10 +98,16 @@ Please provide:
 - **Return_array (Sheet1!B:B)**: The column in the source sheet containing the Names you want to retrieve.
 - **"Not Found"**: A custom message if the ID doesn't exist (built-in error handling).
 
+
+---
+
 ## Tips
 
 - Always specify your Excel version, as newer functions like `XLOOKUP` or `FILTER` are not available in older versions.
 - If your data is in an Excel Table, mention the Table Name for cleaner structured references (e.g., `Table1[Amount]`).
+
+
+---
 
 ## Related Prompts
 

@@ -34,6 +34,9 @@ retention_period: "5-years"
 ---
 # Performance Optimization Specialist
 
+
+---
+
 ## Description
 
 You are a **Principal Performance Engineer** specializing in profiling, benchmarking, and tuning distributed systems. You follow the **Scientific Method** for performance: form hypothesis → instrument → measure → optimize → regress. You leverage **APM tools** (Datadog, New Relic, Dynatrace), **profilers** (py-spy, pprof, flamegraphs), and **load testing frameworks** (k6, Gatling). You balance latency, throughput, and cost while protecting reliability (error budgets, SLOs).
@@ -47,6 +50,9 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Performance test automation (baseline, regression guardrails, chaos experiments)
 - Cost/performance trade-off analysis with scaling plans (vertical, horizontal, autoscaling)
 
+
+---
+
 ## Use Cases
 
 - Diagnose p99 latency regressions in microservices
@@ -54,6 +60,9 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Prepare systems for marketing events with load/perf testing plans
 - Reduce infrastructure spend while keeping SLOs intact
 - Create performance runbooks and dashboards for SRE/on-call teams
+
+
+---
 
 ## Prompt
 
@@ -86,7 +95,9 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
-```
+```text
+
+---
 
 ## Variables
 
@@ -100,6 +111,9 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 - `[constraints]`: Hardware, budget, dependencies that cannot change
 - `[workload]`: Traffic patterns, input distribution, batch vs realtime
 - `[dependencies]`: Databases, caches, third-party APIs
+
+
+---
 
 ## Example Usage
 
@@ -116,8 +130,7 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [constraints]: Must remain on Node 20, Postgres 15; no extra region allowed; cost increase <15%.
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
-```
-
+```text
 **Excerpt of Expected Output**
 
 ```text
@@ -146,7 +159,9 @@ type: metric alert
 message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 ```text
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -155,6 +170,9 @@ message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 - Include workload bursts/seasonality to get realistic capacity planning.
 - Specify compliance or multi-tenant constraints if caching or data movement is limited.
 - Share cost targets to receive recommendations balancing performance + spend.
+
+
+---
 
 ## Related Prompts
 

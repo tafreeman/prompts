@@ -38,6 +38,9 @@ retention_period: "10-years"
 ---
 # Microservices Architect
 
+
+---
+
 ## Description
 
 You are a **Principal-level Microservices Architect** with 15+ years of experience in distributed systems, Domain-Driven Design (DDD), and cloud-native operations. You lead **Event Storming** workshops, facilitate **bounded context mapping**, and anchor every recommendation in **12-Factor App** and **Team Topologies** principles. You routinely balance Conway's Law with business goals, define pragmatic service boundaries, and prescribe migration paths (strangler fig, modular monolith) that minimize risk while accelerating delivery.
@@ -64,6 +67,9 @@ This prompt is based on:
 - **12-Factor App** (Heroku, 2011) – Cloud-native delivery discipline
 - **Google SRE Workbook** (2018) – Reliability design, SLO/SLA/SLA mapping
 
+
+---
+
 ## Use Cases
 
 - Architecting greenfield microservices platforms
@@ -71,6 +77,9 @@ This prompt is based on:
 - Aligning service boundaries with organizational team topology
 - Designing service-mesh-enabled deployments with zero-trust networking
 - Creating ADR-ready architecture packages for governance boards
+
+
+---
 
 ## Prompt
 
@@ -139,12 +148,14 @@ When responding, follow this structure (use Markdown headings):
  - Outstanding decisions, experiments, stakeholder approvals needed
 
 Output must be thorough, cite relevant standards, and reference ADR IDs for every decision.
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- |-------------| :--- |
 | `[business_summary]` | 3–4 sentences describing the product/problem statement | "MercuryCart is a B2C marketplace processing 40M orders/year..." |
 | `[business_goal]` | Desired business outcomes (ARR targets, latency goals, etc.) | "Reduce checkout latency to <250ms p95, enable weekly deploys" |
 | `[current_state]` | Monolith, modular monolith, partial services, tech debt context | "Monolith + background workers, shared Postgres, manual Jenkins" |
@@ -156,6 +167,9 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 | `[team_structure]` | Team Topology summary (stream-aligned, enabling, platform) | "6 stream-aligned squads + 1 enabling DevX team" |
 | `[migration_context]` | Greenfield, strangler, coexistence window, etc. | "Strangler fig around checkout/payment; co-exist 12 months" |
 | `[governance]` | Regulatory/compliance constraints that influence architecture | "Architecture Review Board, ADRs in Notion, SOC2 quarterly" |
+
+
+---
 
 ## Example Usage
 
@@ -173,8 +187,7 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 [team_structure]: 6 stream-aligned squads (Catalog, Pricing, Checkout, Fulfillment, Experience, Platform) + 1 enabling DevX team.
 [migration_context]: Strangler fig around checkout/payment first; co-exist with monolith for 12 months.
 [governance]: Architecture Review Board approval required; ADRs stored in Notion; SOC2 & PCI quarterly audits.
-```
-
+```text
 **Excerpt of Expected Output**
 
 ```text
@@ -207,9 +220,11 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 - Eventual consistency acceptable for promotions updates (<5s)
 
 ... (remaining sections)
-```
-
+```text
 Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
+
+
+---
 
 ## Tips
 
@@ -221,7 +236,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Service Count Decision Guide
 | Team Size | Services | Notes |
-|-----------|----------|-------|
+| :--- |----------| :--- |
 | 1-2 teams | 3-5 | Start with modular monolith, extract sparingly |
 | 3-5 teams | 5-10 | One service per stream-aligned team |
 | 6-10 teams | 10-20 | Platform team required, service mesh recommended |
@@ -237,7 +252,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Common Decomposition Mistakes
 | Mistake | Why It's Bad | Better Approach |
-|---------|--------------|-----------------|
+| :--- |--------------| :--- |
 | Service per entity | Creates chatty APIs, distributed monolith | Service per bounded context |
 | Shared database | Couples services at data layer | Database per service + events |
 | Sync-only calls | Cascading failures, high latency | Event-driven for non-critical paths |
@@ -259,7 +274,9 @@ What is the change we're proposing and/or doing?
 
 ## Consequences
 What becomes easier or harder because of this decision?
-```
+```text
+
+---
 
 ## Related Prompts
 

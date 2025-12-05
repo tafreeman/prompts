@@ -25,6 +25,9 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
 
+
+---
+
 ## Description
 
 This prompt guides the generation of a Network Graph visualization to show relationships and workflows between different prompts in the library.
@@ -60,11 +63,17 @@ Analytical and creative visualization.
 
 - A detailed description or code (e.g., Python/NetworkX, Mermaid, or Graphviz) to generate the graph.
 
+
+---
+
 ## Use Cases
 
 - Understanding dependencies between prompts.
 - Designing new workflows by seeing connected capabilities.
 - Visualizing the complexity and interconnectedness of the library.
+
+
+---
 
 ## Prompt
 
@@ -76,8 +85,7 @@ Draw edges (lines) between prompts that belong to the same category (e.g., all "
 Additionally, link prompts that are part of the same workflow (e.g., connect "requirements-analysis-expert.md" to "api-design-consultant.md" and "quality-assurance-planner.md" to represent an SDLC flow).
 
 This should look like a constellation showing clusters of related capabilities.
-```
-
+```text
 ## Example Visualization (Mermaid)
 
 Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
@@ -105,4 +113,4 @@ graph LR
   RAE --> ADC
   ADC --> CRA
   CRA --> SCM
-```
+```text

@@ -27,7 +27,10 @@ reviewStatus: "draft"
 ---
 # RAG: Document Retrieval and Citation Framework
 
-## Description
+
+---
+
+## 📋 Description
 
 Retrieval-Augmented Generation (RAG) is a pattern that grounds AI responses in specific documents or knowledge bases. This template provides a structured approach to chunking documents, retrieving relevant context, and generating answers with proper citations. Essential for enterprise applications where accuracy, attribution, and auditability are critical.
 
@@ -38,7 +41,10 @@ This technique is based on the paper:
 
 Lewis et al. introduced RAG models that combine parametric memory (pre-trained seq2seq model) with non-parametric memory (dense vector index of Wikipedia accessed with a pre-trained neural retriever). This approach allows models to access and leverage knowledge in a more modular and interpretable way than storing all knowledge in model parameters, achieving state-of-the-art results on knowledge-intensive tasks while providing transparency through retrieved document citations.
 
-## Use Cases
+
+---
+
+## 🎯 Use Cases
 
 - Internal documentation Q&A systems
 - Code repository search and explanation
@@ -48,7 +54,10 @@ Lewis et al. introduced RAG models that combine parametric memory (pre-trained s
 - Legal document review with citations
 - Technical troubleshooting from logs and docs
 
-## Prompt
+
+---
+
+## 💬 Prompt
 
 ```text
 You are an AI assistant using Retrieval-Augmented Generation (RAG) to answer questions grounded in specific documents.
@@ -114,9 +123,11 @@ Relevance Score: [DOC_2_SCORE]
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
-```
+```text
 
-## Variables
+---
+
+## ⚙️ Variables
 
 - `[USER_QUESTION]`: The specific question to answer using retrieved documents
 - `[BACKGROUND_INFORMATION]`: Context about the user's goal, constraints, or situation
@@ -125,7 +136,10 @@ Relevance Score: [DOC_2_SCORE]
 - `[DOC_X_CONTENT]`: The actual text content of the retrieved chunk
 - `[DOC_X_SCORE]`: Relevance/similarity score from retrieval system
 
-## Example Usage
+
+---
+
+## 📝 Example Usage
 
 **Input:**
 
@@ -160,8 +174,7 @@ Relevance Score: 0.41
 
 **Instructions**:
 [As specified above]
-```
-
+```text
 **Output:**
 
 ```text
@@ -201,9 +214,11 @@ The retrieved documents comprehensively cover rate limiting policy, error handli
 - If customer needs >1,000 requests/hour, offer: "Would you like information about upgrading to Enterprise Premium tier?"
 - If they're building automation, suggest: "Would you like code examples for implementing proper retry logic with exponential backoff?"
 - Clarify their specific use case: "What is the total volume of data you need to export, and over what timeframe?"
-```
+```text
 
-## Tips
+---
+
+## 💡 Tips
 
 - **Ground firmly**: Never add information not in retrieved documents, even if you "know" it's true
 - **Cite everything**: Every factual claim needs a citation. When in doubt, cite.
@@ -230,8 +245,7 @@ Metadata to include:
 - Language
 - Last modified date
 - Author (if relevant)
-```
-
+```text
 ### For Documentation
 
 ```text
@@ -245,8 +259,7 @@ Metadata to include:
 - Section heading hierarchy
 - Version/date
 - URL (if applicable)
-```
-
+```text
 ### For Logs/Incident Data
 
 ```text
@@ -260,8 +273,7 @@ Metadata to include:
 - Service name
 - Log level
 - Error codes (if present)
-```
-
+```text
 ## Retrieval Strategies
 
 ### Semantic Search
@@ -274,8 +286,7 @@ chunks = vector_db.similarity_search(
     k=5,  # Top 5 chunks
     threshold=0.7  # Minimum similarity
 )
-```
-
+```text
 ### Hybrid Search
 
 ```python
@@ -285,8 +296,7 @@ keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
-```
-
+```text
 ### Contextual Retrieval
 
 ```python
@@ -296,8 +306,7 @@ previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
-```
-
+```text
 ## Output Schema (JSON)
 
 For automation pipelines:
@@ -324,8 +333,7 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
-```
-
+```text
 ## Governance Notes
 
 - **PII Safety**: Documents may contain PII. Implement:
@@ -352,8 +360,7 @@ For automation pipelines:
 
 ```text
 @workspace search for rate limiting policy and explain with citations
-```
-
+```text
 ### LangChain RAG Implementation
 
 ```python
@@ -377,8 +384,7 @@ qa_chain = RetrievalQA.from_chain_type(
 result = qa_chain({"query": "What is our rate limiting policy?"})
 answer = result["result"]
 sources = result["source_documents"]
-```
-
+```text
 ### Custom RAG Pipeline
 
 ```python
@@ -409,13 +415,13 @@ def rag_answer(question, context=""):
         "sources": chunks,
         "confidence": assess_confidence(response, chunks)
     }
-```
+```text
 
-## Related Prompts
+---
 
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
-- [RAG: Code Ingestion](rag-code-ingestion.md) - Code-specific RAG patterns
-- [Citation: Quality Framework](rag-citation-framework.md) - Citation best practices
+## 🔗 Related Prompts
+
+- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG - Code-specific RAG patterns - Citation best practices
 
 ## Error Handling
 
@@ -433,8 +439,7 @@ To get a better answer, I would need:
 - [Specific information missing]
 
 Would you like me to search differently, or can you provide more context?"
-```
-
+```text
 ### Contradictory Information
 
 ```text
@@ -447,8 +452,7 @@ These documents may refer to different contexts:
 - [Possible explanation]
 
 Which scenario applies to your situation? Or would you like me to escalate this documentation discrepancy?"
-```
-
+```text
 ### No Relevant Documents Found
 
 ```text
@@ -463,4 +467,4 @@ Would you like me to:
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
-```
+```text

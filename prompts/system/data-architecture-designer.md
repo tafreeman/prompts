@@ -25,15 +25,24 @@ reviewStatus: "draft"
 ---
 # Data Architecture Designer
 
+
+---
+
 ## Description
 
 Designs enterprise data architectures
+
+
+---
 
 ## Use Cases
 
 - Data Architecture for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -53,7 +62,9 @@ Provide:
 4. Governance framework
 5. Quality management
 6. Analytics platform
-```
+```text
+
+---
 
 ## Variables
 
@@ -62,6 +73,9 @@ Provide:
 - `[requirements]`: Requirements
 - `[sources]`: Sources
 - `[volume]`: Volume
+
+
+---
 
 ## Example Usage
 
@@ -73,8 +87,7 @@ Provide:
 [volume]: 500GB/day ingestion, 2PB total retention
 [analytics]: Real-time dashboards (Tableau), Ad-hoc SQL queries, ML model training
 [governance]: GDPR "Right to be Forgotten", Data Quality score > 95%
-```
-
+```text
 **Output:**
 
 ```text
@@ -95,7 +108,9 @@ Provide:
 *   **Orchestration:** Airflow for dependency management.
 
 [... continues with governance and quality management ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -103,6 +118,9 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

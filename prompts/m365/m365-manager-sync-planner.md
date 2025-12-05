@@ -41,6 +41,9 @@ To create a concise, prioritized agenda for a manager 1:1 that demonstrates prog
 - **Career/Growth Topic**: [career_topic]
 - **Meeting Duration**: [meeting_duration]
 
+
+---
+
 ## Prompt
 
 You are an expert career coach and executive assistant. I need you to prepare a structured agenda for my upcoming 1:1 meeting with my manager.
@@ -63,6 +66,9 @@ Please generate a meeting agenda that:
 
 Output the agenda in a clean Markdown format suitable for pasting into a Teams chat, Outlook invite, or OneNote page.
 
+
+---
+
 ## Variables
 
 - `[recent_wins]`: List of tasks completed or milestones achieved since the last meeting.
@@ -70,6 +76,9 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 - `[decisions_needed]`: Specific items requiring approval or guidance.
 - `[career_topic]`: A specific area of professional growth or feedback to discuss.
 - `[meeting_duration]`: Length of the meeting (e.g., 30 minutes, 1 hour).
+
+
+---
 
 ## Example Usage
 
@@ -105,10 +114,16 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 
 - [Open for your items]
 
+
+---
+
 ## Tips
 
 - Use this prompt in **OneNote** or **Loop** to maintain a running document of your 1:1s.
 - Be specific about what you need from your manager in the "Blockers" section (e.g., "I need you to email X" vs "X is slow").
+
+
+---
 
 ## Related Prompts
 

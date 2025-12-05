@@ -25,6 +25,9 @@ reviewStatus: "approved"
 ---
 # ReAct: Knowledge Base Research
 
+
+---
+
 ## Description
 
 Use this prompt to research how leading technology companies structure their documentation, then synthesize findings into actionable recommendations for improving a prompt library or knowledge base. This includes identifying what content is essential versus bloated, and researching current prompt scoring/rating methodologies.
@@ -93,7 +96,7 @@ Research and identify new prompts to add across ALL library categories:
 ### Tier 1: Documentation Leaders
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| :--- |-----| :--- |
 | GitHub Docs | docs.github.com | Content types, frontmatter, navigation |
 | Microsoft Learn | learn.microsoft.com | Enterprise scale, learning paths |
 | Stripe Docs | stripe.com/docs | Clarity, copy patterns |
@@ -101,7 +104,7 @@ Research and identify new prompts to add across ALL library categories:
 ### Tier 2: AI Documentation
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| :--- |-----| :--- |
 | OpenAI Cookbook | cookbook.openai.com | Prompt examples, variations |
 | Anthropic Docs | docs.anthropic.com | Claude patterns, best practices |
 | GitHub Copilot Docs | docs.github.com/copilot | Code generation prompts |
@@ -109,7 +112,7 @@ Research and identify new prompts to add across ALL library categories:
 ### Tier 3: Creative & Business
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| :--- |-----| :--- |
 | Copy.ai | copy.ai | Marketing copy patterns |
 | Jasper | jasper.ai | Business writing |
 | HubSpot | hubspot.com | Sales/marketing content |
@@ -117,7 +120,7 @@ Research and identify new prompts to add across ALL library categories:
 ### Tier 4: Prompt Scoring & Evaluation
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| :--- |-----| :--- |
 | OpenAI Evals | github.com/openai/evals | Evaluation frameworks |
 | LangSmith | docs.smith.langchain.com | Prompt testing & scoring |
 | PromptLayer | promptlayer.com | Prompt analytics |
@@ -151,7 +154,7 @@ Continue until you have:
 ### 1. Research Summary Table
 
 | Aspect | Source 1 | Source 2 | Source 3 | Best Practice |
-|--------|----------|----------|----------|---------------|
+| :--- |----------| :--- |----------| :--- |
 | Content Types | ... | ... | ... | ... |
 | Structure | ... | ... | ... | ... |
 | Navigation | ... | ... | ... | ... |
@@ -160,13 +163,13 @@ Continue until you have:
 ### 2. Simplification Analysis
 
 | Current Element | Keep/Remove | Rationale | Industry Support |
-|-----------------|-------------|-----------|------------------|
+| :--- |-------------| :--- |------------------|
 | ... | ✅ Keep / ❌ Remove | ... | X of Y sources use this |
 
 ### 3. Prompt Scoring Rubric
 
 | Dimension | Weight | Criteria | Score Range |
-|-----------|--------|----------|-------------|
+| :--- |--------| :--- |-------------|
 | Clarity | ...% | ... | 1-5 |
 | Effectiveness | ...% | ... | 1-5 |
 | Reusability | ...% | ... | 1-5 |
@@ -187,7 +190,7 @@ For each recommendation:
 What to REMOVE from prompts:
 
 | Remove This | Why | Savings |
-|-------------|-----|---------|
+| :--- |-----| :--- |
 | ... | Not used by industry leaders | -X lines avg |
 
 ### 6. Scoring Implementation Plan
@@ -203,7 +206,7 @@ How to implement prompt scoring in the library:
 Prompts to ADD across all library categories:
 
 | Section | Current | Target | New Prompts to Add |
-|---------|---------|--------|--------------------|
+| :--- |---------| :--- |--------------------|
 | Creative | 2 | 15-20 | [list specific prompts] |
 | Business | 26 | 35-40 | [list specific prompts] |
 | Developers | 15+ | 25+ | [list specific prompts] |
@@ -226,14 +229,13 @@ Prioritized list of changes with:
 - Task description
 - Supporting evidence
 - Estimated effort
-```
-
+```text
 ---
 
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- |-------------| :--- |
 | `[RESEARCH_QUESTION]` | The specific question to answer | "What are best practices for organizing creative writing prompts?" |
 | `[CONTEXT_ABOUT_YOUR_PROJECT]` | Background on your project | "A prompt library with 145 prompts, expanding creative section from 2 to 20 prompts" |
 
@@ -253,8 +255,7 @@ What is the minimal effective structure for prompt documents, and what scoring s
 Project: tafreeman/prompts - A prompt library with 145+ prompts
 Problem: Current prompts may have unnecessary sections/fields
 Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
-```
-
+```text
 ### Expected Output
 
 ```text
@@ -289,7 +290,7 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 ## Simplification Analysis
 
 | Current Element | Keep/Remove | Rationale |
-|-----------------|-------------|-----------|
+| :--- |-------------| :--- |
 | Title | ✅ Keep | Universal - all sources use |
 | Description | ✅ Keep | All sources have brief intro |
 | Prompt text | ✅ Keep | Core content |
@@ -304,7 +305,7 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 ## Prompt Scoring Rubric (Recommended)
 
 | Dimension | Weight | Criteria |
-|-----------|--------|----------|
+| :--- |--------| :--- |
 | Clarity | 25% | Is the prompt unambiguous? |
 | Effectiveness | 30% | Does it produce quality output? |
 | Reusability | 20% | Works across contexts? |
@@ -312,8 +313,7 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 | Examples | 10% | Are examples helpful? |
 
 **Scoring Scale**: 1-5 stars, automated where possible
-```
-
+```text
 ---
 
 ## Example Usage: Content Expansion
@@ -331,8 +331,7 @@ Project: tafreeman/prompts - A prompt library for AI-assisted work
 Current State: 145 prompts total, only 2 in creative category
 Goal: Expand creative prompts to 15-20, covering writing, marketing, editing, storytelling
 Target Users: Business professionals, marketing teams, content creators
-```
-
+```text
 ### Expected Output
 
 ```text
@@ -371,7 +370,7 @@ Target Users: Business professionals, marketing teams, content creators
 ## Research Summary Table
 
 | Aspect | Copy.ai | Anthropic | Jasper | Best Practice |
-|--------|---------|-----------|--------|---------------|
+| :--- |---------| :--- |--------| :--- |
 | Organization | By output type | By task category | By use case + industry | Output type + audience |
 | Skill levels | Implicit in complexity | Explicit complexity tags | Templates vs custom | Add difficulty field |
 | Examples | Before/after | Full output | Variations | Include 2+ examples |
@@ -402,8 +401,7 @@ Target Users: Business professionals, marketing teams, content creators
 - Application: Add [TONE], [LENGTH], [AUDIENCE] variables
 - Priority: P1
 - Effort: Low
-```
-
+```text
 ---
 
 ## Tips
@@ -423,7 +421,7 @@ Target Users: Business professionals, marketing teams, content creators
 For reference when researching, our library currently has:
 
 | Category | Count | Target | Status | Expansion Ideas |
-|----------|-------|--------|--------|------------------|
+| :--- |-------| :--- |--------| :--- |
 | Creative | 2 | 15-20 | 🔴 Critical | Writing, marketing, editing, storytelling |
 | Business | 26 | 35-40 | 🟡 Expand | Sales, HR, exec comms, operations |
 | Developers | 15+ | 25+ | 🟡 Expand | Testing, DevOps, architecture, debugging |
@@ -436,7 +434,7 @@ For reference when researching, our library currently has:
 **Expansion Priorities (All Sections):**
 
 | Priority | Section | Current → Target | Focus Areas |
-|----------|---------|------------------|-------------|
+| :--- |---------| :--- |-------------|
 | P0 | Creative | 2 → 15-20 | Writing, marketing, editing, storytelling |
 | P0 | Business | 26 → 35-40 | Sales, HR, executive comms, operations |
 | P1 | M365 | 10+ → 20+ | Teams, SharePoint, Power Platform, Outlook |

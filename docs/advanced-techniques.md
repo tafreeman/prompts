@@ -45,7 +45,7 @@ Advanced prompting techniques improve AI reasoning accuracy and output quality f
 ### When to Use Advanced Techniques
 
 | Technique | Use When |
-|-----------|----------|
+| :--- |----------|
 | **Chain-of-Thought** | Problems need step-by-step reasoning |
 | **ReAct** | Tasks require tool use or information gathering |
 | **RAG** | Responses must be grounded in specific documents |
@@ -336,7 +336,7 @@ Evaluate architecture options for [SYSTEM].
 
 **Trade-off Matrix**:
 | Dimension | Monolith | Microservices | Serverless |
-|-----------|----------|---------------|------------|
+| :--- |----------| :--- |------------|
 | Complexity | Low | High | Medium |
 | Scalability | Limited | Excellent | Excellent |
 | Cost | Fixed | Variable | Pay-per-use |
@@ -393,7 +393,7 @@ Are there multiple approaches to compare?
 ### Technique Comparison
 
 | Technique | Accuracy Improvement | Token Usage | Best For |
-|-----------|---------------------|-------------|----------|
+| :--- |---------------------| :--- |----------|
 | Direct | Baseline | Low | Simple tasks |
 | Chain-of-Thought | +20-40% | Medium | Reasoning tasks |
 | ReAct | +25-35% | High | Tool-augmented tasks |

@@ -24,15 +24,24 @@ reviewStatus: "draft"
 ---
 # Project Documentation Manager
 
+
+---
+
 ## Description
 
 Manages project documentation
+
+
+---
 
 ## Use Cases
 
 - Documentation for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -51,7 +60,9 @@ Provide:
 4. Access management
 5. Review processes
 6. Archive procedures
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +70,9 @@ Provide:
 - `[compliance]`: Compliance
 - `[doc_types]`: Doc Types
 - `[project_name]`: Project Name
+
+
+---
 
 ## Example Usage
 
@@ -69,8 +83,7 @@ Provide:
 [doc_types]: Process Maps (Visio), Standard Operating Procedures (SOPs), Training Manuals, Audit Checklists
 [audience]: Internal Employees (Users), External Auditors (Approvers)
 [compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
-```
-
+```text
 **Output:**
 
 ```text
@@ -91,7 +104,9 @@ Provide:
 *   **Change Log:** Mandatory table at start of every document tracking "Reason for Change".
 
 [... continues with access management and archive procedures ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -99,6 +114,9 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

@@ -55,7 +55,7 @@
 ### Top 3 Highest-Impact Improvements
 
 | Priority | Issue | Files Affected | Effort | Impact |
-|:--------:|-------|---------------:|:------:|:------:|
+|:--------:| :--- |---------------:|:------:|:------:|
 | 🥇 | Fix 50 broken internal links | 50 | 2 hrs | 🔴 Critical |
 | 🥈 | Add table alignment specifiers | 89 | 1 hr | 🟠 High |
 | 🥉 | Add language tags to code blocks | 40+ | 1 hr | 🟠 High |
@@ -63,7 +63,7 @@
 ### Estimated Total Effort
 
 | Category | Issues | Effort | Automatable |
-|----------|-------:|:------:|:-----------:|
+| :--- |-------:|:------:|:-----------:|
 | Critical (fix immediately) | 8 | 3 hrs | Partial |
 | High priority | 50 | 4 hrs | 80% |
 | Medium priority | 103 | 6 hrs | 60% |
@@ -81,7 +81,7 @@ These must be fixed before enterprise deployment:
 Related Prompts sections reference non-existent files:
 
 | File | Broken Link | Fix |
-|------|-------------|-----|
+| :--- |-------------| :--- |
 | `prompts/advanced/chain-of-thought-concise.md` | `reflection-code-review-self-check.md` | Remove or create file |
 | `prompts/advanced/chain-of-thought-detailed.md` | `tree-of-thoughts-decision-guide.md` | Update to `chain-of-thought-guide.md` |
 | `prompts/business/agile-sprint-planner.md` | `project-charter-creator.md` | Remove or create file |
@@ -107,7 +107,7 @@ Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
 ### 2. Files Missing Standard Sections (19 files)
 
 | File | Missing Sections |
-|------|------------------|
+| :--- |------------------|
 | `prompts/advanced/library.md` | Prompt, Variables, Example |
 | `prompts/advanced/chain-of-thought-guide.md` | Prompt |
 | `prompts/advanced/prompt-library-refactor-react.md` | Prompt, Example |
@@ -124,7 +124,7 @@ Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
 Files not following `# Title` → `## Description` → `## Prompt` pattern:
 
 | File | Issue |
-|------|-------|
+| :--- |-------|
 | `prompts/m365/m365-customer-feedback-analyzer.md` | Starts with H2, no H1 |
 | `prompts/m365/m365-data-insights.md` | H3 before H2 |
 | `prompts/m365/m365-designer-image-prompt.md` | Mixed hierarchy |
@@ -172,7 +172,7 @@ Content here
 M365 prompts use different section order than other categories:
 
 | Standard Order | M365 Order |
-|----------------|------------|
+| :--- |------------|
 | Description | Overview |
 | Use Cases | When to Use |
 | Prompt | Prompt |
@@ -191,7 +191,7 @@ M365 prompts use different section order than other categories:
 **Current (no alignment):**
 ```markdown
 | Column | Data |
-| --- | --- |
+| :--- | :--- |
 | Value | Value |
 ```
 
@@ -220,7 +220,7 @@ Replace: | :--- |
 Tables with 15+ rows should use `<details>`:
 
 | File | Table Rows | Section |
-|------|------------|---------|
+| :--- |------------| :--- |
 | `docs/EVALUATION_REPORT.md` | 36 (Business) | Category tables |
 | `docs/EVALUATION_REPORT.md` | 24 (Developers) | Category tables |
 | `docs/EVALUATION_REPORT.md` | 22 (System) | Category tables |
@@ -245,7 +245,7 @@ Tables with 15+ rows should use `<details>`:
 #### Code Blocks Missing Language Specifiers (40+ files)
 
 | File | Block Count | Suggested Language |
-|------|------------:|:------------------:|
+| :--- |------------:|:------------------:|
 | `prompts/developers/sql-*.md` | 8 | `sql` |
 | `prompts/developers/csharp-*.md` | 6 | `csharp` |
 | `prompts/creative/*.md` | 12 | `text` |
@@ -300,7 +300,7 @@ Here is an example of using this prompt with real values...
 Only 2 files currently use shields.io badges. High-value additions:
 
 | File | Recommended Badges |
-|------|-------------------|
+| :--- |-------------------|
 | `README.md` | Version, Prompts Count, License |
 | `prompts/governance/*.md` | Compliance Status, Review Status |
 | `prompts/advanced/*.md` | Difficulty, Platform Support |
@@ -320,7 +320,7 @@ Only 2 files currently use shields.io badges. High-value additions:
 #### Files Benefiting from Mermaid Diagrams
 
 | File | Diagram Type | Purpose |
-|------|:------------:|---------|
+| :--- |:------------:| :--- |
 | `prompts/advanced/react-*.md` | flowchart | Thought→Action→Observation loop |
 | `prompts/advanced/tree-of-thoughts-*.md` | graph | Branch structure |
 | `docs/IMPROVEMENT_PLAN.md` | gantt | Timeline visualization |
@@ -335,7 +335,7 @@ Only 2 files currently use shields.io badges. High-value additions:
 Current usage is sporadic. Recommended standard:
 
 | Context | Emoji | Example |
-|---------|:-----:|---------|
+| :--- |:-----:| :--- |
 | Section headers | 📋 📊 💡 🎯 ⚙️ | `## 📋 Description` |
 | Status indicators | ✅ ⚠️ 🔧 ❌ | In tables |
 | Priority levels | 🔴 🟠 🟡 🟢 | In reports |
@@ -348,7 +348,7 @@ Current usage is sporadic. Recommended standard:
 Long files (>300 lines) without TOC:
 
 | File | Lines | Sections |
-|------|------:|:--------:|
+| :--- |------:|:--------:|
 | `docs/EVALUATION_REPORT.md` | 521 | 15 |
 | `docs/TOT_EVALUATION_REPORT.md` | 398 | 12 |
 | `README.md` | 350+ | 10 |
@@ -388,7 +388,7 @@ Only generated reports have footers. All prompts should have:
 ### Nice-to-Have Improvements
 
 | Improvement | Files | Effort |
-|-------------|------:|:------:|
+| :--- |------:|:------:|
 | Add "Last Updated" to prompts | 148 | Low |
 | Add word count badges | 148 | Script |
 | Standardize frontmatter field order | 148 | Script |
@@ -537,7 +537,7 @@ jobs:
       
       - name: Check table alignment
         run: |
-          if grep -rn "| --- |" prompts/ docs/; then
+          if grep -rn "| :--- |" prompts/ docs/; then
             echo "::error::Found unaligned tables"
             exit 1
           fi
@@ -587,7 +587,7 @@ jobs:
 ## 📊 Success Metrics
 
 | Metric | Current | Target | Timeline |
-|--------|:-------:|:------:|:--------:|
+| :--- |:-------:|:------:|:--------:|
 | Broken links | 50 | 0 | Week 1 |
 | Unaligned tables | 89 | 0 | Week 2 |
 | Missing code languages | 40+ | 0 | Week 2 |

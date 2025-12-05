@@ -26,6 +26,9 @@ reviewStatus: "draft"
 ---
 # M365 Data Insights Assistant
 
+
+---
+
 ## Description
 
 This prompt helps an individual quickly interpret and analyze data in Excel workbooks using Microsoft 365 Copilot. It identifies trends, highlights anomalies, and recommends visualizations, all explained in plain language suitable for non-technical audiences.
@@ -90,6 +93,9 @@ Return the output in Markdown with these sections:
 - `## Recommended Visualizations`
   - 2–3 chart suggestions with explanations (e.g., "Line chart to show revenue growth over time").
 
+
+---
+
 ## Use Cases
 
 - Use case 1: A manager analyzing sales performance data to prepare for a quarterly business review.
@@ -97,6 +103,9 @@ Return the output in Markdown with these sections:
 - Use case 3: A product manager examining feature adoption metrics to inform roadmap priorities.
 - Use case 4: A marketing lead analyzing campaign performance across channels.
 - Use case 5: An operations lead investigating process efficiency data to identify improvement opportunities.
+
+
+---
 
 ## Prompt
 
@@ -149,13 +158,18 @@ Return the result in Markdown:
 
 Now, analyze this data and provide insights for [audience], focusing on [focus_areas]
 if specified.
-```
+```text
+
+---
 
 ## Variables
 
 - `[audience]`: Who will receive the insights (e.g., "finance leadership").
 - `[time_window]`: Optional time range if the data is time-based.
 - `[focus_areas]`: Optional specific topics to investigate.
+
+
+---
 
 ## Example Usage
 
@@ -167,8 +181,7 @@ if specified.
 [focus_areas]: "revenue trends and regional performance"
 
 You are my Data Insights Assistant working in a Microsoft 365 environment...
-```
-
+```text
 **Output:**
 
 ```text
@@ -190,7 +203,9 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - **Line chart**: Show revenue trends over time by region. This will clearly communicate the growth trajectory and highlight APAC's surge and EMEA's stagnation.
 - **Stacked column chart**: Compare total revenue by region and product category for the full 6-month period. This will show both regional distribution and product mix at a glance.
 - **Callout or annotation**: Highlight the LATAM September drop and APAC August spike directly on the charts so executives can quickly see these anomalies and ask follow-up questions.
-```
+```text
+
+---
 
 ## Tips
 
@@ -198,6 +213,9 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - Tip 2: Adjust `[focus_areas]` to zoom in on specific questions (e.g., "Why did costs increase in Q3?" or "Which customer segments are growing fastest?").
 - Tip 3: After getting the initial insights, ask Copilot to "create a pivot table showing X by Y" or "draft a formula to calculate Z."
 - Tip 4: Pair this with `m365-presentation-outline-generator.md` to turn data insights into slides quickly.
+
+
+---
 
 ## Related Prompts
 

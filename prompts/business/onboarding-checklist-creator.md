@@ -25,9 +25,15 @@ reviewStatus: "draft"
 ---
 # Onboarding Checklist Creator
 
+
+---
+
 ## Description
 
 Create structured onboarding plans that help new employees ramp up quickly and feel welcomed. Generates day-by-day checklists covering logistics, training, introductions, and early wins.
+
+
+---
 
 ## Use Cases
 
@@ -36,6 +42,9 @@ Create structured onboarding plans that help new employees ramp up quickly and f
 - Creating role-specific onboarding tracks
 - Remote employee onboarding planning
 - Onboarding contractors or temporary staff
+
+
+---
 
 ## Prompt
 
@@ -84,7 +93,9 @@ Generate:
    - Manager evaluation criteria
 
 Include specific calendar invites to send and people to meet. Make it actionable, not generic.
-```
+```text
+
+---
 
 ## Variables
 
@@ -94,6 +105,9 @@ Include specific calendar invites to send and people to meet. Make it actionable
 - `[start_date]`: First day of employment
 - `[setup]`: Remote, hybrid, or in-office; location details
 - `[manager]`: Hiring manager name
+
+
+---
 
 ## Example Usage
 
@@ -106,8 +120,7 @@ Team: Analytics team (8 people), works closely with Product and Customer Success
 Start Date: Monday, December 9, 2024
 Work Setup: Hybrid - Tuesdays and Thursdays in NYC office, rest remote
 Manager: David Chen (Director of Analytics)
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -155,7 +168,7 @@ Manager: David Chen (Director of Analytics)
 ### Morning (9:00 AM - 12:00 PM)
 
 | Time | Activity | Owner | Location |
-|------|----------|-------|----------|
+| :--- |----------| :--- |----------|
 | 9:00 | Arrive, badge pickup, desk setup | David | NYC Office - Lobby |
 | 9:30 | Welcome coffee with David | David | Coffee bar |
 | 10:00 | HR orientation (benefits, policies, systems) | HR | Conf room A |
@@ -165,7 +178,7 @@ Manager: David Chen (Director of Analytics)
 ### Afternoon (12:00 PM - 5:00 PM)
 
 | Time | Activity | Owner | Location |
-|------|----------|-------|----------|
+| :--- |----------| :--- |----------|
 | 12:00 | Team lunch (Analytics team) | David | Local restaurant |
 | 1:30 | Meet your buddy: Marcus | Marcus | Conf room B |
 | 2:30 | Analytics team overview (mission, projects, rituals) | David | Conf room B |
@@ -192,7 +205,7 @@ Manager: David Chen (Director of Analytics)
 **Theme**: Understand the data landscape
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| :--- |----------| :--- |
 | 10:00 | Data infrastructure overview with Carlos (Data Eng) | Understand data pipelines, Snowflake structure |
 | 11:30 | 1:1 with Lisa (current churn model owner) | Knowledge transfer kickoff |
 | 2:00 | Product team intro: Meet Sarah (PM, Growth) | Understand customer context |
@@ -210,7 +223,7 @@ Manager: David Chen (Director of Analytics)
 **Theme**: Deep dive on current projects
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| :--- |----------| :--- |
 | 10:00 | Churn model walkthrough with Lisa (Zoom) | Understand model architecture, features, limitations |
 | 11:30 | Self-study: Run churn model notebook, review code | Hands-on with existing work |
 | 2:00 | Meet Customer Success: Intro with Jordan (CS Lead) | Understand how predictions are used |
@@ -228,7 +241,7 @@ Manager: David Chen (Director of Analytics)
 **Theme**: Cross-functional relationships
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| :--- |----------| :--- |
 | 10:00 | Meet Engineering: Intro with Platform team lead | Understand tech stack, deployment process |
 | 11:00 | Weekly Analytics team standup | Observe team rituals |
 | 2:00 | 1:1 with David (weekly sync) | Discuss Week 1 learnings, answer questions |
@@ -246,7 +259,7 @@ Manager: David Chen (Director of Analytics)
 **Theme**: Consolidate and plan
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| :--- |----------| :--- |
 | 10:00 | Self-study: Complete any pending documentation review | Fill knowledge gaps |
 | 11:00 | Write Week 1 reflection doc (share with David) | Synthesize learnings |
 | 2:00 | Buddy check-in with Marcus | Ask remaining questions |
@@ -346,7 +359,7 @@ Manager: David Chen (Director of Analytics)
 ## Key Contacts Quick Reference
 
 | Person | Role | When to Contact |
-|--------|------|-----------------|
+| :--- |------| :--- |
 | David Chen | Manager | Weekly 1:1s, blockers, feedback |
 | Marcus | Buddy | Day-to-day questions, cultural norms |
 | Lisa | Churn model owner | Technical knowledge transfer |
@@ -365,7 +378,9 @@ Manager: David Chen (Director of Analytics)
 3. What would you change for the next new hire?
 4. Rate your onboarding experience: 1-5
 5. Additional comments?
-```
+```text
+
+---
 
 ## Tips
 
@@ -374,6 +389,9 @@ Manager: David Chen (Director of Analytics)
 - Include quick wins - first commit, first Slack post, first meeting facilitation
 - Don't over-schedule Week 1 - leave time for self-study and absorption
 - Check in at 30/60/90 days - onboarding doesn't end after Week 1
+
+
+---
 
 ## Related Prompts
 

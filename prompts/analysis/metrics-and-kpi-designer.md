@@ -24,15 +24,24 @@ reviewStatus: "draft"
 ---
 # Metrics and KPI Designer
 
+
+---
+
 ## Description
 
 Designs business metrics and KPIs
+
+
+---
 
 ## Use Cases
 
 - Metrics for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -51,7 +60,9 @@ Include:
 4. Calculation methods
 5. Reporting strategy
 6. Action triggers
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +70,9 @@ Include:
 - `[frequency]`: Frequency
 - `[objective]`: Objective
 - `[stakeholders]`: Stakeholders
+
+
+---
 
 ## Example Usage
 
@@ -69,8 +83,7 @@ Include:
 [stakeholders]: CTO, VP Engineering, Team Leads
 [data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
 [frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
-```
-
+```text
 **Output:**
 
 ```text
@@ -89,7 +102,9 @@ Include:
 *   **Red Flag:** If "Lead Time" > 3 days, trigger a "Pipeline Bottleneck" review.
 
 [... continues with reporting strategy and calculation methods ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -97,6 +112,9 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

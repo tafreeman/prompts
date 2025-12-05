@@ -25,6 +25,9 @@ reviewStatus: "approved"
 ---
 # ReAct: Prompt Library Analysis
 
+
+---
+
 ## Description
 
 This is an executable ReAct (Reasoning + Acting) prompt for analyzing prompt library repositories. Use this prompt to systematically audit content, identify gaps, validate standards compliance, and generate improvement recommendations.
@@ -49,7 +52,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Completed Infrastructure ✅
 
 | Component | Status | Details |
-|-----------|--------|---------|
+| :--- |--------| :--- |
 | Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
 | Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
 | Validation tooling | ✅ Complete | `tools/validators/frontmatter_validator.py` (291/291 pass) |
@@ -62,7 +65,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Current Content Inventory
 
 | Category | Count | Status | Notes |
-|----------|-------|--------|-------|
+| :--- |-------| :--- |-------|
 | **Developers** | 26 prompts | ✅ Mature | Code review, testing, architecture |
 | **Business** | 38 prompts | ✅ Mature | Strategy, analysis, communication |
 | **Analysis** | 21 prompts | ✅ Mature | Data, research, metrics |
@@ -76,7 +79,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Infrastructure Components
 
 | Component | Count | Status |
-|-----------|-------|--------|
+| :--- |-------| :--- |
 | Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
 | Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
 | Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
@@ -128,7 +131,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Enterprise customers need compliance, legal, and security prompts.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| :--- |------| :--- |--------|
 | `compliance-policy-generator.md` | how_to | intermediate | M |
 | `gdpr-data-review.md` | how_to | advanced | L |
 | `hipaa-compliance-checker.md` | how_to | advanced | L |
@@ -147,7 +150,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Marketing and content teams need more variety.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| :--- |------| :--- |--------|
 | `case-study-builder.md` | how_to | intermediate | M |
 | `whitepaper-outliner.md` | how_to | intermediate | M |
 | `press-release-generator.md` | how_to | beginner | S |
@@ -165,7 +168,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Power users need more sophisticated patterns.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| :--- |------| :--- |--------|
 | `prompt-chain-orchestrator.md` | tutorial | advanced | L |
 | `multi-model-router.md` | how_to | advanced | L |
 | `context-window-optimizer.md` | how_to | advanced | M |
@@ -178,7 +181,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Vertical-specific prompt collections.
 
 | Pack | Prompts | Priority |
-|------|---------|----------|
+| :--- |---------| :--- |
 | Healthcare | 10-15 | Future |
 | Financial Services | 10-15 | Future |
 | Legal | 10-15 | Future |
@@ -193,37 +196,32 @@ When executing this analysis, you have access to:
 
 ### 1. `file_search`
 Search for files matching glob patterns.
-```
+```text
 file_search("**/*.md") → Find all markdown files
 file_search("prompts/**/*.md") → Find all prompts
-```
-
+```text
 ### 2. `read_file`
 Read file contents to inspect frontmatter and content.
-```
+```text
 read_file("/path/to/file.md") → Get file content
-```
-
+```text
 ### 3. `grep_search`
 Search for patterns across files.
-```
+```text
 grep_search("type: how_to") → Find all how_to prompts
 grep_search("difficulty: beginner") → Find beginner content
-```
-
+```text
 ### 4. `list_dir`
 List directory contents to map structure.
-```
+```text
 list_dir("/prompts/") → Get folder structure
-```
-
+```text
 ### 5. `run_in_terminal`
 Execute validation scripts.
-```
+```text
 python tools/validators/frontmatter_validator.py <file>
 python tools/validate_all.py
-```
-
+```text
 ---
 
 ## ReAct Analysis Loop
@@ -235,11 +233,10 @@ Execute analysis using iterative Thought → Action → Observation cycles:
 **Thought**: I need to understand the repository structure before analyzing content.
 
 **Action**: Map the folder hierarchy
-```
+```text
 list_dir("/") → Get top-level structure
 list_dir("/prompts/") → Get prompt categories
-```
-
+```text
 **Observation**: Document the folder tree and note category organization.
 
 ---
@@ -249,12 +246,11 @@ list_dir("/prompts/") → Get prompt categories
 **Thought**: I need to count and categorize all prompts to identify distribution.
 
 **Action**: Search and count files by category
-```
+```text
 file_search("prompts/creative/*.md") → Count creative prompts
 file_search("prompts/business/*.md") → Count business prompts
 file_search("prompts/developers/*.md") → Count developer prompts
-```
-
+```text
 **Observation**: Create inventory table showing prompts per category.
 
 ---
@@ -264,12 +260,11 @@ file_search("prompts/developers/*.md") → Count developer prompts
 **Thought**: I need to verify all files comply with the frontmatter schema.
 
 **Action**: Run validation and check specific fields
-```
+```text
 run_in_terminal("python tools/validate_all.py")
 grep_search("governance_tags:") → Check governance compliance
 grep_search("dataClassification:") → Check classification coverage
-```
-
+```text
 **Observation**: Document validation results, noting any failures or warnings.
 
 ---
@@ -279,12 +274,11 @@ grep_search("dataClassification:") → Check classification coverage
 **Thought**: I need to compare current content against target coverage.
 
 **Action**: Analyze content distribution
-```
+```text
 grep_search("type: quickstart") → Count quickstarts per platform
 grep_search("difficulty: beginner") → Count beginner-friendly content
 grep_search("audience:.*junior") → Count junior engineer content
-```
-
+```text
 **Observation**: Identify gaps in:
 - Platform coverage (github-copilot, claude, chatgpt, azure-openai, m365-copilot)
 - Difficulty balance (beginner vs intermediate vs advanced)
@@ -297,11 +291,10 @@ grep_search("audience:.*junior") → Count junior engineer content
 **Thought**: I need to evaluate prompt quality and documentation completeness.
 
 **Action**: Sample and review prompts
-```
+```text
 read_file("/prompts/creative/[sample].md") → Check content quality
 read_file("/prompts/business/[sample].md") → Check documentation
-```
-
+```text
 **Observation**: Score prompts on:
 - Clear description (1-5)
 - Complete frontmatter (1-5)
@@ -315,11 +308,10 @@ read_file("/prompts/business/[sample].md") → Check documentation
 **Thought**: Based on gaps identified, I need to prioritize new content.
 
 **Action**: Cross-reference gaps with research
-```
+```text
 # Reference the Knowledge Base Research prompt for external best practices
 # Compare against industry prompt libraries
-```
-
+```text
 **Observation**: Generate prioritized expansion roadmap.
 
 ---
@@ -343,10 +335,9 @@ After completing the ReAct loop, produce:
 
 ### Content Distribution
 | Category | Count | % of Total | Health | Maturity |
-|----------|-------|------------|--------|----------|
+| :--- |-------| :--- |--------| :--- |
 | ...      | ...   | ...        | ✅/⚠️/❌ | L1-L5 |
-```
-
+```text
 ### 2. Gap Analysis Matrix
 
 ```markdown
@@ -354,7 +345,7 @@ After completing the ReAct loop, produce:
 
 ### By Platform Coverage
 | Platform | Quickstart | How-To | Tutorial | Reference | Total |
-|----------|------------|--------|----------|-----------|-------|
+| :--- |------------| :--- |----------| :--- |-------|
 | github-copilot | ✅ | X | X | X | X |
 | claude | ✅ | X | X | X | X |
 | chatgpt | ✅ | X | X | X | X |
@@ -363,7 +354,7 @@ After completing the ReAct loop, produce:
 
 ### By Audience
 | Audience | Beginner | Intermediate | Advanced | Total |
-|----------|----------|--------------|----------|-------|
+| :--- |----------| :--- |----------| :--- |
 | junior-engineer | X | X | X | X |
 | senior-engineer | X | X | X | X |
 | solution-architect | X | X | X | X |
@@ -372,12 +363,11 @@ After completing the ReAct loop, produce:
 
 ### By Industry (Future)
 | Industry | Current | Target | Gap |
-|----------|---------|--------|-----|
+| :--- |---------| :--- |-----|
 | Healthcare | 0 | 15 | 15 |
 | Financial | 0 | 15 | 15 |
 | Legal | 0 | 15 | 15 |
-```
-
+```text
 ### 3. Expansion Roadmap
 
 ```markdown
@@ -388,7 +378,7 @@ After completing the ReAct loop, produce:
 **Target**: 3 → 15 prompts
 
 | Prompt | Type | Difficulty | Owner | Status |
-|--------|------|------------|-------|--------|
+| :--- |------| :--- |-------| :--- |
 | compliance-policy-generator.md | how_to | intermediate | TBD | ⏳ |
 | ... | ... | ... | ... | ... |
 
@@ -397,7 +387,7 @@ After completing the ReAct loop, produce:
 **Target**: 9 → 20 prompts
 
 | Prompt | Type | Difficulty | Owner | Status |
-|--------|------|------------|-------|--------|
+| :--- |------| :--- |-------| :--- |
 | case-study-builder.md | how_to | intermediate | TBD | ⏳ |
 | ... | ... | ... | ... | ... |
 
@@ -408,8 +398,7 @@ After completing the ReAct loop, produce:
 ### Phase 4: Industry Packs (P3)
 **Timeline**: Ongoing
 **Target**: 5 industry-specific packs
-```
-
+```text
 ### 4. Quality Scorecard
 
 ```markdown
@@ -420,7 +409,7 @@ After completing the ReAct loop, produce:
 
 ### By Dimension
 | Dimension | Score | Notes |
-|-----------|-------|-------|
+| :--- |-------| :--- |
 | Frontmatter Compliance | X/5 | All required fields present |
 | Documentation Completeness | X/5 | Description, examples, tips |
 | Example Quality | X/5 | Realistic, copy-paste ready |
@@ -429,12 +418,11 @@ After completing the ReAct loop, produce:
 
 ### Content Quality Sampling
 | Category | Sample Size | Avg Score | Issues |
-|----------|-------------|-----------|--------|
+| :--- |-------------| :--- |--------|
 | Developers | X | X/5 | ... |
 | Business | X | X/5 | ... |
 | ... | ... | ... | ... |
-```
-
+```text
 ### 5. Action Items
 
 ```markdown
@@ -451,8 +439,7 @@ After completing the ReAct loop, produce:
 ### Medium-term (This Quarter)
 - [ ] Action 5
 - [ ] Action 6
-```
-
+```text
 ---
 
 ## Expansion Priorities
@@ -532,7 +519,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Future**: Enterprise customers need domain expertise.
 
 | Industry | Key Use Cases | Prompt Count |
-|----------|---------------|--------------|
+| :--- |---------------| :--- |
 | Healthcare | Patient communication, clinical documentation, HIPAA compliance | 10-15 |
 | Financial Services | Risk analysis, regulatory reporting, fraud detection | 10-15 |
 | Legal | Contract review, legal research, document drafting | 10-15 |
@@ -575,12 +562,11 @@ python tools/validators/frontmatter_validator.py --all -v
 Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object { 
   "$($_.Name): $((Get-ChildItem $_.FullName -Filter *.md).Count)" 
 }
-```
-
+```text
 ### Previous Analysis Outputs
 
 | Document | Date | Purpose |
-|----------|------|---------|
+| :--- |------| :--- |
 | `docs/UNIFIED_REFACTOR_GUIDE_REACT.md` | Nov 2025 | Original refactor plan |
 | `docs/REFACTOR_TODO.md` | Dec 2025 | Completed task tracker |
 | `docs/REPO_ANALYSIS_REPORT_2025-11-30.md` | Nov 2025 | Initial analysis |
@@ -591,7 +577,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 
 - [Knowledge Base Research](/prompts/advanced/react-knowledge-base-research) - External research prompt
 - [Frontmatter Validator](/tools/validators/frontmatter_validator.py) - Validation tooling
-- [Prompt Template](/templates/prompt-template.md) - Template for new prompts
+- [Prompt Template](../../templates/prompt-template.md) - Template for new prompts
 - [Frontmatter Schema](/reference/frontmatter-schema) - Field definitions
 - [Content Types](/reference/content-types) - Type selection guide
 - [Platform Comparison](/reference/platform-comparison) - Cross-platform guidance
@@ -601,7 +587,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 ## Changelog
 
 | Version | Date | Changes |
-|---------|------|---------|
+| :--- |------| :--- |
 | 4.0 | 2025-12-02 | Updated after Phase 1-6 completion; added maturity framework, new expansion priorities |
 | 3.0 | 2025-11-30 | Added governance context, expanded deliverables |
 | 2.0 | 2025-11-29 | Initial ReAct structure |

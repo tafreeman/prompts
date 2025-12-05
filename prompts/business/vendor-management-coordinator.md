@@ -24,15 +24,24 @@ reviewStatus: "draft"
 ---
 # Vendor Management Coordinator
 
+
+---
+
 ## Description
 
 Manages vendor relationships
+
+
+---
 
 ## Use Cases
 
 - Vendor Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -51,7 +60,9 @@ Include:
 4. Relationship management
 5. Issue resolution
 6. Payment processing
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +70,9 @@ Include:
 - `[project_name]`: Project Name
 - `[services]`: Services
 - `[terms]`: Terms
+
+
+---
 
 ## Example Usage
 
@@ -69,8 +83,7 @@ Include:
 [services]: Cloud Hosting (AWS), Migration Consulting (Accenture), Security Audit (Deloitte)
 [terms]: Net-60 payment, 99.9% SLA, 24/7 Support, Penalty clauses for downtime > 1hr
 [issues]: Missed deadlines on Phase 1 delivery, SLA breach in October (4 hours downtime)
-```
-
+```text
 **Output:**
 
 ```text
@@ -92,7 +105,9 @@ Include:
 *   **Responsiveness:** Mean Time to Respond (MTTR) to support tickets.
 
 [... continues with relationship management and issue resolution ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -100,6 +115,9 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

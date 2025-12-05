@@ -40,6 +40,9 @@ To distill complex information into clear, impactful slide content that follows 
 - **Slide Type**: [slide_type]
 - **Tone**: [tone]
 
+
+---
+
 ## Prompt
 
 You are an expert presentation designer and copywriter. I need you to refine the following text for a PowerPoint slide.
@@ -58,12 +61,18 @@ Please generate content for **one slide** with the following structure:
 3. **Speaker Notes**: A short paragraph explaining the details that were removed from the slide, to be spoken verbally.
 4. **Visual Idea**: A brief suggestion for an image, icon, or chart that would support this content.
 
+
+---
+
 ## Variables
 
 - `[source_text]`: The raw text you want to summarize (e.g., a paragraph from a report).
 - `[audience]`: Who will be watching (e.g., "Executives", "Technical Team", "Customers").
 - `[slide_type]`: The purpose of the slide (e.g., "Title Slide", "Problem Statement", "Solution", "Data Summary").
 - `[tone]`: The style of communication (e.g., "Professional", "Inspiring", "Urgent", "Educational").
+
+
+---
 
 ## Example Usage
 
@@ -92,10 +101,16 @@ Please generate content for **one slide** with the following structure:
 
 **Visual Idea**: A split comparison chart: "Current State" (High Downtime/Cost) vs. "Future State" (High Reliability/Savings).
 
+
+---
+
 ## Tips
 
 - Use this prompt iteratively for each key section of your document to build a full deck.
 - If the output is still too long, ask Copilot to "make it punchier" or "limit bullets to 5 words".
+
+
+---
 
 ## Related Prompts
 

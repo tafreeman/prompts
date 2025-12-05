@@ -29,7 +29,7 @@ This document outlines a comprehensive, phased approach to evaluating all prompt
 ### Category Breakdown
 
 | Category | Prompt Count | Priority | Complexity | Est. Eval Time |
-|----------|-------------|----------|------------|----------------|
+| :--- |-------------| :--- |------------| :--- |
 | `developers/` | 24 | P1 ✅ | High | Completed |
 | `analysis/` | 21 | P1 | High | Week 1 |
 | `business/` | 38 | P1 | Medium | Week 2 |
@@ -58,7 +58,7 @@ We use two complementary evaluation frameworks:
 #### Quality Standards Rubric (0-100 scale)
 
 | Dimension | Weight | Description |
-|-----------|--------|-------------|
+| :--- |--------| :--- |
 | Completeness | 25% | All required sections present |
 | Example Quality | 30% | Realistic, complete examples |
 | Specificity | 20% | Clear instructions, no ambiguity |
@@ -68,7 +68,7 @@ We use two complementary evaluation frameworks:
 #### Effectiveness Rubric (1.0-5.0 scale)
 
 | Dimension | Weight | Description |
-|-----------|--------|-------------|
+| :--- |--------| :--- |
 | Clarity | 25% | Understandable in <30 seconds |
 | Effectiveness | 30% | Achieves stated goal |
 | Reusability | 20% | Parameterized, adaptable |
@@ -104,7 +104,7 @@ failing_indicators:
 Based on research from OpenAI, Anthropic, and Microsoft best practices:
 
 | Model | Role | Strengths | Use Case |
-|-------|------|-----------|----------|
+| :--- |------| :--- |----------|
 | **GPT-4o-mini** | Primary Grader | Fast, cost-effective, consistent | Standard evaluations |
 | **Claude 3.5 Sonnet** | Secondary Grader | Strong reasoning, catches nuance | Cross-validation |
 | **GPT-4o** | Tie-breaker | High accuracy | Disputed scores |
@@ -127,7 +127,7 @@ Run 5: o1-mini (for advanced/* prompts only)
 When improving prompts, use different models for different tasks:
 
 | Task | Recommended Model | Reason |
-|------|------------------|--------|
+| :--- |------------------| :--- |
 | **Content Generation** | Claude Sonnet 4 | Strong writing, follows instructions |
 | **Technical Prompts** | GPT-4o | Good code examples |
 | **Refactoring** | Claude Sonnet 4 | Maintains structure |
@@ -222,7 +222,7 @@ python testing/evals/run_gh_eval.py testing/evals/governance --runs 3 --model gp
 Based on LLM evaluation research:
 
 | Prompt Complexity | Minimum Runs | Recommended | Rationale |
-|------------------|--------------|-------------|-----------|
+| :--- |--------------| :--- |-----------|
 | Simple (creative) | 3 | 3 | Low variance expected |
 | Standard (business) | 3 | 5 | Moderate variance |
 | Complex (developers) | 3 | 5 | Higher variance |
@@ -365,7 +365,7 @@ flowchart TD
 ### Model Selection for Improvements
 
 | Improvement Task | Recommended Model | Improvement Prompt |
-|-----------------|------------------|-------------------|
+| :--- |------------------| :--- |
 | Add missing sections | Claude Sonnet 4 | Prompt Quality Evaluator |
 | Add examples | GPT-4o | Prompt Quality Evaluator |
 | Add CoT reasoning | o1-mini | Native reasoning |
@@ -538,7 +538,7 @@ if __name__ == "__main__":
 ### Phase Completion Criteria
 
 | Metric | Target | Measurement |
-|--------|--------|-------------|
+| :--- |--------| :--- |
 | Pass Rate | ≥ 90% | Prompts scoring ≥ 7.0/10 |
 | Average Score | ≥ 7.5/10 | Mean across all evaluations |
 | Score Variance | ≤ 0.5 | Standard deviation per prompt |
@@ -562,22 +562,22 @@ Track these metrics weekly:
 
 ### Quality Metrics
 | Category | Evaluated | Passing | Pass Rate | Avg Score |
-|----------|-----------|---------|-----------|-----------|
+| :--- |-----------| :--- |-----------| :--- |
 | developers | 24 | 23 | 96% | 7.9 |
-| analysis | - | - | - | - |
-| business | - | - | - | - |
-| m365 | - | - | - | - |
-| system | - | - | - | - |
-| advanced | - | - | - | - |
-| creative | - | - | - | - |
-| governance | - | - | - | - |
+| analysis | :--- | - | :--- | - |
+| business | :--- | - | :--- | - |
+| m365 | :--- | - | :--- | - |
+| system | :--- | - | :--- | - |
+| advanced | :--- | - | :--- | - |
+| creative | :--- | - | :--- | - |
+| governance | :--- | - | :--- | - |
 
 ### Improvement Backlog
 | Priority | Count | Avg Score | Primary Issue |
-|----------|-------|-----------|---------------|
-| P0 (Critical) | 0 | - | - |
+| :--- |-------| :--- |---------------|
+| P0 (Critical) | 0 | :--- | - |
 | P1 (High) | 1 | 6.75 | Missing structure |
-| P2 (Medium) | 0 | - | - |
+| P2 (Medium) | 0 | :--- | - |
 ```
 
 ### Final Success Criteria
@@ -680,7 +680,7 @@ testing/
 ### Priority Issue Definitions
 
 | Priority | Definition | Response Time | Example |
-|----------|------------|---------------|---------|
+| :--- |------------| :--- |---------|
 | P0 | Prompt is broken/unusable | Immediate | <30 words, missing metadata |
 | P1 | Major quality issues | Within phase | No examples, unclear goal |
 | P2 | Moderate improvements needed | Next cycle | Generic examples, missing tips |

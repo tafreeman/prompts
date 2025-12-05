@@ -48,12 +48,16 @@ featuredLinks:
 
 # Advanced Prompt Patterns
 
+![Difficulty](https://img.shields.io/badge/Difficulty-Advanced-red)
+![Patterns](https://img.shields.io/badge/Patterns-15%2B-blue)
+![Research Backed](https://img.shields.io/badge/Research-Backed-green)
+
 Tackle ambiguous research briefs, multi-step diagnostics, and large knowledge bases with proven reasoning blueprints. This directory curates every high-complexity workflow in the library—perfect for architects, staff engineers, and AI platform owners who need reliable, repeatable thinking structures.
 
 ## In This Section
 
 | Pattern | When to Use | Representative Prompt |
-|---------|-------------|------------------------|
+| :--- |-------------| :--- |
 | **Chain-of-Thought** | Step-by-step reasoning, debugging, performance analysis | [Detailed CoT](/prompts/advanced/chain-of-thought-detailed) |
 | **Reflection & Self-Critique** | Improve answers using AI feedback loops | [Reflection Self-Critique](/prompts/advanced/reflection-self-critique) |
 | **Tree-of-Thoughts** | Branching exploration, architecture trade-offs | [ToT Template](/prompts/advanced/tree-of-thoughts-template) |

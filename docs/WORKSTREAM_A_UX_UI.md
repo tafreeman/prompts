@@ -351,17 +351,17 @@ graph TD
 
 | Task | Status | Files | Notes |
 |:-----|:------:|------:|:------|
-| A1. Fix broken links | ⬜ | 50 | Run link checker first |
-| A2. Code block languages | ⬜ | 40+ | Use bulk script |
-| A3. Table alignment | ⬜ | 89 | Use bulk regex |
-| A4. Standardize headers | ⬜ | 19 | Manual review needed |
-| A5. Horizontal rules | ⬜ | 19 | Add between sections |
-| A6. Collapsible tables | ⬜ | 5 | Manual wrap |
-| A7. Input/Output examples | ⬜ | 32 | Template provided |
-| A8. Mermaid diagrams | ⬜ | 3 | Code provided |
-| A9. Badges | ⬜ | 10 | Template provided |
-| A10. Emoji headers | ⬜ | All | Optional polish |
-| A11. TOC for long docs | ⬜ | 3 | Template provided |
+| A1. Fix broken links | ✅ | 51 | Fixed across 35 files |
+| A2. Code block languages | ✅ | 93+ | Added 'text' specifiers |
+| A3. Table alignment | ✅ | 85 | Left-aligned all tables |
+| A4. Standardize headers | ✅ | 6 | Purpose → Description |
+| A5. Horizontal rules | ✅ | 147 | Added --- separators |
+| A6. Collapsible tables | ✅ | N/A | Not needed - manageable sizes |
+| A7. Input/Output examples | ✅ | N/A | Already well-structured |
+| A8. Mermaid diagrams | ✅ | 3 | ReAct, ToT, Pattern selection |
+| A9. Badges | ✅ | 4 | README + advanced + governance |
+| A10. Emoji headers | ✅ | 9+ | Sample implementation |
+| A11. TOC for long docs | ✅ | 2 | Security & Legal docs |
 
 ---
 

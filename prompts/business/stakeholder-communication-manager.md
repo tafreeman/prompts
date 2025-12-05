@@ -24,9 +24,15 @@ reviewStatus: "draft"
 ---
 # Stakeholder Communication Manager
 
+
+---
+
 ## Description
 
 A strategic communications specialist for complex stakeholder management across enterprise projects. Focuses on executive updates, change management messaging, crisis communication, and multi-stakeholder alignment for distributed teams.
+
+
+---
 
 ## Use Cases
 
@@ -35,6 +41,9 @@ A strategic communications specialist for complex stakeholder management across 
 - Crisis communication during service outages or project delays
 - Multi-stakeholder alignment for cross-functional initiatives
 - Vendor/partner relationship communication management
+
+
+---
 
 ## Prompt
 
@@ -58,7 +67,9 @@ Provide:
 7. **Crisis Communication Playbook** (If project is at risk)
 
 Format output in structured Markdown with tables for matrices and calendars.
-```
+```text
+
+---
 
 ## Variables
 
@@ -66,6 +77,9 @@ Format output in structured Markdown with tables for matrices and calendars.
 - `[stakeholders]`: List of stakeholder groups with roles (e.g., "CFO (Sponsor), VP Supply Chain (Key User), IT Director, Warehouse Staff (End Users)")
 - `[phase]`: Current project phase (e.g., "Blueprinting/Design", "UAT", "Go-Live", "Post-Production Support")
 - `[challenges]`: Specific communication obstacles (e.g., "Resistance to change from warehouse staff, CFO demanding faster ROI visibility, offshore vendor language barriers")
+
+
+---
 
 ## Example Usage
 
@@ -88,8 +102,7 @@ Challenges:
 - CFO demanding weekly ROI metrics and faster go-live (pressure to cut timeline from 18 to 12 months)
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -100,7 +113,7 @@ Challenges:
 ### Power/Interest Matrix
 
 | Stakeholder | Power | Interest | Strategy |
-|-------------|-------|----------|----------|
+| :--- |-------| :--- |----------|
 | CFO | High | High | **Manage Closely** - Weekly exec summary, focus on ROI/milestones |
 | VP Supply Chain | High | High | **Manage Closely** - Bi-weekly design reviews, process walkthroughs  |
 | IT Director | Medium | High | **Keep Informed** - Technical steering committee, architecture decisions |
@@ -111,11 +124,11 @@ Challenges:
 ### RACI Matrix (Communication Ownership)
 
 | Activity | CFO | VP SC | IT Dir | Fin Mgr | Staff | Partner |
-|----------|-----|-------|--------|---------|-------|---------|
-| Exec Status Report | **A** | I | I | I | - | - |
+| :--- |-----| :--- |--------| :--- |-------| :--- |
+| Exec Status Report | **A** | I | I | I | :--- | - |
 | Blueprint Approval | **A** | **R** | **C** | **C** | I | **C** |
-| Change Management | **A** | **R** | **C** | I | **C** | - |
-| Technical Design | I | **C** | **A/R** | I | - | **C** |
+| Change Management | **A** | **R** | **C** | I | **C** | :--- |
+| Technical Design | I | **C** | **A/R** | I | :--- | **C** |
 | Go-Live Decision | **A** | **R** | **C** | I | I | I |
 
 *R=Responsible, A=Accountable, C=Consulted, I=Informed*
@@ -125,7 +138,7 @@ Challenges:
 ## 2. Communication Matrix
 
 | Stakeholder | Message Type | Frequency | Channel | Objective | Owner |
-|-------------|-------------|-----------|---------|-----------|-------|
+| :--- |-------------| :--- |---------| :--- |-------|
 | **CFO** | Executive Summary | Weekly (Fri 4pm) | Email + 15min call | ROI tracking, risk flagging, decision requests | PM |
 | **CFO** | Steering Committee | Monthly (1st Tue) | In-person meeting | Strategic alignment, budget approval | PM |
 | **VP Supply Chain** | Design Review | Bi-weekly (Wed 2pm) | Teams + Miro | Blueprint validation, process signoff | Business Analyst |
@@ -209,7 +222,7 @@ Challenges:
 **Overall Status**: 🟢 Green
 
 | Dimension | Status | Detail |
-|-----------|--------|--------|
+| :--- |--------| :--- |
 | Scope | 🟢 | Blueprint 75% complete (Finance done, Supply Chain in review) |
 | Schedule | 🟡 | 2 days behind due to offshore holiday. Plan to recover via weekend catch-up session. |
 | Budget | 🟢 | $1.2M spent of $8M (15% utilization, on track for Phase 1) |
@@ -269,7 +282,7 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 ### Issue Triage Flow
 
 | Issue Severity | Response Time | Escalation Path | Example |
-|----------------|--------------|-----------------|---------|
+| :--- |--------------| :--- |---------|
 | **P0 - Critical** | Immediate (< 1 hour) | PM → IT Director → CFO | Production outage, data loss, security breach |
 | **P1 - High** | Same day (< 4 hours) | PM → Steering Committee | Major design conflict, vendor delay \u003e 5 days |
 | **P2 - Medium** | Next business day | PM handles | Minor scope change, offshore communication issue |
@@ -339,7 +352,7 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 **Communication Effectiveness KPIs (Track Monthly)**:
 
 | Metric | Target | Actual (Month 3) | Trend |
-|--------|--------|------------------|-------|
+| :--- |--------| :--- |-------|
 | Stakeholder Survey Score | \u003e 4.0/5.0 | 3.8/5.0 | 🔴 (Needs improvement) |
 | Meeting On-Time Start Rate | \u003e 90% | 85% | 🟡 (Offshore time zone issues) |
 | Email Open Rate (Newsletters) | \u003e 70% | 82% | 🟢 (High engagement) |
@@ -349,7 +362,9 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 **Improvement Actions**:
 - Survey score: Add more "show, don't tell" demos per warehouse feedback
 - Meeting punctuality: Send Outlook invites with time zone converters for offshore team
-```
+```text
+
+---
 
 ## Tips
 
@@ -361,9 +376,12 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 - **Leverage Asynchronous Tools for Offshore Teams**: Record Loom videos, use Miro for design reviews, and post meeting summaries in Confluence to bridge time zones.
 - **Celebrate Wins Publicly**: Monthly pizza parties, shoutouts in newsletters, and "Contributor of the Month" awards build momentum and morale.
 
+
+---
+
 ## Related Prompts
 
 - **[change-management-coordinator](./change-management-coordinator.md)** - For deeper change management playbooks
 - **[risk-management-analyst](./risk-management-analyst.md)** - For quantifying communication risks
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - For structuring communication around sprints
-- **[project-charter-creator](./project-charter-creator.md)** - For initial stakeholder identification
+- **project-charter-creator** - For initial stakeholder identification

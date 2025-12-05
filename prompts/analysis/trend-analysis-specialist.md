@@ -25,15 +25,24 @@ effectivenessScore: 3.2
 ---
 # Trend Analysis Specialist
 
+
+---
+
 ## Description
 
 Identifies and analyzes market trends
+
+
+---
 
 ## Use Cases
 
 - Trend Analysis for Researcher persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -52,7 +61,9 @@ Include:
 4. Future projections
 5. Business implications
 6. Strategic responses
-```
+```text
+
+---
 
 ## Variables
 
@@ -60,6 +71,9 @@ Include:
 - `[horizon]`: Horizon
 - `[impact]`: Impact
 - `[market]`: Market
+
+
+---
 
 ## Example Usage
 
@@ -70,8 +84,7 @@ Include:
 [categories]: AI Content Generation, Privacy/Cookie Deprecation
 [horizon]: 12-24 Months
 [impact]: High (Disruption of organic search traffic and ad targeting)
-```
-
+```text
 **Output:**
 
 ```text
@@ -90,7 +103,9 @@ Include:
 *   **Invest:** Build owned communities (Newsletters) to reduce platform dependency.
 
 [... continues with future projections and business implications ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -98,6 +113,9 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

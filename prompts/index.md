@@ -51,7 +51,7 @@ Browse our complete collection of AI prompts, organized by category and use case
 ## Categories
 
 | Category | Description | Count |
-|----------|-------------|-------|
+| :--- |-------------| :--- |
 | [**Developers**](/prompts/developers) | Code generation, debugging, refactoring, testing | 50+ |
 | [**Advanced**](/prompts/advanced) | Chain-of-Thought, ReAct, Tree-of-Thought, RAG | 15+ |
 | [**Business**](/prompts/business) | Reports, communications, strategy, planning | 26 |
@@ -93,7 +93,7 @@ Complex multi-step patterns requiring deep understanding of prompting techniques
 ## By Platform
 
 | Platform | Best Categories |
-|----------|----------------|
+| :--- |----------------|
 | **GitHub Copilot** | [Developers](/prompts/developers), [Advanced](/prompts/advanced) |
 | **Claude** | [Analysis](/prompts/analysis), [Advanced](/prompts/advanced) |
 | **ChatGPT** | [Business](/prompts/business), [Creative](/prompts/creative) |

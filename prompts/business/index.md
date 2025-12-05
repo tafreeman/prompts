@@ -73,7 +73,7 @@ Give every stakeholder update, operating review, and transformation workstream a
 ## In This Section
 
 | Scenario | Prompt | Output |
-|----------|--------|--------|
+| :--- |--------| :--- |
 | Executive briefings | [Board Update](/prompts/business/board-update) | Slide-ready summary with KPIs and risks |
 | Change programs | [Organizational Change Manager](/prompts/business/organizational-change-manager) | Stakeholder map, messaging, adoption plan |
 | Delivery cadence | [Agile Sprint Planner](/prompts/business/agile-sprint-planner) | Sprint goals, risks, demo story |

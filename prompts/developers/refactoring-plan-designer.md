@@ -23,6 +23,9 @@ reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
 
+
+---
+
 ## Description
 
 Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
@@ -71,6 +74,9 @@ Markdown with the following sections:
 6. **Rollback Plans** (per phase)
 7. **Timeline Estimate**
 
+
+---
+
 ## Use Cases
 
 - Extracting a microservice from a monolith
@@ -78,6 +84,9 @@ Markdown with the following sections:
 - Changing database schemas or data models
 - Refactoring large modules or classes
 - Paying down technical debt systematically
+
+
+---
 
 ## Prompt
 
@@ -144,7 +153,7 @@ Create a **detailed, phased refactoring plan** that:
 ### 2. Risk Assessment
 
 | Risk | Likelihood | Impact | Mitigation |
-|------|-----------|---------|-----------|
+| :--- |-----------| :--- |-----------|
 | [Risk 1] | High/Med/Low | High/Med/Low | [How to address] |
 | [Risk 2] | High/Med/Low | High/Med/Low | [How to address] |
 
@@ -228,7 +237,7 @@ Before starting, ensure:
 ### 7. Timeline Estimate
 
 | Phase | Duration | Start | End |
-|-------|----------|-------|-----|
+| :--- |----------| :--- |-----|
 | Phase 1 | [X weeks] | [Date] | [Date] |
 | Phase 2 | [X weeks] | [Date] | [Date] |
 | ... | ... | ... | ... |
@@ -236,7 +245,9 @@ Before starting, ensure:
 **Total:** [X weeks/months]
 
 **Buffer:** [+Y weeks for unknowns]
-```
+```text
+
+---
 
 ## Variables
 
@@ -250,6 +261,9 @@ Before starting, ensure:
 - `[e.g., 99.9%]`: Uptime requirement
 - `[current %]`: Test coverage
 - `[ANY_OTHER_INFO]`: Additional context
+
+
+---
 
 ## Example Usage
 
@@ -279,8 +293,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Uptime Requirement: 99.95%
 - Test Coverage: 60%
 - Deployment Frequency: Daily
-```
-
+```text
 **Output (abbreviated):**
 
 ```markdown
@@ -304,7 +317,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 ### 2. Risk Assessment
 
 | Risk | Likelihood | Impact | Mitigation |
-|------|-----------|---------|-----------|
+| :--- |-----------| :--- |-----------|
 | Data migration failure | Medium | High | Dual-write period + rollback script |
 | Performance degradation | Medium | High | Load testing before each phase |
 | Authentication breaks | Low | Critical | Feature flags + canary rollout |
@@ -370,7 +383,9 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 #### Phase 4: Remove Monolith User Code
 
 [Same structure: delete old user code from monolith, final validation]
-```
+```text
+
+---
 
 ## Tips
 
@@ -381,10 +396,13 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - **Communicate:** Share the plan with team and stakeholders
 - **Iterate:** Adjust phases based on learnings from early phases
 
+
+---
+
 ## Related Prompts
 
-- [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
+- [Tree-of-Thoughts: Architecture Evaluator](../advanced/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
+- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
 
 ## Governance Notes

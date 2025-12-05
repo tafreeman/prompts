@@ -40,6 +40,9 @@ To structure data and insights into a visual plan that Microsoft Designer can ge
 - **Target Audience**: [audience]
 - **Visual Style**: [visual_style]
 
+
+---
+
 ## Prompt
 
 You are an expert Information Designer. I have some data that I need to turn into an infographic using Microsoft Designer.
@@ -59,12 +62,18 @@ Please generate a **Design Brief** for this infographic:
 4. **Iconography**: Suggestions for 3-4 icons to search for in the Designer asset library.
 5. **Text Hierarchy**: Which data point should be big (Hero) vs. small (Supporting).
 
+
+---
+
 ## Variables
 
 - `[topic]`: What the infographic is about (e.g., "Remote Work Trends").
 - `[data_points]`: The numbers or facts to include (e.g., "70% productivity increase, 20% cost saving").
 - `[audience]`: Who is reading it (e.g., "HR Managers").
 - `[visual_style]`: The look (e.g., "Corporate Blue", "Playful Illustration", "Minimalist Line Art").
+
+
+---
 
 ## Example Usage
 
@@ -98,10 +107,16 @@ A central illustration of a steaming coffee cup with three arrows pointing outwa
 - **HERO**: "Boosts Energy" (Largest font)
 - **SUPPORTING**: "Antioxidants" & "Focus" (Medium font)
 
+
+---
+
 ## Tips
 
 - Microsoft Designer works best when you generate the *background* first, then add text and icons as layers on top.
 - Use the "Designer Prompt" output to get that base image.
+
+
+---
 
 ## Related Prompts
 

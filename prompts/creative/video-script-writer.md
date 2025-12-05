@@ -28,9 +28,15 @@ effectivenessScore: 4.0
 ---
 # Video Script Writer
 
+
+---
+
 ## Description
 
 Generate professional video scripts tailored to different platforms and formats. This prompt helps content creators, marketers, and video producers create structured scripts with hooks, transitions, and calls-to-action that keep viewers engaged from start to finish.
+
+
+---
 
 ## Use Cases
 
@@ -39,6 +45,9 @@ Generate professional video scripts tailored to different platforms and formats.
 - Explainer and product demo videos
 - Corporate training and onboarding videos
 - Promotional and advertisement videos
+
+
+---
 
 ## Prompt
 
@@ -86,12 +95,14 @@ Format the script with:
 - [VISUAL] cues for B-roll or graphics
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | `[YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]` | The platform and format for your video |
 | `[TARGET DURATION]` | How long the video should be |
 | `[MAIN SUBJECT OF THE VIDEO]` | What your video is about |
@@ -101,6 +112,9 @@ Format the script with:
 | `[EDUCATE/ENTERTAIN/PERSUADE/INFORM/CONVERT]` | Primary purpose of the video |
 | `[QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]` | How you want to start the video |
 | `[WHAT SHOULD VIEWERS DO?]` | The action you want viewers to take |
+
+
+---
 
 ## Example Usage
 
@@ -150,8 +164,7 @@ Format the script with:
 - [VISUAL] cues for B-roll or graphics
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
-```
-
+```text
 **Output:**
 
 ```text
@@ -451,7 +464,9 @@ Just main and feature branches. Create a branch for each thing you're working on
 **Tags:** git branches, git tutorial, git for beginners, how to use git branches, git merge, git checkout, git workflow, learn git, devpath academy, coding tutorial
 
 **Description first line:** Master Git branches in under 10 minutes! Perfect for beginners who want to stop fearing code changes.
-```
+```text
+
+---
 
 ## Tips
 
@@ -462,9 +477,11 @@ Just main and feature branches. Create a branch for each thing you're working on
 - **Script for the edit:** Include visual cues and B-roll suggestions to make editing easier and the final video more engaging
 - **Read aloud:** Scripts that look good on paper often sound unnatural—always read your script out loud before recording
 
+
+---
+
 ## Related Prompts
 
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)
 - [Social Media Content Generator](social-media-content-generator.md)
-- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
 - [Headline and Tagline Creator](headline-tagline-creator.md)
