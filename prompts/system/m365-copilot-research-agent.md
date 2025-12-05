@@ -105,3 +105,10 @@ A report that:
 2.  Cites a Teams chat where "Jane Doe" mentioned testing AutoGen.
 3.  Contrasts this with the external "State of the Art" (Reflexion papers).
 4.  Recommends updating the "Standards doc" to include Agentic patterns.
+
+## Tips
+
+- **Always ground in Graph data**: M365 Copilot works best when you explicitly ask it to search specific sources (Teams, Outlook, SharePoint)
+- **Specify time ranges**: Narrow searches to recent periods (e.g., "last 90 days") for more relevant results
+- **Request citations**: Explicitly ask for document links and specific quotes to verify claims
+- **Respect privacy**: Be aware that results are filtered by the user's permissions - not all content may be accessible

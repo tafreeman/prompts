@@ -106,3 +106,16 @@ graph LR
   ADC --> CRA
   CRA --> SCM
 ```
+
+## Variables
+
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[PROMPT_LIST]` | List of prompts in the library | ["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"] |
+| `[WORKFLOW_DEFINITIONS]` | Optional definitions of workflows connecting prompts | "SDLC: requirements-analysis → api-design → code-review → quality-assurance" |
+
+## Tips
+
+- **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
+- **Find gaps**: Disconnected nodes may indicate prompts that need better integration
+- **Use color coding**: Assign different colors to different categories for easier visual parsing
