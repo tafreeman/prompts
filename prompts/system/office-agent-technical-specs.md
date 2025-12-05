@@ -100,3 +100,10 @@ Do not hallucinate generic AI features. Reference *these specific tools*.
 
 **Expected Output:**
 "I am running on Debian Trixie (Linux 6.1) with 2 vCPUs and 1GB RAM. My Python runtime is 3.11.13. I have 15GB of storage available (32% utilized). All core tools (git, jq, poppler) are operational."
+
+## Tips
+
+- **Reference specific tools**: When describing capabilities, always mention the actual tools available (e.g., pdftotext, jq)
+- **Know your limits**: Be aware of resource constraints (1GB RAM, 15GB storage) when planning complex operations
+- **Use native tools first**: Prefer built-in Linux utilities over installing new packages for better performance
+- **Persistent environment**: Remember that files and state persist across interactions within the same sandbox session

@@ -125,3 +125,10 @@ Produce a **Markdown Research Report** with the following structure:
 The agent will output logs of its `wget` and `pdftotext` operations, followed by the final Markdown report.
 
 **See:** [example-research-output.md](example-research-output.md) for a complete sample report.
+
+## Tips
+
+- **Verify all sources**: Ensure that all citations reference actual downloaded files, not model training data
+- **Use iterative refinement**: Apply the Reflexion pattern to the research itself - draft, critique, and refine
+- **Cache downloaded PDFs**: Store PDFs in the sandbox to avoid re-downloading during revisions
+- **Track execution time**: Monitor how long each research phase takes to optimize future queries
