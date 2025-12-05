@@ -64,6 +64,7 @@ gh copilot agent test agents/docs-agent.agent.md
 | **Prompt Engineer** | `prompt-agent.agent.md` | Prompt creation expert | AI prompts, templates |
 | **Security** | `security-agent.agent.md` | Security analysis expert | Vulnerability review, hardening |
 | **Architecture** | `architecture-agent.agent.md` | System design specialist | Design decisions, patterns |
+| **Cloud** | `cloud-agent.agent.md` | Cloud architecture expert | Cloud infrastructure, IaC, migrations |
 
 ## 📋 Agent Template
 
