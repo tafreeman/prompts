@@ -60,6 +60,8 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - **NIST Secure Software Development Framework (SSDF)** – Secure-by-design pipeline controls
 - **SLSA Framework** – Supply-chain integrity, provenance, SBOM requirements
 
+---
+
 ## Use Cases
 
 - Standing up enterprise CI/CD for polyglot microservices on Kubernetes
@@ -67,6 +69,8 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - Designing compliant delivery workflows (SOC2, ISO, PCI) with automated evidence capture
 - Defining progressive delivery strategies with automated rollback triggers
 - Building platform engineering blueprints for internal developer platforms (IDPs)
+
+---
 
 ## Prompt
 
@@ -102,8 +106,7 @@ Include:
 - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering build, test, scan, deploy steps.
 - Canary deployment pseudo-code or manifest snippet.
 - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 → SAST report stored in S3).
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example |
@@ -119,6 +122,8 @@ Include:
 | `[approvals]` | Required reviewers and windows | "DevOps lead + Security sign-off, CAB Wednesdays" |
 | `[dora_targets]` | DORA metric goals | "Daily deploys, <1h lead time, MTTR <15 min" |
 | `[constraints]` | Tooling mandates/prohibitions | "GitHub-hosted runners only, AWS Secrets Manager" |
+
+---
 
 ## Example Usage
 
@@ -136,8 +141,7 @@ Include:
 [approvals]: Prod deploy requires DevOps lead + Security sign-off when critical CVEs present; CAB Wednesdays.
 [dora_targets]: Daily deploys per service, <1h lead time, MTTR < 15 min, CFR < 10%.
 [constraints]: Only GitHub-hosted runners, Docker allowed, secrets via AWS Secrets Manager only.
-```
-
+```text
 **Excerpt of Expected Output**
 
 ```text
@@ -190,8 +194,7 @@ jobs:
 | SOC2 CC 7.2 | CodeQL SARIF report | s3://compliance-artifacts/codeql | Security Lead |
 | ISO27001 A.12.5 | Signed containers (Cosign) | Rekor transparency log | DevOps Lead |
 
-```
-
+```text
 ## Tips
 
 - Provide runtime budgets per test type so the architect can enforce SLAs and flake policies.
@@ -199,6 +202,8 @@ jobs:
 - Clarify deployment guardrails (latency/error thresholds) to get precise canary scripts.
 - Mention reusable workflow needs (monorepo vs polyrepo) so templates are included.
 - Include rollback requirements (DB migrations, config toggles) for actionable runbooks.
+
+---
 
 ## Related Prompts
 

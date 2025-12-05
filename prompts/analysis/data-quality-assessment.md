@@ -61,6 +61,8 @@ Use this prompt when onboarding new datasets, auditing existing data pipelines, 
 
 Systematic evaluation across six data quality dimensions with quantified scores and evidence-based recommendations.
 
+---
+
 ## Output Requirements
 
 Structured Markdown or JSON conforming to the Data Quality Assessment Schema in `docs/domain-schemas.md`:
@@ -73,6 +75,8 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 4. Recommended Actions (prioritized by impact)
 5. Validation Rules (proposed checks)
 
+---
+
 ## Use Cases
 
 - Onboarding new data sources into a data warehouse
@@ -80,6 +84,8 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 - Preparing datasets for ML model training
 - Investigating anomalies in reports or dashboards
 - Compliance checks for data governance initiatives
+
+---
 
 ## Prompt
 
@@ -95,8 +101,7 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 **Time Period:** [TIME_RANGE]
 
 **Schema:**
-```
-
+```text
 [TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]
 
 ```text
@@ -105,8 +110,7 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 **Column Count:** [M]
 
 **Sample Data (first 5 rows):**
-```
-
+```text
 [SAMPLE_DATA_OR_SUMMARY_STATS]
 
 ```text
@@ -266,8 +270,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 1. [Step 1: e.g., "Implement validation rules in ETL pipeline"]
 2. [Step 2: e.g., "Fix high-priority data issues"]
 3. [Step 3: e.g., "Set up automated quality monitoring"]
-```
-
+```sql
 ## Variables
 
 - `[DATASET_NAME]`: Name of the dataset
@@ -278,6 +281,8 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - `[SAMPLE_DATA_OR_SUMMARY_STATS]`: Sample rows or profiling output
 - `[HOW_DATA_WILL_BE_USED]`: Context (analytics, ML, reporting)
 - `[ANY_KNOWN_PROBLEMS]`: Pre-existing issues or concerns
+
+---
 
 ## Example Usage
 
@@ -311,8 +316,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Usage Context:** Customer analytics and ML churn prediction model
 
 **Known Issues:** Some orders missing customer_id, status field has inconsistent casing
-```
-
+```text
 **Output (abbreviated):**
 
 ```markdown
@@ -424,8 +428,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Definition:** `status IN ('pending', 'shipped', 'delivered', 'cancelled')`
 - **Applies To:** status
 - **Failure Action:** Block insert/update
-```
-
+```text
 ## Tips
 
 - **Quantify everything:** Use percentages and counts, not vague terms like "some" or "many"
@@ -434,11 +437,14 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Propose automation:** Validation rules should be implementable in ETL/database
 - **Track over time:** Re-run assessment periodically to measure improvement
 
+---
+
 ## Related Prompts
 
-- [Experiment Design Analyst](experiment-design-analyst.md) - For A/B test data validation
 - [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For investigating data issues
+- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For investigating data issues
+
+---
 
 ## Governance Notes
 

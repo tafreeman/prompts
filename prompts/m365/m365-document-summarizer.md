@@ -152,8 +152,7 @@ Return the result in Markdown:
 
 Now, summarize this document for [audience], focusing on [focus_topics], using
 a [tone] tone.
-```
-
+```text
 ## Variables
 
 - `[audience]`: Who will read the summary (e.g., "executives", "customers").
@@ -172,8 +171,7 @@ a [tone] tone.
 [length_target]: "1 page"
 
 You are my Document Summarizer working in a Microsoft 365 environment...
-```
-
+```text
 **Output:**
 
 ```text
@@ -195,8 +193,7 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 ## Critical Risks or Concerns
 - If API issues persist beyond November 22, public GA delay is unavoidable, which may impact Q4 customer acquisition targets.
 - Support team training materials are behind schedule and may not be ready until November 28, creating risk for day-1 support readiness.
-```
-
+```text
 ## Tips
 
 - Tip 1: Use `[focus_topics]` to tailor the summary to what your audience cares about most (e.g., execs care about budget/risks, engineers care about technical details).

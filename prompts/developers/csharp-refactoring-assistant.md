@@ -36,6 +36,8 @@ framework_compatibility:
 
 A specialized assistant for refactoring C# code to improve readability, maintainability, and performance while preserving behavior. Focuses on breaking down monoliths, modernizing syntax, and applying design patterns.
 
+---
+
 ## Use Cases
 
 - Modernizing legacy .NET Framework code to .NET 8+
@@ -43,6 +45,8 @@ A specialized assistant for refactoring C# code to improve readability, maintain
 - Reducing Cyclomatic Complexity
 - Replacing imperative loops with LINQ (where appropriate)
 - Introducing Dependency Injection
+
+---
 
 ## Prompt
 
@@ -69,8 +73,7 @@ Output Format:
 1. **Analysis**: Brief explanation of what was wrong (Code Smells).
 2. **Refactored Code**: The improved code.
 3. **Changes**: Bullet points explaining key changes.
-```
-
+```csharp
 ## Variables
 
 | Variable | Description | Example |
@@ -78,6 +81,8 @@ Output Format:
 | `[code_snippet]` | The C# code to refactor | Paste the method, class, or file content |
 | `[goals]` | Specific refactoring goals | "Make it async", "Split into smaller methods", "Add DI" |
 | `[constraints]` | Limitations to preserve | "Must remain static", "Cannot change public API signature" |
+
+---
 
 ## Example Usage
 
@@ -107,8 +112,7 @@ public string GetUserInfo(int id)
     }
     return "User not found";
 }
-```
-
+```csharp
 **Output:**
 
 ```markdown
@@ -146,8 +150,7 @@ public string GetUserInfo(int id)
 
     return $"Name: {user.Name}, Role: {role}";
 }
-```
-
+```csharp
 # Changes Made
 
 - **Guard Clauses**: Inverted `if` statements to return early, reducing nesting depth.
@@ -156,13 +159,14 @@ public string GetUserInfo(int id)
 - **String Interpolation**: Replaced `+` concatenation with `$` interpolation for readability.
 - **Naming**: Renamed `u` to `user` for clarity.
 
-```
-
+```csharp
 ## Tips
 
 - If the code is very complex, ask for a "Step-by-step refactoring" to see the intermediate states.
 - Always verify that the refactored code handles edge cases (nulls, empty lists) correctly.
 - Use this prompt to learn *why* a change is better, not just to get the result.
+
+---
 
 ## Related Prompts
 

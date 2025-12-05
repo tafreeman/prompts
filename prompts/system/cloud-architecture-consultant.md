@@ -54,8 +54,7 @@ Provide:
 4. Security design
 5. Disaster recovery
 6. Migration strategy
-```
-
+```text
 ## Variables
 
 - `[application]`: Application
@@ -74,8 +73,7 @@ Provide:
 [scalability]: 10M concurrent users, auto-scaling for viral content
 [compliance]: MPAA (Motion Picture Association) Content Security Best Practices
 [budget]: Cost-aware (Spot instances for transcoding), Savings Plans for compute
-```
-
+```text
 **Output:**
 
 ```text
@@ -95,8 +93,7 @@ Provide:
 *   **Intelligent Tiering:** S3 Intelligent-Tiering for video library storage.
 
 [... continues with security and disaster recovery ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results

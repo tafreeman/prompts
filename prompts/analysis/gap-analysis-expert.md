@@ -29,11 +29,15 @@ effectivenessScore: 3.2
 
 Conducts comprehensive gap analyses
 
+---
+
 ## Use Cases
 
 - Gap Analysis for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,14 +56,15 @@ Include:
 4. Impact analysis
 5. Bridging strategy
 6. Implementation roadmap
-```
-
+```text
 ## Variables
 
 - `[area]`: Area
 - `[constraints]`: Constraints
 - `[current_state]`: Current State
 - `[desired_state]`: Desired State
+
+---
 
 ## Example Usage
 
@@ -70,8 +75,7 @@ Include:
 [desired_state]: Real-time automated inventory management; <1% stockout rate
 [area]: Supply Chain Operations
 [constraints]: Budget < $50k, Must integrate with Shopify
-```
-
+```text
 **Output:**
 
 ```text
@@ -90,14 +94,15 @@ Include:
 *   **Process:** Equip staff with handheld scanners for real-time "Pick and Pack" updates.
 
 [... continues with impact analysis and roadmap ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

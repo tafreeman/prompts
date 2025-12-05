@@ -77,6 +77,8 @@ Use this prompt when facing architectural crossroads: choosing between patterns 
 
 All branches and reasoning must be visible in the output.
 
+---
+
 ## Output Requirements
 
 Structured Markdown with the following sections:
@@ -92,6 +94,8 @@ Structured Markdown with the following sections:
 9. **Risks & Mitigations**
 10. **Decision Record** (ADR-style summary)
 
+---
+
 ## Use Cases
 
 - Choosing between monolithic and microservices architectures
@@ -100,6 +104,8 @@ Structured Markdown with the following sections:
 - Deciding on deployment models (serverless, containers, VMs, hybrid)
 - Assessing frontend frameworks or state management approaches
 - Migrating legacy systems (rewrite vs refactor vs strangle fig)
+
+---
 
 ## Prompt
 
@@ -303,8 +309,7 @@ Based on the analysis, select the best option:
 ## Output Format
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
-```
-
+```text
 ## Variables
 
 - `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
@@ -321,14 +326,15 @@ Based on the analysis, select the best option:
 - `[EXISTING_TECH_STACK_INTEGRATIONS]`: Must-use or must-avoid technologies
 - `[ANY_OTHER_RELEVANT_INFO]`: Additional context
 
+---
+
 ## Example Usage
 
 **Input:**
 
 ```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
-```
-
+```text
 **Output:** (abbreviated)
 
 ```markdown
@@ -402,8 +408,7 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Likelihood**: Medium
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
-```
-
+```text
 ## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach
@@ -414,12 +419,14 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Validate with data:** Use benchmarks, case studies, or prototypes to support scores
 - **Involve stakeholders:** Share this analysis with engineering, product, and leadership for alignment
 
+---
+
 ## Related Prompts
 
-- [Tree-of-Thoughts: Database Migration](tree-of-thoughts-database-migration.md) - For data migration decisions
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance optimization
 - [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes
-- [System Design Interview Prep](../developers/system-design-interview-prep.md) - Related system design patterns
+
+---
 
 ## Governance Notes
 

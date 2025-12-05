@@ -53,8 +53,7 @@ Provide:
 4. Testing framework
 5. Recovery automation
 6. Communication plan
-```
-
+```text
 ## Variables
 
 - `[budget]`: Budget
@@ -73,8 +72,7 @@ Provide:
 [rpo]: 5 minutes (Maximum data loss)
 [budget]: $50k/year for standby infrastructure
 [compliance]: HIPAA (Encryption required, data sovereignty within US)
-```
-
+```text
 **Output:**
 
 ```text
@@ -94,8 +92,7 @@ Provide:
 3.  **DNS:** Route53 Health Check automatically updates DNS records to point to DR Load Balancer.
 
 [... continues with testing framework and recovery automation ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -74,6 +74,8 @@ Enable GPT-5.1-class (or similar) evaluators to generate a structured ToT report
 
 - During Phase 2, do not regenerate Phase 1 from scratch; only critique and minimally adjust the existing Phase 1 output where clearly justified.
 
+---
+
 ## Output Requirements
 
 Deliver a single Markdown document:
@@ -86,6 +88,8 @@ Deliver a single Markdown document:
    - `Confidence Level` (High/Medium/Low) with justification
    - `Next Actions / Validation Needed`
 
+---
+
 ## Use Cases
 
 - Enterprise prompt-library due diligence.
@@ -93,6 +97,8 @@ Deliver a single Markdown document:
 - Vendor risk assessments for AI prompt packs.
 - Regression testing after repository updates.
 - Training AI evaluators on self-checking workflows.
+
+---
 
 ## Prompt
 
@@ -146,8 +152,7 @@ Output Phase 2 as:
 - **Next Actions / Validation Needed**:
 
 Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
-```
-
+```sql
 ## Variables
 
 | Variable | Description | Example |
@@ -157,6 +162,8 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 | `[OBSERVED_STRENGTHS]` | Known positive attributes from initial assessment | "Strong template structure, comprehensive metadata, clear categorization" |
 | `[OBSERVED_GAPS]` | Identified weaknesses or missing elements | "Limited deployment docs, sparse persona coverage" |
 | `[ENTERPRISE_CONCERNS]` | Specific organizational requirements to validate | "Compliance workflows, governance metadata, security review status" |
+
+---
 
 ## Example Usage
 
@@ -169,8 +176,7 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 **Observed Strengths**: Robust template, governance metadata, analytics dashboard.
 **Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
 **Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
-```
-
+```text
 ### Output Excerpt
 
 ```markdown
@@ -202,8 +208,7 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 
 - **Confidence Level**: Medium
 - **Next Actions**: Sample prompts per persona, request Azure docs
-```
-
+```sql
 ## Tips
 
 - **Maintain Phase Separation**: Keep Phase 1 and Phase 2 clearly separated in your output. Use clear headers and avoid mixing reasoning states between phases.
@@ -221,22 +226,19 @@ Claude excels at self-critique. Add explicit permission to be critical:
 
 ```text
 During Phase 2, be genuinely critical. I want you to find real flaws in your Phase 1 analysis, not just validate it. If everything checks out, explain why with specific evidence.
-```
-
+```text
 ### GPT-4/GPT-5 (OpenAI)
 
 For longer evaluations, consider using system messages to establish the two-phase pattern:
 
 ```text
 System: You are an enterprise repository evaluator using Tree-of-Thoughts methodology with built-in self-reflection. Always complete Phase 1 fully before beginning Phase 2.
-```
-
+```text
 ### GitHub Copilot Chat
 
 ```text
 @workspace Evaluate this repository using the ToT + Reflection pattern. Phase 1: Score content, organization, and enterprise-readiness. Phase 2: Critique your own assessment and adjust scores where evidence is weak.
-```
-
+```text
 ## Governance Notes
 
 - **Human Review Required**: This prompt is tagged `requires-human-review`. All evaluation outputs should be reviewed by a human before sharing with stakeholders or making decisions based on them.
@@ -246,6 +248,8 @@ System: You are an enterprise repository evaluator using Tree-of-Thoughts method
   - Over-representation of certain languages or frameworks
   - Assumptions about team size or skill level
   - Unstated preferences for specific tools or vendors
+
+---
 
 ## Related Prompts
 

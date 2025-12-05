@@ -116,15 +116,13 @@ Clear, concise description of what this prompt does.
 ## Example Usage
 
 **Input:**
-```
-
+```text
 Show a real example with actual values
 
 ```text
 
 **Output:**
-```
-
+```text
 Show the expected result
 
 ```text
@@ -132,8 +130,7 @@ Show the expected result
 ## Tips
 - Helpful tip for better results
 - Customization suggestions
-```
-
+```sql
 ### Step 3: Follow Best Practices
 
 **Good Prompt Characteristics:**

@@ -52,8 +52,7 @@ Include:
 4. Security considerations
 5. Scalability solutions
 6. Governance model
-```
-
+```text
 ## Variables
 
 - `[blockchain_type]`: Blockchain Type
@@ -70,8 +69,7 @@ Include:
 [blockchain_type]: Permissioned Consortium (Hyperledger Fabric)
 [consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
 [integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
-```
-
+```text
 **Output:**
 
 ```text
@@ -90,8 +88,7 @@ Include:
 *   **Event Listener:** Node.js service listening for `ItemTransferred` events to update SAP ERP status.
 
 [... continues with security and scalability ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Manages project closure activities
 
+---
+
 ## Use Cases
 
 - Project Closure for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Provide:
 4. Documentation handover
 5. Team transition plan
 6. Post-project evaluation
-```
-
+```text
 ## Variables
 
 - `[deliverables]`: Deliverables
 - `[lessons]`: Lessons
 - `[project_name]`: Project Name
 - `[satisfaction]`: Satisfaction
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Provide:
 [deliverables]: New Site Live (Done), CMS Training (Done), SEO Audit (Done), Analytics Setup (Done)
 [satisfaction]: Client NPS 9/10 ("Love the design"), but complained about SEO report being 2 days late
 [lessons]: Content migration took 2x longer than estimated due to unstructured legacy data
-```
-
+```text
 **Output:**
 
 ```text
@@ -94,14 +98,15 @@ Provide:
 *   **Action:** Update estimation template to include "Content Audit" phase *before* quoting migration hours.
 
 [... continues with handover and team transition ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

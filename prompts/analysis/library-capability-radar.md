@@ -54,15 +54,21 @@ The library covers 7 key domains: Advanced, Analysis, Business, Creative, Develo
 
 Comparative analysis.
 
+---
+
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/Matplotlib, Excel instructions) to generate the chart.
+
+---
 
 ## Use Cases
 
 - Strategic planning for library expansion.
 - Identifying under-served domains (gaps).
 - Reporting on library growth and balance.
+
+---
 
 ## Prompt
 
@@ -73,8 +79,7 @@ Use the provided [CATEGORY_COUNTS] for the axes.
 The axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).
 
 This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
-```
-
+```text
 ## Example Visualization (Mermaid)
 
 Mermaid does not yet provide a native radar/spider plot primitive. Use this `pie` diagram as a stand-in to compare category proportions, or translate the same counts into your preferred radar tool.
@@ -90,4 +95,4 @@ pie showData
     "Developers" : 15
     "Governance" : 4
     "System" : 6
-```
+```text

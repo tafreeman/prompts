@@ -59,6 +59,8 @@ Use this prompt when planning large refactorings (extracting services, changing 
 
 Structured planning with risk analysis. Output is a phased plan with explicit pre-checks, steps, validations, and rollbacks.
 
+---
+
 ## Output Requirements
 
 Markdown with the following sections:
@@ -71,6 +73,8 @@ Markdown with the following sections:
 6. **Rollback Plans** (per phase)
 7. **Timeline Estimate**
 
+---
+
 ## Use Cases
 
 - Extracting a microservice from a monolith
@@ -78,6 +82,8 @@ Markdown with the following sections:
 - Changing database schemas or data models
 - Refactoring large modules or classes
 - Paying down technical debt systematically
+
+---
 
 ## Prompt
 
@@ -236,8 +242,7 @@ Before starting, ensure:
 **Total:** [X weeks/months]
 
 **Buffer:** [+Y weeks for unknowns]
-```
-
+```text
 ## Variables
 
 - `[SYSTEM_OR_CODE_DESCRIPTION]`: High-level description of what's being refactored
@@ -250,6 +255,8 @@ Before starting, ensure:
 - `[e.g., 99.9%]`: Uptime requirement
 - `[current %]`: Test coverage
 - `[ANY_OTHER_INFO]`: Additional context
+
+---
 
 ## Example Usage
 
@@ -279,8 +286,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Uptime Requirement: 99.95%
 - Test Coverage: 60%
 - Deployment Frequency: Daily
-```
-
+```text
 **Output (abbreviated):**
 
 ```markdown
@@ -370,8 +376,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 #### Phase 4: Remove Monolith User Code
 
 [Same structure: delete old user code from monolith, final validation]
-```
-
+```text
 ## Tips
 
 - **Start small:** First phase should be low-risk preparation (tests, boundaries)
@@ -381,11 +386,15 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - **Communicate:** Share the plan with team and stakeholders
 - **Iterate:** Adjust phases based on learnings from early phases
 
+---
+
 ## Related Prompts
 
-- [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
+- [Tree-of-Thoughts: Architecture Evaluator](../advanced/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
+- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
+
+---
 
 ## Governance Notes
 

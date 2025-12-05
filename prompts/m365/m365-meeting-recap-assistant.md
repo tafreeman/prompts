@@ -159,8 +159,7 @@ Return the result in Markdown with these sections:
 - [unresolved question or topic]
 
 Now, using the meeting transcript, chat, and context, generate the meeting recap.
-```
-
+```text
 ## Variables
 
 - `[priority_scheme]`: How to categorize action items (e.g., "High/Medium/Low").
@@ -177,8 +176,7 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 [focus_topics]: "timeline risks and customer impact"
 
 You are my Meeting Recap Assistant working in a Microsoft 365 environment...
-```
-
+```text
 **Output:**
 
 ```text
@@ -203,8 +201,7 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 - What is the fallback plan if the internal beta reveals a critical issue after November 22?
 - Should we prepare a public communication in case the GA date shifts to December 12?
 - Do we need additional QA resources to accelerate load testing?
-```
-
+```text
 ## Tips
 
 - Tip 1: Run this prompt immediately after the meeting while the context is fresh.

@@ -63,20 +63,17 @@ Draft a project status update for the Q4 marketing campaign. Include sections fo
 - Current blockers
 - Next steps
 - Timeline update
-```
-
+```text
 **Summarize a document:**
 
 ```text
 Summarize this document in 3-5 bullet points, focusing on the key decisions and action items.
-```
-
+```text
 **Rewrite for tone:**
 
 ```text
 Rewrite the selected paragraph to be more formal and suitable for executive leadership.
-```
-
+```sql
 ### Key Word Features
 
 | Feature | How to Use |
@@ -106,26 +103,22 @@ Excel Copilot analyzes data, creates formulas, and generates insights from your 
 
 ```text
 What are the top 5 products by revenue in this data? Show me the trends over the last 3 months.
-```
-
+```text
 **Create formulas:**
 
 ```text
 Add a column that calculates the profit margin as a percentage (Revenue - Cost) / Revenue.
-```
-
+```text
 **Generate insights:**
 
 ```text
 Highlight any outliers or anomalies in the sales data. What patterns do you see?
-```
-
+```text
 **Create visualizations:**
 
 ```text
 Create a bar chart comparing sales by region for Q3 and Q4.
-```
-
+```text
 ### Key Excel Features
 
 | Feature | How to Use |
@@ -154,27 +147,23 @@ Outlook Copilot helps you draft emails, summarize long threads, and manage your 
 ```text
 Draft a meeting request to the product team for next Tuesday at 2 PM to discuss the 
 Q1 roadmap priorities. Keep it professional but friendly.
-```
-
+```text
 **Reply to an email:**
 
 ```text
 Draft a reply accepting the proposal but asking for clarification on the timeline 
 and budget allocation.
-```
-
+```text
 **Summarize a thread:**
 
 ```text
 Summarize this email thread. What are the main discussion points and any decisions made?
-```
-
+```text
 **Adjust tone:**
 
 ```text
 Make this email more concise and direct. Keep it under 100 words.
-```
-
+```sql
 ### Key Outlook Features
 
 | Feature | How to Use |
@@ -210,30 +199,25 @@ Teams Copilot summarizes meetings, catches you up on chats, and helps manage act
 
 ```text
 What decisions have been made so far in this meeting?
-```
-
+```text
 ```text
 List the action items mentioned with who is responsible for each.
-```
-
+```text
 **After a meeting:**
 
 ```text
 Summarize this meeting. Include key discussion points, decisions, and next steps.
-```
-
+```text
 **In a chat:**
 
 ```text
 What has been discussed in this chat over the past week? Any items that need my attention?
-```
-
+```text
 **Catch up on channels:**
 
 ```text
 Summarize the key updates from the #project-alpha channel since Monday.
-```
-
+```text
 ### Key Teams Features
 
 | Feature | How to Use |

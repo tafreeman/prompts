@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Optimizes business processes
 
+---
+
 ## Use Cases
 
 - Process Improvement for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Include:
 4. Optimization recommendations
 5. Implementation roadmap
 6. Change management
-```
-
+```text
 ## Variables
 
 - `[issues]`: Issues
 - `[metrics]`: Metrics
 - `[process_name]`: Process Name
 - `[stakeholders]`: Stakeholders
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Include:
 [issues]: Takes 2 weeks for new hires to get laptop/email access; 40% dissatisfaction rate
 [stakeholders]: HR Director, IT Service Desk, Hiring Managers
 [metrics]: "Time to Productivity" (Target: Day 1 Access), Ticket Re-open Rate
-```
-
+```text
 **Output:**
 
 ```text
@@ -89,14 +93,15 @@ Include:
 *   **Policy:** Maintain "Buffer Stock" of 5 laptops to eliminate shipping delays.
 
 [... continues with implementation roadmap and change management ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

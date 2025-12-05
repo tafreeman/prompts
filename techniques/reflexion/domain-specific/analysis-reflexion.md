@@ -73,8 +73,7 @@ You are a Principal Software Architect.
 {{system_design}}
 
 **Output**: Provide an initial analysis of potential scalability issues.
-```
-
+```text
 ### Step 2: Reflexion (Self-Critique)
 
 ```markdown
@@ -87,8 +86,7 @@ Review your initial analysis above.
 4.  **Missing Perspectives**: Did you consider database locking, connection pooling, or cache invalidation?
 
 **List 3-5 specific gaps or weaknesses in your initial analysis.**
-```
-
+```sql
 ### Step 3: Refined Analysis
 
 ```markdown
@@ -100,8 +98,7 @@ Based on the gaps identified, rewrite your analysis.
 - Provide concrete mitigation strategies for each bottleneck.
 
 **Final Analysis**:
-```
-
+```text
 ## Example
 
 ### Scenario: analyzing a monolithic e-commerce app
@@ -136,8 +133,7 @@ async def run_analysis_reflexion(client, system_design):
     final_output = await client.generate(f"Rewrite the analysis based on this critique: {critique}. Original analysis: {analysis}")
     
     return final_output
-```
-
+```text
 ## Best Practices
 
 1. **Persona**: Assign a strict persona (e.g., "Security Auditor", "Database Expert") to the critique step.

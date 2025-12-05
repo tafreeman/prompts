@@ -28,6 +28,8 @@ reviewStatus: "draft"
 
 A comprehensive business strategy analyzer that helps evaluate strategic options, identify opportunities and threats, and provide actionable recommendations. Perfect for business leaders, consultants, and strategists planning new initiatives or evaluating current strategies.
 
+---
+
 ## Use Cases
 
 - Evaluate new business opportunities or market entries
@@ -35,6 +37,8 @@ A comprehensive business strategy analyzer that helps evaluate strategic options
 - Support strategic planning sessions and workshops
 - Conduct SWOT analysis for specific initiatives
 - Make data-driven strategic decisions
+
+---
 
 ## Prompt
 
@@ -80,8 +84,7 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```
-
+```text
 ## Variables
 
 - `[COMPANY NAME]`: Your organization's name
@@ -92,6 +95,8 @@ Please provide:
 - `[LEADER/CHALLENGER/FOLLOWER/NICHE]`: Current market position
 - `[LIST MAIN COMPETITORS]`: Top 3-5 competitors
 - `[ANY RELEVANT BUDGET LIMITATIONS]`: Budget constraints if applicable
+
+---
 
 ## Example Usage
 
@@ -139,8 +144,7 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```
-
+```text
 **Output:**
 
 ```text
@@ -283,8 +287,7 @@ Please provide:
 - First enterprise deal: Within 90 days of first hire
 - SMB growth maintained: 25%+ YoY
 - Gross revenue retention: >95% for mid-market accounts
-```
-
+```text
 ## Tips
 
 - Be as specific as possible about your situation for more tailored advice
@@ -294,8 +297,9 @@ Please provide:
 - Consider running this analysis for multiple strategic questions to compare options
 - Share the output with your team to stimulate strategic discussions
 
+---
+
 ## Related Prompts
 
-- [Market Research Analysis](market-research-analysis.md)
+- [Market Research Analysis](competitive-analysis.md)
 - [Competitive Analysis Framework](competitive-analysis.md)
-- [Financial Planning Assistant](financial-planning-assistant.md)

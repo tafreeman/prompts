@@ -312,7 +312,7 @@ This guide covers the most frequently encountered issues when working with AI pr
 
 ## Quick Reference
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    TROUBLESHOOTING FLOWCHART                │
 ├─────────────────────────────────────────────────────────────┤
@@ -332,8 +332,7 @@ This guide covers the most frequently encountered issues when working with AI pr
 │       └── Incorrect info? ──► Request verification         │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```text
 ---
 
 ## Next Steps

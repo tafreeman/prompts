@@ -61,7 +61,7 @@ Perfect for maintaining consistent documentation across large .NET codebases.
 
 ## Architecture
 
-```
+```yaml
 User Input: "Document UserService.GetUserAsync"
         ↓
 Vector Search: Find similar methods + existing docs
@@ -71,8 +71,7 @@ Context Assembly: Code + XML comments + patterns
 LLM Generation: Create documentation
         ↓
 Output: XML comments + README section
-```
-
+```text
 ## Prompt Template
 
 ```markdown
@@ -83,22 +82,19 @@ You are a technical writer creating C# XML documentation comments.
 **Method to Document**:
 ```csharp
 {{target_method}}
-```
-
+```csharp
 **Retrieved Context** (similar methods and their documentation):
 
 ### Example 1: Similar Method
 
 ```csharp
 {{similar_method_1}}
-```
-
+```csharp
 ### Example 2: Similar Pattern
 
 ```csharp
 {{similar_method_2}}
-```
-
+```sql
 **Project Documentation Standards**:
 {{doc_standards}}
 
@@ -121,10 +117,8 @@ You are a technical writer creating C# XML documentation comments.
 /// <example>
 /// [Code example]
 /// </example>
-```
-
-```
-
+```text
+```text
 ## C# Implementation with Vector Search
 
 ```csharp
@@ -193,8 +187,7 @@ namespace PromptEngineering.RAG
                 $@"### Example {i + 1}: {snippet.MethodName}
 ```csharp
 {snippet.Code}
-```
-
+```powershell
 "));
 
             return $@"
@@ -206,8 +199,7 @@ You are a technical writer creating C# XML documentation comments.
 
 ```csharp
 {targetMethod}
-```
-
+```sql
 **Retrieved Context** (similar methods and their documentation from this codebase):
 
 {examples}
@@ -226,8 +218,7 @@ You are a technical writer creating C# XML documentation comments.
 /// [Detailed summary]
 /// </summary>
 /// [Other tags]
-```
-
+```csharp
 ";
         }
     }
@@ -257,8 +248,7 @@ You are a technical writer creating C# XML documentation comments.
     }
 }
 
-```
-
+```text
 ## Vector Store Implementation (Example with Qdrant)
 
 ```csharp
@@ -382,8 +372,7 @@ namespace PromptEngineering.RAG
         public double Score { get; set; }
     }
 }
-```
-
+```text
 ## Usage Example
 
 ```csharp
@@ -419,8 +408,7 @@ public async Task<Order> CreateOrderAsync(int userId, List<OrderItem> items)
 var generatedDocs = await ragGenerator.GenerateDocumentationAsync(newMethod);
 
 Console.WriteLine(generatedDocs);
-```
-
+```text
 ## Output Example
 
 ```csharp
@@ -443,8 +431,7 @@ Console.WriteLine(generatedDocs);
 /// var order = await orderService.CreateOrderAsync(userId: 456, items);
 /// </code>
 /// </example>
-```
-
+```text
 ## Best Practices
 
 1. **Index Strategy**: Index all well-documented methods first to build quality retrieval base.

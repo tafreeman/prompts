@@ -53,8 +53,7 @@ Provide:
 4. Governance framework
 5. Quality management
 6. Analytics platform
-```
-
+```text
 ## Variables
 
 - `[analytics]`: Analytics
@@ -73,8 +72,7 @@ Provide:
 [volume]: 500GB/day ingestion, 2PB total retention
 [analytics]: Real-time dashboards (Tableau), Ad-hoc SQL queries, ML model training
 [governance]: GDPR "Right to be Forgotten", Data Quality score > 95%
-```
-
+```sql
 **Output:**
 
 ```text
@@ -95,8 +93,7 @@ Provide:
 *   **Orchestration:** Airflow for dependency management.
 
 [... continues with governance and quality management ...]
-```
-
+```sql
 ## Tips
 
 - Be specific when filling in placeholder values for better results

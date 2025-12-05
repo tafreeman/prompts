@@ -66,8 +66,7 @@ cursor.execute(query)
 # ✅ Safe - Parameterized query
 query = "SELECT * FROM users WHERE id = ?"
 cursor.execute(query, [user_id])
-```
-
+```sql
 ### Cross-Site Scripting (XSS)
 
 ```javascript
@@ -78,8 +77,7 @@ element.innerHTML = userInput;
 element.textContent = userInput;
 // or
 element.innerHTML = DOMPurify.sanitize(userInput);
-```
-
+```text
 ### Insecure Deserialization
 
 ```python
@@ -91,8 +89,7 @@ data = pickle.loads(untrusted_data)
 import json
 data = json.loads(untrusted_data)
 # Validate against schema
-```
-
+```text
 ### Secrets in Code
 
 ```python
@@ -102,8 +99,7 @@ API_KEY = "sk-abc123xyz789"
 # ✅ Safe - Environment variables
 import os
 API_KEY = os.environ.get("API_KEY")
-```
-
+```text
 ### Path Traversal
 
 ```python
@@ -118,8 +114,7 @@ safe_path = os.path.normpath(filename)
 if ".." in safe_path or safe_path.startswith("/"):
     raise ValueError("Invalid filename")
 file_path = os.path.join("/uploads", safe_path)
-```
-
+```text
 ## Output Format
 
 ```markdown
@@ -150,8 +145,7 @@ file_path = os.path.join("/uploads", safe_path)
 ### 📋 Recommendations
 1. [Priority recommendation]
 2. [Additional recommendation]
-```
-
+```text
 ## Secrets Detection Patterns
 
 Look for these patterns:
@@ -188,8 +182,7 @@ npx snyk test
 # General - Secret scanning
 trufflehog filesystem .
 gitleaks detect
-```
-
+```text
 ## Severity Classification
 
 | Severity | CVSS | Description | Response Time |

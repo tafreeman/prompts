@@ -81,8 +81,7 @@ Please provide:
 
 ```excel
 =XLOOKUP(A2, Sheet1!A:A, Sheet1!B:B, "Not Found")
-```
-
+```text
 ### Explanation
 
 - **Lookup_value (A2)**: The ID you are searching for in the current sheet.

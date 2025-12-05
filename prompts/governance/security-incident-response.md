@@ -37,9 +37,28 @@ effectivenessScore: 4.4
 ---
 # Security: Incident Response Framework
 
+## Table of Contents
+
+- [Description](#description)
+- [Use Cases](#use-cases)
+- [Prompt](#prompt)
+  - [Phase 1: Detection & Analysis](#phase-1-detection--analysis)
+  - [Phase 2: Containment & Eradication](#phase-2-containment--eradication)
+  - [Phase 3: Recovery](#phase-3-recovery)
+  - [Phase 4: Post-Incident](#phase-4-post-incident)
+- [Variables](#variables)
+- [Example Usage](#example-usage)
+- [Tips](#tips)
+- [Related Prompts](#related-prompts)
+- [Governance Notes](#governance-notes)
+
+---
+
 ## Description
 
 A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows NIST Cybersecurity Framework and includes breach notification requirements for GDPR/CCPA compliance.
+
+---
 
 ## Use Cases
 
@@ -50,6 +69,8 @@ A structured incident response framework for Security Operations Center (SOC) an
 - DDoS attack mitigation
 - Compromised credentials response
 - Post-incident analysis and documentation
+
+---
 
 ## Prompt
 
@@ -257,8 +278,7 @@ Provide structured incident report:
 **REGULATORY OBLIGATIONS**
 - GDPR notification due: [Timestamp if applicable]
 - Other notifications: [List]
-```
-
+```text
 ## Variables
 
 - `[INCIDENT_DESCRIPTION]`: Nature of the security event
@@ -266,6 +286,8 @@ Provide structured incident report:
 - `[AFFECTED_SYSTEMS]`: Systems, networks, or data involved
 - `[CURRENT_STATUS]`: Is incident ongoing, contained, or resolved
 - `[TIMESTAMP]`: When incident was discovered
+
+---
 
 ## Example Usage
 
@@ -292,8 +314,7 @@ You are a security incident response assistant following NIST IR framework.
 **Time Discovered**: 2024-11-17 03:15 UTC (28 minutes ago)
 
 **Instructions**: [Follow framework above]
-```
-
+```text
 **Output:**
 
 ```text
@@ -665,8 +686,7 @@ You are a security incident response assistant following NIST IR framework.
 ---
 
 **⚠️ DISCLAIMER**: This is an AI-assisted incident response tool. All actions must be validated by qualified security professionals. For active incidents, immediately engage your incident response team, CISO, and legal counsel. Time-sensitive regulatory deadlines (GDPR 72 hours) require immediate legal review.
-```
-
+```sql
 ## Tips
 
 - **Act fast**: Minutes matter in containment - automate where possible
@@ -703,6 +723,8 @@ You are a security incident response assistant following NIST IR framework.
 - **NIST CSF**: Incident response lifecycle followed
 - **PCI-DSS**: Incident response plan if payment data involved
 
+---
+
 ## Output Schema (JSON)
 
 ```json
@@ -734,10 +756,5 @@ You are a security incident response assistant following NIST IR framework.
   ],
   "next_steps": ["...", "..."]
 }
-```
-
+```text
 ## Related Prompts
-
-- [Security: Threat Modeling](security-threat-modeling.md) - Proactive threat assessment
-- [Security: Vulnerability Assessment](security-vulnerability-assessment.md) - Security review
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - Risk evaluation

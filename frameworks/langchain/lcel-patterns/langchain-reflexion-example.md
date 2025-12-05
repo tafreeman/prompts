@@ -140,8 +140,7 @@ print("Initial Analysis:", result["initial_analysis"])
 print("\nReflection:", result["reflection"])
 print("\nFinal Analysis:", result["final_analysis"])
 
-```
-
+```text
 ## Advanced Pattern: Multi-Iteration LCEL
 
 ```python
@@ -184,8 +183,7 @@ def create_multi_iteration_reflexion(max_iterations: int = 3):
     )
     
     return iteration_chain
-```
-
+```text
 ## Structured Output with Pydantic
 
 ```python
@@ -216,8 +214,7 @@ structured_chain = structured_prompt | llm | parser
 
 result: CodeAnalysis = structured_chain.invoke({"code": "..."})
 print(f"Found {len(result.issues)} issues with {result.severity} severity")
-```
-
+```text
 ## Best Practices
 
 1. **Use `RunnablePassthrough.assign()`** for building state across steps

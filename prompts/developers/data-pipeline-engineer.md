@@ -34,6 +34,8 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - **Observability**: Metrics, alerting, and lineage tracking from day one
 - **Cost Optimization**: Balance latency requirements against compute costs
 
+---
+
 ## Use Cases
 
 - Designing batch ETL pipelines for data warehousing
@@ -41,6 +43,8 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - Migrating legacy pipelines to modern cloud-native solutions
 - Implementing data quality validation frameworks
 - Creating disaster recovery and data backfill strategies
+
+---
 
 ## Prompt
 
@@ -59,8 +63,7 @@ Include:
 4. Monitoring and alerting
 5. Scalability considerations
 6. Data quality validation
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example Values |
@@ -69,6 +72,8 @@ Include:
 | `[processing]` | Transformation and business logic requirements | `Join customer + orders, calculate rolling 7-day averages, deduplicate by event_id` |
 | `[targets]` | Destination systems and formats | `Snowflake (analytics), Redis (cache), Elasticsearch (search), S3 (archive)` |
 | `[scale]` | Volume, velocity, and latency requirements | `10M events/day batch`, `50K events/sec streaming`, `<5min latency` |
+
+---
 
 ## Example Usage
 
@@ -79,8 +84,7 @@ Include:
 [processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
 [targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
 [scale]: 1M events/minute peak, <1s latency for alerts
-```
-
+```text
 **Output:**
 
 ```text
@@ -88,7 +92,7 @@ Include:
 
 ### 1. Pipeline Architecture (Lambda Architecture)
 
-```
+```text
 ┌──────────────┐    ┌─────────────────┐    ┌──────────────┐
 │ IoT Sensors  │───▶│ Kinesis Streams │───▶│    Flink     │───▶ DynamoDB (RT)
 │   (MQTT)     │    └─────────────────┘    │  (Anomaly)   │
@@ -108,8 +112,7 @@ Include:
 │ ERP System   │────────────┘
 │   (SQL)      │
 └──────────────┘
-```
-
+```sql
 **Speed Layer:** Kinesis Data Streams → Flink (Windowed Aggregation) → DynamoDB
 **Batch Layer:** Kinesis Firehose → S3 (Parquet) → Snowpipe → Snowflake
 
@@ -143,8 +146,7 @@ class PipelineErrorHandler:
             # Send to DLQ for manual inspection
             self.dlq.send(error_record)
             self.alert("dlq_threshold_exceeded", record)
-```
-
+```text
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
 |--------------|-----------|-----------------|
@@ -183,8 +185,7 @@ groups:
           severity: warning
         annotations:
           summary: "Consumer lag exceeds 100K messages"
-```
-
+```text
 ### 5. Scalability Considerations
 
 | Dimension | Strategy | Implementation |
@@ -217,9 +218,8 @@ def validate_sensor_data(df):
         alert_data_quality_issue(results)
     
     return df[results.passed_rows]
-```
-```
-
+```text
+```text
 ## Tips
 
 - **Start with the end in mind**: Define SLAs (latency, completeness, freshness) before designing architecture
@@ -228,6 +228,8 @@ def validate_sensor_data(df):
 - **Schema evolution**: Use Avro/Protobuf with schema registry for forward/backward compatibility
 - **Cost awareness**: For batch workloads, consider spot instances; for streaming, right-size based on actual throughput
 - **Test data contracts**: Validate schemas at boundaries between teams/systems
+
+---
 
 ## Related Prompts
 

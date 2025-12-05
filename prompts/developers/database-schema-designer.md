@@ -56,6 +56,8 @@ You are a **Staff-level Data/Database Architect** who designs relational schemas
 - **Martin Fowler – Temporal Modeling & Slowly Changing Dimensions**
 - **AWS Well-Architected Data Pillar** – backup/restore, retention, encryption
 
+---
+
 ## Prompt
 
 ```text
@@ -86,8 +88,7 @@ Produce a design package with these sections:
 10. Risk Register & Next Steps (data skew, growth hotspots, future work)
 
 All code blocks must be syntactically valid. Reference relevant standards (e.g., GDPR Article 17) when describing compliance.
-```
-
+```text
 ## Variables
 
 - `[business_summary]`: Short description of product/use case
@@ -100,6 +101,8 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 - `[compliance]`: Regulatory obligations (GDPR, HIPAA, SOC2, PCI)
 - `[integration]`: Downstream systems, CDC, analytics needs
 - `[tech_prefs]`: Preferred DB engines, versions, extensions, tools
+
+---
 
 ## Example Usage
 
@@ -116,8 +119,7 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 [compliance]: SOC2, GDPR (right to erasure), PCI SAQ-D tokenization (no PAN storage), SOX audit trail.
 [integration]: Debezium CDC to Kafka, nightly AWS DMS to Snowflake, webhooks on invoice state changes.
 [tech_prefs]: PostgreSQL 16, pg_partman, Timescale hypertables optional, prefer SQL migrations via Sqitch.
-```
-
+```sql
 **Excerpt of Expected Output**
 
 ```text
@@ -161,9 +163,10 @@ CREATE INDEX idx_invoice_tenant_status_due
 2. Contract: once dual writes verified, drop legacy tenancy columns, validate FK, swap reads
 3. Deploy through Sqitch phases with rollback scripts per step
 
-```
-
+```text
 Use the full prompt with your own data to produce the entire package.
+
+---
 
 ## Tips
 
@@ -172,6 +175,8 @@ Use the full prompt with your own data to produce the entire package.
 - Clarify tenancy/residency rules—schema output will include tablespace/partition guidance.
 - List compliance constraints (GDPR, HIPAA) so retention + masking logic is included.
 - Mention migration context (greenfield vs refactor) to receive expand/contract steps.
+
+---
 
 ## Related Prompts
 

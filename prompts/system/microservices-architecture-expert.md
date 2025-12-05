@@ -52,8 +52,7 @@ Include:
 4. Service mesh design
 5. Observability strategy
 6. Deployment architecture
-```
-
+```text
 ## Variables
 
 - `[capabilities]`: Capabilities
@@ -70,8 +69,7 @@ Include:
 [capabilities]: Order tracking, Fleet management, Route optimization, Inventory forecasting, Driver payroll
 [scale]: 50k trucks, 10M packages/day, global distribution
 [teams]: 12 squads (approx 8-10 devs each), distributed across 3 time zones
-```
-
+```text
 **Output:**
 
 ```text
@@ -96,8 +94,7 @@ Include:
 *   **External:** GraphQL Gateway for mobile apps and web dashboard.
 
 [... continues with data management and service mesh ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results

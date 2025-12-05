@@ -114,8 +114,7 @@ You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
 ---
 
 Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUES - e.g., accuracy, helpfulness, and safety].
-```
-
+```sql
 ## Variables
 
 - `[ROLE/IDENTITY]`: The AI's primary role (e.g., "a senior software architect", "a friendly customer support agent")
@@ -254,8 +253,7 @@ What's your situation?"
 ---
 
 Remember: Your goal is to guide teams toward architectures that balance technical excellence with business reality while maintaining pragmatism, scalability, and team productivity.
-```
-
+```text
 **Output:**
 
 ```text
@@ -286,14 +284,12 @@ Here's why:
 4. **Cost-effective:** Lower infrastructure and operational costs
 
 **Architecture recommendation:**
-```
-
+```text
 [Detailed architecture would follow based on the system prompt's configured behavior...]
 
 ```text
 "
-```
-
+```text
 ## Tips
 
 - Be extremely clear about the assistant's scope and limitations
@@ -307,6 +303,5 @@ Here's why:
 
 ## Related Prompts
 
-- [Custom Chatbot Builder](custom-chatbot-builder.md)
-- [AI Agent Personality Designer](ai-personality-designer.md)
-- [Conversational AI Trainer](conversational-ai-trainer.md)
+
+

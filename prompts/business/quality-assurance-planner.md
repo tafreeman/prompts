@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Develops QA strategies and plans
 
+---
+
 ## Use Cases
 
 - Quality Assurance for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Include:
 4. Quality metrics
 5. Review and approval workflows
 6. Continuous improvement
-```
-
+```text
 ## Variables
 
 - `[deliverables]`: Deliverables
 - `[project_name]`: Project Name
 - `[standards]`: Standards
 - `[testing]`: Testing
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Include:
 [standards]: ISO 25010 (Software Quality), WCAG 2.1 AA (Accessibility), PCI-DSS (Security)
 [deliverables]: Test Plan, Defect Report, UAT Sign-off, Security Audit Certificate
 [testing]: Functional, Security (Pen Test), Performance (Load Test), Accessibility Audit
-```
-
+```text
 **Output:**
 
 ```text
@@ -91,14 +95,15 @@ Include:
 *   **Exit Criteria:** 100% of Test Cases executed, 95% Pass rate.
 
 [... continues with metrics and continuous improvement ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

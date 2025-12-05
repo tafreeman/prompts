@@ -72,7 +72,7 @@ This pattern is particularly effective for complex code analysis tasks where ini
 
 ## Prompt Template
 
-```
+```sql
 You are an expert code analyst tasked with performing iterative code analysis using the Reflexion pattern.
 
 ## Task
@@ -109,8 +109,7 @@ Provide your response in three clearly marked sections:
 1. INITIAL ANALYSIS
 2. SELF-EVALUATION
 3. FINAL IMPROVED ANALYSIS
-```
-
+```text
 ## Usage Example
 
 ### Input Code
@@ -122,8 +121,7 @@ def calculate_average(numbers):
 
 result = calculate_average([1, 2, 3, 4, 5])
 print(f"Average: {result}")
-```
-
+```sql
 ### Expected Output Structure
 
 **INITIAL ANALYSIS:**
@@ -194,8 +192,7 @@ class ReflexionCodeAnalyzer:
                 sections[current_section].append(line)
         
         return {k: '\n'.join(v) for k, v in sections.items()}
-```
-
+```text
 ### LangChain Integration
 
 ```python
@@ -215,15 +212,14 @@ chain = LLMChain(llm=llm, prompt=reflexion_prompt)
 
 # Execute analysis
 result = chain.run(code_snippet="def add(a, b): return a + b")
-```
-
+```text
 ## Advanced Variations
 
 ### Multi-Iteration Reflexion
 
 For complex code, you can extend this to multiple reflexion cycles:
 
-```
+```text
 ## Extended Reflexion (3 Iterations)
 
 ### Iteration 1
@@ -240,8 +236,7 @@ For complex code, you can extend this to multiple reflexion cycles:
 - Final comprehensive review
 - Consolidate all findings
 - Prioritized action items
-```
-
+```text
 ### Domain-Specific Reflexion
 
 Customize the evaluation criteria for specific domains:

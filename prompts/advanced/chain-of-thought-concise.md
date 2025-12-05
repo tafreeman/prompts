@@ -30,6 +30,8 @@ effectivenessScore: 4.9
 
 A streamlined Chain-of-Thought prompt template that encourages step-by-step reasoning while maintaining brevity. This mode is ideal for situations where you need logical progression without extensive elaboration. Perfect for time-sensitive decisions, quick problem-solving, or when working with token constraints.
 
+---
+
 ## Use Cases
 
 - Quick debugging sessions where you need logical steps but not extensive explanation
@@ -37,6 +39,8 @@ A streamlined Chain-of-Thought prompt template that encourages step-by-step reas
 - Rapid technical decision-making with clear reasoning trail
 - Problem-solving in resource-constrained environments
 - Situations requiring audit trail but not detailed justification
+
+---
 
 ## Prompt
 
@@ -61,13 +65,14 @@ Format your response as:
 **Final Answer**: [Concise conclusion based on the steps above]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```
-
+```text
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The specific problem, question, or task you need to solve
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
+
+---
 
 ## Example Usage
 
@@ -94,8 +99,7 @@ Format your response as:
 **Final Answer**: [Concise conclusion]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```
-
+```text
 **Output:**
 
 ```text
@@ -108,8 +112,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 **Step 4**: Check for missing connection.close() in error handlers or transactions left open. Also profile queries running during 9-11 AM for slow performers.
 
 **Final Answer**: Root cause is likely connection leak (unreleased connections in error paths) or slow queries accumulating during peak. Immediate actions: (1) audit connection handling in all error paths, (2) add connection timeout monitoring, (3) profile queries during peak hours. Quick win: reduce connection timeout from default to 5 seconds.
-```
-
+```sql
 ## Tips
 
 - **When to use Concise CoT**: Use when you need reasoning transparency but not extensive justification. Ideal for experienced audiences who can fill in obvious steps.
@@ -136,22 +139,22 @@ Think through this in bullet steps:
 • [Key insight 2]
 • [Key insight 3]
 → Conclusion: [Final answer]
-```
-
+```text
 ### Numbered Steps with Confidence
 
 ```text
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
-```
-
+```text
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems requiring elaboration
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks requiring external tool interaction
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
+
+---
 
 ## Output Schema (JSON)
 
@@ -168,8 +171,7 @@ For automation pipelines, request output in this format:
   "assumptions": ["...", "..."],
   "next_steps": ["...", "..."]
 }
-```
-
+```powershell
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -185,8 +187,7 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [your-code-or-issue] using concise chain-of-thought reasoning
-```
-
+```text
 ### API Integration
 
 ```python
@@ -197,4 +198,4 @@ response = client.chat.completions.create(
         {"role": "user", "content": f"Task: {task}\nThink step-by-step (concise mode)"}
     ]
 )
-```
+```text

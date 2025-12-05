@@ -65,8 +65,7 @@ This workstream covers all **content and technical** improvements:
 | Variable | Description | Example |
 |:---------|:------------|:--------|
 | `[variable_name]` | What this variable represents | Example value |
-```
-
+```text
 **Template for Tips section:**
 ```markdown
 ## Tips
@@ -74,8 +73,7 @@ This workstream covers all **content and technical** improvements:
 - **Be specific**: Provide detailed context for better results
 - **Iterate**: Refine the output by asking follow-up questions
 - **Customize**: Adjust the tone and format to match your needs
-```
-
+```text
 ---
 
 ### B3. Create Simplified Quick Start Template
@@ -102,8 +100,7 @@ category: "[business|developers|creative|analysis|governance|m365|advanced]"
 
 ```text
 [The actual prompt text with [variables] in brackets]
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example |
@@ -115,14 +112,12 @@ category: "[business|developers|creative|analysis|governance|m365|advanced]"
 ### Input
 ```text
 [Prompt with variables filled in]
-```
-
+```text
 ### Output
 ```text
 [Expected AI response]
-```
-```
-
+```text
+```sql
 ---
 
 ## 🟠 HIGH PRIORITY
@@ -203,8 +198,7 @@ python testing/evals/dual_eval.py prompts/ \
   --output docs/EVALUATION_RESULTS.json \
   --runs 1 \
   --models openai/gpt-4o-mini
-```
-
+```sql
 **After running:**
 1. Review results for lowest-scoring prompts
 2. Prioritize improvements based on scores
@@ -279,8 +273,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-```
-
+```text
 ---
 
 ### B9. Create Link Checker Script
@@ -331,8 +324,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-```
-
+```text
 ---
 
 ## 🟢 LOW PRIORITY
@@ -369,8 +361,7 @@ jobs:
       
       - name: Check internal links
         run: python tools/check_links.py
-```
-
+```text
 ---
 
 ### B11. Document Contribution Guidelines

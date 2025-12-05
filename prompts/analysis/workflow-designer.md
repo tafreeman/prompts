@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Designs efficient business workflows
 
+---
+
 ## Use Cases
 
 - Workflow Design for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Provide:
 4. Exception handling
 5. Automation opportunities
 6. Performance metrics
-```
-
+```text
 ## Variables
 
 - `[automation]`: Automation
 - `[complexity]`: Complexity
 - `[process]`: Process
 - `[stakeholders]`: Stakeholders
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Provide:
 [stakeholders]: Writers, Editors, SEO Specialist, Legal Compliance, CMS Admin
 [complexity]: Medium (Multi-stage approval required)
 [automation]: Auto-post to LinkedIn/Twitter upon publish; Slack notifications for approvals
-```
-
+```text
 **Output:**
 
 ```text
@@ -88,14 +92,15 @@ Provide:
 *   **Action:** Zapier webhook posts title + link to Company LinkedIn Page.
 
 [... continues with exception handling and performance metrics ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

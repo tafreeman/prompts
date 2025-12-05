@@ -28,6 +28,8 @@ reviewStatus: "draft"
 
 Transform raw data into meaningful insights and actionable recommendations. This prompt helps data analysts, business intelligence professionals, and decision-makers extract valuable patterns, trends, and insights from their data.
 
+---
+
 ## Use Cases
 
 - Analyze sales, marketing, or operational data
@@ -35,6 +37,8 @@ Transform raw data into meaningful insights and actionable recommendations. This
 - Identify trends, patterns, and anomalies
 - Create data-driven recommendations
 - Support decision-making with statistical analysis
+
+---
 
 ## Prompt
 
@@ -91,8 +95,7 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
-```
-
+```text
 ## Variables
 
 - `[WHAT KIND OF DATA]`: Type of data you're analyzing (sales, customer, marketing, etc.)
@@ -104,6 +107,8 @@ Please provide:
 - `[YOUR INDUSTRY OR CONTEXT]`: Business context
 - `[ANY KNOWN ISSUES OR CONCERNS]`: Current challenges
 - `[WHAT DECISION THIS ANALYSIS WILL INFORM]`: Purpose of the analysis
+
+---
 
 ## Example Usage
 
@@ -167,8 +172,7 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
-```
-
+```text
 **Output:**
 
 ```text
@@ -394,8 +398,7 @@ To communicate these insights effectively, create:
 2. Implement Priority 1 recommendations immediately
 3. Set up weekly tracking for repeat purchase rate and CAC
 4. Schedule 30-day review to assess progress
-```
-
+```text
 ## Tips
 
 - Provide as much context as possible about your business and goals
