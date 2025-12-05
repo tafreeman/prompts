@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Risk Management Analyst
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Enterprise-grade risk analyst specializing in project risk identification, quantification, and mitigation using ISO 31000 and PMI PMBOK frameworks. Focuses on probability-impact assessment, risk response planning, and continuous monitoring for complex technical and infrastructure projects.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ Enterprise-grade risk analyst specializing in project risk identification, quant
 - Regulatory compliance risk analysis (SOC2, ISO27001, GDPR)
 - Supply chain and vendor risk evaluation
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -88,10 +76,6 @@ Use tables for risk matrices and include expected monetary value (EMV) calculati
 - `[concerns]`: Specific risk areas identified (e.g., "Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention")
 - `[impact]`: Business consequences if risks materialize (e.g., "Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -112,10 +96,7 @@ Impact:
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -124,7 +105,7 @@ Impact:
 ## 1. Risk Identification Matrix
 
 | Risk ID | Category | Description | Risk Owner | Detection Date |
-| :--- |----------| :--- |------------| :--- |
+|---------|----------|-------------|------------|----------------|
 | **R-01** | Supply Chain | CRAC unit delivery delay (Vertiv lead time extended 6→10 weeks) | Procurement Director | 2025-10-15 |
 | **R-02** | Labor | Local 793 union strike during critical HVAC installation phase | Construction Manager | 2025-10-20 |
 | **R-03** | Regulatory | Municipal grid connection permit delayed (bureaucratic backlog) | Project Manager | 2025-09-10 |
@@ -142,7 +123,7 @@ Impact:
 - **Risk Score**: P × I (1-25 scale)
 
 | Risk ID | Risk | Probability (P) | Impact (I) | Risk Score | EMV (Expected Monetary Value) | Priority |
-| :--- |------| :--- |------------| :--- |-------------------------------| :--- |
+|---------|------|-----------------|------------|------------|-------------------------------|----------|
 | **R-04** | Anchor tenant cancellation | 3 (40%) | 5 ($50M loss) | **15** | $20M | 🔴 **Critical** |
 | **R-01** | CRAC unit delay | 4 (70%) | 4 ($3M delay) | **16** | $2.1M | 🔴 **Critical** |
 | **R-02** | Union strike | 2 (30%) | 4 ($2.5M delay) | **8** | $750K | 🟡 **High** |
@@ -155,10 +136,7 @@ Impact:
 ### Risk Heat Map
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 Impact ↑
 5 |              R-04
 4 |    R-01      R-02, R-03
@@ -173,10 +151,7 @@ Impact ↑
 🟢 Medium (Score 1-5): Monitor
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ---
 
 ## 3. Risk Mitigation Strategies
@@ -259,7 +234,7 @@ Impact ↑
 ### Contingency Budget Allocation
 
 | Risk | Trigger Condition | Contingency Action | Reserved Budget | Approval Authority |
-| :--- |-------------------| :--- |-----------------| :--- |
+|------|-------------------|--------------------|-----------------|--------------------|
 | R-01 | Vertiv confirms \u003e8-week delay | Activate Carrier backup order | $240K | PM (approved) |
 | R-04 | AWS sends cancellation notice | Engage backup tenant pipeline | $2M (revenue gap fund) | CEO |
 | R-02 | Union votes to strike (Nov 10) | Deploy non-union contractor | $300K | Construction Mgr |
@@ -274,7 +249,7 @@ Impact ↑
 ### KRI Dashboard (Weekly Review)
 
 | Risk | Key Risk Indicator (KRI) | Green Threshold | Yellow Threshold | Red Threshold | Current Status |
-| :--- |--------------------------| :--- |------------------| :--- |----------------|
+|------|--------------------------|-----------------|------------------|---------------|----------------|
 | R-01 | Vertiv production status | On-schedule | 1-week delay | \u003e2-week delay | 🟡 (Monitoring) |
 | R-04 | AWS satisfaction score | \u003e8/10 (survey) | 6-8/10 | \u003c6/10 | 🟢 (Score: 7.5) |
 | R-02 | Union negotiation progress | Agreement signed | Talks ongoing | Breakdown | 🟡 (In negotiation) |
@@ -293,7 +268,7 @@ Impact ↑
 ### Escalation Matrix
 
 | Scenario | Immediate Action | Escalation Level | Communication |
-| :--- |-----------------| :--- |---------------|
+|----------|-----------------|------------------|---------------|
 | **Red KRI triggered** | PM investigates root cause (within 4 hours) | Level 1: Steering Committee (same day) | Email + emergency meeting |
 | **Risk Score increases ≥5 points** | Re-assess mitigation plan | Level 2: Executive Sponsor (within 24 hours) | Written brief + phone call |
 | **Contingency budget exceeded** | Halt non-critical spending | Level 3: CEO / CFO (immediate) | Board notification |
@@ -304,10 +279,7 @@ Impact ↑
 **Escalation Email (Sample for R-04 Red Alert)**:
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 Subject: [URGENT] DC-04 Risk Escalation — Anchor Tenant Risk (R-04)
 
 To: Steering Committee
@@ -335,10 +307,7 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 [Project Manager Name]
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ---
 
 ## Success Metrics
@@ -346,7 +315,7 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 ### Risk Management Effectiveness KPIs
 
 | Metric | Target | Current (Month 8) | Trend |
-| :--- |--------| :--- |-------|
+|--------|--------|-------------------|-------|
 | **% Risks Identified Before Impact** | \u003e90% | 85% | 🟡 (Improved from 70% in Month 5) |
 | **Average Risk Response Time** | \u003c48 hours | 36 hours | 🟢 (Exceeding target) |
 | **Contingency Budget Utilization** | \u003c50% | 12% ($324K of $2.69M) | 🟢 (Healthy reserve) |
@@ -360,7 +329,7 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 
 | Failure Mode | Potential Effects | Severity (1-10) | Occurrence (1-10) | Detection (1-10) | RPN (Risk Priority Number) | Mitigation |
-| :--- |-------------------| :--- |-------------------| :--- |----------------------------| :--- |
+|--------------|-------------------|-----------------|-------------------|------------------|----------------------------|------------|
 | Generator fails load test | Cannot achieve required 50MW capacity | 9 | 3 | 2 | **54** | Pre-test with vendor engineer present; backup generator on-site |
 | Cooling system leak | Equipment damage, downtime | 8 | 2 | 4 | **64** | Pressure test all lines before commissioning; leak detection sensors |
 
@@ -382,10 +351,6 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **Use Trigger-Based Contingencies**: Don't activate contingency plans too early. Define clear triggers (e.g., "If permit not issued by Nov 15...").
 - **Escalate Early**: If a risk score increases ≥5 points in one week, escalate immediately. Waiting causes exponential damage.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
@@ -393,7 +358,3 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **[change-management-coordinator](./change-management-coordinator.md)** - For managing organizational change risks
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For communicating risks to stakeholders
 - **[budget-and-cost-controller](./budget-and-cost-controller.md)** - For managing financial impact of risks
-<<<<<<< HEAD
-- **project-charter-creator** - For initial risk identification during project planning
-=======
->>>>>>> main

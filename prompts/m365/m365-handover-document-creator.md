@@ -41,10 +41,6 @@ To create a structured, easy-to-read handover document that allows a successor t
 - **Key Contacts**: [key_contacts]
 - **File Locations**: [file_locations]
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -67,10 +63,6 @@ Please generate a formal **Handover Document** that includes:
 4. **Stakeholder Map**: Who to contact for what (based on [key_contacts]).
 5. **Resource Library**: Links to the [file_locations] and other critical tools.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Variables
@@ -81,10 +73,6 @@ Please generate a formal **Handover Document** that includes:
 - `[key_contacts]`: Names and roles of people the successor needs to know.
 - `[file_locations]`: Paths to SharePoint sites, Teams channels, or shared drives.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -124,10 +112,6 @@ Lead responsibility for the Q3 campaign, focusing on agency management, content 
 - **Project Files**: Teams Channel 'Marketing Q3'
 - **Financials**: SharePoint/Budget/Invoices
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Tips
@@ -135,10 +119,6 @@ Lead responsibility for the Q3 campaign, focusing on agency management, content 
 - Use this output as the body of a OneNote page or a Word document.
 - Add a "Passwords/Access" section manually if relevant (but never put actual passwords in the prompt!).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

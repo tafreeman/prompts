@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Business Strategy Analysis
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A comprehensive business strategy analyzer that helps evaluate strategic options, identify opportunities and threats, and provide actionable recommendations. Perfect for business leaders, consultants, and strategists planning new initiatives or evaluating current strategies.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -48,10 +40,6 @@ A comprehensive business strategy analyzer that helps evaluate strategic options
 - Conduct SWOT analysis for specific initiatives
 - Make data-driven strategic decisions
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -113,10 +101,6 @@ Please provide:
 - `[LIST MAIN COMPETITORS]`: Top 3-5 competitors
 - `[ANY RELEVANT BUDGET LIMITATIONS]`: Budget constraints if applicable
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -166,10 +150,7 @@ Please provide:
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -325,16 +306,8 @@ Please provide:
 - Consider running this analysis for multiple strategic questions to compare options
 - Share the output with your team to stimulate strategic discussions
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
 
-<<<<<<< HEAD
-- [Market Research Analysis](../analysis/market-research-analyst.md)
-=======
->>>>>>> main
 - [Competitive Analysis Framework](competitive-analysis.md)

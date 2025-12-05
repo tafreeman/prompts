@@ -25,20 +25,12 @@ effectivenessScore: 4.8
 ---
 # Cold Email Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create personalized cold emails that get responses. Generates subject lines, opening hooks, value propositions, and clear calls-to-action tailored to specific prospects and industries.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ Create personalized cold emails that get responses. Generates subject lines, ope
 - Investor outreach for fundraising
 - Event speaker or sponsor recruitment
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -99,10 +87,6 @@ Keep tone conversational and human. Avoid corporate jargon. Write like a real pe
 - `[value_prop]`: The specific value you can provide to this prospect
 - `[hook]`: Personalization detail (recent news, shared connection, content they published)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -116,10 +100,7 @@ Goal: Book a 15-minute discovery call
 Value Proposition: Reduce on-call burnout by 60% with AI that auto-triages alerts and drafts runbooks
 Personalization Hook: Her LinkedIn post about "on-call fatigue" and mention of losing two senior engineers who cited burnout
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -184,10 +165,6 @@ Alex
 - Send Tuesday-Thursday, 8-10am their timezone for best open rates
 - Follow up 3x minimum - most responses come on follow-up 2 or 3
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

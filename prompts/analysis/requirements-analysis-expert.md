@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Requirements Analysis Expert
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Analyzes and documents business requirements
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Analyzes and documents business requirements
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Provide:
 - `[project_name]`: Project Name
 - `[stakeholders]`: Stakeholders
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Provide:
 [objectives]: Increase P2P transaction volume by 20% among Gen Z users
 [challenges]: Complex logic for unequal splits, recurring bills, and cross-border payments
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -130,10 +111,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

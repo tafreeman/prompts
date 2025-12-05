@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Innovation Strategy Consultant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Develops innovation strategies
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Develops innovation strategies
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Include:
 - `[opportunities]`: Opportunities
 - `[organization]`: Organization
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Include:
 [capabilities]: Strong mechanical engineering, world-class manufacturing; Weak software/electronics
 [opportunities]: Battery Management Systems (BMS), Thermal Management for EVs
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -130,10 +111,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

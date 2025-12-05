@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Strategic Planning Consultant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Develops strategic plans and roadmaps
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Develops strategic plans and roadmaps
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -83,10 +71,6 @@ Provide:
 - `[organization]`: Organization
 - `[timeframe]`: Timeframe
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -100,10 +84,7 @@ Provide:
 [objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
 [timeframe]: 3 Years (2025-2028)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -135,10 +116,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

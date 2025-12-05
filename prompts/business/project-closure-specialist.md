@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Project Closure Specialist
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Manages project closure activities
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Manages project closure activities
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Provide:
 - `[project_name]`: Project Name
 - `[satisfaction]`: Satisfaction
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Provide:
 [satisfaction]: Client NPS 9/10 ("Love the design"), but complained about SEO report being 2 days late
 [lessons]: Content migration took 2x longer than estimated due to unstructured legacy data
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -134,10 +115,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

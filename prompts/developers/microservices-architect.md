@@ -38,10 +38,6 @@ retention_period: "10-years"
 ---
 # Microservices Architect
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -72,10 +68,6 @@ This prompt is based on:
 - **12-Factor App** (Heroku, 2011) – Cloud-native delivery discipline
 - **Google SRE Workbook** (2018) – Reliability design, SLO/SLA/SLA mapping
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -86,10 +78,6 @@ This prompt is based on:
 - Designing service-mesh-enabled deployments with zero-trust networking
 - Creating ADR-ready architecture packages for governance boards
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -166,7 +154,7 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- |
+|----------|-------------|---------|
 | `[business_summary]` | 3–4 sentences describing the product/problem statement | "MercuryCart is a B2C marketplace processing 40M orders/year..." |
 | `[business_goal]` | Desired business outcomes (ARR targets, latency goals, etc.) | "Reduce checkout latency to <250ms p95, enable weekly deploys" |
 | `[current_state]` | Monolith, modular monolith, partial services, tech debt context | "Monolith + background workers, shared Postgres, manual Jenkins" |
@@ -179,10 +167,6 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 | `[migration_context]` | Greenfield, strangler, coexistence window, etc. | "Strangler fig around checkout/payment; co-exist 12 months" |
 | `[governance]` | Regulatory/compliance constraints that influence architecture | "Architecture Review Board, ADRs in Notion, SOC2 quarterly" |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -202,10 +186,7 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 [migration_context]: Strangler fig around checkout/payment first; co-exist with monolith for 12 months.
 [governance]: Architecture Review Board approval required; ADRs stored in Notion; SOC2 & PCI quarterly audits.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -239,15 +220,9 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 
 ... (remaining sections)
 ```text
-<<<<<<< HEAD
-Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
-
-
-=======
 
 Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
 
->>>>>>> main
 ---
 
 ## Tips
@@ -260,7 +235,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Service Count Decision Guide
 | Team Size | Services | Notes |
-| :--- |----------| :--- |
+|-----------|----------|-------|
 | 1-2 teams | 3-5 | Start with modular monolith, extract sparingly |
 | 3-5 teams | 5-10 | One service per stream-aligned team |
 | 6-10 teams | 10-20 | Platform team required, service mesh recommended |
@@ -276,7 +251,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Common Decomposition Mistakes
 | Mistake | Why It's Bad | Better Approach |
-| :--- |--------------| :--- |
+|---------|--------------|-----------------|
 | Service per entity | Creates chatty APIs, distributed monolith | Service per bounded context |
 | Shared database | Couples services at data layer | Database per service + events |
 | Sync-only calls | Cascading failures, high latency | Event-driven for non-critical paths |

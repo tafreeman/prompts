@@ -29,20 +29,12 @@ governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
 # Reflection: Initial Answer + Self-Critique Pattern
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -55,10 +47,6 @@ The Reflection pattern involves generating an initial answer and then systematic
 - Research and analysis requiring accuracy
 - Teaching and explanation where correctness matters
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -170,10 +158,7 @@ You will answer a question using a two-phase reflection pattern.
 **Phase 2: Self-Critique and Reflection**
 [Apply critical evaluation framework]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -406,15 +391,11 @@ These unknowns prevent High confidence in any specific recommendation.
   "next_steps": ["...", "..."]
 }
 ```text
-<<<<<<< HEAD
-## Related Prompts - Multi-round refinement
-=======
 
 ---
 
 ## Related Prompts
 
->>>>>>> main
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - Explore multiple approaches
 

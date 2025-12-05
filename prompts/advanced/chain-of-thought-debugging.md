@@ -23,10 +23,6 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -97,10 +93,6 @@ Structured Markdown with the following sections:
 
 See `docs/domain-schemas.md` for additional schema options.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -111,10 +103,6 @@ See `docs/domain-schemas.md` for additional schema options.
 - Analyzing security vulnerabilities or unexpected behaviors
 - Postmortem analysis for incidents with unclear causes
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -128,10 +116,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 [ERROR_MESSAGE_OR_STACK_TRACE]
 
 ```text
@@ -279,10 +264,6 @@ List steps to verify the fix works:
 - `[CODE_SNIPPET]`: Relevant code (function, class, or module)
 - `[LOGS_TELEMETRY_OR_OTHER_INFO]`: Additional diagnostic information
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -300,10 +281,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Error Message:**
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
@@ -357,10 +335,7 @@ async function authenticate(req, res, next) {
 - Single-server staging environment doesn't reproduce the issue
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -467,23 +442,14 @@ async function verifyToken(token) {
 - **Always include regression tests:** Prevent the bug from recurring
 - **Document reasoning:** Visible CoT reasoning helps others learn and validates your logic
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
 
-<<<<<<< HEAD
-- [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance debugging - For validating fixes
-- [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For complex system issues - For exploring unfamiliar code
-=======
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance debugging
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For complex system issues
 
 ---
->>>>>>> main
 
 ## Governance Notes
 

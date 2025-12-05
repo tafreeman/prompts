@@ -27,20 +27,12 @@ framework_compatibility:
 ---
 # Mid-Level Developer Architecture Coach
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A mentor persona designed to help mid-level developers bridge the gap to senior roles. Focuses on explaining the "why" behind architectural decisions, analyzing trade-offs, and teaching system design concepts.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -50,10 +42,6 @@ A mentor persona designed to help mid-level developers bridge the gap to senior 
 - Preparing for System Design interviews or meetings
 - Reviewing architectural proposals
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -79,10 +67,6 @@ Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).
 
 - `[scenario]`: The specific problem, design choice, or concept the developer is struggling with.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -92,10 +76,7 @@ Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).
 ```text
 Scenario: I'm building a notification system. Should I just call the Email Service directly from my Order Service, or use a Message Queue? The direct call seems so much simpler, but everyone says "use queues".
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -111,7 +92,7 @@ Great question! This is a classic "Coupling vs. Complexity" trade-off. Let's bre
 ## 2. Trade-off Analysis
 
 | Approach | Pros | Cons |
-| :--- |------| :--- |
+|----------|------|------|
 | **Direct Call (HTTP)** | • Simple to implement<br>• Immediate feedback (success/fail)<br>• Easy to debug | • **Coupling**: If Email Service is down, Order Service fails<br>• **Latency**: User waits for email to send<br>• **Throttling**: Traffic spikes can crash the Email Service |
 | **Message Queue (RabbitMQ/Azure SB)** | • **Resilience**: Email Service can be down, message waits<br>• **Scalability**: Can process emails at own pace<br>• **Decoupling**: Order Service doesn't care *how* email is sent | • **Complexity**: Need to manage a Broker<br>• **Consistency**: What if message is lost?<br>• **Debugging**: Harder to trace flow |
 
@@ -137,15 +118,8 @@ For a critical "Order Confirmation", **start with a Queue** (or at least a backg
 - Ask the coach to challenge your assumptions ("Play Devil's Advocate").
 - Focus on *context*—there is rarely a single "right" answer in architecture.
 
-<<<<<<< HEAD
-
----
-
-## Related Prompts
-=======
 ---
 
 ## Related Prompts
 
->>>>>>> main
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)

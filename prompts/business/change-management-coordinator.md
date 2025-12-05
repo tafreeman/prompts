@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Change Management Coordinator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Manages project changes effectively
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Manages project changes effectively
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Provide:
 - `[impact]`: Impact assessment (e.g., "2-week data migration window, 40 hours training required, $200K budget impact")
 - `[concerns]`: Stakeholder concerns (e.g., "Sales team worried about data loss during Q4, IT concerned about integration with legacy inventory system")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -110,10 +94,7 @@ Provide:
 5. Risk mitigation
 6. Success measurement
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -134,13 +115,13 @@ Provide:
 
 ### Financial Impact
 | Item | Cost | Timeline |
-| :--- |------| :--- |
+|------|------|----------|
 | Dynamics 365 licenses (500 users) | $60K/year | Ongoing |
 | Implementation services | $120K | One-time |
 | Training (120 hours @ $150/hr) | $18K | Dec-Jan |
 | Integration development | $35K | Nov-Dec |
-| Contingency (15%) | $30K | :--- |
-| **Total** | **$263K** | :--- |
+| Contingency (15%) | $30K | - |
+| **Total** | **$263K** | - |
 
 **ROI Justification**: Salesforce renewal ($85K/year) + PowerBI premium ($24K/year) eliminated. Break-even in 24 months.
 
@@ -226,7 +207,7 @@ Provide:
 ### Migration (Jan 6-10, 2026)
 
 | Day | Activity | Owner | Rollback Point |
-| :--- |----------| :--- |----------------|
+|-----|----------|-------|----------------|
 | Mon | Data export (contacts, accounts, opportunities) | IT | Salesforce remains live |
 | Tue | Data import + validation (2.5M records) | Vendor | Revert to Salesforce |
 | Wed | Integration testing (all 8 connectors) | IT | Still reversible |
@@ -257,7 +238,7 @@ Provide:
 ### Critical Risks
 
 | Risk | Probability | Impact | Mitigation | Contingency Plan |
-| :--- |-------------| :--- |------------| :--- |
+|------|-------------|--------|------------|------------------|
 | **Q4 sales disruption** | High | Critical ($4.2M) | Move to Jan 2026 (avoid Q4) | If Jan slips, use hybrid mode (Dynamics + Salesforce read-only) |
 | **Data loss during migration** | Low | Critical | 3 sandbox tests, full backup | Rollback script ready (restore from backup in 4 hours) |
 | **Legacy inventory API incompatible** | Medium | High | Build Azure Logic Apps middleware | Manual CSV export/import (temp workaround for 2 weeks) |
@@ -277,13 +258,13 @@ Provide:
 ### KPIs (30/60/90 Days)
 
 | Metric | Baseline (Salesforce) | Target (30d) | Target (90d) | Measurement |
-| :--- |----------------------| :--- |--------------| :--- |
+|--------|----------------------|--------------|--------------|-------------|
 | **User Adoption** | 100% | 95% active logins | 98% | Dynamics analytics |
 | **Sales Productivity** | 42 opps/rep/month | 38 (training ramp) | 45 (+7%) | Pipeline reports |
 | **Support Tickets** | 5/week (Salesforce) | <20/week | <8/week | IT helpdesk |
 | **System Uptime** | 99.7% | 99.5% | 99.8% | Azure monitor |
 | **Data Accuracy** | 95% | 97% (cleanup) | 98% | Quality audits |
-| **Cost Savings** | $109K/year | :--- | -$13K (net first year) | Finance tracking |
+| **Cost Savings** | $109K/year | - | -$13K (net first year) | Finance tracking |
 
 ### Qualitative Success Indicators
 - Sales VP: "Mobile CRM improves field productivity" (survey at 60 days)
@@ -308,18 +289,9 @@ Provide:
 - **Budget 15% contingency**: Migrations always have unforeseen costs (API limits, additional licenses, custom development)
 - **Celebrate wins**: Recognize early adopters and power users to build positive momentum
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - Plan migration work in 2-week sprints
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - Craft executive updates and user notifications
-<<<<<<< HEAD
-- **risk-assessment-analyst** - Quantify migration risks with probability models
-- **data-migration-architect** - Technical ETL strategy for CRM data migration
-=======
->>>>>>> main

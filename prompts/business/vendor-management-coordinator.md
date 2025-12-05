@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Vendor Management Coordinator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Manages vendor relationships
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Manages vendor relationships
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Include:
 - `[services]`: Services
 - `[terms]`: Terms
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Include:
 [terms]: Net-60 payment, 99.9% SLA, 24/7 Support, Penalty clauses for downtime > 1hr
 [issues]: Missed deadlines on Phase 1 delivery, SLA breach in October (4 hours downtime)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -132,10 +113,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

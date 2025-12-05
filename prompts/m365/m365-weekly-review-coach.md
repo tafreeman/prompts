@@ -26,10 +26,6 @@ reviewStatus: "draft"
 ---
 # M365 Weekly Review Coach
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -105,10 +101,6 @@ Return the output in Markdown with these sections:
 - `## Focus for Next Week`
   - `[max_focus_items]` bullets, each with a short description and suggested outcome.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -119,10 +111,6 @@ Return the output in Markdown with these sections:
 - Use case 4: A consultant reviewing work across multiple client engagements.
 - Use case 5: A support engineer reviewing incidents and planning process improvements.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -196,10 +184,6 @@ review and recommended focus items for next week.
 - `[max_focus_items]`: Maximum number of focus items for next week.
 - `[tone]`: Desired tone (e.g., "reflective", "direct and action-oriented").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -215,10 +199,7 @@ review and recommended focus items for next week.
 
 You are my Weekly Review Coach working in a Microsoft 365 environment...
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -260,10 +241,6 @@ incident response and began shaping a clearer roadmap.
 - Tip 3: Ask Copilot to turn the "Focus for Next Week" section into tasks in your preferred system.
 - Tip 4: Share the Weekly Summary and Key Accomplishments as part of your regular manager update.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Project Documentation Manager
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Manages project documentation
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Manages project documentation
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Provide:
 - `[doc_types]`: Doc Types
 - `[project_name]`: Project Name
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Provide:
 [audience]: Internal Employees (Users), External Auditors (Approvers)
 [compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -131,10 +112,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

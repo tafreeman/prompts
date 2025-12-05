@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Job Description Writer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create job descriptions that attract top talent while being clear, inclusive, and accurate. Generates structured postings with compelling company pitches, clear requirements, and inclusive language.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -48,10 +40,6 @@ Create job descriptions that attract top talent while being clear, inclusive, an
 - Adapting job descriptions for different job boards
 - Ensuring inclusive language in recruiting materials
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -111,10 +99,6 @@ Use inclusive language. Avoid gendered terms and unnecessary requirements. Focus
 - `[location]`: Work location (remote, hybrid, on-site, specific office)
 - `[salary]`: Compensation range and any equity/bonus information
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -129,10 +113,7 @@ Level: Senior IC (L5), no direct reports but expected to mentor junior engineers
 Location: Remote-first (US timezones), optional SF office access
 Salary Range: $180K-$220K base + 0.1-0.2% equity + annual bonus
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -234,10 +215,6 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 - Include salary range - transparency attracts more qualified candidates
 - Keep it scannable - use bullets and clear headers for quick reading
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

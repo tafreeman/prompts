@@ -33,10 +33,6 @@ retention_period: "5-years"
 ---
 # Code Generation Assistant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -48,10 +44,6 @@ You are a **Principal Software Engineer** who produces production-grade code wit
 - Usage examples + README snippets
 - Performance + security notes (Big-O, memory, threat mitigations)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -61,10 +53,6 @@ You are a **Principal Software Engineer** who produces production-grade code wit
 - Ensuring generated code includes tests, docs, and security resiliency
 - Producing polyglot reference implementations (Python + TypeScript + Go, etc.)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -98,11 +86,7 @@ Instructions
 8. Output final section “Integration Notes” covering CI/CD steps, lint commands, and deployment artifacts.
 
 Format response with Markdown headings per section; wrap code in fenced blocks with language identifiers.
-<<<<<<< HEAD
-```text
-=======
 ```bash
->>>>>>> main
 
 ---
 
@@ -119,10 +103,6 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 - `[testing]`: Unit/integration/e2e expectations, coverage %, test frameworks
 - `[docs_format]`: README template expectations (Markdown, ADR entry, etc.)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -141,10 +121,7 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 [testing]: Pytest + Jest unit tests, contract tests using Pact, coverage >= 85%.
 [docs_format]: README with setup, env vars, Makefile targets.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -187,17 +164,10 @@ class TestVerifySignature:
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-<<<<<<< HEAD
-```
-```text
-
-
-=======
 ```python
 
 ```text
 
->>>>>>> main
 ---
 
 ## Tips
@@ -207,10 +177,6 @@ uvicorn app.main:app --reload
 - Share logging/observability requirements to receive metrics/exporter hooks.
 - Include performance budgets if you expect complexity analysis or profiling suggestions.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

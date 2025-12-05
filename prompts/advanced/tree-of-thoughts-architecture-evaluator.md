@@ -25,16 +25,9 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Architecture Evaluator
 
-<<<<<<< HEAD
-
----
-
-## 📋 Description
-=======
 ---
 
 ## Description
->>>>>>> main
 
 A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning. Explores alternatives (e.g., monolith vs microservices, SQL vs NoSQL, sync vs async), compares them across key dimensions, and converges on a justified recommendation with documented trade-offs.
 
@@ -103,16 +96,9 @@ Structured Markdown with the following sections:
 9. **Risks & Mitigations**
 10. **Decision Record** (ADR-style summary)
 
-<<<<<<< HEAD
-
----
-
-## 🎯 Use Cases
-=======
 ---
 
 ## Use Cases
->>>>>>> main
 
 - Choosing between monolithic and microservices architectures
 - Evaluating database technologies (SQL vs NoSQL vs polyglot)
@@ -121,16 +107,9 @@ Structured Markdown with the following sections:
 - Assessing frontend frameworks or state management approaches
 - Migrating legacy systems (rewrite vs refactor vs strangle fig)
 
-<<<<<<< HEAD
-
----
-
-## 💬 Prompt
-=======
 ---
 
 ## Prompt
->>>>>>> main
 
 ```text
 You are an expert software architect using Tree-of-Thoughts (ToT) reasoning to evaluate architecture options systematically.
@@ -225,7 +204,7 @@ For each architecture option, evaluate it across the criteria:
 Create a comparison table:
 
 | Criterion | Option A | Option B | Option C | Option D | Option E |
-| :--- |----------| :--- |----------| :--- |----------|
+|-----------|----------|----------|----------|----------|----------|
 | Scalability | [score] | [score] | [score] | [score] | [score] |
 | Performance | [score] | [score] | [score] | [score] | [score] |
 | Dev Complexity | [score] | [score] | [score] | [score] | [score] |
@@ -333,15 +312,10 @@ Based on the analysis, select the best option:
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## ⚙️ Variables
+## Variables
 
 - `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
 - `[EXISTING_ARCHITECTURE_OR_GREENFIELD]`: Current system (if any) or "greenfield"
@@ -357,26 +331,16 @@ Based on the analysis, select the best option:
 - `[EXISTING_TECH_STACK_INTEGRATIONS]`: Must-use or must-avoid technologies
 - `[ANY_OTHER_RELEVANT_INFO]`: Additional context
 
-<<<<<<< HEAD
-
----
-
-## 📝 Example Usage
-=======
 ---
 
 ## Example Usage
->>>>>>> main
 
 **Input:**
 
 ```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:** (abbreviated)
 
 ```markdown
@@ -451,15 +415,10 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach
 - **Use quantitative criteria:** Score options numerically to enable objective comparison
@@ -469,11 +428,6 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Validate with data:** Use benchmarks, case studies, or prototypes to support scores
 - **Involve stakeholders:** Share this analysis with engineering, product, and leadership for alignment
 
-<<<<<<< HEAD
-## 🔗 Related Prompts - For data migration decisions
-- [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance optimization
-- [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes - Related system design patterns
-=======
 ---
 
 ## Related Prompts
@@ -482,7 +436,6 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes
 
 ---
->>>>>>> main
 
 ## Governance Notes
 

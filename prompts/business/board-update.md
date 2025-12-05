@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Board Update Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create polished board updates and investor communications that clearly convey company performance, strategic progress, and key decisions needed. Balances transparency with appropriate framing.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ Create polished board updates and investor communications that clearly convey co
 - Year-end shareholder letters
 - Strategic update memos to stakeholders
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -127,10 +115,6 @@ Write in confident but honest tone. No spin, but appropriate framing. Board memb
 - `[asks]`: Decisions or input needed from the board
 - `[audience]`: Board composition and any specific context
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -161,10 +145,7 @@ Asks:
 - Intro requests: Need intros to procurement at 3 target accounts
 Audience: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -189,7 +170,7 @@ The Acme win validates our enterprise motion, but we're seeing sales cycle elong
 ## Key Metrics Dashboard
 
 | Metric | November | Target | vs. Target | vs. October | Trend |
-| :--- |----------| :--- |------------| :--- |-------|
+|--------|----------|--------|------------|-------------|-------|
 | **ARR** | $12.4M | $12.8M | 97% ⚠️ | +$380K | ↑ |
 | **Net Revenue Retention** | 118% | 115% | ✅ +3pts | +2pts | ↑ |
 | **New Logos** | 8 | 10 | 80% ⚠️ | -2 | ↓ |
@@ -288,7 +269,7 @@ Driven by:
 ### Q4 OKR Progress
 
 | Objective | Key Result | Status | Notes |
-| :--- |------------| :--- |-------|
+|-----------|------------|--------|-------|
 | **Hit $13.5M ARR** | $12.4M / $13.5M | 🟡 92% | Achievable if Dec deals close |
 | **Launch AI Platform** | ✅ Shipped | 🟢 Done | Ahead of schedule |
 | **Enterprise Expansion** | 3 F500 logos (Acme = 1) | 🟡 33% | 2 in late-stage pipeline |
@@ -311,7 +292,7 @@ Driven by:
 ## Financial Summary
 
 | Metric | November | YTD | vs. Plan |
-| :--- |----------| :--- |----------|
+|--------|----------|-----|----------|
 | Revenue | $1.08M | $10.2M | 96% |
 | Gross Margin | 82% | 81% | +1pt |
 | Operating Expenses | $1.97M | $19.8M | 94% |
@@ -400,10 +381,6 @@ Seeking warm introductions to procurement/IT at:
 - Include context for metrics - numbers without narrative are confusing
 - Keep it under 3 pages for monthly updates; save details for appendices
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

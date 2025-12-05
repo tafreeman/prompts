@@ -44,7 +44,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Repository Metrics
 
 | Metric | Value | Assessment |
-| :--- |-------| :--- |
+|--------|-------|------------|
 | Total prompts | 137 | ✅ Good foundation |
 | Index files | 0 | ❌ Critical gap |
 | Agents | 7 | ✅ Well-structured |
@@ -54,7 +54,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Content Distribution by Category
 
 | Category | Count | % of Total |
-| :--- |-------| :--- |
+|----------|-------|------------|
 | business | 26 | 19% |
 | developers | 25 | 18% |
 | system | 23 | 17% |
@@ -67,11 +67,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Difficulty Distribution
 
 | Difficulty | Count | % | Assessment |
-<<<<<<< HEAD
-| :--- |-------| :--- | :--- |
-=======
 |------------|-------| :--- |------------|
->>>>>>> main
 | Advanced | 56 | 41% | ⚠️ Heavy |
 | Intermediate | 53 | 39% | ✅ Good |
 | Beginner | 22 | 16% | ⚠️ Light |
@@ -82,7 +78,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Frontmatter Field Coverage
 
 | Field | Coverage | Target | Gap |
-| :--- |----------| :--- |-----|
+|-------|----------|--------|-----|
 | `title` | 100% | 100% | ✅ None |
 | `category` | 100% | 100% | ✅ None |
 | `tags` | 100% | 100% | ✅ None |
@@ -99,7 +95,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Structure Gaps
 
 | GitHub Docs Pattern | Current State | Gap Severity |
-| :--- |---------------| :--- |
+|---------------------|---------------|--------------|
 | `index.md` in every folder | None exist | 🔴 Critical |
 | `get-started/` quickstarts | No dedicated folder | 🔴 Critical |
 | `concepts/` (About X) | No dedicated folder | 🟠 Major |
@@ -252,7 +248,7 @@ featuredLinks:
 ### Content Type Definitions
 
 | Type | Purpose | Title Pattern | Example |
-| :--- |---------| :--- |---------|
+|------|---------|---------------|---------|
 | `conceptual` | Explain what/why | "About [subject]" | "About Chain-of-Thought" |
 | `quickstart` | First success <15 min | "Quickstart for [topic]" | "Quickstart for Copilot" |
 | `how_to` | Complete a task | Gerund/imperative | "Generating unit tests" |
@@ -270,7 +266,7 @@ featuredLinks:
 **Goal**: Productive with AI code generation in first week
 
 | Day | Topic | Content |
-| :--- |-------| :--- |
+|-----|-------|---------|
 | Day 1 | First Success | quickstart-copilot.md → about-code-generation.md → generating-unit-tests.md |
 | Day 2 | Core Patterns | about-prompt-engineering.md → refactoring-legacy-code.md |
 | Day 3 | Intermediate | about-chain-of-thought.md → chain-of-thought-detailed.md |
@@ -281,7 +277,7 @@ featuredLinks:
 **Goal**: Master advanced patterns and governance
 
 | Phase | Topic | Content |
-| :--- |-------| :--- |
+|-------|-------|---------|
 | Advanced Patterns | ReAct, RAG, Agentic | react-doc-search-synthesis.md, rag-document-retrieval.md |
 | Enterprise Governance | Compliance, Audit | enterprise-prompt-governance.md, governance-tags.md |
 | Architecture Design | Design decisions | architecture-agent.agent.md, designing-ai-solutions.md |
@@ -292,7 +288,7 @@ featuredLinks:
 **Goal**: AI assistance for business tasks
 
 | Phase | Topic | Content |
-| :--- |-------| :--- |
+|-------|-------|---------|
 | Getting Started | First prompts | quickstart-m365.md, writing-business-documents.md |
 | M365 Integration | Office apps | copilot-for-word.md, copilot-for-excel.md |
 
@@ -304,7 +300,7 @@ featuredLinks:
 **Effort**: 8-12 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | F-001 | Create `index.md` template | P0 | 1h |
 | F-002 | Update `prompt-template.md` with new fields | P0 | 2h |
 | F-003 | Create validation script for new schema | P0 | 4h |
@@ -314,7 +310,7 @@ featuredLinks:
 **Effort**: 12-16 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | QS-001 | Create `get-started/` folder | P0 | 0.5h |
 | QS-002 | Write `quickstart-copilot.md` | P0 | 3h |
 | QS-003 | Write `quickstart-claude.md` | P0 | 3h |
@@ -326,7 +322,7 @@ featuredLinks:
 **Effort**: 8-12 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | NAV-001 | Create root `index.md` with persona cards | P0 | 3h |
 | NAV-002 | Add `index.md` to `prompts/advanced/` | P1 | 1h |
 | NAV-003 | Add `index.md` to `prompts/developers/` | P1 | 1h |
@@ -338,7 +334,7 @@ featuredLinks:
 **Effort**: 16-24 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | FM-001 | Add `type` field to all 137 prompts | P0 | 8h |
 | FM-002 | Add `audience` field to all prompts | P1 | 4h |
 | FM-003 | Normalize `platform` field values | P1 | 2h |
@@ -350,7 +346,7 @@ featuredLinks:
 **Effort**: 12-16 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | NC-001 | Create `concepts/` folder + index | P1 | 1h |
 | NC-002 | Write `about-prompt-engineering.md` | P1 | 2h |
 | NC-003 | Write `about-chain-of-thought.md` | P2 | 2h |
@@ -362,7 +358,7 @@ featuredLinks:
 **Effort**: 8-12 hours
 
 | Task ID | Task | Priority | Effort |
-| :--- |------| :--- |--------|
+|---------|------|----------|--------|
 | GOV-001 | Update CI validation for required fields | P1 | 4h |
 | GOV-002 | Create PR template with checklist | P1 | 1h |
 | GOV-003 | Update CONTRIBUTING.md | P1 | 2h |
@@ -484,7 +480,7 @@ type_folder_mapping:
 ## Success Metrics
 
 | Metric | Current | Target | Measurement |
-| :--- |---------| :--- |-------------|
+|--------|---------|--------|-------------|
 | Time to first success (new engineer) | Unknown | <30 min | User survey |
 | Index file coverage | 0% | 100% | Automation |
 | `type` field coverage | 0.7% | 100% | Automation |

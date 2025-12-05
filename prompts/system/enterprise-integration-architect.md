@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Enterprise Integration Architect
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Designs enterprise integration solutions
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Designs enterprise integration solutions
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -81,10 +69,6 @@ Include:
 - `[security]`: Security
 - `[systems]`: Systems
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,12 +80,8 @@ Include:
 [data_flow]: Order-to-Cash process (Order placed -> Payment captured -> Inventory reserved -> Shipping label created -> Invoice generated)
 [performance]: Real-time inventory checks (<500ms), eventual consistency for reporting (15 min lag ok)
 [security]: OAuth 2.0 for all APIs, PII masking in logs, encrypted message queues
-<<<<<<< HEAD
-```text
-=======
 ```xml
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -133,10 +113,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

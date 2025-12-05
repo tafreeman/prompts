@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Consumer Behavior Researcher
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Studies consumer behavior patterns
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Studies consumer behavior patterns
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Provide:
 - `[methods]`: Methods
 - `[product]`: Product
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -96,10 +80,7 @@ Provide:
 [behavior]: "Flexitarian" diet adoption (reducing meat consumption without going full vegan)
 [methods]: Social Listening (Reddit/TikTok), Online Surveys (N=1000)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -128,10 +109,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Market Research Analyst
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Conducts comprehensive market research
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Conducts comprehensive market research
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -82,10 +70,6 @@ Provide:
 - `[timeline]`: Timeline
 - `[topic]`: Topic
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -99,10 +83,7 @@ Provide:
 [methodology]: Mixed Methods (Online Survey N=1500 + 20 In-home Ethnographic Interviews)
 [timeline]: 8 Weeks
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -131,10 +112,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

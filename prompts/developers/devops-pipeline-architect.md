@@ -38,10 +38,6 @@ retention_period: "5-years"
 ---
 # DevOps Pipeline Architect
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -68,10 +64,6 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - **NIST Secure Software Development Framework (SSDF)** – Secure-by-design pipeline controls
 - **SLSA Framework** – Supply-chain integrity, provenance, SBOM requirements
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -82,10 +74,6 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - Defining progressive delivery strategies with automated rollback triggers
 - Building platform engineering blueprints for internal developer platforms (IDPs)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -122,18 +110,14 @@ Include:
 - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering build, test, scan, deploy steps.
 - Canary deployment pseudo-code or manifest snippet.
 - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 → SAST report stored in S3).
-<<<<<<< HEAD
-```text
-=======
 ```yaml
->>>>>>> main
 
 ---
 
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- ||
+|----------|-------------|---------||
 | `[repo_structure]` | Monorepo vs multi-repo, service count | "Polyrepo (20 Node.js + Go services)" |
 | `[languages]` | Languages, build systems, package managers | "Node.js 18 (npm), Go 1.21, Terraform" |
 | `[targets]` | Runtime targets | "Kubernetes (EKS), AWS Lambda, Terraform" |
@@ -146,10 +130,6 @@ Include:
 | `[dora_targets]` | DORA metric goals | "Daily deploys, <1h lead time, MTTR <15 min" |
 | `[constraints]` | Tooling mandates/prohibitions | "GitHub-hosted runners only, AWS Secrets Manager" |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -169,10 +149,7 @@ Include:
 [dora_targets]: Daily deploys per service, <1h lead time, MTTR < 15 min, CFR < 10%.
 [constraints]: Only GitHub-hosted runners, Docker allowed, secrets via AWS Secrets Manager only.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -237,10 +214,6 @@ jobs:
 - Mention reusable workflow needs (monorepo vs polyrepo) so templates are included.
 - Include rollback requirements (DB migrations, config toggles) for actionable runbooks.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

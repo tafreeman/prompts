@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # ReAct: Library Structure & Content Analysis
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the structure, quality, and completeness of a prompt library or code repository. This prompt guides the AI to act as a "Library Analyst," systematically exploring directories, reading files, checking metadata, and identifying gaps or inconsistencies. It combines file system exploration with content evaluation logic.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the stru
 - **Gap Analysis**: Finding missing topics or categories based on existing content.
 - **Maintenance**: Generating reports on "to-do" items for library improvement.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -143,10 +131,6 @@ Continue until you can provide:
 
 - `[ANALYSIS_TASK]`: The specific auditing or analysis goal (e.g., "Audit the 'analysis' folder for incomplete prompts").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -168,10 +152,7 @@ You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) patter
 **Instructions**:
 [As specified above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text

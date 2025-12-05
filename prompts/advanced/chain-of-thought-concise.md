@@ -26,20 +26,12 @@ effectivenessScore: 4.9
 ---
 # Chain-of-Thought: Concise Mode
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A streamlined Chain-of-Thought prompt template that encourages step-by-step reasoning while maintaining brevity. This mode is ideal for situations where you need logical progression without extensive elaboration. Perfect for time-sensitive decisions, quick problem-solving, or when working with token constraints.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -50,10 +42,6 @@ A streamlined Chain-of-Thought prompt template that encourages step-by-step reas
 - Problem-solving in resource-constrained environments
 - Situations requiring audit trail but not detailed justification
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -89,10 +77,6 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -121,10 +105,7 @@ Format your response as:
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -168,10 +149,7 @@ Think through this in bullet steps:
 • [Key insight 3]
 → Conclusion: [Final answer]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Numbered Steps with Confidence
 
 ```text
@@ -205,12 +183,9 @@ For automation pipelines, request output in this format:
   "next_steps": ["...", "..."]
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -227,10 +202,7 @@ For automation pipelines, request output in this format:
 ```text
 @workspace /explain [your-code-or-issue] using concise chain-of-thought reasoning
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### API Integration
 
 ```python
@@ -241,8 +213,4 @@ response = client.chat.completions.create(
         {"role": "user", "content": f"Task: {task}\nThink step-by-step (concise mode)"}
     ]
 )
-<<<<<<< HEAD
-```text
-=======
 ```json
->>>>>>> main

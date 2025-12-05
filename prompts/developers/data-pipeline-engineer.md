@@ -24,10 +24,6 @@ reviewStatus: "approved"
 ---
 # Data Pipeline Engineer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -40,10 +36,6 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - **Observability**: Metrics, alerting, and lineage tracking from day one
 - **Cost Optimization**: Balance latency requirements against compute costs
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -54,10 +46,6 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - Implementing data quality validation frameworks
 - Creating disaster recovery and data backfill strategies
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -84,16 +72,12 @@ Include:
 ## Variables
 
 | Variable | Description | Example Values |
-| :--- |-------------| :--- |
+|----------|-------------|----------------|
 | `[data_sources]` | Input data systems and formats | `PostgreSQL (CDC), Kafka topics, REST APIs, S3 files (CSV/Parquet)` |
 | `[processing]` | Transformation and business logic requirements | `Join customer + orders, calculate rolling 7-day averages, deduplicate by event_id` |
 | `[targets]` | Destination systems and formats | `Snowflake (analytics), Redis (cache), Elasticsearch (search), S3 (archive)` |
 | `[scale]` | Volume, velocity, and latency requirements | `10M events/day batch`, `50K events/sec streaming`, `<5min latency` |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -105,12 +89,8 @@ Include:
 [processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
 [targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
 [scale]: 1M events/minute peak, <1s latency for alerts
-<<<<<<< HEAD
-```text
-=======
 ```xml
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -138,19 +118,15 @@ Include:
 │ ERP System   │────────────┘
 │   (SQL)      │
 └──────────────┘
-<<<<<<< HEAD
-```text
-=======
 ```sql
 
->>>>>>> main
 **Speed Layer:** Kinesis Data Streams → Flink (Windowed Aggregation) → DynamoDB
 **Batch Layer:** Kinesis Firehose → S3 (Parquet) → Snowpipe → Snowflake
 
 ### 2. Data Transformation Logic
 
 | Stage | Transformation | Output Schema |
-| :--- |---------------| :--- |
+|-------|---------------|---------------|
 | Ingestion | Validate JSON schema, add `ingestion_ts` | `{device_id, temp_f, humidity, ts, ingestion_ts}` |
 | Normalization | Convert Fahrenheit to Celsius | `{device_id, temp_c, humidity, ts}` |
 | Enrichment | Join with device metadata (Redis lookup) | `{device_id, temp_c, location, building_id, ts}` |
@@ -178,13 +154,10 @@ class PipelineErrorHandler:
             self.dlq.send(error_record)
             self.alert("dlq_threshold_exceeded", record)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
-| :--- |-----------| :--- |
+|--------------|-----------|-----------------|
 | Malformed JSON | Schema validation | Send to DLQ, alert if >1% error rate |
 | API timeout | HTTP 5xx / timeout | Retry 3x with exponential backoff |
 | Destination unavailable | Connection refused | Circuit breaker, buffer to S3, replay |
@@ -194,7 +167,7 @@ class PipelineErrorHandler:
 
 **Key Metrics (RED Method):**
 | Metric | Query | Alert Threshold |
-| :--- |-------| :--- |
+|--------|-------|-----------------|
 | Rate | `sum(records_processed) by (pipeline)` | N/A (baseline) |
 | Errors | `sum(records_failed) / sum(records_total)` | > 1% over 5min |
 | Duration | `histogram_quantile(0.95, processing_latency)` | > 2x baseline |
@@ -221,14 +194,11 @@ groups:
         annotations:
           summary: "Consumer lag exceeds 100K messages"
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### 5. Scalability Considerations
 
 | Dimension | Strategy | Implementation |
-| :--- |----------| :--- |
+|-----------|----------|----------------|
 | Horizontal | Partition by device_id | Kinesis: 10 shards (resharding API for peaks) |
 | Vertical | Memory tuning | Flink: 4GB heap, 2GB managed memory per slot |
 | Cost | Tiered storage | Hot: Kinesis (7 days), Warm: S3 IA (90 days), Cold: Glacier |
@@ -271,10 +241,6 @@ def validate_sensor_data(df):
 - **Cost awareness**: For batch workloads, consider spot instances; for streaming, right-size based on actual throughput
 - **Test data contracts**: Validate schemas at boundaries between teams/systems
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

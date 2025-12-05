@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Business Case Developer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Develops compelling business cases
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Develops compelling business cases
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -82,10 +70,6 @@ Provide:
 - `[risks]`: Risks
 - `[timeline]`: Timeline
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -99,10 +83,7 @@ Provide:
 [risks]: Low user adoption, poor answer quality damaging brand reputation
 [timeline]: 6 Months (Pilot in Month 3)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -132,10 +113,6 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

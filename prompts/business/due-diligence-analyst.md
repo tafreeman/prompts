@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Due Diligence Analyst
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Conducts comprehensive due diligence
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Conducts comprehensive due diligence
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -82,10 +70,6 @@ Provide:
 - `[timeline]`: Timeline
 - `[transaction]`: Transaction
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -99,10 +83,7 @@ Provide:
 [timeline]: 2 Weeks (Expedited)
 [stakeholders]: Investment Committee, CTO (Acquirer)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -133,10 +114,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

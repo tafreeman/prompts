@@ -25,10 +25,6 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Structure Treemap Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -66,10 +62,6 @@ Direct instruction for visualization generation.
 
 - A detailed description or code (e.g., Python/Matplotlib, Mermaid, or Vega-Lite) to generate the chart.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -78,10 +70,6 @@ Direct instruction for visualization generation.
 - Identifying which categories are well-populated and which are sparse.
 - Presenting the library structure to stakeholders.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -95,12 +83,9 @@ Size the tiles equally to represent count, or color-code them by "Category" to s
 
 I want to instantly see that "Business" and "Analysis" are my largest sections compared to "Creative" or "System".
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Example Visualization (Mermaid)
 
 Use Mermaid's `mindmap` diagram to approximate a treemap-style hierarchy. Replace the sample prompts with your actual files or aggregate labels when the list is long.
@@ -130,9 +115,6 @@ mindmap
       "Data Quality Assessment"
     System
       "Incident Response Orchestrator"
-<<<<<<< HEAD
-```text
-=======
 ```
 
 ## Variables
@@ -146,4 +128,3 @@ mindmap
 - **Use consistent sizing**: Ensure tiles are sized proportionally to accurately represent relative category sizes
 - **Color code by category**: Use distinct colors for each main category for quick visual identification
 - **Interactive elements**: Consider making the treemap interactive so users can drill down into individual prompts
->>>>>>> main

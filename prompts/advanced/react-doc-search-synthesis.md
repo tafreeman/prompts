@@ -27,16 +27,9 @@ effectivenessScore: 4.6
 ---
 # ReAct: Document Search and Synthesis
 
-<<<<<<< HEAD
-
----
-
-## 📋 Description
-=======
 ---
 
 ## Description
->>>>>>> main
 
 ReAct (Reasoning + Acting) pattern specialized for document search and synthesis combines iterative reasoning with document retrieval actions. Unlike standard RAG which retrieves documents once, ReAct allows the AI to reason about what information is needed, search for it, analyze the results, and iteratively refine its search strategy. This creates a transparent research process ideal for complex questions requiring information from multiple sources with strategic retrieval.
 
@@ -52,16 +45,9 @@ This technique combines two foundational approaches:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions enables models to dynamically refine their information gathering strategy. Lewis et al. showed that grounding responses in retrieved documents improves factual accuracy and reduces hallucination. This prompt combines both approaches for strategic, multi-step document research.
 
-<<<<<<< HEAD
-
----
-
-## 🎯 Use Cases
-=======
 ---
 
 ## Use Cases
->>>>>>> main
 
 - Complex research questions requiring multiple sources
 - Policy and procedure lookups across distributed documentation
@@ -71,16 +57,9 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 - Customer support requiring information synthesis from multiple knowledge bases
 - Code repository exploration for understanding complex features
 
-<<<<<<< HEAD
-
----
-
-## 💬 Prompt
-=======
 ---
 
 ## Prompt
->>>>>>> main
 
 ```text
 You are an AI research assistant using the ReAct (Reasoning + Acting) pattern for document search and synthesis.
@@ -168,29 +147,17 @@ Brief explanation of your search strategy and how you arrived at the answer
 5. Be explicit about search refinements
 6. Acknowledge gaps in available documentation
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## ⚙️ Variables
+## Variables
 
 - `[USER_QUESTION]`: The research question requiring document search and synthesis
 - `[BACKGROUND_INFORMATION]`: Context about what the user is trying to accomplish
 
-<<<<<<< HEAD
-
----
-
-## 📝 Example Usage
-=======
 ---
 
 ## Example Usage
->>>>>>> main
 
 **Input:**
 
@@ -211,10 +178,7 @@ You are an AI research assistant using the ReAct (Reasoning + Acting) pattern fo
 **Instructions**:
 [As specified above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -469,7 +433,7 @@ Your enterprise onboarding follows a **4-phase process spanning 5-7 weeks** for 
 ## Coordination Required Across Teams
 
 | Team | Phase | Key Deliverables |
-| :--- |-------| :--- |
+|------|-------|------------------|
 | Legal | Pre-Kickoff | DPA signature [Doc_L008] |
 | IT/DevOps | Technical Setup | Environment provisioning, data residency config [Doc_E012, Doc_I002] |
 | Security | Technical Setup | Security audit, compliance validation [Doc_S015, Doc_C019] |
@@ -518,15 +482,10 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 - Review Doc_D004 (Data Migration Planning) if customer has existing data to migrate
 - Fetch Doc_M003 (Success Metrics) to understand how success will be measured post-onboarding
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **Strategic search**: Start broad, then narrow based on what you find
 - **Use multiple search types**: Combine semantic search (concepts) with keyword search (specific terms)
@@ -540,7 +499,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 ## When to Use ReAct Document Search vs Standard RAG
 
 | Scenario | ReAct Document Search | Standard RAG |
-| :--- |----------------------| :--- |
+|----------|----------------------|--------------|
 | Simple lookup | ✗ (overkill) | ✓ |
 | Complex multi-part question | ✓ | ✗ |
 | Need to refine search strategy | ✓ | ✗ |
@@ -561,10 +520,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 4. Keyword search for specific terms → Get details
 5. Synthesize complete answer
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Pattern 2: Keyword-then-Expand
 
 ```text
@@ -574,10 +530,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 4. Semantic search for concepts → Fill gaps
 5. Synthesize with cross-references
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Pattern 3: Iterative Refinement
 
 ```text
@@ -586,12 +539,8 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Reformulate query based on gaps
 4. Semantic search with refined query
 5. Repeat until comprehensive coverage
-<<<<<<< HEAD
-```text
-=======
 ```sql
 
->>>>>>> main
 ## Output Schema (JSON)
 
 For automation and audit trails:
@@ -633,15 +582,10 @@ For automation and audit trails:
   "total_cycles": 4
 }
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 🔗 Related Prompts
+## Related Prompts
 
 - [RAG: Document Retrieval and Citation](rag-document-retrieval.md) - Standard RAG pattern
 - [ReAct: Tool-Augmented Reasoning](react-tool-augmented.md) - General ReAct pattern with tools
@@ -684,10 +628,7 @@ Follow the Thought → Action → Observation → Synthesis cycle:
 3. Analyze the results
 4. Refine your search based on findings
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### LangChain RAG with ReAct
 
 ```python
@@ -728,10 +669,7 @@ result = agent.run(
     "What is our complete onboarding process for enterprise customers?"
 )
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Custom ReAct Document Research Pipeline
 
 ```python
@@ -803,10 +741,7 @@ def react_document_research(question, max_cycles=8):
         "total_cycles": len(research_trail)
     }
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ## Error Handling
 
 ### No Relevant Documents Found
@@ -819,10 +754,7 @@ def react_document_research(question, max_cycles=8):
 
 **Action [N]**: Let me try a different search strategy with alternative keywords...
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Contradictory Information
 
 ```text
@@ -835,10 +767,7 @@ I need to:
 2. Look for newer policy documents
 3. Note the contradiction in my final answer
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Search Results Too Broad
 
 ```text
@@ -846,8 +775,4 @@ I need to:
 - Add filters (date range, document type, department)
 - Use more specific keywords
 - Narrow the semantic query
-<<<<<<< HEAD
-```text
-=======
 ```sql
->>>>>>> main

@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Compliance Architecture Designer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Designs compliance-focused architectures
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Designs compliance-focused architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -81,10 +69,6 @@ Provide:
 - `[regulations]`: Regulations
 - `[sensitivity]`: Sensitivity
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -97,10 +81,7 @@ Provide:
 [sensitivity]: High (PII, SPII - SSNs, Salary, Health data, Performance reviews)
 [audit]: 7-year retention for all access logs, immutable audit trail, monthly access reviews
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -131,10 +112,6 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

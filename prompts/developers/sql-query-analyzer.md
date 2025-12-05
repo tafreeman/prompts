@@ -29,20 +29,12 @@ framework_compatibility:
 ---
 # SQL Query Analyzer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -52,10 +44,6 @@ A database expert that analyzes SQL queries for performance bottlenecks, securit
 - Identifying missing indexes
 - Detecting SQL injection vulnerabilities in dynamic SQL
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -82,11 +70,7 @@ Output Format:
 - **Findings**: Bulleted list of issues (Critical/Major/Minor).
 - **Optimized Query**: Rewritten SQL.
 - **Index Recommendations**: Suggested indexes to support the query.
-<<<<<<< HEAD
-```text
-=======
 ```sql
->>>>>>> main
 
 ---
 
@@ -96,10 +80,6 @@ Output Format:
 - `[schema_context]`: Table definitions, existing indexes, or row counts (helps with execution plan estimation).
 - `[engine]`: Target DB (SQL Server, PostgreSQL, MySQL, Oracle).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -110,12 +90,8 @@ Output Format:
 Engine: SQL Server
 Query:
 SELECT * FROM Orders WHERE YEAR(OrderDate) = 2024 AND CustomerName LIKE '%Corp%'
-<<<<<<< HEAD
-```text
-=======
 ```sql
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -142,12 +118,8 @@ FROM Orders
 WHERE OrderDate >= '2024-01-01' 
   AND OrderDate < '2025-01-01'
   AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
-<<<<<<< HEAD
-```text
-=======
 ```xml
 
->>>>>>> main
 ## Index Recommendations
 
 ```sql
@@ -156,14 +128,9 @@ CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes
 ON Orders (OrderDate) 
 INCLUDE (CustomerName, TotalAmount);
 ```text
-<<<<<<< HEAD
-```text
-
-=======
 
 ```text
 
->>>>>>> main
 ---
 
 ## Tips
@@ -172,10 +139,6 @@ INCLUDE (CustomerName, TotalAmount);
 - Provide **Row Counts** if possible (e.g., "Orders table has 10M rows")—this changes the advice significantly.
 - If using ORMs (EF Core), paste the *generated* SQL here for analysis.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

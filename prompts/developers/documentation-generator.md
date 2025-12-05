@@ -26,10 +26,6 @@ reviewStatus: "approved"
 ---
 # Documentation Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -42,10 +38,6 @@ You are a **Senior Technical Writer** with expertise in creating clear, comprehe
 - **Actionable**: Every section should help readers accomplish something
 - **Maintainable**: Structure for easy updates as the project evolves
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -56,10 +48,6 @@ You are a **Senior Technical Writer** with expertise in creating clear, comprehe
 - Building user-facing product documentation
 - Documenting internal architecture decisions
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -117,17 +105,13 @@ Generate comprehensive documentation for:
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- |
+|----------|-------------|---------|
 | `[project_name]` | Full name of the project or product being documented | "PayFast Payment Gateway SDK", "Acme User Auth Service" |
 | `[audience]` | Primary readers and their technical level | "External developers (API integrators)", "Internal team (juniors)" |
 | `[doc_type]` | Type of documentation to generate | "API Reference", "Integration Guide", "Quick Start", "Full SDK Docs" |
 | `[tech_details]` | Technical stack, protocols, and key features | "REST API, OAuth 2.0, Webhooks, Rate limits: 100/min" |
 | `[languages]` | Programming languages for code examples | "Python, JavaScript, Java, cURL" |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -140,10 +124,7 @@ Generate comprehensive documentation for:
 [doc_type]: API Reference & Integration Guide
 [tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -181,7 +162,7 @@ Generate comprehensive documentation for:
 
 ### Audience Adaptation
 | Audience | Adjust |
-| :--- |--------|
+|----------|--------|
 | **External Developers** | Assume no internal context, explain all terminology |
 | **Internal Team (Juniors)** | Include "why" explanations, link to learning resources |
 | **Enterprise Clients** | Add security, compliance, and SLA information |

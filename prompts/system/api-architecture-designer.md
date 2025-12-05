@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # API Architecture Designer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Designs comprehensive API architectures
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Designs comprehensive API architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -83,10 +71,6 @@ Include:
 - `[scalability]`: Scalability
 - `[security]`: Security
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -100,10 +84,7 @@ Include:
 [security]: FAPI (Financial-grade API) Profile, OAuth 2.0 / OIDC, mTLS
 [scalability]: 1000 TPS, <100ms latency
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -138,10 +119,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

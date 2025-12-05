@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create structured competitive analyses that inform product strategy, sales positioning, and market differentiation. Generates side-by-side comparisons, SWOT analyses, and actionable recommendations.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ Create structured competitive analyses that inform product strategy, sales posit
 - Evaluating acquisition targets
 - Developing go-to-market positioning
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -120,10 +108,6 @@ Keep analysis objective and evidence-based. Flag assumptions clearly.
 - `[purpose]`: Why you need this analysis (sales, product planning, fundraising)
 - `[criteria]`: Key evaluation dimensions important to your buyers
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -137,10 +121,7 @@ Market: Data integration / ETL-ELT space, targeting mid-market and enterprise co
 Analysis Purpose: Sales battlecards for enterprise deals - need to arm AEs with competitive positioning
 Key Criteria: Performance/speed, ease of use, pricing, enterprise features (security, compliance), connector breadth, support quality
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -167,7 +148,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Fivetran
 
 | Attribute | Details |
-| :--- |---------|
+|-----------|---------|
 | **Founded** | 2012 |
 | **Funding** | $730M raised, $5.6B valuation (Oct 2021) |
 | **Employees** | ~1,000 |
@@ -189,7 +170,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Airbyte
 
 | Attribute | Details |
-| :--- |---------|
+|-----------|---------|
 | **Founded** | 2020 |
 | **Funding** | $181M raised, $1.5B valuation (2022) |
 | **Employees** | ~200 |
@@ -211,7 +192,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Stitch Data (Talend)
 
 | Attribute | Details |
-| :--- |---------|
+|-----------|---------|
 | **Founded** | 2016 (acquired by Talend 2018, Talend acquired by Qlik 2023) |
 | **Funding** | Part of Qlik (private, ~$3B valuation) |
 | **Employees** | Unknown (part of larger org) |
@@ -233,7 +214,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ## Feature Comparison Matrix
 
 | Capability | DataSync Pro | Fivetran | Airbyte | Stitch |
-| :--- |--------------| :--- |---------| :--- |
+|------------|--------------|----------|---------|--------|
 | **Sync Speed** | ✅ Real-time (<1 min) | ⚠️ 5-min minimum | ⚠️ Configurable | ⚠️ 1-hour minimum |
 | **Connector Count** | ⚠️ 85 | ✅ 400+ | ✅ 800+ (variable quality) | ⚠️ 140 |
 | **Salesforce Integration** | ✅ Native, deep | ✅ Standard | ⚠️ Community connector | ✅ Standard |
@@ -257,7 +238,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ## Pricing Comparison
 
 | Tier | DataSync Pro | Fivetran | Airbyte | Stitch |
-| :--- |--------------| :--- |---------| :--- |
+|------|--------------|----------|---------|--------|
 | **Entry** | $500/mo | $500/mo | Free (OSS) | $100/mo |
 | **Growth** | $1,500/mo | $2,000/mo | $350/mo (Cloud) | $500/mo |
 | **Enterprise** | $5,000+/mo | $10,000+/mo | Custom | $1,000/mo |
@@ -265,7 +246,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 **Pricing Model Comparison**:
 
 | Vendor | Model | Notes |
-| :--- |-------| :--- |
+|--------|-------|-------|
 | **DataSync Pro** | Per-connector + data volume | Predictable, scales with usage |
 | **Fivetran** | MAR (Monthly Active Rows) | Can get expensive at scale |
 | **Airbyte** | Per-connector (Cloud), free (OSS) | OSS requires self-management |
@@ -312,7 +293,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Win vs. Fivetran
 
 | Win Factor | Evidence |
-| :--- |----------|
+|------------|----------|
 | **Speed** | "Your sync completes in 45 seconds vs. their 6-minute minimum" |
 | **Pricing** | "We're 30% less expensive at your data volume" |
 | **CRM depth** | "Our Salesforce connector handles custom objects natively" |
@@ -324,7 +305,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Lose vs. Fivetran
 
 | Loss Factor | Mitigation |
-| :--- |------------|
+|-------------|------------|
 | **Connector count** | Reframe: "Quality over quantity - which connectors do you actually need?" |
 | **Brand/safe choice** | Customer references: "Here are 3 similar companies using us" |
 | **dbt integration** | Acknowledge gap, share roadmap (Q2 2025) |
@@ -334,7 +315,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Win vs. Airbyte
 
 | Win Factor | Evidence |
-| :--- |----------|
+|------------|----------|
 | **Reliability** | "Fully managed, no DevOps overhead, 99.9% SLA" |
 | **Support** | "Enterprise support vs. community Discord" |
 | **Connector quality** | "Our connectors are tested, theirs are community-contributed" |
@@ -346,7 +327,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Lose vs. Airbyte
 
 | Loss Factor | Mitigation |
-| :--- |------------|
+|-------------|------------|
 | **Price (OSS is free)** | "Free requires 1-2 engineers to maintain - what's that cost?" |
 | **Customization** | "Our SDK allows custom connectors; most teams don't need this" |
 | **Self-hosted** | Acknowledge gap if required; we don't compete here |
@@ -356,7 +337,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Win vs. Stitch
 
 | Win Factor | Evidence |
-| :--- |----------|
+|------------|----------|
 | **Features** | "Real-time sync, better monitoring, enterprise security" |
 | **Speed** | "1-hour minimum sync vs. our sub-minute" |
 | **Support** | "Stitch is de-prioritized within Qlik—our roadmap is active" |
@@ -367,7 +348,7 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ### Why We Lose vs. Stitch
 
 | Loss Factor | Mitigation |
-| :--- |------------|
+|-------------|------------|
 | **Price** | "You get what you pay for - their SLA is 99.5%, ours is 99.9%" |
 | **Simplicity** | Acknowledge if customer truly needs basic; Stitch may be right fit |
 
@@ -437,10 +418,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - Focus on what matters to buyers, not comprehensive feature lists
 - Be honest about weaknesses - sales teams need to handle objections
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

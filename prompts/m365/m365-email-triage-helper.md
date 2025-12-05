@@ -26,10 +26,6 @@ reviewStatus: "draft"
 ---
 # M365 Email Triage Helper
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -100,10 +96,6 @@ Return the output in Markdown with:
 - `## FYI / No Response Needed`
   - Bulleted list of informational emails.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -114,10 +106,6 @@ Return the output in Markdown with:
 - Use case 4: End-of-week sweep to ensure no important emails are left unattended.
 - Use case 5: Triage a specific project-related inbox folder.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -196,10 +184,6 @@ provide reply drafts as specified.
 - `[tone]`: Reply tone (e.g., "professional and concise").
 - `[exclude_senders]`: Optional list of senders or domains to ignore.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -214,10 +198,7 @@ provide reply drafts as specified.
 
 You are my Email Triage Helper working in Microsoft 365 Outlook...
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -262,10 +243,6 @@ seven can be handled later this week, and the rest are informational.
 - Tip 3: Ask Copilot to "shorten the reply further" for busy recipients.
 - Tip 4: Use folder or search filters in Outlook along with this prompt for project-specific triage.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

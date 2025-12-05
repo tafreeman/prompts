@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Blockchain Architecture Specialist
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Designs blockchain-based architectures
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Designs blockchain-based architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -81,10 +69,6 @@ Include:
 - `[integrations]`: Integrations
 - `[use_case]`: Use Case
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -97,10 +81,7 @@ Include:
 [consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
 [integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -130,10 +111,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

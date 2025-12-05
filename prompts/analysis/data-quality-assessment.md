@@ -26,10 +26,6 @@ effectivenessScore: 4.6
 ---
 # Data Quality Assessment
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -79,10 +75,6 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 4. Recommended Actions (prioritized by impact)
 5. Validation Rules (proposed checks)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -93,10 +85,6 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 - Investigating anomalies in reports or dashboards
 - Compliance checks for data governance initiatives
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -114,10 +102,7 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 
 **Schema:**
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 [TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]
 
 ```text
@@ -127,10 +112,7 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 
 **Sample Data (first 5 rows):**
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 [SAMPLE_DATA_OR_SUMMARY_STATS]
 
 ```text
@@ -189,7 +171,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Missing Values by Column:**
 
 | Column | Missing % |
-| :--- |-----------|
+|--------|-----------|
 | [col1] | [N]%      |
 | [col2] | [N]%      |
 
@@ -240,7 +222,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Type Mismatches:**
 
 | Column | Expected | Actual | Error Rate |
-| :--- |----------| :--- |------------|
+|--------|----------|--------|------------|
 | [col1] | [type]   | [type] | [N]%       |
 
 - **Out-of-Range Values:**
@@ -305,10 +287,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - `[HOW_DATA_WILL_BE_USED]`: Context (analytics, ML, reporting)
 - `[ANY_KNOWN_PROBLEMS]`: Pre-existing issues or concerns
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -335,7 +313,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 **Sample Data:**
 | order_id | customer_id | order_date | total_amount | status | shipping_address |
-| :--- |-------------| :--- |--------------| :--- |------------------|
+|----------|-------------|------------|--------------|--------|------------------|
 | 1 | 101 | 2025-01-05 10:30 | 49.99 | shipped | 123 Main St |
 | 2 | NULL | 2025-01-05 11:00 | 199.99 | pending | NULL |
 | 3 | 103 | 2025-01-05 11:15 | -10.00 | SHIPPED | 456 Oak Ave |
@@ -344,10 +322,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 **Known Issues:** Some orders missing customer_id, status field has inconsistent casing
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output (abbreviated):**
 
 ```markdown
@@ -372,7 +347,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Missing Values by Column:**
 
 | Column | Missing % |
-| :--- |-----------|
+|--------|-----------|
 | customer_id | 8%      |
 | shipping_address | 12%      |
 | order_date | 0%      |
@@ -471,11 +446,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Propose automation:** Validation rules should be implementable in ETL/database
 - **Track over time:** Re-run assessment periodically to measure improvement
 
-<<<<<<< HEAD
-## Related Prompts - For A/B test data validation
-- [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
-- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For investigating data issues
-=======
 ---
 
 ## Related Prompts
@@ -483,7 +453,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
 
 ---
->>>>>>> main
 
 ## Governance Notes
 

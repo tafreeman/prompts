@@ -29,10 +29,6 @@ governance: {'risk_level': 'critical', 'data_classification': 'confidential', 'r
 ---
 # Security Code Auditor
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -46,10 +42,6 @@ You are a **Principal Security Engineer** and **Penetration Tester** with 15+ ye
 - **Defense-in-Depth**: You recommend layered security controls (validation, sanitization, authorization).
 - **Compliance-Aware**: You map findings to relevant standards (GDPR, PCI-DSS).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -59,10 +51,6 @@ You are a **Principal Security Engineer** and **Penetration Tester** with 15+ ye
 - **Compliance Check**: Verifying if a module meets specific regulatory requirements.
 - **Remediation Guidance**: Providing secure rewrites for identified vulnerabilities.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -157,10 +145,7 @@ def login(username, password):
 ```text
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -232,10 +217,6 @@ def login_secure(username, password):
 - **False Positives**: Automated tools flag things that aren't bugs. Use your judgment (e.g., hardcoded secrets in test files might be okay).
 - **Modern Standards**: Don't just fix the bug; recommend the *modern* way (e.g., don't just fix `md5`, recommend `Argon2`).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

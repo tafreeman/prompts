@@ -25,19 +25,6 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Detailed Mode
 
-<<<<<<< HEAD
-
----
-
-## 📋 Description
-
-A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations, justifications, and consideration of alternatives. This mode is ideal for complex problems, high-stakes decisions, teaching contexts, or when stakeholders need to understand the complete reasoning process.
-
-
----
-
-## 🎯 Use Cases
-=======
 ---
 
 ## Description
@@ -47,7 +34,6 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 ---
 
 ## Use Cases
->>>>>>> main
 
 - Complex architectural decisions requiring full justification
 - Critical business decisions with significant financial or strategic impact
@@ -56,16 +42,9 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 - Novel problems where extensive exploration is beneficial
 - Debugging complex, multi-system issues
 
-<<<<<<< HEAD
-
----
-
-## 💬 Prompt
-=======
 ---
 
 ## Prompt
->>>>>>> main
 
 ```text
 You are an expert problem solver using detailed chain-of-thought reasoning.
@@ -115,31 +94,19 @@ Format your response as:
 - Recommended next steps
 - Potential refinements or follow-up questions
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## ⚙️ Variables
+## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The complete problem statement with all relevant details
 - `[PROVIDE_COMPREHENSIVE_CONTEXT]`: Full background, history, constraints, stakeholders, prior attempts
 - `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria and acceptance conditions
 - `[LIST_CONSTRAINTS_AND_REQUIREMENTS]`: Budget, time, technical, organizational, compliance constraints
 
-<<<<<<< HEAD
-
----
-
-## 📝 Example Usage
-=======
 ---
 
 ## Example Usage
->>>>>>> main
 
 **Input:**
 
@@ -174,10 +141,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 **Instructions**:
 [Detailed instructions as shown above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -412,15 +376,10 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
 - **Be thorough but structured**: Use the template sections to organize thoughts. Don't just ramble - follow the format.
@@ -437,16 +396,6 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - When audience is already expert and doesn't need explanation
 - Resource-constrained environments (token limits, etc.)
 
-<<<<<<< HEAD
-
----
-
-## 🔗 Related Prompts
-
-- [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
-- [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
-- [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths - For critiquing detailed reasoning
-=======
 ---
 
 ## Related Prompts
@@ -454,7 +403,6 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
->>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -492,12 +440,9 @@ For automation pipelines, request output in this format:
   }
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -516,10 +461,7 @@ For automation pipelines, request output in this format:
 ```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### API Integration
 
 ```python

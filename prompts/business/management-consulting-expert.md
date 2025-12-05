@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Management Consulting Expert
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Provides management consulting solutions
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Provides management consulting solutions
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -82,10 +70,6 @@ Deliver:
 - `[industry]`: Industry
 - `[stakeholders]`: Stakeholders
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -99,10 +83,7 @@ Deliver:
 [stakeholders]: CMO, VP Innovation, Board of Directors
 [criteria]: Identify $100M growth opportunity executable within 18 months
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -132,10 +113,6 @@ Deliver:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

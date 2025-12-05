@@ -28,10 +28,6 @@ reviewStatus: "approved"
 ---
 # Mobile App Developer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -50,10 +46,6 @@ You are a **Senior Mobile Engineer** with 10+ years of experience building produ
 - **Battery-Conscious**: Every background task is scrutinized for power impact
 - **Accessible**: VoiceOver/TalkBack support from day one
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -64,10 +56,6 @@ You are a **Senior Mobile Engineer** with 10+ years of experience building produ
 - Implementing platform-specific features (HealthKit, Google Fit, etc.)
 - Preparing apps for App Store / Play Store submission
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -134,7 +122,7 @@ Plan mobile app development for:
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- |
+|----------|-------------|---------|
 | `[app_concept]` | App name and core value proposition | "FitSocial - Running tracker with competitive social leaderboards" |
 | `[platforms]` | Target platforms and technology choices | "iOS (Swift/SwiftUI), Android (Kotlin/Compose)" or "React Native" |
 | `[features]` | Key features to implement | "GPS tracking, real-time pace, friend challenges, HealthKit sync" |
@@ -142,10 +130,6 @@ Plan mobile app development for:
 | `[backend]` | Backend services and APIs | "Firebase, REST API at api.example.com, WebSocket for real-time" |
 | `[target_users]` | Primary user demographic and usage context | "Fitness enthusiasts 25-45, used during outdoor runs" |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -158,10 +142,7 @@ Plan mobile app development for:
 [features]: GPS tracking, Real-time pace calculation, Friend challenges, Apple Health/Google Fit sync
 [ux_goals]: "One-tap start", High contrast for outdoor visibility, Haptic feedback for milestones
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -189,7 +170,7 @@ Plan mobile app development for:
 
 ### Platform Selection Guide
 | Criteria | Native (Swift/Kotlin) | React Native | Flutter |
-| :--- |----------------------| :--- |---------|
+|----------|----------------------|--------------|---------|
 | **Performance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
 | **Platform APIs** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
 | **Team sharing** | ❌ (2 codebases) | ✅ (1 codebase) | ✅ (1 codebase) |
@@ -210,7 +191,7 @@ Plan mobile app development for:
 
 ### Performance Benchmarks
 | Metric | Good | Needs Work | Poor |
-| :--- |------| :--- |------|
+|--------|------|------------|------|
 | **Cold Start** | < 1s | 1-2s | > 2s |
 | **Frame Rate** | 60fps | 45-60fps | < 45fps |
 | **APK/IPA Size** | < 30MB | 30-50MB | > 50MB |

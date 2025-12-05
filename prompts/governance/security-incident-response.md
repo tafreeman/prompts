@@ -37,44 +37,12 @@ effectivenessScore: 4.4
 ---
 # Security: Incident Response Framework
 
-<<<<<<< HEAD
-![Risk Level](https://img.shields.io/badge/Risk%20Level-Critical-darkred)
-![Access](https://img.shields.io/badge/Access-Restricted-red)
-![Data Classification](https://img.shields.io/badge/Data-Restricted-purple)
-![Compliance](https://img.shields.io/badge/Compliance-SOC2%20%7C%20ISO27001%20%7C%20NIST-blue)
-![Approval](https://img.shields.io/badge/Approval-CISO-yellow)
-
-## 📑 Table of Contents
-
-- [Description](#description)
-- [Use Cases](#use-cases)
-- [Prompt](#prompt)
-  - [Phase 1: Detection & Analysis](#phase-1-detection--analysis)
-  - [Phase 2: Containment](#phase-2-containment)
-  - [Phase 3: Eradication](#phase-3-eradication)
-  - [Phase 4: Recovery](#phase-4-recovery)
-  - [Phase 5: Post-Incident Activity](#phase-5-post-incident-activity)
-- [Communication Plan](#communication-plan)
-- [Escalation Triggers](#escalation-triggers)
-- [Variables](#variables)
-- [Example Usage](#example-usage)
-- [Tips](#tips)
-- [Related Prompts](#related-prompts)
-- [Governance Notes](#governance-notes)
-
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows NIST Cybersecurity Framework and includes breach notification requirements for GDPR/CCPA compliance.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -87,10 +55,6 @@ A structured incident response framework for Security Operations Center (SOC) an
 - Compromised credentials response
 - Post-incident analysis and documentation
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -311,10 +275,6 @@ Provide structured incident report:
 - `[CURRENT_STATUS]`: Is incident ongoing, contained, or resolved
 - `[TIMESTAMP]`: When incident was discovered
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -343,10 +303,7 @@ You are a security incident response assistant following NIST IR framework.
 
 **Instructions**: [Follow framework above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text

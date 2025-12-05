@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Business Process Reengineering
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Reengineers business processes
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -46,10 +38,6 @@ Reengineers business processes
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -80,10 +68,6 @@ Include:
 - `[process_name]`: Process Name
 - `[targets]`: Targets
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -95,12 +79,8 @@ Include:
 [performance]: Cycle time 14 days, Error rate 12% (mostly pricing disputes), Manual touchpoints: 8
 [targets]: Cycle time < 3 days, Error rate < 1%, Touchless processing > 80%
 [constraints]: Cannot replace core SAP ERP system; Budget limited to $200k
-<<<<<<< HEAD
-```text
-=======
 ```xml
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -131,10 +111,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

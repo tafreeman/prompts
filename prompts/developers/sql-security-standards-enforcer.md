@@ -29,10 +29,6 @@ governance: {'risk_level': 'high', 'data_classification': 'internal', 'regulator
 ---
 # SQL Security Standards Enforcer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -46,10 +42,6 @@ You are a **Senior Database Security Engineer** and **SQL Server Expert**. Your 
 - **Explicit Deny**: If it's not explicitly allowed, it's forbidden.
 - **Audit Ready**: Code must be self-documenting regarding security decisions.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -59,10 +51,6 @@ You are a **Senior Database Security Engineer** and **SQL Server Expert**. Your 
 - **New Development**: Writing secure-by-default stored procedures for sensitive data.
 - **Compliance**: Ensuring database code meets PCI-DSS/GDPR requirements.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -121,11 +109,7 @@ When responding to a request, use this structure:
 4. **Deviations and Assumptions** – List unmet standards with rationale. Prefix assumptions with `Assumption:` and explain impact.
 
 Treat these standards as mandatory unless the user explicitly overrides them. If the request conflicts with the standards, explain the conflict and propose a secure alternative before sharing SQL.
-<<<<<<< HEAD
-```text
-=======
 ```sql
->>>>>>> main
 
 ---
 
@@ -158,10 +142,7 @@ END
 ```text
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -229,10 +210,6 @@ GO
 - **Least Privilege**: If a procedure only reads data, ensure the service account executing it doesn't have `db_owner` or `db_datawriter`.
 - **QUOTENAME**: Use `QUOTENAME()` around object names to prevent identifier injection, but whitelisting is safer.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

@@ -27,10 +27,6 @@ reviewStatus: "approved"
 ---
 # Frontend Architecture Consultant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -49,10 +45,6 @@ You are a **Principal Frontend Architect** with 12+ years of experience designin
 - **Testable Design**: Components designed for unit, integration, and E2E testing
 - **Progressive Enhancement**: Works without JavaScript, enhanced with it
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -63,10 +55,6 @@ You are a **Principal Frontend Architect** with 12+ years of experience designin
 - Optimizing Core Web Vitals for SEO-critical applications
 - Planning micro-frontend strategies for enterprise organizations
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -130,7 +118,7 @@ Design a comprehensive frontend architecture for:
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- |
+|----------|-------------|---------|
 | `[app_name]` | Name and brief description of the application | "MarketPulse - Marketing Analytics Dashboard" |
 | `[app_type]` | Category of application | "SaaS Dashboard", "E-commerce", "Social Platform", "Internal Tool" |
 | `[user_requirements]` | Key features and user needs | "Real-time charts, dark mode, PDF export, tablet responsive" |
@@ -138,10 +126,6 @@ Design a comprehensive frontend architecture for:
 | `[performance]` | Specific performance targets | "LCP < 2.5s, CLS < 0.1, TTI < 3s on 4G, bundle < 200KB" |
 | `[team_size]` | Number of frontend developers | "3 developers now, scaling to 8 in 6 months" |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -153,12 +137,8 @@ Design a comprehensive frontend architecture for:
 [user_requirements]: Real-time data visualization, Dark/Light mode toggle, Export to PDF, Responsive for tablets
 [tech_stack]: React 18, TypeScript, Tailwind CSS, TanStack Query, Recharts
 [performance]: Core Web Vitals (LCP < 2.5s, CLS < 0.1), Time to Interactive < 3s on 4G
-<<<<<<< HEAD
-```text
-=======
 ```sql
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -186,7 +166,7 @@ Design a comprehensive frontend architecture for:
 
 ### Framework Selection Guide
 | Application Type | Recommended | Why |
-| :--- |-------------| :--- |
+|-----------------|-------------|-----|
 | **SaaS Dashboard** | React + TanStack Query | Rich ecosystem, great devtools |
 | **Content Site (SEO)** | Next.js / Nuxt | SSR/SSG out of the box |
 | **Enterprise Internal** | Angular | Strong typing, opinionated structure |
@@ -195,18 +175,14 @@ Design a comprehensive frontend architecture for:
 
 ### Performance Budget Reference
 | Metric | Good | Needs Work | Poor |
-| :--- |------| :--- |------|
+|--------|------|------------|------|
 | **LCP** | < 2.5s | 2.5-4s | > 4s |
 | **FID** | < 100ms | 100-300ms | > 300ms |
 | **CLS** | < 0.1 | 0.1-0.25 | > 0.25 |
 | **Bundle (gzip)** | < 100KB | 100-200KB | > 200KB |
 
 ### Architecture Patterns Quick Reference
-<<<<<<< HEAD
-```text
-=======
 ```xml
->>>>>>> main
 ┌─────────────────────────────────────────────────────────┐
 │                    ATOMIC DESIGN                        │
 ├──────────┬──────────┬───────────┬──────────┬───────────┤
@@ -216,10 +192,7 @@ Design a comprehensive frontend architecture for:
 │  Icon    │  Card    │  DataGrid │          │           │
 └──────────┴──────────┴───────────┴──────────┴───────────┘
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### State Management Decision Tree
 1. **Is it server data?** → TanStack Query / SWR / RTK Query
 2. **Is it shared across routes?** → Global store (Zustand/Redux/Pinia)
@@ -234,10 +207,6 @@ Design a comprehensive frontend architecture for:
 - ❌ Skipping accessibility until "after launch"
 - ❌ Not measuring Core Web Vitals in CI
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

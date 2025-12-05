@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Budget and Cost Controller
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Project budget controller using Earned Value Management (EVM) methodologies. Specializes in variance analysis, cost forecasting, and corrective action planning for capital projects and IT implementations.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -48,10 +40,6 @@ Project budget controller using Earned Value Management (EVM) methodologies. Spe
 - Cost optimization and value engineering
 - Monthly financial close processes
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -88,10 +76,6 @@ Use tables for variance analysis and include cash flow projections if applicable
 - `[timeline]`: Project timeline context (e.g., "Month 8 of 12 (66% elapsed), Go-Live Feb 1")
 - `[concerns]`: Specific cost issues (e.g., "Furniture 20% over estimate due to supply chain surcharges, IT cabling bids pending")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -109,10 +93,7 @@ Cost Concerns:
 - AV equipment (conference room tech) may require upgrade to support hybrid meetings (not in original scope)
 - Contingency already drawn down $80K for asbestos remediation (unexpected discovery)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -127,7 +108,7 @@ Cost Concerns:
 ### Budget Summary
 
 | Category | Budgeted (BAC) | Actual Cost (AC) | Committed (PO'd) | Forecast (EAC) | Variance |
-| :--- |----------------| :--- |------------------| :--- |----------|
+|----------|----------------|------------------|------------------|----------------|----------|
 | **Construction** | $800K | $780K | $800K | $800K | 🟢 -$20K (2.5% under) |
 | **Furniture & FF&E** | $625K | $750K | $750K | $750K | 🔴 +$125K (20% over) |
 | **IT Infrastructure** | $400K | $320K | $520K | $550K | 🔴 +$150K (38% over - pending cabling) |
@@ -135,13 +116,13 @@ Cost Concerns:
 | **Project Management** | $200K | $140K | $200K | $200K | 🟢 On track |
 | **Moving & Logistics** | $225K | $0 | $0 | $225K | 🟢 Not started (Month 11-12) |
 | **Subtotal** | **$2,500K** | **$2,170K** | **$2,520K** | **$2,845K** | 🔴 **+$345K (13.8% over)** |
-| **Contingency** | $150K | $80K | :--- | $70K remaining | 🟡 53% consumed |
+| **Contingency** | $150K | $80K | - | $70K remaining | 🟡 53% consumed |
 | **Total Approved** | **$2,650K** | **$2,250K** | **$2,520K** | **$2,915K** | 🔴 **+$265K (10% over approved)** |
 
 ### Earned Value Management (EVM) Metrics
 
 | Metric | Formula | Value | Interpretation |
-| :--- |---------| :--- |----------------|
+|--------|---------|-------|----------------|
 | **BAC** (Budget at Completion) | Total approved budget | $2,650K | Baseline |
 | **PV** (Planned Value) | Planned spend at Month 8 | $1,750K (66% of BAC) | Schedule-driven cost |
 | **EV** (Earned Value) | Work completed (60% done per PM) | $1,590K (60% of BAC) | Value delivered |
@@ -161,7 +142,7 @@ Cost Concerns:
 ### Scenario Analysis
 
 | Scenario | Assumptions | Forecast EAC | Variance from Budget |
-| :--- |-------------| :--- |----------------------|
+|----------|-------------|--------------|----------------------|
 | **Worst Case** | No mitigation; IT cabling $280K; AV upgrade approved | $3,100K | +$450K (+17% over) |
 | **Most Likely** | Moderate mitigation; IT cabling $240K; AV scaled down | $2,915K | +$265K (+10% over) |
 | **Best Case** | Aggressive value engineering; IT cabling $220K; AV deferred | $2,720K | +$70K (+2.6% over) |
@@ -178,7 +159,7 @@ Cost Concerns:
 ### Cash Flow Projection
 
 | Month | Planned Spend | Forecasted Spend | Cumulative Variance |
-| :--- |---------------| :--- |---------------------|
+|-------|---------------|------------------|---------------------|
 | **Month 9** | $200K | $280K | +$80K (IT cabling payments) |
 | **Month 10** | $150K | $190K | +$120K (AV equipment arrives) |
 | **Month 11** | $225K | $240K | +$135K (Moving costs slightly elevated) |
@@ -194,7 +175,7 @@ Cost Concerns:
 ### Cost Reduction Opportunities
 
 | Initiative | Category | Estimated Savings | Implementation Risk | Recommendation |
-| :--- |----------| :--- |---------------------| :--- |
+|------------|----------|-------------------|---------------------|----------------|
 | **VE-01: AV Equipment Simplification** | AV Equipment | $50K | Low (functionality preserved) | ✅ **Approve** |
 | **VE-02: Furniture Phased Approach** | Furniture | $80K | Medium (employee morale impact) | 🟡 **Consider** |
 | **VE-03: IT Cabling Vendor Negotiation** | IT Infrastructure | $30K | Low (leverage competitive bids) | ✅ **Approve** |
@@ -260,7 +241,7 @@ Cost Concerns:
 ### Recommended Cost Reduction Package
 
 | Initiative | Savings | Risk | Status |
-| :--- |---------| :--- |--------|
+|------------|---------|------|--------|
 | VE-01 (AV Simplification) | $50K | Low | ✅ Recommend |
 | VE-03 (IT Cabling Negotiation) | $30K | Low | ✅ Recommend |
 | VE-04 (Defer Breakroom) | $40K | Low | ✅ Recommend |
@@ -281,7 +262,7 @@ Cost Concerns:
 **Status**: 🔴 **RED** - Budget overrun 10% (trending, pre-mitigation)
 
 | Metric | Target | Actual | Status |
-| :--- |--------| :--- |--------|
+|--------|--------|--------|--------|
 | **Budget Utilization** | 66% (Month 8/12) | 85% ($2.25M / $2.65M) | 🔴 Over-burn |
 | **Cost Performance Index (CPI)** | \u003e 0.90 | **0.71** | 🔴 Critical |
 | **Forecasted Completion** | $2.65M | $2.915M (-mitigation) → $2.795M (+mitigation) | 🔴 10% → 🟡 5.5% over |
@@ -303,7 +284,7 @@ Cost Concerns:
 ### Budget Risk Register
 
 | Risk ID | Risk | Probability | Impact | EMV | Mitigation |
-| :--- |------| :--- |--------| :--- |------------|
+|---------|------|-------------|--------|-----|------------|
 | **BR-01** | IT cabling bids exceed $240K (worst-case $280K) | 30% | $40K overrun | $12K | Lock $240K vendor now; VE-03 negotiation |
 | **BR-02** | Moving costs spike due to Jan weather delays | 20% | $50K overrun | $10K | Book movers NOW (Dec rates lower than Jan) |
 | **BR-03** | Asbestos discovery Phase 2 (additional floors) | 15% | $100K overrun | $15K | Conduct environmental survey NOW (Month 9) |
@@ -324,7 +305,7 @@ Cost Concerns:
 ### 30-Day Action Plan
 
 | Action | Owner | Deadline | Expected Impact |
-| :--- |-------| :--- |-----------------|
+|--------|-------|----------|-----------------|
 | **1. Approve VE Package** (VE-01, VE-03, VE-04) | PM + CFO | Dec 1 | -$120K cost reduction |
 | **2. Lock IT Cabling Vendor** ($240K bid) | IT Director | Dec 5 | Prevent $280K worst-case |
 | **3. Re-Forecast AV Equipment** (finalize Tier 1/2 split) | Facilities Manager | Dec 10 | Lock $190K actual cost |
@@ -353,7 +334,7 @@ Cost Concerns:
 ### Budget Control KPIs (Track Monthly)
 
 | Metric | Target | Current (Month 8) | Trend |
-| :--- |--------| :--- |-------|
+|--------|--------|-------------------|-------|
 | **CPI (Cost Performance Index)** | \u003e 0.90 | 0.71 | 🔴 Critical (needs corrective action) |
 | **Budget Variance** | ±5% | +10% (pre-mitigation) | 🔴 → 🟡 (post-mitigation: +5.5%) |
 | **Contingency Utilization** | \u003c 50% by Month 8 | 53% ($80K / $150K) | 🟡 Slightly elevated |
@@ -389,17 +370,9 @@ Cost Concerns:
 - **Communicate Overruns Early**: CFOs hate surprises. Flag a 10% overrun in Month 8, not Month 11 when it's unfixable.
 - **Use EVM Metrics**: CPI and SPI give early warning signals. A project can be "on time" but financially doomed if CPI is 0.70.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[risk-management-analyst](./risk-management-analyst.md)** - For budget risk assessment
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For CFO budget briefings
-<<<<<<< HEAD
-- **project-charter-creator** - For initial budget approval
-=======
->>>>>>> main

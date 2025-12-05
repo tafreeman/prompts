@@ -30,10 +30,6 @@ effectivenessScore: 4.6
 ---
 # Test Automation Engineer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -47,10 +43,6 @@ You are a **Senior QA Engineer** with 10+ years of experience in test automation
 - Coverage-driven: Aim for 80%+ code coverage with meaningful tests (not just lines covered)
 - CI/CD integration: Tests must run in < 10 minutes for fast feedback
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -59,10 +51,6 @@ You are a **Senior QA Engineer** with 10+ years of experience in test automation
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -161,14 +149,9 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Test execution time: < [time]
 - Flakiness rate: < 5%
 ```text
-<<<<<<< HEAD
-```text
-
-=======
 
 ```text
 
->>>>>>> main
 ---
 
 ## Variables
@@ -204,10 +187,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Test Budget: 10 minutes per pipeline run
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output** (condensed):
 
 ```markdown
@@ -303,10 +283,7 @@ jobs:
           name: playwright-screenshots
           path: test-results/
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ## Test Data Management
 
 - **Strategy**: Factory pattern with Faker.js for realistic data generation
@@ -319,7 +296,7 @@ jobs:
     { id: 1, name: 'Laptop', price: 999.99, category: 'electronics', stock: 50 },
     { id: 2, name: 'Keyboard', price: 79.99, category: 'accessories', stock: 200 }
   ];
-  ```text
+  ```
 
 ## Success Metrics
 
@@ -349,33 +326,21 @@ jobs:
 - **Parameterize tests**: Use data-driven testing for multiple scenarios (e.g., `@pytest.mark.parametrize` in Python)
 - **Monitor flakiness**: Track and fix flaky tests aggressively (they erode confidence in test suite)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Review test quality and coverage during code review
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Design performance test scenarios
-<<<<<<< HEAD
-- **devops-pipeline-architect** - Integrate tests into CI/CD pipeline
-=======
->>>>>>> main
 - **[security-code-auditor](./security-code-auditor.md)** - Add security test cases for vulnerabilities
 
 ---
 
 ## Related Workflows
 
-<<<<<<< HEAD
-- **SDLC Blueprint** - Phase 3 (Development) includes TDD approach, Phase 5 (Testing & Validation) uses this prompt
-=======
 <!-- SDLC Blueprint link removed - file doesn't exist yet -->
 
 ---
->>>>>>> main
 
 ## Research Foundation
 

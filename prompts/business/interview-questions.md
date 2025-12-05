@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Interview Questions Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -48,10 +40,6 @@ Create structured interview questions that assess candidates fairly and effectiv
 - Ensuring consistent evaluation across candidates
 - Creating competency-based assessment frameworks
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -107,10 +95,6 @@ Format as an interview guide with timing suggestions.
 - `[stage]`: Interview stage (e.g., "Phone screen", "Hiring manager round", "Final onsite")
 - `[time]`: Duration of the interview (e.g., "45 minutes", "60 minutes")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -124,10 +108,7 @@ Key Competencies: Data-driven decision making, cross-functional leadership, expe
 Interview Stage: Hiring manager round (second interview, passed recruiter screen)
 Time Available: 60 minutes
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -142,7 +123,7 @@ Time Available: 60 minutes
 ## Interview Structure
 
 | Section | Time | Focus |
-| :--- |------| :--- |
+|---------|------|-------|
 | Opening | 5 min | Rapport, background |
 | Behavioral | 25 min | Core competencies |
 | Situational | 15 min | Judgment, approach |
@@ -335,7 +316,7 @@ Time Available: 60 minutes
 ## 6. Scoring Rubric
 
 | Competency | Strong (4-5) | Adequate (3) | Concerning (1-2) |
-| :--- |--------------| :--- |------------------|
+|------------|--------------|--------------|------------------|
 | **Data-Driven** | Cites specific metrics, acknowledges data limitations, makes probabilistic decisions | Uses data but can't explain methodology deeply | Relies on intuition, can't articulate how they'd measure success |
 | **Cross-Functional** | Concrete examples of building consensus, shows empathy for other teams | Has collaborated but waited for decisions to come to them | Blames other teams, sees alignment as someone else's job |
 | **Experimentation** | Can design rigorous experiments, embraces failures, iterates based on learnings | Has run experiments but didn't own the analysis | Hasn't run real experiments or sees them as "nice to have" |
@@ -362,10 +343,6 @@ Time Available: 60 minutes
 - Take notes on exact quotes - they're more useful than your interpretations
 - Leave time for candidate questions - how they ask reveals a lot
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

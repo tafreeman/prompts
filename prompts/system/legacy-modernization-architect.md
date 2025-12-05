@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Legacy Modernization Architect
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Architects legacy system modernization
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Architects legacy system modernization
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -83,10 +71,6 @@ Include:
 - `[system]`: System
 - `[timeline]`: Timeline
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -100,10 +84,7 @@ Include:
 [constraints]: Zero downtime migration required, strict regulatory compliance (OCC/FDIC), 3-year timeline
 [timeline]: Phase 1 (Read-only) in 6 months, Phase 2 (write-path) in 18 months, Decom in 36 months
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -135,10 +116,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

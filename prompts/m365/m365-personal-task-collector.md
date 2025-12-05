@@ -26,10 +26,6 @@ reviewStatus: "draft"
 ---
 # M365 Personal Task Collector
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -95,10 +91,6 @@ Return the output in Markdown with:
 - `## Uncertain or Ambiguous Tasks`
   - 2–5 bullets for tasks that need clarification, or "None" if all tasks are clear.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -109,10 +101,6 @@ Return the output in Markdown with:
 - Use case 4: A team lead preparing their daily to-do list from recent meetings and emails.
 - Use case 5: A consultant organizing client-related action items from multiple communication channels.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -158,7 +146,7 @@ Return the result in Markdown:
 
 ## Task List
 | Task | Description | Suggested Due Date | Priority |
-| :--- |-------------| :--- |----------|
+|------|-------------|-------------------|----------|
 | [task] | [description] | [date] | [priority] |
 | [task] | [description] | [date] | [priority] |
 
@@ -176,10 +164,6 @@ Now, using my activity from [time_window], extract and organize my tasks.
 - `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
 - `[exclude_completed]`: Optional; whether to exclude tasks already marked as done.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -193,10 +177,7 @@ Now, using my activity from [time_window], extract and organize my tasks.
 
 You are my Personal Task Collector working in a Microsoft 365 environment...
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -205,7 +186,7 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 
 ## Task List
 | Task | Description | Suggested Due Date | Priority |
-| :--- |-------------| :--- |----------|
+|------|-------------|-------------------|----------|
 | Deploy API timeout fix | Complete validation and deploy to production | Nov 22 | High |
 | Finalize onboarding FAQ | Review and publish updated onboarding FAQ document | Nov 25 | Medium |
 | Respond to customer escalation email | Provide update on onboarding delay to customer success team | Nov 19 | High |
@@ -232,10 +213,6 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 - Tip 3: Copy the "Task List" table directly into Microsoft To Do, Planner, Jira, or your preferred task tracker.
 - Tip 4: Review the "Uncertain or Ambiguous Tasks" section and clarify with relevant stakeholders before committing.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

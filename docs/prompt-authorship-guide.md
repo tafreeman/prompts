@@ -87,11 +87,7 @@ Imagine a stacked diagram where the top layer is the YAML frontmatter (metadata)
 ## Troubleshooting
 
 | Symptom | Likely cause | Fix |
-<<<<<<< HEAD
-| :--- | :--- | :--- |
-=======
 | :--- | --- | :--- |
->>>>>>> main
 | Parse failure | Missing `---` frontmatter or invalid YAML | Check for stray tabs, unclosed quotes, and ensure metadata keys exist. |
 | Placeholders not detected | Placeholder uses curly braces or no brackets | Always wrap variables as `[LIKE_THIS]`. |
 | Governance metadata warnings | Required fields empty (e.g., `risk_level`) | Add the relevant fields; refer to `governance-compliance` prompts for examples. |

@@ -28,20 +28,12 @@ effectivenessScore: 4.0
 ---
 # Video Script Writer
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Generate professional video scripts tailored to different platforms and formats. This prompt helps content creators, marketers, and video producers create structured scripts with hooks, transitions, and calls-to-action that keep viewers engaged from start to finish.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -52,10 +44,6 @@ Generate professional video scripts tailored to different platforms and formats.
 - Corporate training and onboarding videos
 - Promotional and advertisement videos
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -111,7 +99,7 @@ Format the script with:
 ## Variables
 
 | Variable | Description |
-| :--- |-------------|
+|----------|-------------|
 | `[YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]` | The platform and format for your video |
 | `[TARGET DURATION]` | How long the video should be |
 | `[MAIN SUBJECT OF THE VIDEO]` | What your video is about |
@@ -122,10 +110,6 @@ Format the script with:
 | `[QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]` | How you want to start the video |
 | `[WHAT SHOULD VIEWERS DO?]` | The action you want viewers to take |
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -177,10 +161,7 @@ Format the script with:
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -365,8 +346,8 @@ Then, merge your feature branch:
 
 "When you open the file, you'll see these markers:
 
-The stuff between `<<<<<<< HEAD` and `=======` is what's on main.
-The stuff between `=======` and `>>>>>>> feature-login` is what's on your branch."
+The block labeled `HEAD` above the divider represents what's already on main.
+The block below the `=======` divider (ending with the branch name) shows the incoming changes from your feature branch."
 
 [VISUAL: Highlight each section clearly]
 
@@ -493,10 +474,6 @@ Just main and feature branches. Create a branch for each thing you're working on
 - **Script for the edit:** Include visual cues and B-roll suggestions to make editing easier and the final video more engaging
 - **Read aloud:** Scripts that look good on paper often sound unnatural—always read your script out loud before recording
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

@@ -25,20 +25,12 @@ reviewStatus: "draft"
 ---
 # Microservices Architecture Expert
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Designs microservices ecosystems
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Designs microservices ecosystems
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -81,10 +69,6 @@ Include:
 - `[scale]`: Scale
 - `[teams]`: Teams
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -97,10 +81,7 @@ Include:
 [scale]: 50k trucks, 10M packages/day, global distribution
 [teams]: 12 squads (approx 8-10 devs each), distributed across 3 time zones
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -136,10 +117,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

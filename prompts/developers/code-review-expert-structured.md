@@ -29,10 +29,6 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -46,10 +42,6 @@ You are a **Senior Software Engineer** and **Automation Specialist** designing c
 - **Actionable Data**: Ensure every finding has a precise file location and a copy-pasteable fix.
 - **Dashboard Ready**: Generate summaries that can be directly visualized in engineering metrics dashboards.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -59,10 +51,6 @@ You are a **Senior Software Engineer** and **Automation Specialist** designing c
 - **Automated Reporting**: Generating daily/weekly code quality digests.
 - **Multi-Repo Standardization**: Enforcing consistent review standards across distributed teams.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -225,7 +213,7 @@ Conduct a comprehensive code review and output a **structured report** conformin
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- |
+|----------|-------------|---------|
 | `[REPOSITORY_NAME]` | Repository name or URL | `ecommerce-api`, `github.com/acme/payments` |
 | `[BRANCH_NAME]` | Branch being reviewed | `feature/add-auth`, `fix/memory-leak` |
 | `[COMMIT_SHA]` | Commit hash (optional) | `a1b2c3d4e5f6` |
@@ -240,7 +228,7 @@ Use this guide to classify issues consistently:
 ### Severity Classification
 
 | Severity | Criteria | Examples | Action |
-| :--- |----------| :--- |--------|
+|----------|----------|----------|--------|
 | **CRITICAL** | Security vulnerabilities, data loss risk, breaking production | SQL injection, plaintext passwords, null pointer in hot path | Block merge, fix immediately |
 | **MAJOR** | Logic bugs, missing error handling, performance issues | Unhandled exceptions, N+1 queries, memory leaks | Should fix before merge |
 | **MINOR** | Code quality, maintainability, style | Missing docs, non-idiomatic code, long methods | Consider fixing |
@@ -249,7 +237,7 @@ Use this guide to classify issues consistently:
 ### Category Classification
 
 | Category | What to Look For | Impact Area |
-| :--- |------------------| :--- |
+|----------|------------------|-------------|
 | **security** | Injection, auth bypass, XSS, CSRF, secrets exposure | Data breach, compliance violation |
 | **performance** | N+1 queries, inefficient algorithms, memory leaks | User experience, infrastructure cost |
 | **bug** | Logic errors, race conditions, edge cases | Incorrect behavior, data corruption |
@@ -267,10 +255,7 @@ Has CRITICAL issues?
     → No: Has only MINOR/INFO?
       → APPROVE (with optional comments)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ## Usage
 
 ### Example 1: Python Payment API Review (Markdown Output)
@@ -306,10 +291,7 @@ You are a senior software engineer conducting a structured code review.
 
 **Review Focus:** security vulnerabilities, PCI compliance
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -363,7 +345,7 @@ You are a senior software engineer conducting a structured code review.
       client = PaymentClient(api_key=os.environ['PAYMENT_API_KEY'])
       response = client.charge(amount=amount, token=payment_token)
       return response
-  ```text
+  ```
 
 - **References:**
   - [PCI DSS Requirements](https://www.pcisecuritystandards.org/)
@@ -390,7 +372,7 @@ You are a senior software engineer conducting a structured code review.
       json=payload, 
       headers=headers
   )
-  ```text
+  ```
 
 - **References:** [OWASP: Hardcoded Secrets](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)
 
@@ -465,12 +447,8 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
   "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
 }
-<<<<<<< HEAD
-```text
-=======
 ```sql
 
->>>>>>> main
 ### Example: MAJOR Bug Issue
 ```json
 {
@@ -485,10 +463,7 @@ You are a senior software engineer conducting a structured code review.
   "references": []
 }
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Example: MINOR Style Issue
 ```json
 {

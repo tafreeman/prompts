@@ -26,16 +26,9 @@ reviewStatus: "draft"
 ---
 # ReAct: Tool-Augmented Reasoning
 
-<<<<<<< HEAD
-
----
-
-## 📋 Description
-=======
 ---
 
 ## Description
->>>>>>> main
 
 ReAct (Reasoning + Acting) is an advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction. The AI explicitly articulates its thought process (Think), takes actions using tools (Act), observes the results (Observe), and reflects on whether the goal is achieved (Reflect). This creates a transparent, auditable loop ideal for complex tasks requiring information retrieval, API calls, or multi-step workflows.
 
@@ -51,39 +44,6 @@ The pattern has been further refined through reflection mechanisms:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
-<<<<<<< HEAD
-## ReAct Cycle Diagram
-
-The following diagram illustrates the ReAct reasoning loop:
-
-```mermaid
-flowchart LR
-    A[Task/Question] --> B[💭 Thought]
-    B --> C[⚡ Action]
-    C --> D[🔍 Observation]
-    D --> E{Goal<br/>Achieved?}
-    E -->|No| B
-    E -->|Yes| F[✅ Final Answer]
-    
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#e8f5e9
-    style E fill:#fff9c4
-    style F fill:#c8e6c9
-```
-
-**Legend**:
-- 💭 **Thought**: Reasoning about what to do next
-- ⚡ **Action**: Execute a tool or take an action
-- 🔍 **Observation**: Review the results
-- The cycle continues until the goal is achieved
-
-
----
-
-## 🎯 Use Cases
-=======
 ---
 
 ## ReAct Cycle Visualization
@@ -117,7 +77,6 @@ flowchart LR
 ---
 
 ## Use Cases
->>>>>>> main
 
 - Research tasks requiring multiple information sources
 - Data analysis workflows with API calls or database queries
@@ -127,16 +86,9 @@ flowchart LR
 - Integration testing with external systems
 - Automated customer support with ticketing systems
 
-<<<<<<< HEAD
-
----
-
-## 💬 Prompt
-=======
 ---
 
 ## Prompt
->>>>>>> main
 
 ```text
 You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve tasks.
@@ -181,30 +133,18 @@ Continue this cycle until you can provide:
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## ⚙️ Variables
+## Variables
 
 - `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
 - `[PROVIDE_BACKGROUND]`: Context, constraints, success criteria
 - `[LIST_TOOLS_WITH_DESCRIPTIONS]`: Available tools with their purposes and parameters
 
-<<<<<<< HEAD
-
----
-
-## 📝 Example Usage
-=======
 ---
 
 ## Example Usage
->>>>>>> main
 
 **Input:**
 
@@ -243,10 +183,7 @@ You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve ta
 **Instructions**:
 [As specified above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -494,15 +431,10 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 **Total engineering time**: 50 hours across 2 sprints
 **Critical path**: 38 hours (fits in 40-hour budget for this sprint with 2 hours buffer)
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **Think explicitly**: Don't skip the Thought step - it's what makes reasoning transparent
 - **One tool per cycle**: Don't call multiple tools in one Action - break them into separate cycles
@@ -515,7 +447,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ## When to Use ReAct vs Other Patterns
 
 | Use Case | ReAct | CoT | Direct |
-| :--- |-------| :--- |--------|
+|----------|-------|-----|--------|
 | Need external data | ✓ | ✗ | ✗ |
 | Pure reasoning problem | ✗ | ✓ | ✗ |
 | Simple lookup | ✗ | ✗ | ✓ |
@@ -524,22 +456,12 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 | Complex analysis with data | ✓ | Partial | ✗ |
 | Need action audit trail | ✓ | Partial | ✗ |
 
-<<<<<<< HEAD
-
----
-
-## 🔗 Related Prompts
-
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern - API calling patterns
-- [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools - Citing retrieved information
-=======
 ---
 
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
 - [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
->>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -566,12 +488,9 @@ For automation pipelines:
   "success": true
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: Exercise caution when using tools that query databases or APIs containing PII
@@ -587,10 +506,7 @@ For automation pipelines:
 ```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### LangChain Integration
 
 ```python
@@ -611,10 +527,7 @@ agent = initialize_agent(
 
 result = agent.run("Analyze security vulnerabilities...")
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Custom API Implementation
 
 ```python
@@ -635,8 +548,4 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
     
     return "Max cycles reached without solution"
-<<<<<<< HEAD
-```text
-=======
 ```json
->>>>>>> main

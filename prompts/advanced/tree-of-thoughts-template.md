@@ -25,16 +25,9 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
-<<<<<<< HEAD
-
----
-
-## 📋 Description
-=======
 ---
 
 ## Description
->>>>>>> main
 
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
 
@@ -47,44 +40,6 @@ This technique is based on the paper:
 
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
 
-<<<<<<< HEAD
-## Tree-of-Thoughts Structure
-
-The following diagram illustrates how ToT explores multiple solution branches:
-
-```mermaid
-graph TD
-    A[Problem] --> B1[Branch 1:<br/>Approach A]
-    A --> B2[Branch 2:<br/>Approach B]
-    A --> B3[Branch 3:<br/>Approach C]
-    
-    B1 --> E1[📊 Evaluate: 7/10<br/>Pros: Fast, simple<br/>Cons: Limited scale]
-    B2 --> E2[📊 Evaluate: 9/10<br/>Pros: Scalable, robust<br/>Cons: Complex setup]
-    B3 --> E3[📊 Evaluate: 5/10<br/>Pros: Low cost<br/>Cons: High risk]
-    
-    E2 --> S[✅ Selected Solution:<br/>Branch 2 - Approach B]
-    
-    style A fill:#e1f5fe
-    style B1 fill:#fff3e0
-    style B2 fill:#fff3e0
-    style B3 fill:#fff3e0
-    style E1 fill:#ffebee
-    style E2 fill:#c8e6c9
-    style E3 fill:#ffebee
-    style S fill:#a5d6a7
-```
-
-**Key Concepts**:
-- Explore multiple approaches simultaneously
-- Evaluate each branch objectively with scores
-- Select the highest-rated solution
-- Can backtrack if chosen path fails
-
-
----
-
-## 🎯 Use Cases
-=======
 ---
 
 ## Tree-of-Thoughts Visualization
@@ -130,7 +85,6 @@ graph TD
 ---
 
 ## Use Cases
->>>>>>> main
 
 - Architecture decisions with multiple valid approaches
 - Strategic planning requiring trade-off analysis
@@ -140,16 +94,9 @@ graph TD
 - Risk assessment requiring scenario analysis
 - Optimization problems with multiple local maxima
 
-<<<<<<< HEAD
-
----
-
-## 💬 Prompt
-=======
 ---
 
 ## Prompt
->>>>>>> main
 
 ```text
 You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
@@ -226,15 +173,10 @@ Compare all viable paths explored:
 - Residual risks and mitigation strategies
 
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## ⚙️ Variables
+## Variables
 
 - `[PROBLEM_STATEMENT]`: The complex problem requiring multi-approach exploration
 - `[BACKGROUND_AND_CONSTRAINTS]`: Context, limitations, requirements, stakeholders
@@ -242,16 +184,9 @@ Compare all viable paths explored:
 - `[N]`: Decision point number
 - `[X]`: Specific branch identifier (A, B, C, etc.)
 
-<<<<<<< HEAD
-
----
-
-## 📝 Example Usage
-=======
 ---
 
 ## Example Usage
->>>>>>> main
 
 **Input:**
 
@@ -280,10 +215,7 @@ You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 **Instructions**:
 [As specified above]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -499,7 +431,7 @@ Could we combine Branch C + insights from Branch A?
 **Trade-offs Matrix**:
 
 | Approach | Latency | Cost | Accuracy | Complexity |
-| :--- |---------| :--- |----------| :--- |
+|----------|---------|------|----------|------------|
 | Branch A | Medium | High | Medium | Low |
 | Branch B | Medium | Medium | High | High |
 | Branch C | Low | Low | High | Medium |
@@ -565,15 +497,10 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
 ```text
-<<<<<<< HEAD
-=======
-
----
->>>>>>> main
 
 ---
 
-## 💡 Tips
+## Tips
 
 - **Generate genuinely different branches**: Don't create branches that are minor variations - aim for fundamentally different approaches
 - **Score honestly**: Don't inflate scores to favor your preferred approach - be objective
@@ -586,7 +513,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 ## When to Use ToT vs Other Patterns
 
 | Pattern | Use When | Example |
-| :--- |----------| :--- |
+|---------|----------|---------|
 | **Direct** | Simple, one solution | "What's the capital of France?" |
 | **CoT** | Step-by-step reasoning | "Debug why API returns 500" |
 | **ToT** | Multiple approaches possible | "Choose architecture for new system" |
@@ -639,15 +566,11 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
   }
 }
 ```text
-<<<<<<< HEAD
-## 🔗 Related Prompts - When to use ToT
-=======
 
 ---
 
 ## Related Prompts
 
->>>>>>> main
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative
 - [Reflection: Self-Critique](reflection-self-critique.md) - Validate ToT conclusions
 

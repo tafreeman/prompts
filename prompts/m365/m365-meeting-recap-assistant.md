@@ -27,10 +27,6 @@ effectivenessScore: 4.2
 ---
 # M365 Meeting Recap Assistant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -97,10 +93,6 @@ Return the output in Markdown with these sections:
 - `## Open Questions / Follow-ups`
   - 2–5 bullets for unresolved issues or topics that need follow-up discussions.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -111,10 +103,6 @@ Return the output in Markdown with these sections:
 - Use case 4: A consultant recapping a client meeting and preparing follow-up tasks.
 - Use case 5: An operations lead capturing action items from an incident review or post-mortem.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -168,7 +156,7 @@ Return the result in Markdown with these sections:
 
 ## Action Items
 | Owner | Action | Suggested Due Date | Priority |
-| :--- |--------| :--- |----------|
+|-------|--------|-------------------|----------|
 | [name] | [action] | [date] | [priority] |
 | [name] | [action] | [date] | [priority] |
 
@@ -187,10 +175,6 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 - `[due_date_horizon]`: Suggested timeframe for action items (e.g., "within 2 weeks").
 - `[focus_topics]`: Optional specific topics to emphasize (e.g., "risks", "budget").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -204,10 +188,7 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 
 You are my Meeting Recap Assistant working in a Microsoft 365 environment...
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -221,7 +202,7 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 
 ## Action Items
 | Owner | Action | Suggested Due Date | Priority |
-| :--- |--------| :--- |----------|
+|-------|--------|-------------------|----------|
 | Alex (Engineering) | Deploy API timeout fix and confirm stability in staging | Nov 22 | High |
 | Jordan (Product) | Finalize internal beta communication plan and recruit 50 beta users | Nov 18 | High |
 | Taylor (Support) | Complete onboarding FAQ and training materials review | Nov 25 | Medium |
@@ -243,10 +224,6 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 - Tip 3: Use the "Action Items" table directly in your task tracker (Planner, Jira, etc.) by copying and pasting.
 - Tip 4: Pair this with `m365-meeting-prep-brief.md` for full meeting lifecycle coverage (prep → meeting → recap).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

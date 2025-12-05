@@ -25,20 +25,12 @@ effectivenessScore: 4.8
 ---
 # Follow-Up Email Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Create follow-up email sequences that get responses without damaging relationships. Generates multi-touch sequences with varied approaches for different stages of prospect engagement.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -49,10 +41,6 @@ Create follow-up email sequences that get responses without damaging relationshi
 - Post-conference or networking event follow-ups
 - Checking in after sending proposals or quotes
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -104,10 +92,6 @@ Keep tone human and respectful. No guilt-tripping or desperation.
 - `[days]`: How many days since last contact
 - `[goal]`: What you're trying to achieve (meeting, response, deal close)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -121,10 +105,7 @@ Last Touchpoint: Cold email sent, no response
 Days Since Last Contact: 4 days
 Goal: Book a 20-minute discovery call
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -223,7 +204,7 @@ Alex
 ## Sequence Timing Summary
 
 | Email | Day | Approach | Ask Level |
-| :--- |-----| :--- |-----------|
+|-------|-----|----------|-----------|
 | Original | 0 | Cold outreach | Medium (call) |
 | FU #1 | 4 | Value add | Medium (call) |
 | FU #2 | 9 | Pattern interrupt | Low (yes/no) |
@@ -256,10 +237,6 @@ Great! Send calendar link immediately. Don't add more content or you'll lose the
 - Space emails 3-7 days apart, not daily (respect their inbox)
 - If no response after 4-5 touches, wait 30-60 days before a new sequence
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

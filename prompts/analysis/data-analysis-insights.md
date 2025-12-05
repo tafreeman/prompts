@@ -24,20 +24,12 @@ reviewStatus: "draft"
 ---
 # Data Analysis and Insights Generator
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Transform raw data into meaningful insights and actionable recommendations. This prompt helps data analysts, business intelligence professionals, and decision-makers extract valuable patterns, trends, and insights from their data.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -48,10 +40,6 @@ Transform raw data into meaningful insights and actionable recommendations. This
 - Create data-driven recommendations
 - Support decision-making with statistical analysis
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -125,10 +113,6 @@ Please provide:
 - `[ANY KNOWN ISSUES OR CONCERNS]`: Current challenges
 - `[WHAT DECISION THIS ANALYSIS WILL INFORM]`: Purpose of the analysis
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -194,10 +178,7 @@ Please provide:
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text

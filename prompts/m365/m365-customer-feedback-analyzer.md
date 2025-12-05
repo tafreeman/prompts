@@ -39,10 +39,6 @@ To turn raw, unstructured customer feedback into a structured analysis of sentim
 - **Raw Feedback Text**: [raw_feedback]
 - **Focus Area**: [focus_area]
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -64,10 +60,6 @@ Based on the text above, please generate a **Feedback Analysis Report**:
 4. **Feature Requests**: Any specific suggestions for improvement.
 5. **Recommended Actions**: 3 bullet points on what we should do next.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Variables
@@ -76,10 +68,6 @@ Based on the text above, please generate a **Feedback Analysis Report**:
 - `[raw_feedback]`: The pasted text of the feedback (can be long).
 - `[focus_area]`: What you care about most (e.g., "UI/UX", "Pricing", "Bugs", "General Satisfaction").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -118,10 +106,6 @@ Based on the text above, please generate a **Feedback Analysis Report**:
 - **High**: Optimize login API response time.
 - **Medium**: A/B test a more visible Settings icon.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Tips
@@ -129,10 +113,6 @@ Based on the text above, please generate a **Feedback Analysis Report**:
 - You can paste up to ~2000 words of feedback at once. For larger datasets, analyze in batches and then ask Copilot to summarize the batch results.
 - Be careful not to include PII (Personally Identifiable Information) like customer phone numbers or addresses in the `[raw_feedback]`.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

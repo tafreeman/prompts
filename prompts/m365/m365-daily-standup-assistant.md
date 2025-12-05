@@ -26,10 +26,6 @@ reviewStatus: "draft"
 ---
 # M365 Daily Standup Assistant
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
@@ -101,10 +97,6 @@ Return the output in Markdown with the following sections:
 
 Ensure the bullets are concise, specific, and ready to be read aloud.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -115,10 +107,6 @@ Ensure the bullets are concise, specific, and ready to be read aloud.
 - Use case 4: A marketing specialist summarizing campaign work and planning the day’s content tasks.
 - Use case 5: A consultant juggling multiple clients wanting a quick, accurate standup summary per client team.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -198,10 +186,6 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 - `[max_bullets_per_section]`: Maximum number of bullets for Yesterday, Today, and Blockers (e.g., 3 or 5).
 - `[focus_topics]`: Optional list of themes to emphasize (e.g., "customer incidents, performance issues, dependencies").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -219,10 +203,7 @@ You are my Daily Standup Assistant working in a Microsoft 365 environment.
 Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
 If anything critical is unclear, ask clarifying questions first, then provide the final output.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -254,10 +235,6 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 - Tip 3: After the first draft, ask Copilot to "shorten this further" or "make this more informal" to match your team culture.
 - Tip 4: Reuse the prompt before multiple standups across different teams by changing only `[team_or_project_name]`.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

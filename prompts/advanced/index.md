@@ -52,6 +52,8 @@ featuredLinks:
 ![Patterns](https://img.shields.io/badge/Patterns-15%2B-blue)
 ![Research Backed](https://img.shields.io/badge/Research-Backed-green)
 
+![Difficulty](https://img.shields.io/badge/Difficulty-Advanced-red) ![Patterns](https://img.shields.io/badge/Patterns-16-blue) ![Research](https://img.shields.io/badge/Research-Based-purple)
+
 Tackle ambiguous research briefs, multi-step diagnostics, and large knowledge bases with proven reasoning blueprints. This directory curates every high-complexity workflow in the library—perfect for architects, staff engineers, and AI platform owners who need reliable, repeatable thinking structures.
 
 ## In This Section

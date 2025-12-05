@@ -25,20 +25,12 @@ effectivenessScore: 3.2
 ---
 # Gap Analysis Expert
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Description
 
 Conducts comprehensive gap analyses
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Use Cases
@@ -47,10 +39,6 @@ Conducts comprehensive gap analyses
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Prompt
@@ -81,10 +69,6 @@ Include:
 - `[current_state]`: Current State
 - `[desired_state]`: Desired State
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Example Usage
@@ -97,10 +81,7 @@ Include:
 [area]: Supply Chain Operations
 [constraints]: Budget < $50k, Must integrate with Shopify
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -130,10 +111,6 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts
