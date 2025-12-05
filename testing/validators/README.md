@@ -20,8 +20,7 @@ python -m pytest testing/validators/test_frontmatter.py -v
 
 # Run specific test class
 python -m pytest testing/validators/test_schema.py::TestValidationFunctions -v
-```
-
+```text
 ## Schema Definition
 
 Required frontmatter fields:
@@ -45,4 +44,4 @@ from testing.validators.test_schema import validate_frontmatter, PROMPT_SCHEMA
 errors = validate_frontmatter(my_frontmatter_dict)
 if errors:
     print("Validation failed:", errors)
-```
+```text

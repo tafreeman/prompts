@@ -76,6 +76,8 @@ Use this prompt when analyzing CPU flamegraphs, memory profiles, database query 
 
 All reasoning steps must be visible in the output.
 
+---
+
 ## Output Requirements
 
 Structured Markdown with the following sections:
@@ -249,9 +251,12 @@ How will you validate that the optimization works?
 - [Monitoring/alerting setup]
 - [Performance test in CI/CD]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[SYSTEM_NAME]`: Name of the system being profiled
@@ -308,7 +313,10 @@ Node.js API (Express) → PostgreSQL (products, orders) → Redis cache (not cur
 - Database has indexes on primary keys and foreign keys only
 - No query-level caching currently implemented
 ```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -471,9 +479,12 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
 
 ```sql
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Start with profiling data, not intuition:** Always base hypotheses on measured data
@@ -489,6 +500,10 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 ## Related Prompts
 
 - [Chain-of-Thought: Debugging](chain-of-thought-debugging.md) - For functional bugs
+<<<<<<< HEAD
+- [SQL Query Optimizer (Advanced)](../developers/sql-query-analyzer.md) - For database performance
+=======
+>>>>>>> main
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For system-level design decisions
 - [Data Quality Assessment](../analysis/data-quality-assessment.md) - For data pipeline performance
 

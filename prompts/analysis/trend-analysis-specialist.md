@@ -59,9 +59,12 @@ Include:
 5. Business implications
 6. Strategic responses
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[categories]`: Categories
@@ -81,7 +84,10 @@ Include:
 [horizon]: 12-24 Months
 [impact]: High (Disruption of organic search traffic and ad targeting)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -101,9 +107,12 @@ Include:
 
 [... continues with future projections and business implications ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

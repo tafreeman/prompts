@@ -131,8 +131,7 @@ graph TD
     style G fill:#fff3e0
     style K fill:#f3e5f5
     style O fill:#e8f5e9
-```
-
+```text
 ### 2.2 Add User Journey Diagram
 
 ```mermaid
@@ -154,8 +153,7 @@ journey
       Review output: 4: User
       Adjust prompt: 3: User
       Achieve goal: 5: User
-```
-
+```text
 ### 2.3 Enhance Category Landing Pages
 
 Each category index should include:
@@ -180,8 +178,7 @@ Create collapsible quick reference sections:
 | Complex reasoning | Chain-of-thought | "Think step by step..." |
 
 </details>
-```
-
+```text
 ---
 
 ## Part 3: Prompt Selector App Specification
@@ -226,8 +223,7 @@ Variable:
   - description: string
   - defaultValue: string?
   - required: boolean
-```
-
+```text
 ### 3.3 Technical Architecture
 
 ```mermaid
@@ -250,13 +246,12 @@ graph LR
         H --> J[Download]
         H --> K[Share Link]
     end
-```
-
+```text
 ### 3.4 Wireframes
 
 #### Home / Browse View
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  🎯 Prompt Library                    [Search...] [🔍]      │
 ├─────────────────────────────────────────────────────────────┤
@@ -282,11 +277,10 @@ graph LR
 │  └─────────────┘           [Load More...]                   │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```text
 #### Prompt Detail / Fill View
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │  ← Back to Browse          Code Review Assistant            │
 ├─────────────────────────────────────────────────────────────┤
@@ -325,8 +319,7 @@ graph LR
 │  [📋 Copy to Clipboard]  [💾 Download]  [🔗 Share Link]     │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ### 3.5 Feature Requirements
 
 #### MVP (Phase 1)
@@ -369,7 +362,7 @@ graph LR
 
 ### 3.7 File Structure (Proposed)
 
-```
+```text
 prompt-selector-app/
 ├── public/
 │   └── prompts.json          # Generated at build time
@@ -394,8 +387,7 @@ prompt-selector-app/
 │   └── build-prompts.ts      # Parse MD → JSON
 ├── package.json
 └── README.md
-```
-
+```text
 ---
 
 ## Part 4: Implementation Roadmap

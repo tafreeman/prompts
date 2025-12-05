@@ -74,6 +74,8 @@ Enable GPT-5.1-class (or similar) evaluators to generate a structured ToT report
 
 - During Phase 2, do not regenerate Phase 1 from scratch; only critique and minimally adjust the existing Phase 1 output where clearly justified.
 
+---
+
 ## Output Requirements
 
 Deliver a single Markdown document:
@@ -150,10 +152,14 @@ Output Phase 2 as:
 - **Next Actions / Validation Needed**:
 
 Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -178,7 +184,10 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 **Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
 **Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Output Excerpt
 
 ```markdown
@@ -210,10 +219,14 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 
 - **Confidence Level**: Medium
 - **Next Actions**: Sample prompts per persona, request Azure docs
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Maintain Phase Separation**: Keep Phase 1 and Phase 2 clearly separated in your output. Use clear headers and avoid mixing reasoning states between phases.
@@ -232,7 +245,10 @@ Claude excels at self-critique. Add explicit permission to be critical:
 ```text
 During Phase 2, be genuinely critical. I want you to find real flaws in your Phase 1 analysis, not just validate it. If everything checks out, explain why with specific evidence.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### GPT-4/GPT-5 (OpenAI)
 
 For longer evaluations, consider using system messages to establish the two-phase pattern:
@@ -240,15 +256,21 @@ For longer evaluations, consider using system messages to establish the two-phas
 ```text
 System: You are an enterprise repository evaluator using Tree-of-Thoughts methodology with built-in self-reflection. Always complete Phase 1 fully before beginning Phase 2.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### GitHub Copilot Chat
 
 ```text
 @workspace Evaluate this repository using the ToT + Reflection pattern. Phase 1: Score content, organization, and enterprise-readiness. Phase 2: Critique your own assessment and adjust scores where evidence is weak.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Governance Notes
 
 - **Human Review Required**: This prompt is tagged `requires-human-review`. All evaluation outputs should be reviewed by a human before sharing with stakeholders or making decisions based on them.

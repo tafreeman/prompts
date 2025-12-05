@@ -93,8 +93,7 @@ failing_indicators:
   - missing_yaml_frontmatter: true
   - no_example_usage: true
   - placeholder_only_examples: true
-```
-
+```sql
 ---
 
 ## 3. Model Selection Strategy
@@ -114,14 +113,13 @@ Based on research from OpenAI, Anthropic, and Microsoft best practices:
 
 For statistical reliability, rotate models across runs:
 
-```
+```text
 Run 1: GPT-4o-mini (baseline)
 Run 2: Claude 3.5 Sonnet (cross-validation)
 Run 3: GPT-4o-mini (confirmation)
 Run 4: GPT-4o (if variance > 1.5 points)
 Run 5: o1-mini (for advanced/* prompts only)
-```
-
+```text
 ### Generator Models (for Improvement)
 
 When improving prompts, use different models for different tasks:
@@ -151,8 +149,7 @@ python testing/evals/run_gh_eval.py testing/evals/analysis --runs 1 --model clau
 
 # Generate report
 python tools/evaluate_library.py --category analysis --output docs/reports/ANALYSIS_EVAL_REPORT.md
-```
-
+```text
 **Batch Strategy**:
 - Batch 1: Market Research prompts (6 prompts)
 - Batch 2: Data Analysis prompts (8 prompts)
@@ -170,8 +167,7 @@ python testing/evals/run_gh_eval.py testing/evals/business --runs 3 --model gpt-
 # M365 prompts
 python testing/evals/generate_eval_files.py prompts/m365 --output testing/evals/m365
 python testing/evals/run_gh_eval.py testing/evals/m365 --runs 3 --model gpt-4o-mini
-```
-
+```text
 **Batch Strategy**:
 - Business Batch 1: Project Management (10 prompts)
 - Business Batch 2: Communication (12 prompts)
@@ -191,8 +187,7 @@ python testing/evals/run_gh_eval.py testing/evals/system --runs 3 --model gpt-4o
 # Advanced prompts (require specialized evaluation)
 python testing/evals/generate_eval_files.py prompts/advanced --output testing/evals/advanced
 python testing/evals/run_gh_eval.py testing/evals/advanced --runs 5 --model o1-mini
-```
-
+```text
 **Special Handling for Advanced Prompts**:
 - CoT prompts: Verify reasoning chain quality
 - ToT prompts: Check multi-branch structure
@@ -211,8 +206,7 @@ python testing/evals/run_gh_eval.py testing/evals/creative --runs 3 --model gpt-
 # Governance prompts
 python testing/evals/generate_eval_files.py prompts/governance --output testing/evals/governance
 python testing/evals/run_gh_eval.py testing/evals/governance --runs 3 --model gpt-4o
-```
-
+```text
 ---
 
 ## 5. Statistical Best Practices
@@ -247,8 +241,7 @@ def determine_score(runs: list[float]) -> tuple[float, str]:
     else:
         # High variance - need additional runs or manual review
         return statistics.median(runs), "low"
-```
-
+```text
 ### Inter-Rater Reliability
 
 When using multiple models as graders:
@@ -272,19 +265,17 @@ def cross_validate_scores(model_a_scores: dict, model_b_scores: dict) -> dict:
             }
     
     return disagreements
-```
-
+```text
 ### Confidence Intervals
 
 Report scores with confidence intervals:
 
-```
+```yaml
 Prompt: code-review-expert.md
 Score: 8.2 ± 0.4 (95% CI)
 Runs: [8.0, 8.5, 8.1, 8.0, 8.4]
 Confidence: High
-```
-
+```text
 ---
 
 ## 6. Improvement Prompts Reference
@@ -304,8 +295,7 @@ Key Features:
 - Phase 2: Self-Critique and Reflection
 - Prioritized recommendations (P0-P3)
 - Before/after improvement examples
-```
-
+```text
 **Best For**: Individual prompt deep-dive assessment
 
 #### 2. Tree-of-Thoughts Repository Evaluator
@@ -321,8 +311,7 @@ Key Features:
   - Branch C: Enterprise Applicability (35%)
 - Cross-branch synthesis
 - Executive summary generation
-```
-
+```text
 **Best For**: Batch evaluation of prompt categories
 
 #### 3. Reflection: Self-Critique Pattern
@@ -335,8 +324,7 @@ Key Features:
 - 5 critique dimensions (Accuracy, Completeness, Quality, Bias, Risk)
 - Confidence level assessment
 - Actionable revision generation
-```
-
+```text
 **Best For**: Iterative prompt refinement
 
 ### Improvement Workflow
@@ -360,8 +348,7 @@ flowchart TD
     I --> J[Apply Improvements]
     J --> K[Re-run Evaluation]
     K --> B
-```
-
+```text
 ### Model Selection for Improvements
 
 | Improvement Task | Recommended Model | Improvement Prompt |
@@ -449,8 +436,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
+```text
 ### Cross-Validation Script
 
 Create `tools/cross_validate_evals.py`:
@@ -529,8 +515,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
+```text
 ---
 
 ## 8. Success Metrics
@@ -578,8 +563,7 @@ Track these metrics weekly:
 | P0 (Critical) | 0 | - | - |
 | P1 (High) | 1 | 6.75 | Missing structure |
 | P2 (Medium) | 0 | - | - |
-```
-
+```text
 ### Final Success Criteria
 
 The evaluation plan is complete when:
@@ -614,8 +598,7 @@ python tools/evaluation_agent.py --phase 1
 
 # Verbose logging
 python tools/evaluation_agent.py --full --verbose
-```
-
+```text
 **What the agent does automatically:**
 1. ✅ Checks prerequisites (Python, gh CLI, gh-models extension)
 2. ✅ Generates eval files for each category
@@ -655,11 +638,10 @@ python tools/evaluate_library.py --all --output docs/EVALUATION_REPORT.md
 
 # Cross-validate between models
 python tools/cross_validate_evals.py --model-a gpt-4o-mini --model-b claude-3.5-sonnet
-```
-
+```text
 ### Evaluation File Structure
 
-```
+```text
 testing/
 ├── evals/
 │   ├── developers/
@@ -675,8 +657,7 @@ testing/
 │   └── results/
 │       ├── gpt-4o-mini/
 │       └── claude-3.5-sonnet/
-```
-
+```text
 ### Priority Issue Definitions
 
 | Priority | Definition | Response Time | Example |

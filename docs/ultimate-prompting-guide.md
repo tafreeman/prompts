@@ -114,16 +114,14 @@ From 95 prompts analyzed:
 # Handle edge cases: empty lists, single-element lists
 def merge_sorted_lists(list1, list2):
     # Implementation here
-```
-
+```text
 **Test Generation**:
 ```python
 # Write comprehensive unit tests for the following function using pytest.
 # Include tests for: normal cases, edge cases, invalid inputs, boundary conditions
 def is_prime(n):
     # function code
-```
-
+```text
 **Code Review**:
 ```javascript
 // Review the following code for:
@@ -134,8 +132,7 @@ def is_prime(n):
 function processUserData(data) {
     // implementation
 }
-```
-
+```text
 **Refactoring**:
 ```typescript
 // Refactor this code to:
@@ -146,8 +143,7 @@ function processUserData(data) {
 function calc(d) {
     // legacy code
 }
-```
-
+```text
 #### Best Practices
 - Use comments above code to provide context
 - Open related files for better suggestions
@@ -164,17 +160,16 @@ function calc(d) {
 #### App-Specific Templates
 
 **Word - Document Summarization**:
-```
+```yaml
 Summarize this document in 3 paragraphs:
 1. Main topic and purpose
 2. Key findings or arguments (3-5 bullet points)
 3. Conclusions and recommendations
 
 Format: Professional business style, executive audience
-```
-
+```text
 **Excel - Data Analysis**:
-```
+```text
 Analyze this sales data and provide:
 1. Top 5 products by revenue
 2. Month-over-month growth trends
@@ -182,10 +177,9 @@ Analyze this sales data and provide:
 4. Visual recommendation: What chart type would best show this?
 
 Create a summary table with these insights.
-```
-
+```text
 **PowerPoint - Presentation Creation**:
-```
+```yaml
 Create a 10-slide presentation about [TOPIC] for [AUDIENCE]:
 - Slide 1: Title slide with compelling tagline
 - Slides 2-3: Problem statement with statistics
@@ -195,20 +189,18 @@ Create a 10-slide presentation about [TOPIC] for [AUDIENCE]:
 - Slide 10: Call to action
 
 Style: Modern, professional, use icons and minimal text
-```
-
+```text
 **Outlook - Email Drafting**:
-```
+```text
 Draft a professional email to [RECIPIENT] about [TOPIC]:
 - Tone: Friendly but formal
 - Length: 3 short paragraphs maximum
 - Purpose: Request meeting to discuss Q4 strategy
 - Include: Available time slots next week
 - Call-to-action: Clear next step
-```
-
+```text
 **Teams - Meeting Summarization**:
-```
+```text
 Summarize the last team meeting:
 1. Main topics discussed (bullet points)
 2. Decisions made
@@ -216,8 +208,7 @@ Summarize the last team meeting:
 4. Open questions or unresolved issues
 
 Format as a meeting notes document for distribution.
-```
-
+```sql
 #### Best Practices
 - Always specify the audience and tone
 - Provide context from connected documents
@@ -234,34 +225,31 @@ Format as a meeting notes document for distribution.
 #### Quick Action Templates
 
 **File Management**:
-```
+```text
 Find all Excel files modified in the last 7 days in [FOLDER_PATH] that contain the word "budget" and create a summary list showing:
 - File name
 - Last modified date
 - File size
 
 Sort by most recent first.
-```
-
+```text
 **System Analysis**:
-```
+```text
 Analyze my system performance:
 1. Show CPU and memory usage over last hour
 2. Identify top 5 resource-consuming applications
 3. Recommend optimization actions if usage > 80%
 
 Display as a simple dashboard with status indicators.
-```
-
+```text
 **Quick Setup**:
-```
+```text
 Help me set up a productive workspace:
 1. Open VS Code
 2. Open Chrome with tabs: GitHub, StackOverflow, Documentation
 3. Start Spotify with focus playlist
 4. Set do-not-disturb mode for 2 hours
-```
-
+```text
 #### Best Practices
 - Be specific about what you want done
 - Specify output format preferences
@@ -275,7 +263,7 @@ Help me set up a productive workspace:
 **Advanced Prompting Techniques**
 
 #### Chain-of-Thought (CoT)
-```
+```text
 You are an expert problem solver. Analyze [PROBLEM] step by step.
 
 **Task**: [SPECIFIC_TASK]
@@ -301,10 +289,9 @@ Think through this systematically:
 - Note potential risks
 
 Format output as structured markdown with clear sections.
-```
-
+```text
 #### Tree-of-Thoughts (ToT)
-```
+```sql
 Evaluate multiple solution approaches for [PROBLEM].
 
 **Branch A: Conservative Approach**
@@ -326,10 +313,9 @@ Evaluate multiple solution approaches for [PROBLEM].
 - Score: [1-10]
 
 **Recommendation**: Based on scores and trade-offs, select the best approach and explain why.
-```
-
+```text
 #### ReAct (Reasoning + Acting)
-```
+```text
 Use the ReAct pattern to solve [TASK] with available tools.
 
 **Think**: What information do I need? What tools can help?
@@ -344,10 +330,9 @@ Repeat until task is complete.
 - [TOOL_2]: [DESCRIPTION]
 
 Output format: Show each Think-Act-Observe-Reflect cycle clearly.
-```
-
+```text
 #### Structured JSON Output
-```
+```sql
 Extract information from [SOURCE] and return as JSON:
 
 {
@@ -366,8 +351,7 @@ Extract information from [SOURCE] and return as JSON:
 }
 
 Ensure all fields are present even if empty. Use null for missing data.
-```
-
+```text
 #### Best Practices
 - Use XML tags for complex structure
 - Assign roles/personas for expertise
@@ -655,15 +639,14 @@ Based on our scoring methodology, these 19 prompts represent the top 20% most ef
 #### 1. Role-Task-Format (RTF)
 **Usage**: 68% of top prompts use this pattern
 
-```
+```text
 You are a [ROLE].
 
 Your task is to [TASK].
 
 Provide output in the following format:
 [FORMAT_SPECIFICATION]
-```
-
+```text
 **Best for**: Software development, business analysis, reporting
 
 ---
@@ -671,14 +654,13 @@ Provide output in the following format:
 #### 2. Task-Action-Goal (TAG)
 **Usage**: 45% of top prompts
 
-```
+```text
 **Task**: [WHAT_TO_DO]
 **Action**: [HOW_TO_DO_IT]
 **Goal**: [DESIRED_OUTCOME]
 
 [DETAILED_INSTRUCTIONS]
-```
-
+```text
 **Best for**: Sprint planning, process improvement, strategic initiatives
 
 ---
@@ -686,13 +668,12 @@ Provide output in the following format:
 #### 3. Context-Action-Result-Example (CARE)
 **Usage**: 52% of M365 prompts
 
-```
+```text
 **Context**: [BACKGROUND_INFORMATION]
 **Action**: [WHAT_YOU_WANT]
 **Result**: [EXPECTED_OUTPUT]
 **Example**: [SAMPLE_OUTPUT]
-```
-
+```text
 **Best for**: Business communications, document generation, reporting
 
 ---
@@ -700,7 +681,7 @@ Provide output in the following format:
 #### 4. Persona-Context-Task-Format
 **Usage**: 73% of advanced technique prompts
 
-```
+```text
 You are a [PERSONA] with expertise in [DOMAIN].
 
 **Context**: [SITUATION_BACKGROUND]
@@ -708,8 +689,7 @@ You are a [PERSONA] with expertise in [DOMAIN].
 **Format**: [OUTPUT_SPECIFICATION]
 
 [DETAILED_REQUIREMENTS]
-```
-
+```text
 **Best for**: Technical documentation, code generation, architecture
 
 ---
@@ -717,15 +697,14 @@ You are a [PERSONA] with expertise in [DOMAIN].
 #### 5. Think-Act-Observe-Reflect (ReAct)
 **Usage**: Tool-augmented workflows
 
-```
+```text
 **Think**: [REASONING_ABOUT_NEXT_STEP]
 **Act**: [TOOL_USAGE_OR_ACTION]
 **Observe**: [RESULT_OF_ACTION]
 **Reflect**: [EVALUATION_AND_NEXT_STEPS]
 
 Repeat until goal achieved.
-```
-
+```text
 **Best for**: Research, data analysis, multi-step workflows
 
 ---

@@ -32,7 +32,7 @@ When a prompt doesn't work as expected, use this systematic approach to diagnose
 
 ## The Debugging Framework
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                   PROMPT DEBUGGING PROCESS                  │
 ├─────────────────────────────────────────────────────────────┤
@@ -48,8 +48,7 @@ When a prompt doesn't work as expected, use this systematic approach to diagnose
 │  5. VALIDATE    →  Did it solve the problem?               │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```text
 ---
 
 ## Step 1: Identify the Problem
@@ -82,8 +81,7 @@ Before debugging, write down:
 
 **Gap:**
 [specific difference between expected and actual]
-```
-
+```text
 ---
 
 ## Step 2: Isolate the Cause
@@ -109,8 +107,7 @@ technical report with executive summary.
 Analyze this architecture diagram for bottlenecks.
 
 [architecture diagram]
-```
-
+```text
 **If simplified version works:** Problem is in the complexity you added
 **If simplified version fails:** Problem is fundamental (wrong task/context)
 
@@ -124,8 +121,7 @@ Original: Context + Role + Task + Format + Constraints + Examples
 Test 1: Remove Examples    → Still broken? Not the examples
 Test 2: Remove Constraints → Works now? Constraints were conflicting
 Test 3: Remove Role        → Works now? Role was confusing the task
-```
-
+```text
 ---
 
 ## Step 3: Common Causes and Fixes
@@ -138,14 +134,12 @@ Test 3: Remove Role        → Works now? Role was confusing the task
 ```text
 Be concise and brief. Provide comprehensive coverage of all 
 aspects. Don't leave anything out. Keep it short.
-```
-
+```text
 **Fix:** Remove contradictions
 ```text
 Provide comprehensive coverage in bullet-point format. 
 Maximum 10 bullets, each one sentence.
-```
-
+```text
 ---
 
 ### Cause: Ambiguous Task
@@ -155,8 +149,7 @@ Maximum 10 bullets, each one sentence.
 **Example problem:**
 ```text
 Improve this code.
-```
-
+```text
 **AI interpretation:** Could mean performance, readability, security, or all
 
 **Fix:** Specify the improvement dimension
@@ -166,8 +159,7 @@ Improve this code for readability. Focus on:
 - Function decomposition
 - Comments for complex logic
 Do NOT optimize for performance in this pass.
-```
-
+```text
 ---
 
 ### Cause: Missing Context
@@ -177,8 +169,7 @@ Do NOT optimize for performance in this pass.
 **Example problem:**
 ```text
 How should I implement authentication?
-```
-
+```text
 **AI gives:** Generic OAuth tutorial
 
 **What you needed:** Solution for your specific stack
@@ -190,8 +181,7 @@ How should I implement authentication for:
 - Users: Internal employees only (200 users)
 - Existing: Azure AD for SSO
 - Constraint: Must integrate with existing RBAC system
-```
-
+```text
 ---
 
 ### Cause: Format Not Specified
@@ -201,8 +191,7 @@ How should I implement authentication for:
 **Example problem:**
 ```text
 Compare AWS and Azure for our project.
-```
-
+```text
 **AI gives:** Long paragraphs
 
 **What you needed:** Comparison table
@@ -217,8 +206,7 @@ Format as a markdown table:
 
 Include rows for: Cost, Learning curve, Our team's expertise, 
 Integration with existing tools, Support quality.
-```
-
+```text
 ---
 
 ### Cause: Scope Too Broad
@@ -228,8 +216,7 @@ Integration with existing tools, Support quality.
 **Example problem:**
 ```text
 Explain Kubernetes.
-```
-
+```text
 **Fix:** Narrow the scope
 ```text
 Explain Kubernetes pod networking. Specifically:
@@ -239,8 +226,7 @@ Explain Kubernetes pod networking. Specifically:
 
 Assume the reader understands basic networking (TCP/IP, DNS) 
 but is new to container orchestration.
-```
-
+```text
 ---
 
 ### Cause: Examples Misleading
@@ -259,8 +245,7 @@ Input: "banana"
 Output: ???
 
 Now categorize: "chair"
-```
-
+```text
 **AI might output:** Food/Furniture (confused by pattern)
 
 **Fix:** More diverse examples
@@ -273,8 +258,7 @@ Input: "laptop" → Category: Electronics/Computer
 Input: "hammer" → Category: Tools/Hand Tool
 
 Now categorize: "chair"
-```
-
+```text
 ---
 
 ## Step 4: Testing Fixes
@@ -292,8 +276,7 @@ Test variations systematically:
 | V2 | Added "be concise" | Still verbose | No |
 | V3 | Added "max 100 words" | Good length | Yes |
 | V4 | V3 + bullet format | Perfect | ✓ Winner |
-```
-
+```text
 ### The Control Test
 
 Keep one "known working" prompt as reference:
@@ -308,8 +291,7 @@ the benefits, considering factors A, B, C..."
 
 Compare: Does test prompt outperform control?
 If not, simplify test prompt.
-```
-
+```text
 ---
 
 ## Step 5: Validate the Fix
@@ -332,8 +314,7 @@ Test with unusual inputs:
 ✓ Input with special characters
 ✓ Input in different domain/topic
 ✓ Ambiguous input
-```
-
+```text
 ---
 
 ## Debugging Checklist
@@ -360,8 +341,7 @@ Use this checklist when debugging:
 - [ ] Fix works consistently (3+ tests)
 - [ ] No new problems introduced
 - [ ] Edge cases handled
-```
-
+```text
 ---
 
 ## Quick Diagnosis Tree
@@ -389,8 +369,7 @@ Prompt not working?
 │
 └─► Still broken?
     └─► Simplify to minimum, rebuild component by component
-```
-
+```text
 ---
 
 ## Advanced Debugging Techniques
@@ -406,8 +385,7 @@ Before answering, first summarize in one sentence:
 3. What constraints apply?
 
 Then proceed with the task.
-```
-
+```text
 This reveals if the AI misunderstands your prompt.
 
 ### Chain-of-Thought Debug
@@ -421,8 +399,7 @@ Think step by step:
 3. What approach will I take?
 4. [Execute the task]
 5. Does my output match the requirements?
-```
-
+```text
 ### Temperature Testing
 
 If available, try different temperature settings:

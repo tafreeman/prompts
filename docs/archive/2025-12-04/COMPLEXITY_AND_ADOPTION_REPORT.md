@@ -76,8 +76,7 @@ The main README.md references **5 documentation files that do not exist**:
 ```bash
 $ grep -r "docs/getting-started.md" --include="*.md" | wc -l
 5  # Referenced 5 times across repository
-```
-
+```sql
 **Fix**: Create these files or update README to remove broken links.
 
 ---
@@ -104,8 +103,7 @@ ls: cannot access 'src': No such file or directory
 
 $ ls deployment 2>&1
 ls: cannot access 'deployment': No such file or directory
-```
-
+```sql
 **Fix**: Either:
 - Remove these sections from README (recommended)
 - Create these components if actually planned
@@ -130,7 +128,7 @@ Analysis of 126 prompts shows fragmented metadata adoption:
 | `performance_metrics` | 6% | Validator checks for this |
 
 **Impact on Validation**:
-```
+```powershell
 $ python3 tools/validators/prompt_validator.py prompts/developers/code-review-assistant.md
 
 Issues Found:
@@ -139,8 +137,7 @@ Issues Found:
   [i] [metadata] Missing recommended field: framework_compatibility
   [i] [performance] No performance metrics documented
   [i] [security] No governance section found
-```
-
+```sql
 The validator marks prompts as having errors even when they're fully functional, confusing users.
 
 **Fix**: Either:
@@ -201,8 +198,7 @@ The tools require:
 ```bash
 $ python -m tools.cli.main create --category business --use-case "test"
 Error calling gemini-1.5-pro: GOOGLE_API_KEY environment variable not set
-```
-
+```text
 **Fix**: 
 1. Add mock/offline mode for testing
 2. Provide clearer setup instructions
@@ -241,25 +237,23 @@ At 3,500+ words, these exceed typical AI context windows when combined with user
 **Impact**: 76 directories make browsing difficult.
 
 **Deepest nesting examples**:
-```
+```text
 techniques/context-optimization/compression/semantic-compression.md
 techniques/reflexion/domain-specific/csharp-code-generator.md
 frameworks/microsoft/copilot-patterns/github-copilot-instructions.md
-```
-
+```csharp
 **Overlapping content**:
 - `prompts/advanced/` has Chain-of-Thought prompts
 - `techniques/reflexion/` has reflexion prompts
 - Both cover similar advanced prompting patterns
 
 **Fix**: Consider flattening to max 2 levels of nesting:
-```
+```text
 prompts/
   developers/
   business/
   advanced-techniques/  # Merge techniques into here
-```
-
+```text
 ---
 
 ### 3.3 Missing Quickstart for Non-Technical Users
@@ -277,8 +271,7 @@ The README's "Quick Start" section immediately jumps to `git clone` commands. No
 2. Open any `.md` file (e.g., `meeting-facilitator.md`)
 3. Copy the content under "## Prompt"
 4. Paste into ChatGPT/Claude and replace `[PLACEHOLDERS]`
-```
-
+```sql
 ---
 
 ### 3.4 Validator Schema Mismatch
@@ -416,8 +409,7 @@ Scores:
   Security:       80.0/100
   Accessibility:  70.0/100
   Overall:        77.0/100
-```
-
+```text
 Even a "good" prompt only scores 77/100 due to schema mismatches. Scores may vary as the validator or prompts are updated.
 
 ---

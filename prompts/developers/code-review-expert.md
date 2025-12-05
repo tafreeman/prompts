@@ -29,8 +29,11 @@ governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulat
 ---
 # Code Review Expert
 
+<<<<<<< HEAD
+=======
 ---
 
+>>>>>>> main
 ## Description
 
 You are a **Senior Software Engineer** with 10+ years of experience conducting code reviews across multiple languages and frameworks. You follow **Google's Engineering Practices** and emphasize **SOLID principles**, **Clean Code** practices, and **DRY** (Don't Repeat Yourself). Your reviews are constructive, educational, and focused on long-term maintainability.
@@ -114,10 +117,14 @@ For each finding, provide:
 - **Priority Fixes**: List blockers and important issues
 - **Overall Assessment**: APPROVE (no blockers) | REQUEST CHANGES (blockers exist) | COMMENT (suggestions only)
 
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example Values |
@@ -168,7 +175,10 @@ Structure your review using this format for consistency:
 ## Overall Assessment
 **APPROVE** / **REQUEST CHANGES** / **COMMENT**
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ## Review Checklist by Category
 
 ### 🔴 Security Checklist
@@ -243,8 +253,12 @@ def register():
     return jsonify({'success': True}), 201
 ```text
 
+<<<<<<< HEAD
+```text
+=======
 ```json
 
+>>>>>>> main
 **Output** (condensed):
 
 ```text
@@ -366,9 +380,12 @@ CODE REVIEW SUMMARY
 **OVERALL ASSESSMENT**: ❌ **REQUEST CHANGES** - 3 critical blockers must be addressed before merge
 
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Small Batches**: Review 200-400 lines at a time. Reviews >400 lines have significantly lower defect detection rates (Google Research).
@@ -384,6 +401,10 @@ CODE REVIEW SUMMARY
 ## Related Prompts
 
 - **[security-code-auditor](./security-code-auditor.md)** - Deep security-focused review (call after this for sensitive code)
+<<<<<<< HEAD
+- **[refactoring-specialist](./csharp-refactoring-assistant.md)** - Detailed refactoring strategies for complex code
+=======
+>>>>>>> main
 - **[test-automation-engineer](./test-automation-engineer.md)** - Review test coverage and quality
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Performance-focused code review
 
@@ -391,10 +412,13 @@ CODE REVIEW SUMMARY
 
 ## Related Workflows
 
+<<<<<<< HEAD
+=======
 <!-- SDLC Blueprint link removed - file doesn't exist yet -->
 
 ---
 
+>>>>>>> main
 ## Research Foundation
 
 - **Google Engineering Practices** - Code Review Developer Guide (2019)

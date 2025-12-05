@@ -58,9 +58,12 @@ Provide:
 5. Recovery planning
 6. Stakeholder updates
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[concerns]`: Concerns
@@ -80,7 +83,10 @@ Provide:
 [milestones]: Code Freeze (Done 11/15), Beta Release (Due 11/22), App Store Submission (Due 11/30)
 [concerns]: 3 Critical bugs still open, QA lead out sick, Apple review times unpredictable
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -104,9 +110,12 @@ Provide:
 
 [... continues with recovery planning and stakeholder updates ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

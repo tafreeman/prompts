@@ -164,9 +164,12 @@ Return the result in Markdown with these sections:
 Now, using my activity related to [project_name] over [time_window], generate
 the project status update for [stakeholder_audience].
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[project_name]`: Name of the project.
@@ -188,7 +191,10 @@ the project status update for [stakeholder_audience].
 
 You are my Project Status Reporter working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -218,9 +224,12 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 - Approval needed to extend the public GA date to December 12 if API issues are not resolved by November 22.
 - Additional QA resources requested to accelerate load testing and root cause analysis.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Tip 1: Run this prompt weekly or before key stakeholder meetings to stay ahead of reporting deadlines.

@@ -25,8 +25,7 @@ python tools/evaluation_agent.py --full --dry-run
 
 # Full evaluation with verbose logging
 python tools/evaluation_agent.py --full --verbose
-```
-
+```text
 ### Run Specific Phase
 
 The evaluation is organized into 4 phases based on category priority:
@@ -43,24 +42,21 @@ python tools/evaluation_agent.py --phase 3
 
 # Run phase 4 only (creative, governance)
 python tools/evaluation_agent.py --phase 4
-```
-
+```sql
 ### Resume from Checkpoint
 
 If an evaluation is interrupted, you can resume from the last checkpoint:
 
 ```bash
 python tools/evaluation_agent.py --resume
-```
-
+```text
 ### Clear Checkpoint
 
 To start fresh and clear any existing checkpoint:
 
 ```bash
 python tools/evaluation_agent.py --clear-checkpoint
-```
-
+```yaml
 ## Prerequisites
 
 Before running the evaluation agent, ensure you have:
@@ -149,8 +145,7 @@ python tools/test_evaluation_agent.py
 
 # Integration tests
 python tools/test_evaluation_agent_integration.py
-```
-
+```sql
 ## Troubleshooting
 
 ### "GitHub CLI (gh) not found"
@@ -179,8 +174,7 @@ Test what would happen without actually running evaluations:
 
 ```bash
 python tools/evaluation_agent.py --full --dry-run
-```
-
+```text
 This mode:
 - Validates prerequisites
 - Shows what would be executed
@@ -193,8 +187,7 @@ Get detailed debug information:
 
 ```bash
 python tools/evaluation_agent.py --full --verbose
-```
-
+```text
 Useful for:
 - Debugging issues
 - Understanding execution flow

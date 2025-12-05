@@ -118,7 +118,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 
 ### Folder Structure
 
-```
+```sql
 prompts/                              
 ├── index.md                          # Landing page with persona navigation
 │
@@ -172,8 +172,7 @@ prompts/
 ├── templates/     (update schemas)
 ├── tools/
 └── docs/
-```
-
+```text
 ### Frontmatter Schema (Deloitte-Extended)
 
 ```yaml
@@ -243,8 +242,7 @@ featuredLinks:
   popular:
     - /prompts/advanced/chain-of-thought-detailed
 ---
-```
-
+```sql
 ### Content Type Definitions
 
 | Type | Purpose | Title Pattern | Example |
@@ -387,8 +385,7 @@ Create the `get-started/` folder with platform-specific quickstarts to enable 15
 - [ ] `quickstart-m365.md` - M365 Copilot quick-start
 - [ ] `choosing-the-right-pattern.md` - Decision guide
 - [ ] All files use new frontmatter schema with `type: quickstart`
-```
-
+```text
 ```markdown
 ## Issue: FM-001 - Add type field to all prompts
 **Labels**: priority-critical, frontmatter, bulk-update
@@ -402,8 +399,7 @@ Add the `type` field to all 137 prompts to enable content type filtering and nav
 - [ ] All prompts have `type` field
 - [ ] Types correctly match content (conceptual, how_to, tutorial, reference)
 - [ ] Validation script passes
-```
-
+```text
 ```markdown
 ## Issue: NAV-001 - Create root landing page
 **Labels**: priority-critical, navigation
@@ -418,8 +414,7 @@ Create root `index.md` with persona-based navigation cards.
 - [ ] Featured links to popular prompts
 - [ ] Learning track references
 - [ ] Quick navigation to get-started
-```
-
+```text
 ### 🟠 P1 - High Priority
 
 ```markdown
@@ -427,15 +422,13 @@ Create root `index.md` with persona-based navigation cards.
 ## Issue: FM-002 - Add audience field to all prompts
 ## Issue: F-003 - Create validation script for new schema
 ## Issue: GOV-001 - Update CI validation
-```
-
+```text
 ### 🟡 P2 - Medium Priority
 
 ```markdown
 ## Issue: NC-001-006 - Create concepts/tutorials/reference folders
 ## Issue: GOV-005 - Define learning tracks YAML
-```
-
+```text
 ---
 
 ## Validation Rules
@@ -456,8 +449,7 @@ required_for_quickstarts:
 required_for_governance:
   - governance_tags
   - dataClassification
-```
-
+```text
 ### Content Type Validation
 
 ```yaml
@@ -473,8 +465,7 @@ type_folder_mapping:
   reference: reference/
   troubleshooting: troubleshooting/
   how_to: prompts/*/
-```
-
+```text
 ---
 
 ## Success Metrics

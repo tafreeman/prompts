@@ -124,8 +124,7 @@ Comprehensive information with examples
 ## Related Resources
 - [Link to related doc 1](./related1.md)
 - [Link to related doc 2](./related2.md)
-```
-
+```text
 ### For Mermaid Diagrams
 
 ```markdown
@@ -157,8 +156,7 @@ graph TD
 - 👤 User interactions
 - ⚙️ Processing components
 - 💾 Data storage
-```
-
+```sql
 ### For Quick Reference Cards
 
 ```markdown
@@ -180,8 +178,7 @@ graph TD
 3. Step three
 
 </details>
-```
-
+```text
 ## Diagram Patterns
 
 ### Flowcharts (Process Documentation)
@@ -192,8 +189,7 @@ graph LR
     B -->|No| D[Action 2]
     C --> E[End]
     D --> E
-```
-
+```text
 ### Sequence Diagrams (Interactions)
 ```mermaid
 sequenceDiagram
@@ -201,8 +197,7 @@ sequenceDiagram
     participant S as System
     U->>S: Request
     S-->>U: Response
-```
-
+```text
 ### Class/Structure Diagrams (Architecture)
 ```mermaid
 classDiagram
@@ -210,8 +205,7 @@ classDiagram
         +property: type
         +method()
     }
-```
-
+```text
 ### Journey Maps (User Experience)
 ```mermaid
 journey
@@ -224,8 +218,7 @@ journey
       Try examples: 4: User
     section Mastery
       Apply knowledge: 5: User
-```
-
+```sql
 ## Process
 
 1. **Audit Current State**
@@ -272,8 +265,7 @@ npx pa11y http://localhost:3000
 
 # Validate links
 npx markdown-link-check README.md
-```
-
+```text
 ## Accessibility Checklist
 
 Before finalizing any documentation:
@@ -303,17 +295,16 @@ Before finalizing any documentation:
 
 **Before asking this agent:**
 
-```
+```sql
 "Update the architecture docs with better diagrams"
-```
-
+```text
 **Better request:**
 
-```
+```text
 "Enhance the architecture documentation in docs/architecture.md:
 - Add a high-level Mermaid diagram showing component relationships
 - Create a user journey diagram for the onboarding flow
 - Add a quick-reference table for common operations
 - Ensure all diagrams have alt text for accessibility
 - Target audience: developers new to the project"
-```
+```text

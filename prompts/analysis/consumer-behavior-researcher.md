@@ -58,9 +58,12 @@ Provide:
 5. Implications for business
 6. Recommendations
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[behavior]`: Behavior
@@ -80,7 +83,10 @@ Provide:
 [behavior]: "Flexitarian" diet adoption (reducing meat consumption without going full vegan)
 [methods]: Social Listening (Reddit/TikTok), Online Surveys (N=1000)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -99,9 +105,12 @@ Provide:
 
 [... continues with implications and recommendations ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

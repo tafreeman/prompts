@@ -64,10 +64,14 @@ Provide:
 6. **Corrective Actions** (Immediate steps to control overruns)
 
 Use tables for variance analysis and include cash flow projections if applicable.
+<<<<<<< HEAD
+```powershell
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "HQ Office Relocation - 500-person facility")
@@ -93,7 +97,10 @@ Cost Concerns:
 - AV equipment (conference room tech) may require upgrade to support hybrid meetings (not in original scope)
 - Contingency already drawn down $80K for asbestos remediation (unexpected discovery)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -358,9 +365,12 @@ Cost Concerns:
 - **Escalate to Steering Committee**: Month 8 report (this document) + budget increase request
 - **Monthly Financial Reviews**: Increase cadence from monthly → bi-weekly for Months 9-12
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Track CPI Weekly**: Cost Performance Index below 0.85 is a leading indicator of budget disaster. Escalate immediately if CPI drops below 0.80.
@@ -376,3 +386,7 @@ Cost Concerns:
 
 - **[risk-management-analyst](./risk-management-analyst.md)** - For budget risk assessment
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For CFO budget briefings
+<<<<<<< HEAD
+- **[project-charter-creator](./business-strategy-analysis.md)** - For initial budget approval
+=======
+>>>>>>> main

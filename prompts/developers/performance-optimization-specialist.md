@@ -92,10 +92,14 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
+<<<<<<< HEAD
+```text
+=======
 ```bash
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[app_name]`: Name of system/service
@@ -127,7 +131,10 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -156,10 +163,14 @@ type: metric alert
 message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 ```text
 
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Provide recent metrics + traces so the specialist can anchor hypotheses.

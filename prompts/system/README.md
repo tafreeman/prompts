@@ -139,8 +139,7 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
    - Knowledge gaps
    - Disagreements
    - Ethical concerns
-```
-
+```text
 ## Testing Your System Prompts
 
 Test with these scenarios:

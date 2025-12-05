@@ -228,8 +228,12 @@ Prioritized list of changes with:
 - Task description
 - Supporting evidence
 - Estimated effort
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
+>>>>>>> main
 ---
 
 ## Variables
@@ -256,7 +260,10 @@ Project: tafreeman/prompts - A prompt library with 145+ prompts
 Problem: Current prompts may have unnecessary sections/fields
 Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Expected Output
 
 ```text
@@ -317,7 +324,10 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 
 **Scoring Scale**: 1-5 stars, automated where possible
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ---
 
 ## Example Usage: Content Expansion
@@ -336,7 +346,10 @@ Current State: 145 prompts total, only 2 in creative category
 Goal: Expand creative prompts to 15-20, covering writing, marketing, editing, storytelling
 Target Users: Business professionals, marketing teams, content creators
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Expected Output
 
 ```text
@@ -407,7 +420,10 @@ Target Users: Business professionals, marketing teams, content creators
 - Priority: P1
 - Effort: Low
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ---
 
 ## Tips
