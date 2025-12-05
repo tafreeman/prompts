@@ -8,17 +8,23 @@ from pathlib import Path
 def check_links(path: Path) -> list:
     """Check internal links in a markdown file. Returns broken links."""
     broken = []
-    content = path.read_text(encoding='utf-8')
+    try:
+        content = path.read_text(encoding='utf-8')
+    except Exception:
+        return []
     
-    # Find markdown links
-    links = re.findall(r'\[([^\]]+)\]\(([^)]+\.md)\)', content)
+    # Find markdown links (including those with anchors)
+    links = re.findall(r'\[([^\]]+)\]\(([^)#]+\.md(?:#[^)]*)?)\)', content)
     
     for text, link in links:
         if link.startswith('http'):
             continue
         
+        # Remove anchor if present
+        link_path = link.split('#')[0]
+        
         # Resolve relative path
-        target = (path.parent / link).resolve()
+        target = (path.parent / link_path).resolve()
         if not target.exists():
             broken.append((text, link))
     

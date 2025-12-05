@@ -11,9 +11,12 @@ REQUIRED_FRONTMATTER = ['title', 'description']
 
 def extract_frontmatter(content: str) -> dict:
     """Extract YAML frontmatter from markdown content."""
-    match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+    match = re.search(r'^\s*---\n(.*?)\n---', content, re.DOTALL | re.MULTILINE)
     if match:
-        return yaml.safe_load(match.group(1))
+        try:
+            return yaml.safe_load(match.group(1))
+        except yaml.YAMLError:
+            return {}
     return {}
 
 def extract_sections(content: str) -> list:
@@ -23,7 +26,10 @@ def extract_sections(content: str) -> list:
 def validate_file(path: Path) -> list:
     """Validate a single prompt file. Returns list of issues."""
     issues = []
-    content = path.read_text(encoding='utf-8')
+    try:
+        content = path.read_text(encoding='utf-8')
+    except Exception as e:
+        return [f"Cannot read file: {e}"]
     
     # Check frontmatter
     fm = extract_frontmatter(content)
