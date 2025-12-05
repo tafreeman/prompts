@@ -27,7 +27,7 @@ Focused testing framework for validation and multi-model evaluation.
 
 ## 📁 Directory Structure
 
-```
+```text
 testing/
 ├── README.md           # This file
 ├── conftest.py         # Shared pytest fixtures
@@ -42,8 +42,7 @@ testing/
 │   ├── test_schema.py      # Schema compliance (23 tests)
 │   └── README.md           # Validator documentation
 └── archive/            # Archived legacy framework
-```
-
+```text
 ## 🚀 Quick Start
 
 ```bash
@@ -58,8 +57,7 @@ python -m pytest testing/validators/ -v
 
 # Run the primary evaluation tool
 python testing/evals/dual_eval.py prompts/developers/ --format markdown
-```
-
+```text
 ## 🔬 Primary Evaluation Tool
 
 The main tool for prompt evaluation is `testing/evals/dual_eval.py`.
@@ -89,8 +87,7 @@ python testing/evals/dual_eval.py prompts/ --changed-only --quiet
 
 # Include all files (override filtering)
 python testing/evals/dual_eval.py prompts/ --include-all
-```
-
+```text
 ## ✅ Test Categories
 
 | Category | Location | Tests | Purpose |
@@ -110,8 +107,7 @@ python -m pytest testing/validators/test_schema.py::TestValidationFunctions -v
 
 # Run by test name pattern
 python -m pytest testing/ -k "frontmatter" -v
-```
-
+```text
 ## 📊 Scoring Rubric
 
 Prompts are evaluated on **8 dimensions** (scored 1-10):
@@ -149,16 +145,14 @@ The testing framework is integrated with GitHub Actions:
     python testing/evals/dual_eval.py prompts/ \
       --changed-only \
       --format json
-```
-
+```json
 ## 📦 Dependencies
 
 Install test dependencies:
 
 ```bash
 pip install -r testing/requirements.txt
-```
-
+```json
 Required packages:
 - `pytest` - Test runner
 - `pyyaml` - YAML parsing

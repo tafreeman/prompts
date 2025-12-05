@@ -87,10 +87,8 @@ You are an expert C# developer specializing in .NET 6+ and clean architecture.
 // [Namespace and using statements]
 // [Class implementation]
 // [Unit tests]
-```
-
-```
-
+```csharp
+```csharp
 ### Reflexion (Self-Critique) Prompt
 
 ```markdown
@@ -98,8 +96,7 @@ You just generated the following C# code:
 
 ```csharp
 {{generated_code}}
-```
-
+```csharp
 **Critique This Code** against these criteria:
 
 ### 1. Async/Await Correctness
@@ -148,8 +145,7 @@ You just generated the following C# code:
 
 **Self-Assessment Score**: X/10
 
-```
-
+```csharp
 ### Refinement Prompt
 
 ```markdown
@@ -161,8 +157,7 @@ Based on your critique:
 **Original Code**:
 ```csharp
 {{original_code}}
-```
-
+```csharp
 **Generate Improved Code** that fixes all identified issues while maintaining the original functionality.
 
 **Requirements Refresh**:
@@ -174,8 +169,7 @@ Based on your critique:
 2. Explanation of major changes
 3. Updated unit tests
 
-```
-
+```csharp
 ## Usage Example
 
 ### Requirements
@@ -202,8 +196,7 @@ public class UserRepository
         }
     }
 }
-```
-
+```csharp
 ### Reflexion Output
 
 **Issues Found**:
@@ -318,8 +311,7 @@ namespace MyApp.Repositories
             : base(message, innerException) { }
     }
 }
-```
-
+```csharp
 ### Final Reflexion
 
 **Issues Fixed**: ✅ All 8 issues resolved
@@ -391,8 +383,7 @@ public class CSharpReflexionGenerator
         return response.Content;
     }
 }
-```
-
+```csharp
 ## Best Practices
 
 1. **Start Simple**: Initial generation should be basic but functional.

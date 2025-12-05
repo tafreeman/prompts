@@ -66,8 +66,7 @@ Browse our [pre-built agents](./README.md) or create your own from the [template
 ```bash
 # Copy agent to your repository's .github/agents/ directory
 cp agents/docs-agent.agent.md your-repo/.github/agents/
-```
-
+```text
 ### 3. Merge to Default Branch
 
 Push the agent to your repository's default branch to activate it.
@@ -76,12 +75,11 @@ Push the agent to your repository's default branch to activate it.
 
 In GitHub Copilot Chat, use `@agent-name`:
 
-```
+```text
 @docs_agent Create a README for this project
 @test_agent Generate tests for the UserService class
 @code_review_agent Review my latest changes
-```
-
+```text
 ---
 
 ## Creating Agents
@@ -119,8 +117,7 @@ tools: ["read", "write"]  # Allowed tools
 
 ## Examples
 [Concrete examples of expected output]
-```
-
+```text
 ### Frontmatter Reference
 
 | Field | Type | Required | Description |
@@ -155,8 +152,7 @@ description: Helps with various tasks
 # ✅ Focused
 name: python_test_agent
 description: Expert in Python testing with pytest and coverage analysis
-```
-
+```text
 ### 2. 📋 Be Explicit About Tech Stack
 
 Specify exact versions and tools:
@@ -167,8 +163,7 @@ Specify exact versions and tools:
 - pytest 7.x with pytest-cov
 - Black formatter (line length 88)
 - mypy for type checking
-```
-
+```text
 ### 3. 🚫 Set Clear Boundaries
 
 Define what the agent should NOT do:
@@ -179,8 +174,7 @@ Define what the agent should NOT do:
 - Do NOT commit changes directly
 - Do NOT access external APIs
 - Do NOT expose secrets or credentials
-```
-
+```text
 ### 4. 📝 Provide Concrete Examples
 
 Show exactly what output looks like:
@@ -195,9 +189,8 @@ def test_user_creation_with_valid_data():
     user = User(name="John", email="john@example.com")
     assert user.name == "John"
     assert user.email == "john@example.com"
-```
-```
-
+```text
+```text
 ### 5. 🔧 Include Relevant Commands
 
 Add commands the agent should use:
@@ -213,9 +206,8 @@ black src/ tests/
 
 # Type check
 mypy src/
-```
-```
-
+```text
+```sql
 ### 6. 🔄 Iterate and Improve
 
 - Test agents locally before deploying
@@ -232,37 +224,32 @@ For agents that analyze but don't modify:
 
 ```yaml
 tools: ["read", "search"]  # No write access
-```
-
+```text
 ```markdown
 ## Boundaries
 - Do NOT modify any files
 - Provide analysis and recommendations only
-```
-
+```text
 ### Pattern 2: Generator Agent
 
 For agents that create new files:
 
 ```yaml
 tools: ["read", "write", "search"]
-```
-
+```text
 ```markdown
 ## Working Directory
 Focus only on files in:
 - `src/generated/`
 - `tests/`
-```
-
+```text
 ### Pattern 3: Executor Agent
 
 For agents that run commands:
 
 ```yaml
 tools: ["read", "write", "search", "execute"]
-```
-
+```text
 ```markdown
 ## Commands (Allowed)
 - `npm test`
@@ -271,8 +258,7 @@ tools: ["read", "write", "search", "execute"]
 ## Commands (NOT Allowed)
 - `rm -rf`
 - `git push`
-```
-
+```text
 ---
 
 ## Deployment Locations
@@ -284,23 +270,21 @@ tools: ["read", "write", "search", "execute"]
 
 ### Repository-Level Deployment
 
-```
+```text
 your-repo/
 ├── .github/
 │   └── agents/
 │       ├── docs-agent.agent.md
 │       └── test-agent.agent.md
-```
-
+```text
 ### Organization-Level Deployment
 
-```
+```text
 .github-private/
 └── agents/
     ├── security-agent.agent.md
     └── code-review-agent.agent.md
-```
-
+```text
 ---
 
 ## Troubleshooting

@@ -60,9 +60,12 @@ Include:
 5. Documentation framework
 6. Monitoring and analytics
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[consumers]`: Consumers
@@ -84,7 +87,10 @@ Include:
 [security]: FAPI (Financial-grade API) Profile, OAuth 2.0 / OIDC, mTLS
 [scalability]: 1000 TPS, <100ms latency
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -109,9 +115,12 @@ Include:
 
 [... continues with versioning and documentation ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

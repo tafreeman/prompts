@@ -52,8 +52,7 @@ Background:
 - Status: 85% complete, on schedule
 
 Create a 3-sentence executive summary highlighting progress and key achievements.
-```
-
+```text
 **What happens**: ChatGPT uses the conversational context to produce a focused response. You can then follow up with "Make it more technical" or "Add risk factors" without re-explaining the project.
 
 ### Try It Now
@@ -73,8 +72,7 @@ That's good. Now:
 1. Add a risk section
 2. Make the tone more confident
 3. Include a call-to-action for the client
-```
-
+```text
 ## Step 2: Data Analysis Task (4 minutes)
 
 ChatGPT Plus and Team users have access to Code Interpreter (Advanced Data Analysis), which can process files, run Python code, and create visualizations.
@@ -90,8 +88,7 @@ I'm uploading a CSV file with quarterly sales data. Please:
 4. Identify the top 3 performing products
 
 Format the insights as bullet points suitable for a presentation.
-```
-
+```text
 ### Try It Now (Plus/Team Users)
 
 1. Click the attachment icon or drag a file into the chat
@@ -115,8 +112,7 @@ Analyze this data and provide:
 - Growth rate by region
 - Best and worst performing regions
 - Recommended focus areas for next quarter
-```
-
+```text
 **Pro Tip**: For complex analysis, ask ChatGPT to "show your work" or "explain your methodology" to verify the calculations.
 
 ## Step 3: Creative Writing and Brainstorming (4 minutes)
@@ -135,8 +131,7 @@ Requirements:
 - Must reference sustainability without being preachy
 
 After listing them, explain which one you think is strongest and why.
-```
-
+```text
 ### Try It Now
 
 1. Think of a creative challenge you're facing
@@ -157,8 +152,7 @@ Context:
 - Target company size: 100-500 employees
 
 Keep it under 150 words. Include a specific, low-commitment call-to-action.
-```
-
+```text
 ### Generating Images with DALL-E
 
 ChatGPT Plus users can generate images directly in chat:
@@ -170,8 +164,7 @@ Style: Clean, modern, corporate-appropriate
 Elements: Abstract cloud shapes, connected nodes, blue and white color scheme
 Avoid: Cartoonish elements, cluttered composition
 Aspect ratio: 16:9 for a presentation slide
-```
-
+```sql
 **Note**: Always verify generated images meet your organization's brand guidelines before using in official materials.
 
 ## Step 4: Custom Instructions Setup (4 minutes)
@@ -192,8 +185,7 @@ I work primarily with engineering, design, and customer success teams.
 My company serves mid-market financial services clients.
 I'm based in EST timezone and work standard business hours.
 I value concise, actionable outputs over lengthy explanations.
-```
-
+```text
 #### Section 2: "How would you like ChatGPT to respond?"
 
 ```text
@@ -204,8 +196,7 @@ I value concise, actionable outputs over lengthy explanations.
 - If you're uncertain, say so rather than guessing
 - Include relevant examples when explaining concepts
 - Format code blocks properly with language specified
-```
-
+```sql
 ### Try It Now
 
 1. Open Custom Instructions in your settings
@@ -220,8 +211,7 @@ After setting up, try this simple test:
 
 ```text
 Help me write a status update for my weekly team meeting.
-```
-
+```sql
 Without good Custom Instructions, you'd need to specify your role, audience, and preferred format. With them set up, ChatGPT should produce something appropriate automatically.
 
 ## Quick Reference: ChatGPT-Specific Features
@@ -292,8 +282,7 @@ Instead of: "Help me write an email"
 Try: "Help me write a 100-word email to my engineering team announcing 
 a deployment freeze. Tone: Direct but not alarming. Include the specific 
 dates (Dec 15-Jan 2) and who to contact for exceptions."
-```
-
+```text
 ### ChatGPT Won't Answer My Question
 
 ChatGPT has content policies and may decline certain requests. If this happens:
@@ -315,8 +304,7 @@ Return your response as a JSON object with this exact structure:
 }
 
 Return ONLY the JSON, no additional text.
-```
-
+```text
 ### Conversation Lost Context
 
 ChatGPT sessions have a context window limit. If responses seem disconnected:

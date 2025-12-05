@@ -123,7 +123,7 @@ Background information the AI should assume.
 
 ```text
 Your actual prompt text here...
-```
+```text
 ````
 
 ## Variables
@@ -137,14 +137,12 @@ Your actual prompt text here...
 
 ```text
 Example with real values
-```
-
+```text
 **Output:**
 
 ```text
 Expected AI response
-```
-
+```text
 ## Tips
 
 - Tip 1 for best results
@@ -170,8 +168,7 @@ For each step:
 Thought: [Your reasoning]
 Action: [What action to take]
 Observation: [What you learned]
-```
-
+```text
 ### Few-Shot Learning
 
 ```text
@@ -186,16 +183,14 @@ Input: [example input]
 Output: [example output]
 
 Now, for this input: [actual input]
-```
-
+```text
 ### Role-Task-Format (RTF)
 
 ```text
 Role: You are a [specific role]
 Task: [What you need to do]
 Format: [How to structure the output]
-```
-
+```text
 ## Process
 
 1. Understand the use case and target audience

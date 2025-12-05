@@ -127,14 +127,13 @@
 
 ## Test Results Summary
 
-```
+```yaml
 testing/evals/test_dual_eval.py: 66 tests PASSED
 testing/validators/test_frontmatter.py: 27 tests PASSED
 testing/validators/test_schema.py: 23 tests PASSED
 ----------------------------------------
 TOTAL: 116 tests PASSED
-```
-
+```text
 ---
 
 ## Remaining Work (from CONSOLIDATED_IMPROVEMENT_PLAN.md)

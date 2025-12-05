@@ -69,10 +69,14 @@ Guidelines:
 - **Versioning**: URL or Header-based versioning.
 - **Validation**: FluentValidation or DataAnnotations.
 - **Async**: All operations must be async.
+<<<<<<< HEAD
+```csharp
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[requirements]`: Functional requirements (e.g., "Manage library books: add, list, checkout")
@@ -87,8 +91,12 @@ Guidelines:
 ```text
 Requirements: API for a Todo application. Users can create todos, list their own todos (with filtering by 'isComplete'), mark a todo as complete, and delete a todo.
 Constraints: Use ASP.NET Core Minimal APIs.
+<<<<<<< HEAD
+```csharp
+=======
 ```text
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -110,8 +118,12 @@ Constraints: Use ASP.NET Core Minimal APIs.
 public record CreateTodoRequest(string Title, string? Description, DateTime? DueDate);
 public record UpdateTodoRequest(string Title, string? Description, bool IsComplete);
 public record TodoResponse(Guid Id, string Title, string? Description, bool IsComplete, DateTime CreatedAt);
+<<<<<<< HEAD
+```csharp
+=======
 ```text
 
+>>>>>>> main
 ## 3. Implementation (Minimal API)
 
 ```csharp
@@ -143,12 +155,17 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 })
 .Produces(204)
 .Produces(404);
+<<<<<<< HEAD
+```csharp
+```csharp
+=======
 ```text
 
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Specify if you prefer **Controllers** (`BaseController`) or **Minimal APIs**.

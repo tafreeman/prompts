@@ -123,8 +123,7 @@ When creating prompt templates:
 2. Follow existing patterns (see `frameworks/langchain/` for reference)
 3. Include SDK-specific code examples
 4. Document compatibility versions
-```
-
+```text
 ## VS Code Workspace Settings
 
 Create `.vscode/settings.json` to enhance Copilot's understanding:
@@ -167,8 +166,7 @@ Create `.vscode/settings.json` to enhance Copilot's understanding:
 		}
 	}
 }
-```
-
+```text
 ## Inline Instructions with Comments
 
 Use special comments to guide Copilot inline:
@@ -184,13 +182,12 @@ Use special comments to guide Copilot inline:
 def validate_metadata(metadata: Dict, schema: Dict) -> ValidationResult:
     # Copilot will generate implementation here
     pass
-```
-
+```text
 ## Chat Participants for Context
 
 When using Copilot Chat, leverage workspace context:
 
-```
+```text
 @workspace How do I create a new reflexion pattern following our conventions?
 
 @workspace /explain the prompt validation flow
@@ -198,8 +195,7 @@ When using Copilot Chat, leverage workspace context:
 @workspace /fix the metadata schema validation in this file
 
 @workspace /tests Generate unit tests for the ContextOptimizer class
-```
-
+```sql
 ## Best Practices
 
 1. **Keep Instructions Updated**: Update `.github/copilot-instructions.md` as patterns evolve.
@@ -242,8 +238,7 @@ Run validation before committing:
 \`\`\`bash
 python tools/validators/prompt_validator.py path/to/prompt.md
 \`\`\`
-```
-
+```text
 ## Related Patterns
 
 - [Anthropic Claude Patterns](../anthropic/claude_patterns.py)

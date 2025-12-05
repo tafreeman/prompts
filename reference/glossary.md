@@ -94,7 +94,7 @@ Capabilities that appear in larger models that weren't explicitly trained for an
 A prompting technique where you provide a few examples of the desired input-output pattern before the actual task. The model learns the pattern from these examples.
 
 **Example:**
-```
+```yaml
 Input: dog
 Output: animal
 
@@ -103,8 +103,7 @@ Output: flower
 
 Input: car
 Output:
-```
-
+```text
 ### Fine-Tuning
 The process of further training a pre-trained model on specific data to specialize it for particular tasks or domains. Results in a customized model.
 

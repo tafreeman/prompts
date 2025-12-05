@@ -59,9 +59,12 @@ Provide:
 5. Implementation plan
 6. Success metrics
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[benefits]`: Benefits
@@ -83,7 +86,10 @@ Provide:
 [risks]: Low user adoption, poor answer quality damaging brand reputation
 [timeline]: 6 Months (Pilot in Month 3)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,9 +109,12 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 
 [... continues with implementation plan and success metrics ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

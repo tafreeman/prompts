@@ -58,9 +58,12 @@ Include:
 5. Conflict resolution
 6. Recognition programs
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[challenges]`: Challenges
@@ -80,7 +83,10 @@ Include:
 [goals]: Increase velocity by 20%, reduce bug reopen rate to <5%, improve team morale score
 [dynamics]: 2 senior devs dominate architectural decisions, 3 junior devs hesitant to speak up
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,9 +106,12 @@ Include:
 
 [... continues with communication and conflict resolution ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

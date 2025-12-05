@@ -58,9 +58,12 @@ Provide:
 5. Requirements traceability
 6. Impact analysis
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[challenges]`: Challenges
@@ -80,7 +83,10 @@ Provide:
 [objectives]: Increase P2P transaction volume by 20% among Gen Z users
 [challenges]: Complex logic for unequal splits, recurring bills, and cross-border payments
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -101,9 +107,12 @@ Provide:
 
 [... continues with traceability and impact analysis ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

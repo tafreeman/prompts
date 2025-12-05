@@ -68,8 +68,7 @@ ls: cannot access 'src': No such file or directory
 
 $ ls deployment 2>&1
 ls: cannot access 'deployment': No such file or directory
-```
-
+```text
 **Impact**: Misleads users about available features, damages credibility.
 
 ---

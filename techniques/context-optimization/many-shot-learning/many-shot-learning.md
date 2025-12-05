@@ -84,7 +84,7 @@ Traditional few-shot learning provides 2-5 examples. Many-shot learning provides
 
 ## Prompt Template
 
-```
+```text
 You are an expert {domain} assistant trained on extensive examples.
 
 ## Task
@@ -136,8 +136,7 @@ Now, apply the same approach to this new input:
 {actual_task_input}
 
 **Output:**
-```
-
+```yaml
 ## Usage Example: Code Review Comments
 
 ### Setup
@@ -146,28 +145,25 @@ Task: Generate constructive, specific code review comments following team conven
 
 ### Many-Shot Examples (showing 3 of 25)
 
-```
+```text
 ### Example 1
 **Input:**
 ```python
 def calculate_total(items):
     return sum([item.price for item in items])
-```
-
+```text
 **Output:**
 
-```
+```text
 ✅ **Good**: Clean use of list comprehension and sum()
 ⚠️ **Suggestion**: Consider adding type hints for better IDE support
 ```python
 def calculate_total(items: List[Item]) -> float:
     return sum(item.price for item in items)
-```
-
+```text
 📝 **Note**: Generator expression (without brackets) is slightly more memory-efficient than list comprehension for large lists.
 
-```
-
+```text
 **Rationale:** Shows our team's convention of using emoji status indicators, providing code snippets for suggestions, and including educational notes.
 
 ---
@@ -179,11 +175,10 @@ def validate_email(email):
     if '@' in email and '.' in email:
         return True
     return False
-```
-
+```text
 **Output:**
 
-```
+```text
 ⚠️ **Issue**: Overly simplistic email validation that will accept invalid emails like "a@b.c" or "@example.com"
 🔧 **Recommendation**: Use a proper regex or validation library
 ```python
@@ -194,8 +189,7 @@ EMAIL_PATTERN = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 def validate_email(email: str) -> bool:
     """Validate email format using regex pattern."""
     return bool(re.match(EMAIL_PATTERN, email))
-```
-
+```text
 Or consider using `email-validator` library for production use:
 
 ```python
@@ -207,10 +201,8 @@ def is_valid_email(email: str) -> bool:
         return True
     except EmailNotValidError:
         return False
-```
-
-```
-
+```text
+```text
 **Rationale:** Demonstrates critical security/correctness issues get detailed explanations with multiple solution options.
 
 ---
@@ -222,22 +214,19 @@ users = []
 for user_id in user_ids:
     user = db.query(User).filter(User.id == user_id).first()
     users.append(user)
-```
-
+```sql
 **Output:**
 
-```
+```sql
 🚨 **Performance Issue**: N+1 query problem - executes one database query per user
 🔧 **Fix**: Use single query with IN clause
 ```python
 users = db.query(User).filter(User.id.in_(user_ids)).all()
-```
-
+```sql
 📊 **Impact**: For 100 users, reduces database round-trips from 100 to 1
 ⏱️ **Performance**: ~50-100x faster depending on network latency
 
-```
-
+```sql
 **Rationale:** Shows how to flag performance issues with quantified impact measurement.
 
 ---
@@ -251,11 +240,10 @@ users = db.query(User).filter(User.id.in_(user_ids)).all()
 - Accessibility issues
 - etc.
 
-```
-
+```text
 ### Actual Task
 
-```
+```text
 ## Your Task
 
 Now, review this code following the same conventions:
@@ -265,13 +253,11 @@ Now, review this code following the same conventions:
 def get_user_posts(user_id):
     posts = db.query(Post).filter(Post.user_id == user_id).all()
     return [p.title for p in posts]
-```
-
+```sql
 **Output:**
 [AI generates review in the learned format]
 
-```
-
+```sql
 ## Implementation Examples
 
 ### Python Implementation
@@ -389,8 +375,7 @@ prompt = builder.build_prompt(
 
 # Send to LLM
 response = llm.generate(prompt)
-```
-
+```text
 ### Dynamic Example Selection
 
 ```python
@@ -421,8 +406,7 @@ class SmartExampleSelector:
 # Usage
 selector = SmartExampleSelector(all_examples)
 relevant_examples = selector.select_examples(new_task_input, n_examples=25)
-```
-
+```text
 ## Optimization Strategies
 
 ### 1. Example Diversity
@@ -448,8 +432,7 @@ def build_balanced_set(categorized, total=30):
         random.sample(categorized['edge'], 8) +
         random.sample(categorized['error'], 4)
     )
-```
-
+```sql
 ### 2. Progressive Complexity
 
 Order examples from simple to complex:
@@ -458,8 +441,7 @@ Order examples from simple to complex:
 def order_by_complexity(examples):
     """Order examples by increasing complexity"""
     return sorted(examples, key=lambda ex: ex['complexity_score'])
-```
-
+```text
 ### 3. Token Budget Management
 
 ```python
@@ -477,8 +459,7 @@ def fit_examples_to_budget(examples, max_tokens):
             break
     
     return selected, total_tokens
-```
-
+```text
 ## Performance Characteristics
 
 - **Accuracy**: 15-35% improvement over few-shot on complex tasks

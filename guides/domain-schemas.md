@@ -69,8 +69,7 @@ For prompts like `code-review-expert-structured.md` and related developer workfl
   "positive_highlights": ["array of strings (things done well)"],
   "next_steps": ["array of strings (actions for the author)"]
 }
-```
-
+```text
 ### Markdown Template
 
 ```markdown
@@ -130,8 +129,7 @@ For prompts like `code-review-expert-structured.md` and related developer workfl
 1. [Action item 1]
 2. [Action item 2]
 
-```
-
+```text
 ---
 
 ## 2. Test Generation Specification Schema
@@ -205,8 +203,7 @@ For prompts like `test-suite-generator-advanced.md` and test-related workflows.
     "additional_libraries": ["array of strings"]
   }
 }
-```
-
+```text
 ### Markdown Template
 
 ```markdown
@@ -292,8 +289,7 @@ For prompts like `test-suite-generator-advanced.md` and test-related workflows.
 - **Mocking Library:** [name]
 - **Additional Libraries:** [list]
 
-```
-
+```text
 ---
 
 ## 3. Query Optimization Report Schema
@@ -342,8 +338,7 @@ For prompts like `sql-query-optimizer-advanced.md` and database performance work
   "validation_steps": ["array of strings (how to test the optimized query)"],
   "rollback_plan": "string (how to revert if needed)"
 }
-```
-
+```sql
 ### Markdown Template
 
 ```markdown
@@ -428,8 +423,7 @@ CREATE INDEX [index_name] ON [table_name] ([columns]) USING [type];
 
 [How to revert the change if issues arise]
 
-```
-
+```text
 ---
 
 ## 4. Data Quality Assessment Schema
@@ -519,8 +513,7 @@ For prompts like `data-quality-assessment.md` and data analysis workflows.
     }
   ]
 }
-```
-
+```sql
 ### Markdown Template
 
 ```markdown
@@ -618,8 +611,7 @@ For prompts like `data-quality-assessment.md` and data analysis workflows.
 
 - **Definition:** [logic or SQL]
 - **Applies To:** [columns]
-```
-
+```sql
 ---
 
 ## 5. Experiment Design Specification Schema
@@ -688,8 +680,7 @@ For prompts like `experiment-design-analyst.md` and A/B testing workflows.
     "subgroup_analyses": ["array of strings (optional)"]
   }
 }
-```
-
+```text
 ### Markdown Template
 
 ```markdown
@@ -777,8 +768,7 @@ For prompts like `experiment-design-analyst.md` and A/B testing workflows.
 - **Statistical Test:** [t-test|chi-square|Mann-Whitney|etc.]
 - **Adjustment for Multiple Comparisons:** [Yes/No]
 - **Subgroup Analyses:** [list] (optional)
-```
-
+```text
 ---
 
 ## Usage Guidelines

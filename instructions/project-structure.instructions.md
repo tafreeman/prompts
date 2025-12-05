@@ -10,7 +10,7 @@ description: Define the standard layered solution structure, responsibilities, a
 
 ## Solution Organization
 
-```
+```csharp
 /src
   /Web                    # ASP.NET Core web application
     /Pages               # Razor Pages
@@ -29,8 +29,7 @@ description: Define the standard layered solution structure, responsibilities, a
   /IntegrationTests     # Integration test projects
 /docs                   # Project documentation
 /scripts                # Build and deployment scripts
-```
-
+```sql
 ## Layering and Responsibilities
 
 - Web layer
@@ -70,14 +69,13 @@ description: Define the standard layered solution structure, responsibilities, a
 
 ✅ **Correct placement and naming:**
 
-```
+```text
 /tests
   /UnitTests
     /Core
       /Services
         UserServiceTests.cs
-```
-
+```text
 ```csharp
 public class UserServiceTests
 {
@@ -96,8 +94,7 @@ public class UserServiceTests
         Assert.NotNull(result);
     }
 }
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT deviate from the three-layer structure (Web, Core, Infrastructure) without architecture review and documented justification.

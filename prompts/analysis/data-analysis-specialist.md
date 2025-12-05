@@ -58,9 +58,12 @@ Provide:
 5. Recommendations
 6. Visualization strategy
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[context]`: Context
@@ -80,7 +83,10 @@ Provide:
 [scope]: US Market, Enterprise Segment
 [context]: We implemented a 10% price increase on July 1st
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,9 +106,12 @@ Provide:
 
 [... continues with recommendations and visualization ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

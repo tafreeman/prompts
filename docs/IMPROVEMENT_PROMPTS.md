@@ -107,8 +107,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -121,14 +120,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -141,12 +138,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 2. Example Research Output: Modern Prompting Techniques
@@ -252,8 +247,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -266,14 +260,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -286,12 +278,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 3. ReAct: Prompt Library Analysis
@@ -397,8 +387,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -411,14 +400,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -431,12 +418,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 4. Chain-of-Thought: Decision Guide
@@ -533,8 +518,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -547,14 +531,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -567,12 +549,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 5. Library Capability Radar Chart Generator
@@ -666,8 +646,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -680,14 +659,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -700,12 +677,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 6. Library Structure Treemap Generator
@@ -799,8 +774,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -813,14 +787,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -833,12 +805,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 7. Library Network Graph Generator
@@ -932,8 +902,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -946,14 +915,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -966,12 +933,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 8. ReAct: Knowledge Base Research
@@ -1060,8 +1025,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1074,14 +1038,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1094,12 +1056,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 9. SQL Security Standards Enforcer
@@ -1190,8 +1150,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1204,14 +1163,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1224,12 +1181,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 10. Security Code Auditor
@@ -1318,8 +1273,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1332,14 +1286,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1352,12 +1304,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 11. API Design Consultant
@@ -1446,8 +1396,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1460,14 +1409,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1480,12 +1427,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 12. M365 Handover Document Creator
@@ -1579,8 +1524,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1593,14 +1537,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1613,12 +1555,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 13. Office Agent Deep Research: Modern Prompting
@@ -1715,8 +1655,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1729,14 +1668,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1749,12 +1686,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 14. M365 Customer Feedback Analyzer
@@ -1848,8 +1783,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1862,14 +1796,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -1882,12 +1814,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 15. Code Review Expert: Structured Output
@@ -1976,8 +1906,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -1990,14 +1919,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2010,12 +1937,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 16. Code Review Expert
@@ -2104,8 +2029,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -2118,14 +2042,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2138,12 +2060,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 17. Test Automation Engineer
@@ -2232,8 +2152,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -2246,14 +2165,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2266,12 +2183,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 18. M365 Sway Visual Newsletter
@@ -2362,8 +2277,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -2376,14 +2290,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2396,12 +2308,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 19. Office Agent Technical Specifications
@@ -2498,8 +2408,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -2512,14 +2421,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2532,12 +2439,10 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---
 
 ## 20. Tree-of-Thoughts Evaluator: Reflection & Self-Critique
@@ -2634,8 +2539,7 @@ reviewStatus: "draft"
 
 ```text
 [The actual prompt template with [VARIABLE] placeholders]
-```
-
+```text
 ## Variables
 
 - `[VARIABLE1]`: Description and example value (e.g., "project name like 'Customer Portal Redesign'")
@@ -2648,14 +2552,12 @@ reviewStatus: "draft"
 
 ```text
 [Show the prompt with all variables filled in with realistic values]
-```
-
+```text
 **Output:**
 
 ```text
 [Show the expected AI response - detailed and realistic, 30+ lines]
-```
-
+```text
 ## Tips
 
 - **Tip 1**: [Specific, actionable recommendation]
@@ -2668,10 +2570,8 @@ reviewStatus: "draft"
 
 - [Related Prompt 1](path/to/prompt.md) - Brief description
 - [Related Prompt 2](path/to/prompt.md) - Brief description
-```
-
+```text
 Now read the prompt file and generate the improved version.
 
-```
-
+```text
 ---

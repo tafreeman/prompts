@@ -25,14 +25,13 @@ AI framework-specific prompt patterns and integration examples.
 
 ## 📁 Directory Structure
 
-```
+```text
 frameworks/
 ├── langchain/      # LangChain patterns and LCEL examples
 ├── anthropic/      # Claude and Anthropic SDK patterns
 ├── openai/         # OpenAI API and function calling
 └── microsoft/      # Semantic Kernel and Copilot
-```
-
+```text
 ## 🔗 Framework Categories
 
 ### LangChain
@@ -100,8 +99,7 @@ from langchain_openai import ChatOpenAI
 with open('frameworks/langchain/lcel-patterns/langchain-reflexion-example.md') as f:
     # Extract and use the code examples
     pass
-```
-
+```text
 ### Anthropic Example
 
 ```python
@@ -109,8 +107,7 @@ import anthropic
 
 client = anthropic.Anthropic(api_key="...")
 # Use Claude-specific patterns from anthropic/claude-patterns/
-```
-
+```text
 ### OpenAI Example
 
 ```python
@@ -118,8 +115,7 @@ from openai import OpenAI
 
 client = OpenAI(api_key="...")
 # Use function calling patterns from openai/function-calling/
-```
-
+```text
 ## 📦 Installation
 
 Install framework dependencies as needed:
@@ -139,8 +135,7 @@ pip install openai
 
 # Microsoft Semantic Kernel
 pip install semantic-kernel
-```
-
+```text
 ## 🔄 Cross-Framework Patterns
 
 Many prompting techniques work across frameworks. See:

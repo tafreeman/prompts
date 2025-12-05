@@ -37,6 +37,24 @@ effectivenessScore: 4.4
 ---
 # Security: Incident Response Framework
 
+<<<<<<< HEAD
+## Table of Contents
+
+- [Description](#description)
+- [Use Cases](#use-cases)
+- [Prompt](#prompt)
+  - [Phase 1: Detection & Analysis](#phase-1-detection--analysis)
+  - [Phase 2: Containment & Eradication](#phase-2-containment--eradication)
+  - [Phase 3: Recovery](#phase-3-recovery)
+  - [Phase 4: Post-Incident](#phase-4-post-incident)
+- [Variables](#variables)
+- [Example Usage](#example-usage)
+- [Tips](#tips)
+- [Related Prompts](#related-prompts)
+- [Governance Notes](#governance-notes)
+
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -264,9 +282,12 @@ Provide structured incident report:
 - GDPR notification due: [Timestamp if applicable]
 - Other notifications: [List]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[INCIDENT_DESCRIPTION]`: Nature of the security event
@@ -303,7 +324,10 @@ You are a security incident response assistant following NIST IR framework.
 
 **Instructions**: [Follow framework above]
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -675,10 +699,14 @@ You are a security incident response assistant following NIST IR framework.
 ---
 
 **⚠️ DISCLAIMER**: This is an AI-assisted incident response tool. All actions must be validated by qualified security professionals. For active incidents, immediately engage your incident response team, CISO, and legal counsel. Time-sensitive regulatory deadlines (GDPR 72 hours) require immediate legal review.
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Act fast**: Minutes matter in containment - automate where possible
@@ -715,6 +743,8 @@ You are a security incident response assistant following NIST IR framework.
 - **NIST CSF**: Incident response lifecycle followed
 - **PCI-DSS**: Incident response plan if payment data involved
 
+---
+
 ## Output Schema (JSON)
 
 ```json
@@ -747,9 +777,13 @@ You are a security incident response assistant following NIST IR framework.
   "next_steps": ["...", "..."]
 }
 ```text
+<<<<<<< HEAD
+## Related Prompts
+=======
 
 ---
 
 ## Related Prompts
 
 <!-- Links removed - files don't exist yet -->
+>>>>>>> main

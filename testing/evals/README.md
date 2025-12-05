@@ -42,8 +42,7 @@ python testing/evals/dual_eval.py prompts/ --log-file eval.md
 
 # Fast evaluation (skip model validation)
 python testing/evals/dual_eval.py prompts/developers/ --skip-validation
-```
-
+```text
 ## Primary Tool: `dual_eval.py`
 
 Multi-model prompt evaluation with cross-validation and batch support.
@@ -116,13 +115,12 @@ Prompts are evaluated on **8 criteria** (scored 1-10):
 
 ## Pass/Fail Thresholds
 
-```
+```text
 ✅ PASS: Overall score >= 7.0 AND no individual criterion < 5.0
          AND cross-validation variance <= 1.5
 ❌ FAIL: Overall score < 7.0 OR any criterion < 5.0
          OR cross-validation variance > 1.5
-```
-
+```text
 ### Exit Codes
 
 | Code | Meaning |
@@ -143,7 +141,7 @@ Prompts are evaluated on **8 criteria** (scored 1-10):
 
 ## Example Output
 
-```
+```yaml
 📊 EVALUATION RESULTS: code-review.md
 ======================================================================
 
@@ -162,8 +160,7 @@ Model: meta/llama-3.3-70b-instruct (Run 1 of 1)
 ----------------------------------------------------------------------
    Score Range: 8.5 - 8.7 (variance: 0.2) ✅
    Consensus: PASS
-```
-
+```text
 ## Unit Tests
 
 54 unit tests validate the evaluation framework:
@@ -178,8 +175,7 @@ pytest testing/evals/test_dual_eval.py::TestCrossValidate -v
 # Run new feature tests
 pytest testing/evals/test_dual_eval.py::TestDiscoverPromptFiles -v
 pytest testing/evals/test_dual_eval.py::TestJsonReport -v
-```
-
+```text
 ## Files
 
 | File | Description |
@@ -237,8 +233,7 @@ jobs:
         with:
           name: evaluation-results
           path: eval-results.json
-```
-
+```text
 ### Full Library Evaluation
 
 ```yaml
@@ -281,15 +276,13 @@ jobs:
         with:
           name: full-evaluation
           path: full-eval.json
-```
-
+```text
 ## Available Models
 
 List available models:
 ```bash
 gh models list
-```
-
+```text
 Common options:
 - `openai/gpt-4.1` - Latest GPT-4 (recommended)
 - `openai/gpt-4o` - Fast GPT-4
@@ -303,20 +296,17 @@ Common options:
 If you hit rate limits, use sequential mode (default):
 ```bash
 python testing/evals/dual_eval.py prompts/ --max-workers 1
-```
-
+```text
 ### Authentication Issues
 ```bash
 gh auth login
 gh auth status
-```
-
+```text
 ### Model Not Available
 Check model availability:
 ```bash
 gh models view openai/gpt-4.1
-```
-
+```text
 ## See Also
 
 - [ARCHITECTURE_PLAN.md](../../docs/ARCHITECTURE_PLAN.md) - Complete architecture

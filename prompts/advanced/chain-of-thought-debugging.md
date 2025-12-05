@@ -79,6 +79,8 @@ Use this prompt when debugging production issues, investigating test failures, a
 
 All reasoning steps must be visible in the output.
 
+---
+
 ## Output Requirements
 
 Structured Markdown with the following sections:
@@ -116,7 +118,10 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 [ERROR_MESSAGE_OR_STACK_TRACE]
 
 ```text
@@ -247,9 +252,12 @@ List steps to verify the fix works:
 3. [step 3]
 
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[BUG_DESCRIPTION]`: High-level description of the bug (e.g., "User login fails intermittently")
@@ -280,8 +288,12 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 
+<<<<<<< HEAD
+```yaml
+=======
 ```text
 
+>>>>>>> main
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
@@ -335,7 +347,10 @@ async function authenticate(req, res, next) {
 - Single-server staging environment doesn't reproduce the issue
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -429,9 +444,12 @@ async function verifyToken(token) {
 5. Verify authentication error rate drops to <0.01%
 
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Start broad, narrow down:** Generate multiple hypotheses, then prioritize and test systematically

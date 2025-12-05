@@ -58,6 +58,8 @@ The prompt library contains many individual files that can be used together in w
 
 Analytical and creative visualization.
 
+---
+
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/NetworkX, Mermaid, or Graphviz) to generate the graph.
@@ -83,9 +85,12 @@ Additionally, link prompts that are part of the same workflow (e.g., connect "re
 
 This should look like a constellation showing clusters of related capabilities.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Example Visualization (Mermaid)
 
 Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
@@ -113,6 +118,9 @@ graph LR
   RAE --> ADC
   ADC --> CRA
   CRA --> SCM
+<<<<<<< HEAD
+```text
+=======
 ```
 
 ## Variables
@@ -127,3 +135,4 @@ graph LR
 - **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
 - **Find gaps**: Disconnected nodes may indicate prompts that need better integration
 - **Use color coding**: Assign different colors to different categories for easier visual parsing
+>>>>>>> main

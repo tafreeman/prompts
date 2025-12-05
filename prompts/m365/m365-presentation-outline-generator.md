@@ -167,9 +167,12 @@ Return the result in Markdown:
 Now, generate a presentation outline for [topic], tailored for [audience] and
 emphasizing [emphasis].
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[topic]`: Main topic or title of the presentation.
@@ -193,7 +196,10 @@ emphasizing [emphasis].
 
 You are my Presentation Outline Generator working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -262,9 +268,12 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 - Confirm go/no-go decision process and attendees.
 - Visual suggestion: Action items table with owners and dates.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Tip 1: Use `[source_document]` to quickly turn a report or Word doc into a presentation without starting from scratch.

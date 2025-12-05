@@ -78,9 +78,12 @@ Please structure the blog post with:
 
 Make it engaging, valuable, and optimized for both readers and search engines.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[YOUR BLOG TOPIC]`: The main subject of your blog post
@@ -130,7 +133,10 @@ Please structure the blog post with:
 
 Make it engaging, valuable, and optimized for both readers and search engines.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -329,9 +335,12 @@ The right project management tool won't just organize your tasks—it will free 
 
 *What project management challenges is your small team facing? Share in the comments below, and let's help each other find solutions!*
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Provide specific details about your audience for more targeted content

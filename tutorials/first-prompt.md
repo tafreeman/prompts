@@ -54,10 +54,9 @@ Let's start with the most basic prompt possible and see what happens.
 
 Open your AI assistant and enter:
 
-```
+```text
 Write a summary.
-```
-
+```text
 ### What Happened?
 
 The AI probably asked what you want summarized, or gave a generic response. This demonstrates the first principle:
@@ -75,10 +74,9 @@ Let's improve by adding the subject matter.
 
 ### Try This Prompt
 
-```
+```text
 Write a summary of the benefits of remote work.
-```
-
+```text
 ### What Happened?
 
 You likely got a reasonable response this time! The AI had enough information to work with. But the output might be:
@@ -94,15 +92,14 @@ Now let's control how the output is structured.
 
 ### Try This Prompt
 
-```
+```text
 Write a summary of the benefits of remote work.
 
 Format as:
 - A single paragraph
 - Maximum 3 sentences
 - Professional tone suitable for a business presentation
-```
-
+```text
 ### What Happened?
 
 The response should now match your format requirements. This demonstrates:
@@ -115,7 +112,7 @@ The best prompts include information about your specific situation.
 
 ### Try This Prompt
 
-```
+```text
 I'm preparing a slide for our quarterly leadership meeting about updating our work-from-home policy.
 
 Write a summary of the benefits of remote work.
@@ -125,8 +122,7 @@ Format as:
 - Maximum 3 sentences  
 - Professional tone suitable for executive audience
 - Focus on productivity and retention benefits (our leadership cares most about these)
-```
-
+```text
 ### What Happened?
 
 The response should now be:
@@ -139,7 +135,7 @@ The response should now be:
 
 You've just experienced the iteration pattern that works for most prompts:
 
-```
+```text
 Basic Prompt
     ↓ (not specific enough)
 Add Subject
@@ -149,8 +145,7 @@ Add Format
 Add Context
     ↓ (usable result!)
 Done
-```
-
+```text
 This pattern—starting simple and adding specificity—is faster than trying to write the perfect prompt on the first try.
 
 ## Practice Exercises
@@ -188,28 +183,24 @@ Create a prompt for a meeting agenda:
 
 ### ❌ Too Vague
 
-```
+```text
 Help me with my project.
-```
-
+```text
 ### ✅ Better
 
-```
+```sql
 I'm working on a Python web scraper that collects product prices from e-commerce sites. I'm getting timeout errors when scraping large sites. What are some strategies to handle this?
-```
-
+```text
 ### ❌ Too Much at Once
 
-```
+```text
 Write me a complete business plan with executive summary, market analysis, financial projections for 5 years, marketing strategy, operations plan, and team structure for a new AI startup.
-```
-
+```text
 ### ✅ Better
 
-```
+```text
 Write an executive summary (250 words) for a business plan for an AI-powered customer service startup targeting mid-size e-commerce companies.
-```
-
+```text
 (Then follow up with separate prompts for each section)
 
 ## What You Learned

@@ -29,8 +29,11 @@ governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
 # Reflection: Initial Answer + Self-Critique Pattern
 
+<<<<<<< HEAD
+=======
 ---
 
+>>>>>>> main
 ## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
@@ -118,9 +121,12 @@ Based on this critique, provide:
 
 **Recommended Next Steps**: [If applicable]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[USER_QUESTION]`: The question or problem to solve
@@ -158,7 +164,10 @@ You will answer a question using a two-phase reflection pattern.
 **Phase 2: Self-Critique and Reflection**
 [Apply critical evaluation framework]
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -333,10 +342,14 @@ These unknowns prevent High confidence in any specific recommendation.
 4. Define measurable success criteria for any migration
 5. Create detailed cost model for each option
 6. Pilot Option A improvements for 90 days, measure impact
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Be harsh in critique**: The goal is to find problems, not justify the initial answer
@@ -364,6 +377,8 @@ These unknowns prevent High confidence in any specific recommendation.
 - Low-stakes, easily reversible decisions
 - Well-understood, routine problems
 
+---
+
 ## Output Schema (JSON)
 
 ```json
@@ -390,10 +405,14 @@ These unknowns prevent High confidence in any specific recommendation.
   },
   "next_steps": ["...", "..."]
 }
+<<<<<<< HEAD
+```powershell
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
@@ -436,4 +455,8 @@ def reflection_pattern(question, context):
         "reflection": reflection,
         "final_answer": extract_revised_answer(reflection)
     }
+<<<<<<< HEAD
 ```text
+=======
+```text
+>>>>>>> main

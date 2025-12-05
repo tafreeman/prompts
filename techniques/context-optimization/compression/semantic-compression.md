@@ -75,8 +75,7 @@ Compress the following text to retain all key information, facts, and entities, 
 {{text}}
 
 **Compressed Version**:
-```
-
+```text
 ## Example
 
 ### Python Implementation
@@ -107,8 +106,7 @@ compressed_text = optimizer.compress_context(
 
 print(f"Original Length: {len(long_text)}")
 print(f"Compressed Text: {compressed_text}")
-```
-
+```text
 ### Expected Output
 
 ```text
@@ -116,8 +114,7 @@ Kickoff 11/23: Stakeholders (Eng, PM, Design) present.
 Goal: MVP by 12/15. 
 Issue: DB schema (user profile). 
 Action: Eng to review/propose solution by Friday.
-```
-
+```text
 ## Usage
 
 ### When to Use

@@ -25,14 +25,13 @@ This directory contains cutting-edge prompting techniques and patterns for moder
 
 ## 📁 Directory Structure
 
-```
+```text
 techniques/
 ├── reflexion/              # Self-correction and iterative improvement
 ├── agentic/                # Multi-agent and autonomous workflows
 ├── context-optimization/   # Long-context and efficiency techniques
 └── multimodal/             # Cross-modal prompting patterns
-```
-
+```sql
 ## 🎯 Technique Categories
 
 ### Reflexion Patterns
@@ -124,8 +123,7 @@ python tools/validators/prompt_validator.py techniques/reflexion/basic-reflexion
 
 # Benchmark performance
 python tools/benchmarks/performance_evaluator.py techniques/reflexion/basic-reflexion/basic-reflexion.md
-```
-
+```text
 ## 📚 Resources
 
 - [Reflexion Research Paper](https://arxiv.org/abs/2303.11366) - Shinn et al. (2023)

@@ -44,8 +44,7 @@ Open a new file in your preferred language and try this pattern:
 # Function to validate email address using regex
 # Returns True if valid, False otherwise
 # Handle edge cases: empty string, None, missing @ symbol
-```
-
+```sql
 **What happens**: Copilot reads your comments and generates the function. The more specific your comments, the better the code.
 
 ### Try It Now
@@ -73,8 +72,7 @@ def calculate_discount(price: float, discount_percent: float) -> float:
 
 # Write comprehensive unit tests for calculate_discount
 # Include edge cases: zero discount, 100% discount, negative values, invalid types
-```
-
+```text
 ### Try It Now
 
 1. Paste the function above into your file
@@ -95,10 +93,9 @@ Use Copilot Chat for explanations and documentation.
 
 In Copilot Chat, type:
 
-```
+```text
 /explain what does this code do and what are the potential issues?
-```
-
+```sql
 Then select any code block you want explained.
 
 ### Pattern: Generate Documentation
@@ -116,8 +113,7 @@ def process_user_data(users: list[dict], filter_active: bool = True) -> dict:
             'last_login': user.get('last_login')
         }
     return result
-```
-
+```sql
 ### Try It Now
 
 1. Select the function above
@@ -133,19 +129,17 @@ Use chat for refactoring suggestions.
 
 In Copilot Chat:
 
-```
+```text
 /fix improve error handling and add input validation
-```
-
+```text
 Or for specific improvements:
 
-```
+```text
 Refactor this code to:
 1. Use early returns instead of nested ifs
 2. Add type hints
 3. Follow PEP 8 naming conventions
-```
-
+```text
 ### Try It Now
 
 1. Select code you want to improve

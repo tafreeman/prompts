@@ -59,9 +59,12 @@ Provide:
 5. Monitoring strategy
 6. Reporting mechanisms
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[audit]`: Audit
@@ -81,7 +84,10 @@ Provide:
 [sensitivity]: High (PII, SPII - SSNs, Salary, Health data, Performance reviews)
 [audit]: 7-year retention for all access logs, immutable audit trail, monthly access reviews
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -102,9 +108,12 @@ Provide:
 
 [... continues with audit trail and monitoring ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

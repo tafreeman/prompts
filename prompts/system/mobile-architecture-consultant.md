@@ -60,9 +60,12 @@ Include:
 5. Performance optimization
 6. Testing strategy
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[app_type]`: App Type
@@ -84,7 +87,10 @@ Include:
 [performance]: <2s startup time, smooth video calls on 4G networks
 [security]: HIPAA compliant, biometric auth, no sensitive data stored on device
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -107,10 +113,14 @@ Include:
 *   **Sync:** Background sync worker to upload vitals when connectivity restores.
 
 [... continues with security implementation and testing ...]
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
