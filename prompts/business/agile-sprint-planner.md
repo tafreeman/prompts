@@ -66,10 +66,14 @@ Provide:
 7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
 
 Format output with Markdown tables for story breakdown and capacity allocation.
+<<<<<<< HEAD
+```sql
+=======
 ```markdown
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[project_name]`: Product or feature name (e.g., "E-commerce Mobile App - Payment Module")
@@ -104,7 +108,10 @@ Definition of Done:
 
 Context: Black Friday launch deadline is Dec 15. This sprint must deliver payment improvements to reduce cart abandonment (currently 68%).
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -261,12 +268,18 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 
 **Sample**:
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 @Sarah: Yesterday: Completed Buy Now button UI. Today: Start Apple Pay iOS integration. Blockers: None.
 @Emily: Yesterday: Designed /default-payment API. Today: Stripe Apple Pay SDK setup. Blockers: Need Stripe API token refresh (tagged @DevOps).
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Sprint Review (Demo)
 
 **Date**: Dec 1 (Friday), 2:00 PM ET  
@@ -299,7 +312,10 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 **Sample Burndown Chart** (ASCII representation):
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 Points ↑
 26 |●
    |  ●●
@@ -314,7 +330,10 @@ Points ↑
    Actual: Monitor daily
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ---
 
 ## Contingency Plans
@@ -324,9 +343,12 @@ Points ↑
 2. **Fast-Follow**: Release Apple Pay in hotfix Sprint 12.1 (Dec 2-3) if cert arrives
 3. **Communication**: Notify Marketing that "Apple Pay by Black Friday" may slip
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Protect the Sprint Goal**: If mid-sprint scope creep occurs (e.g., CEO requests "Buy Now, Pay Later"), defer to backlog unless P0 production bug
@@ -342,3 +364,7 @@ Points ↑
 
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For sprint review stakeholder updates
 - **[risk-management-analyst](./risk-management-analyst.md)** - For sprint risk assessment
+<<<<<<< HEAD
+- **[project-charter-creator](./business-strategy-analysis.md)** - For initial sprint planning at project kickoff
+=======
+>>>>>>> main

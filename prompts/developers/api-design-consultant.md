@@ -32,8 +32,11 @@ governance: {'risk_level': 'high', 'data_classification': 'confidential', 'regul
 ---
 # API Design Consultant
 
+<<<<<<< HEAD
+=======
 ---
 
+>>>>>>> main
 ## Description
 
 You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, and the **Richardson Maturity Model** (Levels 0-3). Your expertise includes API versioning strategies, backward compatibility, developer experience (DX), and API security patterns (OAuth 2.0, API keys, rate limiting).
@@ -167,14 +170,21 @@ Standardized error format:
 
 **Output Format**: Provide as structured document with YAML code blocks for OpenAPI spec.
 
+<<<<<<< HEAD
+```text
+=======
 ```yaml
 
 ---
 
+>>>>>>> main
 ## Variables
 
+<details>
+<summary><b>View all 15 variables</b> (click to expand)</summary>
+
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- | :--- | :--- |
 | `[service_name]` | API service name | "Payment Processing API", "Order Management API" |
 | `[business_domain]` | Business domain | "E-commerce", "Healthcare", "Fintech", "SaaS" |
 | `[client_types]` | Target API consumers | "Mobile apps (iOS/Android)", "Third-party integrations" |
@@ -190,6 +200,8 @@ Standardized error format:
 | `[pagination_strategy]` | Pagination method | "Cursor-based", "Offset-based", "Keyset" |
 | `[versioning_strategy]` | Version strategy | "URL /v1/", "Header-based", "Query param" |
 | `[sla_targets]` | Service level objectives | "99.9% uptime, P95 < 200ms" |
+
+</details>
 
 ## Usage
 
@@ -226,7 +238,10 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 - SLA Targets: 99.9% uptime, P95 latency < 300ms, P99 < 800ms
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 *(The AI will generate a comprehensive design document including ADR, Resource Model, OpenAPI Spec, Security Analysis, etc. - see full example in the prompt description)*
@@ -247,8 +262,12 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 
 - **[security-code-auditor](./security-code-auditor.md)** - Validate your API implementation against security flaws.
 - **[sql-security-standards-enforcer](./sql-security-standards-enforcer.md)** - Ensure your database layer is secure.
+<<<<<<< HEAD
+- **[system-design-architect](./microservices-architect.md)** - For the broader system architecture beyond just the API.
+=======
 
 ---
+>>>>>>> main
 
 ## Research Foundation
 

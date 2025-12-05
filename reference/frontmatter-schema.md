@@ -56,8 +56,7 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-```
-
+```sql
 ---
 
 ## Field Reference
@@ -217,8 +216,7 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-```
-
+```text
 ### Index Page (Category Landing)
 
 ```yaml
@@ -258,8 +256,7 @@ featuredLinks:
     - /prompts/advanced/chain-of-thought/debugging
     - /prompts/advanced/react/tool-augmented
 ---
-```
-
+```text
 ---
 
 ## Validation
@@ -268,14 +265,12 @@ Run the frontmatter validator before submitting any PR:
 
 ```bash
 python tools/validators/frontmatter_validator.py --all
-```
-
+```text
 To validate a specific file:
 
 ```bash
 python tools/validators/frontmatter_validator.py path/to/file.md
-```
-
+```text
 ### Common Validation Errors
 
 | Error | Cause | Fix |

@@ -75,8 +75,7 @@ weather_tool = {
         "required": ["location"]
     }
 }
-```
-
+```text
 ## Prompt Template
 
 ```markdown
@@ -95,8 +94,7 @@ Your goal is to assist the user by using these tools when necessary.
 <user_request>
 {{user_input}}
 </user_request>
-```
-
+```text
 ## Python Implementation (Anthropic SDK)
 
 ```python
@@ -176,8 +174,7 @@ def run_conversation(user_input):
 
 # Example
 # print(run_conversation("What is the stock price of Apple?"))
-```
-
+```text
 ## Best Practices
 
 1. **Clear Descriptions**: The `description` field in the tool definition is part of the prompt. Make it descriptive and precise.

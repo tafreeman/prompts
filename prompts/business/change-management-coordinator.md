@@ -57,10 +57,14 @@ Provide:
 4. Implementation plan
 5. Risk mitigation
 6. Success measurement
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[project_name]`: Project name (e.g., "CRM System Migration", "Cloud Infrastructure Upgrade", "ERP Implementation Phase 2")
@@ -94,7 +98,10 @@ Provide:
 5. Risk mitigation
 6. Success measurement
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -276,9 +283,12 @@ Provide:
 - Document wins, challenges, process improvements
 - Update change management playbook for future migrations
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Avoid Q4 disruption**: Schedule major CRM changes during slower business periods (January is ideal for many organizations)
@@ -295,3 +305,7 @@ Provide:
 
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - Plan migration work in 2-week sprints
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - Craft executive updates and user notifications
+<<<<<<< HEAD
+- **[data-migration-architect](../developers/data-pipeline-engineer.md)** - Technical ETL strategy for CRM data migration
+=======
+>>>>>>> main

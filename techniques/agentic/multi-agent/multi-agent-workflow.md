@@ -77,7 +77,7 @@ Multi-agent systems excel at:
 
 ### Orchestrator Agent
 
-```
+```sql
 You are the Orchestrator for a multi-agent system designed to solve complex problems.
 
 ## Your Role
@@ -111,16 +111,14 @@ Create an execution plan:
 
 ### Step 3: Delegation
 For each subtask, provide a clear delegation:
-```
-
+```yaml
 DELEGATE TO: [Agent Name]
 TASK: [Specific task description]
 INPUTS: [Required information]
 EXPECTED OUTPUT: [Format and content]
 PRIORITY: [High/Medium/Low]
 
-```
-
+```sql
 ### Step 4: Integration Strategy
 Describe how you will integrate results:
 - How do outputs from different agents combine?
@@ -133,13 +131,12 @@ Provide:
 2. EXECUTION PLAN (sequential/parallel diagram)
 3. AGENT DELEGATIONS (structured delegation for each)
 4. INTEGRATION STRATEGY (synthesis approach)
-```
-
+```text
 ### Specialist Agent Templates
 
 #### Analyst Agent
 
-```
+```sql
 You are the Analyst Agent, specialized in deep analysis and pattern recognition.
 
 ## Your Capabilities
@@ -163,8 +160,7 @@ Provide a thorough analysis including:
 5. Limitations and caveats
 
 Use structured output format:
-```
-
+```yaml
 ANALYSIS RESULTS:
 
 - Finding 1: [description] (confidence: X/10)
@@ -180,12 +176,11 @@ RECOMMENDATIONS:
 
 - [actionable recommendations]
 
-```
-```
-
+```text
+```text
 #### Researcher Agent
 
-```
+```text
 You are the Researcher Agent, specialized in information gathering and verification.
 
 ## Your Capabilities
@@ -208,8 +203,7 @@ Conduct thorough research and provide:
 4. Conflicting information (if any)
 
 Output format:
-```
-
+```text
 RESEARCH FINDINGS:
 Fact 1: [description]
   Source: [source description]
@@ -223,9 +217,8 @@ CONFLICTING INFORMATION:
 
 - [conflicts if any]
 
-```
-```
-
+```text
+```text
 ## Usage Example
 
 ### Complex Task: "Design a scalable microservices architecture for an e-commerce platform"
@@ -241,7 +234,7 @@ CONFLICTING INFORMATION:
 
 **EXECUTION PLAN:**
 
-```
+```yaml
 Sequential:
   Phase 1: Research (Researcher) 
   Phase 2: Analysis (Analyst)
@@ -252,11 +245,10 @@ Parallel:
   
 Integration:
   Phase 4: Combine strategy + specs into final architecture
-```
-
+```text
 **AGENT DELEGATIONS:**
 
-```
+```yaml
 DELEGATE TO: Researcher Agent
 TASK: Research modern e-commerce microservices architectures
 INPUTS: Industry standards, case studies, best practices
@@ -270,8 +262,7 @@ EXPECTED OUTPUT: Bottleneck analysis, scaling requirements, performance targets
 PRIORITY: High
 ---
 [... additional delegations ...]
-```
-
+```text
 **INTEGRATION STRATEGY:**
 Combine research findings with analysis to inform strategic decisions. Use strategic direction to guide implementation specifications. Synthesize into cohesive architecture document with sections: Overview, Components, Scaling Strategy, Technology Stack, Implementation Roadmap.
 
@@ -371,8 +362,7 @@ class MultiAgentOrchestrator:
             'agent_results': results,
             'metadata': self._generate_metadata(results)
         }
-```
-
+```text
 ### LangChain Integration
 
 ```python
@@ -404,8 +394,7 @@ orchestrator = MultiAgentOrchestrator(
 )
 
 result = orchestrator.run("Design scalable microservices architecture")
-```
-
+```text
 ## Performance Characteristics
 
 - **Accuracy**: 25-40% improvement on complex multi-faceted problems
@@ -425,7 +414,7 @@ result = orchestrator.run("Design scalable microservices architecture")
 
 ### Hierarchical Multi-Agent
 
-```
+```text
 Orchestrator
 ├── Sub-Orchestrator 1 (Frontend)
 │   ├── UI Designer Agent
@@ -434,8 +423,7 @@ Orchestrator
     ├── API Designer Agent
     ├── Database Agent
     └── Security Agent
-```
-
+```sql
 ### Iterative Multi-Agent
 
 Agents can provide feedback to each other:

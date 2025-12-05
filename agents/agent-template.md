@@ -54,10 +54,9 @@ Focus only on files in:
 
 ### Example Output
 
-```
+```text
 [Provide a concrete example of what the agent should produce]
-```
-
+```text
 ## Process
 
 1. [Step 1 of the agent's workflow]
@@ -74,8 +73,7 @@ Common commands this agent should use:
 
 # [Description of command 2]
 [command2]
-```
-
+```text
 ## Tips for Best Results
 
 - [Tip 1 for using this agent effectively]

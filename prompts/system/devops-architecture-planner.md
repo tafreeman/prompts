@@ -59,9 +59,12 @@ Provide:
 5. Deployment strategies
 6. Automation framework
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[environments]`: Environments
@@ -81,7 +84,10 @@ Provide:
 [environments]: Dev, QA, Staging, Prod (Blue/Green)
 [quality]: 80% code coverage gate, automated security scanning (SAST/DAST), zero critical vulns
 ```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -105,9 +111,12 @@ Provide:
 
 [... continues with observability and security integration ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -60,9 +60,12 @@ Include:
 5. Phased approach
 6. Success metrics
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[constraints]`: Constraints
@@ -84,7 +87,10 @@ Include:
 [constraints]: Zero downtime migration required, strict regulatory compliance (OCC/FDIC), 3-year timeline
 [timeline]: Phase 1 (Read-only) in 6 months, Phase 2 (write-path) in 18 months, Decom in 36 months
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -106,9 +112,12 @@ Include:
 
 [... continues with risk mitigation and success metrics ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

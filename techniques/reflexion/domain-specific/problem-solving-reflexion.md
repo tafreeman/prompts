@@ -72,8 +72,7 @@ This pattern mimics the scientific method or debugging process:
 **Task**: Propose a step-by-step solution.
 
 **Initial Solution**:
-```
-
+```text
 ### Step 2: Verification (The "Rubber Duck" Phase)
 
 ```markdown
@@ -86,16 +85,14 @@ Review your solution. Simulate the execution with the following edge case input:
 
 **Did the solution produce the correct expected output?**
 If NO, explain exactly where the logic failed.
-```
-
+```text
 ### Step 3: Corrected Solution
 
 ```markdown
 Based on the failure identified in the trace, provide a corrected solution.
 
 **Corrected Solution**:
-```
-
+```text
 ## Example
 
 ### Scenario: Debugging a Deadlock

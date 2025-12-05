@@ -55,8 +55,7 @@ We had a 30-minute team standup with 5 developers. Topics included:
 <task>
 Create a 3-bullet summary suitable for sending to stakeholders.
 </task>
-```
-
+```text
 **What happens**: Claude uses the XML tags to understand the separation between context and task. This produces more focused, accurate responses.
 
 ### Try It Now
@@ -89,8 +88,7 @@ Analyze this document and provide:
 <format>
 Use headers for each section. Be concise but thorough.
 </format>
-```
-
+```text
 ### Try It Now
 
 1. Find a document you need to analyze (report, article, meeting notes)
@@ -117,8 +115,7 @@ Compare these documents and identify:
 - Contradictions or conflicts
 - Unique insights from each
 </task>
-```
-
+```text
 ## Step 3: Writing and Summarization (4 minutes)
 
 Claude produces high-quality writing across many formats and tones.
@@ -144,8 +141,7 @@ Write a README section explaining how to install and configure our authenticatio
 <tone>
 Professional but approachable. Use "you" to address the reader.
 </tone>
-```
-
+```text
 ### Try It Now
 
 1. Identify something you need to write (email, documentation, report)
@@ -168,8 +164,7 @@ Draft a professional email (under 150 words) that:
 - Leaves door open for future opportunities
 - Maintains positive relationship
 </task>
-```
-
+```text
 ## Step 4: Code Generation (4 minutes)
 
 Claude generates code with explanations and follows best practices.
@@ -193,8 +188,7 @@ Write a Python function to validate and sanitize user input for a web form.
 - Must handle Unicode characters
 - Include docstrings with examples
 </constraints>
-```
-
+```text
 ### Try It Now
 
 1. Describe the code you need
@@ -220,8 +214,7 @@ Review this code and provide:
 2. Improved version with explanations
 3. Test cases to verify the fix
 </task>
-```
-
+```text
 ## Quick Reference: XML Tag Patterns
 
 | Tag | Purpose | Example Use |
@@ -296,8 +289,7 @@ Add explicit length constraints:
 <constraints>
 Response must be between 100-150 words.
 </constraints>
-```
-
+```text
 Or for structured output:
 
 ```text
@@ -306,8 +298,7 @@ Or for structured output:
 - Details: 5 bullet points maximum
 - Next steps: 3 items
 </format>
-```
-
+```text
 ### Claude Misunderstands the Task
 
 - Add more context about your situation
@@ -328,8 +319,7 @@ Return ONLY a JSON object with no additional text:
   "score": number
 }
 </format>
-```
-
+```json
 ### Need More Help?
 
 - [Troubleshooting Prompts](/troubleshooting/common-prompting-mistakes)

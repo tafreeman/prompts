@@ -147,9 +147,12 @@ Brief explanation of your search strategy and how you arrived at the answer
 5. Be explicit about search refinements
 6. Acknowledge gaps in available documentation
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[USER_QUESTION]`: The research question requiring document search and synthesis
@@ -178,7 +181,10 @@ You are an AI research assistant using the ReAct (Reasoning + Acting) pattern fo
 **Instructions**:
 [As specified above]
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -481,10 +487,14 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 - Fetch Doc_T022 (SSO/SAML Integration Guide) for technical team
 - Review Doc_D004 (Data Migration Planning) if customer has existing data to migrate
 - Fetch Doc_M003 (Success Metrics) to understand how success will be measured post-onboarding
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Strategic search**: Start broad, then narrow based on what you find
@@ -519,8 +529,12 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Fetch full document → See references
 4. Keyword search for specific terms → Get details
 5. Synthesize complete answer
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
+>>>>>>> main
 ### Pattern 2: Keyword-then-Expand
 
 ```text
@@ -530,7 +544,10 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 4. Semantic search for concepts → Fill gaps
 5. Synthesize with cross-references
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Pattern 3: Iterative Refinement
 
 ```text
@@ -540,7 +557,10 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 4. Semantic search with refined query
 5. Repeat until comprehensive coverage
 ```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ## Output Schema (JSON)
 
 For automation and audit trails:
@@ -581,10 +601,14 @@ For automation and audit trails:
   "documents_retrieved": 8,
   "total_cycles": 4
 }
+<<<<<<< HEAD
+```powershell
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Related Prompts
 
 - [RAG: Document Retrieval and Citation](rag-document-retrieval.md) - Standard RAG pattern
@@ -628,7 +652,10 @@ Follow the Thought → Action → Observation → Synthesis cycle:
 3. Analyze the results
 4. Refine your search based on findings
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### LangChain RAG with ReAct
 
 ```python
@@ -668,8 +695,12 @@ agent = initialize_agent(
 result = agent.run(
     "What is our complete onboarding process for enterprise customers?"
 )
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
+>>>>>>> main
 ### Custom ReAct Document Research Pipeline
 
 ```python
@@ -741,7 +772,10 @@ def react_document_research(question, max_cycles=8):
         "total_cycles": len(research_trail)
     }
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ## Error Handling
 
 ### No Relevant Documents Found
@@ -754,7 +788,10 @@ def react_document_research(question, max_cycles=8):
 
 **Action [N]**: Let me try a different search strategy with alternative keywords...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Contradictory Information
 
 ```text
@@ -767,7 +804,10 @@ I need to:
 2. Look for newer policy documents
 3. Note the contradiction in my final answer
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Search Results Too Broad
 
 ```text
@@ -775,4 +815,8 @@ I need to:
 - Add filters (date range, document type, department)
 - Use more specific keywords
 - Narrow the semantic query
+<<<<<<< HEAD
 ```sql
+=======
+```sql
+>>>>>>> main

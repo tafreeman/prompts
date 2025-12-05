@@ -53,14 +53,13 @@
 
 ## 🏆 Grade Distribution
 
-```
+```text
 Grade A (90-100) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0 prompts (0.0%)
 Grade B (75-89)  ██████████████████████████████░░░░░░░░░░ 113 prompts (76.4%)
 Grade C (60-74)  ███████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  27 prompts (18.2%)
 Grade D (40-59)  ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   8 prompts (5.4%)
 Grade F (<40)    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0 prompts (0.0%)
-```
-
+```text
 | Grade | Description | Count | Percentage | Status |
 |:-----:| :--- |------:|:----------:|:------:|
 | 🏅 **A** | Exceptional | 0 | 0.0% | — |
@@ -79,8 +78,7 @@ pie title Quality Tier Distribution
     "Tier 2 (70-84)" : 106
     "Tier 3 (55-69)" : 17
     "Tier 4 (<55)" : 8
-```
-
+```text
 | Tier | Range | Count | % | Assessment |
 |:----:|:-----:|------:|:-:| :--- |
 | 🥇 **Tier 1** | 85-100 | 17 | 11.5% | Exceptional quality, best-in-class |
@@ -98,8 +96,7 @@ xychart-beta
     x-axis [Governance, Business, Creative, Developers, M365, System, Advanced, Analysis]
     y-axis "Average Quality Score" 60 --> 100
     bar [93, 85, 81, 78, 76, 76, 75, 75]
-```
-
+```text
 ### Category Leaderboard
 
 | Rank | Category | Prompts | Avg Quality | Avg Effectiveness | Top Performer |
@@ -154,7 +151,7 @@ This evaluation uses **two complementary scoring systems** to provide a comprehe
 
 ### Combined Grade Calculation
 
-```
+```text
 Combined Score = (Quality × 0.6) + (Effectiveness × 20 × 0.4)
 
 Grade Thresholds:
@@ -163,8 +160,7 @@ Grade Thresholds:
   C  = 60-74   (Acceptable)
   D  = 40-59   (Needs Improvement)
   F  = <40     (Critical)
-```
-
+```text
 ---
 
 ## 🚨 Priority Actions

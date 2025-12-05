@@ -75,8 +75,7 @@ Summarize the following section of a larger document. Focus on the main argument
 {{chunk_text}}
 
 **Summary**:
-```
-
+```text
 ### High-Level Synthesis Prompt
 
 ```markdown
@@ -86,8 +85,7 @@ Combine the following summaries into a coherent high-level overview of the entir
 {{summaries}}
 
 **Overview**:
-```
-
+```text
 ## Example
 
 ### Python Implementation
@@ -110,8 +108,7 @@ final_summary = optimizer.compress_context(
 )
 
 print(f"Final Summary: {final_summary}")
-```
-
+```text
 ### Conceptual Flow
 
 ```mermaid
@@ -130,8 +127,7 @@ graph TD
     S3 & S4 --> M2[Meta Summary B]
     
     M1 & M2 --> Final[Final Overview]
-```
-
+```text
 ## Usage
 
 ### When to Use

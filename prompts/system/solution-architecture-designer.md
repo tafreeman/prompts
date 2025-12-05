@@ -60,9 +60,12 @@ Provide:
 5. Scalability considerations
 6. Security architecture
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[constraints]`: Constraints
@@ -84,7 +87,10 @@ Provide:
 [constraints]: AWS cloud, Java/Spring Boot backend, React frontend, budget cap $50k/month run rate
 [integrations]: Salesforce CRM, SAP ERP, Stripe Payments, SendGrid Email
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -115,9 +121,12 @@ Provide:
 
 [... continues with component specs and integration patterns ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

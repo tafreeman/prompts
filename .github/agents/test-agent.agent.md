@@ -110,8 +110,7 @@ class TestUserService:
             user_service.create_user(name="John", email="invalid")
         
         assert "email" in str(exc_info.value).lower()
-```
-
+```text
 ```typescript
 // TypeScript example with Jest
 describe('UserService', () => {
@@ -148,8 +147,7 @@ describe('UserService', () => {
     });
   });
 });
-```
-
+```text
 ## Test Categories
 
 ### 1. Happy Path Tests
@@ -209,8 +207,7 @@ npm run test:coverage
 
 # C# - Run tests
 dotnet test --collect:"XPlat Code Coverage"
-```
-
+```csharp
 ## Tips for Best Results
 
 - Share the source code file you want tests for

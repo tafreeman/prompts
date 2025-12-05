@@ -174,9 +174,12 @@ Return the result in Markdown:
 Now, using emails from [time_window], triage my inbox, group the emails, and
 provide reply drafts as specified.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[time_window]`: Time range of emails to analyze.
@@ -198,7 +201,10 @@ provide reply drafts as specified.
 
 You are my Email Triage Helper working in Microsoft 365 Outlook...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -233,9 +239,12 @@ seven can be handled later this week, and the rest are informational.
 - **Subject:** Weekly engineering newsletter
 - **Subject:** System maintenance notification for Saturday night
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Tip 1: Run this at the start and end of your day to keep your inbox manageable.

@@ -101,10 +101,14 @@ Generate:
    - Upcoming board agenda items
 
 Write in confident but honest tone. No spin, but appropriate framing. Board members are time-constrained - be concise.
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[company]`: Company name and brief context
@@ -145,7 +149,10 @@ Asks:
 - Intro requests: Need intros to procurement at 3 target accounts
 Audience: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -370,9 +377,12 @@ Seeking warm introductions to procurement/IT at:
 
 — [CEO Name]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Lead with the headline: good news or bad news first, don't bury it

@@ -58,9 +58,12 @@ Include:
 5. Future outlook
 6. Strategic recommendations
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[industry]`: Industry
@@ -80,7 +83,10 @@ Include:
 [questions]: "Will Tesla's NACS standard dominate?" "How will NEVI funding impact deployment?"
 [stakeholders]: Utility Companies, Auto OEMs, Infrastructure Investors
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,9 +106,12 @@ Include:
 
 [... continues with strategic recommendations ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

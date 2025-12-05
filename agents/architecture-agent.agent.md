@@ -47,7 +47,7 @@ What this agent should NOT do:
 
 Keep components focused on single responsibilities:
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │              Presentation Layer              │
 ├─────────────────────────────────────────────┤
@@ -57,8 +57,7 @@ Keep components focused on single responsibilities:
 ├─────────────────────────────────────────────┤
 │            Infrastructure Layer              │
 └─────────────────────────────────────────────┘
-```
-
+```sql
 ### 2. Design for Failure
 
 - Implement circuit breakers
@@ -77,7 +76,7 @@ Keep components focused on single responsibilities:
 
 ### Microservices
 
-```
+```text
 ┌─────────┐     ┌─────────┐     ┌─────────┐
 │ Service │────▶│   API   │◀────│ Service │
 │    A    │     │ Gateway │     │    B    │
@@ -88,11 +87,10 @@ Keep components focused on single responsibilities:
 │   DB    │     │  Cache  │     │   DB    │
 │    A    │     │         │     │    B    │
 └─────────┘     └─────────┘     └─────────┘
-```
-
+```text
 ### Event-Driven
 
-```
+```text
 ┌─────────┐         ┌─────────┐
 │ Service │────────▶│  Event  │
 │Producer │         │   Bus   │
@@ -104,11 +102,10 @@ Keep components focused on single responsibilities:
         │Consumer │ │Consumer │ │Consumer │
         │    A    │ │    B    │ │    C    │
         └─────────┘ └─────────┘ └─────────┘
-```
-
+```text
 ### CQRS (Command Query Responsibility Segregation)
 
-```
+```sql
 ┌─────────────────────────────────────────────┐
 │                   Client                     │
 └───────────────────┬─────────────────────────┘
@@ -125,8 +122,7 @@ Keep components focused on single responsibilities:
 │  Write Store  │──────▶│  Read Store   │
 │   (Primary)   │ Events│ (Optimized)   │
 └───────────────┘       └───────────────┘
-```
-
+```text
 ## Output Format
 
 ### Architecture Decision Record (ADR)
@@ -168,8 +164,7 @@ Proposed | Accepted | Deprecated | Superseded
 - **Pros**: [list]
 - **Cons**: [list]
 - **Why rejected**: [reason]
-```
-
+```text
 ### System Design Document
 
 ```markdown
@@ -218,8 +213,7 @@ Proposed | Accepted | Deprecated | Superseded
 
 ## 8. Deployment Strategy
 [How the system is deployed and updated]
-```
-
+```text
 ## Process
 
 1. Understand business requirements and constraints
@@ -265,8 +259,7 @@ flowchart TB
     OrderSvc --> OrderDB
     OrderSvc --> NotifySvc
     UserSvc --> Cache
-```
-
+```text
 ## Tips for Best Results
 
 - Provide business context and requirements

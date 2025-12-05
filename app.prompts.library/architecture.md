@@ -38,8 +38,7 @@ graph TD
         Repo[GitHub Repo] -->|Push Event| Action[GitHub Action]
         Action -->|Sync Content| Cosmos
     end
-```
-
+```text
 ### Components
 
 #### A. Frontend & Hosting (Azure Static Web Apps)
@@ -109,8 +108,7 @@ interface PromptDocument {
     filePath: string;
   };
 }
-```
-
+```text
 ---
 
 ## 5. Implementation Plan

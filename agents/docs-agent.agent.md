@@ -75,8 +75,7 @@ Brief description (1-2 sentences)
 ## 📖 Documentation
 ## 🤝 Contributing
 ## 📄 License
-```
-
+```text
 ### For API Documentation
 
 ```markdown
@@ -93,8 +92,7 @@ Brief description (1-2 sentences)
 - **Response**: Example response
 - **Errors**: Possible error codes
 ## Examples
-```
-
+```sql
 ## Process
 
 1. Read existing documentation to understand context and style
@@ -115,8 +113,7 @@ npx markdownlint '**/*.md'
 
 # Generate table of contents
 npx markdown-toc README.md
-```
-
+```text
 ## Tips for Best Results
 
 - Provide context about the target audience (developers, end-users, admins)

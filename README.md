@@ -147,8 +147,7 @@ prompts/
 ├── tools/                  # 🔧 Validation & CLI tools
 ├── docs/                   # 📖 Extended documentation
 └── README.md               # This file
-```
-
+```text
 ### Visual Architecture
 
 ```mermaid
@@ -180,8 +179,7 @@ graph TB
     style B fill:#e8f5e9
     style C fill:#fff3e0
     style D fill:#f3e5f5
-```
-
+```text
 ### User Journey: Finding and Using a Prompt
 
 ```mermaid
@@ -203,8 +201,7 @@ journey
       Review output: 4: User
       Adjust prompt if needed: 3: User
       Achieve goal: 5: User
-```
-
+```text
 <details>
 <summary>📊 <strong>Library Statistics</strong></summary>
 
@@ -302,15 +299,13 @@ Brief description of what this prompt does and when to use it.
 ## Example Usage
 
 **Input:**
-```
-
+```text
 Example of the prompt with real values
 
 ```text
 
 **Output:**
-```
-
+```text
 Example of expected output
 
 ```text
@@ -318,8 +313,7 @@ Example of expected output
 ## Tips
 - Tip 1 for better results
 - Tip 2 for customization
-```
-
+```text
 ## 🤝 Contributing
 
 We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:

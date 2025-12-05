@@ -74,8 +74,7 @@ You are an expert C# code reviewer with deep knowledge of:
 **Code to Review**:
 ```csharp
 {{code}}
-```
-
+```sql
 **Context**:
 
 - Project Type: {{project_type}} (e.g., ASP.NET Core Web API, Console App)
@@ -141,10 +140,8 @@ For each issue:
 
 ## Overall Score: X/10
 [Brief justification]
-```
-
-```
-
+```text
+```text
 ## Usage Example
 
 ### Input
@@ -176,8 +173,7 @@ public class UserService
         return null;
     }
 }
-```
-
+```text
 **Context**:
 
 - Project Type: ASP.NET Core Web API
@@ -199,15 +195,13 @@ This UserService contains critical security vulnerabilities (SQL injection, hard
 **Problematic Code**:
 ```csharp
 var cmd = new SqlCommand("SELECT * FROM Users WHERE Id = '" + userId + "'", conn);
-```
-
+```sql
 **Fix**:
 
 ```csharp
 var cmd = new SqlCommand("SELECT * FROM Users WHERE Id = @UserId", conn);
 cmd.Parameters.AddWithValue("@UserId", userId);
-```
-
+```sql
 ### 2. Hardcoded Credentials
 
 **Problem**: Database credentials are hardcoded in source code.
@@ -225,8 +219,7 @@ public class UserService
         _connectionString = configuration.GetConnectionString("UsersDb");
     }
 }
-```
-
+```text
 ## High Priority Issues
 
 ### 3. No Error Handling
@@ -247,8 +240,7 @@ public User GetUser(string userId)
         throw new DataAccessException("Failed to retrieve user", ex);
     }
 }
-```
-
+```sql
 ### 4. Missing Input Validation
 
 **Problem**: No validation of `userId` parameter.
@@ -257,8 +249,7 @@ public User GetUser(string userId)
 ```csharp
 if (string.IsNullOrWhiteSpace(userId))
     throw new ArgumentException("User ID cannot be null or empty", nameof(userId));
-```
-
+```csharp
 ## Medium Priority Issues
 
 ### 5. Not Using Async/Await
@@ -271,8 +262,7 @@ public async Task<User> GetUserAsync(string userId)
 {
     // ... use SqlCommand.ExecuteReaderAsync()
 }
-```
-
+```sql
 ### 6. Manual Object Mapping
 
 **Problem**: Brittle, error-prone mapping from DataReader.
@@ -287,8 +277,7 @@ public async Task<User> GetUserAsync(string userId)
 
 Critical security vulnerabilities and lack of error handling make this unsuitable for production. After applying fixes, would rate 8/10.
 
-```
-
+```text
 ## C# Implementation
 
 ```csharp
@@ -339,8 +328,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
 **Code to Review**:
 ```csharp
 {code}
-```
-
+```sql
 **Context**:
 
 - Project Type: {projectType}
@@ -391,8 +379,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
     }
 }
 
-```
-
+```text
 ## Best Practices
 
 1. **Temperature**: Use low temperature (0.2-0.4) for consistency in code reviews.

@@ -58,9 +58,12 @@ Include:
 5. Review and approval workflows
 6. Continuous improvement
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[deliverables]`: Deliverables
@@ -80,7 +83,10 @@ Include:
 [deliverables]: Test Plan, Defect Report, UAT Sign-off, Security Audit Certificate
 [testing]: Functional, Security (Pen Test), Performance (Load Test), Accessibility Audit
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -102,9 +108,12 @@ Include:
 
 [... continues with metrics and continuous improvement ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

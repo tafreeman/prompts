@@ -167,8 +167,7 @@ These files don't follow the H1 → blank line → ## Description pattern:
 [content]
 - ```
 + ```
-```
-
+```text
 Common language specifiers to use:
 - `text` - Plain text prompts
 - `python` - Python code
@@ -192,8 +191,7 @@ Common language specifiers to use:
 ```markdown
 | Column1 | Column2 | Column3 |
 |:--------|:-------:|--------:|  <!-- left, center, right -->
-```
-
+```text
 **Files needing table alignment updates**: ~80% of prompt files
 
 ---
@@ -219,8 +217,7 @@ These files have large tables (10+ rows) that should use `<details>` tags:
 | ... | ... |
 
 </details>
-```
-
+```text
 ---
 
 ### Category 4: Missing "Related Prompts" Sections
@@ -285,8 +282,7 @@ Files **WITHOUT** Related Prompts: ~8 prompt files
 
 Here's how to use this prompt...
 [mixed content]
-```
-
+```text
 **Recommended**:
 ```markdown
 ## Example Usage
@@ -295,15 +291,13 @@ Here's how to use this prompt...
 
 ```text
 [User provides this]
-```
-
+```text
 **Output:**
 
 ```text
 [AI generates this]
-```
-```
-
+```text
+```sql
 **Files needing Input/Output separation**: ~30 prompts
 
 ---
@@ -341,8 +335,7 @@ Currently only 2 files use badges: `EVALUATION_REPORT.md`, `library-visual-audit
 ![Prompts](https://img.shields.io/badge/Prompts-148-blue)
 ![Categories](https://img.shields.io/badge/Categories-8-green)
 ![Grade](https://img.shields.io/badge/Grade-B-yellow)
-```
-
+```sql
 ---
 
 #### 2. Files That Could Benefit from Mermaid Diagrams
@@ -429,8 +422,7 @@ find prompts -name "*.md" -exec grep -l '\]\([^http][^)]*\.md\)' {} \; | while r
     fi
   done
 done
-```
-
+```text
 ### 2. PowerShell Script: Add Language to Code Blocks
 
 ```powershell
@@ -441,8 +433,7 @@ Get-ChildItem -Path "prompts" -Recurse -Filter "*.md" | ForEach-Object {
     $content = $content -replace '(?m)^```\s*$(?!\s*```)', '```text'
     Set-Content $_.FullName $content
 }
-```
-
+```text
 ### 3. Python Validator: Section Order Check
 
 ```python
@@ -470,8 +461,7 @@ if __name__ == "__main__":
     prompts = Path("prompts").rglob("*.md")
     errors = sum(1 for p in prompts if not check_file(p))
     sys.exit(1 if errors else 0)
-```
-
+```text
 ### 4. Regex Patterns for Bulk Fixes
 
 | Issue | Find Pattern | Replace Pattern |
@@ -502,8 +492,7 @@ jobs:
           fi
       - name: Check required sections
         run: python scripts/validate_sections.py
-```
-
+```text
 ---
 
 ## 📋 Prioritized Action Plan

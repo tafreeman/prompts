@@ -110,10 +110,14 @@ Include:
 - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering build, test, scan, deploy steps.
 - Canary deployment pseudo-code or manifest snippet.
 - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 → SAST report stored in S3).
+<<<<<<< HEAD
+```text
+=======
 ```yaml
 
 ---
 
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -149,7 +153,10 @@ Include:
 [dora_targets]: Daily deploys per service, <1h lead time, MTTR < 15 min, CFR < 10%.
 [constraints]: Only GitHub-hosted runners, Docker allowed, secrets via AWS Secrets Manager only.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -203,9 +210,12 @@ jobs:
 | ISO27001 A.12.5 | Signed containers (Cosign) | Rekor transparency log | DevOps Lead |
 
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Provide runtime budgets per test type so the architect can enforce SLAs and flake policies.

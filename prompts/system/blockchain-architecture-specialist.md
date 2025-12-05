@@ -59,9 +59,12 @@ Include:
 5. Scalability solutions
 6. Governance model
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[blockchain_type]`: Blockchain Type
@@ -81,7 +84,10 @@ Include:
 [consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
 [integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -101,9 +107,12 @@ Include:
 
 [... continues with security and scalability ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
