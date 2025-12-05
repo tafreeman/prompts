@@ -26,9 +26,13 @@ reviewStatus: "draft"
 ---
 # ReAct: Tool-Augmented Reasoning
 
+---
+
 ## Description
 
 ReAct (Reasoning + Acting) is an advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction. The AI explicitly articulates its thought process (Think), takes actions using tools (Act), observes the results (Observe), and reflects on whether the goal is achieved (Reflect). This creates a transparent, auditable loop ideal for complex tasks requiring information retrieval, API calls, or multi-step workflows.
+
+---
 
 ## Research Foundation
 
@@ -40,6 +44,8 @@ The pattern has been further refined through reflection mechanisms:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
+---
+
 ## Use Cases
 
 - Research tasks requiring multiple information sources
@@ -49,6 +55,8 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 - Code execution and debugging workflows
 - Integration testing with external systems
 - Automated customer support with ticketing systems
+
+---
 
 ## Prompt
 
@@ -94,13 +102,17 @@ Continue this cycle until you can provide:
 - Observe actual tool outputs - don't assume
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
-```
+```text
+
+---
 
 ## Variables
 
 - `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
 - `[PROVIDE_BACKGROUND]`: Context, constraints, success criteria
 - `[LIST_TOOLS_WITH_DESCRIPTIONS]`: Available tools with their purposes and parameters
+
+---
 
 ## Example Usage
 
@@ -140,7 +152,7 @@ You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve ta
 
 **Instructions**:
 [As specified above]
-```
+```text
 
 **Output:**
 
@@ -388,7 +400,9 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 
 **Total engineering time**: 50 hours across 2 sprints
 **Critical path**: 38 hours (fits in 40-hour budget for this sprint with 2 hours buffer)
-```
+```text
+
+---
 
 ## Tips
 
@@ -412,12 +426,12 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 | Complex analysis with data | ✓ | Partial | ✗ |
 | Need action audit trail | ✓ | Partial | ✗ |
 
+---
+
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
-- [ReAct: API Integration](react-api-integration.md) - API calling patterns
 - [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
-- [RAG: Citation Framework](rag-citation-framework.md) - Citing retrieved information
 
 ## Output Schema (JSON)
 
@@ -443,7 +457,9 @@ For automation pipelines:
   "total_cycles": 5,
   "success": true
 }
-```
+```text
+
+---
 
 ## Governance Notes
 
@@ -459,7 +475,7 @@ For automation pipelines:
 
 ```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
-```
+```text
 
 ### LangChain Integration
 
@@ -480,7 +496,7 @@ agent = initialize_agent(
 )
 
 result = agent.run("Analyze security vulnerabilities...")
-```
+```text
 
 ### Custom API Implementation
 
@@ -502,4 +518,4 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
     
     return "Max cycles reached without solution"
-```
+```json

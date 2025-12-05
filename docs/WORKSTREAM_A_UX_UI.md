@@ -351,11 +351,11 @@ graph TD
 
 | Task | Status | Files | Notes |
 |:-----|:------:|------:|:------|
-| A1. Fix broken links | ⬜ | 50 | Run link checker first |
-| A2. Code block languages | ⬜ | 40+ | Use bulk script |
-| A3. Table alignment | ⬜ | 89 | Use bulk regex |
-| A4. Standardize headers | ⬜ | 19 | Manual review needed |
-| A5. Horizontal rules | ⬜ | 19 | Add between sections |
+| A1. Fix broken links | ✅ | 50 | All 50 broken links fixed! |
+| A2. Code block languages | ✅ | 139 | Added language specifiers to all code blocks! |
+| A3. Table alignment | ✅ | 6 | Added alignment specifiers |
+| A4. Standardize headers | ✅ | 6 | Changed Purpose → Description |
+| A5. Horizontal rules | ✅ | 147 | Added section dividers |
 | A6. Collapsible tables | ⬜ | 5 | Manual wrap |
 | A7. Input/Output examples | ⬜ | 32 | Template provided |
 | A8. Mermaid diagrams | ⬜ | 3 | Code provided |

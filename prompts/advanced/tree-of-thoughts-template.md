@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
+---
+
 ## Description
 
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
+
+---
 
 ## Research Foundation
 
@@ -35,6 +39,8 @@ This technique is based on the paper:
 **Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T. L., Cao, Y., & Narasimhan, K. (2023).** "Tree of Thoughts: Deliberate Problem Solving with Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2305.10601](https://arxiv.org/abs/2305.10601)
 
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
+
+---
 
 ## Use Cases
 
@@ -45,6 +51,8 @@ Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "ch
 - Research questions with multiple methodologies
 - Risk assessment requiring scenario analysis
 - Optimization problems with multiple local maxima
+
+---
 
 ## Prompt
 
@@ -122,7 +130,9 @@ Compare all viable paths explored:
 - Confidence level (High/Medium/Low)
 - Residual risks and mitigation strategies
 
-```
+```text
+
+---
 
 ## Variables
 
@@ -131,6 +141,8 @@ Compare all viable paths explored:
 - `[WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria for evaluating solutions
 - `[N]`: Decision point number
 - `[X]`: Specific branch identifier (A, B, C, etc.)
+
+---
 
 ## Example Usage
 
@@ -160,7 +172,7 @@ You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 
 **Instructions**:
 [As specified above]
-```
+```text
 
 **Output:**
 
@@ -442,7 +454,9 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Weeks 7-8: Migration and testing
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
-```
+```text
+
+---
 
 ## Tips
 
@@ -509,13 +523,16 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
     "risks": ["...", "..."]
   }
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Tree-of-Thoughts: Decision Guide](tree-of-thoughts-decision-guide.md) - When to use ToT
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative
 - [Reflection: Self-Critique](reflection-self-critique.md) - Validate ToT conclusions
+
+---
 
 ## Governance Notes
 

@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Onboarding Checklist Creator
 
+---
+
 ## Description
 
 Create structured onboarding plans that help new employees ramp up quickly and feel welcomed. Generates day-by-day checklists covering logistics, training, introductions, and early wins.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ Create structured onboarding plans that help new employees ramp up quickly and f
 - Creating role-specific onboarding tracks
 - Remote employee onboarding planning
 - Onboarding contractors or temporary staff
+
+---
 
 ## Prompt
 
@@ -84,7 +90,9 @@ Generate:
    - Manager evaluation criteria
 
 Include specific calendar invites to send and people to meet. Make it actionable, not generic.
-```
+```text
+
+---
 
 ## Variables
 
@@ -94,6 +102,8 @@ Include specific calendar invites to send and people to meet. Make it actionable
 - `[start_date]`: First day of employment
 - `[setup]`: Remote, hybrid, or in-office; location details
 - `[manager]`: Hiring manager name
+
+---
 
 ## Example Usage
 
@@ -106,7 +116,7 @@ Team: Analytics team (8 people), works closely with Product and Customer Success
 Start Date: Monday, December 9, 2024
 Work Setup: Hybrid - Tuesdays and Thursdays in NYC office, rest remote
 Manager: David Chen (Director of Analytics)
-```
+```text
 
 **Output:**
 
@@ -365,7 +375,9 @@ Manager: David Chen (Director of Analytics)
 3. What would you change for the next new hire?
 4. Rate your onboarding experience: 1-5
 5. Additional comments?
-```
+```text
+
+---
 
 ## Tips
 
@@ -374,6 +386,8 @@ Manager: David Chen (Director of Analytics)
 - Include quick wins - first commit, first Slack post, first meeting facilitation
 - Don't over-schedule Week 1 - leave time for self-study and absorption
 - Check in at 30/60/90 days - onboarding doesn't end after Week 1
+
+---
 
 ## Related Prompts
 

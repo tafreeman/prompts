@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Disaster Recovery Architect
 
+---
+
 ## Description
 
 Designs disaster recovery architectures
+
+---
 
 ## Use Cases
 
 - Disaster Recovery for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,9 @@ Provide:
 4. Testing framework
 5. Recovery automation
 6. Communication plan
-```
+```text
+
+---
 
 ## Variables
 
@@ -62,6 +70,8 @@ Provide:
 - `[rpo]`: Rpo
 - `[rto]`: Rto
 - `[systems]`: Systems
+
+---
 
 ## Example Usage
 
@@ -73,7 +83,7 @@ Provide:
 [rpo]: 5 minutes (Maximum data loss)
 [budget]: $50k/year for standby infrastructure
 [compliance]: HIPAA (Encryption required, data sovereignty within US)
-```
+```text
 
 **Output:**
 
@@ -94,7 +104,9 @@ Provide:
 3.  **DNS:** Route53 Health Check automatically updates DNS records to point to DR Load Balancer.
 
 [... continues with testing framework and recovery automation ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -102,6 +114,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

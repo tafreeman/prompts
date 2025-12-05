@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Performance Architecture Optimizer
 
+---
+
 ## Description
 
 Optimizes system performance architecture
+
+---
 
 ## Use Cases
 
 - Performance for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,9 @@ Provide:
 4. Load balancing design
 5. Database optimization
 6. Monitoring framework
-```
+```text
+
+---
 
 ## Variables
 
@@ -62,6 +70,8 @@ Provide:
 - `[load]`: Load
 - `[system_name]`: System Name
 - `[targets]`: Targets
+
+---
 
 ## Example Usage
 
@@ -73,7 +83,7 @@ Provide:
 [targets]: p99 latency < 500ms, 99.99% availability, reduce infrastructure cost by 20%
 [load]: 500k requests/sec peak, 10PB data transfer/month
 [budget]: $200k/month cloud spend limit
-```
+```text
 
 **Output:**
 
@@ -95,7 +105,9 @@ Provide:
 *   **L3 (App):** Request coalescing (singleflight pattern) to prevent thundering herd on cache misses.
 
 [... continues with database optimization and monitoring ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -103,6 +115,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

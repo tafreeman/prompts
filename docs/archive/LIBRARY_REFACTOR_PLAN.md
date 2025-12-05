@@ -67,7 +67,7 @@ This document provides a comprehensive plan to refactor the `tafreeman/prompts` 
 ### Difficulty Distribution
 
 | Difficulty | Count | % | Assessment |
-|------------|-------|---|------------|
+|------------|-------| :--- |------------|
 | Advanced | 56 | 41% | ⚠️ Heavy |
 | Intermediate | 53 | 39% | ✅ Good |
 | Beginner | 22 | 16% | ⚠️ Light |

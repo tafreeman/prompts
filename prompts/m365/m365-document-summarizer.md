@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Document Summarizer
 
+---
+
 ## Description
 
 This prompt helps an individual quickly summarize long documents in Microsoft 365 for specific audiences. It extracts key points, highlights relevant sections, and recommends next steps, tailored to the reader's role or needs.
@@ -93,6 +95,8 @@ Optional (if relevant):
 - `## Critical Risks or Concerns`
   - 2–3 bullets for high-priority risks or issues.
 
+---
+
 ## Use Cases
 
 - Use case 1: An executive receiving a technical design document who needs a 1-page business summary.
@@ -100,6 +104,8 @@ Optional (if relevant):
 - Use case 3: A consultant preparing a client-facing summary of an internal analysis report.
 - Use case 4: A legal reviewer summarizing a contract or policy document for stakeholders.
 - Use case 5: A team lead turning a lengthy post-mortem into actionable lessons for the team.
+
+---
 
 ## Prompt
 
@@ -152,7 +158,9 @@ Return the result in Markdown:
 
 Now, summarize this document for [audience], focusing on [focus_topics], using
 a [tone] tone.
-```
+```text
+
+---
 
 ## Variables
 
@@ -160,6 +168,8 @@ a [tone] tone.
 - `[focus_topics]`: Specific topics to emphasize (e.g., "risks", "costs", "compliance").
 - `[tone]`: Desired tone (e.g., "concise and formal", "conversational").
 - `[length_target]`: Optional target length (e.g., "1 page", "300 words").
+
+---
 
 ## Example Usage
 
@@ -172,7 +182,7 @@ a [tone] tone.
 [length_target]: "1 page"
 
 You are my Document Summarizer working in a Microsoft 365 environment...
-```
+```text
 
 **Output:**
 
@@ -195,7 +205,9 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 ## Critical Risks or Concerns
 - If API issues persist beyond November 22, public GA delay is unavoidable, which may impact Q4 customer acquisition targets.
 - Support team training materials are behind schedule and may not be ready until November 28, creating risk for day-1 support readiness.
-```
+```text
+
+---
 
 ## Tips
 
@@ -203,6 +215,8 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 - Tip 2: Adjust `[tone]` based on your relationship with the audience (e.g., formal for external stakeholders, conversational for internal teams).
 - Tip 3: If the document is very long (50+ pages), ask Copilot to summarize in two passes: first a high-level overview, then a detailed drill-down on specific sections.
 - Tip 4: Share the summary alongside the full document so readers can dive deeper if needed.
+
+---
 
 ## Related Prompts
 
