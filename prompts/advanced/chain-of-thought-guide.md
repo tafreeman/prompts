@@ -53,6 +53,43 @@ Wei et al. demonstrated that prompting large language models to generate interme
 
 ## The CoT Decision Tree
 
+```mermaid
+flowchart TD
+    A[🎯 Start: AI Task] --> B{Simple lookup<br/>or direct task?}
+    B -->|Yes| C[✅ No CoT Needed<br/>Use direct prompt]
+    B -->|No| D{Requires logical<br/>reasoning?}
+    
+    D -->|No| C
+    D -->|Yes| E{High stakes<br/>or novel?}
+    
+    E -->|Yes| F[📋 USE DETAILED CoT<br/>Full justification]
+    E -->|No| G{Need audit<br/>trail?}
+    
+    G -->|Yes| H[📝 USE CONCISE CoT<br/>Step-by-step visible]
+    G -->|No| I{Multiple<br/>approaches?}
+    
+    I -->|Yes| J[🌳 USE TREE-OF-THOUGHTS<br/>Explore branches]
+    I -->|No| H
+    
+    style C fill:#c8e6c9
+    style F fill:#81c784
+    style H fill:#aed581
+    style J fill:#9575cd,color:#fff
+    style A fill:#e3f2fd
+```
+
+**Decision Criteria:**
+- **Simple Task**: Direct lookup, formatting, translation → No CoT
+- **High Stakes**: >$10K impact, compliance, novel domain → Detailed CoT
+- **Audit Trail**: Debugging, learning, transparency → Concise CoT  
+- **Multiple Paths**: Architecture, strategy, exploration → Tree-of-Thoughts
+
+---
+
+## Text-Based Decision Tree
+
+For reference, here's the same logic in text format:
+
 ```text
 START: Do you have a task that needs AI reasoning?
 │
@@ -74,6 +111,8 @@ START: Do you have a task that needs AI reasoning?
 │       └─→ Need to explore multiple approaches?
 │           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
 ```text
+
+---
 
 ## When to Use Each Mode
 

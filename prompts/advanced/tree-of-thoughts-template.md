@@ -42,6 +42,48 @@ Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "ch
 
 ---
 
+## Tree-of-Thoughts Visualization
+
+ToT explores multiple solution paths and evaluates each branch:
+
+```mermaid
+graph TD
+    A[🎯 Problem] --> B1[💡 Approach 1]
+    A --> B2[💡 Approach 2]
+    A --> B3[💡 Approach 3]
+    
+    B1 --> C1[📊 Evaluate: 7/10]
+    B2 --> C2[📊 Evaluate: 9/10]
+    B3 --> C3[📊 Evaluate: 5/10]
+    
+    C2 --> D1[🔍 Explore Further]
+    D1 --> E1[💡 Sub-option 2a]
+    D1 --> E2[💡 Sub-option 2b]
+    
+    E1 --> F1[📊 Evaluate: 8/10]
+    E2 --> F2[📊 Evaluate: 10/10]
+    
+    F2 --> G[✅ Selected Solution]
+    
+    C3 -.->|Backtrack| A
+    
+    style A fill:#e3f2fd
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style F2 fill:#81c784
+    style G fill:#4caf50,color:#fff
+    style C3 fill:#ffcdd2
+```
+
+**Key Concepts:**
+- 💡 **Branch Generation**: Create multiple solution approaches
+- 📊 **Evaluation**: Score each branch on feasibility, cost, risk
+- 🔍 **Expansion**: Explore promising branches deeper
+- ⬅️ **Backtracking**: Abandon low-scoring paths
+- ✅ **Selection**: Choose highest-rated solution
+
+---
+
 ## Use Cases
 
 - Architecture decisions with multiple valid approaches

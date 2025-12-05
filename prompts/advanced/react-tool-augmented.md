@@ -46,6 +46,36 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 
 ---
 
+## ReAct Cycle Visualization
+
+The ReAct pattern follows a continuous loop of reasoning and acting:
+
+```mermaid
+flowchart LR
+    A[🎯 Task/Question] --> B[💭 Thought]
+    B --> C[⚡ Action]
+    C --> D[👁️ Observation]
+    D --> E{📊 Goal<br/>Achieved?}
+    E -->|No| B
+    E -->|Yes| F[✅ Final Answer]
+    
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#ffebee
+    style F fill:#c8e6c9
+```
+
+**Legend:**
+- 💭 **Thought**: Explicit reasoning about what to do next
+- ⚡ **Action**: Call to external tool/API with parameters
+- 👁️ **Observation**: System returns actual tool output
+- 📊 **Reflection**: Assess progress toward goal
+- ✅ **Answer**: Complete response when sufficient information gathered
+
+---
+
 ## Use Cases
 
 - Research tasks requiring multiple information sources
