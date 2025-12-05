@@ -124,11 +124,11 @@ Challenges:
 ### RACI Matrix (Communication Ownership)
 
 | Activity | CFO | VP SC | IT Dir | Fin Mgr | Staff | Partner |
-| :--- |-----| :--- |--------| :--- |-------| :--- |
-| Exec Status Report | **A** | I | I | I | :--- | - |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Exec Status Report | **A** | I | I | I | - | - |
 | Blueprint Approval | **A** | **R** | **C** | **C** | I | **C** |
-| Change Management | **A** | **R** | **C** | I | **C** | :--- |
-| Technical Design | I | **C** | **A/R** | I | :--- | **C** |
+| Change Management | **A** | **R** | **C** | I | **C** | - |
+| Technical Design | I | **C** | **A/R** | I | - | **C** |
 | Go-Live Decision | **A** | **R** | **C** | I | I | I |
 
 *R=Responsible, A=Accountable, C=Consulted, I=Informed*

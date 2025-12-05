@@ -480,5 +480,10 @@ Section 11.3 Governing Law:
     "contract_id": "..."
   }
 }
-```text
-## Related Prompts - Regulatory compliance verification - General risk evaluation - Security review of vendors
+```
+
+## Related Prompts
+
+- [Legal: Compliance Check](legal-compliance-check.md) - Regulatory compliance verification
+- [Compliance: Risk Assessment](compliance-risk-assessment.md) - General risk evaluation
+- [Security: Vendor Assessment](security-vendor-assessment.md) - Security review of vendors
