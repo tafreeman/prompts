@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Board Update Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create polished board updates and investor communications that clearly convey company performance, strategic progress, and key decisions needed. Balances transparency with appropriate framing.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -43,7 +49,10 @@ Create polished board updates and investor communications that clearly convey co
 - Year-end shareholder letters
 - Strategic update memos to stakeholders
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -118,7 +127,10 @@ Write in confident but honest tone. No spin, but appropriate framing. Board memb
 - `[asks]`: Decisions or input needed from the board
 - `[audience]`: Board composition and any specific context
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -149,6 +161,10 @@ Asks:
 - Intro requests: Need intros to procurement at 3 target accounts
 Audience: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -384,7 +400,10 @@ Seeking warm introductions to procurement/IT at:
 - Include context for metrics - numbers without narrative are confusing
 - Keep it under 3 pages for monthly updates; save details for appendices
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

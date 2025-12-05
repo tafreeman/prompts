@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Market Entry Strategist
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Develops market entry strategies
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Develops market entry strategies
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -73,7 +82,10 @@ Provide:
 - `[offering]`: Offering
 - `[resources]`: Resources
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -87,6 +99,10 @@ Provide:
 [competition]: Personio (Local incumbent), SAP SuccessFactors (Enterprise), Workday
 [resources]: $2M Budget, 1 Local Sales Rep, No local office yet
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -116,7 +132,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

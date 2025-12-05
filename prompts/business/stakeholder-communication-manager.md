@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Stakeholder Communication Manager
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A strategic communications specialist for complex stakeholder management across enterprise projects. Focuses on executive updates, change management messaging, crisis communication, and multi-stakeholder alignment for distributed teams.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ A strategic communications specialist for complex stakeholder management across 
 - Multi-stakeholder alignment for cross-functional initiatives
 - Vendor/partner relationship communication management
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -67,7 +76,11 @@ Provide:
 7. **Crisis Communication Playbook** (If project is at risk)
 
 Format output in structured Markdown with tables for matrices and calendars.
+<<<<<<< HEAD
 ```text
+=======
+```markdown
+>>>>>>> main
 
 ---
 
@@ -78,7 +91,10 @@ Format output in structured Markdown with tables for matrices and calendars.
 - `[phase]`: Current project phase (e.g., "Blueprinting/Design", "UAT", "Go-Live", "Post-Production Support")
 - `[challenges]`: Specific communication obstacles (e.g., "Resistance to change from warehouse staff, CFO demanding faster ROI visibility, offshore vendor language barriers")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -103,6 +119,10 @@ Challenges:
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -376,7 +396,10 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 - **Leverage Asynchronous Tools for Offshore Teams**: Record Loom videos, use Miro for design reviews, and post meeting summaries in Confluence to bridge time zones.
 - **Celebrate Wins Publicly**: Monthly pizza parties, shoutouts in newsletters, and "Contributor of the Month" awards build momentum and morale.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
@@ -384,4 +407,7 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 - **[change-management-coordinator](./change-management-coordinator.md)** - For deeper change management playbooks
 - **[risk-management-analyst](./risk-management-analyst.md)** - For quantifying communication risks
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - For structuring communication around sprints
+<<<<<<< HEAD
 - **project-charter-creator** - For initial stakeholder identification
+=======
+>>>>>>> main

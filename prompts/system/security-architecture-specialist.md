@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Security Architecture Specialist
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs secure system architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs secure system architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -72,7 +81,10 @@ Include:
 - `[system_name]`: System Name
 - `[threats]`: Threats
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,7 +96,12 @@ Include:
 [security_req]: End-to-end encryption, zero trust architecture, MFA for all admin access, real-time fraud detection
 [compliance]: PCI-DSS Level 1, GDPR, SOC2 Type II, PSD2 (Open Banking)
 [threats]: Advanced Persistent Threats (APTs), DDoS attacks, Insider threats, Supply chain attacks, SQL injection
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -122,7 +139,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

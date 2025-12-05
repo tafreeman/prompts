@@ -28,14 +28,20 @@ effectivenessScore: 4.3
 ---
 # Headline and Tagline Creator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create compelling headlines and memorable taglines that capture attention and communicate value instantly. This prompt helps marketers, copywriters, and content creators develop powerful messaging for advertising, landing pages, product launches, and brand campaigns.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -47,7 +53,10 @@ Create compelling headlines and memorable taglines that capture attention and co
 - Blog post and article headlines that drive clicks
 - Product launch messaging and campaign themes
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -106,7 +115,10 @@ Please provide:
 | `[WHAT FEELING SHOULD THIS EVOKE?]` | Emotional response you want |
 | `[IF ANY]` | Character limits if applicable |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -145,6 +157,10 @@ Please provide:
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -284,7 +300,10 @@ Please provide:
 - **Keep it speakable:** Great headlines sound natural when read aloud—avoid awkward phrasing that trips up the tongue
 - **Consider the context:** A LinkedIn headline needs to feel different from a TikTok caption—platform voice matters
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

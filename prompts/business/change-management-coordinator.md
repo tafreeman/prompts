@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Change Management Coordinator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Manages project changes effectively
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Manages project changes effectively
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Provide:
 - `[impact]`: Impact assessment (e.g., "2-week data migration window, 40 hours training required, $200K budget impact")
 - `[concerns]`: Stakeholder concerns (e.g., "Sales team worried about data loss during Q4, IT concerned about integration with legacy inventory system")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -98,6 +110,10 @@ Provide:
 5. Risk mitigation
 6. Success measurement
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -292,12 +308,18 @@ Provide:
 - **Budget 15% contingency**: Migrations always have unforeseen costs (API limits, additional licenses, custom development)
 - **Celebrate wins**: Recognize early adopters and power users to build positive momentum
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - Plan migration work in 2-week sprints
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - Craft executive updates and user notifications
+<<<<<<< HEAD
 - **risk-assessment-analyst** - Quantify migration risks with probability models
 - **data-migration-architect** - Technical ETL strategy for CRM data migration
+=======
+>>>>>>> main

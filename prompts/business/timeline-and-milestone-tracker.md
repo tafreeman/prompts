@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Timeline and Milestone Tracker
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Tracks project progress and milestones
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Tracks project progress and milestones
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Provide:
 - `[phase]`: Phase
 - `[project_name]`: Project Name
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Provide:
 [milestones]: Code Freeze (Done 11/15), Beta Release (Due 11/22), App Store Submission (Due 11/30)
 [concerns]: 3 Critical bugs still open, QA lead out sick, Apple review times unpredictable
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -117,7 +133,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

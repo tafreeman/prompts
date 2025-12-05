@@ -28,14 +28,20 @@ reviewStatus: "approved"
 ---
 # Cloud Migration Specialist
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -46,7 +52,10 @@ Enterprise cloud migration architect specializing in lift-and-shift, re-platform
 - Disaster recovery and business continuity planning
 - Multi-cloud and hybrid cloud architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -82,7 +91,10 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 | `[target_cloud]` | Target cloud provider and services | "Azure App Services, SQL Managed Instance, App Gateway" |
 | `[requirements]` | Business drivers and constraints | "30% cost reduction, 99.9% SLA, 9-month timeline" |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -117,6 +129,10 @@ Business Requirements:
 - Zero data loss during cutover window
 - Maintain or improve current performance (800ms avg response → \u003c 600ms)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -156,6 +172,10 @@ Business Requirements:
 ### Conceptual Architecture
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ┌─────────────────────────────────────────────────────────────┐
 │                   Azure Front Door (Global)                  │
 │              CDN + WAF + DDoS Protection                      │
@@ -180,6 +200,10 @@ Business Requirements:
       └──────────────────────────────────────────────────┘
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Detailed Component Specifications
 
 | Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
@@ -329,6 +353,10 @@ Business Requirements:
 ### Network Segmentation
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Service (Private Endpoint)
                                                                       ↓
                                                           Azure SQL MI (Private Endpoint)
@@ -336,6 +364,10 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
                                                           VNet Service Endpoints → Azure Storage
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Security Hardening**:
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
 - ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
@@ -443,7 +475,10 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - **Automate Rollback**: DNS-based rollback is fastest (5-min TTL). Never rely on manual steps during 2am cutover windows.
 - **Monitor Cloud Costs Weekly**: Azure spending can spike unexpectedly (e.g., forgotten dev VMs). Set up budget alerts in Azure Cost Management.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

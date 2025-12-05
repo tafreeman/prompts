@@ -25,12 +25,20 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
+<<<<<<< HEAD
 
 ---
 
 ## 📋 Description
+=======
+---
+
+## Description
+>>>>>>> main
 
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
+
+---
 
 ## Research Foundation
 
@@ -39,6 +47,7 @@ This technique is based on the paper:
 
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
 
+<<<<<<< HEAD
 ## Tree-of-Thoughts Structure
 
 The following diagram illustrates how ToT explores multiple solution branches:
@@ -75,6 +84,53 @@ graph TD
 ---
 
 ## 🎯 Use Cases
+=======
+---
+
+## Tree-of-Thoughts Visualization
+
+ToT explores multiple solution paths and evaluates each branch:
+
+```mermaid
+graph TD
+    A[🎯 Problem] --> B1[💡 Approach 1]
+    A --> B2[💡 Approach 2]
+    A --> B3[💡 Approach 3]
+    
+    B1 --> C1[📊 Evaluate: 7/10]
+    B2 --> C2[📊 Evaluate: 9/10]
+    B3 --> C3[📊 Evaluate: 5/10]
+    
+    C2 --> D1[🔍 Explore Further]
+    D1 --> E1[💡 Sub-option 2a]
+    D1 --> E2[💡 Sub-option 2b]
+    
+    E1 --> F1[📊 Evaluate: 8/10]
+    E2 --> F2[📊 Evaluate: 10/10]
+    
+    F2 --> G[✅ Selected Solution]
+    
+    C3 -.->|Backtrack| A
+    
+    style A fill:#e3f2fd
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style F2 fill:#81c784
+    style G fill:#4caf50,color:#fff
+    style C3 fill:#ffcdd2
+```
+
+**Key Concepts:**
+- 💡 **Branch Generation**: Create multiple solution approaches
+- 📊 **Evaluation**: Score each branch on feasibility, cost, risk
+- 🔍 **Expansion**: Explore promising branches deeper
+- ⬅️ **Backtracking**: Abandon low-scoring paths
+- ✅ **Selection**: Choose highest-rated solution
+
+---
+
+## Use Cases
+>>>>>>> main
 
 - Architecture decisions with multiple valid approaches
 - Strategic planning requiring trade-off analysis
@@ -84,10 +140,16 @@ graph TD
 - Risk assessment requiring scenario analysis
 - Optimization problems with multiple local maxima
 
+<<<<<<< HEAD
 
 ---
 
 ## 💬 Prompt
+=======
+---
+
+## Prompt
+>>>>>>> main
 
 ```text
 You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
@@ -164,6 +226,11 @@ Compare all viable paths explored:
 - Residual risks and mitigation strategies
 
 ```text
+<<<<<<< HEAD
+=======
+
+---
+>>>>>>> main
 
 ---
 
@@ -175,10 +242,16 @@ Compare all viable paths explored:
 - `[N]`: Decision point number
 - `[X]`: Specific branch identifier (A, B, C, etc.)
 
+<<<<<<< HEAD
 
 ---
 
 ## 📝 Example Usage
+=======
+---
+
+## Example Usage
+>>>>>>> main
 
 **Input:**
 
@@ -207,6 +280,10 @@ You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 **Instructions**:
 [As specified above]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -488,6 +565,11 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
 ```text
+<<<<<<< HEAD
+=======
+
+---
+>>>>>>> main
 
 ---
 
@@ -557,9 +639,19 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
   }
 }
 ```text
+<<<<<<< HEAD
 ## 🔗 Related Prompts - When to use ToT
+=======
+
+---
+
+## Related Prompts
+
+>>>>>>> main
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative
 - [Reflection: Self-Critique](reflection-self-critique.md) - Validate ToT conclusions
+
+---
 
 ## Governance Notes
 

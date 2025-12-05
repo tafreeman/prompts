@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # DevOps Architecture Planner
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs DevOps and CI/CD architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs DevOps and CI/CD architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -72,7 +81,10 @@ Provide:
 - `[stack]`: Stack
 - `[team]`: Team
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,7 +96,12 @@ Provide:
 [stack]: Java/Spring Boot microservices, Angular frontend, Kubernetes (EKS), PostgreSQL
 [environments]: Dev, QA, Staging, Prod (Blue/Green)
 [quality]: 80% code coverage gate, automated security scanning (SAST/DAST), zero critical vulns
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -118,7 +135,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

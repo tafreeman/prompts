@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Quality Assurance Planner
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Develops QA strategies and plans
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Develops QA strategies and plans
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Include:
 - `[standards]`: Standards
 - `[testing]`: Testing
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Include:
 [deliverables]: Test Plan, Defect Report, UAT Sign-off, Security Audit Certificate
 [testing]: Functional, Security (Pen Test), Performance (Load Test), Accessibility Audit
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -115,7 +131,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

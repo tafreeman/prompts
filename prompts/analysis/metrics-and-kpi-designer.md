@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Metrics and KPI Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs business metrics and KPIs
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Designs business metrics and KPIs
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Include:
 - `[objective]`: Objective
 - `[stakeholders]`: Stakeholders
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Include:
 [data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
 [frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -113,7 +129,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

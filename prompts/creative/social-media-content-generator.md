@@ -28,14 +28,20 @@ effectivenessScore: 4.2
 ---
 # Social Media Content Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Generate platform-specific, engaging social media content that resonates with your target audience. This prompt helps content creators, marketers, and business professionals craft posts optimized for each platform's unique format, tone, and audience expectations.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -46,7 +52,10 @@ Generate platform-specific, engaging social media content that resonates with yo
 - Craft Facebook posts for community building and brand awareness
 - Generate platform-specific variations of a single message
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -102,7 +111,10 @@ Also provide:
 | `[MAIN POINT YOU WANT TO COMMUNICATE]` | The core message of your post |
 | `[WHAT DO YOU WANT READERS TO DO?]` | The action you want readers to take |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -144,6 +156,10 @@ Also provide:
 - Engagement prediction (low/medium/high)
 - Alternative hook option
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -206,7 +222,10 @@ Drop your story in the comments 👇
 - **Engagement timing matters:** Ask for specific feedback ("What's your experience with X?") rather than generic engagement ("Thoughts?")
 - **Repurpose strategically:** One piece of content can become multiple platform-specific posts with different angles
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

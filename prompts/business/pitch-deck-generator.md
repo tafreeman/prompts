@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Pitch Deck Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create structured, persuasive pitch deck content for investor meetings, sales presentations, and business proposals. Generates slide-by-slide content with key messaging, data points, and visual recommendations.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ Create structured, persuasive pitch deck content for investor meetings, sales pr
 - Product launch presentations to stakeholders
 - Partnership proposal decks
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -102,7 +111,10 @@ Format output as a structured deck outline with clear slide separators.
 - `[data_points]`: Key metrics, traction data, market research to include
 - `[ask]`: What you're asking for (e.g., "$5M Series A at $25M pre-money", "Annual contract at $500K ARR")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -121,6 +133,10 @@ Supporting Data:
 - Average contract value: $48K/year
 Ask: $8M Series A at $40M pre-money valuation
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -325,7 +341,10 @@ Ask: $8M Series A at $40M pre-money valuation
 - Practice the 10-minute version - most investor meetings run short on time
 - Have backup slides ready for deep-dive questions on financials, competition, and tech
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

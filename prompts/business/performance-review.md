@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Performance Review Writer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create balanced, actionable performance reviews that recognize achievements, address growth areas, and set clear development goals. Generates review content that is fair, specific, and focused on behaviors and outcomes.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ Create balanced, actionable performance reviews that recognize achievements, add
 - Documenting performance improvement plans
 - Preparing calibration materials for managers
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -107,7 +116,10 @@ Write in professional but warm tone. Be specific with examples. Avoid vague stat
 - `[previous_goals]`: Goals set in the last review cycle
 - `[rating]`: Overall rating (e.g., "Exceeds Expectations", "Meets Expectations", "Needs Improvement")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -134,6 +146,10 @@ Previous Goals:
 4. Improve documentation practices
 Overall Rating: Exceeds Expectations
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -284,7 +300,10 @@ I'm excited to see you continue to grow. You're on track for significant leaders
 - Make goals measurable - "improve communication" is not a goal
 - Separate performance (what they did) from potential (what they could do)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

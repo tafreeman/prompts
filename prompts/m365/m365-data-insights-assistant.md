@@ -26,7 +26,10 @@ reviewStatus: "draft"
 ---
 # M365 Data Insights Assistant
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -93,7 +96,10 @@ Return the output in Markdown with these sections:
 - `## Recommended Visualizations`
   - 2–3 chart suggestions with explanations (e.g., "Line chart to show revenue growth over time").
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -104,7 +110,10 @@ Return the output in Markdown with these sections:
 - Use case 4: A marketing lead analyzing campaign performance across channels.
 - Use case 5: An operations lead investigating process efficiency data to identify improvement opportunities.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -168,7 +177,10 @@ if specified.
 - `[time_window]`: Optional time range if the data is time-based.
 - `[focus_areas]`: Optional specific topics to investigate.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -182,6 +194,10 @@ if specified.
 
 You are my Data Insights Assistant working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -214,7 +230,10 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - Tip 3: After getting the initial insights, ask Copilot to "create a pivot table showing X by Y" or "draft a formula to calculate Z."
 - Tip 4: Pair this with `m365-presentation-outline-generator.md` to turn data insights into slides quickly.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

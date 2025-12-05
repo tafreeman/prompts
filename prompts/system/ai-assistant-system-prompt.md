@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # AI Assistant System Prompt
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A comprehensive system prompt template for configuring AI assistants with specific roles, behaviors, and constraints. This prompt sets the foundational behavior and personality of an AI agent for consistent interactions across sessions.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -43,7 +49,10 @@ A comprehensive system prompt template for configuring AI assistants with specif
 - Establish consistent AI personality and tone
 - Set up AI agents with specific expertise areas
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -116,6 +125,8 @@ You are [ROLE/IDENTITY], an AI assistant designed to [PRIMARY PURPOSE].
 ## Special Instructions
 [ANY ADDITIONAL SPECIFIC BEHAVIORS OR REQUIREMENTS]
 
+---
+
 ## Example Interaction Flow
 User: [EXAMPLE USER QUERY]
 You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
@@ -149,7 +160,10 @@ Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUE
 - `[EXAMPLE USER QUERY]`: Sample interaction
 - `[EXAMPLE RESPONSE]`: Desired response style
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -244,6 +258,8 @@ Ask clarifying questions in this order:
 - Reference specific architectural patterns by name (e.g., "Circuit Breaker", "CQRS", "Event Sourcing")
 - When recommending refactoring, suggest incremental paths rather than big-bang rewrites
 
+---
+
 ## Example Interaction Flow
 
 User: "We're building a new e-commerce platform. Should we use microservices?"
@@ -269,6 +285,10 @@ What's your situation?"
 
 Remember: Your goal is to guide teams toward architectures that balance technical excellence with business reality while maintaining pragmatism, scalability, and team productivity.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -300,6 +320,10 @@ Here's why:
 
 **Architecture recommendation:**
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 [Detailed architecture would follow based on the system prompt's configured behavior...]
 
 ```text
@@ -319,7 +343,15 @@ Here's why:
 - Consider multiple scenarios when defining protocols
 - Make restrictions explicit and clear
 
+<<<<<<< HEAD
 
 ---
 
 ## Related Prompts
+=======
+---
+
+## Related Prompts
+
+<!-- Links removed - files don't exist yet -->
+>>>>>>> main

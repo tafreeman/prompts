@@ -26,12 +26,20 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Decision Guide
 
+<<<<<<< HEAD
 
 ---
 
 ## 📋 Description
+=======
+---
+
+## Description
+>>>>>>> main
 
 A practical decision framework for choosing when and how to use Chain-of-Thought (CoT) prompting. This guide helps you select the right CoT mode (none, concise, or detailed) based on your situation, and provides best practices for maximizing reasoning quality while managing token costs.
+
+---
 
 ## Research Foundation
 
@@ -40,10 +48,16 @@ This technique is based on the paper:
 
 Wei et al. demonstrated that prompting large language models to generate intermediate reasoning steps (a "chain of thought") significantly improves performance on complex reasoning tasks including arithmetic, commonsense, and symbolic reasoning. The paper showed accuracy improvements from 17.7% to 58.1% on GSM8K math problems when using Chain-of-Thought prompting.
 
+<<<<<<< HEAD
 
 ---
 
 ## 🎯 Use Cases
+=======
+---
+
+## Use Cases
+>>>>>>> main
 
 - Deciding whether to use CoT for a specific task
 - Choosing between concise and detailed CoT modes
@@ -52,6 +66,43 @@ Wei et al. demonstrated that prompting large language models to generate interme
 - Optimizing prompt engineering for production systems
 
 ## The CoT Decision Tree
+
+```mermaid
+flowchart TD
+    A[🎯 Start: AI Task] --> B{Simple lookup<br/>or direct task?}
+    B -->|Yes| C[✅ No CoT Needed<br/>Use direct prompt]
+    B -->|No| D{Requires logical<br/>reasoning?}
+    
+    D -->|No| C
+    D -->|Yes| E{High stakes<br/>or novel?}
+    
+    E -->|Yes| F[📋 USE DETAILED CoT<br/>Full justification]
+    E -->|No| G{Need audit<br/>trail?}
+    
+    G -->|Yes| H[📝 USE CONCISE CoT<br/>Step-by-step visible]
+    G -->|No| I{Multiple<br/>approaches?}
+    
+    I -->|Yes| J[🌳 USE TREE-OF-THOUGHTS<br/>Explore branches]
+    I -->|No| H
+    
+    style C fill:#c8e6c9
+    style F fill:#81c784
+    style H fill:#aed581
+    style J fill:#9575cd,color:#fff
+    style A fill:#e3f2fd
+```
+
+**Decision Criteria:**
+- **Simple Task**: Direct lookup, formatting, translation → No CoT
+- **High Stakes**: >$10K impact, compliance, novel domain → Detailed CoT
+- **Audit Trail**: Debugging, learning, transparency → Concise CoT  
+- **Multiple Paths**: Architecture, strategy, exploration → Tree-of-Thoughts
+
+---
+
+## Text-Based Decision Tree
+
+For reference, here's the same logic in text format:
 
 ```text
 START: Do you have a task that needs AI reasoning?
@@ -74,6 +125,12 @@ START: Do you have a task that needs AI reasoning?
 │       └─→ Need to explore multiple approaches?
 │           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## When to Use Each Mode
 
 ### No CoT (Direct Prompting)
@@ -136,6 +193,8 @@ START: Do you have a task that needs AI reasoning?
 **Accuracy gain:** ~30-50% on complex problems
 **Time to completion:** +100-200%
 
+---
+
 ## Comparative Examples
 
 ### 📝 Example 1: API Error
@@ -147,6 +206,10 @@ START: Do you have a task that needs AI reasoning?
 ```text
 Fix: Check authentication tokens are being passed correctly.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~15*
 *Accuracy: May miss root cause*
 
@@ -160,6 +223,10 @@ Step 4: Also verify clock sync between client and server (JWT timestamps).
 
 Fix: Implement token refresh 5 minutes before expiration. Verify NTP sync.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~70*
 *Accuracy: Good - covers main scenarios*
 
@@ -169,6 +236,10 @@ Fix: Implement token refresh 5 minutes before expiration. Verify NTP sync.
 [10+ steps analyzing authentication flow, token types, edge cases, 
 alternative hypotheses, considering rate limiting, caching, etc.]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~300*
 *Accuracy: Excellent - comprehensive analysis*
 
@@ -183,6 +254,10 @@ alternative hypotheses, considering rate limiting, caching, etc.]
 ```text
 Use microservices - they're more scalable and modern.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~15*
 *Accuracy: Poor - no context consideration*
 
@@ -196,6 +271,10 @@ Step 4: Time to market? Monolith faster for MVP.
 
 Recommendation: Start with modular monolith, extract services later if needed.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~80*
 *Accuracy: Good for common cases*
 
@@ -206,6 +285,10 @@ Recommendation: Start with modular monolith, extract services later if needed.
 monitoring requirements, database strategy, service boundaries, operational
 overhead, cost analysis, gradual migration path, etc.]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 *Token count: ~500*
 *Accuracy: Excellent - considers all factors*
 
@@ -222,6 +305,10 @@ Try: Concise CoT
 ↓ (if still uncertain)
 Try: Detailed CoT or Tree-of-Thoughts
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### 2. Match CoT Mode to Audience
 
 - **For yourself:** Concise often sufficient
@@ -242,6 +329,10 @@ def should_use_cot(task_type, stakes, complexity):
     else:
         return "none"
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### 4. Optimize Token Usage
 
 - For batch processing: Use concise CoT only for failures/edge cases
@@ -261,6 +352,10 @@ results = {
 # Choose based on accuracy vs. cost trade-off
 optimal_mode = optimize(results, cost_constraint=budget)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## Common Mistakes to Avoid
 
 ### ❌ Using CoT for Simple Tasks
@@ -269,24 +364,40 @@ optimal_mode = optimize(results, cost_constraint=budget)
 Bad: "Using detailed CoT to convert Celsius to Fahrenheit"
 Waste: 300 tokens for a simple formula
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### ❌ Not Using CoT for Complex Tasks
 
 ```text
 Bad: "Direct prompt for system architecture decision"
 Risk: Missing critical considerations, expensive mistakes
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### ❌ Asking for CoT but Not Providing Enough Context
 
 ```text
 Bad: "Debug my code (step-by-step)" with no code or error shown
 Result: Generic, unhelpful steps
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### ❌ Using Detailed CoT Under Time Pressure
 
 ```text
 Bad: "Production is down, need detailed analysis of all possibilities"
 Problem: Too slow, need concise CoT for quick fix first
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## Integration Patterns
 
 ### Pattern 1: Tiered Reasoning
@@ -303,6 +414,10 @@ if quick_answer.confidence < 0.7:
     if better_answer.confidence < 0.8:
         best_answer = llm.generate(prompt, mode="detailed_cot")
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Pattern 2: Human-in-the-Loop
 
 ```python
@@ -317,6 +432,10 @@ else:
     reasoning = llm.generate(prompt, mode="detailed_cot", 
                             feedback=user.feedback)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Pattern 3: Caching CoT Patterns
 
 ```python
@@ -330,7 +449,12 @@ else:
     # Generate with detailed CoT, cache pattern
     answer = llm.generate(new_task, mode="detailed_cot")
     cache.set(f"cot_{task_category}", extract_pattern(answer))
+<<<<<<< HEAD
 ```text
+=======
+```json
+
+>>>>>>> main
 ## Cost-Benefit Analysis
 
 ### Token Cost Estimates
@@ -360,6 +484,10 @@ Cost = 100 × $0.00003 = $0.003
 
 ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## Quick Reference
 
 | Situation | Recommended Mode | Why |
@@ -375,6 +503,7 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 | Teaching | Detailed CoT | Explanation aids learning |
 | Batch processing | None or Concise | Token costs add up |
 
+<<<<<<< HEAD
 
 ---
 
@@ -382,7 +511,17 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - Quick step-by-step reasoning
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - Comprehensive analysis - When to explore multiple paths
+=======
+---
+
+## Related Prompts
+
+- [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - Quick step-by-step reasoning
+- [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - Comprehensive analysis
+>>>>>>> main
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks with external tools
+
+---
 
 ## Governance Notes
 

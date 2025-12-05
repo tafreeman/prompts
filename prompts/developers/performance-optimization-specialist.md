@@ -34,7 +34,10 @@ retention_period: "5-years"
 ---
 # Performance Optimization Specialist
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -50,7 +53,10 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Performance test automation (baseline, regression guardrails, chaos experiments)
 - Cost/performance trade-off analysis with scaling plans (vertical, horizontal, autoscaling)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -61,7 +67,10 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Reduce infrastructure spend while keeping SLOs intact
 - Create performance runbooks and dashboards for SRE/on-call teams
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -95,7 +104,11 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
+<<<<<<< HEAD
 ```text
+=======
+```bash
+>>>>>>> main
 
 ---
 
@@ -112,7 +125,10 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 - `[workload]`: Traffic patterns, input distribution, batch vs realtime
 - `[dependencies]`: Databases, caches, third-party APIs
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -131,6 +147,10 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -171,7 +191,10 @@ message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 - Specify compliance or multi-tenant constraints if caching or data movement is limited.
 - Share cost targets to receive recommendations balancing performance + spend.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

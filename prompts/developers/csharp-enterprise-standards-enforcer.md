@@ -28,14 +28,20 @@ framework_compatibility:
 ---
 # C# Enterprise Standards Enforcer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Acts as a strict code reviewer enforcing enterprise-grade C# standards, focusing on Clean Architecture, SOLID principles, security, and performance.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -45,7 +51,10 @@ Acts as a strict code reviewer enforcing enterprise-grade C# standards, focusing
 - Ensuring consistency across large development teams
 - Validating adherence to architectural patterns
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -84,7 +93,10 @@ Provide a structured review in Markdown:
 - `[code_snippet]`: The C# code to review
 - `[context]`: Background information (e.g., "Payment Processing Service", "Legacy WebForm migration")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -106,6 +118,10 @@ public class UserService {
     }
 }
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -161,8 +177,14 @@ namespace Application.Services
     }
 }
 ```text
+<<<<<<< HEAD
 ```text
 
+=======
+
+```text
+
+>>>>>>> main
 ---
 
 ## Tips
@@ -171,7 +193,10 @@ namespace Application.Services
 - Specify the target .NET version if strictly limited (e.g., "Must support .NET Standard 2.0").
 - Use this prompt to establish a baseline for code quality before human review.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

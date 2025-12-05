@@ -28,14 +28,20 @@ effectivenessScore: 4.0
 ---
 # Brand Voice Developer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create comprehensive brand voice guidelines that define how your brand sounds across all touchpoints. This prompt helps marketers, brand managers, and content strategists develop clear, actionable voice documentation that teams can follow consistently.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -46,7 +52,10 @@ Create comprehensive brand voice guidelines that define how your brand sounds ac
 - Creating voice guidelines for content teams and agencies
 - Ensuring consistency across global or distributed teams
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -115,7 +124,10 @@ Please create comprehensive brand voice guidelines including:
 | `[BRAND-ALIGNED VOCABULARY]` | Words that fit your brand |
 | `[OFF-BRAND VOCABULARY]` | Words to avoid |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -168,6 +180,10 @@ Please create comprehensive brand voice guidelines including:
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -509,7 +525,10 @@ Our voice stays consistent, but our tone adjusts based on context:
 - **Make it accessible:** Put guidelines where people actually work—in design systems, content management tools, Slack channels
 - **Review regularly:** Voice should evolve with your brand and audience—schedule annual reviews
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

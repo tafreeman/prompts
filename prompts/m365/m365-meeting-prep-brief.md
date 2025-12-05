@@ -26,7 +26,10 @@ reviewStatus: "draft"
 ---
 # M365 Meeting Prep Brief
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -96,7 +99,10 @@ Return the output in Markdown with these sections:
 - `## Risks or Sensitive Topics`
   - 1–3 bullets flagging any areas requiring careful handling, or "None identified" if the context is straightforward.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -107,7 +113,10 @@ Return the output in Markdown with these sections:
 - Use case 4: A team lead getting ready for a 1:1 with a direct report.
 - Use case 5: A cross-functional team member preparing for a planning or retrospective meeting.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -177,7 +186,10 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 - `[focus]`: Optional emphasis area (e.g., "budget review", "customer feedback").
 - `[time_window]`: How far back to consider relevant context (e.g., "last 2 weeks").
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -192,6 +204,10 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 
 You are my Meeting Prep Assistant working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -228,7 +244,10 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 - Tip 3: After the meeting, pair this with `m365-meeting-recap-assistant.md` to capture decisions and actions.
 - Tip 4: Share the "Your Talking Points" section with your manager or a peer if you want feedback before the meeting.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

@@ -26,14 +26,20 @@ effectivenessScore: 3.0
 ---
 # Cloud Architecture Consultant
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs cloud-native architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ Designs cloud-native architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -75,7 +84,10 @@ Provide:
 - `[provider]`: Provider
 - `[scalability]`: Scalability
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -89,6 +101,10 @@ Provide:
 [compliance]: MPAA (Motion Picture Association) Content Security Best Practices
 [budget]: Cost-aware (Spot instances for transcoding), Savings Plans for compute
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -119,7 +135,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

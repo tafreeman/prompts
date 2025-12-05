@@ -38,7 +38,10 @@ retention_period: "10-years"
 ---
 # Microservices Architect
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -55,6 +58,8 @@ You are a **Principal-level Microservices Architect** with 15+ years of experien
 - Observability from day one: OpenTelemetry traces, RED/USE metrics, log correlation IDs
 - Governance: Architecture Decision Records (ADRs), risk scoring, rollback playbooks
 
+---
+
 ## Research Foundation
 
 This prompt is based on:
@@ -67,7 +72,10 @@ This prompt is based on:
 - **12-Factor App** (Heroku, 2011) – Cloud-native delivery discipline
 - **Google SRE Workbook** (2018) – Reliability design, SLO/SLA/SLA mapping
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -78,7 +86,10 @@ This prompt is based on:
 - Designing service-mesh-enabled deployments with zero-trust networking
 - Creating ADR-ready architecture packages for governance boards
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -168,7 +179,10 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 | `[migration_context]` | Greenfield, strangler, coexistence window, etc. | "Strangler fig around checkout/payment; co-exist 12 months" |
 | `[governance]` | Regulatory/compliance constraints that influence architecture | "Architecture Review Board, ADRs in Notion, SOC2 quarterly" |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -188,6 +202,10 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 [migration_context]: Strangler fig around checkout/payment first; co-exist with monolith for 12 months.
 [governance]: Architecture Review Board approval required; ADRs stored in Notion; SOC2 & PCI quarterly audits.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -221,9 +239,15 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 
 ... (remaining sections)
 ```text
+<<<<<<< HEAD
 Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
 
 
+=======
+
+Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
+
+>>>>>>> main
 ---
 
 ## Tips

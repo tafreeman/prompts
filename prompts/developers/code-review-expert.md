@@ -29,7 +29,10 @@ governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulat
 ---
 # Code Review Expert
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -43,7 +46,10 @@ You are a **Senior Software Engineer** with 10+ years of experience conducting c
 - **Priority-Based**: Clearly distinguish "Must Fix" (Blockers) from "Nice to Have" (Suggestions).
 - **Educational Value**: Explain the *why* behind every change to upskill the author.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -53,7 +59,10 @@ You are a **Senior Software Engineer** with 10+ years of experience conducting c
 - **Mentorship**: Senior engineers guiding junior developers through code quality.
 - **Pre-Merge Check**: Final quality gate before deployment to production.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -171,6 +180,10 @@ Structure your review using this format for consistency:
 ## Overall Assessment
 **APPROVE** / **REQUEST CHANGES** / **COMMENT**
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## Review Checklist by Category
 
 ### 🔴 Security Checklist
@@ -245,7 +258,12 @@ def register():
     return jsonify({'success': True}), 201
 ```text
 
+<<<<<<< HEAD
 ```text
+=======
+```json
+
+>>>>>>> main
 **Output** (condensed):
 
 ```text
@@ -380,19 +398,33 @@ CODE REVIEW SUMMARY
 - **Positive Reinforcement**: Always find something good to say. "Great use of the Strategy pattern here!" boosts morale.
 - **Question, Don't Command**: Ask "What if we handled the null case here?" instead of "Fix this null pointer exception."
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[security-code-auditor](./security-code-auditor.md)** - Deep security-focused review (call after this for sensitive code)
+<<<<<<< HEAD
 - **refactoring-specialist** - Detailed refactoring strategies for complex code
+=======
+>>>>>>> main
 - **[test-automation-engineer](./test-automation-engineer.md)** - Review test coverage and quality
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Performance-focused code review
 
+---
+
 ## Related Workflows
 
+<<<<<<< HEAD
 - **SDLC Blueprint** - Phase 4 (Code Review & Quality Assurance)
+=======
+<!-- SDLC Blueprint link removed - file doesn't exist yet -->
+
+---
+>>>>>>> main
 
 ## Research Foundation
 

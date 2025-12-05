@@ -20,6 +20,7 @@ reviewStatus: "draft"
 layout: "category-landing"
 children:
   - /agents/architecture-agent.agent
+  - /agents/cloud-agent.agent
   - /agents/code-review-agent.agent
   - /agents/devsecops-tooling-agent.agent
   - /agents/docs-agent.agent
@@ -51,6 +52,7 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 | **[Refactor Agent](/agents/refactor-agent.agent)** | Code Cleaner | Optimizing legacy code and reducing debt |
 | **[Security Agent](/agents/security-agent.agent)** | Security Analyst | Identifying vulnerabilities and hardening code |
 | **[Architecture Agent](/agents/architecture-agent.agent)** | System Architect | Designing systems and evaluating patterns |
+| **[Cloud Agent](/agents/cloud-agent.agent)** | Cloud Architect | Designing cloud infrastructure and migrations |
 | **[Prompt Agent](/agents/prompt-agent.agent)** | Prompt Engineer | Crafting and refining AI prompts |
 | **[DevSecOps Tooling Agent](/agents/devsecops-tooling-agent.agent)** | DevSecOps Engineer | Building CLI tools, automation, and pipelines |
 
@@ -60,6 +62,7 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 - **Reviewing code?** Ask `@code-review-agent` to analyze your changes before submitting a PR.
 - **Writing tests?** Let `@test-agent` generate a test suite for your new class.
 - **Building tools?** Use `@devsecops-tooling-agent` for robust CLI and automation development.
+- **Deploying to cloud?** Use `@cloud-agent` for cloud architecture design and infrastructure as code.
 
 ## Browse by Capability
 
@@ -70,6 +73,7 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 
 ### Design & Security
 - [Architecture Agent](/agents/architecture-agent.agent)
+- [Cloud Agent](/agents/cloud-agent.agent)
 - [Security Agent](/agents/security-agent.agent)
 
 ### Content & Operations

@@ -26,7 +26,10 @@ reviewStatus: "draft"
 ---
 # M365 Document Summarizer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -96,7 +99,10 @@ Optional (if relevant):
 - `## Critical Risks or Concerns`
   - 2–3 bullets for high-priority risks or issues.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -107,7 +113,10 @@ Optional (if relevant):
 - Use case 4: A legal reviewer summarizing a contract or policy document for stakeholders.
 - Use case 5: A team lead turning a lengthy post-mortem into actionable lessons for the team.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -172,7 +181,10 @@ a [tone] tone.
 - `[tone]`: Desired tone (e.g., "concise and formal", "conversational").
 - `[length_target]`: Optional target length (e.g., "1 page", "300 words").
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -187,6 +199,10 @@ a [tone] tone.
 
 You are my Document Summarizer working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -219,7 +235,10 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 - Tip 3: If the document is very long (50+ pages), ask Copilot to summarize in two passes: first a high-level overview, then a detailed drill-down on specific sections.
 - Tip 4: Share the summary alongside the full document so readers can dive deeper if needed.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

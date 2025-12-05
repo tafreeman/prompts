@@ -33,6 +33,7 @@ retention_period: "7 years"
 ---
 # Legal: Contract Review Assistant
 
+<<<<<<< HEAD
 ![Risk Level](https://img.shields.io/badge/Risk%20Level-High-red)
 ![Requires Review](https://img.shields.io/badge/Human%20Review-Required-orange)
 ![Data Classification](https://img.shields.io/badge/Data-Confidential-purple)
@@ -51,13 +52,18 @@ retention_period: "7 years"
 - [Related Prompts](#related-prompts)
 
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 An AI-powered contract review assistant for legal teams to identify risks, unusual clauses, and compliance issues in commercial agreements. This prompt systematically analyzes contracts, highlights areas of concern, and provides structured risk assessments. **IMPORTANT: Output must be reviewed by licensed attorney before use.**
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -70,7 +76,10 @@ An AI-powered contract review assistant for legal teams to identify risks, unusu
 - Identifying unusual or high-risk clauses
 - Compliance gap analysis
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -159,7 +168,10 @@ List any immediate concerns requiring escalation:
 - `[FULL_CONTRACT_TEXT_OR_KEY_SECTIONS]`: Complete contract or specific sections to review
 - `[SPECIFIC_CONCERNS_OR_GENERAL_REVIEW]`: Particular concerns (liability, IP, data privacy) or comprehensive review
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -193,6 +205,10 @@ Section 11.3 Governing Law:
 
 **Instructions**: [As specified above]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -480,10 +496,10 @@ Section 11.3 Governing Law:
     "contract_id": "..."
   }
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Legal: Compliance Check](legal-compliance-check.md) - Regulatory compliance verification
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - General risk evaluation
-- [Security: Vendor Assessment](security-vendor-assessment.md) - Security review of vendors
+<!-- Links removed - files don't exist yet -->
