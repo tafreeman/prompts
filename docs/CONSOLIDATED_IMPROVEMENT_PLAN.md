@@ -6,6 +6,23 @@
 
 ---
 
+## 🚀 Parallel Execution Workstreams
+
+For simultaneous execution by multiple agents, work has been split into two independent workstreams:
+
+| Workstream | Focus | Effort | File |
+|:-----------|:------|:------:|:-----|
+| **🎨 Workstream A** | UX/UI - Formatting, links, tables, visual | ~10 hrs | [WORKSTREAM_A_UX_UI.md](WORKSTREAM_A_UX_UI.md) |
+| **🔧 Workstream B** | Content - Missing sections, templates, tools | ~10 hrs | [WORKSTREAM_B_CONTENT.md](WORKSTREAM_B_CONTENT.md) |
+
+**Why split?**
+- No file conflicts between workstreams
+- Workstream A: Changes formatting/structure WITHIN existing files
+- Workstream B: Creates new files, adds content sections
+- Both can run simultaneously without merge conflicts
+
+---
+
 ## Executive Summary
 
 This document consolidates findings from 6+ separate reports into a single actionable plan. It tracks what's been completed vs. what remains, with clear priorities.
@@ -69,22 +86,54 @@ This document consolidates findings from 6+ separate reports into a single actio
 **Effort:** 2 hours  
 **Impact:** Navigation completely broken for users
 
-Files with broken "Related Prompts" links:
-```
-prompts/advanced/chain-of-thought-*.md
-prompts/advanced/rag-*.md
-prompts/advanced/react-*.md
-prompts/advanced/reflection-*.md
-prompts/advanced/tree-of-thoughts-*.md
-prompts/analysis/competitive-intelligence-researcher.md
-prompts/business/agile-sprint-planner.md
-prompts/business/budget-and-cost-controller.md
+<details>
+<summary><b>Complete list of broken links (click to expand)</b></summary>
+
+| Source File | Broken Link |
+|:------------|:------------|
+| `chain-of-thought-debugging.md` | `../developers/reflection-code-review-self-check.md` |
+| `chain-of-thought-debugging.md` | `react-codebase-navigator.md` |
+| `chain-of-thought-detailed.md` | `reflection-evaluator.md` |
+| `chain-of-thought-guide.md` | `tree-of-thoughts-decision-guide.md` |
+| `chain-of-thought-performance-analysis.md` | `../developers/sql-query-optimizer-advanced.md` |
+| `rag-document-retrieval.md` | `rag-code-ingestion.md` |
+| `rag-document-retrieval.md` | `rag-citation-framework.md` |
+| `react-tool-augmented.md` | `react-api-integration.md` |
+| `react-tool-augmented.md` | `rag-citation-framework.md` |
+| `reflection-self-critique.md` | `reflection-iterative-improvement.md` |
+| `tree-of-thoughts-architecture-evaluator.md` | `tree-of-thoughts-database-migration.md` |
+| `tree-of-thoughts-template.md` | `tree-of-thoughts-decision-guide.md` |
+| `competitive-intelligence-researcher.md` | `../business/swot-analysis.md` |
+| `data-quality-assessment.md` | `experiment-design-analyst.md` |
+| `agile-sprint-planner.md` | `./project-charter-creator.md` |
+| `budget-and-cost-controller.md` | `./project-charter-creator.md` |
+| `business-strategy-analysis.md` | `market-research-analysis.md` |
+
+</details>
+
+**Fix Script** (run from repo root):
+```powershell
+# tools/find-broken-links.ps1
+Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
+    $file = $_
+    $content = Get-Content $file.FullName -Raw
+    $links = [regex]::Matches($content, '\[([^\]]+)\]\(([^)]+\.md)\)')
+    foreach ($link in $links) {
+        $linkPath = $link.Groups[2].Value
+        if ($linkPath -notmatch '^https?://') {
+            $resolvedPath = Join-Path $file.DirectoryName $linkPath
+            if (-not (Test-Path $resolvedPath)) {
+                Write-Output "$($file.Name): $($link.Groups[1].Value) -> $linkPath"
+            }
+        }
+    }
+}
 ```
 
-**Action:** Run link checker, then either:
-1. Create missing referenced files
-2. Update links to existing equivalents
-3. Remove broken links
+**Action Options:**
+1. ✅ Create missing referenced files (if they should exist)
+2. ✅ Update links to existing equivalents  
+3. ✅ Remove broken links entirely
 
 ### 2. Fix README Architecture Mismatch
 **Source:** COMPLEXITY_AND_ADOPTION_REPORT.md  
@@ -98,14 +147,33 @@ README.md describes components that don't exist:
 
 **Action:** Update README to remove references to non-existent components, or mark webapp as "Planned".
 
+### 3. Add Missing Standard Sections (19 files)
+**Source:** VISUAL_FORMATTING_AUDIT_REPORT.md  
+**Effort:** 2 hours  
+**Impact:** Inconsistent structure confuses users
+
+| File | Missing Sections | Quality Score |
+|:-----|:-----------------|:-------------:|
+| `prompts/advanced/library.md` | Description, Variables, Example, Tips | 21/100 🔴 |
+| `prompts/advanced/prompt-library-refactor-react.md` | Variables, Example | 33/100 🔴 |
+| `prompts/advanced/chain-of-thought-guide.md` | Variables, Tips | 40/100 🔴 |
+| `prompts/analysis/library-capability-radar.md` | Variables, Tips | 39/100 🔴 |
+| `prompts/analysis/library-network-graph.md` | Variables, Tips | 44/100 🔴 |
+| `prompts/analysis/library-structure-treemap.md` | Variables, Tips | 41/100 🔴 |
+| `prompts/system/example-research-output.md` | Description, Prompt, Variables, Tips | 22/100 🔴 |
+| `prompts/system/frontier-agent-deep-research.md` | Tips | — |
+| `prompts/system/m365-copilot-research-agent.md` | Tips | — |
+| `prompts/system/office-agent-technical-specs.md` | Tips | — |
+
+**Action:** Add missing sections following `templates/prompt-template.md`
+
 ---
 
 ## 🟠 HIGH PRIORITY (Do This Week)
 
-### 4. Standardize Prompt Section Order
+### 4. Standardize Prompt Section Order (19 files)
 **Source:** VISUAL_FORMATTING_AUDIT_REPORT.md  
 **Effort:** 2 hours  
-**Files:** ~20 prompts
 
 Standard order should be:
 1. Description (not "Purpose" or "Overview")
@@ -116,39 +184,67 @@ Standard order should be:
 6. Tips
 7. Related Prompts
 
-Files using non-standard sections:
-- `prompts/developers/api-design-consultant.md` - Uses "Purpose"
-- `prompts/developers/code-review-expert.md` - Uses "Purpose"
-- `prompts/m365/*.md` - Various non-standard orders
+<details>
+<summary><b>Files with non-standard sections (click to expand)</b></summary>
 
-### 5. Add Language Specifiers to Code Blocks
+| File | Issue |
+|:-----|:------|
+| `m365-excel-formula-expert.md` | H1 followed directly by ## Description (missing Description header) |
+| `m365-customer-feedback-analyzer.md` | Non-standard section order |
+| `m365-designer-*.md` (6 files) | Inconsistent structure |
+| `m365-handover-document-creator.md` | Non-standard structure |
+| `m365-manager-sync-planner.md` | Non-standard structure |
+| `m365-slide-content-refiner.md` | Non-standard structure |
+| `m365-sway-*.md` (2 files) | Non-standard structure |
+| `api-design-consultant.md` | Uses "Purpose" instead of "Description" |
+| `code-review-expert.md` | Uses "Purpose" instead of "Description" |
+| `code-review-expert-structured.md` | Uses "Purpose" instead of "Description" |
+| `security-code-auditor.md` | Non-standard structure |
+| `sql-security-standards-enforcer.md` | Non-standard structure |
+
+</details>
+
+**Bulk Fix Regex:**
+```text
+Find:    ^## Purpose$
+Replace: ## Description
+```
+
+### 5. Add Language Specifiers to Code Blocks (40+ blocks)
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 1 hour  
-**Files:** 40+ code blocks
 
-```markdown
-# Change from:
-```
-SELECT * FROM users
+<details>
+<summary><b>Files with unlabeled code blocks</b></summary>
+
+| File | Count | Suggested Language |
+|:-----|------:|:------------------:|
+| `docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md` | 20+ | text/markdown |
+| `prompts/system/tree-of-thoughts-repository-evaluator.md` | 4 | text |
+| `prompts/system/solution-architecture-designer.md` | 3 | text |
+| `prompts/system/security-architecture-specialist.md` | 3 | text |
+| `prompts/system/prompt-quality-evaluator.md` | 8 | text |
+| `prompts/system/performance-architecture-optimizer.md` | 2 | text |
+| `prompts/developers/sql-*.md` | 8 | sql |
+| `prompts/developers/csharp-*.md` | 6 | csharp |
+
+</details>
+
+**Bulk Fix Script:**
+```powershell
+# Add 'text' language to unmarked code blocks
+Get-ChildItem -Path "prompts" -Recurse -Filter "*.md" | ForEach-Object {
+    $content = Get-Content $_.FullName -Raw
+    $content = $content -replace '(?m)^```\s*$(?!\s*```)', '```text'
+    Set-Content $_.FullName $content
+}
 ```
 
-# To:
-```sql
-SELECT * FROM users
-```
-```
-
-### 6. Add Missing Standard Sections
+### 6. Fix Non-Standard H1→H2 Structure (19 files)
 **Source:** VISUAL_FORMATTING_AUDIT_REPORT.md  
-**Effort:** 2 hours  
-**Files:** 19 prompts
+**Effort:** 1 hour  
 
-| File | Missing |
-|------|---------|
-| `prompts/advanced/library.md` | Description, Variables, Example, Tips |
-| `prompts/advanced/chain-of-thought-guide.md` | Variables, Tips |
-| `prompts/analysis/library-*.md` | Variables, Tips |
-| `prompts/system/example-research-output.md` | Description, Prompt, Variables |
+Files not following `# Title` → `## Description` pattern need standardization.
 
 ### 7. Create Simplified Quick Start Template
 **Source:** COMPLEXITY_AND_ADOPTION_REPORT.md  
@@ -166,26 +262,34 @@ Create `templates/prompt-template-minimal.md` with only:
 
 ## 🟡 MEDIUM PRIORITY (Do This Month)
 
-### 8. Add Table Alignment Specifiers
+### 8. Add Table Alignment Specifiers (89 files)
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 1 hour  
-**Files:** ~89 files
 
-```markdown
-# Change from:
-| Column | Data |
-| --- | --- |
-
-# To:
-| Column | Data |
-|:-------|-----:|
+**Bulk Fix Regex:**
+```text
+Find:    \| --- \|
+Replace: | :--- |
 ```
+
+Files with 5+ unaligned tables:
+- `docs/EVALUATION_REPORT.md` (12 tables)
+- `docs/IMPROVEMENT_PLAN.md` (8 tables)
+- `prompts/business/business-strategy-analysis.md` (6 tables)
+- `reference/cheat-sheet.md` (9 tables)
+- `reference/platform-comparison.md` (7 tables)
 
 ### 9. Add Collapsible Sections for Large Tables
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 1 hour  
 **Files:** Tables with 15+ rows
 
+| File | Table Rows | Section |
+|------|------------|---------|
+| `docs/EVALUATION_REPORT.md` | 36 (Business) | Category tables |
+| `reference/cheat-sheet.md` | 25+ | Pattern tables |
+
+**Template:**
 ```html
 <details>
 <summary><b>View all 36 items</b></summary>
@@ -195,7 +299,42 @@ Create `templates/prompt-template-minimal.md` with only:
 </details>
 ```
 
-### 10. Run Full Library Evaluation
+### 10. Add Input/Output Separation in Examples (32 files)
+**Source:** VISUAL_AUDIT_REPORT.md  
+**Effort:** 2 hours  
+
+**Current:**
+```markdown
+## Example
+Here is an example of using this prompt...
+```
+
+**Recommended:**
+```markdown
+## Example Usage
+
+### Input
+```text
+[User provides this]
+```
+
+### Output
+```text
+[AI generates this]
+```
+```
+
+### 11. Add Horizontal Rules Between Major Sections
+**Source:** VISUAL_AUDIT_REPORT.md  
+**Effort:** 1 hour  
+
+19 files lack `---` separators between major sections:
+- `prompts/developers/code-review-expert.md`
+- `prompts/developers/api-design-consultant.md`
+- `prompts/developers/security-code-auditor.md`
+- (16 more files)
+
+### 12. Run Full Library Evaluation
 **Source:** ARCHITECTURE_PLAN.md  
 **Effort:** Variable (depends on API rate limits)
 
@@ -207,59 +346,116 @@ python testing/evals/dual_eval.py prompts/ \
   --models openai/gpt-4o-mini
 ```
 
-Generate new `docs/EVALUATION_REPORT.md` with current scores.
-
-### 11. Flatten Deep Directory Structure
+### 13. Flatten Deep Directory Structure
 **Source:** COMPLEXITY_AND_ADOPTION_REPORT.md  
 **Effort:** 2 hours  
-**Impact:** 76 directories make navigation confusing
 
 Consider merging:
 - `techniques/reflexion/` → `prompts/advanced/`
 - `techniques/context-optimization/` → `prompts/advanced/`
 
-### 12. Add Mermaid Diagrams to Complex Prompts
+### 14. Add Mermaid Diagrams to Complex Prompts
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 2 hours  
-**Files:** 4 prompts
 
-| File | Diagram Type |
-|------|--------------|
-| `prompts/advanced/react-*.md` | flowchart (Thought→Action→Observation) |
-| `prompts/advanced/tree-of-thoughts-*.md` | graph (branch structure) |
+| File | Diagram Type | Purpose |
+|------|:------------:|---------|
+| `prompts/advanced/react-*.md` | flowchart | Thought→Action→Observation loop |
+| `prompts/advanced/tree-of-thoughts-*.md` | graph | Branch structure |
+| `get-started/choosing-the-right-pattern.md` | flowchart | Pattern selection guide |
 
 ---
 
 ## 🟢 LOW PRIORITY (Nice to Have)
 
-### 13. Add Shields.io Badges to Key Files
+### 15. Add Shields.io Badges to Key Files
 **Effort:** 30 minutes  
-**Files:** README.md, governance prompts, advanced prompts
 
-### 14. Standardize Emoji Usage in Headers
-**Effort:** 1 hour  
-**Convention:**
-- 📋 Description
-- 🎯 Use Cases
-- 💡 Tips
-- ⚙️ Variables
+Add to: README.md, governance prompts, advanced prompts
 
-### 15. Add Input/Output Separation in Examples
-**Effort:** 2 hours  
-**Files:** 32 prompts
-
+**Badge Template:**
 ```markdown
-## Example Usage
-
-### Input
-```text
-[Example with variables replaced]
+![Difficulty](https://img.shields.io/badge/Difficulty-Advanced-red)
+![Platforms](https://img.shields.io/badge/Platforms-Claude%20%7C%20GPT%20%7C%20Copilot-blue)
 ```
 
-### Output
-```text
-[Expected response]
+### 16. Standardize Emoji Usage in Headers
+**Effort:** 1 hour  
+
+| Emoji | Use For |
+|:-----:|:--------|
+| 📋 | Description |
+| 🎯 | Use Cases |
+| 💡 | Tips |
+| ⚙️ | Variables |
+
+### 17. Add Table of Contents to Long Documents
+**Effort:** 1 hour  
+
+Files >300 lines without TOC:
+- `docs/EVALUATION_REPORT.md` (521 lines)
+- `reference/cheat-sheet.md` (400+ lines)
+- `prompts/governance/security-incident-response.md` (750+ lines)
+
+---
+
+## 🛠️ Automation Scripts
+
+### Pre-commit Hook: Link Validator
+```bash
+#!/bin/bash
+# .git/hooks/pre-commit
+find prompts -name "*.md" -exec grep -l '\]\([^http][^)]*\.md\)' {} \; | while read file; do
+  grep -oP '\]\(\K[^http][^)]*\.md' "$file" | while read link; do
+    target="$(dirname "$file")/$link"
+    if [ ! -f "$target" ]; then
+      echo "BROKEN LINK in $file: $link"
+      exit 1
+    fi
+  done
+done
 ```
+
+### Python Validator: Section Order Check
+```python
+# tools/validate_sections.py
+import re
+from pathlib import Path
+
+REQUIRED = ['Description', 'Prompt', 'Variables', 'Example']
+
+def check_file(path):
+    content = path.read_text()
+    sections = re.findall(r'^## (.+)$', content, re.MULTILINE)
+    missing = [s for s in REQUIRED if s not in sections]
+    if missing:
+        print(f"{path.name}: Missing {missing}")
+        return False
+    return True
+
+for p in Path("prompts").rglob("*.md"):
+    if p.name not in ['index.md', 'README.md']:
+        check_file(p)
+```
+
+### GitHub Action: Formatting Check
+```yaml
+# .github/workflows/format-check.yml
+name: Format Check
+on: [pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check broken links
+        run: python tools/check_links.py
+      - name: Check code block languages
+        run: |
+          if grep -r "^\`\`\`$" prompts/; then
+            echo "Found code blocks without language specifier"
+            exit 1
+          fi
 ```
 
 ---
@@ -287,34 +483,41 @@ From `PROMPT_WEB_APP_ARCHITECTURE.md`:
 
 ---
 
-## Documents to Archive
-
-These documents are now superseded by this consolidated plan:
-
-| Document | Action |
-|----------|--------|
-| `docs/COMPLEXITY_AND_ADOPTION_REPORT.md` | Archive after extracting remaining items |
-| `docs/VISUAL_AUDIT_REPORT.md` | Archive after extracting remaining items |
-| `docs/VISUAL_FORMATTING_AUDIT_REPORT.md` | Archive after extracting remaining items |
-| `testing/evals/IMPLEMENTATION_TRACKING.md` | Keep as reference for completed work |
-
----
-
-## Progress Tracking
+## 📊 Progress Tracking
 
 | Priority | Total Items | Completed | Remaining |
 |----------|-------------|-----------|-----------|
 | ✅ Done | 15 | 15 | 0 |
 | 🔴 Critical | 3 | 0 | 3 |
 | 🟠 High | 4 | 0 | 4 |
-| 🟡 Medium | 5 | 0 | 5 |
+| 🟡 Medium | 7 | 0 | 7 |
 | 🟢 Low | 3 | 0 | 3 |
 | 🔮 Future | 9 | 0 | 9 |
 
+### Estimated Total Effort
+
+| Category | Issues | Effort | Automatable |
+|----------|-------:|:------:|:-----------:|
+| Critical (fix immediately) | 3 | 4 hrs | Partial |
+| High priority | 4 | 5 hrs | 80% |
+| Medium priority | 7 | 8 hrs | 60% |
+| Low priority | 3 | 3 hrs | 40% |
+| **Total** | **17** | **~20 hrs** | **65%** |
+
+### Success Metrics
+
+| Metric | Current | Target | Timeline |
+|--------|:-------:|:------:|:--------:|
+| Broken links | 50 | 0 | Week 1 |
+| Files missing sections | 19 | 0 | Week 1 |
+| Unaligned tables | 89 | 0 | Week 2 |
+| Code blocks w/o language | 40+ | 0 | Week 2 |
+| Formatting Health Score | 72/100 | 90/100 | Week 4 |
+
 **Next Actions:**
-1. Fix broken internal links (Critical #1)
+1. Fix 50 broken internal links (Critical #1)
 2. Update README to remove non-existent architecture (Critical #2)
-3. Fix test collection errors (Critical #3)
+3. Add missing sections to 19 files (Critical #3)
 
 ---
 
