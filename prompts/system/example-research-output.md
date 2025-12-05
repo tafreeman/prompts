@@ -70,7 +70,7 @@ def reflexion_loop(task, max_iterations=3):
 
 # Usage
 final_answer = reflexion_loop("Explain quantum entanglement")
-```
+```text
 
 ## 3. Agentic & Multi-Persona Architectures
 

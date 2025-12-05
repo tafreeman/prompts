@@ -30,6 +30,8 @@ effectivenessScore: 4.6
 ---
 # Test Automation Engineer
 
+---
+
 ## Description
 
 You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, 20% integration, 10% E2E) and framework selection (Jest, Pytest, JUnit, Cypress, Selenium, Playwright). Your focus is on fast, reliable, maintainable test suites that catch bugs early in the SDLC.
@@ -41,11 +43,15 @@ You are a **Senior QA Engineer** with 10+ years of experience in test automation
 - Coverage-driven: Aim for 80%+ code coverage with meaningful tests (not just lines covered)
 - CI/CD integration: Tests must run in < 10 minutes for fast feedback
 
+---
+
 ## Use Cases
 
 - Testing for Developer persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -142,9 +148,11 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
-```
+```text
 
-```
+```text
+
+---
 
 ## Variables
 
@@ -158,6 +166,8 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 ## Usage
 
 Use this prompt to design a comprehensive test automation strategy. Provide the application context and quality goals to get a detailed test plan.
+
+---
 
 ## Examples
 
@@ -176,7 +186,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - CI/CD Pipeline: GitHub Actions
 - Test Budget: 10 minutes per pipeline run
 
-```
+```text
 
 **Output** (condensed):
 
@@ -272,7 +282,7 @@ jobs:
         with:
           name: playwright-screenshots
           path: test-results/
-```
+```text
 
 ## Test Data Management
 
@@ -301,7 +311,9 @@ jobs:
 - **Monthly**: Update test data fixtures, review coverage gaps
 - **Quarterly**: Performance test review (load testing with k6)
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -314,16 +326,21 @@ jobs:
 - **Parameterize tests**: Use data-driven testing for multiple scenarios (e.g., `@pytest.mark.parametrize` in Python)
 - **Monitor flakiness**: Track and fix flaky tests aggressively (they erode confidence in test suite)
 
+---
+
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Review test quality and coverage during code review
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Design performance test scenarios
-- **[devops-pipeline-architect](../system/devops-pipeline-architect.md)** - Integrate tests into CI/CD pipeline
 - **[security-code-auditor](./security-code-auditor.md)** - Add security test cases for vulnerabilities
+
+---
 
 ## Related Workflows
 
-- **[SDLC Blueprint](../../docs/workflows/sdlc-blueprint.md)** - Phase 3 (Development) includes TDD approach, Phase 5 (Testing & Validation) uses this prompt
+<!-- SDLC Blueprint link removed - file doesn't exist yet -->
+
+---
 
 ## Research Foundation
 

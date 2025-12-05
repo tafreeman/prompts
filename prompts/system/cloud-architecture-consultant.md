@@ -26,15 +26,21 @@ effectivenessScore: 3.0
 ---
 # Cloud Architecture Consultant
 
+---
+
 ## Description
 
 Designs cloud-native architectures
+
+---
 
 ## Use Cases
 
 - Cloud Architecture for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -54,7 +60,9 @@ Provide:
 4. Security design
 5. Disaster recovery
 6. Migration strategy
-```
+```text
+
+---
 
 ## Variables
 
@@ -63,6 +71,8 @@ Provide:
 - `[compliance]`: Compliance
 - `[provider]`: Provider
 - `[scalability]`: Scalability
+
+---
 
 ## Example Usage
 
@@ -74,7 +84,7 @@ Provide:
 [scalability]: 10M concurrent users, auto-scaling for viral content
 [compliance]: MPAA (Motion Picture Association) Content Security Best Practices
 [budget]: Cost-aware (Spot instances for transcoding), Savings Plans for compute
-```
+```text
 
 **Output:**
 
@@ -95,7 +105,9 @@ Provide:
 *   **Intelligent Tiering:** S3 Intelligent-Tiering for video library storage.
 
 [... continues with security and disaster recovery ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -103,6 +115,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

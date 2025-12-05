@@ -28,9 +28,13 @@ effectivenessScore: 4.0
 ---
 # Brand Voice Developer
 
+---
+
 ## Description
 
 Create comprehensive brand voice guidelines that define how your brand sounds across all touchpoints. This prompt helps marketers, brand managers, and content strategists develop clear, actionable voice documentation that teams can follow consistently.
+
+---
 
 ## Use Cases
 
@@ -39,6 +43,8 @@ Create comprehensive brand voice guidelines that define how your brand sounds ac
 - Refreshing brand voice during rebrands or pivots
 - Creating voice guidelines for content teams and agencies
 - Ensuring consistency across global or distributed teams
+
+---
 
 ## Prompt
 
@@ -87,7 +93,9 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```
+```text
+
+---
 
 ## Variables
 
@@ -103,6 +111,8 @@ Please create comprehensive brand voice guidelines including:
 | `[ATTRIBUTES]` | Voice qualities you want more or less of |
 | `[BRAND-ALIGNED VOCABULARY]` | Words that fit your brand |
 | `[OFF-BRAND VOCABULARY]` | Words to avoid |
+
+---
 
 ## Example Usage
 
@@ -153,7 +163,7 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```
+```text
 
 **Output:**
 
@@ -483,7 +493,9 @@ Our voice stays consistent, but our tone adjusts based on context:
 ---
 
 *Questions about voice? Ping the brand team or check the #brand-voice Slack channel.*
-```
+```text
+
+---
 
 ## Tips
 
@@ -494,9 +506,10 @@ Our voice stays consistent, but our tone adjusts based on context:
 - **Make it accessible:** Put guidelines where people actually work—in design systems, content management tools, Slack channels
 - **Review regularly:** Voice should evolve with your brand and audience—schedule annual reviews
 
+---
+
 ## Related Prompts
 
 - [Headline and Tagline Creator](headline-tagline-creator.md)
-- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)

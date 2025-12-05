@@ -32,15 +32,21 @@ retention_period: "permanent"
 ---
 # Office Agent Deep Research: Modern Prompting Techniques
 
+---
+
 ## Description
 
 This prompt is strictly engineered for the **Office Agent**, an autonomous system running in an **E2B Cloud Sandbox** (Debian Trixie / Python 3.11). It instructs the agent to leverage its specific toolset (`curl`, `poppler-utils`, `python`) to conduct deep, evidence-based research, rather than relying on internal model knowledge (like Gemini/Claude).
+
+---
 
 ## Use Cases
 
 - **Autonomous Research:** The agent searches the web, downloads PDFs, and extracts text using Linux tools.
 - **Evidence Verification:** The agent verifies claims by running Python scripts to scrape live documentation.
 - **Knowledge Synthesis:** The agent builds a "State of the Art" report based on _retrieved_ data, not just training data.
+
+---
 
 ## Prompt
 
@@ -110,11 +116,15 @@ Produce a **Markdown Research Report** with the following structure:
 
 ## 5. Curated Bibliography
 - List the top 5 papers you downloaded and analyzed.
-```
+```text
+
+---
 
 ## Variables
 
 - None. This is a static "Deep Research" directive for the Office Agent.
+
+---
 
 ## Example Usage
 

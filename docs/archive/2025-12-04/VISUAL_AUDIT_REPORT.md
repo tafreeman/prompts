@@ -191,7 +191,7 @@ M365 prompts use different section order than other categories:
 **Current (no alignment):**
 ```markdown
 | Column | Data |
-| --- | --- |
+| :--- | --- |
 | Value | Value |
 ```
 
@@ -537,7 +537,7 @@ jobs:
       
       - name: Check table alignment
         run: |
-          if grep -rn "| --- |" prompts/ docs/; then
+          if grep -rn "| :--- |" prompts/ docs/; then
             echo "::error::Found unaligned tables"
             exit 1
           fi

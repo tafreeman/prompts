@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Detailed Mode
 
+---
+
 ## Description
 
 A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations, justifications, and consideration of alternatives. This mode is ideal for complex problems, high-stakes decisions, teaching contexts, or when stakeholders need to understand the complete reasoning process.
+
+---
 
 ## Use Cases
 
@@ -37,6 +41,8 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 - Compliance scenarios requiring extensive documentation
 - Novel problems where extensive exploration is beneficial
 - Debugging complex, multi-system issues
+
+---
 
 ## Prompt
 
@@ -87,7 +93,9 @@ Format your response as:
 - Confidence level (High/Medium/Low) with justification
 - Recommended next steps
 - Potential refinements or follow-up questions
-```
+```text
+
+---
 
 ## Variables
 
@@ -95,6 +103,8 @@ Format your response as:
 - `[PROVIDE_COMPREHENSIVE_CONTEXT]`: Full background, history, constraints, stakeholders, prior attempts
 - `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria and acceptance conditions
 - `[LIST_CONSTRAINTS_AND_REQUIREMENTS]`: Budget, time, technical, organizational, compliance constraints
+
+---
 
 ## Example Usage
 
@@ -130,7 +140,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Instructions**:
 [Detailed instructions as shown above]
-```
+```text
 
 **Output:**
 
@@ -365,7 +375,9 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
-```
+```text
+
+---
 
 ## Tips
 
@@ -384,12 +396,13 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - When audience is already expert and doesn't need explanation
 - Resource-constrained environments (token limits, etc.)
 
+---
+
 ## Related Prompts
 
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
-- [Reflection: Evaluator](reflection-evaluator.md) - For critiquing detailed reasoning
 
 ## Output Schema (JSON)
 
@@ -426,7 +439,9 @@ For automation pipelines, request output in this format:
     "potential_refinements": ["...", "..."]
   }
 }
-```
+```text
+
+---
 
 ## Governance Notes
 
@@ -445,7 +460,7 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
-```
+```text
 
 ### API Integration
 
@@ -459,4 +474,4 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-```
+```text

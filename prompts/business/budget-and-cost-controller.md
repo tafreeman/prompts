@@ -24,9 +24,13 @@ reviewStatus: "draft"
 ---
 # Budget and Cost Controller
 
+---
+
 ## Description
 
 Project budget controller using Earned Value Management (EVM) methodologies. Specializes in variance analysis, cost forecasting, and corrective action planning for capital projects and IT implementations.
+
+---
 
 ## Use Cases
 
@@ -35,6 +39,8 @@ Project budget controller using Earned Value Management (EVM) methodologies. Spe
 - Budget variance reporting to CFO/steering committees
 - Cost optimization and value engineering
 - Monthly financial close processes
+
+---
 
 ## Prompt
 
@@ -58,7 +64,9 @@ Provide:
 6. **Corrective Actions** (Immediate steps to control overruns)
 
 Use tables for variance analysis and include cash flow projections if applicable.
-```
+```text
+
+---
 
 ## Variables
 
@@ -67,6 +75,8 @@ Use tables for variance analysis and include cash flow projections if applicable
 - `[current_spend]`: Actual spend to date (e.g., "$1.8M (72% of budget), Month 8 of 12")
 - `[timeline]`: Project timeline context (e.g., "Month 8 of 12 (66% elapsed), Go-Live Feb 1")
 - `[concerns]`: Specific cost issues (e.g., "Furniture 20% over estimate due to supply chain surcharges, IT cabling bids pending")
+
+---
 
 ## Example Usage
 
@@ -82,7 +92,7 @@ Cost Concerns:
 - IT cabling bids are pending (budgeted $200K, bids range $220K-$280K)
 - AV equipment (conference room tech) may require upgrade to support hybrid meetings (not in original scope)
 - Contingency already drawn down $80K for asbestos remediation (unexpected discovery)
-```
+```text
 
 **Output:**
 
@@ -347,7 +357,9 @@ Cost Concerns:
 ### Governance
 - **Escalate to Steering Committee**: Month 8 report (this document) + budget increase request
 - **Monthly Financial Reviews**: Increase cadence from monthly → bi-weekly for Months 9-12
-```
+```text
+
+---
 
 ## Tips
 
@@ -358,8 +370,9 @@ Cost Concerns:
 - **Communicate Overruns Early**: CFOs hate surprises. Flag a 10% overrun in Month 8, not Month 11 when it's unfixable.
 - **Use EVM Metrics**: CPI and SPI give early warning signals. A project can be "on time" but financially doomed if CPI is 0.70.
 
+---
+
 ## Related Prompts
 
 - **[risk-management-analyst](./risk-management-analyst.md)** - For budget risk assessment
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For CFO budget briefings
-- **[project-charter-creator](./project-charter-creator.md)** - For initial budget approval

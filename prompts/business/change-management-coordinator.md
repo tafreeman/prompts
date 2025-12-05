@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Change Management Coordinator
 
+---
+
 ## Description
 
 Manages project changes effectively
+
+---
 
 ## Use Cases
 
 - Change Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,7 +57,9 @@ Provide:
 4. Implementation plan
 5. Risk mitigation
 6. Success measurement
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +67,8 @@ Provide:
 - `[changes]`: Proposed changes (e.g., "Migration from Salesforce to Microsoft Dynamics 365, affecting 500 users across 3 departments")
 - `[impact]`: Impact assessment (e.g., "2-week data migration window, 40 hours training required, $200K budget impact")
 - `[concerns]`: Stakeholder concerns (e.g., "Sales team worried about data loss during Q4, IT concerned about integration with legacy inventory system")
+
+---
 
 ## Example Usage
 
@@ -83,7 +93,7 @@ Provide:
 4. Implementation plan
 5. Risk mitigation
 6. Success measurement
-```
+```text
 
 **Output:**
 
@@ -265,7 +275,9 @@ Provide:
 - Retrospective with all stakeholders
 - Document wins, challenges, process improvements
 - Update change management playbook for future migrations
-```
+```text
+
+---
 
 ## Tips
 
@@ -277,9 +289,9 @@ Provide:
 - **Budget 15% contingency**: Migrations always have unforeseen costs (API limits, additional licenses, custom development)
 - **Celebrate wins**: Recognize early adopters and power users to build positive momentum
 
+---
+
 ## Related Prompts
 
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - Plan migration work in 2-week sprints
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - Craft executive updates and user notifications
-- **[risk-assessment-analyst](../governance/risk-assessment-analyst.md)** - Quantify migration risks with probability models
-- **[data-migration-architect](../developers/data-migration-architect.md)** - Technical ETL strategy for CRM data migration

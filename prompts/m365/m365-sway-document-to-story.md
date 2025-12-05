@@ -38,6 +38,8 @@ To transform linear text into a dynamic, interactive Sway storyline structure.
 - **Target Audience**: [audience]
 - **Key Message**: [key_message]
 
+---
+
 ## Prompt
 
 You are a Digital Storyteller expert in Microsoft Sway. I have a document that I want to turn into an engaging Sway presentation.
@@ -60,11 +62,15 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Section 1: Title & Intro**
 - **Section 2: [Topic Name]**
 
+---
+
 ## Variables
 
 - `[document_content]`: The text from your Word doc or PDF (paste up to ~2000 words).
 - `[audience]`: Who is viewing this Sway (e.g., "Students", "Clients", "Internal Team").
 - `[key_message]`: The one thing they should remember.
+
+---
 
 ## Example Usage
 
@@ -103,11 +109,15 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Heading 1**: "Recommendation: Double Down on Social"
   - *Visual*: bold, inspiring abstract graphic.
 
+---
+
 ## Tips
 
 - Use "Stack Groups" for photo galleries (e.g., event photos).
 - Use "Comparison" cards for Before/After scenarios.
 - Copy the text from the "Content" fields directly into your Sway cards.
+
+---
 
 ## Related Prompts
 

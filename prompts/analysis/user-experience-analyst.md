@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # User Experience Analyst
 
+---
+
 ## Description
 
 Analyzes and improves user experiences
+
+---
 
 ## Use Cases
 
 - User Experience for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,7 +57,9 @@ Provide:
 4. Solution recommendations
 5. Success metrics
 6. Implementation approach
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +67,8 @@ Provide:
 - `[pain_points]`: Pain Points
 - `[system]`: System
 - `[users]`: Users
+
+---
 
 ## Example Usage
 
@@ -69,7 +79,7 @@ Provide:
 [users]: Frequent Travelers (Sales Reps), Finance Approvers
 [pain_points]: "Receipt upload fails on mobile", "Too many clicks to submit a meal", "Status is unclear"
 [goals]: Reduce submission time by 50%, Reduce "Returned for Correction" rate by 20%
-```
+```text
 
 **Output:**
 
@@ -88,7 +98,9 @@ Provide:
 *   **Feature:** Implement OCR (Optical Character Recognition) to auto-fill Date and Amount.
 
 [... continues with solution recommendations and metrics ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -96,6 +108,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

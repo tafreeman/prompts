@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Generator
 
+---
+
 ## Description
 
 Create structured competitive analyses that inform product strategy, sales positioning, and market differentiation. Generates side-by-side comparisons, SWOT analyses, and actionable recommendations.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ Create structured competitive analyses that inform product strategy, sales posit
 - Supporting fundraising market analysis
 - Evaluating acquisition targets
 - Developing go-to-market positioning
+
+---
 
 ## Prompt
 
@@ -90,7 +96,9 @@ Generate:
    - Go-to-market tactics
 
 Keep analysis objective and evidence-based. Flag assumptions clearly.
-```
+```text
+
+---
 
 ## Variables
 
@@ -99,6 +107,8 @@ Keep analysis objective and evidence-based. Flag assumptions clearly.
 - `[market]`: Industry and market segment
 - `[purpose]`: Why you need this analysis (sales, product planning, fundraising)
 - `[criteria]`: Key evaluation dimensions important to your buyers
+
+---
 
 ## Example Usage
 
@@ -110,7 +120,7 @@ Competitors to Analyze: Fivetran, Airbyte, Stitch Data
 Market: Data integration / ETL-ELT space, targeting mid-market and enterprise companies
 Analysis Purpose: Sales battlecards for enterprise deals - need to arm AEs with competitive positioning
 Key Criteria: Performance/speed, ease of use, pricing, enterprise features (security, compliance), connector breadth, support quality
-```
+```text
 
 **Output:**
 
@@ -396,7 +406,9 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ---
 
 *This analysis should be refreshed quarterly. For competitive intel updates, contact [Product Marketing].*
-```
+```text
+
+---
 
 ## Tips
 
@@ -405,6 +417,8 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - Update regularly - competitive landscapes change fast
 - Focus on what matters to buyers, not comprehensive feature lists
 - Be honest about weaknesses - sales teams need to handle objections
+
+---
 
 ## Related Prompts
 
