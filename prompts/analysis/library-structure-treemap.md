@@ -115,4 +115,16 @@ mindmap
       "Data Quality Assessment"
     System
       "Incident Response Orchestrator"
-```text
+```
+
+## Variables
+
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[PROMPT_LIBRARY_STRUCTURE]` | The file structure or list of files in the prompt library | Directory tree or JSON structure of prompts organized by category |
+
+## Tips
+
+- **Use consistent sizing**: Ensure tiles are sized proportionally to accurately represent relative category sizes
+- **Color code by category**: Use distinct colors for each main category for quick visual identification
+- **Interactive elements**: Consider making the treemap interactive so users can drill down into individual prompts

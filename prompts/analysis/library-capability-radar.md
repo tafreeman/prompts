@@ -98,4 +98,16 @@ pie showData
     "Developers" : 15
     "Governance" : 4
     "System" : 6
-```text
+```
+
+## Variables
+
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[CATEGORY_COUNTS]` | Number of prompts in each of the 7 key domains | Advanced: 8, Analysis: 18, Business: 25, Creative: 3, Developers: 15, Governance: 4, System: 6 |
+
+## Tips
+
+- **Use appropriate scale**: Ensure the radar chart scale accommodates the highest category count
+- **Visualize gaps**: Look for categories with significantly lower counts to prioritize expansion
+- **Track over time**: Generate periodic radar charts to monitor library growth and balance
