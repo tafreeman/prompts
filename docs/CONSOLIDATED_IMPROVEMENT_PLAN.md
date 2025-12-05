@@ -360,9 +360,10 @@ Consider merging:
 - `techniques/reflexion/` → `prompts/advanced/`
 - `techniques/context-optimization/` → `prompts/advanced/`
 
-### 14. Add Mermaid Diagrams to Complex Prompts
+### 14. Add Mermaid Diagrams to Complex Prompts ✅ COMPLETE
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 2 hours  
+**Status:** ✅ Added visual diagrams to 3 key prompts (Dec 5, 2025)  
 
 | File | Diagram Type | Purpose |
 |------|:------------:|---------|
@@ -496,7 +497,7 @@ From `PROMPT_WEB_APP_ARCHITECTURE.md`:
 | ✅ Done | 15 | 15 | 0 |
 | 🔴 Critical | 3 | 2 | 1 |
 | 🟠 High | 4 | 4 | 0 |
-| 🟡 Medium | 7 | 0 | 7 |
+| 🟡 Medium | 7 | 2 | 5 |
 | 🟢 Low | 3 | 0 | 3 |
 | 🔮 Future | 9 | 0 | 9 |
 

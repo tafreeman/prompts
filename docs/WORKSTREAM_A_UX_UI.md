@@ -358,7 +358,7 @@ graph TD
 | A5. Horizontal rules | ✅ | 147 | Added section dividers |
 | A6. Collapsible tables | ⬜ | 5 | Manual wrap |
 | A7. Input/Output examples | ⬜ | 32 | Template provided |
-| A8. Mermaid diagrams | ⬜ | 3 | Code provided |
+| A8. Mermaid diagrams | ✅ | 3 | Added to ReAct, ToT, CoT guide |
 | A9. Badges | ⬜ | 10 | Template provided |
 | A10. Emoji headers | ⬜ | All | Optional polish |
 | A11. TOC for long docs | ⬜ | 3 | Template provided |
