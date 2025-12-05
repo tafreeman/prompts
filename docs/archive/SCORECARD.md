@@ -35,7 +35,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ## Executive Summary
 
 | Metric | Value |
-|--------|-------|
+| :--- |-------|
 | **Total Prompts** | 141 |
 | **Average Score** | 4.07 |
 | **Excellent (4.5-5.0)** | 1 (0.7%) |
@@ -47,7 +47,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ## Dimension Averages
 
 | Dimension | Weight | Average Score |
-|-----------|--------|---------------|
+| :--- |--------| :--- |
 | **Clarity** | 25% | 4.37 |
 | **Effectiveness** | 30% | 4.17 |
 | **Reusability** | 20% | 4.09 |
@@ -59,7 +59,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ## Category Summary
 
 | Category | Count | Avg Score | Top Rating |
-|----------|-------|-----------|------------|
+| :--- |-------| :--- |------------|
 | **advanced** | 16 | 4.11 | Excellent (4.5) |
 | **analysis** | 20 | 4.23 | Good (4.4) |
 | **business** | 36 | 4.34 | Good (4.4) |
@@ -76,7 +76,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### Advanced (16 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [Chain-of-Thought: Concise Mode](../prompts/prompts/prompts/advanced/chain-of-thought-concise.md) | **4.5** | ⭐⭐⭐⭐⭐ | 4.9 | 4.9 | 4.6 | 2.6 | 4.8 |
 | [ReAct: Library Structure & Content Analy](../prompts/prompts/prompts/advanced/library-analysis-react.md) | **4.4** | ⭐⭐⭐⭐ | 4.9 | 4.9 | 4.2 | 3.0 | 4.6 |
 | [RAG: Document Retrieval and Citation](../prompts/prompts/prompts/advanced/rag-document-retrieval.md) | **4.4** | ⭐⭐⭐⭐ | 4.9 | 4.9 | 4.4 | 2.2 | 4.6 |
@@ -97,7 +97,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### Analysis (20 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [Business Case Developer](../prompts/prompts/prompts/analysis/business-case-developer.md) | **4.4** | ⭐⭐⭐⭐ | 4.7 | 4.6 | 4.4 | 3.6 | 4.4 |
 | [Competitive Intelligence Researcher](../prompts/prompts/prompts/analysis/competitive-intelligence-researcher.md) | **4.4** | ⭐⭐⭐⭐ | 4.9 | 4.9 | 4.4 | 3.0 | 4.0 |
 | [Gap Analysis Expert](../prompts/prompts/prompts/analysis/gap-analysis-expert.md) | **4.4** | ⭐⭐⭐⭐ | 4.7 | 4.6 | 4.2 | 3.6 | 4.4 |
@@ -122,7 +122,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### Business (36 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [Business Process Reengineering](../prompts/prompts/prompts/business/business-process-reengineering.md) | **4.4** | ⭐⭐⭐⭐ | 4.7 | 4.6 | 4.2 | 3.6 | 4.4 |
 | [Cold Email Generator](../prompts/prompts/prompts/business/cold-email-generator.md) | **4.4** | ⭐⭐⭐⭐ | 4.9 | 4.5 | 4.4 | 3.4 | 4.4 |
 | [Crisis Management Coordinator](../prompts/prompts/prompts/business/crisis-management-coordinator.md) | **4.4** | ⭐⭐⭐⭐ | 4.7 | 4.6 | 4.2 | 3.6 | 4.4 |
@@ -163,13 +163,13 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### Creative (1 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [Content Marketing Blog Post Generator](../prompts/prompts/prompts/creative/content-marketing-blog-post.md) | **3.6** | ⭐⭐⭐ | 4.1 | 3.9 | 3.0 | 2.5 | 4.6 |
 
 ### Developers (24 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [C# Refactoring Assistant](../prompts/prompts/prompts/developers/csharp-refactoring-assistant.md) | **4.1** | ⭐⭐⭐⭐ | 4.1 | 4.2 | 4.1 | 3.6 | 4.6 |
 | [Legacy System Modernization](../prompts/prompts/prompts/developers/legacy-system-modernization.md) | **4.1** | ⭐⭐⭐⭐ | 4.1 | 4.4 | 4.1 | 3.2 | 4.2 |
 | [Code Generation Assistant](../prompts/prompts/prompts/developers/code-generation-assistant.md) | **4.0** | ⭐⭐⭐⭐ | 4.1 | 4.4 | 4.1 | 3.1 | 4.2 |
@@ -198,14 +198,14 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### Governance (2 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [Legal: Contract Review Assistant](../prompts/prompts/prompts/governance/legal-contract-review.md) | **3.9** | ⭐⭐⭐ | 4.1 | 4.4 | 3.9 | 2.4 | 4.6 |
 | [Security: Incident Response Framework](../prompts/prompts/prompts/governance/security-incident-response.md) | **3.9** | ⭐⭐⭐ | 4.1 | 4.4 | 4.1 | 2.2 | 4.6 |
 
 ### M365 (20 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [M365 Daily Standup Assistant](../prompts/prompts/prompts/m365/m365-daily-standup-assistant.md) | **4.0** | ⭐⭐⭐⭐ | 4.1 | 4.2 | 4.1 | 3.1 | 4.4 |
 | [M365 Data Insights Assistant](../prompts/prompts/prompts/m365/m365-data-insights-assistant.md) | **4.0** | ⭐⭐⭐⭐ | 4.1 | 4.2 | 3.9 | 3.1 | 4.4 |
 | [M365 Document Summarizer](../prompts/prompts/prompts/m365/m365-document-summarizer.md) | **4.0** | ⭐⭐⭐⭐ | 4.1 | 4.2 | 4.1 | 3.1 | 4.4 |
@@ -230,7 +230,7 @@ description: Consolidated scorecard summarizing prompt coverage, average ratings
 ### System (22 prompts)
 
 | Prompt | Score | Rating | Clarity | Effect. | Reuse | Simple | Examples |
-|--------|-------|--------|---------|---------|-------|--------|----------|
+| :--- |-------| :--- |---------| :--- |-------| :--- |----------|
 | [M365 Copilot Frontier Research Agent](../prompts/prompts/prompts/system/m365-copilot-research-agent.md) | **4.4** | ⭐⭐⭐⭐ | 4.9 | 4.5 | 4.4 | 3.3 | 4.1 |
 | [Prompt Quality Evaluator: Meta-Evaluatio](../prompts/prompts/prompts/system/prompt-quality-evaluator.md) | **4.2** | ⭐⭐⭐⭐ | 4.9 | 4.3 | 4.6 | 2.2 | 4.2 |
 | [API Architecture Designer](../prompts/prompts/prompts/system/api-architecture-designer.md) | **4.0** | ⭐⭐⭐⭐ | 3.9 | 3.9 | 4.1 | 3.9 | 4.4 |

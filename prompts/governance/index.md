@@ -38,7 +38,7 @@ Ensure compliance, manage risk, and handle security incidents with structured pr
 ## In This Section
 
 | Pattern | When to Use | Representative Prompt |
-|---------|-------------|------------------------|
+| :--- |-------------| :--- |
 | **Legal Review** | Analyzing contracts for risks and missing clauses | [Legal Contract Review](/prompts/governance/legal-contract-review) |
 | **Security Operations** | Managing incident response and containment | [Security Incident Response](/prompts/governance/security-incident-response) |
 

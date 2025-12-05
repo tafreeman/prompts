@@ -352,8 +352,8 @@ Then, merge your feature branch:
 
 "When you open the file, you'll see these markers:
 
-The stuff between `<<<<<<< HEAD` and `=======` is what's on main.
-The stuff between `=======` and `>>>>>>> feature-login` is what's on your branch."
+The block labeled `HEAD` above the divider represents what's already on main.
+The block below the `=======` divider (ending with the branch name) shows the incoming changes from your feature branch."
 
 [VISUAL: Highlight each section clearly]
 

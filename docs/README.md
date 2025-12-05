@@ -163,7 +163,7 @@ We now provide a library of pre-built custom agents for GitHub Copilot:
 ### Available Agents
 
 | Agent | Use Case |
-|-------|----------|
+| :--- |----------|
 | `@docs_agent` | Documentation and README generation |
 | `@code_review_agent` | Code review and best practices |
 | `@test_agent` | Unit and integration test generation |
