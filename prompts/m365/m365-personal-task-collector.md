@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Personal Task Collector
 
+---
+
 ## Description
 
 This prompt helps an individual extract and organize personal tasks from unstructured sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes, and calendar events to identify tasks the user is responsible for and presents them in a prioritized, actionable format.
@@ -89,6 +91,8 @@ Return the output in Markdown with:
 - `## Uncertain or Ambiguous Tasks`
   - 2–5 bullets for tasks that need clarification, or "None" if all tasks are clear.
 
+---
+
 ## Use Cases
 
 - Use case 1: A busy professional consolidating scattered tasks at the start of the week.
@@ -96,6 +100,8 @@ Return the output in Markdown with:
 - Use case 3: A project manager reviewing their personal follow-ups across multiple projects.
 - Use case 4: A team lead preparing their daily to-do list from recent meetings and emails.
 - Use case 5: A consultant organizing client-related action items from multiple communication channels.
+
+---
 
 ## Prompt
 
@@ -149,11 +155,19 @@ Return the result in Markdown:
 
 Now, using my activity from [time_window], extract and organize my tasks.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[time_window]`: How far back to scan for tasks (e.g., "last 7 days").
 - `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
 - `[exclude_completed]`: Optional; whether to exclude tasks already marked as done.
+
+---
 
 ## Example Usage
 
@@ -166,6 +180,10 @@ Now, using my activity from [time_window], extract and organize my tasks.
 
 You are my Personal Task Collector working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -191,12 +209,20 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 ## Uncertain or Ambiguous Tasks
 - "Think about longer-term onboarding improvements" mentioned in a chat—needs clarification on scope and timeline.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Tip 1: Run this prompt at the start of each week to build your weekly to-do list.
 - Tip 2: Adjust `[time_window]` if you've been away or want to catch up on older commitments.
 - Tip 3: Copy the "Task List" table directly into Microsoft To Do, Planner, Jira, or your preferred task tracker.
 - Tip 4: Review the "Uncertain or Ambiguous Tasks" section and clarify with relevant stakeholders before committing.
+
+---
 
 ## Related Prompts
 

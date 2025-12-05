@@ -28,6 +28,8 @@ effectivenessScore: 4.1
 ---
 # Email Newsletter Writer
 
+---
+
 ## Description
 
 Create engaging email newsletters that subscribers actually want to read. This prompt helps marketers, content creators, and business owners craft newsletters that deliver value, maintain audience interest, and achieve marketing goals while avoiding the spam folder.
@@ -83,6 +85,12 @@ Please create:
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -140,6 +148,10 @@ Please create:
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -222,7 +234,11 @@ z api       # Goes to most-used api directory
 ```bash
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
+<<<<<<< HEAD
 ```sql
+=======
+```bash
+>>>>>>> main
 *Time saved: 45 minutes on a multi-package repo*
 
 ---
@@ -275,6 +291,12 @@ Happy coding,
 
 P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git workflows that scale], [The ultimate VS Code setup], [Debugging in production]. All still relevant, all still free.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Subject lines are everything:** Test multiple versions—even a 5% improvement in open rates compounds over time

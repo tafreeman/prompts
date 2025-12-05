@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Digital Transformation Advisor
 
+---
+
 ## Description
 
 Guides digital transformation initiatives
@@ -57,6 +59,12 @@ Include:
 5. Implementation phases
 6. Success measurement
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[budget]`: Budget
@@ -78,6 +86,10 @@ Include:
 [budget]: $50M Capital Investment
 [timeline]: 3 Years (2025-2027)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -98,6 +110,12 @@ Include:
 
 [... continues with change management and success measurement ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

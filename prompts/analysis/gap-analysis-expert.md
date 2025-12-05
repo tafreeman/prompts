@@ -25,6 +25,8 @@ effectivenessScore: 3.2
 ---
 # Gap Analysis Expert
 
+---
+
 ## Description
 
 Conducts comprehensive gap analyses
@@ -57,6 +59,12 @@ Include:
 5. Bridging strategy
 6. Implementation roadmap
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[area]`: Area
@@ -76,6 +84,10 @@ Include:
 [area]: Supply Chain Operations
 [constraints]: Budget < $50k, Must integrate with Shopify
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -95,6 +107,12 @@ Include:
 
 [... continues with impact analysis and roadmap ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

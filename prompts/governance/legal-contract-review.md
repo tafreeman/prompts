@@ -33,6 +33,7 @@ retention_period: "7 years"
 ---
 # Legal: Contract Review Assistant
 
+<<<<<<< HEAD
 ![Risk Level](https://img.shields.io/badge/Risk%20Level-High-red) ![Human Review](https://img.shields.io/badge/Human%20Review-Required-orange) ![Approval](https://img.shields.io/badge/Approval-Legal%20Counsel-blue)
 
 ## Table of Contents
@@ -46,6 +47,8 @@ retention_period: "7 years"
 - [Related Prompts](#related-prompts)
 - [Governance Notes](#governance-notes)
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -142,6 +145,12 @@ List any immediate concerns requiring escalation:
 
 **DISCLAIMER**: This is an AI-assisted review. All findings must be reviewed and validated by a licensed attorney before taking any action. This does not constitute legal advice.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[CONTRACT_TYPE]`: Type of agreement (NDA, MSA, SaaS Agreement, Employment Contract, etc.)
@@ -182,6 +191,10 @@ Section 11.3 Governing Law:
 
 **Instructions**: [As specified above]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -388,6 +401,12 @@ Section 11.3 Governing Law:
 
 **DISCLAIMER**: This is an AI-assisted contract review tool. This analysis must be reviewed and validated by a licensed attorney before making any legal decisions. This does not constitute legal advice. No attorney-client relationship is created.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Always include full context**: Contract type, parties, industry, jurisdiction
@@ -469,4 +488,13 @@ Section 11.3 Governing Law:
   }
 }
 ```text
+<<<<<<< HEAD
 ## Related Prompts
+=======
+
+---
+
+## Related Prompts
+
+<!-- Links removed - files don't exist yet -->
+>>>>>>> main

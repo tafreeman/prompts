@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # User Experience Analyst
 
+---
+
 ## Description
 
 Analyzes and improves user experiences
@@ -56,6 +58,12 @@ Provide:
 5. Success metrics
 6. Implementation approach
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[goals]`: Goals
@@ -75,6 +83,10 @@ Provide:
 [pain_points]: "Receipt upload fails on mobile", "Too many clicks to submit a meal", "Status is unclear"
 [goals]: Reduce submission time by 50%, Reduce "Returned for Correction" rate by 20%
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -93,6 +105,12 @@ Provide:
 
 [... continues with solution recommendations and metrics ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

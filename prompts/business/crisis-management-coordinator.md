@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Crisis Management Coordinator
 
+---
+
 ## Description
 
 Manages project crises
@@ -56,6 +58,12 @@ Provide:
 5. Recovery strategy
 6. Lessons learned
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[crisis]`: Crisis
@@ -75,6 +83,10 @@ Provide:
 [impact]: All test data encrypted, rollout to APAC region (scheduled for Monday) blocked, potential PII leak
 [urgency]: Critical (Level 1) - Immediate Action Required
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -95,6 +107,12 @@ Provide:
 
 [... continues with resource mobilization and lessons learned ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -28,6 +28,8 @@ effectivenessScore: 4.2
 ---
 # Social Media Content Generator
 
+---
+
 ## Description
 
 Generate platform-specific, engaging social media content that resonates with your target audience. This prompt helps content creators, marketers, and business professionals craft posts optimized for each platform's unique format, tone, and audience expectations.
@@ -81,6 +83,12 @@ Also provide:
 - Engagement prediction (low/medium/high)
 - Alternative hook option
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -135,6 +143,10 @@ Also provide:
 - Engagement prediction (low/medium/high)
 - Alternative hook option
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -186,6 +198,12 @@ Drop your story in the comments 👇
 **Alternative Hook:**
 "I've helped launch 50+ products. The ones that succeeded all had this 'flaw':"
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Platform-specific formatting:** LinkedIn favors longer posts with line breaks, Twitter needs concise punchy content, Instagram focuses on visual captions, Facebook works best with questions and community engagement

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Metrics and KPI Designer
 
+---
+
 ## Description
 
 Designs business metrics and KPIs
@@ -56,6 +58,12 @@ Include:
 5. Reporting strategy
 6. Action triggers
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[data]`: Data
@@ -75,6 +83,10 @@ Include:
 [data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
 [frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -94,6 +106,12 @@ Include:
 
 [... continues with reporting strategy and calculation methods ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

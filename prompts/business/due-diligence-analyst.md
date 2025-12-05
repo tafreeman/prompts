@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Due Diligence Analyst
 
+---
+
 ## Description
 
 Conducts comprehensive due diligence
@@ -57,6 +59,12 @@ Provide:
 5. Findings summary
 6. Recommendations
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[focus]`: Focus
@@ -78,6 +86,10 @@ Provide:
 [timeline]: 2 Weeks (Expedited)
 [stakeholders]: Investment Committee, CTO (Acquirer)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -98,6 +110,12 @@ Provide:
 
 [... continues with information requests and risk assessment ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

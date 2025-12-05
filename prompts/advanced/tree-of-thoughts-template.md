@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
+---
+
 ## Description
 
 Tree-of-Thoughts (ToT) is an advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when a path proves unfruitful. Unlike linear reasoning (Chain-of-Thought), ToT excels at problems with multiple valid approaches, requiring trade-off analysis or creative exploration. Essential for complex decisions, strategic planning, and architecture choices.
+
+---
 
 ## Research Foundation
 
@@ -36,6 +40,7 @@ This technique is based on the paper:
 
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
 
+<<<<<<< HEAD
 ### Tree-of-Thoughts Structure Visualization
 
 <!-- Diagram: Tree-of-Thoughts Branch Evaluation -->
@@ -73,6 +78,49 @@ graph TD
 - 📊 **Evaluation**: Systematic scoring of each branch's merits
 - ✅ **Selection**: Best branch chosen based on evaluation criteria
 - ❌ **Pruning**: Less promising branches are not pursued further
+=======
+---
+
+## Tree-of-Thoughts Visualization
+
+ToT explores multiple solution paths and evaluates each branch:
+
+```mermaid
+graph TD
+    A[🎯 Problem] --> B1[💡 Approach 1]
+    A --> B2[💡 Approach 2]
+    A --> B3[💡 Approach 3]
+    
+    B1 --> C1[📊 Evaluate: 7/10]
+    B2 --> C2[📊 Evaluate: 9/10]
+    B3 --> C3[📊 Evaluate: 5/10]
+    
+    C2 --> D1[🔍 Explore Further]
+    D1 --> E1[💡 Sub-option 2a]
+    D1 --> E2[💡 Sub-option 2b]
+    
+    E1 --> F1[📊 Evaluate: 8/10]
+    E2 --> F2[📊 Evaluate: 10/10]
+    
+    F2 --> G[✅ Selected Solution]
+    
+    C3 -.->|Backtrack| A
+    
+    style A fill:#e3f2fd
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style F2 fill:#81c784
+    style G fill:#4caf50,color:#fff
+    style C3 fill:#ffcdd2
+```
+
+**Key Concepts:**
+- 💡 **Branch Generation**: Create multiple solution approaches
+- 📊 **Evaluation**: Score each branch on feasibility, cost, risk
+- 🔍 **Expansion**: Explore promising branches deeper
+- ⬅️ **Backtracking**: Abandon low-scoring paths
+- ✅ **Selection**: Choose highest-rated solution
+>>>>>>> main
 
 ---
 
@@ -165,6 +213,12 @@ Compare all viable paths explored:
 - Residual risks and mitigation strategies
 
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[PROBLEM_STATEMENT]`: The complex problem requiring multi-approach exploration
@@ -204,6 +258,10 @@ You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 **Instructions**:
 [As specified above]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -485,6 +543,12 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Generate genuinely different branches**: Don't create branches that are minor variations - aim for fundamentally different approaches
@@ -553,6 +617,12 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
   }
 }
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Data Analysis and Insights Generator
 
+---
+
 ## Description
 
 Transform raw data into meaningful insights and actionable recommendations. This prompt helps data analysts, business intelligence professionals, and decision-makers extract valuable patterns, trends, and insights from their data.
@@ -96,6 +98,12 @@ Please provide:
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[WHAT KIND OF DATA]`: Type of data you're analyzing (sales, customer, marketing, etc.)
@@ -173,6 +181,10 @@ Please provide:
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -399,6 +411,12 @@ To communicate these insights effectively, create:
 3. Set up weekly tracking for repeat purchase rate and CAC
 4. Schedule 30-day review to assess progress
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Provide as much context as possible about your business and goals

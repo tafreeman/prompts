@@ -26,6 +26,8 @@ reviewStatus: "approved"
 ---
 # Documentation Generator
 
+---
+
 ## Description
 
 You are a **Senior Technical Writer** with expertise in creating clear, comprehensive documentation for software projects. You follow the **Diátaxis framework** (Tutorials, How-tos, Reference, Explanation) and adapt documentation style to the target audience.
@@ -97,6 +99,12 @@ Generate comprehensive documentation for:
 - Add "Note:", "Warning:", and "Tip:" callouts
 - Provide estimated time for each tutorial section
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -119,6 +127,10 @@ Generate comprehensive documentation for:
 [doc_type]: API Reference & Integration Guide
 [tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -143,6 +155,12 @@ Generate comprehensive documentation for:
 
 [... continues with setup instructions and contributing ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 ### Documentation Type Selection
@@ -181,6 +199,12 @@ ORIENTED      │    HOW-TO GUIDES    │   │    REFERENCE       │
               │                     │   │  oriented)         │
               └─────────────────────┘   └────────────────────┘
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Related Prompts
 
 - Browse other Developer prompts in this category

@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # DevOps Architecture Planner
 
+---
+
 ## Description
 
 Designs DevOps and CI/CD architectures
+
+---
 
 ## Use Cases
 
 - DevOps for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,12 +59,20 @@ Provide:
 5. Deployment strategies
 6. Automation framework
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[environments]`: Environments
 - `[quality]`: Quality
 - `[stack]`: Stack
 - `[team]`: Team
+
+---
 
 ## Example Usage
 
@@ -70,6 +84,10 @@ Provide:
 [environments]: Dev, QA, Staging, Prod (Blue/Green)
 [quality]: 80% code coverage gate, automated security scanning (SAST/DAST), zero critical vulns
 ```sql
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -93,12 +111,20 @@ Provide:
 
 [... continues with observability and security integration ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

@@ -25,6 +25,8 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
 
+---
+
 ## Description
 
 This prompt guides the generation of a Network Graph visualization to show relationships and workflows between different prompts in the library.
@@ -83,6 +85,12 @@ Additionally, link prompts that are part of the same workflow (e.g., connect "re
 
 This should look like a constellation showing clusters of related capabilities.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Example Visualization (Mermaid)
 
 Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
@@ -110,4 +118,21 @@ graph LR
   RAE --> ADC
   ADC --> CRA
   CRA --> SCM
+<<<<<<< HEAD
 ```text
+=======
+```
+
+## Variables
+
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[PROMPT_LIST]` | List of prompts in the library | ["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"] |
+| `[WORKFLOW_DEFINITIONS]` | Optional definitions of workflows connecting prompts | "SDLC: requirements-analysis → api-design → code-review → quality-assurance" |
+
+## Tips
+
+- **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
+- **Find gaps**: Disconnected nodes may indicate prompts that need better integration
+- **Use color coding**: Assign different colors to different categories for easier visual parsing
+>>>>>>> main

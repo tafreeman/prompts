@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Performance Review Writer
 
+---
+
 ## Description
 
 Create balanced, actionable performance reviews that recognize achievements, address growth areas, and set clear development goals. Generates review content that is fair, specific, and focused on behaviors and outcomes.
@@ -88,7 +90,14 @@ Generate:
    - Justification tied to accomplishments
 
 Write in professional but warm tone. Be specific with examples. Avoid vague statements like "good communicator" - show, don't tell.
+<<<<<<< HEAD
 ```sql
+=======
+```text
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[employee_info]`: Name, tenure, and any relevant context
@@ -125,6 +134,10 @@ Previous Goals:
 4. Improve documentation practices
 Overall Rating: Exceeds Expectations
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -264,6 +277,12 @@ I'm excited to see you continue to grow. You're on track for significant leaders
 
 — [Manager Name]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Lead with specific accomplishments, not personality traits

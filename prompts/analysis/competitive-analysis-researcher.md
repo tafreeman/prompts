@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Researcher
 
+---
+
 ## Description
 
 Conducts competitive market analysis
@@ -56,6 +58,12 @@ Include:
 5. Opportunities and threats
 6. Strategic recommendations
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[competitors]`: Competitors
@@ -75,6 +83,10 @@ Include:
 [competitors]: Asana, Monday.com, ClickUp
 [focus]: Pricing Strategy and Feature Gaps in "Creative Proofing"
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -95,6 +107,12 @@ Include:
 
 [... continues with market positioning and opportunities ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

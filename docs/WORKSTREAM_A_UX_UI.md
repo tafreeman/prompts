@@ -337,6 +337,7 @@ graph TD
 
 | Task | Status | Files | Notes |
 |:-----|:------:|------:|:------|
+<<<<<<< HEAD
 | A1. Fix broken links | ✅ | 50 | All 50 broken links fixed |
 | A2. Code block languages | ✅ | 1781 | Fixed in 256 files |
 | A3. Table alignment | ✅ | 5 | Bulk regex applied |
@@ -350,6 +351,19 @@ graph TD
 | A11. TOC for long docs | ✅ | 2 | Added to 2 longest files |
 
 **Completion Date:** December 5, 2025
+=======
+| A1. Fix broken links | ✅ | 50 | All 50 broken links fixed! |
+| A2. Code block languages | ✅ | 139 | Added language specifiers to all code blocks! |
+| A3. Table alignment | ✅ | 6 | Added alignment specifiers |
+| A4. Standardize headers | ✅ | 6 | Changed Purpose → Description |
+| A5. Horizontal rules | ✅ | 147 | Added section dividers |
+| A6. Collapsible tables | ⬜ | 5 | Manual wrap |
+| A7. Input/Output examples | ⬜ | 32 | Template provided |
+| A8. Mermaid diagrams | ✅ | 3 | Added to ReAct, ToT, CoT guide |
+| A9. Badges | ⬜ | 10 | Template provided |
+| A10. Emoji headers | ⬜ | All | Optional polish |
+| A11. TOC for long docs | ⬜ | 3 | Template provided |
+>>>>>>> main
 
 ---
 

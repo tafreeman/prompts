@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Innovation Strategy Consultant
 
+---
+
 ## Description
 
 Develops innovation strategies
@@ -56,6 +58,12 @@ Include:
 5. Governance model
 6. Success metrics
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[capabilities]`: Capabilities
@@ -75,6 +83,10 @@ Include:
 [capabilities]: Strong mechanical engineering, world-class manufacturing; Weak software/electronics
 [opportunities]: Battery Management Systems (BMS), Thermal Management for EVs
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -95,6 +107,12 @@ Include:
 
 [... continues with governance and success metrics ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Solution Architecture Designer
 
+---
+
 ## Description
 
 Designs comprehensive solution architectures
+
+---
 
 ## Use Cases
 
 - Solution Design for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -54,6 +60,12 @@ Provide:
 5. Scalability considerations
 6. Security architecture
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[constraints]`: Constraints
@@ -61,6 +73,8 @@ Provide:
 - `[integrations]`: Integrations
 - `[nonfunctional_req]`: Nonfunctional Req
 - `[problem]`: Problem
+
+---
 
 ## Example Usage
 
@@ -73,6 +87,10 @@ Provide:
 [constraints]: AWS cloud, Java/Spring Boot backend, React frontend, budget cap $50k/month run rate
 [integrations]: Salesforce CRM, SAP ERP, Stripe Payments, SendGrid Email
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,12 +121,20 @@ Provide:
 
 [... continues with component specs and integration patterns ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

@@ -28,6 +28,8 @@ effectivenessScore: 4.2
 ---
 # Product Description Generator
 
+---
+
 ## Description
 
 Create persuasive, SEO-optimized product descriptions that convert browsers into buyers. This prompt helps e-commerce owners, marketers, and copywriters craft descriptions that highlight benefits, address objections, and drive purchasing decisions.
@@ -92,7 +94,14 @@ Please create:
 5. Trust-building elements
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
+<<<<<<< HEAD
 ```sql
+=======
+```text
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -161,6 +170,10 @@ Please create:
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -168,6 +181,8 @@ Please create:
 
 ## Hook
 **Land at your destination like you just woke up at home.**
+
+---
 
 ## Description
 Stop arriving exhausted. The CloudRest Memory Foam Travel Pillow delivers chiropractor-recommended neck support that helps you sleep soundly at 35,000 feet—while packing 30% smaller than ordinary travel pillows.
@@ -227,6 +242,12 @@ Order today and receive a **FREE sleep mask** (while supplies last).
 **Meta Description:**
 CloudRest memory foam travel pillow with cooling gel—30% more compact than competitors. Adjustable neck support for airplanes. 4.8★ rated, 50,000+ sold.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Lead with benefits, not features:** "Sleep better on flights" beats "Memory foam construction"—always translate features into customer outcomes

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Project Documentation Manager
 
+---
+
 ## Description
 
 Manages project documentation
@@ -56,6 +58,12 @@ Provide:
 5. Review processes
 6. Archive procedures
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[audience]`: Audience
@@ -75,6 +83,10 @@ Provide:
 [audience]: Internal Employees (Users), External Auditors (Approvers)
 [compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -96,6 +108,12 @@ Provide:
 
 [... continues with access management and archive procedures ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

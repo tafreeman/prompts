@@ -23,6 +23,8 @@ reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
 
+---
+
 ## Description
 
 Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
@@ -243,6 +245,12 @@ Before starting, ensure:
 
 **Buffer:** [+Y weeks for unknowns]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[SYSTEM_OR_CODE_DESCRIPTION]`: High-level description of what's being refactored
@@ -287,6 +295,10 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Test Coverage: 60%
 - Deployment Frequency: Daily
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output (abbreviated):**
 
 ```markdown
@@ -377,6 +389,12 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 
 [Same structure: delete old user code from monolith, final validation]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Start small:** First phase should be low-risk preparation (tests, boundaries)
@@ -390,8 +408,11 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 
 ## Related Prompts
 
+<<<<<<< HEAD
 - [Tree-of-Thoughts: Architecture Evaluator](../advanced/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
 - [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For fixing issues during refactoring
+=======
+>>>>>>> main
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
 
 ---

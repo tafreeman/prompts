@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Resource Allocation Optimizer
 
+---
+
 ## Description
 
 Optimizes project resource allocation
@@ -56,6 +58,12 @@ Provide:
 5. Cost efficiency measures
 6. Contingency planning
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[constraints]`: Constraints
@@ -75,6 +83,10 @@ Provide:
 [constraints]: Web Dev availability is the bottleneck; Campaign must launch Nov 1st (Hard deadline)
 [priorities]: 1. Landing Page (Requires Dev), 2. Email Templates, 3. Social Media Assets
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -94,6 +106,12 @@ Provide:
 
 [... continues with cost efficiency and contingency ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

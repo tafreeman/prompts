@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Workflow Designer
 
+---
+
 ## Description
 
 Designs efficient business workflows
@@ -56,6 +58,12 @@ Provide:
 5. Automation opportunities
 6. Performance metrics
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[automation]`: Automation
@@ -75,6 +83,10 @@ Provide:
 [complexity]: Medium (Multi-stage approval required)
 [automation]: Auto-post to LinkedIn/Twitter upon publish; Slack notifications for approvals
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -93,6 +105,12 @@ Provide:
 
 [... continues with exception handling and performance metrics ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

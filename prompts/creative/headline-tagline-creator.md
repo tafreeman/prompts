@@ -28,6 +28,8 @@ effectivenessScore: 4.3
 ---
 # Headline and Tagline Creator
 
+---
+
 ## Description
 
 Create compelling headlines and memorable taglines that capture attention and communicate value instantly. This prompt helps marketers, copywriters, and content creators develop powerful messaging for advertising, landing pages, product launches, and brand campaigns.
@@ -83,7 +85,14 @@ Please provide:
 2. For each option, briefly explain why it works
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
+<<<<<<< HEAD
 ```sql
+=======
+```text
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -136,6 +145,10 @@ Please provide:
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -263,6 +276,12 @@ Please provide:
 - B: "Your brain's new favorite coworker." (personality/warmth)
 *Test whether users prefer functional or relational positioning.*
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Write 20 to find 1:** The best headlines rarely come first—generate many options and let the strongest emerge

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Sales Objection Handler
 
+---
+
 ## Description
 
 Transform common sales objections into opportunities with structured rebuttals, empathy-driven responses, and proven conversation frameworks. Helps sales teams prepare for and overcome buyer resistance.
@@ -81,6 +83,12 @@ Provide:
 
 Format responses as ready-to-use scripts with natural conversational language.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[objection]`: The exact objection the buyer stated (e.g., "Your price is too high", "We're happy with our current vendor")
@@ -102,6 +110,10 @@ Product/Service: CloudSecure - enterprise security platform with AI-powered thre
 Buyer Persona: CISO at mid-market fintech (500 employees), highly regulated industry, had a breach 18 months ago
 Deal Stage: Negotiation - they want to close this quarter but are playing hardball on price
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -216,6 +228,12 @@ Persist if:
 
 *"Here's where I'm at: I believe CloudSecure is the right choice for [Company], and I think you do too based on the POC. I can hold this pricing through end of quarter. After that, I can't guarantee the same terms because we're adjusting pricing in Q1. Can we get this across the finish line this week?"*
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Never immediately discount - it signals your initial price wasn't fair

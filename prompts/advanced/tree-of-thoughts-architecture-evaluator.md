@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Architecture Evaluator
 
+---
+
 ## Description
 
 A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning. Explores alternatives (e.g., monolith vs microservices, SQL vs NoSQL, sync vs async), compares them across key dimensions, and converges on a justified recommendation with documented trade-offs.
+
+---
 
 ## Research Foundation
 
@@ -310,6 +314,12 @@ Based on the analysis, select the best option:
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
@@ -335,6 +345,10 @@ Based on the analysis, select the best option:
 ```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:** (abbreviated)
 
 ```markdown
@@ -409,6 +423,12 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach

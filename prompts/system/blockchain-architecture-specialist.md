@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Blockchain Architecture Specialist
 
+---
+
 ## Description
 
 Designs blockchain-based architectures
+
+---
 
 ## Use Cases
 
 - Blockchain for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,12 +59,20 @@ Include:
 5. Scalability solutions
 6. Governance model
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[blockchain_type]`: Blockchain Type
 - `[consensus]`: Consensus
 - `[integrations]`: Integrations
 - `[use_case]`: Use Case
+
+---
 
 ## Example Usage
 
@@ -70,6 +84,10 @@ Include:
 [consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
 [integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -89,12 +107,20 @@ Include:
 
 [... continues with security and scalability ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

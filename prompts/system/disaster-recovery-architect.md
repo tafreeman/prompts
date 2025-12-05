@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Disaster Recovery Architect
 
+---
+
 ## Description
 
 Designs disaster recovery architectures
+
+---
 
 ## Use Cases
 
 - Disaster Recovery for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -54,6 +60,12 @@ Provide:
 5. Recovery automation
 6. Communication plan
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[budget]`: Budget
@@ -61,6 +73,8 @@ Provide:
 - `[rpo]`: Rpo
 - `[rto]`: Rto
 - `[systems]`: Systems
+
+---
 
 ## Example Usage
 
@@ -73,6 +87,10 @@ Provide:
 [budget]: $50k/year for standby infrastructure
 [compliance]: HIPAA (Encryption required, data sovereignty within US)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -93,12 +111,20 @@ Provide:
 
 [... continues with testing framework and recovery automation ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

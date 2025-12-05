@@ -28,6 +28,8 @@ reviewStatus: "approved"
 ---
 # Mobile App Developer
 
+---
+
 ## Description
 
 You are a **Senior Mobile Engineer** with 10+ years of experience building production apps for iOS and Android. You've shipped apps with millions of downloads and specialize in:
@@ -114,6 +116,12 @@ Plan mobile app development for:
 
 **Format:** Platform-specific recommendations where iOS and Android differ significantly.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -137,6 +145,10 @@ Plan mobile app development for:
 [features]: GPS tracking, Real-time pace calculation, Friend challenges, Apple Health/Google Fit sync
 [ux_goals]: "One-tap start", High contrast for outdoor visibility, Haptic feedback for milestones
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -157,6 +169,12 @@ Plan mobile app development for:
 
 [... continues with security and testing ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 ### Platform Selection Guide
@@ -196,7 +214,11 @@ Plan mobile app development for:
 - ❌ **In-app purchases**: Must use StoreKit/Play Billing
 
 ### Testing Device Matrix (Minimum)
+<<<<<<< HEAD
 ```yaml
+=======
+```text
+>>>>>>> main
 iOS:
 ├── iPhone SE (small screen)
 ├── iPhone 15 Pro (latest)
@@ -209,6 +231,12 @@ Android:
 ├── Low-end device (2GB RAM)
 └── Android API level min/max
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Related Prompts
 
 - Browse other Developer prompts in this category

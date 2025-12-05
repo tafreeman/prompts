@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Performance Improvement Consultant
 
+---
+
 ## Description
 
 Improves organizational performance
@@ -56,6 +58,12 @@ Include:
 5. Implementation support
 6. Monitoring framework
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[goals]`: Goals
@@ -74,7 +82,12 @@ Include:
 [issues]: Patient wait times in ER > 4 hours, low nursing staff retention
 [metrics]: Avg ER Wait Time: 260 mins (Benchmark: 120), Nurse Turnover: 22% (Benchmark: 12%)
 [goals]: Reduce wait time to < 2 hours by Q4, reduce turnover to < 15%
+<<<<<<< HEAD
 ```text
+=======
+```xml
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -95,6 +108,12 @@ Include:
 
 [... continues with implementation support and monitoring ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

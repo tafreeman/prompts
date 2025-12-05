@@ -28,6 +28,8 @@ effectivenessScore: 4.0
 ---
 # Video Script Writer
 
+---
+
 ## Description
 
 Generate professional video scripts tailored to different platforms and formats. This prompt helps content creators, marketers, and video producers create structured scripts with hooks, transitions, and calls-to-action that keep viewers engaged from start to finish.
@@ -91,6 +93,12 @@ Format the script with:
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -156,6 +164,10 @@ Format the script with:
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -456,6 +468,12 @@ Just main and feature branches. Create a branch for each thing you're working on
 
 **Description first line:** Master Git branches in under 10 minutes! Perfect for beginners who want to stop fearing code changes.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - **Hook fast:** You have 3-5 seconds before viewers scroll away—lead with your most compelling point or a relatable pain point
@@ -471,5 +489,8 @@ Just main and feature branches. Create a branch for each thing you're working on
 
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)
 - [Social Media Content Generator](social-media-content-generator.md)
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 - [Headline and Tagline Creator](headline-tagline-creator.md)

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Stakeholder Requirements Gatherer
 
+---
+
 ## Description
 
 Gathers and manages stakeholder requirements
@@ -56,6 +58,12 @@ Include:
 5. Prioritization framework
 6. Communication strategy
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[complexity]`: Complexity
@@ -75,6 +83,10 @@ Include:
 [domain]: B2B SaaS Sales
 [complexity]: High (Data migration + Process re-engineering required)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -94,6 +106,12 @@ Include:
 
 [... continues with conflict resolution and communication ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

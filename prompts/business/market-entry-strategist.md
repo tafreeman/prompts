@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Market Entry Strategist
 
+---
+
 ## Description
 
 Develops market entry strategies
@@ -57,6 +59,12 @@ Provide:
 5. Risk assessment
 6. Success metrics
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[company]`: Company
@@ -78,6 +86,10 @@ Provide:
 [competition]: Personio (Local incumbent), SAP SuccessFactors (Enterprise), Workday
 [resources]: $2M Budget, 1 Local Sales Rep, No local office yet
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,6 +109,12 @@ Provide:
 
 [... continues with resource requirements and risk assessment ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

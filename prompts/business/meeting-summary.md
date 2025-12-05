@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # Meeting Summary Generator
 
+---
+
 ## Description
 
 Transform meeting notes or transcripts into clear, actionable summaries. Captures key decisions, assigns action items with owners and due dates, and highlights important discussion points.
@@ -84,7 +86,14 @@ Generate:
    - Pre-work for next meeting
 
 Keep it concise. Focus on decisions and actions, not who said what.
+<<<<<<< HEAD
 ```sql
+=======
+```text
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[meeting_type]`: Type of meeting (e.g., "Weekly team sync", "Project kickoff", "1:1")
@@ -118,6 +127,10 @@ Notes:
 - Next meeting: Dec 13 to review contractor candidates and finalize sprint plans
 - Priya needs to update mobile designs based on delayed timeline - will share revised mockups by Dec 20
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -211,6 +224,12 @@ The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as th
 
 *Summary prepared by [Your Name] | Questions? Reach out in #product-roadmap Slack channel*
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Capture decisions explicitly - who decided, what was decided, why

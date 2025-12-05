@@ -29,6 +29,8 @@ framework_compatibility:
 ---
 # SQL Query Analyzer
 
+---
+
 ## Description
 
 A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
@@ -69,6 +71,12 @@ Output Format:
 - **Optimized Query**: Rewritten SQL.
 - **Index Recommendations**: Suggested indexes to support the query.
 ```sql
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[sql_query]`: The raw SQL to analyze.
@@ -86,6 +94,10 @@ Engine: SQL Server
 Query:
 SELECT * FROM Orders WHERE YEAR(OrderDate) = 2024 AND CustomerName LIKE '%Corp%'
 ```sql
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -112,7 +124,12 @@ FROM Orders
 WHERE OrderDate >= '2024-01-01' 
   AND OrderDate < '2025-01-01'
   AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
+<<<<<<< HEAD
 ```sql
+=======
+```xml
+
+>>>>>>> main
 ## Index Recommendations
 
 ```sql
@@ -120,8 +137,17 @@ WHERE OrderDate >= '2024-01-01'
 CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
 ON Orders (OrderDate) 
 INCLUDE (CustomerName, TotalAmount);
+<<<<<<< HEAD
 ```sql
 ```sql
+=======
+```text
+
+```text
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Always specify the **Database Engine** as syntax and optimization rules vary (e.g., `LIMIT` vs `TOP`).
@@ -133,4 +159,7 @@ INCLUDE (CustomerName, TotalAmount);
 ## Related Prompts
 
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
+<<<<<<< HEAD
 - [data-migration-architect](./data-pipeline-engineer.md)
+=======
+>>>>>>> main

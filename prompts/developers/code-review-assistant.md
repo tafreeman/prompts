@@ -27,6 +27,8 @@ reviewStatus: "approved"
 ---
 # Code Review Assistant
 
+---
+
 ## Description
 
 An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests.
@@ -74,6 +76,12 @@ Focus on:
 - Potential edge cases
 
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example Values |
@@ -151,6 +159,10 @@ Focus on:
 - Potential edge cases
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -209,7 +221,14 @@ This refactored version:
 - Has type hints and docstring
 - Follows Python best practices (PEP 8)
 
+<<<<<<< HEAD
 ```text
+=======
+```python
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific about the context and purpose of your code for more relevant feedback
@@ -249,7 +268,11 @@ This refactored version:
 ## Example Feedback Snippets
 
 ### Critical: Security Issue
+<<<<<<< HEAD
 ```sql
+=======
+```text
+>>>>>>> main
 🔴 **CRITICAL - Security Vulnerability**
 **Line 15**: SQL injection vulnerability
 
@@ -261,8 +284,14 @@ The query uses string concatenation with user input:
 
 **Why**: Attackers can inject malicious SQL to access/delete data.
 ```sql
+<<<<<<< HEAD
 ### Major: Missing Error Handling
 ```sql
+=======
+
+### Major: Missing Error Handling
+```text
+>>>>>>> main
 🟡 **MAJOR - Missing Error Handling**
 **Lines 23-25**: API call has no error handling
 
@@ -276,9 +305,17 @@ try:
 except requests.RequestException as e:
     logger.error(f"API call failed: {e}")
     return None
+<<<<<<< HEAD
 ```text
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
 ```text
+=======
+```json
+
+**Why**: Unhandled exceptions cause poor user experience and make debugging harder.
+```text
+
+>>>>>>> main
 ### Minor: Naming Improvement
 ```text
 🟢 **MINOR - Naming Suggestion**
@@ -288,9 +325,18 @@ except requests.RequestException as e:
 
 **Why**: Descriptive names make code self-documenting.
 ```text
+<<<<<<< HEAD
 ## Related Prompts
 
 - [Code Documentation Generator](./documentation-generator.md) - Generate docs
 - [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
 - [Refactoring Assistant](./csharp-refactoring-assistant.md) - Detailed refactoring guidance
+=======
+
+---
+
+## Related Prompts
+
+- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
+>>>>>>> main
 - [Security Code Auditor](security-code-auditor.md) - Security-focused review

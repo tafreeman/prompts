@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Security Architecture Specialist
 
+---
+
 ## Description
 
 Designs secure system architectures
+
+---
 
 ## Use Cases
 
 - Security for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,12 +59,20 @@ Include:
 5. Monitoring and incident response
 6. Compliance mapping
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Variables
 
 - `[compliance]`: Compliance
 - `[security_req]`: Security Req
 - `[system_name]`: System Name
 - `[threats]`: Threats
+
+---
 
 ## Example Usage
 
@@ -70,6 +84,10 @@ Include:
 [compliance]: PCI-DSS Level 1, GDPR, SOC2 Type II, PSD2 (Open Banking)
 [threats]: Advanced Persistent Threats (APTs), DDoS attacks, Insider threats, Supply chain attacks, SQL injection
 ```sql
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,12 +115,20 @@ Include:
 
 [... continues with network security and incident response ...]
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 
