@@ -1,0 +1,116 @@
+name: Prompt Validation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "prompts/**"
+      - "testing/**"
+      - "tools/validators/**"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "prompts/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pyyaml
+
+      - name: Run unit tests
+        run: pytest testing/evals/test_dual_eval.py -v
+
+  frontmatter-validation:
+    name: Frontmatter Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate frontmatter schema
+        run: python tools/validators/frontmatter_validator.py --all
+
+  prompt-evaluation:
+    name: Prompt Evaluation (PR Only)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: [unit-tests, frontmatter-validation]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Need full history for diff
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Install gh-models extension
+        run: gh extension install github/gh-models
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Get changed prompt files
+        id: changed-files
+        run: |
+          # Get list of changed .md files in prompts/
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- 'prompts/**/*.md' | tr '\n' ' ')
+          echo "files=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Changed files: $CHANGED"
+
+      - name: Run evaluations on changed prompts
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          # Evaluate only changed files with a single fast model
+          for file in ${{ steps.changed-files.outputs.files }}; do
+            if [ -f "$file" ]; then
+              echo "Evaluating: $file"
+              python testing/evals/dual_eval.py "$file" \
+                --models "openai/gpt-4o-mini" \
+                --runs 1 \
+                --output "eval-$(basename $file .md).json" || true
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Upload evaluation results
+        if: steps.changed-files.outputs.files != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-results
+          path: eval-*.json
+          if-no-files-found: ignore

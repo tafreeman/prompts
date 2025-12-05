@@ -1,0 +1,121 @@
+# Single Prompt Evaluator - Dual Grading System
+# Evaluates a single prompt using two models for cross-validation
+# 
+# Usage: 
+#   gh models eval testing/evals/single-prompt-eval.prompt.yml
+#   gh models eval testing/evals/single-prompt-eval.prompt.yml --model anthropic/claude-3.5-sonnet
+#
+# Dual Grading Workflow:
+#   1. Run with default model (GPT-4o-mini) - Primary grader
+#   2. Run with --model anthropic/claude-3.5-sonnet - Secondary grader  
+#   3. Compare scores - if difference > 1.5, investigate
+#
+# To evaluate a different prompt, modify the testData section below
+
+name: Single Prompt Evaluation (Dual Grading)
+description: Evaluate a single prompt with dual-model cross-validation
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2500
+
+testData:
+  # Edit this section with your prompt to evaluate
+  - promptTitle: "Your Prompt Title"
+    promptContent: |
+      # Paste your prompt content here
+      
+      You are a helpful assistant that...
+      
+      Please provide:
+      1. Step one
+      2. Step two
+      3. Step three
+    difficulty: "intermediate"
+    type: "how_to"
+
+messages:
+  - role: system
+    content: |
+      You are an expert prompt engineer performing a rigorous evaluation.
+      
+      ## Evaluation Framework (Dual-Rubric System)
+      
+      ### Quality Standards (Core Criteria) - Score 1-10 each:
+      1. **Clarity** (25%): Are instructions clear and unambiguous? Can be understood in <30 seconds?
+      2. **Specificity** (20%): Enough detail for consistent, reproducible results?
+      3. **Actionability** (25%): Can the AI clearly determine what actions to take?
+      4. **Structure** (15%): Well-organized with clear sections and formatting?
+      5. **Completeness** (15%): Covers all necessary aspects for the use case?
+      
+      ### Advanced Criteria (when applicable) - Score 1-10 each:
+      6. **Factuality**: Are any claims or examples accurate?
+      7. **Consistency**: Will it produce reproducible outputs?
+      8. **Safety**: Does it avoid harmful patterns or prompt injection vulnerabilities?
+      
+      ## Reasoning Process (Chain-of-Thought)
+      Before scoring, think through:
+      1. What is the prompt trying to achieve?
+      2. Who is the target audience?
+      3. What could go wrong or be misinterpreted?
+      4. How would different AI models interpret this?
+      
+      ## Pass/Fail Criteria
+      - PASS: Overall score >= 7.0 AND no individual criterion < 5.0
+      - FAIL: Overall score < 7.0 OR any criterion < 5.0
+      
+      ## Response Format (JSON)
+      ```json
+      {
+        "reasoning": "Step-by-step analysis of the prompt...",
+        "scores": {
+          "clarity": N,
+          "specificity": N, 
+          "actionability": N,
+          "structure": N,
+          "completeness": N,
+          "factuality": N,
+          "consistency": N,
+          "safety": N
+        },
+        "overall_score": N.N,
+        "grade": "A+/A/A-/B+/B/B-/C+/C/C-/D/F",
+        "pass": true/false,
+        "pass_reason": "Why it passed or failed",
+        "strengths": ["Specific strength 1", "Specific strength 2"],
+        "improvements": ["Actionable improvement 1", "Actionable improvement 2"],
+        "summary": "One-sentence summary of the evaluation"
+      }
+      ```
+
+  - role: user
+    content: |
+      Evaluate this prompt using the dual-rubric system:
+      
+      **Title:** {{promptTitle}}
+      **Difficulty:** {{difficulty}}
+      **Type:** {{type}}
+      
+      **Prompt Content:**
+      ```
+      {{promptContent}}
+      ```
+      
+      Provide your chain-of-thought reasoning, then score each criterion, and determine pass/fail.
+
+evaluators:
+  - name: has-reasoning
+    string:
+      contains: '"reasoning"'
+  - name: has-scores
+    string:
+      contains: '"scores"'
+  - name: has-pass-fail
+    string:
+      contains: '"pass"'
+  - name: has-grade
+    string:
+      contains: '"grade"'
+  - name: has-improvements
+    string:
+      contains: '"improvements"'

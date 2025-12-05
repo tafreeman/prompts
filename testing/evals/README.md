@@ -1,8 +1,8 @@
 # 🔬 Prompt Evaluation with GitHub Models
 
-This directory contains tools for evaluating prompts from the library using GitHub Models (`gh models eval`).
+This directory contains the **primary evaluation tool** for the prompt library using GitHub Models (`gh models eval`).
 
-> **Industry Best Practices**: This evaluation system incorporates methodologies from OpenAI Evals, Promptfoo, Anthropic, and Google Gemini.
+> **📋 Architecture**: See [ARCHITECTURE_PLAN.md](../../docs/ARCHITECTURE_PLAN.md) for the complete evaluation architecture.
 
 ## Prerequisites
 
@@ -12,59 +12,96 @@ This directory contains tools for evaluating prompts from the library using GitH
    gh extension install github/gh-models
    ```
 3. **Authentication** - Login with `gh auth login`
+4. **Python 3.10+** with `pyyaml` installed
 
 ## Quick Start
 
-### 1. Run a pre-built evaluation
+### Evaluate prompts with `dual_eval.py`
 
 ```bash
-# Evaluate sample prompts
-gh models eval testing/evals/prompt-quality-eval.prompt.yml
+# Evaluate a single prompt
+python testing/evals/dual_eval.py prompts/developers/code-review.md
 
-# Get JSON output
-gh models eval testing/evals/prompt-quality-eval.prompt.yml --json
+# Evaluate all prompts in a folder (recursive)
+python testing/evals/dual_eval.py prompts/developers/
+
+# Evaluate with JSON output for CI/CD
+python testing/evals/dual_eval.py prompts/ --format json --output report.json
+
+# Evaluate only changed files (for PR validation)
+python testing/evals/dual_eval.py prompts/ --changed-only
+
+# Use specific models with fewer runs
+python testing/evals/dual_eval.py prompts/advanced/ --models openai/gpt-4o --runs 2
+
+# Glob pattern support
+python testing/evals/dual_eval.py "prompts/**/*.md" --format json
+
+# Real-time logging to markdown
+python testing/evals/dual_eval.py prompts/ --log-file eval.md
+
+# Fast evaluation (skip model validation)
+python testing/evals/dual_eval.py prompts/developers/ --skip-validation
 ```
 
-### 2. Generate evaluations from your prompts
+## Primary Tool: `dual_eval.py`
 
-```bash
-# Generate eval file for all developer prompts
-python testing/evals/generate_eval_files.py prompts/developers
+Multi-model prompt evaluation with cross-validation and batch support.
 
-# Limit to 10 prompts
-python testing/evals/generate_eval_files.py prompts/developers --limit 10
+### Features
 
-# Use a different model
-python testing/evals/generate_eval_files.py prompts/developers --model openai/gpt-4o
-```
+- **Batch evaluation**: Evaluate entire folders or glob patterns
+- **Smart filtering**: Automatically excludes non-prompt files (agents, instructions, README, index)
+- **Multi-model evaluation**: Run same prompt against multiple models
+- **Cross-validation**: Detects score variance between models
+- **JSON output**: Machine-readable format for CI/CD pipelines
+- **Changed-only mode**: Evaluate only git-modified files (for PRs)
+- **Real-time logging**: Markdown file updated after each evaluation
+- **8-dimension rubric**: Comprehensive quality assessment
+- **Pass/fail grading**: Clear thresholds with exit codes
 
-### 3. Run evaluations with formatted output
+### File Filtering
 
-```bash
-# Run evaluation and see formatted results
-python testing/evals/run_gh_eval.py testing/evals/developers-eval.prompt.yml
+By default, the tool automatically excludes non-prompt files:
 
-# Generate a markdown report
-python testing/evals/run_gh_eval.py testing/evals/*.prompt.yml --report report.md
+| Excluded | Examples |
+|----------|----------|
+| README/index files | `README.md`, `index.md`, `CHANGELOG.md` |
+| Agent files | `*.agent.md` |
+| Instruction files | `*.instructions.md` |
+| Archive directories | Files in `archive/`, `.git/`, etc. |
 
-# Save raw JSON results
-python testing/evals/run_gh_eval.py testing/evals/*.prompt.yml --json-output results.json
-```
+Use `--include-all` to override this filtering and evaluate all `.md` files.
 
-## Files
+### CLI Options
 
-| File | Description |
-|------|-------------|
-| `prompt-quality-eval.prompt.yml` | Sample evaluation with 2 test prompts |
-| `generate_eval_files.py` | Script to generate `.prompt.yml` files from markdown prompts |
-| `run_gh_eval.py` | Script to run evaluations and format results |
-| `tests.json` | Structured test suite definition (Anthropic-style) |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `paths` | File(s), folder(s), or glob patterns | Required |
+| `--format`, `-f` | Output format: `markdown` or `json` | `markdown` |
+| `--output`, `-o` | Output file path | Auto-generated |
+| `--models`, `-m` | Space-separated model list | 5 default models |
+| `--runs`, `-r` | Number of runs per model | 4 |
+| `--changed-only` | Only evaluate git-changed files | False |
+| `--base-ref` | Git ref for `--changed-only` | `origin/main` |
+| `--skip-validation` | Skip model availability check | False |
+| `--include-all` | Include all .md files (no filtering) | False |
+| `--log-file` | Real-time markdown log file | None |
+| `--max-workers` | Parallel execution (1=sequential) | 1 |
+| `--no-recursive` | Don't search directories recursively | False |
+| `--quiet`, `-q` | Suppress per-file output | False |
+
+### Default Models
+
+- `openai/gpt-4.1`
+- `openai/gpt-4o`
+- `openai/gpt-4o-mini`
+- `mistral-ai/mistral-small-2503`
+- `meta/llama-3.3-70b-instruct`
 
 ## Evaluation Criteria
 
-Prompts are evaluated on **8 criteria** across two categories (scored 1-10):
-
-### Core Quality Criteria
+Prompts are evaluated on **8 criteria** (scored 1-10):
 
 | Criterion | Description |
 |-----------|-------------|
@@ -73,21 +110,26 @@ Prompts are evaluated on **8 criteria** across two categories (scored 1-10):
 | **Actionability** | Can the AI clearly determine what actions to take? |
 | **Structure** | Is it well-organized with clear sections? |
 | **Completeness** | Does it cover all necessary aspects? |
+| **Factuality** | Are any claims/examples accurate? |
+| **Consistency** | Will it produce reproducible outputs? |
+| **Safety** | Does it avoid harmful patterns? |
 
-### Advanced Quality Criteria (Industry Best Practices)
-
-| Criterion | Description | Source |
-|-----------|-------------|--------|
-| **Factuality** | Are any claims/examples accurate? | OpenAI Evals |
-| **Consistency** | Will it produce reproducible outputs? | Promptfoo |
-| **Safety** | Does it avoid harmful patterns or vulnerabilities? | Anthropic |
-
-## Pass/Fail Thresholds (Promptfoo-style)
+## Pass/Fail Thresholds
 
 ```
 ✅ PASS: Overall score >= 7.0 AND no individual criterion < 5.0
+         AND cross-validation variance <= 1.5
 ❌ FAIL: Overall score < 7.0 OR any criterion < 5.0
+         OR cross-validation variance > 1.5
 ```
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | All evaluated prompts passed |
+| 1 | One or more prompts failed |
+| 2 | Usage error (invalid arguments, no files found) |
 
 ### Grading Scale
 
@@ -99,69 +141,57 @@ Prompts are evaluated on **8 criteria** across two categories (scored 1-10):
 | D | 4.0-5.4 | Below Average - significant rework needed |
 | F | <4.0 | Fails - major issues, not usable |
 
-## Chain-of-Thought Evaluation (OpenAI-style)
-
-The evaluator uses chain-of-thought reasoning before scoring:
-
-1. Read the entire prompt to understand its intent
-2. Identify the target audience and use case
-3. Assess each criterion individually with specific evidence
-4. Consider industry best practices
-5. Formulate actionable improvements
-
 ## Example Output
 
 ```
-📊 EVALUATION RESULTS: Developers Prompts Evaluation
+📊 EVALUATION RESULTS: code-review.md
 ======================================================================
 
-1. 🏆 API Design Consultant [✅ PASS]
-   Score: 9.6/10 (Grade: A)
-   Category: developers | Difficulty: advanced
-   Core: clarity: 9 | specificity: 10 | actionability: 9 | structure: 10 | completeness: 10
-   Advanced: factuality: 9 | consistency: 10 | safety: 10
-   Reasoning: The prompt clearly defines the role, provides comprehensive context...
-   Summary: Exceptional prompt with clear structure and comprehensive coverage.
+Model: openai/gpt-4.1 (Run 1 of 1)
+   Score: 8.7/10 (Grade: A) ✅ PASS
+   clarity: 9 | specificity: 8 | actionability: 9 | structure: 9
+   completeness: 8 | factuality: 9 | consistency: 9 | safety: 9
 
-2. ❌ Vague Request [❌ FAIL]
-   Score: 4.2/10 (Grade: D)
-   Category: developers | Difficulty: beginner
-   Core: clarity: 3 | specificity: 4 | actionability: 4 | structure: 5 | completeness: 5
-   Advanced: factuality: 5 | consistency: 4 | safety: 5
-   Summary: Lacks clarity and specificity, needs significant improvement.
+Model: meta/llama-3.3-70b-instruct (Run 1 of 1)
+   Score: 8.5/10 (Grade: A) ✅ PASS
+   clarity: 8 | specificity: 9 | actionability: 8 | structure: 9
+   completeness: 8 | factuality: 9 | consistency: 8 | safety: 9
 
 ----------------------------------------------------------------------
-📈 SUMMARY STATISTICS
+📈 CROSS-VALIDATION
 ----------------------------------------------------------------------
-   Prompts Evaluated: 10
-   Average Score: 8.1/10
-   Highest Score: 9.6/10
-   Lowest Score: 4.2/10
-
-   Pass/Fail Results:
-      ✅ Passed: 8 (80%)
-      ❌ Failed: 2 (20%)
-   Pass Threshold: >= 7.0/10, no criterion < 5.0
-
-   Grade Distribution:
-      A: 4 prompt(s)
-      B: 4 prompt(s)
-      D: 2 prompt(s)
-
-   Criterion Averages:
-      ✅ clarity: 7.8/10
-      ✅ specificity: 8.1/10
-      ✅ actionability: 8.0/10
-      ✅ structure: 8.5/10
-      ✅ completeness: 8.2/10
-      ✅ factuality: 8.0/10
-      ✅ consistency: 8.3/10
-      ✅ safety: 9.1/10
+   Score Range: 8.5 - 8.7 (variance: 0.2) ✅
+   Consensus: PASS
 ```
+
+## Unit Tests
+
+54 unit tests validate the evaluation framework:
+
+```bash
+# Run all tests
+pytest testing/evals/test_dual_eval.py -v
+
+# Run specific test class
+pytest testing/evals/test_dual_eval.py::TestCrossValidate -v
+
+# Run new feature tests
+pytest testing/evals/test_dual_eval.py::TestDiscoverPromptFiles -v
+pytest testing/evals/test_dual_eval.py::TestJsonReport -v
+```
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `dual_eval.py` | **Primary evaluation tool** |
+| `test_dual_eval.py` | Unit tests (54 tests) |
+| `results/` | Evaluation output storage |
+| `analysis/` | Analysis eval files |
 
 ## CI/CD Integration
 
-Add to your GitHub Actions workflow:
+### Basic PR Evaluation
 
 ```yaml
 name: Evaluate Prompts
@@ -176,11 +206,58 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for --changed-only
       
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
+      
+      - name: Install dependencies
+        run: pip install pyyaml pytest
+      
+      - name: Install gh-models
+        run: gh extension install github/gh-models
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+      - name: Evaluate changed prompts
+        run: |
+          python testing/evals/dual_eval.py prompts/ \
+            --changed-only \
+            --format json \
+            --output eval-results.json \
+            --runs 1
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: evaluation-results
+          path: eval-results.json
+```
+
+### Full Library Evaluation
+
+```yaml
+name: Full Library Evaluation
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Monday
+
+jobs:
+  evaluate-all:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       
       - name: Install dependencies
         run: pip install pyyaml
@@ -190,96 +267,58 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       
-      - name: Generate eval files
-        run: python testing/evals/generate_eval_files.py prompts/ --limit 20
-      
-      - name: Run evaluations
+      - name: Evaluate all prompts
         run: |
-          for f in testing/evals/*-eval.prompt.yml; do
-            gh models eval "$f" --json >> results.json
-          done
+          python testing/evals/dual_eval.py prompts/ \
+            --format json \
+            --output full-eval.json \
+            --quiet
         env:
           GH_TOKEN: ${{ github.token }}
       
       - name: Upload results
         uses: actions/upload-artifact@v4
         with:
-          name: evaluation-results
-          path: results.json
+          name: full-evaluation
+          path: full-eval.json
 ```
 
 ## Available Models
-
-You can use any model available on GitHub Models:
-
-- `openai/gpt-4o` - Best quality (default for deep evaluation)
-- `openai/gpt-4o-mini` - Good balance of speed/quality (default)
-- `openai/o1-mini` - Reasoning-focused
-- `meta-llama/Meta-Llama-3.1-70B-Instruct` - Open source alternative
 
 List available models:
 ```bash
 gh models list
 ```
 
-## Creating Custom Evaluations
-
-Create a `.prompt.yml` file with this structure:
-
-```yaml
-name: My Custom Evaluation
-description: What this evaluation tests
-model: openai/gpt-4o-mini
-modelParameters:
-  temperature: 0.3
-  max_tokens: 2000
-
-testData:
-  - promptTitle: "My Prompt"
-    promptContent: |
-      Your prompt content here...
-    difficulty: "intermediate"
-
-messages:
-  - role: system
-    content: |
-      Your evaluation instructions...
-  - role: user
-    content: |
-      Evaluate: {{promptTitle}}
-      Content: {{promptContent}}
-
-evaluators:
-  - name: check-score
-    string:
-      contains: '"score"'
-```
+Common options:
+- `openai/gpt-4.1` - Latest GPT-4 (recommended)
+- `openai/gpt-4o` - Fast GPT-4
+- `openai/gpt-4o-mini` - Fastest/cheapest
+- `meta/llama-3.3-70b-instruct` - Open source
+- `mistral-ai/mistral-small-2503` - Mistral alternative
 
 ## Troubleshooting
 
 ### Rate Limiting
-GitHub Models has rate limits. If you hit them:
-- Reduce batch size in `generate_eval_files.py` with `--batch-size 5`
-- Wait a few minutes between evaluations
+If you hit rate limits, use sequential mode (default):
+```bash
+python testing/evals/dual_eval.py prompts/ --max-workers 1
+```
 
 ### Authentication Issues
 ```bash
-# Re-authenticate
 gh auth login
-
-# Check status
 gh auth status
 ```
 
-### Extension Not Found
+### Model Not Available
+Check model availability:
 ```bash
-# Reinstall extension
-gh extension remove models
-gh extension install github/gh-models
+gh models view openai/gpt-4.1
 ```
 
-## Related
+## See Also
 
-- [GitHub Models Documentation](https://docs.github.com/github-models)
-- [gh-models Extension](https://github.com/github/gh-models)
-- [Prompt Standards](../../docs/PROMPT_STANDARDS.md)
+- [ARCHITECTURE_PLAN.md](../../docs/ARCHITECTURE_PLAN.md) - Complete architecture
+- [tools/README.md](../../tools/README.md) - Auxiliary tools
+- [COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md) - Scoring methodology
