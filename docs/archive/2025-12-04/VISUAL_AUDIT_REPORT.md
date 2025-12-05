@@ -55,7 +55,6 @@
 ### Top 3 Highest-Impact Improvements
 
 | Priority | Issue | Files Affected | Effort | Impact |
-|:--------:| :--- |---------------:|:------:|:------:|
 |:--------:|-------|---------------:|:------:|:------:|
 | 🥇 | Fix 50 broken internal links | 50 | 2 hrs | 🔴 Critical |
 | 🥈 | Add table alignment specifiers | 89 | 1 hr | 🟠 High |
@@ -64,6 +63,7 @@
 ### Estimated Total Effort
 
 | Category | Issues | Effort | Automatable |
+|----------|-------:|:------:|:-----------:|
 | Critical (fix immediately) | 8 | 3 hrs | Partial |
 | High priority | 50 | 4 hrs | 80% |
 | Medium priority | 103 | 6 hrs | 60% |
@@ -81,6 +81,7 @@ These must be fixed before enterprise deployment:
 Related Prompts sections reference non-existent files:
 
 | File | Broken Link | Fix |
+|------|-------------|-----|
 | `prompts/advanced/chain-of-thought-concise.md` | `reflection-code-review-self-check.md` | Remove or create file |
 | `prompts/advanced/chain-of-thought-detailed.md` | `tree-of-thoughts-decision-guide.md` | Update to `chain-of-thought-guide.md` |
 | `prompts/business/agile-sprint-planner.md` | `project-charter-creator.md` | Remove or create file |
@@ -123,7 +124,6 @@ Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
 Files not following `# Title` → `## Description` → `## Prompt` pattern:
 
 | File | Issue |
-| :--- |-------|
 |------|-------|
 | `prompts/m365/m365-customer-feedback-analyzer.md` | Starts with H2, no H1 |
 | `prompts/m365/m365-data-insights.md` | H3 before H2 |
@@ -172,7 +172,6 @@ Content here
 M365 prompts use different section order than other categories:
 
 | Standard Order | M365 Order |
-| :--- |------------|
 |----------------|------------|
 | Description | Overview |
 | Use Cases | When to Use |
@@ -192,11 +191,7 @@ M365 prompts use different section order than other categories:
 **Current (no alignment):**
 ```markdown
 | Column | Data |
-<<<<<<< HEAD
-| :--- | :--- |
-=======
 | :--- | --- |
->>>>>>> main
 | Value | Value |
 ```
 
