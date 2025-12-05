@@ -51,7 +51,7 @@ prompts/
 ### Content Distribution
 
 | Category | Count | % of Total | Health Status |
-|----------|-------|------------|---------------|
+| :--- |-------| :--- |---------------|
 | Business | 26 | 18.7% | ✅ Good |
 | Developers | 25 | 18.0% | ✅ Good |
 | System | 23 | 16.5% | ✅ Good |
@@ -75,7 +75,7 @@ prompts/
 ### Validation Summary
 
 | Metric | Value |
-|--------|-------|
+| :--- |-------|
 | Files Analyzed | 139 |
 | Files Passing | 3 |
 | Pass Rate | 2.2% |
@@ -85,7 +85,7 @@ prompts/
 ### Most Common Errors
 
 | Field | Error Type | Occurrences |
-|-------|------------|-------------|
+| :--- |------------| :--- |
 | `shortTitle` | Missing required field | ~136 |
 | `intro` | Missing required field | ~136 |
 | `type` | Missing required field | ~136 |
@@ -103,7 +103,7 @@ prompts/
 ### Common Warnings
 
 | Issue | Count |
-|-------|-------|
+| :--- |-------|
 | Unknown governance tags (non-standard) | 45 |
 | Non-standard topics | Various |
 
@@ -127,7 +127,7 @@ prompts/
 ### By Platform Coverage
 
 | Platform | Quickstart | Index | Prompts Count |
-|----------|------------|-------|---------------|
+| :--- |------------| :--- |---------------|
 | github-copilot | ✅ | ✅ | ~50+ |
 | claude | ✅ | ✅ | ~40+ |
 | chatgpt | ✅ | ✅ | ~40+ |
@@ -137,7 +137,7 @@ prompts/
 ### By Audience Coverage
 
 | Audience | Beginner | Intermediate | Advanced |
-|----------|----------|--------------|----------|
+| :--- |----------| :--- |----------|
 | junior-engineer | Quickstarts (4) | Limited | None |
 | senior-engineer | Index pages | Moderate | Good (system/) |
 | solution-architect | Limited | Good | Excellent |
@@ -149,7 +149,7 @@ prompts/
 ### By Content Type
 
 | Type | Current Count | Notes |
-|------|---------------|-------|
+| :--- |---------------| :--- |
 | how_to | 2 validated | Most prompts lack type field |
 | quickstart | 4 | Platform quickstarts only |
 | reference | ~14 | Index files |
@@ -160,7 +160,7 @@ prompts/
 ### By Difficulty Distribution
 
 | Difficulty | Estimated Count | Percentage |
-|------------|-----------------|------------|
+| :--- |-----------------| :--- |
 | beginner | ~25 | 18% |
 | intermediate | ~45 | 32% |
 | advanced | ~70 | 50% |
@@ -176,7 +176,7 @@ prompts/
 ### By Dimension
 
 | Dimension | Score | Notes |
-|-----------|-------|-------|
+| :--- |-------| :--- |
 | Frontmatter Compliance | 1/5 | Critical - only 2.2% pass validation |
 | Documentation Completeness | 3/5 | Good descriptions, missing intros |
 | Example Quality | 4/5 | Strong examples with input/output |
@@ -222,7 +222,7 @@ prompts/
 **Effort**: Large (sprint-sized)
 
 | Prompt | Type | Difficulty | Effort | Status |
-|--------|------|------------|--------|--------|
+| :--- |------| :--- |--------| :--- |
 | professional-email-writer.md | how_to | beginner | S | 📋 Planned |
 | blog-post-generator.md | how_to | intermediate | M | ✅ Exists |
 | social-media-creator.md | how_to | beginner | S | 📋 Planned |
@@ -246,7 +246,7 @@ prompts/
 **Effort**: Medium
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| :--- |------| :--- |--------|
 | pitch-deck-generator.md | how_to | intermediate | M |
 | objection-handler.md | how_to | intermediate | M |
 | job-description-writer.md | how_to | beginner | S |
@@ -264,7 +264,7 @@ prompts/
 **Effort**: Small
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| :--- |------| :--- |--------|
 | privacy-impact-assessment.md | how_to | advanced | M |
 | data-retention-reviewer.md | how_to | intermediate | M |
 | compliance-checklist-generator.md | how_to | intermediate | S |
@@ -278,7 +278,7 @@ prompts/
 **Effort**: Ongoing
 
 | Content Type | Current | Target | Action |
-|--------------|---------|--------|--------|
+| :--- |---------| :--- |--------|
 | tutorial | 0 | 5-10 | Create step-by-step guides |
 | troubleshooting | 0 | 3-5 | Add common issue guides |
 | quickstart (per category) | 4 | 8 | Add per-category quickstarts |

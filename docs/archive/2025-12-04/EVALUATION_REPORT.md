@@ -61,7 +61,7 @@ Grade D (40-59)  ██░░░░░░░░░░░░░░░░░░░
 Grade F (<40)    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   0 prompts (0.0%)
 ```text
 | Grade | Description | Count | Percentage | Status |
-|:-----:|-------------|------:|:----------:|:------:|
+|:-----:| :--- |------:|:----------:|:------:|
 | 🏅 **A** | Exceptional | 0 | 0.0% | — |
 | ✅ **B** | Production Ready | 113 | 76.4% | 🟢 |
 | ⚠️ **C** | Usable | 27 | 18.2% | 🟡 |
@@ -80,7 +80,7 @@ pie title Quality Tier Distribution
     "Tier 4 (<55)" : 8
 ```text
 | Tier | Range | Count | % | Assessment |
-|:----:|:-----:|------:|:-:|------------|
+|:----:|:-----:|------:|:-:| :--- |
 | 🥇 **Tier 1** | 85-100 | 17 | 11.5% | Exceptional quality, best-in-class |
 | 🥈 **Tier 2** | 70-84 | 106 | 71.6% | Solid quality, production ready |
 | 🥉 **Tier 3** | 55-69 | 17 | 11.5% | Acceptable, minor improvements needed |
@@ -100,7 +100,7 @@ xychart-beta
 ### Category Leaderboard
 
 | Rank | Category | Prompts | Avg Quality | Avg Effectiveness | Top Performer |
-|:----:|----------|--------:|:-----------:|:-----------------:|---------------|
+|:----:| :--- |--------:|:-----------:|:-----------------:| :--- |
 | 🥇 | **Governance** | 2 | 93/100 | 4.0 ⭐⭐⭐⭐ | Security: Incident Respon... |
 | 🥈 | **Business** | 36 | 85/100 | 4.1 ⭐⭐⭐⭐ | Business Strategy Analysi... |
 | 🥉 | **Creative** | 8 | 81/100 | 4.1 ⭐⭐⭐⭐ | Brand Voice Developer |
@@ -125,7 +125,7 @@ This evaluation uses **two complementary scoring systems** to provide a comprehe
 #### 📋 Quality Standards (0-100)
 
 | Criterion | Weight | Focus |
-|-----------|:------:|-------|
+| :--- |:------:| :--- |
 | Completeness | 25% | All sections present |
 | Example Quality | 30% | Realistic examples |
 | Specificity | 20% | Domain-specific |
@@ -138,7 +138,7 @@ This evaluation uses **two complementary scoring systems** to provide a comprehe
 #### ⭐ Effectiveness Score (1.0-5.0)
 
 | Dimension | Weight | Focus |
-|-----------|:------:|-------|
+| :--- |:------:| :--- |
 | Clarity | 25% | Unambiguous |
 | Effectiveness | 30% | Output quality |
 | Reusability | 20% | Cross-context |
@@ -170,7 +170,7 @@ Grade Thresholds:
 These prompts need significant improvement before production use:
 
 | # | Prompt | Quality | Effectiveness | Primary Issue |
-|:-:|--------|:-------:|:-------------:|---------------|
+|:-:| :--- |:-------:|:-------------:| :--- |
 | 1 | ReAct: Large-Scale Prompt Library A | 21 | 3.4 | Missing required sections (Des... |
 | 2 | Example Research Output: Modern Pro | 22 | 3.4 | Missing required sections (Des... |
 | 3 | ReAct: Prompt Library Analysis | 33 | 3.1 | Missing required sections (Des... |
@@ -183,7 +183,7 @@ These prompts need significant improvement before production use:
 ### 🟡 Common Issues Across Library
 
 | Issue | Count | Priority | Impact |
-|-------|------:|:--------:|:------:|
+| :--- |------:|:--------:|:------:|
 | Example section too short (<20 lines) | 103 | P1 | -3 pts |
 | Missing Example section | 14 | P1 | -3 pts |
 | Content lacks specificity (generic tips, | 11 | P2 | -2 pts |
@@ -200,7 +200,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 17 Tier 1 prompts</b></summary>
 
 | Prompt | Category | Quality | Effectiveness |
-|--------|----------|:-------:|:-------------:|
+| :--- |----------|:-------:|:-------------:|
 | ReAct: Tool-Augmented Reasoning | Advanced | 100 | 4.2 ⭐⭐⭐⭐ |
 | Chain-of-Thought: Detailed Mode | Advanced | 97 | 4.2 ⭐⭐⭐⭐ |
 | ReAct: Document Search and Synthesis | Advanced | 97 | 4.2 ⭐⭐⭐⭐ |
@@ -233,7 +233,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 16 Advanced prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | ReAct: Tool-Augmented Reasoning | 100 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | Chain-of-Thought: Detailed Mode | 97 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | ReAct: Document Search and Synthesis | 97 | 4.2 ⭐⭐⭐⭐ |
@@ -263,7 +263,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 20 Analysis prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Data Analysis and Insights Generator | 90 | 4.0 ⭐⭐⭐⭐ |
 | ✅ | Business Case Developer | 84 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | Consumer Behavior Researcher | 84 | 4.0 ⭐⭐⭐⭐ |
@@ -297,7 +297,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 36 Business prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Business Strategy Analysis | 94 | 4.0 ⭐⭐⭐⭐ |
 | ✅ | Agile Sprint Planner | 92 | 4.1 ⭐⭐⭐⭐ |
 | ✅ | Board Update Generator | 92 | 4.0 ⭐⭐⭐⭐ |
@@ -344,7 +344,7 @@ These prompts need significant improvement before production use:
 **Average: Q:82 | E:4.1** | Content creation, marketing, copywriting
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Brand Voice Developer | 85 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | Video Script Writer | 84 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | Ad Copy Generator | 82 | 4.1 ⭐⭐⭐⭐ |
@@ -364,7 +364,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 24 Developers prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Cloud Migration Specialist | 92 | 4.1 ⭐⭐⭐⭐ |
 | ✅ | Refactoring Plan Designer | 89 | 4.0 ⭐⭐⭐⭐ |
 | ✅ | Code Review Assistant | 87 | 4.0 ⭐⭐⭐⭐ |
@@ -399,7 +399,7 @@ These prompts need significant improvement before production use:
 **Average: Q:94 | E:4.0** | Legal, security, compliance
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Security: Incident Response Framework | 94 | 4.1 ⭐⭐⭐⭐ |
 | ✅ | Legal: Contract Review Assistant | 93 | 4.0 ⭐⭐⭐⭐ |
 
@@ -415,7 +415,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 20 M365 prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | M365 Personal Task Collector | 86 | 4.1 ⭐⭐⭐⭐ |
 | ✅ | M365 Daily Standup Assistant | 85 | 4.2 ⭐⭐⭐⭐ |
 | ✅ | M365 Email Triage Helper | 83 | 4.1 ⭐⭐⭐⭐ |
@@ -449,7 +449,7 @@ These prompts need significant improvement before production use:
 <summary><b>View all 22 System prompts</b></summary>
 
 | Status | Prompt | Quality | Effectiveness |
-|:------:|--------|:-------:|:-------------:|
+|:------:| :--- |:-------:|:-------------:|
 | ✅ | Security Architecture Specialist | 88 | 4.0 ⭐⭐⭐⭐ |
 | ✅ | Data Architecture Designer | 84 | 4.0 ⭐⭐⭐⭐ |
 | ✅ | DevOps Architecture Planner | 84 | 4.1 ⭐⭐⭐⭐ |
@@ -482,7 +482,7 @@ These prompts need significant improvement before production use:
 ### Status Legend
 
 | Icon | Meaning |
-|:----:|---------|
+|:----:| :--- |
 | ✅ | Production Ready (Grade B+) |
 | ⚠️ | Usable with Improvements (Grade C) |
 | 🔧 | Needs Significant Work (Grade D) |
@@ -491,7 +491,7 @@ These prompts need significant improvement before production use:
 ### Star Ratings
 
 | Rating | Meaning | Score Range |
-|--------|---------|:-----------:|
+| :--- |---------|:-----------:|
 | ⭐⭐⭐⭐⭐ | Exceptional | 4.5-5.0 |
 | ⭐⭐⭐⭐ | Good | 4.0-4.4 |
 | ⭐⭐⭐ | Acceptable | 3.5-3.9 |

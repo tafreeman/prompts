@@ -37,7 +37,7 @@ reviewStatus: draft
 Each work stream can be assigned to a separate agent. Streams are independent with no blocking dependencies.
 
 | Stream | Priority | Focus | Parallelizable | Status |
-|--------|----------|-------|----------------|--------|
+| :--- |----------| :--- |----------------| :--- |
 | **S** | P0 | Simplification (remove bloat) | ✅ Yes | ✅ **COMPLETE** |
 | **R** | P1 | Scoring Rubric & Tooling | ✅ Yes | ✅ **COMPLETE** |
 | **A** | P0 | Frontmatter Remediation | ✅ Yes | ⏳ Pending |
@@ -156,7 +156,7 @@ The actual prompt text...
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | [VAR] | What to put here |
 
 ## Example
@@ -526,7 +526,7 @@ platforms:
 ## Agent Assignment Matrix
 
 | Stream | Task Count | Est. Time | Can Run Parallel | Priority |
-|--------|------------|-----------|------------------|----------|
+| :--- |------------| :--- |------------------| :--- |
 | S (Simplify) | 8 categories | 2-3 hours | ✅ Yes (split by S1-S5) | P0 |
 | R (Scoring) | 4 tasks | 2-3 hours | ✅ Yes (after R1) | P1 |
 | A (Frontmatter) | 128 files | 3-4 hours | ✅ Yes (split by A1-A7) | P0 |

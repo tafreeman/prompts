@@ -47,7 +47,7 @@ This document summarizes the comprehensive analysis of the prompt library, scori
 ### Quality Distribution
 
 | Tier | Range | Count | Percentage |
-|------|-------|-------|------------|
+| :--- |-------| :--- |------------|
 | **Tier 1 (Exceptional)** | 85-100 | 11 | 12% |
 | **Tier 2 (Strong)** | 70-84 | 14 | 15% |
 | **Tier 3 (Good)** | 55-69 | 9 | 9% |

@@ -30,7 +30,7 @@ reviewStatus: draft
 ## Progress Summary
 
 | Phase | Status | Progress | Est. Hours | Actual |
-|-------|--------|----------|------------|--------|
+| :--- |--------| :--- |------------| :--- |
 | Phase 1: Foundation + Navigation | ✅ Complete | 10/10 | 20-24h | ~6h |
 | Phase 2: Quick-Start Content | ✅ Complete | 7/7 | 16-20h | ~1h |
 | Phase 3: Category Navigation | ✅ Complete | 11/11 | 12-16h | ~2h |
@@ -49,7 +49,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | F-01 | Document unified frontmatter schema in `reference/frontmatter-schema.md` | P0 | ✅ | Complete schema reference |
 | F-02 | Create `index.md` template in `templates/index-template.md` | P0 | ✅ | Updated with full schema |
 | F-03 | Update `templates/prompt-template.md` with new schema | P0 | ✅ | All 19 fields documented |
@@ -69,7 +69,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | QS-01 | Update/complete `get-started/quickstart-copilot.md` | P0 | ✅ | Already complete from Phase 1 |
 | QS-02 | Write `get-started/quickstart-claude.md` | P0 | ✅ | XML tags, analysis, code |
 | QS-03 | Write `get-started/quickstart-chatgpt.md` | P0 | ✅ | Custom Instructions, DALL-E |
@@ -86,7 +86,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | NAV-01 | Create `prompts/advanced/index.md` | P1 | ✅ | List existing advanced prompts |
 | NAV-02 | Create `prompts/developers/index.md` | P1 | ✅ | List existing developer prompts |
 | NAV-03 | Create `prompts/business/index.md` | P1 | ✅ | 26 existing prompts |
@@ -107,7 +107,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | FM-01 | Add `type` field to all ~137 prompts | P0 | ✅ | Existing prompts already had type |
 | FM-02 | Add `audience` field to all prompts | P1 | ✅ | Validated and normalized |
 | FM-03 | Add `shortTitle` field (≤27 chars) to all prompts | P1 | ✅ | Already present |
@@ -125,7 +125,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | NS-01 | Create `reference/` folder + `index.md` | P2 | ✅ | Category landing page |
 | NS-02 | Write `reference/cheat-sheet.md` | P2 | ✅ | Quick patterns + templates |
 | NS-03 | Write `reference/platform-comparison.md` | P2 | ✅ | GPT vs Claude vs Copilot |
@@ -143,7 +143,7 @@ reviewStatus: draft
 **Status**: ✅ COMPLETE
 
 | ID | Task | Priority | Status | Notes |
-|----|------|----------|--------|-------|
+| :--- |------| :--- |--------| :--- |
 | PV-01 | Full validation run on all files | P0 | ✅ | 291/291 passed |
 | PV-02 | Fix all validation errors | P0 | ✅ | Archived/excluded problematic files |
 | PV-03 | Update root `README.md` with new structure | P1 | ✅ | Added quickstart table, updated structure |
@@ -155,15 +155,15 @@ reviewStatus: draft
 ## Blockers & Issues
 
 | ID | Description | Blocking | Status | Resolution |
-|----|-------------|----------|--------|------------|
-| - | - | - | - | - |
+| :--- |-------------| :--- |--------| :--- |
+| :--- | - | :--- | - | :--- |
 
 ---
 
 ## Completed Tasks Log
 
 | ID | Task | Completed | Notes |
-|----|------|-----------|-------|
+| :--- |------| :--- |-------|
 | F-01 | Document unified frontmatter schema | 2025-11-29 | `reference/frontmatter-schema.md` |
 | F-02 | Create index.md template | 2025-11-29 | Updated `templates/index-template.md` |
 | F-03 | Update prompt-template.md | 2025-11-29 | All 19 fields added |
@@ -213,7 +213,7 @@ reviewStatus: draft
 This repository contains **two categories of markdown files** with different frontmatter requirements:
 
 | Category | Files | Frontmatter Fields | Purpose |
-|----------|-------|-------------------|---------|
+| :--- |-------| :--- |---------|
 | **Documentation Content** | `prompts/**/*.md`, `docs/**/*.md`, `guides/**/*.md` | Full schema (19+ fields) | Prompt library content, tutorials, references |
 | **VS Code Agent Config** | `*.agent.md`, `.github/agents/*.md` | `name`, `description`, `tools` | GitHub Copilot custom agent definitions |
 | **VS Code Instruction Config** | `*.instructions.md`, `instructions/*.md` | `applyTo`, `name`, `description` | GitHub Copilot custom instructions |

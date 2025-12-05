@@ -63,7 +63,7 @@ The Prompt Library contains **137+ prompts** across 8 categories with:
 ### Critical Issues
 
 | File | Issue | Priority | Status |
-|------|-------|----------|--------|
+| :--- |-------| :--- |--------|
 | `tools/README.md` | Title says "Prompts Prompts" - incorrect | High | 🔴 Open |
 | `tools/README.md` | Intro text doesn't match content (shows as generic) | High | 🔴 Open |
 | `get-started/quickstart-copilot.md` | Duplicate `senior-engineer` in audience array | Medium | 🔴 Open |
@@ -72,7 +72,7 @@ The Prompt Library contains **137+ prompts** across 8 categories with:
 ### Consistency Issues
 
 | File | Issue | Priority |
-|------|-------|----------|
+| :--- |-------| :--- |
 | Multiple files | Mixed `date` formats (some YYYY-MM-DD, some quoted) | Low |
 | Multiple files | `reviewStatus: draft` on many files that appear complete | Medium |
 | `concepts/index.md` | References `/concepts/model-capabilities` and `/concepts/prompt-anatomy` - files may not exist | Medium |
@@ -80,7 +80,7 @@ The Prompt Library contains **137+ prompts** across 8 categories with:
 ### Missing Content
 
 | Location | Missing | Priority |
-|----------|---------|----------|
+| :--- |---------| :--- |
 | `/troubleshooting/` | Directory referenced but content minimal | Medium |
 | `/tutorials/` | Referenced in index.md but directory not found | Medium |
 | `/learning-tracks/` | Referenced multiple times but content not verified | Medium |
@@ -172,7 +172,7 @@ Create collapsible quick reference sections:
 <summary>⚡ Quick Reference: Pattern Selection</summary>
 
 | Task Type | Pattern | Example |
-|-----------|---------|---------|
+| :--- |---------| :--- |
 | Simple Q&A | Zero-shot | "Summarize this..." |
 | Code generation | Role-based | "As a senior dev..." |
 | Complex reasoning | Chain-of-thought | "Think step by step..." |
@@ -352,7 +352,7 @@ graph LR
 ### 3.6 Technology Recommendations
 
 | Component | Recommendation | Rationale |
-|-----------|----------------|-----------|
+| :--- |----------------| :--- |
 | Framework | Next.js 14+ | Static generation, great DX |
 | Styling | Tailwind CSS | Rapid UI development |
 | State | Zustand or React Context | Lightweight state management |
@@ -395,7 +395,7 @@ prompt-selector-app/
 ### Phase 1: Foundation (Week 1-2)
 
 | Task | Priority | Effort | Owner |
-|------|----------|--------|-------|
+| :--- |----------| :--- |-------|
 | Fix documentation issues (Part 1) | High | 2h | Docs UX Agent |
 | Add architecture diagram to README | High | 1h | Docs UX Agent |
 | Add user journey diagram | Medium | 1h | Docs UX Agent |
@@ -404,7 +404,7 @@ prompt-selector-app/
 ### Phase 2: Visual Improvements (Week 2-3)
 
 | Task | Priority | Effort | Owner |
-|------|----------|--------|-------|
+| :--- |----------| :--- |-------|
 | Add Mermaid diagrams to key docs | Medium | 4h | Docs UX Agent |
 | Enhance category landing pages | Medium | 4h | Docs UX Agent |
 | Create quick reference cards | Medium | 2h | Docs UX Agent |
@@ -413,7 +413,7 @@ prompt-selector-app/
 ### Phase 3: App MVP (Week 3-6)
 
 | Task | Priority | Effort | Owner |
-|------|----------|--------|-------|
+| :--- |----------| :--- |-------|
 | Set up Next.js project | High | 2h | Developer |
 | Build prompt parser script | High | 4h | Developer |
 | Create browse view | High | 8h | Developer |
@@ -426,7 +426,7 @@ prompt-selector-app/
 ### Phase 4: App Enhancements (Week 7-8)
 
 | Task | Priority | Effort | Owner |
-|------|----------|--------|-------|
+| :--- |----------| :--- |-------|
 | Share links feature | Medium | 4h | Developer |
 | Favorites/bookmarks | Medium | 4h | Developer |
 | Dark mode | Low | 2h | Developer |
@@ -437,7 +437,7 @@ prompt-selector-app/
 ## Success Metrics
 
 | Metric | Current | Target | Measurement |
-|--------|---------|--------|-------------|
+| :--- |---------| :--- |-------------|
 | Documentation coverage | ~80% | 95% | Pages with complete frontmatter |
 | Broken links | Unknown | 0 | Automated link checker |
 | User task completion | N/A | <3 clicks to copy prompt | User testing |

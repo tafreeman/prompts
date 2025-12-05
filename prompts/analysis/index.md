@@ -57,7 +57,7 @@ Turn raw interviews, spreadsheets, and telemetry into decision-ready insight pac
 ## In This Section
 
 | Objective | Prompt | Deliverable |
-|-----------|--------|-------------|
+| :--- |--------| :--- |
 | Build a go/no-go case | [Business Case Developer](/prompts/analysis/business-case-developer) | ROI summary, risks, KPIs |
 | Map competitors | [Competitive Intelligence Researcher](/prompts/analysis/competitive-intelligence-researcher) | Feature matrix + SWOT |
 | Design KPIs | [Metrics & KPI Designer](/prompts/analysis/metrics-and-kpi-designer) | SMART metric proposal |
