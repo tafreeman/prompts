@@ -28,9 +28,13 @@ framework_compatibility:
 ---
 # C# Enterprise Standards Enforcer
 
+---
+
 ## Description
 
 Acts as a strict code reviewer enforcing enterprise-grade C# standards, focusing on Clean Architecture, SOLID principles, security, and performance.
+
+---
 
 ## Use Cases
 
@@ -38,6 +42,8 @@ Acts as a strict code reviewer enforcing enterprise-grade C# standards, focusing
 - Auditing legacy codebases for modernization
 - Ensuring consistency across large development teams
 - Validating adherence to architectural patterns
+
+---
 
 ## Prompt
 
@@ -66,12 +72,16 @@ Provide a structured review in Markdown:
 - **Major Issues**: Architectural or design violations.
 - **Minor Issues**: Naming, style, minor optimizations.
 - **Refactored Code**: A version of the code that adheres to all standards.
-```
+```text
+
+---
 
 ## Variables
 
 - `[code_snippet]`: The C# code to review
 - `[context]`: Background information (e.g., "Payment Processing Service", "Legacy WebForm migration")
+
+---
 
 ## Example Usage
 
@@ -91,7 +101,7 @@ public class UserService {
         db.Close();
     }
 }
-```
+```text
 
 **Output:**
 
@@ -147,9 +157,11 @@ namespace Application.Services
         }
     }
 }
-```
+```text
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -157,7 +169,8 @@ namespace Application.Services
 - Specify the target .NET version if strictly limited (e.g., "Must support .NET Standard 2.0").
 - Use this prompt to establish a baseline for code quality before human review.
 
+---
+
 ## Related Prompts
 
 - [csharp-refactoring-assistant](./csharp-refactoring-assistant.md)
-- [security-code-auditor](../governance/security-code-auditor.md)

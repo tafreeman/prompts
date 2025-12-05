@@ -23,6 +23,8 @@ reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
 
+---
+
 ## Description
 
 Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
@@ -71,6 +73,8 @@ Markdown with the following sections:
 6. **Rollback Plans** (per phase)
 7. **Timeline Estimate**
 
+---
+
 ## Use Cases
 
 - Extracting a microservice from a monolith
@@ -78,6 +82,8 @@ Markdown with the following sections:
 - Changing database schemas or data models
 - Refactoring large modules or classes
 - Paying down technical debt systematically
+
+---
 
 ## Prompt
 
@@ -236,7 +242,9 @@ Before starting, ensure:
 **Total:** [X weeks/months]
 
 **Buffer:** [+Y weeks for unknowns]
-```
+```text
+
+---
 
 ## Variables
 
@@ -250,6 +258,8 @@ Before starting, ensure:
 - `[e.g., 99.9%]`: Uptime requirement
 - `[current %]`: Test coverage
 - `[ANY_OTHER_INFO]`: Additional context
+
+---
 
 ## Example Usage
 
@@ -279,7 +289,7 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Uptime Requirement: 99.95%
 - Test Coverage: 60%
 - Deployment Frequency: Daily
-```
+```text
 
 **Output (abbreviated):**
 
@@ -370,7 +380,9 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 #### Phase 4: Remove Monolith User Code
 
 [Same structure: delete old user code from monolith, final validation]
-```
+```text
+
+---
 
 ## Tips
 
@@ -381,11 +393,13 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - **Communicate:** Share the plan with team and stakeholders
 - **Iterate:** Adjust phases based on learnings from early phases
 
+---
+
 ## Related Prompts
 
-- [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
+
+---
 
 ## Governance Notes
 

@@ -29,9 +29,13 @@ governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
 # Reflection: Initial Answer + Self-Critique Pattern
 
-## Purpose
+---
+
+## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
+
+---
 
 ## Use Cases
 
@@ -42,6 +46,8 @@ The Reflection pattern involves generating an initial answer and then systematic
 - Compliance and legal document review
 - Research and analysis requiring accuracy
 - Teaching and explanation where correctness matters
+
+---
 
 ## Prompt
 
@@ -111,7 +117,9 @@ Based on this critique, provide:
 **Confidence Justification**: [Explain your confidence level]
 
 **Recommended Next Steps**: [If applicable]
-```
+```text
+
+---
 
 ## Variables
 
@@ -123,6 +131,8 @@ Based on this critique, provide:
 1. **Copy the prompt** into your LLM interface.
 2. **Replace placeholders** (`[USER_QUESTION]`, `[BACKGROUND_AND_CONSTRAINTS]`) with your specific details.
 3. **Run the prompt**. The model will generate an initial answer, critique it, and then provide a revised answer.
+
+---
 
 ## Example
 
@@ -147,7 +157,7 @@ You will answer a question using a two-phase reflection pattern.
 
 **Phase 2: Self-Critique and Reflection**
 [Apply critical evaluation framework]
-```
+```text
 
 **Output:**
 
@@ -323,7 +333,9 @@ These unknowns prevent High confidence in any specific recommendation.
 4. Define measurable success criteria for any migration
 5. Create detailed cost model for each option
 6. Pilot Option A improvements for 90 days, measure impact
-```
+```text
+
+---
 
 ## Tips
 
@@ -378,13 +390,16 @@ These unknowns prevent High confidence in any specific recommendation.
   },
   "next_steps": ["...", "..."]
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Reflection: Iterative Improvement](reflection-iterative-improvement.md) - Multi-round refinement
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - Explore multiple approaches
+
+---
 
 ## Governance Notes
 
@@ -421,4 +436,4 @@ def reflection_pattern(question, context):
         "reflection": reflection,
         "final_answer": extract_revised_answer(reflection)
     }
-```
+```text

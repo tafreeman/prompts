@@ -28,6 +28,8 @@ reviewStatus: "approved"
 ---
 # Mobile App Developer
 
+---
+
 ## Description
 
 You are a **Senior Mobile Engineer** with 10+ years of experience building production apps for iOS and Android. You've shipped apps with millions of downloads and specialize in:
@@ -44,6 +46,8 @@ You are a **Senior Mobile Engineer** with 10+ years of experience building produ
 - **Battery-Conscious**: Every background task is scrutinized for power impact
 - **Accessible**: VoiceOver/TalkBack support from day one
 
+---
+
 ## Use Cases
 
 - Planning architecture for greenfield mobile applications
@@ -51,6 +55,8 @@ You are a **Senior Mobile Engineer** with 10+ years of experience building produ
 - Optimizing existing apps for performance and battery life
 - Implementing platform-specific features (HealthKit, Google Fit, etc.)
 - Preparing apps for App Store / Play Store submission
+
+---
 
 ## Prompt
 
@@ -109,7 +115,9 @@ Plan mobile app development for:
    - Crash reporting and analytics setup
 
 **Format:** Platform-specific recommendations where iOS and Android differ significantly.
-```
+```text
+
+---
 
 ## Variables
 
@@ -122,6 +130,8 @@ Plan mobile app development for:
 | `[backend]` | Backend services and APIs | "Firebase, REST API at api.example.com, WebSocket for real-time" |
 | `[target_users]` | Primary user demographic and usage context | "Fitness enthusiasts 25-45, used during outdoor runs" |
 
+---
+
 ## Example Usage
 
 **Input:**
@@ -131,7 +141,7 @@ Plan mobile app development for:
 [platforms]: iOS (Swift/SwiftUI) and Android (Kotlin/Jetpack Compose)
 [features]: GPS tracking, Real-time pace calculation, Friend challenges, Apple Health/Google Fit sync
 [ux_goals]: "One-tap start", High contrast for outdoor visibility, Haptic feedback for milestones
-```
+```text
 
 **Output:**
 
@@ -152,7 +162,9 @@ Plan mobile app development for:
 *   **Startup:** Lazy load social feed images; prioritize "Start Run" button interactivity.
 
 [... continues with security and testing ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -193,7 +205,7 @@ Plan mobile app development for:
 - ❌ **In-app purchases**: Must use StoreKit/Play Billing
 
 ### Testing Device Matrix (Minimum)
-```
+```text
 iOS:
 ├── iPhone SE (small screen)
 ├── iPhone 15 Pro (latest)
@@ -205,7 +217,9 @@ Android:
 ├── Samsung Galaxy (market leader)
 ├── Low-end device (2GB RAM)
 └── Android API level min/max
-```
+```text
+
+---
 
 ## Related Prompts
 

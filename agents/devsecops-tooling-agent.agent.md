@@ -274,7 +274,7 @@ This agent is configured to implement the following improvement plan for `testin
 ### Phase 1: Critical Fixes (Immediate)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 1 | Add folder/batch evaluation support | 2-3 hours | High | ⏳ |
 | 2 | Fix JSON output (add `--format` flag) | 1 hour | High | ⏳ |
 | 3 | Implement `--changed-only` for CI | 2 hours | High | ⏳ |
@@ -328,7 +328,7 @@ def get_changed_files(
 ### Phase 2: Performance & UX (Short-term)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 4 | Parallel model validation | 1 hour | Medium | ⏳ |
 | 5 | Add `--skip-validation` flag | 30 min | Medium | ⏳ |
 | 6 | Progress indicators (tqdm) | 1 hour | Medium | ⏳ |
@@ -377,7 +377,7 @@ thresholds:
 ### Phase 3: Advanced Features (Medium-term)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 8 | Promptfoo integration | 3 hours | Medium | ⏳ |
 | 9 | Historical comparison | 4 hours | Medium | ⏳ |
 | 10 | HTML report generation | 3 hours | Low | ⏳ |

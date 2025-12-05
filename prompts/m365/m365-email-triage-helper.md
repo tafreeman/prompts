@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Email Triage Helper
 
+---
+
 ## Description
 
 This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate.
@@ -94,6 +96,8 @@ Return the output in Markdown with:
 - `## FYI / No Response Needed`
   - Bulleted list of informational emails.
 
+---
+
 ## Use Cases
 
 - Use case 1: Start of the day triage for a busy manager.
@@ -101,6 +105,8 @@ Return the output in Markdown with:
 - Use case 3: Afternoon "clean-up" session to stay on top of communications.
 - Use case 4: End-of-week sweep to ensure no important emails are left unattended.
 - Use case 5: Triage a specific project-related inbox folder.
+
+---
 
 ## Prompt
 
@@ -167,7 +173,9 @@ Return the result in Markdown:
 
 Now, using emails from [time_window], triage my inbox, group the emails, and
 provide reply drafts as specified.
-```
+```text
+
+---
 
 ## Variables
 
@@ -175,6 +183,8 @@ provide reply drafts as specified.
 - `[max_urgent]`: Maximum number of "today" emails to highlight.
 - `[tone]`: Reply tone (e.g., "professional and concise").
 - `[exclude_senders]`: Optional list of senders or domains to ignore.
+
+---
 
 ## Example Usage
 
@@ -187,7 +197,7 @@ provide reply drafts as specified.
 [exclude_senders]: "newsletters@company.com; noreply@system.com"
 
 You are my Email Triage Helper working in Microsoft 365 Outlook...
-```
+```text
 
 **Output:**
 
@@ -222,7 +232,9 @@ seven can be handled later this week, and the rest are informational.
 ## FYI / No Response Needed
 - **Subject:** Weekly engineering newsletter
 - **Subject:** System maintenance notification for Saturday night
-```
+```text
+
+---
 
 ## Tips
 
@@ -230,6 +242,8 @@ seven can be handled later this week, and the rest are informational.
 - Tip 2: Adjust `[max_urgent]` when your schedule is packed so you don't overcommit.
 - Tip 3: Ask Copilot to "shorten the reply further" for busy recipients.
 - Tip 4: Use folder or search filters in Outlook along with this prompt for project-specific triage.
+
+---
 
 ## Related Prompts
 

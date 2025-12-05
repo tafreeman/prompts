@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Management Consulting Expert
 
+---
+
 ## Description
 
 Provides management consulting solutions
+
+---
 
 ## Use Cases
 
 - Management for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,7 +58,9 @@ Deliver:
 4. Recommendation
 5. Implementation plan
 6. Change management
-```
+```text
+
+---
 
 ## Variables
 
@@ -61,6 +69,8 @@ Deliver:
 - `[criteria]`: Criteria
 - `[industry]`: Industry
 - `[stakeholders]`: Stakeholders
+
+---
 
 ## Example Usage
 
@@ -72,7 +82,7 @@ Deliver:
 [industry]: Food & Beverage / FMCG
 [stakeholders]: CMO, VP Innovation, Board of Directors
 [criteria]: Identify $100M growth opportunity executable within 18 months
-```
+```text
 
 **Output:**
 
@@ -92,7 +102,9 @@ Deliver:
 *   **Target:** Acquire a high-growth indie brand ($20M-$50M revenue) with authentic "Clean Label" credentials.
 
 [... continues with implementation plan and change management ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -100,6 +112,8 @@ Deliver:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

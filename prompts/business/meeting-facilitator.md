@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Meeting Facilitator
 
+---
+
 ## Description
 
 Facilitates effective project meetings
+
+---
 
 ## Use Cases
 
 - Meeting Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,7 +57,9 @@ Include:
 4. Decision-making process
 5. Action item tracking
 6. Follow-up procedures
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +67,8 @@ Include:
 - `[decisions]`: Decisions
 - `[duration]`: Duration
 - `[purpose]`: Purpose
+
+---
 
 ## Example Usage
 
@@ -69,7 +79,7 @@ Include:
 [attendees]: Regional Sales Directors (x4), VP Sales, Marketing Lead, Finance Partner
 [duration]: 4 Hours (Half-day offsite)
 [decisions]: Finalize Q4 Quotas, Approve Q4 Marketing Budget Allocation, Go/No-Go on "Winter Promo"
-```
+```text
 
 **Output:**
 
@@ -91,7 +101,9 @@ Include:
 *   **ELMO Rule:** "Enough, Let's Move On" if quota debates circle for >10 mins.
 
 [... continues with decision process and follow-up ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -99,6 +111,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

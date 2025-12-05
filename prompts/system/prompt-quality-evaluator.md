@@ -26,9 +26,13 @@ reviewStatus: "approved"
 ---
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
+---
+
 ## Description
 
 A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique. This evaluator identifies prompts with insufficient content (e.g., <30 words), missing metadata, incomplete documentation, or lack of examples, and provides actionable, prioritized improvement recommendations.
+
+---
 
 ## Use Cases
 
@@ -38,6 +42,8 @@ A comprehensive meta-prompt that evaluates other prompts using a research-backed
 - Generating actionable improvement roadmaps
 - Ensuring consistency with industry best practices
 - Compliance verification for enterprise prompt repositories
+
+---
 
 ## Prompt
 
@@ -227,15 +233,15 @@ If applicable, provide before/after snippets showing how to fix the most critica
 **Before:**
 ```text
 [Current problematic section]
-```
+```text
 
 **After:**
 
 ```text
 [Improved version]
-```
+```text
 
-```
+```text
 
 ---
 
@@ -280,7 +286,9 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 **Confidence Justification:**
 [Explain your confidence in this evaluation]
-```
+```text
+
+---
 
 ## Variables
 
@@ -288,6 +296,8 @@ If no changes needed, state: "No revisions necessary after reflection."
 - `[REPOSITORY_NAME]`: Name of the repository (e.g., "tafreeman/prompts")
 - `[PLATFORMS]`: Target platforms (GitHub Copilot, M365, Claude, GPT, etc.)
 - `[AUDIENCE]`: Intended users (developers, business users, architects, etc.)
+
+---
 
 ## Example Usage
 
@@ -310,15 +320,21 @@ platform: "Claude Sonnet 4.5"
 
 # Meeting Facilitator
 
+---
+
 ## Description
 
 Facilitates effective project meetings
+
+---
 
 ## Use Cases
 
 - Meeting Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -337,7 +353,9 @@ Include:
 4. Decision-making process
 5. Action item tracking
 6. Follow-up procedures
-```
+```text
+
+---
 
 ## Variables
 
@@ -354,7 +372,7 @@ Include:
 - Target Platforms: Microsoft 365 Copilot, Claude Sonnet 4.5
 - Intended Audience: Business users, project managers, enterprise
 
-```
+```text
 
 **Output (Excerpt):**
 
@@ -421,22 +439,28 @@ Include:
 
 **Before (Variables section):**
 ```text
+
+---
+
 ## Variables
 
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
-```
+```text
 
 **After:**
 
 ```text
+
+---
+
 ## Variables
 
 - `[purpose]`: Meeting purpose/objective (e.g., "Q4 Planning Review", "Project Kickoff", "Retrospective")
 - `[attendees]`: Participant roles and names (e.g., "VP Product, 3 Product Managers, 2 Senior Engineers")
 - `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
 - `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
-```
+```text
 
 ---
 
@@ -470,7 +494,9 @@ Include:
 
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -483,11 +509,15 @@ Include:
 - **Calibrate regularly**: Evaluate known high-quality prompts periodically to check consistency
 - **Batch evaluation**: When evaluating multiple prompts, re-read the criteria between each evaluation
 
+---
+
 ## Related Prompts
 
 - [Tree-of-Thoughts Repository Evaluator](tree-of-thoughts-repository-evaluator.md) - For repository-wide assessment
 - [Reflection: Self-Critique Pattern](../advanced/reflection-self-critique.md) - For the reflection framework
 - [Code Review Expert](../developers/code-review-expert-structured.md) - Similar evaluation pattern for code
+
+---
 
 ## Research Foundation
 

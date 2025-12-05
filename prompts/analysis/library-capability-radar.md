@@ -25,6 +25,8 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
 
+---
+
 ## Description
 
 This prompt guides the generation of a Radar Chart (Spider Plot) to assess the maturity and balance of the prompt library across key domains.
@@ -58,11 +60,15 @@ Comparative analysis.
 
 - A detailed description or code (e.g., Python/Matplotlib, Excel instructions) to generate the chart.
 
+---
+
 ## Use Cases
 
 - Strategic planning for library expansion.
 - Identifying under-served domains (gaps).
 - Reporting on library growth and balance.
+
+---
 
 ## Prompt
 
@@ -73,7 +79,9 @@ Use the provided [CATEGORY_COUNTS] for the axes.
 The axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).
 
 This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
-```
+```text
+
+---
 
 ## Example Visualization (Mermaid)
 

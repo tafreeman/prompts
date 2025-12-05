@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Microservices Architecture Expert
 
+---
+
 ## Description
 
 Designs microservices ecosystems
+
+---
 
 ## Use Cases
 
 - Microservices for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,7 +58,9 @@ Include:
 4. Service mesh design
 5. Observability strategy
 6. Deployment architecture
-```
+```text
+
+---
 
 ## Variables
 
@@ -60,6 +68,8 @@ Include:
 - `[domain]`: Domain
 - `[scale]`: Scale
 - `[teams]`: Teams
+
+---
 
 ## Example Usage
 
@@ -70,7 +80,7 @@ Include:
 [capabilities]: Order tracking, Fleet management, Route optimization, Inventory forecasting, Driver payroll
 [scale]: 50k trucks, 10M packages/day, global distribution
 [teams]: 12 squads (approx 8-10 devs each), distributed across 3 time zones
-```
+```text
 
 **Output:**
 
@@ -96,7 +106,9 @@ Include:
 *   **External:** GraphQL Gateway for mobile apps and web dashboard.
 
 [... continues with data management and service mesh ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -104,6 +116,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

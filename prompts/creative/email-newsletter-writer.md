@@ -28,9 +28,13 @@ effectivenessScore: 4.1
 ---
 # Email Newsletter Writer
 
+---
+
 ## Description
 
 Create engaging email newsletters that subscribers actually want to read. This prompt helps marketers, content creators, and business owners craft newsletters that deliver value, maintain audience interest, and achieve marketing goals while avoiding the spam folder.
+
+---
 
 ## Use Cases
 
@@ -39,6 +43,8 @@ Create engaging email newsletters that subscribers actually want to read. This p
 - Industry news roundups and curated content digests
 - Educational content series for nurturing leads
 - Promotional campaigns with a value-first approach
+
+---
 
 ## Prompt
 
@@ -78,7 +84,9 @@ Please create:
 5. P.S. line for additional engagement
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
-```
+```text
+
+---
 
 ## Variables
 
@@ -93,6 +101,8 @@ Format the newsletter with clear visual hierarchy using headers, short paragraph
 | `[ENGAGEMENT/CLICKS/CONVERSIONS/EDUCATION/RELATIONSHIP BUILDING]` | What you want to achieve |
 | `[MAIN ACTION YOU WANT READERS TO TAKE]` | The primary CTA |
 | `[SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]` | Desired newsletter length |
+
+---
 
 ## Example Usage
 
@@ -134,7 +144,7 @@ Please create:
 5. P.S. line for additional engagement
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
-```
+```text
 
 **Output:**
 
@@ -203,7 +213,7 @@ These aren't fancy—they're practical. Try one today.
 history | fzf
 # Find and open any file
 vim $(fzf)
-```
+```text
 *Time saved: 45 minutes of "wait, what was that command?"*
 
 **2. Quick directory bookmarks with `z`**
@@ -211,14 +221,14 @@ vim $(fzf)
 # Jump to frequently used directories
 z projects  # Goes to ~/code/projects
 z api       # Goes to most-used api directory
-```
+```text
 *Time saved: 30 minutes of cd ../../../*
 
 **3. Parallel command execution**
 ```bash
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
-```
+```bash
 *Time saved: 45 minutes on a multi-package repo*
 
 ---
@@ -270,7 +280,9 @@ Happy coding,
 ---
 
 P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git workflows that scale], [The ultimate VS Code setup], [Debugging in production]. All still relevant, all still free.
-```
+```text
+
+---
 
 ## Tips
 
@@ -280,6 +292,8 @@ P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git 
 - **One primary CTA:** Having multiple competing actions reduces clicks on all of them
 - **The P.S. gets read:** It's one of the most-read parts of any email—use it strategically
 - **Personalization beyond [First Name]:** Reference subscriber behavior, segments, or interests when possible
+
+---
 
 ## Related Prompts
 
