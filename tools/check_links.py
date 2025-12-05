@@ -14,7 +14,7 @@ def check_links(path: Path) -> list:
         return []
     
     # Find markdown links (including those with anchors)
-    links = re.findall(r'\[([^\]]+)\]\(([^)#]+\.md(?:#[^)]*)?)\)', content)
+    links = re.findall(r'\[([^\]]+)\]\(([^)]+\.md(?:#[^)]*)?)\)', content)
     
     for text, link in links:
         if link.startswith('http'):
