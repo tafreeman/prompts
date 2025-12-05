@@ -21,6 +21,7 @@ layout: "category-landing"
 children:
   - /agents/architecture-agent.agent
   - /agents/code-review-agent.agent
+  - /agents/devsecops-tooling-agent.agent
   - /agents/docs-agent.agent
   - /agents/prompt-agent.agent
   - /agents/refactor-agent.agent
@@ -51,12 +52,14 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 | **[Security Agent](/agents/security-agent.agent)** | Security Analyst | Identifying vulnerabilities and hardening code |
 | **[Architecture Agent](/agents/architecture-agent.agent)** | System Architect | Designing systems and evaluating patterns |
 | **[Prompt Agent](/agents/prompt-agent.agent)** | Prompt Engineer | Crafting and refining AI prompts |
+| **[DevSecOps Tooling Agent](/agents/devsecops-tooling-agent.agent)** | DevSecOps Engineer | Building CLI tools, automation, and pipelines |
 
 ## Quick Starts
 
 - **Need documentation?** Invoke `@docs-agent` to draft a README or explain a complex module.
 - **Reviewing code?** Ask `@code-review-agent` to analyze your changes before submitting a PR.
 - **Writing tests?** Let `@test-agent` generate a test suite for your new class.
+- **Building tools?** Use `@devsecops-tooling-agent` for robust CLI and automation development.
 
 ## Browse by Capability
 
@@ -72,6 +75,9 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 ### Content & Operations
 - [Docs Agent](/agents/docs-agent.agent)
 - [Prompt Agent](/agents/prompt-agent.agent)
+
+### Tooling & Automation
+- [DevSecOps Tooling Agent](/agents/devsecops-tooling-agent.agent)
 
 ---
 
