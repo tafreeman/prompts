@@ -26,7 +26,10 @@ reviewStatus: "draft"
 ---
 # M365 Presentation Outline Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -98,7 +101,10 @@ Return the output in Markdown with:
     - Bullet points (3–5)
     - Visual suggestion
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -109,7 +115,10 @@ Return the output in Markdown with:
 - Use case 4: A marketing lead outlining a campaign strategy deck.
 - Use case 5: A team lead creating a quarterly business review presentation.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -181,7 +190,10 @@ emphasizing [emphasis].
 - `[source_document]`: Optional file to use as source material.
 - `[slide_count_target]`: Optional desired number of slides.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -197,6 +209,10 @@ emphasizing [emphasis].
 
 You are my Presentation Outline Generator working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -275,7 +291,10 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 - Tip 3: After generating the outline, ask Copilot to "expand slide 5 with more detail" or "suggest alternative visuals for slide 3."
 - Tip 4: Copy the outline into PowerPoint's Outline View for fast slide creation.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

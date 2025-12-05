@@ -37,6 +37,7 @@ effectivenessScore: 4.4
 ---
 # Security: Incident Response Framework
 
+<<<<<<< HEAD
 ![Risk Level](https://img.shields.io/badge/Risk%20Level-Critical-darkred)
 ![Access](https://img.shields.io/badge/Access-Restricted-red)
 ![Data Classification](https://img.shields.io/badge/Data-Restricted-purple)
@@ -62,13 +63,18 @@ effectivenessScore: 4.4
 - [Governance Notes](#governance-notes)
 
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows NIST Cybersecurity Framework and includes breach notification requirements for GDPR/CCPA compliance.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -81,7 +87,10 @@ A structured incident response framework for Security Operations Center (SOC) an
 - Compromised credentials response
 - Post-incident analysis and documentation
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -302,7 +311,10 @@ Provide structured incident report:
 - `[CURRENT_STATUS]`: Is incident ongoing, contained, or resolved
 - `[TIMESTAMP]`: When incident was discovered
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -331,6 +343,10 @@ You are a security incident response assistant following NIST IR framework.
 
 **Instructions**: [Follow framework above]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -773,10 +789,10 @@ You are a security incident response assistant following NIST IR framework.
   ],
   "next_steps": ["...", "..."]
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Security: Threat Modeling](security-threat-modeling.md) - Proactive threat assessment
-- [Security: Vulnerability Assessment](security-vulnerability-assessment.md) - Security review
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - Risk evaluation
+<!-- Links removed - files don't exist yet -->

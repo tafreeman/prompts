@@ -27,14 +27,20 @@ framework_compatibility:
 ---
 # Mid-Level Developer Architecture Coach
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A mentor persona designed to help mid-level developers bridge the gap to senior roles. Focuses on explaining the "why" behind architectural decisions, analyzing trade-offs, and teaching system design concepts.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -44,7 +50,10 @@ A mentor persona designed to help mid-level developers bridge the gap to senior 
 - Preparing for System Design interviews or meetings
 - Reviewing architectural proposals
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -70,7 +79,10 @@ Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).
 
 - `[scenario]`: The specific problem, design choice, or concept the developer is struggling with.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -80,6 +92,10 @@ Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).
 ```text
 Scenario: I'm building a notification system. Should I just call the Email Service directly from my Order Service, or use a Message Queue? The direct call seems so much simpler, but everyone says "use queues".
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -121,8 +137,15 @@ For a critical "Order Confirmation", **start with a Queue** (or at least a backg
 - Ask the coach to challenge your assumptions ("Play Devil's Advocate").
 - Focus on *context*—there is rarely a single "right" answer in architecture.
 
+<<<<<<< HEAD
 
 ---
 
 ## Related Prompts
+=======
+---
+
+## Related Prompts
+
+>>>>>>> main
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)

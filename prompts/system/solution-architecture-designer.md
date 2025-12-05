@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Solution Architecture Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs comprehensive solution architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs comprehensive solution architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -74,7 +83,10 @@ Provide:
 - `[nonfunctional_req]`: Nonfunctional Req
 - `[problem]`: Problem
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -88,6 +100,10 @@ Provide:
 [constraints]: AWS cloud, Java/Spring Boot backend, React frontend, budget cap $50k/month run rate
 [integrations]: Salesforce CRM, SAP ERP, Stripe Payments, SendGrid Email
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -128,7 +144,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

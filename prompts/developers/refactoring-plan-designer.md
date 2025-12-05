@@ -23,7 +23,10 @@ reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -74,7 +77,10 @@ Markdown with the following sections:
 6. **Rollback Plans** (per phase)
 7. **Timeline Estimate**
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -85,7 +91,10 @@ Markdown with the following sections:
 - Refactoring large modules or classes
 - Paying down technical debt systematically
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -262,7 +271,10 @@ Before starting, ensure:
 - `[current %]`: Test coverage
 - `[ANY_OTHER_INFO]`: Additional context
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -294,6 +306,10 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Test Coverage: 60%
 - Deployment Frequency: Daily
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output (abbreviated):**
 
 ```markdown
@@ -396,14 +412,22 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - **Communicate:** Share the plan with team and stakeholders
 - **Iterate:** Adjust phases based on learnings from early phases
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
 
+<<<<<<< HEAD
 - [Tree-of-Thoughts: Architecture Evaluator](../advanced/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
 - [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For fixing issues during refactoring
+=======
+>>>>>>> main
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
+
+---
 
 ## Governance Notes
 

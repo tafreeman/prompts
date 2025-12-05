@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Performance Architecture Optimizer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Optimizes system performance architecture
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Optimizes system performance architecture
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -74,7 +83,10 @@ Provide:
 - `[system_name]`: System Name
 - `[targets]`: Targets
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -88,6 +100,10 @@ Provide:
 [load]: 500k requests/sec peak, 10PB data transfer/month
 [budget]: $200k/month cloud spend limit
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -119,7 +135,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

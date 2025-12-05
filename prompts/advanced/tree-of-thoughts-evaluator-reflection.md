@@ -86,10 +86,16 @@ Deliver a single Markdown document:
    - `Confidence Level` (High/Medium/Low) with justification
    - `Next Actions / Validation Needed`
 
+<<<<<<< HEAD
 
 ---
 
 ## 🎯 Use Cases
+=======
+---
+
+## Use Cases
+>>>>>>> main
 
 - Enterprise prompt-library due diligence.
 - Internal QA before sharing audit reports with leadership.
@@ -97,10 +103,16 @@ Deliver a single Markdown document:
 - Regression testing after repository updates.
 - Training AI evaluators on self-checking workflows.
 
+<<<<<<< HEAD
 
 ---
 
 ## 💬 Prompt
+=======
+---
+
+## Prompt
+>>>>>>> main
 
 ```text
 You will evaluate the **local workspace copy** of the repository identified as `[REPOSITORY_NAME]` using a **two-phase Tree-of-Thoughts + Reflection pattern**. Do not pull from or browse any remote repository; rely only on the files and context available in the current local workspace.
@@ -153,6 +165,11 @@ Output Phase 2 as:
 
 Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+>>>>>>> main
 
 ---
 
@@ -166,10 +183,16 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 | `[OBSERVED_GAPS]` | Identified weaknesses or missing elements | "Limited deployment docs, sparse persona coverage" |
 | `[ENTERPRISE_CONCERNS]` | Specific organizational requirements to validate | "Compliance workflows, governance metadata, security review status" |
 
+<<<<<<< HEAD
 
 ---
 
 ## 📝 Example Usage
+=======
+---
+
+## Example Usage
+>>>>>>> main
 
 ### Input
 
@@ -181,6 +204,10 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 **Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
 **Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Output Excerpt
 
 ```markdown
@@ -213,6 +240,11 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 - **Confidence Level**: Medium
 - **Next Actions**: Sample prompts per persona, request Azure docs
 ```text
+<<<<<<< HEAD
+=======
+
+---
+>>>>>>> main
 
 ---
 
@@ -234,6 +266,10 @@ Claude excels at self-critique. Add explicit permission to be critical:
 ```text
 During Phase 2, be genuinely critical. I want you to find real flaws in your Phase 1 analysis, not just validate it. If everything checks out, explain why with specific evidence.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### GPT-4/GPT-5 (OpenAI)
 
 For longer evaluations, consider using system messages to establish the two-phase pattern:
@@ -241,11 +277,21 @@ For longer evaluations, consider using system messages to establish the two-phas
 ```text
 System: You are an enterprise repository evaluator using Tree-of-Thoughts methodology with built-in self-reflection. Always complete Phase 1 fully before beginning Phase 2.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### GitHub Copilot Chat
 
 ```text
 @workspace Evaluate this repository using the ToT + Reflection pattern. Phase 1: Score content, organization, and enterprise-readiness. Phase 2: Critique your own assessment and adjust scores where evidence is weak.
 ```text
+<<<<<<< HEAD
+=======
+
+---
+
+>>>>>>> main
 ## Governance Notes
 
 - **Human Review Required**: This prompt is tagged `requires-human-review`. All evaluation outputs should be reviewed by a human before sharing with stakeholders or making decisions based on them.
@@ -256,10 +302,16 @@ System: You are an enterprise repository evaluator using Tree-of-Thoughts method
   - Assumptions about team size or skill level
   - Unstated preferences for specific tools or vendors
 
+<<<<<<< HEAD
 
 ---
 
 ## 🔗 Related Prompts
+=======
+---
+
+## Related Prompts
+>>>>>>> main
 
 - [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
 - [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)

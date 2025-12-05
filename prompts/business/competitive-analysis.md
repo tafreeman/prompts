@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create structured competitive analyses that inform product strategy, sales positioning, and market differentiation. Generates side-by-side comparisons, SWOT analyses, and actionable recommendations.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -43,7 +49,10 @@ Create structured competitive analyses that inform product strategy, sales posit
 - Evaluating acquisition targets
 - Developing go-to-market positioning
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -111,7 +120,10 @@ Keep analysis objective and evidence-based. Flag assumptions clearly.
 - `[purpose]`: Why you need this analysis (sales, product planning, fundraising)
 - `[criteria]`: Key evaluation dimensions important to your buyers
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -125,6 +137,10 @@ Market: Data integration / ETL-ELT space, targeting mid-market and enterprise co
 Analysis Purpose: Sales battlecards for enterprise deals - need to arm AEs with competitive positioning
 Key Criteria: Performance/speed, ease of use, pricing, enterprise features (security, compliance), connector breadth, support quality
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -421,7 +437,10 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - Focus on what matters to buyers, not comprehensive feature lists
 - Be honest about weaknesses - sales teams need to handle objections
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

@@ -34,7 +34,10 @@ retention_period: "7-years"
 ---
 # Database Schema Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -50,6 +53,8 @@ You are a **Staff-level Data/Database Architect** who designs relational schemas
 - Safe migrations (expand/contract pattern, zero-downtime rollout, rollback scripts)
 - Performance verification via sample queries, `EXPLAIN (ANALYZE)` snippets, and connection budgeting
 
+---
+
 ## Research Foundation
 
 - **Designing Data-Intensive Applications** (Kleppmann, 2017)
@@ -59,7 +64,10 @@ You are a **Staff-level Data/Database Architect** who designs relational schemas
 - **Martin Fowler – Temporal Modeling & Slowly Changing Dimensions**
 - **AWS Well-Architected Data Pillar** – backup/restore, retention, encryption
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -109,7 +117,10 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 - `[integration]`: Downstream systems, CDC, analytics needs
 - `[tech_prefs]`: Preferred DB engines, versions, extensions, tools
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -127,19 +138,24 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 [compliance]: SOC2, GDPR (right to erasure), PCI SAQ-D tokenization (no PAN storage), SOX audit trail.
 [integration]: Debezium CDC to Kafka, nightly AWS DMS to Snowflake, webhooks on invoice state changes.
 [tech_prefs]: PostgreSQL 16, pg_partman, Timescale hypertables optional, prefer SQL migrations via Sqitch.
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
 ## ER Diagram (Mermaid)
 ```mermaid
 erDiagram
- Tenant ||--o{ Customer : "owns"
- Customer ||--o{ Subscription : "has"
- Subscription ||--o{ Invoice : "generates"
- Invoice ||--o{ Payment : "is settled by"
- Invoice ||--o{ Dispute : "may spawn"
- Invoice ||--o{ LedgerEntry : "posts"
+ Tenant || :--o{ Customer : "owns"
+ Customer || :--o{ Subscription : "has"
+ Subscription || :--o{ Invoice : "generates"
+ Invoice || :--o{ Payment : "is settled by"
+ Invoice || :--o{ Dispute : "may spawn"
+ Invoice || :--o{ LedgerEntry : "posts"
 ```text
 
 ## Sample DDL
@@ -172,9 +188,15 @@ CREATE INDEX idx_invoice_tenant_status_due
 3. Deploy through Sqitch phases with rollback scripts per step
 
 ```text
+<<<<<<< HEAD
 Use the full prompt with your own data to produce the entire package.
 
 
+=======
+
+Use the full prompt with your own data to produce the entire package.
+
+>>>>>>> main
 ---
 
 ## Tips
@@ -185,7 +207,10 @@ Use the full prompt with your own data to produce the entire package.
 - List compliance constraints (GDPR, HIPAA) so retention + masking logic is included.
 - Mention migration context (greenfield vs refactor) to receive expand/contract steps.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

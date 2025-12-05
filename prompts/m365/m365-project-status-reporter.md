@@ -26,7 +26,10 @@ reviewStatus: "draft"
 ---
 # M365 Project Status Reporter
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -96,7 +99,10 @@ Return the output in Markdown with these sections:
 - `## Requests for Help / Decisions Needed`
   - 1–3 bullets identifying where stakeholder input, approval, or resources are required.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -107,7 +113,10 @@ Return the output in Markdown with these sections:
 - Use case 4: A program manager consolidating updates across multiple related projects.
 - Use case 5: A consultant providing a client with a structured update on engagement progress.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -177,7 +186,10 @@ the project status update for [stakeholder_audience].
 - `[stakeholder_audience]`: Who will read this (e.g., "executives", "project sponsors").
 - `[focus_areas]`: Optional specific topics to emphasize (e.g., "budget", "timeline risks").
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -192,6 +204,10 @@ the project status update for [stakeholder_audience].
 
 You are my Project Status Reporter working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -231,7 +247,10 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 - Tip 3: Share the draft with your team before sending it to stakeholders to confirm accuracy and tone.
 - Tip 4: Archive previous status updates in a shared folder so Copilot can compare progress over time.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

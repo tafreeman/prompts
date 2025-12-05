@@ -28,14 +28,20 @@ effectivenessScore: 4.2
 ---
 # Ad Copy Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create high-converting advertising copy tailored to specific platforms, audiences, and campaign goals. This prompt helps marketers, advertisers, and business owners develop compelling ad copy that captures attention, communicates value, and drives desired actions.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -47,7 +53,10 @@ Create high-converting advertising copy tailored to specific platforms, audience
 - YouTube ad scripts (bumper ads, skippable ads)
 - Retargeting ad campaigns
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -110,7 +119,10 @@ Please provide:
 | `[PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]` | The tone of your ads |
 | `[PLATFORM-SPECIFIC LIMITS]` | Character or format restrictions |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -158,6 +170,10 @@ Please provide:
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -355,7 +371,10 @@ Based on B2B SaaS search campaigns in this category:
 - **Test systematically:** Change one element at a time to understand what's actually driving performance
 - **Write for the click, but optimize for conversion:** CTR matters, but conversion rate and cost-per-acquisition matter more
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

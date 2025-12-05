@@ -27,14 +27,20 @@ reviewStatus: "approved"
 ---
 # Code Review Assistant
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -45,7 +51,10 @@ An AI assistant that performs thorough code reviews, identifying potential issue
 - Identify potential bugs or security vulnerabilities
 - Improve code readability and maintainability
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -118,7 +127,10 @@ Use this checklist to ensure comprehensive reviews:
 | **Minor** | Affects readability or maintainability | Poor naming, missing docs, style inconsistencies |
 | **Suggestion** | Nice-to-have improvements | Refactoring opportunities, alternative approaches |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -160,6 +172,10 @@ Focus on:
 - Potential edge cases
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -218,7 +234,11 @@ This refactored version:
 - Has type hints and docstring
 - Follows Python best practices (PEP 8)
 
+<<<<<<< HEAD
 ```text
+=======
+```python
+>>>>>>> main
 
 ---
 
@@ -256,6 +276,8 @@ This refactored version:
 - Look for goroutine leaks
 - Verify context propagation
 
+---
+
 ## Example Feedback Snippets
 
 ### Critical: Security Issue
@@ -270,7 +292,12 @@ The query uses string concatenation with user input:
 `cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
 
 **Why**: Attackers can inject malicious SQL to access/delete data.
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 ### Major: Missing Error Handling
 ```text
 🟡 **MAJOR - Missing Error Handling**
@@ -286,9 +313,17 @@ try:
 except requests.RequestException as e:
     logger.error(f"API call failed: {e}")
     return None
+<<<<<<< HEAD
 ```text
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
 ```text
+=======
+```json
+
+**Why**: Unhandled exceptions cause poor user experience and make debugging harder.
+```text
+
+>>>>>>> main
 ### Minor: Naming Improvement
 ```text
 🟢 **MINOR - Naming Suggestion**
@@ -298,6 +333,15 @@ except requests.RequestException as e:
 
 **Why**: Descriptive names make code self-documenting.
 ```text
+<<<<<<< HEAD
 ## Related Prompts - Specialized bug detection - Generate docs
 - [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output - Detailed refactoring guidance
+=======
+
+---
+
+## Related Prompts
+
+- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
+>>>>>>> main
 - [Security Code Auditor](security-code-auditor.md) - Security-focused review

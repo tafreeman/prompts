@@ -25,14 +25,20 @@ effectivenessScore: 3.2
 ---
 # Trend Analysis Specialist
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Identifies and analyzes market trends
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Identifies and analyzes market trends
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -72,7 +81,10 @@ Include:
 - `[impact]`: Impact
 - `[market]`: Market
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -85,6 +97,10 @@ Include:
 [horizon]: 12-24 Months
 [impact]: High (Disruption of organic search traffic and ad targeting)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -114,7 +130,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

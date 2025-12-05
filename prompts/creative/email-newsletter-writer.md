@@ -28,14 +28,20 @@ effectivenessScore: 4.1
 ---
 # Email Newsletter Writer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create engaging email newsletters that subscribers actually want to read. This prompt helps marketers, content creators, and business owners craft newsletters that deliver value, maintain audience interest, and achieve marketing goals while avoiding the spam folder.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -46,7 +52,10 @@ Create engaging email newsletters that subscribers actually want to read. This p
 - Educational content series for nurturing leads
 - Promotional campaigns with a value-first approach
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -105,7 +114,10 @@ Format the newsletter with clear visual hierarchy using headers, short paragraph
 | `[MAIN ACTION YOU WANT READERS TO TAKE]` | The primary CTA |
 | `[SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]` | Desired newsletter length |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -149,6 +161,10 @@ Please create:
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -231,7 +247,11 @@ z api       # Goes to most-used api directory
 ```bash
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
+<<<<<<< HEAD
 ```text
+=======
+```bash
+>>>>>>> main
 *Time saved: 45 minutes on a multi-package repo*
 
 ---
@@ -296,7 +316,10 @@ P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git 
 - **The P.S. gets read:** It's one of the most-read parts of any email—use it strategically
 - **Personalization beyond [First Name]:** Reference subscriber behavior, segments, or interests when possible
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

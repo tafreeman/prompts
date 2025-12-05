@@ -32,14 +32,20 @@ retention_period: "permanent"
 ---
 # Office Agent Deep Research: Modern Prompting Techniques
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 This prompt is strictly engineered for the **Office Agent**, an autonomous system running in an **E2B Cloud Sandbox** (Debian Trixie / Python 3.11). It instructs the agent to leverage its specific toolset (`curl`, `poppler-utils`, `python`) to conduct deep, evidence-based research, rather than relying on internal model knowledge (like Gemini/Claude).
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -48,7 +54,10 @@ This prompt is strictly engineered for the **Office Agent**, an autonomous syste
 - **Evidence Verification:** The agent verifies claims by running Python scripts to scrape live documentation.
 - **Knowledge Synthesis:** The agent builds a "State of the Art" report based on _retrieved_ data, not just training data.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -127,7 +136,10 @@ Produce a **Markdown Research Report** with the following structure:
 
 - None. This is a static "Deep Research" directive for the Office Agent.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -139,3 +151,10 @@ Produce a **Markdown Research Report** with the following structure:
 The agent will output logs of its `wget` and `pdftotext` operations, followed by the final Markdown report.
 
 **See:** [example-research-output.md](example-research-output.md) for a complete sample report.
+
+## Tips
+
+- **Verify all sources**: Ensure that all citations reference actual downloaded files, not model training data
+- **Use iterative refinement**: Apply the Reflexion pattern to the research itself - draft, critique, and refine
+- **Cache downloaded PDFs**: Store PDFs in the sandbox to avoid re-downloading during revisions
+- **Track execution time**: Monitor how long each research phase takes to optimize future queries

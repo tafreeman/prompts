@@ -25,14 +25,20 @@ effectivenessScore: 4.5
 ---
 # Agile Sprint Planner
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Agile/Scrum sprint planner for software development teams. Focuses on capacity planning, story point estimation, velocity tracking, and sprint goal definition using Scrum framework best practices.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -43,7 +49,10 @@ Agile/Scrum sprint planner for software development teams. Focuses on capacity p
 - Sprint retrospective preparation
 - Release planning and roadmap alignment
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -69,7 +78,11 @@ Provide:
 7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
 
 Format output with Markdown tables for story breakdown and capacity allocation.
+<<<<<<< HEAD
 ```text
+=======
+```markdown
+>>>>>>> main
 
 ---
 
@@ -82,7 +95,10 @@ Format output with Markdown tables for story breakdown and capacity allocation.
 - `[features]`: Priority features from product backlog (e.g., "One-click Checkout, Apple Pay Integration, Wishlist Sync")
 - `[dod]`: Definition of Done criteria (e.g., "Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -108,6 +124,10 @@ Definition of Done:
 
 Context: Black Friday launch deadline is Dec 15. This sprint must deliver payment improvements to reduce cart abandonment (currently 68%).
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -264,10 +284,18 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 
 **Sample**:
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 @Sarah: Yesterday: Completed Buy Now button UI. Today: Start Apple Pay iOS integration. Blockers: None.
 @Emily: Yesterday: Designed /default-payment API. Today: Stripe Apple Pay SDK setup. Blockers: Need Stripe API token refresh (tagged @DevOps).
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Sprint Review (Demo)
 
 **Date**: Dec 1 (Friday), 2:00 PM ET  
@@ -300,6 +328,10 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 **Sample Burndown Chart** (ASCII representation):
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 Points ↑
 26 |●
    |  ●●
@@ -314,6 +346,10 @@ Points ↑
    Actual: Monitor daily
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ---
 
 ## Contingency Plans
@@ -335,11 +371,17 @@ Points ↑
 - **Monitor Burndown Daily**: If burndown flatlines for 2 days, escalate immediately (don't wait for retrospective)
 - **Celebrate Small Wins**: If one-click checkout deploys early, demo it in mid-sprint to build momentum
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
 
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For sprint review stakeholder updates
 - **[risk-management-analyst](./risk-management-analyst.md)** - For sprint risk assessment
+<<<<<<< HEAD
 - **project-charter-creator** - For initial sprint planning at project kickoff
+=======
+>>>>>>> main

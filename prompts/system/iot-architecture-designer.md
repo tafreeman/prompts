@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # IoT Architecture Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs IoT system architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs IoT system architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -74,7 +83,10 @@ Provide:
 - `[security]`: Security
 - `[use_case]`: Use Case
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -88,6 +100,10 @@ Provide:
 [connectivity]: LoRaWAN for sensors (low power), MQTT over Wi-Fi for controllers
 [security]: Mutual TLS (mTLS) for device auth, end-to-end encryption, air-gapped OT network
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -118,7 +134,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

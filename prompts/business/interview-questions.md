@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Interview Questions Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ Create structured interview questions that assess candidates fairly and effectiv
 - Ensuring consistent evaluation across candidates
 - Creating competency-based assessment frameworks
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -98,7 +107,10 @@ Format as an interview guide with timing suggestions.
 - `[stage]`: Interview stage (e.g., "Phone screen", "Hiring manager round", "Final onsite")
 - `[time]`: Duration of the interview (e.g., "45 minutes", "60 minutes")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -112,6 +124,10 @@ Key Competencies: Data-driven decision making, cross-functional leadership, expe
 Interview Stage: Hiring manager round (second interview, passed recruiter screen)
 Time Available: 60 minutes
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -346,7 +362,10 @@ Time Available: 60 minutes
 - Take notes on exact quotes - they're more useful than your interpretations
 - Leave time for candidate questions - how they ask reveals a lot
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

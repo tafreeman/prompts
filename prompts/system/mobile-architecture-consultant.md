@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Mobile Architecture Consultant
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs mobile application architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs mobile application architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -74,7 +83,10 @@ Include:
 - `[security]`: Security
 - `[users]`: Users
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -88,6 +100,10 @@ Include:
 [performance]: <2s startup time, smooth video calls on 4G networks
 [security]: HIPAA compliant, biometric auth, no sensitive data stored on device
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -121,7 +137,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

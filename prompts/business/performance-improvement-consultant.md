@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Performance Improvement Consultant
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Improves organizational performance
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Improves organizational performance
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Include:
 - `[metrics]`: Metrics
 - `[organization]`: Organization
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -83,7 +95,12 @@ Include:
 [issues]: Patient wait times in ER > 4 hours, low nursing staff retention
 [metrics]: Avg ER Wait Time: 260 mins (Benchmark: 120), Nurse Turnover: 22% (Benchmark: 12%)
 [goals]: Reduce wait time to < 2 hours by Q4, reduce turnover to < 15%
+<<<<<<< HEAD
 ```text
+=======
+```xml
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -114,7 +131,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

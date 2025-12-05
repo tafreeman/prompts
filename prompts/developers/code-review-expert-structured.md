@@ -29,7 +29,10 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -43,7 +46,10 @@ You are a **Senior Software Engineer** and **Automation Specialist** designing c
 - **Actionable Data**: Ensure every finding has a precise file location and a copy-pasteable fix.
 - **Dashboard Ready**: Generate summaries that can be directly visualized in engineering metrics dashboards.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -53,7 +59,10 @@ You are a **Senior Software Engineer** and **Automation Specialist** designing c
 - **Automated Reporting**: Generating daily/weekly code quality digests.
 - **Multi-Repo Standardization**: Enforcing consistent review standards across distributed teams.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -258,6 +267,10 @@ Has CRITICAL issues?
     → No: Has only MINOR/INFO?
       → APPROVE (with optional comments)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## Usage
 
 ### Example 1: Python Payment API Review (Markdown Output)
@@ -293,6 +306,10 @@ You are a senior software engineer conducting a structured code review.
 
 **Review Focus:** security vulnerabilities, PCI compliance
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -431,6 +448,8 @@ You are a senior software engineer conducting a structured code review.
 - **Focus Areas**: Specify `[FOCUS_AREAS]` to prioritize specific concerns (e.g., "security" for payment code).
 - **Batch Size**: Review 200-400 lines per invocation for best results; larger diffs reduce detection accuracy.
 
+---
+
 ## Example Issue Classifications
 
 ### Example: CRITICAL Security Issue
@@ -446,7 +465,12 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
   "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
 }
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 ### Example: MAJOR Bug Issue
 ```json
 {
@@ -461,6 +485,10 @@ You are a senior software engineer conducting a structured code review.
   "references": []
 }
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### Example: MINOR Style Issue
 ```json
 {
@@ -483,6 +511,8 @@ You are a senior software engineer conducting a structured code review.
 - **[code-review-expert](./code-review-expert.md)** - Narrative style review for human-to-human feedback.
 - **[security-code-auditor](./security-code-auditor.md)** - Specialized security audit (can be used to feed into this structured review).
 - **[test-automation-engineer](./test-automation-engineer.md)** - Can use the output of this review to generate test cases.
+
+---
 
 ## Governance Notes
 

@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Sales Objection Handler
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Transform common sales objections into opportunities with structured rebuttals, empathy-driven responses, and proven conversation frameworks. Helps sales teams prepare for and overcome buyer resistance.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -42,7 +48,10 @@ Transform common sales objections into opportunities with structured rebuttals, 
 - Developing scripts for pricing negotiations
 - Building confidence for high-stakes enterprise deals
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -97,7 +106,10 @@ Format responses as ready-to-use scripts with natural conversational language.
 - `[buyer]`: Buyer persona and their priorities (e.g., "VP of IT, focused on security and uptime")
 - `[stage]`: Deal stage (e.g., "Discovery", "Demo follow-up", "Negotiation", "Contract review")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -111,6 +123,10 @@ Product/Service: CloudSecure - enterprise security platform with AI-powered thre
 Buyer Persona: CISO at mid-market fintech (500 employees), highly regulated industry, had a breach 18 months ago
 Deal Stage: Negotiation - they want to close this quarter but are playing hardball on price
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -236,7 +252,10 @@ Persist if:
 - Always tie back to value, not features - buyers care about outcomes
 - Have a walk-away point - desperation kills deals
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

@@ -28,14 +28,20 @@ framework_compatibility:
 ---
 # .NET API Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Expert architect for designing RESTful APIs using ASP.NET Core. Focuses on resource modeling, URL structure, HTTP verbs, status codes, OpenAPI (Swagger) documentation, and versioning strategies.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -45,7 +51,10 @@ Expert architect for designing RESTful APIs using ASP.NET Core. Focuses on resou
 - Defining DTOs (Data Transfer Objects) and Contracts
 - Planning API versioning and breaking change strategies
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -81,7 +90,10 @@ Guidelines:
 - `[requirements]`: Functional requirements (e.g., "Manage library books: add, list, checkout")
 - `[constraints]`: Technical constraints (e.g., "Use Minimal APIs", "Must support XML and JSON")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -92,6 +104,10 @@ Guidelines:
 Requirements: API for a Todo application. Users can create todos, list their own todos (with filtering by 'isComplete'), mark a todo as complete, and delete a todo.
 Constraints: Use ASP.NET Core Minimal APIs.
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -114,6 +130,10 @@ public record CreateTodoRequest(string Title, string? Description, DateTime? Due
 public record UpdateTodoRequest(string Title, string? Description, bool IsComplete);
 public record TodoResponse(Guid Id, string Title, string? Description, bool IsComplete, DateTime CreatedAt);
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ## 3. Implementation (Minimal API)
 
 ```csharp
@@ -146,8 +166,14 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 .Produces(204)
 .Produces(404);
 ```text
+<<<<<<< HEAD
 ```text
 
+=======
+
+```text
+
+>>>>>>> main
 ---
 
 ## Tips
@@ -156,7 +182,10 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 - Ask for **HATEOAS** links if you need Level 3 REST maturity.
 - Request **Idempotency** handling for critical POST/PATCH operations.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

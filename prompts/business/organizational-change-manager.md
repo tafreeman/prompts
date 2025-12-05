@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Organizational Change Manager
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Manages organizational change initiatives
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Manages organizational change initiatives
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Provide:
 - `[organization]`: Organization
 - `[resistance]`: Resistance
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Provide:
 [groups]: Engineering (500 staff), Product Mgmt (50 staff), QA (100 staff)
 [resistance]: Middle management fears loss of control; Senior engineers skeptical of "meetings overhead"
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -113,7 +129,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

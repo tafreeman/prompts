@@ -28,14 +28,20 @@ effectivenessScore: 4.2
 ---
 # Product Description Generator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Create persuasive, SEO-optimized product descriptions that convert browsers into buyers. This prompt helps e-commerce owners, marketers, and copywriters craft descriptions that highlight benefits, address objections, and drive purchasing decisions.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -46,7 +52,10 @@ Create persuasive, SEO-optimized product descriptions that convert browsers into
 - Digital product and software descriptions
 - Service package descriptions
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -116,7 +125,10 @@ Please create:
 | `[MAIN KEYWORD TO RANK FOR]` | Primary SEO keyword |
 | `[SHORT (50-100 words)/MEDIUM (150-250 words)/LONG (300+ words)]` | Desired description length |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -170,6 +182,10 @@ Please create:
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -178,7 +194,10 @@ Please create:
 ## Hook
 **Land at your destination like you just woke up at home.**
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -251,7 +270,10 @@ CloudRest memory foam travel pillow with cooling gel—30% more compact than com
 - **Include social proof naturally:** Numbers and credentials build trust without sounding salesy
 - **Test multiple versions:** Small changes in headlines and opening lines can significantly impact conversion rates
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

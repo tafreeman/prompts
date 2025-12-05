@@ -351,6 +351,7 @@ graph TD
 
 | Task | Status | Files | Notes |
 |:-----|:------:|------:|:------|
+<<<<<<< HEAD
 | A1. Fix broken links | ✅ | 51 | Fixed across 35 files |
 | A2. Code block languages | ✅ | 93+ | Added 'text' specifiers |
 | A3. Table alignment | ✅ | 85 | Left-aligned all tables |
@@ -362,6 +363,19 @@ graph TD
 | A9. Badges | ✅ | 4 | README + advanced + governance |
 | A10. Emoji headers | ✅ | 9+ | Sample implementation |
 | A11. TOC for long docs | ✅ | 2 | Security & Legal docs |
+=======
+| A1. Fix broken links | ✅ | 50 | All 50 broken links fixed! |
+| A2. Code block languages | ✅ | 139 | Added language specifiers to all code blocks! |
+| A3. Table alignment | ✅ | 6 | Added alignment specifiers |
+| A4. Standardize headers | ✅ | 6 | Changed Purpose → Description |
+| A5. Horizontal rules | ✅ | 147 | Added section dividers |
+| A6. Collapsible tables | ⬜ | 5 | Manual wrap |
+| A7. Input/Output examples | ⬜ | 32 | Template provided |
+| A8. Mermaid diagrams | ✅ | 3 | Added to ReAct, ToT, CoT guide |
+| A9. Badges | ⬜ | 10 | Template provided |
+| A10. Emoji headers | ⬜ | All | Optional polish |
+| A11. TOC for long docs | ⬜ | 3 | Template provided |
+>>>>>>> main
 
 ---
 

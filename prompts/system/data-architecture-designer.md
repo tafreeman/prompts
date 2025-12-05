@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Data Architecture Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Designs enterprise data architectures
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -41,7 +47,10 @@ Designs enterprise data architectures
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -74,7 +83,10 @@ Provide:
 - `[sources]`: Sources
 - `[volume]`: Volume
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -87,7 +99,12 @@ Provide:
 [volume]: 500GB/day ingestion, 2PB total retention
 [analytics]: Real-time dashboards (Tableau), Ad-hoc SQL queries, ML model training
 [governance]: GDPR "Right to be Forgotten", Data Quality score > 95%
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -119,7 +136,10 @@ Provide:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

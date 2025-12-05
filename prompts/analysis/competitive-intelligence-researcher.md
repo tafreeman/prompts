@@ -25,14 +25,20 @@ effectivenessScore: 4.4
 ---
 # Competitive Intelligence Researcher
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Conduct comprehensive competitive intelligence research using structured frameworks (Porter's Five Forces, SWOT analysis) to gather actionable insights about competitors' strategies, products, market positioning, and vulnerabilities. This prompt helps researchers, strategists, and business analysts build data-driven competitive intelligence reports while maintaining ethical and legal boundaries.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -44,7 +50,10 @@ Conduct comprehensive competitive intelligence research using structured framewo
 - Building competitive landscapes for investor presentations
 - Supporting sales teams with battle cards and competitive differentiators
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -112,7 +121,11 @@ Using publicly available information (company filings, press releases, news arti
 
 **Output Format:**
 Provide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.
+<<<<<<< HEAD
 ```text
+=======
+```markdown
+>>>>>>> main
 
 ---
 
@@ -126,7 +139,10 @@ Provide results as a structured Markdown report with executive summary, detailed
 - `[geographic_scope]`: Market focus (e.g., "North America", "Global", "APAC region")
 - `[sensitivity_level]`: Information handling (e.g., "Internal use only", "Board-level confidential", "Public-facing")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -142,6 +158,10 @@ Provide results as a structured Markdown report with executive summary, detailed
 [geographic_scope]: North America and Western Europe
 [sensitivity_level]: Internal strategy team only, not for external distribution
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output (Excerpt):**
 
 ```text
@@ -199,10 +219,17 @@ Provide results as a structured Markdown report with executive summary, detailed
 - **For early warning signals:** Set up Google Alerts, RSS feeds, and social listening for competitors
 - **When presenting to executives:** Lead with threats/opportunities, not methodology details
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
 
+<<<<<<< HEAD
 - [Market Research Analyst](market-research-analyst.md) - For broader market trend analysis - For framework-driven strategy analysis
+=======
+- [Market Research Analyst](market-research-analyst.md) - For broader market trend analysis
+>>>>>>> main
 - [Business Case Developer](business-case-developer.md) - For turning intelligence into investment proposals

@@ -24,7 +24,10 @@ reviewStatus: "approved"
 ---
 # Data Pipeline Engineer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
@@ -37,7 +40,10 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - **Observability**: Metrics, alerting, and lineage tracking from day one
 - **Cost Optimization**: Balance latency requirements against compute costs
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -48,7 +54,10 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 - Implementing data quality validation frameworks
 - Creating disaster recovery and data backfill strategies
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -81,7 +90,10 @@ Include:
 | `[targets]` | Destination systems and formats | `Snowflake (analytics), Redis (cache), Elasticsearch (search), S3 (archive)` |
 | `[scale]` | Volume, velocity, and latency requirements | `10M events/day batch`, `50K events/sec streaming`, `<5min latency` |
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -93,7 +105,12 @@ Include:
 [processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
 [targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
 [scale]: 1M events/minute peak, <1s latency for alerts
+<<<<<<< HEAD
 ```text
+=======
+```xml
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -121,7 +138,12 @@ Include:
 │ ERP System   │────────────┘
 │   (SQL)      │
 └──────────────┘
+<<<<<<< HEAD
 ```text
+=======
+```sql
+
+>>>>>>> main
 **Speed Layer:** Kinesis Data Streams → Flink (Windowed Aggregation) → DynamoDB
 **Batch Layer:** Kinesis Firehose → S3 (Parquet) → Snowpipe → Snowflake
 
@@ -156,6 +178,10 @@ class PipelineErrorHandler:
             self.dlq.send(error_record)
             self.alert("dlq_threshold_exceeded", record)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
 | :--- |-----------| :--- |
@@ -195,6 +221,10 @@ groups:
         annotations:
           summary: "Consumer lag exceeds 100K messages"
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ### 5. Scalability Considerations
 
 | Dimension | Strategy | Implementation |
@@ -241,7 +271,10 @@ def validate_sensor_data(df):
 - **Cost awareness**: For batch workloads, consider spot instances; for streaming, right-size based on actual throughput
 - **Test data contracts**: Validate schemas at boundaries between teams/systems
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

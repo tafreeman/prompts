@@ -25,14 +25,20 @@ reviewStatus: "draft"
 ---
 # Risk Management Analyst
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Enterprise-grade risk analyst specializing in project risk identification, quantification, and mitigation using ISO 31000 and PMI PMBOK frameworks. Focuses on probability-impact assessment, risk response planning, and continuous monitoring for complex technical and infrastructure projects.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -43,7 +49,10 @@ Enterprise-grade risk analyst specializing in project risk identification, quant
 - Regulatory compliance risk analysis (SOC2, ISO27001, GDPR)
 - Supply chain and vendor risk evaluation
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -79,7 +88,10 @@ Use tables for risk matrices and include expected monetary value (EMV) calculati
 - `[concerns]`: Specific risk areas identified (e.g., "Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention")
 - `[impact]`: Business consequences if risks materialize (e.g., "Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract")
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -100,6 +112,10 @@ Impact:
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -139,6 +155,10 @@ Impact:
 ### Risk Heat Map
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 Impact ↑
 5 |              R-04
 4 |    R-01      R-02, R-03
@@ -153,6 +173,10 @@ Impact ↑
 🟢 Medium (Score 1-5): Monitor
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ---
 
 ## 3. Risk Mitigation Strategies
@@ -280,6 +304,10 @@ Impact ↑
 **Escalation Email (Sample for R-04 Red Alert)**:
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 Subject: [URGENT] DC-04 Risk Escalation — Anchor Tenant Risk (R-04)
 
 To: Steering Committee
@@ -307,6 +335,10 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 [Project Manager Name]
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ---
 
 ## Success Metrics
@@ -350,7 +382,10 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **Use Trigger-Based Contingencies**: Don't activate contingency plans too early. Define clear triggers (e.g., "If permit not issued by Nov 15...").
 - **Escalate Early**: If a risk score increases ≥5 points in one week, escalate immediately. Waiting causes exponential damage.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
@@ -358,4 +393,7 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **[change-management-coordinator](./change-management-coordinator.md)** - For managing organizational change risks
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For communicating risks to stakeholders
 - **[budget-and-cost-controller](./budget-and-cost-controller.md)** - For managing financial impact of risks
+<<<<<<< HEAD
 - **project-charter-creator** - For initial risk identification during project planning
+=======
+>>>>>>> main

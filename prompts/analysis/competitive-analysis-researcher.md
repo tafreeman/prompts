@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Researcher
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Conducts competitive market analysis
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Conducts competitive market analysis
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Include:
 - `[product]`: Product
 - `[segment]`: Segment
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Include:
 [competitors]: Asana, Monday.com, ClickUp
 [focus]: Pricing Strategy and Feature Gaps in "Creative Proofing"
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -114,7 +130,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

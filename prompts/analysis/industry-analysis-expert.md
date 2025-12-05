@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Industry Analysis Expert
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Performs detailed industry analysis
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Performs detailed industry analysis
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -71,7 +80,10 @@ Include:
 - `[scope]`: Scope
 - `[stakeholders]`: Stakeholders
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -84,6 +96,10 @@ Include:
 [questions]: "Will Tesla's NACS standard dominate?" "How will NEVI funding impact deployment?"
 [stakeholders]: Utility Companies, Auto OEMs, Infrastructure Investors
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -113,7 +129,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

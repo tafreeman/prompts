@@ -26,14 +26,20 @@ reviewStatus: "approved"
 ---
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique. This evaluator identifies prompts with insufficient content (e.g., <30 words), missing metadata, incomplete documentation, or lack of examples, and provides actionable, prioritized improvement recommendations.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -45,7 +51,10 @@ A comprehensive meta-prompt that evaluates other prompts using a research-backed
 - Ensuring consistency with industry best practices
 - Compliance verification for enterprise prompt repositories
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -237,12 +246,22 @@ If applicable, provide before/after snippets showing how to fix the most critica
 ```text
 [Current problematic section]
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **After:**
 
 ```text
 [Improved version]
 ```text
+<<<<<<< HEAD
 ```text
+=======
+
+```text
+
+>>>>>>> main
 ---
 
 ### Phase 2: Self-Critique and Reflection
@@ -297,7 +316,10 @@ If no changes needed, state: "No revisions necessary after reflection."
 - `[PLATFORMS]`: Target platforms (GitHub Copilot, M365, Claude, GPT, etc.)
 - `[AUDIENCE]`: Intended users (developers, business users, architects, etc.)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -321,14 +343,20 @@ platform: "Claude Sonnet 4.5"
 
 # Meeting Facilitator
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Facilitates effective project meetings
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -337,7 +365,10 @@ Facilitates effective project meetings
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -377,6 +408,10 @@ Include:
 - Intended Audience: Business users, project managers, enterprise
 
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output (Excerpt):**
 
 ```text
@@ -450,6 +485,10 @@ Include:
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **After:**
 
 ```text
@@ -463,6 +502,10 @@ Include:
 - `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
 - `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 ---
 
 ### Phase 2: Self-Critique
@@ -510,7 +553,10 @@ Include:
 - **Calibrate regularly**: Evaluate known high-quality prompts periodically to check consistency
 - **Batch evaluation**: When evaluating multiple prompts, re-read the criteria between each evaluation
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
@@ -518,6 +564,8 @@ Include:
 - [Tree-of-Thoughts Repository Evaluator](tree-of-thoughts-repository-evaluator.md) - For repository-wide assessment
 - [Reflection: Self-Critique Pattern](../advanced/reflection-self-critique.md) - For the reflection framework
 - [Code Review Expert](../developers/code-review-expert-structured.md) - Similar evaluation pattern for code
+
+---
 
 ## Research Foundation
 

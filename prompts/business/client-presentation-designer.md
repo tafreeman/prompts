@@ -24,14 +24,20 @@ reviewStatus: "draft"
 ---
 # Client Presentation Designer
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 Creates compelling client presentations
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -40,7 +46,10 @@ Creates compelling client presentations
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -73,7 +82,10 @@ Include:
 - `[messages]`: Messages
 - `[purpose]`: Purpose
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -87,6 +99,10 @@ Include:
 [messages]: "Reduce downtime by 20%", "Predictive maintenance ROI in 18 months", "Seamless integration with existing SAP ERP"
 [duration]: 45 minutes (30 min presentation, 15 min Q&A)
 ```text
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 **Output:**
 
 ```text
@@ -116,7 +132,10 @@ Include:
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

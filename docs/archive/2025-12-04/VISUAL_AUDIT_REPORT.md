@@ -191,7 +191,11 @@ M365 prompts use different section order than other categories:
 **Current (no alignment):**
 ```markdown
 | Column | Data |
+<<<<<<< HEAD
 | :--- | :--- |
+=======
+| :--- | --- |
+>>>>>>> main
 | Value | Value |
 ```
 
