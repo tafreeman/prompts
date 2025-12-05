@@ -37,9 +37,13 @@ effectivenessScore: 4.4
 ---
 # Security: Incident Response Framework
 
+---
+
 ## Description
 
 A structured incident response framework for Security Operations Center (SOC) and Incident Response (IR) teams. Guides rapid assessment, containment, and recovery from security incidents. Follows NIST Cybersecurity Framework and includes breach notification requirements for GDPR/CCPA compliance.
+
+---
 
 ## Use Cases
 
@@ -50,6 +54,8 @@ A structured incident response framework for Security Operations Center (SOC) an
 - DDoS attack mitigation
 - Compromised credentials response
 - Post-incident analysis and documentation
+
+---
 
 ## Prompt
 
@@ -257,7 +263,9 @@ Provide structured incident report:
 **REGULATORY OBLIGATIONS**
 - GDPR notification due: [Timestamp if applicable]
 - Other notifications: [List]
-```
+```text
+
+---
 
 ## Variables
 
@@ -266,6 +274,8 @@ Provide structured incident report:
 - `[AFFECTED_SYSTEMS]`: Systems, networks, or data involved
 - `[CURRENT_STATUS]`: Is incident ongoing, contained, or resolved
 - `[TIMESTAMP]`: When incident was discovered
+
+---
 
 ## Example Usage
 
@@ -292,7 +302,7 @@ You are a security incident response assistant following NIST IR framework.
 **Time Discovered**: 2024-11-17 03:15 UTC (28 minutes ago)
 
 **Instructions**: [Follow framework above]
-```
+```text
 
 **Output:**
 
@@ -665,7 +675,9 @@ You are a security incident response assistant following NIST IR framework.
 ---
 
 **⚠️ DISCLAIMER**: This is an AI-assisted incident response tool. All actions must be validated by qualified security professionals. For active incidents, immediately engage your incident response team, CISO, and legal counsel. Time-sensitive regulatory deadlines (GDPR 72 hours) require immediate legal review.
-```
+```text
+
+---
 
 ## Tips
 
@@ -734,10 +746,10 @@ You are a security incident response assistant following NIST IR framework.
   ],
   "next_steps": ["...", "..."]
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Security: Threat Modeling](security-threat-modeling.md) - Proactive threat assessment
-- [Security: Vulnerability Assessment](security-vulnerability-assessment.md) - Security review
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - Risk evaluation
+<!-- Links removed - files don't exist yet -->

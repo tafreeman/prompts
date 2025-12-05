@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Tree-of-Thoughts: Architecture Evaluator
 
+---
+
 ## Description
 
 A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning. Explores alternatives (e.g., monolith vs microservices, SQL vs NoSQL, sync vs async), compares them across key dimensions, and converges on a justified recommendation with documented trade-offs.
+
+---
 
 ## Research Foundation
 
@@ -92,6 +96,8 @@ Structured Markdown with the following sections:
 9. **Risks & Mitigations**
 10. **Decision Record** (ADR-style summary)
 
+---
+
 ## Use Cases
 
 - Choosing between monolithic and microservices architectures
@@ -100,6 +106,8 @@ Structured Markdown with the following sections:
 - Deciding on deployment models (serverless, containers, VMs, hybrid)
 - Assessing frontend frameworks or state management approaches
 - Migrating legacy systems (rewrite vs refactor vs strangle fig)
+
+---
 
 ## Prompt
 
@@ -303,7 +311,9 @@ Based on the analysis, select the best option:
 ## Output Format
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
-```
+```text
+
+---
 
 ## Variables
 
@@ -321,13 +331,15 @@ Based on the analysis, select the best option:
 - `[EXISTING_TECH_STACK_INTEGRATIONS]`: Must-use or must-avoid technologies
 - `[ANY_OTHER_RELEVANT_INFO]`: Additional context
 
+---
+
 ## Example Usage
 
 **Input:**
 
 ```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
-```
+```text
 
 **Output:** (abbreviated)
 
@@ -402,7 +414,9 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Likelihood**: Medium
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
-```
+```text
+
+---
 
 ## Tips
 
@@ -414,12 +428,14 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Validate with data:** Use benchmarks, case studies, or prototypes to support scores
 - **Involve stakeholders:** Share this analysis with engineering, product, and leadership for alignment
 
+---
+
 ## Related Prompts
 
-- [Tree-of-Thoughts: Database Migration](tree-of-thoughts-database-migration.md) - For data migration decisions
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance optimization
 - [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes
-- [System Design Interview Prep](../developers/system-design-interview-prep.md) - Related system design patterns
+
+---
 
 ## Governance Notes
 

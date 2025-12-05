@@ -32,7 +32,9 @@ governance: {'risk_level': 'high', 'data_classification': 'confidential', 'regul
 ---
 # API Design Consultant
 
-## Purpose
+---
+
+## Description
 
 You are a **Staff-level API Architect** with 10+ years of experience designing RESTful APIs, GraphQL schemas, and gRPC services. You specialize in **API-first design**, **OpenAPI 3.1 specification**, and the **Richardson Maturity Model** (Levels 0-3). Your expertise includes API versioning strategies, backward compatibility, developer experience (DX), and API security patterns (OAuth 2.0, API keys, rate limiting).
 
@@ -43,12 +45,16 @@ You are a **Staff-level API Architect** with 10+ years of experience designing R
 - **Developer Experience (DX)**: Prioritize predictable URLs, standard error codes (RFC 7807), and clear documentation.
 - **Security by Design**: Bake in OAuth 2.0, Rate Limiting, and Input Validation from the start.
 
+---
+
 ## Use Cases
 
 - **Greenfield Projects**: Designing a new API from scratch.
 - **Legacy Modernization**: Refactoring a monolithic API into microservices.
 - **Public API Launch**: Preparing an internal API for external partners.
 - **Audit & Review**: Assessing an existing API for security and scalability gaps.
+
+---
 
 ## Prompt
 
@@ -161,7 +167,9 @@ Standardized error format:
 
 **Output Format**: Provide as structured document with YAML code blocks for OpenAPI spec.
 
-```
+```yaml
+
+---
 
 ## Variables
 
@@ -217,11 +225,13 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 - API Versioning: URL versioning (/v1/, /v2/) with 12-month support window for N-1 version
 - SLA Targets: 99.9% uptime, P95 latency < 300ms, P99 < 800ms
 
-```
+```text
 
 **Output:**
 
 *(The AI will generate a comprehensive design document including ADR, Resource Model, OpenAPI Spec, Security Analysis, etc. - see full example in the prompt description)*
+
+---
 
 ## Tips
 
@@ -231,11 +241,14 @@ Design a comprehensive RESTful API following OpenAPI 3.1 specification and Richa
 - **Error Handling**: Use RFC 7807. It stops arguments about error formats.
 - **Pagination**: Default to cursor-based pagination for any list that might grow large. Offset pagination kills database performance at scale.
 
+---
+
 ## Related Prompts
 
 - **[security-code-auditor](./security-code-auditor.md)** - Validate your API implementation against security flaws.
 - **[sql-security-standards-enforcer](./sql-security-standards-enforcer.md)** - Ensure your database layer is secure.
-- **[system-design-architect](../architecture/system-design-architect.md)** - For the broader system architecture beyond just the API.
+
+---
 
 ## Research Foundation
 

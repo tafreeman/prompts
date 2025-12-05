@@ -25,6 +25,8 @@ reviewStatus: "approved"
 ---
 # ReAct: Knowledge Base Research
 
+---
+
 ## Description
 
 Use this prompt to research how leading technology companies structure their documentation, then synthesize findings into actionable recommendations for improving a prompt library or knowledge base. This includes identifying what content is essential versus bloated, and researching current prompt scoring/rating methodologies.
@@ -226,7 +228,7 @@ Prioritized list of changes with:
 - Task description
 - Supporting evidence
 - Estimated effort
-```
+```text
 
 ---
 
@@ -253,7 +255,7 @@ What is the minimal effective structure for prompt documents, and what scoring s
 Project: tafreeman/prompts - A prompt library with 145+ prompts
 Problem: Current prompts may have unnecessary sections/fields
 Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
-```
+```text
 
 ### Expected Output
 
@@ -301,6 +303,8 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 | Extensive changelog | ❌ Remove | Use git history instead |
 | Related prompts (long) | ⚠️ Simplify | Keep to 2-3 max |
 
+---
+
 ## Prompt Scoring Rubric (Recommended)
 
 | Dimension | Weight | Criteria |
@@ -312,7 +316,7 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 | Examples | 10% | Are examples helpful? |
 
 **Scoring Scale**: 1-5 stars, automated where possible
-```
+```text
 
 ---
 
@@ -331,7 +335,7 @@ Project: tafreeman/prompts - A prompt library for AI-assisted work
 Current State: 145 prompts total, only 2 in creative category
 Goal: Expand creative prompts to 15-20, covering writing, marketing, editing, storytelling
 Target Users: Business professionals, marketing teams, content creators
-```
+```text
 
 ### Expected Output
 
@@ -402,7 +406,7 @@ Target Users: Business professionals, marketing teams, content creators
 - Application: Add [TONE], [LENGTH], [AUDIENCE] variables
 - Priority: P1
 - Effort: Low
-```
+```text
 
 ---
 

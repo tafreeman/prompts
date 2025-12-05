@@ -25,9 +25,13 @@ effectivenessScore: 4.5
 ---
 # Agile Sprint Planner
 
+---
+
 ## Description
 
 Agile/Scrum sprint planner for software development teams. Focuses on capacity planning, story point estimation, velocity tracking, and sprint goal definition using Scrum framework best practices.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ Agile/Scrum sprint planner for software development teams. Focuses on capacity p
 - User story decomposition and estimation
 - Sprint retrospective preparation
 - Release planning and roadmap alignment
+
+---
 
 ## Prompt
 
@@ -60,7 +66,9 @@ Provide:
 7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
 
 Format output with Markdown tables for story breakdown and capacity allocation.
-```
+```markdown
+
+---
 
 ## Variables
 
@@ -70,6 +78,8 @@ Format output with Markdown tables for story breakdown and capacity allocation.
 - `[capacity]`: Available story points (e.g., "80 points (reduced from 100 due to Thanksgiving holiday, 2 devs on PTO)")
 - `[features]`: Priority features from product backlog (e.g., "One-click Checkout, Apple Pay Integration, Wishlist Sync")
 - `[dod]`: Definition of Done criteria (e.g., "Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired")
+
+---
 
 ## Example Usage
 
@@ -93,7 +103,7 @@ Definition of Done:
 - API documentation updated in Swagger
 
 Context: Black Friday launch deadline is Dec 15. This sprint must deliver payment improvements to reduce cart abandonment (currently 68%).
-```
+```text
 
 **Output:**
 
@@ -250,12 +260,12 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 - Blockers (tag @scrum-master if blocking)
 
 **Sample**:
-```
+```text
 
 @Sarah: Yesterday: Completed Buy Now button UI. Today: Start Apple Pay iOS integration. Blockers: None.
 @Emily: Yesterday: Designed /default-payment API. Today: Stripe Apple Pay SDK setup. Blockers: Need Stripe API token refresh (tagged @DevOps).
 
-```
+```text
 
 ### Sprint Review (Demo)
 
@@ -288,7 +298,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 
 **Sample Burndown Chart** (ASCII representation):
 
-```
+```text
 
 Points ↑
 26 |●
@@ -303,7 +313,7 @@ Points ↑
    Ideal Burndown: ● (diagonal line)
    Actual: Monitor daily
 
-```
+```text
 
 ---
 
@@ -313,7 +323,9 @@ Points ↑
 1. **Fallback**: Ship Sprint 12 without Apple Pay (deploy STORE-421 & STORE-422 only)
 2. **Fast-Follow**: Release Apple Pay in hotfix Sprint 12.1 (Dec 2-3) if cert arrives
 3. **Communication**: Notify Marketing that "Apple Pay by Black Friday" may slip
-```
+```text
+
+---
 
 ## Tips
 
@@ -324,8 +336,9 @@ Points ↑
 - **Monitor Burndown Daily**: If burndown flatlines for 2 days, escalate immediately (don't wait for retrospective)
 - **Celebrate Small Wins**: If one-click checkout deploys early, demo it in mid-sprint to build momentum
 
+---
+
 ## Related Prompts
 
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For sprint review stakeholder updates
 - **[risk-management-analyst](./risk-management-analyst.md)** - For sprint risk assessment
-- **[project-charter-creator](./project-charter-creator.md)** - For initial sprint planning at project kickoff

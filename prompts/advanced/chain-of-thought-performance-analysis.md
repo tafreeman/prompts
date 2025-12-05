@@ -22,9 +22,13 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Performance Analysis & Profiling
 
+---
+
 ## Description
 
 A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces. Guides developers through systematic performance analysis with explicit reasoning and data-driven conclusions.
+
+---
 
 ## Research Foundation
 
@@ -86,6 +90,8 @@ Structured Markdown with the following sections:
 
 Reference `docs/domain-schemas.md` for structured performance report schemas.
 
+---
+
 ## Use Cases
 
 - Analyzing CPU flamegraphs to identify computation hotspots
@@ -93,6 +99,8 @@ Reference `docs/domain-schemas.md` for structured performance report schemas.
 - Database query optimization using slow query logs
 - Network latency analysis for distributed systems
 - Scalability analysis for systems under load
+
+---
 
 ## Prompt
 
@@ -240,7 +248,9 @@ How will you validate that the optimization works?
 **Regression Prevention:**
 - [Monitoring/alerting setup]
 - [Performance test in CI/CD]
-```
+```text
+
+---
 
 ## Variables
 
@@ -255,6 +265,8 @@ How will you validate that the optimization works?
 - `[CONCURRENCY]`: Number of concurrent users/requests/connections
 - `[BRIEF_SYSTEM_DESCRIPTION]`: High-level architecture overview
 - `[ANY_OTHER_RELEVANT_INFO]`: Additional context (recent changes, known issues, etc.)
+
+---
 
 ## Example Usage
 
@@ -295,7 +307,7 @@ Node.js API (Express) → PostgreSQL (products, orders) → Redis cache (not cur
 - Recent launch increased traffic by 3x
 - Database has indexes on primary keys and foreign keys only
 - No query-level caching currently implemented
-```
+```sql
 
 **Output:**
 
@@ -458,7 +470,9 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - Set up CloudWatch alarms: alert if p99 > 400ms or throughput drops below 200 req/s
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
 
-```
+```sql
+
+---
 
 ## Tips
 
@@ -470,12 +484,15 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - **Watch for regressions:** Add performance tests to CI to prevent future slowdowns
 - **Profile in production (carefully):** Sampling profilers add minimal overhead; use them to find real-world bottlenecks
 
+---
+
 ## Related Prompts
 
 - [Chain-of-Thought: Debugging](chain-of-thought-debugging.md) - For functional bugs
-- [SQL Query Optimizer (Advanced)](../developers/sql-query-optimizer-advanced.md) - For database performance
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For system-level design decisions
 - [Data Quality Assessment](../analysis/data-quality-assessment.md) - For data pipeline performance
+
+---
 
 ## Governance Notes
 

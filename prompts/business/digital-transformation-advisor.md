@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Digital Transformation Advisor
 
+---
+
 ## Description
 
 Guides digital transformation initiatives
+
+---
 
 ## Use Cases
 
 - Digital Transformation for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,7 +58,9 @@ Include:
 4. Change management
 5. Implementation phases
 6. Success measurement
-```
+```text
+
+---
 
 ## Variables
 
@@ -61,6 +69,8 @@ Include:
 - `[goals]`: Goals
 - `[organization]`: Organization
 - `[timeline]`: Timeline
+
+---
 
 ## Example Usage
 
@@ -72,7 +82,7 @@ Include:
 [goals]: Achieve 100% digital claims submission, implement AI-driven underwriting, 360-degree customer view
 [budget]: $50M Capital Investment
 [timeline]: 3 Years (2025-2027)
-```
+```text
 
 **Output:**
 
@@ -93,7 +103,9 @@ Include:
 *   **Year 3:** Full AI Underwriting rollout.
 
 [... continues with change management and success measurement ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -101,6 +113,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

@@ -33,9 +33,13 @@ retention_period: "7 years"
 ---
 # Legal: Contract Review Assistant
 
+---
+
 ## Description
 
 An AI-powered contract review assistant for legal teams to identify risks, unusual clauses, and compliance issues in commercial agreements. This prompt systematically analyzes contracts, highlights areas of concern, and provides structured risk assessments. **IMPORTANT: Output must be reviewed by licensed attorney before use.**
+
+---
 
 ## Use Cases
 
@@ -46,6 +50,8 @@ An AI-powered contract review assistant for legal teams to identify risks, unusu
 - Employment agreement review
 - Identifying unusual or high-risk clauses
 - Compliance gap analysis
+
+---
 
 ## Prompt
 
@@ -122,7 +128,9 @@ List any immediate concerns requiring escalation:
 - Missing context required for full assessment
 
 **DISCLAIMER**: This is an AI-assisted review. All findings must be reviewed and validated by a licensed attorney before taking any action. This does not constitute legal advice.
-```
+```text
+
+---
 
 ## Variables
 
@@ -130,6 +138,8 @@ List any immediate concerns requiring escalation:
 - `[PARTY_NAMES_AND_ROLES]`: Who is signing (Company A as Provider, Company B as Customer, etc.)
 - `[FULL_CONTRACT_TEXT_OR_KEY_SECTIONS]`: Complete contract or specific sections to review
 - `[SPECIFIC_CONCERNS_OR_GENERAL_REVIEW]`: Particular concerns (liability, IP, data privacy) or comprehensive review
+
+---
 
 ## Example Usage
 
@@ -161,7 +171,7 @@ Section 11.3 Governing Law:
 **Review Focus**: Data privacy compliance (GDPR) and liability protection
 
 **Instructions**: [As specified above]
-```
+```text
 
 **Output:**
 
@@ -368,7 +378,9 @@ Section 11.3 Governing Law:
 6. **Timeline**: What's urgency to sign? (Determines negotiation leverage)
 
 **DISCLAIMER**: This is an AI-assisted contract review tool. This analysis must be reviewed and validated by a licensed attorney before making any legal decisions. This does not constitute legal advice. No attorney-client relationship is created.
-```
+```text
+
+---
 
 ## Tips
 
@@ -448,10 +460,10 @@ Section 11.3 Governing Law:
     "contract_id": "..."
   }
 }
-```
+```text
+
+---
 
 ## Related Prompts
 
-- [Legal: Compliance Check](legal-compliance-check.md) - Regulatory compliance verification
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - General risk evaluation
-- [Security: Vendor Assessment](security-vendor-assessment.md) - Security review of vendors
+<!-- Links removed - files don't exist yet -->

@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Stakeholder Requirements Gatherer
 
+---
+
 ## Description
 
 Gathers and manages stakeholder requirements
+
+---
 
 ## Use Cases
 
 - Stakeholder Management for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,7 +57,9 @@ Include:
 4. Conflict resolution
 5. Prioritization framework
 6. Communication strategy
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +67,8 @@ Include:
 - `[domain]`: Domain
 - `[groups]`: Groups
 - `[project_name]`: Project Name
+
+---
 
 ## Example Usage
 
@@ -69,7 +79,7 @@ Include:
 [groups]: Sales Reps (End Users), Sales Ops (Admins), Marketing (Lead Gen)
 [domain]: B2B SaaS Sales
 [complexity]: High (Data migration + Process re-engineering required)
-```
+```text
 
 **Output:**
 
@@ -89,7 +99,9 @@ Include:
 *   **Requirement (Ops):** "Must enforce 'Deal Stage' validation rules."
 
 [... continues with conflict resolution and communication ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -97,6 +109,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

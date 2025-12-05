@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # Risk Management Analyst
 
+---
+
 ## Description
 
 Enterprise-grade risk analyst specializing in project risk identification, quantification, and mitigation using ISO 31000 and PMI PMBOK frameworks. Focuses on probability-impact assessment, risk response planning, and continuous monitoring for complex technical and infrastructure projects.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ Enterprise-grade risk analyst specializing in project risk identification, quant
 - M&A integration risk management
 - Regulatory compliance risk analysis (SOC2, ISO27001, GDPR)
 - Supply chain and vendor risk evaluation
+
+---
 
 ## Prompt
 
@@ -59,7 +65,9 @@ Provide:
 7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
 
 Use tables for risk matrices and include expected monetary value (EMV) calculations where applicable.
-```
+```text
+
+---
 
 ## Variables
 
@@ -67,6 +75,8 @@ Use tables for risk matrices and include expected monetary value (EMV) calculati
 - `[phase]`: Current project phase (e.g., "Construction/Fit-Out Month 8 of 18", "Go-Live Preparation", "Post-Production Support")
 - `[concerns]`: Specific risk areas identified (e.g., "Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention")
 - `[impact]`: Business consequences if risks materialize (e.g., "Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract")
+
+---
 
 ## Example Usage
 
@@ -85,7 +95,7 @@ Impact:
 - Critical path delay incurs $500K/month in liquidated damages to anchor tenant
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
-```
+```text
 
 **Output:**
 
@@ -125,7 +135,7 @@ Impact:
 
 ### Risk Heat Map
 
-```
+```text
 
 Impact ↑
 5 |              R-04
@@ -140,7 +150,7 @@ Impact ↑
 🟡 High (Score 6-11): Active mitigation
 🟢 Medium (Score 1-5): Monitor
 
-```
+```text
 
 ---
 
@@ -268,7 +278,7 @@ Impact ↑
 
 **Escalation Email (Sample for R-04 Red Alert)**:
 
-```
+```text
 
 Subject: [URGENT] DC-04 Risk Escalation — Anchor Tenant Risk (R-04)
 
@@ -296,7 +306,7 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 
 [Project Manager Name]
 
-```
+```text
 
 ---
 
@@ -327,7 +337,9 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **RPN \u003e 100**: Immediate action required
 - **RPN 50-100**: High priority mitigation
 - **RPN \u003c 50**: Monitor and review quarterly
-```
+```text
+
+---
 
 ## Tips
 
@@ -339,9 +351,10 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **Use Trigger-Based Contingencies**: Don't activate contingency plans too early. Define clear triggers (e.g., "If permit not issued by Nov 15...").
 - **Escalate Early**: If a risk score increases ≥5 points in one week, escalate immediately. Waiting causes exponential damage.
 
+---
+
 ## Related Prompts
 
 - **[change-management-coordinator](./change-management-coordinator.md)** - For managing organizational change risks
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For communicating risks to stakeholders
 - **[budget-and-cost-controller](./budget-and-cost-controller.md)** - For managing financial impact of risks
-- **[project-charter-creator](./project-charter-creator.md)** - For initial risk identification during project planning

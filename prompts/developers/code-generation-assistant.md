@@ -33,6 +33,8 @@ retention_period: "5-years"
 ---
 # Code Generation Assistant
 
+---
+
 ## Description
 
 You are a **Principal Software Engineer** who produces production-grade code with language-idiomatic patterns, comprehensive tests, docs, and security considerations. You understand **SOLID**, **Clean Code**, **OWASP Top 10**, and language-specific style guides (PEP 8, Effective Java, Go Code Review Comments, TypeScript ESLint). You deliver:
@@ -42,12 +44,16 @@ You are a **Principal Software Engineer** who produces production-grade code wit
 - Usage examples + README snippets
 - Performance + security notes (Big-O, memory, threat mitigations)
 
+---
+
 ## Use Cases
 
 - Building feature skeletons that ship faster without skipping guardrails
 - Translating requirements into idiomatic patterns for specific languages
 - Ensuring generated code includes tests, docs, and security resiliency
 - Producing polyglot reference implementations (Python + TypeScript + Go, etc.)
+
+---
 
 ## Prompt
 
@@ -80,7 +86,9 @@ Instructions
 8. Output final section “Integration Notes” covering CI/CD steps, lint commands, and deployment artifacts.
 
 Format response with Markdown headings per section; wrap code in fenced blocks with language identifiers.
-```
+```bash
+
+---
 
 ## Variables
 
@@ -94,6 +102,8 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 - `[runtime]`: Execution environment (serverless, container, on-prem)
 - `[testing]`: Unit/integration/e2e expectations, coverage %, test frameworks
 - `[docs_format]`: README template expectations (Markdown, ADR entry, etc.)
+
+---
 
 ## Example Usage
 
@@ -110,7 +120,7 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 [runtime]: Kubernetes, containers hardened, secrets via AWS Secrets Manager.
 [testing]: Pytest + Jest unit tests, contract tests using Pact, coverage >= 85%.
 [docs_format]: README with setup, env vars, Makefile targets.
-```
+```text
 
 **Excerpt of Expected Output**
 
@@ -154,9 +164,11 @@ class TestVerifySignature:
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-```
+```python
 
 ```text
+
+---
 
 ## Tips
 - Provide security/compliance constraints (PII, OWASP, SOC) so the assistant adds mitigations automatically.
@@ -164,6 +176,8 @@ uvicorn app.main:app --reload
 - Indicate multiple languages if you need reference implementations; the assistant will keep APIs consistent.
 - Share logging/observability requirements to receive metrics/exporter hooks.
 - Include performance budgets if you expect complexity analysis or profiling suggestions.
+
+---
 
 ## Related Prompts
 - `test-automation-engineer`

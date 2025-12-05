@@ -24,9 +24,13 @@ reviewStatus: "draft"
 ---
 # Performance Review Writer
 
+---
+
 ## Description
 
 Create balanced, actionable performance reviews that recognize achievements, address growth areas, and set clear development goals. Generates review content that is fair, specific, and focused on behaviors and outcomes.
+
+---
 
 ## Use Cases
 
@@ -35,6 +39,8 @@ Create balanced, actionable performance reviews that recognize achievements, add
 - Creating self-assessment drafts
 - Documenting performance improvement plans
 - Preparing calibration materials for managers
+
+---
 
 ## Prompt
 
@@ -84,7 +90,9 @@ Generate:
    - Justification tied to accomplishments
 
 Write in professional but warm tone. Be specific with examples. Avoid vague statements like "good communicator" - show, don't tell.
-```
+```text
+
+---
 
 ## Variables
 
@@ -95,6 +103,8 @@ Write in professional but warm tone. Be specific with examples. Avoid vague stat
 - `[growth_areas]`: Areas where improvement is needed
 - `[previous_goals]`: Goals set in the last review cycle
 - `[rating]`: Overall rating (e.g., "Exceeds Expectations", "Meets Expectations", "Needs Improvement")
+
+---
 
 ## Example Usage
 
@@ -119,7 +129,7 @@ Previous Goals:
 3. Develop leadership skills through management training
 4. Improve documentation practices
 Overall Rating: Exceeds Expectations
-```
+```text
 
 **Output:**
 
@@ -259,7 +269,9 @@ The development areas I've highlighted aren't weaknesses—they're the natural g
 I'm excited to see you continue to grow. You're on track for significant leadership opportunities at this company.
 
 — [Manager Name]
-```
+```text
+
+---
 
 ## Tips
 
@@ -268,6 +280,8 @@ I'm excited to see you continue to grow. You're on track for significant leaders
 - Frame development areas as growth opportunities, not failures
 - Make goals measurable - "improve communication" is not a goal
 - Separate performance (what they did) from potential (what they could do)
+
+---
 
 ## Related Prompts
 

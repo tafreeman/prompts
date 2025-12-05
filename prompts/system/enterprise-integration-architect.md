@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Enterprise Integration Architect
 
+---
+
 ## Description
 
 Designs enterprise integration solutions
+
+---
 
 ## Use Cases
 
 - Integration for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,7 +58,9 @@ Include:
 4. Error handling
 5. Monitoring and logging
 6. Governance framework
-```
+```text
+
+---
 
 ## Variables
 
@@ -60,6 +68,8 @@ Include:
 - `[performance]`: Performance
 - `[security]`: Security
 - `[systems]`: Systems
+
+---
 
 ## Example Usage
 
@@ -70,7 +80,7 @@ Include:
 [data_flow]: Order-to-Cash process (Order placed -> Payment captured -> Inventory reserved -> Shipping label created -> Invoice generated)
 [performance]: Real-time inventory checks (<500ms), eventual consistency for reporting (15 min lag ok)
 [security]: OAuth 2.0 for all APIs, PII masking in logs, encrypted message queues
-```
+```xml
 
 **Output:**
 
@@ -92,7 +102,9 @@ Include:
 *   **Circuit Breaker:** Stop calling SAP if error rate > 10% to prevent cascading failure.
 
 [... continues with monitoring and governance ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -100,6 +112,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

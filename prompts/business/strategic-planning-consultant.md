@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Strategic Planning Consultant
 
+---
+
 ## Description
 
 Develops strategic plans and roadmaps
+
+---
 
 ## Use Cases
 
 - Strategy for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,9 @@ Provide:
 4. Implementation roadmap
 5. Success metrics
 6. Risk mitigation
-```
+```text
+
+---
 
 ## Variables
 
@@ -62,6 +70,8 @@ Provide:
 - `[objectives]`: Objectives
 - `[organization]`: Organization
 - `[timeframe]`: Timeframe
+
+---
 
 ## Example Usage
 
@@ -73,7 +83,7 @@ Provide:
 [challenges]: Declining foot traffic (-10% YoY), fierce competition from Amazon, aging loyalty program
 [objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
 [timeframe]: 3 Years (2025-2028)
-```
+```text
 
 **Output:**
 
@@ -95,7 +105,9 @@ Provide:
 *   Launch "ShopMart Rewards" app to drive foot traffic via personalized offers.
 
 [... continues with implementation roadmap and success metrics ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -103,6 +115,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 
