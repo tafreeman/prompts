@@ -153,7 +153,65 @@ Show the expected result
 - ❌ Overly complex for the target audience
 - ❌ Inappropriate or biased content
 
-### Step 4: Name Your File
+### Step 4: Choose a Template
+
+We provide two templates to help you get started:
+
+**Full Template** (`templates/prompt-template.md`)
+- Comprehensive structure with all optional sections
+- Best for complex prompts with multiple use cases
+- Includes sections for governance, examples, tips, and more
+
+**Minimal Template** (`templates/prompt-template-minimal.md`) ⭐ **Recommended for most prompts**
+- Simplified structure focusing on essentials
+- Quick to fill out - perfect for straightforward prompts
+- Includes: Description, Prompt, Variables, Example Usage
+
+**When to use which:**
+- Use **minimal** for: Simple, focused prompts with clear purpose
+- Use **full** for: Complex patterns, multi-step workflows, governance-sensitive content
+
+### Step 5: Required Sections Checklist
+
+Every prompt MUST include these sections:
+
+- [ ] **Frontmatter** with `title` and `description` fields
+- [ ] **Description** - 2-3 sentences explaining what this prompt does
+- [ ] **Prompt** - The actual prompt text in a code block
+- [ ] **Variables** - Table listing all `[variables]` with descriptions and examples
+- [ ] **Example Usage** - Real example showing input and expected output
+
+**Optional but recommended:**
+- [ ] **Use Cases** - Specific scenarios where this prompt helps
+- [ ] **Tips** - Advice for better results or customization
+- [ ] **Related Prompts** - Links to similar or complementary prompts
+
+### Step 6: Frontmatter Requirements
+
+All prompts must include proper YAML frontmatter:
+
+```yaml
+---
+title: "Your Prompt Title"
+description: "One-line description"
+category: "developers|business|creative|analysis|governance|m365|advanced|system"
+difficulty: "beginner|intermediate|advanced"
+author: "Your Name"
+version: "1.0"
+date: "YYYY-MM-DD"
+---
+```
+
+**Required fields:**
+- `title`: Clear, descriptive title
+- `description`: One-line summary (shown in search results)
+- `category`: Must be one of the standard categories
+- `difficulty`: User skill level required
+
+**Validation:**
+Run `python tools/validate_prompts.py` to check your frontmatter before submitting.
+
+### Step 7: Name Your File
 
 Use descriptive, lowercase filenames with hyphens:
 
@@ -228,14 +286,22 @@ When creating a pull request:
    - Have you tested it?
    - Any special considerations?
 
-3. **Link related issues** if applicable:
+3. **Complete the PR checklist**:
+   - [ ] Frontmatter includes all required fields (`title`, `description`, `category`, `difficulty`)
+   - [ ] All required sections present (Description, Prompt, Variables, Example)
+   - [ ] Ran `python tools/validate_prompts.py` - no errors
+   - [ ] Ran `python tools/check_links.py` - no broken links
+   - [ ] Tested prompt with at least 2 real examples
+   - [ ] File named using lowercase-with-hyphens.md format
+
+4. **Link related issues** if applicable:
 
    ```markdown
    Closes #123
    Related to #456
    ```
 
-4. **Request review** from maintainers or the community
+5. **Request review** from maintainers or the community
 
 ## 🧪 Testing Your Prompts
 
@@ -245,6 +311,20 @@ Before submitting, please test your prompt:
 2. **Verify the output** matches expectations
 3. **Check for edge cases** or unusual inputs
 4. **Get feedback** from others if possible
+
+### Testing Locally
+
+Run these commands to validate your changes:
+
+```bash
+# Validate prompt structure and frontmatter
+python tools/validate_prompts.py
+
+# Check for broken internal links
+python tools/check_links.py
+```
+
+Fix any issues reported by these tools before submitting your PR.
 
 ## 🎯 Difficulty Levels
 

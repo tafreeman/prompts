@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""Validate prompt files for required sections and frontmatter."""
+
+import re
+import sys
+from pathlib import Path
+import yaml
+
+REQUIRED_SECTIONS = ['Description', 'Prompt', 'Variables', 'Example']
+REQUIRED_FRONTMATTER = ['title', 'description']
+
+def extract_frontmatter(content: str) -> dict:
+    """Extract YAML frontmatter from markdown content."""
+    match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
+    if match:
+        return yaml.safe_load(match.group(1))
+    return {}
+
+def extract_sections(content: str) -> list:
+    """Extract H2 section headers from markdown content."""
+    return re.findall(r'^## (.+)$', content, re.MULTILINE)
+
+def validate_file(path: Path) -> list:
+    """Validate a single prompt file. Returns list of issues."""
+    issues = []
+    content = path.read_text(encoding='utf-8')
+    
+    # Check frontmatter
+    fm = extract_frontmatter(content)
+    for field in REQUIRED_FRONTMATTER:
+        if field not in fm:
+            issues.append(f"Missing frontmatter: {field}")
+    
+    # Check sections
+    sections = extract_sections(content)
+    for section in REQUIRED_SECTIONS:
+        if section not in sections and section.lower() not in [s.lower() for s in sections]:
+            issues.append(f"Missing section: {section}")
+    
+    return issues
+
+def main():
+    errors = 0
+    for path in Path("prompts").rglob("*.md"):
+        if path.name in ['index.md', 'README.md']:
+            continue
+        
+        issues = validate_file(path)
+        if issues:
+            print(f"\n{path}:")
+            for issue in issues:
+                print(f"  - {issue}")
+            errors += 1
+    
+    print(f"\n{'='*50}")
+    print(f"Files with issues: {errors}")
+    return 1 if errors else 0
+
+if __name__ == "__main__":
+    sys.exit(main())
