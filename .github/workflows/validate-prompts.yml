@@ -1,0 +1,28 @@
+name: Validate Prompts
+
+on:
+  pull_request:
+    paths:
+      - 'prompts/**/*.md'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install pyyaml
+      
+      - name: Validate prompt structure
+        run: python tools/validate_prompts.py
+      
+      - name: Check internal links
+        run: python tools/check_links.py
