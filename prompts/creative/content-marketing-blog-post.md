@@ -30,6 +30,8 @@ effectivenessScore: 4.3
 
 Generate engaging, SEO-optimized blog posts for content marketing. This prompt helps content creators, marketers, and business owners produce high-quality blog content that attracts readers and ranks well in search engines.
 
+---
+
 ## Use Cases
 
 - Create blog posts for company blogs or personal websites
@@ -37,6 +39,8 @@ Generate engaging, SEO-optimized blog posts for content marketing. This prompt h
 - Develop thought leadership articles
 - Write educational content for target audiences
 - Produce SEO-optimized articles for organic traffic
+
+---
 
 ## Prompt
 
@@ -71,8 +75,7 @@ Please structure the blog post with:
 - Meta description (150-160 characters, include primary keyword)
 
 Make it engaging, valuable, and optimized for both readers and search engines.
-```
-
+```text
 ## Variables
 
 - `[YOUR BLOG TOPIC]`: The main subject of your blog post
@@ -83,6 +86,8 @@ Make it engaging, valuable, and optimized for both readers and search engines.
 - `[2-3 RELATED KEYWORDS]`: Supporting keywords to include naturally
 - `[KEY POINT 1-4]`: Main topics or arguments to cover
 - `[GOAL 1-3]`: What you want to achieve with this content
+
+---
 
 ## Example Usage
 
@@ -119,8 +124,7 @@ Please structure the blog post with:
 - Meta description (150-160 characters, include primary keyword)
 
 Make it engaging, valuable, and optimized for both readers and search engines.
-```
-
+```text
 **Output:**
 
 ```text
@@ -318,8 +322,7 @@ The right project management tool won't just organize your tasks—it will free 
 ---
 
 *What project management challenges is your small team facing? Share in the comments below, and let's help each other find solutions!*
-```
-
+```text
 ## Tips
 
 - Provide specific details about your audience for more targeted content
@@ -329,8 +332,9 @@ The right project management tool won't just organize your tasks—it will free 
 - Specify if you want statistics or research included (and provide sources if you have them)
 - Request specific CTAs that align with your business goals
 
+---
+
 ## Related Prompts
 
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Email Newsletter Writer](email-newsletter-writer.md)
-- [SEO Content Optimizer](seo-content-optimizer.md)

@@ -32,6 +32,8 @@ effectivenessScore: 4.2
 
 Generate platform-specific, engaging social media content that resonates with your target audience. This prompt helps content creators, marketers, and business professionals craft posts optimized for each platform's unique format, tone, and audience expectations.
 
+---
+
 ## Use Cases
 
 - Create LinkedIn posts for thought leadership and professional engagement
@@ -39,6 +41,8 @@ Generate platform-specific, engaging social media content that resonates with yo
 - Develop Instagram captions that boost engagement and reach
 - Craft Facebook posts for community building and brand awareness
 - Generate platform-specific variations of a single message
+
+---
 
 ## Prompt
 
@@ -76,8 +80,7 @@ Also provide:
 - Best time to post suggestion
 - Engagement prediction (low/medium/high)
 - Alternative hook option
-```
-
+```text
 ## Variables
 
 | Variable | Description |
@@ -90,6 +93,8 @@ Also provide:
 | `[DESCRIBE YOUR VOICE]` | Your brand personality and communication style |
 | `[MAIN POINT YOU WANT TO COMMUNICATE]` | The core message of your post |
 | `[WHAT DO YOU WANT READERS TO DO?]` | The action you want readers to take |
+
+---
 
 ## Example Usage
 
@@ -129,8 +134,7 @@ Also provide:
 - Best time to post suggestion
 - Engagement prediction (low/medium/high)
 - Alternative hook option
-```
-
+```text
 **Output:**
 
 ```text
@@ -181,8 +185,7 @@ Drop your story in the comments 👇
 
 **Alternative Hook:**
 "I've helped launch 50+ products. The ones that succeeded all had this 'flaw':"
-```
-
+```text
 ## Tips
 
 - **Platform-specific formatting:** LinkedIn favors longer posts with line breaks, Twitter needs concise punchy content, Instagram focuses on visual captions, Facebook works best with questions and community engagement
@@ -190,6 +193,8 @@ Drop your story in the comments 👇
 - **Use the 80/20 rule:** 80% value-giving content, 20% promotional or CTA-focused
 - **Engagement timing matters:** Ask for specific feedback ("What's your experience with X?") rather than generic engagement ("Thoughts?")
 - **Repurpose strategically:** One piece of content can become multiple platform-specific posts with different angles
+
+---
 
 ## Related Prompts
 

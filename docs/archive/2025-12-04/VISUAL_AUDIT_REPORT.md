@@ -102,8 +102,7 @@ Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
         }
     }
 }
-```
-
+```text
 ### 2. Files Missing Standard Sections (19 files)
 
 | File | Missing Sections |
@@ -156,8 +155,7 @@ Content here
 
 ## Prompt
 Content here
-```
-
+```text
 **Files to update:**
 - `prompts/developers/code-review-expert.md`
 - `prompts/developers/code-review-expert-structured.md`
@@ -191,23 +189,20 @@ M365 prompts use different section order than other categories:
 **Current (no alignment):**
 ```markdown
 | Column | Data |
-| --- | --- |
+| :--- | --- |
 | Value | Value |
-```
-
+```text
 **Recommended:**
 ```markdown
 | Column | Data |
 |:-------|-----:|
 | Value  | 123  |
-```
-
+```text
 **Bulk Fix Regex:**
-```
+```yaml
 Find: \| --- \|
 Replace: | :--- |
-```
-
+```text
 **Files with 5+ unaligned tables:**
 - `docs/EVALUATION_REPORT.md` (12 tables)
 - `docs/IMPROVEMENT_PLAN.md` (8 tables)
@@ -236,8 +231,7 @@ Tables with 15+ rows should use `<details>`:
 | ... | ... | ... |
 
 </details>
-```
-
+```text
 ---
 
 ### Category C: Code Blocks & Examples (15 items)
@@ -254,16 +248,14 @@ Tables with 15+ rows should use `<details>`:
 **Fix Pattern:**
 ```markdown
 # Before
-```
+```sql
 SELECT * FROM users
-```
-
+```csharp
 # After
 ```sql
 SELECT * FROM users
-```
-```
-
+```sql
+```sql
 #### Examples Without Input/Output Separation
 
 32 files have examples without clear structure:
@@ -272,8 +264,7 @@ SELECT * FROM users
 ```markdown
 ## Example
 Here is an example of using this prompt with real values...
-```
-
+```text
 **Recommended:**
 ```markdown
 ## Example Usage
@@ -282,15 +273,13 @@ Here is an example of using this prompt with real values...
 
 ```text
 [Example input with variables replaced]
-```
-
+```text
 ### Output
 
 ```text
 [Example of expected output]
-```
-```
-
+```text
+```text
 ---
 
 ### Category D: Visual Enhancements (8 items)
@@ -315,8 +304,7 @@ Only 2 files currently use shields.io badges. High-value additions:
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
 
 </div>
-```
-
+```sql
 #### Files Benefiting from Mermaid Diagrams
 
 | File | Diagram Type | Purpose |
@@ -365,8 +353,7 @@ Long files (>300 lines) without TOC:
   - [Advanced](#advanced)
   - [Business](#business)
 - [Appendix](#appendix)
-```
-
+```text
 ### Centered Footer Missing
 
 Only generated reports have footers. All prompts should have:
@@ -379,8 +366,7 @@ Only generated reports have footers. All prompts should have:
 *Part of the Enterprise AI Prompt Library*
 
 </div>
-```
-
+```text
 ---
 
 ## 🟢 Low Priority (65 items)
@@ -443,8 +429,7 @@ def process_file(path: Path):
 if __name__ == "__main__":
     for md_file in Path("prompts").rglob("*.md"):
         process_file(md_file)
-```
-
+```text
 ### 2. PowerShell: Find Broken Links
 
 ```powershell
@@ -475,8 +460,7 @@ Get-ChildItem -Path "prompts","docs" -Filter "*.md" -Recurse | ForEach-Object {
 
 $brokenLinks | Format-Table -AutoSize
 $brokenLinks | Export-Csv "docs/broken-links.csv" -NoTypeInformation
-```
-
+```text
 ### 3. VS Code Find/Replace Patterns
 
 ```text
@@ -495,8 +479,7 @@ Replace: ---
 # Fix double blank lines
 Find:    \n{3,}
 Replace: \n\n
-```
-
+```text
 ### 4. Pre-commit Hook
 
 ```yaml
@@ -515,8 +498,7 @@ repos:
         entry: python tools/check_links.py
         language: python
         files: \.md$
-```
-
+```text
 ### 5. GitHub Action Workflow
 
 ```yaml
@@ -537,7 +519,7 @@ jobs:
       
       - name: Check table alignment
         run: |
-          if grep -rn "| --- |" prompts/ docs/; then
+          if grep -rn "| :--- |" prompts/ docs/; then
             echo "::error::Found unaligned tables"
             exit 1
           fi
@@ -549,8 +531,7 @@ jobs:
       - name: Check broken links
         run: |
           python tools/check_links.py
-```
-
+```text
 ---
 
 ## 📅 Recommended Action Plan

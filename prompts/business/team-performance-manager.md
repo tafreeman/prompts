@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Optimizes team performance
 
+---
+
 ## Use Cases
 
 - Team Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Include:
 4. Communication improvement
 5. Conflict resolution
 6. Recognition programs
-```
-
+```text
 ## Variables
 
 - `[challenges]`: Challenges
 - `[dynamics]`: Dynamics
 - `[goals]`: Goals
 - `[team_name]`: Team Name
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Include:
 [challenges]: High burnout risk, low velocity (missed last 2 sprints), knowledge silos in senior devs
 [goals]: Increase velocity by 20%, reduce bug reopen rate to <5%, improve team morale score
 [dynamics]: 2 senior devs dominate architectural decisions, 3 junior devs hesitant to speak up
-```
-
+```text
 **Output:**
 
 ```text
@@ -89,14 +93,15 @@ Include:
 *   **Purpose:** Connect sprint tasks directly to customer impact metrics in planning meetings.
 
 [... continues with communication and conflict resolution ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

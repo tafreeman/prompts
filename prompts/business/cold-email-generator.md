@@ -29,6 +29,8 @@ effectivenessScore: 4.8
 
 Create personalized cold emails that get responses. Generates subject lines, opening hooks, value propositions, and clear calls-to-action tailored to specific prospects and industries.
 
+---
+
 ## Use Cases
 
 - Outbound sales prospecting to new accounts
@@ -36,6 +38,8 @@ Create personalized cold emails that get responses. Generates subject lines, ope
 - Recruiting passive candidates
 - Investor outreach for fundraising
 - Event speaker or sponsor recruitment
+
+---
 
 ## Prompt
 
@@ -69,8 +73,7 @@ Generate:
 4. **Alternative Shorter Version** (under 75 words for mobile)
 
 Keep tone conversational and human. Avoid corporate jargon. Write like a real person, not a marketing email.
-```
-
+```text
 ## Variables
 
 - `[prospect_info]`: Name, title, company, and any relevant context about the prospect
@@ -78,6 +81,8 @@ Keep tone conversational and human. Avoid corporate jargon. Write like a real pe
 - `[goal]`: What you want to achieve (e.g., "book a 15-min discovery call", "get intro to CTO")
 - `[value_prop]`: The specific value you can provide to this prospect
 - `[hook]`: Personalization detail (recent news, shared connection, content they published)
+
+---
 
 ## Example Usage
 
@@ -89,8 +94,7 @@ My Company/Role: Alex Rivera, Founder of OnCallAI - AI-powered incident manageme
 Goal: Book a 15-minute discovery call
 Value Proposition: Reduce on-call burnout by 60% with AI that auto-triages alerts and drafts runbooks
 Personalization Hook: Her LinkedIn post about "on-call fatigue" and mention of losing two senior engineers who cited burnout
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -143,8 +147,7 @@ Alex
 - **Social proof**: Datadog = credible peer company
 - **CTA**: Low commitment (15 min) + clear value exchange
 - **P.S.**: Offers alternative if call feels too high-friction
-```
-
+```text
 ## Tips
 
 - Research before writing - 5 minutes of LinkedIn stalking beats a generic template
@@ -152,6 +155,8 @@ Alex
 - One CTA only - asking for multiple things kills response rates
 - Send Tuesday-Thursday, 8-10am their timezone for best open rates
 - Follow up 3x minimum - most responses come on follow-up 2 or 3
+
+---
 
 ## Related Prompts
 

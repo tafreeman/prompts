@@ -32,6 +32,8 @@ effectivenessScore: 4.2
 
 Create high-converting advertising copy tailored to specific platforms, audiences, and campaign goals. This prompt helps marketers, advertisers, and business owners develop compelling ad copy that captures attention, communicates value, and drives desired actions.
 
+---
+
 ## Use Cases
 
 - Google Search Ads (responsive search ads, headlines, descriptions)
@@ -40,6 +42,8 @@ Create high-converting advertising copy tailored to specific platforms, audience
 - Display and banner ads
 - YouTube ad scripts (bumper ads, skippable ads)
 - Retargeting ad campaigns
+
+---
 
 ## Prompt
 
@@ -83,8 +87,7 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-```
-
+```python
 ## Variables
 
 | Variable | Description |
@@ -98,6 +101,8 @@ Please provide:
 | `[DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]` | Any special offer |
 | `[PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]` | The tone of your ads |
 | `[PLATFORM-SPECIFIC LIMITS]` | Character or format restrictions |
+
+---
 
 ## Example Usage
 
@@ -143,8 +148,7 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-```
-
+```python
 **Output:**
 
 ```text
@@ -329,8 +333,7 @@ Based on B2B SaaS search campaigns in this category:
 4. **Start with Target CPA bidding** once you have 15+ conversions, then test Maximize Conversions
 
 5. **Review search terms weekly** to add negatives and find new opportunities
-```
-
+```python
 ## Tips
 
 - **Match message to intent:** Cold audiences need education; warm audiences need differentiation; hot audiences need a clear CTA
@@ -339,6 +342,8 @@ Based on B2B SaaS search campaigns in this category:
 - **Include social proof when possible:** Numbers, awards, and testimonials boost credibility (if space allows)
 - **Test systematically:** Change one element at a time to understand what's actually driving performance
 - **Write for the click, but optimize for conversion:** CTR matters, but conversion rate and cost-per-acquisition matter more
+
+---
 
 ## Related Prompts
 

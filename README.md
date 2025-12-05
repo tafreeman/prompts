@@ -23,6 +23,8 @@ reviewStatus: "approved"
 
 # Enterprise AI Prompt Library
 
+![Status](https://img.shields.io/badge/Status-Production%20Ready-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Prompts](https://img.shields.io/badge/Prompts-120%2B-orange) ![Quality Score](https://img.shields.io/badge/Quality%20Score-72%2F100-yellow)
+
 A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
 Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):
@@ -142,8 +144,7 @@ prompts/
 ├── tools/                  # 🔧 Validation & CLI tools
 ├── docs/                   # 📖 Extended documentation
 └── README.md               # This file
-```
-
+```text
 ### Visual Architecture
 
 ```mermaid
@@ -175,8 +176,7 @@ graph TB
     style B fill:#e8f5e9
     style C fill:#fff3e0
     style D fill:#f3e5f5
-```
-
+```text
 ### User Journey: Finding and Using a Prompt
 
 ```mermaid
@@ -198,8 +198,7 @@ journey
       Review output: 4: User
       Adjust prompt if needed: 3: User
       Achieve goal: 5: User
-```
-
+```text
 <details>
 <summary>📊 <strong>Library Statistics</strong></summary>
 
@@ -297,15 +296,13 @@ Brief description of what this prompt does and when to use it.
 ## Example Usage
 
 **Input:**
-```
-
+```text
 Example of the prompt with real values
 
 ```text
 
 **Output:**
-```
-
+```text
 Example of expected output
 
 ```text
@@ -313,8 +310,7 @@ Example of expected output
 ## Tips
 - Tip 1 for better results
 - Tip 2 for customization
-```
-
+```text
 ## 🤝 Contributing
 
 We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:

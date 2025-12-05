@@ -37,6 +37,8 @@ This technique is based on the paper:
 
 Wei et al. demonstrated that prompting large language models to generate intermediate reasoning steps (a "chain of thought") significantly improves performance on complex reasoning tasks including arithmetic, commonsense, and symbolic reasoning. The paper showed accuracy improvements from 17.7% to 58.1% on GSM8K math problems when using Chain-of-Thought prompting.
 
+---
+
 ## Use Cases
 
 - Deciding whether to use CoT for a specific task
@@ -67,8 +69,7 @@ START: Do you have a task that needs AI reasoning?
 │       │
 │       └─→ Need to explore multiple approaches?
 │           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
-```
-
+```sql
 ## When to Use Each Mode
 
 ### No CoT (Direct Prompting)
@@ -141,8 +142,7 @@ START: Do you have a task that needs AI reasoning?
 
 ```text
 Fix: Check authentication tokens are being passed correctly.
-```
-
+```text
 *Token count: ~15*
 *Accuracy: May miss root cause*
 
@@ -155,8 +155,7 @@ Step 3: Check if tokens are being refreshed before expiration.
 Step 4: Also verify clock sync between client and server (JWT timestamps).
 
 Fix: Implement token refresh 5 minutes before expiration. Verify NTP sync.
-```
-
+```text
 *Token count: ~70*
 *Accuracy: Good - covers main scenarios*
 
@@ -165,8 +164,7 @@ Fix: Implement token refresh 5 minutes before expiration. Verify NTP sync.
 ```text
 [10+ steps analyzing authentication flow, token types, edge cases, 
 alternative hypotheses, considering rate limiting, caching, etc.]
-```
-
+```text
 *Token count: ~300*
 *Accuracy: Excellent - comprehensive analysis*
 
@@ -180,8 +178,7 @@ alternative hypotheses, considering rate limiting, caching, etc.]
 
 ```text
 Use microservices - they're more scalable and modern.
-```
-
+```text
 *Token count: ~15*
 *Accuracy: Poor - no context consideration*
 
@@ -194,8 +191,7 @@ Step 3: Domain complexity? Simple domain → monolith fine.
 Step 4: Time to market? Monolith faster for MVP.
 
 Recommendation: Start with modular monolith, extract services later if needed.
-```
-
+```text
 *Token count: ~80*
 *Accuracy: Good for common cases*
 
@@ -205,8 +201,7 @@ Recommendation: Start with modular monolith, extract services later if needed.
 [Comprehensive analysis of team structure, Conway's Law, deployment pipeline,
 monitoring requirements, database strategy, service boundaries, operational
 overhead, cost analysis, gradual migration path, etc.]
-```
-
+```powershell
 *Token count: ~500*
 *Accuracy: Excellent - considers all factors*
 
@@ -222,8 +217,7 @@ Try: Direct prompt
 Try: Concise CoT
 ↓ (if still uncertain)
 Try: Detailed CoT or Tree-of-Thoughts
-```
-
+```text
 ### 2. Match CoT Mode to Audience
 
 - **For yourself:** Concise often sufficient
@@ -243,8 +237,7 @@ def should_use_cot(task_type, stakes, complexity):
         return "concise"
     else:
         return "none"
-```
-
+```text
 ### 4. Optimize Token Usage
 
 - For batch processing: Use concise CoT only for failures/edge cases
@@ -263,8 +256,7 @@ results = {
 
 # Choose based on accuracy vs. cost trade-off
 optimal_mode = optimize(results, cost_constraint=budget)
-```
-
+```text
 ## Common Mistakes to Avoid
 
 ### ❌ Using CoT for Simple Tasks
@@ -272,29 +264,25 @@ optimal_mode = optimize(results, cost_constraint=budget)
 ```text
 Bad: "Using detailed CoT to convert Celsius to Fahrenheit"
 Waste: 300 tokens for a simple formula
-```
-
+```text
 ### ❌ Not Using CoT for Complex Tasks
 
 ```text
 Bad: "Direct prompt for system architecture decision"
 Risk: Missing critical considerations, expensive mistakes
-```
-
+```text
 ### ❌ Asking for CoT but Not Providing Enough Context
 
 ```text
 Bad: "Debug my code (step-by-step)" with no code or error shown
 Result: Generic, unhelpful steps
-```
-
+```text
 ### ❌ Using Detailed CoT Under Time Pressure
 
 ```text
 Bad: "Production is down, need detailed analysis of all possibilities"
 Problem: Too slow, need concise CoT for quick fix first
-```
-
+```text
 ## Integration Patterns
 
 ### Pattern 1: Tiered Reasoning
@@ -310,8 +298,7 @@ if quick_answer.confidence < 0.7:
     # If still uncertain, go detailed
     if better_answer.confidence < 0.8:
         best_answer = llm.generate(prompt, mode="detailed_cot")
-```
-
+```text
 ### Pattern 2: Human-in-the-Loop
 
 ```python
@@ -325,8 +312,7 @@ else:
     # Escalate to detailed or revise
     reasoning = llm.generate(prompt, mode="detailed_cot", 
                             feedback=user.feedback)
-```
-
+```text
 ### Pattern 3: Caching CoT Patterns
 
 ```python
@@ -340,8 +326,7 @@ else:
     # Generate with detailed CoT, cache pattern
     answer = llm.generate(new_task, mode="detailed_cot")
     cache.set(f"cot_{task_category}", extract_pattern(answer))
-```
-
+```text
 ## Cost-Benefit Analysis
 
 ### Token Cost Estimates
@@ -370,8 +355,7 @@ Value = 0.25 × $1,000 = $250
 Cost = 100 × $0.00003 = $0.003
 
 ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
-```
-
+```text
 ## Quick Reference
 
 | Situation | Recommended Mode | Why |
@@ -387,12 +371,16 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 | Teaching | Detailed CoT | Explanation aids learning |
 | Batch processing | None or Concise | Token costs add up |
 
+---
+
 ## Related Prompts
 
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - Quick step-by-step reasoning
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - Comprehensive analysis
-- [Tree-of-Thoughts: Decision Guide](tree-of-thoughts-decision-guide.md) - When to explore multiple paths
+- [Tree-of-Thoughts: Decision Guide](tree-of-thoughts-template.md) - When to explore multiple paths
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks with external tools
+
+---
 
 ## Governance Notes
 

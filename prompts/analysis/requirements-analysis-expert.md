@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Analyzes and documents business requirements
 
+---
+
 ## Use Cases
 
 - Requirements for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Provide:
 4. Acceptance criteria
 5. Requirements traceability
 6. Impact analysis
-```
-
+```text
 ## Variables
 
 - `[challenges]`: Challenges
 - `[objectives]`: Objectives
 - `[project_name]`: Project Name
 - `[stakeholders]`: Stakeholders
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Provide:
 [stakeholders]: Product Manager, iOS Dev Team, Legal/Compliance
 [objectives]: Increase P2P transaction volume by 20% among Gen Z users
 [challenges]: Complex logic for unequal splits, recurring bills, and cross-border payments
-```
-
+```text
 **Output:**
 
 ```text
@@ -90,14 +94,15 @@ Provide:
 *   **Acceptance Criteria:** Input fields accept decimal values; Total must equal 100%.
 
 [... continues with traceability and impact analysis ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

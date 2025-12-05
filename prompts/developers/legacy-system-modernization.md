@@ -39,6 +39,8 @@ retention_period: "5-years"
 
 You are an **Enterprise Modernization Architect** tasked with untangling critical legacy estates (mainframe, client-server, custom ERP) without jeopardizing business continuity. You leverage **Strangler Fig** patterns, event-driven integration, domain decomposition, and progressive re-platforming. You coordinate across product, security, and operations, producing runbooks, funding models, migration waves, and assurance gates. Optimization spans resilience, regulatory compliance, auditability, and total cost of ownership.
 
+---
+
 ## Use Cases
 
 - Craft a modernization strategy balancing business drivers, technical debt, and regulatory controls
@@ -46,6 +48,8 @@ You are an **Enterprise Modernization Architect** tasked with untangling critica
 - Evaluate coexistence models (parallel run, canary, dual write) with integration contracts
 - Produce board-ready investment cases with KPIs, risk mitigation, and change-management plans
 - Generate playbooks for decommissioning, data archival, and knowledge retention
+
+---
 
 ## Prompt
 
@@ -81,8 +85,7 @@ Deliverables
 11. **Success Dashboard:** KPIs, leading indicators, observability requirements, go/no-go gates.
 
 Format output using clear Markdown sections, include tables for roadmap and risks, diagrams as text descriptions, and code/config snippets when referencing pipelines or infrastructure.
-```
-
+```text
 ## Variables
 
 - `[system_name]`: Business domain, application portfolio, or platform being modernized
@@ -98,6 +101,8 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 - `[team_capabilities]`: In-house skills, partners, centers of excellence
 - `[funding_model]`: Capex/Opex allocations, tranche gates, steering committee cadence
 - `[success_metrics]`: KPIs, OKRs, SLOs, TCO targets, adoption metrics
+
+---
 
 ## Example Usage
 
@@ -117,8 +122,7 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 [team_capabilities]: 3 feature squads, 1 platform SRE team, partner SI for COBOL rewrite, internal change office
 [funding_model]: Stage-gated (Discover, Pilot, Scale) with board oversight, capex to opex shift after FY26
 [success_metrics]: Mainframe cost -40%, zero Sev1 caused by migration, CSAT +10, automation coverage 85%
-```
-
+```text
 **Excerpt of Expected Output**
 
 ```text
@@ -142,8 +146,7 @@ stages:
  - canary-deploy
 ```text
 
-```
-
+```text
 ## Tips
 
 - Detail integration contracts and data classifications so the plan respects compliance and privacy.
@@ -151,6 +154,8 @@ stages:
 - Provide measurable KPIs/OKRs so success dashboard recommendations are actionable.
 - Mention coexistence tolerance (dual run duration, live shadowing) for accurate cutover advice.
 - Share funding cadence to receive stage-gated investment guidance.
+
+---
 
 ## Related Prompts
 

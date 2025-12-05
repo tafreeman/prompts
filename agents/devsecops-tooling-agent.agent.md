@@ -108,8 +108,7 @@ class EvalError(Exception):
 class ModelUnavailableError(EvalError):
     """Raised when a model is not available."""
     pass
-```
-
+```text
 ### CLI Design Principles
 ```python
 # Clear, consistent argument naming
@@ -129,8 +128,7 @@ parser.add_argument(
 # Exit codes following conventions
 # 0 = success, 1 = failure, 2 = usage error
 sys.exit(0 if success else 1)
-```
-
+```text
 ### Logging Standards
 ```python
 import logging
@@ -140,8 +138,7 @@ logger = logging.getLogger(__name__)
 # Structured logging with context
 logger.info("Processing file", extra={"file": str(path), "model": model})
 logger.error("Evaluation failed", exc_info=True)
-```
-
+```text
 ## Output Format
 
 When completing tasks, provide:
@@ -158,8 +155,7 @@ When completing tasks, provide:
 
 ### Potential Risks
 - [Any concerns or edge cases identified]
-```
-
+```text
 ### 2. Implementation Plan
 ```markdown
 ## Implementation Plan
@@ -170,8 +166,7 @@ When completing tasks, provide:
 
 ### Phase 2: [Name]
 - [ ] Task 2.1 - [Description]
-```
-
+```text
 ### 3. Code Changes
 Implement changes with:
 - Clear inline comments for complex logic
@@ -191,8 +186,7 @@ Implement changes with:
 
 ### 📋 Follow-up Tasks
 - [Deferred work for future iterations]
-```
-
+```sql
 ## Process
 
 ### Phase 1: Context Gathering
@@ -238,8 +232,7 @@ ruff check testing/evals/
 
 # Format code
 black testing/evals/dual_eval.py
-```
-
+```text
 ### Git Operations (for --changed-only)
 ```bash
 # Get changed files in PR
@@ -250,8 +243,7 @@ git diff --cached --name-only -- "*.md"
 
 # Get uncommitted changes
 git diff --name-only -- "*.md"
-```
-
+```text
 ### Evaluation Commands
 ```bash
 # Single file evaluation
@@ -265,8 +257,7 @@ python testing/evals/dual_eval.py prompts/ --format json --output report.json
 
 # CI/CD mode (to be implemented)
 python testing/evals/dual_eval.py prompts/ --changed-only --format json
-```
-
+```json
 ## Improvement Plan Reference
 
 This agent is configured to implement the following improvement plan for `testing/evals/dual_eval.py`:
@@ -274,7 +265,7 @@ This agent is configured to implement the following improvement plan for `testin
 ### Phase 1: Critical Fixes (Immediate)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 1 | Add folder/batch evaluation support | 2-3 hours | High | ⏳ |
 | 2 | Fix JSON output (add `--format` flag) | 1 hour | High | ⏳ |
 | 3 | Implement `--changed-only` for CI | 2 hours | High | ⏳ |
@@ -294,8 +285,7 @@ def discover_prompt_files(
 ) -> list[Path]:
     """Discover prompt files from paths (files or directories)."""
     ...
-```
-
+```text
 **Task 2 Details: JSON Output**
 ```python
 # Add --format flag with markdown | json options
@@ -310,8 +300,7 @@ class BatchReport:
     passed: int
     failed: int
     results: list[dict]
-```
-
+```text
 **Task 3 Details: Changed-Only Mode**
 ```python
 # Integrate with git diff to identify changed prompts
@@ -323,12 +312,11 @@ def get_changed_files(
 ) -> list[Path]:
     """Get files changed since base_ref."""
     ...
-```
-
+```text
 ### Phase 2: Performance & UX (Short-term)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 4 | Parallel model validation | 1 hour | Medium | ⏳ |
 | 5 | Add `--skip-validation` flag | 30 min | Medium | ⏳ |
 | 6 | Progress indicators (tqdm) | 1 hour | Medium | ⏳ |
@@ -340,8 +328,7 @@ def get_changed_files(
 async def validate_models_async(models: list[str]) -> tuple[list[str], dict[str, str]]:
     """Validate models in parallel."""
     ...
-```
-
+```text
 **Task 6 Details: Progress Indicators**
 ```python
 from tqdm import tqdm
@@ -353,8 +340,7 @@ for file in tqdm(files, desc="Evaluating prompts"):
 # Model progress within file
 for model in tqdm(models, desc=f"  {file.name}", leave=False):
     ...
-```
-
+```text
 **Task 7 Details: External Configuration**
 ```yaml
 # dual_eval.config.yaml
@@ -372,12 +358,11 @@ thresholds:
   pass_score: 7.0
   min_criterion: 5.0
   cross_validation_variance: 1.5
-```
-
+```text
 ### Phase 3: Advanced Features (Medium-term)
 
 | # | Task | Effort | Impact | Status |
-|---|------|--------|--------|--------|
+| :--- |------|--------|--------|--------|
 | 8 | Promptfoo integration | 3 hours | Medium | ⏳ |
 | 9 | Historical comparison | 4 hours | Medium | ⏳ |
 | 10 | HTML report generation | 3 hours | Low | ⏳ |
@@ -446,8 +431,7 @@ Before marking any task complete:
 - Large batches may hit rate limits on gh models
 
 Shall I proceed with implementation?
-```
-
+```text
 ---
 
 ## Version History

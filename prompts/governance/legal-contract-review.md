@@ -33,9 +33,26 @@ retention_period: "7 years"
 ---
 # Legal: Contract Review Assistant
 
+![Risk Level](https://img.shields.io/badge/Risk%20Level-High-red) ![Human Review](https://img.shields.io/badge/Human%20Review-Required-orange) ![Approval](https://img.shields.io/badge/Approval-Legal%20Counsel-blue)
+
+## Table of Contents
+
+- [Description](#description)
+- [Use Cases](#use-cases)
+- [Prompt](#prompt)
+- [Variables](#variables)
+- [Example Usage](#example-usage)
+- [Tips](#tips)
+- [Related Prompts](#related-prompts)
+- [Governance Notes](#governance-notes)
+
+---
+
 ## Description
 
 An AI-powered contract review assistant for legal teams to identify risks, unusual clauses, and compliance issues in commercial agreements. This prompt systematically analyzes contracts, highlights areas of concern, and provides structured risk assessments. **IMPORTANT: Output must be reviewed by licensed attorney before use.**
+
+---
 
 ## Use Cases
 
@@ -46,6 +63,8 @@ An AI-powered contract review assistant for legal teams to identify risks, unusu
 - Employment agreement review
 - Identifying unusual or high-risk clauses
 - Compliance gap analysis
+
+---
 
 ## Prompt
 
@@ -122,14 +141,15 @@ List any immediate concerns requiring escalation:
 - Missing context required for full assessment
 
 **DISCLAIMER**: This is an AI-assisted review. All findings must be reviewed and validated by a licensed attorney before taking any action. This does not constitute legal advice.
-```
-
+```text
 ## Variables
 
 - `[CONTRACT_TYPE]`: Type of agreement (NDA, MSA, SaaS Agreement, Employment Contract, etc.)
 - `[PARTY_NAMES_AND_ROLES]`: Who is signing (Company A as Provider, Company B as Customer, etc.)
 - `[FULL_CONTRACT_TEXT_OR_KEY_SECTIONS]`: Complete contract or specific sections to review
 - `[SPECIFIC_CONCERNS_OR_GENERAL_REVIEW]`: Particular concerns (liability, IP, data privacy) or comprehensive review
+
+---
 
 ## Example Usage
 
@@ -161,8 +181,7 @@ Section 11.3 Governing Law:
 **Review Focus**: Data privacy compliance (GDPR) and liability protection
 
 **Instructions**: [As specified above]
-```
-
+```text
 **Output:**
 
 ```text
@@ -368,8 +387,7 @@ Section 11.3 Governing Law:
 6. **Timeline**: What's urgency to sign? (Determines negotiation leverage)
 
 **DISCLAIMER**: This is an AI-assisted contract review tool. This analysis must be reviewed and validated by a licensed attorney before making any legal decisions. This does not constitute legal advice. No attorney-client relationship is created.
-```
-
+```text
 ## Tips
 
 - **Always include full context**: Contract type, parties, industry, jurisdiction
@@ -405,6 +423,8 @@ Section 11.3 Governing Law:
 - **Who can use**: Legal team, compliance officers (with attorney supervision)
 - **Not for use by**: Sales, general employees, external parties
 - **Approval required**: Legal Counsel must review output before sharing with business
+
+---
 
 ## Output Schema (JSON)
 
@@ -448,10 +468,5 @@ Section 11.3 Governing Law:
     "contract_id": "..."
   }
 }
-```
-
+```text
 ## Related Prompts
-
-- [Legal: Compliance Check](legal-compliance-check.md) - Regulatory compliance verification
-- [Compliance: Risk Assessment](compliance-risk-assessment.md) - General risk evaluation
-- [Security: Vendor Assessment](security-vendor-assessment.md) - Security review of vendors

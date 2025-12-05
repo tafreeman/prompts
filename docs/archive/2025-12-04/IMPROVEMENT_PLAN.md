@@ -209,8 +209,7 @@ For each variable, add:
 | Variable | Example 1 | Example 2 |
 |----------|-----------|-----------|
 | `[variable_name]` | Concrete example | Another example |
-```
-
+```text
 ### Template: Adding Completeness
 
 Per the guide's [Format](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#4-format) component:
@@ -228,8 +227,7 @@ Your response should include:
 
 ### 2. Another Section
 ...
-```
-
+```text
 ### Template: Adding Review Criteria
 
 Per the guide's [Constraints](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#5-constraints) component:
@@ -252,8 +250,7 @@ For code review prompts:
 - Code style violations
 - Missing documentation
 - Non-idiomatic patterns
-```
-
+```text
 ### Template: Adding Role/Persona
 
 Per the guide's [Role (Persona)](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#2-role-persona) component:
@@ -269,8 +266,7 @@ You are a [SPECIFIC_ROLE] with expertise in [DOMAIN].
 **Your Focus Areas:**
 1. [Priority area]
 2. [Secondary area]
-```
-
+```text
 ### Template: Adding Chain-of-Thought
 
 Per the guide's [Advanced Techniques](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#advanced-techniques) section:
@@ -291,8 +287,7 @@ Before providing your final output, think through:
 **Step 3: Solution**
 - Propose approach
 - Justify reasoning
-```
-
+```text
 ---
 
 ## Implementation Order

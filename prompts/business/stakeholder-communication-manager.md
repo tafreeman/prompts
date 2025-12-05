@@ -28,6 +28,8 @@ reviewStatus: "draft"
 
 A strategic communications specialist for complex stakeholder management across enterprise projects. Focuses on executive updates, change management messaging, crisis communication, and multi-stakeholder alignment for distributed teams.
 
+---
+
 ## Use Cases
 
 - Quarterly executive board updates for technical transformation projects
@@ -35,6 +37,8 @@ A strategic communications specialist for complex stakeholder management across 
 - Crisis communication during service outages or project delays
 - Multi-stakeholder alignment for cross-functional initiatives
 - Vendor/partner relationship communication management
+
+---
 
 ## Prompt
 
@@ -58,14 +62,15 @@ Provide:
 7. **Crisis Communication Playbook** (If project is at risk)
 
 Format output in structured Markdown with tables for matrices and calendars.
-```
-
+```sql
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "SAP S/4HANA Implementation - Finance & Supply Chain Modules")
 - `[stakeholders]`: List of stakeholder groups with roles (e.g., "CFO (Sponsor), VP Supply Chain (Key User), IT Director, Warehouse Staff (End Users)")
 - `[phase]`: Current project phase (e.g., "Blueprinting/Design", "UAT", "Go-Live", "Post-Production Support")
 - `[challenges]`: Specific communication obstacles (e.g., "Resistance to change from warehouse staff, CFO demanding faster ROI visibility, offshore vendor language barriers")
+
+---
 
 ## Example Usage
 
@@ -88,8 +93,7 @@ Challenges:
 - CFO demanding weekly ROI metrics and faster go-live (pressure to cut timeline from 18 to 12 months)
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -349,8 +353,7 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 **Improvement Actions**:
 - Survey score: Add more "show, don't tell" demos per warehouse feedback
 - Meeting punctuality: Send Outlook invites with time zone converters for offshore team
-```
-
+```text
 ## Tips
 
 - **Tailor Messaging to Decision Authority**: Executives want ROI and risk; end users want "What's in it for me?" (WIIFM). Never use the same message for both audiences.
@@ -361,9 +364,11 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 - **Leverage Asynchronous Tools for Offshore Teams**: Record Loom videos, use Miro for design reviews, and post meeting summaries in Confluence to bridge time zones.
 - **Celebrate Wins Publicly**: Monthly pizza parties, shoutouts in newsletters, and "Contributor of the Month" awards build momentum and morale.
 
+---
+
 ## Related Prompts
 
 - **[change-management-coordinator](./change-management-coordinator.md)** - For deeper change management playbooks
 - **[risk-management-analyst](./risk-management-analyst.md)** - For quantifying communication risks
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - For structuring communication around sprints
-- **[project-charter-creator](./project-charter-creator.md)** - For initial stakeholder identification
+- **[project-charter-creator](./business-strategy-analysis.md)** - For initial stakeholder identification

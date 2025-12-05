@@ -32,6 +32,8 @@ effectivenessScore: 4.2
 
 Create persuasive, SEO-optimized product descriptions that convert browsers into buyers. This prompt helps e-commerce owners, marketers, and copywriters craft descriptions that highlight benefits, address objections, and drive purchasing decisions.
 
+---
+
 ## Use Cases
 
 - E-commerce product listings (Shopify, WooCommerce, Amazon, Etsy)
@@ -39,6 +41,8 @@ Create persuasive, SEO-optimized product descriptions that convert browsers into
 - Physical product descriptions (retail, consumer goods)
 - Digital product and software descriptions
 - Service package descriptions
+
+---
 
 ## Prompt
 
@@ -88,8 +92,7 @@ Please create:
 5. Trust-building elements
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
-```
-
+```sql
 ## Variables
 
 | Variable | Description |
@@ -104,6 +107,8 @@ Please create:
 | `[AMAZON/SHOPIFY/ETSY/GENERAL E-COMMERCE/OTHER]` | Where the description will appear |
 | `[MAIN KEYWORD TO RANK FOR]` | Primary SEO keyword |
 | `[SHORT (50-100 words)/MEDIUM (150-250 words)/LONG (300+ words)]` | Desired description length |
+
+---
 
 ## Example Usage
 
@@ -155,8 +160,7 @@ Please create:
 5. Trust-building elements
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
-```
-
+```text
 **Output:**
 
 ```text
@@ -222,8 +226,7 @@ Order today and receive a **FREE sleep mask** (while supplies last).
 
 **Meta Description:**
 CloudRest memory foam travel pillow with cooling gel—30% more compact than competitors. Adjustable neck support for airplanes. 4.8★ rated, 50,000+ sold.
-```
-
+```text
 ## Tips
 
 - **Lead with benefits, not features:** "Sleep better on flights" beats "Memory foam construction"—always translate features into customer outcomes
@@ -232,6 +235,8 @@ CloudRest memory foam travel pillow with cooling gel—30% more compact than com
 - **Match platform conventions:** Amazon shoppers scan bullets; Etsy shoppers read stories—adapt your format accordingly
 - **Include social proof naturally:** Numbers and credentials build trust without sounding salesy
 - **Test multiple versions:** Small changes in headlines and opening lines can significantly impact conversion rates
+
+---
 
 ## Related Prompts
 

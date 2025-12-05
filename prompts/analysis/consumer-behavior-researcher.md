@@ -28,11 +28,15 @@ reviewStatus: "draft"
 
 Studies consumer behavior patterns
 
+---
+
 ## Use Cases
 
 - Consumer Research for Researcher persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,14 +55,15 @@ Provide:
 4. Consumer insights
 5. Implications for business
 6. Recommendations
-```
-
+```text
 ## Variables
 
 - `[behavior]`: Behavior
 - `[demographics]`: Demographics
 - `[methods]`: Methods
 - `[product]`: Product
+
+---
 
 ## Example Usage
 
@@ -69,8 +74,7 @@ Provide:
 [demographics]: Millennials and Gen Z, Urban, Income > $75k
 [behavior]: "Flexitarian" diet adoption (reducing meat consumption without going full vegan)
 [methods]: Social Listening (Reddit/TikTok), Online Surveys (N=1000)
-```
-
+```text
 **Output:**
 
 ```text
@@ -88,14 +92,15 @@ Provide:
 *   **Insight:** Consumers want "Clean Label" (pea protein) over "Hyper-realistic" (heme/soy) if it means fewer additives.
 
 [... continues with implications and recommendations ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

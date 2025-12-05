@@ -85,8 +85,7 @@ Conduct a deep, multi-source research synthesis on: **[RESEARCH_TOPIC]**
 - Specific actions to close the gaps, referencing specific internal stakeholders or files if possible.
 
 **Tone:** Professional, Enterprise-Grade, Grounded.
-```
-
+```text
 ## Variables
 
 - `[RESEARCH_TOPIC]`: The specific subject to research (e.g., "Adoption of Agentic AI Workflows", "Q3 Financial Performance", "Project Alpha Status").

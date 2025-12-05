@@ -41,6 +41,8 @@ This technique combines two foundational approaches:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions enables models to dynamically refine their information gathering strategy. Lewis et al. showed that grounding responses in retrieved documents improves factual accuracy and reduces hallucination. This prompt combines both approaches for strategic, multi-step document research.
 
+---
+
 ## Use Cases
 
 - Complex research questions requiring multiple sources
@@ -50,6 +52,8 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 - Technical documentation navigation for multi-component systems
 - Customer support requiring information synthesis from multiple knowledge bases
 - Code repository exploration for understanding complex features
+
+---
 
 ## Prompt
 
@@ -138,12 +142,13 @@ Brief explanation of your search strategy and how you arrived at the answer
 4. Synthesize information across multiple documents
 5. Be explicit about search refinements
 6. Acknowledge gaps in available documentation
-```
-
+```text
 ## Variables
 
 - `[USER_QUESTION]`: The research question requiring document search and synthesis
 - `[BACKGROUND_INFORMATION]`: Context about what the user is trying to accomplish
+
+---
 
 ## Example Usage
 
@@ -165,8 +170,7 @@ You are an AI research assistant using the ReAct (Reasoning + Acting) pattern fo
 
 **Instructions**:
 [As specified above]
-```
-
+```text
 **Output:**
 
 ```text
@@ -469,8 +473,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 - Fetch Doc_T022 (SSO/SAML Integration Guide) for technical team
 - Review Doc_D004 (Data Migration Planning) if customer has existing data to migrate
 - Fetch Doc_M003 (Success Metrics) to understand how success will be measured post-onboarding
-```
-
+```sql
 ## Tips
 
 - **Strategic search**: Start broad, then narrow based on what you find
@@ -505,8 +508,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Fetch full document → See references
 4. Keyword search for specific terms → Get details
 5. Synthesize complete answer
-```
-
+```sql
 ### Pattern 2: Keyword-then-Expand
 
 ```text
@@ -515,8 +517,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Use related_documents tool → Find connected docs
 4. Semantic search for concepts → Fill gaps
 5. Synthesize with cross-references
-```
-
+```text
 ### Pattern 3: Iterative Refinement
 
 ```text
@@ -525,8 +526,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Reformulate query based on gaps
 4. Semantic search with refined query
 5. Repeat until comprehensive coverage
-```
-
+```sql
 ## Output Schema (JSON)
 
 For automation and audit trails:
@@ -567,14 +567,15 @@ For automation and audit trails:
   "documents_retrieved": 8,
   "total_cycles": 4
 }
-```
-
+```powershell
 ## Related Prompts
 
 - [RAG: Document Retrieval and Citation](rag-document-retrieval.md) - Standard RAG pattern
 - [ReAct: Tool-Augmented Reasoning](react-tool-augmented.md) - General ReAct pattern with tools
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Pure reasoning without retrieval
 - [Reflection: Self-Critique](reflection-self-critique.md) - Quality validation for research
+
+---
 
 ## Governance Notes
 
@@ -609,8 +610,7 @@ Follow the Thought → Action → Observation → Synthesis cycle:
 2. Search for relevant files
 3. Analyze the results
 4. Refine your search based on findings
-```
-
+```text
 ### LangChain RAG with ReAct
 
 ```python
@@ -650,8 +650,7 @@ agent = initialize_agent(
 result = agent.run(
     "What is our complete onboarding process for enterprise customers?"
 )
-```
-
+```sql
 ### Custom ReAct Document Research Pipeline
 
 ```python
@@ -722,8 +721,7 @@ def react_document_research(question, max_cycles=8):
         "research_trail": research_trail,
         "total_cycles": len(research_trail)
     }
-```
-
+```text
 ## Error Handling
 
 ### No Relevant Documents Found
@@ -735,8 +733,7 @@ def react_document_research(question, max_cycles=8):
 - The documents are restricted/not indexed
 
 **Action [N]**: Let me try a different search strategy with alternative keywords...
-```
-
+```text
 ### Contradictory Information
 
 ```text
@@ -748,8 +745,7 @@ I need to:
 1. Check document dates (Doc_A may be outdated)
 2. Look for newer policy documents
 3. Note the contradiction in my final answer
-```
-
+```text
 ### Search Results Too Broad
 
 ```text
@@ -757,4 +753,4 @@ I need to:
 - Add filters (date range, document type, department)
 - Use more specific keywords
 - Narrow the semantic query
-```
+```sql

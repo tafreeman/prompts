@@ -63,8 +63,7 @@ public class UsersController : ControllerBase
         return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
     }
 }
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT disable security features (HTTPS, CSRF, input validation) without written authorization from the Information System Security Officer (ISSO).

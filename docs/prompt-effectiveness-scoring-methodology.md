@@ -126,10 +126,9 @@ This document establishes a comprehensive, research-backed methodology for evalu
 
 **Maximum Score: 100 points**
 
-```
+```text
 Total = Clarity (20) + Structure (20) + Usefulness (20) + Technical (20) + Ease of Use (20)
-```
-
+```text
 **Quality Tiers:**
 - **Tier 1 (Exceptional)**: 85-100 points - Best-in-class, ready for production
 - **Tier 2 (Strong)**: 70-84 points - High quality, minor improvements possible

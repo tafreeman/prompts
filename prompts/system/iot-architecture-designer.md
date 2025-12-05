@@ -53,8 +53,7 @@ Provide:
 4. Cloud integration
 5. Security framework
 6. Management platform
-```
-
+```text
 ## Variables
 
 - `[connectivity]`: Connectivity
@@ -73,8 +72,7 @@ Provide:
 [data_volume]: 1TB/day streaming telemetry
 [connectivity]: LoRaWAN for sensors (low power), MQTT over Wi-Fi for controllers
 [security]: Mutual TLS (mTLS) for device auth, end-to-end encryption, air-gapped OT network
-```
-
+```text
 **Output:**
 
 ```text
@@ -94,8 +92,7 @@ Provide:
 *   **Network:** Network segmentation separating OT (Operational Tech) from IT networks.
 
 [... continues with management platform and cloud integration ...]
-```
-
+```text
 ## Tips
 
 - Be specific when filling in placeholder values for better results

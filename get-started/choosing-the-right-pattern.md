@@ -43,29 +43,48 @@ Not all tasks require the same approach. Using a complex chain-of-thought prompt
 
 ## Quick Decision Flowchart
 
-Follow this text-based decision tree to find your pattern:
+Follow this decision tree to find your pattern:
 
-```text
-START: What type of task are you performing?
-│
-├─► Simple factual question or straightforward task?
-│   └─► Use ZERO-SHOT
-│
-├─► Need consistent format or structure in output?
-│   └─► Use STRUCTURED OUTPUT
-│
-├─► Task requires specific expertise or perspective?
-│   └─► Use ROLE-BASED
-│
-├─► Complex reasoning, math, or multi-step logic?
-│   └─► Use CHAIN-OF-THOUGHT
-│
-├─► Task benefits from seeing examples of desired output?
-│   └─► Use FEW-SHOT
-│
-└─► Still unsure?
-    └─► Start with ZERO-SHOT, iterate if needed
+<!-- Diagram: Pattern Selection Decision Tree -->
+<!-- Alt: Flowchart showing decision points for choosing between Zero-Shot, Structured Output, Role-Based, Chain-of-Thought, and Few-Shot prompting patterns based on task characteristics -->
+
+```mermaid
+flowchart TD
+    Start([🎯 What type of<br/>task?]) --> Q1{Simple factual<br/>or straightforward<br/>task?}
+    
+    Q1 -->|Yes| ZeroShot[✅ Zero-Shot<br/>Direct instructions]
+    Q1 -->|No| Q2{Need consistent<br/>format/structure?}
+    
+    Q2 -->|Yes| Structured[✅ Structured Output<br/>JSON, tables, etc.]
+    Q2 -->|No| Q3{Requires specific<br/>expertise or<br/>perspective?}
+    
+    Q3 -->|Yes| RoleBased[✅ Role-Based<br/>Expert persona]
+    Q3 -->|No| Q4{Complex reasoning,<br/>math, or<br/>multi-step logic?}
+    
+    Q4 -->|Yes| CoT[✅ Chain-of-Thought<br/>Step-by-step reasoning]
+    Q4 -->|No| Q5{Benefits from<br/>seeing examples?}
+    
+    Q5 -->|Yes| FewShot[✅ Few-Shot<br/>Example-driven]
+    Q5 -->|No| Default[💡 Start with Zero-Shot<br/>Iterate if needed]
+    
+    style Start fill:#e1f5fe
+    style Q1 fill:#fff9c4
+    style Q2 fill:#fff9c4
+    style Q3 fill:#fff9c4
+    style Q4 fill:#fff9c4
+    style Q5 fill:#fff9c4
+    style ZeroShot fill:#c8e6c9
+    style Structured fill:#c8e6c9
+    style RoleBased fill:#c8e6c9
+    style CoT fill:#c8e6c9
+    style FewShot fill:#c8e6c9
+    style Default fill:#b3e5fc
 ```
+
+**Pattern Selection Guide:**
+- 🎯 **Start here**: Identify your task type
+- ✅ **Green boxes**: Recommended patterns for your task
+- 💡 **Blue box**: When uncertain, start simple and iterate
 
 ---
 
@@ -85,8 +104,7 @@ START: What type of task are you performing?
 ```text
 Summarize the following email in 2 sentences:
 [email content]
-```
-
+```sql
 **Best for:** Quick tasks, prototyping, straightforward requests
 
 ---
@@ -120,8 +138,7 @@ Output:
 
 Now convert:
 Input: "This smartphone has a 6.5-inch OLED screen, 128GB storage, and 5G connectivity."
-```
-
+```text
 **Best for:** Format consistency, style matching, domain-specific conventions
 
 ---
@@ -146,8 +163,7 @@ Think through this step-by-step:
 2. Calculate remaining after Monday
 3. Calculate items sold Tuesday
 4. Calculate final remaining items
-```
-
+```sql
 **Best for:** Complex reasoning, auditability, reducing errors in multi-step tasks
 
 ---
@@ -168,8 +184,7 @@ You are a senior security engineer reviewing code for vulnerabilities.
 
 Review this authentication function and identify potential security issues:
 [code snippet]
-```
-
+```text
 **Best for:** Technical reviews, specialized advice, consistent expertise level
 
 ---
@@ -199,8 +214,7 @@ Extract the following information from this job posting and return as JSON:
 
 Job posting:
 [posting content]
-```
-
+```sql
 **Best for:** Data extraction, API responses, automated pipelines, consistent reports
 
 ---
@@ -328,6 +342,5 @@ Now that you can select the right pattern:
 ├─────────────────────────────────────────────────────────┤
 │ DEFAULT: Start with zero-shot, add complexity as needed │
 └─────────────────────────────────────────────────────────┘
-```
-
+```text
 Remember: **Simplicity first**. The best prompt is the simplest one that reliably produces quality output.

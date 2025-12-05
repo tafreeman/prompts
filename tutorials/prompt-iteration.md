@@ -51,7 +51,7 @@ By completing this tutorial, you will:
 
 **Key principle:** Treat prompting like debugging code. When output isn't right, diagnose the problem, make a targeted fix, and test again.
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    ITERATION CYCLE                          │
 ├─────────────────────────────────────────────────────────────┤
@@ -67,8 +67,7 @@ By completing this tutorial, you will:
 │                   └──────────┘                              │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ---
 
 ## Step 1: Diagnose the Gap (5 minutes)
@@ -114,8 +113,7 @@ Summarize this article.
 You are a professional editor. Summarize this article 
 in exactly 3 bullet points, focusing on key takeaways 
 for business executives. Use formal language.
-```
-
+```text
 ✅ **Do this instead:**
 ```text
 # Version 1
@@ -132,8 +130,7 @@ for business executives.
 Summarize this article in exactly 3 bullet points.
 Each bullet should be one sentence focusing on 
 actionable takeaways for business executives.
-```
-
+```text
 ---
 
 ## Step 3: The Refinement Playbook
@@ -160,8 +157,7 @@ Explain async/await in JavaScript:
 - Definition: 1 sentence
 - How it works: 1 sentence
 - When to use: 1 sentence
-```
-
+```text
 ---
 
 ### Problem: Output Is Too Generic
@@ -187,8 +183,7 @@ How can I improve productivity for my 5-person
 remote engineering team? Give me 3 specific actions 
 I can implement this week using our existing tools 
 (Jira, Slack, GitHub).
-```
-
+```text
 ---
 
 ### Problem: Wrong Format
@@ -217,8 +212,7 @@ Compare React and Vue in a markdown table:
 
 Include rows for: Learning curve, Performance, 
 Ecosystem, Community support, Best for our use case.
-```
-
+```text
 ---
 
 ### Problem: Missing Key Information
@@ -254,8 +248,7 @@ Write a project proposal. You MUST include all of:
 ☐ Top 3 risks and mitigations
 
 Confirm each item is addressed in your response.
-```
-
+```text
 ---
 
 ## Step 4: Know When to Stop
@@ -303,8 +296,7 @@ What this prompt is for
 ### The Prompt
 ```text
 [Your refined prompt here]
-```
-
+```text
 ### Variables
 - `[VARIABLE]`: What to replace it with
 
@@ -316,8 +308,7 @@ What this prompt is for
 ### Tips
 - Works best when...
 - Avoid using with...
-```
-
+```text
 ---
 
 ## Practice: Live Iteration Exercise
@@ -328,8 +319,7 @@ Let's iterate on a real prompt together.
 
 ```text
 Help me write better code.
-```
-
+```text
 ### Iteration 1: Add Context
 
 What's wrong: Too vague, no context
@@ -337,8 +327,7 @@ What's wrong: Too vague, no context
 ```text
 Help me write better Python code. I'm a mid-level 
 developer working on a Django web application.
-```
-
+```text
 ### Iteration 2: Add Specific Task
 
 What's wrong: Still unclear what "better" means
@@ -349,8 +338,7 @@ for readability and performance. I'm a mid-level
 developer working on a Django web application.
 
 [function code here]
-```
-
+```text
 ### Iteration 3: Add Format
 
 What's wrong: Output might be unstructured
@@ -366,8 +354,7 @@ Format your response as:
 3. **Priority** (what to fix first)
 
 [function code here]
-```
-
+```text
 ### Iteration 4: Add Constraints
 
 Final refinement for consistency:
@@ -386,8 +373,7 @@ Focus on: readability, performance, Django best practices
 Ignore: minor style issues that linters would catch
 
 [function code here]
-```
-
+```text
 ---
 
 ## Common Iteration Patterns
@@ -400,8 +386,7 @@ V2: "Explain supervised learning"
 V3: "Explain how decision trees work for classification"
 V4: "Explain decision tree classification in 3 paragraphs 
      for a developer with no ML background"
-```
-
+```text
 ### Pattern 2: Increase Structure
 
 ```text
@@ -413,8 +398,7 @@ V4: "Analyze this sales data:
      - Summary: 2 sentences
      - Key Insights: exactly 3, with supporting numbers
      - Actions: 2 specific recommendations with expected impact"
-```
-
+```text
 ### Pattern 3: Add Expertise
 
 ```text
@@ -425,8 +409,7 @@ V4: "As a senior security engineer specializing in web
      applications, review this code for OWASP Top 10 
      vulnerabilities. For each issue found, provide:
      severity, location, and remediation."
-```
-
+```text
 ---
 
 ## What You Learned

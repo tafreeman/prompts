@@ -94,8 +94,7 @@ Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
-```
-
+```text
 ## Example
 
 ### Building a Research Agent
@@ -158,11 +157,10 @@ result = agent_executor.invoke({
 })
 
 print(result["output"])
-```
-
+```text
 ### Expected Agent Flow
 
-```
+```powershell
 Thought: I need to get Apple's stock price first, then search for analyst opinions.
 Action: StockPrice
 Action Input: AAPL
@@ -175,8 +173,7 @@ Observation: Search results for: Apple stock analyst opinions 2025
 
 Thought: I now have both pieces of information.
 Final Answer: Apple's current stock price is $150.25. Analysts are generally bullish...
-```
-
+```text
 ## Usage
 
 ### When to Use Agents
@@ -219,8 +216,7 @@ class SQLQueryTool(BaseTool):
 
 # Add to tools list
 tools.append(SQLQueryTool())
-```
-
+```sql
 ## Best Practices
 
 1. **Limit Tools**: 5-7 tools max. Too many confuses the agent.

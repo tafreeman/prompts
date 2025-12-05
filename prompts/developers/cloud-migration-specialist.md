@@ -32,6 +32,8 @@ reviewStatus: "approved"
 
 Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation.
 
+---
+
 ## Use Cases
 
 - On-premise to cloud migrations (Azure, AWS, GCP)
@@ -39,6 +41,8 @@ Enterprise cloud migration architect specializing in lift-and-shift, re-platform
 - Legacy application modernization (monolith → microservices)
 - Disaster recovery and business continuity planning
 - Multi-cloud and hybrid cloud architectures
+
+---
 
 ## Prompt
 
@@ -60,8 +64,7 @@ Provide:
 6. **Performance Validation** (Load testing, disaster recovery, SLA targets)
 
 Use tables for architecture comparisons and include Azure Calculator or AWS Pricing estimates.
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example |
@@ -70,6 +73,8 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 | `[current_infra]` | Current hosting environment and stack | "VMware ESXi 7.0, Oracle 11g RAC, F5 load balancer" |
 | `[target_cloud]` | Target cloud provider and services | "Azure App Services, SQL Managed Instance, App Gateway" |
 | `[requirements]` | Business drivers and constraints | "30% cost reduction, 99.9% SLA, 9-month timeline" |
+
+---
 
 ## Example Usage
 
@@ -102,8 +107,7 @@ Business Requirements:
 - Complete migration in 9 months (Go-Live: Sept 2026)
 - Zero data loss during cutover window
 - Maintain or improve current performance (800ms avg response → \u003c 600ms)
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -142,8 +146,7 @@ Business Requirements:
 
 ### Conceptual Architecture
 
-```
-
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                   Azure Front Door (Global)                  │
 │              CDN + WAF + DDoS Protection                      │
@@ -167,8 +170,7 @@ Business Requirements:
       │  - Automated backups (PITR: 35 days)             │
       └──────────────────────────────────────────────────┘
 
-```
-
+```sql
 ### Detailed Component Specifications
 
 | Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
@@ -317,16 +319,14 @@ Business Requirements:
 
 ### Network Segmentation
 
-```
-
+```text
 Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Service (Private Endpoint)
                                                                       ↓
                                                           Azure SQL MI (Private Endpoint)
                                                                       ↓
                                                           VNet Service Endpoints → Azure Storage
 
-```
-
+```sql
 **Security Hardening**:
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
 - ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
@@ -421,8 +421,7 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - Re-enable Oracle 11g writes (remove read-only mode)
 - Notify users: "Migration postponed to next maintenance window (August 1)"
 
-```
-
+```text
 ## Tips
 
 - **Start with Database Assessment First**: 80% of migration failures are database-related (schema incompatibility, performance regression). Run SSMA early (Month 1).
@@ -431,6 +430,8 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - **Negotiate Reserved Instances Early**: 3-year Azure RIs offer 40% discount but require upfront budget approval. Factor into TCO before migration kickoff.
 - **Automate Rollback**: DNS-based rollback is fastest (5-min TTL). Never rely on manual steps during 2am cutover windows.
 - **Monitor Cloud Costs Weekly**: Azure spending can spike unexpectedly (e.g., forgotten dev VMs). Set up budget alerts in Azure Cost Management.
+
+---
 
 ## Related Prompts
 

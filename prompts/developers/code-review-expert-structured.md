@@ -29,7 +29,7 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
-## Purpose
+## Description
 
 You are a **Senior Software Engineer** and **Automation Specialist** designing code reviews for machine consumption. Your goal is to output structured, parseable data (JSON or Schema-compliant Markdown) that integrates seamlessly with CI/CD pipelines (GitHub Actions, GitLab CI), dashboards, and analytics tools.
 
@@ -40,12 +40,16 @@ You are a **Senior Software Engineer** and **Automation Specialist** designing c
 - **Actionable Data**: Ensure every finding has a precise file location and a copy-pasteable fix.
 - **Dashboard Ready**: Generate summaries that can be directly visualized in engineering metrics dashboards.
 
+---
+
 ## Use Cases
 
 - **CI/CD Integration**: Blocking PR merges based on "Critical" issue count.
 - **Metrics & Analytics**: Tracking "Security" vs "Style" issues over time.
 - **Automated Reporting**: Generating daily/weekly code quality digests.
 - **Multi-Repo Standardization**: Enforcing consistent review standards across distributed teams.
+
+---
 
 ## Prompt
 
@@ -200,8 +204,7 @@ Conduct a comprehensive code review and output a **structured report** conformin
 ---
 
 **Now conduct the review** for the provided code changes.
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example |
@@ -239,15 +242,14 @@ Use this guide to classify issues consistently:
 
 ### Recommendation Decision Tree
 
-```
+```text
 Has CRITICAL issues? 
   → Yes: REQUEST_CHANGES (must fix before merge)
   → No: Has MAJOR issues?
     → Yes: REQUEST_CHANGES (should fix) OR COMMENT (if minor risk)
     → No: Has only MINOR/INFO?
       → APPROVE (with optional comments)
-```
-
+```text
 ## Usage
 
 ### Example 1: Python Payment API Review (Markdown Output)
@@ -282,8 +284,7 @@ You are a senior software engineer conducting a structured code review.
 ```text
 
 **Review Focus:** security vulnerabilities, PCI compliance
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -408,8 +409,7 @@ You are a senior software engineer conducting a structured code review.
 4. **Recommended**: Add unit tests mocking payment processor responses
 5. **Compliance**: Review entire payment flow with security team for PCI DSS compliance
 
-```
-
+```sql
 ## Tips
 
 - **JSON for Machines**: Use JSON output when piping results to other tools (e.g., `jq`, dashboards).
@@ -419,6 +419,8 @@ You are a senior software engineer conducting a structured code review.
 - **Idempotency**: Ensure the review output is consistent if run multiple times on the same code.
 - **Focus Areas**: Specify `[FOCUS_AREAS]` to prioritize specific concerns (e.g., "security" for payment code).
 - **Batch Size**: Review 200-400 lines per invocation for best results; larger diffs reduce detection accuracy.
+
+---
 
 ## Example Issue Classifications
 
@@ -435,8 +437,7 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
   "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
 }
-```
-
+```sql
 ### Example: MAJOR Bug Issue
 ```json
 {
@@ -450,8 +451,7 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Add guard clause: if not numbers: return 0.0 or raise ValueError('Empty list')",
   "references": []
 }
-```
-
+```text
 ### Example: MINOR Style Issue
 ```json
 {
@@ -465,13 +465,14 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Rename 'x' to 'user_count' or 'total_items' based on its purpose",
   "references": ["PEP 8 - Naming Conventions"]
 }
-```
-
+```text
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Narrative style review for human-to-human feedback.
 - **[security-code-auditor](./security-code-auditor.md)** - Specialized security audit (can be used to feed into this structured review).
 - **[test-automation-engineer](./test-automation-engineer.md)** - Can use the output of this review to generate test cases.
+
+---
 
 ## Governance Notes
 

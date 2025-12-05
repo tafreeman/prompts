@@ -46,8 +46,7 @@ Quick-reference patterns and templates for common prompting tasks. Print this pa
 [FORMAT] Provide your response as [format specification].
 
 [CONSTRAINTS] Important: [limitations, requirements, things to avoid].
-```
-
+```text
 ---
 
 ## Quick Patterns
@@ -56,8 +55,7 @@ Quick-reference patterns and templates for common prompting tasks. Print this pa
 
 ```text
 You are an experienced [role] who specializes in [specialty].
-```
-
+```text
 **Examples:**
 - `You are an experienced software architect who specializes in microservices.`
 - `You are a technical writer who excels at making complex topics accessible.`
@@ -70,8 +68,7 @@ Format your response as:
 - [format type]
 - [length constraint]
 - [structure requirements]
-```
-
+```text
 **Examples:**
 - `Format as a numbered list with no more than 5 items.`
 - `Return valid JSON with keys: summary, recommendations, priority.`
@@ -84,8 +81,7 @@ Important constraints:
 - [must include]
 - [must avoid]
 - [scope limitation]
-```
-
+```text
 **Examples:**
 - `Use only Python standard library, no external packages.`
 - `Do not include any deprecated APIs.`
@@ -106,15 +102,13 @@ Review this code for:
 Code:
 ```[language]
 [code here]
-```
-
+```text
 For each issue found, provide:
 - Location (line/section)
 - Severity (high/medium/low)
 - Explanation
 - Suggested fix
-```
-
+```text
 ### Explain Code
 
 ```text
@@ -122,23 +116,20 @@ Explain this code as if teaching a [junior/senior] developer:
 
 ```[language]
 [code here]
-```
-
+```yaml
 Include:
 - What it does (high-level purpose)
 - How it works (step by step)
 - Why key decisions were made
 - Potential gotchas or edge cases
-```
-
+```text
 ### Debug Assistance
 
 ```text
 I'm experiencing this error:
-```
+```text
 [error message]
-```
-
+```yaml
 Context:
 - Language/Framework: [tech stack]
 - What I was trying to do: [action]
@@ -149,8 +140,7 @@ Help me:
 1. Understand why this error occurs
 2. Identify the root cause in my code
 3. Provide a fix with explanation
-```
-
+```text
 ### Generate Tests
 
 ```text
@@ -158,15 +148,13 @@ Generate [unit/integration] tests for this code:
 
 ```[language]
 [code here]
-```
-
+```yaml
 Requirements:
 - Use [testing framework]
 - Cover happy path and edge cases
 - Include descriptive test names
 - Add comments explaining each test's purpose
-```
-
+```text
 ### Write Documentation
 
 ```text
@@ -174,16 +162,14 @@ Write documentation for this [function/class/API]:
 
 ```[language]
 [code here]
-```
-
+```yaml
 Include:
 - Brief description
 - Parameters with types and descriptions
 - Return value
 - Example usage
 - Edge cases or limitations
-```
-
+```text
 ### Summarize Content
 
 ```text
@@ -196,8 +182,7 @@ Format:
 - Key points (bullet list, max 5)
 - Action items (if any)
 - Questions or concerns raised
-```
-
+```text
 ### Draft Communication
 
 ```text
@@ -212,8 +197,7 @@ Key points to include:
 Constraints:
 - Maximum [X] sentences
 - [any specific requirements]
-```
-
+```text
 ---
 
 ## Advanced Patterns
@@ -231,8 +215,7 @@ For each step:
 3. Note any assumptions
 
 Then provide your final answer.
-```
-
+```text
 ### Few-Shot Learning
 
 ```text
@@ -247,8 +230,7 @@ Output: [example 2 output]
 Now process this:
 Input: [actual input]
 Output:
-```
-
+```text
 ### Self-Critique
 
 ```text
@@ -256,8 +238,7 @@ After providing your response:
 1. List potential weaknesses or gaps
 2. Rate your confidence (high/medium/low)
 3. Suggest what additional information would improve the answer
-```
-
+```text
 ### Structured Analysis
 
 ```text
@@ -268,8 +249,7 @@ Analyze [topic/situation] using this framework:
 3. **Gap Analysis**: What's the difference?
 4. **Options**: What are possible approaches?
 5. **Recommendation**: What do you suggest and why?
-```
-
+```text
 ---
 
 ## Format Specifiers

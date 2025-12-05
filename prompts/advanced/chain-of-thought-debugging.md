@@ -75,6 +75,8 @@ Use this prompt when debugging production issues, investigating test failures, a
 
 All reasoning steps must be visible in the output.
 
+---
+
 ## Output Requirements
 
 Structured Markdown with the following sections:
@@ -89,6 +91,8 @@ Structured Markdown with the following sections:
 
 See `docs/domain-schemas.md` for additional schema options.
 
+---
+
 ## Use Cases
 
 - Debugging intermittent production issues with limited reproduction steps
@@ -96,6 +100,8 @@ See `docs/domain-schemas.md` for additional schema options.
 - Investigating performance regressions (memory leaks, slowdowns)
 - Analyzing security vulnerabilities or unexpected behaviors
 - Postmortem analysis for incidents with unclear causes
+
+---
 
 ## Prompt
 
@@ -107,8 +113,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** [BUG_DESCRIPTION]
 
 **Error Message:**
-```
-
+```text
 [ERROR_MESSAGE_OR_STACK_TRACE]
 
 ```text
@@ -238,8 +243,7 @@ List steps to verify the fix works:
 2. [step 2]
 3. [step 3]
 
-```
-
+```text
 ## Variables
 
 - `[BUG_DESCRIPTION]`: High-level description of the bug (e.g., "User login fails intermittently")
@@ -253,6 +257,8 @@ List steps to verify the fix works:
 - `[LANGUAGE]`: Programming language
 - `[CODE_SNIPPET]`: Relevant code (function, class, or module)
 - `[LOGS_TELEMETRY_OR_OTHER_INFO]`: Additional diagnostic information
+
+---
 
 ## Example Usage
 
@@ -268,8 +274,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 
-```
-
+```yaml
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
@@ -322,8 +327,7 @@ async function authenticate(req, res, next) {
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
 
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -416,8 +420,7 @@ async function verifyToken(token) {
 4. Deploy to production and monitor error rates for 24 hours
 5. Verify authentication error rate drops to <0.01%
 
-```
-
+```text
 ## Tips
 
 - **Start broad, narrow down:** Generate multiple hypotheses, then prioritize and test systematically
@@ -428,12 +431,14 @@ async function verifyToken(token) {
 - **Always include regression tests:** Prevent the bug from recurring
 - **Document reasoning:** Visible CoT reasoning helps others learn and validates your logic
 
+---
+
 ## Related Prompts
 
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance debugging
-- [Reflection: Code Review Self-Check](../developers/reflection-code-review-self-check.md) - For validating fixes
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For complex system issues
-- [ReAct: Codebase Navigator](react-codebase-navigator.md) - For exploring unfamiliar code
+
+---
 
 ## Governance Notes
 

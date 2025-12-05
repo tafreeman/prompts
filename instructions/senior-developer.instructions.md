@@ -54,11 +54,10 @@ description: Advanced guidance for senior developers focusing on system design, 
 
 ✅ **Prompt to use:**
 
-```
+```text
 Generate an ADR for choosing between monolithic vs microservices architecture
 for a DoD enterprise application with 50K users and strict compliance requirements.
-```
-
+```text
 ✅ **Expected output structure:**
 
 ```markdown
@@ -83,8 +82,7 @@ Adopt modular monolith with clear bounded contexts, deferring microservices unti
 - Positive: Simplified deployment, single security boundary, faster initial delivery
 - Negative: Requires disciplined module boundaries to enable future decomposition
 - Mitigation: Enforce dependency rules via ArchUnit tests
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT recommend cutting-edge or unproven technologies for DoD production systems without a pilot program and risk assessment.
