@@ -23,6 +23,11 @@ reviewStatus: "approved"
 
 # Enterprise AI Prompt Library
 
+![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
+![Prompts](https://img.shields.io/badge/Prompts-165%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Platforms](https://img.shields.io/badge/Platforms-Claude%20%7C%20GPT%20%7C%20Copilot-blueviolet)
+
 A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
 Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):

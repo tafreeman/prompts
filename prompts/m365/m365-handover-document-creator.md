@@ -41,6 +41,9 @@ To create a structured, easy-to-read handover document that allows a successor t
 - **Key Contacts**: [key_contacts]
 - **File Locations**: [file_locations]
 
+
+---
+
 ## Prompt
 
 You are an expert in Knowledge Management and Business Continuity. I am preparing a handover document for my successor.
@@ -61,6 +64,9 @@ Please generate a formal **Handover Document** that includes:
 4. **Stakeholder Map**: Who to contact for what (based on [key_contacts]).
 5. **Resource Library**: Links to the [file_locations] and other critical tools.
 
+
+---
+
 ## Variables
 
 - `[role_name]`: The job title or project being handed over.
@@ -68,6 +74,9 @@ Please generate a formal **Handover Document** that includes:
 - `[outstanding_tasks]`: Things that are currently in flight or need immediate attention.
 - `[key_contacts]`: Names and roles of people the successor needs to know.
 - `[file_locations]`: Paths to SharePoint sites, Teams channels, or shared drives.
+
+
+---
 
 ## Example Usage
 
@@ -106,10 +115,16 @@ Lead responsibility for the Q3 campaign, focusing on agency management, content 
 - **Project Files**: Teams Channel 'Marketing Q3'
 - **Financials**: SharePoint/Budget/Invoices
 
+
+---
+
 ## Tips
 
 - Use this output as the body of a OneNote page or a Word document.
 - Add a "Passwords/Access" section manually if relevant (but never put actual passwords in the prompt!).
+
+
+---
 
 ## Related Prompts
 

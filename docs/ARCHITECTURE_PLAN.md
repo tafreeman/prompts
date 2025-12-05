@@ -16,7 +16,7 @@ This document consolidates the repository's evaluation, testing, and webapp arch
 ### Implementation Status
 
 | Area | Status | Notes |
-|------|--------|-------|
+| :--- |--------| :--- |
 | **Repository Cleanup** | ✅ Complete | Tools and docs archived Dec 4, 2025 |
 | **Evaluation Tooling** | ✅ Complete | `dual_eval.py` with 116 tests |
 | **Testing Infrastructure** | ✅ Complete | `conftest.py`, validators added |
@@ -26,7 +26,7 @@ This document consolidates the repository's evaluation, testing, and webapp arch
 ### Key Decisions
 
 | Area | Current State | Target State | Rationale |
-|------|---------------|--------------|-----------|
+| :--- |---------------| :--- |-----------|
 | **Evaluation** | ~~4+ overlapping tools~~ | ✅ Single `dual_eval.py` | Completed Dec 4, 2025 |
 | **Testing** | ~~Complex framework~~ | ✅ Simplified pytest | 116 tests passing |
 | **Webapp** | Azure SWA + Cosmos DB design | Keep design, implement Phase 1 | Solid architecture, needs execution |
@@ -41,7 +41,7 @@ This document consolidates the repository's evaluation, testing, and webapp arch
 Moved to `docs/archive/2025-12-04/`:
 
 | File | Reason |
-|------|--------|
+| :--- |--------|
 | `docs/REFACTOR_TODO.md` | ✅ All phases marked complete |
 | `docs/UNIFIED_REFACTOR_GUIDE_REACT.md` | ✅ Refactor complete |
 | `docs/IMPROVEMENT_PLAN.md` | ✅ Marked "COMPLETED" |
@@ -52,7 +52,7 @@ Moved to `docs/archive/2025-12-04/`:
 Moved to `tools/archive/`:
 
 | Tool | Reason |
-|------|--------|
+| :--- |--------|
 | `evaluation_agent.py` | Superseded by dual_eval.py |
 | `evaluate_library.py` | Different approach, not API-based |
 | `improve_prompts.py` | Redundant with eval outputs |
@@ -62,7 +62,7 @@ Moved to `tools/archive/`:
 ### Files Kept (Active)
 
 | File | Purpose |
-|------|---------|
+| :--- |---------|
 | `docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md` | Core reference (8-dimension rubric) |
 | `docs/CONSOLIDATED_IMPROVEMENT_PLAN.md` | **NEW** - Master task list |
 | `docs/prompt-authorship-guide.md` | Active guidance |
@@ -112,7 +112,7 @@ Moved to `tools/archive/`:
 From `COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md`:
 
 | Dimension | Weight | Description | Pass Threshold |
-|-----------|--------|-------------|----------------|
+| :--- |--------| :--- |----------------|
 | **Clarity** | 12.5% | Unambiguous, easy to understand | ≥7.0 |
 | **Specificity** | 12.5% | Concrete, actionable instructions | ≥7.0 |
 | **Actionability** | 12.5% | Clear steps to achieve goal | ≥7.0 |
@@ -205,7 +205,7 @@ testing/
 ### Test Categories
 
 | Category | Purpose | Example |
-|----------|---------|---------|
+| :--- |---------| :--- |
 | **Unit** | Test individual functions | `test_parse_prompt_file()` |
 | **Integration** | Test tool workflows | `test_full_eval_pipeline()` |
 | **Validation** | Test prompt schema | `test_frontmatter_required_fields()` |
@@ -277,7 +277,7 @@ graph TD
 ### Components
 
 | Component | Technology | Purpose |
-|-----------|------------|---------|
+| :--- |------------| :--- |
 | **Frontend** | Next.js (App Router) | Static site with dynamic features |
 | **Hosting** | Azure Static Web Apps | Global CDN, Easy Auth |
 | **Database** | Cosmos DB for MongoDB | Prompt storage, search |

@@ -29,9 +29,15 @@ framework_compatibility:
 ---
 # SQL Query Analyzer
 
+
+---
+
 ## Description
 
 A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
+
+
+---
 
 ## Use Cases
 
@@ -39,6 +45,9 @@ A database expert that analyzes SQL queries for performance bottlenecks, securit
 - Reviewing database migrations
 - Identifying missing indexes
 - Detecting SQL injection vulnerabilities in dynamic SQL
+
+
+---
 
 ## Prompt
 
@@ -64,13 +73,18 @@ Output Format:
 - **Findings**: Bulleted list of issues (Critical/Major/Minor).
 - **Optimized Query**: Rewritten SQL.
 - **Index Recommendations**: Suggested indexes to support the query.
-```
+```text
+
+---
 
 ## Variables
 
 - `[sql_query]`: The raw SQL to analyze.
 - `[schema_context]`: Table definitions, existing indexes, or row counts (helps with execution plan estimation).
 - `[engine]`: Target DB (SQL Server, PostgreSQL, MySQL, Oracle).
+
+
+---
 
 ## Example Usage
 
@@ -80,8 +94,7 @@ Output Format:
 Engine: SQL Server
 Query:
 SELECT * FROM Orders WHERE YEAR(OrderDate) = 2024 AND CustomerName LIKE '%Corp%'
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -108,8 +121,7 @@ FROM Orders
 WHERE OrderDate >= '2024-01-01' 
   AND OrderDate < '2025-01-01'
   AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
-```
-
+```text
 ## Index Recommendations
 
 ```sql
@@ -117,9 +129,10 @@ WHERE OrderDate >= '2024-01-01'
 CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
 ON Orders (OrderDate) 
 INCLUDE (CustomerName, TotalAmount);
-```
+```text
+```text
 
-```
+---
 
 ## Tips
 
@@ -127,7 +140,9 @@ INCLUDE (CustomerName, TotalAmount);
 - Provide **Row Counts** if possible (e.g., "Orders table has 10M rows")—this changes the advice significantly.
 - If using ORMs (EF Core), paste the *generated* SQL here for analysis.
 
+
+---
+
 ## Related Prompts
 
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
-- [data-migration-architect](./data-migration-architect.md)

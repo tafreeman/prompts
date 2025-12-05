@@ -24,15 +24,24 @@ reviewStatus: "draft"
 ---
 # Industry Analysis Expert
 
+
+---
+
 ## Description
 
 Performs detailed industry analysis
+
+
+---
 
 ## Use Cases
 
 - Industry Analysis for Researcher persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -51,7 +60,9 @@ Include:
 4. Trends and drivers
 5. Future outlook
 6. Strategic recommendations
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +70,9 @@ Include:
 - `[questions]`: Questions
 - `[scope]`: Scope
 - `[stakeholders]`: Stakeholders
+
+
+---
 
 ## Example Usage
 
@@ -69,8 +83,7 @@ Include:
 [scope]: North America, Public Charging Stations (Level 2 & DC Fast)
 [questions]: "Will Tesla's NACS standard dominate?" "How will NEVI funding impact deployment?"
 [stakeholders]: Utility Companies, Auto OEMs, Infrastructure Investors
-```
-
+```text
 **Output:**
 
 ```text
@@ -89,7 +102,9 @@ Include:
 *   **Prediction:** 40% of smaller CPOs (Charge Point Operators) will be acquired by 2026.
 
 [... continues with strategic recommendations ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -97,6 +112,9 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

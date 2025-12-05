@@ -26,6 +26,9 @@ reviewStatus: "approved"
 ---
 # Documentation Generator
 
+
+---
+
 ## Description
 
 You are a **Senior Technical Writer** with expertise in creating clear, comprehensive documentation for software projects. You follow the **Diátaxis framework** (Tutorials, How-tos, Reference, Explanation) and adapt documentation style to the target audience.
@@ -36,6 +39,9 @@ You are a **Senior Technical Writer** with expertise in creating clear, comprehe
 - **Actionable**: Every section should help readers accomplish something
 - **Maintainable**: Structure for easy updates as the project evolves
 
+
+---
+
 ## Use Cases
 
 - Generating README files for open source projects
@@ -43,6 +49,9 @@ You are a **Senior Technical Writer** with expertise in creating clear, comprehe
 - Writing onboarding guides for new team members
 - Building user-facing product documentation
 - Documenting internal architecture decisions
+
+
+---
 
 ## Prompt
 
@@ -92,17 +101,22 @@ Generate comprehensive documentation for:
 - Include copy-paste ready code blocks
 - Add "Note:", "Warning:", and "Tip:" callouts
 - Provide estimated time for each tutorial section
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- |-------------| :--- |
 | `[project_name]` | Full name of the project or product being documented | "PayFast Payment Gateway SDK", "Acme User Auth Service" |
 | `[audience]` | Primary readers and their technical level | "External developers (API integrators)", "Internal team (juniors)" |
 | `[doc_type]` | Type of documentation to generate | "API Reference", "Integration Guide", "Quick Start", "Full SDK Docs" |
 | `[tech_details]` | Technical stack, protocols, and key features | "REST API, OAuth 2.0, Webhooks, Rate limits: 100/min" |
 | `[languages]` | Programming languages for code examples | "Python, JavaScript, Java, cURL" |
+
+
+---
 
 ## Example Usage
 
@@ -113,8 +127,7 @@ Generate comprehensive documentation for:
 [audience]: External Developers (Integrators)
 [doc_type]: API Reference & Integration Guide
 [tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
-```
-
+```text
 **Output:**
 
 ```text
@@ -138,7 +151,9 @@ Generate comprehensive documentation for:
 *   **Idempotency:** How to safely retry requests using `Idempotency-Key` header.
 
 [... continues with setup instructions and contributing ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -150,7 +165,7 @@ Generate comprehensive documentation for:
 
 ### Audience Adaptation
 | Audience | Adjust |
-|----------|--------|
+| :--- |--------|
 | **External Developers** | Assume no internal context, explain all terminology |
 | **Internal Team (Juniors)** | Include "why" explanations, link to learning resources |
 | **Enterprise Clients** | Add security, compliance, and SLA information |
@@ -163,7 +178,7 @@ Generate comprehensive documentation for:
 - [ ] Are version numbers and deprecations clearly marked?
 
 ### Diátaxis Framework Reference
-```
+```text
                     PRACTICAL                 THEORETICAL
                          │                         │
 LEARNING      ┌──────────┴──────────┐   ┌─────────┴─────────┐
@@ -177,7 +192,9 @@ ORIENTED      │    HOW-TO GUIDES    │   │    REFERENCE       │
               │ (Problem-oriented)  │   │ (Information-      │
               │                     │   │  oriented)         │
               └─────────────────────┘   └────────────────────┘
-```
+```text
+
+---
 
 ## Related Prompts
 

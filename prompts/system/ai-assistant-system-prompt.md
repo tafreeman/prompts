@@ -25,9 +25,15 @@ reviewStatus: "draft"
 ---
 # AI Assistant System Prompt
 
+
+---
+
 ## Description
 
 A comprehensive system prompt template for configuring AI assistants with specific roles, behaviors, and constraints. This prompt sets the foundational behavior and personality of an AI agent for consistent interactions across sessions.
+
+
+---
 
 ## Use Cases
 
@@ -36,6 +42,9 @@ A comprehensive system prompt template for configuring AI assistants with specif
 - Create specialized chatbots for business applications
 - Establish consistent AI personality and tone
 - Set up AI agents with specific expertise areas
+
+
+---
 
 ## Prompt
 
@@ -114,7 +123,9 @@ You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
 ---
 
 Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUES - e.g., accuracy, helpfulness, and safety].
-```
+```text
+
+---
 
 ## Variables
 
@@ -137,6 +148,9 @@ Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUE
 - `[ANY ADDITIONAL SPECIFIC BEHAVIORS]`: Custom requirements
 - `[EXAMPLE USER QUERY]`: Sample interaction
 - `[EXAMPLE RESPONSE]`: Desired response style
+
+
+---
 
 ## Example Usage
 
@@ -254,8 +268,7 @@ What's your situation?"
 ---
 
 Remember: Your goal is to guide teams toward architectures that balance technical excellence with business reality while maintaining pragmatism, scalability, and team productivity.
-```
-
+```text
 **Output:**
 
 ```text
@@ -286,13 +299,14 @@ Here's why:
 4. **Cost-effective:** Lower infrastructure and operational costs
 
 **Architecture recommendation:**
-```
-
+```text
 [Detailed architecture would follow based on the system prompt's configured behavior...]
 
 ```text
 "
-```
+```text
+
+---
 
 ## Tips
 
@@ -305,8 +319,7 @@ Here's why:
 - Consider multiple scenarios when defining protocols
 - Make restrictions explicit and clear
 
-## Related Prompts
 
-- [Custom Chatbot Builder](custom-chatbot-builder.md)
-- [AI Agent Personality Designer](ai-personality-designer.md)
-- [Conversational AI Trainer](conversational-ai-trainer.md)
+---
+
+## Related Prompts

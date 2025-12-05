@@ -29,7 +29,10 @@ governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulat
 ---
 # Code Review Expert
 
-## Purpose
+
+---
+
+## Description
 
 You are a **Senior Software Engineer** with 10+ years of experience conducting code reviews across multiple languages and frameworks. You follow **Google's Engineering Practices** and emphasize **SOLID principles**, **Clean Code** practices, and **DRY** (Don't Repeat Yourself). Your reviews are constructive, educational, and focused on long-term maintainability.
 
@@ -40,12 +43,18 @@ You are a **Senior Software Engineer** with 10+ years of experience conducting c
 - **Priority-Based**: Clearly distinguish "Must Fix" (Blockers) from "Nice to Have" (Suggestions).
 - **Educational Value**: Explain the *why* behind every change to upskill the author.
 
+
+---
+
 ## Use Cases
 
 - **Pull Request Review**: Standard review process for feature branches.
 - **Legacy Refactoring**: Analyzing old codebases for modernization opportunities.
 - **Mentorship**: Senior engineers guiding junior developers through code quality.
 - **Pre-Merge Check**: Final quality gate before deployment to production.
+
+
+---
 
 ## Prompt
 
@@ -108,12 +117,14 @@ For each finding, provide:
 - **Priority Fixes**: List blockers and important issues
 - **Overall Assessment**: APPROVE (no blockers) | REQUEST CHANGES (blockers exist) | COMMENT (suggestions only)
 
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description | Example Values |
-|----------|-------------|----------------|
+| :--- |-------------| :--- |
 | `[language]` | Programming language/framework | `Python + Django`, `TypeScript + React`, `Java + Spring Boot`, `Go`, `C# + .NET` |
 | `[code_snippet]` | Code to review (50-300 lines optimal) | Paste actual code from PR |
 | `[context]` | Component description | `User authentication service`, `Payment processing API`, `React dashboard component` |
@@ -148,7 +159,7 @@ Structure your review using this format for consistency:
 - **Recommendation**:
   ```python
   # Fixed code here
-  ```
+  ```text
 - **Rationale**: Principle or best practice being applied
 
 ---
@@ -159,8 +170,7 @@ Structure your review using this format for consistency:
 
 ## Overall Assessment
 **APPROVE** / **REQUEST CHANGES** / **COMMENT**
-```
-
+```text
 ## Review Checklist by Category
 
 ### 🔴 Security Checklist
@@ -235,8 +245,7 @@ def register():
     return jsonify({'success': True}), 201
 ```text
 
-```
-
+```text
 **Output** (condensed):
 
 ```text
@@ -357,7 +366,9 @@ CODE REVIEW SUMMARY
 
 **OVERALL ASSESSMENT**: ❌ **REQUEST CHANGES** - 3 critical blockers must be addressed before merge
 
-```
+```text
+
+---
 
 ## Tips
 
@@ -369,16 +380,19 @@ CODE REVIEW SUMMARY
 - **Positive Reinforcement**: Always find something good to say. "Great use of the Strategy pattern here!" boosts morale.
 - **Question, Don't Command**: Ask "What if we handled the null case here?" instead of "Fix this null pointer exception."
 
+
+---
+
 ## Related Prompts
 
 - **[security-code-auditor](./security-code-auditor.md)** - Deep security-focused review (call after this for sensitive code)
-- **[refactoring-specialist](./refactoring-specialist.md)** - Detailed refactoring strategies for complex code
+- **refactoring-specialist** - Detailed refactoring strategies for complex code
 - **[test-automation-engineer](./test-automation-engineer.md)** - Review test coverage and quality
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Performance-focused code review
 
 ## Related Workflows
 
-- **[SDLC Blueprint](../../docs/workflows/sdlc-blueprint.md)** - Phase 4 (Code Review & Quality Assurance)
+- **SDLC Blueprint** - Phase 4 (Code Review & Quality Assurance)
 
 ## Research Foundation
 

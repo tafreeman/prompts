@@ -41,6 +41,9 @@ To create a visually rich, easy-to-read newsletter structure that looks great on
 - **Upcoming Events**: [events]
 - **Team Shoutouts**: [shoutouts]
 
+
+---
+
 ## Prompt
 
 You are an Internal Communications Specialist. I need to create this week's team newsletter in Microsoft Sway.
@@ -62,6 +65,9 @@ Please design the **Sway Structure** for this newsletter:
 
 For each section, provide the **exact text** to paste and a **visual description** for the images I should find.
 
+
+---
+
 ## Variables
 
 - `[newsletter_title]`: e.g., "The Weekly Pulse - Nov 18".
@@ -69,6 +75,9 @@ For each section, provide the **exact text** to paste and a **visual description
 - `[quick_updates]`: Bullet points of smaller news items.
 - `[events]`: Dates and times of upcoming meetings/socials.
 - `[shoutouts]`: Recognition for specific team members.
+
+
+---
 
 ## Example Usage
 
@@ -113,10 +122,16 @@ For each section, provide the **exact text** to paste and a **visual description
 - **Image Card**: Photo of Sarah (or a "Thank You" graphic).
   - **Caption**: "Big thanks to **Sarah** for the late-night effort on the migration!"
 
+
+---
+
 ## Tips
 
 - In Sway, use the "Design" tab to apply a "Style" that matches your company brand (e.g., specific fonts/colors).
 - The "Grid Group" is perfect for 3-4 small items of equal importance.
+
+
+---
 
 ## Related Prompts
 

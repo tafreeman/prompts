@@ -24,9 +24,15 @@ reviewStatus: "draft"
 ---
 # Pitch Deck Generator
 
+
+---
+
 ## Description
 
 Create structured, persuasive pitch deck content for investor meetings, sales presentations, and business proposals. Generates slide-by-slide content with key messaging, data points, and visual recommendations.
+
+
+---
 
 ## Use Cases
 
@@ -35,6 +41,9 @@ Create structured, persuasive pitch deck content for investor meetings, sales pr
 - Internal business case presentations to leadership
 - Product launch presentations to stakeholders
 - Partnership proposal decks
+
+
+---
 
 ## Prompt
 
@@ -80,7 +89,9 @@ Generate a complete pitch deck with:
    - Call to action
 
 Format output as a structured deck outline with clear slide separators.
-```
+```text
+
+---
 
 ## Variables
 
@@ -90,6 +101,9 @@ Format output as a structured deck outline with clear slide separators.
 - `[value_prop]`: Core value proposition in one sentence
 - `[data_points]`: Key metrics, traction data, market research to include
 - `[ask]`: What you're asking for (e.g., "$5M Series A at $25M pre-money", "Annual contract at $500K ARR")
+
+
+---
 
 ## Example Usage
 
@@ -106,8 +120,7 @@ Supporting Data:
 - NPS: 72
 - Average contract value: $48K/year
 Ask: $8M Series A at $40M pre-money valuation
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -244,7 +257,7 @@ Ask: $8M Series A at $40M pre-money valuation
 **Headline**: Path to $50M ARR by 2027
 
 | Metric | 2025 | 2026 | 2027 |
-|--------|------|------|------|
+| :--- |------| :--- |------|
 | ARR | $2.1M | $8M | $25M |
 | Customers | 45 | 150 | 400 |
 | Gross Margin | 78% | 82% | 85% |
@@ -300,7 +313,9 @@ Ask: $8M Series A at $40M pre-money valuation
 - Technical architecture diagram
 - Full financials and unit economics
 - Team bios with LinkedIn links
-```
+```text
+
+---
 
 ## Tips
 
@@ -309,6 +324,9 @@ Ask: $8M Series A at $40M pre-money valuation
 - Keep slides visual - no more than 4 bullets, let speaker notes carry the story
 - Practice the 10-minute version - most investor meetings run short on time
 - Have backup slides ready for deep-dive questions on financials, competition, and tech
+
+
+---
 
 ## Related Prompts
 

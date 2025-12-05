@@ -24,15 +24,24 @@ reviewStatus: "draft"
 ---
 # Organizational Change Manager
 
+
+---
+
 ## Description
 
 Manages organizational change initiatives
+
+
+---
 
 ## Use Cases
 
 - Change Management for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -51,7 +60,9 @@ Provide:
 4. Training plan
 5. Resistance management
 6. Success measurement
-```
+```text
+
+---
 
 ## Variables
 
@@ -59,6 +70,9 @@ Provide:
 - `[initiative]`: Initiative
 - `[organization]`: Organization
 - `[resistance]`: Resistance
+
+
+---
 
 ## Example Usage
 
@@ -69,8 +83,7 @@ Provide:
 [initiative]: Agile Transformation (Waterfall to Scrum)
 [groups]: Engineering (500 staff), Product Mgmt (50 staff), QA (100 staff)
 [resistance]: Middle management fears loss of control; Senior engineers skeptical of "meetings overhead"
-```
-
+```text
 **Output:**
 
 ```text
@@ -89,7 +102,9 @@ Provide:
 *   **Channels:** Town Halls for vision, "Lunch & Learns" for tactics.
 
 [... continues with training plan and resistance management ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -97,6 +112,9 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

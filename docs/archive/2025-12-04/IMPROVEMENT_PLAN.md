@@ -26,7 +26,7 @@ This improvement plan follows the standards and patterns defined in the Comprehe
 ### Implementation Status (December 2, 2025)
 
 | Priority | Prompts | Status |
-|----------|---------|--------|
+| :--- |---------| :--- |
 | **P1 (Failed)** | 1 prompt | ✅ Fixed |
 | **P2 (7.0-7.9)** | 7 prompts | ✅ Enhanced |
 | **P3 (8.0-8.4)** | 4 prompts | ✅ Minor improvements |
@@ -42,7 +42,7 @@ Analyzing top performers (8.5+ scores), the following patterns emerge:
 These patterns align with the [Seven Components](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#the-seven-components-of-effective-prompts) from our guide:
 
 | Pattern | Guide Component | Example from Top Prompts |
-|---------|-----------------|--------------------------|
+| :--- |-----------------| :--- |
 | **Explicit persona with approach** | **Role** | "You are a **Senior Database Security Engineer**. Your Approach: Zero Trust, Defense in Depth..." |
 | **Numbered standards/principles** | **Constraints** | "1. General Security Principles... 2. Injection Prevention... 3. Least Privilege..." |
 | **Structured output format** | **Format** | "Use this structure: 1. Summary (≤ 3 sentences) 2. Standards-Linked Actions (bullet list)..." |
@@ -56,7 +56,7 @@ These patterns align with the [Seven Components](../../docs/COMPREHENSIVE_PROMPT
 These anti-patterns violate principles from the [Common Mistakes and Fixes](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#common-mistakes-and-fixes) section:
 
 | Anti-Pattern | Violated Principle | Impact |
-|--------------|-------------------|--------|
+| :--- |-------------------| :--- |
 | Vague placeholders without examples | "Missing Examples" anti-pattern | Reduces specificity |
 | Missing output format specification | "Ignoring Output Format" anti-pattern | Reduces consistency |
 | No concrete examples | "Expecting AI to guess output style" | Reduces actionability |
@@ -182,7 +182,7 @@ These anti-patterns violate principles from the [Common Mistakes and Fixes](../.
 These prompts pass well but could be elevated to A-grade using [Advanced Techniques](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#advanced-techniques):
 
 | Prompt | Score | Enhancement Applied | Status |
-|--------|-------|---------------------|--------|
+| :--- |-------| :--- |--------|
 | API Design Consultant | 8.4 | Variables table, updated frontmatter | ✅ |
 | Cloud Migration Specialist | 8.0 | Variables table, updated frontmatter, added platforms | ✅ |
 | C# Refactoring Assistant | 8.0 | Role persona, Variables table, updated frontmatter | ✅ |
@@ -207,7 +207,7 @@ For each variable, add:
 ### Example Values
 
 | Variable | Example 1 | Example 2 |
-|----------|-----------|-----------|
+| :--- |-----------| :--- |
 | `[variable_name]` | Concrete example | Another example |
 ```
 
@@ -324,7 +324,7 @@ Before providing your final output, think through:
 After implementing improvements:
 
 | Metric | Current | Target |
-|--------|---------|--------|
+| :--- |---------| :--- |
 | Pass Rate | 96% (23/24) | 100% (24/24) |
 | Average Score | 8.0/10 | 8.5/10 |
 | Specificity Average | 7.4/10 | 8.0/10 |
@@ -338,15 +338,15 @@ After implementing improvements:
 ### Progress Dashboard
 
 | Prompt | Original | Target | Current | Status |
-|--------|----------|--------|---------|--------|
-| Code Review Expert: Structured Output | 6.5 | 8.0 | - | 🔴 Not Started |
-| Data Pipeline Engineer | 7.25 | 8.0 | - | 🔴 Not Started |
-| Code Review Assistant | 7.3 | 8.0 | - | 🔴 Not Started |
-| Code Review Expert | 7.5 | 8.0 | - | 🔴 Not Started |
-| Documentation Generator | 7.5 | 8.0 | - | 🔴 Not Started |
-| Frontend Architecture Consultant | 7.5 | 8.0 | - | 🔴 Not Started |
-| Microservices Architect | 7.75 | 8.0 | - | 🔴 Not Started |
-| Mobile App Developer | 7.875 | 8.0 | - | 🔴 Not Started |
+| :--- |----------| :--- |---------| :--- |
+| Code Review Expert: Structured Output | 6.5 | 8.0 | :--- | 🔴 Not Started |
+| Data Pipeline Engineer | 7.25 | 8.0 | :--- | 🔴 Not Started |
+| Code Review Assistant | 7.3 | 8.0 | :--- | 🔴 Not Started |
+| Code Review Expert | 7.5 | 8.0 | :--- | 🔴 Not Started |
+| Documentation Generator | 7.5 | 8.0 | :--- | 🔴 Not Started |
+| Frontend Architecture Consultant | 7.5 | 8.0 | :--- | 🔴 Not Started |
+| Microservices Architect | 7.75 | 8.0 | :--- | 🔴 Not Started |
+| Mobile App Developer | 7.875 | 8.0 | :--- | 🔴 Not Started |
 
 ---
 
@@ -364,7 +364,7 @@ After implementing improvements:
 ## Quick Reference: Guide Sections for Common Issues
 
 | Issue | Guide Section to Reference |
-|-------|---------------------------|
+| :--- |---------------------------|
 | Low Specificity | [Examples (Few-Shot)](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#6-examples-few-shot-learning) |
 | Low Completeness | [Format](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#4-format) + [Constraints](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#5-constraints) |
 | Low Clarity | [Task](../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md#3-task) |

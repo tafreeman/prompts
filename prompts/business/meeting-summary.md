@@ -25,9 +25,15 @@ reviewStatus: "draft"
 ---
 # Meeting Summary Generator
 
+
+---
+
 ## Description
 
 Transform meeting notes or transcripts into clear, actionable summaries. Captures key decisions, assigns action items with owners and due dates, and highlights important discussion points.
+
+
+---
 
 ## Use Cases
 
@@ -36,6 +42,9 @@ Transform meeting notes or transcripts into clear, actionable summaries. Capture
 - Creating executive briefings from long meetings
 - Sharing meeting outcomes with absent stakeholders
 - Tracking action items across recurring meetings
+
+
+---
 
 ## Prompt
 
@@ -80,7 +89,9 @@ Generate:
    - Pre-work for next meeting
 
 Keep it concise. Focus on decisions and actions, not who said what.
-```
+```text
+
+---
 
 ## Variables
 
@@ -89,6 +100,9 @@ Keep it concise. Focus on decisions and actions, not who said what.
 - `[attendees]`: Who was present (names and roles)
 - `[purpose]`: Meeting objective or agenda
 - `[notes]`: Raw notes, transcript, or key points from the meeting
+
+
+---
 
 ## Example Usage
 
@@ -112,8 +126,7 @@ Notes:
 - Marcus mentioned tech debt backlog is growing - team morale concern. Sarah agreed to allocate 20% of sprint capacity to tech debt.
 - Next meeting: Dec 13 to review contractor candidates and finalize sprint plans
 - Priya needs to update mobile designs based on delayed timeline - will share revised mockups by Dec 20
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -133,7 +146,7 @@ The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as th
 ## Key Decisions Made
 
 | # | Decision | Rationale | Approved By |
-|---|----------|-----------|-------------|
+| :--- | :--- |-----------| :--- |
 | 1 | **API v2 is Q1 priority** | 3 enterprise deals ($[X]M ARR) contingent on delivery | David (CEO) |
 | 2 | **Mobile redesign delayed to Q2** | Insufficient resources for parallel work; enterprise revenue takes precedence | Sarah/David |
 | 3 | **20% sprint capacity for tech debt** | Address growing backlog and team morale concerns | Sarah |
@@ -168,7 +181,7 @@ The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as th
 ## Action Items
 
 | Task | Owner | Due Date | Priority |
-|------|-------|----------|----------|
+| :--- |-------| :--- |----------|
 | Explore contractor options with HR and present candidates | Sarah | Dec 6 | 🔴 High |
 | Update mobile designs for Q2 timeline, share revised mockups | Priya | Dec 20 | 🟡 Medium |
 | Draft API v2 sprint plan assuming current + 2 contractor headcount | Marcus | Dec 10 | 🔴 High |
@@ -206,7 +219,9 @@ The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as th
 ---
 
 *Summary prepared by [Your Name] | Questions? Reach out in #product-roadmap Slack channel*
-```
+```text
+
+---
 
 ## Tips
 
@@ -215,6 +230,9 @@ The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as th
 - Distinguish between decisions made vs. topics discussed vs. items parked
 - Send summary within 24 hours while context is fresh
 - Keep it scannable - busy stakeholders will read headers and action items first
+
+
+---
 
 ## Related Prompts
 

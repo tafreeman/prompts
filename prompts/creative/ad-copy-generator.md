@@ -28,9 +28,15 @@ effectivenessScore: 4.2
 ---
 # Ad Copy Generator
 
+
+---
+
 ## Description
 
 Create high-converting advertising copy tailored to specific platforms, audiences, and campaign goals. This prompt helps marketers, advertisers, and business owners develop compelling ad copy that captures attention, communicates value, and drives desired actions.
+
+
+---
 
 ## Use Cases
 
@@ -40,6 +46,9 @@ Create high-converting advertising copy tailored to specific platforms, audience
 - Display and banner ads
 - YouTube ad scripts (bumper ads, skippable ads)
 - Retargeting ad campaigns
+
+
+---
 
 ## Prompt
 
@@ -83,12 +92,14 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | `[GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]` | Where the ad will run |
 | `[SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]` | The format of the ad |
 | `[AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]` | What you want to achieve |
@@ -98,6 +109,9 @@ Please provide:
 | `[DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]` | Any special offer |
 | `[PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]` | The tone of your ads |
 | `[PLATFORM-SPECIFIC LIMITS]` | Character or format restrictions |
+
+
+---
 
 ## Example Usage
 
@@ -143,8 +157,7 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-```
-
+```text
 **Output:**
 
 ```text
@@ -310,7 +323,7 @@ Please provide:
 Based on B2B SaaS search campaigns in this category:
 
 | Metric | Target Range |
-|--------|-------------|
+| :--- |-------------|
 | CTR | 3-5% |
 | Conversion Rate | 2-4% |
 | Cost Per Lead | $50-150 |
@@ -329,7 +342,9 @@ Based on B2B SaaS search campaigns in this category:
 4. **Start with Target CPA bidding** once you have 15+ conversions, then test Maximize Conversions
 
 5. **Review search terms weekly** to add negatives and find new opportunities
-```
+```text
+
+---
 
 ## Tips
 
@@ -339,6 +354,9 @@ Based on B2B SaaS search campaigns in this category:
 - **Include social proof when possible:** Numbers, awards, and testimonials boost credibility (if space allows)
 - **Test systematically:** Change one element at a time to understand what's actually driving performance
 - **Write for the click, but optimize for conversion:** CTR matters, but conversion rate and cost-per-acquisition matter more
+
+
+---
 
 ## Related Prompts
 

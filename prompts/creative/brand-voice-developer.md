@@ -28,9 +28,15 @@ effectivenessScore: 4.0
 ---
 # Brand Voice Developer
 
+
+---
+
 ## Description
 
 Create comprehensive brand voice guidelines that define how your brand sounds across all touchpoints. This prompt helps marketers, brand managers, and content strategists develop clear, actionable voice documentation that teams can follow consistently.
+
+
+---
 
 ## Use Cases
 
@@ -39,6 +45,9 @@ Create comprehensive brand voice guidelines that define how your brand sounds ac
 - Refreshing brand voice during rebrands or pivots
 - Creating voice guidelines for content teams and agencies
 - Ensuring consistency across global or distributed teams
+
+
+---
 
 ## Prompt
 
@@ -87,12 +96,14 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | `[YOUR BRAND NAME]` | The name of your brand or company |
 | `[YOUR INDUSTRY/CATEGORY]` | What space you operate in |
 | `[WHAT YOU DO AND WHY]` | Your mission and purpose |
@@ -103,6 +114,9 @@ Please create comprehensive brand voice guidelines including:
 | `[ATTRIBUTES]` | Voice qualities you want more or less of |
 | `[BRAND-ALIGNED VOCABULARY]` | Words that fit your brand |
 | `[OFF-BRAND VOCABULARY]` | Words to avoid |
+
+
+---
 
 ## Example Usage
 
@@ -153,8 +167,7 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```
-
+```text
 **Output:**
 
 ```text
@@ -242,7 +255,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 Our voice stays consistent, but our tone adjusts based on context:
 
 | Context | Tone Adjustment | Example |
-|---------|-----------------|---------|
+| :--- |-----------------| :--- |
 | **Marketing (awareness)** | More energetic, confident, punchy | "The project management tool that doesn't feel like project management." |
 | **Marketing (conversion)** | Confident, specific, action-oriented | "Start free. No credit card. No 30-minute sales call." |
 | **Product/UI** | Clear, helpful, minimal | "Task saved" / "Couldn't save. Try again?" |
@@ -320,7 +333,7 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### Words We Love ♥️
 
 | Word | Why |
-|------|-----|
+| :--- |-----|
 | Team | Emphasizes collaboration |
 | Together | Reinforces our mission |
 | Simple | What we aim for |
@@ -335,7 +348,7 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### Words We Avoid 🚫
 
 | Word | Why | Alternative |
-|------|-----|-------------|
+| :--- |-----| :--- |
 | Utilize | Corporate speak | Use |
 | Leverage | Buzzword | Use, take advantage of |
 | Synergy | Meaningless | Collaboration, teamwork |
@@ -483,7 +496,9 @@ Our voice stays consistent, but our tone adjusts based on context:
 ---
 
 *Questions about voice? Ping the brand team or check the #brand-voice Slack channel.*
-```
+```text
+
+---
 
 ## Tips
 
@@ -494,9 +509,11 @@ Our voice stays consistent, but our tone adjusts based on context:
 - **Make it accessible:** Put guidelines where people actually work—in design systems, content management tools, Slack channels
 - **Review regularly:** Voice should evolve with your brand and audience—schedule annual reviews
 
+
+---
+
 ## Related Prompts
 
 - [Headline and Tagline Creator](headline-tagline-creator.md)
-- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)

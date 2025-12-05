@@ -25,15 +25,24 @@ reviewStatus: "draft"
 ---
 # Legacy Modernization Architect
 
+
+---
+
 ## Description
 
 Architects legacy system modernization
+
+
+---
 
 ## Use Cases
 
 - Modernization for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+
+---
 
 ## Prompt
 
@@ -53,7 +62,9 @@ Include:
 4. Risk mitigation
 5. Phased approach
 6. Success metrics
-```
+```text
+
+---
 
 ## Variables
 
@@ -62,6 +73,9 @@ Include:
 - `[goals]`: Goals
 - `[system]`: System
 - `[timeline]`: Timeline
+
+
+---
 
 ## Example Usage
 
@@ -73,8 +87,7 @@ Include:
 [goals]: Move to cloud-native microservices, enable real-time transaction processing, reduce TCO by 40%
 [constraints]: Zero downtime migration required, strict regulatory compliance (OCC/FDIC), 3-year timeline
 [timeline]: Phase 1 (Read-only) in 6 months, Phase 2 (write-path) in 18 months, Decom in 36 months
-```
-
+```text
 **Output:**
 
 ```text
@@ -95,7 +108,9 @@ Include:
 *   **Phase 3 (Transaction Core):** Migrate ledger logic.
 
 [... continues with risk mitigation and success metrics ...]
-```
+```text
+
+---
 
 ## Tips
 
@@ -103,6 +118,9 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+
+---
 
 ## Related Prompts
 

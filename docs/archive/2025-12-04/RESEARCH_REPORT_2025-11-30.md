@@ -42,7 +42,7 @@ This report synthesizes research from 10+ industry sources to provide actionable
 ## 1. Research Summary Table
 
 | Aspect | GitHub Docs | OpenAI Cookbook | Anthropic | Copy.ai/Jasper | Best Practice |
-|--------|-------------|-----------------|-----------|----------------|---------------|
+| :--- |-------------| :--- |-----------| :--- |---------------|
 | **Content Types** | 6 types (overview, quick_start, tutorial, how_to, reference, rai) | Tags (AGENTS, AUDIO, EVALS, etc.) | Simple categories | By output type | 4-6 content types max |
 | **Frontmatter Fields** | ~15 fields (many optional) | Minimal (title, date, tags) | None visible | None visible | 6-8 essential fields |
 | **Structure** | title → intro → content → related | Title → content → example | Name → description | Name → one-liner | Title + prompt + 1-2 examples |
@@ -57,7 +57,7 @@ This report synthesizes research from 10+ industry sources to provide actionable
 ### Current vs. Industry Standard
 
 | Current Element | Keep/Remove | Rationale | Industry Support |
-|-----------------|-------------|-----------|------------------|
+| :--- |-------------| :--- |------------------|
 | **title** | ✅ Keep | Universal - all sources use | 10/10 |
 | **shortTitle** | ✅ Keep | GitHub Docs pattern | 3/10 (GitHub, MS Learn) |
 | **intro** | ✅ Keep | One-sentence summary | 10/10 |
@@ -101,7 +101,7 @@ The actual prompt text...
 
 ## Variables
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | [VAR] | What to put here |
 
 ## Example
@@ -128,7 +128,7 @@ Based on research from OpenAI Evals, LangSmith, and industry practices:
 ### Recommended Scoring Dimensions
 
 | Dimension | Weight | Criteria | Score (1-5) |
-|-----------|--------|----------|-------------|
+| :--- |--------| :--- |-------------|
 | **Clarity** | 25% | Is the prompt unambiguous and easy to understand? | 1=Confusing, 5=Crystal clear |
 | **Effectiveness** | 30% | Does it consistently produce quality output? | 1=Fails often, 5=Works reliably |
 | **Reusability** | 20% | Works across different contexts/inputs? | 1=Very specific, 5=Highly adaptable |
@@ -157,7 +157,7 @@ Based on research from OpenAI Evals, LangSmith, and industry practices:
 ### Priority 1: Simplify All Existing Prompts
 
 | Action | Evidence | Priority | Effort |
-|--------|----------|----------|--------|
+| :--- |----------| :--- |--------|
 | Remove changelog sections | 0/10 sources use inline changelog | P0 | Low |
 | Remove estimatedTime field | 1/10 sources use this | P0 | Low |
 | Reduce "When to Use" to intro | OpenAI/Anthropic merge this | P0 | Medium |
@@ -168,7 +168,7 @@ Based on research from OpenAI Evals, LangSmith, and industry practices:
 ### Priority 2: Implement Scoring
 
 | Action | Evidence | Priority | Effort |
-|--------|----------|----------|--------|
+| :--- |----------| :--- |--------|
 | Create scoring rubric | LangSmith/OpenAI Evals pattern | P0 | Medium |
 | Add `effectivenessScore` field | Industry standard | P1 | Low |
 | Build scoring validator | Automation needed | P1 | High |
@@ -185,7 +185,7 @@ See Section 7 below.
 ### What to REMOVE from all prompts:
 
 | Remove This | Why | Estimated Savings |
-|-------------|-----|-------------------|
+| :--- |-----| :--- |
 | Changelog sections | Use git history; 0/10 sources inline | -20 lines avg |
 | "When to Use" sections | Merge into intro; 2/10 sources use | -10 lines avg |
 | estimatedTime field | Rarely used; 1/10 sources | -1 line |
@@ -277,7 +277,7 @@ dimensions:
 ### Current State
 
 | Section | Current | Target | Gap | Priority |
-|---------|---------|--------|-----|----------|
+| :--- |---------| :--- |-----| :--- |
 | Creative | 2 | 15-20 | 13-18 | **P0 Critical** |
 | Business | 26 | 35-40 | 9-14 | **P0 High** |
 | Developers | 25 | 30+ | 5+ | P1 |
@@ -292,7 +292,7 @@ dimensions:
 **Research Sources**: Copy.ai, Jasper, Anthropic Prompt Library
 
 | New Prompt | Type | Difficulty | Source/Inspiration |
-|------------|------|------------|-------------------|
+| :--- |------| :--- |-------------------|
 | `professional-email-writer.md` | how_to | beginner | Copy.ai Marketing Email |
 | `blog-post-generator.md` | how_to | intermediate | Jasper Blog Post |
 | `social-media-creator.md` | how_to | beginner | Jasper Instagram Caption |
@@ -314,7 +314,7 @@ dimensions:
 **Research Sources**: Jasper, Copy.ai, Anthropic
 
 | New Prompt | Type | Difficulty | Source/Inspiration |
-|------------|------|------------|-------------------|
+| :--- |------| :--- |-------------------|
 | `pitch-deck-generator.md` | how_to | intermediate | Jasper Campaign Brief |
 | `sales-objection-handler.md` | how_to | intermediate | Copy.ai Sales |
 | `cold-email-generator.md` | how_to | beginner | Copy.ai Cold Email |
@@ -329,7 +329,7 @@ dimensions:
 ### Developers Section (P1)
 
 | New Prompt | Type | Difficulty | Source/Inspiration |
-|------------|------|------------|-------------------|
+| :--- |------| :--- |-------------------|
 | `api-documentation.md` | how_to | intermediate | GitHub Docs patterns |
 | `error-message-writer.md` | how_to | beginner | Anthropic Code Clarifier |
 | `test-case-generator.md` | how_to | intermediate | OpenAI Cookbook |
@@ -339,7 +339,7 @@ dimensions:
 ### M365 Section (P1)
 
 | New Prompt | Type | Difficulty | Source/Inspiration |
-|------------|------|------------|-------------------|
+| :--- |------| :--- |-------------------|
 | `teams-meeting-prep.md` | how_to | beginner | Microsoft Learn |
 | `sharepoint-page-builder.md` | how_to | intermediate | Microsoft patterns |
 | `power-automate-flow.md` | how_to | intermediate | Microsoft Learn |
@@ -349,7 +349,7 @@ dimensions:
 ### Governance Section (P2)
 
 | New Prompt | Type | Difficulty | Source/Inspiration |
-|------------|------|------------|-------------------|
+| :--- |------| :--- |-------------------|
 | `compliance-checker.md` | how_to | intermediate | Original |
 | `risk-assessment.md` | how_to | advanced | Original |
 | `audit-report-generator.md` | how_to | advanced | Original |
@@ -364,7 +364,7 @@ dimensions:
 ### Immediate (This Week)
 
 | Task | Description | Effort |
-|------|-------------|--------|
+| :--- |-------------| :--- |
 | 1. Remove changelogs | Delete changelog sections from all prompts | 2 hours |
 | 2. Create scoring rubric | Create `tools/rubrics/prompt-scoring.yaml` | 1 hour |
 | 3. Add 5 creative prompts | Start with highest-value creative prompts | 4 hours |
@@ -373,7 +373,7 @@ dimensions:
 ### Short-term (Next 2 Weeks)
 
 | Task | Description | Effort |
-|------|-------------|--------|
+| :--- |-------------| :--- |
 | 5. Complete creative expansion | Add remaining 10 creative prompts | 8 hours |
 | 6. Add business prompts | Add 10 new business prompts | 8 hours |
 | 7. Build score validator | Create `tools/validators/score_validator.py` | 4 hours |
@@ -382,7 +382,7 @@ dimensions:
 ### Medium-term (Next Month)
 
 | Task | Description | Effort |
-|------|-------------|--------|
+| :--- |-------------| :--- |
 | 9. Score all prompts | Backfill effectivenessScore for all prompts | 8 hours |
 | 10. Add M365 prompts | Expand M365 section | 6 hours |
 | 11. Add developer prompts | Expand developer section | 4 hours |

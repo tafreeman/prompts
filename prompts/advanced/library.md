@@ -38,7 +38,7 @@ Your mission is to analyze, organize, and propose improvements to the `tafreeman
 **Primary Users**:
 
 | Persona | Role | Primary Need | Content Depth |
-|---------|------|--------------|---------------|
+| :--- |------| :--- |---------------|
 | **Junior Engineers** | Developers new to AI/LLMs | Quick-start guides, copy-paste templates | Beginner |
 | **Mid-Level Engineers** | Developers with some AI experience | How-to guides, pattern selection | Intermediate |
 | **Senior Engineers** | Experienced practitioners | Advanced patterns, optimization | Advanced |

@@ -45,7 +45,7 @@ You don't need any technical setup to start using prompts from this library. Fol
 Navigate to the folder that matches your needs:
 
 | Folder | Description | Best For |
-|--------|-------------|----------|
+| :--- |-------------| :--- |
 | `prompts/developers/` | Code generation, debugging, testing | Software developers |
 | `prompts/business/` | Analysis, strategy, reporting | Business professionals |
 | `prompts/creative/` | Content creation, marketing | Creative teams |
@@ -163,7 +163,7 @@ difficulty: "beginner"
 ### Core Sections
 
 | Section | Purpose |
-|---------|---------|
+| :--- |---------|
 | **Description** | What the prompt does |
 | **Goal** | The primary objective |
 | **Context** | Background information for the AI |

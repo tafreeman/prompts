@@ -67,6 +67,35 @@ START: What type of task are you performing?
     └─► Start with ZERO-SHOT, iterate if needed
 ```
 
+### Visual Decision Flowchart
+
+```mermaid
+flowchart TD
+    Start([🎯 What's your task?]) --> Q1{Simple factual<br/>question?}
+    Q1 -->|Yes| ZeroShot[Zero-Shot<br/>Direct instructions]
+    Q1 -->|No| Q2{Need specific<br/>output format?}
+    
+    Q2 -->|Yes| Structured[Structured Output<br/>JSON/XML schema]
+    Q2 -->|No| Q3{Need expert<br/>perspective?}
+    
+    Q3 -->|Yes| Role[Role-Based<br/>Act as expert]
+    Q3 -->|No| Q4{Complex<br/>reasoning?}
+    
+    Q4 -->|Yes| CoT[Chain-of-Thought<br/>Step-by-step logic]
+    Q4 -->|No| Q5{Have good<br/>examples?}
+    
+    Q5 -->|Yes| FewShot[Few-Shot<br/>Learn from examples]
+    Q5 -->|No| Default[Start with Zero-Shot<br/>Iterate if needed]
+    
+    style Start fill:#e1f5fe
+    style ZeroShot fill:#c8e6c9
+    style Structured fill:#c8e6c9
+    style Role fill:#c8e6c9
+    style CoT fill:#c8e6c9
+    style FewShot fill:#c8e6c9
+    style Default fill:#fff3e0
+```
+
 ---
 
 ## Pattern Categories

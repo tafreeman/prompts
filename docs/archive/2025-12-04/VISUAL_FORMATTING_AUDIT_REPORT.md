@@ -53,7 +53,7 @@ reviewStatus: draft
 ### 🎯 Top 3 Issues
 
 | Rank | Issue | Impact | Files Affected |
-|:----:|-------|:------:|---------------:|
+|:----:| :--- |:------:|---------------:|
 | 🥇 | **Broken internal links** | Navigation fails, poor UX | 50 links |
 | 🥈 | **Missing standard sections** | Inconsistent structure | 19 files |
 | 🥉 | **Code blocks without language specifiers** | Poor syntax highlighting | 40+ blocks |
@@ -185,7 +185,7 @@ Common language specifiers to use:
 **Current Pattern** (many files):
 ```markdown
 | Column1 | Column2 |
-|---------|---------|
+| :--- |---------|
 ```
 
 **Recommended Pattern**:

@@ -22,7 +22,10 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Performance Analysis & Profiling
 
-## Description
+
+---
+
+## 📋 Description
 
 A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces. Guides developers through systematic performance analysis with explicit reasoning and data-driven conclusions.
 
@@ -86,7 +89,10 @@ Structured Markdown with the following sections:
 
 Reference `docs/domain-schemas.md` for structured performance report schemas.
 
-## Use Cases
+
+---
+
+## 🎯 Use Cases
 
 - Analyzing CPU flamegraphs to identify computation hotspots
 - Memory profiling to find leaks or excessive allocations
@@ -94,7 +100,10 @@ Reference `docs/domain-schemas.md` for structured performance report schemas.
 - Network latency analysis for distributed systems
 - Scalability analysis for systems under load
 
-## Prompt
+
+---
+
+## 💬 Prompt
 
 ```text
 You are an expert performance engineer using Chain-of-Thought reasoning to analyze profiling data and identify optimization opportunities.
@@ -240,9 +249,11 @@ How will you validate that the optimization works?
 **Regression Prevention:**
 - [Monitoring/alerting setup]
 - [Performance test in CI/CD]
-```
+```text
 
-## Variables
+---
+
+## ⚙️ Variables
 
 - `[SYSTEM_NAME]`: Name of the system being profiled
 - `[PROFILE_DATA_OR_SUMMARY]`: Profiling output (flamegraph, top functions, slow queries, etc.)
@@ -256,7 +267,10 @@ How will you validate that the optimization works?
 - `[BRIEF_SYSTEM_DESCRIPTION]`: High-level architecture overview
 - `[ANY_OTHER_RELEVANT_INFO]`: Additional context (recent changes, known issues, etc.)
 
-## Example Usage
+
+---
+
+## 📝 Example Usage
 
 **Input:**
 
@@ -295,8 +309,7 @@ Node.js API (Express) → PostgreSQL (products, orders) → Redis cache (not cur
 - Recent launch increased traffic by 3x
 - Database has indexes on primary keys and foreign keys only
 - No query-level caching currently implemented
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -458,9 +471,11 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - Set up CloudWatch alarms: alert if p99 > 400ms or throughput drops below 200 req/s
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
 
-```
+```text
 
-## Tips
+---
+
+## 💡 Tips
 
 - **Start with profiling data, not intuition:** Always base hypotheses on measured data
 - **Focus on hotspots:** Optimize the 20% of code that consumes 80% of resources
@@ -470,10 +485,12 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - **Watch for regressions:** Add performance tests to CI to prevent future slowdowns
 - **Profile in production (carefully):** Sampling profilers add minimal overhead; use them to find real-world bottlenecks
 
-## Related Prompts
 
-- [Chain-of-Thought: Debugging](chain-of-thought-debugging.md) - For functional bugs
-- [SQL Query Optimizer (Advanced)](../developers/sql-query-optimizer-advanced.md) - For database performance
+---
+
+## 🔗 Related Prompts
+
+- [Chain-of-Thought: Debugging](chain-of-thought-debugging.md) - For functional bugs - For database performance
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For system-level design decisions
 - [Data Quality Assessment](../analysis/data-quality-assessment.md) - For data pipeline performance
 

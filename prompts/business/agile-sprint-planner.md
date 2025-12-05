@@ -25,9 +25,15 @@ effectivenessScore: 4.5
 ---
 # Agile Sprint Planner
 
+
+---
+
 ## Description
 
 Agile/Scrum sprint planner for software development teams. Focuses on capacity planning, story point estimation, velocity tracking, and sprint goal definition using Scrum framework best practices.
+
+
+---
 
 ## Use Cases
 
@@ -36,6 +42,9 @@ Agile/Scrum sprint planner for software development teams. Focuses on capacity p
 - User story decomposition and estimation
 - Sprint retrospective preparation
 - Release planning and roadmap alignment
+
+
+---
 
 ## Prompt
 
@@ -60,7 +69,9 @@ Provide:
 7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
 
 Format output with Markdown tables for story breakdown and capacity allocation.
-```
+```text
+
+---
 
 ## Variables
 
@@ -70,6 +81,9 @@ Format output with Markdown tables for story breakdown and capacity allocation.
 - `[capacity]`: Available story points (e.g., "80 points (reduced from 100 due to Thanksgiving holiday, 2 devs on PTO)")
 - `[features]`: Priority features from product backlog (e.g., "One-click Checkout, Apple Pay Integration, Wishlist Sync")
 - `[dod]`: Definition of Done criteria (e.g., "Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired")
+
+
+---
 
 ## Example Usage
 
@@ -93,8 +107,7 @@ Definition of Done:
 - API documentation updated in Swagger
 
 Context: Black Friday launch deadline is Dec 15. This sprint must deliver payment improvements to reduce cart abandonment (currently 68%).
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -110,7 +123,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Epic: Checkout Optimization
 
 | Story ID | User Story | Story Points | Priority | Assignee | Status |
-|----------|-----------|--------------|----------|----------|--------|
+| :--- |-----------| :--- |----------| :--- |--------|
 | **STORE-421** | As a returning user, I want my default payment method pre-selected so I can checkout in one tap | 8 | P0 | Sarah (Frontend) | Planned |
 | **STORE-422** | As a user, I want address autofill (Google Places API) so I don't manually type shipping info | 5 | P1 | Mike (Frontend) | Planned |
 
@@ -136,7 +149,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Epic: Payment Methods
 
 | Story ID | User Story | Story Points | Priority | Assignee | Status |
-|----------|-----------|--------------|----------|----------|--------|
+| :--- |-----------| :--- |----------| :--- |--------|
 | **STORE-423** | As a user, I want to pay with Apple Pay so I don't enter card details | 13 | P0 | Emily (Backend), Sarah (iOS) | Planned |
 | **STORE-424** | As a user, I want to see "Secure Checkout" badge to trust the payment flow | 3 | P2 | Design Team | Backlog |
 
@@ -163,7 +176,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Epic: Social Commerce
 
 | Story ID | User Story | Story Points | Priority | Assignee | Status |
-|----------|-----------|--------------|----------|----------|--------|
+| :--- |-----------| :--- |----------| :--- |--------|
 | **STORE-425** | As a user, I want my wishlist synced across mobile & web so I can shop anywhere | 5 | P2 | Tom (Backend) | Deferred to Sprint 13 |
 
 **Deferral Rationale**: Wishlist sync is P2 and doesn't impact Black Friday cart abandonment goal. Moving to Sprint 13 to protect sprint goal focus.
@@ -175,7 +188,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Team Roster & Availability
 
 | Team Member | Role | Normal Capacity | This Sprint Capacity | Notes |
-|-------------|------|-----------------|----------------------|-------|
+| :--- |------| :--- |----------------------| :--- |
 | Sarah | iOS Developer | 20 pts/sprint | 16 pts | Out Nov 27-29 (Thanksgiving) |
 | Emily | Backend Engineer | 20 pts/sprint | 16 pts | Out Nov 27-29 (Thanksgiving) |
 | Mike | Frontend Developer | 20 pts/sprint | 20 pts | Available full sprint |
@@ -186,7 +199,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Story Point Allocation
 
 | Epic | Stories | Total Points | % of Capacity |
-|------|---------|--------------|---------------|
+| :--- |---------| :--- |---------------|
 | Checkout Optimization | STORE-421, STORE-422 | 13 pts | 16% |
 | Payment Methods | STORE-423 | 13 pts | 16% |
 | **Sprint Committed** | | **26 pts** | **33%** |
@@ -211,7 +224,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Risk Register
 
 | Risk | Probability | Impact | Mitigation Strategy |
-|------|-------------|--------|---------------------|
+| :--- |-------------| :--- |---------------------|
 | **Apple Pay certification delay** | High (60%) | Critical (blocks release) | Start cert on Day 1; parallel track with backup plan (Google Pay) |
 | **Stripe API rate limit** | Medium (30%) | High (delays testing) | Contact DevOps to increase rate limit quota before sprint start |
 | **Black Friday production load** | Low (20%) | Critical (site downtime) | Deploy payment changes to staging on Nov 25 for 1-week soak test |
@@ -224,7 +237,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 ### Sprint Burndown Targets
 
 | Day | Target Remaining Points | Actual Remaining | On Track? |
-|-----|-------------------------|------------------|-----------|
+| :--- |-------------------------| :--- |-----------|
 | Day 0 (Nov 20) | 26 pts | 26 pts | ✅ Baseline |
 | Day 2 (Nov 22) | 22 pts | TBD | |
 | Day 5 (Nov 27) | 15 pts | TBD | (Thanksgiving week - expect slower burn) |
@@ -250,13 +263,11 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 - Blockers (tag @scrum-master if blocking)
 
 **Sample**:
-```
-
+```text
 @Sarah: Yesterday: Completed Buy Now button UI. Today: Start Apple Pay iOS integration. Blockers: None.
 @Emily: Yesterday: Designed /default-payment API. Today: Stripe Apple Pay SDK setup. Blockers: Need Stripe API token refresh (tagged @DevOps).
 
-```
-
+```text
 ### Sprint Review (Demo)
 
 **Date**: Dec 1 (Friday), 2:00 PM ET  
@@ -288,8 +299,7 @@ Context: Black Friday launch deadline is Dec 15. This sprint must deliver paymen
 
 **Sample Burndown Chart** (ASCII representation):
 
-```
-
+```text
 Points ↑
 26 |●
    |  ●●
@@ -303,8 +313,7 @@ Points ↑
    Ideal Burndown: ● (diagonal line)
    Actual: Monitor daily
 
-```
-
+```text
 ---
 
 ## Contingency Plans
@@ -313,7 +322,9 @@ Points ↑
 1. **Fallback**: Ship Sprint 12 without Apple Pay (deploy STORE-421 & STORE-422 only)
 2. **Fast-Follow**: Release Apple Pay in hotfix Sprint 12.1 (Dec 2-3) if cert arrives
 3. **Communication**: Notify Marketing that "Apple Pay by Black Friday" may slip
-```
+```text
+
+---
 
 ## Tips
 
@@ -324,8 +335,11 @@ Points ↑
 - **Monitor Burndown Daily**: If burndown flatlines for 2 days, escalate immediately (don't wait for retrospective)
 - **Celebrate Small Wins**: If one-click checkout deploys early, demo it in mid-sprint to build momentum
 
+
+---
+
 ## Related Prompts
 
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For sprint review stakeholder updates
 - **[risk-management-analyst](./risk-management-analyst.md)** - For sprint risk assessment
-- **[project-charter-creator](./project-charter-creator.md)** - For initial sprint planning at project kickoff
+- **project-charter-creator** - For initial sprint planning at project kickoff

@@ -32,7 +32,7 @@ This document tracks actionable items identified in the Complexity & Adoption An
 ## Progress Summary
 
 | Priority | Total | Completed | Remaining |
-|----------|-------|-----------|-----------|
+| :--- |-------| :--- |-----------|
 | 🔴 Critical | 8 | 8 | 0 |
 | 🟠 High | 4 | 1 | 3 |
 | 🟡 Medium | 7 | 3 | 4 |
@@ -125,7 +125,7 @@ ls: cannot access 'deployment': No such file or directory
 
 **Affected files**:
 | File | Lines | Words |
-|------|-------|-------|
+| :--- |-------| :--- |
 | `advanced/react-doc-search-synthesis.md` | 758 | 3,497 |
 | `governance/security-incident-response.md` | 735 | 3,657 |
 | `analysis/data-analysis-insights.md` | 607 | 3,202 |
@@ -186,7 +186,7 @@ ls: cannot access 'deployment': No such file or directory
 ## Completed Items Log
 
 | Date | Item | Notes |
-|------|------|-------|
+| :--- |------| :--- |
 | 2025-11-28 | Create `docs/getting-started.md` | Comprehensive getting started guide with non-technical quick start |
 | 2025-11-28 | Create `docs/best-practices.md` | Best practices based on research and industry standards |
 | 2025-11-28 | Create `docs/intro-to-prompts.md` | Beginner-friendly introduction to prompting |

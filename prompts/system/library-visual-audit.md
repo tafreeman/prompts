@@ -26,9 +26,15 @@ reviewStatus: "approved"
 
 # Library Visual & Formatting Audit
 
+
+---
+
 ## Description
 
 This prompt performs a comprehensive visual and formatting audit of a prompt library, identifying opportunities for improved readability in Markdown viewers, GitHub rendering, and generated reports. It produces a prioritized list of specific improvements with file locations and suggested changes.
+
+
+---
 
 ## Use Cases
 
@@ -38,6 +44,9 @@ This prompt performs a comprehensive visual and formatting audit of a prompt lib
 - Improving GitHub Pages or documentation site rendering
 - Creating a batch update plan for library-wide formatting improvements
 - Ensuring accessibility and readability standards compliance
+
+
+---
 
 ## Prompt
 
@@ -135,7 +144,7 @@ Return your findings as a structured Markdown document with:
 
 ### 2. Critical Issues (Fix Immediately)
 | File | Issue | Category | Impact | Fix |
-|------|-------|----------|--------|-----|
+| :--- |-------| :--- |--------| :--- |
 | path/file.md | Description | A-G | High/Med/Low | Specific fix |
 
 ### 3. High Priority Improvements
@@ -173,7 +182,7 @@ List improvements that could be automated via:
 ## Quality Thresholds
 
 | Metric | Target | Current Baseline |
-|--------|--------|------------------|
+| :--- |--------| :--- |
 | Files with proper heading hierarchy | 100% | Check |
 | Tables with alignment | 100% | Check |
 | Code blocks with language tags | 100% | Check |
@@ -187,16 +196,21 @@ Be thorough, specific, and actionable. Every issue should include:
 3. Current state
 4. Recommended change
 5. Priority level
-```
+```text
+
+---
 
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- |-------------| :--- |
 | `[WORKSPACE_PATH]` | Root path of the prompt library | `D:\source\prompts`, `./prompts` |
 | `[FOCUS_AREA]` | Optional: limit audit to specific folder | `prompts/developers/`, `docs/` |
 | `[OUTPUT_FORMAT]` | Report format preference | `markdown`, `json`, `csv` |
 | `[SEVERITY_THRESHOLD]` | Minimum severity to report | `all`, `high`, `critical` |
+
+
+---
 
 ## Example Usage
 
@@ -208,8 +222,7 @@ You are a documentation quality auditor specializing in Markdown formatting, Git
 Perform a comprehensive visual and formatting audit of the prompt library in the current workspace. Focus on the prompts/ and docs/ folders.
 
 [Full prompt as above]
-```
-
+```text
 ### Output
 
 ```markdown
@@ -224,7 +237,7 @@ Perform a comprehensive visual and formatting audit of the prompt library in the
 ## Executive Summary
 
 | Metric | Value |
-|--------|-------|
+| :--- |-------|
 | Total files audited | 186 |
 | Critical issues | 4 |
 | High priority items | 23 |
@@ -240,7 +253,7 @@ Perform a comprehensive visual and formatting audit of the prompt library in the
 ### Estimated Effort
 
 | Task | Effort | Automatable |
-|------|--------|-------------|
+| :--- |--------| :--- |
 | Table alignment | 2 hours | Yes (regex) |
 | Code block languages | 1 hour | Yes (script) |
 | Collapsible sections | 3 hours | Partial |
@@ -251,7 +264,7 @@ Perform a comprehensive visual and formatting audit of the prompt library in the
 ## Critical Issues (4)
 
 | File | Issue | Category | Impact | Fix |
-|------|-------|----------|--------|-----|
+| :--- |-------| :--- |--------| :--- |
 | `prompts/advanced/library.md` | Missing ## Prompt section entirely | A | High | Add prompt section with template |
 | `docs/EVALUATION_REPORT.md` | 521 lines without navigation | D | High | Add TOC and collapsible categories |
 | `prompts/system/example-research-output.md` | No frontmatter | F | High | Add complete YAML frontmatter |
@@ -264,7 +277,7 @@ Perform a comprehensive visual and formatting audit of the prompt library in the
 ### Category A: Structural Formatting (8 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| :--- |-------| :--- |
 | `prompts/developers/code-review-expert.md` | H3 before H2 | Reorder headings |
 | `prompts/business/budget-tracker.md` | No horizontal rules | Add `---` between sections |
 | `prompts/analysis/*.md` (6 files) | Missing Tips section | Add ## Tips with 3-5 items |
@@ -272,19 +285,18 @@ Perform a comprehensive visual and formatting audit of the prompt library in the
 ### Category B: Tables (9 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| :--- |-------| :--- |
 | `prompts/business/*.md` (9 files) | Tables without alignment | Add `:---:` for centered columns |
 
 **Bulk Fix Pattern:**
 ```regex
 Find: \| --- \|
 Replace: | :--- |
-```
-
+```text
 ### Category C: Code Blocks (6 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| :--- |-------| :--- |
 | `prompts/developers/sql-*.md` (3 files) | Code blocks missing `sql` tag | Add language specifier |
 | `prompts/creative/*.md` (3 files) | Code blocks missing `text` tag | Add language specifier |
 
@@ -301,8 +313,7 @@ Files that would benefit from shields.io-style badges:
 ![Difficulty](https://img.shields.io/badge/Difficulty-Intermediate-yellow)
 ![Platform](https://img.shields.io/badge/Platform-Claude%20%7C%20GPT-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
-```
-
+```text
 **Files to update:**
 - `prompts/governance/legal-contract-review.md`
 - `prompts/governance/security-incident-response.md`
@@ -313,7 +324,7 @@ Files that would benefit from shields.io-style badges:
 Files describing workflows or processes that would benefit from diagrams:
 
 | File | Diagram Type | Purpose |
-|------|--------------|---------|
+| :--- |--------------| :--- |
 | `prompts/advanced/react-*.md` | flowchart | Show Thought→Action→Observation loop |
 | `prompts/business/project-*.md` | gantt | Show timeline/milestone structure |
 | `docs/IMPROVEMENT_PLAN.md` | timeline | Show week-by-week improvement plan |
@@ -327,12 +338,11 @@ Files with large content blocks that should use `<details>`:
 <summary><b>View all 36 Business prompts</b></summary>
 
 | Prompt | Quality | Effectiveness |
-|--------|---------|---------------|
+| :--- |---------| :--- |
 | ... | ... | ... |
 
 </details>
-```
-
+```text
 ---
 
 ## Low Priority / Nice-to-Have (31)
@@ -342,7 +352,7 @@ Files with large content blocks that should use `<details>`:
 Current emoji usage is inconsistent. Recommended standard:
 
 | Context | Emoji | Usage |
-|---------|-------|-------|
+| :--- |-------| :--- |
 | Sections | 📋 📊 💡 🎯 | Category headers |
 | Status | ✅ ⚠️ 🔧 ❌ | Quality indicators |
 | Priority | 🔴 🟠 🟡 🟢 | Urgency levels |
@@ -360,8 +370,7 @@ Add consistent footer to all generated reports:
 *Generated by [Tool Name] | [Repository Name]*
 
 </div>
-```
-
+```text
 ---
 
 ## Standardization Templates
@@ -385,21 +394,22 @@ intro: "[2-3 sentence description]"
 
 </div>
 
+
+---
+
 ## Description
 
 [2-3 paragraphs]
 
 ---
-```
-
+```text
 ### Standard Table Format
 
 ```markdown
 | Column 1 | Column 2 | Column 3 |
 |:---------|:--------:|---------:|
 | Left     | Center   | Right    |
-```
-
+```text
 ### Standard Collapsible Section
 
 ```markdown
@@ -409,8 +419,7 @@ intro: "[2-3 sentence description]"
 [Content here]
 
 </details>
-```
-
+```text
 ---
 
 ## Automation Opportunities
@@ -420,11 +429,10 @@ intro: "[2-3 sentence description]"
 ```python
 # Auto-add alignment to markdown tables
 # Run: python tools/format_tables.py --all
-```
-
+```text
 ### VS Code Find/Replace Patterns
 
-```
+```text
 # Add language to unmarked code blocks
 Find: ```\n(?!text|python|sql|markdown|json|yaml)
 Replace: ```text\n
@@ -432,8 +440,7 @@ Replace: ```text\n
 # Standardize horizontal rules
 Find: ^-{3,}$
 Replace: ---
-```
-
+```text
 ### Pre-commit Hook
 
 ```yaml
@@ -445,8 +452,7 @@ Replace: ---
       entry: python tools/check_tables.py
       language: python
       files: \.md$
-```
-
+```text
 ---
 
 ## Next Steps
@@ -463,7 +469,9 @@ Replace: ---
 ---
 
 *Audit completed: 2025-12-03*
-```
+```text
+
+---
 
 ## Tips
 
@@ -482,23 +490,23 @@ Use `@workspace` to ensure full context:
 
 ```text
 @workspace Perform a visual formatting audit of all markdown files. Focus on tables, code blocks, and section consistency. Return a prioritized list of improvements.
-```
-
+```text
 ### Claude
 
 Claude excels at comprehensive analysis. Add:
 
 ```text
 Be exhaustive in your analysis. Check every file, not just samples. I want a complete inventory of formatting inconsistencies.
-```
-
+```text
 ### ChatGPT
 
 For large libraries, process in chunks:
 
 ```text
 Audit the prompts/developers/ folder first. Then I'll ask you to audit other folders. Track issues in a running list.
-```
+```text
+
+---
 
 ## Related Prompts
 

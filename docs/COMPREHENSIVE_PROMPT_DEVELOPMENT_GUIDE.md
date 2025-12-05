@@ -73,7 +73,7 @@ This guide synthesizes best practices from:
 ### Quality Score Targets
 
 | Level | Score | Use Case |
-|-------|-------|----------|
+| :--- |-------| :--- |
 | **Production** | 85+ | Enterprise, customer-facing |
 | **Standard** | 70-84 | Internal tools, team use |
 | **Draft** | 55-69 | Prototyping, iteration |
@@ -134,7 +134,7 @@ How should I handle this error?"
 **Common Role Patterns**:
 
 | Pattern | Example | Best For |
-|---------|---------|----------|
+| :--- |---------| :--- |
 | **Expert** | "You are a senior security engineer..." | Technical depth |
 | **Reviewer** | "You are a code reviewer focusing on..." | Critical analysis |
 | **Teacher** | "You are explaining to a junior developer..." | Clarity |
@@ -234,7 +234,7 @@ Format your response as a markdown table with the following columns:
 **Types of Constraints**:
 
 | Type | Example |
-|------|---------|
+| :--- |---------|
 | **Length** | "Maximum 200 words" |
 | **Scope** | "Focus only on frontend concerns" |
 | **Exclusions** | "Do not include deprecated methods" |
@@ -304,7 +304,7 @@ Input: "Dashboard graphs not loading on mobile devices"
 **Tone Dimensions**:
 
 | Dimension | Range |
-|-----------|-------|
+| :--- |-------|
 | **Formality** | Casual ↔ Formal |
 | **Technical level** | Beginner ↔ Expert |
 | **Emotion** | Neutral ↔ Enthusiastic ↔ Empathetic |
@@ -679,7 +679,7 @@ Based on our GitHub Models evaluation framework and industry standards:
 ### The 8 Criteria
 
 | Criterion | Weight | Description | What to Check |
-|-----------|--------|-------------|---------------|
+| :--- |--------| :--- |---------------|
 | **Clarity** | 15% | Goal is unambiguous | Single clear objective, no confusion |
 | **Specificity** | 15% | Instructions are detailed | Concrete details, not vague |
 | **Actionability** | 15% | AI can act on instructions | Clear verbs, defined scope |
@@ -698,7 +698,7 @@ Based on our GitHub Models evaluation framework and industry standards:
 ### Score Interpretation
 
 | Score Range | Tier | Quality Level | Action |
-|-------------|------|---------------|--------|
+| :--- |------| :--- |--------|
 | 9.0-10.0 | A | Exceptional | Reference example |
 | 8.0-8.9 | B+ | Strong | Production ready |
 | 7.0-7.9 | B | Good | Minor improvements |
@@ -882,7 +882,7 @@ governance_tags: ["PII-safe"]
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| :--- |-------------| :--- |
 | `[VAR_1]` | What this variable represents | "example value" |
 | `[VAR_2]` | What this variable represents | "example value" |
 
@@ -917,7 +917,7 @@ governance_tags: ["PII-safe"]
 ### Quick Pattern Selection Guide
 
 | If You Need... | Use This Pattern | Components |
-|----------------|------------------|------------|
+| :--- |------------------| :--- |
 | Simple task | Task only | Task |
 | Code generation | RTF + Four S's | Role, Task, Format |
 | Business document | CARE | Context, Action, Result, Example |

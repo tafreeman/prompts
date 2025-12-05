@@ -40,6 +40,9 @@ To create a suite of matching social media visual prompts that can be generated 
 - **Brand Style**: [brand_style]
 - **Visual Elements**: [visual_elements]
 
+
+---
+
 ## Prompt
 
 You are a Social Media Design Lead. I have a new piece of content to promote, and I need to generate a "Social Media Kit" using Microsoft Designer.
@@ -63,12 +66,18 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 - **Subject Description**: How to arrange the [visual_elements].
 - **Style Instructions**: Ensuring the [brand_style] is consistent.
 
+
+---
+
 ## Variables
 
 - `[topic]`: e.g., "New Product Launch: Eco-Bottle".
 - `[headline]`: e.g., "Hydration Reimagined".
 - `[brand_style]`: e.g., "Minimalist, Matte finish, Pastel colors".
 - `[visual_elements]`: e.g., "Water bottle, water splash, leaves".
+
+
+---
 
 ## Example Usage
 
@@ -92,10 +101,16 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 **3. Vertical Story (TikTok/Reels)**
 "A tall 9:16 vertical background image. At the bottom, a small 3D laptop and coffee cup. The top 70% is a clean, soft blue gradient with subtle orange abstract lines, leaving ample negative space for text and stickers. Modern tech aesthetic."
 
+
+---
+
 ## Tips
 
 - In Microsoft Designer, you can often select the aspect ratio *before* or *after* generation, but including keywords like "wide" or "tall" in the prompt helps the AI compose the scene correctly.
 - Use the "Brand Kit" feature in Designer to apply your exact hex codes after the image is generated.
+
+
+---
 
 ## Related Prompts
 

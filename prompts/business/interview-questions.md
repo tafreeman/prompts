@@ -24,9 +24,15 @@ reviewStatus: "draft"
 ---
 # Interview Questions Generator
 
+
+---
+
 ## Description
 
 Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
+
+
+---
 
 ## Use Cases
 
@@ -35,6 +41,9 @@ Create structured interview questions that assess candidates fairly and effectiv
 - Training new interviewers on behavioral interviewing
 - Ensuring consistent evaluation across candidates
 - Creating competency-based assessment frameworks
+
+
+---
 
 ## Prompt
 
@@ -77,7 +86,9 @@ Generate:
    - What "concerning" looks like
 
 Format as an interview guide with timing suggestions.
-```
+```text
+
+---
 
 ## Variables
 
@@ -86,6 +97,9 @@ Format as an interview guide with timing suggestions.
 - `[competencies]`: 3-5 key competencies to assess (e.g., "Problem-solving, collaboration, technical depth")
 - `[stage]`: Interview stage (e.g., "Phone screen", "Hiring manager round", "Final onsite")
 - `[time]`: Duration of the interview (e.g., "45 minutes", "60 minutes")
+
+
+---
 
 ## Example Usage
 
@@ -97,8 +111,7 @@ Level: Senior (5+ years PM experience), individual contributor
 Key Competencies: Data-driven decision making, cross-functional leadership, experimentation mindset, customer empathy, strategic thinking
 Interview Stage: Hiring manager round (second interview, passed recruiter screen)
 Time Available: 60 minutes
-```
-
+```text
 **Output:**
 
 ```markdown
@@ -113,7 +126,7 @@ Time Available: 60 minutes
 ## Interview Structure
 
 | Section | Time | Focus |
-|---------|------|-------|
+| :--- |------| :--- |
 | Opening | 5 min | Rapport, background |
 | Behavioral | 25 min | Core competencies |
 | Situational | 15 min | Judgment, approach |
@@ -306,7 +319,7 @@ Time Available: 60 minutes
 ## 6. Scoring Rubric
 
 | Competency | Strong (4-5) | Adequate (3) | Concerning (1-2) |
-|------------|--------------|--------------|------------------|
+| :--- |--------------| :--- |------------------|
 | **Data-Driven** | Cites specific metrics, acknowledges data limitations, makes probabilistic decisions | Uses data but can't explain methodology deeply | Relies on intuition, can't articulate how they'd measure success |
 | **Cross-Functional** | Concrete examples of building consensus, shows empathy for other teams | Has collaborated but waited for decisions to come to them | Blames other teams, sees alignment as someone else's job |
 | **Experimentation** | Can design rigorous experiments, embraces failures, iterates based on learnings | Has run experiments but didn't own the analysis | Hasn't run real experiments or sees them as "nice to have" |
@@ -321,7 +334,9 @@ Time Available: 60 minutes
 - [ ] Note specific examples (not just impressions)
 - [ ] Flag any concerns for hiring committee
 - [ ] Avoid discussing with other interviewers before independent scoring
-```
+```text
+
+---
 
 ## Tips
 
@@ -330,6 +345,9 @@ Time Available: 60 minutes
 - Listen for specific examples with measurable results, not hypotheticals
 - Take notes on exact quotes - they're more useful than your interpretations
 - Leave time for candidate questions - how they ask reveals a lot
+
+
+---
 
 ## Related Prompts
 
