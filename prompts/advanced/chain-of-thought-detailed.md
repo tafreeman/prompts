@@ -33,6 +33,15 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 
 ---
 
+## Research Foundation
+
+This technique is based on the foundational paper:
+**Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022).** "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 35*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+
+Wei et al. demonstrated that generating a chain of thought—a series of intermediate reasoning steps—significantly improves the ability of large language models to perform complex reasoning. With just eight chain-of-thought exemplars, a 540B-parameter model achieved state-of-the-art accuracy on the GSM8K math benchmark, surpassing even finetuned GPT-3 with a verifier.
+
+---
+
 ## Use Cases
 
 - Complex architectural decisions requiring full justification

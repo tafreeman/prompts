@@ -8,6 +8,7 @@ This directory contains validation tests for the prompt library schema and front
 |------|-------------|-------|
 | `test_frontmatter.py` | Frontmatter parsing and required field validation | ~20 |
 | `test_schema.py` | Schema structure and field type validation | ~25 |
+| `test_frontmatter_auditor.py` | Auditor/autofix library tests | few |
 
 ## Running Tests
 
@@ -20,6 +21,9 @@ python -m pytest testing/validators/test_frontmatter.py -v
 
 # Run specific test class
 python -m pytest testing/validators/test_schema.py::TestValidationFunctions -v
+
+# Run auditor tests
+python -m pytest testing/validators/test_frontmatter_auditor.py -v
 ```
 
 ## Schema Definition
@@ -42,7 +46,27 @@ Required frontmatter fields:
 ```python
 from testing.validators.test_schema import validate_frontmatter, PROMPT_SCHEMA
 
+# Auditor/autofix helpers
+from testing.validators.frontmatter_auditor import validate_frontmatter_file, autofix_frontmatter_file
+
 errors = validate_frontmatter(my_frontmatter_dict)
 if errors:
     print("Validation failed:", errors)
+
+result = validate_frontmatter_file(Path("prompts/foo.md"))
+if result.status == "fail":
+    print(result.errors)
+```
+
+## CLI (auditor)
+
+```bash
+# Audit without modifying files
+python -m testing.validators.frontmatter_auditor check prompts/ docs/ --format text
+
+# Audit and apply autofixes (placeholders, normalization)
+python -m testing.validators.frontmatter_auditor check prompts/ --fix
+
+# JSON report (useful for eval ingestion)
+python -m testing.validators.frontmatter_auditor check prompts/ --format json > frontmatter-report.json
 ```

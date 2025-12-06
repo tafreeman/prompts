@@ -1,8 +1,45 @@
 # 📋 Consolidated Repository Improvement Plan
 
 **Created:** December 4, 2025  
+**Updated:** January 2025 (Multi-Model Evaluation Complete)  
 **Status:** Active  
 **Replaces:** Multiple scattered planning documents
+
+---
+
+## 📊 Latest Evaluation Results (December 6, 2025)
+
+Comprehensive Tree-of-Thoughts evaluation completed. Full report in `docs/TOT_COMPREHENSIVE_REPOSITORY_EVALUATION.md`.
+
+### Repository-Level Score
+
+| Model | Score | Grade | Weighted Score |
+|-------|-------|-------|----------------|
+| Claude Opus 4.5 | 82.2/100 | B+ | **822/1000** |
+
+### Branch Scores (Tree-of-Thoughts Evaluation)
+
+| Branch | Focus | Score | Weight | Weighted |
+|--------|-------|-------|--------|----------|
+| A | Structural & Foundational Integrity | 82/100 | 35% | 287 |
+| B | Advanced Technique Depth & Accuracy | 85/100 | 30% | 255 |
+| C | Enterprise Applicability & Breadth | 80/100 | 35% | 280 |
+
+### Key Strengths (from ToT Evaluation)
+
+1. **Research-Backed Advanced Techniques** - CoT, ToT, ReAct with proper academic citations (Wei et al., Yao et al., Shinn et al.)
+2. **Comprehensive Governance Framework** - 90%+ governance_tags coverage + 6 new governance prompts (GDPR, SOC2, DPIA, DSR, AI/ML Privacy, Data Retention)
+3. **GitHub Copilot Agent Ecosystem** - 10 pre-built agents with clear role definitions and boundaries
+4. **Structured Template System** - Consistent prompt structure with minimal/full template options
+5. **Multi-Platform Optimization** - Platform-specific guidance for Claude, GPT, and GitHub Copilot
+
+### Critical Gaps Identified
+
+1. **Missing Research Patterns** - No Self-Consistency (Wang et al.) or Chain-of-Verification (CoVe) patterns
+2. **Persona Coverage Gaps** - Limited executive, sales, marketing, and customer support personas
+3. **Frontmatter Inconsistencies** - 149 files flagged; `intro` vs `description` field naming
+4. **RAG Depth Limitations** - Chunking strategies, embedding guidance underspecified
+5. **Deployment Governance Gap** - No role-based access patterns or prompt versioning strategy
 
 ---
 
@@ -530,16 +567,230 @@ From `PROMPT_WEB_APP_ARCHITECTURE.md`:
 | 🟡 Medium | 7 | 5 | 2 |
 | 🟢 Low | 3 | 2 | 1 |
 | 🔮 Future | 9 | 0 | 9 |
+| 🆕 Eval-Driven | 8 | 0 | 8 |
+
+### Evaluation-Driven Improvements (December 6, 2025 - ToT 822/1000)
+
+#### 🔴 P0 - Critical (Complete Before Next Release)
+
+| ID | Task | Source | Effort | Status |
+|----|------|--------|--------|--------|
+| **T1** | Implement Self-Consistency prompting pattern | ToT Branch B | 3 hrs | ⬜ TODO |
+| **T2** | Create Claude XML tag variants for top 10 prompts | ToT Branch A | 2 hrs | ⬜ TODO |
+| **T3** | Resolve frontmatter `intro` vs `description` inconsistency | ToT Branch A | 1 hr | ⬜ TODO |
+
+#### 🟠 P1 - High Priority (Complete This Sprint)
+
+| ID | Task | Source | Effort | Status |
+|----|------|--------|--------|--------|
+| **T4** | Add executive persona prompts (board reports, investor comms) | ToT Branch C | 3 hrs | ⬜ TODO |
+| **T5** | Expand RAG prompt with chunking strategies and embedding guidance | ToT Branch B | 2 hrs | ⬜ TODO |
+| **T6** | Add explicit role markers to all advanced prompts | ToT Branch A | 2 hrs | ⬜ TODO |
+| **T7** | Create customer support/ticketing workflow prompts | ToT Branch C | 2 hrs | ⬜ TODO |
+
+#### 🟡 P2 - Medium Priority (Complete This Month)
+
+| ID | Task | Source | Effort | Status |
+|----|------|--------|--------|--------|
+| **T8** | Add JSON schema definitions for governance prompt outputs | ToT Branch A | 2 hrs | ⬜ TODO |
+| **T9** | Create role-based prompt discovery tracks (onboarding paths) | ToT Branch C | 3 hrs | ⬜ TODO |
+| **T10** | Add prompt versioning guidance document | ToT Branch C | 1 hr | ⬜ TODO |
+
+---
+
+## 🔬 Research Required Before Implementation
+
+These items need additional research to understand best practices before implementation:
+
+| ID | Topic | Research Questions | Blocking Tasks | Est. Research |
+|----|-------|-------------------|----------------|---------------|
+| **R1** | **Self-Consistency Pattern Implementation** | How does Self-Consistency (Wang et al., ICLR 2023) differ from simple majority voting? What sampling parameters are optimal? How to present multiple reasoning paths in a prompt template? | T1 | 2 hrs |
+| **R2** | **Chain-of-Verification (CoVe) Pattern** | What is the Generate→Verify→Revise cycle structure? How does CoVe compare to Self-Refine? When should each be used? | Future T11 | 2 hrs |
+| **R3** | **Enterprise Prompt Versioning Strategies** | How do enterprises version prompts at scale? Semantic versioning for prompts? Change documentation patterns? Migration strategies when prompts change? | T10 | 1.5 hrs |
+
+---
+
+## 📋 Detailed Task Specifications
+
+### T1: Implement Self-Consistency Prompting Pattern
+**Priority:** P0 | **Effort:** 3 hrs | **Depends on:** R1 Research
+
+**Description:** Create a new prompt in `prompts/advanced/` implementing the Self-Consistency pattern from Wang et al. (ICLR 2023). This technique samples multiple reasoning paths and selects the most consistent answer.
+
+**Acceptance Criteria:**
+- [ ] New file: `prompts/advanced/self-consistency-reasoning.md`
+- [ ] Proper citation: Wang, X., Wei, J., Schuurmans, D., et al. (2023). "Self-Consistency Improves Chain of Thought Reasoning in Language Models." ICLR 2023. [arXiv:2203.11171](https://arxiv.org/abs/2203.11171)
+- [ ] Clear explanation of when to use Self-Consistency vs single-path CoT
+- [ ] Example showing multiple reasoning paths and consistency selection
+- [ ] Variables for number of samples (k) and aggregation method
+- [ ] Mermaid diagram showing the sampling/voting process
+
+---
+
+### T2: Create Claude XML Tag Variants
+**Priority:** P0 | **Effort:** 2 hrs | **Depends on:** None
+
+**Description:** Add Claude-optimized variants of top prompts using XML tag delimiters for improved instruction following.
+
+**Target Files:**
+1. `chain-of-thought-detailed.md` → add `<thinking>`, `<step>`, `<answer>` tags
+2. `react-tool-augmented.md` → add `<thought>`, `<action>`, `<observation>` tags
+3. `tree-of-thoughts-template.md` → add `<branch>`, `<evaluation>`, `<selected>` tags
+4. `reflection-self-critique.md` → add `<draft>`, `<critique>`, `<revision>` tags
+5. `gdpr-compliance-assessment.md` → add `<assessment>`, `<finding>`, `<remediation>` tags
+
+**Acceptance Criteria:**
+- [ ] Each file has a new "## Claude-Optimized Variant" section
+- [ ] XML tags follow Anthropic best practices
+- [ ] Tip added: "Use XML variant for Claude models for improved instruction following"
+
+---
+
+### T3: Resolve Frontmatter Inconsistency
+**Priority:** P0 | **Effort:** 1 hr | **Depends on:** None
+
+**Description:** The validator reports 149 files missing `description` frontmatter, but most prompts use `intro` field. Standardize on one approach.
+
+**Options:**
+1. Update validator to accept `intro` as equivalent to `description` (recommended - less disruptive)
+2. Add `description` field to all prompts via bulk script
+
+**Acceptance Criteria:**
+- [ ] Decision documented in `CONTRIBUTING.md`
+- [ ] Validator updated OR bulk field addition completed
+- [ ] Validator reports 0 inconsistencies
+
+---
+
+### T4: Add Executive Persona Prompts
+**Priority:** P1 | **Effort:** 3 hrs | **Depends on:** None
+
+**Description:** Create prompts targeting C-suite and executive personas currently underrepresented.
+
+**New Prompts:**
+1. `prompts/business/executive-board-presentation.md` - Board meeting prep and slides
+2. `prompts/business/investor-communication-drafter.md` - Investor updates, earnings narratives
+3. `prompts/business/strategic-briefing-synthesizer.md` - Condensed strategic summaries for executives
+
+**Acceptance Criteria:**
+- [ ] 3 new prompts created following template
+- [ ] Each includes executive-specific variables (audience level, time constraints, key metrics)
+- [ ] Tips section addresses executive communication best practices
+- [ ] Added to `prompts/business/index.md`
+
+---
+
+### T5: Expand RAG Prompt with Chunking Guidance
+**Priority:** P1 | **Effort:** 2 hrs | **Depends on:** None
+
+**Description:** The current RAG prompt lacks guidance on chunking strategies, embedding selection, and context window management.
+
+**File:** `prompts/advanced/rag-document-retrieval.md`
+
+**Additions:**
+- [ ] New section: "## Chunking Strategies" with size recommendations (512, 1024, 2048 tokens)
+- [ ] Overlap guidance (10-20% recommended)
+- [ ] Embedding model comparison table (OpenAI, Cohere, local models)
+- [ ] Context window budget allocation (query, retrieved chunks, generation)
+- [ ] Token counting tips and tools
+
+---
+
+### T6: Add Explicit Role Markers to Advanced Prompts
+**Priority:** P1 | **Effort:** 2 hrs | **Depends on:** None
+
+**Description:** Add `[System Instructions]`, `[Developer Context]`, `[User Input]` delimiters to all advanced prompts for clearer role separation.
+
+**Target Files:** All 18 files in `prompts/advanced/`
+
+**Pattern:**
+```markdown
+## Prompt
+
+### [System Instructions]
+You are an expert...
+
+### [Context - Provided by Developer]
+[BACKGROUND_CONTEXT]
+
+### [User Task]
+[USER_TASK_DESCRIPTION]
+```
+
+---
+
+### T7: Create Customer Support Workflow Prompts
+**Priority:** P1 | **Effort:** 2 hrs | **Depends on:** None
+
+**Description:** Add customer support persona prompts to address enterprise gap.
+
+**New Prompts:**
+1. `prompts/business/support-ticket-triage.md` - Categorize and prioritize tickets
+2. `prompts/business/customer-response-drafter.md` - Draft professional responses
+3. `prompts/business/knowledge-base-article-generator.md` - Generate KB articles from tickets
+
+---
+
+### T8: Add JSON Schema Definitions for Governance Outputs
+**Priority:** P2 | **Effort:** 2 hrs | **Depends on:** None
+
+**Description:** Governance prompts should specify JSON schemas for their outputs to enable automation.
+
+**Target Files:** All files in `prompts/governance/`
+
+**Addition per file:**
+```markdown
+## Output Schema (JSON)
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "assessment_id": { "type": "string" },
+    "findings": { "type": "array", ... }
+  }
+}
+```
+```
+
+---
+
+### T9: Create Role-Based Prompt Discovery Tracks
+**Priority:** P2 | **Effort:** 3 hrs | **Depends on:** None
+
+**Description:** Create onboarding tracks that guide users to relevant prompts based on their role.
+
+**New Files:**
+- `get-started/track-developer.md` - Developer onboarding path
+- `get-started/track-security-engineer.md` - Security professional path
+- `get-started/track-business-analyst.md` - Business analyst path
+- `get-started/track-executive.md` - Executive/leadership path
+
+---
+
+### T10: Add Prompt Versioning Guidance
+**Priority:** P2 | **Effort:** 1 hr | **Depends on:** R3 Research
+
+**Description:** Document how enterprises should version and manage prompts at scale.
+
+**New File:** `docs/prompt-versioning-guide.md`
+
+**Content:**
+- Semantic versioning for prompts (MAJOR.MINOR.PATCH)
+- When to increment each level
+- Change documentation requirements
+- Migration strategies when prompts change
+- Deprecation process
 
 ### Estimated Total Effort
 
-| Category | Issues | Effort | Automatable |
-|----------|-------:|:------:|:-----------:|
-| Critical (fix immediately) | 3 | 4 hrs | Partial |
-| High priority | 4 | 5 hrs | 80% |
-| Medium priority | 7 | 8 hrs | 60% |
-| Low priority | 3 | 3 hrs | 40% |
-| **Total** | **17** | **~20 hrs** | **65%** |
+| Category | Tasks | Effort | Automatable |
+|----------|------:|:------:|:-----------:|
+| P0 Critical | 3 | 6 hrs | 30% |
+| P1 High Priority | 4 | 9 hrs | 20% |
+| P2 Medium Priority | 3 | 6 hrs | 10% |
+| Research Required | 3 | 5.5 hrs | 0% |
+| **Total New** | **13** | **~26.5 hrs** | **15%** |
 
 ### Success Metrics
 
@@ -555,21 +806,65 @@ From `PROMPT_WEB_APP_ARCHITECTURE.md`:
 | Unaligned tables | 89 | 0 | 0 | ✅ Done |
 | Code blocks w/o language | 40+ | 0 | 0 | ✅ Done |
 | Formatting Health Score | 72/100 | ~85/100 | 90/100 | 🟡 Progress |
+| **Repository Score (ToT)** | N/A | **822/1000** | 900/1000 | 🟡 New baseline |
+| **Governance Prompts** | 3 | **9** | 12 | 🟢 Good progress |
+| **Advanced Techniques** | 18 | 18 | 21 | 🟡 +3 needed |
+| **Persona Coverage** | ~60% | ~65% | 85% | 🟠 Gaps remain |
 
-*Note: Validator now checks for `description` frontmatter field (not section). Most prompts use `intro` field instead — consider updating validator schema or adding `description` field.
+*Note: Validator reports 149 files due to `intro` vs `description` field naming. Task T3 addresses this.
 
-**Next Actions:**
-1. ~~Fix 50 broken internal links (Critical #1) - Workstream A~~ ✅ **COMPLETED**
-2. ~~Update README to remove non-existent architecture (Critical #2)~~ ✅ **COMPLETED**
-3. ~~Complete remaining 3 files with missing sections (Critical #3 - Partial)~~ ✅ **COMPLETED**
-4. ~~Fix table alignment (89 files) - Workstream A~~ ✅ **COMPLETED**
-5. ~~Add language specifiers to code blocks (40+ blocks) - Workstream A~~ ✅ **COMPLETED**
-6. Update validator schema to accept `intro` field as equivalent to `description`
-7. Add `Example` section headers where missing (validator reports 149 files)
+**Next Actions (Priority Order):**
+1. ⬜ **R1**: Research Self-Consistency pattern (blocks T1)
+2. ⬜ **T3**: Resolve frontmatter inconsistency (quick win)
+3. ⬜ **T2**: Add Claude XML tag variants (quick win)
+4. ⬜ **T1**: Implement Self-Consistency pattern (after R1)
+5. ⬜ **T4**: Add executive persona prompts
+6. ⬜ **T5**: Expand RAG chunking guidance
+7. ⬜ **T6**: Add role markers to advanced prompts
+8. ⬜ **T7**: Create customer support prompts
+9. ⬜ **R3**: Research prompt versioning (blocks T10)
+10. ⬜ **T8-T10**: Medium priority tasks
 
 ---
 
 ## 📝 Recent Updates
+
+### December 6, 2025 - Comprehensive ToT Evaluation Complete
+**Completed by:** Claude Opus 4.5 (Preview)  
+**Evaluation Score:** **822/1000 (82.2%)**
+
+**Artifacts Created:**
+- `docs/TOT_COMPREHENSIVE_REPOSITORY_EVALUATION.md` - Full Tree-of-Thoughts evaluation report
+
+**Key Accomplishments:**
+1. ✅ Completed comprehensive 3-branch ToT evaluation
+2. ✅ Identified 10 actionable improvement tasks (T1-T10)
+3. ✅ Identified 3 research items requiring investigation (R1-R3)
+4. ✅ Updated success metrics with new baselines
+5. ✅ Created detailed task specifications with acceptance criteria
+
+**Branch Scores:**
+- Branch A (Structure): 82/100 - Strong template adherence, minor frontmatter inconsistency
+- Branch B (Advanced Techniques): 85/100 - Excellent research citations, missing Self-Consistency
+- Branch C (Enterprise): 80/100 - Good governance, persona gaps in executive/sales/support
+
+### December 5, 2025 - Governance Prompts Created
+**Completed by:** prompt-agent  
+**Time:** ~2 hours
+
+**New Governance Prompts (6 total):**
+1. ✅ `gdpr-compliance-assessment.md` - GDPR audit with ReAct+Reflection
+2. ✅ `privacy-impact-assessment.md` - ICO UK 7-step DPIA methodology
+3. ✅ `soc2-audit-preparation.md` - SOC 2 Trust Services Criteria
+4. ✅ `data-subject-request-handler.md` - DSR processing workflow
+5. ✅ `data-retention-policy.md` - Retention schedule generator
+6. ✅ `ai-ml-privacy-risk-assessment.md` - AI privacy and EU AI Act
+
+**Research Citations Added:**
+- Chain-of-Thought: Wei et al., NeurIPS 2022, arXiv:2201.11903
+- ReAct: Yao et al., ICLR 2023, arXiv:2210.03629
+- Tree-of-Thoughts: Yao et al., NeurIPS 2023, arXiv:2305.10601
+- Self-Refine: Madaan et al., NeurIPS 2023, arXiv:2303.17651
 
 ### December 5, 2025 - Merge Conflict Resolution & Workstream A Completion
 **Completed by:** prompt-agent  
@@ -616,4 +911,4 @@ From `PROMPT_WEB_APP_ARCHITECTURE.md`:
 
 ---
 
-*Last Updated: December 5, 2025*
+*Last Updated: December 6, 2025*
