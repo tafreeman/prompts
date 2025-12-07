@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Market Research Analyst
 
+---
+
 ## Description
 
 Conducts comprehensive market research
@@ -56,7 +58,8 @@ Provide:
 4. Key findings
 5. Market insights
 6. Strategic implications
-```text
+```
+
 ## Variables
 
 - `[market]`: Market
@@ -77,7 +80,8 @@ Provide:
 [objectives]: Understand barriers to entry (Privacy concerns vs Cost) and feature preferences
 [methodology]: Mixed Methods (Online Survey N=1500 + 20 In-home Ethnographic Interviews)
 [timeline]: 8 Weeks
-```text
+```
+
 **Output:**
 
 ```text
@@ -95,7 +99,8 @@ Provide:
 *   **Segmentation:** Cluster analysis to identify "Privacy Purists" vs "Tech Enthusiasts."
 
 [... continues with key findings and strategic implications ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

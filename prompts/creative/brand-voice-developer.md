@@ -28,6 +28,8 @@ effectivenessScore: 4.0
 ---
 # Brand Voice Developer
 
+---
+
 ## Description
 
 Create comprehensive brand voice guidelines that define how your brand sounds across all touchpoints. This prompt helps marketers, brand managers, and content strategists develop clear, actionable voice documentation that teams can follow consistently.
@@ -91,7 +93,8 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```text
+```
+
 ## Variables
 
 | Variable | Description |
@@ -158,7 +161,8 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```text
+```
+
 **Output:**
 
 ```text
@@ -487,7 +491,8 @@ Our voice stays consistent, but our tone adjusts based on context:
 ---
 
 *Questions about voice? Ping the brand team or check the #brand-voice Slack channel.*
-```text
+```
+
 ## Tips
 
 - **Involve stakeholders early:** Brand voice should reflect input from leadership, marketing, customer-facing teams, and ideally customers themselves
@@ -502,6 +507,6 @@ Our voice stays consistent, but our tone adjusts based on context:
 ## Related Prompts
 
 - [Headline and Tagline Creator](headline-tagline-creator.md)
-
+- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)

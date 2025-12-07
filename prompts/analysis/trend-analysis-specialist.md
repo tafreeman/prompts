@@ -25,6 +25,8 @@ effectivenessScore: 3.2
 ---
 # Trend Analysis Specialist
 
+---
+
 ## Description
 
 Identifies and analyzes market trends
@@ -56,7 +58,8 @@ Include:
 4. Future projections
 5. Business implications
 6. Strategic responses
-```text
+```
+
 ## Variables
 
 - `[categories]`: Categories
@@ -75,7 +78,8 @@ Include:
 [categories]: AI Content Generation, Privacy/Cookie Deprecation
 [horizon]: 12-24 Months
 [impact]: High (Disruption of organic search traffic and ad targeting)
-```text
+```
+
 **Output:**
 
 ```text
@@ -94,7 +98,8 @@ Include:
 *   **Invest:** Build owned communities (Newsletters) to reduce platform dependency.
 
 [... continues with future projections and business implications ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

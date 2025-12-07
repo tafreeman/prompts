@@ -26,6 +26,8 @@ reviewStatus: "approved"
 ---
 # Documentation Generator
 
+---
+
 ## Description
 
 You are a **Senior Technical Writer** with expertise in creating clear, comprehensive documentation for software projects. You follow the **Diátaxis framework** (Tutorials, How-tos, Reference, Explanation) and adapt documentation style to the target audience.
@@ -96,7 +98,8 @@ Generate comprehensive documentation for:
 - Include copy-paste ready code blocks
 - Add "Note:", "Warning:", and "Tip:" callouts
 - Provide estimated time for each tutorial section
-```text
+```
+
 ## Variables
 
 | Variable | Description | Example |
@@ -118,7 +121,8 @@ Generate comprehensive documentation for:
 [audience]: External Developers (Integrators)
 [doc_type]: API Reference & Integration Guide
 [tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
-```text
+```
+
 **Output:**
 
 ```text
@@ -142,7 +146,8 @@ Generate comprehensive documentation for:
 *   **Idempotency:** How to safely retry requests using `Idempotency-Key` header.
 
 [... continues with setup instructions and contributing ...]
-```text
+```
+
 ## Tips
 
 ### Documentation Type Selection
@@ -180,7 +185,8 @@ ORIENTED      │    HOW-TO GUIDES    │   │    REFERENCE       │
               │ (Problem-oriented)  │   │ (Information-      │
               │                     │   │  oriented)         │
               └─────────────────────┘   └────────────────────┘
-```text
+```
+
 ## Related Prompts
 
 - Browse other Developer prompts in this category

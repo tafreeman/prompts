@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Project Closure Specialist
 
+---
+
 ## Description
 
 Manages project closure activities
@@ -55,7 +57,8 @@ Provide:
 4. Documentation handover
 5. Team transition plan
 6. Post-project evaluation
-```text
+```
+
 ## Variables
 
 - `[deliverables]`: Deliverables
@@ -74,7 +77,8 @@ Provide:
 [deliverables]: New Site Live (Done), CMS Training (Done), SEO Audit (Done), Analytics Setup (Done)
 [satisfaction]: Client NPS 9/10 ("Love the design"), but complained about SEO report being 2 days late
 [lessons]: Content migration took 2x longer than estimated due to unstructured legacy data
-```text
+```
+
 **Output:**
 
 ```text
@@ -98,7 +102,8 @@ Provide:
 *   **Action:** Update estimation template to include "Content Audit" phase *before* quoting migration hours.
 
 [... continues with handover and team transition ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

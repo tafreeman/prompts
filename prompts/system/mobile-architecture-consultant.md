@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Mobile Architecture Consultant
 
+---
+
 ## Description
 
 Designs mobile application architectures
+
+---
 
 ## Use Cases
 
 - Mobile Architecture for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,8 @@ Include:
 4. Security implementation
 5. Performance optimization
 6. Testing strategy
-```text
+```
+
 ## Variables
 
 - `[app_type]`: App Type
@@ -61,6 +68,8 @@ Include:
 - `[platforms]`: Platforms
 - `[security]`: Security
 - `[users]`: Users
+
+---
 
 ## Example Usage
 
@@ -72,7 +81,8 @@ Include:
 [users]: 1M+ patients, elderly demographic (accessibility focus)
 [performance]: <2s startup time, smooth video calls on 4G networks
 [security]: HIPAA compliant, biometric auth, no sensitive data stored on device
-```text
+```
+
 **Output:**
 
 ```text
@@ -95,13 +105,16 @@ Include:
 *   **Sync:** Background sync worker to upload vitals when connectivity restores.
 
 [... continues with security implementation and testing ...]
-```sql
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

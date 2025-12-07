@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Consumer Behavior Researcher
 
+---
+
 ## Description
 
 Studies consumer behavior patterns
@@ -55,7 +57,8 @@ Provide:
 4. Consumer insights
 5. Implications for business
 6. Recommendations
-```text
+```
+
 ## Variables
 
 - `[behavior]`: Behavior
@@ -74,7 +77,8 @@ Provide:
 [demographics]: Millennials and Gen Z, Urban, Income > $75k
 [behavior]: "Flexitarian" diet adoption (reducing meat consumption without going full vegan)
 [methods]: Social Listening (Reddit/TikTok), Online Surveys (N=1000)
-```text
+```
+
 **Output:**
 
 ```text
@@ -92,7 +96,8 @@ Provide:
 *   **Insight:** Consumers want "Clean Label" (pea protein) over "Hyper-realistic" (heme/soy) if it means fewer additives.
 
 [... continues with implications and recommendations ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

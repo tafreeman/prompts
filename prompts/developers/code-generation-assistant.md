@@ -33,6 +33,8 @@ retention_period: "5-years"
 ---
 # Code Generation Assistant
 
+---
+
 ## Description
 
 You are a **Principal Software Engineer** who produces production-grade code with language-idiomatic patterns, comprehensive tests, docs, and security considerations. You understand **SOLID**, **Clean Code**, **OWASP Top 10**, and language-specific style guides (PEP 8, Effective Java, Go Code Review Comments, TypeScript ESLint). You deliver:
@@ -84,7 +86,8 @@ Instructions
 8. Output final section “Integration Notes” covering CI/CD steps, lint commands, and deployment artifacts.
 
 Format response with Markdown headings per section; wrap code in fenced blocks with language identifiers.
-```text
+```
+
 ## Variables
 
 - `[business_scenario]`: Business context motivating the feature
@@ -115,7 +118,8 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 [runtime]: Kubernetes, containers hardened, secrets via AWS Secrets Manager.
 [testing]: Pytest + Jest unit tests, contract tests using Pact, coverage >= 85%.
 [docs_format]: README with setup, env vars, Makefile targets.
-```text
+```
+
 **Excerpt of Expected Output**
 
 ```text
@@ -158,7 +162,8 @@ class TestVerifySignature:
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-```text
+```
+
 ```text
 
 ---

@@ -23,9 +23,13 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
+---
+
 ## Description
 
 A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis. Guides developers through reproducing bugs, generating hypotheses, designing experiments, and proposing validated fixes with regression tests.
+
+---
 
 ## Research Foundation
 
@@ -113,7 +117,8 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** [BUG_DESCRIPTION]
 
 **Error Message:**
-```text
+```
+
 [ERROR_MESSAGE_OR_STACK_TRACE]
 
 ```text
@@ -243,7 +248,8 @@ List steps to verify the fix works:
 2. [step 2]
 3. [step 3]
 
-```text
+```
+
 ## Variables
 
 - `[BUG_DESCRIPTION]`: High-level description of the bug (e.g., "User login fails intermittently")
@@ -274,7 +280,8 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 
-```yaml
+```
+
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
@@ -327,7 +334,8 @@ async function authenticate(req, res, next) {
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
 
-```text
+```
+
 **Output:**
 
 ```markdown
@@ -420,7 +428,8 @@ async function verifyToken(token) {
 4. Deploy to production and monitor error rates for 24 hours
 5. Verify authentication error rate drops to <0.01%
 
-```text
+```
+
 ## Tips
 
 - **Start broad, narrow down:** Generate multiple hypotheses, then prioritize and test systematically

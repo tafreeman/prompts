@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # IoT Architecture Designer
 
+---
+
 ## Description
 
 Designs IoT system architectures
+
+---
 
 ## Use Cases
 
 - IoT for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,8 @@ Provide:
 4. Cloud integration
 5. Security framework
 6. Management platform
-```text
+```
+
 ## Variables
 
 - `[connectivity]`: Connectivity
@@ -61,6 +68,8 @@ Provide:
 - `[devices]`: Devices
 - `[security]`: Security
 - `[use_case]`: Use Case
+
+---
 
 ## Example Usage
 
@@ -72,7 +81,8 @@ Provide:
 [data_volume]: 1TB/day streaming telemetry
 [connectivity]: LoRaWAN for sensors (low power), MQTT over Wi-Fi for controllers
 [security]: Mutual TLS (mTLS) for device auth, end-to-end encryption, air-gapped OT network
-```text
+```
+
 **Output:**
 
 ```text
@@ -92,13 +102,16 @@ Provide:
 *   **Network:** Network segmentation separating OT (Operational Tech) from IT networks.
 
 [... continues with management platform and cloud integration ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

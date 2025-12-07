@@ -40,6 +40,8 @@ To generate a sophisticated image description that can be pasted directly into M
 - **Art Style**: [art_style]
 - **Brand Colors**: [brand_colors]
 
+---
+
 ## Prompt
 
 You are an expert AI Art Director. I need you to write a detailed image generation prompt that I can use in Microsoft Designer.
@@ -65,12 +67,16 @@ Please write **3 distinct prompt options** for Microsoft Designer. Each option s
 - **Option 2 (Abstract)**: A metaphorical or creative interpretation.
 - **Option 3 (Minimalist)**: A clean, simple version suitable for backgrounds.
 
+---
+
 ## Variables
 
 - `[subject]`: The core concept (e.g., "Team collaboration", "Cybersecurity shield", "Future of AI").
 - `[mood]`: The feeling (e.g., "Professional", "Energetic", "Calm", "Futuristic").
 - `[art_style]`: The visual technique (e.g., "Photorealistic", "Isometric 3D", "Watercolor", "Tech Line Art").
 - `[brand_colors]`: Specific colors to include (e.g., "Blue and White", "Neon Green accents").
+
+---
 
 ## Example Usage
 
@@ -94,10 +100,14 @@ Please write **3 distinct prompt options** for Microsoft Designer. Each option s
 **Option 3 (Minimalist)**
 "A simple, clean isometric icon of a single eco-friendly building with a small tree on top. White background with soft ambient occlusion. Minimal details, using only shades of green and blue. Perfect for a presentation icon."
 
+---
+
 ## Tips
 
 - Paste the output text directly into the "Describe the image you'd like to create" box in Microsoft Designer.
 - If the result isn't right, try adding "no text" or "high resolution" to the generated prompt.
+
+---
 
 ## Related Prompts
 

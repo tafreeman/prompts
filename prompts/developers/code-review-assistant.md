@@ -27,6 +27,8 @@ reviewStatus: "approved"
 ---
 # Code Review Assistant
 
+---
+
 ## Description
 
 An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests.
@@ -73,7 +75,8 @@ Focus on:
 - Readability and maintainability
 - Potential edge cases
 
-```text
+```
+
 ## Variables
 
 | Variable | Description | Example Values |
@@ -150,7 +153,8 @@ Focus on:
 - Readability and maintainability
 - Potential edge cases
 
-```text
+```
+
 **Output:**
 
 ```text
@@ -209,7 +213,8 @@ This refactored version:
 - Has type hints and docstring
 - Follows Python best practices (PEP 8)
 
-```text
+```
+
 ## Tips
 
 - Be specific about the context and purpose of your code for more relevant feedback
@@ -249,7 +254,7 @@ This refactored version:
 ## Example Feedback Snippets
 
 ### Critical: Security Issue
-```sql
+```
 🔴 **CRITICAL - Security Vulnerability**
 **Line 15**: SQL injection vulnerability
 
@@ -260,9 +265,10 @@ The query uses string concatenation with user input:
 `cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
 
 **Why**: Attackers can inject malicious SQL to access/delete data.
-```sql
+```
+
 ### Major: Missing Error Handling
-```sql
+```
 🟡 **MAJOR - Missing Error Handling**
 **Lines 23-25**: API call has no error handling
 
@@ -276,9 +282,11 @@ try:
 except requests.RequestException as e:
     logger.error(f"API call failed: {e}")
     return None
-```text
+```
+
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
-```text
+```
+
 ### Minor: Naming Improvement
 ```text
 🟢 **MINOR - Naming Suggestion**
@@ -287,10 +295,12 @@ except requests.RequestException as e:
 **Suggestion**: Rename to `user_count` or `total_records` based on its purpose.
 
 **Why**: Descriptive names make code self-documenting.
-```text
+```
+
 ## Related Prompts
 
-- [Code Documentation Generator](./documentation-generator.md) - Generate docs
+- [Bug Finder and Fixer](bug-finder.md) - Specialized bug detection
+- [Code Documentation Generator](code-documentation-generator.md) - Generate docs
 - [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
-- [Refactoring Assistant](./csharp-refactoring-assistant.md) - Detailed refactoring guidance
+- [Refactoring Assistant](refactoring-assistant.md) - Detailed refactoring guidance
 - [Security Code Auditor](security-code-auditor.md) - Security-focused review

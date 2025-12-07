@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # Risk Management Analyst
 
+---
+
 ## Description
 
 Enterprise-grade risk analyst specializing in project risk identification, quantification, and mitigation using ISO 31000 and PMI PMBOK frameworks. Focuses on probability-impact assessment, risk response planning, and continuous monitoring for complex technical and infrastructure projects.
@@ -63,7 +65,8 @@ Provide:
 7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
 
 Use tables for risk matrices and include expected monetary value (EMV) calculations where applicable.
-```powershell
+```
+
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "Data Center DC-04 Build - 50MW Hyperscale Facility")
@@ -90,7 +93,8 @@ Impact:
 - Critical path delay incurs $500K/month in liquidated damages to anchor tenant
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
-```text
+```
+
 **Output:**
 
 ```markdown
@@ -129,7 +133,8 @@ Impact:
 
 ### Risk Heat Map
 
-```text
+```
+
 Impact ↑
 5 |              R-04
 4 |    R-01      R-02, R-03
@@ -143,7 +148,8 @@ Impact ↑
 🟡 High (Score 6-11): Active mitigation
 🟢 Medium (Score 1-5): Monitor
 
-```sql
+```
+
 ---
 
 ## 3. Risk Mitigation Strategies
@@ -270,7 +276,8 @@ Impact ↑
 
 **Escalation Email (Sample for R-04 Red Alert)**:
 
-```powershell
+```
+
 Subject: [URGENT] DC-04 Risk Escalation — Anchor Tenant Risk (R-04)
 
 To: Steering Committee
@@ -297,7 +304,8 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 
 [Project Manager Name]
 
-```sql
+```
+
 ---
 
 ## Success Metrics
@@ -327,7 +335,8 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **RPN \u003e 100**: Immediate action required
 - **RPN 50-100**: High priority mitigation
 - **RPN \u003c 50**: Monitor and review quarterly
-```text
+```
+
 ## Tips
 
 - **Quantify Impact in Dollar Terms**: Executives understand "$500K/month delay" better than "high impact." Always convert impact to EMV (Expected Monetary Value).
@@ -345,4 +354,4 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **[change-management-coordinator](./change-management-coordinator.md)** - For managing organizational change risks
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For communicating risks to stakeholders
 - **[budget-and-cost-controller](./budget-and-cost-controller.md)** - For managing financial impact of risks
-- **[project-charter-creator](./business-strategy-analysis.md)** - For initial risk identification during project planning
+- **[project-charter-creator](./project-charter-creator.md)** - For initial risk identification during project planning

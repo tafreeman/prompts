@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # Board Update Generator
 
+---
+
 ## Description
 
 Create polished board updates and investor communications that clearly convey company performance, strategic progress, and key decisions needed. Balances transparency with appropriate framing.
@@ -99,7 +101,8 @@ Generate:
    - Upcoming board agenda items
 
 Write in confident but honest tone. No spin, but appropriate framing. Board members are time-constrained - be concise.
-```sql
+```
+
 ## Variables
 
 - `[company]`: Company name and brief context
@@ -139,7 +142,8 @@ Asks:
 - Board input on whether to pursue partnership with Microsoft
 - Intro requests: Need intros to procurement at 3 target accounts
 Audience: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
-```text
+```
+
 **Output:**
 
 ```markdown
@@ -363,7 +367,8 @@ Seeking warm introductions to procurement/IT at:
 *Questions before the board meeting? Email me directly or drop in #board-updates Slack channel.*
 
 — [CEO Name]
-```text
+```
+
 ## Tips
 
 - Lead with the headline: good news or bad news first, don't bury it

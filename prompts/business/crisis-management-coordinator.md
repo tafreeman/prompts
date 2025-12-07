@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Crisis Management Coordinator
 
+---
+
 ## Description
 
 Manages project crises
@@ -55,7 +57,8 @@ Provide:
 4. Risk mitigation
 5. Recovery strategy
 6. Lessons learned
-```text
+```
+
 ## Variables
 
 - `[crisis]`: Crisis
@@ -74,7 +77,8 @@ Provide:
 [crisis]: Ransomware attack detected on Staging Environment servers
 [impact]: All test data encrypted, rollout to APAC region (scheduled for Monday) blocked, potential PII leak
 [urgency]: Critical (Level 1) - Immediate Action Required
-```text
+```
+
 **Output:**
 
 ```text
@@ -94,7 +98,8 @@ Provide:
 *   **Recovery:** Do not pay ransom. Restore Staging from immutable backups (WORM storage) once environment is clean.
 
 [... continues with resource mobilization and lessons learned ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

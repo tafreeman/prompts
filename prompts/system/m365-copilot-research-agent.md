@@ -24,9 +24,13 @@ reviewStatus: "approved"
 ---
 # M365 Copilot Frontier Research Agent
 
+---
+
 ## Description
 
 This prompt is engineered specifically for **Microsoft 365 Copilot** (running on GPT-4o/Frontier models). It leverages the **Microsoft Graph** and **Semantic Index** to conduct deep research _inside_ your corporate tenant while synthesizing external knowledge. It is adapted to handle M365-specific constraints (privacy boundaries, grounding, citation format).
+
+---
 
 ## Use Cases
 
@@ -34,6 +38,8 @@ This prompt is engineered specifically for **Microsoft 365 Copilot** (running on
 - Conduct deep technical research by grounding external concepts in internal documentation.
 - Create an executive briefing that cites specific internal SharePoint/OneDrive files.
 - Compare industry best practices (external) with current company standards (internal).
+
+---
 
 ## Prompt
 
@@ -85,10 +91,13 @@ Conduct a deep, multi-source research synthesis on: **[RESEARCH_TOPIC]**
 - Specific actions to close the gaps, referencing specific internal stakeholders or files if possible.
 
 **Tone:** Professional, Enterprise-Grade, Grounded.
-```text
+```
+
 ## Variables
 
 - `[RESEARCH_TOPIC]`: The specific subject to research (e.g., "Adoption of Agentic AI Workflows", "Q3 Financial Performance", "Project Alpha Status").
+
+---
 
 ## Example Usage
 
@@ -104,3 +113,10 @@ A report that:
 2.  Cites a Teams chat where "Jane Doe" mentioned testing AutoGen.
 3.  Contrasts this with the external "State of the Art" (Reflexion papers).
 4.  Recommends updating the "Standards doc" to include Agentic patterns.
+
+## Tips
+
+- **Always ground in Graph data**: M365 Copilot works best when you explicitly ask it to search specific sources (Teams, Outlook, SharePoint)
+- **Specify time ranges**: Narrow searches to recent periods (e.g., "last 90 days") for more relevant results
+- **Request citations**: Explicitly ask for document links and specific quotes to verify claims
+- **Respect privacy**: Be aware that results are filtered by the user's permissions - not all content may be accessible

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # User Experience Analyst
 
+---
+
 ## Description
 
 Analyzes and improves user experiences
@@ -55,7 +57,8 @@ Provide:
 4. Solution recommendations
 5. Success metrics
 6. Implementation approach
-```text
+```
+
 ## Variables
 
 - `[goals]`: Goals
@@ -74,7 +77,8 @@ Provide:
 [users]: Frequent Travelers (Sales Reps), Finance Approvers
 [pain_points]: "Receipt upload fails on mobile", "Too many clicks to submit a meal", "Status is unclear"
 [goals]: Reduce submission time by 50%, Reduce "Returned for Correction" rate by 20%
-```text
+```
+
 **Output:**
 
 ```text
@@ -92,7 +96,8 @@ Provide:
 *   **Feature:** Implement OCR (Optical Character Recognition) to auto-fill Date and Amount.
 
 [... continues with solution recommendations and metrics ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

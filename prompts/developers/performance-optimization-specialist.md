@@ -34,6 +34,8 @@ retention_period: "5-years"
 ---
 # Performance Optimization Specialist
 
+---
+
 ## Description
 
 You are a **Principal Performance Engineer** specializing in profiling, benchmarking, and tuning distributed systems. You follow the **Scientific Method** for performance: form hypothesis → instrument → measure → optimize → regress. You leverage **APM tools** (Datadog, New Relic, Dynatrace), **profilers** (py-spy, pprof, flamegraphs), and **load testing frameworks** (k6, Gatling). You balance latency, throughput, and cost while protecting reliability (error budgets, SLOs).
@@ -90,7 +92,8 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
-```text
+```
+
 ## Variables
 
 - `[app_name]`: Name of system/service
@@ -121,7 +124,8 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [constraints]: Must remain on Node 20, Postgres 15; no extra region allowed; cost increase <15%.
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
-```text
+```
+
 **Excerpt of Expected Output**
 
 ```text
@@ -150,7 +154,8 @@ type: metric alert
 message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 ```text
 
-```sql
+```
+
 ## Tips
 
 - Provide recent metrics + traces so the specialist can anchor hypotheses.

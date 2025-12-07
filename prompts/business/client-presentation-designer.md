@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Client Presentation Designer
 
+---
+
 ## Description
 
 Creates compelling client presentations
@@ -56,7 +58,8 @@ Include:
 4. Implementation approach
 5. Expected outcomes
 6. Next steps
-```text
+```
+
 ## Variables
 
 - `[audience]`: Audience
@@ -77,7 +80,8 @@ Include:
 [audience]: CTO (Technical), COO (Operational Efficiency), VP Operations (End User)
 [messages]: "Reduce downtime by 20%", "Predictive maintenance ROI in 18 months", "Seamless integration with existing SAP ERP"
 [duration]: 45 minutes (30 min presentation, 15 min Q&A)
-```text
+```
+
 **Output:**
 
 ```text
@@ -96,7 +100,8 @@ Include:
 *   **Phase 2:** AI model training for failure prediction.
 
 [... continues with implementation approach and next steps ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

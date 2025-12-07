@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Business Strategy Analysis
 
+---
+
 ## Description
 
 A comprehensive business strategy analyzer that helps evaluate strategic options, identify opportunities and threats, and provide actionable recommendations. Perfect for business leaders, consultants, and strategists planning new initiatives or evaluating current strategies.
@@ -84,7 +86,8 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```text
+```
+
 ## Variables
 
 - `[COMPANY NAME]`: Your organization's name
@@ -144,7 +147,8 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```text
+```
+
 **Output:**
 
 ```text
@@ -287,7 +291,8 @@ Please provide:
 - First enterprise deal: Within 90 days of first hire
 - SMB growth maintained: 25%+ YoY
 - Gross revenue retention: >95% for mid-market accounts
-```text
+```
+
 ## Tips
 
 - Be as specific as possible about your situation for more tailored advice
@@ -301,5 +306,5 @@ Please provide:
 
 ## Related Prompts
 
-- [Market Research Analysis](competitive-analysis.md)
+- [Market Research Analysis](market-research-analysis.md)
 - [Competitive Analysis Framework](competitive-analysis.md)

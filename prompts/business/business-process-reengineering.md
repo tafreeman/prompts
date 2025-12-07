@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Business Process Reengineering
 
+---
+
 ## Description
 
 Reengineers business processes
@@ -55,7 +57,8 @@ Include:
 4. Technology enablers
 5. Implementation strategy
 6. Performance metrics
-```text
+```
+
 ## Variables
 
 - `[constraints]`: Constraints
@@ -74,7 +77,8 @@ Include:
 [performance]: Cycle time 14 days, Error rate 12% (mostly pricing disputes), Manual touchpoints: 8
 [targets]: Cycle time < 3 days, Error rate < 1%, Touchless processing > 80%
 [constraints]: Cannot replace core SAP ERP system; Budget limited to $200k
-```text
+```
+
 **Output:**
 
 ```text
@@ -94,7 +98,8 @@ Include:
 *   **Step 3:** Auto-release to warehouse (if standard pricing).
 
 [... continues with technology enablers and implementation ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
