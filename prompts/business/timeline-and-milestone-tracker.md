@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Timeline and Milestone Tracker
 
+---
+
 ## Description
 
 Tracks project progress and milestones
@@ -55,7 +57,8 @@ Provide:
 4. Critical path assessment
 5. Recovery planning
 6. Stakeholder updates
-```text
+```
+
 ## Variables
 
 - `[concerns]`: Concerns
@@ -74,7 +77,8 @@ Provide:
 [phase]: User Acceptance Testing (UAT)
 [milestones]: Code Freeze (Done 11/15), Beta Release (Due 11/22), App Store Submission (Due 11/30)
 [concerns]: 3 Critical bugs still open, QA lead out sick, Apple review times unpredictable
-```text
+```
+
 **Output:**
 
 ```text
@@ -97,7 +101,8 @@ Provide:
 *   **Mitigation:** Reallocated Senior iOS Dev from feature work to bug fixing immediately.
 
 [... continues with recovery planning and stakeholder updates ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

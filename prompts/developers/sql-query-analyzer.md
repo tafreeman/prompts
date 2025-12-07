@@ -29,6 +29,8 @@ framework_compatibility:
 ---
 # SQL Query Analyzer
 
+---
+
 ## Description
 
 A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
@@ -68,7 +70,8 @@ Output Format:
 - **Findings**: Bulleted list of issues (Critical/Major/Minor).
 - **Optimized Query**: Rewritten SQL.
 - **Index Recommendations**: Suggested indexes to support the query.
-```sql
+```
+
 ## Variables
 
 - `[sql_query]`: The raw SQL to analyze.
@@ -85,7 +88,8 @@ Output Format:
 Engine: SQL Server
 Query:
 SELECT * FROM Orders WHERE YEAR(OrderDate) = 2024 AND CustomerName LIKE '%Corp%'
-```sql
+```
+
 **Output:**
 
 ```markdown
@@ -112,7 +116,8 @@ FROM Orders
 WHERE OrderDate >= '2024-01-01' 
   AND OrderDate < '2025-01-01'
   AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
-```sql
+```
+
 ## Index Recommendations
 
 ```sql
@@ -120,8 +125,10 @@ WHERE OrderDate >= '2024-01-01'
 CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
 ON Orders (OrderDate) 
 INCLUDE (CustomerName, TotalAmount);
-```sql
-```sql
+```
+
+```
+
 ## Tips
 
 - Always specify the **Database Engine** as syntax and optimization rules vary (e.g., `LIMIT` vs `TOP`).
@@ -133,4 +140,4 @@ INCLUDE (CustomerName, TotalAmount);
 ## Related Prompts
 
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
-- [data-migration-architect](./data-pipeline-engineer.md)
+- [data-migration-architect](./data-migration-architect.md)

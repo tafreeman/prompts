@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Market Entry Strategist
 
+---
+
 ## Description
 
 Develops market entry strategies
@@ -56,7 +58,8 @@ Provide:
 4. Resource requirements
 5. Risk assessment
 6. Success metrics
-```text
+```
+
 ## Variables
 
 - `[company]`: Company
@@ -77,7 +80,8 @@ Provide:
 [offering]: Employee Engagement & Performance Software
 [competition]: Personio (Local incumbent), SAP SuccessFactors (Enterprise), Workday
 [resources]: $2M Budget, 1 Local Sales Rep, No local office yet
-```text
+```
+
 **Output:**
 
 ```text
@@ -96,7 +100,8 @@ Provide:
 *   **Channel:** Partner with local HR consultancies who implement software.
 
 [... continues with resource requirements and risk assessment ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

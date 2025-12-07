@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Detailed Mode
 
+---
+
 ## Description
 
 A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations, justifications, and consideration of alternatives. This mode is ideal for complex problems, high-stakes decisions, teaching contexts, or when stakeholders need to understand the complete reasoning process.
@@ -91,7 +93,8 @@ Format your response as:
 - Confidence level (High/Medium/Low) with justification
 - Recommended next steps
 - Potential refinements or follow-up questions
-```text
+```
+
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The complete problem statement with all relevant details
@@ -135,7 +138,8 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Instructions**:
 [Detailed instructions as shown above]
-```text
+```
+
 **Output:**
 
 ```text
@@ -369,7 +373,8 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
-```sql
+```
+
 ## Tips
 
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
@@ -394,8 +399,7 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
-
----
+- [Reflection: Evaluator](reflection-evaluator.md) - For critiquing detailed reasoning
 
 ## Output Schema (JSON)
 
@@ -432,7 +436,8 @@ For automation pipelines, request output in this format:
     "potential_refinements": ["...", "..."]
   }
 }
-```powershell
+```
+
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -450,7 +455,8 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
-```text
+```
+
 ### API Integration
 
 ```python
@@ -463,4 +469,4 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-```text
+```

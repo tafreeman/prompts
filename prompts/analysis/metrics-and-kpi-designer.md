@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Metrics and KPI Designer
 
+---
+
 ## Description
 
 Designs business metrics and KPIs
@@ -55,7 +57,8 @@ Include:
 4. Calculation methods
 5. Reporting strategy
 6. Action triggers
-```text
+```
+
 ## Variables
 
 - `[data]`: Data
@@ -74,7 +77,8 @@ Include:
 [stakeholders]: CTO, VP Engineering, Team Leads
 [data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
 [frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
-```text
+```
+
 **Output:**
 
 ```text
@@ -93,7 +97,8 @@ Include:
 *   **Red Flag:** If "Lead Time" > 3 days, trigger a "Pipeline Bottleneck" review.
 
 [... continues with reporting strategy and calculation methods ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

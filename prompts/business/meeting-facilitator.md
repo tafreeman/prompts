@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Meeting Facilitator
 
+---
+
 ## Description
 
 Facilitates effective project meetings
@@ -55,7 +57,8 @@ Include:
 4. Decision-making process
 5. Action item tracking
 6. Follow-up procedures
-```text
+```
+
 ## Variables
 
 - `[attendees]`: Attendees
@@ -74,7 +77,8 @@ Include:
 [attendees]: Regional Sales Directors (x4), VP Sales, Marketing Lead, Finance Partner
 [duration]: 4 Hours (Half-day offsite)
 [decisions]: Finalize Q4 Quotas, Approve Q4 Marketing Budget Allocation, Go/No-Go on "Winter Promo"
-```text
+```
+
 **Output:**
 
 ```text
@@ -95,7 +99,8 @@ Include:
 *   **ELMO Rule:** "Enough, Let's Move On" if quota debates circle for >10 mins.
 
 [... continues with decision process and follow-up ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

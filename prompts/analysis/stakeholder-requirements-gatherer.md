@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Stakeholder Requirements Gatherer
 
+---
+
 ## Description
 
 Gathers and manages stakeholder requirements
@@ -55,7 +57,8 @@ Include:
 4. Conflict resolution
 5. Prioritization framework
 6. Communication strategy
-```text
+```
+
 ## Variables
 
 - `[complexity]`: Complexity
@@ -74,7 +77,8 @@ Include:
 [groups]: Sales Reps (End Users), Sales Ops (Admins), Marketing (Lead Gen)
 [domain]: B2B SaaS Sales
 [complexity]: High (Data migration + Process re-engineering required)
-```text
+```
+
 **Output:**
 
 ```text
@@ -93,7 +97,8 @@ Include:
 *   **Requirement (Ops):** "Must enforce 'Deal Stage' validation rules."
 
 [... continues with conflict resolution and communication ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

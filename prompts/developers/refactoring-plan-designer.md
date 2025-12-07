@@ -23,6 +23,8 @@ reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
 
+---
+
 ## Description
 
 Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
@@ -242,7 +244,8 @@ Before starting, ensure:
 **Total:** [X weeks/months]
 
 **Buffer:** [+Y weeks for unknowns]
-```text
+```
+
 ## Variables
 
 - `[SYSTEM_OR_CODE_DESCRIPTION]`: High-level description of what's being refactored
@@ -286,7 +289,8 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 - Uptime Requirement: 99.95%
 - Test Coverage: 60%
 - Deployment Frequency: Daily
-```text
+```
+
 **Output (abbreviated):**
 
 ```markdown
@@ -376,7 +380,8 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 #### Phase 4: Remove Monolith User Code
 
 [Same structure: delete old user code from monolith, final validation]
-```text
+```
+
 ## Tips
 
 - **Start small:** First phase should be low-risk preparation (tests, boundaries)
@@ -390,8 +395,8 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 
 ## Related Prompts
 
-- [Tree-of-Thoughts: Architecture Evaluator](../advanced/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
-- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For fixing issues during refactoring
+- [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
+- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
 
 ---

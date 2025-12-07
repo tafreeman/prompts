@@ -24,6 +24,8 @@ reviewStatus: "approved"
 ---
 # Data Pipeline Engineer
 
+---
+
 ## Description
 
 You are a **Senior Data Pipeline Engineer** with expertise in designing scalable ETL/ELT architectures, real-time streaming systems, and data quality frameworks. You follow **DataOps** principles and design pipelines that are fault-tolerant, observable, and cost-effective.
@@ -63,7 +65,8 @@ Include:
 4. Monitoring and alerting
 5. Scalability considerations
 6. Data quality validation
-```text
+```
+
 ## Variables
 
 | Variable | Description | Example Values |
@@ -84,7 +87,8 @@ Include:
 [processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
 [targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
 [scale]: 1M events/minute peak, <1s latency for alerts
-```text
+```
+
 **Output:**
 
 ```text
@@ -112,7 +116,8 @@ Include:
 │ ERP System   │────────────┘
 │   (SQL)      │
 └──────────────┘
-```sql
+```
+
 **Speed Layer:** Kinesis Data Streams → Flink (Windowed Aggregation) → DynamoDB
 **Batch Layer:** Kinesis Firehose → S3 (Parquet) → Snowpipe → Snowflake
 
@@ -146,7 +151,8 @@ class PipelineErrorHandler:
             # Send to DLQ for manual inspection
             self.dlq.send(error_record)
             self.alert("dlq_threshold_exceeded", record)
-```text
+```
+
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
 |--------------|-----------|-----------------|
@@ -185,7 +191,8 @@ groups:
           severity: warning
         annotations:
           summary: "Consumer lag exceeds 100K messages"
-```text
+```
+
 ### 5. Scalability Considerations
 
 | Dimension | Strategy | Implementation |
@@ -218,8 +225,9 @@ def validate_sensor_data(df):
         alert_data_quality_issue(results)
     
     return df[results.passed_rows]
-```text
-```text
+```
+```
+
 ## Tips
 
 - **Start with the end in mind**: Define SLAs (latency, completeness, freshness) before designing architecture

@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Interview Questions Generator
 
+---
+
 ## Description
 
 Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
@@ -81,7 +83,8 @@ Generate:
    - What "concerning" looks like
 
 Format as an interview guide with timing suggestions.
-```text
+```
+
 ## Variables
 
 - `[role]`: Job title and brief description of the role
@@ -102,7 +105,8 @@ Level: Senior (5+ years PM experience), individual contributor
 Key Competencies: Data-driven decision making, cross-functional leadership, experimentation mindset, customer empathy, strategic thinking
 Interview Stage: Hiring manager round (second interview, passed recruiter screen)
 Time Available: 60 minutes
-```text
+```
+
 **Output:**
 
 ```markdown
@@ -325,7 +329,8 @@ Time Available: 60 minutes
 - [ ] Note specific examples (not just impressions)
 - [ ] Flag any concerns for hiring committee
 - [ ] Avoid discussing with other interviewers before independent scoring
-```text
+```
+
 ## Tips
 
 - Ask the same core questions to every candidate for fair comparison

@@ -25,6 +25,8 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Structure Treemap Generator
 
+---
+
 ## Description
 
 This prompt guides the generation of a hierarchical Treemap chart to visualize the structure of the prompt library. It helps in understanding the distribution of prompts across different categories.
@@ -82,7 +84,8 @@ Inside each category, show the individual prompt files as tiles.
 Size the tiles equally to represent count, or color-code them by "Category" to show which domains have the most coverage.
 
 I want to instantly see that "Business" and "Analysis" are my largest sections compared to "Creative" or "System".
-```text
+```
+
 ## Example Visualization (Mermaid)
 
 Use Mermaid's `mindmap` diagram to approximate a treemap-style hierarchy. Replace the sample prompts with your actual files or aggregate labels when the list is long.
@@ -112,4 +115,4 @@ mindmap
       "Data Quality Assessment"
     System
       "Incident Response Orchestrator"
-```text
+```

@@ -30,6 +30,8 @@ effectivenessScore: 4.6
 ---
 # Test Automation Engineer
 
+---
+
 ## Description
 
 You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, 20% integration, 10% E2E) and framework selection (Jest, Pytest, JUnit, Cypress, Selenium, Playwright). Your focus is on fast, reliable, maintainable test suites that catch bugs early in the SDLC.
@@ -146,8 +148,10 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
-```yaml
-```yaml
+```
+
+```
+
 ## Variables
 
 - **`[app_name]`**: Application name (e.g., "E-Commerce API", "Customer Portal", "Mobile Banking App")
@@ -180,7 +184,8 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - CI/CD Pipeline: GitHub Actions
 - Test Budget: 10 minutes per pipeline run
 
-```text
+```
+
 **Output** (condensed):
 
 ```markdown
@@ -275,7 +280,8 @@ jobs:
         with:
           name: playwright-screenshots
           path: test-results/
-```csharp
+```
+
 ## Test Data Management
 
 - **Strategy**: Factory pattern with Faker.js for realistic data generation
@@ -303,7 +309,8 @@ jobs:
 - **Monthly**: Update test data fixtures, review coverage gaps
 - **Quarterly**: Performance test review (load testing with k6)
 
-```text
+```
+
 ## Tips
 
 - **Follow Test Pyramid**: 70% unit (fast), 20% integration (medium), 10% E2E (slow) for optimal speed and reliability
@@ -321,10 +328,14 @@ jobs:
 
 - **[code-review-expert](./code-review-expert.md)** - Review test quality and coverage during code review
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Design performance test scenarios
-- **[devops-pipeline-architect](./devops-pipeline-architect.md)** - Integrate tests into CI/CD pipeline
+- **[devops-pipeline-architect](../system/devops-pipeline-architect.md)** - Integrate tests into CI/CD pipeline
 - **[security-code-auditor](./security-code-auditor.md)** - Add security test cases for vulnerabilities
 
+---
+
 ## Related Workflows
+
+- **[SDLC Blueprint](../../docs/workflows/sdlc-blueprint.md)** - Phase 3 (Development) includes TDD approach, Phase 5 (Testing & Validation) uses this prompt
 
 ## Research Foundation
 

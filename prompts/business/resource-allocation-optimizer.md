@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Resource Allocation Optimizer
 
+---
+
 ## Description
 
 Optimizes project resource allocation
@@ -55,7 +57,8 @@ Provide:
 4. Timeline optimization
 5. Cost efficiency measures
 6. Contingency planning
-```text
+```
+
 ## Variables
 
 - `[constraints]`: Constraints
@@ -74,7 +77,8 @@ Provide:
 [resources]: 3 Designers (Full-time), 2 Copywriters (Part-time), 1 Web Dev (Shared resource, 10hrs/week)
 [constraints]: Web Dev availability is the bottleneck; Campaign must launch Nov 1st (Hard deadline)
 [priorities]: 1. Landing Page (Requires Dev), 2. Email Templates, 3. Social Media Assets
-```text
+```
+
 **Output:**
 
 ```text
@@ -93,7 +97,8 @@ Provide:
 *   **Crash Strategy:** If Dev falls behind, approve budget for 20 hours of external contractor support.
 
 [... continues with cost efficiency and contingency ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

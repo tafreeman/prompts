@@ -28,6 +28,8 @@ framework_compatibility:
 ---
 # C# Enterprise Standards Enforcer
 
+---
+
 ## Description
 
 Acts as a strict code reviewer enforcing enterprise-grade C# standards, focusing on Clean Architecture, SOLID principles, security, and performance.
@@ -70,7 +72,8 @@ Provide a structured review in Markdown:
 - **Major Issues**: Architectural or design violations.
 - **Minor Issues**: Naming, style, minor optimizations.
 - **Refactored Code**: A version of the code that adheres to all standards.
-```csharp
+```
+
 ## Variables
 
 - `[code_snippet]`: The C# code to review
@@ -96,7 +99,8 @@ public class UserService {
         db.Close();
     }
 }
-```csharp
+```
+
 **Output:**
 
 ```markdown
@@ -151,8 +155,10 @@ namespace Application.Services
         }
     }
 }
-```csharp
-```csharp
+```
+
+```
+
 ## Tips
 
 - Provide as much context as possible about the layer (Domain, Application, Infrastructure) the code belongs to.

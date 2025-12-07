@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # API Architecture Designer
 
+---
+
 ## Description
 
 Designs comprehensive API architectures
+
+---
 
 ## Use Cases
 
 - API Design for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -53,7 +59,8 @@ Include:
 4. Versioning strategy
 5. Documentation framework
 6. Monitoring and analytics
-```text
+```
+
 ## Variables
 
 - `[consumers]`: Consumers
@@ -61,6 +68,8 @@ Include:
 - `[integrations]`: Integrations
 - `[scalability]`: Scalability
 - `[security]`: Security
+
+---
 
 ## Example Usage
 
@@ -72,7 +81,8 @@ Include:
 [integrations]: Legacy Core Banking (SOAP), KYC Provider (REST), Fraud Detection System
 [security]: FAPI (Financial-grade API) Profile, OAuth 2.0 / OIDC, mTLS
 [scalability]: 1000 TPS, <100ms latency
-```text
+```
+
 **Output:**
 
 ```text
@@ -96,13 +106,16 @@ Include:
     *   **Internal:** Unlimited.
 
 [... continues with versioning and documentation ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

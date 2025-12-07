@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Organizational Change Manager
 
+---
+
 ## Description
 
 Manages organizational change initiatives
@@ -55,7 +57,8 @@ Provide:
 4. Training plan
 5. Resistance management
 6. Success measurement
-```text
+```
+
 ## Variables
 
 - `[groups]`: Groups
@@ -74,7 +77,8 @@ Provide:
 [initiative]: Agile Transformation (Waterfall to Scrum)
 [groups]: Engineering (500 staff), Product Mgmt (50 staff), QA (100 staff)
 [resistance]: Middle management fears loss of control; Senior engineers skeptical of "meetings overhead"
-```text
+```
+
 **Output:**
 
 ```text
@@ -93,7 +97,8 @@ Provide:
 *   **Channels:** Town Halls for vision, "Lunch & Learns" for tactics.
 
 [... continues with training plan and resistance management ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

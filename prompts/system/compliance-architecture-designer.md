@@ -25,15 +25,21 @@ reviewStatus: "draft"
 ---
 # Compliance Architecture Designer
 
+---
+
 ## Description
 
 Designs compliance-focused architectures
+
+---
 
 ## Use Cases
 
 - Compliance for Architect persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,13 +58,16 @@ Provide:
 4. Audit trail design
 5. Monitoring strategy
 6. Reporting mechanisms
-```text
+```
+
 ## Variables
 
 - `[audit]`: Audit
 - `[domain]`: Domain
 - `[regulations]`: Regulations
 - `[sensitivity]`: Sensitivity
+
+---
 
 ## Example Usage
 
@@ -69,7 +78,8 @@ Provide:
 [domain]: SaaS HR Management Platform (Global)
 [sensitivity]: High (PII, SPII - SSNs, Salary, Health data, Performance reviews)
 [audit]: 7-year retention for all access logs, immutable audit trail, monthly access reviews
-```text
+```
+
 **Output:**
 
 ```text
@@ -89,13 +99,16 @@ Provide:
 *   **Deletion:** "Tombstoning" records for Right to be Forgotten, ensuring backups are also scrubbed (crypto-shredding).
 
 [... continues with audit trail and monitoring ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

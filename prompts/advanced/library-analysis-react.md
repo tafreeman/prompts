@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # ReAct: Library Structure & Content Analysis
 
+---
+
 ## Description
 
 A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the structure, quality, and completeness of a prompt library or code repository. This prompt guides the AI to act as a "Library Analyst," systematically exploring directories, reading files, checking metadata, and identifying gaps or inconsistencies. It combines file system exploration with content evaluation logic.
@@ -121,7 +123,8 @@ Continue until you can provide:
 **Confidence Assessment**:
 -   **High/Medium/Low**: Based on how much of the requested scope was covered.
 
-```text
+```
+
 ## Variables
 
 - `[ANALYSIS_TASK]`: The specific auditing or analysis goal (e.g., "Audit the 'analysis' folder for incomplete prompts").
@@ -146,7 +149,8 @@ You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) patter
 
 **Instructions**:
 [As specified above]
-```text
+```
+
 **Output:**
 
 ```text
@@ -248,7 +252,8 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 2.  **Use Template**: Use `data-analysis-insights.md` as the "Gold Standard" reference when expanding the stubs.
 
 **Confidence Assessment**: **High** - File size correlation with content quality was verified by sampling.
-```sql
+```
+
 ## Tips
 
 - **Size Heuristics**: File size is often a good initial proxy for completeness (e.g., < 2KB is usually a stub).
@@ -284,7 +289,8 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
   ],
   "recommendations": ["..."]
 }
-```text
+```
+
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - General document research.

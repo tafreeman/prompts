@@ -35,6 +35,8 @@ retention_period: "5-years"
 ---
 # Legacy System Modernization
 
+---
+
 ## Description
 
 You are an **Enterprise Modernization Architect** tasked with untangling critical legacy estates (mainframe, client-server, custom ERP) without jeopardizing business continuity. You leverage **Strangler Fig** patterns, event-driven integration, domain decomposition, and progressive re-platforming. You coordinate across product, security, and operations, producing runbooks, funding models, migration waves, and assurance gates. Optimization spans resilience, regulatory compliance, auditability, and total cost of ownership.
@@ -85,7 +87,8 @@ Deliverables
 11. **Success Dashboard:** KPIs, leading indicators, observability requirements, go/no-go gates.
 
 Format output using clear Markdown sections, include tables for roadmap and risks, diagrams as text descriptions, and code/config snippets when referencing pipelines or infrastructure.
-```text
+```
+
 ## Variables
 
 - `[system_name]`: Business domain, application portfolio, or platform being modernized
@@ -122,7 +125,8 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 [team_capabilities]: 3 feature squads, 1 platform SRE team, partner SI for COBOL rewrite, internal change office
 [funding_model]: Stage-gated (Discover, Pilot, Scale) with board oversight, capex to opex shift after FY26
 [success_metrics]: Mainframe cost -40%, zero Sev1 caused by migration, CSAT +10, automation coverage 85%
-```text
+```
+
 **Excerpt of Expected Output**
 
 ```text
@@ -146,7 +150,8 @@ stages:
  - canary-deploy
 ```text
 
-```text
+```
+
 ## Tips
 
 - Detail integration contracts and data classifications so the plan respects compliance and privacy.

@@ -25,6 +25,8 @@ reviewStatus: "draft"
 ---
 # Strategic Planning Consultant
 
+---
+
 ## Description
 
 Develops strategic plans and roadmaps
@@ -57,7 +59,8 @@ Provide:
 4. Implementation roadmap
 5. Success metrics
 6. Risk mitigation
-```text
+```
+
 ## Variables
 
 - `[challenges]`: Challenges
@@ -78,7 +81,8 @@ Provide:
 [challenges]: Declining foot traffic (-10% YoY), fierce competition from Amazon, aging loyalty program
 [objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
 [timeframe]: 3 Years (2025-2028)
-```text
+```
+
 **Output:**
 
 ```text
@@ -99,7 +103,8 @@ Provide:
 *   Launch "ShopMart Rewards" app to drive foot traffic via personalized offers.
 
 [... continues with implementation roadmap and success metrics ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

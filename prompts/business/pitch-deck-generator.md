@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Pitch Deck Generator
 
+---
+
 ## Description
 
 Create structured, persuasive pitch deck content for investor meetings, sales presentations, and business proposals. Generates slide-by-slide content with key messaging, data points, and visual recommendations.
@@ -84,7 +86,8 @@ Generate a complete pitch deck with:
    - Call to action
 
 Format output as a structured deck outline with clear slide separators.
-```powershell
+```
+
 ## Variables
 
 - `[company_name]`: Company or product name and brief description
@@ -111,7 +114,8 @@ Supporting Data:
 - NPS: 72
 - Average contract value: $48K/year
 Ask: $8M Series A at $40M pre-money valuation
-```text
+```
+
 **Output:**
 
 ```markdown
@@ -304,7 +308,8 @@ Ask: $8M Series A at $40M pre-money valuation
 - Technical architecture diagram
 - Full financials and unit economics
 - Team bios with LinkedIn links
-```text
+```
+
 ## Tips
 
 - Lead with the problem, not your solution - investors invest in markets, not products

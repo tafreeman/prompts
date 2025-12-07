@@ -24,6 +24,8 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Researcher
 
+---
+
 ## Description
 
 Conducts competitive market analysis
@@ -55,7 +57,8 @@ Include:
 4. Market positioning
 5. Opportunities and threats
 6. Strategic recommendations
-```text
+```
+
 ## Variables
 
 - `[competitors]`: Competitors
@@ -74,7 +77,8 @@ Include:
 [segment]: Mid-market Creative Agencies (50-200 employees)
 [competitors]: Asana, Monday.com, ClickUp
 [focus]: Pricing Strategy and Feature Gaps in "Creative Proofing"
-```text
+```
+
 **Output:**
 
 ```text
@@ -94,7 +98,8 @@ Include:
 *   **Pricing:** Undercut Asana by 20% to capture price-sensitive agencies.
 
 [... continues with market positioning and opportunities ...]
-```text
+```
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results
