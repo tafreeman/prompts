@@ -104,7 +104,7 @@ flowchart TD
 ```text
 Summarize the following email in 2 sentences:
 [email content]
-```sql
+```
 **Best for:** Quick tasks, prototyping, straightforward requests
 
 ---

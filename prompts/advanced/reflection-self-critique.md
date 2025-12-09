@@ -27,13 +27,11 @@ performance_metrics: {'accuracy_improvement': 'High (reduces hallucination rate)
 testing: {'validated_on': ['Claude Sonnet 4.5', 'GPT-4'], 'pass_rate': '90%'}
 governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
+
 # Reflection: Initial Answer + Self-Critique Pattern
 
-<<<<<<< HEAD
-=======
 ---
 
->>>>>>> main
 ## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
@@ -54,7 +52,7 @@ The Reflection pattern involves generating an initial answer and then systematic
 
 ## Prompt
 
-```text
+```
 You will answer a question using a two-phase reflection pattern.
 
 **Question**: [USER_QUESTION]
@@ -120,13 +118,10 @@ Based on this critique, provide:
 **Confidence Justification**: [Explain your confidence level]
 
 **Recommended Next Steps**: [If applicable]
-```text
-<<<<<<< HEAD
-=======
+```
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[USER_QUESTION]`: The question or problem to solve
@@ -163,11 +158,8 @@ You will answer a question using a two-phase reflection pattern.
 
 **Phase 2: Self-Critique and Reflection**
 [Apply critical evaluation framework]
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -260,48 +252,44 @@ Timeline: 18-24 months for complete migration.
 **Before deciding, investigate:**
 
 1. **Root Cause Analysis** (2-4 weeks):
-   - Why is deployment slow? (Process vs. technical?)
-   - What specifically doesn't scale? (App logic, database, I/O?)
-   - Can these be fixed without microservices?
+  - Why is deployment slow? (Process vs. technical?)
+  - What specifically doesn't scale? (App logic, database, I/O?)
+  - Can these be fixed without microservices?
 
 2. **Team Assessment** (1-2 weeks):
-   - Microservices experience level?
-   - DevOps/SRE capability?
-   - Appetite for operational complexity?
+  - Microservices experience level?
+  - DevOps/SRE capability?
+  - Appetite for operational complexity?
 
 3. **Alternative Solutions Analysis**:
 
-   **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
-   - Fix deployment pipeline (CI/CD improvements)
-   - Add horizontal scaling (if stateless)
-   - Database optimization/caching
-   - Cost: 10% of migration cost
-   - Risk: Lower
-   - Pros: Fast, low risk, leverages existing knowledge
-   - Cons: May hit architectural limits eventually
+  **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
+  - Fix deployment pipeline (CI/CD improvements)
+  - Add horizontal scaling (if stateless)
+  - Database optimization/caching
+  - Cost: 10% of migration cost
+  - Risk: Lower
+  - Pros: Fast, low risk, leverages existing knowledge
+  - Cons: May hit architectural limits eventually
 
-   **Option B: Modular Monolith** (~$500K, 6-12 months)
-   - Refactor into modules with clear boundaries
-   - Enables future extraction if needed
-   - Cost: 25% of full migration
-   - Risk: Medium
-   - Pros: Gets many microservices benefits, easier to reverse
-   - Cons: Still a monolith, limited independent scaling
+  **Option B: Modular Monolith** (~$500K, 6-12 months)
+  - Refactor into modules with clear boundaries
+  - Enables future extraction if needed
+  - Cost: 25% of full migration
+  - Risk: Medium
+  - Pros: Gets many microservices benefits, easier to reverse
+  - Cons: Still a monolith, limited independent scaling
 
-   **Option C: Hybrid Approach** (~$1M, 12-18 months)
-   - Keep monolith for stable, core functionality
-   - Extract only problematic services (e.g., high-scale services)
-   - Cost: 50% of full migration
-   - Risk: Medium
-   - Pros: Targeted solution, manageable complexity
-   - Cons: Some organizational complexity
+  **Option C: Hybrid Approach** (~$1M, 12-18 months)
+  - Keep monolith for stable, core functionality
+  - Extract only problematic services (e.g., high-scale services)
 
-   **Option D: Full Microservices** (~$2M+, 24-36 months)
-   - Complete migration as initially suggested
-   - Cost: $2M+ (likely more based on failure history)
-   - Risk: High
-   - Pros: Full benefits (if successful)
-   - Cons: High risk, high cost, operational complexity
+  **Option D: Full Microservices** (~$2M+, 24-36 months)
+  - Complete migration as initially suggested
+  - Cost: $2M+ (likely more based on failure history)
+  - Risk: High
+  - Pros: Full benefits (if successful)
+  - Cons: High risk, high cost, operational complexity
 
 **My Recommendation**:
 
@@ -342,14 +330,10 @@ These unknowns prevent High confidence in any specific recommendation.
 4. Define measurable success criteria for any migration
 5. Create detailed cost model for each option
 6. Pilot Option A improvements for 90 days, measure impact
-<<<<<<< HEAD
-```sql
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Be harsh in critique**: The goal is to find problems, not justify the initial answer
@@ -359,6 +343,8 @@ These unknowns prevent High confidence in any specific recommendation.
 - **Check your confidence calibration**: Are you overconfident? Under-confident?
 - **Time investment**: Reflection adds 50-100% to response time; use for high-stakes questions
 - **Iterate if needed**: If critique reveals major flaws, revise and critique again
+
+---
 
 ## When to Use Reflection
 
@@ -405,14 +391,10 @@ These unknowns prevent High confidence in any specific recommendation.
   },
   "next_steps": ["...", "..."]
 }
-<<<<<<< HEAD
-```powershell
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
@@ -455,8 +437,4 @@ def reflection_pattern(question, context):
         "reflection": reflection,
         "final_answer": extract_revised_answer(reflection)
     }
-<<<<<<< HEAD
-```text
-=======
-```text
->>>>>>> main
+```

@@ -6,8 +6,12 @@ import sys
 from pathlib import Path
 import yaml
 
+# NOTE: The following sections are required in every prompt file.
+# This list MUST be kept in sync with the standard template and the prompt authorship guide.
+
 REQUIRED_SECTIONS = ['Description', 'Prompt', 'Variables', 'Example']
 REQUIRED_FRONTMATTER = ['title', 'description']
+
 
 def extract_frontmatter(content: str) -> dict:
     """Extract YAML frontmatter from markdown content."""
@@ -19,9 +23,11 @@ def extract_frontmatter(content: str) -> dict:
             return {}
     return {}
 
+
 def extract_sections(content: str) -> list:
     """Extract H2 section headers from markdown content."""
     return re.findall(r'^## (.+)$', content, re.MULTILINE)
+
 
 def validate_file(path: Path) -> list:
     """Validate a single prompt file. Returns list of issues."""
@@ -39,12 +45,13 @@ def validate_file(path: Path) -> list:
     
     # Check sections
     sections = extract_sections(content)
-    sections_lower = [s.lower() for s in sections]
+    sections_lower_set = set(s.lower() for s in sections)
     for section in REQUIRED_SECTIONS:
-        if section not in sections and section.lower() not in sections_lower:
+        if section.lower() not in sections_lower_set:
             issues.append(f"Missing section: {section}")
     
     return issues
+
 
 def main():
     errors = 0
