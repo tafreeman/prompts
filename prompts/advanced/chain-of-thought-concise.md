@@ -124,14 +124,10 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 **Step 4**: Check for missing connection.close() in error handlers or transactions left open. Also profile queries running during 9-11 AM for slow performers.
 
 **Final Answer**: Root cause is likely connection leak (unreleased connections in error paths) or slow queries accumulating during peak. Immediate actions: (1) audit connection handling in all error paths, (2) add connection timeout monitoring, (3) profile queries during peak hours. Quick win: reduce connection timeout from default to 5 seconds.
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **When to use Concise CoT**: Use when you need reasoning transparency but not extensive justification. Ideal for experienced audiences who can fill in obvious steps.
@@ -159,10 +155,7 @@ Think through this in bullet steps:
 • [Key insight 3]
 → Conclusion: [Final answer]
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### Numbered Steps with Confidence
 
 ```text
@@ -170,12 +163,9 @@ Think through this in bullet steps:
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems requiring elaboration
@@ -200,14 +190,8 @@ For automation pipelines, request output in this format:
   "assumptions": ["...", "..."],
   "next_steps": ["...", "..."]
 }
-<<<<<<< HEAD
-```powershell
-=======
-```text
+```
 
----
-
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.

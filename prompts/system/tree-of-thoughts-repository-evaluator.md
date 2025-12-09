@@ -75,10 +75,7 @@ If at any point instructions seem ambiguous or conflicting, prioritize:
 
 Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 ### User Message (for GPT-5.1)
 
 ```text
@@ -149,7 +146,7 @@ For each Thought A1–A3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 3.3 Output:
 
-- A **score from 0–10** for Structural & Foundational Integrity.  
+- A **score from 0–100** for Structural & Foundational Integrity.  
 - **3–5 concrete improvement suggestions**.
 
 ---
@@ -186,14 +183,14 @@ For each Thought B1–B3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 4.3 Output:
 
-- A **score from 0–10** for Advanced Technique Depth & Accuracy.  
+- A **score from 0–100** for Advanced Technique Depth & Accuracy.  
 - **3–5 concrete suggestions** to increase research alignment and depth.
 
 ---
 
 #### 5. Branch C – Enterprise Applicability & Breadth (ToT)
 
-**Goal:** Assess the repository's fitness as an **enterprise-grade prompt library** (e.g., M365 Copilot, GitHub Copilot, internal AI portals).
+**Goal:** Assess the repository's fitness as definitve source of highly curated prompt library in ai& engineering(e.g., M365 Copilot, GitHub Copilot, internal AI portals).
 
 5.1 Generate 3 candidate evaluation approaches (Thoughts), e.g.:
 
@@ -222,7 +219,7 @@ For each Thought C1–C3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 5.3 Output:
 
-- A **score from 0–10** for Enterprise Applicability & Breadth.  
+- A **score from 0–100** for Enterprise Applicability & Breadth.  
 - **3–7 concrete recommendations** to make this repo more "plug-and-play" for enterprises.
 
 ---
@@ -315,12 +312,7 @@ Return your answer in **this exact Markdown structure**:
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
 
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
 ## Variables
 
 - `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
@@ -348,10 +340,6 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 [... rest of user message as specified above ...]
 
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output (Example excerpt):**
 
 ```markdown
@@ -378,12 +366,9 @@ Main content categories:
 
 [... continues with full evaluation ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **For GPT-5.1 specifically**: This prompt is optimized for frontier reasoning models that can handle multi-branch thinking and explicit backtracking
@@ -417,19 +402,19 @@ Tree-of-Thoughts is an advanced prompting technique that:
 
 ### Evaluation Dimensions
 
-**Branch A: Structural & Foundational Integrity (35% weight)**
+**Branch A: Structural & Foundational Integrity (30% weight)**
 
 - Focuses on prompt engineering fundamentals
 - Assesses adherence to established best practices
 - Evaluates consistency and maintainability
 
-**Branch B: Advanced Technique Depth & Accuracy (30% weight)**
+**Branch B: Advanced Technique Depth & Accuracy (50% weight)**
 
 - Examines coverage of modern AI techniques
 - Assesses alignment with academic research
 - Evaluates technical accuracy and depth
 
-**Branch C: Enterprise Applicability & Breadth (35% weight)**
+**Branch C: Enterprise Applicability & Breadth (20% weight)**
 
 - Focuses on real-world utility
 - Assesses persona and workflow coverage
