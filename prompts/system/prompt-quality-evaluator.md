@@ -234,22 +234,12 @@ If applicable, provide before/after snippets showing how to fix the most critica
 ```text
 [Current problematic section]
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **After:**
 
 ```text
 [Improved version]
 ```text
-<<<<<<< HEAD
-```text
-=======
 
-```text
-
->>>>>>> main
 ---
 
 ### Phase 2: Self-Critique and Reflection
@@ -294,12 +284,6 @@ If no changes needed, state: "No revisions necessary after reflection."
 **Confidence Justification:**
 [Explain your confidence in this evaluation]
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Variables
 
 - `[PASTE_PROMPT_CONTENT_HERE]`: The complete content of the prompt to evaluate
