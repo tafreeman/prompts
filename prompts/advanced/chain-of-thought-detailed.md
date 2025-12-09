@@ -381,14 +381,7 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
-<<<<<<< HEAD
-```sql
-=======
 ```text
-
----
-
->>>>>>> main
 ## Tips
 
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
@@ -455,7 +448,7 @@ For automation pipelines, request output in this format:
   }
 }
 <<<<<<< HEAD
-```powershell
+```json
 =======
 ```text
 
@@ -496,8 +489,4 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-<<<<<<< HEAD
 ```text
-=======
-```text
->>>>>>> main
