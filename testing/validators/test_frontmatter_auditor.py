@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from testing.validators.frontmatter_auditor import (
     autofix_frontmatter,
     autofix_frontmatter_file,
