@@ -66,38 +66,8 @@ Include:
 5. Scalability considerations
 6. Data quality validation
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example Values |
-|----------|-------------|----------------|
-| `[data_sources]` | Input data systems and formats | `PostgreSQL (CDC), Kafka topics, REST APIs, S3 files (CSV/Parquet)` |
-| `[processing]` | Transformation and business logic requirements | `Join customer + orders, calculate rolling 7-day averages, deduplicate by event_id` |
-| `[targets]` | Destination systems and formats | `Snowflake (analytics), Redis (cache), Elasticsearch (search), S3 (archive)` |
-| `[scale]` | Volume, velocity, and latency requirements | `10M events/day batch`, `50K events/sec streaming`, `<5min latency` |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[data_sources]: IoT Sensors (MQTT Stream), Weather API (REST Polling), ERP System (SQL Batch)
-[processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
-[targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
-[scale]: 1M events/minute peak, <1s latency for alerts
-<<<<<<< HEAD
-```text
-=======
 ```xml
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -126,48 +96,7 @@ Include:
 │   (SQL)      │
 └──────────────┘
 ```sql
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-**Speed Layer:** Kinesis Data Streams → Flink (Windowed Aggregation) → DynamoDB
-**Batch Layer:** Kinesis Firehose → S3 (Parquet) → Snowpipe → Snowflake
-
-### 2. Data Transformation Logic
-
-| Stage | Transformation | Output Schema |
-|-------|---------------|---------------|
-| Ingestion | Validate JSON schema, add `ingestion_ts` | `{device_id, temp_f, humidity, ts, ingestion_ts}` |
-| Normalization | Convert Fahrenheit to Celsius | `{device_id, temp_c, humidity, ts}` |
-| Enrichment | Join with device metadata (Redis lookup) | `{device_id, temp_c, location, building_id, ts}` |
-| Aggregation | 1-hour tumbling window average | `{building_id, avg_temp, hour, event_count}` |
-
-### 3. Error Handling and Recovery
-
-```python
-# Dead Letter Queue Pattern
-class PipelineErrorHandler:
-    def handle_error(self, record, error):
-        error_record = {
-            "original_record": record,
-            "error_type": type(error).__name__,
-            "error_message": str(error),
-            "timestamp": datetime.utcnow().isoformat(),
-            "retry_count": record.get("_retry_count", 0)
-        }
-        
-        if error_record["retry_count"] < 3:
-            # Retry with exponential backoff
-            self.retry_queue.send(record, delay=2**error_record["retry_count"])
-        else:
-            # Send to DLQ for manual inspection
-            self.dlq.send(error_record)
-            self.alert("dlq_threshold_exceeded", record)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
 |--------------|-----------|-----------------|
@@ -207,50 +136,9 @@ groups:
         annotations:
           summary: "Consumer lag exceeds 100K messages"
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-### 5. Scalability Considerations
-
-| Dimension | Strategy | Implementation |
-|-----------|----------|----------------|
-| Horizontal | Partition by device_id | Kinesis: 10 shards (resharding API for peaks) |
-| Vertical | Memory tuning | Flink: 4GB heap, 2GB managed memory per slot |
-| Cost | Tiered storage | Hot: Kinesis (7 days), Warm: S3 IA (90 days), Cold: Glacier |
-
-### 6. Data Quality Validation
-
-```python
-# Great Expectations Integration
-@pipeline_stage("validation")
-def validate_sensor_data(df):
-    expectations = {
-        "expect_column_values_to_not_be_null": ["device_id", "temp_c", "ts"],
-        "expect_column_values_to_be_between": {
-            "temp_c": {"min_value": -50, "max_value": 150}
-        },
-        "expect_column_values_to_be_unique": ["event_id"],
-        "expect_table_row_count_to_be_between": {
-            "min_value": 1000,  # Alert if batch is suspiciously small
-            "max_value": 10000000
-        }
-    }
-    
-    results = validate(df, expectations)
-    if not results.success:
-        quarantine_failed_records(df, results)
-        alert_data_quality_issue(results)
-    
-    return df[results.passed_rows]
-```text
-```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Start with the end in mind**: Define SLAs (latency, completeness, freshness) before designing architecture

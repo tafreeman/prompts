@@ -59,37 +59,7 @@ Provide:
 5. Market insights
 6. Strategic implications
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[market]`: Market
-- `[methodology]`: Methodology
-- `[objectives]`: Objectives
-- `[timeline]`: Timeline
-- `[topic]`: Topic
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[topic]: Smart Home Security Adoption
-[market]: US Homeowners aged 30-50, Household Income > $100k
-[objectives]: Understand barriers to entry (Privacy concerns vs Cost) and feature preferences
-[methodology]: Mixed Methods (Online Survey N=1500 + 20 In-home Ethnographic Interviews)
-[timeline]: 8 Weeks
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -108,12 +78,10 @@ Provide:
 
 [... continues with key findings and strategic implications ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -58,35 +58,7 @@ Provide:
 5. Automation opportunities
 6. Performance metrics
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[automation]`: Automation
-- `[complexity]`: Complexity
-- `[process]`: Process
-- `[stakeholders]`: Stakeholders
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[process]: Content Publishing (Corporate Blog)
-[stakeholders]: Writers, Editors, SEO Specialist, Legal Compliance, CMS Admin
-[complexity]: Medium (Multi-stage approval required)
-[automation]: Auto-post to LinkedIn/Twitter upon publish; Slack notifications for approvals
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -105,12 +77,10 @@ Provide:
 
 [... continues with exception handling and performance metrics ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

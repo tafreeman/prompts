@@ -58,35 +58,7 @@ Provide:
 5. Success metrics
 6. Implementation approach
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[goals]`: Goals
-- `[pain_points]`: Pain Points
-- `[system]`: System
-- `[users]`: Users
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[system]: Employee Expense Portal (Legacy Web App)
-[users]: Frequent Travelers (Sales Reps), Finance Approvers
-[pain_points]: "Receipt upload fails on mobile", "Too many clicks to submit a meal", "Status is unclear"
-[goals]: Reduce submission time by 50%, Reduce "Returned for Correction" rate by 20%
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -105,12 +77,10 @@ Provide:
 
 [... continues with solution recommendations and metrics ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -116,39 +116,7 @@ Plan mobile app development for:
 
 **Format:** Platform-specific recommendations where iOS and Android differ significantly.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `[app_concept]` | App name and core value proposition | "FitSocial - Running tracker with competitive social leaderboards" |
-| `[platforms]` | Target platforms and technology choices | "iOS (Swift/SwiftUI), Android (Kotlin/Compose)" or "React Native" |
-| `[features]` | Key features to implement | "GPS tracking, real-time pace, friend challenges, HealthKit sync" |
-| `[ux_goals]` | User experience priorities | "One-tap start, high contrast outdoor UI, haptic feedback" |
-| `[backend]` | Backend services and APIs | "Firebase, REST API at api.example.com, WebSocket for real-time" |
-| `[target_users]` | Primary user demographic and usage context | "Fitness enthusiasts 25-45, used during outdoor runs" |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[app_concept]: "FitSocial" - A running tracker with competitive social leaderboards
-[platforms]: iOS (Swift/SwiftUI) and Android (Kotlin/Jetpack Compose)
-[features]: GPS tracking, Real-time pace calculation, Friend challenges, Apple Health/Google Fit sync
-[ux_goals]: "One-tap start", High contrast for outdoor visibility, Haptic feedback for milestones
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -169,56 +137,7 @@ Plan mobile app development for:
 
 [... continues with security and testing ...]
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Tips
-
-### Platform Selection Guide
-| Criteria | Native (Swift/Kotlin) | React Native | Flutter |
-|----------|----------------------|--------------|---------|
-| **Performance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Platform APIs** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| **Team sharing** | ❌ (2 codebases) | ✅ (1 codebase) | ✅ (1 codebase) |
-| **Web team skills** | ❌ | ✅ (JS/TS) | ❌ (Dart) |
-| **Best for** | Complex animations, platform-specific | JS teams, rapid MVP | Custom UI, performance |
-
-### iOS-Specific Considerations
-- **SwiftUI** for iOS 15+, **UIKit** if supporting iOS 13-14
-- Use **async/await** with `Task` for modern concurrency
-- **Core Data** for complex relationships, **SwiftData** for iOS 17+
-- Test on **oldest supported iOS version** device
-
-### Android-Specific Considerations
-- **Jetpack Compose** for new projects, **XML** for legacy maintenance
-- Use **Hilt** for dependency injection
-- **Room** for SQLite with type-safe queries
-- Test on **low-end devices** (2GB RAM, older Android versions)
-
-### Performance Benchmarks
-| Metric | Good | Needs Work | Poor |
-|--------|------|------------|------|
-| **Cold Start** | < 1s | 1-2s | > 2s |
-| **Frame Rate** | 60fps | 45-60fps | < 45fps |
-| **APK/IPA Size** | < 30MB | 30-50MB | > 50MB |
-| **Memory (idle)** | < 100MB | 100-200MB | > 200MB |
-
-### App Store Review Pitfalls
-- ❌ **Incomplete metadata**: Missing screenshots, privacy policy
-- ❌ **Guideline 4.3**: Apps too similar to existing apps
-- ❌ **Push without permission**: Must explain notification value
-- ❌ **Background location**: Requires explicit justification
-- ❌ **In-app purchases**: Must use StoreKit/Play Billing
-
-### Testing Device Matrix (Minimum)
-<<<<<<< HEAD
-```yaml
-=======
 ```text
->>>>>>> main
 iOS:
 ├── iPhone SE (small screen)
 ├── iPhone 15 Pro (latest)
@@ -231,12 +150,10 @@ Android:
 ├── Low-end device (2GB RAM)
 └── Android API level min/max
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Related Prompts
 
 - Browse other Developer prompts in this category

@@ -65,14 +65,10 @@ Provide:
 7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
 
 Use tables for risk matrices and include expected monetary value (EMV) calculations where applicable.
-<<<<<<< HEAD
-```powershell
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "Data Center DC-04 Build - 50MW Hyperscale Facility")
@@ -100,53 +96,7 @@ Impact:
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-**Output:**
-
-```markdown
-# Risk Management Plan: Data Center DC-04
-
-## 1. Risk Identification Matrix
-
-| Risk ID | Category | Description | Risk Owner | Detection Date |
-|---------|----------|-------------|------------|----------------|
-| **R-01** | Supply Chain | CRAC unit delivery delay (Vertiv lead time extended 6→10 weeks) | Procurement Director | 2025-10-15 |
-| **R-02** | Labor | Local 793 union strike during critical HVAC installation phase | Construction Manager | 2025-10-20 |
-| **R-03** | Regulatory | Municipal grid connection permit delayed (bureaucratic backlog) | Project Manager | 2025-09-10 |
-| **R-04** | Commercial | Anchor tenant (AWS) contract cancellation risk | VP Sales | 2025-10-18 |
-| **R-05** | Technical | Generator load testing failure (per electrical specs) | Chief Engineer | 2025-10-12 |
-| **R-06** | Financial | FX volatility on imported electrical equipment (EUR/USD exposure) | CFO | 2025-10-01 |
-
----
-
-## 2. Probability and Impact Assessment
-
-### Risk Scoring Methodology
-- **Probability (P)**: 1=Very Low (0-10%), 2=Low (10-30%), 3=Medium (30-50%), 4=High (50-75%), 5=Very High (75-100%)
-- **Impact (I)**: 1=Negligible (<$100K), 2=Minor ($100K-$500K), 3=Moderate ($500K-$2M), 4=Major ($2M-$10M), 5=Catastrophic (>$10M)
-- **Risk Score**: P × I (1-25 scale)
-
-| Risk ID | Risk | Probability (P) | Impact (I) | Risk Score | EMV (Expected Monetary Value) | Priority |
-|---------|------|-----------------|------------|------------|-------------------------------|----------|
-| **R-04** | Anchor tenant cancellation | 3 (40%) | 5 ($50M loss) | **15** | $20M | 🔴 **Critical** |
-| **R-01** | CRAC unit delay | 4 (70%) | 4 ($3M delay) | **16** | $2.1M | 🔴 **Critical** |
-| **R-02** | Union strike | 2 (30%) | 4 ($2.5M delay) | **8** | $750K | 🟡 **High** |
-| **R-03** | Permit delay | 3 (50%) | 3 ($1.5M delay) | **9** | $750K | 🟡 **High** |
-| **R-05** | Generator test failure | 2 (25%) | 3 ($1M re-work) | **6** | $250K | 🟢 **Medium** |
-| **R-06** | FX volatility (EUR) | 4 (60%) | 2 ($400K) | **8** | $240K | 🟢 **Medium** |
-
-**Total Portfolio Risk Exposure (EMV Sum)**: $24.04M
-
-### Risk Heat Map
-
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 Impact ↑
 5 |              R-04
 4 |    R-01      R-02, R-03
@@ -160,12 +110,8 @@ Impact ↑
 🟡 High (Score 6-11): Active mitigation
 🟢 Medium (Score 1-5): Monitor
 
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ---
 
 ## 3. Risk Mitigation Strategies
@@ -292,12 +238,8 @@ Impact ↑
 
 **Escalation Email (Sample for R-04 Red Alert)**:
 
-<<<<<<< HEAD
-```powershell
-=======
 ```text
 
->>>>>>> main
 Subject: [URGENT] DC-04 Risk Escalation — Anchor Tenant Risk (R-04)
 
 To: Steering Committee
@@ -324,12 +266,8 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 
 [Project Manager Name]
 
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ---
 
 ## Success Metrics
@@ -360,30 +298,4 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **RPN 50-100**: High priority mitigation
 - **RPN \u003c 50**: Monitor and review quarterly
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Tips
-
-- **Quantify Impact in Dollar Terms**: Executives understand "$500K/month delay" better than "high impact." Always convert impact to EMV (Expected Monetary Value).
-- **Update Risk Register Weekly**: Stale risk registers are useless. Review KRIs weekly and adjust probability/impact scores as conditions change.
-- **Don't Over-Mitigate Low Risks**: Focus 80% of effort on the top 20% of risks (Pareto principle). Risk R-06 (FX volatility) may not need active mitigation if EMV is \u003c$250K.
-- **Link Risks to Project Schedule**: Use critical path analysis to identify which risks directly threaten the go-live date (R-01, R-03, R-04 in this example).
-- **Maintain Contingency Reserves**: Never allocate 100% of contingency budget. Reserve 30-40% for unknown-unknowns ("black swan" events).
-- **Use Trigger-Based Contingencies**: Don't activate contingency plans too early. Define clear triggers (e.g., "If permit not issued by Nov 15...").
-- **Escalate Early**: If a risk score increases ≥5 points in one week, escalate immediately. Waiting causes exponential damage.
-
----
-
-## Related Prompts
-
-- **[change-management-coordinator](./change-management-coordinator.md)** - For managing organizational change risks
-- **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For communicating risks to stakeholders
-- **[budget-and-cost-controller](./budget-and-cost-controller.md)** - For managing financial impact of risks
-<<<<<<< HEAD
-- **[project-charter-creator](./business-strategy-analysis.md)** - For initial risk identification during project planning
-=======
->>>>>>> main

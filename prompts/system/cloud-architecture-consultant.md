@@ -61,37 +61,7 @@ Provide:
 5. Disaster recovery
 6. Migration strategy
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[application]`: Application
-- `[budget]`: Budget
-- `[compliance]`: Compliance
-- `[provider]`: Provider
-- `[scalability]`: Scalability
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[application]: Global Media Streaming Platform (Netflix-like)
-[provider]: AWS (Primary) with Multi-region active-active
-[scalability]: 10M concurrent users, auto-scaling for viral content
-[compliance]: MPAA (Motion Picture Association) Content Security Best Practices
-[budget]: Cost-aware (Spot instances for transcoding), Savings Plans for compute
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -112,12 +82,10 @@ Provide:
 
 [... continues with security and disaster recovery ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

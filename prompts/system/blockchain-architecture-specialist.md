@@ -59,35 +59,7 @@ Include:
 5. Scalability solutions
 6. Governance model
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[blockchain_type]`: Blockchain Type
-- `[consensus]`: Consensus
-- `[integrations]`: Integrations
-- `[use_case]`: Use Case
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[use_case]: Luxury Goods Supply Chain Provenance (Anti-counterfeiting)
-[blockchain_type]: Permissioned Consortium (Hyperledger Fabric)
-[consensus]: Raft (CFT - Crash Fault Tolerance) for high throughput among trusted partners
-[integrations]: SAP ERP (Manufacturing), Salesforce (Retail), Mobile App (Consumer verification)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -107,12 +79,10 @@ Include:
 
 [... continues with security and scalability ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

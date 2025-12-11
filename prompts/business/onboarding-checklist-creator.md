@@ -91,39 +91,7 @@ Generate:
 
 Include specific calendar invites to send and people to meet. Make it actionable, not generic.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[hire_info]`: Name and any relevant background (internal transfer, industry experience, etc.)
-- `[role]`: Job title and key responsibilities
-- `[team]`: Team name, size, and key collaborators
-- `[start_date]`: First day of employment
-- `[setup]`: Remote, hybrid, or in-office; location details
-- `[manager]`: Hiring manager name
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-New Hire: Priya Sharma - joining from a competitor, 6 years experience as a data scientist
-Role: Senior Data Scientist, Analytics team - will own customer churn prediction models
-Team: Analytics team (8 people), works closely with Product and Customer Success
-Start Date: Monday, December 9, 2024
-Work Setup: Hybrid - Tuesdays and Thursdays in NYC office, rest remote
-Manager: David Chen (Director of Analytics)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -382,12 +350,10 @@ Manager: David Chen (Director of Analytics)
 4. Rate your onboarding experience: 1-5
 5. Additional comments?
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Front-load relationship building - people connections matter more than systems in Week 1

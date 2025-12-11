@@ -233,23 +233,14 @@ If applicable, provide before/after snippets showing how to fix the most critica
 **Before:**
 ```text
 [Current problematic section]
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **After:**
 
 ```text
 [Improved version]
-```text
-<<<<<<< HEAD
-```text
-=======
-
 ```
 
->>>>>>> main
 ---
 
 ### Phase 2: Self-Critique and Reflection
@@ -294,82 +285,9 @@ If no changes needed, state: "No revisions necessary after reflection."
 **Confidence Justification:**
 [Explain your confidence in this evaluation]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
-## Variables
-
-- `[PASTE_PROMPT_CONTENT_HERE]`: The complete content of the prompt to evaluate
-- `[REPOSITORY_NAME]`: Name of the repository (e.g., "tafreeman/prompts")
-- `[PLATFORMS]`: Target platforms (GitHub Copilot, M365, Claude, GPT, etc.)
-- `[AUDIENCE]`: Intended users (developers, business users, architects, etc.)
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an expert prompt evaluation specialist using a research-backed methodology to assess prompt quality.
-
-**Prompt to Evaluate:**
----
-title: "Meeting Facilitator"
-category: "business"
-tags: ["project-manager", "meeting-management", "enterprise"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5"
----
-
-# Meeting Facilitator
-
----
-
-## Description
-
-Facilitates effective project meetings
-
----
-
-## Use Cases
-
-- Meeting Management for Project Manager persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
-
----
-
-## Prompt
-
-```text
-Plan meeting for:
-
-Meeting Purpose: [purpose]
-Attendees: [attendees]
-Duration: [duration]
-Key Decisions Needed: [decisions]
-
-Include:
-1. Meeting agenda
-2. Pre-meeting preparation
-3. Facilitation techniques
-4. Decision-making process
-5. Action item tracking
-6. Follow-up procedures
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Variables
 
 - `[attendees]`: Attendees
@@ -385,11 +303,8 @@ Include:
 - Target Platforms: Microsoft 365 Copilot, Claude Sonnet 4.5
 - Intended Audience: Business users, project managers, enterprise
 
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **Output (Excerpt):**
 
 ```text
@@ -462,11 +377,8 @@ Include:
 
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **After:**
 
 ```text
@@ -479,12 +391,8 @@ Include:
 - `[attendees]`: Participant roles and names (e.g., "VP Product, 3 Product Managers, 2 Senior Engineers")
 - `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
 - `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
-<<<<<<< HEAD
-```sql
-=======
-```text
+```
 
->>>>>>> main
 ---
 
 ### Phase 2: Self-Critique
@@ -518,12 +426,10 @@ Include:
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - **Word count matters**: Prompts with <30 words of instruction are almost always insufficient

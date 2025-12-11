@@ -29,193 +29,9 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
-<<<<<<< HEAD
-=======
----
-
->>>>>>> main
-## Description
-
-You are a **Senior Software Engineer** and **Automation Specialist** designing code reviews for machine consumption. Your goal is to output structured, parseable data (JSON or Schema-compliant Markdown) that integrates seamlessly with CI/CD pipelines (GitHub Actions, GitLab CI), dashboards, and analytics tools.
-
-**Your Approach**:
-
-- **Machine-First**: Prioritize strict schema adherence for parsing reliability.
-- **Categorized Analysis**: rigidly classify every issue by severity (Critical/Major/Minor) and type (Security/Performance/Bug).
-- **Actionable Data**: Ensure every finding has a precise file location and a copy-pasteable fix.
-- **Dashboard Ready**: Generate summaries that can be directly visualized in engineering metrics dashboards.
 
 ---
 
-## Use Cases
-
-- **CI/CD Integration**: Blocking PR merges based on "Critical" issue count.
-- **Metrics & Analytics**: Tracking "Security" vs "Style" issues over time.
-- **Automated Reporting**: Generating daily/weekly code quality digests.
-- **Multi-Repo Standardization**: Enforcing consistent review standards across distributed teams.
-
----
-
-## Prompt
-
-```text
-You are a senior software engineer conducting a structured code review.
-
-## Code Review Request
-
-**Repository:** [REPOSITORY_NAME]  
-**Branch:** [BRANCH_NAME]  
-**Commit SHA:** [COMMIT_SHA] (optional)  
-**Language:** [PROGRAMMING_LANGUAGE]
-
-**Files Changed:**
-```diff
-[DIFF_OR_FILE_CONTENTS]
-```text
-
-**Review Focus (optional):** [FOCUS_AREAS]
-(e.g., "security vulnerabilities", "performance", "test coverage")
-
----
-
-## Task
-
-Conduct a comprehensive code review and output a **structured report** conforming to the Code Review Report Schema.
-
-### Review Guidelines
-
-**Categorize issues** by:
-
-- **Severity:** CRITICAL | MAJOR | MINOR | INFO
-- **Category:** security | performance | maintainability | style | bug | best-practice
-
-**For each issue, provide:**
-
-- File path and line range
-- Clear description of the problem
-- Rationale (why it matters)
-- Suggested fix (code snippet or description)
-- References (docs, style guides, CVEs) if applicable
-
-**Also identify:**
-
-- Positive highlights (things done well)
-- Next steps (actions for the author)
-
-### Output Format: [Choose JSON or Markdown]
-
-**Option 1: JSON Output**
-
-```json
-{
-  "review_id": "optional-uuid-or-timestamp",
-  "repository": "[repo_name]",
-  "branch": "[branch]",
-  "commit_sha": "[sha]",
-  "reviewer": "AI Code Reviewer",
-  "review_date": "ISO-8601-timestamp",
-  "summary": {
-    "total_files": 0,
-    "total_issues": 0,
-    "critical_issues": 0,
-    "major_issues": 0,
-    "minor_issues": 0,
-    "overall_recommendation": "APPROVE | REQUEST_CHANGES | COMMENT"
-  },
-  "files": [
-    {
-      "file_path": "path/to/file.ext",
-      "language": "language",
-      "issues": [
-        {
-          "issue_id": "unique-id",
-          "severity": "CRITICAL | MAJOR | MINOR | INFO",
-          "category": "security | performance | maintainability | style | bug | best-practice",
-          "line_start": 0,
-          "line_end": 0,
-          "description": "What's wrong",
-          "rationale": "Why it matters",
-          "suggested_fix": "Code snippet or description",
-          "references": ["link1", "link2"]
-        }
-      ]
-    }
-  ],
-  "positive_highlights": ["Thing done well 1", "Thing done well 2"],
-  "next_steps": ["Action 1", "Action 2"]
-}
-```text
-
-**Option 2: Markdown Output**
-
-```markdown
-# Code Review Report
-
-**Repository:** [repo_name]  
-**Branch:** [branch_name]  
-**Commit:** [commit_sha]  
-**Reviewer:** AI Code Reviewer  
-**Date:** [YYYY-MM-DD]
-
----
-
-## Summary
-
-- **Total Files:** [N]
-- **Total Issues:** [N]
-  - Critical: [N]
-  - Major: [N]
-  - Minor: [N]
-- **Recommendation:** [APPROVE / REQUEST_CHANGES / COMMENT]
-
----
-
-## Files Reviewed
-
-### 1. [file_path]
-
-**Language:** [language]
-
-#### Issues
-
-##### Issue 1: [Title] (Severity: CRITICAL|MAJOR|MINOR|INFO)
-
-- **Category:** [security|performance|maintainability|style|bug|best-practice]
-- **Location:** Lines [start]–[end]
-- **Description:** [What's wrong]
-- **Rationale:** [Why it matters]
-- **Suggested Fix:**
-  ```language
-  [code snippet or description]
-  ```
-
-- **References:** [link1], [link2]
-
----
-
-## Positive Highlights
-
-- [Something done well]
-
----
-
-## Next Steps
-
-1. [Action item 1]
-2. [Action item 2]
-
-```text
-
----
-
-**Now conduct the review** for the provided code changes.
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -261,49 +77,7 @@ Has CRITICAL issues?
     → No: Has only MINOR/INFO?
       → APPROVE (with optional comments)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-## Usage
-
-### Example 1: Python Payment API Review (Markdown Output)
-
-**Input:**
-
-```text
-You are a senior software engineer conducting a structured code review.
-
-## Code Review Request
-
-**Repository:** ecommerce-api  
-**Branch:** feature/add-payment-processing  
-**Commit SHA:** a1b2c3d4  
-**Language:** Python
-
-**Files Changed:**
-```diff
-+++ app/payment.py
-@@ -10,6 +10,15 @@ import requests
- 
-+def process_payment(amount, card_number, cvv):
-+    # TODO: Add encryption
-+    payload = {
-+        "amount": amount,
-+        "card": card_number,
-+        "cvv": cvv
-+    }
-+    response = requests.post("https://payment-api.example.com/charge", json=payload)
-+    return response.json()
-+
-```text
-
-**Review Focus:** security vulnerabilities, PCI compliance
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -428,14 +202,10 @@ You are a senior software engineer conducting a structured code review.
 4. **Recommended**: Add unit tests mocking payment processor responses
 5. **Compliance**: Review entire payment flow with security team for PCI DSS compliance
 
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **JSON for Machines**: Use JSON output when piping results to other tools (e.g., `jq`, dashboards).
@@ -464,28 +234,7 @@ You are a senior software engineer conducting a structured code review.
   "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
 }
 ```sql
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### Example: MAJOR Bug Issue
-```json
-{
-  "issue_id": "BUG-001",
-  "severity": "MAJOR",
-  "category": "bug",
-  "line_start": 42,
-  "line_end": 42,
-  "description": "Division by zero when list is empty",
-  "rationale": "calculate_average(numbers) will raise ZeroDivisionError if numbers is empty, crashing the request",
-  "suggested_fix": "Add guard clause: if not numbers: return 0.0 or raise ValueError('Empty list')",
-  "references": []
-}
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### Example: MINOR Style Issue
 ```json
 {
@@ -500,12 +249,10 @@ You are a senior software engineer conducting a structured code review.
   "references": ["PEP 8 - Naming Conventions"]
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Narrative style review for human-to-human feedback.
