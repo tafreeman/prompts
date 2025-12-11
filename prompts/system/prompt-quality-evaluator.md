@@ -247,7 +247,7 @@ If applicable, provide before/after snippets showing how to fix the most critica
 ```text
 =======
 
-```text
+```
 
 >>>>>>> main
 ---

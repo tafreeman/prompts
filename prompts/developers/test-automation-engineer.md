@@ -154,9 +154,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 =======
 ```text
 
-```text
-
----
+```
 
 >>>>>>> main
 ## Variables

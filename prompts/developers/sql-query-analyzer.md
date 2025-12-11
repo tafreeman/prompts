@@ -143,9 +143,7 @@ INCLUDE (CustomerName, TotalAmount);
 =======
 ```text
 
-```text
-
----
+```
 
 >>>>>>> main
 ## Tips

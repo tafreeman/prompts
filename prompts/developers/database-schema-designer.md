@@ -140,12 +140,12 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 ## ER Diagram (Mermaid)
 ```mermaid
 erDiagram
- Tenant || :--o{ Customer : "owns"
- Customer || :--o{ Subscription : "has"
- Subscription || :--o{ Invoice : "generates"
- Invoice || :--o{ Payment : "is settled by"
- Invoice || :--o{ Dispute : "may spawn"
- Invoice || :--o{ LedgerEntry : "posts"
+ Tenant ||--o{ Customer : "owns"
+ Customer ||--o{ Subscription : "has"
+ Subscription ||--o{ Invoice : "generates"
+ Invoice ||--o{ Payment : "is settled by"
+ Invoice ||--o{ Dispute : "may spawn"
+ Invoice ||--o{ LedgerEntry : "posts"
 ```text
 
 ## Sample DDL

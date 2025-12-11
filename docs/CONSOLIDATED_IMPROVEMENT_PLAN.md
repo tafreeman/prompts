@@ -53,6 +53,7 @@ For simultaneous execution by multiple agents, work has been split into two inde
 | **🔧 Workstream B** | Content - Missing sections, templates, tools | ~10 hrs | [WORKSTREAM_B_CONTENT.md](WORKSTREAM_B_CONTENT.md) |
 
 **Why split?**
+
 - No file conflicts between workstreams
 - Workstream A: Changes formatting/structure WITHIN existing files
 - Workstream B: Creates new files, adds content sections
@@ -80,6 +81,7 @@ This document consolidates findings from 6+ separate reports into a single actio
 ## ✅ COMPLETED (Don't Repeat)
 
 ### Evaluation Tooling (Phase 1) ✅
+
 - [x] `dual_eval.py` is the primary evaluation tool
 - [x] Batch/folder evaluation (`discover_prompt_files()`)
 - [x] JSON output format (`--format json`)
@@ -89,6 +91,7 @@ This document consolidates findings from 6+ separate reports into a single actio
 - [x] CI workflow exists (`.github/workflows/prompt-validation.yml`)
 
 ### Repository Cleanup ✅
+
 - [x] Deprecated tools archived to `tools/archive/`
   - `evaluation_agent.py`, `evaluate_library.py`, `improve_prompts.py`
   - `generate_eval_files.py`, `run_gh_eval.py`
@@ -104,17 +107,20 @@ This document consolidates findings from 6+ separate reports into a single actio
   - `example_test_suite.yaml` (for archived framework)
 
 ### Documentation Fixes ✅
+
 - [x] `docs/getting-started.md` - Now exists
 - [x] `docs/best-practices.md` - Now exists
 - [x] `docs/advanced-techniques.md` - Now exists
 - [x] `docs/intro-to-prompts.md` - Now exists
 
 ### Testing Infrastructure ✅
+
 - [x] `testing/conftest.py` - Shared fixtures
 - [x] `testing/validators/` - Schema validation tests
 - [x] `testing/evals/README.md` - Updated documentation
 
-### Workstream B - Content & Technical Improvements ✅
+### Workstream B - Content & Technical Improvements (major tasks complete; minor tasks remain)
+
 - [x] **B1. README Architecture Mismatch** - Verified README.md (no webapp references found - already accurate)
 - [x] **B2. Add Missing Standard Sections (Partial)** - Added Variables and Tips to 7 files:
   - `prompts/analysis/library-capability-radar.md` ✓
@@ -136,6 +142,7 @@ This document consolidates findings from 6+ separate reports into a single actio
   - Enhanced PR checklist
 
 **Remaining Workstream B Tasks (Not Critical):**
+
 - [ ] B4. Create Missing Referenced Prompts (7 prompts) - Requires decision on whether to create or remove
 - [ ] B5. Update Category Index Files (8 categories) - Requires comprehensive verification
 - [ ] B6. Flatten Deep Directory Structure - Significant restructuring (move ~10+ files)
@@ -177,6 +184,7 @@ This document consolidates findings from 6+ separate reports into a single actio
 </details>
 
 **Fix Script** (run from repo root):
+
 ```powershell
 # tools/find-broken-links.ps1
 Get-ChildItem -Path "prompts" -Filter "*.md" -Recurse | ForEach-Object {
@@ -277,10 +285,10 @@ Find:    ^## Purpose$
 Replace: ## Description
 ```
 
-### 5. Add Language Specifiers to Code Blocks (40+ blocks) ✅ COMPLETE
+### 5. Add Language Specifiers to Code Blocks (40+ blocks)
+
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 1 hour  
-**Status:** ✅ Added language specifiers to 139 files! (Dec 5, 2025)  
 
 <details>
 <summary><b>Files with unlabeled code blocks</b></summary>
@@ -299,7 +307,9 @@ Replace: ## Description
 </details>
 
 **Bulk Fix Script:**
+
 ```powershell
+
 # Add 'text' language to unmarked code blocks
 Get-ChildItem -Path "prompts" -Recurse -Filter "*.md" | ForEach-Object {
     $content = Get-Content $_.FullName -Raw
@@ -308,7 +318,8 @@ Get-ChildItem -Path "prompts" -Recurse -Filter "*.md" | ForEach-Object {
 }
 ```
 
-### 6. Fix Non-Standard H1→H2 Structure (19 files) ✅ COMPLETE
+### 6. Fix Non-Standard H1→H2 Structure (19 files)
+
 **Source:** VISUAL_FORMATTING_AUDIT_REPORT.md  
 **Effort:** 1 hour  
 **Status:** ✅ Standardized section headers (Dec 5, 2025)
@@ -316,12 +327,14 @@ Get-ChildItem -Path "prompts" -Recurse -Filter "*.md" | ForEach-Object {
 Files not following `# Title` → `## Description` pattern have been standardized.
 
 ### 7. Create Simplified Quick Start Template ✅
+
 **Source:** COMPLEXITY_AND_ADOPTION_REPORT.md  
 **Effort:** 1 hour  
 **Impact:** Current 17-section template intimidates contributors
 **Status:** ✅ **COMPLETED** (Workstream B - December 5, 2025)
 
 Created `templates/prompt-template-minimal.md` with:
+
 1. ✅ Title + minimal frontmatter (title, description, category)
 2. ✅ Description section
 3. ✅ Prompt section
@@ -338,6 +351,7 @@ Created `templates/prompt-template-minimal.md` with:
 **Status:** ✅ Fixed table alignment in 5 files with regex replacements  
 
 **Bulk Fix Regex:**
+
 ```text
 Find:    \| --- \|
 Replace: | :--- |
@@ -390,19 +404,17 @@ Here is an example of using this prompt...
 ### Output
 ```text
 [AI generates this]
-```
-```
+```text
 
-### 11. Add Horizontal Rules Between Major Sections ✅ COMPLETE
+### 11. Add Horizontal Rules Between Major Sections
 **Source:** VISUAL_AUDIT_REPORT.md  
 **Effort:** 1 hour  
-**Status:** ✅ Added section dividers to 147 files! (Dec 5, 2025)
 
-19 files lack `---` separators between major sections - NOW FIXED:
+19 files lack `---` separators between major sections:
 - `prompts/developers/code-review-expert.md`
 - `prompts/developers/api-design-consultant.md`
 - `prompts/developers/security-code-auditor.md`
-- Plus 144 more files improved!
+- (16 more files)
 
 ### 12. Run Full Library Evaluation
 **Source:** ARCHITECTURE_PLAN.md  
@@ -775,6 +787,17 @@ You are an expert...
 - Change documentation requirements
 - Migration strategies when prompts change
 - Deprecation process
+
+**UX/UI Workstream A Completed (December 5, 2025):**
+- ✅ Fixed all 50 broken internal links
+- ✅ Added language specifiers to 1781 code blocks in 256 files
+- ✅ Fixed table alignment in 5 files
+- ✅ Standardized 6 files from "Purpose" to "Description"
+- ✅ Added horizontal rules to 104 files
+- ✅ Added collapsible sections to large tables
+- ✅ Added 3 Mermaid diagrams to complex prompts
+- ✅ Added badges to key files (README, advanced/index, governance)
+- ✅ Added TOCs to 2 longest documents
 
 **UX/UI Workstream A Completed (December 5, 2025):**
 - ✅ Fixed all 50 broken internal links
