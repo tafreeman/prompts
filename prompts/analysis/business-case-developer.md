@@ -92,7 +92,38 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 
 ---
 
+## Example Usage
+
+### Context
+
+A product manager at a SaaS company needs to build a business case for investing in a new mobile app feature to improve user engagement and reduce churn.
+
+### Input
+
+```text
+Initiative: In-app push notifications for personalized content recommendations
+Investment Required: $150,000 (development) + $30,000/year (infrastructure)
+Expected Benefits: 15% reduction in churn, 20% increase in daily active users
+Risks: User notification fatigue, privacy concerns, technical integration complexity
+Timeline: 6 months development, 3 months pilot
+```
+
+### Expected Output
+
+A complete business case document with:
+
+1. **Executive Summary** - Concise overview of the investment opportunity with key financial metrics
+2. **Cost-Benefit Analysis** - Detailed breakdown of costs vs. projected savings/revenue
+3. **ROI Calculations** - NPV, payback period, and IRR analysis
+4. **Risk Assessment** - Risk matrix with mitigation strategies for each identified risk
+5. **Implementation Plan** - Phased rollout with milestones and resource requirements
+6. **Success Metrics** - KPIs for measuring feature success (DAU, retention rate, NPS)
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Gap Analysis Expert](./gap-analysis-expert.md) - For current/desired state comparison
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For gathering detailed requirements
+- [Business Strategy Analysis](../business/business-strategy-analysis.md) - For strategic alignment
+- [Risk Management Analyst](../business/risk-management-analyst.md) - For deeper risk assessment

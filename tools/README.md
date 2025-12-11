@@ -69,18 +69,27 @@ Located in `rubrics/`:
 
 ---
 
-## Archived Tools
+## Evaluation Tools
 
-The following tools have been archived to `tools/archive/` (December 4, 2025):
+The following tools handle prompt library evaluation:
 
-| Tool | Reason |
-|------|--------|
-| `evaluation_agent.py` | Superseded by `testing/evals/dual_eval.py` |
-| `evaluate_library.py` | Different approach, not API-based |
-| `improve_prompts.py` | Redundant with evaluation outputs |
-| `generate_eval_files.py` | Logic merged into dual_eval.py |
-| `run_gh_eval.py` | Superseded by dual_eval.py batch mode |
-| `EVALUATION_AGENT_GUIDE.md` | Documentation for archived agent |
+| Tool | Description |
+|------|-------------|
+| `evaluation_agent.py` | Autonomous multi-phase evaluation agent |
+| `evaluate_library.py` | Dual-rubric library evaluator (quality + effectiveness) |
+| `generate_eval_files.py` | Generate YAML eval files from prompts |
+| `run_gh_eval.py` | Run `gh models eval` and format reports |
+| `improve_prompts.py` | Generate improvement recommendations |
+
+---
+
+## Archived Documentation
+
+The following documentation has been archived to `tools/archive/`:
+
+| File | Description |
+|------|-------------|
+| `EVALUATION_AGENT_GUIDE.md` | User guide for the evaluation agent |
 
 ---
 
@@ -90,6 +99,11 @@ The following tools have been archived to `tools/archive/` (December 4, 2025):
 tools/
 ├── README.md                      # This file
 ├── audit_prompts.py               # CSV migration audit
+├── evaluation_agent.py            # Autonomous evaluation agent
+├── evaluate_library.py            # Dual-rubric library evaluator
+├── generate_eval_files.py         # YAML eval file generator
+├── run_gh_eval.py                 # GitHub Models eval runner
+├── improve_prompts.py             # Improvement recommendations
 ├── validators/
 │   ├── frontmatter_validator.py   # Schema validation
 │   ├── metadata_schema.yaml       # Schema definition

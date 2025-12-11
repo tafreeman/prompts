@@ -362,6 +362,39 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 
 ---
 
+## Example
+
+```text
+## SOC 2 Readiness Assessment: Security (CC)
+
+### CC1. Control Environment
+*   **CC1.1 (Integrity & Ethics):**
+    *   *Control:* Code of Conduct signed by all employees annually.
+    *   *Evidence:* HR system export showing 100% completion for 2024.
+    *   *Status:* Ready.
+
+### CC6. Logical and Physical Access
+*   **CC6.1 (Access Registration):**
+    *   *Control:* Access requests require manager approval via Jira.
+    *   *Evidence:* Jira tickets for Q3 new hires.
+    *   *Gap:* Found 2 developers with production access but no Jira ticket.
+    *   *Remediation:* Revoke access immediately; enforce Terraform-only access.
+
+### CC7. System Operations
+*   **CC7.1 (Vulnerability Scanning):**
+    *   *Control:* Weekly automated scans of production environment.
+    *   *Evidence:* AWS Inspector reports.
+    *   *Status:* Ready.
+
+### Audit Readiness Score
+*   **Controls Tested:** 15
+*   **Passed:** 12
+*   **Gaps:** 3 (Access Control, Incident Response Plan update, Vendor Review)
+*   **Readiness:** 80% - Needs 2 weeks remediation before audit start.
+```
+
+---
+
 ## Tips
 
 - **Start 6+ months early** - SOC 2 Type II requires evidence over time

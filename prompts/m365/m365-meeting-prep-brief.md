@@ -2,6 +2,7 @@
 title: "M365 Meeting Prep Brief"
 shortTitle: "M365 Meeting Prep Brief"
 intro: "This prompt helps an individual quickly prepare for an upcoming meeting using Microsoft 365 context. It generates a brief that includes meeting purpose, key talking points, questions to ask, and po..."
+m365App: "Microsoft 365 Copilot Chat"
 type: "how_to"
 difficulty: "beginner"
 audience:

@@ -90,7 +90,37 @@ Provide:
 
 ---
 
+## Example Usage
+
+### Context
+
+A Product Manager needs to analyze the user experience of an e-commerce checkout flow that has a 68% cart abandonment rate and identify opportunities for improvement.
+
+### Input
+
+```text
+System/Process: E-commerce checkout flow (5-step process)
+User Groups: First-time buyers, returning customers, mobile users
+Current Pain Points: High abandonment at shipping step, confusion about delivery options, payment failures
+Business Goals: Reduce cart abandonment to <50%, increase mobile conversion by 25%
+```
+
+### Expected Output
+
+A comprehensive UX analysis report including:
+
+1. **User Journey Mapping** - Current checkout flow with emotional journey, drop-off points per step
+2. **Pain Point Analysis** - Severity-ranked friction points with supporting data (heatmaps, session recordings)
+3. **Improvement Opportunities** - Guest checkout, address autocomplete, one-page checkout for mobile
+4. **Solution Recommendations** - Wireframes for key improvements with effort/impact matrix
+5. **Success Metrics** - Conversion rate, time-to-checkout, error rate, mobile parity score
+6. **Implementation Approach** - A/B testing plan with hypothesis for each change
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For detailed requirements
+- [Workflow Designer](./workflow-designer.md) - For redesigning user flows
+- [Process Optimization Consultant](./process-optimization-consultant.md) - For process improvements
+- [Consumer Behavior Researcher](./consumer-behavior-researcher.md) - For understanding user psychology

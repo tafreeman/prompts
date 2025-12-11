@@ -58,9 +58,19 @@ Include:
 5. Implementation support
 6. Monitoring framework
 ```text
-```xml
 
-**Output:**
+---
+
+## Variables
+
+- `[organization]`: Organization name and context (e.g., "Metro General Hospital – Emergency Department")
+- `[issues]`: Performance issues (e.g., "Average wait time 4.5 hours, patient satisfaction at 62%")
+- `[metrics]`: Current metrics (e.g., "Door-to-doctor 45 min, LWBS rate 8%, NPS -12")
+- `[goals]`: Improvement goals (e.g., "Reduce wait time to 2 hours, improve satisfaction to 80%")
+
+---
+
+## Example
 
 ```text
 ## Performance Improvement Plan

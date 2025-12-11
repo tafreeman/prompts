@@ -2,6 +2,7 @@
 title: "M365 Meeting Recap Assistant"
 shortTitle: "M365 Meeting Recap"
 intro: "This prompt helps an individual quickly turn a meeting transcript or notes into a structured summary with decisions, action items, and follow-ups. It leverages Microsoft 365 context (Teams meeting ..."
+m365App: "Copilot in Teams"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -202,6 +203,15 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 - Tip 2: Share the recap with attendees and ask them to confirm action item ownership and due dates.
 - Tip 3: Use the "Action Items" table directly in your task tracker (Planner, Jira, etc.) by copying and pasting.
 - Tip 4: Pair this with `m365-meeting-prep-brief.md` for full meeting lifecycle coverage (prep → meeting → recap).
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use in Teams**: After a meeting with transcription enabled, open the meeting recap in Teams and use Copilot to "Summarize this meeting" or "List action items."
+- **Intelligent Recap**: Teams Premium includes Intelligent Meeting Recap which auto-generates chapters, action items, and mentions.
+- **Loop integration**: Copy action items directly into a Loop component for real-time collaboration and tracking.
+- **Outlook follow-up**: Use Copilot in Outlook to draft follow-up emails based on meeting outcomes.
 
 ---
 

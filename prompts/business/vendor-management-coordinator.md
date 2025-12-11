@@ -59,7 +59,18 @@ Include:
 6. Payment processing
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "Cloud Infrastructure Migration")
+- `[services]`: Vendor services (e.g., "AWS infrastructure, DevOps consulting, 24/7 support")
+- `[terms]`: Contract terms (e.g., "$500K annual, 99.9% SLA, 3-year commitment")
+- `[issues]`: Performance issues (e.g., "October SLA breach at 99.7%, slow ticket response times")
+
+---
+
+## Example
 
 ```text
 ## Vendor Management Plan

@@ -2,6 +2,7 @@
 title: "M365 Sway Visual Newsletter"
 shortTitle: "M365 Sway Visual Newsletter"
 intro: "Internal newsletters often get ignored in email inboxes. This prompt helps you aggregate various updates (from Teams, email, or notes) and format them into a visually engaging Sway newsletter. It o..."
+m365App: "Microsoft Sway"
 type: "how_to"
 difficulty: "beginner"
 audience:

@@ -59,7 +59,18 @@ Provide:
 6. Contingency planning
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "Black Friday Marketing Campaign Launch")
+- `[resources]`: Available resources (e.g., "3 Designers, 1 Web Dev, 2 Copywriters, $50K budget")
+- `[constraints]`: Project constraints (e.g., "Fixed deadline Nov 20, limited Dev capacity")
+- `[priorities]`: Priority areas (e.g., "Landing page, Email sequences, Social media assets")
+
+---
+
+## Example
 
 ```text
 ## Resource Optimization Plan

@@ -2,6 +2,7 @@
 title: "M365 Presentation Outline Generator"
 shortTitle: "M365 Presentation Outlin..."
 intro: "This prompt helps an individual quickly create a structured PowerPoint presentation outline using Microsoft 365 context. It generates slide titles, bullet points, and visual suggestions based on a ..."
+m365App: "Copilot in PowerPoint"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -246,6 +247,15 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 - Tip 2: Adjust `[emphasis]` based on your audience's priorities (e.g., execs care about ROI, engineers care about architecture).
 - Tip 3: After generating the outline, ask Copilot to "expand slide 5 with more detail" or "suggest alternative visuals for slide 3."
 - Tip 4: Copy the outline into PowerPoint's Outline View for fast slide creation.
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use in PowerPoint**: Open Copilot in PowerPoint and say "Create a presentation about [topic]" or paste this prompt with your variables filled in.
+- **Reference files**: Use "Create from file" in Copilot to reference a Word document directly, then refine with this prompt.
+- **Designer integration**: After creating slides, use PowerPoint Designer (Design Ideas) to apply professional layouts automatically.
+- **Iterate with Copilot**: Ask follow-up questions like "Add a slide about risks" or "Make the executive summary more concise."
 
 ---
 

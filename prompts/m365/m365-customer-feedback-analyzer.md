@@ -2,6 +2,7 @@
 title: "M365 Customer Feedback Analyzer"
 shortTitle: "M365 Customer Feedback A..."
 intro: "This prompt is designed for Product Managers, Support Leads, and Sales teams who receive scattered feedback from customers. It uses the LLM's summarization capabilities to aggregate multiple feedba..."
+m365App: "Microsoft 365 Copilot Chat"
 type: "how_to"
 difficulty: "intermediate"
 audience:

@@ -1,6 +1,6 @@
 # Auto-generated evaluation file
 # Generated from: 10 prompts
-# Run with: gh models eval D:\source\prompts\testing\evals\analysis\analysis-eval-2.prompt.yml
+# Run with: gh models eval D:\source\tafreeman\prompts\testing\evals\analysis\analysis-eval-2.prompt.yml
 
 name: Analysis Prompts Evaluation (Batch 2)
 description: Automated evaluation of 10 prompts from the library

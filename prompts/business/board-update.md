@@ -22,6 +22,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Board Update Generator
 
@@ -117,34 +118,48 @@ Write in confident but honest tone. No spin, but appropriate framing. Board memb
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are the CEO of a Series B SaaS company preparing a monthly board update. Growth is solid but slightly below target, and you need to communicate key metrics, wins, challenges, and specific asks clearly.
+
+### Input
 
 ```text
-Company: TechFlow - Series B enterprise SaaS company, workflow automation platform
-Period: November 2024 (monthly update)
-Key Metrics:
+You are an experienced executive who writes clear, professional board communications.
+
+Create a board update for:
+
+**Company**: TechFlow - Series B enterprise SaaS company, workflow automation platform
+**Period**: November 2024 (monthly update)
+**Key Metrics**:
 - ARR: $12.4M (target: $12.8M) - 97% of target
 - Net Revenue Retention: 118%
 - New Logos: 8 (target: 10)
 - Burn: $890K (budget: $950K)
 - Runway: 22 months
-Highlights:
+**Highlights**:
 - Closed Fortune 500 deal (Acme Corp) - $480K ACV, largest deal ever
 - Launched AI features, 40% of users adopted in first 2 weeks
 - Engineering shipped 23% faster after process improvements
 - NPS increased from 42 to 51
-Challenges:
+**Challenges**:
 - Pipeline coverage dropped to 2.1x (target: 3x) - concerning for Q1
 - Lost 2 senior engineers to FAANG companies
 - Enterprise sales cycle lengthening (now 120 days avg, was 90)
-Asks:
+**Asks/Decisions Needed**:
 - Approve $200K budget increase for sales team expansion (2 AEs)
 - Board input on whether to pursue partnership with Microsoft
 - Intro requests: Need intros to procurement at 3 target accounts
-Audience: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
+**Audience**: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
+
+Generate the board update structure and content as specified in the prompt.
 ```text
+
+### Expected Output
+
+The AI produces a polished board update structured into: executive summary, key metrics dashboard, highlights and wins, challenges and risks, strategic update, financial summary, specific asks/decisions, and a "looking ahead" section, written in a concise, board‑friendly tone.
 
 ---
 

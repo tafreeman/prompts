@@ -59,7 +59,18 @@ Include:
 6. Recognition programs
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[team_name]`: Team name (e.g., "Platform Engineering Team – 8 engineers")
+- `[challenges]`: Current challenges (e.g., "Hero culture, slow code reviews, junior devs blocked")
+- `[goals]`: Performance goals (e.g., "Reduce cycle time by 40%, improve team velocity 20%")
+- `[dynamics]`: Team dynamics (e.g., "2 seniors, 4 mid-level, 2 juniors; remote-first")
+
+---
+
+## Example
 
 ```text
 ## Team Performance Improvement Plan

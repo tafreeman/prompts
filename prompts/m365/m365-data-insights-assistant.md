@@ -2,6 +2,7 @@
 title: "M365 Data Insights Assistant"
 shortTitle: "M365 Data Insights"
 intro: "This prompt helps an individual quickly interpret and analyze data in Excel workbooks using Microsoft 365 Copilot. It identifies trends, highlights anomalies, and recommends visualizations, all exp..."
+m365App: "Copilot in Excel"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -189,6 +190,16 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - Tip 2: Adjust `[focus_areas]` to zoom in on specific questions (e.g., "Why did costs increase in Q3?" or "Which customer segments are growing fastest?").
 - Tip 3: After getting the initial insights, ask Copilot to "create a pivot table showing X by Y" or "draft a formula to calculate Z."
 - Tip 4: Pair this with `m365-presentation-outline-generator.md` to turn data insights into slides quickly.
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use in Excel**: Open Copilot in Excel and say "Analyze this data" or "What are the key trends?" to get instant insights.
+- **Format as Table first**: Convert your data to an Excel Table (Ctrl+T) before using Copilot for better results.
+- **Chart suggestions**: Ask Copilot "Create a chart showing [metric] over time" and it will insert the visualization directly.
+- **Natural language formulas**: Use Copilot to create complex formulas by describing what you want in plain English.
+- **PivotTable creation**: Ask Copilot to "Create a PivotTable summarizing sales by region and month."
 
 ---
 

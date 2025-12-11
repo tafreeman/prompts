@@ -22,6 +22,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Meeting Summary Generator
 
@@ -100,17 +101,24 @@ Keep it concise. Focus on decisions and actions, not who said what.
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You have rough notes from a product roadmap review and need a clear summary you can share with leadership and the wider team, including decisions, action items, and follow‑ups.
+
+### Input
 
 ```text
-Meeting Type: Product Roadmap Review
-Date/Time: November 29, 2024, 2:00 PM - 3:30 PM
-Attendees: Sarah (VP Product), Marcus (Eng Lead), Priya (Design Lead), Jordan (PM), David (CEO - partial)
-Meeting Purpose: Finalize Q1 2025 product priorities and resource allocation
+You are an expert at synthesizing meeting discussions into clear, actionable summaries.
 
-Notes:
+Create a meeting summary from:
+
+**Meeting Type**: Product Roadmap Review
+**Date/Time**: November 29, 2024, 2:00 PM - 3:30 PM
+**Attendees**: Sarah (VP Product), Marcus (Eng Lead), Priya (Design Lead), Jordan (PM), David (CEO - partial)
+**Meeting Purpose**: Finalize Q1 2025 product priorities and resource allocation
+**Notes/Transcript**:
 - David kicked off with company context: Q4 revenue 15% below target, need to focus on features that drive expansion revenue
 - Sarah presented 3 options for Q1 focus: (A) New analytics dashboard, (B) API v2 for enterprise, (C) Mobile app redesign
 - Marcus raised concern that API v2 is understaffed - would need 2 more engineers or slip timeline
@@ -123,6 +131,10 @@ Notes:
 - Next meeting: Dec 13 to review contractor candidates and finalize sprint plans
 - Priya needs to update mobile designs based on delayed timeline - will share revised mockups by Dec 20
 ```text
+
+### Expected Output
+
+The AI produces a concise meeting summary with an executive summary, key decisions, discussion highlights, a table of action items (owners and due dates), a parking lot, and next steps that you can paste directly into an email or notes tool.
 
 ---
 

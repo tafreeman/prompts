@@ -29,15 +29,86 @@ reviewStatus: "draft"
 
 ## Description
 
-Designs blockchain-based architectures
+Designs blockchain-based architectures for enterprise use cases including supply chain, digital identity, and tokenization. This prompt guides architects through platform selection, smart contract design, consensus mechanisms, and integration with existing enterprise systems while addressing security, scalability, and governance requirements.
+
+---
+
+## Architecture Diagram
+
+```mermaid
+flowchart TB
+    subgraph Applications
+        WebApp[Web Application]
+        Mobile[Mobile App]
+        IoT[IoT Devices]
+    end
+    
+    subgraph Integration[Integration Layer]
+        API[REST/GraphQL API]
+        Oracle[Blockchain Oracle]
+        Events[Event Listener]
+    end
+    
+    subgraph Blockchain[Blockchain Network]
+        Node1[Peer Node 1]
+        Node2[Peer Node 2]
+        Node3[Peer Node 3]
+        Smart[Smart Contracts]
+        Ledger[(Distributed Ledger)]
+    end
+    
+    subgraph OffChain[Off-Chain Storage]
+        IPFS[IPFS/Filecoin]
+        DB[(Traditional DB)]
+    end
+    
+    WebApp --> API
+    Mobile --> API
+    IoT --> Oracle
+    API --> Node1
+    Oracle --> Smart
+    Events --> Node2
+    Node1 --> Smart
+    Node2 --> Smart
+    Node3 --> Smart
+    Smart --> Ledger
+    Smart --> IPFS
+    API --> DB
+```
+
+---
+
+## Decision Framework
+
+### When to Use Blockchain
+
+| Criteria | Indicators |
+|----------|------------|
+| **Multiple Parties** | 3+ organizations need shared truth without central authority |
+| **Trust Issues** | Parties don't fully trust each other or intermediaries |
+| **Audit Trail** | Immutable, tamper-proof transaction history required |
+| **Disintermediation** | Removing middlemen provides significant value |
+| **Asset Tokenization** | Digital representation of physical or financial assets |
+
+### When NOT to Use Blockchain
+
+- Single organization controls all data
+- Complete trust exists between parties
+- High-frequency transactions (>10,000 TPS needed)
+- Data needs to be frequently modified or deleted
+- Simple database with traditional access control suffices
+- GDPR "right to be forgotten" requirements conflict with immutability
 
 ---
 
 ## Use Cases
 
-- Blockchain for Architect persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
+- Supply chain provenance tracking with multi-party verification
+- Digital identity and credential management systems
+- Tokenization of real-world assets (real estate, securities)
+- Cross-border payment and settlement networks
+- Decentralized autonomous organization (DAO) governance
+- NFT marketplaces and digital collectibles platforms
 
 ---
 
@@ -82,17 +153,74 @@ Include:
 
 ---
 
+## Variables
+
+- `[use_case]`: Business use case (e.g., "Supply chain provenance for luxury goods authentication")
+- `[blockchain_type]`: Blockchain type (e.g., "Permissioned / Private consortium")
+- `[consensus]`: Consensus requirements (e.g., "High throughput (3000+ TPS), finality under 5 seconds")
+- `[integrations]`: Integration needs (e.g., "SAP ERP, IoT sensors for tracking, Mobile verification app")
+
+---
+
+## Cloud Platform Notes
+
+### Azure
+- **Platform**: Azure Confidential Ledger for tamper-proof data, Azure Blockchain Workbench (deprecated)
+- **Managed Nodes**: Partner solutions (ConsenSys Quorum, R3 Corda) via Azure Marketplace
+- **Integration**: Azure Logic Apps, Event Grid for blockchain event processing
+- **Identity**: Azure AD for permissioned network participant management
+
+### AWS
+- **Platform**: Amazon Managed Blockchain (Hyperledger Fabric, Ethereum)
+- **Serverless**: AWS Lambda for off-chain processing triggered by blockchain events
+- **Storage**: Amazon QLDB for centralized immutable ledger use cases
+- **Integration**: Amazon EventBridge for blockchain event routing
+
+### GCP
+- **Blockchain Node Engine**: Managed Ethereum nodes for Web3 applications
+- **BigQuery**: Blockchain analytics with public datasets (Bitcoin, Ethereum)
+- **Cloud Functions**: Event-driven processing for smart contract events
+- **Integration**: Pub/Sub for blockchain event streaming
+
+---
+
+## Example
+
+### Context
+A global luxury goods consortium (5 manufacturers, 200+ retailers, logistics partners) needs to track product authenticity from factory to consumer to combat counterfeiting worth $500B annually.
+
+### Input
+```text
+Use Case: Luxury goods supply chain provenance (anti-counterfeiting)
+Blockchain Type: Permissioned consortium (5 founding members, 200+ participants)
+Consensus Requirements: Fast finality (<2s), 3000+ TPS, privacy between competitors
+Integration Needs: SAP ERP, IoT sensors, mobile consumer verification app
+```
+
+### Expected Output
+
+- Platform: Hyperledger Fabric with private channels per manufacturer
+- Smart Contracts: MintProduct(), TransferCustody(), VerifyAuthenticity()
+- Integration: SAP Cloud Platform adapter, IPFS for off-chain photos
+- Security: HSM for signing keys, third-party smart contract audits
+- Governance: 3/5 consortium vote for network changes
+
+---
 
 ## Tips
 
-- Be specific when filling in placeholder values for better results
-- Review and adjust the output to match your organization's standards
-- Use this as a starting template and refine based on feedback
-- For best results, provide relevant context and constraints
+- Start with a clear understanding of why blockchain is needed vs. traditional database
+- Consider hybrid architectures with off-chain storage for large data
+- Plan governance and legal agreements before technical implementation
+- Use testnets extensively before mainnet deployment
+- Factor in the learning curve for development teams
 
 ---
 
 ## Related Prompts
 
-- Browse other Architect prompts in this category
-- Check the system folder for similar templates
+- [Security Architecture Specialist](security-architecture-specialist.md) - For cryptographic security design
+- [Enterprise Integration Architect](enterprise-integration-architect.md) - For legacy system integration
+- [Data Architecture Designer](data-architecture-designer.md) - For on-chain vs off-chain data strategy
+- [Compliance Architecture Designer](compliance-architecture-designer.md) - For regulatory considerations
+- [IoT Architecture Designer](iot-architecture-designer.md) - For IoT-blockchain integration

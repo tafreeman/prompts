@@ -2,6 +2,7 @@
 title: "M365 Handover Document Creator"
 shortTitle: "M365 Handover Document C..."
 intro: "This prompt is essential for employees leaving a role, going on extended leave, or transferring a project. It interviews the user (via the prompt inputs) to extract key responsibilities, contacts, ..."
+m365App: "Copilot in Word or Microsoft 365 Copilot Chat"
 type: "tutorial"
 difficulty: "beginner"
 audience:

@@ -2,6 +2,7 @@
 title: "M365 Designer Social Media Kit"
 shortTitle: "M365 Designer Social Med..."
 intro: "Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Micr..."
+m365App: "Microsoft Designer"
 type: "how_to"
 difficulty: "intermediate"
 audience:

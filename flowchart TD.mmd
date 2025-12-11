@@ -1,0 +1,29 @@
+flowchart TD
+    subgraph Phase1["Phase 1: Generate"]
+        A["User Question"] --> B["Generate Baseline Response"]
+        B --> C["Initial Answer<br/>(may contain errors)"]
+    end
+    
+    subgraph Phase2["Phase 2: Plan Verification"]
+        C --> D["Analyze Factual Claims"]
+        D --> E["Generate Verification Questions<br/>(one per claim)"]
+    end
+    
+    subgraph Phase3["Phase 3: Execute Verification"]
+        E --> F["Answer Q1 Independently"]
+        E --> G["Answer Q2 Independently"]
+        E --> H["Answer Q3 Independently"]
+        E --> I["Answer Qn Independently"]
+        F & G & H & I --> J["Verified Answers"]
+    end
+    
+    subgraph Phase4["Phase 4: Revise"]
+        A --> K["Synthesize Final Response"]
+        J --> K
+        K --> L["Verified Response<br/>with Corrections"]
+    end
+    
+    style Phase1 fill:#e1f5fe
+    style Phase2 fill:#fff3e0
+    style Phase3 fill:#e8f5e9
+    style Phase4 fill:#fce4ec

@@ -59,7 +59,18 @@ Provide:
 6. Stakeholder updates
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "Mobile App v3.0 App Store Submission")
+- `[phase]`: Current phase (e.g., "Beta Testing – Week 2 of 3")
+- `[milestones]`: Upcoming milestones (e.g., "Beta Release Nov 15, App Store Submission Nov 30")
+- `[concerns]`: Progress concerns (e.g., "3 critical bugs blocking beta, iOS 17 crash issue")
+
+---
+
+## Example
 
 ```text
 ## Project Progress Tracker

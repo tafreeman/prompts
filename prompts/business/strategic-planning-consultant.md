@@ -61,7 +61,19 @@ Provide:
 6. Risk mitigation
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[organization]`: Organization name (e.g., "MidWest Grocery – Regional grocery chain with 45 stores")
+- `[industry]`: Industry context (e.g., "Grocery retail, facing big-box and online competition")
+- `[challenges]`: Current challenges (e.g., "Legacy IT, no mobile app, declining foot traffic")
+- `[objectives]`: Growth objectives (e.g., "20% revenue growth, 15% e-commerce penetration by 2028")
+- `[timeframe]`: Planning timeframe (e.g., "3-year strategic plan (2025-2028)")
+
+---
+
+## Example
 
 ```text
 ## Strategic Plan (2025-2028)

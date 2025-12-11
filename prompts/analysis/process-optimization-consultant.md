@@ -91,7 +91,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+An Operations Manager at a manufacturing company needs to optimize the purchase order approval process that currently takes 5 days on average and causes production delays.
+
+### Input
+
+```text
+Process Name: Purchase Order Approval Workflow
+Current Issues: 5-day average approval time, 30% of POs require rework, no visibility into approval status
+Stakeholders: Procurement team, Finance, Department Managers, Vendors
+Success Metrics: Reduce approval time to <24 hours, achieve 95% first-pass approval rate
+```
+
+### Expected Output
+
+A comprehensive process optimization plan including:
+
+1. **Current State Analysis** - Process mapping with cycle times, bottleneck identification (Manager queue = 3 days)
+2. **Process Mapping** - As-Is vs To-Be workflow diagrams with swim lanes
+3. **Bottleneck Identification** - Root cause analysis (approval thresholds too low, no delegation rules)
+4. **Optimization Recommendations** - Tiered approval thresholds, auto-approval for repeat vendors, mobile approval app
+5. **Implementation Roadmap** - 8-week phased rollout with quick wins in Week 1
+6. **Change Management** - Training plan, communication strategy, resistance mitigation
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Business Process Reengineering](../business/business-process-reengineering.md) - For comprehensive business process transformation
+- [Gap Analysis Expert](./gap-analysis-expert.md) - For current/desired state comparison
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For gathering process requirements
+- [Workflow Designer](./workflow-designer.md) - For designing optimized workflows
