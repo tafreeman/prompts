@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Performance Review Writer
 
@@ -106,30 +107,42 @@ Write in professional but warm tone. Be specific with examples. Avoid vague stat
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are writing a performance review for a senior engineer who recently transitioned into a tech lead role. You have bullet‑point notes on accomplishments and growth areas and want a balanced, structured review.
+
+### Input
 
 ```text
-Employee: Jordan Lee, 2.5 years at company, transitioned from IC to tech lead 8 months ago
-Review Period: H2 2024 (July - December)
-Role/Level: Senior Software Engineer / Tech Lead, Platform Team (5 direct reports)
-Key Accomplishments:
+You are an experienced people manager skilled at writing fair, constructive performance reviews.
+
+Write a performance review for:
+
+**Employee**: Jordan Lee, 2.5 years at company, transitioned from IC to tech lead 8 months ago
+**Review Period**: H2 2024 (July - December)
+**Role/Level**: Senior Software Engineer / Tech Lead, Platform Team (5 direct reports)
+**Key Accomplishments**:
 - Led migration of payment service to new architecture, completed 2 weeks early
 - Reduced on-call incidents by 40% through proactive monitoring improvements
 - Mentored 2 junior engineers who both got promoted
 - Initiated and ran weekly tech talks series (12 sessions, avg 25 attendees)
-Areas for Growth:
+**Areas for Growth**:
 - Struggles to delegate; tends to jump in and fix things rather than coach
 - Written communication could be clearer in design docs
 - Sometimes avoids difficult conversations with underperformers
-Previous Goals:
+**Goals from Last Period**:
 1. Complete payment service migration (Q3)
 2. Reduce P1 incidents by 25%
 3. Develop leadership skills through management training
 4. Improve documentation practices
-Overall Rating: Exceeds Expectations
+**Overall Rating**: Exceeds Expectations
 ```text
+
+### Expected Output
+
+The AI generates a review document with an executive summary, detailed accomplishments and impact, strengths, development areas, assessment of previous goals, and SMART goals for the next period written in a fair, coaching‑oriented tone.
 
 ---
 

@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Digital Transformation Advisor
 
@@ -28,15 +29,17 @@ reviewStatus: "draft"
 
 ## Description
 
-Guides digital transformation initiatives
+Supports consultants and transformation leaders in designing end‑to‑end digital transformation programmes. Helps assess current digital maturity, define transformation goals, propose technology roadmaps, and plan change management and success metrics.
 
 ---
 
 ## Use Cases
 
-- Digital Transformation for Consultant persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
+- Defining a digital transformation strategy for a specific business unit or enterprise
+- Preparing transformation proposals and roadmaps for executive approval
+- Structuring discovery workshops and follow-up materials with clients
+- Comparing alternative transformation paths under different budget scenarios
+- Documenting success metrics and KPIs for transformation governance
 
 ---
 
@@ -60,26 +63,47 @@ Include:
 6. Success measurement
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[organization]`: Organization name and description (e.g., "Guardian Mutual Insurance – mid-size P&C insurer")
+- `[current_state]`: Current situation (e.g., "Legacy mainframe claims system, 21-day average cycle time")
+- `[goals]`: Transformation objectives (e.g., "Reduce claims cycle to 5 days, enable digital self-service")
+- `[budget]`: Available budget (e.g., "$8M over 3 years")
+- `[timeline]`: Target timeline (e.g., "Phase 1 in 12 months, full rollout in 36 months")
+
+---
+
+## Example
+
+### Context
+
+An insurance company is struggling with slow, paper-heavy claims processing and fragmented customer experience. Executives have approved a multi‑year digital transformation budget but need a clear, phased roadmap and change plan.
+
+### Input
 
 ```text
-## Digital Transformation Plan
+Plan digital transformation for:
 
-### 1. Digital Maturity Assessment
-*   **Current Score:** 1.5/5 (Ad-hoc Digital).
-*   **Gap:** Heavy reliance on manual data entry (OCR) creates 3-day lag in claims visibility.
+Organization: Guardian Mutual Insurance – mid‑size P&C insurer operating in 3 countries.
+Current State: Heavy reliance on legacy mainframe claims system and paper workflows; average claims cycle time is 21 days; limited digital self‑service for customers.
+Transformation Goals: Cut average claims cycle time to under 7 days, move 70% of FNOL submissions to digital channels, and modernize core systems without a risky "big bang" replacement.
+Budget: $25M over 3 years (CapEx + OpEx); preference for cloud‑first solutions.
+Timeline: 3‑year programme starting Q2 2026, with visible wins in the first 9 months.
 
-### 2. Transformation Strategy
-*   **Core Modernization:** Wrap legacy mainframe in API layer (MuleSoft) rather than full rewrite.
-*   **Customer Experience:** Mobile-first "Claims Bot" for instant photo upload and status tracking.
-
-### 3. Technology Roadmap
-*   **Year 1:** API Gateway & Cloud Data Lake setup.
-*   **Year 2:** Mobile App launch & AI Pilot for simple claims.
-*   **Year 3:** Full AI Underwriting rollout.
-
-[... continues with change management and success measurement ...]
+Include:
+1. Digital maturity assessment
+2. Transformation strategy
+3. Technology roadmap
+4. Change management
+5. Implementation phases
+6. Success measurement
 ```text
+
+### Expected Output
+
+The AI produces a structured "Digital Transformation Plan" that covers: a concise maturity assessment, a clear strategy narrative, a year‑by‑year technology roadmap, change management approach (people, process, communications), phased implementation plan, and success metrics with target KPIs and review cadence.
 
 ---
 
@@ -95,5 +119,7 @@ Include:
 
 ## Related Prompts
 
-- Browse other Consultant prompts in this category
-- Check the business folder for similar templates
+- [Business Process Reengineering](./business-process-reengineering.md) - For process transformation components
+- [Change Management Coordinator](./change-management-coordinator.md) - For managing digital change adoption
+- [Process Optimization Consultant](../analysis/process-optimization-consultant.md) - For optimizing digital workflows
+- [Gap Analysis Expert](../analysis/gap-analysis-expert.md) - For current/future state technology analysis

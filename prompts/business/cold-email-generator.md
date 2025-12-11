@@ -77,6 +77,44 @@ Generate:
 Keep tone conversational and human. Avoid corporate jargon. Write like a real person, not a marketing email.
 ```text
 
+---
+
+## Variables
+
+- `[prospect_info]`: Prospect name, title, company, and any relevant context (e.g., "Sarah – Engineering Director at Stripe who posted about on-call burnout")
+- `[sender_info]`: Your name, role, and company (e.g., "Alex, founder of OnCallAI")
+- `[goal]`: Desired outcome of the email (e.g., "Book a 15-minute intro call")
+- `[value_prop]`: Key benefit you offer (e.g., "Reduces alert volume by 60% using AI triage")
+- `[hook]`: Personalization hook based on research (e.g., "Reference their LinkedIn post about on-call fatigue")
+
+---
+
+## Example
+
+### Context
+
+A founder of an on‑call optimisation startup wants to reach out to an engineering leader at Stripe after seeing a LinkedIn post about on‑call fatigue and burnout.
+
+### Input
+
+```text
+You are an expert cold email copywriter with a 40%+ open rate track record.
+
+Write a cold email for:
+
+**Prospect**: Sarah – Engineering Director at Stripe who posted on LinkedIn about on-call burnout and losing two senior engineers
+**My Company/Role**: Alex, founder of OnCallAI (startup focused on reducing alert fatigue for engineering teams)
+**Goal**: Book a 15-minute intro call to explore whether OnCallAI could help reduce on-call load for her team
+**Value Proposition**: OnCallAI reduces alert volume by ~60% using AI triage and runbook generation
+**Personalization Hook**: Reference Sarah’s LinkedIn post about on-call fatigue and her recent team departures
+
+Generate the subject lines, full email, and short mobile‑optimised version as described in the prompt.
+```text
+
+### Expected Output
+
+The AI generates three subject lines, a personalised full‑length cold email, a shorter mobile‑optimised version, and a brief explanation of why the approach works—similar to the example that follows.
+
 **Output:**
 
 ```markdown

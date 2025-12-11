@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Interview Questions Generator
 
@@ -84,6 +85,44 @@ Generate:
 
 Format as an interview guide with timing suggestions.
 ```text
+
+---
+
+## Variables
+
+- `[role]`: Job title (e.g., "Senior Product Manager")
+- `[level]`: Seniority level (e.g., "Senior / IC5")
+- `[competencies]`: Key competencies to assess (e.g., "Strategic thinking, stakeholder management, data-driven decision making, technical acumen")
+- `[stage]`: Interview stage (e.g., "Hiring manager round", "Final panel")
+- `[time]`: Available time (e.g., "45 minutes")
+
+---
+
+## Example
+
+### Context
+
+You are hiring a Senior Product Manager for a growth team and want a structured interview guide that covers behavioral, situational, and role‑specific questions plus a scoring rubric.
+
+### Input
+
+```text
+You are an expert interviewer trained in behavioral and structured interviewing techniques.
+
+Create interview questions for:
+
+**Role**: Senior Product Manager, Growth
+**Level**: Senior IC
+**Key Competencies**: Data‑driven decision making; experimentation mindset; cross‑functional leadership; customer empathy; strategic thinking
+**Interview Stage**: Round 2 (hiring manager interview)
+**Time Available**: 60 minutes
+
+Generate the full interview guide as described in the prompt, including questions, follow‑up probes, and a scoring rubric.
+```text
+
+### Expected Output
+
+The AI returns a complete interview guide that includes: an interview structure/time‑box, opening questions, behavioral and situational questions with probes, role‑specific questions, suggested candidate questions, and a scoring rubric—similar to the example guide that follows.
 
 **Output:**
 

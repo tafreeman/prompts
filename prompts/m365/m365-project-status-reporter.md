@@ -2,6 +2,7 @@
 title: "M365 Project Status Reporter"
 shortTitle: "M365 Project Status Repo..."
 intro: "This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a sum..."
+m365App: "Microsoft 365 Copilot Chat"
 type: "how_to"
 difficulty: "beginner"
 audience:

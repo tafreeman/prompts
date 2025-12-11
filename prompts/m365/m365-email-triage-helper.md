@@ -2,6 +2,7 @@
 title: "M365 Email Triage Helper"
 shortTitle: "M365 Email Triage Helper"
 intro: "This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate."
+m365App: "Copilot in Outlook"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -219,6 +220,16 @@ seven can be handled later this week, and the rest are informational.
 - Tip 2: Adjust `[max_urgent]` when your schedule is packed so you don't overcommit.
 - Tip 3: Ask Copilot to "shorten the reply further" for busy recipients.
 - Tip 4: Use folder or search filters in Outlook along with this prompt for project-specific triage.
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use in Outlook**: Open Copilot in Outlook and ask "Summarize my unread emails from today" or "What emails need my attention?"
+- **Draft with Copilot**: Click "Draft with Copilot" when composing replies for AI-assisted response generation.
+- **Catch up feature**: Use Outlook's "Catch up" feature (right-click on a thread) to summarize long email chains.
+- **Prioritize by sender**: Ask Copilot "Show me emails from my manager this week" for focused triage.
+- **Quick actions**: Use Copilot to schedule follow-ups or create tasks directly from emails.
 
 ---
 

@@ -426,6 +426,35 @@ Appendix C: Litigation Hold Notice Template
 
 ---
 
+## Example
+
+```text
+## Data Retention Policy: Financial Services
+
+### 1. Policy Scope
+Applies to all customer financial records, employee data, and operational logs within the EU and UK jurisdictions.
+
+### 2. Data Categories & Retention Periods
+
+| Data Category | Retention Period | Trigger Event | Rationale |
+|---------------|------------------|---------------|-----------|
+| **Customer KYC Data** | 5 Years | Account Closure | AML Regulations (Money Laundering Regs 2017) |
+| **Transaction Logs** | 7 Years | Transaction Date | Tax Audits (HMRC requirement) |
+| **Employee Contracts** | 6 Years | Termination | Limitation Act 1980 (Contract claims) |
+| **Marketing Consent** | 2 Years | Last Interaction | GDPR Storage Limitation (Recital 39) |
+| **Server Access Logs** | 90 Days | Creation Date | Security Incident Response (NIST recommendation) |
+
+### 3. Deletion Procedures
+*   **Automated:** Transaction logs in "CoreDB" are purged by daily cron job `purge_logs.sh`.
+*   **Manual:** HR Manager reviews "Leavers Folder" quarterly for deletion.
+
+### 4. Litigation Hold Protocol
+*   **Trigger:** Receipt of Legal Hold Notice from General Counsel.
+*   **Action:** Suspend automated deletion for named custodians/accounts immediately.
+```
+
+---
+
 ## Tips
 
 - **Start with legal minimums** - Then add only justified business extensions

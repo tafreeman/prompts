@@ -1,0 +1,370 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval D:\source\tafreeman\prompts\testing\evals\business\business-eval-1.prompt.yml
+
+name: Business Prompts Evaluation (Batch 1)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: Agile Sprint Planner
+  promptContent: 'You are a certified Scrum Master planning Sprint [sprint_number].
+
+
+    Plan sprint for:
+
+
+    **Project**: [project_name]
+
+    **Sprint Duration**: [duration]
+
+    **Team Capacity**: [capacity]
+
+    **Priority Features**: [features]
+
+    **Definition of Done**: [dod]
+
+
+    Provide:
+
+    1. **Sprint Goal** (One-sentence SMART goal)
+
+    2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
+
+    3. **Task Estimation** (Story points + hourly breakdown)
+
+    4. **Capacity Planning** (Velocity analysis + buffer allocation)
+
+    5. **Risk Mitigation** (Dependencies, blockers, technical unknowns)
+
+    6. **Success Metrics** (Burndown targets, completion criteria)
+
+    7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
+
+
+    Format output with Markdown tables for story breakdown and capacity allocation.'
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Board Update Generator
+  promptContent: "You are an experienced executive who writes clear, professional\
+    \ board communications.\n\nCreate a board update for:\n\n**Company**: [company]\n\
+    **Period**: [period]\n**Key Metrics**: [metrics]\n**Highlights**: [highlights]\n\
+    **Challenges**: [challenges]\n**Asks/Decisions Needed**: [asks]\n**Audience**:\
+    \ [audience]\n\nGenerate:\n\n1. **Executive Summary** (5-6 sentences)\n   - Overall\
+    \ performance assessment\n   - Key wins and concerns\n   - Strategic trajectory\n\
+    \n2. **Key Metrics Dashboard**\n   - Actual vs. target vs. prior period\n   -\
+    \ Trend indicators (↑↓→)\n   - Brief commentary on variances\n\n3. **Highlights\
+    \ & Wins**\n   - Top 3-5 accomplishments\n   - Impact and significance\n   - Customer\
+    \ or market wins\n\n4. **Challenges & Risks**\n   - Honest assessment of headwinds\n\
+    \   - Mitigation actions underway\n   - Where you need board input\n\n5. **Strategic\
+    \ Update**\n   - Progress on OKRs/annual goals\n   - Key initiatives status\n\
+    \   - Any strategic pivots or adjustments\n\n6. **Financial Summary**\n   - Revenue/burn/runway\
+    \ highlights\n   - Cash position\n   - Forecast vs. actual\n\n7. **Asks & Decisions**\n\
+    \   - Specific requests of the board\n   - Decisions that need approval\n   -\
+    \ Input being sought\n\n8. **Looking Ahead**\n   - Next period priorities\n  \
+    \ - Key milestones to watch\n   - Upcoming board agenda items\n\nWrite in confident\
+    \ but honest tone. No spin, but appropriate framing. Board members are time-constrained\
+    \ - be concise."
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Budget and Cost Controller
+  promptContent: 'You are a Project Financial Controller using Earned Value Management
+    (EVM) standards.
+
+
+    Manage budget for:
+
+
+    **Project**: [project_name]
+
+    **Total Budget**: [budget]
+
+    **Current Spend**: [current_spend]
+
+    **Remaining Timeline**: [timeline]
+
+    **Cost Concerns**: [concerns]
+
+
+    Provide:
+
+    1. **Budget Variance Analysis** (Planned vs. Actual with EVM metrics: CPI, SPI,
+    EAC)
+
+    2. **Cost Forecasting** (Estimate at Completion with confidence intervals)
+
+    3. **Expense Optimization** (Value engineering opportunities)
+
+    4. **Financial Reporting** (CFO-ready dashboard)
+
+    5. **Risk Assessment** (Budget risks with probability/impact)
+
+    6. **Corrective Actions** (Immediate steps to control overruns)
+
+
+    Use tables for variance analysis and include cash flow projections if applicable.'
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Business Process Reengineering
+  promptContent: 'Reengineer process for:
+
+
+    Process: [process_name]
+
+    Current Performance: [performance]
+
+    Target Improvements: [targets]
+
+    Constraints: [constraints]
+
+
+    Include:
+
+    1. Process analysis
+
+    2. Reengineering approach
+
+    3. New process design
+
+    4. Technology enablers
+
+    5. Implementation strategy
+
+    6. Performance metrics'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Business Strategy Analysis
+  promptContent: "You are a senior business strategy consultant with expertise in\
+    \ strategic planning and market analysis. I need your help analyzing a strategic\
+    \ situation.\n\n**Company/Organization:** [COMPANY NAME]\n**Industry:** [INDUSTRY]\n\
+    **Current Situation:** [BRIEF DESCRIPTION OF CURRENT STATE]\n**Strategic Question/Goal:**\
+    \ [WHAT YOU'RE TRYING TO DECIDE OR ACHIEVE]\n\n**Context:**\n- Company size: [SMALL/MEDIUM/LARGE/ENTERPRISE]\n\
+    - Market position: [LEADER/CHALLENGER/FOLLOWER/NICHE]\n- Key competitors: [LIST\
+    \ MAIN COMPETITORS]\n- Budget constraints: [ANY RELEVANT BUDGET LIMITATIONS]\n\
+    \nPlease provide:\n\n1. **Situational Analysis**\n   - Current market dynamics\n\
+    \   - Key trends affecting this decision\n   - Competitive landscape\n\n2. **SWOT\
+    \ Analysis**\n   - Strengths to leverage\n   - Weaknesses to address\n   - Opportunities\
+    \ to pursue\n   - Threats to mitigate\n\n3. **Strategic Options**\n   - Present\
+    \ 3-4 viable strategic options\n   - Pros and cons of each option\n   - Resource\
+    \ requirements\n\n4. **Recommendation**\n   - Preferred strategic approach with\
+    \ rationale\n   - Implementation priorities\n   - Key success factors\n   - Risk\
+    \ mitigation strategies\n\n5. **Next Steps**\n   - Immediate actions (0-30 days)\n\
+    \   - Short-term priorities (1-3 months)\n   - Long-term initiatives (3-12 months)"
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Change Management Coordinator
+  promptContent: 'Manage change for:
+
+
+    Project: [project_name]
+
+    Proposed Changes: [changes]
+
+    Impact Assessment: [impact]
+
+    Stakeholder Concerns: [concerns]
+
+
+    Provide:
+
+    1. Change impact analysis
+
+    2. Approval workflow
+
+    3. Communication strategy
+
+    4. Implementation plan
+
+    5. Risk mitigation
+
+    6. Success measurement'
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Client Presentation Designer
+  promptContent: 'Create presentation for:
+
+
+    Client: [client]
+
+    Presentation Purpose: [purpose]
+
+    Audience: [audience]
+
+    Key Messages: [messages]
+
+    Time Allocation: [duration]
+
+
+    Include:
+
+    1. Executive summary
+
+    2. Situation analysis
+
+    3. Recommendations
+
+    4. Implementation approach
+
+    5. Expected outcomes
+
+    6. Next steps'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Cold Email Generator
+  promptContent: "You are an expert cold email copywriter with a 40%+ open rate track\
+    \ record.\n\nWrite a cold email for:\n\n**Prospect**: [prospect_info]\n**My Company/Role**:\
+    \ [sender_info]\n**Goal**: [goal]\n**Value Proposition**: [value_prop]\n**Personalization\
+    \ Hook**: [hook]\n\nGenerate:\n\n1. **Three Subject Line Options**\n   - Curiosity-driven\
+    \ (create intrigue)\n   - Value-driven (clear benefit)\n   - Personalized (references\
+    \ their company/role)\n\n2. **Email Body** (under 150 words)\n   - Opening line\
+    \ (personalized, NOT \"I hope this finds you well\")\n   - Pain point acknowledgment\
+    \ (1 sentence)\n   - Value proposition (1-2 sentences)\n   - Social proof (1 brief\
+    \ example)\n   - Clear CTA (specific ask, low commitment)\n\n3. **P.S. Line**\
+    \ (optional pattern interrupt)\n\n4. **Alternative Shorter Version** (under 75\
+    \ words for mobile)\n\nKeep tone conversational and human. Avoid corporate jargon.\
+    \ Write like a real person, not a marketing email."
+  difficulty: beginner
+  type: how_to
+  category: business
+- promptTitle: Competitive Analysis Generator
+  promptContent: "You are a strategic analyst experienced in competitive intelligence\
+    \ and market positioning.\n\nCreate a competitive analysis for:\n\n**Our Company/Product**:\
+    \ [our_product]\n**Competitors to Analyze**: [competitors]\n**Market/Industry**:\
+    \ [market]\n**Analysis Purpose**: [purpose]\n**Key Criteria**: [criteria]\n\n\
+    Generate:\n\n1. **Executive Summary**\n   - Our competitive position in 2-3 sentences\n\
+    \   - Key advantages and vulnerabilities\n   - Strategic recommendation\n\n2.\
+    \ **Company Overviews** (for each competitor)\n   - Company snapshot (funding,\
+    \ size, founding)\n   - Target market and ICP\n   - Core value proposition\n \
+    \  - Recent news/momentum\n\n3. **Feature Comparison Matrix**\n   - Side-by-side\
+    \ capability comparison\n   - Rating scale (✅ Full / ⚠️ Partial / ❌ None)\n  \
+    \ - Our advantage areas highlighted\n\n4. **Pricing Comparison**\n   - Pricing\
+    \ models and tiers\n   - TCO analysis if applicable\n   - Value positioning\n\n\
+    5. **SWOT Analysis** (for us vs. field)\n   - Strengths\n   - Weaknesses\n   -\
+    \ Opportunities\n   - Threats\n\n6. **Win/Loss Analysis**\n   - Why we win against\
+    \ each competitor\n   - Why we lose against each competitor\n   - Common objections\
+    \ and responses\n\n7. **Strategic Recommendations**\n   - Product gaps to address\n\
+    \   - Positioning opportunities\n   - Go-to-market tactics\n\nKeep analysis objective\
+    \ and evidence-based. Flag assumptions clearly."
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Crisis Management Coordinator
+  promptContent: 'Handle crisis for:
+
+
+    Project: [project_name]
+
+    Crisis Description: [crisis]
+
+    Impact Assessment: [impact]
+
+    Urgency Level: [urgency]
+
+
+    Provide:
+
+    1. Crisis response plan
+
+    2. Stakeholder communication
+
+    3. Resource mobilization
+
+    4. Risk mitigation
+
+    5. Recovery strategy
+
+    6. Lessons learned'
+  difficulty: intermediate
+  type: how_to
+  category: business
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

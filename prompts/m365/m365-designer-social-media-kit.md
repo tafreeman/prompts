@@ -2,6 +2,7 @@
 title: "M365 Designer Social Media Kit"
 shortTitle: "M365 Designer Social Med..."
 intro: "Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Micr..."
+m365App: "Microsoft Designer"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -40,6 +41,10 @@ To create a suite of matching social media visual prompts that can be generated 
 - **Brand Style**: [brand_style]
 - **Visual Elements**: [visual_elements]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -65,6 +70,10 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 - **Subject Description**: How to arrange the [visual_elements].
 - **Style Instructions**: Ensuring the [brand_style] is consistent.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Variables
@@ -74,6 +83,10 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 - `[brand_style]`: e.g., "Minimalist, Matte finish, Pastel colors".
 - `[visual_elements]`: e.g., "Water bottle, water splash, leaves".
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -98,6 +111,10 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 **3. Vertical Story (TikTok/Reels)**
 "A tall 9:16 vertical background image. At the bottom, a small 3D laptop and coffee cup. The top 70% is a clean, soft blue gradient with subtle orange abstract lines, leaving ample negative space for text and stickers. Modern tech aesthetic."
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Tips
@@ -105,6 +122,10 @@ Please write **3 specific prompts** to paste into Microsoft Designer. All three 
 - In Microsoft Designer, you can often select the aspect ratio *before* or *after* generation, but including keywords like "wide" or "tall" in the prompt helps the AI compose the scene correctly.
 - Use the "Brand Kit" feature in Designer to apply your exact hex codes after the image is generated.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

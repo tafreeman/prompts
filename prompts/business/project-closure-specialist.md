@@ -59,7 +59,18 @@ Provide:
 6. Post-project evaluation
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "Website Redesign for Acme Corp")
+- `[deliverables]`: Deliverables status (e.g., "All SOW items delivered, SEO audit delayed 1 week")
+- `[satisfaction]`: Stakeholder satisfaction (e.g., "Client NPS 9/10, internal team satisfaction 8/10")
+- `[lessons]`: Key lessons learned (e.g., "Tool API outage caused delays, need backup tools for critical path")
+
+---
+
+## Example
 
 ```text
 ## Project Closure Plan

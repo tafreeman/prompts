@@ -82,7 +82,19 @@ For each email include:
 Keep tone human and respectful. No guilt-tripping or desperation.
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[context]`: Original outreach context (e.g., "Sent cold email about OnCallAI after LinkedIn post")
+- `[prospect]`: Prospect name and role (e.g., "Marcus Thompson, VP Engineering at Fintech Co")
+- `[last_touch]`: Last interaction (e.g., "Cold email sent, no response")
+- `[days]`: Days since last contact (e.g., "5 days")
+- `[goal]`: Desired outcome (e.g., "Schedule 15-minute intro call")
+
+---
+
+## Example
 
 ```markdown
 # Follow-Up Sequence for Marcus Thompson

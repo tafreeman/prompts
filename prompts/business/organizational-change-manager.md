@@ -59,7 +59,18 @@ Provide:
 6. Success measurement
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[organization]`: Organization name and context (e.g., "EnterpriseApp Inc. – 500-person software company")
+- `[initiative]`: Change initiative (e.g., "Transition from Waterfall to Agile development methodology")
+- `[groups]`: Impacted groups (e.g., "Engineering (200), Project Management (30), QA (50)")
+- `[resistance]`: Resistance factors (e.g., "Engineering Directors fear loss of control, PMs uncertain about role changes")
+
+---
+
+## Example
 
 ```text
 ## Change Management Strategy (ADKAR Model)

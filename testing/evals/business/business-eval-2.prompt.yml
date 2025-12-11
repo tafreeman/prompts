@@ -1,0 +1,344 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval D:\source\tafreeman\prompts\testing\evals\business\business-eval-2.prompt.yml
+
+name: Business Prompts Evaluation (Batch 2)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: Digital Transformation Advisor
+  promptContent: 'Plan digital transformation for:
+
+
+    Organization: [organization]
+
+    Current State: [current_state]
+
+    Transformation Goals: [goals]
+
+    Budget: [budget]
+
+    Timeline: [timeline]
+
+
+    Include:
+
+    1. Digital maturity assessment
+
+    2. Transformation strategy
+
+    3. Technology roadmap
+
+    4. Change management
+
+    5. Implementation phases
+
+    6. Success measurement'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Due Diligence Analyst
+  promptContent: 'Conduct due diligence for:
+
+
+    Transaction: [transaction]
+
+    Target Company: [target]
+
+    Focus Areas: [focus]
+
+    Timeline: [timeline]
+
+    Stakeholders: [stakeholders]
+
+
+    Provide:
+
+    1. Due diligence plan
+
+    2. Information requests
+
+    3. Analysis framework
+
+    4. Risk assessment
+
+    5. Findings summary
+
+    6. Recommendations'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Follow-Up Email Generator
+  promptContent: "You are an expert at writing follow-up emails that get responses\
+    \ without being annoying.\n\nCreate a follow-up sequence for:\n\n**Original Context**:\
+    \ [context]\n**Prospect**: [prospect]\n**Last Touchpoint**: [last_touch]\n**Days\
+    \ Since Last Contact**: [days]\n**Goal**: [goal]\n\nGenerate a 4-email follow-up\
+    \ sequence:\n\n1. **Follow-Up #1** (2-3 days after)\n   - Gentle nudge with new\
+    \ value\n   - Different angle than original email\n\n2. **Follow-Up #2** (5-7\
+    \ days after)\n   - Pattern interrupt (humor, story, or bold statement)\n   -\
+    \ Acknowledge they're busy\n\n3. **Follow-Up #3** (10-14 days after)\n   - Add\
+    \ significant new value (case study, relevant news)\n   - Lower the ask if needed\n\
+    \n4. **Follow-Up #4 - Breakup Email** (21+ days)\n   - Give them an easy out\n\
+    \   - Clear final ask\n\nFor each email include:\n- Subject line\n- Email body\
+    \ (under 100 words)\n- Psychological principle being used\n\nKeep tone human and\
+    \ respectful. No guilt-tripping or desperation."
+  difficulty: beginner
+  type: how_to
+  category: business
+- promptTitle: Innovation Strategy Consultant
+  promptContent: 'Develop innovation strategy for:
+
+
+    Organization: [organization]
+
+    Innovation Goals: [goals]
+
+    Current Capabilities: [capabilities]
+
+    Market Opportunities: [opportunities]
+
+
+    Include:
+
+    1. Innovation assessment
+
+    2. Opportunity identification
+
+    3. Innovation framework
+
+    4. Implementation roadmap
+
+    5. Governance model
+
+    6. Success metrics'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Interview Questions Generator
+  promptContent: "You are an expert interviewer trained in behavioral and structured\
+    \ interviewing techniques.\n\nCreate interview questions for:\n\n**Role**: [role]\n\
+    **Level**: [level]\n**Key Competencies**: [competencies]\n**Interview Stage**:\
+    \ [stage]\n**Time Available**: [time]\n\nGenerate:\n\n1. **Opening Questions**\
+    \ (2 questions)\n   - Rapport building\n   - Background/motivation\n\n2. **Behavioral\
+    \ Questions** (4-5 questions)\n   - One per key competency\n   - STAR format prompts\n\
+    \   - Follow-up probes for each\n\n3. **Situational Questions** (2-3 questions)\n\
+    \   - Hypothetical scenarios relevant to the role\n   - Tests judgment and approach\n\
+    \n4. **Role-Specific Questions** (2-3 questions)\n   - Technical or domain knowledge\n\
+    \   - Practical application\n\n5. **Candidate Questions** (suggested topics)\n\
+    \   - What strong candidates typically ask\n   - Red flags to watch for\n\n6.\
+    \ **Scoring Rubric**\n   - What \"great\" looks like for each competency\n   -\
+    \ What \"concerning\" looks like\n\nFormat as an interview guide with timing suggestions."
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Job Description Writer
+  promptContent: "You are an expert talent acquisition specialist who writes job descriptions\
+    \ that attract top candidates.\n\nCreate a job description for:\n\n**Role**: [role_title]\n\
+    **Company**: [company_info]\n**Team**: [team_info]\n**Level**: [level]\n**Location**:\
+    \ [location]\n**Salary Range**: [salary]\n\nGenerate a complete job description\
+    \ with:\n\n1. **Compelling Opening** (2-3 sentences)\n   - Hook that excites candidates\n\
+    \   - Why this role matters\n\n2. **About the Company** (3-4 sentences)\n   -\
+    \ Mission and impact\n   - Culture highlights\n   - Why people love working here\n\
+    \n3. **About the Role** (4-5 bullets)\n   - Key responsibilities (action-oriented)\n\
+    \   - What you'll own\n   - Who you'll work with\n\n4. **Requirements** (Split\
+    \ clearly)\n   - Must-have (3-5 items, truly required)\n   - Nice-to-have (3-4\
+    \ items, bonus qualifications)\n\n5. **What We Offer** (5-6 bullets)\n   - Compensation\
+    \ and equity\n   - Benefits highlights\n   - Growth opportunities\n\n6. **How\
+    \ to Apply**\n   - Clear next steps\n   - What to include\n\nUse inclusive language.\
+    \ Avoid gendered terms and unnecessary requirements. Focus on outcomes over years\
+    \ of experience."
+  difficulty: beginner
+  type: how_to
+  category: business
+- promptTitle: Management Consulting Expert
+  promptContent: 'Provide consulting for:
+
+
+    Client: [client]
+
+    Business Challenge: [challenge]
+
+    Industry Context: [industry]
+
+    Stakeholders: [stakeholders]
+
+    Success Criteria: [criteria]
+
+
+    Deliver:
+
+    1. Problem diagnosis
+
+    2. Root cause analysis
+
+    3. Solution alternatives
+
+    4. Recommendation
+
+    5. Implementation plan
+
+    6. Change management'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Market Entry Strategist
+  promptContent: 'Develop market entry strategy for:
+
+
+    Company: [company]
+
+    Target Market: [market]
+
+    Product/Service: [offering]
+
+    Competitive Landscape: [competition]
+
+    Resources: [resources]
+
+
+    Provide:
+
+    1. Market analysis
+
+    2. Entry strategy options
+
+    3. Go-to-market plan
+
+    4. Resource requirements
+
+    5. Risk assessment
+
+    6. Success metrics'
+  difficulty: advanced
+  type: how_to
+  category: business
+- promptTitle: Meeting Facilitator
+  promptContent: 'Plan meeting for:
+
+
+    Meeting Purpose: [purpose]
+
+    Attendees: [attendees]
+
+    Duration: [duration]
+
+    Key Decisions Needed: [decisions]
+
+
+    Include:
+
+    1. Meeting agenda
+
+    2. Pre-meeting preparation
+
+    3. Facilitation techniques
+
+    4. Decision-making process
+
+    5. Action item tracking
+
+    6. Follow-up procedures'
+  difficulty: intermediate
+  type: how_to
+  category: business
+- promptTitle: Meeting Summary Generator
+  promptContent: "You are an expert at synthesizing meeting discussions into clear,\
+    \ actionable summaries.\n\nCreate a meeting summary from:\n\n**Meeting Type**:\
+    \ [meeting_type]\n**Date/Time**: [datetime]\n**Attendees**: [attendees]\n**Meeting\
+    \ Purpose**: [purpose]\n**Notes/Transcript**: [notes]\n\nGenerate:\n\n1. **Executive\
+    \ Summary** (2-3 sentences)\n   - What was decided\n   - Why it matters\n\n2.\
+    \ **Key Decisions Made**\n   - Decision + rationale\n   - Who made/approved it\n\
+    \n3. **Discussion Highlights**\n   - Main topics covered\n   - Different viewpoints\
+    \ expressed\n   - Open questions raised\n\n4. **Action Items** (table format)\n\
+    \   - Task description\n   - Owner\n   - Due date\n   - Priority\n\n5. **Parking\
+    \ Lot**\n   - Topics deferred for later\n   - Items needing more research\n\n\
+    6. **Next Steps**\n   - Follow-up meeting (if any)\n   - Pre-work for next meeting\n\
+    \nKeep it concise. Focus on decisions and actions, not who said what."
+  difficulty: beginner
+  type: how_to
+  category: business
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

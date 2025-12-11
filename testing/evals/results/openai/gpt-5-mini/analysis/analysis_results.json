@@ -1,0 +1,3332 @@
+[
+  {
+    "name": "Analysis Prompts Evaluation (Batch 1)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Develop business case for:\n\nInitiative: [initiative]\nInvestment Required: [investment]\nExpected Benefits: [benefits]\nRisks: [risks]\nTimeline: [timeline]\n\nProvide:\n1. Executive summary\n2. Cost-benefit analysis\n3. ROI calculations\n4. Risk assessment\n5. Implementation plan\n6. Success metrics",
+          "promptTitle": "Business Case Developer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and structured, providing a straightforward template for developing a business case. However, it lacks specificity in the instructions, which may lead to variability in outputs. While it covers essential components of a business case, it could benefit from more detailed guidance on each section.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured template\", \"Covers essential components of a business case\"],\n  \"improvements\": [\"Add examples or guidelines for each section\", \"Clarify expectations for the level of detail required\"],\n  \"summary\": \"The prompt is effective and well-organized, but it could be improved by providing more specific guidance and examples to ensure consistent outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze competition for:\n\nProduct/Service: [product]\nMarket Segment: [segment]\nKey Competitors: [competitors]\nAnalysis Focus: [focus]\n\nInclude:\n1. Competitive landscape\n2. Feature comparison\n3. Pricing analysis\n4. Market positioning\n5. Opportunities and threats\n6. Strategic recommendations",
+          "promptTitle": "Competitive Analysis Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining specific areas to analyze in a competitive analysis. However, it lacks some specificity in terms of what constitutes 'key competitors' and 'analysis focus', which could lead to varied interpretations.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of competitive analysis\"],\n  \"improvements\": [\"Provide more detailed definitions for 'key competitors' and 'analysis focus'\", \"Consider adding examples for each analysis component to enhance clarity\"],\n  \"summary\": \"The prompt is effective for guiding a competitive analysis but could benefit from additional specificity to ensure consistent interpretations.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a senior competitive intelligence analyst with expertise in strategic analysis frameworks and ethical intelligence gathering.\n\n**Intelligence Target:**\n- Company: [company_name]\n- Competitors to Analyze: [competitor_list]\n- Intelligence Focus Areas: [focus_areas]\n- Decision Context: [decision_context]\n\n**Research Parameters:**\n- Time Horizon: [time_horizon]\n- Geographic Scope: [geographic_scope]\n- Information Sensitivity Level: [sensitivity_level]\n\n**Analysis Framework:**\n\nUsing publicly available information (company filings, press releases, news articles, job postings, patent databases, social media, customer reviews, analyst reports), provide:\n\n1. **Intelligence Gathering Framework**\n   - Primary data sources to prioritize\n   - Secondary data sources for validation\n   - Data collection methodology\n   - Verification approach for claims\n\n2. **Data Collection Strategy**\n   - Key information to gather (product features, pricing, partnerships, hiring patterns, technology stack)\n   - Monitoring cadence and triggers\n   - Tools and platforms to leverage\n   - Red flags for early warning signals\n\n3. **Competitive Analysis**\n   - Strengths and weaknesses assessment (SWOT)\n   - Competitive positioning map\n   - Product/feature comparison matrix\n   - Pricing and go-to-market strategy analysis\n   - Customer sentiment analysis\n\n4. **Strategic Insights**\n   - What are competitors doing well that we should learn from?\n   - What vulnerabilities can we exploit?\n   - What market gaps exist that neither we nor competitors address?\n   - How are competitive dynamics shifting?\n\n5. **Threat Assessment**\n   - Immediate threats (0-6 months)\n   - Medium-term concerns (6-18 months)\n   - Long-term strategic risks (18+ months)\n   - Likelihood and impact scoring (High/Medium/Low)\n\n6. **Opportunity Identification**\n   - Market opportunities competitors are missing\n   - Potential partnership or acquisition targets\n   - Underserved customer segments\n   - Technology or capability gaps we can fill\n\n**Ethical and Legal Boundaries:**\n- Use ONLY publicly available information\n- Do NOT recommend espionage, misrepresentation, or unethical tactics\n- Cite sources for all major claims\n- Flag any information that seems proprietary or confidential\n\n**Output Format:**\nProvide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.",
+          "promptTitle": "Competitive Intelligence Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is well-structured and provides a comprehensive framework for conducting competitive intelligence research. It clearly outlines the expectations and parameters for the analysis, making it suitable for an intermediate-level analyst. However, there are areas where clarity and specificity could be improved to enhance the overall effectiveness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 9,\n    \"actionability\": 9,\n    \"structure\": 9,\n    \"completeness\": 9,\n    \"factuality\": 10,\n    \"consistency\": 9,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.6,\n  \"grade\": \"A\",\n  \"pass\": true,\n  \"strengths\": [\n    \"Thorough and detailed framework for competitive intelligence analysis.\",\n    \"Clear ethical guidelines ensuring responsible research practices.\"\n  ],\n  \"improvements\": [\n    \"Consider providing examples for some of the focus areas to enhance clarity.\",\n    \"Add a brief introduction to contextualize the analysis for the user.\"\n  ],\n  \"summary\": \"This prompt is highly effective for guiding competitive intelligence research, with strong clarity, specificity, and ethical considerations. Minor improvements could enhance user understanding and context.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Research consumer behavior for:\n\nProduct/Service: [product]\nTarget Demographics: [demographics]\nBehavior Focus: [behavior]\nResearch Methods: [methods]\n\nProvide:\n1. Research methodology\n2. Data collection approach\n3. Behavioral analysis\n4. Consumer insights\n5. Implications for business\n6. Recommendations",
+          "promptTitle": "Consumer Behavior Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and well-structured, providing specific sections for the researcher to address. However, it lacks some specificity regarding the types of research methods and behaviors to be analyzed, which could lead to varied interpretations. Overall, it is actionable and covers essential aspects of consumer behavior research.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Actionable with defined deliverables\"],\n  \"improvements\": [\"Increase specificity in research methods and behavior focus\", \"Provide examples or guidelines for each section to enhance clarity\"],\n  \"summary\": \"The prompt is effective and actionable but could benefit from increased specificity and examples to guide the researcher more clearly.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.\n\n**Dataset Description:**\n- Type: [WHAT KIND OF DATA - e.g., sales, customer, operational, survey]\n- Time Period: [TIME RANGE COVERED]\n- Size: [NUMBER OF RECORDS/ROWS]\n- Key Metrics: [MAIN METRICS YOU'RE TRACKING]\n\n**Data Summary/Sample:**\n[PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]\n- You can include: summary statistics, sample rows, aggregated data, or describe the data structure\n- Example: \"Total sales: $500K across 1,200 transactions, 5 product categories, 3 regions\"\n\n**Analysis Goals:**\n1. [WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]\n2. [ANOTHER GOAL - e.g., understand seasonal patterns]\n3. [ANOTHER GOAL - e.g., find areas for improvement]\n\n**Context:**\n- Business/Organization: [YOUR INDUSTRY OR CONTEXT]\n- Current Challenges: [ANY KNOWN ISSUES OR CONCERNS]\n- Decision to Make: [WHAT DECISION THIS ANALYSIS WILL INFORM]\n\nPlease provide:\n\n1. **Executive Summary**\n   - 3-5 key takeaways in plain language\n   - Most important finding highlighted\n\n2. **Detailed Analysis**\n   - Trends and patterns identified\n   - Statistical observations\n   - Comparisons (time periods, categories, segments)\n   - Anomalies or outliers\n\n3. **Insights**\n   - What the data reveals (the \"so what\")\n   - Potential root causes\n   - Correlations or relationships discovered\n\n4. **Recommendations**\n   - Specific, actionable next steps\n   - Prioritized by impact and feasibility\n   - Expected outcomes\n\n5. **Suggested Visualizations**\n   - What charts/graphs would best communicate these insights\n   - Key data points to highlight\n\n6. **Follow-Up Questions**\n   - Additional data that would strengthen analysis\n   - Areas needing deeper investigation",
+          "promptTitle": "Data Analysis and Insights Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is well-structured and provides clear sections for the user to fill out, which helps guide the analysis process. However, it could benefit from more specificity in certain areas to enhance clarity and actionability for the AI.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 8.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Comprehensive coverage of analysis components\"],\n  \"improvements\": [\"Add examples for each section to enhance specificity\", \"Clarify the types of visualizations expected\"],\n  \"summary\": \"The prompt is effective and well-organized, providing a comprehensive framework for data analysis, but it could be improved with more specific examples and clarifications.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze data for:\n\nBusiness Question: [question]\nData Sources: [sources]\nAnalysis Scope: [scope]\nDecision Context: [context]\n\nProvide:\n1. Data exploration\n2. Statistical analysis\n3. Trend identification\n4. Insights and findings\n5. Recommendations\n6. Visualization strategy",
+          "promptTitle": "Data Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and well-structured, outlining specific tasks for data analysis. However, it lacks specificity in terms of what types of data or statistical methods should be used, which could lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-organized structure\", \"Clear outline of deliverables\"],\n  \"improvements\": [\"Add examples of data sources and types of analysis\", \"Specify any preferred statistical methods or tools\"],\n  \"summary\": \"The prompt is effective for guiding a data analysis task but could benefit from additional specificity to ensure consistent and relevant outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a data quality expert assessing a dataset across six quality dimensions.\n\n## Dataset Information\n\n**Dataset Name:** [DATASET_NAME]\n\n**Source:** [SOURCE_SYSTEM_OR_FILE]\n\n**Time Period:** [TIME_RANGE]\n\n**Schema:**",
+          "promptTitle": "Data Quality Assessment",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a clear framework for assessing data quality, but it lacks specific instructions on how to evaluate the six quality dimensions. The placeholders for dataset information are useful, but the prompt could benefit from more detailed guidance on what constitutes each quality dimension and how to assess them effectively.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 5,\n    \"structure\": 8,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 6.5,\n  \"grade\": \"C\",\n  \"pass\": false,\n  \"strengths\": [\"Well-structured with clear sections\", \"Focus on relevant dataset information\"],\n  \"improvements\": [\"Include specific criteria for each of the six quality dimensions\", \"Provide examples or guidelines for assessing data quality\"],\n  \"summary\": \"The prompt is a good starting point for a data quality assessment but requires more detail and guidance to be fully effective.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Perform gap analysis for:\n\nCurrent State: [current_state]\nDesired State: [desired_state]\nBusiness Area: [area]\nConstraints: [constraints]\n\nInclude:\n1. Current state assessment\n2. Future state definition\n3. Gap identification\n4. Impact analysis\n5. Bridging strategy\n6. Implementation roadmap",
+          "promptTitle": "Gap Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and structured, providing a systematic approach to gap analysis. However, it could benefit from more specificity regarding the expected depth of analysis and examples of constraints.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential components of gap analysis\"],\n  \"improvements\": [\"Add examples for constraints to enhance specificity\", \"Clarify the expected depth of each section\"],\n  \"summary\": \"The prompt is effective for guiding a gap analysis but could be improved with additional details to enhance specificity and clarity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze industry:\n\nIndustry: [industry]\nAnalysis Scope: [scope]\nKey Questions: [questions]\nStakeholder Interest: [stakeholders]\n\nInclude:\n1. Industry overview\n2. Market dynamics\n3. Competitive landscape\n4. Trends and drivers\n5. Future outlook\n6. Strategic recommendations",
+          "promptTitle": "Industry Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a framework for industry analysis. However, it lacks specificity in terms of what constitutes the 'scope' and 'key questions', which may lead to varied interpretations. The actionability is somewhat limited due to the placeholders that require user input, which could affect consistency in outputs.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 6,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 6,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of industry analysis\"],\n  \"improvements\": [\"Provide examples for 'scope' and 'key questions' to enhance specificity\", \"Clarify the expected depth of analysis for each section\"],\n  \"summary\": \"The prompt is a solid foundation for industry analysis but could benefit from more detailed guidance to improve specificity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design a Radar Chart (Spider Plot) to score the maturity of my prompt library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.\n\nUse the provided [CATEGORY_COUNTS] for the axes.\nThe axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).\n\nThis visualization should highlight gaps in the library\u2014for example, showing a strong spike in \"Business\" analysis but a potential deficiency in \"Creative\" or \"Governance\" tools.",
+          "promptTitle": "Library Capability Radar Chart Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and provides specific instructions for creating a radar chart based on the maturity of a prompt library. However, it lacks some detail on how to interpret the results and what specific actions to take based on the visualization. Additionally, the structure could be improved for better organization.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 5,\n    \"structure\": 6,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 6.5,\n  \"grade\": \"C\",\n  \"pass\": false,\n  \"strengths\": [\"Clear intent to visualize data\", \"Focus on identifying gaps in the library\"],\n  \"improvements\": [\"Provide more detailed instructions on how to create the chart\", \"Clarify the interpretation of the results and next steps\"],\n  \"summary\": \"The prompt effectively communicates the goal of creating a radar chart but needs more detail and organization to enhance clarity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 2,
+    "eval_file": "analysis-eval-1.prompt.yml"
+  },
+  {
+    "name": "Analysis Prompts Evaluation (Batch 1)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Develop business case for:\n\nInitiative: [initiative]\nInvestment Required: [investment]\nExpected Benefits: [benefits]\nRisks: [risks]\nTimeline: [timeline]\n\nProvide:\n1. Executive summary\n2. Cost-benefit analysis\n3. ROI calculations\n4. Risk assessment\n5. Implementation plan\n6. Success metrics",
+          "promptTitle": "Business Case Developer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and provides a structured approach for developing a business case. However, it could benefit from more specificity in terms of what details are expected in each section, which would enhance clarity and actionability.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential components of a business case\"],\n  \"improvements\": [\"Add examples or guidelines for each section to enhance specificity\", \"Clarify the level of detail expected in the executive summary and other sections\"],\n  \"summary\": \"The prompt is generally effective and well-structured, but it could be improved by providing more detailed guidance for each section to ensure consistent and comprehensive outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze competition for:\n\nProduct/Service: [product]\nMarket Segment: [segment]\nKey Competitors: [competitors]\nAnalysis Focus: [focus]\n\nInclude:\n1. Competitive landscape\n2. Feature comparison\n3. Pricing analysis\n4. Market positioning\n5. Opportunities and threats\n6. Strategic recommendations",
+          "promptTitle": "Competitive Analysis Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a comprehensive outline for competitive analysis. However, it could benefit from more specificity in terms of the expected depth of analysis and examples of what constitutes 'opportunities' and 'threats'.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers a comprehensive range of analysis points\"],\n  \"improvements\": [\"Add examples for each analysis focus to enhance specificity\", \"Clarify the expected depth of each section\"],\n  \"summary\": \"The prompt is effective for guiding a competitive analysis but could be improved with additional specificity and examples to ensure consistent and thorough outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a senior competitive intelligence analyst with expertise in strategic analysis frameworks and ethical intelligence gathering.\n\n**Intelligence Target:**\n- Company: [company_name]\n- Competitors to Analyze: [competitor_list]\n- Intelligence Focus Areas: [focus_areas]\n- Decision Context: [decision_context]\n\n**Research Parameters:**\n- Time Horizon: [time_horizon]\n- Geographic Scope: [geographic_scope]\n- Information Sensitivity Level: [sensitivity_level]\n\n**Analysis Framework:**\n\nUsing publicly available information (company filings, press releases, news articles, job postings, patent databases, social media, customer reviews, analyst reports), provide:\n\n1. **Intelligence Gathering Framework**\n   - Primary data sources to prioritize\n   - Secondary data sources for validation\n   - Data collection methodology\n   - Verification approach for claims\n\n2. **Data Collection Strategy**\n   - Key information to gather (product features, pricing, partnerships, hiring patterns, technology stack)\n   - Monitoring cadence and triggers\n   - Tools and platforms to leverage\n   - Red flags for early warning signals\n\n3. **Competitive Analysis**\n   - Strengths and weaknesses assessment (SWOT)\n   - Competitive positioning map\n   - Product/feature comparison matrix\n   - Pricing and go-to-market strategy analysis\n   - Customer sentiment analysis\n\n4. **Strategic Insights**\n   - What are competitors doing well that we should learn from?\n   - What vulnerabilities can we exploit?\n   - What market gaps exist that neither we nor competitors address?\n   - How are competitive dynamics shifting?\n\n5. **Threat Assessment**\n   - Immediate threats (0-6 months)\n   - Medium-term concerns (6-18 months)\n   - Long-term strategic risks (18+ months)\n   - Likelihood and impact scoring (High/Medium/Low)\n\n6. **Opportunity Identification**\n   - Market opportunities competitors are missing\n   - Potential partnership or acquisition targets\n   - Underserved customer segments\n   - Technology or capability gaps we can fill\n\n**Ethical and Legal Boundaries:**\n- Use ONLY publicly available information\n- Do NOT recommend espionage, misrepresentation, or unethical tactics\n- Cite sources for all major claims\n- Flag any information that seems proprietary or confidential\n\n**Output Format:**\nProvide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.",
+          "promptTitle": "Competitive Intelligence Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is comprehensive and well-structured, providing clear instructions for conducting competitive intelligence research. It outlines specific areas of focus and ethical considerations, making it suitable for the target audience of intermediate analysts. However, there are areas where clarity and specificity could be improved to enhance the overall effectiveness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 9,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 9,\n    \"factuality\": 10,\n    \"consistency\": 9,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.6,\n  \"grade\": \"A\",\n  \"pass\": true,\n  \"strengths\": [\n    \"Comprehensive coverage of competitive intelligence aspects\",\n    \"Clear ethical guidelines and boundaries\"\n  ],\n  \"improvements\": [\n    \"Add examples or templates for the output format to enhance clarity\",\n    \"Clarify the expected depth of analysis for each section to ensure consistency\"\n  ],\n  \"summary\": \"The prompt is well-crafted for competitive intelligence analysis, providing a thorough framework and ethical guidelines. Minor improvements in clarity and specificity could further enhance its effectiveness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Research consumer behavior for:\n\nProduct/Service: [product]\nTarget Demographics: [demographics]\nBehavior Focus: [behavior]\nResearch Methods: [methods]\n\nProvide:\n1. Research methodology\n2. Data collection approach\n3. Behavioral analysis\n4. Consumer insights\n5. Implications for business\n6. Recommendations",
+          "promptTitle": "Consumer Behavior Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a straightforward request for consumer behavior research. However, it lacks specificity in the instructions regarding how to approach each section, which may lead to varied interpretations and outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers a comprehensive range of research aspects\"],\n  \"improvements\": [\"Increase specificity in each section to guide the AI more effectively\", \"Provide examples or templates for each requested output to enhance clarity\"],\n  \"summary\": \"This prompt is effective in guiding consumer behavior research but could benefit from increased specificity to ensure consistent and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.\n\n**Dataset Description:**\n- Type: [WHAT KIND OF DATA - e.g., sales, customer, operational, survey]\n- Time Period: [TIME RANGE COVERED]\n- Size: [NUMBER OF RECORDS/ROWS]\n- Key Metrics: [MAIN METRICS YOU'RE TRACKING]\n\n**Data Summary/Sample:**\n[PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]\n- You can include: summary statistics, sample rows, aggregated data, or describe the data structure\n- Example: \"Total sales: $500K across 1,200 transactions, 5 product categories, 3 regions\"\n\n**Analysis Goals:**\n1. [WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]\n2. [ANOTHER GOAL - e.g., understand seasonal patterns]\n3. [ANOTHER GOAL - e.g., find areas for improvement]\n\n**Context:**\n- Business/Organization: [YOUR INDUSTRY OR CONTEXT]\n- Current Challenges: [ANY KNOWN ISSUES OR CONCERNS]\n- Decision to Make: [WHAT DECISION THIS ANALYSIS WILL INFORM]\n\nPlease provide:\n\n1. **Executive Summary**\n   - 3-5 key takeaways in plain language\n   - Most important finding highlighted\n\n2. **Detailed Analysis**\n   - Trends and patterns identified\n   - Statistical observations\n   - Comparisons (time periods, categories, segments)\n   - Anomalies or outliers\n\n3. **Insights**\n   - What the data reveals (the \"so what\")\n   - Potential root causes\n   - Correlations or relationships discovered\n\n4. **Recommendations**\n   - Specific, actionable next steps\n   - Prioritized by impact and feasibility\n   - Expected outcomes\n\n5. **Suggested Visualizations**\n   - What charts/graphs would best communicate these insights\n   - Key data points to highlight\n\n6. **Follow-Up Questions**\n   - Additional data that would strengthen analysis\n   - Areas needing deeper investigation",
+          "promptTitle": "Data Analysis and Insights Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is comprehensive and well-structured, providing clear sections for input and expected output. However, it could benefit from more specificity in certain areas to enhance clarity and actionability.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 9,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.1,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Comprehensive coverage of analysis aspects\"],\n  \"improvements\": [\"Add examples for each section to enhance specificity\", \"Clarify how to handle missing data in the dataset\"],\n  \"summary\": \"This prompt is a solid foundation for generating data analysis insights, though it could be improved with more specific examples and guidance on handling potential data issues.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze data for:\n\nBusiness Question: [question]\nData Sources: [sources]\nAnalysis Scope: [scope]\nDecision Context: [context]\n\nProvide:\n1. Data exploration\n2. Statistical analysis\n3. Trend identification\n4. Insights and findings\n5. Recommendations\n6. Visualization strategy",
+          "promptTitle": "Data Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a solid framework for data analysis. However, it lacks specificity in the placeholders, which could lead to varied interpretations. The actionability is good, but the prompt could benefit from more detailed instructions on the expected depth of analysis and types of visualizations.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential components of data analysis\"],\n  \"improvements\": [\"Provide examples for placeholders to enhance specificity\", \"Clarify the expected depth and types of visualizations\"],\n  \"summary\": \"The prompt is well-organized and covers key aspects of data analysis, but it could be improved by adding more specificity and clarity regarding the placeholders and expectations.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a data quality expert assessing a dataset across six quality dimensions.\n\n## Dataset Information\n\n**Dataset Name:** [DATASET_NAME]\n\n**Source:** [SOURCE_SYSTEM_OR_FILE]\n\n**Time Period:** [TIME_RANGE]\n\n**Schema:**",
+          "promptTitle": "Data Quality Assessment",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a clear framework for assessing data quality but lacks specific instructions on how to evaluate the dataset across the six dimensions. The placeholders for dataset information are helpful, but the prompt does not guide the user on what the six quality dimensions are or how to approach the assessment.\",\n  \"scores\": {\n    \"clarity\": 6,\n    \"specificity\": 5,\n    \"actionability\": 5,\n    \"structure\": 7,\n    \"completeness\": 4,\n    \"factuality\": 7,\n    \"consistency\": 6,\n    \"safety\": 8\n  },\n  \"overall_score\": 5.875,\n  \"grade\": \"C\",\n  \"pass\": false,\n  \"strengths\": [\"Well-structured with clear sections\", \"Identifies key dataset attributes\"],\n  \"improvements\": [\"Define the six quality dimensions to be assessed\", \"Provide guidance on how to evaluate each dimension\"],\n  \"summary\": \"The prompt has a solid structure but lacks critical details necessary for a comprehensive data quality assessment, leading to an average evaluation.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Perform gap analysis for:\n\nCurrent State: [current_state]\nDesired State: [desired_state]\nBusiness Area: [area]\nConstraints: [constraints]\n\nInclude:\n1. Current state assessment\n2. Future state definition\n3. Gap identification\n4. Impact analysis\n5. Bridging strategy\n6. Implementation roadmap",
+          "promptTitle": "Gap Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining the necessary components for a gap analysis. However, it could benefit from more specificity regarding what constitutes the 'current state' and 'desired state', as well as examples of potential constraints.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Actionable steps are clearly defined\"],\n  \"improvements\": [\"Add examples or definitions for 'current state' and 'desired state'\", \"Provide guidance on how to assess constraints\"],\n  \"summary\": \"The prompt is effective and well-organized, but could be improved with additional specificity and examples to enhance understanding.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze industry:\n\nIndustry: [industry]\nAnalysis Scope: [scope]\nKey Questions: [questions]\nStakeholder Interest: [stakeholders]\n\nInclude:\n1. Industry overview\n2. Market dynamics\n3. Competitive landscape\n4. Trends and drivers\n5. Future outlook\n6. Strategic recommendations",
+          "promptTitle": "Industry Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a structured approach to conducting an industry analysis, clearly outlining the necessary components. However, it could benefit from more specificity in terms of the expected depth of analysis and examples of key questions and stakeholders.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential components of industry analysis\"],\n  \"improvements\": [\"Provide examples for key questions and stakeholders\", \"Clarify the expected depth of each section\"],\n  \"summary\": \"The prompt is well-organized and covers essential elements for an industry analysis, but it lacks specificity in certain areas that could enhance clarity and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design a Radar Chart (Spider Plot) to score the maturity of my prompt library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.\n\nUse the provided [CATEGORY_COUNTS] for the axes.\nThe axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).\n\nThis visualization should highlight gaps in the library\u2014for example, showing a strong spike in \"Business\" analysis but a potential deficiency in \"Creative\" or \"Governance\" tools.",
+          "promptTitle": "Library Capability Radar Chart Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear in its intent to create a radar chart for analyzing the maturity of a prompt library. However, it lacks some specificity regarding the format and presentation of the chart, which could lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 6,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clearly identifies the key domains for analysis\", \"Encourages visualization to highlight gaps in the library\"],\n  \"improvements\": [\"Provide more detailed instructions on the desired format of the radar chart\", \"Clarify what 'gaps' should be emphasized in the visualization\"],\n  \"summary\": \"The prompt effectively outlines the goal of creating a radar chart but could benefit from additional specificity and structure to ensure consistent outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 3,
+    "eval_file": "analysis-eval-1.prompt.yml"
+  },
+  {
+    "name": "Analysis Prompts Evaluation (Batch 1)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Develop business case for:\n\nInitiative: [initiative]\nInvestment Required: [investment]\nExpected Benefits: [benefits]\nRisks: [risks]\nTimeline: [timeline]\n\nProvide:\n1. Executive summary\n2. Cost-benefit analysis\n3. ROI calculations\n4. Risk assessment\n5. Implementation plan\n6. Success metrics",
+          "promptTitle": "Business Case Developer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining the necessary components for developing a business case. However, it lacks specificity in terms of what each section should contain, which could lead to varied interpretations. Overall, it provides a solid foundation but could benefit from additional detail.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 10,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential components of a business case\"],\n  \"improvements\": [\"Add examples or guidelines for each section to enhance specificity\", \"Clarify the expected depth of analysis for each component\"],\n  \"summary\": \"The prompt is a solid starting point for developing a business case, but it could be improved by providing more detailed guidance on the content of each required section.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze competition for:\n\nProduct/Service: [product]\nMarket Segment: [segment]\nKey Competitors: [competitors]\nAnalysis Focus: [focus]\n\nInclude:\n1. Competitive landscape\n2. Feature comparison\n3. Pricing analysis\n4. Market positioning\n5. Opportunities and threats\n6. Strategic recommendations",
+          "promptTitle": "Competitive Analysis Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and provides a structured approach to competitive analysis. However, it could benefit from more specificity regarding the expected depth of analysis and examples of what to include in each section.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 8.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of competitive analysis\"],\n  \"improvements\": [\"Add examples or templates for each analysis focus area\", \"Specify the depth of analysis expected for each section\"],\n  \"summary\": \"The prompt is effective for guiding competitive analysis, but could be improved with additional details and examples to enhance specificity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a senior competitive intelligence analyst with expertise in strategic analysis frameworks and ethical intelligence gathering.\n\n**Intelligence Target:**\n- Company: [company_name]\n- Competitors to Analyze: [competitor_list]\n- Intelligence Focus Areas: [focus_areas]\n- Decision Context: [decision_context]\n\n**Research Parameters:**\n- Time Horizon: [time_horizon]\n- Geographic Scope: [geographic_scope]\n- Information Sensitivity Level: [sensitivity_level]\n\n**Analysis Framework:**\n\nUsing publicly available information (company filings, press releases, news articles, job postings, patent databases, social media, customer reviews, analyst reports), provide:\n\n1. **Intelligence Gathering Framework**\n   - Primary data sources to prioritize\n   - Secondary data sources for validation\n   - Data collection methodology\n   - Verification approach for claims\n\n2. **Data Collection Strategy**\n   - Key information to gather (product features, pricing, partnerships, hiring patterns, technology stack)\n   - Monitoring cadence and triggers\n   - Tools and platforms to leverage\n   - Red flags for early warning signals\n\n3. **Competitive Analysis**\n   - Strengths and weaknesses assessment (SWOT)\n   - Competitive positioning map\n   - Product/feature comparison matrix\n   - Pricing and go-to-market strategy analysis\n   - Customer sentiment analysis\n\n4. **Strategic Insights**\n   - What are competitors doing well that we should learn from?\n   - What vulnerabilities can we exploit?\n   - What market gaps exist that neither we nor competitors address?\n   - How are competitive dynamics shifting?\n\n5. **Threat Assessment**\n   - Immediate threats (0-6 months)\n   - Medium-term concerns (6-18 months)\n   - Long-term strategic risks (18+ months)\n   - Likelihood and impact scoring (High/Medium/Low)\n\n6. **Opportunity Identification**\n   - Market opportunities competitors are missing\n   - Potential partnership or acquisition targets\n   - Underserved customer segments\n   - Technology or capability gaps we can fill\n\n**Ethical and Legal Boundaries:**\n- Use ONLY publicly available information\n- Do NOT recommend espionage, misrepresentation, or unethical tactics\n- Cite sources for all major claims\n- Flag any information that seems proprietary or confidential\n\n**Output Format:**\nProvide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.",
+          "promptTitle": "Competitive Intelligence Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is well-structured and provides a comprehensive framework for conducting competitive intelligence research. It clearly outlines the expectations, target areas, and ethical considerations, making it suitable for an intermediate audience. However, some areas could benefit from increased specificity and clarity to ensure consistent outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 9,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 8.1,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\n    \"Comprehensive coverage of competitive intelligence aspects\",\n    \"Clear ethical guidelines to ensure responsible research\"\n  ],\n  \"improvements\": [\n    \"Add examples for each section to enhance specificity\",\n    \"Clarify the expected depth of analysis in the output format\"\n  ],\n  \"summary\": \"The prompt is strong in structure and ethical considerations, but could improve in specificity and clarity for better consistency in outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Research consumer behavior for:\n\nProduct/Service: [product]\nTarget Demographics: [demographics]\nBehavior Focus: [behavior]\nResearch Methods: [methods]\n\nProvide:\n1. Research methodology\n2. Data collection approach\n3. Behavioral analysis\n4. Consumer insights\n5. Implications for business\n6. Recommendations",
+          "promptTitle": "Consumer Behavior Researcher",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the user in researching consumer behavior, but it lacks specificity in terms of what is expected in each section. The structure is logical, but the completeness could be improved by providing examples or context for the placeholders. Overall, it is a solid prompt but requires more detail to enhance clarity and actionability.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Addresses multiple aspects of consumer behavior research\"],\n  \"improvements\": [\"Provide examples or context for placeholders to enhance specificity\", \"Clarify expectations for each deliverable to improve actionability\"],\n  \"summary\": \"The prompt is effective in guiding consumer behavior research but could benefit from additional detail and examples to improve clarity and specificity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.\n\n**Dataset Description:**\n- Type: [WHAT KIND OF DATA - e.g., sales, customer, operational, survey]\n- Time Period: [TIME RANGE COVERED]\n- Size: [NUMBER OF RECORDS/ROWS]\n- Key Metrics: [MAIN METRICS YOU'RE TRACKING]\n\n**Data Summary/Sample:**\n[PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]\n- You can include: summary statistics, sample rows, aggregated data, or describe the data structure\n- Example: \"Total sales: $500K across 1,200 transactions, 5 product categories, 3 regions\"\n\n**Analysis Goals:**\n1. [WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]\n2. [ANOTHER GOAL - e.g., understand seasonal patterns]\n3. [ANOTHER GOAL - e.g., find areas for improvement]\n\n**Context:**\n- Business/Organization: [YOUR INDUSTRY OR CONTEXT]\n- Current Challenges: [ANY KNOWN ISSUES OR CONCERNS]\n- Decision to Make: [WHAT DECISION THIS ANALYSIS WILL INFORM]\n\nPlease provide:\n\n1. **Executive Summary**\n   - 3-5 key takeaways in plain language\n   - Most important finding highlighted\n\n2. **Detailed Analysis**\n   - Trends and patterns identified\n   - Statistical observations\n   - Comparisons (time periods, categories, segments)\n   - Anomalies or outliers\n\n3. **Insights**\n   - What the data reveals (the \"so what\")\n   - Potential root causes\n   - Correlations or relationships discovered\n\n4. **Recommendations**\n   - Specific, actionable next steps\n   - Prioritized by impact and feasibility\n   - Expected outcomes\n\n5. **Suggested Visualizations**\n   - What charts/graphs would best communicate these insights\n   - Key data points to highlight\n\n6. **Follow-Up Questions**\n   - Additional data that would strengthen analysis\n   - Areas needing deeper investigation",
+          "promptTitle": "Data Analysis and Insights Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is well-structured and provides clear instructions for the user to fill in specific details about their dataset and analysis goals. However, it could benefit from more clarity in certain sections and a stronger emphasis on safety and consistency.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 9,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 9,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 6\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\n    \"Well-organized structure with clear sections for input and output.\",\n    \"Specific prompts for different aspects of analysis, encouraging thorough responses.\"\n  ],\n  \"improvements\": [\n    \"Enhance clarity in the 'Context' section to ensure users provide relevant information.\",\n    \"Include a note on avoiding biases or misinterpretations in data analysis to improve safety.\"\n  ],\n  \"summary\": \"The prompt is effective in guiding users through data analysis, but it can be improved by enhancing clarity and safety measures.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze data for:\n\nBusiness Question: [question]\nData Sources: [sources]\nAnalysis Scope: [scope]\nDecision Context: [context]\n\nProvide:\n1. Data exploration\n2. Statistical analysis\n3. Trend identification\n4. Insights and findings\n5. Recommendations\n6. Visualization strategy",
+          "promptTitle": "Data Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining the necessary components for data analysis. However, it lacks specificity in the instructions for each section, which could lead to varied interpretations by the AI. Additionally, while it covers essential aspects of data analysis, it could benefit from more detailed guidance on how to approach each task.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential components of data analysis\"],\n  \"improvements\": [\"Provide examples or guidelines for each analysis step\", \"Clarify the expected depth of analysis for each section\"],\n  \"summary\": \"The prompt is a solid foundation for guiding data analysis but requires more specificity and examples to enhance clarity and consistency in outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "You are a data quality expert assessing a dataset across six quality dimensions.\n\n## Dataset Information\n\n**Dataset Name:** [DATASET_NAME]\n\n**Source:** [SOURCE_SYSTEM_OR_FILE]\n\n**Time Period:** [TIME_RANGE]\n\n**Schema:**",
+          "promptTitle": "Data Quality Assessment",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a clear framework for assessing data quality but lacks specific instructions on how to evaluate the six quality dimensions. The target audience appears to be data professionals, but the prompt does not detail what those dimensions are or how to approach the assessment, which affects clarity and completeness.\",\n  \"scores\": {\n    \"clarity\": 6,\n    \"specificity\": 5,\n    \"actionability\": 5,\n    \"structure\": 7,\n    \"completeness\": 4,\n    \"factuality\": 8,\n    \"consistency\": 6,\n    \"safety\": 8\n  },\n  \"overall_score\": 6.14,\n  \"grade\": \"C\",\n  \"pass\": false,\n  \"strengths\": [\"Provides a structured format for dataset information\", \"Identifies the role of a data quality expert\"],\n  \"improvements\": [\"Define the six quality dimensions to be assessed\", \"Include specific evaluation criteria or questions for each dimension\"],\n  \"summary\": \"The prompt has a solid structure but lacks essential details for effective data quality assessment, requiring significant improvements to enhance clarity and completeness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Perform gap analysis for:\n\nCurrent State: [current_state]\nDesired State: [desired_state]\nBusiness Area: [area]\nConstraints: [constraints]\n\nInclude:\n1. Current state assessment\n2. Future state definition\n3. Gap identification\n4. Impact analysis\n5. Bridging strategy\n6. Implementation roadmap",
+          "promptTitle": "Gap Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is structured to guide the AI through a gap analysis process, clearly outlining the components to include. However, while it is mostly clear and specific, it lacks some detail on how to assess the current and desired states, which could impact clarity and actionability.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential components of gap analysis\"],\n  \"improvements\": [\"Provide examples or guidelines for assessing current and desired states\", \"Clarify what is meant by 'constraints' to ensure consistent understanding\"],\n  \"summary\": \"This prompt is effective for guiding a gap analysis but could benefit from additional detail to enhance clarity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze industry:\n\nIndustry: [industry]\nAnalysis Scope: [scope]\nKey Questions: [questions]\nStakeholder Interest: [stakeholders]\n\nInclude:\n1. Industry overview\n2. Market dynamics\n3. Competitive landscape\n4. Trends and drivers\n5. Future outlook\n6. Strategic recommendations",
+          "promptTitle": "Industry Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a solid framework for industry analysis. However, it lacks specificity in the placeholders, which could lead to varied interpretations and outputs. Additionally, while the structure is organized, it could benefit from more detailed instructions on how to approach each section.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 8\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-organized structure\", \"Covers essential aspects of industry analysis\"],\n  \"improvements\": [\"Provide examples for each placeholder to enhance specificity\", \"Add guidance on how to prioritize the key questions\"],\n  \"summary\": \"This prompt is effective for guiding an industry analysis but could be improved with more specific instructions and examples to ensure consistent and high-quality outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design a Radar Chart (Spider Plot) to score the maturity of my prompt library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.\n\nUse the provided [CATEGORY_COUNTS] for the axes.\nThe axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).\n\nThis visualization should highlight gaps in the library\u2014for example, showing a strong spike in \"Business\" analysis but a potential deficiency in \"Creative\" or \"Governance\" tools.",
+          "promptTitle": "Library Capability Radar Chart Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and provides specific instructions for creating a radar chart based on the maturity of a prompt library. However, it could benefit from more detailed guidance on how to visualize the data and what specific actions the AI should take in terms of design and interpretation.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 6,\n    \"structure\": 7,\n    \"completeness\": 6,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent to visualize data\", \"Focus on identifying gaps in the library\"],\n  \"improvements\": [\"Provide more detailed instructions on the design process\", \"Clarify how to interpret the results of the radar chart\"],\n  \"summary\": \"The prompt effectively communicates the goal of creating a radar chart but could be improved with more detailed instructions and clarity on the interpretation of the results.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 1,
+    "eval_file": "analysis-eval-1.prompt.yml"
+  },
+  {
+    "name": "Analysis Prompts Evaluation (Batch 2)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "advanced",
+          "promptContent": "Generate a Network Graph visualization for this prompt library using the provided [PROMPT_LIST].\n\nTreat each prompt file (e.g., \"agile-sprint-planner.md\", \"code-review-assistant.md\") as a node.\nDraw edges (lines) between prompts that belong to the same category (e.g., all \"Business\" prompts connected).\nAdditionally, link prompts that are part of the same workflow (e.g., connect \"requirements-analysis-expert.md\" to \"api-design-consultant.md\" and \"quality-assurance-planner.md\" to represent an SDLC flow).\n\nThis should look like a constellation showing clusters of related capabilities.",
+          "promptTitle": "Library Network Graph Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear in its intent to generate a network graph based on provided prompts. However, it lacks some specificity in terms of the expected output format and visualization details, which could lead to varied interpretations by the AI. Overall, it provides a good structure but could benefit from more detailed instructions.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent to visualize relationships\", \"Well-organized structure\"],\n  \"improvements\": [\"Provide examples of expected output formats\", \"Clarify how to handle prompts without clear connections\"],\n  \"summary\": \"This prompt effectively communicates the goal of generating a network graph but could improve in specificity and completeness to ensure consistent outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Create a hierarchical Treemap chart to visualize my prompt library structure based on the provided [PROMPT_LIBRARY_STRUCTURE].\n\nThe top-level hierarchy should be the main folders (Business, Analysis, Developers, Advanced, Creative, Governance, System).\nInside each category, show the individual prompt files as tiles.\nSize the tiles equally to represent count, or color-code them by \"Category\" to show which domains have the most coverage.\n\nI want to instantly see that \"Business\" and \"Analysis\" are my largest sections compared to \"Creative\" or \"System\".",
+          "promptTitle": "Library Structure Treemap Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to create a Treemap chart based on a specified library structure. However, it lacks some specificity in terms of the exact data format for [PROMPT_LIBRARY_STRUCTURE] and how to handle cases where there are no prompts in a category.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 6,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.4,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent for visualization\", \"Well-defined top-level hierarchy\"],\n  \"improvements\": [\"Specify the format of the [PROMPT_LIBRARY_STRUCTURE] data\", \"Clarify how to handle categories with no prompts\"],\n  \"summary\": \"The prompt effectively communicates the goal of creating a Treemap chart but could benefit from additional specificity and completeness regarding data handling.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Conduct market research for:\n\nResearch Topic: [topic]\nTarget Market: [market]\nResearch Objectives: [objectives]\nMethodology Preference: [methodology]\nTimeline: [timeline]\n\nProvide:\n1. Research design\n2. Data collection plan\n3. Analysis framework\n4. Key findings\n5. Market insights\n6. Strategic implications",
+          "promptTitle": "Market Research Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a structured approach to conducting market research, clearly outlining the components needed for a comprehensive analysis. However, while it is generally clear, it lacks specificity in terms of the expected depth and breadth of each section, which could lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential components of market research\"],\n  \"improvements\": [\"Provide examples for each section to enhance specificity\", \"Clarify the level of detail expected in the analysis framework\"],\n  \"summary\": \"The prompt is well-structured and covers essential aspects of market research but could benefit from increased specificity and clearer expectations for the output.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design metrics for:\n\nBusiness Objective: [objective]\nStakeholders: [stakeholders]\nData Availability: [data]\nReporting Frequency: [frequency]\n\nInclude:\n1. KPI framework\n2. Metric definitions\n3. Data sources\n4. Calculation methods\n5. Reporting strategy\n6. Action triggers",
+          "promptTitle": "Metrics and KPI Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and structured, providing a straightforward framework for designing metrics. However, it lacks specificity in defining what constitutes a good KPI framework and could benefit from more detailed instructions on how to approach each section.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Clear sections for different components\"],\n  \"improvements\": [\"Provide examples or guidelines for each section\", \"Clarify what constitutes a good KPI framework\"],\n  \"summary\": \"Overall, the prompt is effective and well-organized, but it could be improved by adding more detail and examples to enhance specificity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Optimize process for:\n\nProcess Name: [process_name]\nCurrent Issues: [issues]\nStakeholders: [stakeholders]\nSuccess Metrics: [metrics]\n\nInclude:\n1. Current state analysis\n2. Process mapping\n3. Bottleneck identification\n4. Optimization recommendations\n5. Implementation roadmap\n6. Change management",
+          "promptTitle": "Process Optimization Consultant",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the AI in optimizing a specified process. It provides a structured format for input and outlines specific areas to address, but it could benefit from more detail to enhance specificity and completeness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 8.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Clear action items for optimization\"],\n  \"improvements\": [\"Add examples for each section to enhance specificity\", \"Provide guidance on how to gather necessary data for analysis\"],\n  \"summary\": \"The prompt is effective and well-structured, but it could be improved with additional details and examples to ensure consistency and thoroughness in the outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze requirements for:\n\nProject: [project_name]\nStakeholders: [stakeholders]\nBusiness Objectives: [objectives]\nCurrent Challenges: [challenges]\n\nProvide:\n1. Functional requirements\n2. Non-functional requirements\n3. User stories\n4. Acceptance criteria\n5. Requirements traceability\n6. Impact analysis",
+          "promptTitle": "Requirements Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the AI in performing a requirements analysis for a project. However, while it outlines the necessary components, it lacks specificity in how to approach each section, which may lead to varied interpretations and outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers a comprehensive range of requirements\"],\n  \"improvements\": [\"Increase specificity on how to generate each requirement type\", \"Provide examples or guidelines for each output section\"],\n  \"summary\": \"Overall, the prompt is effective but could benefit from enhanced specificity to ensure more consistent and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Gather requirements from:\n\nProject: [project_name]\nStakeholder Groups: [groups]\nBusiness Domain: [domain]\nComplexity Level: [complexity]\n\nInclude:\n1. Stakeholder analysis\n2. Interview planning\n3. Requirements elicitation\n4. Conflict resolution\n5. Prioritization framework\n6. Communication strategy",
+          "promptTitle": "Stakeholder Requirements Gatherer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a structured approach to gathering stakeholder requirements, but it lacks clarity in some areas and could benefit from more detail to ensure consistent outputs. While it covers essential aspects, the organization could be improved for better flow.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 6,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Covers essential aspects of stakeholder requirements gathering\", \"Includes a variety of important components for analysis\"],\n  \"improvements\": [\"Provide examples or templates for each section to enhance specificity\", \"Improve the organization of the prompt to enhance clarity and flow\"],\n  \"summary\": \"The prompt is a solid foundation for gathering stakeholder requirements but requires enhancements in clarity and specificity to ensure more consistent and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze trends for:\n\nIndustry/Market: [market]\nTrend Categories: [categories]\nTime Horizon: [horizon]\nBusiness Impact: [impact]\n\nInclude:\n1. Trend identification\n2. Trend analysis\n3. Impact assessment\n4. Future projections\n5. Business implications\n6. Strategic responses",
+          "promptTitle": "Trend Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a clear framework for analyzing trends in a specific market, but it lacks some specificity in terms of what constitutes 'trend identification' and 'impact assessment.' The structure is logical, but it could benefit from more detailed instructions to ensure consistent outputs.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of trend analysis\"],\n  \"improvements\": [\"Provide examples or definitions for each category to enhance specificity\", \"Clarify the expected depth of analysis for each section\"],\n  \"summary\": \"Overall, the prompt is solid and provides a good foundation for trend analysis, but it could be improved with more detailed guidance to enhance clarity and specificity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze user experience for:\n\nSystem/Process: [system]\nUser Groups: [users]\nCurrent Pain Points: [pain_points]\nBusiness Goals: [goals]\n\nProvide:\n1. User journey mapping\n2. Pain point analysis\n3. Improvement opportunities\n4. Solution recommendations\n5. Success metrics\n6. Implementation approach",
+          "promptTitle": "User Experience Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is structured to guide the AI in analyzing user experience effectively, but it lacks clarity in some areas, particularly in defining the expectations for each output section. While it provides a clear framework, the placeholders may lead to ambiguity if not filled out properly. Overall, it is a solid prompt but could benefit from more specificity and clarity.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Addresses multiple aspects of user experience analysis\"],\n  \"improvements\": [\"Clarify expectations for each output section\", \"Provide examples or guidelines for filling in placeholders\"],\n  \"summary\": \"This prompt is effective for guiding user experience analysis but requires improvements in clarity and specificity to enhance its usability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design workflow for:\n\nBusiness Process: [process]\nStakeholders: [stakeholders]\nComplexity Level: [complexity]\nAutomation Goals: [automation]\n\nProvide:\n1. Workflow diagram\n2. Role definitions\n3. Decision points\n4. Exception handling\n5. Automation opportunities\n6. Performance metrics",
+          "promptTitle": "Workflow Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a straightforward template for designing a workflow. However, it lacks specificity in defining the inputs and expected outputs, which may lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential aspects of workflow design\"],\n  \"improvements\": [\"Provide examples for each input field to enhance specificity\", \"Clarify expected format for the workflow diagram and metrics\"],\n  \"summary\": \"The prompt is effective in guiding the design of a workflow but could benefit from more detailed instructions and examples to improve clarity and specificity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 1,
+    "eval_file": "analysis-eval-2.prompt.yml"
+  },
+  {
+    "name": "Analysis Prompts Evaluation (Batch 2)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "advanced",
+          "promptContent": "Generate a Network Graph visualization for this prompt library using the provided [PROMPT_LIST].\n\nTreat each prompt file (e.g., \"agile-sprint-planner.md\", \"code-review-assistant.md\") as a node.\nDraw edges (lines) between prompts that belong to the same category (e.g., all \"Business\" prompts connected).\nAdditionally, link prompts that are part of the same workflow (e.g., connect \"requirements-analysis-expert.md\" to \"api-design-consultant.md\" and \"quality-assurance-planner.md\" to represent an SDLC flow).\n\nThis should look like a constellation showing clusters of related capabilities.",
+          "promptTitle": "Library Network Graph Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear in its intent to generate a network graph based on the provided prompt library. However, it lacks some specificity regarding the format of the output and the exact criteria for determining connections between prompts, which could lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 7,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent to visualize relationships\", \"Focus on workflow connections\"],\n  \"improvements\": [\"Provide more specific guidelines on how to determine connections between prompts\", \"Clarify the expected format of the network graph output\"],\n  \"summary\": \"The prompt effectively communicates the goal of generating a network graph but could benefit from additional specificity and clarity regarding connections and output format.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Create a hierarchical Treemap chart to visualize my prompt library structure based on the provided [PROMPT_LIBRARY_STRUCTURE].\n\nThe top-level hierarchy should be the main folders (Business, Analysis, Developers, Advanced, Creative, Governance, System).\nInside each category, show the individual prompt files as tiles.\nSize the tiles equally to represent count, or color-code them by \"Category\" to show which domains have the most coverage.\n\nI want to instantly see that \"Business\" and \"Analysis\" are my largest sections compared to \"Creative\" or \"System\".",
+          "promptTitle": "Library Structure Treemap Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to create a Treemap chart for visualizing a prompt library structure. However, it lacks some specificity in terms of how to handle the data and what tools or libraries to use, which may affect the actionability and completeness of the instructions.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 6,\n    \"structure\": 7,\n    \"completeness\": 6,\n    \"factuality\": 9,\n    \"consistency\": 7,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent to visualize data\", \"Focus on hierarchical structure\"],\n  \"improvements\": [\"Specify the tools or libraries to be used for generating the Treemap\", \"Provide examples of how to format the [PROMPT_LIBRARY_STRUCTURE] data for clarity\"],\n  \"summary\": \"The prompt effectively communicates the goal of creating a Treemap chart but could benefit from additional specificity and actionable details to enhance usability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Conduct market research for:\n\nResearch Topic: [topic]\nTarget Market: [market]\nResearch Objectives: [objectives]\nMethodology Preference: [methodology]\nTimeline: [timeline]\n\nProvide:\n1. Research design\n2. Data collection plan\n3. Analysis framework\n4. Key findings\n5. Market insights\n6. Strategic implications",
+          "promptTitle": "Market Research Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and structured, providing a comprehensive outline for conducting market research. However, it lacks specificity in some areas, such as the types of methodologies or examples of research objectives, which could lead to varied interpretations. Overall, it is a solid prompt but could benefit from more detailed guidance.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 7,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Clear objectives outlined\"],\n  \"improvements\": [\"Provide examples for each section to enhance specificity\", \"Clarify the types of methodologies that can be used\"],\n  \"summary\": \"This prompt is effective for guiding market research but could be improved by adding more detailed examples and clarifications to enhance specificity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design metrics for:\n\nBusiness Objective: [objective]\nStakeholders: [stakeholders]\nData Availability: [data]\nReporting Frequency: [frequency]\n\nInclude:\n1. KPI framework\n2. Metric definitions\n3. Data sources\n4. Calculation methods\n5. Reporting strategy\n6. Action triggers",
+          "promptTitle": "Metrics and KPI Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the user in designing metrics and KPIs. However, while it provides a structured approach, it lacks specificity in how to define each component, which could lead to varied interpretations and outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of KPI design\"],\n  \"improvements\": [\"Provide examples for each component to enhance specificity\", \"Clarify expectations for the level of detail required in each section\"],\n  \"summary\": \"Overall, the prompt is effective and well-organized, but it could benefit from increased specificity and examples to ensure consistent and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Optimize process for:\n\nProcess Name: [process_name]\nCurrent Issues: [issues]\nStakeholders: [stakeholders]\nSuccess Metrics: [metrics]\n\nInclude:\n1. Current state analysis\n2. Process mapping\n3. Bottleneck identification\n4. Optimization recommendations\n5. Implementation roadmap\n6. Change management",
+          "promptTitle": "Process Optimization Consultant",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the AI in optimizing a specified process. It provides a structured approach with specific components to address, but it lacks some detail in the instructions for each section, which could lead to variability in outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 7,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 10\n  },\n  \"overall_score\": 7.875,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Focuses on key aspects of process optimization\"],\n  \"improvements\": [\"Provide examples or guidelines for each section to enhance specificity\", \"Clarify the expected depth of analysis for each component\"],\n  \"summary\": \"The prompt is generally effective for guiding process optimization but could benefit from additional detail to ensure consistent and comprehensive outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze requirements for:\n\nProject: [project_name]\nStakeholders: [stakeholders]\nBusiness Objectives: [objectives]\nCurrent Challenges: [challenges]\n\nProvide:\n1. Functional requirements\n2. Non-functional requirements\n3. User stories\n4. Acceptance criteria\n5. Requirements traceability\n6. Impact analysis",
+          "promptTitle": "Requirements Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to gather a comprehensive analysis of project requirements. However, it lacks specificity in guiding the AI on how to approach each section, which could lead to variability in outputs. The structure is logical, but it could benefit from more detailed instructions for each deliverable.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 9,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers a comprehensive range of requirements\"],\n  \"improvements\": [\"Add examples or templates for each deliverable\", \"Provide more detailed guidance on how to analyze each requirement type\"],\n  \"summary\": \"The prompt is effective in its structure and coverage but could be enhanced with more specific guidance to ensure consistent and high-quality outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Gather requirements from:\n\nProject: [project_name]\nStakeholder Groups: [groups]\nBusiness Domain: [domain]\nComplexity Level: [complexity]\n\nInclude:\n1. Stakeholder analysis\n2. Interview planning\n3. Requirements elicitation\n4. Conflict resolution\n5. Prioritization framework\n6. Communication strategy",
+          "promptTitle": "Stakeholder Requirements Gatherer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to gather stakeholder requirements, but it lacks specificity in how to execute each of the listed components. While the structure is organized, it could benefit from more detailed instructions to enhance actionability and completeness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 6,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential components of stakeholder requirements gathering\"],\n  \"improvements\": [\"Provide more detailed instructions for each component\", \"Clarify the expected outcomes for each section\"],\n  \"summary\": \"The prompt is a solid foundation for gathering stakeholder requirements but would benefit from additional detail and clarity to enhance its effectiveness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze trends for:\n\nIndustry/Market: [market]\nTrend Categories: [categories]\nTime Horizon: [horizon]\nBusiness Impact: [impact]\n\nInclude:\n1. Trend identification\n2. Trend analysis\n3. Impact assessment\n4. Future projections\n5. Business implications\n6. Strategic responses",
+          "promptTitle": "Trend Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a clear structure for analyzing trends, specifying key components that need to be addressed. However, it lacks specificity in terms of what kind of trends to analyze and how to approach each section, which may lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Addresses multiple aspects of trend analysis\"],\n  \"improvements\": [\"Provide examples or guidelines for each section to enhance specificity\", \"Clarify the expected depth of analysis for each component\"],\n  \"summary\": \"The prompt is well-structured and covers essential aspects of trend analysis but could benefit from increased specificity and clarity to ensure consistent outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze user experience for:\n\nSystem/Process: [system]\nUser Groups: [users]\nCurrent Pain Points: [pain_points]\nBusiness Goals: [goals]\n\nProvide:\n1. User journey mapping\n2. Pain point analysis\n3. Improvement opportunities\n4. Solution recommendations\n5. Success metrics\n6. Implementation approach",
+          "promptTitle": "User Experience Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear and structured, providing a good framework for analyzing user experience. However, it could benefit from more specificity in the instructions and examples to ensure consistent outputs.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 8,\n    \"factuality\": 9,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Covers essential aspects of user experience analysis\"],\n  \"improvements\": [\"Add examples for each section to enhance specificity\", \"Clarify the expected depth of analysis for each deliverable\"],\n  \"summary\": \"The prompt is effective for guiding a user experience analysis but could be improved with more detailed instructions and examples to enhance clarity and consistency.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design workflow for:\n\nBusiness Process: [process]\nStakeholders: [stakeholders]\nComplexity Level: [complexity]\nAutomation Goals: [automation]\n\nProvide:\n1. Workflow diagram\n2. Role definitions\n3. Decision points\n4. Exception handling\n5. Automation opportunities\n6. Performance metrics",
+          "promptTitle": "Workflow Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a straightforward request for designing a workflow. However, it lacks specificity in terms of what constitutes each section, which may lead to variability in outputs. Additionally, while it covers essential aspects of workflow design, it could benefit from clearer definitions and examples to enhance understanding.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Addresses multiple important aspects of workflow design\"],\n  \"improvements\": [\"Provide examples or definitions for each section to enhance specificity\", \"Clarify what is expected in the workflow diagram and performance metrics\"],\n  \"summary\": \"The prompt is well-structured and covers essential components of workflow design but could improve in specificity and clarity to ensure more consistent outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 2,
+    "eval_file": "analysis-eval-2.prompt.yml"
+  },
+  {
+    "name": "Analysis Prompts Evaluation (Batch 2)",
+    "description": "Automated evaluation of 10 prompts from the library",
+    "model": "openai/gpt-4o-mini",
+    "testResults": [
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "advanced",
+          "promptContent": "Generate a Network Graph visualization for this prompt library using the provided [PROMPT_LIST].\n\nTreat each prompt file (e.g., \"agile-sprint-planner.md\", \"code-review-assistant.md\") as a node.\nDraw edges (lines) between prompts that belong to the same category (e.g., all \"Business\" prompts connected).\nAdditionally, link prompts that are part of the same workflow (e.g., connect \"requirements-analysis-expert.md\" to \"api-design-consultant.md\" and \"quality-assurance-planner.md\" to represent an SDLC flow).\n\nThis should look like a constellation showing clusters of related capabilities.",
+          "promptTitle": "Library Network Graph Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear in its intent to generate a network graph visualization from a list of prompts. However, it lacks some specificity regarding the format of the output and the tools or libraries to be used for visualization, which could impact actionability and completeness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 7,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent for visualization\", \"Focus on relationships between prompts\"],\n  \"improvements\": [\"Specify the preferred visualization tool or library\", \"Provide examples of expected output format\"],\n  \"summary\": \"The prompt effectively communicates its goal of generating a network graph but could benefit from additional specificity and examples to enhance clarity and completeness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Create a hierarchical Treemap chart to visualize my prompt library structure based on the provided [PROMPT_LIBRARY_STRUCTURE].\n\nThe top-level hierarchy should be the main folders (Business, Analysis, Developers, Advanced, Creative, Governance, System).\nInside each category, show the individual prompt files as tiles.\nSize the tiles equally to represent count, or color-code them by \"Category\" to show which domains have the most coverage.\n\nI want to instantly see that \"Business\" and \"Analysis\" are my largest sections compared to \"Creative\" or \"System\".",
+          "promptTitle": "Library Structure Treemap Generator",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and provides a specific task for generating a Treemap chart. However, it lacks some detail on how to interpret the data and what specific attributes to use for color-coding. Overall, it is structured well but could benefit from additional clarity and completeness.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 6,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear hierarchy\", \"Focus on visual representation of data\"],\n  \"improvements\": [\"Provide more details on how to interpret the color-coding\", \"Clarify what 'count' means in the context of tile sizing\"],\n  \"summary\": \"The prompt is effective for generating a Treemap chart but could be improved with additional details for clarity and completeness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Conduct market research for:\n\nResearch Topic: [topic]\nTarget Market: [market]\nResearch Objectives: [objectives]\nMethodology Preference: [methodology]\nTimeline: [timeline]\n\nProvide:\n1. Research design\n2. Data collection plan\n3. Analysis framework\n4. Key findings\n5. Market insights\n6. Strategic implications",
+          "promptTitle": "Market Research Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining specific elements needed for conducting market research. However, it lacks some specificity in terms of what each section should entail, which may lead to varied interpretations by the AI.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Clear sections for deliverables\"],\n  \"improvements\": [\"Add examples or templates for each deliverable\", \"Specify the level of detail required for each section\"],\n  \"summary\": \"The prompt is well-structured and clear but could benefit from additional specificity and examples to enhance the quality of the outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design metrics for:\n\nBusiness Objective: [objective]\nStakeholders: [stakeholders]\nData Availability: [data]\nReporting Frequency: [frequency]\n\nInclude:\n1. KPI framework\n2. Metric definitions\n3. Data sources\n4. Calculation methods\n5. Reporting strategy\n6. Action triggers",
+          "promptTitle": "Metrics and KPI Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the user in designing metrics and KPIs, but it lacks specificity in how to approach each section. While it provides a structured outline, it could benefit from additional details to ensure comprehensive responses. Overall, it is a solid prompt but requires some enhancements for better clarity and completeness.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured outline\", \"Clear intent for metric design\"],\n  \"improvements\": [\"Provide examples for each section to enhance specificity\", \"Clarify the expected depth of each component in the output\"],\n  \"summary\": \"The prompt effectively guides users in designing metrics and KPIs but could be improved with more specific instructions and examples to enhance clarity and completeness.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Optimize process for:\n\nProcess Name: [process_name]\nCurrent Issues: [issues]\nStakeholders: [stakeholders]\nSuccess Metrics: [metrics]\n\nInclude:\n1. Current state analysis\n2. Process mapping\n3. Bottleneck identification\n4. Optimization recommendations\n5. Implementation roadmap\n6. Change management",
+          "promptTitle": "Process Optimization Consultant",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a comprehensive framework for process optimization. However, it lacks specificity in terms of what kind of processes it applies to and does not define the expected format of the output, which could lead to variability in responses.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 8,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.25,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers essential aspects of process optimization\"],\n  \"improvements\": [\"Provide examples of processes to clarify applicability\", \"Specify the expected format for the output to enhance consistency\"],\n  \"summary\": \"The prompt is effective for guiding process optimization but could benefit from increased specificity and clarity regarding expected outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze requirements for:\n\nProject: [project_name]\nStakeholders: [stakeholders]\nBusiness Objectives: [objectives]\nCurrent Challenges: [challenges]\n\nProvide:\n1. Functional requirements\n2. Non-functional requirements\n3. User stories\n4. Acceptance criteria\n5. Requirements traceability\n6. Impact analysis",
+          "promptTitle": "Requirements Analysis Expert",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to guide the AI in analyzing project requirements. It provides a structured format for the output, but lacks specificity in how to approach each section, which may lead to varied interpretations. Overall, it is a good prompt but could benefit from more detailed instructions.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured format\", \"Clear intent for analysis\"],\n  \"improvements\": [\"Add examples for each requirement type\", \"Provide guidelines on how to assess current challenges\"],\n  \"summary\": \"The prompt is well-structured and clear but could improve in specificity and completeness to ensure consistent and actionable outputs.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Gather requirements from:\n\nProject: [project_name]\nStakeholder Groups: [groups]\nBusiness Domain: [domain]\nComplexity Level: [complexity]\n\nInclude:\n1. Stakeholder analysis\n2. Interview planning\n3. Requirements elicitation\n4. Conflict resolution\n5. Prioritization framework\n6. Communication strategy",
+          "promptTitle": "Stakeholder Requirements Gatherer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is clear in its intent to gather stakeholder requirements, but it lacks specific guidance on how to execute each component. While it outlines the necessary elements, it could benefit from more detailed instructions to enhance specificity and actionability.\",\n  \"scores\": {\n    \"clarity\": 8,\n    \"specificity\": 6,\n    \"actionability\": 6,\n    \"structure\": 7,\n    \"completeness\": 7,\n    \"factuality\": 9,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.0,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Clear intent to gather stakeholder requirements\", \"Well-structured list of components to include\"],\n  \"improvements\": [\"Provide more detailed instructions for each component\", \"Clarify the expected outcomes for each section\"],\n  \"summary\": \"The prompt effectively outlines the key areas for gathering stakeholder requirements but requires more detail and guidance to improve its specificity and actionability.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze trends for:\n\nIndustry/Market: [market]\nTrend Categories: [categories]\nTime Horizon: [horizon]\nBusiness Impact: [impact]\n\nInclude:\n1. Trend identification\n2. Trend analysis\n3. Impact assessment\n4. Future projections\n5. Business implications\n6. Strategic responses",
+          "promptTitle": "Trend Analysis Specialist",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt provides a structured approach to trend analysis, clearly outlining the components required for a comprehensive analysis. However, it lacks specific examples or context that could enhance clarity and specificity, particularly for users unfamiliar with the subject matter.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 9,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Actionable steps outlined for analysis\"],\n  \"improvements\": [\"Add examples or context to enhance clarity and specificity\", \"Provide guidelines on how to assess the business impact more effectively\"],\n  \"summary\": \"The prompt is well-structured and actionable, but it could benefit from additional context and examples to improve clarity and specificity.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Analyze user experience for:\n\nSystem/Process: [system]\nUser Groups: [users]\nCurrent Pain Points: [pain_points]\nBusiness Goals: [goals]\n\nProvide:\n1. User journey mapping\n2. Pain point analysis\n3. Improvement opportunities\n4. Solution recommendations\n5. Success metrics\n6. Implementation approach",
+          "promptTitle": "User Experience Analyst",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, outlining the necessary components for analyzing user experience. However, it lacks specificity in defining the expected depth and format of the analysis, which could lead to varied interpretations. The prompt is actionable but could benefit from more detailed instructions on how to approach each component.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 8,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 9,\n    \"consistency\": 8,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.5,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Covers a comprehensive range of analysis components\"],\n  \"improvements\": [\"Add examples or templates for each output component\", \"Clarify the expected depth of analysis for each section\"],\n  \"summary\": \"The prompt is a solid foundation for user experience analysis but could be improved with more specific guidance and examples to enhance clarity and consistency.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      },
+      {
+        "testCase": {
+          "category": "analysis",
+          "difficulty": "intermediate",
+          "promptContent": "Design workflow for:\n\nBusiness Process: [process]\nStakeholders: [stakeholders]\nComplexity Level: [complexity]\nAutomation Goals: [automation]\n\nProvide:\n1. Workflow diagram\n2. Role definitions\n3. Decision points\n4. Exception handling\n5. Automation opportunities\n6. Performance metrics",
+          "promptTitle": "Workflow Designer",
+          "type": "how_to"
+        },
+        "modelResponse": "{\n  \"reasoning\": \"The prompt is generally clear and structured, providing a specific framework for designing a workflow. However, it lacks some detail in terms of what constitutes a 'workflow diagram' and how to define 'stakeholders' and 'automation goals', which could lead to variability in outputs.\",\n  \"scores\": {\n    \"clarity\": 7,\n    \"specificity\": 6,\n    \"actionability\": 7,\n    \"structure\": 8,\n    \"completeness\": 7,\n    \"factuality\": 8,\n    \"consistency\": 7,\n    \"safety\": 9\n  },\n  \"overall_score\": 7.14,\n  \"grade\": \"B\",\n  \"pass\": true,\n  \"strengths\": [\"Well-structured with clear sections\", \"Addresses multiple aspects of workflow design\"],\n  \"improvements\": [\"Increase specificity around what is expected for each output\", \"Clarify definitions for key terms like 'stakeholders' and 'automation goals'\"],\n  \"summary\": \"The prompt is effective for guiding workflow design but could benefit from enhanced specificity and clarity in certain areas.\"\n}",
+        "evaluationResults": [
+          {
+            "evaluatorName": "valid-json",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"scores\"'"
+          },
+          {
+            "evaluatorName": "has-overall-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"overall_score\"'"
+          },
+          {
+            "evaluatorName": "has-grade",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"grade\"'"
+          },
+          {
+            "evaluatorName": "has-pass-fail",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"pass\"'"
+          },
+          {
+            "evaluatorName": "has-reasoning",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"reasoning\"'"
+          },
+          {
+            "evaluatorName": "has-safety-score",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"safety\"'"
+          },
+          {
+            "evaluatorName": "has-summary",
+            "score": 1,
+            "passed": true,
+            "details": "Expected to contain: '\"summary\"'"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "totalTests": 10,
+      "passedTests": 10,
+      "failedTests": 0,
+      "passRate": 100
+    },
+    "run_number": 3,
+    "eval_file": "analysis-eval-2.prompt.yml"
+  }
+]

@@ -60,7 +60,19 @@ Provide:
 6. Recommendations
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[transaction]`: Transaction type (e.g., "Acquisition of FinAI for $50M")
+- `[target]`: Target company (e.g., "FinAI Inc. – AI-powered fraud detection startup")
+- `[focus]`: Focus areas (e.g., "Technical architecture, IP ownership, team retention")
+- `[timeline]`: Due diligence timeline (e.g., "14 days before LOI expiration")
+- `[stakeholders]`: Key stakeholders (e.g., "CEO, CFO, CTO, Legal Counsel")
+
+---
+
+## Example
 
 ```text
 ## Technical Due Diligence Report

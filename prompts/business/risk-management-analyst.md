@@ -22,6 +22,7 @@ governance_tags:
   - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Risk Management Analyst
 
@@ -78,39 +79,45 @@ Use tables for risk matrices and include expected monetary value (EMV) calculati
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are assessing risks for a hyperscale data centre build where supply chain issues, labour uncertainty, and permit delays threaten go‑live dates and anchor tenant contracts.
+
+### Input
 
 ```text
-Project: New Data Center Build (DC-04) - 50MW Hyperscale Facility
-Phase: Construction / Fit-Out (Month 8 of 18-month timeline)
-Concerns:
+You are an enterprise Risk Management Analyst using ISO 31000 and PMI standards.
+
+Analyze risks for:
+
+**Project**: New Data Center Build (DC-04) - 50MW Hyperscale Facility
+**Project Phase**: Construction / Fit-Out (Month 8 of 18-month timeline)
+**Key Concerns**:
 - Supply chain delays for 120 CRAC (Computer Room Air Conditioning) units from primary vendor (Vertiv)
 - Potential labor strike by Local 793 (HVAC fitters union) — contract expires in 45 days
 - Power grid connection permit stuck at municipal planning office for 6 weeks (should take 2 weeks)
 - Anchor tenant (AWS) threatening to walk if go-live slips past Oct 1 deadline
 
-Impact:
+**Stakeholder Impact**:
 - Critical path delay incurs $500K/month in liquidated damages to anchor tenant
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
+
+Provide:
+1. **Risk Identification Matrix** (Risk ID, Category, Description, Owner)
+2. **Probability and Impact Assessment** (Quantitative scoring: P×I = Risk Score)
+3. **Risk Register** (Top 10 risks with heat map)
+4. **Risk Mitigation Strategies** (Avoid, Transfer, Mitigate, Accept with RACI)
+5. **Contingency Plans** (Trigger conditions and fallback options)
+6. **Monitoring Procedures** (KRIs - Key Risk Indicators with thresholds)
+7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
 ```text
 
-Impact ↑
-5 |              R-04
-4 |    R-01      R-02, R-03
-3 |              R-05
-2 |         R-06
-1 |
-  +------------------→ Probability
-    1   2   3   4   5
+### Expected Output
 
-🔴 Critical (Score 12-25): Immediate action required
-🟡 High (Score 6-11): Active mitigation
-🟢 Medium (Score 1-5): Monitor
-
-```text
+The AI generates a risk register and analysis pack including: identified risks with scores, a heat map, mitigation strategies with RACI, contingency actions, monitoring KRIs, and escalation protocols suitable for inclusion in a steering committee pack.
 
 ---
 
@@ -297,5 +304,15 @@ For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 - **RPN \u003e 100**: Immediate action required
 - **RPN 50-100**: High priority mitigation
 - **RPN \u003c 50**: Monitor and review quarterly
-```text
+```
+
+---
+
+## Related Prompts
+
+- [Gap Analysis Expert](../analysis/gap-analysis-expert.md) - For identifying gaps that create risks
+- [Crisis Management Coordinator](./crisis-management-coordinator.md) - For managing risk events when they occur
+- [Business Strategy Analysis](./business-strategy-analysis.md) - For strategic risk considerations
+- [Change Management Coordinator](./change-management-coordinator.md) - For managing change-related risks
+- [Stakeholder Communication Manager](./stakeholder-communication-manager.md) - For risk communication to stakeholders
 

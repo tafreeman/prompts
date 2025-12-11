@@ -2,6 +2,7 @@
 title: "M365 Daily Standup Assistant"
 shortTitle: "M365 Daily Standup"
 intro: "This prompt helps an individual knowledge worker quickly generate clear, concise daily standup talking points using their recent Microsoft 365 activity. It leverages emails, calendar events, Teams ..."
+m365App: "Microsoft 365 Copilot Chat"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -208,6 +209,16 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 - Tip 2: Use `[focus_topics]` to emphasize specific themes (e.g., "dependencies on other teams" or "customer incidents") so Copilot highlights what matters most.
 - Tip 3: After the first draft, ask Copilot to "shorten this further" or "make this more informal" to match your team culture.
 - Tip 4: Reuse the prompt before multiple standups across different teams by changing only `[team_or_project_name]`.
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use M365 Copilot Chat**: Open Microsoft 365 Copilot (at microsoft365.com/copilot or in Teams) and paste this prompt.
+- **Work references**: Ask Copilot "What did I work on yesterday?" to leverage Microsoft Graph data across emails, meetings, and files.
+- **Teams integration**: In Teams, ask Copilot "Summarize my activity in [channel name] from this week."
+- **Loop for tracking**: Create a Loop component to track standup notes over time and share with your team.
+- **Calendar awareness**: Copilot automatically considers your calendar meetings when generating standup content.
 
 ---
 

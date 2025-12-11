@@ -59,7 +59,18 @@ Provide:
 6. Archive procedures
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "ISO 9001 Certification – Manufacturing Division")
+- `[doc_types]`: Document types (e.g., "Policies, Procedures, Work Instructions, Records, Forms")
+- `[audience]`: Target audience (e.g., "Internal staff, External auditors, Regulatory bodies")
+- `[compliance]`: Compliance requirements (e.g., "ISO 9001:2015, FDA 21 CFR Part 11")
+
+---
+
+## Example
 
 ```text
 ## Documentation Strategy

@@ -51,8 +51,8 @@ import logging
 class AgentConfig:
     """Central configuration for the evaluation agent."""
     
-    # Paths
-    ROOT_DIR = Path(__file__).parent.parent
+    # Paths - go up 3 levels from tools/archive/ to repo root
+    ROOT_DIR = Path(__file__).parent.parent.parent
     PROMPTS_DIR = ROOT_DIR / "prompts"
     EVALS_DIR = ROOT_DIR / "testing" / "evals"
     RESULTS_DIR = EVALS_DIR / "results"
@@ -354,12 +354,12 @@ def check_prerequisites(logger: logging.Logger) -> bool:
         logger.error(f"Prompts directory not found: {AgentConfig.PROMPTS_DIR}")
         return False
     
-    # Check required scripts
+    # Check required scripts (now in tools/archive/)
     required_scripts = [
-        AgentConfig.ROOT_DIR / "testing" / "evals" / "generate_eval_files.py",
-        AgentConfig.ROOT_DIR / "testing" / "evals" / "run_gh_eval.py",
-        AgentConfig.ROOT_DIR / "tools" / "evaluate_library.py",
-        AgentConfig.ROOT_DIR / "tools" / "improve_prompts.py",
+        AgentConfig.ROOT_DIR / "tools" / "archive" / "generate_eval_files.py",
+        AgentConfig.ROOT_DIR / "tools" / "archive" / "run_gh_eval.py",
+        AgentConfig.ROOT_DIR / "tools" / "archive" / "evaluate_library.py",
+        AgentConfig.ROOT_DIR / "tools" / "archive" / "improve_prompts.py",
     ]
     
     for script in required_scripts:

@@ -205,7 +205,157 @@ async function authenticate(req, res, next) {
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
 
-```text
+```
+
+**Expected Output:**
+
+```markdown
+## Chain-of-Thought Debugging Analysis
+
+### Step 1: Understanding the Bug
+
+**Symptoms:**
+- ~5% of authenticated requests fail with "JWT token verification failed"
+- Error: "invalid signature"
+- Started after deploying to multiple servers (load-balanced)
+- Single-server staging works fine
+
+**Key Insight:** The intermittent nature (~5%) combined with the timing (after multi-server deployment) strongly suggests an environment inconsistency across servers.
+
+---
+
+### Step 2: Hypothesis Generation
+
+| # | Hypothesis | Likelihood | Evidence |
+|---|-----------|-----------|----------|
+| H1 | JWT_SECRET differs between servers | HIGH | Started after multi-server deploy; "invalid signature" error; staging works |
+| H2 | Clock skew between servers causes token timing issues | MEDIUM | Intermittent failures; multi-server environment |
+| H3 | Token parsing issue (header format) | LOW | Would fail consistently, not 5% |
+| H4 | Load balancer modifying Authorization header | LOW | Would affect all requests from certain paths |
+| H5 | Race condition in token verification | LOW | jwt.verify is synchronous |
+
+**Prioritization:** H1 > H2 > H4 > H3 > H5
+
+---
+
+### Step 3: Evidence Analysis (H1 - JWT_SECRET Mismatch)
+
+**Why H1 is most likely:**
+
+1. **"Invalid signature" error**: This specific error occurs when:
+   - Token was signed with a different secret than used for verification
+   - Token was corrupted
+   
+2. **~5% failure rate**: If 1 of 4 servers has a different JWT_SECRET, we'd expect ~25% failure. But if the secret is loaded from env vars and one server has a stale value, intermittent failures make sense.
+
+3. **Single-server staging works**: Same codebase, different environment = environment variable issue
+
+4. **Started after multi-server deployment**: New servers may have different environment configurations
+
+**Experiment to confirm:**
+
+```bash
+# SSH into each production server and check JWT_SECRET
+for server in prod-1 prod-2 prod-3 prod-4; do
+  echo "=== $server ==="
+  ssh $server 'echo $JWT_SECRET | sha256sum'
+done
+```
+
+If the hashes differ, H1 is confirmed.
+
+---
+
+### Step 4: Root Cause
+
+**ROOT CAUSE: JWT_SECRET environment variable mismatch across production servers**
+
+When new servers were deployed, the JWT_SECRET was not synchronized. Tokens signed by Server A cannot be verified by Server B if they have different secrets.
+
+**Evidence chain:**
+1. "Invalid signature" error → secret mismatch
+2. ~5% failure → only some servers affected
+3. Started after multi-server deploy → new servers have different config
+4. Staging works → single server, no mismatch possible
+
+---
+
+### Step 5: Recommended Fix
+
+**Immediate Fix:**
+```bash
+# Sync JWT_SECRET across all servers from authoritative source
+JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id prod/jwt-secret | jq -r .SecretString)
+# Deploy to all servers via your config management tool
+```
+
+**Code Fix (defense in depth):**
+```javascript
+// auth.js - Add validation at startup
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  console.error('FATAL: JWT_SECRET is missing or too short');
+  process.exit(1);  // Fail fast instead of running with bad config
+}
+
+function verifyToken(token) {
+  return jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
+}
+```
+
+**Infrastructure Fix (prevent recurrence):**
+```yaml
+# Use centralized secrets management (e.g., AWS Secrets Manager, Vault)
+# kubernetes/deployment.yaml
+env:
+  - name: JWT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: jwt-secrets
+        key: JWT_SECRET
+```
+
+---
+
+### Step 6: Regression Test
+
+```javascript
+// test/auth.integration.test.js
+describe('JWT Authentication (multi-server simulation)', () => {
+  const SECRET_A = 'secret-server-a';
+  const SECRET_B = 'secret-server-b';  // Different secret
+  
+  it('should fail verification if secrets mismatch', () => {
+    const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
+    
+    expect(() => {
+      jwt.verify(token, SECRET_B, { algorithms: ['HS256'] });
+    }).toThrow('invalid signature');
+  });
+  
+  it('should succeed verification if secrets match', () => {
+    const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
+    const decoded = jwt.verify(token, SECRET_A, { algorithms: ['HS256'] });
+    
+    expect(decoded.userId).toBe('123');
+  });
+});
+```
+
+---
+
+### Summary
+
+| Attribute | Value |
+|-----------|-------|
+| **Root Cause** | JWT_SECRET environment variable mismatch across production servers |
+| **Confidence** | HIGH (95%) |
+| **Category** | Configuration / Environment |
+| **Severity** | HIGH (authentication bypass risk) |
+| **Fix Complexity** | LOW (environment sync) |
+| **Recommended Action** | 1) Sync secrets immediately, 2) Add startup validation, 3) Use centralized secrets management |
+```
 
 ---
 

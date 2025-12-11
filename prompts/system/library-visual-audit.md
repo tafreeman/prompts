@@ -195,7 +195,30 @@ Be thorough, specific, and actionable. Every issue should include:
 5. Priority level
 ```text
 
-### Output
+---
+
+## Variables
+
+This prompt is designed to work on the current workspace without explicit variables. The AI agent will automatically scan the workspace structure to identify:
+
+- **Workspace path**: Current repository or documentation folder
+- **File patterns**: `*.md` files across all directories
+- **Report locations**: `docs/`, `docs/reports/` folders for generated content
+- **Template locations**: `templates/` folder for standard templates
+
+---
+
+## Example
+
+### Context
+
+Running a visual audit on a prompt library repository to identify formatting inconsistencies and improvement opportunities before a public release.
+
+### Input
+
+Run this prompt in agent mode with access to the workspace filesystem. No additional input required - the prompt instructs the AI to scan the current workspace.
+
+### Expected Output
 
 ```markdown
 # Library Visual & Formatting Audit Report

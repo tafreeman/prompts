@@ -2,6 +2,7 @@
 title: "M365 Designer Infographic Brief"
 shortTitle: "M365 Designer Infographi..."
 intro: 'Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a Design Brief that describes the layout, iconography, and text hierarchy.'
+m365App: "Microsoft Designer"
 type: "tutorial"
 difficulty: "beginner"
 audience:
@@ -40,6 +41,10 @@ To structure data and insights into a visual plan that Microsoft Designer can ge
 - **Target Audience**: [audience]
 - **Visual Style**: [visual_style]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -61,6 +66,10 @@ Please generate a **Design Brief** for this infographic:
 4. **Iconography**: Suggestions for 3-4 icons to search for in the Designer asset library.
 5. **Text Hierarchy**: Which data point should be big (Hero) vs. small (Supporting).
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Variables
@@ -70,6 +79,10 @@ Please generate a **Design Brief** for this infographic:
 - `[audience]`: Who is reading it (e.g., "HR Managers").
 - `[visual_style]`: The look (e.g., "Corporate Blue", "Playful Illustration", "Minimalist Line Art").
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -104,6 +117,10 @@ A central illustration of a steaming coffee cup with three arrows pointing outwa
 - **HERO**: "Boosts Energy" (Largest font)
 - **SUPPORTING**: "Antioxidants" & "Focus" (Medium font)
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Tips
@@ -111,6 +128,10 @@ A central illustration of a steaming coffee cup with three arrows pointing outwa
 - Microsoft Designer works best when you generate the *background* first, then add text and icons as layers on top.
 - Use the "Designer Prompt" output to get that base image.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

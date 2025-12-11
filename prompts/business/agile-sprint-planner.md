@@ -81,49 +81,49 @@ Format output with Markdown tables for story breakdown and capacity allocation.
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+An e‑commerce team is planning a two‑week sprint focused on improving checkout performance ahead of Black Friday. Capacity is reduced due to holidays, so they need clear goals, story breakdown, and realistic capacity planning.
+
+### Input
 
 ```text
-Project: E-commerce Mobile App - Payment Module
-Sprint Number: Sprint 12 (of 24-sprint roadmap)
-Duration: 2 Weeks (Nov 20 - Dec 1)
-Capacity: 80 Story Points (Reduced from 100 due to Thanksgiving Holiday - 2 devs on PTO for 3 days)
-Features: 
+You are a certified Scrum Master planning Sprint 12.
+
+Plan sprint for:
+
+**Project**: E-commerce Mobile App - Payment Module
+**Sprint Duration**: 2 Weeks (Nov 20 - Dec 1)
+**Team Capacity**: 80 Story Points (Reduced from 100 due to Thanksgiving holiday - 2 devs on PTO for 3 days)
+**Priority Features**:
 - "One-click Checkout" (Epic: Checkout Optimization)
 - "Apple Pay Integration" (Epic: Payment Methods)
 - "Wishlist Sync Across Devices" (Epic: Social Commerce)
 
-Definition of Done:
+**Definition of Done**:
 - Unit tests passed (>90% coverage)
 - UI automated tests green (Appium suite)
 - Product Owner sign-off on acceptance criteria
 - Analytics events fired correctly (Google Analytics 4)
 - API documentation updated in Swagger
 
-Context: Black Friday launch deadline is Dec 15. This sprint must deliver payment improvements to reduce cart abandonment (currently 68%).
+Provide:
+1. **Sprint Goal** (One-sentence SMART goal)
+2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
+3. **Task Estimation** (Story points + hourly breakdown)
+4. **Capacity Planning** (Velocity analysis + buffer allocation)
+5. **Risk Mitigation** (Dependencies, blockers, technical unknowns)
+6. **Success Metrics** (Burndown targets, completion criteria)
+7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
+
+Format output with Markdown tables for story breakdown and capacity allocation.
 ```text
 
-@Sarah: Yesterday: Completed Buy Now button UI. Today: Start Apple Pay iOS integration. Blockers: None.
-@Emily: Yesterday: Designed /default-payment API. Today: Stripe Apple Pay SDK setup. Blockers: Need Stripe API token refresh (tagged @DevOps).
+### Expected Output
 
-```text
-
-Points ↑
-26 |●
-   |  ●●
-20 |      ●●
-   |          ●●
-10 |              ●
-   |                  ●
- 0 |____________________●____→ Days
-   0  2  4  6  8  10
-
-   Ideal Burndown: ● (diagonal line)
-   Actual: Monitor daily
-
-```text
+The AI generates a sprint planning document that includes: a concise sprint goal, tables of epics/stories/tasks with estimates, a capacity and velocity breakdown, identified risks with mitigation actions, success metrics, and a schedule of ceremonies ready to paste into your planning doc or backlog tool.
 
 ---
 
