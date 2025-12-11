@@ -2,6 +2,7 @@
 title: "M365 Sway Visual Newsletter"
 shortTitle: "M365 Sway Visual Newsletter"
 intro: "Internal newsletters often get ignored in email inboxes. This prompt helps you aggregate various updates (from Teams, email, or notes) and format them into a visually engaging Sway newsletter. It o..."
+m365App: "Microsoft Sway"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -41,6 +42,10 @@ To create a visually rich, easy-to-read newsletter structure that looks great on
 - **Upcoming Events**: [events]
 - **Team Shoutouts**: [shoutouts]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -64,6 +69,10 @@ Please design the **Sway Structure** for this newsletter:
 
 For each section, provide the **exact text** to paste and a **visual description** for the images I should find.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Variables
@@ -74,6 +83,10 @@ For each section, provide the **exact text** to paste and a **visual description
 - `[events]`: Dates and times of upcoming meetings/socials.
 - `[shoutouts]`: Recognition for specific team members.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -119,6 +132,10 @@ For each section, provide the **exact text** to paste and a **visual description
 - **Image Card**: Photo of Sarah (or a "Thank You" graphic).
   - **Caption**: "Big thanks to **Sarah** for the late-night effort on the migration!"
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Tips
@@ -126,6 +143,10 @@ For each section, provide the **exact text** to paste and a **visual description
 - In Sway, use the "Design" tab to apply a "Style" that matches your company brand (e.g., specific fonts/colors).
 - The "Grid Group" is perfect for 3-4 small items of equal importance.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

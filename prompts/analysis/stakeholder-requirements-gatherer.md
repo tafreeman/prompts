@@ -91,7 +91,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+A Business Analyst is leading requirements gathering for a CRM migration project with conflicting stakeholder priorities between Sales, Marketing, and Operations teams.
+
+### Input
+
+```text
+Project: Salesforce to HubSpot CRM Migration
+Stakeholder Groups: Sales Reps, Sales Leadership, Marketing, Revenue Operations, IT
+Business Domain: B2B SaaS with complex sales cycles
+Complexity Level: High (10 years of customizations, 50+ integrations)
+```
+
+### Expected Output
+
+A comprehensive stakeholder requirements plan including:
+
+1. **Stakeholder Analysis** - Power/interest matrix, key influencers, potential blockers
+2. **Interview Planning** - Interview guides per stakeholder type, "day in the life" session design
+3. **Requirements Elicitation** - Categorized requirements by stakeholder with priority and feasibility
+4. **Conflict Resolution** - Identified conflicts (Sales wants simplicity, Ops wants data capture) with resolution approach
+5. **Prioritization Framework** - MoSCoW or weighted scoring with stakeholder buy-in
+6. **Communication Strategy** - Cadence for updates, feedback loops, sign-off process
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For detailed requirements documentation
+- [Gap Analysis Expert](./gap-analysis-expert.md) - For current/desired state comparison
+- [Process Optimization Consultant](./process-optimization-consultant.md) - For process requirements
+- [User Experience Analyst](./user-experience-analyst.md) - For user-centric requirements

@@ -2,6 +2,7 @@
 title: "M365 Manager Sync Planner"
 shortTitle: "M365 Manager Sync Planner"
 intro: "This prompt helps employees prepare for effective one-on-one meetings with their managers. It takes raw notes about the week's work, challenges, and future goals, and organizes them into a professi..."
+m365App: "Copilot in Outlook or Microsoft 365 Copilot Chat"
 type: "conceptual"
 difficulty: "beginner"
 audience:
@@ -41,6 +42,10 @@ To create a concise, prioritized agenda for a manager 1:1 that demonstrates prog
 - **Career/Growth Topic**: [career_topic]
 - **Meeting Duration**: [meeting_duration]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -65,6 +70,10 @@ Please generate a meeting agenda that:
 
 Output the agenda in a clean Markdown format suitable for pasting into a Teams chat, Outlook invite, or OneNote page.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Variables
@@ -75,6 +84,10 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 - `[career_topic]`: A specific area of professional growth or feedback to discuss.
 - `[meeting_duration]`: Length of the meeting (e.g., 30 minutes, 1 hour).
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -111,6 +124,10 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 
 - [Open for your items]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Tips
@@ -118,6 +135,10 @@ Output the agenda in a clean Markdown format suitable for pasting into a Teams c
 - Use this prompt in **OneNote** or **Loop** to maintain a running document of your 1:1s.
 - Be specific about what you need from your manager in the "Blockers" section (e.g., "I need you to email X" vs "X is slow").
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

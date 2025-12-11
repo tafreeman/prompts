@@ -92,7 +92,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+A CPO at an e-commerce company needs to understand emerging trends in consumer shopping behavior to inform the product roadmap for the next 18 months.
+
+### Input
+
+```text
+Industry/Market: E-commerce / Direct-to-Consumer retail
+Trend Categories: Technology, Consumer Behavior, Payment Methods, Sustainability
+Time Horizon: 18-24 months
+Business Impact: Product roadmap prioritization and competitive positioning
+```
+
+### Expected Output
+
+A comprehensive trend analysis report including:
+
+1. **Trend Identification** - 5-7 major trends with supporting data (social commerce growth, AI personalization, BNPL adoption)
+2. **Trend Analysis** - Maturity assessment (emerging, growing, mature) for each trend
+3. **Impact Assessment** - Quantified impact on revenue, operations, and customer experience
+4. **Future Projections** - 18-month forecast with adoption curves and market penetration estimates
+5. **Business Implications** - How each trend affects current business model and operations
+6. **Strategic Responses** - Prioritized initiatives with resource requirements and timeline
+
+---
+
 ## Related Prompts
 
-- Browse other Researcher prompts in this category
-- Check the analysis folder for similar templates
+- [Market Research Analyst](./market-research-analyst.md) - For comprehensive market research
+- [Industry Analysis Expert](./industry-analysis-expert.md) - For industry-specific analysis
+- [Consumer Behavior Researcher](./consumer-behavior-researcher.md) - For customer behavior insights
+- [Competitive Analysis Researcher](./competitive-analysis-researcher.md) - For competitive landscape

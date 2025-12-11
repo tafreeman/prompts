@@ -2,6 +2,7 @@
 title: "M365 Personal Task Collector"
 shortTitle: "M365 Personal Task Colle..."
 intro: "This prompt helps an individual extract and organize personal tasks from unstructured sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes, and calendar events to identi..."
+m365App: "Microsoft 365 Copilot Chat"
 type: "how_to"
 difficulty: "beginner"
 audience:

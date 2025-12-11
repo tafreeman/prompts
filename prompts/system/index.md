@@ -34,6 +34,7 @@ children:
   - /prompts/system/frontier-agent-deep-research
   - /prompts/system/iot-architecture-designer
   - /prompts/system/legacy-modernization-architect
+  - /prompts/system/library-visual-audit
   - /prompts/system/m365-copilot-research-agent
   - /prompts/system/microservices-architecture-expert
   - /prompts/system/mobile-architecture-consultant
@@ -95,6 +96,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 ## Browse by Focus
 
 ### Architecture Foundations
+
 - [Solution Architecture Designer](/prompts/system/solution-architecture-designer)
 - [Cloud Architecture Consultant](/prompts/system/cloud-architecture-consultant)
 - [Microservices Architecture Expert](/prompts/system/microservices-architecture-expert)
@@ -102,6 +104,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 - [Mobile Architecture Consultant](/prompts/system/mobile-architecture-consultant)
 
 ### Data, Integration & Modernization
+
 - [Data Architecture Designer](/prompts/system/data-architecture-designer)
 - [Enterprise Integration Architect](/prompts/system/enterprise-integration-architect)
 - [Legacy Modernization Architect](/prompts/system/legacy-modernization-architect)
@@ -109,6 +112,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 - [Blockchain Architecture Specialist](/prompts/system/blockchain-architecture-specialist)
 
 ### Reliability, Risk & Governance
+
 - [DevOps Architecture Planner](/prompts/system/devops-architecture-planner)
 - [Disaster Recovery Architect](/prompts/system/disaster-recovery-architect)
 - [Performance Architecture Optimizer](/prompts/system/performance-architecture-optimizer)
@@ -116,6 +120,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 - [Compliance Architecture Designer](/prompts/system/compliance-architecture-designer)
 
 ### AI System Prompts & Workplace Agents
+
 - [AI Assistant System Prompt](/prompts/system/ai-assistant-system-prompt)
 - [Office Agent Technical Specs](/prompts/system/office-agent-technical-specs)
 - [M365 Copilot Research Agent](/prompts/system/m365-copilot-research-agent)
@@ -123,6 +128,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 - [Example Research Output](/prompts/system/example-research-output)
 
 ### Quality & Evaluation
+
 - [Prompt Quality Evaluator](/prompts/system/prompt-quality-evaluator)
 - [Tree-of-Thoughts Repository Evaluator](/prompts/system/tree-of-thoughts-repository-evaluator)
 - [Performance Architecture Optimizer](/prompts/system/performance-architecture-optimizer) for SLO scorecards

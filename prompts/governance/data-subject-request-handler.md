@@ -439,6 +439,35 @@ Verify response completeness and compliance.
 
 ---
 
+## Example
+
+```text
+## DSR Processing Log
+
+**Request ID:** DSR-2025-089
+**Subject:** John Smith (User ID: 8842)
+**Type:** Right to Erasure (GDPR Art. 17)
+
+### 1. Identity Verification
+*   **Method:** Email verification link sent to registered address.
+*   **Status:** Verified on 2025-11-02.
+
+### 2. Data Discovery & Action
+*   **CRM (Salesforce):** Found contact record. *Action:* Anonymized.
+*   **Database (Postgres):** Found 45 transaction records. *Action:* Retained (Legal Obligation - Tax Law).
+*   **Marketing (Mailchimp):** Found in "Newsletter" list. *Action:* Deleted.
+*   **Backups:** Data exists in immutable backups. *Action:* Logged for deletion upon restore.
+
+### 3. Response Draft
+"Dear John, We have processed your erasure request. Your marketing and profile data has been deleted. Note that we are legally required to retain transaction records for 7 years for tax purposes..."
+
+### 4. Outcome
+*   **Status:** Closed
+*   **Completion Date:** 2025-11-05 (3 days processing)
+```
+
+---
+
 ## Tips
 
 - **Log immediately** - Record receipt date for deadline calculation

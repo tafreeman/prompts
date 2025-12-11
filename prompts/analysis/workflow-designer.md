@@ -90,7 +90,37 @@ Provide:
 
 ---
 
+## Example Usage
+
+### Context
+
+A DevOps Lead needs to design an incident response workflow that ensures rapid detection, triage, and resolution of production incidents with proper escalation and communication.
+
+### Input
+
+```text
+Business Process: Production Incident Response
+Stakeholders: On-call engineers, Site Reliability Team, Engineering Managers, Customer Success
+Complexity Level: High (24/7 operations, multiple severity levels, regulatory requirements)
+Automation Goals: Auto-detection, auto-triage for known issues, automated status page updates
+```
+
+### Expected Output
+
+A comprehensive workflow design document including:
+
+1. **Workflow Diagram** - Visual flowchart with decision points, parallel paths, and escalation branches
+2. **Role Definitions** - On-call responder, Incident Commander, Communications Lead responsibilities
+3. **Decision Points** - Severity classification criteria, escalation triggers, rollback decisions
+4. **Exception Handling** - After-hours procedures, unavailable responder fallback, customer-impacting vs internal
+5. **Automation Opportunities** - PagerDuty integration, Slack bot for status updates, auto-rollback triggers
+6. **Performance Metrics** - MTTA (Mean Time to Acknowledge), MTTR, escalation frequency, customer notification SLA
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Process Optimization Consultant](./process-optimization-consultant.md) - For optimizing existing workflows
+- [Gap Analysis Expert](./gap-analysis-expert.md) - For identifying workflow gaps
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For workflow requirements
+- [Metrics and KPI Designer](./metrics-and-kpi-designer.md) - For workflow performance metrics

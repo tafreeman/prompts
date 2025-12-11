@@ -73,6 +73,20 @@ Accelerate exec updates, knowledge handoffs, and daily communications across the
 
 - Replace bracketed placeholders (e.g., `[TEAM NAME]`) before pasting into Copilot for context-rich responses.
 - Pair with Viva Insights or Planner exports for more accurate data references.
+- Check the `m365App` field in each prompt's frontmatter to know which M365 app it works best in.
+
+## Where to Use Each Prompt
+
+| M365 App | Best Prompts |
+| :--- | :--- |
+| **Microsoft 365 Copilot Chat** | Daily Standup, Meeting Prep, Project Status, Personal Tasks, Customer Feedback |
+| **Copilot in Outlook** | Email Triage, Manager Sync Planner |
+| **Copilot in Teams** | Meeting Recap, Meeting Prep |
+| **Copilot in Word** | Document Summarizer, Handover Creator |
+| **Copilot in Excel** | Data Insights, Formula Expert |
+| **Copilot in PowerPoint** | Presentation Outline, Slide Content Refiner |
+| **Microsoft Designer** | Image Prompts, Infographic Brief, Social Media Kit |
+| **Microsoft Sway** | Document to Story, Visual Newsletter |
 
 ---
 

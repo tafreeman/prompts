@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Business Strategy Analysis
 
@@ -87,6 +88,50 @@ Please provide:
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
 ```text
+
+---
+
+## Variables
+
+- `[COMPANY NAME]`: Organization name (e.g., "Acme Software Inc.")
+- `[INDUSTRY]`: Industry sector (e.g., "B2B SaaS", "Healthcare Technology")
+- `[BRIEF DESCRIPTION OF CURRENT STATE]`: Current business situation (e.g., "Growing 30% YoY with strong SMB base, considering enterprise expansion")
+- `[WHAT YOU'RE TRYING TO DECIDE OR ACHIEVE]`: Strategic question or goal (e.g., "Should we move upmarket to mid-market and enterprise?")
+- `[SMALL/MEDIUM/LARGE/ENTERPRISE]`: Company size category
+- `[LEADER/CHALLENGER/FOLLOWER/NICHE]`: Market position
+- `[LIST MAIN COMPETITORS]`: Key competitors (e.g., "Salesforce, HubSpot, Pipedrive")
+- `[ANY RELEVANT BUDGET LIMITATIONS]`: Budget constraints (e.g., "$2M total investment available over 18 months")
+
+---
+
+## Example
+
+### Context
+
+A growing B2B SaaS company is considering whether to move upmarket from SMB into mid‑market and enterprise customers. Leadership needs a structured analysis of options, risks, and recommended strategy.
+
+### Input
+
+```text
+You are a senior business strategy consultant with expertise in strategic planning and market analysis. I need your help analyzing a strategic situation.
+
+**Company/Organization:** FlowCRM – B2B SaaS CRM for small businesses
+**Industry:** SaaS / Sales & Marketing Technology
+**Current Situation:** Strong traction in SMB segment (30% YoY growth) but rising customer acquisition costs and increasing competition from low‑cost tools.
+**Strategic Question/Goal:** Decide whether to move upmarket into mid‑market/enterprise, double‑down on SMB with vertical specialization, or pursue a hybrid approach.
+
+**Context:**
+- Company size: 120 employees (Series B)
+- Market position: Challenger in SMB CRM market
+- Key competitors: HubSpot, Pipedrive, Zoho CRM, niche vertical CRMs
+- Budget constraints: Can invest $2–3M in new go‑to‑market and product initiatives over the next 12–18 months
+
+Please provide the full situational analysis, SWOT, strategic options, recommendation, and next steps as described in the prompt.
+```text
+
+### Expected Output
+
+The AI produces a strategy brief that includes: a situational analysis of the market, a detailed SWOT, 3–4 strategic options with pros/cons, a clear recommendation with rationale, and phased next steps (0–30 days, 1–3 months, 3–12 months) similar in structure to the sample that follows.
 
 **Output:**
 
@@ -230,6 +275,14 @@ Please provide:
 - First enterprise deal: Within 90 days of first hire
 - SMB growth maintained: 25%+ YoY
 - Gross revenue retention: >95% for mid-market accounts
-```text
+```
 
-- [Competitive Analysis Framework](competitive-analysis.md)
+---
+
+## Related Prompts
+
+- [Competitive Analysis Framework](./competitive-analysis.md) - For detailed competitive intelligence
+- [Competitive Analysis Researcher](../analysis/competitive-analysis-researcher.md) - For in-depth competitor research
+- [Market Research Analyst](../analysis/market-research-analyst.md) - For market insights and trends
+- [Industry Analysis Expert](../analysis/industry-analysis-expert.md) - For industry-level strategic analysis
+- [Risk Management Analyst](./risk-management-analyst.md) - For strategic risk assessment

@@ -59,7 +59,18 @@ Include:
 6. Continuous improvement
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[project_name]`: Project name (e.g., "Mobile Banking App v3.0 Release")
+- `[standards]`: Quality standards (e.g., "ISO 25010, OWASP Mobile Top 10, WCAG 2.1 AA")
+- `[deliverables]`: Key deliverables (e.g., "iOS app, Android app, Backend APIs, Admin dashboard")
+- `[testing]`: Testing requirements (e.g., "Functional, Performance, Security, Accessibility testing")
+
+---
+
+## Example
 
 ```text
 ## Quality Assurance Plan

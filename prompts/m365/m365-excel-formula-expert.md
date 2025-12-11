@@ -2,6 +2,7 @@
 title: "M365 Excel Formula Expert"
 shortTitle: "M365 Excel Formula Expert"
 intro: "This prompt acts as an expert Excel consultant. It helps users who know what they want to calculate but don't know the specific function syntax. It generates the correct formula (e.g., XLOOKUP, IND..."
+m365App: "Copilot in Excel"
 type: "how_to"
 difficulty: "intermediate"
 audience:

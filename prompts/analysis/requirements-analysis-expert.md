@@ -92,7 +92,37 @@ Provide:
 
 ---
 
+## Example Usage
+
+### Context
+
+A Business Analyst is gathering requirements for a new customer self-service portal that will allow customers to manage their accounts, view invoices, and submit support tickets.
+
+### Input
+
+```text
+Project: Customer Self-Service Portal
+Stakeholders: Customer Support, IT, Finance, Marketing, End Customers
+Business Objectives: Reduce support call volume by 40%, improve customer satisfaction (NPS +10)
+Current Challenges: 60% of calls are for routine account inquiries, no 24/7 support option
+```
+
+### Expected Output
+
+A comprehensive requirements analysis document including:
+
+1. **Functional Requirements** - User authentication, account dashboard, invoice history, payment processing, ticket submission
+2. **Non-functional Requirements** - Performance (<2s page load), security (SOC 2 compliance), availability (99.9% uptime)
+3. **User Stories** - "As a customer, I want to download my invoices so I can submit them for expense reimbursement"
+4. **Acceptance Criteria** - Testable conditions for each requirement
+5. **Requirements Traceability** - Matrix linking requirements to business objectives
+6. **Impact Analysis** - Dependencies on existing systems, integration requirements
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Stakeholder Requirements Gatherer](./stakeholder-requirements-gatherer.md) - For stakeholder interview planning
+- [User Experience Analyst](./user-experience-analyst.md) - For UX requirements
+- [Gap Analysis Expert](./gap-analysis-expert.md) - For current/desired state comparison
+- [Business Case Developer](./business-case-developer.md) - For building the project justification

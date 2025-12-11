@@ -476,6 +476,38 @@ Note timeline for EU AI Act compliance.
 
 ---
 
+## Example
+
+```text
+## AI Privacy Risk Assessment Report
+
+### 1. System Profile
+*   **System:** Customer Churn Predictor
+*   **Type:** Classification Model (XGBoost)
+*   **Data:** Customer transaction history, support logs, demographics.
+
+### 2. Risk Analysis (ReAct)
+*   **Training Data Privacy:**
+    *   *Risk:* High. Support logs contain PII and sensitive sentiment data.
+    *   *Mitigation:* Implement PII redaction pipeline before training.
+*   **Inference Attacks:**
+    *   *Risk:* Medium. Model outputs confidence scores which could enable membership inference.
+    *   *Mitigation:* Round confidence scores to 2 decimal places; limit API rate.
+
+### 3. Regulatory Compliance
+*   **GDPR Art. 22:** System makes automated decisions affecting pricing.
+    *   *Action:* Must provide "human in the loop" option for high-value customers.
+*   **Data Minimization:** "Demographics" feature includes "Marital Status" which is irrelevant to churn.
+    *   *Action:* Remove "Marital Status" feature.
+
+### 4. Recommendations
+1.  **Immediate:** Deploy PII redaction for support logs.
+2.  **Short-term:** Update Privacy Policy to disclose automated decision making.
+3.  **Long-term:** Explore Federated Learning to keep data on user devices.
+```
+
+---
+
 ## Tips
 
 - **Assess throughout the lifecycle** - Privacy risks exist from data collection to model retirement

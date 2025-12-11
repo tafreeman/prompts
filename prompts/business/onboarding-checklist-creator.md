@@ -22,6 +22,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Onboarding Checklist Creator
 
@@ -91,6 +92,46 @@ Generate:
 
 Include specific calendar invites to send and people to meet. Make it actionable, not generic.
 ```text
+
+---
+
+## Variables
+
+- `[hire_info]`: New hire name and background (e.g., "Jane Doe, joining from Google")
+- `[role]`: Job title (e.g., "Senior Product Manager")
+- `[team]`: Team name (e.g., "Growth Product Team")
+- `[start_date]`: Start date (e.g., "Monday, January 15")
+- `[setup]`: Work setup (e.g., "Remote with quarterly offsites", "Hybrid 3 days/week")
+- `[manager]`: Manager name (e.g., "John Smith, Director of Product")
+
+---
+
+## Example
+
+### Context
+
+You are onboarding a new Senior Data Scientist to your analytics team and want a detailed plan covering pre‑start tasks, Day 1, Week 1, and 30/60/90‑day milestones.
+
+### Input
+
+```text
+You are an expert in employee onboarding who creates programs that accelerate time-to-productivity.
+
+Create an onboarding checklist for:
+
+**New Hire**: Priya Sharma – Senior Data Scientist with 6 years of experience in SaaS analytics
+**Role**: Senior Data Scientist, Analytics Team
+**Team**: Central Analytics team supporting Growth and Product
+**Start Date**: Monday, December 9, 2024
+**Work Setup**: Hybrid – 2 days/week in NYC office, rest remote
+**Manager**: David Chen (Director of Analytics)
+
+Generate the full onboarding plan as described in the prompt (pre‑start, Day 1, Week 1, 30/60/90‑day milestones and success criteria).
+```text
+
+### Expected Output
+
+The AI produces a structured onboarding plan with checklists, schedules, milestones, and success criteria similar to the detailed example that follows.
 
 **Output:**
 

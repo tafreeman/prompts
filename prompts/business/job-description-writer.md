@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Job Description Writer
 
@@ -87,6 +88,46 @@ Generate a complete job description with:
 
 Use inclusive language. Avoid gendered terms and unnecessary requirements. Focus on outcomes over years of experience.
 ```text
+
+---
+
+## Variables
+
+- `[role_title]`: Job title (e.g., "Senior Software Engineer", "Product Manager")
+- `[company_info]`: Company name and brief description (e.g., "TechCorp – Series B fintech startup")
+- `[team_info]`: Team context (e.g., "Platform Engineering team of 8")
+- `[level]`: Seniority level (e.g., "Senior / L5", "Staff / L6")
+- `[location]`: Work location (e.g., "Remote (US)", "Hybrid – NYC/SF")
+- `[salary]`: Compensation range (e.g., "$150K-$180K base + equity")
+
+---
+
+## Example
+
+### Context
+
+A fast‑growing fintech company is hiring a Senior Backend Engineer for its payments platform team. They want an inclusive, impact‑focused job description that will perform well on public job boards.
+
+### Input
+
+```text
+You are an expert talent acquisition specialist who writes job descriptions that attract top candidates.
+
+Create a job description for:
+
+**Role**: Senior Backend Engineer, Platform
+**Company**: FinFlow – Series B B2B payments company modernising B2B payments infrastructure
+**Team**: Platform engineering team responsible for core payment processing services
+**Level**: Senior IC
+**Location**: Remote‑first within US timezones; optional San Francisco office
+**Salary Range**: $180K–$220K base salary + equity
+
+Generate the complete job description as outlined in the prompt.
+```text
+
+### Expected Output
+
+The AI generates a polished job description with a compelling opening, company overview, role summary, clear must‑have and nice‑to‑have requirements, what we offer, and how to apply—similar to the sample description that follows.
 
 **Output:**
 

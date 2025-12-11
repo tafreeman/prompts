@@ -91,7 +91,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+A venture capital analyst needs to evaluate the electric vehicle charging infrastructure industry to inform investment decisions in the space.
+
+### Input
+
+```text
+Industry: Electric Vehicle Charging Infrastructure
+Analysis Scope: North America, focus on DC fast charging networks
+Key Questions: Market size, growth drivers, competitive moats, consolidation trends
+Stakeholder Interest: Investment committee evaluating Series B opportunities
+```
+
+### Expected Output
+
+A comprehensive industry analysis report including:
+
+1. **Industry Overview** - Market size ($3B in 2024), growth trajectory (25% CAGR), key segments
+2. **Market Dynamics** - Demand drivers (EV adoption, policy mandates), supply constraints (grid capacity, permitting)
+3. **Competitive Landscape** - Major players (Tesla, ChargePoint, EVgo), market share, differentiation strategies
+4. **Trends and Drivers** - Technology evolution (charging speeds), standardization (NACS), business model shifts
+5. **Future Outlook** - 5-year market projections, consolidation predictions, regulatory trajectory
+6. **Strategic Recommendations** - Investment criteria, attractive niches, risk factors to monitor
+
+---
+
 ## Related Prompts
 
-- Browse other Researcher prompts in this category
-- Check the analysis folder for similar templates
+- [Trend Analysis Specialist](./trend-analysis-specialist.md) - For emerging industry trends
+- [Competitive Analysis Researcher](./competitive-analysis-researcher.md) - For competitor deep-dives
+- [Market Research Analyst](./market-research-analyst.md) - For market research methodology
+- [Business Case Developer](./business-case-developer.md) - For investment analysis

@@ -2,6 +2,7 @@
 title: "M365 Document Summarizer"
 shortTitle: "M365 Document Summarizer"
 intro: "This prompt helps an individual quickly summarize long documents in Microsoft 365 for specific audiences. It extracts key points, highlights relevant sections, and recommends next steps, tailored t..."
+m365App: "Copilot in Word"
 type: "how_to"
 difficulty: "beginner"
 audience:
@@ -192,6 +193,16 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 - Tip 2: Adjust `[tone]` based on your relationship with the audience (e.g., formal for external stakeholders, conversational for internal teams).
 - Tip 3: If the document is very long (50+ pages), ask Copilot to summarize in two passes: first a high-level overview, then a detailed drill-down on specific sections.
 - Tip 4: Share the summary alongside the full document so readers can dive deeper if needed.
+
+---
+
+## M365 Copilot Best Practices
+
+- **Use in Word**: Open Copilot in Word and ask "Summarize this document" or "What are the key points in this document?"
+- **Reference specific sections**: Ask Copilot to "Summarize the Executive Summary section" or "What does this document say about risks?"
+- **Transform content**: Use Copilot to "Turn this into a bulleted list" or "Rewrite this for a non-technical audience."
+- **Multi-document synthesis**: Reference multiple documents in M365 Copilot Chat to get cross-document insights.
+- **OneDrive/SharePoint integration**: Copilot can access files stored in your M365 environment—just ask "Summarize the [filename] from my OneDrive."
 
 ---
 

@@ -21,11 +21,13 @@ dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+  - /prompts/advanced/advanced-technique-research
   - /prompts/advanced/chain-of-thought-concise
   - /prompts/advanced/chain-of-thought-debugging
   - /prompts/advanced/chain-of-thought-detailed
   - /prompts/advanced/chain-of-thought-guide
   - /prompts/advanced/chain-of-thought-performance-analysis
+  - /prompts/advanced/CoVe
   - /prompts/advanced/library
   - /prompts/advanced/library-analysis-react
   - /prompts/advanced/prompt-library-refactor-react
@@ -75,23 +77,34 @@ Tackle ambiguous research briefs, multi-step diagnostics, and large knowledge ba
 ## Browse by Capability
 
 ### Chain-of-Thought Toolkit
+
 - [Concise](/prompts/advanced/chain-of-thought-concise) — short answers with numbered reasoning
 - [Debugging](/prompts/advanced/chain-of-thought-debugging) — investigate failing pipelines
 - [Performance Analysis](/prompts/advanced/chain-of-thought-performance-analysis) — uncover latency or RU spikes
+- [Detailed Guide](/prompts/advanced/chain-of-thought-guide) — comprehensive CoT reference
+
+### Verification & Self-Critique
+
+- [Chain-of-Verification (CoVe)](/prompts/advanced/CoVe) — reduce hallucinations through fact-checking
+- [Reflection Self-Critique](/prompts/advanced/reflection-self-critique) — iterative improvement patterns
 
 ### Tree-of-Thoughts Library
+
 - [Template](/prompts/advanced/tree-of-thoughts-template) — plug-and-play branching structure
 - [Architecture Evaluator](/prompts/advanced/tree-of-thoughts-architecture-evaluator)
 - [Evaluator + Reflection](/prompts/advanced/tree-of-thoughts-evaluator-reflection)
 
 ### Knowledge Retrieval & Agents
-- [RAG Document Retrieval](/prompts/advanced/rag-document-retrieval)
-- [React Knowledge Base Research](/prompts/advanced/react-knowledge-base-research)
-- [React Tool Augmented](/prompts/advanced/react-tool-augmented)
 
-### Library Operations
-- [Prompt Library](/prompts/advanced/library)
-- [Library Analysis (React)](/prompts/advanced/library-analysis-react)
+- [RAG Document Retrieval](/prompts/advanced/rag-document-retrieval)
+- [ReAct Knowledge Base Research](/prompts/advanced/react-knowledge-base-research)
+- [ReAct Tool Augmented](/prompts/advanced/react-tool-augmented)
+- [ReAct Doc Search Synthesis](/prompts/advanced/react-doc-search-synthesis)
+
+### Research & Meta
+
+- [Advanced Technique Researcher](/prompts/advanced/advanced-technique-research) — deep research on prompting methods
+- [Library Analysis (ReAct)](/prompts/advanced/library-analysis-react)
 - [Prompt Library Refactor](/prompts/advanced/prompt-library-refactor-react)
 
 ---
