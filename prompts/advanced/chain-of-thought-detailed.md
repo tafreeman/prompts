@@ -2,6 +2,7 @@
 title: "Chain-of-Thought: Detailed Mode"
 shortTitle: "CoT Detailed Mode"
 intro: "A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations and justifications."
+category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "reasoning"
   - "problem-solving"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "requires-human-review"
@@ -112,6 +114,17 @@ Format your response as:
 - `[PROVIDE_COMPREHENSIVE_CONTEXT]`: Full background, history, constraints, stakeholders, prior attempts
 - `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria and acceptance conditions
 - `[LIST_CONSTRAINTS_AND_REQUIREMENTS]`: Budget, time, technical, organizational, compliance constraints
+
+---
+
+## Usage
+
+To use this prompt:
+1. Copy the prompt template from the "## Prompt" section above
+2. Replace all bracketed placeholders with your comprehensive information
+3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+4. Allow adequate time for the detailed analysis
+5. Review each step carefully, including alternatives considered and assumptions made
 
 ---
 

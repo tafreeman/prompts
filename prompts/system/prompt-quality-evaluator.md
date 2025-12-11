@@ -2,6 +2,7 @@
 title: "Prompt Quality Evaluator: Meta-Evaluation with Reflection"
 shortTitle: "Prompt Quality Evaluator"
 intro: "A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique."
+category: "system"
 type: "reference"
 difficulty: "advanced"
 audience:
@@ -16,8 +17,9 @@ topics:
   - "quality-assessment"
   - "meta-prompt"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-25"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "general-use"
@@ -425,10 +427,21 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
-```text
+```
 
 ---
 
+## Usage
+
+To use this prompt evaluator:
+1. Copy the Phase 1 and Phase 2 prompts from the "## Prompt" section above
+2. Replace `[PASTE_PROMPT_CONTENT_HERE]` with the complete content of the prompt you want to evaluate
+3. Replace `[REPOSITORY_NAME]`, `[PLATFORMS]`, and `[AUDIENCE]` with relevant context
+4. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+5. Review the evaluation scores and recommendations
+6. Use the reflection phase to validate the evaluation quality
+
+---
 
 ## Tips
 
