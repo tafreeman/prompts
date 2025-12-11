@@ -58,35 +58,7 @@ Provide:
 5. Team transition plan
 6. Post-project evaluation
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[deliverables]`: Deliverables
-- `[lessons]`: Lessons
-- `[project_name]`: Project Name
-- `[satisfaction]`: Satisfaction
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[project_name]: Corporate Website Redesign v3.0
-[deliverables]: New Site Live (Done), CMS Training (Done), SEO Audit (Done), Analytics Setup (Done)
-[satisfaction]: Client NPS 9/10 ("Love the design"), but complained about SEO report being 2 days late
-[lessons]: Content migration took 2x longer than estimated due to unstructured legacy data
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -111,12 +83,10 @@ Provide:
 
 [... continues with handover and team transition ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

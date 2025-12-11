@@ -147,44 +147,7 @@ Brief explanation of your search strategy and how you arrived at the answer
 5. Be explicit about search refinements
 6. Acknowledge gaps in available documentation
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[USER_QUESTION]`: The research question requiring document search and synthesis
-- `[BACKGROUND_INFORMATION]`: Context about what the user is trying to accomplish
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an AI research assistant using the ReAct (Reasoning + Acting) pattern for document search and synthesis.
-
-**Research Question**: What is our complete onboarding process for new enterprise customers, including technical setup, training, and compliance requirements?
-
-**Context**: 
-- Sales team needs comprehensive onboarding documentation
-- New enterprise customer signed yesterday (Fortune 500 company)
-- Need to coordinate across multiple teams (IT, Training, Legal, Support)
-- Customer has strict data residency and compliance requirements
-
-**Available Search Tools**:
-[As described above]
-
-**Instructions**:
-[As specified above]
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -487,14 +450,10 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 - Fetch Doc_T022 (SSO/SAML Integration Guide) for technical team
 - Review Doc_D004 (Data Migration Planning) if customer has existing data to migrate
 - Fetch Doc_M003 (Success Metrics) to understand how success will be measured post-onboarding
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Strategic search**: Start broad, then narrow based on what you find
@@ -529,12 +488,8 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 3. Fetch full document → See references
 4. Keyword search for specific terms → Get details
 5. Synthesize complete answer
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ### Pattern 2: Keyword-then-Expand
 
 ```text
@@ -544,23 +499,7 @@ I started with a broad semantic search for enterprise onboarding, which identifi
 4. Semantic search for concepts → Fill gaps
 5. Synthesize with cross-references
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### Pattern 3: Iterative Refinement
-
-```text
-1. Semantic search → Partial results
-2. Analyze gaps in coverage
-3. Reformulate query based on gaps
-4. Semantic search with refined query
-5. Repeat until comprehensive coverage
-```sql
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ## Output Schema (JSON)
 
 For automation and audit trails:
@@ -601,14 +540,10 @@ For automation and audit trails:
   "documents_retrieved": 8,
   "total_cycles": 4
 }
-<<<<<<< HEAD
-```powershell
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Related Prompts
 
 - [RAG: Document Retrieval and Citation](rag-document-retrieval.md) - Standard RAG pattern
@@ -652,55 +587,8 @@ Follow the Thought → Action → Observation → Synthesis cycle:
 3. Analyze the results
 4. Refine your search based on findings
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-### LangChain RAG with ReAct
-
-```python
-from langchain.agents import initialize_agent, AgentType
-from langchain.tools import Tool
-from langchain.vectorstores import Chroma
-
-# Define search tools
-semantic_search_tool = Tool(
-    name="SemanticSearch",
-    func=lambda q: vectorstore.similarity_search(q, k=5),
-    description="Search documents by semantic similarity"
-)
-
-keyword_search_tool = Tool(
-    name="KeywordSearch",
-    func=lambda q: keyword_index.search(q),
-    description="Search documents by exact keyword match"
-)
-
-fetch_document_tool = Tool(
-    name="FetchDocument",
-    func=lambda id: document_store.get(id),
-    description="Retrieve full document by ID"
-)
-
-# Create ReAct agent
-agent = initialize_agent(
-    tools=[semantic_search_tool, keyword_search_tool, fetch_document_tool],
-    llm=ChatOpenAI(model="gpt-4", temperature=0),
-    agent=AgentType.REACT_DOCSTORE,
-    verbose=True,
-    max_iterations=10
-)
-
-# Run research query
-result = agent.run(
-    "What is our complete onboarding process for enterprise customers?"
-)
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ### Custom ReAct Document Research Pipeline
 
 ```python
@@ -772,26 +660,7 @@ def react_document_research(question, max_cycles=8):
         "total_cycles": len(research_trail)
     }
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-## Error Handling
-
-### No Relevant Documents Found
-
-```text
-**Thought [N]**: My search for "[query]" returned no relevant results. This could mean:
-- The information isn't documented
-- I'm using wrong terminology
-- The documents are restricted/not indexed
-
-**Action [N]**: Let me try a different search strategy with alternative keywords...
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### Contradictory Information
 
 ```text
@@ -804,19 +673,4 @@ I need to:
 2. Look for newer policy documents
 3. Note the contradiction in my final answer
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-### Search Results Too Broad
-
-```text
-**Reflection [N]**: My search returned 50+ documents, which is too broad. I need to:
-- Add filters (date range, document type, department)
-- Use more specific keywords
-- Narrow the semantic query
-<<<<<<< HEAD
 ```sql
-=======
-```sql
->>>>>>> main

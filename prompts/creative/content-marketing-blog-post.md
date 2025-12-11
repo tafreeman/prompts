@@ -78,65 +78,7 @@ Please structure the blog post with:
 
 Make it engaging, valuable, and optimized for both readers and search engines.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[YOUR BLOG TOPIC]`: The main subject of your blog post
-- `[WHO YOU'RE WRITING FOR]`: Your target audience (e.g., small business owners, software developers, fitness enthusiasts)
-- `[PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]`: Choose the appropriate tone
-- `[DESIRED LENGTH]`: Target word count (e.g., 500-800, 1000-1500, 2000+)
-- `[MAIN SEO KEYWORD]`: Primary keyword to rank for
-- `[2-3 RELATED KEYWORDS]`: Supporting keywords to include naturally
-- `[KEY POINT 1-4]`: Main topics or arguments to cover
-- `[GOAL 1-3]`: What you want to achieve with this content
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an expert content marketing writer specializing in creating engaging, SEO-optimized blog posts. Please write a comprehensive blog post based on the following details:
-
-**Topic:** How to Choose the Right Project Management Tool for Small Teams
-**Target Audience:** Small business owners and team leaders with 5-20 employees
-**Tone:** Friendly and practical
-**Word Count:** 1000-1200 words
-**Primary Keyword:** project management tools for small teams
-**Secondary Keywords:** team collaboration software, small business productivity, project tracking
-
-**Key Points to Cover:**
-1. Common project management challenges in small teams
-2. Essential features to look for in a PM tool
-3. How to evaluate options based on team size and budget
-4. Popular tools comparison (brief overview)
-
-**Goals:**
-- Educate small business owners about choosing PM tools
-- Provide actionable selection criteria
-- Build trust as a helpful resource
-
-Please structure the blog post with:
-- Attention-grabbing headline (include primary keyword)
-- Compelling introduction with a hook
-- Clear subheadings (H2, H3) for readability
-- Practical examples or case studies
-- Actionable takeaways
-- Strong conclusion with call-to-action
-- Meta description (150-160 characters, include primary keyword)
-
-Make it engaging, valuable, and optimized for both readers and search engines.
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -335,12 +277,10 @@ The right project management tool won't just organize your tasks—it will free 
 
 *What project management challenges is your small team facing? Share in the comments below, and let's help each other find solutions!*
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Provide specific details about your audience for more targeted content

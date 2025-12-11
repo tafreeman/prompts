@@ -87,14 +87,10 @@ Deliverables
 11. **Success Dashboard:** KPIs, leading indicators, observability requirements, go/no-go gates.
 
 Format output using clear Markdown sections, include tables for roadmap and risks, diagrams as text descriptions, and code/config snippets when referencing pipelines or infrastructure.
-<<<<<<< HEAD
-```text
-=======
 ```markdown
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[system_name]`: Business domain, application portfolio, or platform being modernized
@@ -132,40 +128,9 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 [funding_model]: Stage-gated (Discover, Pilot, Scale) with board oversight, capex to opex shift after FY26
 [success_metrics]: Mainframe cost -40%, zero Sev1 caused by migration, CSAT +10, automation coverage 85%
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Excerpt of Expected Output**
-
-```text
-## Executive Summary
-Atlas Claims modernization accelerates digital intake, removes AS/400 lock-in, and establishes an event-driven backbone.
-
-## Wave Plan
-| Wave | Scope | Approach | Key Risks | Exit Criteria |
-| 0 | Observability + strangler facade | Rehost + wrap | Facade latency | Shadow traffic <50ms |
-| 1 | FNOL + Quote | Refactor to microservices | Dual write consistency | 99% parity in synthetic tests |
-
-## Risk Matrix
-| Risk | Category | Mitigation | Owner |
-| Data loss during cutover | Data | Dual writes, DR drills | Data Lead |
-
-## Sample Pipeline Snippet
-```yaml
-stages:
- - lint
- - contract-tests
- - canary-deploy
-```text
-
-```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Tips
 
 - Detail integration contracts and data classifications so the plan respects compliance and privacy.

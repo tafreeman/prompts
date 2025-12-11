@@ -166,35 +166,7 @@ Return the result in Markdown with these sections:
 
 Now, using the meeting transcript, chat, and context, generate the meeting recap.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[priority_scheme]`: How to categorize action items (e.g., "High/Medium/Low").
-- `[due_date_horizon]`: Suggested timeframe for action items (e.g., "within 2 weeks").
-- `[focus_topics]`: Optional specific topics to emphasize (e.g., "risks", "budget").
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[priority_scheme]: "High/Medium/Low"
-[due_date_horizon]: "within 2 weeks"
-[focus_topics]: "timeline risks and customer impact"
-
-You are my Meeting Recap Assistant working in a Microsoft 365 environment...
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -220,12 +192,10 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 - Should we prepare a public communication in case the GA date shifts to December 12?
 - Do we need additional QA resources to accelerate load testing?
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Tip 1: Run this prompt immediately after the meeting while the context is fresh.

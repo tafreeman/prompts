@@ -117,12 +117,10 @@ Produce a **Markdown Research Report** with the following structure:
 ## 5. Curated Bibliography
 - List the top 5 papers you downloaded and analyzed.
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Variables
 
 - None. This is a static "Deep Research" directive for the Office Agent.

@@ -58,35 +58,7 @@ Include:
 5. Reporting strategy
 6. Action triggers
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[data]`: Data
-- `[frequency]`: Frequency
-- `[objective]`: Objective
-- `[stakeholders]`: Stakeholders
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[objective]: Improve Software Engineering Productivity & Developer Experience (DevEx)
-[stakeholders]: CTO, VP Engineering, Team Leads
-[data]: Jira (Task tracking), GitHub (Code activity), CI/CD Logs (Build times), Officevibe (Surveys)
-[frequency]: Bi-weekly Sprint Reports + Quarterly Executive Review
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -106,12 +78,10 @@ Include:
 
 [... continues with reporting strategy and calculation methods ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

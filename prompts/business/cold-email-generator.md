@@ -76,37 +76,7 @@ Generate:
 
 Keep tone conversational and human. Avoid corporate jargon. Write like a real person, not a marketing email.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[prospect_info]`: Name, title, company, and any relevant context about the prospect
-- `[sender_info]`: Your name, role, and company
-- `[goal]`: What you want to achieve (e.g., "book a 15-min discovery call", "get intro to CTO")
-- `[value_prop]`: The specific value you can provide to this prospect
-- `[hook]`: Personalization detail (recent news, shared connection, content they published)
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Prospect: Sarah Chen, VP of Engineering at Stripe, 500+ person engineering org, recently posted on LinkedIn about challenges scaling their on-call rotation
-My Company/Role: Alex Rivera, Founder of OnCallAI - AI-powered incident management platform
-Goal: Book a 15-minute discovery call
-Value Proposition: Reduce on-call burnout by 60% with AI that auto-triages alerts and drafts runbooks
-Personalization Hook: Her LinkedIn post about "on-call fatigue" and mention of losing two senior engineers who cited burnout
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -160,12 +130,10 @@ Alex
 - **CTA**: Low commitment (15 min) + clear value exchange
 - **P.S.**: Offers alternative if call feels too high-friction
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Research before writing - 5 minutes of LinkedIn stalking beats a generic template

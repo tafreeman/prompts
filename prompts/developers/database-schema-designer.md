@@ -93,47 +93,7 @@ Produce a design package with these sections:
 
 All code blocks must be syntactically valid. Reference relevant standards (e.g., GDPR Article 17) when describing compliance.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[business_summary]`: Short description of product/use case
-- `[requirements]`: Functional needs (features, workflows)
-- `[nfrs]`: Latency, availability, RTO/RPO, backup SLAs
-- `[domains]`: Domain concepts/entities discovered earlier
-- `[workload]`: OLTP/OLAP blend, query shapes, concurrency
-- `[scale]`: Volume forecasts, TPS, growth horizon
-- `[tenancy]`: Tenant isolation rules, partition schemes, data retention
-- `[compliance]`: Regulatory obligations (GDPR, HIPAA, SOC2, PCI)
-- `[integration]`: Downstream systems, CDC, analytics needs
-- `[tech_prefs]`: Preferred DB engines, versions, extensions, tools
-
----
-
-## Example Usage
-
-**Input**
-
-```text
-[business_summary]: OrbitPay is a B2B payments platform processing 12M invoices/year for SaaS vendors.
-[requirements]: Track customers, contracts, invoices, payments, disputes, audit trails for 7 years.
-[nfrs]: <120ms OLTP reads, <300ms writes, 99.95% availability, PITR backups 15 min, encryption at rest + TLS in flight.
-[domains]: Customer, Subscription, Invoice, Payment, Dispute, LedgerEntry.
-[workload]: 90% OLTP API, 10% reporting (materialized views); nightly ETL to Snowflake.
-[scale]: 150K customers, 12M invoices/year, peak 600 TPS writes, 1.5TB hot data, growth 40% YoY.
-[tenancy]: Multi-tenant (tenant_id FK), EU tenants require data residency (separate partition + tablespace).
-[compliance]: SOC2, GDPR (right to erasure), PCI SAQ-D tokenization (no PAN storage), SOX audit trail.
-[integration]: Debezium CDC to Kafka, nightly AWS DMS to Snowflake, webhooks on invoice state changes.
-[tech_prefs]: PostgreSQL 16, pg_partman, Timescale hypertables optional, prefer SQL migrations via Sqitch.
-```sql
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -178,10 +138,8 @@ CREATE INDEX idx_invoice_tenant_status_due
 3. Deploy through Sqitch phases with rollback scripts per step
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
+
 Use the full prompt with your own data to produce the entire package.
 
 ---

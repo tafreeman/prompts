@@ -67,59 +67,7 @@ Provide:
 
 Use tables for architecture comparisons and include Azure Calculator or AWS Pricing estimates.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------||
-| `[app_name]` | Application name, architecture, and scale | "Legacy CRM - Java/Oracle monolith, 5000 concurrent users" |
-| `[current_infra]` | Current hosting environment and stack | "VMware ESXi 7.0, Oracle 11g RAC, F5 load balancer" |
-| `[target_cloud]` | Target cloud provider and services | "Azure App Services, SQL Managed Instance, App Gateway" |
-| `[requirements]` | Business drivers and constraints | "30% cost reduction, 99.9% SLA, 9-month timeline" |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Application: Legacy CRM System - Java 8 Monolith (Spring Framework 4.x)
-- Architecture: 3-tier (Web → App → DB)
-- Users: 5,000 concurrent (peak), 20K total
-- Current Performance: Avg response time 800ms, 95th percentile 2.5s
-- Database: Oracle 11g RAC (2-node cluster, 2TB data)
-- Integrations: Salesforce (REST API), SAP (SOAP), internal LDAP
-
-Current Infrastructure:
-- Hosting: On-premise VMware ESXi 7.0 (3 hosts, 192GB RAM each)
-- App Servers: 6x WebLogic 12c (Oracle JDK 8)
-- Database: Oracle 11g RAC (2-node cluster)
-- Load Balancer: F5 BIG-IP (hardware appliance)
-- Storage: NetApp SAN (10TB provisioned)
-- Network: Cisco ASA firewall, DMZ architecture
-
-Target Cloud: Microsoft Azure
-- Preference: PaaS over IaaS where possible
-- Regions: Primary (East US 2), DR (West US 2)
-
-Business Requirements:
-- Reduce Oracle licensing costs by 30% ($500K/year savings target)
-- Improve availability from 99.5% → 99.9% (4.4 hours → 8.76 hours downtime/year)
-- Enable geo-redundancy for disaster recovery (RPO: 1 hour, RTO: 4 hours)
-- Complete migration in 9 months (Go-Live: Sept 2026)
-- Zero data loss during cutover window
-- Maintain or improve current performance (800ms avg response → \u003c 600ms)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -159,39 +107,8 @@ Business Requirements:
 ### Conceptual Architecture
 
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-┌─────────────────────────────────────────────────────────────┐
-│                   Azure Front Door (Global)                  │
-│              CDN + WAF + DDoS Protection                      │
-└──────────────┬──────────────────────────────┬────────────────┘
-               │                              │
-      ┌────────▼────────┐          ┌─────────▼─────────┐
-      │  East US 2      │          │  West US 2 (DR)   │
-      │  (Primary)      │          │  (Standby)        │
-      └────────┬────────┘          └─────────┬─────────┘
-               │                              │
-      ┌────────▼─────────────────────────────▼───────────┐
-      │     Azure App Service Plan (Premium v3)          │
-      │  - 6x Linux containers (Java 17 + Tomcat 10)     │
-      │  - Auto-scale: 6-12 instances                     │
-      └────────┬──────────────────────────────────────────┘
-               │
-      ┌────────▼─────────────────────────────────────────┐
-      │  Azure SQL Managed Instance (Business Critical)  │
-      │  - 8 vCores, 32GB RAM                            │
-      │  - Geo-replication: East US 2 ↔ West US 2        │
-      │  - Automated backups (PITR: 35 days)             │
-      └──────────────────────────────────────────────────┘
-
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ### Detailed Component Specifications
 
 | Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
@@ -341,22 +258,8 @@ Business Requirements:
 ### Network Segmentation
 
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Service (Private Endpoint)
-                                                                      ↓
-                                                          Azure SQL MI (Private Endpoint)
-                                                                      ↓
-                                                          VNet Service Endpoints → Azure Storage
-
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 **Security Hardening**:
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
 - ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
@@ -452,12 +355,10 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - Notify users: "Migration postponed to next maintenance window (August 1)"
 
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - **Start with Database Assessment First**: 80% of migration failures are database-related (schema incompatibility, performance regression). Run SSMA early (Month 1).
