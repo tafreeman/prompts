@@ -117,8 +117,11 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** [BUG_DESCRIPTION]
 
 **Error Message:**
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 [ERROR_MESSAGE_OR_STACK_TRACE]
 
 ```text
@@ -248,8 +251,13 @@ List steps to verify the fix works:
 2. [step 2]
 3. [step 3]
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[BUG_DESCRIPTION]`: High-level description of the bug (e.g., "User login fails intermittently")
@@ -280,8 +288,12 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 
-```
+<<<<<<< HEAD
+```yaml
+=======
+```text
 
+>>>>>>> main
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
@@ -334,8 +346,11 @@ async function authenticate(req, res, next) {
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -428,8 +443,13 @@ async function verifyToken(token) {
 4. Deploy to production and monitor error rates for 24 hours
 5. Verify authentication error rate drops to <0.01%
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Start broad, narrow down:** Generate multiple hypotheses, then prioritize and test systematically

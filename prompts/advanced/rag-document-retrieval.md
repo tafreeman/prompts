@@ -122,8 +122,14 @@ Relevance Score: [DOC_2_SCORE]
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[USER_QUESTION]`: The specific question to answer using retrieved documents
@@ -170,8 +176,11 @@ Relevance Score: 0.41
 
 **Instructions**:
 [As specified above]
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -211,8 +220,13 @@ The retrieved documents comprehensively cover rate limiting policy, error handli
 - If customer needs >1,000 requests/hour, offer: "Would you like information about upgrading to Enterprise Premium tier?"
 - If they're building automation, suggest: "Would you like code examples for implementing proper retry logic with exponential backoff?"
 - Clarify their specific use case: "What is the total volume of data you need to export, and over what timeframe?"
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Ground firmly**: Never add information not in retrieved documents, even if you "know" it's true
@@ -240,8 +254,11 @@ Metadata to include:
 - Language
 - Last modified date
 - Author (if relevant)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### For Documentation
 
 ```text
@@ -255,8 +272,11 @@ Metadata to include:
 - Section heading hierarchy
 - Version/date
 - URL (if applicable)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### For Logs/Incident Data
 
 ```text
@@ -270,8 +290,11 @@ Metadata to include:
 - Service name
 - Log level
 - Error codes (if present)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ## Retrieval Strategies
 
 ### Semantic Search
@@ -284,8 +307,12 @@ chunks = vector_db.similarity_search(
     k=5,  # Top 5 chunks
     threshold=0.7  # Minimum similarity
 )
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+>>>>>>> main
 ### Hybrid Search
 
 ```python
@@ -295,8 +322,12 @@ keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+>>>>>>> main
 ### Contextual Retrieval
 
 ```python
@@ -306,8 +337,12 @@ previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
-```
+<<<<<<< HEAD
+```sql
+=======
+```json
 
+>>>>>>> main
 ## Output Schema (JSON)
 
 For automation pipelines:
@@ -334,8 +369,14 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
-```
+<<<<<<< HEAD
+```powershell
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: Documents may contain PII. Implement:
@@ -362,8 +403,11 @@ For automation pipelines:
 
 ```text
 @workspace search for rate limiting policy and explain with citations
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### LangChain RAG Implementation
 
 ```python
@@ -387,8 +431,11 @@ qa_chain = RetrievalQA.from_chain_type(
 result = qa_chain({"query": "What is our rate limiting policy?"})
 answer = result["result"]
 sources = result["source_documents"]
-```
+```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Custom RAG Pipeline
 
 ```python
@@ -419,13 +466,21 @@ def rag_answer(question, context=""):
         "sources": chunks,
         "confidence": assess_confidence(response, chunks)
     }
-```
+```text
+<<<<<<< HEAD
+## Related Prompts
+
+- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
+
+---
+=======
+
+---
 
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
-- [RAG: Code Ingestion](rag-code-ingestion.md) - Code-specific RAG patterns
-- [Citation: Quality Framework](rag-citation-framework.md) - Citation best practices
+>>>>>>> main
 
 ## Error Handling
 
@@ -443,8 +498,11 @@ To get a better answer, I would need:
 - [Specific information missing]
 
 Would you like me to search differently, or can you provide more context?"
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Contradictory Information
 
 ```text
@@ -457,8 +515,11 @@ These documents may refer to different contexts:
 - [Possible explanation]
 
 Which scenario applies to your situation? Or would you like me to escalate this documentation discrepancy?"
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### No Relevant Documents Found
 
 ```text
@@ -473,4 +534,8 @@ Would you like me to:
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
-```
+<<<<<<< HEAD
+```text
+=======
+```text
+>>>>>>> main

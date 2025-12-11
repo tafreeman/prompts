@@ -44,7 +44,7 @@ This report documents research findings from five authoritative sources on docum
 ## Research Sources
 
 | Source | URL Pattern | Focus Area | Key Contribution |
-|--------|-------------|------------|------------------|
+| :--- |-------------| :--- |------------------|
 | **Microsoft Learn** | learn.microsoft.com | Content model, frontmatter, versioning | Required metadata schema, learning paths |
 | **GitHub Docs** | docs.github.com | Content types, style guide, structure | `children` arrays, `featuredLinks`, content types |
 | **OpenAI** | platform.openai.com/docs | Prompt patterns, examples | Technique classification, before/after examples |
@@ -56,7 +56,7 @@ This report documents research findings from five authoritative sources on docum
 ## Research Summary Table
 
 | Aspect | Microsoft Learn | GitHub Docs | OpenAI | Anthropic/Claude | AWS | **Recommended** |
-|--------|-----------------|-------------|--------|------------------|-----|-----------------|
+| :--- |-----------------| :--- |--------| :--- |-----| :--- |
 | **Content Types** | conceptual, quickstart, tutorial, how-to, reference, sample | overview, quick_start, tutorial, how_to, reference, rai | guide, reference, cookbook | guide, reference, best-practices | user-guide, developer-guide, API-reference | **6 types** (see below) |
 | **Required Frontmatter** | title, description, author, ms.author, ms.date | title, versions, shortTitle, intro | title, description | title, description | title, services | **title, intro, type, difficulty, audience, platforms** |
 | **Navigation Pattern** | Hub pages, TOC, breadcrumbs | index.md with `children` array | Sidebar, search | Sidebar, categories | Service hierarchy | **index.md per folder with `children`** |
@@ -129,7 +129,7 @@ featuredLinks:
 ```sql
 **Content Types**:
 | Type | Purpose | Structure |
-|------|---------|-----------|
+| :--- |---------| :--- |
 | `overview` | Conceptual understanding | What, why, when |
 | `quick_start` | 15-min first success | Prerequisites → Steps → Next |
 | `tutorial` | End-to-end guided learning | Introduction → Steps → Verification |
@@ -221,7 +221,7 @@ type: conceptual|quickstart|how_to|tutorial|reference|troubleshooting
 ```sql
 **Content Type Definitions**:
 | Type | Purpose | When to Use |
-|------|---------|-------------|
+| :--- |---------| :--- |
 | `conceptual` | Understanding, not doing | Explain what/why/when |
 | `quickstart` | 15-min first success | New user onboarding |
 | `how_to` | Task-focused procedures | "How do I X?" |
@@ -281,7 +281,7 @@ governance_tags:
 
 **Required Quickstarts**:
 | File | Platform | Status |
-|------|----------|--------|
+| :--- |----------| :--- |
 | `get-started/quickstart-copilot.md` | GitHub Copilot | ✅ Exists |
 | `get-started/quickstart-claude.md` | Claude | ❌ Create |
 | `get-started/quickstart-m365.md` | M365 Copilot | ❌ Create |
@@ -345,7 +345,7 @@ modules:
 ```text
 **Initial Tracks**:
 | Track | Duration | Audience |
-|-------|----------|----------|
+| :--- |----------| :--- |
 | `engineer-quickstart` | 4 hours | Junior/Senior Engineers |
 | `architect-depth` | 8 hours | Solution Architects |
 | `functional-productivity` | 2 hours | Business Analysts, PMs |
@@ -538,14 +538,14 @@ topics:
 ## Quick Start
 
 | If you want to... | Start here |
-|-------------------|------------|
+| :--- |------------|
 | Get started quickly | [Quickstart](/get-started/quickstart-copilot) |
 | Understand concepts | [About Prompt Engineering](/concepts/about-prompt-engineering) |
 
 ## By Task
 
 | Task | Prompt |
-|------|--------|
+| :--- |--------|
 | Generate code | [Basic Code Generation](/developers/code-generation/basic) |
 | Debug issues | [Chain-of-Thought Debugging](/advanced/chain-of-thought/debugging) |
 
@@ -605,7 +605,7 @@ date: "2025-11-29"
 ## Variables
 
 | Variable | Description | Required | Example |
-|----------|-------------|----------|---------|
+| :--- |-------------| :--- |---------|
 | `{variable_1}` | What it represents | Yes | `example value` |
 | `{variable_2}` | What it represents | No | `example value` |
 
@@ -645,7 +645,7 @@ date: "2025-11-29"
 **Answer**: 6 types aligned with user intent:
 
 | Type | Purpose | Example |
-|------|---------|---------|
+| :--- |---------| :--- |
 | `conceptual` | Understanding, not doing | "About Prompt Engineering" |
 | `quickstart` | 15-min first success | "Quickstart for Copilot" |
 | `how_to` | Task-focused procedures | "How to Debug with CoT" |
@@ -741,7 +741,7 @@ date: "2025-11-29"
 
 **Risks**:
 | Risk | Mitigation |
-|------|------------|
+| :--- |------------|
 | Migration effort underestimated | Start with pilot folder, measure actual time |
 | Schema too complex | Make most fields optional initially |
 | Learning tracks not used | Measure usage, iterate on content |

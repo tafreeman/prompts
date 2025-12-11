@@ -64,8 +64,14 @@ Provide:
 7. **Crisis Communication Playbook** (If project is at risk)
 
 Format output in structured Markdown with tables for matrices and calendars.
-```
+<<<<<<< HEAD
+```sql
+=======
+```markdown
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "SAP S/4HANA Implementation - Finance & Supply Chain Modules")
@@ -96,8 +102,11 @@ Challenges:
 - CFO demanding weekly ROI metrics and faster go-live (pressure to cut timeline from 18 to 12 months)
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -357,8 +366,13 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 **Improvement Actions**:
 - Survey score: Add more "show, don't tell" demos per warehouse feedback
 - Meeting punctuality: Send Outlook invites with time zone converters for offshore team
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Tailor Messaging to Decision Authority**: Executives want ROI and risk; end users want "What's in it for me?" (WIIFM). Never use the same message for both audiences.
@@ -376,4 +390,7 @@ We're 3 months into our SAP journey! The Finance module blueprint is DONE, and w
 - **[change-management-coordinator](./change-management-coordinator.md)** - For deeper change management playbooks
 - **[risk-management-analyst](./risk-management-analyst.md)** - For quantifying communication risks
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - For structuring communication around sprints
-- **[project-charter-creator](./project-charter-creator.md)** - For initial stakeholder identification
+<<<<<<< HEAD
+- **[project-charter-creator](./business-strategy-analysis.md)** - For initial stakeholder identification
+=======
+>>>>>>> main

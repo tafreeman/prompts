@@ -55,7 +55,7 @@ Accelerate exec updates, knowledge handoffs, and daily communications across the
 ## In This Section
 
 | App | Prompt | Output |
-|-----|--------|--------|
+| :--- |--------| :--- |
 | Outlook | [Email Triage Helper](/prompts/m365/m365-email-triage-helper) | Prioritized inbox with draft responses |
 | Teams/Loop | [Daily Standup Assistant](/prompts/m365/m365-daily-standup-assistant) | Digest with blockers + action requests |
 | Word | [Handover Document Creator](/prompts/m365/m365-handover-document-creator) | SOP + ownership table |

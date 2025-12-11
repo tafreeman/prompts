@@ -155,8 +155,13 @@ Return the result in Markdown:
 
 Now, analyze this data and provide insights for [audience], focusing on [focus_areas]
 if specified.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[audience]`: Who will receive the insights (e.g., "finance leadership").
@@ -175,8 +180,11 @@ if specified.
 [focus_areas]: "revenue trends and regional performance"
 
 You are my Data Insights Assistant working in a Microsoft 365 environment...
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -198,8 +206,13 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - **Line chart**: Show revenue trends over time by region. This will clearly communicate the growth trajectory and highlight APAC's surge and EMEA's stagnation.
 - **Stacked column chart**: Compare total revenue by region and product category for the full 6-month period. This will show both regional distribution and product mix at a glance.
 - **Callout or annotation**: Highlight the LATAM September drop and APAC August spike directly on the charts so executives can quickly see these anomalies and ask follow-up questions.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Tip 1: Use this prompt when preparing data-driven presentations or reports to ensure you're highlighting the right insights.

@@ -57,8 +57,13 @@ Include:
 4. Communication improvement
 5. Conflict resolution
 6. Recognition programs
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[challenges]`: Challenges
@@ -77,8 +82,11 @@ Include:
 [challenges]: High burnout risk, low velocity (missed last 2 sprints), knowledge silos in senior devs
 [goals]: Increase velocity by 20%, reduce bug reopen rate to <5%, improve team morale score
 [dynamics]: 2 senior devs dominate architectural decisions, 3 junior devs hesitant to speak up
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,8 +105,13 @@ Include:
 *   **Purpose:** Connect sprint tasks directly to customer impact metrics in planning meetings.
 
 [... continues with communication and conflict resolution ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

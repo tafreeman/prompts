@@ -82,8 +82,13 @@ Provide:
    - When to walk away vs. when to persist
 
 Format responses as ready-to-use scripts with natural conversational language.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[objection]`: The exact objection the buyer stated (e.g., "Your price is too high", "We're happy with our current vendor")
@@ -104,8 +109,11 @@ Context: Third call, they've completed a successful POC with positive feedback f
 Product/Service: CloudSecure - enterprise security platform with AI-powered threat detection, 24/7 SOC, and compliance automation
 Buyer Persona: CISO at mid-market fintech (500 employees), highly regulated industry, had a breach 18 months ago
 Deal Stage: Negotiation - they want to close this quarter but are playing hardball on price
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -219,8 +227,13 @@ Persist if:
 **Closing Line**:
 
 *"Here's where I'm at: I believe CloudSecure is the right choice for [Company], and I think you do too based on the POC. I can hold this pricing through end of quarter. After that, I can't guarantee the same terms because we're adjusting pricing in Q1. Can we get this across the finish line this week?"*
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Never immediately discount - it signals your initial price wasn't fair

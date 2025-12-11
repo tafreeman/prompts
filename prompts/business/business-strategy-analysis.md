@@ -86,8 +86,13 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[COMPANY NAME]`: Your organization's name
@@ -147,8 +152,11 @@ Please provide:
    - Immediate actions (0-30 days)
    - Short-term priorities (1-3 months)
    - Long-term initiatives (3-12 months)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -291,8 +299,13 @@ Please provide:
 - First enterprise deal: Within 90 days of first hire
 - SMB growth maintained: 25%+ YoY
 - Gross revenue retention: >95% for mid-market accounts
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be as specific as possible about your situation for more tailored advice
@@ -306,5 +319,8 @@ Please provide:
 
 ## Related Prompts
 
-- [Market Research Analysis](market-research-analysis.md)
+<<<<<<< HEAD
+- [Market Research Analysis](competitive-analysis.md)
+=======
+>>>>>>> main
 - [Competitive Analysis Framework](competitive-analysis.md)

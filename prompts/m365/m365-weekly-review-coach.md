@@ -172,8 +172,13 @@ Return the result in Markdown with these sections:
 
 Now, using my activity between [week_start] and [week_end], generate my weekly
 review and recommended focus items for next week.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[week_start]`: Start date of the review period (YYYY-MM-DD or natural language date).
@@ -196,8 +201,11 @@ review and recommended focus items for next week.
 [tone]: "reflective but concise"
 
 You are my Weekly Review Coach working in a Microsoft 365 environment...
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -228,8 +236,13 @@ incident response and began shaping a clearer roadmap.
 - Partner with support to refine and publish the onboarding FAQ updates.
 - Identify one high-impact onboarding improvement that can be delivered within a week.
 - Schedule a short retrospective on the last two onboarding incidents to capture improvements.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Tip 1: Use `[focus_area]` to zoom the review in on a single project or theme when you're overloaded.

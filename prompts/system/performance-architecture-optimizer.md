@@ -59,8 +59,14 @@ Provide:
 4. Load balancing design
 5. Database optimization
 6. Monitoring framework
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[budget]`: Budget
@@ -81,8 +87,11 @@ Provide:
 [targets]: p99 latency < 500ms, 99.99% availability, reduce infrastructure cost by 20%
 [load]: 500k requests/sec peak, 10PB data transfer/month
 [budget]: $200k/month cloud spend limit
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,8 +112,14 @@ Provide:
 *   **L3 (App):** Request coalescing (singleflight pattern) to prevent thundering herd on cache misses.
 
 [... continues with database optimization and monitoring ...]
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

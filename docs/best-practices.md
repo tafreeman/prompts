@@ -111,7 +111,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 1. Clarity & Specificity (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Crystal clear goal, explicit instructions, defined success criteria |
 | 15 | Clear goal, good instructions, some criteria defined |
 | 10 | Understandable but lacks detail |
@@ -121,7 +121,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 2. Structure & Completeness (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | All necessary sections, examples, full documentation |
 | 15 | Most sections present, good examples |
 | 10 | Basic structure, some missing elements |
@@ -131,7 +131,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 3. Usefulness & Reusability (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Solves common problems, highly adaptable |
 | 15 | Useful for specific scenarios, somewhat adaptable |
 | 10 | Limited use cases |
@@ -141,7 +141,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 4. Technical Quality (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Proper reasoning style, structured output, follows best practices |
 | 15 | Good technique, minor issues |
 | 10 | Acceptable quality |
@@ -151,7 +151,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 5. Ease of Use (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Simple to customize, minimal prerequisites, excellent tips |
 | 15 | Easy to use with some guidance needed |
 | 10 | Moderate learning curve |

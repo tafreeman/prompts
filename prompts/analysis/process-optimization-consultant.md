@@ -57,8 +57,13 @@ Include:
 4. Optimization recommendations
 5. Implementation roadmap
 6. Change management
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[issues]`: Issues
@@ -77,8 +82,11 @@ Include:
 [issues]: Takes 2 weeks for new hires to get laptop/email access; 40% dissatisfaction rate
 [stakeholders]: HR Director, IT Service Desk, Hiring Managers
 [metrics]: "Time to Productivity" (Target: Day 1 Access), Ticket Re-open Rate
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,8 +105,13 @@ Include:
 *   **Policy:** Maintain "Buffer Stock" of 5 laptops to eliminate shipping delays.
 
 [... continues with implementation roadmap and change management ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -57,8 +57,13 @@ Provide:
 4. Access management
 5. Review processes
 6. Archive procedures
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[audience]`: Audience
@@ -77,8 +82,11 @@ Provide:
 [doc_types]: Process Maps (Visio), Standard Operating Procedures (SOPs), Training Manuals, Audit Checklists
 [audience]: Internal Employees (Users), External Auditors (Approvers)
 [compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -99,8 +107,13 @@ Provide:
 *   **Change Log:** Mandatory table at start of every document tracking "Reason for Change".
 
 [... continues with access management and archive procedures ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

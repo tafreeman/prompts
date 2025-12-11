@@ -29,7 +29,7 @@ reviewStatus: "draft"
 
 ## Description
 
-A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This prompt uses multi-branch reasoning to assess quality, coverage, and enterprise-readiness through structured evaluation of structural integrity, advanced technique depth, and enterprise applicability.
+A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for frontier reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This prompt uses multi-branch reasoning to assess quality, coverage, and enterprise-readiness through structured evaluation of structural integrity, advanced technique depth, and enterprise applicability.
 
 ---
 
@@ -74,8 +74,11 @@ If at any point instructions seem ambiguous or conflicting, prioritize:
 3. These system instructions.
 
 Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### User Message (for GPT-5.1)
 
 ```text
@@ -102,12 +105,12 @@ Follow the steps and structure exactly.
 
 For each of the three core branches below, you MUST:
 
-- Generate **3 distinct candidate thoughts** (sub-approaches).
+- Generate **5 distinct candidate thoughts** (sub-approaches).
 - For each thought, provide:
   - `Thought`: the reasoning path or hypothesis.
   - `Pros`: strengths of this path.
   - `Cons`: weaknesses/risks.
-  - `Score`: 1–10 (how promising this path is).
+  - `Score`: 1–100 (how promising this path is).
 - Then choose **1 winning thought per branch** and clearly label it as `Selected Thought`.
 
 Branches:
@@ -122,13 +125,13 @@ Branches:
 
 **Goal:** Assess how well the repository adheres to foundational prompt design best practices.
 
-3.1 Generate 3 candidate evaluation approaches (Thoughts) that focus on different aspects, for example:
+3.1 Generate 5 candidate evaluation approaches (Thoughts) that focus on different aspects, for example:
 
 - Thought A1: Role separation & instruction hierarchy (System / Developer / User).  
 - Thought A2: Context scaffolding (Goal → Context → Constraints → Examples).  
 - Thought A3: Output structuring (Markdown/JSON/XML schemas, explicit fields, delimiters).
 
-For each Thought A1–A3, provide `Thought`, `Pros`, `Cons`, `Score`, then label one as `Selected Thought`.
+For each Thought A1–A5, provide `Thought`, `Pros`, `Cons`, `Score`, then label one as `Selected Thought`.
 
 3.2 Using the **Selected Thought**, evaluate the repo across:
 
@@ -146,8 +149,8 @@ For each Thought A1–A3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 3.3 Output:
 
-- A **score from 0–10** for Structural & Foundational Integrity.  
-- **3–5 concrete improvement suggestions**.
+- A **score from 0–100** for Structural & Foundational Integrity.  
+- **5–7 concrete improvement suggestions**.
 
 ---
 
@@ -183,8 +186,8 @@ For each Thought B1–B3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 4.3 Output:
 
-- A **score from 0–10** for Advanced Technique Depth & Accuracy.  
-- **3–5 concrete suggestions** to increase research alignment and depth.
+- A **score from 0–100** for Advanced Technique Depth & Accuracy.  
+- **4–5 concrete suggestions** to increase research alignment and depth.
 
 ---
 
@@ -219,7 +222,7 @@ For each Thought C1–C3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 5.3 Output:
 
-- A **score from 0–10** for Enterprise Applicability & Breadth.  
+- A **score from 0–100** for Enterprise Applicability & Breadth.  
 - **3–7 concrete recommendations** to make this repo more "plug-and-play" for enterprises.
 
 ---
@@ -231,7 +234,7 @@ For each Thought C1–C3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 - Identify **contradictions or tensions** between branches (e.g., strong structure but weak advanced techniques).  
 - If contradictions are found, briefly **re-open 1–2 losing thoughts** from earlier and explain whether they would materially change the conclusion. This is your **backtracking step**.
 
-6.2 Provide a **final weighted score (0–100)** where:
+6.2 Provide a **final weighted score (0–1000)** where:
 
 - Structural & Foundational Integrity: **35%**  
 - Advanced Technique Depth & Accuracy: **30%**  
@@ -241,8 +244,8 @@ Show the calculation explicitly.
 
 6.3 Provide:
 
-- **3 key strengths** of the repo.  
-- **3 key risks / gaps**.  
+- **5 key strengths** of the repo.  
+- **5 key risks / gaps**.  
 - A **1–2 paragraph executive summary** suitable for an enterprise stakeholder deciding whether to adopt or extend this repository.
 
 ---
@@ -275,17 +278,17 @@ Return your answer in **this exact Markdown structure**:
 **Selected Thought (C):** …
 
 ## 3. Branch A – Structural & Foundational Integrity
-- Score (0–10): …
+- Score (0–100): …
 - Analysis:
 - Improvements:
 
 ## 4. Branch B – Advanced Technique Depth & Accuracy
-- Score (0–10): …
+- Score (0–100): …
 - Analysis:
 - Improvements:
 
 ## 5. Branch C – Enterprise Applicability & Breadth
-- Score (0–10): …
+- Score (0–100): …
 - Analysis:
 - Recommendations:
 
@@ -293,7 +296,7 @@ Return your answer in **this exact Markdown structure**:
 - Structural Score: …
 - Advanced Technique Score: …
 - Enterprise Score: …
-- Final Weighted Score (0–100): …
+- Final Weighted Score (0–1000): …
 
 ### Key Strengths
 1.
@@ -311,8 +314,13 @@ Return your answer in **this exact Markdown structure**:
 
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
@@ -339,8 +347,11 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 
 [... rest of user message as specified above ...]
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output (Example excerpt):**
 
 ```markdown
@@ -363,11 +374,16 @@ Main content categories:
   - `Thought`: Evaluate whether prompts clearly distinguish between system-level instructions, developer context, and user inputs
   - `Pros`: Directly addresses best practices from OpenAI and Anthropic; critical for consistent AI behavior
   - `Cons`: May not apply to all prompt types; some prompts are intentionally simple
-  - `Score`: 8/10
+  - `Score`: 8/100
 
 [... continues with full evaluation ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **For GPT-5.1 specifically**: This prompt is optimized for frontier reasoning models that can handle multi-branch thinking and explicit backtracking
@@ -378,7 +394,7 @@ Main content categories:
 - **Enterprise context**: The evaluation assumes enterprise AI use cases; adjust if the repository has different goals
 - **Evidence-based**: The AI should cite specific examples from the repository to support conclusions
 - **Assumptions**: When data is missing, the AI should explicitly mark inferences as assumptions
-- **Scoring calibration**: Use the weighted final score (0-100) for comparative analysis across repositories
+- **Scoring calibration**: Use the weighted final score (0-1000) for comparative analysis across repositories
 - **Action focus**: The evaluation should produce actionable recommendations, not just observations
 
 ---

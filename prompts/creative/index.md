@@ -44,7 +44,7 @@ Unlock creativity and streamline content production with prompts designed for ma
 ## In This Section
 
 | Pattern | When to Use | Representative Prompt |
-|---------|-------------|------------------------|
+| :--- |-------------| :--- |
 | **Content Marketing** | Writing blog posts and articles | [Content Marketing Blog Post](/prompts/creative/content-marketing-blog-post) |
 | **Copywriting** | Creating ads, headlines, and product descriptions | [Ad Copy Generator](/prompts/creative/ad-copy-generator) |
 | **Social Media** | Drafting posts and campaigns | [Social Media Content Generator](/prompts/creative/social-media-content-generator) |

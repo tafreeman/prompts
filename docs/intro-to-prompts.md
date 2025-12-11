@@ -61,7 +61,7 @@ Best regards,
 The quality of your prompt directly affects the quality of the AI's response:
 
 | Prompt Quality | Result Quality |
-|----------------|----------------|
+| :--- |----------------|
 | Vague | Generic, unhelpful responses |
 | Specific | Targeted, useful responses |
 | Well-structured | Organized, professional output |
@@ -202,7 +202,7 @@ Include a call to action to schedule planning meetings this week.
 ### Common Placeholders
 
 | Placeholder | Replace With |
-|-------------|--------------|
+| :--- |--------------|
 | `[YOUR_CODE]` | The code you want reviewed |
 | `[TOPIC]` | The subject you're writing about |
 | `[AUDIENCE]` | Who will read/use the output |
@@ -325,7 +325,7 @@ Ready to learn more?
 ## Glossary
 
 | Term | Definition |
-|------|------------|
+| :--- |------------|
 | **Prompt** | Text input to an AI system |
 | **Placeholder** | Variable in `[BRACKETS]` to be replaced |
 | **Few-shot** | Providing examples to guide output |

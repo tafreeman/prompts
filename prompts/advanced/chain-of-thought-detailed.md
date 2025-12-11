@@ -33,6 +33,15 @@ A comprehensive Chain-of-Thought prompt template that encourages thorough step-b
 
 ---
 
+## Research Foundation
+
+This technique is based on the foundational paper:
+**Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022).** "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 35*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+
+Wei et al. demonstrated that generating a chain of thought—a series of intermediate reasoning steps—significantly improves the ability of large language models to perform complex reasoning. With just eight chain-of-thought exemplars, a 540B-parameter model achieved state-of-the-art accuracy on the GSM8K math benchmark, surpassing even finetuned GPT-3 with a verifier.
+
+---
+
 ## Use Cases
 
 - Complex architectural decisions requiring full justification
@@ -93,8 +102,13 @@ Format your response as:
 - Confidence level (High/Medium/Low) with justification
 - Recommended next steps
 - Potential refinements or follow-up questions
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The complete problem statement with all relevant details
@@ -138,8 +152,11 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Instructions**:
 [Detailed instructions as shown above]
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -373,8 +390,14 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
@@ -399,7 +422,11 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
-- [Reflection: Evaluator](reflection-evaluator.md) - For critiquing detailed reasoning
+<<<<<<< HEAD
+
+---
+=======
+>>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -436,8 +463,14 @@ For automation pipelines, request output in this format:
     "potential_refinements": ["...", "..."]
   }
 }
-```
+<<<<<<< HEAD
+```powershell
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -455,8 +488,11 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### API Integration
 
 ```python
@@ -469,4 +505,8 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-```
+<<<<<<< HEAD
+```text
+=======
+```text
+>>>>>>> main

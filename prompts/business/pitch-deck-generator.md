@@ -86,8 +86,14 @@ Generate a complete pitch deck with:
    - Call to action
 
 Format output as a structured deck outline with clear slide separators.
-```
+<<<<<<< HEAD
+```powershell
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[company_name]`: Company or product name and brief description
@@ -114,8 +120,11 @@ Supporting Data:
 - NPS: 72
 - Average contract value: $48K/year
 Ask: $8M Series A at $40M pre-money valuation
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -308,8 +317,13 @@ Ask: $8M Series A at $40M pre-money valuation
 - Technical architecture diagram
 - Full financials and unit economics
 - Team bios with LinkedIn links
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Lead with the problem, not your solution - investors invest in markets, not products

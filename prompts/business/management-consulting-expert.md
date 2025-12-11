@@ -58,8 +58,13 @@ Deliver:
 4. Recommendation
 5. Implementation plan
 6. Change management
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[challenge]`: Challenge
@@ -80,8 +85,11 @@ Deliver:
 [industry]: Food & Beverage / FMCG
 [stakeholders]: CMO, VP Innovation, Board of Directors
 [criteria]: Identify $100M growth opportunity executable within 18 months
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,8 +108,13 @@ Deliver:
 *   **Target:** Acquire a high-growth indie brand ($20M-$50M revenue) with authentic "Clean Label" credentials.
 
 [... continues with implementation plan and change management ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

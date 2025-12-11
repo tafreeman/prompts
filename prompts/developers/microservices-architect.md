@@ -147,8 +147,13 @@ When responding, follow this structure (use Markdown headings):
  - Outstanding decisions, experiments, stakeholder approvals needed
 
 Output must be thorough, cite relevant standards, and reference ADR IDs for every decision.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -183,8 +188,11 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 [team_structure]: 6 stream-aligned squads (Catalog, Pricing, Checkout, Fulfillment, Experience, Platform) + 1 enabling DevX team.
 [migration_context]: Strangler fig around checkout/payment first; co-exist with monolith for 12 months.
 [governance]: Architecture Review Board approval required; ADRs stored in Notion; SOC2 & PCI quarterly audits.
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -217,8 +225,12 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 - Eventual consistency acceptable for promotions updates (<5s)
 
 ... (remaining sections)
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+>>>>>>> main
 Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
 
 ---
@@ -271,8 +283,13 @@ What is the change we're proposing and/or doing?
 
 ## Consequences
 What becomes easier or harder because of this decision?
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Related Prompts
 
 - `api-design-consultant`

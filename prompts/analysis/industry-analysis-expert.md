@@ -57,8 +57,13 @@ Include:
 4. Trends and drivers
 5. Future outlook
 6. Strategic recommendations
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[industry]`: Industry
@@ -77,8 +82,11 @@ Include:
 [scope]: North America, Public Charging Stations (Level 2 & DC Fast)
 [questions]: "Will Tesla's NACS standard dominate?" "How will NEVI funding impact deployment?"
 [stakeholders]: Utility Companies, Auto OEMs, Infrastructure Investors
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,8 +105,13 @@ Include:
 *   **Prediction:** 40% of smaller CPOs (Charge Point Operators) will be acquired by 2026.
 
 [... continues with strategic recommendations ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

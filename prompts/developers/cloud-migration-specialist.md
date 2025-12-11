@@ -66,8 +66,13 @@ Provide:
 6. **Performance Validation** (Load testing, disaster recovery, SLA targets)
 
 Use tables for architecture comparisons and include Azure Calculator or AWS Pricing estimates.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -110,8 +115,11 @@ Business Requirements:
 - Complete migration in 9 months (Go-Live: Sept 2026)
 - Zero data loss during cutover window
 - Maintain or improve current performance (800ms avg response → \u003c 600ms)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -150,8 +158,11 @@ Business Requirements:
 
 ### Conceptual Architecture
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ┌─────────────────────────────────────────────────────────────┐
 │                   Azure Front Door (Global)                  │
 │              CDN + WAF + DDoS Protection                      │
@@ -175,8 +186,12 @@ Business Requirements:
       │  - Automated backups (PITR: 35 days)             │
       └──────────────────────────────────────────────────┘
 
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+>>>>>>> main
 ### Detailed Component Specifications
 
 | Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
@@ -325,16 +340,23 @@ Business Requirements:
 
 ### Network Segmentation
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Service (Private Endpoint)
                                                                       ↓
                                                           Azure SQL MI (Private Endpoint)
                                                                       ↓
                                                           VNet Service Endpoints → Azure Storage
 
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+>>>>>>> main
 **Security Hardening**:
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
 - ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
@@ -429,8 +451,13 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - Re-enable Oracle 11g writes (remove read-only mode)
 - Notify users: "Migration postponed to next maintenance window (August 1)"
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Start with Database Assessment First**: 80% of migration failures are database-related (schema incompatibility, performance regression). Run SSMA early (Month 1).

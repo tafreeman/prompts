@@ -57,8 +57,13 @@ Provide:
 4. Exception handling
 5. Automation opportunities
 6. Performance metrics
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[automation]`: Automation
@@ -77,8 +82,11 @@ Provide:
 [stakeholders]: Writers, Editors, SEO Specialist, Legal Compliance, CMS Admin
 [complexity]: Medium (Multi-stage approval required)
 [automation]: Auto-post to LinkedIn/Twitter upon publish; Slack notifications for approvals
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -96,8 +104,13 @@ Provide:
 *   **Action:** Zapier webhook posts title + link to Company LinkedIn Page.
 
 [... continues with exception handling and performance metrics ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -65,7 +65,7 @@ This comprehensive analysis identifies **15 significant issues** across the repo
 The main README.md references **5 documentation files that do not exist**:
 
 | Referenced Path | Status | Impact |
-|-----------------|--------|--------|
+| :--- |--------| :--- |
 | `docs/getting-started.md` | ❌ Missing | Blocks first-time users |
 | `docs/best-practices.md` | ❌ Missing | No best practices guidance |
 | `docs/advanced-techniques.md` | ❌ Missing | No learning path |
@@ -89,7 +89,7 @@ $ grep -r "docs/getting-started.md" --include="*.md" | wc -l
 The README "Repository Structure" section describes components that don't exist:
 
 | Described | Status | Notes |
-|-----------|--------|-------|
+| :--- |--------| :--- |
 | `src/app.py` (Flask application) | ❌ Missing | No web application exists |
 | `src/templates/` | ❌ Missing | No HTML templates |
 | `src/static/` | ❌ Missing | No static assets |
@@ -120,7 +120,7 @@ ls: cannot access 'deployment': No such file or directory
 Analysis of 126 prompts shows fragmented metadata adoption:
 
 | Field | Usage | Expected |
-|-------|-------|----------|
+| :--- |-------| :--- |
 | `title`, `category`, `tags`, `author`, `version`, `date`, `difficulty`, `platform` | 100% | ✅ Good |
 | `governance_tags` | 21% | Should be standardized |
 | `data_classification`, `risk_level` | 11% | Should be standardized |
@@ -216,7 +216,7 @@ Error calling gemini-1.5-pro: GOOGLE_API_KEY environment variable not set
 **Top 5 longest prompts**:
 
 | File | Lines | Words |
-|------|-------|-------|
+| :--- |-------| :--- |
 | `advanced/react-doc-search-synthesis.md` | 758 | 3,497 |
 | `governance/security-incident-response.md` | 735 | 3,657 |
 | `analysis/data-analysis-insights.md` | 607 | 3,202 |
@@ -332,7 +332,7 @@ These may be intentionally concise, but should be marked as "minimal" or "stub".
 ### Size Metrics
 
 | Metric | Count |
-|--------|-------|
+| :--- |-------|
 | Total directories | 76 |
 | Total files | 282 |
 | Markdown files | 204 |
@@ -342,7 +342,7 @@ These may be intentionally concise, but should be marked as "minimal" or "stub".
 ### Prompt Metrics
 
 | Metric | Value |
-|--------|-------|
+| :--- |-------|
 | Average prompt length | 200 lines |
 | Average prompt words | 958 words |
 | Shortest prompt | 82 lines |
@@ -387,7 +387,7 @@ Running the validator on all prompts:
 ### Documentation Cleanup
 
 | Missing Doc | Recommendation |
-|-------------|----------------|
+| :--- |----------------|
 | `docs/getting-started.md` | Create with browser-only quickstart |
 | `docs/best-practices.md` | Extract from `ultimate-prompting-guide.md` |
 | `docs/intro-to-prompts.md` | Create beginner-friendly intro |
