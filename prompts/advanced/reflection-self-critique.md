@@ -40,6 +40,15 @@ The Reflection pattern involves generating an initial answer and then systematic
 
 ---
 
+## Research Foundation
+
+This technique builds upon iterative refinement research:
+**Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao, L., Wiegreffe, S., Alon, U., et al. (2023).** "Self-Refine: Iterative Refinement with Self-Feedback." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651)
+
+Madaan et al. demonstrated that a single LLM can serve as generator, refiner, and feedback provider, achieving ~20% absolute improvement across diverse tasks through iterative self-feedback—without requiring supervised training data or reinforcement learning.
+
+---
+
 ## Use Cases
 
 - Critical business decisions requiring validation

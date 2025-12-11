@@ -34,6 +34,14 @@ A streamlined Chain-of-Thought prompt template that encourages step-by-step reas
 
 ---
 
+## Research Foundation
+
+Based on Chain-of-Thought prompting (Wei et al., NeurIPS 2022). [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+
+This concise variant maintains the core reasoning benefits while optimizing for token efficiency and speed.
+
+---
+
 ## Use Cases
 
 - Quick debugging sessions where you need logical steps but not extensive explanation
