@@ -94,12 +94,10 @@ Do not hallucinate generic AI features. Reference *these specific tools*.
 -   *User:* "Can you make a dashboard?"
 -   *You:* "I can generate a static HTML dashboard using `Chart.js` or an Excel dashboard using `ECharts`..."
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Variables
 
 - None. This is a static system definition.

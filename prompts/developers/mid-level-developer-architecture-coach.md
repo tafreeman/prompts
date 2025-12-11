@@ -60,29 +60,7 @@ Please guide me by:
 
 Tone: Encouraging, insightful, pragmatic (avoiding over-engineering).
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[scenario]`: The specific problem, design choice, or concept the developer is struggling with.
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Scenario: I'm building a notification system. Should I just call the Email Service directly from my Order Service, or use a Message Queue? The direct call seems so much simpler, but everyone says "use queues".
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -115,24 +93,5 @@ For a critical "Order Confirmation", **start with a Queue** (or at least a backg
 - *Enterprise Integration Patterns* (Gregor Hohpe) - specifically "Asynchronous Messaging".
 - *Designing Data-Intensive Applications* (Kleppmann) - Chapter on Messaging.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Tips
-
-- Use this prompt to "rubber duck" architectural ideas before proposing them to your team.
-- Ask the coach to challenge your assumptions ("Play Devil's Advocate").
-- Focus on *context*—there is rarely a single "right" answer in architecture.
-
----
-
-## Related Prompts
-
-<<<<<<< HEAD
-- [system-design-interviewer](./microservices-architect.md)
-=======
->>>>>>> main
 - [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)

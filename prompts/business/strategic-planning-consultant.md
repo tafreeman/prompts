@@ -60,37 +60,7 @@ Provide:
 5. Success metrics
 6. Risk mitigation
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[challenges]`: Challenges
-- `[industry]`: Industry
-- `[objectives]`: Objectives
-- `[organization]`: Organization
-- `[timeframe]`: Timeframe
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[organization]: "ShopMart" (Mid-sized Retail Chain, 50 stores)
-[industry]: Retail / E-commerce
-[challenges]: Declining foot traffic (-10% YoY), fierce competition from Amazon, aging loyalty program
-[objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
-[timeframe]: 3 Years (2025-2028)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -112,12 +82,10 @@ Provide:
 
 [... continues with implementation roadmap and success metrics ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

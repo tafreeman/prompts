@@ -58,35 +58,7 @@ Provide:
 5. Resistance management
 6. Success measurement
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[groups]`: Groups
-- `[initiative]`: Initiative
-- `[organization]`: Organization
-- `[resistance]`: Resistance
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[organization]: Global Manufacturing Co. (Engineering Division)
-[initiative]: Agile Transformation (Waterfall to Scrum)
-[groups]: Engineering (500 staff), Product Mgmt (50 staff), QA (100 staff)
-[resistance]: Middle management fears loss of control; Senior engineers skeptical of "meetings overhead"
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -106,12 +78,10 @@ Provide:
 
 [... continues with training plan and resistance management ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

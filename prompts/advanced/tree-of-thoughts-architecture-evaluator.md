@@ -314,41 +314,7 @@ Based on the analysis, select the best option:
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
-- `[EXISTING_ARCHITECTURE_OR_GREENFIELD]`: Current system (if any) or "greenfield"
-- `[FUNCTIONAL_REQUIREMENT_X]`: Core features or capabilities needed
-- `[SCALABILITY_REQUIREMENTS]`: Expected traffic, growth projections
-- `[LATENCY_THROUGHPUT_TARGETS]`: Performance SLOs
-- `[UPTIME_REQUIREMENTS]`: Availability targets (e.g., 99.9%)
-- `[SECURITY_COMPLIANCE_NEEDS]`: Regulatory or security requirements
-- `[TEAM_SIZE_SKILL_LEVEL]`: Team composition and experience
-- `[BUDGET_CONSTRAINTS]`: Cost limits
-- `[DELIVERY_DEADLINE]`: Timeline
-- `[REGULATORY_REQUIREMENTS]`: Compliance needs (GDPR, HIPAA, etc.)
-- `[EXISTING_TECH_STACK_INTEGRATIONS]`: Must-use or must-avoid technologies
-- `[ANY_OTHER_RELEVANT_INFO]`: Additional context
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:** (abbreviated)
 
 ```markdown
@@ -423,12 +389,10 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach

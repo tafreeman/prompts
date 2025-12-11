@@ -59,35 +59,7 @@ Include:
 5. Bridging strategy
 6. Implementation roadmap
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[area]`: Area
-- `[constraints]`: Constraints
-- `[current_state]`: Current State
-- `[desired_state]`: Desired State
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[current_state]: Manual inventory tracking in Excel; Stock counts updated once/week
-[desired_state]: Real-time automated inventory management; <1% stockout rate
-[area]: Supply Chain Operations
-[constraints]: Budget < $50k, Must integrate with Shopify
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -107,12 +79,10 @@ Include:
 
 [... continues with impact analysis and roadmap ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

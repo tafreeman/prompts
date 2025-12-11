@@ -176,40 +176,7 @@ Return the result in Markdown with the following sections:
 Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
 If anything critical is unclear, ask clarifying questions first, then provide the final output.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[time_window]`: How far back to consider activity (e.g., "24 hours", "since yesterday’s standup").
-- `[team_or_project_name]`: Name of the team or project the standup is for (e.g., "Payments Platform Squad").
-- `[max_bullets_per_section]`: Maximum number of bullets for Yesterday, Today, and Blockers (e.g., 3 or 5).
-- `[focus_topics]`: Optional list of themes to emphasize (e.g., "customer incidents, performance issues, dependencies").
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are my Daily Standup Assistant working in a Microsoft 365 environment.
-
-[time_window]: "24 hours"
-[team_or_project_name]: "Customer Onboarding Squad"
-[max_bullets_per_section]: "3"
-[focus_topics]: "production incidents, customer escalations"
-
-Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
-If anything critical is unclear, ask clarifying questions first, then provide the final output.
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -231,12 +198,10 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 - Can anyone help expedite the security review for the API change?
 - Are there additional customer examples we should review in today’s incident sync?
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Tip 1: Adjust `[time_window]` (e.g., "48 hours" or "since last Friday") if you missed a standup or had an unusually busy period.

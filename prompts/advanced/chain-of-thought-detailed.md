@@ -2,6 +2,7 @@
 title: "Chain-of-Thought: Detailed Mode"
 shortTitle: "CoT Detailed Mode"
 intro: "A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations and justifications."
+category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "reasoning"
   - "problem-solving"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "requires-human-review"
@@ -102,19 +104,27 @@ Format your response as:
 - Confidence level (High/Medium/Low) with justification
 - Recommended next steps
 - Potential refinements or follow-up questions
-```text
-<<<<<<< HEAD
-=======
+```
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The complete problem statement with all relevant details
 - `[PROVIDE_COMPREHENSIVE_CONTEXT]`: Full background, history, constraints, stakeholders, prior attempts
 - `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria and acceptance conditions
 - `[LIST_CONSTRAINTS_AND_REQUIREMENTS]`: Budget, time, technical, organizational, compliance constraints
+
+---
+
+## Usage
+
+To use this prompt:
+1. Copy the prompt template from the "## Prompt" section above
+2. Replace all bracketed placeholders with your comprehensive information
+3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+4. Allow adequate time for the detailed analysis
+5. Review each step carefully, including alternatives considered and assumptions made
 
 ---
 
@@ -152,11 +162,8 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Instructions**:
 [Detailed instructions as shown above]
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -390,14 +397,10 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
-<<<<<<< HEAD
-```sql
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **When to use Detailed CoT**: Use for high-stakes decisions, novel problems, teaching contexts, or when stakeholders need to understand full reasoning.
@@ -422,11 +425,8 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 - [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quicker reasoning
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
-<<<<<<< HEAD
 
 ---
-=======
->>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -463,14 +463,10 @@ For automation pipelines, request output in this format:
     "potential_refinements": ["...", "..."]
   }
 }
-<<<<<<< HEAD
-```powershell
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -488,11 +484,8 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [complex-issue] using detailed chain-of-thought reasoning. Include alternatives considered and risks for each step.
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 ### API Integration
 
 ```python
@@ -505,8 +498,4 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-<<<<<<< HEAD
-```text
-=======
-```text
->>>>>>> main
+```

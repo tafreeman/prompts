@@ -58,35 +58,7 @@ Include:
 5. Review and approval workflows
 6. Continuous improvement
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[deliverables]`: Deliverables
-- `[project_name]`: Project Name
-- `[standards]`: Standards
-- `[testing]`: Testing
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[project_name]: Mobile Banking App v2.0
-[standards]: ISO 25010 (Software Quality), WCAG 2.1 AA (Accessibility), PCI-DSS (Security)
-[deliverables]: Test Plan, Defect Report, UAT Sign-off, Security Audit Certificate
-[testing]: Functional, Security (Pen Test), Performance (Load Test), Accessibility Audit
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -108,12 +80,10 @@ Include:
 
 [... continues with metrics and continuous improvement ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

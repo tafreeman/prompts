@@ -2,6 +2,7 @@
 title: "Chain-of-Thought: Concise Mode"
 shortTitle: "CoT Concise Mode"
 intro: "A concise Chain-of-Thought prompt template for efficient step-by-step reasoning when detailed explanations aren't needed."
+category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "reasoning"
   - "problem-solving"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "general-use"
@@ -75,18 +77,25 @@ Format your response as:
 **Final Answer**: [Concise conclusion based on the steps above]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```text
-<<<<<<< HEAD
-=======
+```
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The specific problem, question, or task you need to solve
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
+
+---
+
+## Usage
+
+To use this prompt:
+1. Copy the prompt template from the "## Prompt" section above
+2. Replace the bracketed placeholders with your specific information
+3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+4. Review the step-by-step reasoning and final answer
 
 ---
 
@@ -115,11 +124,8 @@ Format your response as:
 **Final Answer**: [Concise conclusion]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -132,14 +138,10 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 **Step 4**: Check for missing connection.close() in error handlers or transactions left open. Also profile queries running during 9-11 AM for slow performers.
 
 **Final Answer**: Root cause is likely connection leak (unreleased connections in error paths) or slow queries accumulating during peak. Immediate actions: (1) audit connection handling in all error paths, (2) add connection timeout monitoring, (3) profile queries during peak hours. Quick win: reduce connection timeout from default to 5 seconds.
-<<<<<<< HEAD
-```sql
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **When to use Concise CoT**: Use when you need reasoning transparency but not extensive justification. Ideal for experienced audiences who can fill in obvious steps.
@@ -166,24 +168,18 @@ Think through this in bullet steps:
 • [Key insight 2]
 • [Key insight 3]
 → Conclusion: [Final answer]
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 ### Numbered Steps with Confidence
 
 ```text
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
-```text
-<<<<<<< HEAD
-=======
+```
 
 ---
 
->>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems requiring elaboration
@@ -208,14 +204,10 @@ For automation pipelines, request output in this format:
   "assumptions": ["...", "..."],
   "next_steps": ["...", "..."]
 }
-<<<<<<< HEAD
-```powershell
-=======
-```text
+```
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: This template doesn't inherently process PII. Ensure your task description and context don't include sensitive data.
@@ -231,11 +223,8 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [your-code-or-issue] using concise chain-of-thought reasoning
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 ### API Integration
 
 ```python
@@ -246,8 +235,4 @@ response = client.chat.completions.create(
         {"role": "user", "content": f"Task: {task}\nThink step-by-step (concise mode)"}
     ]
 )
-<<<<<<< HEAD
-```text
-=======
-```json
->>>>>>> main
+```

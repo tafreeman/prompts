@@ -58,35 +58,7 @@ Include:
 5. Governance model
 6. Success metrics
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[capabilities]`: Capabilities
-- `[goals]`: Goals
-- `[opportunities]`: Opportunities
-- `[organization]`: Organization
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[organization]: Automotive Tier 1 Supplier (Traditional Powertrain)
-[goals]: Transition revenue mix from 90% ICE (Internal Combustion) to 50% EV (Electric Vehicle) by 2030
-[capabilities]: Strong mechanical engineering, world-class manufacturing; Weak software/electronics
-[opportunities]: Battery Management Systems (BMS), Thermal Management for EVs
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -107,12 +79,10 @@ Include:
 
 [... continues with governance and success metrics ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -99,38 +99,7 @@ Generate comprehensive documentation for:
 - Add "Note:", "Warning:", and "Tip:" callouts
 - Provide estimated time for each tutorial section
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `[project_name]` | Full name of the project or product being documented | "PayFast Payment Gateway SDK", "Acme User Auth Service" |
-| `[audience]` | Primary readers and their technical level | "External developers (API integrators)", "Internal team (juniors)" |
-| `[doc_type]` | Type of documentation to generate | "API Reference", "Integration Guide", "Quick Start", "Full SDK Docs" |
-| `[tech_details]` | Technical stack, protocols, and key features | "REST API, OAuth 2.0, Webhooks, Rate limits: 100/min" |
-| `[languages]` | Programming languages for code examples | "Python, JavaScript, Java, cURL" |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[project_name]: "PayFast" Payment Gateway SDK
-[audience]: External Developers (Integrators)
-[doc_type]: API Reference & Integration Guide
-[tech_details]: REST API, OAuth 2.0, Webhooks, Idempotency keys, Rate limits
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -155,56 +124,9 @@ Generate comprehensive documentation for:
 
 [... continues with setup instructions and contributing ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
-## Tips
-
-### Documentation Type Selection
-- **API Reference**: Focus on completeness—every endpoint, parameter, and response
-- **Integration Guide**: Focus on the "happy path" first, then edge cases
-- **Quick Start**: Ruthlessly cut—5 minutes to first success
-- **Full SDK Docs**: Combine all types with clear navigation
-
-### Audience Adaptation
-| Audience | Adjust |
-|----------|--------|
-| **External Developers** | Assume no internal context, explain all terminology |
-| **Internal Team (Juniors)** | Include "why" explanations, link to learning resources |
-| **Enterprise Clients** | Add security, compliance, and SLA information |
-| **Open Source Contributors** | Emphasize architecture, development setup, PR process |
-
-### Quality Checklist
-- [ ] Can someone complete the tutorial without asking questions?
-- [ ] Are all code examples tested and working?
-- [ ] Is the troubleshooting guide based on real support tickets?
-- [ ] Are version numbers and deprecations clearly marked?
-
-### Diátaxis Framework Reference
-```text
-                    PRACTICAL                 THEORETICAL
-                         │                         │
-LEARNING      ┌──────────┴──────────┐   ┌─────────┴─────────┐
-ORIENTED      │     TUTORIALS       │   │   EXPLANATION      │
-              │  (Learning-oriented)│   │ (Understanding-    │
-              │                     │   │  oriented)         │
-              └─────────────────────┘   └────────────────────┘
-                         │                         │
-WORKING       ┌──────────┴──────────┐   ┌─────────┴─────────┐
-ORIENTED      │    HOW-TO GUIDES    │   │    REFERENCE       │
-              │ (Problem-oriented)  │   │ (Information-      │
-              │                     │   │  oriented)         │
-              └─────────────────────┘   └────────────────────┘
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Related Prompts
 
 - Browse other Developer prompts in this category
