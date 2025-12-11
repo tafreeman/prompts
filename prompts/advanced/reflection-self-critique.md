@@ -2,6 +2,7 @@
 title: "Reflection: Initial Answer + Self-Critique"
 shortTitle: "Reflection Self-Critique"
 intro: "A two-phase reflection pattern that generates an initial answer and systematically critiques it to improve quality and accuracy."
+category: "advanced"
 type: "how_to"
 difficulty: "advanced"
 audience:
