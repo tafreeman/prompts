@@ -62,14 +62,13 @@ This guide synthesizes best practices from:
 
 ### Universal Prompt Structure
 
-```
+```text
 [ROLE]      Who/what expertise to assume
 [CONTEXT]   Background information and setup  
 [TASK]      What needs to be accomplished
 [FORMAT]    How output should be structured
 [CONSTRAINTS] Boundaries and requirements
-```
-
+```text
 ### Quality Score Targets
 
 | Level | Score | Use Case |
@@ -107,7 +106,7 @@ Based on repository standards and industry research, effective prompts contain u
 - Stakeholder information
 
 **Example**:
-```
+```text
 ❌ Without context:
 "How should I handle this error?"
 
@@ -118,8 +117,7 @@ Validation Error. The form is used by customers on our
 public website.
 
 How should I handle this error?"
-```
-
+```text
 **Industry Guidance**:
 - **Google Gemini**: "Add contextual information to help the model understand constraints and details"
 - **OpenAI**: "Provide relevant context that affects how the response should be generated"
@@ -141,14 +139,13 @@ How should I handle this error?"
 | **Consultant** | "You are a business consultant..." | Strategic advice |
 
 **Example**:
-```
+```text
 You are a senior DevOps engineer with 10 years of experience 
 in cloud infrastructure and container orchestration.
 
 Review this Kubernetes deployment configuration and identify 
 potential issues for a production environment.
-```
-
+```text
 **Industry Guidance**:
 - **Anthropic**: "Assigning Claude a role can help establish the right perspective and expertise level"
 - **OpenAI**: "System messages can set the behavior and persona"
@@ -167,7 +164,7 @@ potential issues for a production environment.
 - ☑️ **Measurable** — Include success criteria when relevant
 
 **Example**:
-```
+```text
 ❌ Weak task:
 "Tell me about databases."
 
@@ -178,8 +175,7 @@ focusing on:
 1. Query performance for product searches
 2. Transaction handling for orders
 3. Operational complexity for a team of 3 developers"
-```
-
+```sql
 **Industry Guidance**:
 - **OpenAI**: "Be specific, descriptive, and as detailed as possible about the desired context, outcome, length, format, style"
 - **Google Gemini**: "State your goal clearly and concisely. Avoid unnecessary or overly persuasive language."
@@ -212,14 +208,12 @@ focusing on:
 
 # JSON/Data format
 "Return as valid JSON matching this schema: {name: string, items: array}"
-```
-
+```json
 **Example**:
-```
+```json
 Format your response as a markdown table with the following columns:
 | Tool | Pros | Cons | Best For | Cost |
-```
-
+```json
 **Industry Guidance**:
 - **OpenAI**: "Articulate the desired output format through examples. Show, and tell."
 - **Google Gemini**: "Give instructions that specify the format of the response—table, bulleted list, JSON, paragraph"
@@ -242,15 +236,14 @@ Format your response as a markdown table with the following columns:
 | **Quality** | "Production-ready with error handling" |
 
 **Example**:
-```
+```yaml
 Constraints:
 - Maximum 500 words
 - Use only standard library (no external dependencies)
 - Must handle edge cases: empty input, None values, invalid types
 - Include type hints
 - No print statements in production code
-```
-
+```text
 **Industry Guidance**:
 - **OpenAI**: "Reduce 'fluffy' and imprecise descriptions. Use '3 to 5 sentence paragraph' not 'fairly short'"
 - **Google Gemini**: "Specify any constraints on reading the prompt or generating a response"
@@ -270,7 +263,7 @@ Constraints:
 - ✅ When instructions alone are ambiguous
 
 **Example**:
-```
+```yaml
 Classify these support tickets by category and priority.
 
 Examples:
@@ -282,8 +275,7 @@ Output: Category: Authentication, Priority: High, Team: Security
 
 Now classify:
 Input: "Dashboard graphs not loading on mobile devices"
-```
-
+```text
 **Industry Guidance**:
 - **Google Gemini**: "We recommend to always include few-shot examples in your prompts. Prompts without few-shot examples are likely to be less effective."
 - **OpenAI**: "Start with zero-shot, then few-shot, then fine-tune if needed"
@@ -311,13 +303,12 @@ Input: "Dashboard graphs not loading on mobile devices"
 | **Brevity** | Concise ↔ Detailed |
 
 **Example**:
-```
+```yaml
 Tone: Professional but approachable. Assume the reader is a 
 business analyst with limited technical background. Avoid 
 jargon—when technical terms are necessary, provide brief 
 explanations in parentheses.
-```
-
+```text
 **Industry Guidance**:
 - **Google Gemini**: "Control output verbosity—by default Gemini 3 provides direct answers. Explicitly request conversational or detailed responses if needed."
 - **Microsoft 365**: "Specify audience and tone in the CARE framework"
@@ -330,41 +321,38 @@ explanations in parentheses.
 
 **Usage**: 68% of top-rated prompts use this pattern
 
-```
+```text
 You are a [ROLE].
 
 Your task is to [TASK].
 
 Provide output in the following format:
 [FORMAT_SPECIFICATION]
-```
-
+```text
 **Best For**: Software development, business analysis, reporting
 
 ---
 
 ### Pattern 2: RACE Framework
 
-```
+```text
 [ROLE]    - Who you want the AI to be
 [ACTION]  - What you want done
 [CONTEXT] - Background information
 [EXPECTATION] - Desired outcome/format
-```
-
+```text
 **Best For**: Business communications, document generation
 
 ---
 
 ### Pattern 3: CARE Framework (Microsoft 365)
 
-```
+```yaml
 Context: [BACKGROUND_INFORMATION]
 Action: [WHAT_YOU_WANT]
 Result: [EXPECTED_OUTPUT]
 Example: [SAMPLE_OUTPUT]
-```
-
+```sql
 **Best For**: Microsoft 365 Copilot, business communications
 
 ---
@@ -382,12 +370,11 @@ Example: [SAMPLE_OUTPUT]
 
 ### Pattern 5: Context-Task-Constraints (Technical)
 
-```
+```yaml
 Context: [SITUATION_AND_BACKGROUND]
 Task: [WHAT_NEEDS_TO_BE_DONE]
 Constraints: [LIMITATIONS_AND_REQUIREMENTS]
-```
-
+```text
 **Best For**: Technical tasks, code review, debugging
 
 ---
@@ -411,8 +398,7 @@ You are a [specific expert].
 <task>
 [Insert specific request]
 </task>
-```
-
+```text
 **Best For**: Complex multi-part prompts, Claude/Gemini
 
 ---
@@ -439,8 +425,7 @@ You are a [specific expert].
 # - Include type hints
 def validate_email(email: str) -> bool:
     # Implementation here
-```
-
+```text
 ---
 
 ### Claude (Anthropic)
@@ -471,8 +456,7 @@ Structure your response with:
 2. Trade-off Analysis
 3. Recommendation with Rationale
 </format>
-```
-
+```text
 ---
 
 ### OpenAI (GPT-4/o1)
@@ -485,7 +469,7 @@ Structure your response with:
 - Articulate output format through examples
 
 **Template**:
-```
+```text
 Summarize the text below as a bullet point list of the most 
 important points.
 
@@ -494,8 +478,7 @@ Text: """
 """
 
 Format: 5-7 bullet points, each point should be one sentence.
-```
-
+```text
 ---
 
 ### Microsoft 365 Copilot
@@ -508,7 +491,7 @@ Format: 5-7 bullet points, each point should be one sentence.
 - Ask for specific output formats
 
 **Template**:
-```
+```yaml
 Context: I'm preparing for a quarterly business review with 
 the executive team.
 
@@ -520,8 +503,7 @@ recommendations.
 
 Example: "Sales increased 15% YoY, driven by enterprise 
 accounts" - this level of specificity.
-```
-
+```text
 ---
 
 ### Google Gemini
@@ -550,8 +532,7 @@ You are a senior solution architect.
 
 # Output format
 Return a single code block with comments.
-```
-
+```text
 ---
 
 ## Advanced Techniques
@@ -563,7 +544,7 @@ Return a single code block with comments.
 **Research Foundation**: Wei et al. (NeurIPS 2022) - improves reasoning by 20-40%
 
 **Template**:
-```
+```text
 Think through this step by step:
 
 Step 1: Understanding
@@ -583,8 +564,7 @@ Step 4: Implementation
 - Note potential risks
 
 Show your reasoning at each step.
-```
-
+```text
 **Best For**: Debugging, complex analysis, math/logic problems
 
 ---
@@ -596,7 +576,7 @@ Show your reasoning at each step.
 **Research Foundation**: Yao et al. (NeurIPS 2023)
 
 **Template**:
-```
+```sql
 Evaluate multiple approaches for [PROBLEM].
 
 **Approach A: Conservative**
@@ -619,8 +599,7 @@ Evaluate multiple approaches for [PROBLEM].
 
 **Recommendation**: Based on scores and trade-offs, select 
 the best approach and explain why.
-```
-
+```text
 **Best For**: Architecture decisions, strategic planning, trade-off analysis
 
 ---
@@ -630,7 +609,7 @@ the best approach and explain why.
 **Purpose**: Combines reasoning with action-taking for tool-augmented tasks.
 
 **Template**:
-```
+```text
 Use the ReAct pattern to solve [TASK].
 
 **Think**: What information do I need? What tools can help?
@@ -645,8 +624,7 @@ Repeat until task is complete.
 - [TOOL_2]: [DESCRIPTION]
 
 Output format: Show each Think-Act-Observe-Reflect cycle clearly.
-```
-
+```text
 **Best For**: Research, data analysis, multi-step workflows, RAG patterns
 
 ---
@@ -656,7 +634,7 @@ Output format: Show each Think-Act-Observe-Reflect cycle clearly.
 **Purpose**: Model reviews and improves its own output.
 
 **Template**:
-```
+```text
 Before returning your final response, review your generated 
 output against the user's original constraints:
 
@@ -666,8 +644,7 @@ output against the user's original constraints:
 4. Is the tone appropriate for the audience?
 
 If you find issues, correct them before presenting the final answer.
-```
-
+```text
 **Best For**: Quality improvement, iterative refinement, high-stakes outputs
 
 ---
@@ -715,13 +692,12 @@ Based on our GitHub Models evaluation framework and industry standards:
 
 **Fix**: Specify what kind of help—debug, optimize, refactor, document
 
-```
+```text
 Review this Python function for:
 1. Security vulnerabilities
 2. Performance bottlenecks
 3. Code style and best practices
-```
-
+```text
 ---
 
 ### ❌ Overloading a Single Prompt
@@ -730,13 +706,12 @@ Review this Python function for:
 
 **Fix**: Break complex tasks into focused prompts or use numbered steps
 
-```
+```text
 Step 1: Analyze the current state
 Step 2: Identify issues
 Step 3: Propose solutions
 Step 4: Create implementation plan
-```
-
+```text
 ---
 
 ### ❌ Ignoring Output Format
@@ -745,15 +720,14 @@ Step 4: Create implementation plan
 
 **Fix**: Always specify the exact format needed
 
-```
+```json
 Return as valid JSON:
 {
   "summary": "string",
   "findings": ["string"],
   "recommendations": ["string"]
 }
-```
-
+```json
 ---
 
 ### ❌ Saying What NOT to Do
@@ -762,12 +736,11 @@ Return as valid JSON:
 
 **Fix**: Say what to do instead
 
-```
+```text
 ✅ "Explain in terms a business analyst would understand. 
 When technical terms are necessary, provide brief 
 explanations in parentheses."
-```
-
+```text
 **Industry Evidence**: Google Gemini documentation explicitly states "Using examples to show patterns is more effective than showing anti-patterns to avoid"
 
 ---
@@ -778,10 +751,9 @@ explanations in parentheses."
 
 **Fix**: Use `[PLACEHOLDERS]` for reusability
 
-```
+```sql
 Analyze [DATA_TYPE] from [TIME_PERIOD] focusing on [METRIC].
-```
-
+```text
 ---
 
 ### ❌ Missing Examples
@@ -790,15 +762,14 @@ Analyze [DATA_TYPE] from [TIME_PERIOD] focusing on [METRIC].
 
 **Fix**: Provide at least one example input/output pair
 
-```
+```text
 Example:
 Input: "Server CPU at 95% for 10 minutes"
 Output: {"severity": "high", "category": "performance", 
          "action": "scale-up"}
 
 Now classify: [YOUR_INPUT]
-```
-
+```text
 ---
 
 ### ❌ Embedding Secrets
@@ -807,11 +778,10 @@ Now classify: [YOUR_INPUT]
 
 **Fix**: Use placeholder variables
 
-```
+```text
 ✅ Use [API_KEY] instead of actual values
 ✅ Use [USER_EMAIL] instead of real emails
-```
-
+```text
 ---
 
 ## Templates and Checklists
@@ -877,8 +847,7 @@ governance_tags: ["PII-safe"]
 
 ```text
 [Your prompt here with [PLACEHOLDERS] for variables]
-```
-
+```text
 ## Variables
 
 | Variable | Description | Example |
@@ -891,13 +860,11 @@ governance_tags: ["PII-safe"]
 **Input:**
 ```text
 [Show the prompt with placeholders filled in]
-```
-
+```text
 **Output:**
 ```text
 [Show expected AI response]
-```
-
+```text
 ## Tips
 
 - Tip 1 for getting better results
@@ -910,8 +877,7 @@ governance_tags: ["PII-safe"]
 
 - [Related Prompt 1](link)
 - [Related Prompt 2](link)
-```
-
+```text
 ---
 
 ### Quick Pattern Selection Guide

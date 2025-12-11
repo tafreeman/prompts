@@ -185,8 +185,7 @@ FROM orders
 GROUP BY order_id
 HAVING COUNT(*) > 1;
 -- Fail if dup_count > 0
-```
-
+```text
 ---
 
 ### Stage 5: Monitoring & Alerting

@@ -36,7 +36,7 @@ reviewStatus: "draft"
 
 ### Structure Overview
 
-```
+```text
 prompts/
 ├── index.md
 ├── advanced/        (17 files)  - Advanced patterns, ReAct, Tree-of-Thoughts
@@ -47,8 +47,7 @@ prompts/
 ├── governance/      (3 files)   - Legal, security, compliance
 ├── m365/           (21 files)  - Microsoft 365 Copilot prompts
 └── system/         (23 files)  - System prompts, architecture specialists
-```
-
+```text
 ### Content Distribution
 
 | Category | Count | % of Total | Health Status |

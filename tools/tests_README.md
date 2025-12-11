@@ -16,8 +16,7 @@ Unit tests for core functionality:
 **Run with:**
 ```bash
 python tools/test_evaluation_agent.py
-```
-
+```text
 ### `test_evaluation_agent_integration.py`
 Integration tests for agent workflows:
 - Full pipeline in dry-run mode
@@ -30,8 +29,7 @@ Integration tests for agent workflows:
 **Run with:**
 ```bash
 python tools/test_evaluation_agent_integration.py
-```
-
+```sql
 ### `test_evaluation_agent_e2e.py`
 End-to-end tests with mocked dependencies:
 - Complete pipeline execution
@@ -42,8 +40,7 @@ End-to-end tests with mocked dependencies:
 **Run with:**
 ```bash
 python tools/test_evaluation_agent_e2e.py
-```
-
+```text
 ## Running All Tests
 
 To run all test suites:
@@ -51,8 +48,7 @@ To run all test suites:
 python tools/test_evaluation_agent.py && \
 python tools/test_evaluation_agent_integration.py && \
 python tools/test_evaluation_agent_e2e.py
-```
-
+```sql
 ## Test Coverage
 
 The test suite covers:
@@ -111,9 +107,8 @@ When adding new functionality to `evaluation_agent.py`:
 To get verbose output:
 ```bash
 python tools/test_evaluation_agent.py -v
-```
-
+```text
 To run a specific test:
 ```bash
 python -m unittest tools.test_evaluation_agent.TestAgentConfiguration.test_agent_config_paths_exist
-```
+```text

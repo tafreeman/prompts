@@ -94,9 +94,12 @@ Please create comprehensive brand voice guidelines including:
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -164,7 +167,10 @@ Please create comprehensive brand voice guidelines including:
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -494,9 +500,12 @@ Our voice stays consistent, but our tone adjusts based on context:
 
 *Questions about voice? Ping the brand team or check the #brand-voice Slack channel.*
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Involve stakeholders early:** Brand voice should reflect input from leadership, marketing, customer-facing teams, and ideally customers themselves
@@ -511,5 +520,9 @@ Our voice stays consistent, but our tone adjusts based on context:
 ## Related Prompts
 
 - [Headline and Tagline Creator](headline-tagline-creator.md)
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)

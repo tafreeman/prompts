@@ -36,8 +36,7 @@ python tools/audit_prompts.py prompts/ --output audit_report.csv
 
 # Validate frontmatter schema compliance
 python tools/validators/frontmatter_validator.py --all
-```
-
+```text
 ---
 
 ## Active Tools
@@ -48,8 +47,7 @@ Scans library and generates CSV migration report. **Only processes actual prompt
 
 ```bash
 python tools/audit_prompts.py prompts/ --output audit_report.csv
-```
-
+```text
 ### 2. Frontmatter Validator (`validators/frontmatter_validator.py`)
 
 Validates YAML frontmatter against the metadata schema.
@@ -57,8 +55,7 @@ Validates YAML frontmatter against the metadata schema.
 ```bash
 python tools/validators/frontmatter_validator.py --all
 python tools/validators/frontmatter_validator.py prompts/developers/
-```
-
+```yaml
 ---
 
 ## Scoring Rubrics
@@ -89,7 +86,7 @@ The following tools have been archived to `tools/archive/` (December 4, 2025):
 
 ## File Structure
 
-```
+```text
 tools/
 ├── README.md                      # This file
 ├── audit_prompts.py               # CSV migration audit
@@ -106,8 +103,7 @@ tools/
     ├── evaluation_agent.py
     ├── evaluate_library.py
     └── improve_prompts.py
-```
-
+```text
 ---
 
 ## See Also

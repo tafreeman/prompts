@@ -166,7 +166,7 @@ M365 Copilot integrates AI across Microsoft productivity applications.
 
 ### Speed vs. Quality Trade-offs
 
-```
+```text
                   ┌─────────────────────────────────────────┐
     Higher        │                    o1-preview           │
     Quality       │            Claude Opus    GPT-4         │
@@ -175,8 +175,7 @@ M365 Copilot integrates AI across Microsoft productivity applications.
     Lower         │                                         │
     Quality       └─────────────────────────────────────────┘
                   Slower                              Faster
-```
-
+```text
 ## Selecting the Right Model
 
 ### Decision Framework

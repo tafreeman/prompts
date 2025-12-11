@@ -44,6 +44,35 @@ The pattern has been further refined through reflection mechanisms:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
+<<<<<<< HEAD
+### ReAct Cycle Visualization
+
+<!-- Diagram: ReAct Think-Act-Observe-Reflect Loop -->
+<!-- Alt: Flowchart showing the iterative cycle of Thought leading to Action, Action producing Observation, and Observation triggering Reflection which leads back to the next Thought -->
+
+```mermaid
+flowchart LR
+    Start([🎯 Task Goal]) --> Think[💭 Thought<br/>Reason about<br/>next step]
+    Think --> Act[⚡ Action<br/>Execute tool<br/>or operation]
+    Act --> Observe[👁️ Observation<br/>Receive results<br/>from tool]
+    Observe --> Reflect{🤔 Reflection<br/>Goal achieved?}
+    Reflect -->|No, continue| Think
+    Reflect -->|Yes| End([✅ Task Complete])
+    
+    style Start fill:#e1f5fe
+    style Think fill:#fff9c4
+    style Act fill:#f3e5f5
+    style Observe fill:#e8f5e9
+    style Reflect fill:#fff3e0
+    style End fill:#c8e6c9
+```
+
+**Legend:**
+- 💭 **Thought**: AI reasons about what to do next
+- ⚡ **Action**: AI executes a tool or takes an action
+- 👁️ **Observation**: AI receives and processes tool output
+- 🤔 **Reflection**: AI evaluates if the goal is achieved
+=======
 ---
 
 ## ReAct Cycle Visualization
@@ -73,6 +102,7 @@ flowchart LR
 - 👁️ **Observation**: System returns actual tool output
 - 📊 **Reflection**: Assess progress toward goal
 - ✅ **Answer**: Complete response when sufficient information gathered
+>>>>>>> main
 
 ---
 
@@ -133,9 +163,12 @@ Continue this cycle until you can provide:
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
@@ -182,8 +215,12 @@ You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve ta
 
 **Instructions**:
 [As specified above]
+<<<<<<< HEAD
+```sql
+=======
 ```text
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -431,9 +468,12 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 **Total engineering time**: 50 hours across 2 sprints
 **Critical path**: 38 hours (fits in 40-hour budget for this sprint with 2 hours buffer)
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **Think explicitly**: Don't skip the Thought step - it's what makes reasoning transparent
@@ -462,6 +502,11 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
 - [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
+<<<<<<< HEAD
+
+---
+=======
+>>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -488,9 +533,12 @@ For automation pipelines:
   "success": true
 }
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: Exercise caution when using tools that query databases or APIs containing PII
@@ -506,7 +554,10 @@ For automation pipelines:
 ```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### LangChain Integration
 
 ```python
@@ -527,7 +578,10 @@ agent = initialize_agent(
 
 result = agent.run("Analyze security vulnerabilities...")
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Custom API Implementation
 
 ```python
@@ -548,4 +602,8 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
     
     return "Max cycles reached without solution"
+<<<<<<< HEAD
+```text
+=======
 ```json
+>>>>>>> main

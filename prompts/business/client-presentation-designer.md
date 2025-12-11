@@ -59,9 +59,12 @@ Include:
 5. Expected outcomes
 6. Next steps
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[audience]`: Audience
@@ -83,7 +86,10 @@ Include:
 [messages]: "Reduce downtime by 20%", "Predictive maintenance ROI in 18 months", "Seamless integration with existing SAP ERP"
 [duration]: 45 minutes (30 min presentation, 15 min Q&A)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,9 +109,12 @@ Include:
 
 [... continues with implementation approach and next steps ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

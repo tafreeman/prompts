@@ -59,9 +59,12 @@ Deliver:
 5. Implementation plan
 6. Change management
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[challenge]`: Challenge
@@ -83,7 +86,10 @@ Deliver:
 [stakeholders]: CMO, VP Innovation, Board of Directors
 [criteria]: Identify $100M growth opportunity executable within 18 months
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,9 +109,12 @@ Deliver:
 
 [... continues with implementation plan and change management ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

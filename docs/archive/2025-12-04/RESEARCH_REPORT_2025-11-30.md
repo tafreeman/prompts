@@ -112,8 +112,7 @@ The actual prompt text...
 - Tip 1
 - Tip 2
 - Tip 3
-```
-
+```sql
 ### Estimated Savings
 - **Current average**: ~250 lines per prompt
 - **Recommended**: ~80-100 lines per prompt
@@ -256,8 +255,7 @@ dimensions:
       3: "Basic example present"
       2: "Minimal/unhelpful example"
       1: "No examples"
-```
-
+```text
 ### Phase 2: Build Tooling (Week 2)
 
 - Create `tools/validators/score_validator.py`

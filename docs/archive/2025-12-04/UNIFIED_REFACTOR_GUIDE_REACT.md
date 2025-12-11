@@ -147,8 +147,7 @@ featuredLinks:
   popular:
     - /prompts/advanced/chain-of-thought-debugging
 ---
-```
-
+```sql
 ### Field Quick Reference
 
 | Field | Required | Constraint | Source |
@@ -184,7 +183,7 @@ featuredLinks:
 
 **Decision**: Use Research doc's flat structure + preserve existing repo folders from Refactor Plan.
 
-```
+```text
 prompts/                                    # Repository root
 │
 ├── index.md                                # 🏠 Landing page
@@ -323,8 +322,7 @@ prompts/                                    # Repository root
 └── docs/                                   # 📚 META-DOCS (existing)
     ├── UNIFIED_REFACTOR_GUIDE_REACT.md     #    ← This document
     └── [other docs]
-```
-
+```text
 ### Folder Count Summary
 
 | Category | Count | Status |
@@ -350,7 +348,7 @@ prompts/                                    # Repository root
 
 ### Decision Flowchart
 
-```
+```text
 Is this explaining what something is?
 ├── Yes → conceptual
 └── No ↓
@@ -374,8 +372,7 @@ Is this for quick lookup?
 Is this about fixing a problem?
 ├── Yes → troubleshooting
 └── No → Re-evaluate scope
-```
-
+```sql
 ---
 
 ## Part 4: Implementation Roadmap (Merged)
@@ -533,8 +530,7 @@ modules:
   - path: /reference/cheat-sheet
     title: "Prompt Patterns Cheat Sheet"
     time: "15 min"
-```
-
+```text
 ### Track 2: Architect Deep Dive
 
 ```yaml
@@ -561,8 +557,7 @@ modules:
   - path: /tutorials/enterprise-prompt-governance
     title: "Enterprise Prompt Governance"
     time: "60 min"
-```
-
+```text
 ### Track 3: Functional Team Productivity
 
 ```yaml
@@ -588,13 +583,12 @@ modules:
   - path: /reference/cheat-sheet
     title: "Prompt Patterns Cheat Sheet"
     time: "15 min"
-```
-
+```text
 ---
 
 ## Part 6: Quick Reference Card
 
-```
+```sql
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                     PROMPT LIBRARY CONTRIBUTOR QUICK REFERENCE               │
 ├──────────────────────────────────────────────────────────────────────────────┤
@@ -661,8 +655,7 @@ modules:
 │  Must pass before PR merge                                                   │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ---
 
 ## Part 7: ReAct Synthesis Summary
@@ -787,8 +780,7 @@ python tools/cli/generate_index.py prompts/advanced/
 
 # Check for orphan files (not in any children array)
 python tools/cli/find_orphans.py
-```
-
+```text
 ### File Naming Convention
 
 ```text
@@ -796,8 +788,7 @@ python tools/cli/find_orphans.py
 ❌ PascalCaseFileName.md
 ❌ snake_case_file_name.md
 ❌ File Name With Spaces.md
-```
-
+```text
 ### Frontmatter Template (Copy/Paste)
 
 ```yaml
@@ -822,8 +813,7 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
-```
-
+```text
 ## Appendix B: Documents to Archive
 
 After Phase 6 completion, archive these superseded documents:

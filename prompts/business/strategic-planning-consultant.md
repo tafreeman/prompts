@@ -60,9 +60,12 @@ Provide:
 5. Success metrics
 6. Risk mitigation
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[challenges]`: Challenges
@@ -84,7 +87,10 @@ Provide:
 [objectives]: Double online revenue share (to 30%), launch mobile loyalty app, close 5 underperforming stores
 [timeframe]: 3 Years (2025-2028)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -106,9 +112,12 @@ Provide:
 
 [... continues with implementation roadmap and success metrics ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

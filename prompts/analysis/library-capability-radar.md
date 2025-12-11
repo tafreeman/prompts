@@ -56,6 +56,8 @@ The library covers 7 key domains: Advanced, Analysis, Business, Creative, Develo
 
 Comparative analysis.
 
+---
+
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/Matplotlib, Excel instructions) to generate the chart.
@@ -80,9 +82,12 @@ The axis for each domain should represent the number of prompts available (e.g.,
 
 This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Example Visualization (Mermaid)
 
 Mermaid does not yet provide a native radar/spider plot primitive. Use this `pie` diagram as a stand-in to compare category proportions, or translate the same counts into your preferred radar tool.
@@ -98,6 +103,9 @@ pie showData
     "Developers" : 15
     "Governance" : 4
     "System" : 6
+<<<<<<< HEAD
+```text
+=======
 ```
 
 ## Variables
@@ -111,3 +119,4 @@ pie showData
 - **Use appropriate scale**: Ensure the radar chart scale accommodates the highest category count
 - **Visualize gaps**: Look for categories with significantly lower counts to prioritize expansion
 - **Track over time**: Generate periodic radar charts to monitor library growth and balance
+>>>>>>> main

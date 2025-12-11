@@ -37,7 +37,7 @@ Every effective prompt shares common structural elements. Understanding these bu
 
 An effective prompt can contain up to seven key components. Not every prompt needs all seven—simpler tasks require fewer elements. The skill lies in knowing which components to include for your specific use case.
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                        PROMPT ANATOMY                        │
 ├─────────────────────────────────────────────────────────────┤
@@ -75,8 +75,7 @@ An effective prompt can contain up to seven key components. Not every prompt nee
 │  │    TONE     │  Voice and style guidance                  │
 │  └─────────────┘                                            │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ## Component Deep Dive
 
 ### 1. Context

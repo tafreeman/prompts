@@ -166,9 +166,12 @@ Return the result in Markdown with these sections:
 
 Now, using the meeting transcript, chat, and context, generate the meeting recap.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[priority_scheme]`: How to categorize action items (e.g., "High/Medium/Low").
@@ -188,7 +191,10 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 
 You are my Meeting Recap Assistant working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -214,9 +220,12 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 - Should we prepare a public communication in case the GA date shifts to December 12?
 - Do we need additional QA resources to accelerate load testing?
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Tip 1: Run this prompt immediately after the meeting while the context is fresh.

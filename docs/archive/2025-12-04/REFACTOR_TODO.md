@@ -242,8 +242,7 @@ This repository contains **two categories of markdown files** with different fro
 
 ```bash
 python tools/validators/frontmatter_validator.py --all
-```
-
+```text
 ### Quick Links
 
 - [Unified Refactor Guide](./UNIFIED_REFACTOR_GUIDE_REACT.md)

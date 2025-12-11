@@ -289,28 +289,25 @@ Many prompts work across platforms with minor adjustments:
 **Task:** Explain a code function
 
 **GitHub Copilot:**
-```
+```text
 // Explain what this function does, including edge cases
 // Focus on the algorithm used and time complexity
 function quickSort(arr) { ... }
-```
-
+```text
 **ChatGPT:**
-```
+```text
 Explain this JavaScript function to a mid-level developer:
 
 ```javascript
 function quickSort(arr) { ... }
-```
-
+```yaml
 Include:
 - Purpose and algorithm used
 - Time/space complexity
 - Edge cases to watch for
-```
-
+```text
 **Claude:**
-```
+```text
 <context>
 I'm reviewing a codebase and need to document this function.
 </context>
@@ -322,8 +319,7 @@ function quickSort(arr) { ... }
 <task>
 Explain this function for our internal documentation. Include purpose, algorithm, complexity analysis, and edge cases.
 </task>
-```
-
+```text
 ---
 
 ## See Also

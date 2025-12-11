@@ -94,8 +94,7 @@ cd prompts
 
 # Browse prompts
 ls prompts/developers/
-```
-
+```text
 ### Using Prompts Programmatically
 
 Each prompt file uses Markdown with YAML frontmatter:
@@ -121,8 +120,7 @@ metadata, body = parse_prompt('prompts/developers/code-review-assistant.md')
 print(f"Title: {metadata['title']}")
 print(f"Category: {metadata['category']}")
 print(f"Tags: {metadata['tags']}")
-```
-
+```text
 ### Integration with LLM APIs
 
 ```python
@@ -142,8 +140,7 @@ response = openai.ChatCompletion.create(
         {"role": "user", "content": user_prompt}
     ]
 )
-```
-
+```text
 ### Version Control Best Practices
 
 ```bash
@@ -155,8 +152,7 @@ git diff v1.0 v2.0 -- prompts/developers/code-review-assistant.md
 
 # Use specific versions
 git checkout v1.0 -- prompts/developers/code-review-assistant.md
-```
-
+```text
 ### Creating a Prompt Management System
 
 ```python
@@ -182,8 +178,7 @@ class PromptLibrary:
 # Usage
 library = PromptLibrary('prompts/')
 dev_prompts = library.get_by_category('developers')
-```
-
+```sql
 ## Common Questions
 
 ### How do I know which prompt to use?

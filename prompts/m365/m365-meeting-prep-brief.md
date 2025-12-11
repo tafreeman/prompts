@@ -164,9 +164,12 @@ Return the result in Markdown with these sections:
 
 Now, using the context around [meeting_title] on [meeting_date], prepare my meeting brief.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[meeting_title]`: Title or subject of the meeting.
@@ -188,7 +191,10 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 
 You are my Meeting Prep Assistant working in a Microsoft 365 environment...
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -215,9 +221,12 @@ This meeting is a review of the Q4 onboarding roadmap with product, engineering,
 - Tension between product's aggressive timeline and engineering/support's concerns about readiness may surface; approach diplomatically.
 - If the API fix timeline slips, the phased rollout plan may need significant revision; be prepared to propose alternatives.
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Tip 1: Run this prompt 15–30 minutes before the meeting for a quick refresh even if you're generally familiar with the topic.

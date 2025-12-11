@@ -44,11 +44,10 @@ When asking Copilot for help, use these prompt patterns:
 
 ✅ **Prompt to use:**
 
-```
+```text
 Generate a repository class for User entity with full CRUD operations,
 error handling, and detailed comments explaining each method
-```
-
+```text
 ✅ **Expected output includes:**
 
 ```csharp
@@ -77,17 +76,15 @@ public class UserRepository : IUserRepository
     }
     // ... additional methods with detailed comments
 }
-```
-
+```text
 ### Example: Model Validation Request
 
 ✅ **Prompt to use:**
 
-```
+```text
 Create model validation for user registration with detailed error messages
 and security considerations explained
-```
-
+```text
 ✅ **Expected output includes:**
 
 ```csharp
@@ -103,8 +100,7 @@ public class UserRegistrationModel
         ErrorMessage = "Password must contain uppercase, lowercase, digit, and special character")]
     public string Password { get; set; } = string.Empty;
 }
-```
-
+```text
 ## DoD-Specific Learning Points
 
 - Always ask about compliance implications of code suggestions

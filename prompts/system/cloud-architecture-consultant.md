@@ -61,9 +61,12 @@ Provide:
 5. Disaster recovery
 6. Migration strategy
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[application]`: Application
@@ -85,7 +88,10 @@ Provide:
 [compliance]: MPAA (Motion Picture Association) Content Security Best Practices
 [budget]: Cost-aware (Spot instances for transcoding), Savings Plans for compute
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -106,9 +112,12 @@ Provide:
 
 [... continues with security and disaster recovery ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

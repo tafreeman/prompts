@@ -58,9 +58,12 @@ Include:
 5. Issue resolution
 6. Payment processing
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[issues]`: Issues
@@ -80,7 +83,10 @@ Include:
 [terms]: Net-60 payment, 99.9% SLA, 24/7 Support, Penalty clauses for downtime > 1hr
 [issues]: Missed deadlines on Phase 1 delivery, SLA breach in October (4 hours downtime)
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -103,9 +109,12 @@ Include:
 
 [... continues with relationship management and issue resolution ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

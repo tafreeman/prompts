@@ -82,22 +82,20 @@ author: "github-username"                  # Content ownership
 ms.author: "microsoft-alias"               # Business owner
 ms.date: "MM/DD/YYYY"                      # Content freshness
 ms.topic: "conceptual|quickstart|..."      # Content type
-```
-
+```sql
 **Key Insight**: Microsoft separates "quickstart" (15-min first success) from "tutorial" (end-to-end learning). This distinction is critical for our dual goals.
 
 ### 2. GitHub Docs
 
 **Content Structure**:
-```
+```text
 Top-level doc set
 ├── Categories
 │   ├── Map topics
 │   │   └── Articles
 │   └── Articles
 └── Articles
-```
-
+```text
 **Frontmatter Schema**:
 ```yaml
 # Required
@@ -128,8 +126,7 @@ featuredLinks:
     - /get-started/quickstart
   popular:
     - /tutorials/copilot-chat-cookbook
-```
-
+```sql
 **Content Types**:
 | Type | Purpose | Structure |
 | :--- |---------| :--- |
@@ -161,7 +158,7 @@ featuredLinks:
 ### 4. Anthropic/Claude
 
 **Prompt Engineering Structure**:
-```
+```text
 Before Prompt Engineering:
 ├── Define success criteria
 ├── Create empirical tests
@@ -177,8 +174,7 @@ How to Prompt Engineer (ordered by effectiveness):
 7. Prefill Claude's response
 8. Chain complex prompts
 9. Long context tips
-```
-
+```sql
 **Key Insight**: Techniques are ordered from "broadly effective" to "specialized". This ordering helps users know where to start.
 
 ### 5. AWS
@@ -222,8 +218,7 @@ How to Prompt Engineer (ordered by effectiveness):
 **Pattern**:
 ```yaml
 type: conceptual|quickstart|how_to|tutorial|reference|troubleshooting
-```
-
+```sql
 **Content Type Definitions**:
 | Type | Purpose | When to Use |
 | :--- |---------| :--- |
@@ -273,8 +268,7 @@ governance_tags:
   - "internal-only"
   - "client-approved"
 ---
-```
-
+```text
 **Effort**: High (schema validation + migration)
 
 ---
@@ -316,8 +310,7 @@ audience:
   - "qa-automation-engineer"
   - "business-analyst"
   - "project-manager"
-```
-
+```text
 **Application**: Enables persona-based filtering on index pages.
 
 **Effort**: Medium
@@ -349,8 +342,7 @@ modules:
   - path: /prompts/developers/code-review-checklist
     title: "Code Review Checklist"
     estimatedTime: "20 min"
-```
-
+```text
 **Initial Tracks**:
 | Track | Duration | Audience |
 | :--- |----------| :--- |
@@ -387,8 +379,7 @@ featuredLinks:
     - /prompts/advanced/chain-of-thought-debugging
   guideCards:
     - /prompts/advanced/react-tool-augmented
-```
-
+```text
 **Effort**: Low
 
 #### 9. Add Prompt-Specific Metadata
@@ -410,8 +401,7 @@ variables:
     description: "The code to analyze"
     required: true
     example: "function add(a, b) { return a + b; }"
-```
-
+```text
 **Effort**: Medium
 
 #### 10. Create Reference Cheat Sheet
@@ -432,7 +422,7 @@ variables:
 
 ### Folder Structure
 
-```
+```text
 prompts/
 ├── index.md                        # Top-level landing page
 │
@@ -518,8 +508,7 @@ data/
 │   └── functional-productivity.yml
 ├── topics.yml                      # Allowed topics for validation
 └── platforms.yml                   # Supported platforms
-```
-
+```text
 ### Index.md Template
 
 ```yaml
@@ -565,8 +554,7 @@ topics:
 - [Most Popular Prompt 1](/path)
 - [Most Popular Prompt 2](/path)
 - [Most Popular Prompt 3](/path)
-```
-
+```text
 ### Prompt Article Template
 
 ```yaml
@@ -613,8 +601,7 @@ date: "2025-11-29"
 
 ```text
 {The actual prompt template with {variables} marked}
-```
-
+```text
 ## Variables
 
 | Variable | Description | Required | Example |
@@ -627,15 +614,13 @@ date: "2025-11-29"
 ### Scenario: {Scenario Name}
 
 **Input:**
-```
+```text
 {Example input with variables filled in}
-```
-
+```text
 **Expected Output:**
-```
+```text
 {Example of what the AI should produce}
-```
-
+```text
 ## Tips & Variations
 
 - **Tip 1**: Helpful advice
@@ -650,8 +635,7 @@ date: "2025-11-29"
 ## Further Reading
 
 - [External Resource](https://example.com) - Description
-```
-
+```text
 ---
 
 ## Key Questions Answered

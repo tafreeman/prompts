@@ -103,8 +103,7 @@ Structure all reviews as follows:
 - Files reviewed: X
 - Issues found: X critical, X suggestions
 - Test coverage: X% (if applicable)
-```
-
+```text
 ## Review Checklist
 
 For each code change, verify:
@@ -137,19 +136,16 @@ For each code change, verify:
 ```python
 def get_user(user_id):
     return db.query(f"SELECT * FROM users WHERE id = {user_id}")
-```
-
+```sql
 **Suggested**:
 ```python
 def get_user(user_id: int) -> Optional[User]:
     if not isinstance(user_id, int) or user_id <= 0:
         raise ValueError("user_id must be a positive integer")
     return db.query("SELECT * FROM users WHERE id = ?", [user_id])
-```
-
+```sql
 **Benefit**: Prevents SQL injection and provides type safety with proper error handling.
-```
-
+```sql
 ## Tips for Best Results
 
 - Share the PR description or context for the changes

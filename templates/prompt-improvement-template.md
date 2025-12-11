@@ -62,10 +62,8 @@ If flagged as **<30 words**:
 ```text
 Analyze this data: [data]
 Provide insights and recommendations.
-```
-
-```
-
+```text
+```text
 **After:**
 ```text
 ## Prompt
@@ -97,10 +95,8 @@ Provide your analysis in the following format:
 
 **Next Steps:**
 - [Immediate actions]
-```
-
-```
-
+```text
+```text
 If **missing YAML frontmatter**:
 
 ```yaml
@@ -115,8 +111,7 @@ difficulty: "beginner|intermediate|advanced"
 platform: "Claude Sonnet 4.5"
 governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 ---
-```
-
+```text
 ### Step 3: Address High Priority Issues (P1)
 
 **Goal:** Tier 3 (55-69 points) → Tier 2 (70-84 points)
@@ -141,8 +136,7 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 [domain]: Online retail
 [decision]: Q1 2025 marketing budget allocation
 [constraints]: Must complete analysis within 24 hours, focus on actionable insights
-```
-
+```text
 **Output:**
 
 ```text
@@ -162,10 +156,8 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 - Meet with supply chain team to confirm smart home inventory capacity (by 12/1)
 - A/B test mobile checkout improvements (launch 12/15)
 - Update homepage shipping deadline messaging (deploy 12/10)
-```
-
-```
-
+```text
+```text
 **Improve Variable Documentation:**
 
 **Before:**
@@ -174,8 +166,7 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 
 - `[data]`: Data
 - `[goal]`: Goal
-```
-
+```text
 **After:**
 
 ```markdown
@@ -188,8 +179,7 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 - `[domain]`: Business context (e.g., "Online retail", "SaaS analytics", "Healthcare reporting")
 - `[decision]`: What this analysis will inform (e.g., "Q1 marketing budget allocation")
 - `[constraints]`: Limitations or requirements (e.g., "Analysis must complete in 24 hours", "Focus on top 10 products only")
-```
-
+```text
 **Add Actionable Tips:**
 
 **Template:**
@@ -202,8 +192,7 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 - **For stakeholder presentations:** Request visualization recommendations alongside insights
 - **To improve accuracy:** Provide industry benchmarks in the context (e.g., "Industry avg conversion rate: 2.3%")
 - **For recurring reports:** Save successful outputs as templates for future use
-```
-
+```text
 ### Step 4: Medium Priority Enhancements (P2)
 
 **Goal:** Tier 2 (70-84 points) → Tier 1 (85-100 points)
@@ -238,10 +227,8 @@ Before providing your final analysis, think through:
 - Have I considered alternative explanations?
 
 Then provide your structured output.
-```
-
-```
-
+```text
+```text
 **Add Structured Output Schema:**
 
 For automation-friendly prompts:
@@ -273,10 +260,8 @@ If you need machine-readable output, request this format:
   "confidence": 0.85,
   "assumptions": ["Assumption 1", "Assumption 2"]
 }
-```
-
-```
-
+```text
+```text
 **Add Research Citations:**
 
 ```markdown
@@ -291,8 +276,7 @@ This prompt is based on:
 Example:
 - **The Prompt Report (arXiv:2406.06608)**: Comprehensive taxonomy of effective prompting techniques
 - **OpenAI Best Practices**: Structured outputs and clear instruction guidelines
-```
-
+```text
 ### Step 5: Validate Improvements
 
 After making changes, re-run the [Prompt Quality Evaluator](../prompts/system/prompt-quality-evaluator.md):
@@ -318,8 +302,7 @@ category: "business"
 ## Prompt
 
 Create a budget for [project].
-```
-
+```text
 **After (Score: 75/100 - Tier 2)**
 
 ```markdown
@@ -392,8 +375,7 @@ Create a detailed budget including:
    - Payment milestones
 
 Output as a Markdown table for easy import into Excel/Google Sheets.
-```
-
+```powershell
 ## Variables
 
 - `[project_name]`: Project title (e.g., "Customer Portal Redesign", "Q4 Marketing Campaign")
@@ -422,8 +404,7 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 [organization_type]: B2B SaaS company
 [approver]: VP Engineering & CFO
 [period]: H1 2025
-```
-
+```text
 **Output:**
 
 ```text
@@ -442,8 +423,7 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 - No major scope changes requiring re-budgeting
 
 [... full detailed budget breakdown ...]
-```
-
+```sql
 ## Tips
 
 - **For budget approval:** Include executive summary first—decision-makers want totals before details
@@ -472,8 +452,7 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 
 - Initial minimal version
 
-```
-
+```text
 **Improvement Summary:**
 - Added 7 missing sections (Variables, Example, Tips, etc.)
 - Expanded prompt from 12 words → 142 words

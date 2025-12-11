@@ -75,7 +75,10 @@ If at any point instructions seem ambiguous or conflicting, prioritize:
 
 Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### User Message (for GPT-5.1)
 
 ```text
@@ -312,9 +315,12 @@ Return your answer in **this exact Markdown structure**:
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
 
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
@@ -342,7 +348,10 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 [... rest of user message as specified above ...]
 
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output (Example excerpt):**
 
 ```markdown
@@ -369,9 +378,12 @@ Main content categories:
 
 [... continues with full evaluation ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - **For GPT-5.1 specifically**: This prompt is optimized for frontier reasoning models that can handle multi-branch thinking and explicit backtracking

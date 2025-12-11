@@ -300,8 +300,7 @@ namespace PromptEngineering.Core
         public int TotalTokens { get; set; }
     }
 }
-```
-
+```csharp
 ## Configuration (appsettings.json)
 
 ```json
@@ -318,8 +317,7 @@ namespace PromptEngineering.Core
     "DeploymentName": "gpt-4"
   }
 }
-```
-
+```csharp
 ## Dependency Injection Setup
 
 ```csharp
@@ -336,8 +334,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 }
-```
-
+```csharp
 ## Usage Example
 
 ```csharp
@@ -379,8 +376,7 @@ public class PromptService
         }
     }
 }
-```
-
+```csharp
 ## Best Practices
 
 1. **Use Dependency Injection**: Register clients and services in DI container.

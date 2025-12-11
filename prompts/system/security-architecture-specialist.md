@@ -59,9 +59,12 @@ Include:
 5. Monitoring and incident response
 6. Compliance mapping
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Variables
 
 - `[compliance]`: Compliance
@@ -81,7 +84,10 @@ Include:
 [compliance]: PCI-DSS Level 1, GDPR, SOC2 Type II, PSD2 (Open Banking)
 [threats]: Advanced Persistent Threats (APTs), DDoS attacks, Insider threats, Supply chain attacks, SQL injection
 ```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -109,9 +115,12 @@ Include:
 
 [... continues with network security and incident response ...]
 ```text
+<<<<<<< HEAD
+=======
 
 ---
 
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -77,7 +77,7 @@ Moved to `tools/archive/`:
 
 ### Unified Evaluation System
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    EVALUATION ARCHITECTURE                       │
 ├─────────────────────────────────────────────────────────────────┤
@@ -105,8 +105,7 @@ Moved to `tools/archive/`:
 │  └──────────────┘                   └──────────────┘            │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ### Scoring Rubric (8 Dimensions)
 
 From `COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md`:
@@ -145,8 +144,7 @@ python testing/evals/dual_eval.py prompts/ \
 # JSON output for CI/CD
 python testing/evals/dual_eval.py prompts/ \
   --output results.json
-```
-
+```text
 ### Future: Promptfoo Integration
 
 For advanced evals (model-graded, classification), integrate promptfoo:
@@ -178,8 +176,7 @@ defaultTest:
         8. Safety: Is it PII-safe and harmless?
         
         Return JSON: {"scores": {...}, "overall": X.X, "pass": true/false}
-```
-
+```text
 ---
 
 ## Part 3: Testing Architecture
@@ -188,7 +185,7 @@ defaultTest:
 
 Replace the complex `testing/framework/` with focused pytest tests:
 
-```
+```text
 testing/
 ├── evals/
 │   ├── dual_eval.py          # Main evaluation script
@@ -200,8 +197,7 @@ testing/
 ├── conftest.py               # Shared fixtures
 ├── requirements.txt          # Test dependencies
 └── README.md                 # Updated documentation
-```
-
+```text
 ### Test Categories
 
 | Category | Purpose | Example |
@@ -251,8 +247,7 @@ jobs:
           python testing/evals/dual_eval.py \
             --changed-only \
             --output eval-results.json
-```
-
+```sql
 ---
 
 ## Part 4: Webapp Architecture
@@ -272,8 +267,7 @@ graph TD
         Repo[GitHub Repo] -->|Push Event| Action[GitHub Action]
         Action -->|Sync Content| Cosmos
     end
-```
-
+```text
 ### Components
 
 | Component | Technology | Purpose |
@@ -336,13 +330,12 @@ interface PromptDocument {
   evalDate?: Date;
   evalPassed?: boolean;
 }
-```
-
+```text
 ---
 
 ## Part 5: File Structure (Target State)
 
-```
+```text
 prompts/                          # Repository root
 ├── prompts/                      # Prompt content (unchanged)
 │   ├── advanced/
@@ -397,8 +390,7 @@ prompts/                          # Repository root
 └── .github/
     └── workflows/
         └── prompt-validation.yml # CI/CD
-```
-
+```sql
 ---
 
 ## Part 6: Implementation Roadmap
@@ -469,8 +461,7 @@ prompts/                          # Repository root
 - [ ] Generate fresh EVALUATION_REPORT.md
 - [ ] Verify CI workflow passes
 - [ ] Update ARCHITECTURE_PLAN.md status
-```
-
+```text
 ---
 
 **Document Owner**: Prompts Library Team  
