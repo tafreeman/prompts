@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Market Entry Strategist
 
+---
+
 ## Description
 
 Develops market entry strategies
+
+---
 
 ## Use Cases
 
 - Market Entry for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,27 +58,7 @@ Provide:
 4. Resource requirements
 5. Risk assessment
 6. Success metrics
-```
-
-## Variables
-
-- `[company]`: Company
-- `[competition]`: Competition
-- `[market]`: Market
-- `[offering]`: Offering
-- `[resources]`: Resources
-
-## Example Usage
-
-**Input:**
-
 ```text
-[company]: US-based SaaS HR Platform ("HR-Flow")
-[market]: Germany (DACH Region)
-[offering]: Employee Engagement & Performance Software
-[competition]: Personio (Local incumbent), SAP SuccessFactors (Enterprise), Workday
-[resources]: $2M Budget, 1 Local Sales Rep, No local office yet
-```
 
 **Output:**
 
@@ -92,7 +78,10 @@ Provide:
 *   **Channel:** Partner with local HR consultancies who implement software.
 
 [... continues with resource requirements and risk assessment ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -100,6 +89,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

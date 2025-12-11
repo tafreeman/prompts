@@ -2,6 +2,7 @@
 title: "Reflection: Initial Answer + Self-Critique"
 shortTitle: "Reflection Self-Critique"
 intro: "A two-phase reflection pattern that generates an initial answer and systematically critiques it to improve quality and accuracy."
+category: "advanced"
 type: "how_to"
 difficulty: "advanced"
 audience:
@@ -19,7 +20,7 @@ version: "1.0.1"
 date: "2025-11-17"
 governance_tags:
   - "PII-safe"
-  - "requires-human-review-for-critical-decisions"
+  - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "draft"
 last_updated: "2025-11-27"
@@ -27,11 +28,25 @@ performance_metrics: {'accuracy_improvement': 'High (reduces hallucination rate)
 testing: {'validated_on': ['Claude Sonnet 4.5', 'GPT-4'], 'pass_rate': '90%'}
 governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
+
 # Reflection: Initial Answer + Self-Critique Pattern
 
-## Purpose
+---
+
+## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
+
+---
+
+## Research Foundation
+
+This technique builds upon iterative refinement research:
+**Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao, L., Wiegreffe, S., Alon, U., et al. (2023).** "Self-Refine: Iterative Refinement with Self-Feedback." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651)
+
+Madaan et al. demonstrated that a single LLM can serve as generator, refiner, and feedback provider, achieving ~20% absolute improvement across diverse tasks through iterative self-feedback—without requiring supervised training data or reinforcement learning.
+
+---
 
 ## Use Cases
 
@@ -43,9 +58,11 @@ The Reflection pattern involves generating an initial answer and then systematic
 - Research and analysis requiring accuracy
 - Teaching and explanation where correctness matters
 
+---
+
 ## Prompt
 
-```text
+```
 You will answer a question using a two-phase reflection pattern.
 
 **Question**: [USER_QUESTION]
@@ -113,6 +130,8 @@ Based on this critique, provide:
 **Recommended Next Steps**: [If applicable]
 ```
 
+---
+
 ## Variables
 
 - `[USER_QUESTION]`: The question or problem to solve
@@ -123,6 +142,8 @@ Based on this critique, provide:
 1. **Copy the prompt** into your LLM interface.
 2. **Replace placeholders** (`[USER_QUESTION]`, `[BACKGROUND_AND_CONSTRAINTS]`) with your specific details.
 3. **Run the prompt**. The model will generate an initial answer, critique it, and then provide a revised answer.
+
+---
 
 ## Example
 
@@ -241,48 +262,44 @@ Timeline: 18-24 months for complete migration.
 **Before deciding, investigate:**
 
 1. **Root Cause Analysis** (2-4 weeks):
-   - Why is deployment slow? (Process vs. technical?)
-   - What specifically doesn't scale? (App logic, database, I/O?)
-   - Can these be fixed without microservices?
+  - Why is deployment slow? (Process vs. technical?)
+  - What specifically doesn't scale? (App logic, database, I/O?)
+  - Can these be fixed without microservices?
 
 2. **Team Assessment** (1-2 weeks):
-   - Microservices experience level?
-   - DevOps/SRE capability?
-   - Appetite for operational complexity?
+  - Microservices experience level?
+  - DevOps/SRE capability?
+  - Appetite for operational complexity?
 
 3. **Alternative Solutions Analysis**:
 
-   **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
-   - Fix deployment pipeline (CI/CD improvements)
-   - Add horizontal scaling (if stateless)
-   - Database optimization/caching
-   - Cost: 10% of migration cost
-   - Risk: Lower
-   - Pros: Fast, low risk, leverages existing knowledge
-   - Cons: May hit architectural limits eventually
+  **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
+  - Fix deployment pipeline (CI/CD improvements)
+  - Add horizontal scaling (if stateless)
+  - Database optimization/caching
+  - Cost: 10% of migration cost
+  - Risk: Lower
+  - Pros: Fast, low risk, leverages existing knowledge
+  - Cons: May hit architectural limits eventually
 
-   **Option B: Modular Monolith** (~$500K, 6-12 months)
-   - Refactor into modules with clear boundaries
-   - Enables future extraction if needed
-   - Cost: 25% of full migration
-   - Risk: Medium
-   - Pros: Gets many microservices benefits, easier to reverse
-   - Cons: Still a monolith, limited independent scaling
+  **Option B: Modular Monolith** (~$500K, 6-12 months)
+  - Refactor into modules with clear boundaries
+  - Enables future extraction if needed
+  - Cost: 25% of full migration
+  - Risk: Medium
+  - Pros: Gets many microservices benefits, easier to reverse
+  - Cons: Still a monolith, limited independent scaling
 
-   **Option C: Hybrid Approach** (~$1M, 12-18 months)
-   - Keep monolith for stable, core functionality
-   - Extract only problematic services (e.g., high-scale services)
-   - Cost: 50% of full migration
-   - Risk: Medium
-   - Pros: Targeted solution, manageable complexity
-   - Cons: Some organizational complexity
+  **Option C: Hybrid Approach** (~$1M, 12-18 months)
+  - Keep monolith for stable, core functionality
+  - Extract only problematic services (e.g., high-scale services)
 
-   **Option D: Full Microservices** (~$2M+, 24-36 months)
-   - Complete migration as initially suggested
-   - Cost: $2M+ (likely more based on failure history)
-   - Risk: High
-   - Pros: Full benefits (if successful)
-   - Cons: High risk, high cost, operational complexity
+  **Option D: Full Microservices** (~$2M+, 24-36 months)
+  - Complete migration as initially suggested
+  - Cost: $2M+ (likely more based on failure history)
+  - Risk: High
+  - Pros: Full benefits (if successful)
+  - Cons: High risk, high cost, operational complexity
 
 **My Recommendation**:
 
@@ -325,6 +342,8 @@ These unknowns prevent High confidence in any specific recommendation.
 6. Pilot Option A improvements for 90 days, measure impact
 ```
 
+---
+
 ## Tips
 
 - **Be harsh in critique**: The goal is to find problems, not justify the initial answer
@@ -334,6 +353,8 @@ These unknowns prevent High confidence in any specific recommendation.
 - **Check your confidence calibration**: Are you overconfident? Under-confident?
 - **Time investment**: Reflection adds 50-100% to response time; use for high-stakes questions
 - **Iterate if needed**: If critique reveals major flaws, revise and critique again
+
+---
 
 ## When to Use Reflection
 
@@ -351,6 +372,8 @@ These unknowns prevent High confidence in any specific recommendation.
 - Time-critical situations requiring fast response
 - Low-stakes, easily reversible decisions
 - Well-understood, routine problems
+
+---
 
 ## Output Schema (JSON)
 
@@ -380,11 +403,14 @@ These unknowns prevent High confidence in any specific recommendation.
 }
 ```
 
+---
+
 ## Related Prompts
 
-- [Reflection: Iterative Improvement](reflection-iterative-improvement.md) - Multi-round refinement
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - Explore multiple approaches
+
+---
 
 ## Governance Notes
 

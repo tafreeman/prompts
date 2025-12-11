@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Resource Allocation Optimizer
 
+---
+
 ## Description
 
 Optimizes project resource allocation
+
+---
 
 ## Use Cases
 
 - Resource Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Provide:
 4. Timeline optimization
 5. Cost efficiency measures
 6. Contingency planning
-```
-
-## Variables
-
-- `[constraints]`: Constraints
-- `[priorities]`: Priorities
-- `[project_name]`: Project Name
-- `[resources]`: Resources
-
-## Example Usage
-
-**Input:**
-
 ```text
-[project_name]: Q4 Holiday Marketing Campaign
-[resources]: 3 Designers (Full-time), 2 Copywriters (Part-time), 1 Web Dev (Shared resource, 10hrs/week)
-[constraints]: Web Dev availability is the bottleneck; Campaign must launch Nov 1st (Hard deadline)
-[priorities]: 1. Landing Page (Requires Dev), 2. Email Templates, 3. Social Media Assets
-```
 
 **Output:**
 
@@ -89,7 +77,10 @@ Provide:
 *   **Crash Strategy:** If Dev falls behind, approve budget for 20 hours of external contractor support.
 
 [... continues with cost efficiency and contingency ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -97,6 +88,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

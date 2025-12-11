@@ -37,7 +37,7 @@ reviewStatus: draft
 Each work stream can be assigned to a separate agent. Streams are independent with no blocking dependencies.
 
 | Stream | Priority | Focus | Parallelizable | Status |
-|--------|----------|-------|----------------|--------|
+| :--- |----------| :--- |----------------| :--- |
 | **S** | P0 | Simplification (remove bloat) | ✅ Yes | ✅ **COMPLETE** |
 | **R** | P1 | Scoring Rubric & Tooling | ✅ Yes | ✅ **COMPLETE** |
 | **A** | P0 | Frontmatter Remediation | ✅ Yes | ⏳ Pending |
@@ -122,8 +122,7 @@ python scripts/simplify_prompts.py s1      # Run S1 only
 python scripts/simplify_prompts.py s2      # Run S2 only
 python scripts/simplify_prompts.py all     # Run all tasks
 python scripts/simplify_prompts.py --dry-run  # Preview changes
-```
-
+```text
 **Estimated savings**: ~20 lines per file
 
 ### Simplified Structure Template
@@ -157,7 +156,7 @@ The actual prompt text...
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| :--- |-------------|
 | [VAR] | What to put here |
 
 ## Example
@@ -170,8 +169,7 @@ The actual prompt text...
 - Tip 1
 - Tip 2
 - Tip 3 (max 5)
-```
-
+```text
 ---
 
 ## Stream R: Scoring Rubric & Tooling ✅ COMPLETE
@@ -207,8 +205,7 @@ Created `tools/validators/score_validator.py`:
 python tools/validators/score_validator.py --all --summary
 python tools/validators/score_validator.py --unscored
 python tools/validators/score_validator.py prompts/advanced/
-```
-
+```text
 ### Task R3: Add Score Display ✅
 
 Updated templates to include scoring:
@@ -277,8 +274,7 @@ audience:
 platforms:
   - "github-copilot"
   - "claude"
-```
-
+```sql
 ### Task A2: Analysis Category (20 files)
 - [ ] `prompts/analysis/business-case-developer.md`
 - [ ] `prompts/analysis/competitive-analysis-researcher.md`
@@ -530,7 +526,7 @@ platforms:
 ## Agent Assignment Matrix
 
 | Stream | Task Count | Est. Time | Can Run Parallel | Priority |
-|--------|------------|-----------|------------------|----------|
+| :--- |------------| :--- |------------------| :--- |
 | S (Simplify) | 8 categories | 2-3 hours | ✅ Yes (split by S1-S5) | P0 |
 | R (Scoring) | 4 tasks | 2-3 hours | ✅ Yes (after R1) | P1 |
 | A (Frontmatter) | 128 files | 3-4 hours | ✅ Yes (split by A1-A7) | P0 |
@@ -577,8 +573,7 @@ After completing any task, run:
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
 D:/source/prompts/.venv/Scripts/python.exe tools/validators/frontmatter_validator.py --folder prompts --summary
-```
-
+```powershell
 Target: 100% pass rate (139/139 files)
 
 ---

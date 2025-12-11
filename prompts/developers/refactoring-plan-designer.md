@@ -16,12 +16,14 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
-  - "architectural-change"
-  - "requires-review"
+  - "PII-safe"
+  - "requires-human-review"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
 # Refactoring Plan Designer
+
+---
 
 ## Description
 
@@ -59,6 +61,8 @@ Use this prompt when planning large refactorings (extracting services, changing 
 
 Structured planning with risk analysis. Output is a phased plan with explicit pre-checks, steps, validations, and rollbacks.
 
+---
+
 ## Output Requirements
 
 Markdown with the following sections:
@@ -71,6 +75,8 @@ Markdown with the following sections:
 6. **Rollback Plans** (per phase)
 7. **Timeline Estimate**
 
+---
+
 ## Use Cases
 
 - Extracting a microservice from a monolith
@@ -78,6 +84,8 @@ Markdown with the following sections:
 - Changing database schemas or data models
 - Refactoring large modules or classes
 - Paying down technical debt systematically
+
+---
 
 ## Prompt
 
@@ -236,50 +244,7 @@ Before starting, ensure:
 **Total:** [X weeks/months]
 
 **Buffer:** [+Y weeks for unknowns]
-```
-
-## Variables
-
-- `[SYSTEM_OR_CODE_DESCRIPTION]`: High-level description of what's being refactored
-- `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]`: Current state
-- `[PAIN_POINT_X]`: Problems with current code
-- `[WHAT_YOU_WANT_TO_ACHIEVE]`: Refactoring goal
-- `[SUCCESS_CRITERION_X]`: Measurable success indicators
-- `[N developers]`: Team size
-- `[X weeks/months]`: Timeline
-- `[e.g., 99.9%]`: Uptime requirement
-- `[current %]`: Test coverage
-- `[ANY_OTHER_INFO]`: Additional context
-
-## Example Usage
-
-**Input:**
-
 ```text
-**System/Code:** E-commerce monolith (Rails app, 200K LOC)
-
-**Current State:**
-Single Rails app with tightly coupled user management, product catalog, and order processing.
-
-**Pain Points:**
-- User service changes require full app redeploy (risky)
-- User service team blocked by order processing team
-- Database contention (users and orders share same DB)
-
-**Refactoring Goal:** Extract user management into a separate microservice
-
-**Success Criteria:**
-- User service independently deployable
-- <10ms latency increase for user operations
-- Zero downtime during extraction
-
-**Constraints:**
-- Team Size: 5 developers
-- Timeline: 3 months
-- Uptime Requirement: 99.95%
-- Test Coverage: 60%
-- Deployment Frequency: Daily
-```
 
 **Output (abbreviated):**
 
@@ -370,22 +335,11 @@ Single Rails app with tightly coupled user management, product catalog, and orde
 #### Phase 4: Remove Monolith User Code
 
 [Same structure: delete old user code from monolith, final validation]
-```
+```text
 
-## Tips
-
-- **Start small:** First phase should be low-risk preparation (tests, boundaries)
-- **Use feature flags:** Enable gradual rollout and instant rollback
-- **Monitor everything:** Track latency, error rates, data consistency
-- **Plan for failure:** Every phase needs a rollback plan
-- **Communicate:** Share the plan with team and stakeholders
-- **Iterate:** Adjust phases based on learnings from early phases
-
-## Related Prompts
-
-- [Tree-of-Thoughts: Architecture Evaluator](../advanced-techniques/tree-of-thoughts-architecture-evaluator.md) - For evaluating refactoring options
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For fixing issues during refactoring
 - [Code Review Expert: Structured](code-review-expert-structured.md) - For reviewing refactoring PRs
+
+---
 
 ## Governance Notes
 

@@ -24,9 +24,13 @@ reviewStatus: "draft"
 ---
 # Interview Questions Generator
 
+---
+
 ## Description
 
 Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
+
+---
 
 ## Use Cases
 
@@ -35,6 +39,8 @@ Create structured interview questions that assess candidates fairly and effectiv
 - Training new interviewers on behavioral interviewing
 - Ensuring consistent evaluation across candidates
 - Creating competency-based assessment frameworks
+
+---
 
 ## Prompt
 
@@ -77,27 +83,7 @@ Generate:
    - What "concerning" looks like
 
 Format as an interview guide with timing suggestions.
-```
-
-## Variables
-
-- `[role]`: Job title and brief description of the role
-- `[level]`: Seniority level (e.g., "Senior IC", "First-time manager", "Director")
-- `[competencies]`: 3-5 key competencies to assess (e.g., "Problem-solving, collaboration, technical depth")
-- `[stage]`: Interview stage (e.g., "Phone screen", "Hiring manager round", "Final onsite")
-- `[time]`: Duration of the interview (e.g., "45 minutes", "60 minutes")
-
-## Example Usage
-
-**Input:**
-
 ```text
-Role: Product Manager - Growth team, responsible for user acquisition and activation funnels
-Level: Senior (5+ years PM experience), individual contributor
-Key Competencies: Data-driven decision making, cross-functional leadership, experimentation mindset, customer empathy, strategic thinking
-Interview Stage: Hiring manager round (second interview, passed recruiter screen)
-Time Available: 60 minutes
-```
 
 **Output:**
 
@@ -321,7 +307,10 @@ Time Available: 60 minutes
 - [ ] Note specific examples (not just impressions)
 - [ ] Flag any concerns for hiring committee
 - [ ] Avoid discussing with other interviewers before independent scoring
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -330,6 +319,8 @@ Time Available: 60 minutes
 - Listen for specific examples with measurable results, not hypotheticals
 - Take notes on exact quotes - they're more useful than your interpretations
 - Leave time for candidate questions - how they ask reveals a lot
+
+---
 
 ## Related Prompts
 

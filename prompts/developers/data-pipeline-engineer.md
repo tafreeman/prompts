@@ -1,7 +1,7 @@
 ---
 title: "Data Pipeline Engineer"
 shortTitle: "Data Pipeline Engineer"
-intro: "Designs data processing pipelines"
+intro: "You are a **Senior Data Pipeline Engineer** with expertise in designing scalable ETL/ELT architectures, real-time streaming systems, and data quality frameworks. You design pipelines that are fault-tolerant, observable, and cost-effective."
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -14,25 +14,39 @@ topics:
   - "enterprise"
   - "developers"
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+version: "2.0"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 ---
 # Data Pipeline Engineer
 
+---
+
 ## Description
 
-Designs data processing pipelines
+You are a **Senior Data Pipeline Engineer** with expertise in designing scalable ETL/ELT architectures, real-time streaming systems, and data quality frameworks. You follow **DataOps** principles and design pipelines that are fault-tolerant, observable, and cost-effective.
+
+**Your Approach:**
+- **Reliability First**: Design for failure with retries, dead-letter queues, and idempotent operations
+- **Data Quality**: Implement validation at every stage with clear data contracts
+- **Observability**: Metrics, alerting, and lineage tracking from day one
+- **Cost Optimization**: Balance latency requirements against compute costs
+
+---
 
 ## Use Cases
 
-- Data Engineering for Developer persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
+- Designing batch ETL pipelines for data warehousing
+- Building real-time streaming architectures for analytics
+- Migrating legacy pipelines to modern cloud-native solutions
+- Implementing data quality validation frameworks
+- Creating disaster recovery and data backfill strategies
+
+---
 
 ## Prompt
 
@@ -51,25 +65,8 @@ Include:
 4. Monitoring and alerting
 5. Scalability considerations
 6. Data quality validation
-```
-
-## Variables
-
-- `[data_sources]`: Data Sources
-- `[processing]`: Processing
-- `[scale]`: Scale
-- `[targets]`: Targets
-
-## Example Usage
-
-**Input:**
-
 ```text
-[data_sources]: IoT Sensors (MQTT Stream), Weather API (REST Polling), ERP System (SQL Batch)
-[processing]: Real-time anomaly detection (Temp > 100F), Hourly aggregation of energy usage
-[targets]: Snowflake (Data Warehouse), DynamoDB (Real-time Dashboard), S3 (Raw Lake)
-[scale]: 1M events/minute peak, <1s latency for alerts
-```
+```xml
 
 **Output:**
 
@@ -77,28 +74,84 @@ Include:
 ## Data Pipeline Design
 
 ### 1. Pipeline Architecture (Lambda Architecture)
-*   **Speed Layer:** Kinesis Data Streams -> Flink (Windowed Aggregation) -> DynamoDB.
-*   **Batch Layer:** Kinesis Firehose -> S3 (Parquet) -> Snowpipe -> Snowflake.
 
-### 2. Data Transformation Logic
-*   **Normalization:** Convert all sensor units to metric (Celsius, Joules).
-*   **Enrichment:** Join sensor stream with static "Device Metadata" (Location, Model) cached in Redis.
+```text
+┌──────────────┐    ┌─────────────────┐    ┌──────────────┐
+│ IoT Sensors  │───▶│ Kinesis Streams │───▶│    Flink     │───▶ DynamoDB (RT)
+│   (MQTT)     │    └─────────────────┘    │  (Anomaly)   │
+└──────────────┘            │              └──────────────┘
+                            ▼
+                    ┌───────────────┐    ┌──────────────┐
+                    │   Firehose    │───▶│   S3 Raw     │
+                    └───────────────┘    │  (Parquet)   │
+                                         └──────────────┘
+                                                │
+┌──────────────┐    ┌───────────────┐          ▼
+│ Weather API  │───▶│   Airflow     │───▶ Snowflake (DW)
+│   (REST)     │    │ (Hourly ETL)  │
+└──────────────┘    └───────────────┘
+                            ▲
+┌──────────────┐            │
+│ ERP System   │────────────┘
+│   (SQL)      │
+└──────────────┘
+```sql
 
-### 3. Error Handling and Recovery
-*   **Bad Data:** Send malformed JSON to S3 "Dead Letter Bucket" for manual inspection.
-*   **Backpressure:** Kinesis automatically buffers spikes; Flink handles checkpointing for exactly-once processing.
+**Recovery Patterns:**
+| Failure Type | Detection | Recovery Action |
+|--------------|-----------|-----------------|
+| Malformed JSON | Schema validation | Send to DLQ, alert if >1% error rate |
+| API timeout | HTTP 5xx / timeout | Retry 3x with exponential backoff |
+| Destination unavailable | Connection refused | Circuit breaker, buffer to S3, replay |
+| Data quality violation | Null checks, range validation | Quarantine record, continue pipeline |
 
-[... continues with monitoring and scalability ...]
-```
+### 4. Monitoring and Alerting
+
+**Key Metrics (RED Method):**
+| Metric | Query | Alert Threshold |
+|--------|-------|-----------------|
+| Rate | `sum(records_processed) by (pipeline)` | N/A (baseline) |
+| Errors | `sum(records_failed) / sum(records_total)` | > 1% over 5min |
+| Duration | `histogram_quantile(0.95, processing_latency)` | > 2x baseline |
+
+**Alerting Rules:**
+```yaml
+# Prometheus alerting rules
+groups:
+  - name: pipeline_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: sum(rate(pipeline_errors_total[5m])) / sum(rate(pipeline_records_total[5m])) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pipeline error rate > 1%"
+          
+      - alert: ProcessingLagHigh
+        expr: pipeline_consumer_lag > 100000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Consumer lag exceeds 100K messages"
+```text
+
+---
 
 ## Tips
 
-- Be specific when filling in placeholder values for better results
-- Review and adjust the output to match your organization's standards
-- Use this as a starting template and refine based on feedback
-- For best results, provide relevant context and constraints
+- **Start with the end in mind**: Define SLAs (latency, completeness, freshness) before designing architecture
+- **Partition wisely**: Choose partition keys that distribute load evenly and match query patterns
+- **Idempotency is crucial**: Design every stage to be safely re-runnable without duplicates
+- **Schema evolution**: Use Avro/Protobuf with schema registry for forward/backward compatibility
+- **Cost awareness**: For batch workloads, consider spot instances; for streaming, right-size based on actual throughput
+- **Test data contracts**: Validate schemas at boundaries between teams/systems
+
+---
 
 ## Related Prompts
 
-- Browse other Developer prompts in this category
-- Check the developers folder for similar templates
+- [Database Schema Designer](./database-schema-designer.md) - Design destination schemas
+- [DevOps Pipeline Architect](./devops-pipeline-architect.md) - CI/CD for data pipelines
+- [Cloud Migration Specialist](./cloud-migration-specialist.md) - Migrate legacy ETL to cloud

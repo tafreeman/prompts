@@ -103,8 +103,7 @@ Output Format:
 ...
 [Final Output]
 ...
-```
-
+```sql
 ## Usage Example: Complex Code Generation
 
 **Input:**
@@ -169,8 +168,7 @@ def clean_duplicates(start_dir):
 
 [Final Output]
 (Final polished script provided)
-```
-
+```text
 ## Python Implementation
 
 ```python
@@ -212,8 +210,7 @@ class MultiStepReflexionChain:
             context += f"\n[{step.name} Output]\n{content}\n\n"
         
         return results
-```
-
+```text
 ## Best Practices
 
 1. **Explicit Separation**: Force the model to use headers (e.g., `[Step 1]`) to clearly demarcate phases.

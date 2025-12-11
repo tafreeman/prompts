@@ -36,8 +36,7 @@ Provide a clear, concise description (2-3 sentences max) of what this prompt doe
 ```text
 [Write your actual prompt here. Be specific, clear, and provide all necessary context.
 Use [VARIABLE_NAME] for values users should replace.]
-```
-
+```text
 ## Variables
 
 | Variable | Description |
@@ -51,14 +50,12 @@ Use [VARIABLE_NAME] for values users should replace.]
 
 ```text
 Show a concrete example with real values filled in.
-```
-
+```text
 **Output:**
 
 ```text
 Example of what the AI would generate.
-```
-
+```text
 ## Tips
 
 - Tip 1: How to customize for specific needs

@@ -5,9 +5,9 @@ intro: "Develop and document comprehensive brand voice guidelines that ensure co
 type: "how_to"
 difficulty: "intermediate"
 audience:
-  - "marketer"
-  - "brand-manager"
-  - "content-strategist"
+  - "functional-team"
+  - "project-manager"
+  - "business-analyst"
 platforms:
   - "claude"
   - "chatgpt"
@@ -28,9 +28,13 @@ effectivenessScore: 4.0
 ---
 # Brand Voice Developer
 
+---
+
 ## Description
 
 Create comprehensive brand voice guidelines that define how your brand sounds across all touchpoints. This prompt helps marketers, brand managers, and content strategists develop clear, actionable voice documentation that teams can follow consistently.
+
+---
 
 ## Use Cases
 
@@ -39,6 +43,8 @@ Create comprehensive brand voice guidelines that define how your brand sounds ac
 - Refreshing brand voice during rebrands or pivots
 - Creating voice guidelines for content teams and agencies
 - Ensuring consistency across global or distributed teams
+
+---
 
 ## Prompt
 
@@ -87,73 +93,7 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
-```
-
-## Variables
-
-| Variable | Description |
-|----------|-------------|
-| `[YOUR BRAND NAME]` | The name of your brand or company |
-| `[YOUR INDUSTRY/CATEGORY]` | What space you operate in |
-| `[WHAT YOU DO AND WHY]` | Your mission and purpose |
-| `[PRIMARY AUDIENCE DESCRIPTION]` | Who you're talking to |
-| `[E.G., CONFIDENT, HELPFUL, WITTY]` | 3-5 personality traits |
-| `[EXAMPLE]` | A celebrity or character that embodies your brand |
-| `[WEBSITE/SOCIAL/EMAIL/ADS/PRODUCT/SUPPORT]` | Your main communication channels |
-| `[ATTRIBUTES]` | Voice qualities you want more or less of |
-| `[BRAND-ALIGNED VOCABULARY]` | Words that fit your brand |
-| `[OFF-BRAND VOCABULARY]` | Words to avoid |
-
-## Example Usage
-
-**Input:**
-
 ```text
-You are a brand strategist specializing in voice and tone development. Help me create comprehensive brand voice guidelines based on the following information:
-
-**Brand Overview:**
-- Brand Name: Catalyst
-- Industry: B2B SaaS / Project Management
-- Brand Mission: Help teams work better together by making collaboration intuitive, not another thing to manage
-- Target Audience: Team leads, project managers, and ops people at companies with 50-500 employees who are frustrated with clunky legacy tools
-
-**Brand Personality:**
-Describe your brand as if it were a person:
-- Personality traits: Capable, approachable, straightforward, subtly witty, reliable
-- If your brand were a celebrity, who would it be? Ryan Reynolds—competent and confident but never takes himself too seriously
-- What brands do you admire for their voice? Slack (friendly but smart), Notion (clean and capable), Mailchimp (accessible with personality)
-
-**Current Voice Assessment:**
-- How would you describe your current voice? A bit corporate and generic, trying too hard to sound "professional"
-- What's working well? Clear feature explanations, technical accuracy
-- What needs improvement? Too dry, no personality, sounds like every other B2B tool
-
-**Communication Context:**
-- Primary channels: Website, blog, email, in-app, social (LinkedIn and Twitter), help docs
-- Key content types: Product pages, feature announcements, onboarding emails, help articles, social posts, ads
-- Competitors' voice: Most are either super corporate/buzzwordy (Monday, Wrike) or trying too hard to be cool (ClickUp)
-
-**Voice Aspirations:**
-- We want to sound more: Human, confident, helpful, occasionally clever
-- We want to sound less: Corporate, stiff, generic, salesy, buzzwordy
-- Words we love: Simple, team, together, clear, build, flow
-- Words we avoid: Synergy, leverage, utilize, cutting-edge, revolutionary, best-in-class, utilize, facilitate
-
-**Audience Insights:**
-- How does our audience talk? Direct, practical, a little sarcastic about bad tools they've used. Time-poor, so they appreciate brevity.
-- What do they value in communication? Clarity, honesty, getting to the point, not being talked down to
-- What frustrates them? Jargon, vague promises, having to dig for information, chatbots that don't help
-
-Please create comprehensive brand voice guidelines including:
-1. Brand Voice Summary (elevator pitch for your voice)
-2. Core Voice Attributes (3-4 pillars with descriptions)
-3. Tone Spectrum (how voice adjusts across contexts)
-4. Voice Do's and Don'ts with examples
-5. Vocabulary Guide (words to use, words to avoid)
-6. Channel-Specific Guidelines
-7. Example Rewrites (generic → on-brand)
-8. Quick Reference Card for team use
-```
 
 **Output:**
 
@@ -483,20 +423,7 @@ Our voice stays consistent, but our tone adjusts based on context:
 ---
 
 *Questions about voice? Ping the brand team or check the #brand-voice Slack channel.*
-```
+```text
 
-## Tips
-
-- **Involve stakeholders early:** Brand voice should reflect input from leadership, marketing, customer-facing teams, and ideally customers themselves
-- **Document with examples:** Abstract principles are hard to follow—concrete "do this, not that" examples make guidelines actionable
-- **Create a quick reference:** Most team members won't read the full guide—give them a one-page cheat sheet
-- **Include edge cases:** How should voice change for error messages, apologies, or sensitive topics? Document these specifically
-- **Make it accessible:** Put guidelines where people actually work—in design systems, content management tools, Slack channels
-- **Review regularly:** Voice should evolve with your brand and audience—schedule annual reviews
-
-## Related Prompts
-
-- [Headline and Tagline Creator](headline-tagline-creator.md)
-- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)

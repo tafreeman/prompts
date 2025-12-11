@@ -3,6 +3,13 @@
 Frontmatter Validator for Prompt Library
 Validates YAML frontmatter against the unified schema defined in UNIFIED_REFACTOR_GUIDE_REACT.md
 
+This validator distinguishes between:
+1. DOCUMENTATION/CONTENT files - require full frontmatter schema
+2. FUNCTIONAL CONFIG files - have their own minimal schemas:
+   - *.agent.md files: name, description, tools (GitHub Copilot custom agents)
+   - *.instructions.md files: applyTo, description, name (Copilot instructions)
+   - .github/copilot-instructions.md: no frontmatter required
+
 Usage:
     python tools/validators/frontmatter_validator.py --all
     python tools/validators/frontmatter_validator.py path/to/file.md
@@ -13,11 +20,20 @@ import argparse
 import sys
 import yaml
 import re
+import fnmatch
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
 from datetime import datetime
 from enum import Enum
+
+
+class FileType(Enum):
+    """Types of files with different validation schemas."""
+    DOCUMENTATION = "documentation"  # Full frontmatter schema
+    AGENT = "agent"                  # Minimal: name, description, tools
+    INSTRUCTIONS = "instructions"    # Minimal: applyTo, description, name
+    EXCLUDED = "excluded"            # Skip validation entirely
 
 
 class Severity(Enum):
@@ -88,11 +104,60 @@ VALID_TECHNIQUES = [
 ]
 
 VALID_GOVERNANCE_TAGS = [
+    # Core governance tags (original)
     "PII-safe",
     "client-approved",
     "internal-only",
     "requires-human-review",
-    "audit-required"
+    "audit-required",
+    # General usage tags
+    "general-use",
+    "internal-use-only",
+    # Human review variants
+    "requires-human-review-for-critical-decisions",
+    "requires-human-review-for-sensitive-docs",
+    "requires-human-review-for-external-tools",
+    "human-review-recommended",
+    "requires-review",
+    "requires-executive-review",
+    # Architecture & technical decision tags
+    "architecture-decision",
+    "architecture-decision-record",
+    "adr-required",
+    "architectural-change",
+    "system-architecture",
+    "technical-documentation",
+    "strategic-decision",
+    # Code quality & security tags
+    "secure-coding",
+    "security-critical",
+    "quality-assurance",
+    "quality-control",
+    # Data & governance tags
+    "data-governance",
+    "data-privacy",
+    "quality-metrics",
+    "tenant-boundaries",
+    "compliance",
+    "compliance-reporting",
+    # Risk & audit tags
+    "risk-assessment",
+    "audit-trail",
+    "restricted-access",
+    "sensitive",
+    # Approval tags
+    "attorney-approval-required",
+    "CISO-approval-required",
+    # Change & production tags
+    "change-management",
+    "production-impact",
+    # Analysis & automation tags
+    "safe-for-automated-analysis",
+    "research",
+    "knowledge-synthesis",
+    # Meta & process tags
+    "meta-prompt",
+    "continuous-improvement",
 ]
 
 VALID_DATA_CLASSIFICATIONS = ["public", "internal", "confidential"]
@@ -135,6 +200,109 @@ REQUIRED_FIELDS_PROMPTS = [
 # Navigation fields (index.md only)
 INDEX_FIELDS = ["children", "featuredLinks", "layout"]
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# FILE TYPE DETECTION
+# Determines which validation schema to apply based on file path/name
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Files to EXCLUDE from validation entirely (no frontmatter expected)
+EXCLUDED_PATTERNS = [
+    '.github/copilot-instructions.md',  # Workspace instructions (no frontmatter)
+    '.github/instructions/copilot-instructions.md',  # Alt location
+    '.github/agents/README.md',   # Human-readable docs in functional directory
+    '.github/agents/AGENTS_GUIDE.md',  # Human-readable docs in functional directory
+    'SECURITY.md',                # Root-level standard file (no frontmatter)
+    'LICENSE',                    # License file
+    'docs/archive/*',             # Archived planning docs (no frontmatter validation)
+    'docs/archive/**/*',          # Nested archived files
+]
+
+# Cursor IDE config files - different format, exclude from VS Code schema validation
+CURSOR_PATTERNS = [
+    '.agent/rules/*.md',      # Cursor rule files (use trigger, glob fields)
+    '.agent/workflows/*.md',  # Cursor workflow files (step-by-step format)
+    '.cursorrules',           # Cursor project rules file
+]
+
+# Files to validate with AGENT schema (name, description, tools)
+AGENT_PATTERNS = [
+    '*.agent.md',           # Any file ending in .agent.md
+    '.github/agents/*.agent.md',  # Only .agent.md files in .github/agents
+]
+
+# Documentation files in agent directories (use full documentation schema)
+# These are content files that happen to be in agent folders
+AGENT_DOCS_PATTERNS = [
+    'agents/README.md',
+    'agents/AGENTS_GUIDE.md',
+]
+
+# Files to validate with INSTRUCTIONS schema (applyTo, description, name)
+INSTRUCTIONS_PATTERNS = [
+    '*.instructions.md',           # Any file ending in .instructions.md
+    '.github/instructions/*.md',   # Instruction files (but not copilot-instructions.md)
+]
+
+# Template files that should keep minimal format (they are meant to be copied)
+TEMPLATE_PATTERNS = [
+    'agents/agent-template.md',
+    '.github/agents/agent-template.md',
+]
+
+
+def get_file_type(file_path: Path, repo_root: Path) -> FileType:
+    """
+    Determine the validation schema to use based on file path.
+    
+    Args:
+        file_path: Absolute path to the file
+        repo_root: Repository root path
+        
+    Returns:
+        FileType indicating which validation schema to apply
+    """
+    # Get relative path for pattern matching
+    try:
+        rel_path = file_path.relative_to(repo_root)
+    except ValueError:
+        rel_path = file_path
+    
+    rel_path_str = str(rel_path).replace('\\', '/')  # Normalize for cross-platform
+    file_name = file_path.name
+    
+    # Check exclusions first
+    for pattern in EXCLUDED_PATTERNS:
+        if fnmatch.fnmatch(rel_path_str, pattern) or rel_path_str == pattern:
+            return FileType.EXCLUDED
+    
+    # Check Cursor patterns (different format, exclude from validation)
+    for pattern in CURSOR_PATTERNS:
+        if fnmatch.fnmatch(rel_path_str, pattern) or rel_path_str == pattern:
+            return FileType.EXCLUDED
+    
+    # Check if it's a template that should be treated as agent format
+    for pattern in TEMPLATE_PATTERNS:
+        if fnmatch.fnmatch(rel_path_str, pattern) or rel_path_str == pattern:
+            return FileType.AGENT
+    
+    # Check for documentation files in agent directories (treat as docs, not agents)
+    for pattern in AGENT_DOCS_PATTERNS:
+        if fnmatch.fnmatch(rel_path_str, pattern) or rel_path_str == pattern:
+            return FileType.DOCUMENTATION
+    
+    # Check agent patterns
+    for pattern in AGENT_PATTERNS:
+        if fnmatch.fnmatch(file_name, pattern) or fnmatch.fnmatch(rel_path_str, pattern):
+            return FileType.AGENT
+    
+    # Check instructions patterns  
+    for pattern in INSTRUCTIONS_PATTERNS:
+        if fnmatch.fnmatch(file_name, pattern) or fnmatch.fnmatch(rel_path_str, pattern):
+            return FileType.INSTRUCTIONS
+    
+    # Default: full documentation schema
+    return FileType.DOCUMENTATION
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # VALIDATOR
@@ -142,18 +310,28 @@ INDEX_FIELDS = ["children", "featuredLinks", "layout"]
 
 class FrontmatterValidator:
     
-    def __init__(self, strict: bool = False):
+    def __init__(self, strict: bool = False, repo_root: Optional[Path] = None):
         """
         Initialize validator.
         
         Args:
             strict: If True, warnings become errors
+            repo_root: Repository root path for file type detection
         """
         self.strict = strict
+        self.repo_root = repo_root or Path.cwd()
     
     def validate_file(self, file_path: Path) -> ValidationResult:
-        """Validate a single markdown file."""
+        """Validate a single markdown file based on its type."""
         result = ValidationResult(file_path=str(file_path), is_valid=True)
+        
+        # Determine file type
+        file_type = get_file_type(file_path, self.repo_root)
+        
+        # Skip excluded files
+        if file_type == FileType.EXCLUDED:
+            result.add_info("file_type", "Excluded from validation (functional config file)")
+            return result
         
         # Read file
         try:
@@ -164,6 +342,77 @@ class FrontmatterValidator:
         
         # Extract frontmatter
         frontmatter = self._extract_frontmatter(content)
+        
+        # Route to appropriate validation based on file type
+        if file_type == FileType.AGENT:
+            return self._validate_agent_file(frontmatter, result)
+        elif file_type == FileType.INSTRUCTIONS:
+            return self._validate_instructions_file(frontmatter, result)
+        else:
+            return self._validate_documentation_file(frontmatter, file_path, result)
+    
+    def _validate_agent_file(self, frontmatter: Optional[Dict], result: ValidationResult) -> ValidationResult:
+        """Validate agent file with minimal schema: name, description, tools."""
+        if frontmatter is None:
+            result.add_error("frontmatter", "No valid YAML frontmatter found",
+                           "Add YAML frontmatter with name, description, tools fields")
+            return result
+        
+        # Required: name and description
+        if "name" not in frontmatter:
+            result.add_error("name", "Missing required field: name")
+        if "description" not in frontmatter:
+            result.add_error("description", "Missing required field: description")
+        
+        # Optional but recommended: tools
+        if "tools" not in frontmatter:
+            result.add_warning("tools", "Missing tools field",
+                             "Add tools array to specify agent capabilities")
+        elif not isinstance(frontmatter["tools"], list):
+            result.add_error("tools", "tools must be an array")
+        
+        # Warn if documentation fields are present (they shouldn't be in agent files)
+        doc_fields = ["title", "shortTitle", "intro", "type", "difficulty", 
+                      "audience", "platforms", "governance_tags", "dataClassification", "reviewStatus"]
+        present_doc_fields = [f for f in doc_fields if f in frontmatter]
+        if present_doc_fields:
+            result.add_warning("schema", 
+                             f"Agent files should only have name, description, tools. Found extra fields: {', '.join(present_doc_fields)}",
+                             "Remove documentation-style frontmatter from agent configuration files")
+        
+        return result
+    
+    def _validate_instructions_file(self, frontmatter: Optional[Dict], result: ValidationResult) -> ValidationResult:
+        """Validate instructions file with minimal schema: applyTo, description, name."""
+        # Instructions files can have no frontmatter (body-only instructions)
+        if frontmatter is None:
+            result.add_info("frontmatter", "No frontmatter found (body-only instructions file)")
+            return result
+        
+        # All fields are optional for instructions files
+        # Just check that if present, they're valid types
+        if "applyTo" in frontmatter and not isinstance(frontmatter["applyTo"], str):
+            result.add_error("applyTo", "applyTo must be a string (glob pattern)")
+        
+        if "name" in frontmatter and not isinstance(frontmatter["name"], str):
+            result.add_error("name", "name must be a string")
+        
+        if "description" in frontmatter and not isinstance(frontmatter["description"], str):
+            result.add_error("description", "description must be a string")
+        
+        # Warn if documentation fields are present
+        doc_fields = ["title", "shortTitle", "intro", "type", "difficulty", 
+                      "audience", "platforms", "governance_tags", "dataClassification", "reviewStatus"]
+        present_doc_fields = [f for f in doc_fields if f in frontmatter]
+        if present_doc_fields:
+            result.add_warning("schema",
+                             f"Instruction files should only have applyTo, description, name. Found extra fields: {', '.join(present_doc_fields)}",
+                             "Remove documentation-style frontmatter from instruction files")
+        
+        return result
+    
+    def _validate_documentation_file(self, frontmatter: Optional[Dict], file_path: Path, result: ValidationResult) -> ValidationResult:
+        """Validate documentation/content file with full schema."""
         if frontmatter is None:
             result.add_error("frontmatter", "No valid YAML frontmatter found", 
                            "Add YAML frontmatter between --- delimiters")
@@ -376,35 +625,58 @@ def print_result(result: ValidationResult, verbose: bool = False):
     warnings = [i for i in result.issues if i.severity == Severity.WARNING]
     infos = [i for i in result.issues if i.severity == Severity.INFO]
     
-    # Status indicator
-    if result.is_valid and not warnings:
-        status = "✓"
+    # Check if file was excluded
+    is_excluded = any(i.field == "file_type" and "Excluded" in i.message for i in infos)
+    
+    # Status indicator (using ASCII-safe symbols for Windows compatibility)
+    if is_excluded:
+        status = "o"
+        color = "\033[90m"  # Gray for excluded
+    elif result.is_valid and not warnings:
+        status = "+"
         color = "\033[92m"  # Green
     elif result.is_valid:
-        status = "⚠"
-        color = "\033[93m"  # Yellow
+        status = "~"
+        color = "\033[93m"  # Yellow (warnings only)
     else:
-        status = "✗"
+        status = "x"
         color = "\033[91m"  # Red
     
     reset = "\033[0m"
     
-    print(f"{color}{status}{reset} {result.file_path}")
+    # Use safe print for Windows
+    try:
+        print(f"{color}{status}{reset} {result.file_path}")
+    except UnicodeEncodeError:
+        print(f"{status} {result.file_path}")
     
     if verbose or errors:
         for issue in errors:
-            print(f"  {color}ERROR{reset} [{issue.field}]: {issue.message}")
-            if issue.suggestion:
-                print(f"         → {issue.suggestion}")
+            try:
+                print(f"  {color}ERROR{reset} [{issue.field}]: {issue.message}")
+                if issue.suggestion:
+                    print(f"         -> {issue.suggestion}")
+            except UnicodeEncodeError:
+                print(f"  ERROR [{issue.field}]: {issue.message}")
+                if issue.suggestion:
+                    print(f"         -> {issue.suggestion}")
     
     if verbose:
         for issue in warnings:
-            print(f"  \033[93mWARN{reset}  [{issue.field}]: {issue.message}")
-            if issue.suggestion:
-                print(f"         → {issue.suggestion}")
+            try:
+                print(f"  \033[93mWARN{reset}  [{issue.field}]: {issue.message}")
+                if issue.suggestion:
+                    print(f"         -> {issue.suggestion}")
+            except UnicodeEncodeError:
+                print(f"  WARN  [{issue.field}]: {issue.message}")
+                if issue.suggestion:
+                    print(f"         -> {issue.suggestion}")
         
         for issue in infos:
-            print(f"  \033[94mINFO{reset}  [{issue.field}]: {issue.message}")
+            try:
+                print(f"  \033[94mINFO{reset}  [{issue.field}]: {issue.message}")
+            except UnicodeEncodeError:
+                print(f"  INFO  [{issue.field}]: {issue.message}")
 
 
 def main():
@@ -448,7 +720,7 @@ def main():
     repo_root = script_path.parent.parent.parent  # tools/validators/ -> repo root
     
     # Initialize validator
-    validator = FrontmatterValidator(strict=args.strict)
+    validator = FrontmatterValidator(strict=args.strict, repo_root=repo_root)
     
     # Collect files to validate
     if args.file:

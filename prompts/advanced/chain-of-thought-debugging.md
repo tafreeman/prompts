@@ -23,9 +23,13 @@ reviewStatus: "draft"
 ---
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
+---
+
 ## Description
 
 A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis. Guides developers through reproducing bugs, generating hypotheses, designing experiments, and proposing validated fixes with regression tests.
+
+---
 
 ## Research Foundation
 
@@ -75,6 +79,8 @@ Use this prompt when debugging production issues, investigating test failures, a
 
 All reasoning steps must be visible in the output.
 
+---
+
 ## Output Requirements
 
 Structured Markdown with the following sections:
@@ -89,6 +95,8 @@ Structured Markdown with the following sections:
 
 See `docs/domain-schemas.md` for additional schema options.
 
+---
+
 ## Use Cases
 
 - Debugging intermittent production issues with limited reproduction steps
@@ -96,6 +104,8 @@ See `docs/domain-schemas.md` for additional schema options.
 - Investigating performance regressions (memory leaks, slowdowns)
 - Analyzing security vulnerabilities or unexpected behaviors
 - Postmortem analysis for incidents with unclear causes
+
+---
 
 ## Prompt
 
@@ -107,138 +117,9 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** [BUG_DESCRIPTION]
 
 **Error Message:**
-```
-
-[ERROR_MESSAGE_OR_STACK_TRACE]
-
 ```text
-
-**Reproduction Steps:**
-[REPRODUCTION_STEPS]
-
-**Expected Behavior:** [EXPECTED_BEHAVIOR]
-
-**Actual Behavior:** [ACTUAL_BEHAVIOR]
-
-**Environment:**
-- OS: [OPERATING_SYSTEM]
-- Runtime: [RUNTIME_VERSION]
-- Dependencies: [KEY_DEPENDENCIES]
-
-**Relevant Code:**
-```[LANGUAGE]
-[CODE_SNIPPET]
-```text
-
-**Additional Context:** [LOGS_TELEMETRY_OR_OTHER_INFO]
 
 ---
-
-## Task
-
-Using Chain-of-Thought reasoning, debug this issue systematically:
-
-### Step 1: Symptom Analysis
-
-Analyze the symptoms. What is the observable problem? What does the error message tell us? What are the key clues in the stack trace, logs, or telemetry?
-
-### Step 2: Hypothesis Generation
-
-Generate 3–5 hypotheses about what might be causing this issue. For each hypothesis:
-
-- State the hypothesis clearly
-- Explain the reasoning (why this might be the cause)
-- Identify what evidence would support or refute it
-
-### Step 3: Hypothesis Prioritization
-
-Rank the hypotheses by:
-
-- Likelihood (based on symptoms and code)
-- Ease of testing (can we validate this quickly?)
-
-### Step 4: Experiment Design
-
-For the top 2–3 hypotheses, design experiments to test them:
-
-- What code changes or tests would validate/falsify the hypothesis?
-- What specific values, inputs, or conditions should we check?
-- What output or behavior would confirm or deny the hypothesis?
-
-### Step 5: Root Cause Identification
-
-Based on the analysis and experiments, identify the root cause:
-
-- State the root cause clearly
-- Provide evidence (from code, logs, or reasoning)
-- Explain why other hypotheses were ruled out
-
-### Step 6: Proposed Fix
-
-Propose a minimal, testable fix:
-
-- Provide a code snippet (if applicable)
-- Explain why this fix addresses the root cause
-- Note any trade-offs or risks
-- Suggest where the fix should be applied
-
-### Step 7: Regression Tests
-
-Propose test cases to prevent this bug from recurring:
-
-- Unit tests for the specific failure mode
-- Integration tests if multiple components are involved
-- Edge cases that should now be covered
-
-### Step 8: Verification Steps
-
-List steps to verify the fix works:
-
-1. Run the reproduction steps with the fix applied
-2. Run the regression tests
-3. Check for unintended side effects
-
----
-
-## Output Format
-
-**Symptom Summary:**
-[concise description of the observed problem]
-
-**Initial Hypotheses:**
-
-1. [Hypothesis 1] - Likelihood: [High/Medium/Low], Evidence: [what would support it]
-2. [Hypothesis 2] - ...
-3. [Hypothesis 3] - ...
-
-**Experiment Design:**
-
-- Hypothesis 1: [test approach]
-- Hypothesis 2: [test approach]
-
-**Root Cause:**
-[evidence-based conclusion about what's causing the bug]
-
-**Proposed Fix:**
-
-```[LANGUAGE]
-[code snippet or description]
-```text
-
-*Rationale:* [why this fixes the root cause]
-
-**Regression Tests:**
-
-- Test 1: [scenario]
-- Test 2: [scenario]
-
-**Verification Steps:**
-
-1. [step 1]
-2. [step 2]
-3. [step 3]
-
-```
 
 ## Variables
 
@@ -254,6 +135,8 @@ List steps to verify the fix works:
 - `[CODE_SNIPPET]`: Relevant code (function, class, or module)
 - `[LOGS_TELEMETRY_OR_OTHER_INFO]`: Additional diagnostic information
 
+---
+
 ## Example Usage
 
 **Input:**
@@ -268,7 +151,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Error Message:**
 
-```
+```text
 
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
@@ -322,101 +205,9 @@ async function authenticate(req, res, next) {
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
 
-```
-
-**Output:**
-
-```markdown
-**Symptom Summary:**
-JWT token verification fails intermittently (~5%) in production with "invalid signature" error. Issue is environment-specific (multi-server, load-balanced) and timing-dependent (within token validity period).
-
-**Initial Hypotheses:**
-1. **JWT_SECRET mismatch across servers** - Likelihood: High
-   - Evidence: Issue only occurs in multi-server setup, not single-server staging
-   - Support: Different secrets would cause signature verification to fail on different servers
-   
-2. **Clock skew between servers** - Likelihood: Medium
-   - Evidence: Timing-dependent failure (~5% suggests occasional, not systematic)
-   - Support: JWT exp/iat claims could fail validation if server clocks are out of sync
-   
-3. **Race condition in token issuance** - Likelihood: Low
-   - Evidence: Failures are on verification, not issuance
-   - Support: Would require token to be used before it's fully written, unlikely with this code
-
-**Experiment Design:**
-- Hypothesis 1: Check `process.env.JWT_SECRET` on all production servers. If different, verification would fail when request hits server with different secret.
-- Hypothesis 2: Compare server clocks (use `date` command or NTP status). If >30s skew, could cause exp/iat validation issues.
-
-**Root Cause:**
-JWT_SECRET environment variable is not synchronized across all servers in the load-balanced pool. When a token is issued by Server A (with SECRET_A) and verified by Server B (with SECRET_B), signature verification fails.
-
-**Evidence:**
-- Issue only occurs in multi-server production (not single-server staging)
-- ~5% failure rate likely corresponds to proportion of requests hitting mismatched server
-- "invalid signature" error is consistent with secret mismatch
-
-**Proposed Fix:**
-```javascript
-// Option 1: Use centralized secret management (recommended)
-// Deploy this change to ensure all servers use the same secret:
-
-// config.js
-const AWS = require('aws-sdk');
-const secretsManager = new AWS.SecretsManager();
-
-async function getJwtSecret() {
-  const data = await secretsManager.getSecretValue({ 
-    SecretId: 'prod/jwt-secret' 
-  }).promise();
-  return JSON.parse(data.SecretString).JWT_SECRET;
-}
-
-module.exports = { getJwtSecret };
-
-// auth.js
-const { getJwtSecret } = require('./config');
-
-let cachedSecret = null;
-
-async function verifyToken(token) {
-  if (!cachedSecret) {
-    cachedSecret = await getJwtSecret();
-  }
-  return jwt.verify(token, cachedSecret, { algorithms: ['HS256'] });
-}
-
-// Option 2: Short-term fix (if centralized secret management unavailable)
-// Manually sync JWT_SECRET environment variable across all servers
-// Use deployment scripts to ensure consistency
 ```text
 
-*Rationale:* The root cause is environment variable inconsistency. Centralized secret management (AWS Secrets Manager, Azure Key Vault, HashiCorp Vault) ensures all servers use the same secret without manual sync. Option 2 is a temporary workaround.
-
-**Regression Tests:**
-
-- **Test 1:** Multi-server integration test
-  - Start 3 instances of the app with load balancer
-  - Issue token from instance 1
-  - Verify token succeeds on instances 1, 2, 3
-  
-- **Test 2:** Secret rotation test
-  - Rotate JWT_SECRET
-  - Verify all servers pick up new secret
-  - Verify tokens issued before rotation fail gracefully
-
-- **Test 3:** Clock skew test (rule out hypothesis 2)
-  - Artificially skew server clock by ±60s
-  - Verify tokens still validate correctly
-
-**Verification Steps:**
-
-1. Deploy centralized secret management to staging (multi-server setup)
-2. Run load test with 10,000 requests across all servers
-3. Verify 0% authentication failures
-4. Deploy to production and monitor error rates for 24 hours
-5. Verify authentication error rate drops to <0.01%
-
-```
+---
 
 ## Tips
 
@@ -428,12 +219,14 @@ async function verifyToken(token) {
 - **Always include regression tests:** Prevent the bug from recurring
 - **Document reasoning:** Visible CoT reasoning helps others learn and validates your logic
 
+---
+
 ## Related Prompts
 
 - [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance debugging
-- [Reflection: Code Review Self-Check](../developers/reflection-code-review-self-check.md) - For validating fixes
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For complex system issues
-- [ReAct: Codebase Navigator](react-codebase-navigator.md) - For exploring unfamiliar code
+
+---
 
 ## Governance Notes
 

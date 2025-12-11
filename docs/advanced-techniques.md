@@ -45,7 +45,7 @@ Advanced prompting techniques improve AI reasoning accuracy and output quality f
 ### When to Use Advanced Techniques
 
 | Technique | Use When |
-|-----------|----------|
+| :--- |----------|
 | **Chain-of-Thought** | Problems need step-by-step reasoning |
 | **ReAct** | Tasks require tool use or information gathering |
 | **RAG** | Responses must be grounded in specific documents |
@@ -64,7 +64,7 @@ Wei et al. (NeurIPS 2022) demonstrated that CoT prompting improves reasoning acc
 
 ### Basic Pattern
 
-```
+```text
 Think through this problem step by step:
 
 Step 1: [First consideration]
@@ -73,23 +73,21 @@ Step 3: [Analysis and synthesis]
 Step 4: [Conclusion]
 
 Show your reasoning at each step.
-```
-
+```text
 ### Concise Mode
 
 For quick analysis when detailed reasoning isn't needed:
 
-```
+```text
 Analyze [PROBLEM] with brief step-by-step reasoning.
 Keep each step to 1-2 sentences.
 Conclude with a clear recommendation.
-```
-
+```text
 ### Detailed Mode
 
 For critical decisions requiring thorough documentation:
 
-```
+```text
 Analyze [PROBLEM] using detailed Chain-of-Thought reasoning.
 
 For each step:
@@ -100,8 +98,7 @@ For each step:
 5. State your intermediate conclusion
 
 Provide a comprehensive final recommendation with confidence level.
-```
-
+```text
 ### Use Cases
 
 - Debugging complex issues
@@ -129,7 +126,7 @@ Yao et al. (ICLR 2023) and Shinn et al. introduced ReAct for tasks requiring int
 
 ### Basic Pattern
 
-```
+```sql
 Use the ReAct pattern to solve [TASK].
 
 **Think**: What information do I need? What tool should I use?
@@ -142,11 +139,10 @@ Repeat until the task is complete.
 **Available Tools**:
 - [TOOL_1]: [Description]
 - [TOOL_2]: [Description]
-```
-
+```text
 ### Example: Research Task
 
-```
+```sql
 Research the current state of quantum computing adoption.
 
 **Think**: I need recent information about quantum computing in enterprise settings.
@@ -160,8 +156,7 @@ Research the current state of quantum computing adoption.
 **Reflect**: Good coverage. Ready to synthesize findings.
 
 [Continue until complete]
-```
-
+```text
 ### Use Cases
 
 - Research with multiple sources
@@ -189,7 +184,7 @@ RAG grounds AI responses in specific documents or data, reducing hallucination a
 
 ### Basic Pattern
 
-```
+```text
 Answer the question using ONLY the provided documents.
 
 **Documents**:
@@ -206,8 +201,7 @@ Answer the question using ONLY the provided documents.
 - Cite sources using [Doc N] format
 - If information is not in documents, say so
 - Quote directly when relevant
-```
-
+```text
 ### Use Cases
 
 - Internal documentation queries
@@ -229,12 +223,11 @@ Reflection prompting asks the AI to evaluate and improve its own responses, lead
 ### Two-Phase Pattern
 
 **Phase 1: Initial Response**
-```
+```text
 Provide your initial answer to: [QUESTION]
-```
-
+```text
 **Phase 2: Self-Critique**
-```
+```text
 Review your answer and identify:
 1. Potential errors or inaccuracies
 2. Missing information
@@ -242,11 +235,10 @@ Review your answer and identify:
 4. Unsupported claims
 
 Then provide an improved version addressing these issues.
-```
-
+```text
 ### Iterative Improvement
 
-```
+```text
 Evaluate [CONTENT] using these criteria:
 1. Accuracy: Are all claims verifiable?
 2. Completeness: Is anything missing?
@@ -259,8 +251,7 @@ For each issue found:
 - Suggest a specific improvement
 
 After evaluation, provide a revised version.
-```
-
+```text
 ### Use Cases
 
 - Critical business decisions
@@ -285,7 +276,7 @@ Yao et al. (NeurIPS 2023) introduced ToT for deliberate problem-solving, showing
 
 ### Basic Pattern
 
-```
+```sql
 Evaluate multiple approaches for [PROBLEM].
 
 **Approach A: [Name]**
@@ -309,11 +300,10 @@ Evaluate multiple approaches for [PROBLEM].
 **Analysis**: Compare approaches across key dimensions.
 
 **Recommendation**: Select the best approach and explain why.
-```
-
+```text
 ### Architecture Evaluation Example
 
-```
+```sql
 Evaluate architecture options for [SYSTEM].
 
 **Option A: Monolith**
@@ -336,14 +326,13 @@ Evaluate architecture options for [SYSTEM].
 
 **Trade-off Matrix**:
 | Dimension | Monolith | Microservices | Serverless |
-|-----------|----------|---------------|------------|
+| :--- |----------| :--- |------------|
 | Complexity | Low | High | Medium |
 | Scalability | Limited | Excellent | Excellent |
 | Cost | Fixed | Variable | Pay-per-use |
 
 **Recommendation**: For [CONTEXT], select [APPROACH] because [REASONING].
-```
-
+```text
 ### Use Cases
 
 - Architecture decisions
@@ -364,7 +353,7 @@ Evaluate architecture options for [SYSTEM].
 
 ### Decision Guide
 
-```
+```text
 Is the problem straightforward?
 ├── Yes → Use Direct prompting
 └── No → Continue...
@@ -388,12 +377,11 @@ Is quality paramount and worth extra processing?
 Are there multiple approaches to compare?
 ├── Yes → Use Tree-of-Thoughts
 └── No → Use Chain-of-Thought
-```
-
+```text
 ### Technique Comparison
 
 | Technique | Accuracy Improvement | Token Usage | Best For |
-|-----------|---------------------|-------------|----------|
+| :--- |---------------------| :--- |----------|
 | Direct | Baseline | Low | Simple tasks |
 | Chain-of-Thought | +20-40% | Medium | Reasoning tasks |
 | ReAct | +25-35% | High | Tool-augmented tasks |

@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Client Presentation Designer
 
+---
+
 ## Description
 
 Creates compelling client presentations
+
+---
 
 ## Use Cases
 
 - Presentations for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,27 +58,7 @@ Include:
 4. Implementation approach
 5. Expected outcomes
 6. Next steps
-```
-
-## Variables
-
-- `[audience]`: Audience
-- `[client]`: Client
-- `[duration]`: Duration
-- `[messages]`: Messages
-- `[purpose]`: Purpose
-
-## Example Usage
-
-**Input:**
-
 ```text
-[client]: Global Logistics Firm ("LogiWorld")
-[purpose]: Pitch for $5M "Digital Twin" Warehouse Project
-[audience]: CTO (Technical), COO (Operational Efficiency), VP Operations (End User)
-[messages]: "Reduce downtime by 20%", "Predictive maintenance ROI in 18 months", "Seamless integration with existing SAP ERP"
-[duration]: 45 minutes (30 min presentation, 15 min Q&A)
-```
 
 **Output:**
 
@@ -92,7 +78,10 @@ Include:
 *   **Phase 2:** AI model training for failure prediction.
 
 [... continues with implementation approach and next steps ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -100,6 +89,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

@@ -25,9 +25,13 @@ effectivenessScore: 4.4
 ---
 # Competitive Intelligence Researcher
 
+---
+
 ## Description
 
 Conduct comprehensive competitive intelligence research using structured frameworks (Porter's Five Forces, SWOT analysis) to gather actionable insights about competitors' strategies, products, market positioning, and vulnerabilities. This prompt helps researchers, strategists, and business analysts build data-driven competitive intelligence reports while maintaining ethical and legal boundaries.
+
+---
 
 ## Use Cases
 
@@ -37,6 +41,8 @@ Conduct comprehensive competitive intelligence research using structured framewo
 - Identifying competitive threats and opportunities for strategic planning
 - Building competitive landscapes for investor presentations
 - Supporting sales teams with battle cards and competitive differentiators
+
+---
 
 ## Prompt
 
@@ -103,7 +109,9 @@ Using publicly available information (company filings, press releases, news arti
 
 **Output Format:**
 Provide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.
-```
+```markdown
+
+---
 
 ## Variables
 
@@ -114,6 +122,8 @@ Provide results as a structured Markdown report with executive summary, detailed
 - `[time_horizon]`: Research time scope (e.g., "Last 12 months", "Q1-Q3 2024", "Past 5 years for trend analysis")
 - `[geographic_scope]`: Market focus (e.g., "North America", "Global", "APAC region")
 - `[sensitivity_level]`: Information handling (e.g., "Internal use only", "Board-level confidential", "Public-facing")
+
+---
 
 ## Example Usage
 
@@ -127,53 +137,9 @@ Provide results as a structured Markdown report with executive summary, detailed
 [time_horizon]: Last 18 months (Jan 2023 - Jun 2024)
 [geographic_scope]: North America and Western Europe
 [sensitivity_level]: Internal strategy team only, not for external distribution
-```
-
-**Output (Excerpt):**
-
 ```text
-## Executive Summary
-
-**Key Findings:**
-- All three competitors have heavily invested in AI-powered automation (30+ features launched in 18 months)
-- HubSpot has shifted to consumption-based pricing for AI features, creating revenue opportunity
-- Salesforce announced 5 major acquisitions focused on customer data platforms
-- Zoho is aggressively targeting SMB segment with 40% price reduction
-
-**Strategic Implications:**
-- **Urgent:** We risk falling behind on AI capabilities; competitors have 12-18 month lead
-- **Opportunity:** Mid-market segment underserved by consumption pricing models
-- **Threat:** Salesforce acquisitions signal intent to dominate CDP integration space
 
 ---
-
-## 1. Intelligence Gathering Framework
-
-**Primary Data Sources:**
-- Company investor relations sites and SEC filings (10-K, 10-Q, 8-K)
-- Product release notes and changelogs (salesforce.com/releases, hubspot.com/product-updates)
-- Job postings on LinkedIn, Greenhouse (analyze hiring patterns for AI/ML roles)
-- Patent filings (USPTO database, Google Patents)
-- G2, TrustRadius, Capterra reviews (customer sentiment and feature requests)
-
-**Secondary Sources for Validation:**
-- Industry analyst reports (Gartner Magic Quadrant, Forrester Wave)
-- Technology news (TechCrunch, VentureBeat, SaaStr coverage)
-- Conference presentations and demo videos (Dreamforce, INBOUND recordings)
-- LinkedIn employee posts (product managers, engineers discussing features)
-
-[... continues with full competitive analysis ...]
-
-## 6. Opportunity Identification
-
-**Market Gaps:**
-1. **AI for Small Teams (<10 users):** Competitors focus on enterprise; SMB AI tooling underserved
-   - Impact: High | Feasibility: Medium | Timeline: 6-9 months
-2. **Privacy-First AI:** No competitor offers on-premise AI model deployment
-   - Impact: Medium | Feasibility: High | Timeline: 12 months
-3. **Vertical-Specific CRM:** Healthcare and financial services lack compliant AI features
-   - Impact: High | Feasibility: Low (regulatory complexity) | Timeline: 18+ months
-```
 
 ## Tips
 
@@ -184,8 +150,10 @@ Provide results as a structured Markdown report with executive summary, detailed
 - **For early warning signals:** Set up Google Alerts, RSS feeds, and social listening for competitors
 - **When presenting to executives:** Lead with threats/opportunities, not methodology details
 
+---
+
 ## Related Prompts
 
 - [Market Research Analyst](market-research-analyst.md) - For broader market trend analysis
-- [SWOT Analysis Expert](../business/swot-analysis.md) - For framework-driven strategy analysis
+
 - [Business Case Developer](business-case-developer.md) - For turning intelligence into investment proposals

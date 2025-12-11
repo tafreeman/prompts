@@ -23,6 +23,11 @@ reviewStatus: "approved"
 
 # Enterprise AI Prompt Library
 
+![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
+![Prompts](https://img.shields.io/badge/Prompts-165%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Platforms](https://img.shields.io/badge/Platforms-Claude%20%7C%20GPT%20%7C%20Copilot-blueviolet)
+
 A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
 Based on **scientific research** and analysis of 95+ prompts, we've identified and documented the **top 20% most effective prompts** (scoring 75+/100):
@@ -101,33 +106,132 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 ```text
 prompts/
-├── agents/                 # GitHub Copilot Custom Agents
-│   ├── docs-agent.agent.md         # Documentation specialist
-│   ├── test-agent.agent.md         # Test generation expert
-│   ├── code-review-agent.agent.md  # Code reviewer
-│   ├── refactor-agent.agent.md     # Code improvement specialist
-│   ├── security-agent.agent.md     # Security analysis expert
-│   ├── architecture-agent.agent.md # System design specialist
-│   └── AGENTS_GUIDE.md             # Agent usage guide
-├── prompts/                # Markdown prompt collection
-│   ├── developers/         # Technical & coding prompts
-│   ├── business/           # Business analysis & strategy prompts
-│   ├── creative/           # Content creation & marketing prompts
-│   ├── analysis/           # Data analysis & research prompts
-│   ├── system/             # System-level AI agent prompts
-│   ├── advanced/           # Advanced prompting (CoT, ReAct, RAG, ToT)
-│   ├── governance/         # Legal, security, compliance prompts
-│   └── m365/               # Microsoft 365 Copilot prompts
-├── templates/              # Reusable prompt templates
-├── examples/               # Example usage and outputs
-├── techniques/             # Advanced prompting technique patterns
-├── frameworks/             # Prompting frameworks and methodologies
-├── tools/                  # Validation and CLI tools
-├── docs/                   # Documentation and guides
+├── get-started/            # ⭐ START HERE - Platform quickstarts
+│   ├── quickstart-copilot.md       # GitHub Copilot in 10 min
+│   ├── quickstart-chatgpt.md       # ChatGPT in 10 min
+│   ├── quickstart-claude.md        # Claude in 10 min
+│   └── quickstart-m365.md          # M365 Copilot in 10 min
+├── tutorials/              # 📖 Step-by-step learning
+│   ├── first-prompt.md             # Your first prompt (15 min)
+│   ├── building-effective-prompts.md
+│   └── prompt-iteration.md
+├── concepts/               # 💡 Theory & understanding
+│   ├── about-prompt-engineering.md
+│   └── about-advanced-patterns.md
+├── prompts/                # 📚 Ready-to-use prompts
+│   ├── developers/         # Code generation, debugging, testing
+│   ├── business/           # Analysis, strategy, reporting
+│   ├── creative/           # Content, marketing, storytelling
+│   ├── analysis/           # Data analysis & research
+│   ├── system/             # System prompts & AI agents
+│   ├── advanced/           # CoT, ReAct, RAG, ToT patterns
+│   ├── governance/         # Legal, security, compliance
+│   └── m365/               # Microsoft 365 Copilot
+├── reference/              # 📋 Quick lookup
+│   ├── cheat-sheet.md              # Patterns & templates
+│   ├── platform-comparison.md      # GPT vs Claude vs Copilot
+│   ├── glossary.md                 # Terminology definitions
+│   └── frontmatter-schema.md       # Metadata reference
+├── troubleshooting/        # 🔧 Fix common issues
+│   ├── common-issues.md
+│   ├── model-specific.md
+│   └── prompt-debugging.md
+├── agents/                 # 🤖 GitHub Copilot Custom Agents
+│   ├── docs-agent.agent.md
+│   ├── code-review-agent.agent.md
+│   └── ...
+├── instructions/           # 📝 Copilot instructions files
+├── templates/              # 📄 Reusable templates
+├── techniques/             # 🎯 Advanced technique patterns
+├── frameworks/             # 🏗️ Prompting frameworks
+├── tools/                  # 🔧 Validation & CLI tools
+├── docs/                   # 📖 Extended documentation
 └── README.md               # This file
-```
+```text
+### Visual Architecture
+
+```mermaid
+graph TB
+    subgraph "📚 Content"
+        A[prompts/] --> A1[developers/]
+        A --> A2[business/]
+        A --> A3[advanced/]
+        A --> A4[governance/]
+    end
+    
+    subgraph "🤖 Agents"
+        B[agents/] --> B1[docs-agent]
+        B --> B2[code-review-agent]
+        B --> B3[test-agent]
+    end
+    
+    subgraph "📖 Docs"
+        C[docs/] --> C1[Guides]
+        C --> C2[Reference]
+    end
+    
+    subgraph "🔧 Tools"
+        D[tools/] --> D1[validators/]
+        D --> D2[cli/]
+    end
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e9
+    style C fill:#fff3e0
+    style D fill:#f3e5f5
+```text
+### User Journey: Finding and Using a Prompt
+
+```mermaid
+journey
+    title User Journey: Prompt Discovery to Success
+    section 🔍 Discovery
+      Land on README: 5: User
+      Browse categories: 4: User
+      Find relevant prompt: 4: User
+    section ✅ Selection
+      Read description: 5: User
+      Check examples: 5: User
+      Verify platform compatibility: 4: User
+    section 🚀 Usage
+      Copy prompt text: 5: User
+      Replace variables: 3: User
+      Paste into AI tool: 5: User
+    section 🔄 Iteration
+      Review output: 4: User
+      Adjust prompt if needed: 3: User
+      Achieve goal: 5: User
+```text
+<details>
+<summary>📊 <strong>Library Statistics</strong></summary>
+
+| Category | Prompts | Difficulty Distribution |
+|----------|---------|------------------------|
+| Developers | 25+ | 🟢 40% 🟡 45% 🔴 15% |
+| Business | 26 | 🟢 60% 🟡 35% 🔴 5% |
+| Advanced | 17 | 🟡 20% 🔴 80% |
+| Analysis | 21 | 🟢 35% 🟡 50% 🔴 15% |
+| M365 | 21 | 🟢 70% 🟡 30% |
+| System | 23 | 🟢 50% 🟡 40% 🔴 10% |
+| Governance | 3+ | 🟡 30% 🔴 70% |
+
+**Legend**: 🟢 Beginner | 🟡 Intermediate | 🔴 Advanced
+
+</details>
 
 ## 🚀 Quick Start
+
+### Start Here
+
+| Your Goal | Start Here | Time |
+|-----------|------------|------|
+| **First time?** | [Your First Prompt](/tutorials/first-prompt) | 15 min |
+| **Using GitHub Copilot?** | [Quickstart for Copilot](/get-started/quickstart-copilot) | 10 min |
+| **Using ChatGPT?** | [Quickstart for ChatGPT](/get-started/quickstart-chatgpt) | 10 min |
+| **Using Claude?** | [Quickstart for Claude](/get-started/quickstart-claude) | 10 min |
+| **Using M365 Copilot?** | [Quickstart for M365](/get-started/quickstart-m365) | 10 min |
+| **Need quick patterns?** | [Cheat Sheet](/reference/cheat-sheet) | 5 min |
+| **Something not working?** | [Troubleshooting](/troubleshooting/) | varies |
 
 ### For Non-Technical Users
 
@@ -195,15 +299,13 @@ Brief description of what this prompt does and when to use it.
 ## Example Usage
 
 **Input:**
-```
-
+```text
 Example of the prompt with real values
 
 ```text
 
 **Output:**
-```
-
+```text
 Example of expected output
 
 ```text
@@ -211,8 +313,7 @@ Example of expected output
 ## Tips
 - Tip 1 for better results
 - Tip 2 for customization
-```
-
+```text
 ## 🤝 Contributing
 
 We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
@@ -223,6 +324,16 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 - Suggesting new categories
 
 ## 📚 Documentation
+
+### Getting Started
+- **[Your First Prompt](/tutorials/first-prompt)**: 15-minute hands-on tutorial
+- **[Choosing the Right Pattern](/get-started/choosing-the-right-pattern)**: Decision guide for prompt selection
+- **[Platform Quickstarts](/get-started/)**: Get productive on any platform in 10 minutes
+
+### Reference
+- **[Cheat Sheet](/reference/cheat-sheet)**: Quick patterns and templates
+- **[Platform Comparison](/reference/platform-comparison)**: GPT vs Claude vs Copilot
+- **[Glossary](/reference/glossary)**: Prompt engineering terminology
 
 ### Curated Guides (Research-Backed)
 - **[Ultimate Prompting Guide](docs/ultimate-prompting-guide.md)**: Top 20% most effective prompts, platform-specific templates, research-backed best practices

@@ -85,8 +85,7 @@ OpenAI models (GPT-4, GPT-3.5-Turbo) are fine-tuned to detect when a function sh
     }
   }
 }
-```
-
+```text
 ## Prompt Template
 
 ```markdown
@@ -101,8 +100,7 @@ Your goal is to analyze the incoming support ticket and extract key information 
 
 Ticket:
 {{ticket_content}}
-```
-
+```text
 ## Python Implementation (OpenAI SDK)
 
 ```python
@@ -166,8 +164,7 @@ print(json.dumps(result, indent=2))
 #   "issue_type": "technical",
 #   "priority": 4
 # }
-```
-
+```text
 ## Best Practices
 
 1. **Force Tool Choice**: Use `tool_choice={"type": "function", "function": {"name": "..."}}` when you *must* get structured output.

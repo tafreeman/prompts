@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Competitive Analysis Researcher
 
+---
+
 ## Description
 
 Conducts competitive market analysis
+
+---
 
 ## Use Cases
 
 - Market Analysis for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Include:
 4. Market positioning
 5. Opportunities and threats
 6. Strategic recommendations
-```
-
-## Variables
-
-- `[competitors]`: Competitors
-- `[focus]`: Focus
-- `[product]`: Product
-- `[segment]`: Segment
-
-## Example Usage
-
-**Input:**
-
 ```text
-[product]: Enterprise Project Management Tool ("TaskMaster")
-[segment]: Mid-market Creative Agencies (50-200 employees)
-[competitors]: Asana, Monday.com, ClickUp
-[focus]: Pricing Strategy and Feature Gaps in "Creative Proofing"
-```
 
 **Output:**
 
@@ -90,7 +78,10 @@ Include:
 *   **Pricing:** Undercut Asana by 20% to capture price-sensitive agencies.
 
 [... continues with market positioning and opportunities ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -98,6 +89,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

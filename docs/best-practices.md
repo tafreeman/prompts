@@ -44,20 +44,18 @@ A comprehensive guide to writing effective prompts based on research from Anthro
 Vague prompts produce vague outputs. Always include specific details about what you want.
 
 ❌ **Don't:**
-```
+```text
 Analyze this data.
-```
-
+```text
 ✅ **Do:**
-```
+```text
 Analyze this Q4 2024 sales data and identify:
 1. Top 5 products by revenue
 2. Month-over-month growth trends
 3. Underperforming categories (below 10% growth)
 
 Format the output as a markdown table with columns: Product, Revenue, MoM Growth, Status.
-```
-
+```yaml
 ### 2. Provide Context
 
 Give the AI the background information it needs to produce relevant results.
@@ -72,7 +70,7 @@ Include:
 
 Specify exactly how you want the response structured.
 
-```
+```text
 Output as JSON with this schema:
 {
   "summary": "string (2-3 sentences)",
@@ -80,13 +78,12 @@ Output as JSON with this schema:
   "action_items": [{"task": "string", "owner": "string", "due": "date"}],
   "confidence": "number (0-1)"
 }
-```
-
+```text
 ### 4. Use Examples (Few-Shot Learning)
 
 Show the AI what you want with concrete examples.
 
-```
+```yaml
 Convert these informal notes to formal bullet points.
 
 Example:
@@ -95,8 +92,7 @@ Output: • Project timeline discussion with John: Estimated 2-3 weeks to comple
 
 Now convert:
 Input: "meeting with stakeholders went well - they approved budget but want monthly reports"
-```
-
+```sql
 ### 5. Iterate and Refine
 
 First attempts rarely perfect. Start simple and add detail based on results.
@@ -115,7 +111,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 1. Clarity & Specificity (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Crystal clear goal, explicit instructions, defined success criteria |
 | 15 | Clear goal, good instructions, some criteria defined |
 | 10 | Understandable but lacks detail |
@@ -125,7 +121,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 2. Structure & Completeness (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | All necessary sections, examples, full documentation |
 | 15 | Most sections present, good examples |
 | 10 | Basic structure, some missing elements |
@@ -135,7 +131,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 3. Usefulness & Reusability (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Solves common problems, highly adaptable |
 | 15 | Useful for specific scenarios, somewhat adaptable |
 | 10 | Limited use cases |
@@ -145,7 +141,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 4. Technical Quality (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Proper reasoning style, structured output, follows best practices |
 | 15 | Good technique, minor issues |
 | 10 | Acceptable quality |
@@ -155,7 +151,7 @@ Our scoring methodology evaluates prompts across five dimensions:
 ### 5. Ease of Use (20 points)
 
 | Score | Criteria |
-|-------|----------|
+| :--- |----------|
 | 20 | Simple to customize, minimal prerequisites, excellent tips |
 | 15 | Easy to use with some guidance needed |
 | 10 | Moderate learning curve |
@@ -219,31 +215,29 @@ Our scoring methodology evaluates prompts across five dimensions:
 
 ### Role-Task-Format (RTF)
 
-```
+```text
 You are a [ROLE].
 
 Your task is to [TASK].
 
 Provide output in the following format:
 [FORMAT_SPECIFICATION]
-```
-
+```text
 **Best for**: Software development, business analysis, reporting
 
 ### Context-Action-Result-Example (CARE)
 
-```
+```text
 **Context**: [BACKGROUND_INFORMATION]
 **Action**: [WHAT_YOU_WANT]
 **Result**: [EXPECTED_OUTPUT]
 **Example**: [SAMPLE_OUTPUT]
-```
-
+```text
 **Best for**: Business communications, document generation
 
 ### Chain-of-Thought
 
-```
+```text
 Think through this step by step:
 
 Step 1: [First consideration]
@@ -251,13 +245,12 @@ Step 2: [Second consideration]
 Step 3: [Synthesis and conclusion]
 
 Show your reasoning at each step.
-```
-
+```text
 **Best for**: Complex problems, debugging, analysis
 
 ### Tree-of-Thoughts
 
-```
+```sql
 Evaluate multiple approaches:
 
 **Approach A**: [Description] - Pros/Cons - Score
@@ -265,8 +258,7 @@ Evaluate multiple approaches:
 **Approach C**: [Description] - Pros/Cons - Score
 
 **Recommendation**: Based on analysis, select the best approach.
-```
-
+```text
 **Best for**: Architecture decisions, strategic planning, trade-off analysis
 
 ---

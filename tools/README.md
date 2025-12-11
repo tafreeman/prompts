@@ -1,7 +1,7 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
+title: Prompt Library Tools
+shortTitle: Tools
+intro: Prompt auditing and validation tools for the prompt library.
 type: reference
 difficulty: beginner
 audience:
@@ -12,175 +12,102 @@ platforms:
 - claude
 - chatgpt
 author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
+version: '2.0'
+date: '2025-12-04'
 governance_tags:
 - PII-safe
 dataClassification: internal
 reviewStatus: draft
 ---
-# Universal Code Generator
+# Prompt Library Tools
 
-AI-powered code/prompt generation with multi-model quality review.
+Prompt auditing, validation, and evaluation tools.
 
-## Overview
+> **📋 Architecture**: See [ARCHITECTURE_PLAN.md](../docs/ARCHITECTURE_PLAN.md) for the complete tooling architecture.
 
-The Universal Code Generator applies a three-step workflow to create Tier 1 quality content:
-
-1. **Generate** (Gemini 1.5 Pro) - Create initial draft
-2. **Review** (Claude Sonnet 4) - Score against quality rubric (0-100)
-3. **Refine** (Gemini 1.5 Pro) - Improve based on feedback
-
-## Installation
+## Quick Start
 
 ```bash
-# Install dependencies
-pip install click
+# Run prompt evaluations (PRIMARY TOOL)
+python testing/evals/dual_eval.py prompts/developers/ --log-file eval.md
 
-# Optional: Set model preferences via environment variables
-│   ├── ModelConfig (default models, temperatures)
-│   └── PathConfig (templates, rubrics)
-├── LLMClient (tools/llm_client.py)
-│   └── Provider dispatch (Gemini/Claude/GPT)
-├── Generator (tools/models/generator.py)
-├── Reviewer (tools/models/reviewer.py)
-│   └── Quality rubric (tools/rubrics/quality_standards.json)
-└── Refiner (tools/models/refiner.py)
-```
+# Audit prompts for migration/validation issues
+python tools/audit_prompts.py prompts/ --output audit_report.csv
 
-## Configuration
+# Validate frontmatter schema compliance
+python tools/validators/frontmatter_validator.py --all
+```text
+---
 
-### Via Environment Variables
+## Active Tools
 
-```bash
-export GEN_MODEL="gemini-1.5-pro"        # Generation model
-export REV_MODEL="claude-sonnet-4"       # Review model
-export REF_MODEL="gemini-1.5-pro"        # Refinement model
-```
+### 1. Prompt Auditor (`audit_prompts.py`)
 
-### Via Code
-
-```python
-from tools.config import Config, ModelConfig
-from tools.code_generator import UniversalCodeGenerator
-
-custom_config = Config()
-custom_config.models = ModelConfig(
-    generator_model="gemini-2.0-flash-thinking",
-    reviewer_model="claude-sonnet-4",
-    refiner_model="gemini-1.5-pro"
-)
-
-generator = UniversalCodeGenerator(config=custom_config)
-```
-
-## Quality Rubric
-
-The reviewer scores content against 5 criteria:
-
-| Criterion | Weight | Description |
-|-----------|--------|-------------|
-| **Completeness** | 25% | All required sections present |
-| **Example Quality** | 30% | Realistic, detailed scenarios |
-| **Specificity** | 20% | Actionable, concrete content |
-| **Format Adherence** | 15% | Valid YAML, markdown structure |
-| **Enterprise Quality** | 10% | References frameworks, metrics |
-
-**Scoring**:
-
-- **90-100**: Tier 1 (Excellent)
-- **75-89**: Tier 2 (Good)
-- **60-74**: Tier 3 (Acceptable)
-- **<60**: Tier 4 (Poor)
-
-## Current Status
-
-✅ **Phases A-D Complete**
-
-- Core generator class
-- Quality review with rubric
-- Refinement loop
-- CLI interface (interactive + non-interactive)
-
-⏳ **Phase E: In Progress**
-
-- Real API integration (currently mocked)
-- Regression testing
-- Documentation
-
-## Examples
-
-### Example 1: Generate Business Prompt
+Scans library and generates CSV migration report. **Only processes actual prompt files** (excludes agents, instructions, docs).
 
 ```bash
-python -m tools.cli.main create \
-  --category business \
-  --use-case "Project Risk Register for IT Transformations" \
-  --variables '{"project_name": "ERP Modernization", "risk_categories": "Technical, Financial, Organizational"}' \
-  --output risk-register.md
-```
+python tools/audit_prompts.py prompts/ --output audit_report.csv
+```text
+### 2. Frontmatter Validator (`validators/frontmatter_validator.py`)
 
-### Example 2: Interactive Wizard
+Validates YAML frontmatter against the metadata schema.
 
 ```bash
-$ python -m tools.cli.main interactive
+python tools/validators/frontmatter_validator.py --all
+python tools/validators/frontmatter_validator.py prompts/developers/
+```yaml
+---
 
-🎯 Universal Code Generator - Interactive Mode
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+## Scoring Rubrics
 
-📁 Category: business
-📝 Use Case (be specific): Create executive budget tracker
-📝 Enter variables (leave empty to finish):
-Variable name: project_name
-Value for 'project_name': Cloud Platform Migration
+Located in `rubrics/`:
 
-🚀 Generating content...
-✅ Generation Complete!
-Review Score: 88
-```
+| File | Purpose |
+|------|---------|
+| `quality_standards.json` | Tier-based quality scoring (0-100) |
+| `prompt-scoring.yaml` | 5-dimension effectiveness scoring (1.0-5.0) |
 
-## Testing
+---
 
-```bash
-# Run core workflow test
-python -m tools.test_generator
+## Archived Tools
 
-# Run CLI test
-python -m tools.cli.test_cli
-```
+The following tools have been archived to `tools/archive/` (December 4, 2025):
+
+| Tool | Reason |
+|------|--------|
+| `evaluation_agent.py` | Superseded by `testing/evals/dual_eval.py` |
+| `evaluate_library.py` | Different approach, not API-based |
+| `improve_prompts.py` | Redundant with evaluation outputs |
+| `generate_eval_files.py` | Logic merged into dual_eval.py |
+| `run_gh_eval.py` | Superseded by dual_eval.py batch mode |
+| `EVALUATION_AGENT_GUIDE.md` | Documentation for archived agent |
+
+---
 
 ## File Structure
 
-```
+```text
 tools/
-├── README.md                  # This file
-├── config.py                  # Configuration management
-├── llm_client.py              # LLM provider abstraction
-├── code_generator.py          # Main UniversalCodeGenerator class
-├── test_generator.py          # Core verification tests
-├── models/
-│   ├── generator.py           # Generation step
-│   ├── reviewer.py            # Quality review step
-│   └── refiner.py             # Refinement step
+├── README.md                      # This file
+├── audit_prompts.py               # CSV migration audit
+├── validators/
+│   ├── frontmatter_validator.py   # Schema validation
+│   ├── metadata_schema.yaml       # Schema definition
+│   └── prompt_validator.py        # Content validation
 ├── rubrics/
-│   └── quality_standards.json # Tier 1 quality criteria
-└── cli/
-    ├── main.py                # CLI entry point
-    ├── interactive.py         # Interactive wizard
-    └── test_cli.py            # CLI tests
-```
+│   ├── quality_standards.json     # Tier scoring
+│   └── prompt-scoring.yaml        # Effectiveness scoring
+├── analyzers/
+│   └── prompt_analyzer.py         # Prompt analysis
+└── archive/                       # Deprecated tools
+    ├── evaluation_agent.py
+    ├── evaluate_library.py
+    └── improve_prompts.py
+```text
+---
 
-## Next Steps
+## See Also
 
-1. **Connect Real APIs**: Replace mocked LLMClient with actual API calls
-2. **Template System**: Build template selection logic
-3. **Batch Processing**: Add `upgrade-stubs` command for bulk prompt upgrades
-4. **Performance Tracking**: Log generation times and costs
-
-## Support
-
-For issues or questions, refer to:
-
-- `walkthrough.md` - Detailed implementation walkthrough
-- `implementation_plan.md` - Full architecture plan
-- `quality_standards.json` - Complete rubric criteria
+- [ARCHITECTURE_PLAN.md](../docs/ARCHITECTURE_PLAN.md) - Complete tooling architecture
+- [testing/evals/README.md](../testing/evals/README.md) - Primary evaluation tool
+- [COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md](../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md) - Scoring methodology

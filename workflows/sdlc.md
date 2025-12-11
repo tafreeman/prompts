@@ -49,8 +49,7 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 │   • Extremely stable requirements (Waterfall)                  │
 │   • No infrastructure for automation (Manual Waterfall)        │
 └─────────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ---
 
 ## SDLC Phases & Prompt Chain
@@ -104,8 +103,7 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 4. Commit to sprint goal and stories (based on team capacity)
 5. Define Definition of Done (DoD) for each story
 6. Identify dependencies and risks
-```
-
+```text
 **Deliverables**:
 
 - Sprint backlog (user stories with story points)
@@ -128,8 +126,7 @@ Acceptance Criteria:
 Story Points: [1, 2, 3, 5, 8, 13]
 Priority: [High / Medium / Low]
 Dependencies: [List any blocking stories or external dependencies]
-```
-
+```text
 ---
 
 ### Phase 2: Design & Architecture (First 2 Days of Sprint)
@@ -153,8 +150,7 @@ Dependencies: [List any blocking stories or external dependencies]
 3. Peer review of designs (1-hour design review meeting)
 4. Update architecture decision records (ADRs) if needed
 5. Commit finalized designs to repository (docs/ folder)
-```
-
+```sql
 **Deliverables**:
 
 - Component diagrams (C4 model: Context → Container → Component)
@@ -194,8 +190,7 @@ Dependencies: [List any blocking stories or external dependencies]
 4. Commit frequently with descriptive messages (Conventional Commits format)
 5. Push to remote branch daily (enables CI/CD pipeline)
 6. Update story status in project management tool (In Progress → Review)
-```
-
+```text
 **DevOps Integration (CI/CD Pipeline Triggers)**:
 
 ```yaml
@@ -217,8 +212,7 @@ jobs:
       - Run security scans (Snyk, Dependabot)
       - Generate test coverage report
       - Build artifacts (Docker image, binaries, etc.)
-```
-
+```text
 **Prompts for CI/CD Setup**:
 
 1. **[devops-pipeline-architect](../../prompts/system/devops-pipeline-architect.md)** - Design CI/CD pipeline stages
@@ -262,8 +256,7 @@ jobs:
 6. Engineer addresses feedback, pushes updates
 7. Reviewer approves PR (requires 1-2 approvals depending on policy)
 8. Engineer merges to develop branch (squash or merge commit)
-```
-
+```text
 **Quality Gates** (must pass before merge):
 
 - ✓ All automated tests passing (unit, integration, E2E)
@@ -304,8 +297,7 @@ jobs:
 5. Accessibility testing (WCAG 2.1 AA compliance using axe, Lighthouse)
 6. User Acceptance Testing (UAT) with Product Owner or stakeholders
 7. Log defects in backlog (prioritize for current sprint or next sprint)
-```
-
+```text
 **Testing Layers**:
 
 ```text
@@ -316,8 +308,7 @@ jobs:
 ├─────────────────────────────────────────────────────────────┤
 │ Unit Tests (Functions, Classes) - Fastest, Most Coverage   │
 └─────────────────────────────────────────────────────────────┘
-```
-
+```sql
 **Deliverables**:
 
 - E2E test suite with passing results
@@ -363,8 +354,7 @@ jobs:
    - User analytics (active users, error rates)
 8. If issues detected, rollback to previous version
 9. If stable, mark deployment as successful
-```
-
+```sql
 **Deployment Strategies**:
 
 - **Blue-Green**: Deploy to new environment (green), switch traffic from old (blue)
@@ -411,8 +401,7 @@ jobs:
    - Discuss user feedback and feature requests
    - Prioritize bug fixes for next sprint
 6. Update backlog based on production insights
-```
-
+```text
 **Key Metrics to Monitor** (Four Golden Signals):
 
 1. **Latency**: Response time (p50, p95, p99 percentiles)
@@ -455,8 +444,7 @@ jobs:
 3. Stakeholders provide feedback (feature requests, usability issues)
 4. Product Owner accepts or rejects user stories based on DoD
 5. Update product backlog with new insights
-```
-
+```text
 **Workflow - Retrospective (1-2 hours)**:
 
 ```text
@@ -466,8 +454,7 @@ jobs:
 4. Identify 3 things to improve (process, tools, communication)
 5. Create 1-3 action items for next sprint (assign owners)
 6. Document retrospective outcomes in shared wiki
-```
-
+```powershell
 **Retrospective Frameworks**:
 
 - **Start/Stop/Continue**: What should we start doing? Stop doing? Continue doing?

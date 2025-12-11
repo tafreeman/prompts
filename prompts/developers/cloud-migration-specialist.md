@@ -1,32 +1,40 @@
 ---
 title: "Cloud Migration Specialist"
-shortTitle: "Cloud Migration Specialist"
-intro: "Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan ..."
+shortTitle: "Cloud Migration"
+intro: "You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "cloud-architect"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "cloud-migration"
   - "developer"
   - "enterprise"
   - "developers"
+  - "azure"
+  - "aws"
 author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
+version: "1.2"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 ---
 # Cloud Migration Specialist
+
+---
 
 ## Description
 
 Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation.
+
+---
 
 ## Use Cases
 
@@ -35,6 +43,8 @@ Enterprise cloud migration architect specializing in lift-and-shift, re-platform
 - Legacy application modernization (monolith → microservices)
 - Disaster recovery and business continuity planning
 - Multi-cloud and hybrid cloud architectures
+
+---
 
 ## Prompt
 
@@ -56,47 +66,7 @@ Provide:
 6. **Performance Validation** (Load testing, disaster recovery, SLA targets)
 
 Use tables for architecture comparisons and include Azure Calculator or AWS Pricing estimates.
-```
-
-## Variables
-
-- `[app_name]`: Application name and architecture (e.g., "Legacy CRM System - Java/Oracle monolith, 5000 concurrent users")
-- `[current_infra]`: Current hosting environment (e.g., "On-premise VMware ESXi 7.0, Oracle 11g RAC (2-node cluster), F5 load balancer")
-- `[target_cloud]`: Target cloud provider and services (e.g., "Microsoft Azure - App Services, Azure SQL Managed Instance, Application Gateway")
-- `[requirements]`: Business drivers and constraints (e.g., "Reduce licensing costs by 30%, achieve 99.9% SLA, enable geo-redundancy for DR, complete migration in 9 months")
-
-## Example Usage
-
-**Input:**
-
 ```text
-Application: Legacy CRM System - Java 8 Monolith (Spring Framework 4.x)
-- Architecture: 3-tier (Web → App → DB)
-- Users: 5,000 concurrent (peak), 20K total
-- Current Performance: Avg response time 800ms, 95th percentile 2.5s
-- Database: Oracle 11g RAC (2-node cluster, 2TB data)
-- Integrations: Salesforce (REST API), SAP (SOAP), internal LDAP
-
-Current Infrastructure:
-- Hosting: On-premise VMware ESXi 7.0 (3 hosts, 192GB RAM each)
-- App Servers: 6x WebLogic 12c (Oracle JDK 8)
-- Database: Oracle 11g RAC (2-node cluster)
-- Load Balancer: F5 BIG-IP (hardware appliance)
-- Storage: NetApp SAN (10TB provisioned)
-- Network: Cisco ASA firewall, DMZ architecture
-
-Target Cloud: Microsoft Azure
-- Preference: PaaS over IaaS where possible
-- Regions: Primary (East US 2), DR (West US 2)
-
-Business Requirements:
-- Reduce Oracle licensing costs by 30% ($500K/year savings target)
-- Improve availability from 99.5% → 99.9% (4.4 hours → 8.76 hours downtime/year)
-- Enable geo-redundancy for disaster recovery (RPO: 1 hour, RTO: 4 hours)
-- Complete migration in 9 months (Go-Live: Sept 2026)
-- Zero data loss during cutover window
-- Maintain or improve current performance (800ms avg response → \u003c 600ms)
-```
 
 **Output:**
 
@@ -136,32 +106,8 @@ Business Requirements:
 
 ### Conceptual Architecture
 
-```
-
-┌─────────────────────────────────────────────────────────────┐
-│                   Azure Front Door (Global)                  │
-│              CDN + WAF + DDoS Protection                      │
-└──────────────┬──────────────────────────────┬────────────────┘
-               │                              │
-      ┌────────▼────────┐          ┌─────────▼─────────┐
-      │  East US 2      │          │  West US 2 (DR)   │
-      │  (Primary)      │          │  (Standby)        │
-      └────────┬────────┘          └─────────┬─────────┘
-               │                              │
-      ┌────────▼─────────────────────────────▼───────────┐
-      │     Azure App Service Plan (Premium v3)          │
-      │  - 6x Linux containers (Java 17 + Tomcat 10)     │
-      │  - Auto-scale: 6-12 instances                     │
-      └────────┬──────────────────────────────────────────┘
-               │
-      ┌────────▼─────────────────────────────────────────┐
-      │  Azure SQL Managed Instance (Business Critical)  │
-      │  - 8 vCores, 32GB RAM                            │
-      │  - Geo-replication: East US 2 ↔ West US 2        │
-      │  - Automated backups (PITR: 35 days)             │
-      └──────────────────────────────────────────────────┘
-
-```
+```text
+```text
 
 ### Detailed Component Specifications
 
@@ -311,15 +257,8 @@ Business Requirements:
 
 ### Network Segmentation
 
-```
-
-Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Service (Private Endpoint)
-                                                                      ↓
-                                                          Azure SQL MI (Private Endpoint)
-                                                                      ↓
-                                                          VNet Service Endpoints → Azure Storage
-
-```
+```text
+```text
 
 **Security Hardening**:
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
@@ -415,7 +354,10 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - Re-enable Oracle 11g writes (remove read-only mode)
 - Notify users: "Migration postponed to next maintenance window (August 1)"
 
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -425,6 +367,8 @@ Internet → Azure Front Door (WAF) → App Gateway (TLS offload) → App Servic
 - **Negotiate Reserved Instances Early**: 3-year Azure RIs offer 40% discount but require upfront budget approval. Factor into TCO before migration kickoff.
 - **Automate Rollback**: DNS-based rollback is fastest (5-min TTL). Never rely on manual steps during 2am cutover windows.
 - **Monitor Cloud Costs Weekly**: Azure spending can spike unexpectedly (e.g., forgotten dev VMs). Set up budget alerts in Azure Cost Management.
+
+---
 
 ## Related Prompts
 

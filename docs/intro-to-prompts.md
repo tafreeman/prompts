@@ -32,12 +32,11 @@ A **prompt** is the text you provide to an AI system to get a response. Think of
 ### Simple Example
 
 **Prompt:**
-```
+```text
 Write a professional email declining a meeting invitation due to a schedule conflict.
-```
-
+```text
 **AI Response:**
-```
+```yaml
 Subject: Re: Meeting Request - Unable to Attend
 
 Dear [Name],
@@ -54,8 +53,7 @@ Please let me know how I can best contribute.
 
 Best regards,
 [Your Name]
-```
-
+```text
 ---
 
 ## Why Do Prompts Matter?
@@ -63,7 +61,7 @@ Best regards,
 The quality of your prompt directly affects the quality of the AI's response:
 
 | Prompt Quality | Result Quality |
-|----------------|----------------|
+| :--- |----------------|
 | Vague | Generic, unhelpful responses |
 | Specific | Targeted, useful responses |
 | Well-structured | Organized, professional output |
@@ -72,17 +70,17 @@ The quality of your prompt directly affects the quality of the AI's response:
 ### Example: The Difference Specificity Makes
 
 ❌ **Vague prompt:**
-```
+```text
 Help me with my presentation.
-```
+```text
 *Result: Generic tips about presentations*
 
 ✅ **Specific prompt:**
-```
+```text
 Create a 5-slide outline for a presentation about Q3 sales results 
 to the executive team. Include: key metrics, top performers, 
 challenges, and next quarter recommendations.
-```
+```text
 *Result: A structured outline you can actually use*
 
 ---
@@ -95,48 +93,42 @@ A good prompt typically includes these elements:
 
 What do you want the AI to do?
 
-```
+```text
 Write / Summarize / Analyze / Create / Review / Explain...
-```
-
+```text
 ### 2. The Subject
 
 What is the prompt about?
 
-```
+```text
 ...a code review / sales report / marketing email / project plan...
-```
-
+```text
 ### 3. The Context
 
 Any background information needed:
 
-```
+```text
 ...for a software development team / targeting enterprise customers / 
 following company guidelines...
-```
-
+```text
 ### 4. The Format
 
 How should the output be structured?
 
-```
+```text
 ...as bullet points / in 3 paragraphs / as a table / in JSON format...
-```
-
+```json
 ### Putting It Together
 
-```
+```json
 [TASK] [SUBJECT] [CONTEXT]. [FORMAT].
-```
-
+```json
 **Example:**
-```
+```json
 Summarize this customer feedback report for the product team. 
 Focus on recurring themes and actionable improvements. 
 Present as a prioritized bullet list with quick wins first.
-```
-
+```text
 ---
 
 ## Types of Prompts
@@ -145,34 +137,31 @@ Present as a prioritized bullet list with quick wins first.
 
 Simple, straightforward requests:
 
-```
+```text
 Translate this text to Spanish: "Hello, how are you today?"
-```
-
+```text
 ### Instructional Prompts
 
 Step-by-step guidance:
 
-```
+```text
 Explain how to set up a Python virtual environment, 
 step by step, for a Windows user new to programming.
-```
-
+```text
 ### Role-Based Prompts
 
 Assign a persona to the AI:
 
-```
+```text
 You are an experienced financial advisor. 
 Review this investment portfolio and suggest improvements 
 for a 35-year-old with moderate risk tolerance.
-```
-
+```text
 ### Few-Shot Prompts
 
 Provide examples to guide the output:
 
-```
+```yaml
 Convert these notes to formal action items:
 
 Example:
@@ -181,13 +170,12 @@ Action Item: • Development team requires additional testing phase before produ
 
 Now convert:
 Note: "marketing wants new landing page by friday"
-```
-
+```text
 ### Chain-of-Thought Prompts
 
 Ask the AI to show its reasoning:
 
-```
+```text
 Analyze whether we should expand to the European market.
 Think through this step by step:
 1. Current market conditions
@@ -195,29 +183,26 @@ Think through this step by step:
 3. Potential challenges
 4. Expected ROI
 5. Final recommendation
-```
-
+```text
 ---
 
 ## Placeholders: Making Prompts Reusable
 
 **Placeholders** are variables in prompts that you replace with specific values. They're marked with `[BRACKETS]`:
 
-```
+```text
 Write a [TONE] email to [RECIPIENT] about [TOPIC].
 Include a call to action to [DESIRED_ACTION].
-```
-
+```text
 **Filled in:**
-```
+```text
 Write a professional email to the sales team about Q4 targets.
 Include a call to action to schedule planning meetings this week.
-```
-
+```text
 ### Common Placeholders
 
 | Placeholder | Replace With |
-|-------------|--------------|
+| :--- |--------------|
 | `[YOUR_CODE]` | The code you want reviewed |
 | `[TOPIC]` | The subject you're writing about |
 | `[AUDIENCE]` | Who will read/use the output |
@@ -250,15 +235,14 @@ Tell the AI exactly how you want the output:
 
 Show the AI what you want:
 
-```
+```yaml
 Write product descriptions like this example:
 
 Example: "The CloudPro 3000: Enterprise-grade cloud storage with 
 military-grade encryption and 99.99% uptime guarantee."
 
 Now write one for: A project management software for small teams
-```
-
+```text
 ### Iterate and Refine
 
 If the first response isn't right:
@@ -341,7 +325,7 @@ Ready to learn more?
 ## Glossary
 
 | Term | Definition |
-|------|------------|
+| :--- |------------|
 | **Prompt** | Text input to an AI system |
 | **Placeholder** | Variable in `[BRACKETS]` to be replaced |
 | **Few-shot** | Providing examples to guide output |

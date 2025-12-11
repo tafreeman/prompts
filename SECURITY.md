@@ -1,3 +1,24 @@
+---
+title: Security Policy
+shortTitle: Security Policy
+intro: Guidelines for supported versions and the responsible disclosure process for this repository.
+type: policy
+difficulty: intermediate
+audience:
+	- senior-engineer
+	- project-manager
+platforms:
+	- github
+author: Prompt Library Team
+version: "1.0"
+date: "2025-11-30"
+governance_tags:
+	- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Outlines supported versions and procedures for reporting security vulnerabilities.
+---
+
 # Security Policy
 
 ## Supported Versions

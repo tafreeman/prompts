@@ -219,8 +219,7 @@ Is this for quick lookup (tables, lists, schemas)?
 Is this about fixing a problem?
 ├── Yes → troubleshooting
 └── No → Re-evaluate scope (may need to split content)
-```
-
+```text
 ---
 
 ## Content Type by Folder

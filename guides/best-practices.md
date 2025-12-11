@@ -66,8 +66,7 @@ This guide shares proven techniques for creating and using effective prompts wit
 [ACTION] analyzing quarterly sales performance
 [CONTEXT] for a SaaS company with declining user engagement
 [EXPECTATION] Provide insights and recommendations in a format suitable for the executive team
-```
-
+```text
 ### The Chain-of-Thought Approach
 
 Encourage step-by-step reasoning:
@@ -78,8 +77,7 @@ Analyze this business problem step by step:
 2. Then, consider possible root causes
 3. Next, evaluate potential solutions
 4. Finally, recommend the best approach with rationale
-```
-
+```text
 ### The Few-Shot Learning Pattern
 
 Provide examples of what you want:
@@ -92,8 +90,7 @@ Example 1: "The CloudDesk Pro transforms your workspace with its whisper-quiet m
 Example 2: "The ErgoChair Elite hugs your back like it knows you. Adjustable lumbar support, breathable mesh, and a design that says 'I take my comfort seriously.'"
 
 Now create one for: [your product]
-```
-
+```text
 ## Advanced Techniques
 
 ### 1. Constraint Setting
@@ -107,8 +104,7 @@ Write a product announcement email:
 - Include a clear CTA
 - Avoid technical jargon
 - Don't make promises about delivery dates
-```
-
+```text
 ### 2. Persona Definition
 
 Define who the AI should be:
@@ -117,8 +113,7 @@ Define who the AI should be:
 You are an experienced UX designer with 10 years at consumer tech companies. You prioritize user research, accessibility, and simple, intuitive interfaces. You're skeptical of adding features without clear user needs.
 
 Review this feature proposal...
-```
-
+```text
 ### 3. Iterative Refinement
 
 Start broad, then narrow:
@@ -127,8 +122,7 @@ Start broad, then narrow:
 First request: "Suggest ideas for improving our customer onboarding"
 Follow-up: "Focus on the top 3 ideas and provide implementation details"
 Final: "For idea #2, create a week-by-week implementation plan"
-```
-
+```text
 ### 4. Comparative Analysis
 
 Ask for multiple options:
@@ -140,8 +134,7 @@ Provide 3 different approaches to [problem]:
 3. Innovative approach (higher risk, potentially transformative)
 
 For each, explain pros, cons, and resource requirements.
-```
-
+```text
 ## Common Pitfalls to Avoid
 
 ### ❌ Overly Complex Prompts
@@ -150,58 +143,50 @@ For each, explain pros, cons, and resource requirements.
 
 ```text
 Write a blog post, create social media posts, design an email campaign, and develop a content calendar for Q3...
-```
-
+```text
 **Solution:** Break into separate, focused prompts
 
 ```text
 Step 1: "Write a blog post about..."
 Step 2: "Based on this blog post, create 5 social media posts..."
 Step 3: "Now create an email campaign..."
-```
-
+```text
 ### ❌ Assuming Knowledge
 
 **Problem:** Not providing necessary information
 
 ```text
 "Optimize this SQL query" [without showing the query or explaining the problem]
-```
-
+```sql
 **Solution:** Include all relevant details
 
 ```text
 "Optimize this SQL query that's timing out on our production database (PostgreSQL 14, 5M rows). Current query: [query]. It's used in the dashboard that loads user analytics."
-```
-
+```sql
 ### ❌ Ignoring Edge Cases
 
 **Problem:** Not addressing exceptions
 
 ```text
 "Create a function to divide two numbers"
-```
-
+```sql
 **Solution:** Specify handling of edge cases
 
 ```text
 "Create a function to divide two numbers, with error handling for division by zero, type validation for inputs, and rounding to 2 decimal places"
-```
-
+```text
 ### ❌ Vague Quality Criteria
 
 **Problem:** Not defining success
 
 ```text
 "Make this better"
-```
-
+```text
 **Solution:** Specify what "better" means
 
 ```text
 "Improve this paragraph by: 1) Reducing word count by 30%, 2) Using more active voice, 3) Adding a concrete example, 4) Making the main point clearer in the first sentence"
-```
-
+```text
 ## Domain-Specific Best Practices
 
 ### For Code Generation
@@ -215,8 +200,7 @@ Step 3: "Now create an email campaign..."
 - Code style preferences
 - Error handling requirements
 - Testing expectations
-```
-
+```yaml
 Example:
 
 ```text
@@ -226,8 +210,7 @@ Write a Python 3.10 function that validates email addresses:
 - Handle: empty strings, null values, international domains
 - Style: Type hints, docstring, defensive programming
 - Include: Unit tests for edge cases
-```
-
+```text
 ### For Content Creation
 
 ```text
@@ -239,8 +222,7 @@ Write a Python 3.10 function that validates email addresses:
 - SEO keywords (if relevant)
 - Call-to-action
 - Things to avoid
-```
-
+```text
 ### For Data Analysis
 
 ```text
@@ -252,8 +234,7 @@ Write a Python 3.10 function that validates email addresses:
 - Decision to inform
 - Preferred visualization types
 - Audience for results
-```
-
+```text
 ### For Business Strategy
 
 ```text
@@ -265,8 +246,7 @@ Write a Python 3.10 function that validates email addresses:
 - Resources available
 - Risk tolerance
 - Decision criteria
-```
-
+```text
 ## Prompt Testing and Iteration
 
 ### Version Your Prompts
@@ -278,8 +258,7 @@ v1.0: Basic request
 v1.1: Added context about audience
 v1.2: Specified output format → Best results!
 v1.3: Tried more detailed constraints → Too restrictive
-```
-
+```text
 ### A/B Test Variations
 
 Try different phrasings:
@@ -310,8 +289,7 @@ Good practice:
 
 Avoid:
 Requests for content that stereotypes or excludes groups
-```
-
+```text
 ## Measuring Prompt Effectiveness
 
 ### Quality Criteria
@@ -335,8 +313,7 @@ Prompt: [your prompt]
 Rating: 4/5
 Notes: Great results, but needed to specify tone more clearly
 Improvement: Add "professional but approachable" to tone guidance
-```
-
+```text
 ## Quick Reference Checklist
 
 Before submitting a prompt, verify:

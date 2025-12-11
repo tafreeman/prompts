@@ -11,6 +11,7 @@ audience:
 platforms:
   - "chatgpt"
   - "claude"
+  - "github-copilot"
 topics:
   - "evaluation"
   - "osint"
@@ -22,7 +23,8 @@ governance_tags:
   - "risk-assessment"
   - "supply-chain"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
+effectivenessScore: 4.7
 ---
 ## Description
 
@@ -45,9 +47,45 @@ To produce a **Decision-Grade Verdict** on whether a specific OSINT resource sho
    - **Branch C (Viability)**: Is it actively maintained? Is the community healthy?
 
 2. **Phase 2 – Reflection & Self-Critique**
+<<<<<<< HEAD
    - **Safety Check**: Did we miss any red flags? (e.g., "install.sh" piping to bash)
    - **Legal/Ethical Check**: Does this tool violate platform ToS (e.g., scraping)?
    - **Verdict Refinement**: Adjust the final score based on these risks.
+=======
+   - Re-read Phase 1 output and apply the checklist:
+     - Accuracy, Completeness, Quality, Bias, Risk.
+   - Summarize strengths/weaknesses of the Phase 1 draft.
+   - Produce a revised final section (scores + executive summary) if needed.
+   - State confidence level and remaining uncertainties.
+
+- During Phase 2, do not regenerate Phase 1 from scratch; only critique and minimally adjust the existing Phase 1 output where clearly justified.
+
+---
+
+## Output Requirements
+
+Deliver a single Markdown document:
+
+1. **Phase 1 Output** – exact structure required in the evaluator prompt.
+2. **Phase 2 Reflection** – sections:
+   - `Critique Summary` (Strengths, Weaknesses, Gaps, Risks)
+   - `Corrections / Adjustments` (bullet list)
+   - `Revised Scores & Narrative` (only if changes were needed)
+   - `Confidence Level` (High/Medium/Low) with justification
+   - `Next Actions / Validation Needed`
+
+---
+
+## Use Cases
+
+- Enterprise prompt-library due diligence.
+- Internal QA before sharing audit reports with leadership.
+- Vendor risk assessments for AI prompt packs.
+- Regression testing after repository updates.
+- Training AI evaluators on self-checking workflows.
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
+
+---
 
 ## Prompt
 
@@ -105,6 +143,7 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - **Risks**: ...
 - **OPSEC Warnings**: ...
 
+<<<<<<< HEAD
 #### Reflection Notes
 - "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
 ```
@@ -114,16 +153,45 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - `[RESOURCE_NAME]`: Name of the tool/repo.
 - `[URL]`: Link to the resource.
 - `[USE_CASE]`: How you intend to use it (e.g., "Automated daily scraping of Twitter").
+=======
+Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
+```text
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[REPOSITORY_NAME]` | Repository identifier (org/repo format or local path) | `tafreeman/prompts`, `./my-prompts` |
+| `[REPO_CONTEXT_SUMMARY]` | Brief description of the repository's purpose and target audience | "Enterprise prompt library targeting senior developers and architects" |
+| `[OBSERVED_STRENGTHS]` | Known positive attributes from initial assessment | "Strong template structure, comprehensive metadata, clear categorization" |
+| `[OBSERVED_GAPS]` | Identified weaknesses or missing elements | "Limited deployment docs, sparse persona coverage" |
+| `[ENTERPRISE_CONCERNS]` | Specific organizational requirements to validate | "Compliance workflows, governance metadata, security review status" |
+
+---
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ## Example Usage
 
 ### Input
 
+<<<<<<< HEAD
 - **Resource**: `Twint` (Twitter Intelligence Tool)
 - **Use Case**: Historical tweet retrieval for sentiment analysis.
+=======
+```text
+You will evaluate the local workspace copy of tafreeman/prompts using ToT + Reflection.
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
-### Output Excerpt
+**Context Summary**: Advanced prompt library for enterprise developers and architects.
+**Observed Strengths**: Robust template, governance metadata, analytics dashboard.
+**Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
+**Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
+```text
+```text
 
+<<<<<<< HEAD
 ```text
 ...
 **Branch C (Maintenance)**: Twint is legendary but has been largely broken since Twitter's 2023 API changes.
@@ -138,3 +206,52 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - **Score**: 15/100
 - **Reason**: Tool is unmaintained and non-functional against current Twitter defenses.
 ```
+=======
+---
+
+## Tips
+
+- **Maintain Phase Separation**: Keep Phase 1 and Phase 2 clearly separated in your output. Use clear headers and avoid mixing reasoning states between phases.
+- **Quote Specific Evidence**: During Phase 2, quote specific lines or scores from Phase 1 when flagging issues (e.g., "Branch B scored 8/10 but cited only 2 files").
+- **Explicit Assumptions**: Mark all inferences with "[Assumption]" tags. Enterprise readers value transparency about what is observed vs. inferred.
+- **Document Passing Critiques**: If Phase 2 finds no corrections needed, still document why the critique passed (e.g., "All scores supported by ≥3 file references").
+- **Executive Alignment**: Frame recommendations in terms of business impact (risk, cost, timeline) rather than purely technical terms.
+- **Confidence Calibration**: Use High (90%+), Medium (70-89%), Low (<70%) based on evidence coverage—not optimism.
+
+## Platform Adaptations
+
+### Claude (Anthropic)
+
+Claude excels at self-critique. Add explicit permission to be critical:
+
+```text
+During Phase 2, be genuinely critical. I want you to find real flaws in your Phase 1 analysis, not just validate it. If everything checks out, explain why with specific evidence.
+```text
+
+### GitHub Copilot Chat
+
+```text
+@workspace Evaluate this repository using the ToT + Reflection pattern. Phase 1: Score content, organization, and enterprise-readiness. Phase 2: Critique your own assessment and adjust scores where evidence is weak.
+```text
+
+---
+
+
+## Governance Notes
+
+- **Human Review Required**: This prompt is tagged `requires-human-review`. All evaluation outputs should be reviewed by a human before sharing with stakeholders or making decisions based on them.
+- **Data Classification**: Internal use only. Evaluation results may contain sensitive information about repository weaknesses.
+- **Audit Trail**: Both Phase 1 and Phase 2 outputs provide natural audit trail. Archive complete outputs for compliance tracking.
+- **Bias Awareness**: Phase 2's bias check should explicitly look for:
+  - Over-representation of certain languages or frameworks
+  - Assumptions about team size or skill level
+  - Unstated preferences for specific tools or vendors
+
+---
+
+## Related Prompts
+
+- [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
+- [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)
+- [Chain-of-Thought Guide](chain-of-thought-guide.md)
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

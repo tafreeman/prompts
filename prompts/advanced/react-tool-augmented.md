@@ -19,16 +19,20 @@ version: "1.0"
 date: "2025-11-17"
 governance_tags:
   - "PII-safe"
-  - "requires-human-review-for-external-tools"
+  - "requires-human-review"
   - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
 # ReAct: Tool-Augmented Reasoning
 
+---
+
 ## Description
 
 ReAct (Reasoning + Acting) is an advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction. The AI explicitly articulates its thought process (Think), takes actions using tools (Act), observes the results (Observe), and reflects on whether the goal is achieved (Reflect). This creates a transparent, auditable loop ideal for complex tasks requiring information retrieval, API calls, or multi-step workflows.
+
+---
 
 ## Research Foundation
 
@@ -40,6 +44,38 @@ The pattern has been further refined through reflection mechanisms:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
+---
+
+## ReAct Cycle Visualization
+
+The ReAct pattern follows a continuous loop of reasoning and acting:
+
+```mermaid
+flowchart LR
+    A[🎯 Task/Question] --> B[💭 Thought]
+    B --> C[⚡ Action]
+    C --> D[👁️ Observation]
+    D --> E{📊 Goal<br/>Achieved?}
+    E -->|No| B
+    E -->|Yes| F[✅ Final Answer]
+    
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#ffebee
+    style F fill:#c8e6c9
+```
+
+**Legend:**
+- 💭 **Thought**: Explicit reasoning about what to do next
+- ⚡ **Action**: Call to external tool/API with parameters
+- 👁️ **Observation**: System returns actual tool output
+- 📊 **Reflection**: Assess progress toward goal
+- ✅ **Answer**: Complete response when sufficient information gathered
+
+---
+
 ## Use Cases
 
 - Research tasks requiring multiple information sources
@@ -49,6 +85,8 @@ Yao et al. demonstrated that interleaving reasoning traces with task-specific ac
 - Code execution and debugging workflows
 - Integration testing with external systems
 - Automated customer support with ticketing systems
+
+---
 
 ## Prompt
 
@@ -94,53 +132,8 @@ Continue this cycle until you can provide:
 - Observe actual tool outputs - don't assume
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
-```
-
-## Variables
-
-- `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
-- `[PROVIDE_BACKGROUND]`: Context, constraints, success criteria
-- `[LIST_TOOLS_WITH_DESCRIPTIONS]`: Available tools with their purposes and parameters
-
-## Example Usage
-
-**Input:**
-
 ```text
-You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve tasks.
-
-**Task**: Analyze the security vulnerabilities in our API and provide a risk-ranked report
-
-**Context**: 
-- Production API at https://api.example.com
-- Recent penetration test suggested issues
-- Need to prioritize fixes for next sprint
-- Budget: 40 engineering hours
-
-**Available Tools**:
-1. **security_scan**
-   - Runs automated security scanner
-   - Parameters: {endpoint: string, scan_type: "full"|"quick"}
-   - Returns: List of vulnerabilities with CVSS scores
-
-2. **api_documentation_fetch**
-   - Retrieves API docs for specific endpoints
-   - Parameters: {endpoint: string}
-   - Returns: Endpoint specification, authentication, rate limits
-
-3. **git_history_search**
-   - Searches git history for security-related changes
-   - Parameters: {keyword: string, since: date}
-   - Returns: Commits matching keyword
-
-4. **query_database**
-   - Executes read-only SQL query
-   - Parameters: {query: string}
-   - Returns: Query results
-
-**Instructions**:
-[As specified above]
-```
+```text
 
 **Output:**
 
@@ -388,36 +381,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 
 **Total engineering time**: 50 hours across 2 sprints
 **Critical path**: 38 hours (fits in 40-hour budget for this sprint with 2 hours buffer)
-```
-
-## Tips
-
-- **Think explicitly**: Don't skip the Thought step - it's what makes reasoning transparent
-- **One tool per cycle**: Don't call multiple tools in one Action - break them into separate cycles
-- **Observe accurately**: Never hallucinate tool results - wait for actual system output
-- **Reflect meaningfully**: Don't just say "good" - analyze what you learned and what's next
-- **Know when to stop**: Once you have sufficient information, provide Final Answer
-- **Handle errors gracefully**: If a tool fails, reflect on it and try alternative approach
-- **Tool selection matters**: Think carefully about which tool gives you the information you need
-
-## When to Use ReAct vs Other Patterns
-
-| Use Case | ReAct | CoT | Direct |
-|----------|-------|-----|--------|
-| Need external data | ✓ | ✗ | ✗ |
-| Pure reasoning problem | ✗ | ✓ | ✗ |
-| Simple lookup | ✗ | ✗ | ✓ |
-| Multi-step research | ✓ | ✗ | ✗ |
-| API integration | ✓ | ✗ | ✗ |
-| Complex analysis with data | ✓ | Partial | ✗ |
-| Need action audit trail | ✓ | Partial | ✗ |
-
-## Related Prompts
-
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
-- [ReAct: API Integration](react-api-integration.md) - API calling patterns
-- [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
-- [RAG: Citation Framework](rag-citation-framework.md) - Citing retrieved information
+```text
 
 ## Output Schema (JSON)
 
@@ -443,7 +407,9 @@ For automation pipelines:
   "total_cycles": 5,
   "success": true
 }
-```
+```text
+
+---
 
 ## Governance Notes
 
@@ -459,28 +425,7 @@ For automation pipelines:
 
 ```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
-```
-
-### LangChain Integration
-
-```python
-from langchain.agents import initialize_agent, AgentType
-from langchain.tools import Tool
-
-tools = [
-    Tool(name="SecurityScan", func=security_scan, description="..."),
-    Tool(name="FetchDocs", func=fetch_docs, description="...")
-]
-
-agent = initialize_agent(
-    tools,
-    llm,
-    agent=AgentType.REACT_DOCSTORE,
-    verbose=True
-)
-
-result = agent.run("Analyze security vulnerabilities...")
-```
+```text
 
 ### Custom API Implementation
 
@@ -502,4 +447,4 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
     
     return "Max cycles reached without solution"
-```
+```json

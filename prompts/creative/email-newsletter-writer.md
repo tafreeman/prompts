@@ -5,9 +5,9 @@ intro: "Generate compelling email newsletters that engage subscribers, deliver v
 type: "how_to"
 difficulty: "beginner"
 audience:
-  - "marketer"
-  - "content-creator"
-  - "business-professional"
+  - "business-analyst"
+  - "project-manager"
+  - "functional-team"
 platforms:
   - "claude"
   - "chatgpt"
@@ -28,9 +28,13 @@ effectivenessScore: 4.1
 ---
 # Email Newsletter Writer
 
+---
+
 ## Description
 
 Create engaging email newsletters that subscribers actually want to read. This prompt helps marketers, content creators, and business owners craft newsletters that deliver value, maintain audience interest, and achieve marketing goals while avoiding the spam folder.
+
+---
 
 ## Use Cases
 
@@ -39,6 +43,8 @@ Create engaging email newsletters that subscribers actually want to read. This p
 - Industry news roundups and curated content digests
 - Educational content series for nurturing leads
 - Promotional campaigns with a value-first approach
+
+---
 
 ## Prompt
 
@@ -78,63 +84,7 @@ Please create:
 5. P.S. line for additional engagement
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
-```
-
-## Variables
-
-| Variable | Description |
-|----------|-------------|
-| `[WEEKLY DIGEST/PRODUCT UPDATE/EDUCATIONAL/PROMOTIONAL/ANNOUNCEMENT]` | The type of newsletter you're sending |
-| `[YOUR BRAND NAME]` | Your company or personal brand name |
-| `[SUBSCRIBER DEMOGRAPHICS AND INTERESTS]` | Who your subscribers are and what they care about |
-| `[PROFESSIONAL/FRIENDLY/CASUAL/AUTHORITATIVE/PLAYFUL]` | The voice and tone of your newsletter |
-| `[YOUR NEWSLETTER NAME, IF ANY]` | The branded name of your newsletter |
-| `[FIRST MAIN TOPIC OR STORY]` | Primary content you want to cover |
-| `[ENGAGEMENT/CLICKS/CONVERSIONS/EDUCATION/RELATIONSHIP BUILDING]` | What you want to achieve |
-| `[MAIN ACTION YOU WANT READERS TO TAKE]` | The primary CTA |
-| `[SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]` | Desired newsletter length |
-
-## Example Usage
-
-**Input:**
-
 ```text
-You are an expert email marketing copywriter who creates newsletters that people actually open, read, and act on. Write a compelling email newsletter based on the following details:
-
-**Newsletter Type:** Weekly Digest
-**Brand/Company:** TechPulse
-**Target Audience:** Software developers, tech leads, and engineering managers interested in developer productivity and tooling
-**Tone:** Friendly and knowledgeable
-**Newsletter Name:** The Dev Digest
-
-**Main Content:**
-- Topic 1: New AI coding assistants comparison - which one is worth your time?
-- Topic 2: Three terminal tricks that saved me 2 hours this week
-- Topic 3: Community spotlight: Open source project of the week
-
-**Primary Goal:** Engagement and establishing thought leadership
-**Call-to-Action:** Try one of the terminal tricks and reply with your results
-
-**Additional Elements:**
-- Include a personal note/intro: Yes
-- Add curated links/resources: Yes - 3-4 relevant links
-- Include a featured offer/promotion: No
-- Add a subscriber-exclusive element: Yes - early access to upcoming tool review
-
-**Constraints:**
-- Approximate word count: Medium (400-600)
-- Must mention: The newsletter's 1-year anniversary
-- Avoid: Overly salesy language, jargon without explanation
-
-Please create:
-1. 3 subject line options (with open rate prediction)
-2. Preview text (40-90 characters)
-3. Full newsletter content with clear sections
-4. Compelling CTA button text
-5. P.S. line for additional engagement
-
-Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
-```
 
 **Output:**
 
@@ -203,7 +153,7 @@ These aren't fancy—they're practical. Try one today.
 history | fzf
 # Find and open any file
 vim $(fzf)
-```
+```text
 *Time saved: 45 minutes of "wait, what was that command?"*
 
 **2. Quick directory bookmarks with `z`**
@@ -211,14 +161,14 @@ vim $(fzf)
 # Jump to frequently used directories
 z projects  # Goes to ~/code/projects
 z api       # Goes to most-used api directory
-```
+```text
 *Time saved: 30 minutes of cd ../../../*
 
 **3. Parallel command execution**
 ```bash
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
-```
+```bash
 *Time saved: 45 minutes on a multi-package repo*
 
 ---
@@ -270,7 +220,10 @@ Happy coding,
 ---
 
 P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git workflows that scale], [The ultimate VS Code setup], [Debugging in production]. All still relevant, all still free.
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -280,6 +233,8 @@ P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git 
 - **One primary CTA:** Having multiple competing actions reduces clicks on all of them
 - **The P.S. gets read:** It's one of the most-read parts of any email—use it strategically
 - **Personalization beyond [First Name]:** Reference subscriber behavior, segments, or interests when possible
+
+---
 
 ## Related Prompts
 

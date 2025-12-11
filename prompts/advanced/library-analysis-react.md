@@ -18,16 +18,20 @@ author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-25"
 governance_tags:
-  - "internal-use-only"
-  - "safe-for-automated-analysis"
+  - "PII-safe"
+  - "internal-only"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
 # ReAct: Library Structure & Content Analysis
 
+---
+
 ## Description
 
 A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the structure, quality, and completeness of a prompt library or code repository. This prompt guides the AI to act as a "Library Analyst," systematically exploring directories, reading files, checking metadata, and identifying gaps or inconsistencies. It combines file system exploration with content evaluation logic.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the stru
 - **Content Quality Checks**: Verifying that prompts follow the standard template (Description, Goal, Variables, etc.).
 - **Gap Analysis**: Finding missing topics or categories based on existing content.
 - **Maintenance**: Generating reports on "to-do" items for library improvement.
+
+---
 
 ## Prompt
 
@@ -117,31 +123,7 @@ Continue until you can provide:
 **Confidence Assessment**:
 -   **High/Medium/Low**: Based on how much of the requested scope was covered.
 
-```
-
-## Variables
-
-- `[ANALYSIS_TASK]`: The specific auditing or analysis goal (e.g., "Audit the 'analysis' folder for incomplete prompts").
-
-## Example Usage
-
-**Input:**
-
 ```text
-You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) pattern to audit and analyze a prompt library.
-
-**Task**: Analyze the `prompts/analysis` directory. Identify all prompt files, determine which are "stubs" (under 2KB or missing sections), and list any missing metadata.
-
-**Context**: 
-- Root path: `d:\source\osi\prompts`
-- Stubs often have just a header or empty sections.
-
-**Available Tools**:
-[As described above]
-
-**Instructions**:
-[As specified above]
-```
 
 **Output:**
 
@@ -244,7 +226,9 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 2.  **Use Template**: Use `data-analysis-insights.md` as the "Gold Standard" reference when expanding the stubs.
 
 **Confidence Assessment**: **High** - File size correlation with content quality was verified by sampling.
-```
+```text
+
+---
 
 ## Tips
 
@@ -252,6 +236,8 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 - **Sampling**: You don't need to read every file if a pattern emerges. Read a representative sample.
 - **Structure Checks**: Always verify that "Example Usage" contains *actual* examples, not just "Insert example here" text.
 - **Metadata**: Check for `title`, `category`, `tags`, and `version` in the frontmatter.
+
+---
 
 ## Output Schema (JSON)
 
@@ -279,7 +265,10 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
   ],
   "recommendations": ["..."]
 }
-```
+```text
+
+---
+
 
 ## Related Prompts
 

@@ -30,6 +30,8 @@ reviewStatus: "approved"
 ---
 # ReAct: OSINT/SOCMINT Knowledge Base Research
 
+---
+
 ## Description
 
 Use this prompt to systematically research the best OSINT, SOCMINT, and Cyber Intelligence tools from curated industry resources. This prompt leverages verified knowledge bases to build comprehensive tooling libraries and identify the gold-standard resources for intelligence operations.
@@ -172,10 +174,81 @@ Continue until you have:
 ```text
 [USE_CASE] Workflow:
 
+<<<<<<< HEAD
 1. [Tool A] → Initial discovery
 2. [Tool B] → Deep dive
 3. [Tool C] → Reporting/Export
 ```
+=======
+| Current Element | Keep/Remove | Rationale | Industry Support |
+|-----------------|-------------|-----------|------------------|
+| ... | ✅ Keep / ❌ Remove | ... | X of Y sources use this |
+
+### 3. Prompt Scoring Rubric
+
+| Dimension | Weight | Criteria | Score Range |
+|-----------|--------|----------|-------------|
+| Clarity | ...% | ... | 1-5 |
+| Effectiveness | ...% | ... | 1-5 |
+| Reusability | ...% | ... | 1-5 |
+| ... | ... | ... | ... |
+
+### 4. Recommendations
+
+For each recommendation:
+
+- **Pattern**: What to implement
+- **Evidence**: Which sources use this
+- **Application**: How to apply it
+- **Priority**: P0/P1/P2
+- **Effort**: Low/Medium/High
+
+### 5. Simplification Actions
+
+What to REMOVE from prompts:
+
+| Remove This | Why | Savings |
+|-------------|-----|---------|
+| ... | Not used by industry leaders | -X lines avg |
+
+### 6. Scoring Implementation Plan
+
+How to implement prompt scoring in the library:
+
+- Recommended scoring dimensions
+- Automation possibilities
+- Review workflow integration
+
+### 7. New Prompts by Section
+
+Prompts to ADD across all library categories:
+
+| Section | Current | Target | New Prompts to Add |
+|---------|---------|--------|--------------------|
+| Creative | 2 | 15-20 | [list specific prompts] |
+| Business | 26 | 35-40 | [list specific prompts] |
+| Developers | 15+ | 25+ | [list specific prompts] |
+| Analysis | 10+ | 15+ | [list specific prompts] |
+| Advanced | 20+ | 25+ | [list specific prompts] |
+| Governance | 5+ | 10+ | [list specific prompts] |
+| M365 | 10+ | 20+ | [list specific prompts] |
+| System | 5+ | 10+ | [list specific prompts] |
+
+For each new prompt:
+- Name and description
+- Difficulty level
+- Source/inspiration
+- Priority (P0/P1/P2)
+
+### 8. Specific Actions
+
+Prioritized list of changes with:
+
+- Task description
+- Supporting evidence
+- Estimated effort
+```text
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ### 3. Limitations & Mitigations
 
@@ -213,6 +286,7 @@ Continue until you have:
 ### Input
 
 ```text
+<<<<<<< HEAD
 **Use Case**: Investigate a suspicious username found in a phishing campaign.
 **Goal**: Enumerate all accounts, find email addresses, check for breaches.
 ```
@@ -256,10 +330,29 @@ Continue until you have:
 | h8mail | High | Active | CLI | **Primary** |
 
 ### 2. Recommended Tool Stack
+=======
+## Research Question
+
+What is the minimal effective structure for prompt documents, and what scoring systems are used to rate prompt quality?
+
+## Context
+
+Project: tafreeman/prompts - A prompt library with 145+ prompts
+Problem: Current prompts may have unnecessary sections/fields
+Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
+```text
+
+---
+
+## Example Usage: Content Expansion
+
+### Input
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ```text
 Username Investigation Workflow:
 
+<<<<<<< HEAD
 1. Maigret → Comprehensive username search (3000+ sites, PDF report)
 2. Blackbird → AI profiling on confirmed accounts
 3. Holehe → Email discovery from found profiles
@@ -279,3 +372,76 @@ Username Investigation Workflow:
 - [ ] Check Maigret GitHub for sites.json updates
 - [ ] Verify Holehe against test email before operation
 - [ ] Update breach databases in h8mail
+=======
+What are best practices for structuring creative writing and content generation prompts that serve multiple skill levels?
+
+## Context
+
+Project: tafreeman/prompts - A prompt library for AI-assisted work
+Current State: 145 prompts total, only 2 in creative category
+Goal: Expand creative prompts to 15-20, covering writing, marketing, editing, storytelling
+Target Users: Business professionals, marketing teams, content creators
+```text
+
+---
+
+## Tips
+
+- **Start with the most specialized source** for your topic (Copy.ai for creative, Stripe for API docs)
+- **Look for contributing guides** - they often explain the content model
+- **Note the differences** - where sources disagree may indicate context-dependent choices
+- **Focus on actionable patterns** - skip things that don't apply to your project
+- **Cite everything** - recommendations are stronger with multiple sources
+- **Favor simplicity** - if top sources don't use a feature, question whether you need it
+- **Research scoring early** - understand how to measure prompt quality before creating more
+
+---
+
+## Current Repository Context
+
+For reference when researching, our library currently has:
+
+| Category | Count | Target | Status | Expansion Ideas |
+|----------|-------|--------|--------|------------------|
+| Creative | 2 | 15-20 | 🔴 Critical | Writing, marketing, editing, storytelling |
+| Business | 26 | 35-40 | 🟡 Expand | Sales, HR, exec comms, operations |
+| Developers | 15+ | 25+ | 🟡 Expand | Testing, DevOps, architecture, debugging |
+| Analysis | 10+ | 15+ | 🟡 Expand | Data viz, reporting, competitive analysis |
+| Advanced | 20+ | 25+ | 🟢 Good | Multi-agent, RAG patterns, fine-tuning |
+| Governance | 5+ | 10+ | 🟡 Expand | Compliance, risk, audit, policy |
+| M365 | 10+ | 20+ | 🟡 Expand | Teams, SharePoint, Power Platform |
+| System | 5+ | 10+ | 🟡 Expand | Agent configs, personas, guardrails |
+
+**Expansion Priorities (All Sections):**
+
+| Priority | Section | Current → Target | Focus Areas |
+|----------|---------|------------------|-------------|
+| P0 | Creative | 2 → 15-20 | Writing, marketing, editing, storytelling |
+| P0 | Business | 26 → 35-40 | Sales, HR, executive comms, operations |
+| P1 | M365 | 10+ → 20+ | Teams, SharePoint, Power Platform, Outlook |
+| P1 | Developers | 15+ → 25+ | Testing, DevOps, architecture, code review |
+| P1 | Governance | 5+ → 10+ | Compliance, risk assessment, audit, policy |
+| P2 | Analysis | 10+ → 15+ | Data viz, reporting, competitive intel |
+| P2 | Advanced | 20+ → 25+ | Multi-agent, RAG, fine-tuning guides |
+| P2 | System | 5+ → 10+ | Agent personas, guardrails, configurations |
+
+**Simplification Targets:**
+
+- Reduce average prompt length by 30-40%
+- Remove redundant sections across all prompts
+- Standardize to minimal effective structure
+
+**Scoring Implementation:**
+
+- Add `effectivenessScore` field to frontmatter
+- Create automated scoring via `tools/validators/`
+- Implement review workflow with scoring criteria
+
+---
+
+## Related Prompts
+
+- [ReAct: Repository Analysis](prompt-library-refactor-react.md) - Analyze repository structure
+- [ReAct: Tool-Augmented](react-tool-augmented.md) - General ReAct pattern with tools
+- [Chain-of-Thought Debugging](chain-of-thought-debugging.md) - Step-by-step reasoning
+>>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

@@ -25,6 +25,8 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
 
+---
+
 ## Description
 
 This prompt guides the generation of a Network Graph visualization to show relationships and workflows between different prompts in the library.
@@ -56,15 +58,21 @@ The prompt library contains many individual files that can be used together in w
 
 Analytical and creative visualization.
 
+---
+
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/NetworkX, Mermaid, or Graphviz) to generate the graph.
+
+---
 
 ## Use Cases
 
 - Understanding dependencies between prompts.
 - Designing new workflows by seeing connected capabilities.
 - Visualizing the complexity and interconnectedness of the library.
+
+---
 
 ## Prompt
 
@@ -76,33 +84,18 @@ Draw edges (lines) between prompts that belong to the same category (e.g., all "
 Additionally, link prompts that are part of the same workflow (e.g., connect "requirements-analysis-expert.md" to "api-design-consultant.md" and "quality-assurance-planner.md" to represent an SDLC flow).
 
 This should look like a constellation showing clusters of related capabilities.
+```text
 ```
 
-## Example Visualization (Mermaid)
+## Variables
 
-Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[PROMPT_LIST]` | List of prompts in the library | ["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"] |
+| `[WORKFLOW_DEFINITIONS]` | Optional definitions of workflows connecting prompts | "SDLC: requirements-analysis → api-design → code-review → quality-assurance" |
 
-```mermaid
-%% Mermaid graph showing category clusters plus workflow links
-graph LR
-  subgraph Business
-    BSP["Agile Sprint Planner"]
-    SCM["Stakeholder Communication Manager"]
-  end
+## Tips
 
-  subgraph Analysis
-    RAE["Requirements Analysis Expert"]
-    TAA["Trend Analysis Specialist"]
-  end
-
-  subgraph Developers
-    ADC["API Design Consultant"]
-    CRA["Code Review Assistant"]
-  end
-
-  BSP --> SCM
-  RAE --> TAA
-  RAE --> ADC
-  ADC --> CRA
-  CRA --> SCM
-```
+- **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
+- **Find gaps**: Disconnected nodes may indicate prompts that need better integration
+- **Use color coding**: Assign different colors to different categories for easier visual parsing
