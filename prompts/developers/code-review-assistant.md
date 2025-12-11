@@ -313,7 +313,7 @@ except requests.RequestException as e:
 ```json
 
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
-```text
+```
 
 >>>>>>> main
 ### Minor: Naming Improvement
@@ -337,6 +337,8 @@ except requests.RequestException as e:
 
 ## Related Prompts
 
+- [Bug Finder and Fixer](bug-finder.md) - Specialized bug detection
+- [Code Documentation Generator](code-documentation-generator.md) - Generate docs
 - [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
 >>>>>>> main
 - [Security Code Auditor](security-code-auditor.md) - Security-focused review

@@ -161,9 +161,7 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 =======
 ```text
 
-```text
-
----
+```
 
 >>>>>>> main
 ## Tips

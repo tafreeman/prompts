@@ -171,9 +171,7 @@ namespace Application.Services
 =======
 ```text
 
-```text
-
----
+```
 
 >>>>>>> main
 ## Tips
