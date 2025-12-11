@@ -379,7 +379,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
-```
+```text
 
 **After:**
 
@@ -427,6 +427,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
+```text
 ```
 
 ---

@@ -192,7 +192,7 @@ For each Thought B1–B3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 #### 5. Branch C – Enterprise Applicability & Breadth (ToT)
 
-**Goal:** Assess the repository's fitness as an **enterprise-grade prompt library** (e.g., M365 Copilot, GitHub Copilot, internal AI portals).
+**Goal:** Assess the repository's fitness as definitve source of highly curated prompt library in ai& engineering(e.g., M365 Copilot, GitHub Copilot, internal AI portals).
 
 5.1 Generate 3 candidate evaluation approaches (Thoughts), e.g.:
 
@@ -419,19 +419,19 @@ Tree-of-Thoughts is an advanced prompting technique that:
 
 ### Evaluation Dimensions
 
-**Branch A: Structural & Foundational Integrity (35% weight)**
+**Branch A: Structural & Foundational Integrity (30% weight)**
 
 - Focuses on prompt engineering fundamentals
 - Assesses adherence to established best practices
 - Evaluates consistency and maintainability
 
-**Branch B: Advanced Technique Depth & Accuracy (30% weight)**
+**Branch B: Advanced Technique Depth & Accuracy (50% weight)**
 
 - Examines coverage of modern AI techniques
 - Assesses alignment with academic research
 - Evaluates technical accuracy and depth
 
-**Branch C: Enterprise Applicability & Breadth (35% weight)**
+**Branch C: Enterprise Applicability & Breadth (20% weight)**
 
 - Focuses on real-world utility
 - Assesses persona and workflow coverage
