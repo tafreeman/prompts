@@ -92,7 +92,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+A product strategy lead at a project management SaaS company needs to understand the competitive landscape to inform the 2025 product roadmap.
+
+### Input
+
+```text
+Product/Service: Project management software for creative agencies
+Market Segment: SMB creative agencies (10-100 employees)
+Key Competitors: Asana, Monday.com, ClickUp, Notion
+Analysis Focus: Feature gaps, pricing strategy, positioning opportunities
+```
+
+### Expected Output
+
+A comprehensive competitive analysis report including:
+
+1. **Competitive Landscape** - Market positioning map, segment leaders, emerging challengers
+2. **Feature Comparison** - Side-by-side matrix of key features with gap analysis
+3. **Pricing Analysis** - Pricing tiers, per-seat costs, enterprise discounting patterns
+4. **Market Positioning** - Messaging analysis, target audience, value propositions
+5. **Opportunities and Threats** - White space opportunities, competitive moats, disruption risks
+6. **Strategic Recommendations** - Feature prioritization, pricing strategy, differentiation plays
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Competitive Analysis Framework](../business/competitive-analysis.md) - For comprehensive competitive intelligence
+- [Business Strategy Analysis](../business/business-strategy-analysis.md) - For strategic planning based on competitive insights
+- [Market Research Analyst](./market-research-analyst.md) - For broader market research
+- [Industry Analysis Expert](./industry-analysis-expert.md) - For industry-level analysis

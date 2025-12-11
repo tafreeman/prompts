@@ -172,7 +172,87 @@ Relevance Score: 0.41
 
 **Instructions**:
 [As specified above]
-```text
+```
+
+**Expected Output:**
+
+```markdown
+## Answer
+
+Based on the retrieved documentation, here's what you need to know about our API rate limiting policy:
+
+### Rate Limits
+
+| Tier | Rate Limit | Reset |
+|------|-----------|-------|
+| Standard | 1,000 requests/hour | Top of each hour (UTC) |
+| Enterprise (Premium) | 10,000 requests/hour | Top of each hour (UTC) |
+
+> "All API endpoints are rate limited to 1000 requests per hour per API key. Enterprise customers with Premium tier receive 10,000 requests per hour." — [Doc_1: /docs/api/rate-limiting.md]
+
+### When Rate Limit is Exceeded
+
+When you exceed your rate limit, the API returns **HTTP 429 (Too Many Requests)**. The response includes a `Retry-After` header indicating how many seconds until your limit resets [Doc_2].
+
+**Example response header:**
+```
+Retry-After: 3600  (retry in 1 hour)
+```
+
+### Violation Policy
+
+Persistent violations are handled progressively [Doc_3]:
+
+| Violation | Consequence |
+|-----------|-------------|
+| 1st (>5 times in 24h) | Warning email |
+| 2nd (within 7 days of 1st) | 24-hour API key suspension |
+| 3rd | Permanent suspension (subject to review) |
+
+### Recommendation for Bulk Export
+
+For your bulk data export use case, I recommend:
+
+1. **Check your tier**: If you're on Standard (1,000/hr), consider upgrading to Enterprise (10,000/hr) for bulk operations
+2. **Implement rate limiting client-side**: Track requests and pause when approaching the limit
+3. **Use the `Retry-After` header**: If you receive a 429, wait the indicated time before retrying
+4. **Spread requests**: Instead of bursting, distribute requests evenly across the hour
+
+---
+
+## Citations
+
+| Doc ID | Source | Relevance | Usage |
+|--------|--------|-----------|-------|
+| Doc_1 | /docs/api/rate-limiting.md | 0.95 | Rate limit thresholds and tiers |
+| Doc_2 | /docs/api/error-codes.md | 0.89 | HTTP 429 handling and Retry-After header |
+| Doc_3 | /policies/api-usage-policy.md | 0.82 | Violation escalation policy |
+| Doc_4 | /docs/api/authentication.md | 0.41 | *(Not used — below relevance threshold, not directly relevant to rate limiting question)* |
+
+## Confidence Assessment
+
+**Confidence Level**: HIGH
+
+**Justification**: 
+- Three highly relevant documents (>0.8 relevance) directly address the question
+- All factual claims are grounded in retrieved documents
+- No contradictions between sources
+- Policy language is clear and unambiguous
+
+## Information Gaps
+
+The retrieved documents do not cover:
+- Whether rate limits can be temporarily increased for planned bulk operations
+- Exact timing of rate limit reset (e.g., is it exactly on the hour, or rolling?)
+- Whether Enterprise tier has options beyond 10,000/hr
+
+## Recommended Follow-up
+
+If the customer needs to exceed standard limits for their bulk export, suggest:
+1. Contact sales about temporary limit increase
+2. Explore batch/export API endpoints (may have different limits)
+3. Request Enterprise tier upgrade for ongoing high-volume needs
+```
 
 ---
 

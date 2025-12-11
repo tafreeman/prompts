@@ -91,7 +91,38 @@ Provide:
 
 ---
 
+## Example Usage
+
+### Context
+
+A startup founder is preparing to enter the meal kit delivery market and needs comprehensive market research to inform product positioning and go-to-market strategy.
+
+### Input
+
+```text
+Research Topic: Premium organic meal kit subscription market
+Target Market: Urban professionals aged 28-45 with household income >$100K
+Research Objectives: Market size, customer segments, unmet needs, competitive gaps
+Methodology Preference: Mixed methods (surveys + focus groups + secondary research)
+Timeline: 6 weeks
+```
+
+### Expected Output
+
+A comprehensive market research plan and findings:
+
+1. **Research Design** - Phased approach with qualitative and quantitative methods
+2. **Data Collection Plan** - Sampling strategy, recruitment channels, incentive structure
+3. **Analysis Framework** - Segmentation criteria, conjoint analysis for feature prioritization
+4. **Key Findings** - Market size ($2.5B), growth rate (18% CAGR), key segments
+5. **Market Insights** - Unmet needs (flexibility, dietary restrictions, sustainability)
+6. **Strategic Implications** - Positioning opportunities, pricing strategy, channel recommendations
+
+---
+
 ## Related Prompts
 
-- Browse other Researcher prompts in this category
-- Check the analysis folder for similar templates
+- [Competitive Analysis Researcher](./competitive-analysis-researcher.md) - For competitor deep-dives
+- [Consumer Behavior Researcher](./consumer-behavior-researcher.md) - For customer psychology insights
+- [Industry Analysis Expert](./industry-analysis-expert.md) - For broader industry trends
+- [Trend Analysis Specialist](./trend-analysis-specialist.md) - For emerging market trends

@@ -1,21 +1,23 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
+title: "Governance & Compliance Prompts"
+shortTitle: "Governance"
+intro: "Prompts for governance, compliance, legal, security operations, privacy, and audit teams with enterprise controls and regulatory guidance."
 type: reference
-difficulty: beginner
+difficulty: intermediate
 audience:
-- senior-engineer
-- junior-engineer
+  - security-engineer
+  - compliance-officer
+  - solution-architect
 platforms:
-- github-copilot
-- claude
-- chatgpt
+  - github-copilot
+  - claude
+  - chatgpt
 author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
+version: "1.1"
+date: "2025-12-11"
 governance_tags:
-- PII-safe
+  - requires-human-review
+  - compliance-critical
 dataClassification: internal
 reviewStatus: draft
 ---

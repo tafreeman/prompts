@@ -2,6 +2,7 @@
 title: "M365 Manager Sync Planner"
 shortTitle: "M365 Manager Sync Planner"
 intro: "This prompt helps employees prepare for effective one-on-one meetings with their managers. It takes raw notes about the week's work, challenges, and future goals, and organizes them into a professi..."
+m365App: "Copilot in Outlook or Microsoft 365 Copilot Chat"
 type: "conceptual"
 difficulty: "beginner"
 audience:

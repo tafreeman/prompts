@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Stakeholder Communication Manager
 
@@ -77,13 +78,21 @@ Format output in structured Markdown with tables for matrices and calendars.
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are leading communications for a large SAP S/4HANA implementation with multiple executive sponsors, business users, and offshore vendors. There is resistance to change and pressure to accelerate the timeline, so you need a robust stakeholder communication plan.
+
+### Input
 
 ```text
-Project: SAP S/4HANA Implementation (Finance & Supply Chain Modules)
-Stakeholders:
+You are a Senior Stakeholder Communication Manager responsible for enterprise project communications.
+
+Develop a comprehensive communication strategy for:
+
+**Project**: SAP S/4HANA Implementation (Finance & Supply Chain Modules)
+**Stakeholders**:
 - CFO (Executive Sponsor)
 - VP Supply Chain (Key Business User)
 - IT Director (Technical Owner)
@@ -91,14 +100,28 @@ Stakeholders:
 - Warehouse Staff (50 end users across 3 sites)
 - SAP Consulting Partner (Offshore team in India)
 
-Phase: Blueprinting / Design (Month 3 of 18-month project)
-
-Challenges:
+**Project Phase**: Blueprinting / Design (Month 3 of 18-month project)
+**Communication Challenges**:
 - Resistance to change from warehouse staff (fear of job automation)
 - CFO demanding weekly ROI metrics and faster go-live (pressure to cut timeline from 18 to 12 months)
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
+
+Provide:
+1. **Stakeholder Analysis** (Power/Interest Matrix with RACI roles)
+2. **Communication Matrix** (Who, What, When, How, Why)
+3. **Meeting Schedules** (Cadence calendar with objectives)
+4. **Reporting Templates** (Executive summaries, technical updates, all-hands formats)
+5. **Escalation Procedures** (Issue triage flows)
+6. **Feedback Mechanisms** (Surveys, pulse checks, retrospectives)
+7. **Crisis Communication Playbook** (If project is at risk)
+
+Format output in structured Markdown with tables for matrices and calendars.
 ```text
+
+### Expected Output
+
+The AI returns a communication strategy document containing: stakeholder analysis and RACI, a communication matrix, a meeting and reporting cadence, escalation paths, feedback mechanisms, and, if needed, a crisis communication playbook ready to share with the project team and sponsors.
 
 ---
 

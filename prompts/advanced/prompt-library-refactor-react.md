@@ -1,7 +1,7 @@
 ---
-title: "ReAct: Prompt Library Analysis"
-shortTitle: "Repo Analysis ReAct"
-intro: "ReAct-based prompt for analyzing and improving prompt library repository structure, content gaps, and quality."
+title: "ToT-ReAct: Prompt Library Evaluation & Research"
+shortTitle: "Library Eval ToT-ReAct"
+intro: "Tree-of-Thoughts + ReAct prompt for comprehensive evaluation, research, and improvement of the tafreeman/prompts library."
 type: "how_to"
 difficulty: "advanced"
 audience:
@@ -15,38 +15,83 @@ topics:
   - "analysis"
   - "architecture"
   - "quality-assurance"
+  - "research"
 author: "Prompt Library Team"
-version: "4.0"
-date: "2025-12-02"
+version: "5.0"
+date: "2025-12-11"
 governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
-# ReAct: Prompt Library Analysis
+# ToT-ReAct: Prompt Library Evaluation & Research
 
 ---
 
 ## Description
 
-This is an executable ReAct (Reasoning + Acting) prompt for analyzing prompt library repositories. Use this prompt to systematically audit content, identify gaps, validate standards compliance, and generate improvement recommendations.
+This is an executable prompt combining **Tree-of-Thoughts (ToT)** branching for parallel research exploration with **ReAct** (Reasoning + Acting) for systematic execution. Use this prompt to:
+
+1. **Evaluate prompt library quality** using dual-rubric scoring
+2. **Research new prompting techniques** for library expansion
+3. **Identify content gaps** and prioritize improvements
+4. **Generate improvement recommendations** with academic rigor
 
 ## Goal
 
-Perform comprehensive analysis of a prompt library repository to:
+Perform comprehensive evaluation and research on the `tafreeman/prompts` library to:
 
-1. **Map repository structure** - Document folder hierarchy and content distribution
-2. **Audit frontmatter compliance** - Validate all files against schema requirements
-3. **Identify content gaps** - Find missing prompt categories and coverage holes
-4. **Assess quality** - Evaluate prompt effectiveness and documentation completeness
-5. **Generate expansion roadmap** - Prioritize new content creation
+1. **Score existing prompts** using Quality Standards (0-100) and Effectiveness (1.0-5.0) rubrics
+2. **Research new techniques** using ToT branching with Reflexion-based iteration
+3. **Map repository structure** and validate standards compliance
+4. **Identify content gaps** and prioritize expansion areas
+5. **Generate production-ready templates** for new prompts
+
+---
+
+## Methodology Overview
+
+```mermaid
+flowchart TD
+    subgraph Phase1["Phase 1: ToT Research Planning"]
+        A["Research Question"] --> B["Generate 3-5 Research Branches"]
+        B --> C["Prioritize Top 3 Branches"]
+    end
+    
+    subgraph Phase2["Phase 2: ReAct Execution"]
+        C --> D["Branch A: Thought → Action → Observe"]
+        C --> E["Branch B: Thought → Action → Observe"]
+        C --> F["Branch C: Thought → Action → Observe"]
+    end
+    
+    subgraph Phase3["Phase 3: Reflexion"]
+        D & E & F --> G["Self-Critique Questions"]
+        G --> H{"Gaps Remain?"}
+        H -->|Yes| I["Targeted Follow-up"]
+        H -->|No| J["Proceed to Synthesis"]
+        I --> G
+    end
+    
+    subgraph Phase4["Phase 4: Synthesis"]
+        J --> K["Compile Findings"]
+        K --> L["Generate Deliverables"]
+        L --> M["Quality Score + Recommendations"]
+    end
+    
+    style Phase1 fill:#e1f5fe
+    style Phase2 fill:#fff3e0
+    style Phase3 fill:#e8f5e9
+    style Phase4 fill:#fce4ec
+```
 
 ---
 
 ## Current Repository Context
 
-> **Note**: This context reflects the `tafreeman/prompts` repository state as of December 2025.
-> **Last Major Refactor**: Phases 1-6 completed December 2, 2025.
+> **Repository**: `tafreeman/prompts`  
+> **Last Evaluation**: December 11, 2025  
+> **Prompt Count**: ~165 prompts across 9 categories  
+> **Overall Score**: 79/100 (Grade B) — Dec 4, 2025 baseline
 
 ### Completed Infrastructure ✅
 
@@ -54,26 +99,34 @@ Perform comprehensive analysis of a prompt library repository to:
 |-----------|--------|---------|
 | Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
 | Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
-| Validation tooling | ✅ Complete | `tools/validators/frontmatter_validator.py` (291/291 pass) |
+| Validation tooling | ✅ Complete | `tools/validate_prompts.py` |
+| Evaluation tooling | ✅ Complete | `tools/evaluation_agent.py`, `tools/evaluate_library.py` |
 | Navigation structure | ✅ Complete | All `index.md` files created with proper frontmatter |
-| Platform quickstarts | ✅ Complete | Copilot, ChatGPT, Claude, M365 |
-| Reference docs | ✅ Complete | Cheat sheet, glossary, platform comparison |
-| Troubleshooting | ✅ Complete | Common issues, model-specific, debugging guides |
-| Tutorials | ✅ Complete | First prompt, building effective prompts, iteration |
+| Advanced techniques | ✅ Complete | CoT, ToT, ReAct, RAG, CoVe, Reflexion |
 
 ### Current Content Inventory
 
-| Category | Count | Status | Notes |
-|----------|-------|--------|-------|
-| **Developers** | 26 prompts | ✅ Mature | Code review, testing, architecture |
-| **Business** | 38 prompts | ✅ Mature | Strategy, analysis, communication |
-| **Analysis** | 21 prompts | ✅ Mature | Data, research, metrics |
-| **M365** | 20 prompts | ✅ Mature | Office productivity |
-| **System** | 22 prompts | ✅ Mature | AI agents, architecture |
-| **Advanced** | 17 prompts | ✅ Mature | CoT, ReAct, RAG, ToT |
-| **Creative** | 9 prompts | ⚠️ Growing | Marketing, content (expanded from 2) |
-| **Governance** | 3 prompts | ⚠️ Minimal | Legal, security, compliance |
-| **Total** | ~165 prompts | | |
+| Category | Count | Status | Quality Tier |
+|----------|-------|--------|--------------|
+| **Developers** | 26 prompts | ✅ Mature | Tier 2 (70-84) |
+| **Business** | 38 prompts | ✅ Mature | Tier 2 (70-84) |
+| **Analysis** | 21 prompts | ✅ Mature | Tier 2 (70-84) |
+| **M365** | 20 prompts | ✅ Mature | Tier 2 (70-84) |
+| **System** | 24 prompts | ✅ Mature | Tier 2 (70-84) |
+| **Advanced** | 18 prompts | ✅ Mature | Tier 1 (85-100) |
+| **Creative** | 9 prompts | ⚠️ Growing | Tier 3 (55-69) |
+| **Governance** | 9 prompts | ⚠️ Growing | Tier 3 (55-69) |
+| **Total** | ~165 prompts | | Avg: 79/100 |
+
+### Evaluation Tools Available
+
+| Tool | Command | Purpose |
+|------|---------|---------|
+| Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase evaluation |
+| Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
+| Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
+| Validation | `python tools/validate_prompts.py` | Frontmatter compliance |
+| Audit | `python tools/audit_prompts.py` | Content audit CSV |
 
 ### Infrastructure Components
 
@@ -89,18 +142,21 @@ Perform comprehensive analysis of a prompt library repository to:
 ## Maturity Assessment Framework
 
 ### Level 1: Foundation ✅ COMPLETE
+
 - [x] Consistent frontmatter schema
 - [x] Validation tooling
 - [x] Basic navigation (index.md files)
 - [x] Content type definitions
 
 ### Level 2: Discoverability ✅ COMPLETE
+
 - [x] Platform quickstarts
 - [x] Reference documentation (cheat sheet, glossary)
 - [x] Troubleshooting guides
 - [x] Tutorials for onboarding
 
 ### Level 3: Content Depth 🔄 IN PROGRESS
+
 - [x] Core categories well-covered (developers, business, analysis)
 - [ ] Creative category expansion (9 → 20 target)
 - [ ] Governance category expansion (3 → 15 target)
@@ -108,6 +164,7 @@ Perform comprehensive analysis of a prompt library repository to:
 - [ ] Industry-specific prompt packs
 
 ### Level 4: Advanced Capabilities ⏳ NEXT
+
 - [ ] Prompt chaining/orchestration patterns
 - [ ] Multi-modal prompt templates (vision, audio)
 - [ ] Evaluation and testing frameworks
@@ -115,6 +172,7 @@ Perform comprehensive analysis of a prompt library repository to:
 - [ ] Prompt versioning best practices
 
 ### Level 5: Enterprise Readiness ⏳ FUTURE
+
 - [ ] Role-based access patterns
 - [ ] Audit trail templates
 - [ ] Compliance-specific prompt packs (HIPAA, SOX, GDPR)
@@ -191,148 +249,273 @@ Perform comprehensive analysis of a prompt library repository to:
 
 ## Available Tools
 
-When executing this analysis, you have access to:
+When executing this analysis, you have access to these tool categories:
 
-### 1. `file_search`
-Search for files matching glob patterns.
-```text
-file_search("**/*.md") → Find all markdown files
-file_search("prompts/**/*.md") → Find all prompts
-```markdown
+### 1. Workspace Navigation
 
-### 2. `read_file`
-Read file contents to inspect frontmatter and content.
-```text
-read_file("/path/to/file.md") → Get file content
-```text
+| Tool | Usage | Example |
+|------|-------|---------|
+| `file_search` | Find files by glob pattern | `file_search("prompts/**/*.md")` |
+| `list_dir` | List directory contents | `list_dir("/prompts/")` |
+| `read_file` | Read file contents | `read_file("prompts/developers/code-review.md", 1, 50)` |
+| `grep_search` | Search content patterns | `grep_search("governance_tags:", isRegexp=false)` |
+| `semantic_search` | Semantic code search | `semantic_search("chain of thought prompts")` |
 
-### 4. `list_dir`
-List directory contents to map structure.
-```text
-list_dir("/prompts/") → Get folder structure
-```text
-```python
+### 2. Evaluation & Validation
 
----
+| Tool | Command | Purpose |
+|------|---------|---------|
+| Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase scoring |
+| Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
+| Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
+| Validation | `python tools/validate_prompts.py` | Frontmatter compliance |
+| Audit | `python tools/audit_prompts.py` | Content audit CSV |
 
-## ReAct Analysis Loop
+### 3. External Research (MCP Tools)
 
-Execute analysis using iterative Thought → Action → Observation cycles:
+| Tool | Purpose |
+|------|---------|
+| `fetch_webpage` | Fetch content from URLs for research |
+| `github_repo` | Search GitHub repos for prompt examples |
+| `mcp_context7_get-library-docs` | Get library documentation |
+| `mcp_microsoft_doc_*` | Search Microsoft/Azure documentation |
 
-### Phase 1: Structure Mapping
+### 4. Execution
 
-**Thought**: I need to understand the repository structure before analyzing content.
-
-**Action**: Map the folder hierarchy
-```text
-list_dir("/") → Get top-level structure
-list_dir("/prompts/") → Get prompt categories
-```text
-
-**Observation**: Create inventory table showing prompts per category.
-
----
-
-### Phase 3: Frontmatter Audit
-
-**Thought**: I need to verify all files comply with the frontmatter schema.
-
-**Action**: Run validation and check specific fields
-```text
-run_in_terminal("python tools/validate_all.py")
-grep_search("governance_tags:") → Check governance compliance
-grep_search("dataClassification:") → Check classification coverage
-```python
-
-**Observation**: Document validation results, noting any failures or warnings.
+| Tool | Purpose |
+|------|---------|
+| `run_in_terminal` | Execute Python scripts, validation, git commands |
+| `create_file` | Create new prompt files |
+| `replace_string_in_file` | Edit existing content |
 
 ---
 
-### Phase 4: Gap Analysis
+## ToT-ReAct Execution Protocol
 
-**Thought**: I need to compare current content against target coverage.
+Execute using the 4-phase methodology shown above. Each phase builds on the previous.
 
-**Action**: Analyze content distribution
-```text
-grep_search("type: quickstart") → Count quickstarts per platform
-grep_search("difficulty: beginner") → Count beginner-friendly content
-grep_search("audience:.*junior") → Count junior engineer content
-```text
+### Phase 1: ToT Research Planning
 
-**Observation**: Score prompts on:
-- Clear description (1-5)
-- Complete frontmatter (1-5)
-- Example quality (1-5)
-- Practical usability (1-5)
-
----
-
-### Phase 6: Expansion Recommendations
-
-**Thought**: Based on gaps identified, I need to prioritize new content.
-
-**Action**: Cross-reference gaps with research
-```text
-# Reference the Knowledge Base Research prompt for external best practices
-# Compare against industry prompt libraries
-```text
-
-### 2. Gap Analysis Matrix
+**Generate 3-5 Research Branches** for the evaluation goal:
 
 ```markdown
-## Content Gap Analysis
+## Research Branches for Library Evaluation
 
-### By Platform Coverage
-| Platform | Quickstart | How-To | Tutorial | Reference | Total |
-|----------|------------|--------|----------|-----------|-------|
-| github-copilot | ✅ | X | X | X | X |
-| claude | ✅ | X | X | X | X |
-| chatgpt | ✅ | X | X | X | X |
-| azure-openai | ⚠️ | X | X | X | X |
-| m365-copilot | ✅ | X | X | X | X |
+### Branch A: Structural Quality Analysis
+- Question: How well-organized is the prompt library structure?
+- Approach: Map directories, validate frontmatter, check index.md files
+- Priority: High (foundational)
 
-### By Audience
-| Audience | Beginner | Intermediate | Advanced | Total |
-|----------|----------|--------------|----------|-------|
-| junior-engineer | X | X | X | X |
-| senior-engineer | X | X | X | X |
-| solution-architect | X | X | X | X |
-| business-analyst | X | X | X | X |
-| project-manager | X | X | X | X |
+### Branch B: Content Coverage Assessment  
+- Question: What content gaps exist across categories and audiences?
+- Approach: Count by type/platform/difficulty, compare to targets
+- Priority: High (roadmap input)
 
-### By Industry (Future)
-| Industry | Current | Target | Gap |
-|----------|---------|--------|-----|
-| Healthcare | 0 | 15 | 15 |
-| Financial | 0 | 15 | 15 |
-| Legal | 0 | 15 | 15 |
+### Branch C: Academic Best Practices Comparison
+- Question: How does this library compare to published prompting research?
+- Approach: Research CoT, ToT, Reflexion patterns; compare to library coverage
+- Priority: Medium (quality improvement)
+
+### Branch D: Scoring & Benchmarking
+- Question: What is the current quality score using dual rubrics?
+- Approach: Run evaluation_agent.py, analyze per-category scores
+- Priority: High (baseline)
+
+### Branch E: External Competitive Analysis
+- Question: How does this compare to other public prompt libraries?
+- Approach: Analyze awesome-prompts, dair-ai/Prompt-Engineering-Guide
+- Priority: Low (future expansion)
+```
+
+**Prioritize Top 3**: Select A, B, D for core evaluation; C, E for enhancement.
+
+---
+
+### Phase 2: ReAct Execution (Per Branch)
+
+For each prioritized branch, execute Thought → Action → Observe cycles:
+
+#### Branch A: Structural Quality
+
+**Cycle 1 - Structure Mapping**
+
 ```text
+Thought: I need to understand the repository folder hierarchy.
+Action: list_dir("d:/source/tafreeman/prompts/prompts/")
+Observe: [Record categories and counts]
+```
 
-### 4. Quality Scorecard
+**Cycle 2 - Frontmatter Audit**
+
+```text
+Thought: I need to verify all files comply with the frontmatter schema.
+Action: run_in_terminal("python tools/validate_prompts.py")
+Observe: [Record validation results, note failures]
+```
+
+**Cycle 3 - Governance Compliance**
+
+```text
+Thought: I need to check governance field coverage.
+Action: grep_search("governance_tags:|dataClassification:", isRegexp=true)
+Observe: [Calculate compliance percentage]
+```
+
+#### Branch B: Content Coverage
+
+**Cycle 1 - Type Distribution**
+
+```text
+Thought: I need to count prompts by content type.
+Action: grep_search("type: quickstart|type: how_to|type: tutorial", isRegexp=true)
+Observe: [Create type distribution table]
+```
+
+**Cycle 2 - Platform Coverage**
+
+```text
+Thought: I need to verify multi-platform coverage.
+Action: grep_search("platforms:.*github-copilot|platforms:.*claude|platforms:.*chatgpt", isRegexp=true)
+Observe: [Create platform coverage matrix]
+```
+
+**Cycle 3 - Audience Analysis**
+
+```text
+Thought: I need to check audience distribution.
+Action: grep_search("audience:.*junior|audience:.*senior|audience:.*architect", isRegexp=true)
+Observe: [Create audience coverage table]
+```
+
+#### Branch D: Scoring & Benchmarking
+
+**Cycle 1 - Run Full Evaluation**
+
+```text
+Thought: I need current quality scores using dual rubrics.
+Action: run_in_terminal("python tools/evaluation_agent.py --full --verbose")
+Observe: [Record overall score, per-category breakdown]
+```
+
+**Cycle 2 - Identify Low Scorers**
+
+```text
+Thought: I need to find prompts scoring below threshold.
+Action: read_file("docs/reports/EVALUATION_REPORT.md", 1, 200)
+Observe: [List prompts needing improvement, by priority]
+```
+
+---
+
+### Phase 3: Reflexion Self-Critique
+
+After completing ReAct cycles, apply structured self-critique:
 
 ```markdown
-## Quality Assessment
+## Reflexion Questions
 
-**Overall Maturity**: Level X/5
-**Validation Pass Rate**: X%
+### Completeness Check
+1. Did I evaluate ALL prompt categories? [Yes/No - list any missed]
+2. Did I check BOTH rubrics (Quality 0-100 AND Effectiveness 1.0-5.0)?
+3. Did I compare against target counts for each category?
 
-### By Dimension
-| Dimension | Score | Notes |
-|-----------|-------|-------|
-| Frontmatter Compliance | X/5 | All required fields present |
-| Documentation Completeness | X/5 | Description, examples, tips |
-| Example Quality | X/5 | Realistic, copy-paste ready |
-| Cross-Platform Coverage | X/5 | Multi-platform variants |
-| Governance Readiness | X/5 | Compliance, audit support |
+### Accuracy Verification  
+4. Are my counts accurate? [Re-verify with file_search if uncertain]
+5. Did validation pass? [If failures, list specific files]
+6. Are scores from the LATEST evaluation run?
 
-### Content Quality Sampling
-| Category | Sample Size | Avg Score | Issues |
-|----------|-------------|-----------|--------|
-| Developers | X | X/5 | ... |
-| Business | X | X/5 | ... |
-| ... | ... | ... | ... |
-```text
-```text
+### Gap Identification
+7. What categories are below target count? [List with current/target]
+8. What content types are underrepresented? [quickstart, tutorial, etc.]
+9. What audiences lack coverage? [junior, senior, architect, etc.]
+
+### Improvement Opportunities
+10. Which 5 prompts would benefit most from improvement?
+11. What new prompts would have highest impact?
+12. Are there emerging techniques not yet covered? [Reflexion, Agentic, etc.]
+```
+
+**If gaps remain**: Return to Phase 2 for targeted follow-up actions.
+
+---
+
+### Phase 4: Synthesis & Deliverables
+
+Compile findings into structured outputs:
+
+#### Deliverable 1: Repository Structure Map
+
+```markdown
+## Repository Structure (as of YYYY-MM-DD)
+
+prompts/
+├── advanced/ (X prompts) - Tier 1
+├── analysis/ (X prompts) - Tier 2
+├── business/ (X prompts) - Tier 2  
+├── creative/ (X prompts) - Tier 3 ⚠️
+├── developers/ (X prompts) - Tier 2
+├── governance/ (X prompts) - Tier 3 ⚠️
+├── m365/ (X prompts) - Tier 2
+└── system/ (X prompts) - Tier 2
+
+Total: X prompts | Validation: X% pass | Overall Score: X/100
+```
+
+#### Deliverable 2: Quality Scorecard
+
+```markdown
+| Category | Count | Quality Score | Effectiveness | Trend |
+|----------|-------|---------------|---------------|-------|
+| Advanced | X | X/100 | X.X/5.0 | ↑↓→ |
+| Analysis | X | X/100 | X.X/5.0 | ↑↓→ |
+| ... | ... | ... | ... | ... |
+| **Overall** | **X** | **X/100** | **X.X/5.0** | **→** |
+```
+
+#### Deliverable 3: Gap Analysis Matrix
+
+```markdown
+| Dimension | Current | Target | Gap | Priority |
+|-----------|---------|--------|-----|----------|
+| Governance prompts | X | 15 | X | P0 |
+| Creative prompts | X | 20 | X | P1 |
+| Industry packs | 0 | 45 | 45 | P2 |
+| Multi-modal | 0 | 10 | 10 | P3 |
+```
+
+#### Deliverable 4: Prioritized Recommendations
+
+```markdown
+## Immediate Actions (This Sprint)
+1. [Specific prompt to create or improve]
+2. [Specific prompt to create or improve]
+
+## Short-Term (Next 2 Weeks)
+1. [Category expansion goal]
+2. [Quality improvement target]
+
+## Medium-Term (Next Month)
+1. [New capability to add]
+2. [Research area to explore]
+```
+
+#### Deliverable 5: Execution Commands
+
+```powershell
+# Validation
+python tools/validate_prompts.py
+
+# Full Evaluation (generates reports)
+python tools/evaluation_agent.py --full --verbose
+
+# Audit CSV Export
+python tools/audit_prompts.py --output audit_report.csv
+
+# Count by Category
+Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object { 
+  "$($_.Name): $((Get-ChildItem $_.FullName -Filter *.md -Recurse).Count)" 
+}
+```
 
 ---
 
@@ -345,6 +528,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Critical**: Enterprise adoption requires compliance, legal, and security coverage.
 
 **Research Focus Areas**:
+
 - Regulatory compliance (GDPR, HIPAA, SOX, CCPA)
 - Security review and incident response
 - Policy and procedure generation
@@ -352,6 +536,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Risk assessment and mitigation
 
 **Recommended Additions**:
+
 1. `compliance-policy-generator.md` - Generate compliance policies
 2. `gdpr-data-review.md` - GDPR compliance assessment
 3. `hipaa-compliance-checker.md` - Healthcare data compliance
@@ -370,6 +555,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why High**: Content and marketing teams drive significant AI adoption.
 
 **Research Focus Areas**:
+
 - Long-form content (whitepapers, case studies)
 - SEO and content optimization
 - Multimedia content (podcasts, webinars, video)
@@ -377,6 +563,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Content planning and strategy
 
 **Recommended Additions**:
+
 1. `case-study-builder.md` - Customer success stories
 2. `whitepaper-outliner.md` - Long-form technical content
 3. `press-release-generator.md` - Media announcements
@@ -394,6 +581,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Medium**: Power users and architects need advanced patterns.
 
 **Research Focus Areas**:
+
 - Multi-step prompt orchestration
 - Cross-model routing and fallback
 - Context optimization strategies
@@ -401,6 +589,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Structured output patterns
 
 **Recommended Additions**:
+
 1. `prompt-chain-orchestrator.md` - Multi-step workflows
 2. `multi-model-router.md` - Model selection logic
 3. `context-window-optimizer.md` - Token management
@@ -424,58 +613,63 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 
 ## Execution Instructions
 
-To run this analysis:
+### Quick Start
 
-1. **Initialize**: Load this prompt into your AI assistant (Claude, GPT-4, or Copilot Chat)
-2. **Scope**: Specify the repository path to analyze (`d:\source\prompts` or your local path)
-3. **Execute**: Follow the ReAct loop phases sequentially:
-   - Phase 1: Structure Mapping
-   - Phase 2: Content Inventory
-   - Phase 3: Frontmatter Audit
-   - Phase 4: Gap Analysis
-   - Phase 5: Quality Assessment
-   - Phase 6: Expansion Recommendations
-4. **Iterate**: Use observations to refine subsequent actions
-5. **Synthesize**: Compile all 5 deliverables from observations
-6. **Validate**: Run `python tools/validators/frontmatter_validator.py --all`
-7. **Create Tasks**: Generate a new `REFACTOR_TODO.md` with prioritized tasks
+```powershell
+# 1. Run automated evaluation (recommended)
+python tools/evaluation_agent.py --full --verbose
 
-### Quick Validation Commands
+# 2. Or execute this prompt manually in an AI assistant
+# Load this file in Claude, GPT-4, or GitHub Copilot Chat
+# The agent will follow the ToT-ReAct protocol above
+```
 
-```bash
-# Full validation
-python tools/validators/frontmatter_validator.py --all
+### Manual Execution Steps
 
-# Validate specific folder
-python tools/validators/frontmatter_validator.py --folder prompts/governance
+1. **Phase 1 - ToT Planning**: Generate 3-5 research branches for your evaluation goal
+2. **Phase 2 - ReAct Execution**: For each branch, execute Thought → Action → Observe cycles
+3. **Phase 3 - Reflexion**: Apply self-critique questions, iterate if gaps remain
+4. **Phase 4 - Synthesis**: Compile the 5 deliverables
 
-# Verbose output with warnings
-python tools/validators/frontmatter_validator.py --all -v
+### Validation Commands
+
+```powershell
+# Frontmatter validation
+python tools/validate_prompts.py
+
+# Full evaluation with reports
+python tools/evaluation_agent.py --full --verbose
+
+# Dry run (preview only)
+python tools/evaluation_agent.py --full --dry-run
+
+# Content audit CSV
+python tools/audit_prompts.py --output audit_report.csv
 
 # Count prompts by category
 Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object { 
-  "$($_.Name): $((Get-ChildItem $_.FullName -Filter *.md).Count)" 
+  "$($_.Name): $((Get-ChildItem $_.FullName -Filter *.md -Recurse).Count)" 
 }
-```json
+```
 
-### Previous Analysis Outputs
+### Previous Evaluations
 
-| Document | Date | Purpose |
-|----------|------|---------|
-| `docs/UNIFIED_REFACTOR_GUIDE_REACT.md` | Nov 2025 | Original refactor plan |
-| `docs/REFACTOR_TODO.md` | Dec 2025 | Completed task tracker |
-| `docs/REPO_ANALYSIS_REPORT_2025-11-30.md` | Nov 2025 | Initial analysis |
+| Document | Date | Score | Notes |
+|----------|------|-------|-------|
+| `CoVE Reflexion Prompt Library Evaluation.md` | 2025-12-11 | 79/100 | ToT methodology research |
+| `docs/TOT_EVALUATION_REPORT.md` | 2025-12-05 | 79/100 | Tree-of-Thoughts evaluation |
+| `docs/evaluations/EVALUATION_REPORT_*.md` | 2025-12-04 | 79/100 | Archived baseline reports |
 
 ---
 
 ## Related Resources
 
-- [Knowledge Base Research](/prompts/advanced/react-knowledge-base-research) - External research prompt
-- [Frontmatter Validator](/tools/validators/frontmatter_validator.py) - Validation tooling
-
-- [Frontmatter Schema](/reference/frontmatter-schema) - Field definitions
-- [Content Types](/reference/content-types) - Type selection guide
-- [Platform Comparison](/reference/platform-comparison) - Cross-platform guidance
+- [Evaluation Agent Guide](../../tools/archive/EVALUATION_AGENT_GUIDE.md) - Detailed agent documentation
+- [Validate Prompts](../../tools/validate_prompts.py) - Frontmatter validation
+- [Evaluate Library](../../tools/evaluate_library.py) - Dual-rubric scoring
+- [Frontmatter Schema](../../reference/frontmatter-schema.md) - Field definitions
+- [Content Types](../../reference/content-types.md) - Type selection guide
+- [Advanced Techniques](../../techniques/index.md) - CoT, ToT, Reflexion patterns
 
 ---
 
@@ -483,6 +677,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 5.0 | 2025-12-11 | Integrated ToT-ReAct-Reflexion methodology; updated to current tooling; added 4-phase execution protocol |
 | 4.0 | 2025-12-02 | Updated after Phase 1-6 completion; added maturity framework, new expansion priorities |
 | 3.0 | 2025-11-30 | Added governance context, expanded deliverables |
 | 2.0 | 2025-11-29 | Initial ReAct structure |

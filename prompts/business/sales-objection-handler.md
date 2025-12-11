@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Sales Objection Handler
 
@@ -83,6 +84,44 @@ Provide:
 
 Format responses as ready-to-use scripts with natural conversational language.
 ```text
+
+---
+
+## Variables
+
+- `[objection]`: The objection raised (e.g., "Your pricing is 30% higher than Competitor X")
+- `[context]`: Deal context (e.g., "Enterprise deal, $500K ARR, 6 months in pipeline")
+- `[product]`: Your product/service (e.g., "DataSync Pro – enterprise data integration platform")
+- `[buyer]`: Buyer persona (e.g., "VP of Engineering, technical buyer with budget authority")
+- `[stage]`: Deal stage (e.g., "Negotiation / Final Decision")
+
+---
+
+## Example
+
+### Context
+
+An enterprise security vendor has completed a successful proof‑of‑concept, but the CISO objects that the price is too high compared with competitors who claim to be 40% cheaper.
+
+### Input
+
+```text
+You are an expert sales coach who has trained top-performing enterprise sales teams.
+
+Help me handle this sales objection:
+
+**Objection**: "Your price is too expensive. Competitors are 40% less."
+**Context**: CISO at a fintech company who recently had a major breach; successful 30‑day POC completed with strong technical results.
+**Product/Service**: CloudSecure – managed threat detection and response platform
+**Buyer Persona**: CISO with CFO and procurement heavily involved in final decision
+**Deal Stage**: Post‑POC commercial negotiation
+
+Provide the full analysis and responses as outlined in the prompt.
+```text
+
+### Expected Output
+
+The AI returns an objection‑handling playbook that includes: objection analysis, a LAER‑based framework, three response scripts (direct, soft, and redirect), follow‑up questions, and recommended escalation or walk‑away guidance—similar to the detailed example that follows.
 
 **Output:**
 

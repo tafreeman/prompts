@@ -302,8 +302,98 @@ You are a security incident response assistant following NIST IR framework.
 **Time Discovered**: 2024-11-17 03:15 UTC (28 minutes ago)
 
 **Instructions**: [Follow framework above]
-```text
-```text
+```
+
+**Expected Output:**
+
+```markdown
+# INCIDENT REPORT
+
+## INCIDENT SUMMARY
+- **ID**: INC-2024-11-17-001
+- **Type**: Data Breach / Unauthorized Access
+- **Severity**: CRITICAL (P1)
+- **Status**: In Progress - Active Containment
+- **GDPR Breach**: ✅ YES - Personal data (PII) of EU residents potentially compromised
+
+## TIMELINE
+| Time | Event | Action Taken |
+|------|-------|--------------|
+| T+0 (03:15 UTC) | Discovery via SIEM alert | SOC analyst escalated to IR team |
+| T+5min | Account sysadmin@company.com confirmed compromised | - |
+| T+10min | External IP 203.0.113.45 traced to Russian ASN | - |
+| T+15min | **CONTAINMENT INITIATED** | See actions below |
+| T+28min | Current status | Active response, containment in progress |
+
+## IMMEDIATE CONTAINMENT ACTIONS (T+0 to T+1hr)
+
+### 1. Account Containment
+- [ ] **IMMEDIATE**: Disable sysadmin@company.com in Active Directory
+- [ ] Force password reset for all privileged accounts with db-prod-01 access
+- [ ] Revoke all active sessions for compromised account
+- [ ] Enable MFA enforcement for all admin accounts (if not already)
+
+### 2. Network Containment
+- [ ] **IMMEDIATE**: Block IP 203.0.113.45 at firewall (inbound and outbound)
+- [ ] Block outbound connections to Mega.nz (*.mega.nz, *.mega.co.nz)
+- [ ] Isolate db-prod-01.company.com from network (keep powered on for forensics)
+- [ ] Enable enhanced logging on all database servers
+
+### 3. Evidence Preservation
+- [ ] Snapshot db-prod-01 VM/disk immediately (before further changes)
+- [ ] Export SIEM logs for past 72 hours (SSH, DB queries, network flows)
+- [ ] Preserve Mega.nz transfer logs if accessible
+- [ ] Image memory dump of db-prod-01 (live forensics)
+
+## IMPACT ASSESSMENT
+
+| Category | Assessment |
+|----------|------------|
+| **Systems Affected** | db-prod-01.company.com (production database server) |
+| **Data Type** | PII: names, emails, addresses, phone numbers |
+| **Records Potentially Accessed** | ~500,000 customer records |
+| **Data Classification** | Confidential / Restricted (PII) |
+| **Est. Financial Impact** | $5M–$15M (regulatory fines, remediation, legal, reputation) |
+| **Exfiltration Confirmed** | 15GB transferred to Mega.nz — likely database dump |
+
+## REGULATORY OBLIGATIONS
+
+### GDPR (EU General Data Protection Regulation)
+- **Notification Required**: ✅ YES — Personal data breach affecting EU residents
+- **Deadline**: 72 hours from awareness = **2024-11-19 03:15 UTC**
+- **Notify**: Lead Supervisory Authority (Data Protection Authority)
+- **Data Subject Notification**: Required if high risk to individuals (likely yes)
+
+### Additional Notifications
+| Authority/Stakeholder | Deadline | Status |
+|-----------------------|----------|--------|
+| GDPR DPA | 2024-11-19 03:15 UTC | ⏳ Pending |
+| Cyber Insurance Provider | ASAP | ⏳ Pending |
+| Legal Counsel | Immediate | ⏳ Pending |
+| Executive Team (CISO → CEO) | T+1hr | ⏳ Pending |
+| Affected Customers | TBD (after impact confirmed) | ⏳ Pending |
+
+## ESCALATION TRIGGERS MET
+- ✅ Data breach with PII — CISO escalation required
+- ✅ Active data exfiltration detected — Immediate containment
+- ✅ Privileged account compromise — Full access review
+- ⚠️ Potential nation-state actor (Russian IP) — Consider law enforcement
+
+## NEXT STEPS (Next 24 Hours)
+- [ ] Complete containment actions above
+- [ ] Engage external forensics firm (if needed)
+- [ ] Prepare GDPR breach notification draft
+- [ ] Conduct full access review for all privileged accounts
+- [ ] Begin eradication: determine root cause (phishing? credential stuffing? vulnerability?)
+- [ ] Prepare customer communication (pending legal review)
+- [ ] Schedule post-incident review (within 30 days)
+
+## INCIDENT COMMANDER
+- **Assigned To**: [IR Lead Name]
+- **Backup**: [Backup Name]
+- **War Room**: [Slack channel / Zoom link]
+- **Next Update**: T+2hr (05:15 UTC)
+```
 
 ---
 

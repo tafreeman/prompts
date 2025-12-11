@@ -2,6 +2,7 @@
 title: "M365 Slide Content Refiner"
 shortTitle: "M365 Slide Content Refiner"
 intro: 'This prompt helps users overcome the "wall of text" problem in presentations. It takes detailed source material (like a Word doc or email) and converts it into slide-ready content: catchy headlines, concise bullet points, and speaker notes.'
+m365App: "Copilot in PowerPoint"
 type: "how_to"
 difficulty: "beginner"
 audience:

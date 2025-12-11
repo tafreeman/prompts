@@ -90,7 +90,37 @@ Provide:
 
 ---
 
+## Example Usage
+
+### Context
+
+A brand manager at a CPG company needs to understand why Gen Z consumers are choosing competitor products despite higher brand awareness for their product.
+
+### Input
+
+```text
+Product/Service: Plant-based protein bars
+Target Demographics: Gen Z (18-26), urban, health-conscious, $50K+ income
+Behavior Focus: Purchase decision-making process, brand switching triggers
+Research Methods: Social listening, surveys, in-depth interviews, purchase journey mapping
+```
+
+### Expected Output
+
+A comprehensive consumer behavior research plan including:
+
+1. **Research Methodology** - Mixed methods with social listening, quantitative survey (n=500), IDIs (n=20)
+2. **Data Collection Approach** - Platforms (TikTok, Reddit), recruitment strategy, incentive structure
+3. **Behavioral Analysis** - Decision tree from awareness to purchase, key influence points
+4. **Consumer Insights** - Values-driven purchasing (sustainability > taste), ingredient scrutiny, influencer trust
+5. **Implications for Business** - Messaging gaps, channel strategy, product reformulation opportunities
+6. **Recommendations** - Creator partnerships, transparent sourcing, community building strategies
+
+---
+
 ## Related Prompts
 
-- Browse other Researcher prompts in this category
-- Check the analysis folder for similar templates
+- [Market Research Analyst](./market-research-analyst.md) - For comprehensive market research
+- [Trend Analysis Specialist](./trend-analysis-specialist.md) - For emerging consumer trends
+- [User Experience Analyst](./user-experience-analyst.md) - For digital experience research
+- [Competitive Analysis Researcher](./competitive-analysis-researcher.md) - For competitor positioning

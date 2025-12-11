@@ -60,7 +60,19 @@ Deliver:
 6. Change management
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[client]`: Client name and description (e.g., "SnackCo – $2B packaged food company")
+- `[challenge]`: Business challenge (e.g., "Gen Z perceives 'Healthy' line as processed, losing market share")
+- `[industry]`: Industry context (e.g., "Packaged food, health-conscious consumer segment")
+- `[stakeholders]`: Key stakeholders (e.g., "CEO, CMO, Head of R&D, Board of Directors")
+- `[criteria]`: Success criteria (e.g., "Regain 5% market share in 18 months, improve brand perception scores")
+
+---
+
+## Example
 
 ```text
 ## Management Consulting Report

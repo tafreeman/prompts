@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Change Management Coordinator
 
@@ -28,15 +29,17 @@ reviewStatus: "draft"
 
 ## Description
 
-Manages project changes effectively
+Helps project and program leaders manage change requests in a structured, repeatable way. Guides you through impact analysis, approval workflows, stakeholder communication, and implementation planning so changes land smoothly instead of creating chaos.
 
 ---
 
 ## Use Cases
 
-- Change Management for Project Manager persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
+- Managing scope changes in large transformation or migration projects
+- Coordinating change requests across multiple teams or vendors
+- Preparing materials for Change Advisory Board (CAB) reviews
+- Standardizing how change impact is documented across projects
+- Turning ad-hoc change emails into formal, trackable change records
 
 ---
 
@@ -70,9 +73,13 @@ Provide:
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are running a CRM migration from Salesforce to Microsoft Dynamics 365. A late-breaking change request would significantly impact Q4 sales operations and requires a clear impact analysis, approval path, and communication plan.
+
+### Input
 
 ```text
 Manage change for:
@@ -80,7 +87,7 @@ Manage change for:
 Project: CRM System Migration (Salesforce → Microsoft Dynamics 365)
 Proposed Changes: Migrate 500 users (Sales, Marketing, Customer Success) from Salesforce to Dynamics 365. Includes data migration (10 years of customer records, 2.5M contacts), custom workflow recreation, and third-party integrations (Mailchimp, DocuSign, PowerBI).
 Impact Assessment: 2-week migration window (Dec 10-23), 40 hours training per department, $200K implementation cost, temporary loss of mobile access during cutover.
-Stakeholder Concerns: 
+Stakeholder Concerns:
 - Sales VP: "We can't lose pipeline visibility during Q4 close"
 - Marketing Director: "Our email campaigns are tightly integrated with Salesforce"
 - IT Director: "Dynamics 365 doesn't natively support our legacy inventory system API"
@@ -94,6 +101,10 @@ Provide:
 5. Risk mitigation
 6. Success measurement
 ```text
+
+### Expected Output
+
+The AI returns a structured change request package that includes: a concise executive summary of the proposed change, a quantified impact analysis (timeline, cost, risk, and resource implications), a step-by-step approval workflow, stakeholder-specific communication messages, a phased implementation plan with owners and dates, and measurable success criteria you can track after implementation.
 
 ---
 
@@ -113,4 +124,7 @@ Provide:
 
 - **[agile-sprint-planner](./agile-sprint-planner.md)** - Plan migration work in 2-week sprints
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - Craft executive updates and user notifications
+- **[risk-management-analyst](./risk-management-analyst.md)** - For change-related risk assessment
+- **[Gap Analysis Expert](../analysis/gap-analysis-expert.md)** - For current/future state assessment
+- **[Process Optimization Consultant](../analysis/process-optimization-consultant.md)** - For process improvements during change
 

@@ -60,7 +60,19 @@ Provide:
 6. Success metrics
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[company]`: Company name and description (e.g., "HRTech SaaS – US-based HR software company")
+- `[market]`: Target market (e.g., "Germany – mid-market enterprises 500-5000 employees")
+- `[offering]`: Product or service (e.g., "Cloud HR management platform with payroll integration")
+- `[competition]`: Competitive landscape (e.g., "SAP SuccessFactors, Personio, local players")
+- `[resources]`: Available resources (e.g., "$5M budget, 2-year timeline, existing UK team")
+
+---
+
+## Example
 
 ```text
 ## Market Entry Strategy: Germany

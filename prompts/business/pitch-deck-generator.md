@@ -21,6 +21,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Pitch Deck Generator
 
@@ -101,22 +102,36 @@ Format output as a structured deck outline with clear slide separators.
 
 ---
 
-## Example Usage
+## Example
 
-**Input:**
+### Context
+
+You are preparing a Series A pitch deck for an enterprise SaaS platform and need a slide‑by‑slide outline that tells a compelling growth story and highlights traction and the funding ask.
+
+### Input
 
 ```text
-Company/Product: CloudSync - B2B SaaS platform that automates data synchronization across enterprise systems
-Pitch Type: Series A fundraise ($8M raise)
-Target Audience: Enterprise SaaS VCs (Bessemer, Battery, Accel)
-Key Value Proposition: Reduce enterprise data integration time from 6 months to 6 days
-Supporting Data: 
+You are an expert pitch deck consultant who has helped startups raise millions in funding.
+
+Create a pitch deck outline for:
+
+**Company/Product**: CloudSync - B2B SaaS platform that automates data synchronization across enterprise systems
+**Pitch Type**: Series A fundraise ($8M raise)
+**Target Audience**: Enterprise SaaS VCs (Bessemer, Battery, Accel)
+**Key Value Proposition**: Reduce enterprise data integration time from 6 months to 6 days
+**Supporting Data**:
 - 45 enterprise customers (including 3 Fortune 500)
 - $2.1M ARR, growing 15% MoM
 - NPS: 72
 - Average contract value: $48K/year
-Ask: $8M Series A at $40M pre-money valuation
+**Ask/Goal**: $8M Series A at $40M pre-money valuation
+
+Generate a complete pitch deck with the slide structure and storytelling arc described in the prompt.
 ```text
+
+### Expected Output
+
+The AI returns a deck outline with slide titles, key bullets, suggested visuals, and speaker notes for each major section (problem, solution, market, model, traction, competition, team, financials, and ask) that you can translate directly into presentation software.
 
 ---
 

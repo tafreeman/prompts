@@ -22,6 +22,7 @@ governance_tags:
   - "PII-safe"
 dataClassification: "internal"
 reviewStatus: "draft"
+effectivenessScore: 0.0
 ---
 # Competitive Analysis Generator
 
@@ -97,6 +98,44 @@ Generate:
 
 Keep analysis objective and evidence-based. Flag assumptions clearly.
 ```text
+
+---
+
+## Variables
+
+- `[our_product]`: Your company/product name and description (e.g., "DataSync Pro – managed data integration platform")
+- `[competitors]`: Competitors to analyze (e.g., "Fivetran, Airbyte, Stitch Data")
+- `[market]`: Market or industry context (e.g., "Cloud data integration / ELT tools")
+- `[purpose]`: Analysis purpose (e.g., "Create sales battlecards for enterprise deals")
+- `[criteria]`: Key comparison criteria (e.g., "Pricing, ease of use, connectors, support, scalability")
+
+---
+
+## Example
+
+### Context
+
+A data integration startup wants to equip its sales team with battlecards comparing its product to major competitors. They need a competitive analysis focused on positioning, features, pricing, and strategic recommendations.
+
+### Input
+
+```text
+You are a strategic analyst experienced in competitive intelligence and market positioning.
+
+Create a competitive analysis for:
+
+**Our Company/Product**: DataSync Pro – managed data integration platform focused on real‑time CRM and analytics sync
+**Competitors to Analyze**: Fivetran, Airbyte, Stitch Data
+**Market/Industry**: Cloud data integration / ELT tools
+**Analysis Purpose**: Create sales battlecards for enterprise deals and inform product roadmap priorities
+**Key Criteria**: Connector breadth and quality, sync speed, pricing model, security/compliance, ease of use, and support
+
+Generate the full competitive analysis as described in the prompt.
+```text
+
+### Expected Output
+
+The AI generates a competitive analysis document containing: an executive summary, competitor overviews, a feature and pricing comparison matrix, SWOT for our product, win/loss analysis, and strategic recommendations—similar in depth and structure to the sample that follows.
 
 **Output:**
 

@@ -92,7 +92,37 @@ Include:
 
 ---
 
+## Example Usage
+
+### Context
+
+A healthcare organization needs to assess the gap between their current patient scheduling system and a modern, patient-centric appointment experience to reduce no-shows and improve satisfaction.
+
+### Input
+
+```text
+Current State: Manual phone scheduling, paper calendars, 48-hour confirmation calls
+Desired State: Self-service online booking with automated reminders and waitlist management
+Business Area: Patient Access and Scheduling
+Constraints: HIPAA compliance, $200K budget, legacy EHR integration required
+```
+
+### Expected Output
+
+A comprehensive gap analysis report including:
+
+1. **Current State Assessment** - Detailed process mapping, pain points, metrics (15% no-show rate)
+2. **Future State Definition** - Target experience, benchmarks from industry leaders
+3. **Gap Identification** - Technology gaps (no patient portal), process gaps (no confirmation automation)
+4. **Impact Analysis** - Quantified impact of each gap on revenue, satisfaction, efficiency
+5. **Bridging Strategy** - Recommended solutions with build vs. buy analysis
+6. **Implementation Roadmap** - 12-month phased plan with quick wins and long-term initiatives
+
+---
+
 ## Related Prompts
 
-- Browse other Business Analyst prompts in this category
-- Check the analysis folder for similar templates
+- [Process Optimization Consultant](./process-optimization-consultant.md) - For process improvement
+- [Requirements Analysis Expert](./requirements-analysis-expert.md) - For detailed requirements
+- [Business Case Developer](./business-case-developer.md) - For building the investment case
+- [Workflow Designer](./workflow-designer.md) - For designing new processes

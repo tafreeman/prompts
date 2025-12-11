@@ -59,7 +59,18 @@ Include:
 6. Success metrics
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[organization]`: Organization name and context (e.g., "TierOne Automotive – Tier 1 supplier to major OEMs")
+- `[goals]`: Innovation objectives (e.g., "Capture 10% of EV thermal management market by 2027")
+- `[capabilities]`: Current capabilities (e.g., "Deep OEM relationships, manufacturing scale, HVAC expertise")
+- `[opportunities]`: Market opportunities (e.g., "EV battery thermal management, AI-driven predictive maintenance")
+
+---
+
+## Example
 
 ```text
 ## Innovation Strategy

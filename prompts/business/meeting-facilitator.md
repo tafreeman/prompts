@@ -59,7 +59,18 @@ Include:
 6. Follow-up procedures
 ```text
 
-**Output:**
+---
+
+## Variables
+
+- `[purpose]`: Meeting purpose (e.g., "Quarterly Business Review – Q3 results and Q4 planning")
+- `[attendees]`: Attendee list (e.g., "VP Sales, Regional Directors, Finance Lead, Marketing Lead")
+- `[duration]`: Meeting duration (e.g., "4 hours including lunch break")
+- `[decisions]`: Key decisions needed (e.g., "Q4 quota allocation, Winter Promo campaign approval")
+
+---
+
+## Example
 
 ```text
 ## Meeting Plan

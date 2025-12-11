@@ -1,25 +1,26 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
+title: "System & Architecture Prompts"
+shortTitle: "System"
+intro: "System-level prompts for configuring AI assistants, chatbots, agents, and enterprise architecture design patterns."
 type: reference
-difficulty: beginner
+difficulty: advanced
 audience:
-- senior-engineer
-- junior-engineer
+  - senior-engineer
+  - solution-architect
 platforms:
-- github-copilot
-- claude
-- chatgpt
+  - github-copilot
+  - claude
+  - chatgpt
+  - azure-openai
 author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
+version: "1.1"
+date: "2025-12-11"
 governance_tags:
-- PII-safe
+  - PII-safe
 dataClassification: internal
 reviewStatus: draft
 ---
-# System Prompts
+# System & Architecture Prompts
 
 This directory contains system-level prompts for configuring AI assistants, chatbots, and agents.
 
