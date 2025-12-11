@@ -1,27 +1,30 @@
 ---
 title: "DevOps Pipeline Architect"
-shortTitle: "DevOps Pipeline Architect"
-intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change-f..."
+shortTitle: "DevOps Pipeline"
+intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change failure rate), enforce shift-left security, and champion GitOps + Infrastructure-as-Code."
 type: "how_to"
 difficulty: "advanced"
 audience:
   - "senior-engineer"
+  - "devops-engineer"
 platforms:
   - "claude"
+  - "chatgpt"
 topics:
   - "cicd"
   - "developer"
   - "developers"
   - "devops"
+  - "kubernetes"
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+version: "2.1"
+date: "2025-12-02"
 governance_tags:
-  - "architecture-decision"
+  - "PII-safe"
   - "requires-human-review"
-  - "security-critical"
+  - "sensitive"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 data_classification: "confidential"
 risk_level: "high"
 regulatory_scope:
@@ -34,6 +37,8 @@ approval_roles:
 retention_period: "5-years"
 ---
 # DevOps Pipeline Architect
+
+---
 
 ## Description
 
@@ -48,6 +53,8 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - Observability baked in: OpenTelemetry traces, RED/USE dashboards, alert budgets per environment
 - GitOps reconciliation (Argo CD/Flux) with immutable artifacts and drift detection
 
+---
+
 ## Research Foundation
 
 - **Accelerate / DORA Report** (Forsgren, Humble, Kim, 2018) – Metrics-driven DevOps
@@ -57,6 +64,8 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - **NIST Secure Software Development Framework (SSDF)** – Secure-by-design pipeline controls
 - **SLSA Framework** – Supply-chain integrity, provenance, SBOM requirements
 
+---
+
 ## Use Cases
 
 - Standing up enterprise CI/CD for polyglot microservices on Kubernetes
@@ -64,6 +73,8 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 - Designing compliant delivery workflows (SOC2, ISO, PCI) with automated evidence capture
 - Defining progressive delivery strategies with automated rollback triggers
 - Building platform engineering blueprints for internal developer platforms (IDPs)
+
+---
 
 ## Prompt
 
@@ -99,21 +110,27 @@ Include:
 - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering build, test, scan, deploy steps.
 - Canary deployment pseudo-code or manifest snippet.
 - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 → SAST report stored in S3).
-```
+```yaml
+
+---
 
 ## Variables
 
-- `[repo_structure]`: Monorepo vs multi-repo, service count, shared libraries
-- `[languages]`: Languages, build systems, package managers
-- `[targets]`: Runtime targets (Kubernetes, Lambda, VM, mobile stores, etc.)
-- `[environments]`: Dev/Test/Staging/Prod, regional splits, air-gapped notes
-- `[testing]`: Unit/integration/E2E/performance requirements, coverage targets
-- `[security]`: Regulatory frameworks, signing, SBOM, threat models
-- `[observability]`: Metrics/logs/traces stack (Datadog, Prometheus, OTEL, etc.)
-- `[deployment]`: Desired strategy (blue/green, canary, GitOps, feature flags)
-- `[approvals]`: Required reviewers, CAB windows, segregation-of-duties rules
-- `[dora_targets]`: Deployment frequency, lead time, MTTR, change failure rate goals
-- `[constraints]`: Tooling mandates/prohibitions, air-gapped or budget limits
+| Variable | Description | Example |
+|----------|-------------|---------||
+| `[repo_structure]` | Monorepo vs multi-repo, service count | "Polyrepo (20 Node.js + Go services)" |
+| `[languages]` | Languages, build systems, package managers | "Node.js 18 (npm), Go 1.21, Terraform" |
+| `[targets]` | Runtime targets | "Kubernetes (EKS), AWS Lambda, Terraform" |
+| `[environments]` | Dev/Test/Staging/Prod, regions | "Dev → QA → Staging → Prod (us-east-1 + eu-west-1)" |
+| `[testing]` | Test requirements and coverage | "Unit <5 min, contract tests, E2E nightly" |
+| `[security]` | Regulatory frameworks and tools | "SOC2, Cosign signing, SBOM (CycloneDX), CodeQL" |
+| `[observability]` | Metrics/logs/traces stack | "Prometheus + Grafana, Loki, OpenTelemetry" |
+| `[deployment]` | Deployment strategy | "GitOps via Argo CD, canary 10%→50%→100%" |
+| `[approvals]` | Required reviewers and windows | "DevOps lead + Security sign-off, CAB Wednesdays" |
+| `[dora_targets]` | DORA metric goals | "Daily deploys, <1h lead time, MTTR <15 min" |
+| `[constraints]` | Tooling mandates/prohibitions | "GitHub-hosted runners only, AWS Secrets Manager" |
+
+---
 
 ## Example Usage
 
@@ -131,61 +148,9 @@ Include:
 [approvals]: Prod deploy requires DevOps lead + Security sign-off when critical CVEs present; CAB Wednesdays.
 [dora_targets]: Daily deploys per service, <1h lead time, MTTR < 15 min, CFR < 10%.
 [constraints]: Only GitHub-hosted runners, Docker allowed, secrets via AWS Secrets Manager only.
-```
-
-**Excerpt of Expected Output**
-
-```text
-## Stage-by-Stage Blueprint
-| Stage | Purpose | Key Tools | SLA | Pass/Fail |
-| Commit Check | lint + unit (<4 min) | GitHub Actions, npm, golangci-lint | 5 min | Tests + lint succeed |
-| Build & Scan | build artifacts, SBOM, SAST | Node 18, Go 1.21, CodeQL, Syft | 12 min | No Critical/High vulns |
-...
-
-## YAML Snippet (GitHub Actions)
-```yaml
-name: ci-cd
-on:
- pull_request:
- push:
-  branches: [main]
-jobs:
- lint-test:
-  runs-on: ubuntu-latest
-  steps:
-   - uses: actions/checkout@v4
-   - uses: actions/setup-node@v3
-    with:
-     node-version: 18
-   - run: npm ci && npm test -- --coverage
- codeql:
-  needs: lint-test
-  uses: github/codeql-action/init@v2
- build-push-image:
-  needs: codeql
-  steps:
-   - run: docker build ...
-   - uses: sigstore/cosign/sign@v2
- deploy-prod-canary:
-  needs: build-push-image
-  environment: production
-  steps:
-   - name: Apply canary (10%)
-    run: kubectl apply -f k8s/prod/canary.yaml
-   - name: Guardrail check
-    run: ./scripts/check_canary_error_rate.sh --threshold 2
-   - name: Promote 100%
-    if: success()
-    run: kubectl apply -f k8s/prod/full.yaml
 ```text
 
-## Compliance Mapping
-
-| Control | Evidence | Storage | Reviewer |
-| SOC2 CC 7.2 | CodeQL SARIF report | s3://compliance-artifacts/codeql | Security Lead |
-| ISO27001 A.12.5 | Signed containers (Cosign) | Rekor transparency log | DevOps Lead |
-
-```
+---
 
 ## Tips
 
@@ -194,6 +159,8 @@ jobs:
 - Clarify deployment guardrails (latency/error thresholds) to get precise canary scripts.
 - Mention reusable workflow needs (monorepo vs polyrepo) so templates are included.
 - Include rollback requirements (DB migrations, config toggles) for actionable runbooks.
+
+---
 
 ## Related Prompts
 

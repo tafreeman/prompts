@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Presentation Outline Generator
 
+---
+
 ## Description
 
 This prompt helps an individual quickly create a structured PowerPoint presentation outline using Microsoft 365 context. It generates slide titles, bullet points, and visual suggestions based on a topic, source document, or project context, tailored to a specific audience.
@@ -95,6 +97,8 @@ Return the output in Markdown with:
     - Bullet points (3–5)
     - Visual suggestion
 
+---
+
 ## Use Cases
 
 - Use case 1: A product manager creating a roadmap presentation for executive review.
@@ -102,6 +106,8 @@ Return the output in Markdown with:
 - Use case 3: An engineer preparing a technical deep-dive for a design review.
 - Use case 4: A marketing lead outlining a campaign strategy deck.
 - Use case 5: A team lead creating a quarterly business review presentation.
+
+---
 
 ## Prompt
 
@@ -160,29 +166,7 @@ Return the result in Markdown:
 
 Now, generate a presentation outline for [topic], tailored for [audience] and
 emphasizing [emphasis].
-```
-
-## Variables
-
-- `[topic]`: Main topic or title of the presentation.
-- `[audience]`: Who will see the presentation (e.g., "executives").
-- `[emphasis]`: What to emphasize (e.g., "benefits and ROI").
-- `[source_document]`: Optional file to use as source material.
-- `[slide_count_target]`: Optional desired number of slides.
-
-## Example Usage
-
-**Input:**
-
 ```text
-[topic]: "Q4 Customer Onboarding Roadmap"
-[audience]: "executive leadership"
-[emphasis]: "timeline, risks, and customer impact"
-[source_document]: "Q4_Onboarding_Plan.docx"
-[slide_count_target]: "10 slides"
-
-You are my Presentation Outline Generator working in a Microsoft 365 environment...
-```
 
 **Output:**
 
@@ -251,7 +235,10 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 - Allocate additional QA resources for load testing.
 - Confirm go/no-go decision process and attendees.
 - Visual suggestion: Action items table with owners and dates.
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -259,6 +246,8 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 - Tip 2: Adjust `[emphasis]` based on your audience's priorities (e.g., execs care about ROI, engineers care about architecture).
 - Tip 3: After generating the outline, ask Copilot to "expand slide 5 with more detail" or "suggest alternative visuals for slide 3."
 - Tip 4: Copy the outline into PowerPoint's Outline View for fast slide creation.
+
+---
 
 ## Related Prompts
 

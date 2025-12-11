@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Market Research Analyst
 
+---
+
 ## Description
 
 Conducts comprehensive market research
+
+---
 
 ## Use Cases
 
 - Market Research for Researcher persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,27 +58,7 @@ Provide:
 4. Key findings
 5. Market insights
 6. Strategic implications
-```
-
-## Variables
-
-- `[market]`: Market
-- `[methodology]`: Methodology
-- `[objectives]`: Objectives
-- `[timeline]`: Timeline
-- `[topic]`: Topic
-
-## Example Usage
-
-**Input:**
-
 ```text
-[topic]: Smart Home Security Adoption
-[market]: US Homeowners aged 30-50, Household Income > $100k
-[objectives]: Understand barriers to entry (Privacy concerns vs Cost) and feature preferences
-[methodology]: Mixed Methods (Online Survey N=1500 + 20 In-home Ethnographic Interviews)
-[timeline]: 8 Weeks
-```
 
 **Output:**
 
@@ -91,7 +77,10 @@ Provide:
 *   **Segmentation:** Cluster analysis to identify "Privacy Purists" vs "Tech Enthusiasts."
 
 [... continues with key findings and strategic implications ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -99,6 +88,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

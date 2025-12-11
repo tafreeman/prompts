@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Data Analysis Specialist
 
+---
+
 ## Description
 
 Performs comprehensive data analysis
+
+---
 
 ## Use Cases
 
 - Data Analysis for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Provide:
 4. Insights and findings
 5. Recommendations
 6. Visualization strategy
-```
-
-## Variables
-
-- `[context]`: Context
-- `[question]`: Question
-- `[scope]`: Scope
-- `[sources]`: Sources
-
-## Example Usage
-
-**Input:**
-
 ```text
-[question]: Why did customer churn increase by 15% in Q3?
-[sources]: CRM (Salesforce), Support Tickets (Zendesk), Usage Logs (Mixpanel)
-[scope]: US Market, Enterprise Segment
-[context]: We implemented a 10% price increase on July 1st
-```
 
 **Output:**
 
@@ -89,7 +77,10 @@ Provide:
 *   **Finding:** Support response time increased by 4 hours in Q3, compounding frustration.
 
 [... continues with recommendations and visualization ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -97,6 +88,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

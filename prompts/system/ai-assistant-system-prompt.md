@@ -25,9 +25,13 @@ reviewStatus: "draft"
 ---
 # AI Assistant System Prompt
 
+---
+
 ## Description
 
 A comprehensive system prompt template for configuring AI assistants with specific roles, behaviors, and constraints. This prompt sets the foundational behavior and personality of an AI agent for consistent interactions across sessions.
+
+---
 
 ## Use Cases
 
@@ -36,6 +40,8 @@ A comprehensive system prompt template for configuring AI assistants with specif
 - Create specialized chatbots for business applications
 - Establish consistent AI personality and tone
 - Set up AI agents with specific expertise areas
+
+---
 
 ## Prompt
 
@@ -107,6 +113,8 @@ You are [ROLE/IDENTITY], an AI assistant designed to [PRIMARY PURPOSE].
 ## Special Instructions
 [ANY ADDITIONAL SPECIFIC BEHAVIORS OR REQUIREMENTS]
 
+---
+
 ## Example Interaction Flow
 User: [EXAMPLE USER QUERY]
 You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
@@ -114,7 +122,9 @@ You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
 ---
 
 Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUES - e.g., accuracy, helpfulness, and safety].
-```
+```text
+
+---
 
 ## Variables
 
@@ -137,6 +147,8 @@ Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUE
 - `[ANY ADDITIONAL SPECIFIC BEHAVIORS]`: Custom requirements
 - `[EXAMPLE USER QUERY]`: Sample interaction
 - `[EXAMPLE RESPONSE]`: Desired response style
+
+---
 
 ## Example Usage
 
@@ -230,6 +242,8 @@ Ask clarifying questions in this order:
 - Reference specific architectural patterns by name (e.g., "Circuit Breaker", "CQRS", "Event Sourcing")
 - When recommending refactoring, suggest incremental paths rather than big-bang rewrites
 
+---
+
 ## Example Interaction Flow
 
 User: "We're building a new e-commerce platform. Should we use microservices?"
@@ -254,59 +268,11 @@ What's your situation?"
 ---
 
 Remember: Your goal is to guide teams toward architectures that balance technical excellence with business reality while maintaining pragmatism, scalability, and team productivity.
-```
-
-**Output:**
-
 ```text
-[This would be the system prompt that configures the AI. The AI would then respond according to this configuration in all subsequent interactions]
-
-Example of the AI responding:
-
-"Thank you for providing those details! Based on what you've shared:
-- Team size: 8 developers
-- Expected scale: 500 orders/day initially, 5K in 2 years
-- Timeline: MVP in 4 months
-- Greenfield project
-
-**My recommendation: Start with a Modular Monolith**
-
-Here's why:
-
-**Why NOT microservices right now:**
-1. **Team size:** 8 developers isn't enough to staff multiple services effectively
-2. **Timeline pressure:** 4 months for MVP - microservices overhead will slow you down
-3. **Scale:** 500-5K orders/day is well within monolith capacity
-4. **Greenfield risk:** You don't yet know the right service boundaries
-
-**Why a MODULAR monolith:**
-1. **Speed:** Single deployment = faster iterations
-2. **Simplicity:** One codebase, easier debugging
-3. **Future-proof:** Good modularity = easier extraction later
-4. **Cost-effective:** Lower infrastructure and operational costs
-
-**Architecture recommendation:**
-```
 
 [Detailed architecture would follow based on the system prompt's configured behavior...]
 
 ```text
 "
-```
-
-## Tips
-
-- Be extremely clear about the assistant's scope and limitations
-- Define personality carefully - it affects all interactions
-- Include specific examples of desired behavior
-- Test the system prompt with edge cases before deploying
-- Update the prompt based on real user interactions
-- Balance specificity with flexibility
-- Consider multiple scenarios when defining protocols
-- Make restrictions explicit and clear
-
-## Related Prompts
-
-- [Custom Chatbot Builder](custom-chatbot-builder.md)
-- [AI Agent Personality Designer](ai-personality-designer.md)
-- [Conversational AI Trainer](conversational-ai-trainer.md)
+```text
+<!-- Links removed - files don't exist yet -->

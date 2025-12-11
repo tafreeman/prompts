@@ -1,28 +1,7 @@
 ---
-title: Enterprise Project Structure
-shortTitle: Enterprise Project Struc...
-intro: Define the standard layered solution structure, responsibilities, and testing
-  organization for enterprise.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*'
 name: enterprise-project-structure
-description: Define the standard layered solution structure, responsibilities, and
-  testing organization for enterprise .NET projects
+description: Define the standard layered solution structure, responsibilities, and testing organization for enterprise .NET projects
 ---
 
 # Enterprise Project Structure
@@ -31,7 +10,7 @@ description: Define the standard layered solution structure, responsibilities, a
 
 ## Solution Organization
 
-```
+```csharp
 /src
   /Web                    # ASP.NET Core web application
     /Pages               # Razor Pages
@@ -50,8 +29,7 @@ description: Define the standard layered solution structure, responsibilities, a
   /IntegrationTests     # Integration test projects
 /docs                   # Project documentation
 /scripts                # Build and deployment scripts
-```
-
+```sql
 ## Layering and Responsibilities
 
 - Web layer
@@ -91,14 +69,13 @@ description: Define the standard layered solution structure, responsibilities, a
 
 ✅ **Correct placement and naming:**
 
-```
+```text
 /tests
   /UnitTests
     /Core
       /Services
         UserServiceTests.cs
-```
-
+```text
 ```csharp
 public class UserServiceTests
 {
@@ -117,8 +94,7 @@ public class UserServiceTests
         Assert.NotNull(result);
     }
 }
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT deviate from the three-layer structure (Web, Core, Infrastructure) without architecture review and documented justification.

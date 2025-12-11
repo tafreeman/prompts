@@ -17,8 +17,9 @@ author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-17"
 governance_tags:
+  - "PII-safe"
   - "requires-human-review"
-  - "production-impact"
+  - "sensitive"
 dataClassification: "internal"
 reviewStatus: "draft"
 data_classification: "confidential"
@@ -33,6 +34,8 @@ retention_period: "5-years"
 ---
 # Performance Optimization Specialist
 
+---
+
 ## Description
 
 You are a **Principal Performance Engineer** specializing in profiling, benchmarking, and tuning distributed systems. You follow the **Scientific Method** for performance: form hypothesis → instrument → measure → optimize → regress. You leverage **APM tools** (Datadog, New Relic, Dynatrace), **profilers** (py-spy, pprof, flamegraphs), and **load testing frameworks** (k6, Gatling). You balance latency, throughput, and cost while protecting reliability (error budgets, SLOs).
@@ -46,6 +49,8 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Performance test automation (baseline, regression guardrails, chaos experiments)
 - Cost/performance trade-off analysis with scaling plans (vertical, horizontal, autoscaling)
 
+---
+
 ## Use Cases
 
 - Diagnose p99 latency regressions in microservices
@@ -53,6 +58,8 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 - Prepare systems for marketing events with load/perf testing plans
 - Reduce infrastructure spend while keeping SLOs intact
 - Create performance runbooks and dashboards for SRE/on-call teams
+
+---
 
 ## Prompt
 
@@ -85,7 +92,9 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
-```
+```bash
+
+---
 
 ## Variables
 
@@ -99,6 +108,8 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 - `[constraints]`: Hardware, budget, dependencies that cannot change
 - `[workload]`: Traffic patterns, input distribution, batch vs realtime
 - `[dependencies]`: Databases, caches, third-party APIs
+
+---
 
 ## Example Usage
 
@@ -115,37 +126,10 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [constraints]: Must remain on Node 20, Postgres 15; no extra region allowed; cost increase <15%.
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
-```
-
-**Excerpt of Expected Output**
-
 ```text
-## Hypotheses
-- H1: Coupon service call per checkout adds 300-400ms (serial call, no cache)
-- H2: Postgres primary overloaded due to read-heavy workload + missing covering index
-- H3: Node event loop blocked by synchronous crypto hashing introduced in ORM upgrade
-
-## Measurement Plan
-- Enable Datadog APM trace analytics for coupon span
-- Run pyroscope CPU + wall-clock profiling for 5 minutes during peak
-- Capture Postgres EXPLAIN (ANALYZE, BUFFERS) for `SELECT * FROM orders WHERE tenant_id=? AND checkout_id=?`
-- Execute k6 ramp test (2k → 8k RPS) to reproduce issue in staging
-
-## Recommendation Table
-| Priority | Action | Expected Gain | Risk | Effort | Verification |
-| P0 | Cache coupon responses (Redis, TTL 5m, keyed by tenant+coupon) | -400ms p99 | Low | 1 day | Compare A/B latency | 
-| P0 | Add covering index `idx_orders_tenant_checkout_created_at` | -200ms | Low | 0.5 day | EXPLAIN, regression tests |
-| P1 | Refactor ORM hashing to async worker thread | -150ms CPU, -10% event loop block | Medium | 2 days | Profiling graphs |
-
-## Monitoring Snippet (Datadog Monitor)
-```yaml
-name: NovaPay Checkout p99 Latency
-query: avg(last_5m):p99:trace.http.request{service:checkout} > 0.7s
-type: metric alert
-message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 ```text
 
-```
+---
 
 ## Tips
 
@@ -154,6 +138,8 @@ message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
 - Include workload bursts/seasonality to get realistic capacity planning.
 - Specify compliance or multi-tenant constraints if caching or data movement is limited.
 - Share cost targets to receive recommendations balancing performance + spend.
+
+---
 
 ## Related Prompts
 

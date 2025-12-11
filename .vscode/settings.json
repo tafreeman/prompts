@@ -7,6 +7,7 @@
     "azureFunctions.preDeployTask": "publish (functions)",
     "azureFunctions.mcpProjectType": "McpExtensionServer",
     "chat.mcp.serverSampling": {
+        
         "prompts/.vscode/mcp.json: prompts-local-server": {
             "allowedModels": [
                 "copilot/auto",

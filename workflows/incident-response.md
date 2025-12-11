@@ -49,8 +49,7 @@ This playbook provides a structured approach to detecting, triaging, investigati
 │   • Performance degradation → DevOps runbook                   │
 │   • Application bugs → SDLC workflow                           │
 └─────────────────────────────────────────────────────────────────┘
-```
-
+```sql
 ### Incident Severity Classification
 
 | Severity | Definition | Response Time | Examples |
@@ -114,8 +113,7 @@ Step 3: Check for False Positive
 Step 4: If CONFIRMED incident → Escalate to Phase 2 (Triage)
        If FALSE POSITIVE → Document and close
        If UNCERTAIN → Collect more data (1-2 additional checks)
-```
-
+```text
 ### Example: Detecting Ransomware
 
 **Alert**: EDR (Endpoint Detection & Response) detects suspicious file encryption activity on file server (FS-PROD-01)
@@ -147,8 +145,7 @@ Immediate Actions:
 
 Estimated Impact: HIGH (file server compromise affects 200+ users)
 Regulatory: GDPR breach notification may be required (assess data affected)"
-```
-
+```text
 **Decision Point**: Confirmed ransomware (P0) → Escalate to Phase 2 immediately
 
 ### Detection Checklists
@@ -260,8 +257,7 @@ Step 6: Activate Response Plan
   - Assign roles and tasks
   - Set up war room (physical or virtual)
   - Establish communication channels (Slack, Teams, conference bridge)
-```
-
+```sql
 ### Example: Triaging Ransomware (Continued from Phase 1)
 
 **Incident**: Ransomware detected on file server FS-PROD-01
@@ -329,8 +325,7 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 - Determine initial infection vector (phishing email analysis)
 - Assess data exfiltration (was data stolen before encryption?)
 - Check backup integrity (verify clean restore point exists)"
-```
-
+```text
 **Decision Point**: Confirmed P0 breach requiring IMMEDIATE ERADICATION → Proceed to Phase 3 (Investigation)
 
 ### Triage Checklists
@@ -426,8 +421,7 @@ LEADERSHIP REQUIRED:
 WAR ROOM: Conference Bridge +1-555-123-4567, Slack #incident-2025-11-17-ransomware
 
 - Jane Doe, CISO (Incident Commander)
-```
-
+```text
 **P1/P2 Incident - IT Team Notification**:
 
 ```text
@@ -450,8 +444,7 @@ No customer notification yet - awaiting investigation results.
 Updates every 30 minutes in #incident-response Slack channel.
 
 - Security Team
-```
-
+```sql
 ### Escalation Triggers (When to Escalate Severity)
 
 **P2 → P1 Escalation**:
@@ -545,8 +538,7 @@ Step 6: Data Impact Assessment
   - Classify data sensitivity (PII, PHI, IP, financial)
   - Determine if encryption keys can recover data (for ransomware)
   - Estimate data loss (if backups unavailable or corrupted)
-```
-
+```sql
 ### Example: Investigating Ransomware (Continued from Phase 2)
 
 **Incident**: Ransomware on FS-PROD-01, active C2 blocked, system isolated
@@ -747,8 +739,7 @@ RECOVERY OPTIONS:
    - No known decryption flaws for this variant
 
 RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
-```
-
+```text
 ### Investigation Checklists
 
 **Evidence Preservation**:

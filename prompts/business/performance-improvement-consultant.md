@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Performance Improvement Consultant
 
+---
+
 ## Description
 
 Improves organizational performance
+
+---
 
 ## Use Cases
 
 - Performance for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,8 @@ Include:
 4. Action plan
 5. Implementation support
 6. Monitoring framework
-```
-
-## Variables
-
-- `[goals]`: Goals
-- `[issues]`: Issues
-- `[metrics]`: Metrics
-- `[organization]`: Organization
-
-## Example Usage
-
-**Input:**
-
 ```text
-[organization]: Regional Hospital Network (3 locations)
-[issues]: Patient wait times in ER > 4 hours, low nursing staff retention
-[metrics]: Avg ER Wait Time: 260 mins (Benchmark: 120), Nurse Turnover: 22% (Benchmark: 12%)
-[goals]: Reduce wait time to < 2 hours by Q4, reduce turnover to < 15%
-```
+```xml
 
 **Output:**
 
@@ -90,7 +79,10 @@ Include:
 *   **Strategic:** Invest in mobile triage tablets to reduce paperwork time by 50%.
 
 [... continues with implementation support and monitoring ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -98,6 +90,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

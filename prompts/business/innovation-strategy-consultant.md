@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Innovation Strategy Consultant
 
+---
+
 ## Description
 
 Develops innovation strategies
+
+---
 
 ## Use Cases
 
 - Innovation for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Include:
 4. Implementation roadmap
 5. Governance model
 6. Success metrics
-```
-
-## Variables
-
-- `[capabilities]`: Capabilities
-- `[goals]`: Goals
-- `[opportunities]`: Opportunities
-- `[organization]`: Organization
-
-## Example Usage
-
-**Input:**
-
 ```text
-[organization]: Automotive Tier 1 Supplier (Traditional Powertrain)
-[goals]: Transition revenue mix from 90% ICE (Internal Combustion) to 50% EV (Electric Vehicle) by 2030
-[capabilities]: Strong mechanical engineering, world-class manufacturing; Weak software/electronics
-[opportunities]: Battery Management Systems (BMS), Thermal Management for EVs
-```
 
 **Output:**
 
@@ -90,7 +78,10 @@ Include:
 *   **Partnership:** Joint Venture with battery cell manufacturer.
 
 [... continues with governance and success metrics ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -98,6 +89,8 @@ Include:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

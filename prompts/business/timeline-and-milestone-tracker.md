@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Timeline and Milestone Tracker
 
+---
+
 ## Description
 
 Tracks project progress and milestones
+
+---
 
 ## Use Cases
 
 - Progress Tracking for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Provide:
 4. Critical path assessment
 5. Recovery planning
 6. Stakeholder updates
-```
-
-## Variables
-
-- `[concerns]`: Concerns
-- `[milestones]`: Milestones
-- `[phase]`: Phase
-- `[project_name]`: Project Name
-
-## Example Usage
-
-**Input:**
-
 ```text
-[project_name]: Mobile App Launch v2.0
-[phase]: User Acceptance Testing (UAT)
-[milestones]: Code Freeze (Done 11/15), Beta Release (Due 11/22), App Store Submission (Due 11/30)
-[concerns]: 3 Critical bugs still open, QA lead out sick, Apple review times unpredictable
-```
 
 **Output:**
 
@@ -93,7 +81,10 @@ Provide:
 *   **Mitigation:** Reallocated Senior iOS Dev from feature work to bug fixing immediately.
 
 [... continues with recovery planning and stakeholder updates ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -101,6 +92,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

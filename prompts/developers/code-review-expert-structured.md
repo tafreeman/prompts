@@ -29,223 +29,54 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
-## Purpose
-
-You are a **Senior Software Engineer** and **Automation Specialist** designing code reviews for machine consumption. Your goal is to output structured, parseable data (JSON or Schema-compliant Markdown) that integrates seamlessly with CI/CD pipelines (GitHub Actions, GitLab CI), dashboards, and analytics tools.
-
-**Your Approach**:
-
-- **Machine-First**: Prioritize strict schema adherence for parsing reliability.
-- **Categorized Analysis**: rigidly classify every issue by severity (Critical/Major/Minor) and type (Security/Performance/Bug).
-- **Actionable Data**: Ensure every finding has a precise file location and a copy-pasteable fix.
-- **Dashboard Ready**: Generate summaries that can be directly visualized in engineering metrics dashboards.
-
-## Use Cases
-
-- **CI/CD Integration**: Blocking PR merges based on "Critical" issue count.
-- **Metrics & Analytics**: Tracking "Security" vs "Style" issues over time.
-- **Automated Reporting**: Generating daily/weekly code quality digests.
-- **Multi-Repo Standardization**: Enforcing consistent review standards across distributed teams.
-
-## Prompt
-
-```text
-You are a senior software engineer conducting a structured code review.
-
-## Code Review Request
-
-**Repository:** [REPOSITORY_NAME]  
-**Branch:** [BRANCH_NAME]  
-**Commit SHA:** [COMMIT_SHA] (optional)  
-**Language:** [PROGRAMMING_LANGUAGE]
-
-**Files Changed:**
-```diff
-[DIFF_OR_FILE_CONTENTS]
-```text
-
-**Review Focus (optional):** [FOCUS_AREAS]
-(e.g., "security vulnerabilities", "performance", "test coverage")
 
 ---
-
-## Task
-
-Conduct a comprehensive code review and output a **structured report** conforming to the Code Review Report Schema.
-
-### Review Guidelines
-
-**Categorize issues** by:
-
-- **Severity:** CRITICAL | MAJOR | MINOR | INFO
-- **Category:** security | performance | maintainability | style | bug | best-practice
-
-**For each issue, provide:**
-
-- File path and line range
-- Clear description of the problem
-- Rationale (why it matters)
-- Suggested fix (code snippet or description)
-- References (docs, style guides, CVEs) if applicable
-
-**Also identify:**
-
-- Positive highlights (things done well)
-- Next steps (actions for the author)
-
-### Output Format: [Choose JSON or Markdown]
-
-**Option 1: JSON Output**
-
-```json
-{
-  "review_id": "optional-uuid-or-timestamp",
-  "repository": "[repo_name]",
-  "branch": "[branch]",
-  "commit_sha": "[sha]",
-  "reviewer": "AI Code Reviewer",
-  "review_date": "ISO-8601-timestamp",
-  "summary": {
-    "total_files": 0,
-    "total_issues": 0,
-    "critical_issues": 0,
-    "major_issues": 0,
-    "minor_issues": 0,
-    "overall_recommendation": "APPROVE | REQUEST_CHANGES | COMMENT"
-  },
-  "files": [
-    {
-      "file_path": "path/to/file.ext",
-      "language": "language",
-      "issues": [
-        {
-          "issue_id": "unique-id",
-          "severity": "CRITICAL | MAJOR | MINOR | INFO",
-          "category": "security | performance | maintainability | style | bug | best-practice",
-          "line_start": 0,
-          "line_end": 0,
-          "description": "What's wrong",
-          "rationale": "Why it matters",
-          "suggested_fix": "Code snippet or description",
-          "references": ["link1", "link2"]
-        }
-      ]
-    }
-  ],
-  "positive_highlights": ["Thing done well 1", "Thing done well 2"],
-  "next_steps": ["Action 1", "Action 2"]
-}
-```text
-
-**Option 2: Markdown Output**
-
-```markdown
-# Code Review Report
-
-**Repository:** [repo_name]  
-**Branch:** [branch_name]  
-**Commit:** [commit_sha]  
-**Reviewer:** AI Code Reviewer  
-**Date:** [YYYY-MM-DD]
-
----
-
-## Summary
-
-- **Total Files:** [N]
-- **Total Issues:** [N]
-  - Critical: [N]
-  - Major: [N]
-  - Minor: [N]
-- **Recommendation:** [APPROVE / REQUEST_CHANGES / COMMENT]
-
----
-
-## Files Reviewed
-
-### 1. [file_path]
-
-**Language:** [language]
-
-#### Issues
-
-##### Issue 1: [Title] (Severity: CRITICAL|MAJOR|MINOR|INFO)
-
-- **Category:** [security|performance|maintainability|style|bug|best-practice]
-- **Location:** Lines [start]–[end]
-- **Description:** [What's wrong]
-- **Rationale:** [Why it matters]
-- **Suggested Fix:**
-  ```language
-  [code snippet or description]
-  ```
-
-- **References:** [link1], [link2]
-
----
-
-## Positive Highlights
-
-- [Something done well]
-
----
-
-## Next Steps
-
-1. [Action item 1]
-2. [Action item 2]
-
-```text
-
----
-
-**Now conduct the review** for the provided code changes.
-```
 
 ## Variables
 
-- `[REPOSITORY_NAME]`: Repository name or URL
-- `[BRANCH_NAME]`: Branch being reviewed (e.g., `feature/add-auth`)
-- `[COMMIT_SHA]`: Commit hash (optional)
-- `[PROGRAMMING_LANGUAGE]`: Language (e.g., Python, JavaScript, Java)
-- `[DIFF_OR_FILE_CONTENTS]`: Git diff or full file contents
-- `[FOCUS_AREAS]`: Optional focus areas (security, performance, etc.)
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[REPOSITORY_NAME]` | Repository name or URL | `ecommerce-api`, `github.com/acme/payments` |
+| `[BRANCH_NAME]` | Branch being reviewed | `feature/add-auth`, `fix/memory-leak` |
+| `[COMMIT_SHA]` | Commit hash (optional) | `a1b2c3d4e5f6` |
+| `[PROGRAMMING_LANGUAGE]` | Primary language | `Python`, `TypeScript`, `Java`, `Go`, `C#` |
+| `[DIFF_OR_FILE_CONTENTS]` | Git diff or full file contents | See examples below |
+| `[FOCUS_AREAS]` | Optional focus areas | `security`, `performance`, `PCI compliance` |
 
-## Usage
+## Review Criteria Reference
 
-### Example 1: Python Payment API Review (Markdown Output)
+Use this guide to classify issues consistently:
 
-**Input:**
+### Severity Classification
+
+| Severity | Criteria | Examples | Action |
+|----------|----------|----------|--------|
+| **CRITICAL** | Security vulnerabilities, data loss risk, breaking production | SQL injection, plaintext passwords, null pointer in hot path | Block merge, fix immediately |
+| **MAJOR** | Logic bugs, missing error handling, performance issues | Unhandled exceptions, N+1 queries, memory leaks | Should fix before merge |
+| **MINOR** | Code quality, maintainability, style | Missing docs, non-idiomatic code, long methods | Consider fixing |
+| **INFO** | Suggestions, nice-to-haves | Refactoring opportunities, alternative approaches | Optional |
+
+### Category Classification
+
+| Category | What to Look For | Impact Area |
+|----------|------------------|-------------|
+| **security** | Injection, auth bypass, XSS, CSRF, secrets exposure | Data breach, compliance violation |
+| **performance** | N+1 queries, inefficient algorithms, memory leaks | User experience, infrastructure cost |
+| **bug** | Logic errors, race conditions, edge cases | Incorrect behavior, data corruption |
+| **maintainability** | SOLID violations, code duplication, tight coupling | Technical debt, velocity slowdown |
+| **style** | Naming, formatting, conventions | Readability, team consistency |
+| **best-practice** | Missing tests, no error handling, hardcoded values | Reliability, debugging difficulty |
+
+### Recommendation Decision Tree
 
 ```text
-You are a senior software engineer conducting a structured code review.
-
-## Code Review Request
-
-**Repository:** ecommerce-api  
-**Branch:** feature/add-payment-processing  
-**Commit SHA:** a1b2c3d4  
-**Language:** Python
-
-**Files Changed:**
-```diff
-+++ app/payment.py
-@@ -10,6 +10,15 @@ import requests
- 
-+def process_payment(amount, card_number, cvv):
-+    # TODO: Add encryption
-+    payload = {
-+        "amount": amount,
-+        "card": card_number,
-+        "cvv": cvv
-+    }
-+    response = requests.post("https://payment-api.example.com/charge", json=payload)
-+    return response.json()
-+
+Has CRITICAL issues? 
+  → Yes: REQUEST_CHANGES (must fix before merge)
+  → No: Has MAJOR issues?
+    → Yes: REQUEST_CHANGES (should fix) OR COMMENT (if minor risk)
+    → No: Has only MINOR/INFO?
+      → APPROVE (with optional comments)
 ```text
-
-**Review Focus:** security vulnerabilities, PCI compliance
-```
 
 **Output:**
 
@@ -371,21 +202,64 @@ You are a senior software engineer conducting a structured code review.
 4. **Recommended**: Add unit tests mocking payment processor responses
 5. **Compliance**: Review entire payment flow with security team for PCI DSS compliance
 
-```
+```text
+
+---
 
 ## Tips
 
 - **JSON for Machines**: Use JSON output when piping results to other tools (e.g., `jq`, dashboards).
 - **Markdown for Humans**: Use Markdown when posting to GitHub/GitLab PR comments.
 - **Strict Schema**: Do not deviate from the schema keys; automation depends on them.
-- **Severity Thresholds**: Agree with your team on what constitutes "CRITICAL" (e.g., security flaws, build breaks) vs "MAJOR" (logic bugs).
+- **Severity Thresholds**: Use the Review Criteria Reference above—agree with your team on classification.
 - **Idempotency**: Ensure the review output is consistent if run multiple times on the same code.
+- **Focus Areas**: Specify `[FOCUS_AREAS]` to prioritize specific concerns (e.g., "security" for payment code).
+- **Batch Size**: Review 200-400 lines per invocation for best results; larger diffs reduce detection accuracy.
+
+---
+
+## Example Issue Classifications
+
+### Example: CRITICAL Security Issue
+```json
+{
+  "issue_id": "SEC-001",
+  "severity": "CRITICAL",
+  "category": "security",
+  "line_start": 15,
+  "line_end": 18,
+  "description": "SQL injection vulnerability via string concatenation",
+  "rationale": "User input is concatenated directly into SQL query, allowing attackers to execute arbitrary SQL commands",
+  "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
+  "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
+}
+```sql
+
+### Example: MINOR Style Issue
+```json
+{
+  "issue_id": "STYLE-001",
+  "severity": "MINOR",
+  "category": "style",
+  "line_start": 5,
+  "line_end": 5,
+  "description": "Variable name 'x' is not descriptive",
+  "rationale": "Descriptive names improve code readability and reduce cognitive load for future maintainers",
+  "suggested_fix": "Rename 'x' to 'user_count' or 'total_items' based on its purpose",
+  "references": ["PEP 8 - Naming Conventions"]
+}
+```text
+
+---
+
 
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Narrative style review for human-to-human feedback.
 - **[security-code-auditor](./security-code-auditor.md)** - Specialized security audit (can be used to feed into this structured review).
 - **[test-automation-engineer](./test-automation-engineer.md)** - Can use the output of this review to generate test cases.
+
+---
 
 ## Governance Notes
 

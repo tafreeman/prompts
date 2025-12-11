@@ -20,16 +20,20 @@ version: "1.0"
 date: "2025-11-17"
 governance_tags:
   - "PII-safe"
-  - "requires-human-review-for-sensitive-docs"
+  - "requires-human-review"
   - "audit-required"
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
 # RAG: Document Retrieval and Citation Framework
 
+---
+
 ## Description
 
 Retrieval-Augmented Generation (RAG) is a pattern that grounds AI responses in specific documents or knowledge bases. This template provides a structured approach to chunking documents, retrieving relevant context, and generating answers with proper citations. Essential for enterprise applications where accuracy, attribution, and auditability are critical.
+
+---
 
 ## Research Foundation
 
@@ -37,6 +41,8 @@ This technique is based on the paper:
 **Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020).** "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems (NeurIPS) 33*. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
 
 Lewis et al. introduced RAG models that combine parametric memory (pre-trained seq2seq model) with non-parametric memory (dense vector index of Wikipedia accessed with a pre-trained neural retriever). This approach allows models to access and leverage knowledge in a more modular and interpretable way than storing all knowledge in model parameters, achieving state-of-the-art results on knowledge-intensive tasks while providing transparency through retrieved document citations.
+
+---
 
 ## Use Cases
 
@@ -47,6 +53,8 @@ Lewis et al. introduced RAG models that combine parametric memory (pre-trained s
 - Research paper analysis and summarization
 - Legal document review with citations
 - Technical troubleshooting from logs and docs
+
+---
 
 ## Prompt
 
@@ -114,7 +122,9 @@ Relevance Score: [DOC_2_SCORE]
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
-```
+```text
+
+---
 
 ## Variables
 
@@ -124,6 +134,8 @@ Relevance Score: [DOC_2_SCORE]
 - `[DOC_X_SOURCE]`: Source location (file path, URL, database record)
 - `[DOC_X_CONTENT]`: The actual text content of the retrieved chunk
 - `[DOC_X_SCORE]`: Relevance/similarity score from retrieval system
+
+---
 
 ## Example Usage
 
@@ -160,48 +172,9 @@ Relevance Score: 0.41
 
 **Instructions**:
 [As specified above]
-```
-
-**Output:**
-
 ```text
-**Answer**:
 
-Our API rate limiting policy varies by customer tier. Standard accounts are limited to 1,000 requests per hour per API key, while Enterprise Premium customers receive 10,000 requests per hour [Doc_1]. These limits reset at the top of each hour in UTC timezone [Doc_1].
-
-When rate limits are exceeded, the API returns HTTP 429 (Too Many Requests) status code [Doc_2]. The response includes a `Retry-After` header that specifies the number of seconds until the limit resets. For example, `Retry-After: 3600` indicates you should retry in 1 hour [Doc_2].
-
-For violation handling, we have a progressive enforcement policy. Persistent rate limit violations—defined as exceeding the limit more than 5 times within 24 hours—trigger escalating consequences [Doc_3]:
-
-1. **First violation**: You'll receive a warning email
-2. **Second violation within 7 days**: 24-hour API key suspension
-3. **Third violation**: Permanent suspension, subject to manual review
-
-All enforcement actions are tracked per API key [Doc_3].
-
-For bulk data export planning, consider:
-- Calculate your request volume: If you need more than 1,000 requests/hour, consider upgrading to Enterprise Premium
-- Implement retry logic with exponential backoff when you receive 429 responses
-- Respect the `Retry-After` header value
-- Spread requests evenly across the hour rather than bursting
-
-**Confidence Assessment**: **High**
-
-The retrieved documents comprehensively cover rate limiting policy, error handling, and violation consequences. All major aspects of the question are directly addressed.
-
-**Sources Used**:
-- **Doc_1** (/docs/api/rate-limiting.md): Provided rate limit thresholds and reset timing
-- **Doc_2** (/docs/api/error-codes.md): Explained 429 error response format and retry headers
-- **Doc_3** (/policies/api-usage-policy.md): Detailed violation handling and suspension policy
-- **Doc_4** (/docs/api/authentication.md): Not used - covered key generation but not relevant to rate limiting
-
-**Information Gaps**: None identified for this question
-
-**Recommended Follow-up**:
-- If customer needs >1,000 requests/hour, offer: "Would you like information about upgrading to Enterprise Premium tier?"
-- If they're building automation, suggest: "Would you like code examples for implementing proper retry logic with exponential backoff?"
-- Clarify their specific use case: "What is the total volume of data you need to export, and over what timeframe?"
-```
+---
 
 ## Tips
 
@@ -230,22 +203,7 @@ Metadata to include:
 - Language
 - Last modified date
 - Author (if relevant)
-```
-
-### For Documentation
-
 ```text
-Chunk by:
-- Section (heading-based)
-- 300-500 tokens with 50-token overlap
-- Preserve context (don't split mid-sentence)
-
-Metadata to include:
-- Document title
-- Section heading hierarchy
-- Version/date
-- URL (if applicable)
-```
 
 ### For Logs/Incident Data
 
@@ -260,21 +218,8 @@ Metadata to include:
 - Service name
 - Log level
 - Error codes (if present)
-```
-
-## Retrieval Strategies
-
-### Semantic Search
-
-```python
-# Using embedding-based retrieval
-query_embedding = embed(user_question)
-chunks = vector_db.similarity_search(
-    query_embedding,
-    k=5,  # Top 5 chunks
-    threshold=0.7  # Minimum similarity
-)
-```
+```text
+```text
 
 ### Hybrid Search
 
@@ -285,7 +230,7 @@ keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
-```
+```text
 
 ### Contextual Retrieval
 
@@ -296,7 +241,7 @@ previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
-```
+```json
 
 ## Output Schema (JSON)
 
@@ -324,7 +269,9 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
-```
+```text
+
+---
 
 ## Governance Notes
 
@@ -352,32 +299,7 @@ For automation pipelines:
 
 ```text
 @workspace search for rate limiting policy and explain with citations
-```
-
-### LangChain RAG Implementation
-
-```python
-from langchain.chains import RetrievalQA
-from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
-
-# Setup
-vectorstore = Chroma.from_documents(
-    documents=chunks,
-    embedding=OpenAIEmbeddings()
-)
-
-qa_chain = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(model="gpt-4"),
-    retriever=vectorstore.as_retriever(search_kwargs={"k": 5}),
-    return_source_documents=True
-)
-
-# Query
-result = qa_chain({"query": "What is our rate limiting policy?"})
-answer = result["result"]
-sources = result["source_documents"]
-```
+```text
 
 ### Custom RAG Pipeline
 
@@ -409,13 +331,13 @@ def rag_answer(question, context=""):
         "sources": chunks,
         "confidence": assess_confidence(response, chunks)
     }
-```
+```text
+
+---
 
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
-- [RAG: Code Ingestion](rag-code-ingestion.md) - Code-specific RAG patterns
-- [Citation: Quality Framework](rag-citation-framework.md) - Citation best practices
 
 ## Error Handling
 
@@ -433,21 +355,7 @@ To get a better answer, I would need:
 - [Specific information missing]
 
 Would you like me to search differently, or can you provide more context?"
-```
-
-### Contradictory Information
-
 ```text
-"I found contradictory information in the documentation:
-
-- Document A [Doc_1] states: [quote A]
-- Document B [Doc_3] states: [quote B]
-
-These documents may refer to different contexts:
-- [Possible explanation]
-
-Which scenario applies to your situation? Or would you like me to escalate this documentation discrepancy?"
-```
 
 ### No Relevant Documents Found
 
@@ -463,4 +371,4 @@ Would you like me to:
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
-```
+```text

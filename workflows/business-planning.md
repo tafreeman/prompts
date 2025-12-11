@@ -329,8 +329,7 @@ Step 4: Strategic Positioning (Week 3-4)
 │  ├─ Strategic pillars (3-5 core differentiators)
 │  └─ Go-to-market hypotheses to validate in Phase 2
 └─ Output: Strategic positioning document
-```
-
+```powershell
 **Deliverables**:
 
 - Market sizing report (TAM/SAM/SOM with growth projections)
@@ -356,8 +355,7 @@ TAM: $50B (Global Business Intelligence market)
 SAM: $8B (AI-powered predictive analytics for mid-market SaaS)
 SOM: $120M (Year 3 target, assuming 1.5% market capture)
 Growth: 22% CAGR (2024-2027)
-```
-
+```text
 **Positioning Statement**:
 
 ```text
@@ -367,8 +365,7 @@ our AI Analytics Platform is a no-code predictive analytics solution
 that turns historical data into actionable forecasts in minutes, not weeks.
 Unlike traditional BI tools (Tableau, Looker) that require data science teams,
 our platform enables business users to build ML models with natural language.
-```
-
+```text
 ---
 
 ### Phase 2: Product-Market Fit Validation (4-6 weeks)
@@ -420,8 +417,7 @@ Step 4: Financial Modeling (Week 4-6)
 │  ├─ Break-even analysis and burn rate
 │  └─ 3-year P&L with sensitivity analysis
 └─ Output: Comprehensive financial model with scenario planning
-```
-
+```text
 **Deliverables**:
 
 - Validated MVP/prototype with user testing results (usability score, NPS, feature priorities)
@@ -457,8 +453,7 @@ Tier 3: Enterprise ($4,999/month + custom)
 - Unlimited users, unlimited data sources, unlimited models
 - White-label, SSO, dedicated CSM, SLA
 - Target: Large SaaS (500+ employees)
-```
-
+```text
 **Unit Economics**:
 
 ```text
@@ -467,8 +462,7 @@ LTV: $28,800 (24-month average customer lifetime × $1,499 monthly ARPU × 80% g
 LTV:CAC Ratio: 4.8x (healthy, target > 3x)
 CAC Payback: 8 months (target < 12 months)
 Annual Churn: 15% (competitive for SaaS)
-```
-
+```powershell
 ---
 
 ## End-to-End Example: CreativeFlow Launching AI Resource Planner
@@ -520,8 +514,7 @@ TAM: $12B (Global project management & PSA software)
 SAM: $2.5B (Creative agencies 50-1,000 employees in NA + WE)
 SOM (3-year target): $400M (assuming 16% share of AI-enabled resource planning niche)
 Growth: 18–22% CAGR for AI-enabled PSA tools
-```
-
+```powershell
 #### Step 2: Competitive landscape with `competitive-analysis-researcher`
 
 The team analyzed Monday.com, Asana, ClickUp, and niche agency tools.
@@ -557,8 +550,7 @@ that forecasts staffing needs 4 weeks ahead with ~85% accuracy.
 Unlike generic project tools that only show current allocations,
 CreativeFlow combines historical timesheet data, project mix,
 and pipeline to prevent over/under-staffing before it happens.
-```
-
+```sql
 **Phase 1 decision**: Proceed.
 
 - TAM and SAM large with high growth.
@@ -607,8 +599,7 @@ Cheap: $999/month
 Expensive: $2,499/month
 Too expensive: $3,999/month
 Recommended sweet spot: $1,999/month as Professional tier add-on
-```
-
+```powershell
 They defined tiers:
 
 - Core platform: existing pricing unchanged.
@@ -635,8 +626,7 @@ Average customer lifetime: 19 months
 LTV: $35,000–$40,000 per customer
 LTV:CAC: ~4.8x
 CAC payback: ~8 months
-```
-
+```sql
 **Phase 2 decision**: Proceed.
 
 - Prototype validated (8/10 design partners very positive).
@@ -866,8 +856,7 @@ Step 6: Internal Change Management (Week 4-6)
 │  ├─ Launch readiness checklist (infrastructure, documentation, processes)
 │  └─ Feedback loops (weekly standups, retrospectives)
 └─ Output: Change management plan with communication templates
-```
-
+```text
 **Deliverables**:
 
 - Project charter with phased launch roadmap (beta, limited release, GA)
@@ -910,8 +899,7 @@ Phase 4: General Availability (Month 7+)
 - Full marketing launch, remove onboarding caps
 - Goal: Scale to $500K ARR by Month 12
 - Success: 100+ paying customers, 4.5+ G2 rating, 50%+ NRR expansion
-```
-
+```text
 **Marketing Campaign** (12-Week Launch Campaign):
 
 ```text
@@ -931,8 +919,7 @@ Post-Launch (Weeks 9-12):
 - Thought leadership: Speaking at SaaStr, SaaS conferences
 - Partnerships: Integration announcements (Salesforce, HubSpot, Stripe)
 - Community building: Slack community, user conference planning
-```
-
+```text
 ---
 
 ### Phase 4: Launch & Optimization (6-12 months)
@@ -1005,8 +992,7 @@ Month 7-12: General Availability & Scaling
 │  ├─ G2/Capterra rating (target: 4.5+ stars)
 │  └─ Team efficiency: Revenue per employee, CAC payback period
 └─ Success Criteria: Hit $500K ARR, 100+ customers, NRR > 110%, product-market fit achieved
-```
-
+```sql
 **Deliverables**:
 
 - Weekly metrics dashboard (North Star, OKRs, leading/lagging indicators)
@@ -1052,8 +1038,7 @@ Scenario 3: High CAC (> $10K)
    ├─ GTM: Shift to self-service with product-led growth (reduce human touch)
    ├─ Market: Target larger customers with higher ACVs (justify CAC)
    └─ Sales Process: Implement freemium model (build pipeline organically)
-```
-
+```text
 **Example Outputs**:
 
 **Monthly QBR Metrics** (Month 6):
@@ -1083,8 +1068,7 @@ Actions:
 1. Launch expansion playbook (identify upsell opportunities from usage data)
 2. Increase content marketing budget by 25% (drive demo requests)
 3. Hire 1 additional AE to handle growing pipeline
-```
-
+```text
 ---
 
 ## Success Metrics & Targets

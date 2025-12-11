@@ -7,7 +7,6 @@ type: conceptual
 difficulty: intermediate
 audience:
 - senior-engineer
-- senior-engineer
 - solution-architect
 platforms:
 - github-copilot

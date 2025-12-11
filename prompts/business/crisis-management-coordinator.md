@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Crisis Management Coordinator
 
+---
+
 ## Description
 
 Manages project crises
+
+---
 
 ## Use Cases
 
 - Crisis Management for Project Manager persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -51,25 +57,7 @@ Provide:
 4. Risk mitigation
 5. Recovery strategy
 6. Lessons learned
-```
-
-## Variables
-
-- `[crisis]`: Crisis
-- `[impact]`: Impact
-- `[project_name]`: Project Name
-- `[urgency]`: Urgency
-
-## Example Usage
-
-**Input:**
-
 ```text
-[project_name]: Global ERP Rollout
-[crisis]: Ransomware attack detected on Staging Environment servers
-[impact]: All test data encrypted, rollout to APAC region (scheduled for Monday) blocked, potential PII leak
-[urgency]: Critical (Level 1) - Immediate Action Required
-```
 
 **Output:**
 
@@ -90,7 +78,10 @@ Provide:
 *   **Recovery:** Do not pay ransom. Restore Staging from immutable backups (WORM storage) once environment is clean.
 
 [... continues with resource mobilization and lessons learned ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -98,6 +89,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

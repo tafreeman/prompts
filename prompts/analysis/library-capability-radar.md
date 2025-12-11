@@ -25,6 +25,8 @@ reviewStatus: "draft"
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
 
+---
+
 ## Description
 
 This prompt guides the generation of a Radar Chart (Spider Plot) to assess the maturity and balance of the prompt library across key domains.
@@ -54,15 +56,21 @@ The library covers 7 key domains: Advanced, Analysis, Business, Creative, Develo
 
 Comparative analysis.
 
+---
+
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/Matplotlib, Excel instructions) to generate the chart.
+
+---
 
 ## Use Cases
 
 - Strategic planning for library expansion.
 - Identifying under-served domains (gaps).
 - Reporting on library growth and balance.
+
+---
 
 ## Prompt
 
@@ -73,21 +81,17 @@ Use the provided [CATEGORY_COUNTS] for the axes.
 The axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).
 
 This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
+```text
 ```
 
-## Example Visualization (Mermaid)
+## Variables
 
-Mermaid does not yet provide a native radar/spider plot primitive. Use this `pie` diagram as a stand-in to compare category proportions, or translate the same counts into your preferred radar tool.
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[CATEGORY_COUNTS]` | Number of prompts in each of the 7 key domains | Advanced: 8, Analysis: 18, Business: 25, Creative: 3, Developers: 15, Governance: 4, System: 6 |
 
-```mermaid
-%% Mermaid pie chart approximating radar-style coverage
-pie showData
-    title Prompt Library Coverage (Sample)
-    "Advanced" : 8
-    "Analysis" : 18
-    "Business" : 25
-    "Creative" : 3
-    "Developers" : 15
-    "Governance" : 4
-    "System" : 6
-```
+## Tips
+
+- **Use appropriate scale**: Ensure the radar chart scale accommodates the highest category count
+- **Visualize gaps**: Look for categories with significantly lower counts to prioritize expansion
+- **Track over time**: Generate periodic radar charts to monitor library growth and balance

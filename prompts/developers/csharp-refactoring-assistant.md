@@ -1,37 +1,44 @@
 ---
 title: "C# Refactoring Assistant"
 shortTitle: "C# Refactoring"
-intro: "A specialized assistant for refactoring C"
+intro: "You are an **Expert C# Refactoring Specialist** focused on improving code quality, readability, and maintainability while preserving behavior. You apply modern C# features, SOLID principles, and design patterns."
 type: "how_to"
 difficulty: "intermediate"
 audience:
   - "senior-engineer"
+  - "dotnet-developer"
 platforms:
   - "claude"
+  - "chatgpt"
+  - "copilot"
 topics:
   - "csharp"
   - "refactoring"
   - "legacy-code"
   - "developers"
+  - "dotnet"
 author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
+version: "1.1"
+date: "2025-12-02"
 governance_tags:
   - "general-use"
   - "PII-safe"
 dataClassification: "internal"
-reviewStatus: "draft"
+reviewStatus: "approved"
 subcategory: "refactoring"
 framework_compatibility:
   - "net8.0"
   - "net9.0"
-effectivenessScore: 4.2
 ---
 # C# Refactoring Assistant
+
+---
 
 ## Description
 
 A specialized assistant for refactoring C# code to improve readability, maintainability, and performance while preserving behavior. Focuses on breaking down monoliths, modernizing syntax, and applying design patterns.
+
+---
 
 ## Use Cases
 
@@ -40,6 +47,8 @@ A specialized assistant for refactoring C# code to improve readability, maintain
 - Reducing Cyclomatic Complexity
 - Replacing imperative loops with LINQ (where appropriate)
 - Introducing Dependency Injection
+
+---
 
 ## Prompt
 
@@ -66,13 +75,19 @@ Output Format:
 1. **Analysis**: Brief explanation of what was wrong (Code Smells).
 2. **Refactored Code**: The improved code.
 3. **Changes**: Bullet points explaining key changes.
-```
+```text
+
+---
 
 ## Variables
 
-- `[code_snippet]`: The code to refactor
-- `[goals]`: Specific goals (e.g., "Make it async", "Split into smaller methods")
-- `[constraints]`: Limitations (e.g., "Must remain static", "Cannot change public API signature")
+| Variable | Description | Example |
+|----------|-------------|---------||
+| `[code_snippet]` | The C# code to refactor | Paste the method, class, or file content |
+| `[goals]` | Specific refactoring goals | "Make it async", "Split into smaller methods", "Add DI" |
+| `[constraints]` | Limitations to preserve | "Must remain static", "Cannot change public API signature" |
+
+---
 
 ## Example Usage
 
@@ -102,7 +117,7 @@ public string GetUserInfo(int id)
     }
     return "User not found";
 }
-```
+```text
 
 **Output:**
 
@@ -141,7 +156,7 @@ public string GetUserInfo(int id)
 
     return $"Name: {user.Name}, Role: {role}";
 }
-```
+```json
 
 # Changes Made
 
@@ -151,13 +166,17 @@ public string GetUserInfo(int id)
 - **String Interpolation**: Replaced `+` concatenation with `$` interpolation for readability.
 - **Naming**: Renamed `u` to `user` for clarity.
 
-```
+```text
+
+---
 
 ## Tips
 
 - If the code is very complex, ask for a "Step-by-step refactoring" to see the intermediate states.
 - Always verify that the refactored code handles edge cases (nulls, empty lists) correctly.
 - Use this prompt to learn *why* a change is better, not just to get the result.
+
+---
 
 ## Related Prompts
 

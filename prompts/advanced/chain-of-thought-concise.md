@@ -2,6 +2,7 @@
 title: "Chain-of-Thought: Concise Mode"
 shortTitle: "CoT Concise Mode"
 intro: "A concise Chain-of-Thought prompt template for efficient step-by-step reasoning when detailed explanations aren't needed."
+category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "reasoning"
   - "problem-solving"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "general-use"
@@ -26,9 +28,21 @@ effectivenessScore: 4.9
 ---
 # Chain-of-Thought: Concise Mode
 
+---
+
 ## Description
 
 A streamlined Chain-of-Thought prompt template that encourages step-by-step reasoning while maintaining brevity. This mode is ideal for situations where you need logical progression without extensive elaboration. Perfect for time-sensitive decisions, quick problem-solving, or when working with token constraints.
+
+---
+
+## Research Foundation
+
+Based on Chain-of-Thought prompting (Wei et al., NeurIPS 2022). [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
+
+This concise variant maintains the core reasoning benefits while optimizing for token efficiency and speed.
+
+---
 
 ## Use Cases
 
@@ -37,6 +51,8 @@ A streamlined Chain-of-Thought prompt template that encourages step-by-step reas
 - Rapid technical decision-making with clear reasoning trail
 - Problem-solving in resource-constrained environments
 - Situations requiring audit trail but not detailed justification
+
+---
 
 ## Prompt
 
@@ -63,11 +79,25 @@ Format your response as:
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
 ```
 
+---
+
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The specific problem, question, or task you need to solve
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
+
+---
+
+## Usage
+
+To use this prompt:
+1. Copy the prompt template from the "## Prompt" section above
+2. Replace the bracketed placeholders with your specific information
+3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+4. Review the step-by-step reasoning and final answer
+
+---
 
 ## Example Usage
 
@@ -108,7 +138,9 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 **Step 4**: Check for missing connection.close() in error handlers or transactions left open. Also profile queries running during 9-11 AM for slow performers.
 
 **Final Answer**: Root cause is likely connection leak (unreleased connections in error paths) or slow queries accumulating during peak. Immediate actions: (1) audit connection handling in all error paths, (2) add connection timeout monitoring, (3) profile queries during peak hours. Quick win: reduce connection timeout from default to 5 seconds.
-```
+```text
+
+---
 
 ## Tips
 
@@ -136,7 +168,7 @@ Think through this in bullet steps:
 • [Key insight 2]
 • [Key insight 3]
 → Conclusion: [Final answer]
-```
+```text
 
 ### Numbered Steps with Confidence
 
@@ -144,7 +176,9 @@ Think through this in bullet steps:
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
-```
+```text
+
+---
 
 ## Related Prompts
 
@@ -152,6 +186,8 @@ Final Answer: [Conclusion] (Overall Confidence: X%)
 - [Chain-of-Thought Guide](chain-of-thought-guide.md) - Decision framework for choosing CoT modes
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks requiring external tool interaction
 - [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - When you need to explore multiple solution paths
+
+---
 
 ## Output Schema (JSON)
 

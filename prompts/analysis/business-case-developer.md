@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Business Case Developer
 
+---
+
 ## Description
 
 Develops compelling business cases
+
+---
 
 ## Use Cases
 
 - Business Case for Business Analyst persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,27 +58,7 @@ Provide:
 4. Risk assessment
 5. Implementation plan
 6. Success metrics
-```
-
-## Variables
-
-- `[benefits]`: Benefits
-- `[initiative]`: Initiative
-- `[investment]`: Investment
-- `[risks]`: Risks
-- `[timeline]`: Timeline
-
-## Example Usage
-
-**Input:**
-
 ```text
-[initiative]: AI-Powered Customer Support Chatbot
-[investment]: $250k (Software License + Implementation Services)
-[benefits]: Reduce Tier 1 support ticket volume by 30%, Enable 24/7 support availability, Improve CSAT by 5 points
-[risks]: Low user adoption, poor answer quality damaging brand reputation
-[timeline]: 6 Months (Pilot in Month 3)
-```
 
 **Output:**
 
@@ -92,7 +78,10 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 *   **Mitigation:** Implement "Human in the Loop" handoff for low-confidence answers (<80%).
 
 [... continues with implementation plan and success metrics ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -100,6 +89,8 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 

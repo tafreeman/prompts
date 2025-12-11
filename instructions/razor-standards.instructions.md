@@ -1,28 +1,7 @@
 ---
-title: Razor Pages and UI Standards
-shortTitle: Razor Pages and UI Stand...
-intro: Enforce security, accessibility, and performance standards for Razor Pages
-  and Razor Components.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cshtml,**/*.razor'
 name: razor-pages-ui-standards
-description: Enforce security, accessibility, and performance standards for Razor
-  Pages and Razor Components
+description: Enforce security, accessibility, and performance standards for Razor Pages and Razor Components
 ---
 
 # Razor Pages and UI Standards
@@ -91,8 +70,7 @@ description: Enforce security, accessibility, and performance standards for Razo
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
-```
-
+```text
 ❌ **Avoid: Inline script and missing CSRF protection**
 
 ```cshtml
@@ -100,8 +78,7 @@ description: Enforce security, accessibility, and performance standards for Razo
     <input name="email" />
     <script>alert('inline script');</script>
 </form>
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT disable CSRF protection or HTML encoding without explicit security review and documented justification.

@@ -1,24 +1,23 @@
 ---
-title: Prompts Prompts
-shortTitle: Prompts
-intro: Overview of prompts prompts available in this library.
-type: reference
-difficulty: beginner
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
+title: GitHub Copilot Custom Agents
+shortTitle: Agents Overview
+intro: Overview of specialized GitHub Copilot custom agents for development tasks.
+type: conceptual
+difficulty: intermediate
+author: Prompt Library Team
+version: "1.0"
+date: "2025-12-02"
 governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
+  - PII-safe
+dataClassification: public
+reviewStatus: approved
+audience:
+  - senior-engineer
+  - solution-architect
+platforms:
+  - github-copilot
 ---
+
 # GitHub Copilot Custom Agents
 
 This directory contains specialized GitHub Copilot custom agents designed for common development tasks. These agents are optimized for use with GitHub Copilot's coding agent feature.
@@ -40,20 +39,18 @@ Custom agents are specialized AI personas that can be invoked to handle specific
 2. **Merge to your default branch** to make the agent available
 3. **Invoke the agent** using `@agent-name` in Copilot Chat
 
-```
+```sql
 @docs-agent Update the README with installation instructions
 @test-agent Generate unit tests for the UserService class
 @code-review-agent Review the changes in this PR
-```
-
+```text
 ### Testing Locally
 
 Use the [Copilot CLI](https://gh.io/customagents/cli) to test agents before deploying:
 
 ```bash
 gh copilot agent test agents/docs-agent.agent.md
-```
-
+```text
 ## 📁 Available Agents
 
 | Agent | File | Description | Best For |
@@ -65,6 +62,7 @@ gh copilot agent test agents/docs-agent.agent.md
 | **Prompt Engineer** | `prompt-agent.agent.md` | Prompt creation expert | AI prompts, templates |
 | **Security** | `security-agent.agent.md` | Security analysis expert | Vulnerability review, hardening |
 | **Architecture** | `architecture-agent.agent.md` | System design specialist | Design decisions, patterns |
+| **Cloud** | `cloud-agent.agent.md` | Cloud architecture expert | Cloud infrastructure, IaC, migrations |
 
 ## 📋 Agent Template
 
@@ -84,8 +82,7 @@ description: Helps with coding tasks
 # ✅ Specific and focused
 name: test_agent
 description: Expert in test generation for Python applications using pytest
-```
-
+```text
 ### 2. Be Explicit About Tech Stack
 
 Specify exact frameworks, versions, and tools:
@@ -96,8 +93,7 @@ Specify exact frameworks, versions, and tools:
 - pytest with pytest-cov
 - unittest.mock for mocking
 - Black for formatting (line length 88)
-```
-
+```text
 ### 3. Set Clear Boundaries
 
 Define what the agent should NOT do:
@@ -108,8 +104,7 @@ Define what the agent should NOT do:
 - Do NOT access external APIs
 - Do NOT commit changes directly
 - Only work with files in `tests/` directory
-```
-
+```text
 ### 4. Provide Examples
 
 Include concrete examples of expected output:
@@ -122,9 +117,8 @@ def test_user_creation():
     user = User(name="John", email="john@example.com")
     assert user.name == "John"
     assert user.email == "john@example.com"
-```
-```
-
+```text
+```text
 ### 5. Configure Tools Appropriately
 
 Use the `tools` property to limit agent capabilities:
@@ -135,8 +129,7 @@ name: docs_agent
 description: Documentation specialist
 tools: ["read", "write", "search"]
 ---
-```
-
+```text
 ## 🔧 Configuration Reference
 
 ### Frontmatter Fields

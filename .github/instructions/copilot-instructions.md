@@ -1,4 +1,5 @@
-# GitHub Copilot Instructions for Prompts Library
+# Include capabilities, tier (base/premium), and availability context
+gh copilot models list --verbose# GitHub Copilot Instructions for Prompts Library
 
 ## 1. Big Picture
 

@@ -1,38 +1,39 @@
 ---
 title: "Code Review Assistant"
 shortTitle: "Code Review"
-intro: "An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on thei..."
+intro: "An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests."
 type: "how_to"
 difficulty: "beginner"
 audience:
   - "senior-engineer"
+  - "junior-engineer"
 platforms:
   - "claude"
+  - "chatgpt"
+  - "github-copilot"
 topics:
   - "code-review"
   - "quality"
   - "developers"
   - "best-practices"
 author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-18"
+version: "2.0"
+date: "2025-12-02"
 governance_tags:
-  - "quality-assurance"
-  - "human-review-recommended"
+  - "PII-safe"
+  - "requires-human-review"
 dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "internal"
-risk_level: "low"
-regulatory_scope:
-  - "internal-standards"
-approval_required: False
-retention_period: "1-year"
+reviewStatus: "approved"
 ---
 # Code Review Assistant
+
+---
 
 ## Description
 
 An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests.
+
+---
 
 ## Use Cases
 
@@ -41,6 +42,8 @@ An AI assistant that performs thorough code reviews, identifying potential issue
 - Learn best practices for a specific programming language
 - Identify potential bugs or security vulnerabilities
 - Improve code readability and maintainability
+
+---
 
 ## Prompt
 
@@ -72,53 +75,7 @@ Focus on:
 - Readability and maintainability
 - Potential edge cases
 
-```
-
-## Variables
-
-- `[LANGUAGE]`: The programming language (e.g., Python, JavaScript, Java, Go)
-- `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]`: A one-line explanation of the code's purpose
-- `[PASTE YOUR CODE HERE]`: The actual code you want reviewed
-
-## Example Usage
-
-**Input:**
-
 ```text
-
-You are an experienced software engineer conducting a code review. Please review the following code and provide detailed feedback.
-
-Programming Language: Python
-Context: Function to calculate the average of a list of numbers
-
-Code:
-
-```python
-def calculate_average(numbers):
-    total = 0
-    for num in numbers:
-        total = total + num
-    return total / len(numbers)
-```text
-
-Please analyze the code and provide:
-
-1. **Overall Assessment**: Brief summary of code quality
-2. **Strengths**: What the code does well
-3. **Issues**: Bugs, security vulnerabilities, or logic errors
-4. **Improvements**: Suggestions for better practices, performance, or readability
-5. **Refactoring**: Specific code snippets showing recommended changes
-
-Focus on:
-
-- Code correctness and logic
-- Best practices for Python
-- Performance considerations
-- Security implications
-- Readability and maintainability
-- Potential edge cases
-
-```
 
 **Output:**
 
@@ -178,7 +135,9 @@ This refactored version:
 - Has type hints and docstring
 - Follows Python best practices (PEP 8)
 
-```
+```python
+
+---
 
 ## Tips
 
@@ -188,9 +147,85 @@ This refactored version:
 - Mention your experience level if you want feedback adjusted to your skill level
 - Include any specific standards or style guides your team follows
 
+## Language-Specific Considerations
+
+### Python
+- Check for type hints and proper use of `Optional`
+- Look for `with` statements for resource management
+- Verify PEP 8 compliance
+- Check for mutable default arguments
+
+### JavaScript/TypeScript
+- Verify proper async/await usage (no floating promises)
+- Check for proper null/undefined handling
+- Look for TypeScript type safety (`any` overuse)
+- Verify proper event listener cleanup
+
+### Java
+- Check for proper exception handling (no empty catches)
+- Verify resource management (try-with-resources)
+- Look for null safety (Optional usage)
+- Check for thread safety in concurrent code
+
+### Go
+- Verify error handling (no ignored errors)
+- Check for proper defer usage
+- Look for goroutine leaks
+- Verify context propagation
+
+---
+
+## Example Feedback Snippets
+
+### Critical: Security Issue
+```text
+🔴 **CRITICAL - Security Vulnerability**
+**Line 15**: SQL injection vulnerability
+
+The query uses string concatenation with user input:
+`query = "SELECT * FROM users WHERE id = " + user_id`
+
+**Fix**: Use parameterized queries:
+`cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))`
+
+**Why**: Attackers can inject malicious SQL to access/delete data.
+```sql
+
+### Major: Missing Error Handling
+```text
+🟡 **MAJOR - Missing Error Handling**
+**Lines 23-25**: API call has no error handling
+
+The `requests.get()` call will crash if the network fails.
+
+**Fix**:
+```python
+try:
+    response = requests.get(url, timeout=30)
+    response.raise_for_status()
+except requests.RequestException as e:
+    logger.error(f"API call failed: {e}")
+    return None
+```json
+
+**Why**: Unhandled exceptions cause poor user experience and make debugging harder.
+```
+
+### Minor: Naming Improvement
+```text
+🟢 **MINOR - Naming Suggestion**
+**Line 8**: Variable name `x` is not descriptive
+
+**Suggestion**: Rename to `user_count` or `total_records` based on its purpose.
+
+**Why**: Descriptive names make code self-documenting.
+```text
+
+---
+
 ## Related Prompts
 
-- [Bug Finder and Fixer](bug-finder.md)
-- [Code Documentation Generator](code-documentation-generator.md)
-- [Code Review Expert: Structured Output](code-review-expert-structured.md)
-- [Refactoring Assistant](refactoring-assistant.md)
+- [Bug Finder and Fixer](bug-finder.md) - Specialized bug detection
+- [Code Documentation Generator](code-documentation-generator.md) - Generate docs
+- [Code Review Expert: Structured Output](code-review-expert-structured.md) - JSON/machine-readable output
+- [Security Code Auditor](security-code-auditor.md) - Security-focused review

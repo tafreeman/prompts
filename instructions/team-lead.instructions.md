@@ -1,28 +1,7 @@
 ---
-title: Team Lead Guidance
-shortTitle: Team Lead Guidance
-intro: Leadership guidance for team leads managing mixed-experience development teams
-  on DoD projects.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*'
 name: team-lead-guidance
-description: Leadership guidance for team leads managing mixed-experience development
-  teams on DoD projects
+description: Leadership guidance for team leads managing mixed-experience development teams on DoD projects
 ---
 
 # Team Lead Guidance

@@ -18,13 +18,15 @@ author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
-  - "data-governance"
-  - "quality-metrics"
+  - "PII-safe"
+  - "general-use"
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.6
 ---
 # Data Quality Assessment
+
+---
 
 ## Description
 
@@ -61,6 +63,8 @@ Use this prompt when onboarding new datasets, auditing existing data pipelines, 
 
 Systematic evaluation across six data quality dimensions with quantified scores and evidence-based recommendations.
 
+---
+
 ## Output Requirements
 
 Structured Markdown or JSON conforming to the Data Quality Assessment Schema in `docs/domain-schemas.md`:
@@ -73,6 +77,8 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 4. Recommended Actions (prioritized by impact)
 5. Validation Rules (proposed checks)
 
+---
+
 ## Use Cases
 
 - Onboarding new data sources into a data warehouse
@@ -80,6 +86,8 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 - Preparing datasets for ML model training
 - Investigating anomalies in reports or dashboards
 - Compliance checks for data governance initiatives
+
+---
 
 ## Prompt
 
@@ -95,17 +103,7 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 **Time Period:** [TIME_RANGE]
 
 **Schema:**
-```
-
-[TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]
-
 ```text
-
-**Row Count:** [N]  
-**Column Count:** [M]
-
-**Sample Data (first 5 rows):**
-```
 
 [SAMPLE_DATA_OR_SUMMARY_STATS]
 
@@ -266,7 +264,9 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 1. [Step 1: e.g., "Implement validation rules in ETL pipeline"]
 2. [Step 2: e.g., "Fix high-priority data issues"]
 3. [Step 3: e.g., "Set up automated quality monitoring"]
-```
+```text
+
+---
 
 ## Variables
 
@@ -278,6 +278,8 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - `[SAMPLE_DATA_OR_SUMMARY_STATS]`: Sample rows or profiling output
 - `[HOW_DATA_WILL_BE_USED]`: Context (analytics, ML, reporting)
 - `[ANY_KNOWN_PROBLEMS]`: Pre-existing issues or concerns
+
+---
 
 ## Example Usage
 
@@ -311,120 +313,9 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Usage Context:** Customer analytics and ML churn prediction model
 
 **Known Issues:** Some orders missing customer_id, status field has inconsistent casing
-```
-
-**Output (abbreviated):**
-
-```markdown
-# Data Quality Assessment
-
-**Dataset:** customer_orders  
-**Source:** PostgreSQL production  
-**Time Period:** 2025-01-01 to 2025-11-18  
-**Rows:** 1,500,000 | **Columns:** 6  
-**Assessment Date:** 2025-11-18
+```text
 
 ---
-
-## Overall Score: 72%
-
----
-
-## Dimensions
-
-### Completeness: 85%
-
-**Missing Values by Column:**
-
-| Column | Missing % |
-|--------|-----------|
-| customer_id | 8%      |
-| shipping_address | 12%      |
-| order_date | 0%      |
-| total_amount | 0%      |
-| status | 0%      |
-
-**Critical Missing Fields:** customer_id (8% = 120,000 orders), shipping_address (12% = 180,000 orders)
-
-**Impact:** Missing customer_id prevents joining with customer table for analytics and breaks churn prediction model. Missing shipping_address affects fulfillment.
-
----
-
-### Accuracy: 60%
-
-**Validation Rules Failed:**
-
-#### Rule 1: total_amount must be positive
-
-- **Column:** total_amount
-- **Failure Rate:** 2% (30,000 orders)
-- **Examples:** -10.00, -5.99, -100.00
-- **Impact:** Negative amounts indicate refunds or data entry errors; corrupts revenue analytics
-
----
-
-### Consistency: 70%
-
-**Inconsistencies:**
-
-#### 1. Status Field Casing Mismatch
-
-- **Description:** Status values have inconsistent casing (shipped vs SHIPPED vs Shipped)
-- **Affected Rows:** 450,000 (30% of dataset)
-- **Severity:** MEDIUM
-- **Example:** Order 1 has "shipped", Order 3 has "SHIPPED"
-
----
-
-[Additional dimensions...]
-
----
-
-## Recommended Actions
-
-### 1. Fix Missing customer_id Values (Priority: HIGH)
-
-- **Action:** Investigate 120,000 orders with NULL customer_id; either link to guest checkout system or flag as data entry errors
-- **Rationale:** Blocks customer analytics and ML model training
-- **Estimated Effort:** High (requires investigation + backfill)
-- **Expected Improvement:** +10% completeness score
-
-### 2. Add Validation: total_amount > 0 (Priority: HIGH)
-
-- **Action:** Implement check constraint or ETL validation to reject/flag negative amounts
-- **Rationale:** Negative amounts corrupt revenue metrics; should be handled separately (refunds table)
-- **Estimated Effort:** Low (add constraint)
-- **Expected Improvement:** +15% accuracy score
-
-### 3. Standardize Status Field (Priority: MEDIUM)
-
-- **Action:** Convert all status values to lowercase in ETL pipeline; add enum constraint
-- **Rationale:** Prevents query issues (WHERE status = 'shipped' misses 'SHIPPED')
-- **Estimated Effort:** Low
-- **Expected Improvement:** +10% consistency score
-
----
-
-## Validation Rules
-
-### Rule 1: customer_id_not_null_for_non_guest
-
-- **Definition:** `customer_id IS NOT NULL OR order_type = 'guest'`
-- **Applies To:** customer_id
-- **Failure Action:** Alert data team
-
-### Rule 2: total_amount_positive
-
-- **Definition:** `total_amount > 0`
-- **Applies To:** total_amount
-- **Failure Action:** Block insert/update
-
-### Rule 3: status_enum
-
-- **Definition:** `status IN ('pending', 'shipped', 'delivered', 'cancelled')`
-- **Applies To:** status
-- **Failure Action:** Block insert/update
-```
 
 ## Tips
 
@@ -434,11 +325,14 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Propose automation:** Validation rules should be implementable in ETL/database
 - **Track over time:** Re-run assessment periodically to measure improvement
 
+---
+
 ## Related Prompts
 
-- [Experiment Design Analyst](experiment-design-analyst.md) - For A/B test data validation
 - [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For investigating data issues
+
+
+---
 
 ## Governance Notes
 

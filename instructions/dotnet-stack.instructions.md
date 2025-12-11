@@ -1,27 +1,7 @@
 ---
-title: .NET Enterprise Technology Stack
-shortTitle: .NET Enterprise Technolo...
-intro: Standardize the default.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cs,**/*.cshtml,**/*.razor'
 name: dotnet-enterprise-technology-stack
-description: Standardize the default .NET, database, and security stack for enterprise
-  applications
+description: Standardize the default .NET, database, and security stack for enterprise applications
 ---
 
 # .NET Enterprise Technology Stack
@@ -50,8 +30,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 app.MapControllers();
 app.Run();
-```
-
+```csharp
 ## Frontend Technology
 
 - Razor Pages for server-side rendering
@@ -69,8 +48,7 @@ app.Run();
 	<h1 class="display-6">Dashboard</h1>
 	<button class="btn btn-primary">Refresh</button>
 </div>
-```
-
+```csharp
 ## Database Standards
 
 - SQL Server 2022 with Always Encrypted for sensitive data

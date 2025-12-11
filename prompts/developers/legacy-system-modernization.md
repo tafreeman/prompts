@@ -17,8 +17,9 @@ author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-17"
 governance_tags:
+  - "PII-safe"
   - "requires-human-review"
-  - "change-management"
+  - "internal-only"
 dataClassification: "internal"
 reviewStatus: "draft"
 data_classification: "confidential"
@@ -34,9 +35,13 @@ retention_period: "5-years"
 ---
 # Legacy System Modernization
 
+---
+
 ## Description
 
 You are an **Enterprise Modernization Architect** tasked with untangling critical legacy estates (mainframe, client-server, custom ERP) without jeopardizing business continuity. You leverage **Strangler Fig** patterns, event-driven integration, domain decomposition, and progressive re-platforming. You coordinate across product, security, and operations, producing runbooks, funding models, migration waves, and assurance gates. Optimization spans resilience, regulatory compliance, auditability, and total cost of ownership.
+
+---
 
 ## Use Cases
 
@@ -45,6 +50,8 @@ You are an **Enterprise Modernization Architect** tasked with untangling critica
 - Evaluate coexistence models (parallel run, canary, dual write) with integration contracts
 - Produce board-ready investment cases with KPIs, risk mitigation, and change-management plans
 - Generate playbooks for decommissioning, data archival, and knowledge retention
+
+---
 
 ## Prompt
 
@@ -80,7 +87,9 @@ Deliverables
 11. **Success Dashboard:** KPIs, leading indicators, observability requirements, go/no-go gates.
 
 Format output using clear Markdown sections, include tables for roadmap and risks, diagrams as text descriptions, and code/config snippets when referencing pipelines or infrastructure.
-```
+```markdown
+
+---
 
 ## Variables
 
@@ -97,6 +106,8 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 - `[team_capabilities]`: In-house skills, partners, centers of excellence
 - `[funding_model]`: Capex/Opex allocations, tranche gates, steering committee cadence
 - `[success_metrics]`: KPIs, OKRs, SLOs, TCO targets, adoption metrics
+
+---
 
 ## Example Usage
 
@@ -116,32 +127,9 @@ Format output using clear Markdown sections, include tables for roadmap and risk
 [team_capabilities]: 3 feature squads, 1 platform SRE team, partner SI for COBOL rewrite, internal change office
 [funding_model]: Stage-gated (Discover, Pilot, Scale) with board oversight, capex to opex shift after FY26
 [success_metrics]: Mainframe cost -40%, zero Sev1 caused by migration, CSAT +10, automation coverage 85%
-```
-
-**Excerpt of Expected Output**
-
-```text
-## Executive Summary
-Atlas Claims modernization accelerates digital intake, removes AS/400 lock-in, and establishes an event-driven backbone.
-
-## Wave Plan
-| Wave | Scope | Approach | Key Risks | Exit Criteria |
-| 0 | Observability + strangler facade | Rehost + wrap | Facade latency | Shadow traffic <50ms |
-| 1 | FNOL + Quote | Refactor to microservices | Dual write consistency | 99% parity in synthetic tests |
-
-## Risk Matrix
-| Risk | Category | Mitigation | Owner |
-| Data loss during cutover | Data | Dual writes, DR drills | Data Lead |
-
-## Sample Pipeline Snippet
-```yaml
-stages:
- - lint
- - contract-tests
- - canary-deploy
 ```text
 
-```
+---
 
 ## Tips
 
@@ -150,6 +138,8 @@ stages:
 - Provide measurable KPIs/OKRs so success dashboard recommendations are actionable.
 - Mention coexistence tolerance (dual run duration, live shadowing) for accurate cutover advice.
 - Share funding cadence to receive stage-gated investment guidance.
+
+---
 
 ## Related Prompts
 

@@ -1,29 +1,28 @@
 ---
-title: "M365 Sway Document to Story"
-shortTitle: "M365 Sway Document to Story"
-intro: 'Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway\'s native "Card" format.'
-type: "how_to"
-difficulty: "beginner"
+title: M365 Sway Document to Story
+shortTitle: Sway Document Story
+intro: Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt restructures text into Sway's native Card format.
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+  - junior-engineer
+  - business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+  - github-copilot
+  - m365-copilot
 topics:
-  - "storytelling"
-  - "m365"
-  - "creative"
-  - "sway"
-author: "GitHub Copilot"
+  - storytelling
+  - m365
+  - creative
+  - sway
+author: GitHub Copilot
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-description: "Converts a standard Word document or report into an engaging Microsoft Sway storyline structure with visual suggestions."
+  - PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Converts a standard Word document or report into an engaging Microsoft Sway storyline structure with visual suggestions.
 ---
 ## Description
 
@@ -38,6 +37,8 @@ To transform linear text into a dynamic, interactive Sway storyline structure.
 - **Document Content**: [document_content]
 - **Target Audience**: [audience]
 - **Key Message**: [key_message]
+
+---
 
 ## Prompt
 
@@ -61,11 +62,15 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Section 1: Title & Intro**
 - **Section 2: [Topic Name]**
 
+---
+
 ## Variables
 
 - `[document_content]`: The text from your Word doc or PDF (paste up to ~2000 words).
 - `[audience]`: Who is viewing this Sway (e.g., "Students", "Clients", "Internal Team").
 - `[key_message]`: The one thing they should remember.
+
+---
 
 ## Example Usage
 
@@ -104,11 +109,15 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Heading 1**: "Recommendation: Double Down on Social"
   - *Visual*: bold, inspiring abstract graphic.
 
+---
+
 ## Tips
 
 - Use "Stack Groups" for photo galleries (e.g., event photos).
 - Use "Comparison" cards for Before/After scenarios.
 - Copy the text from the "Content" fields directly into your Sway cards.
+
+---
 
 ## Related Prompts
 

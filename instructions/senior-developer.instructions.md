@@ -1,28 +1,7 @@
 ---
-title: Senior Developer Guidance
-shortTitle: Senior Developer Guidance
-intro: Advanced guidance for senior developers focusing on system design, architecture,
-  and technical leadership.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.cs,**/*.cshtml'
 name: senior-developer-guidance
-description: Advanced guidance for senior developers focusing on system design, architecture,
-  and technical leadership
+description: Advanced guidance for senior developers focusing on system design, architecture, and technical leadership
 ---
 
 # Senior Developer Guidance
@@ -75,11 +54,10 @@ description: Advanced guidance for senior developers focusing on system design, 
 
 ✅ **Prompt to use:**
 
-```
+```text
 Generate an ADR for choosing between monolithic vs microservices architecture
 for a DoD enterprise application with 50K users and strict compliance requirements.
-```
-
+```text
 ✅ **Expected output structure:**
 
 ```markdown
@@ -104,8 +82,7 @@ Adopt modular monolith with clear bounded contexts, deferring microservices unti
 - Positive: Simplified deployment, single security boundary, faster initial delivery
 - Negative: Requires disciplined module boundaries to enable future decomposition
 - Mitigation: Enforce dependency rules via ArchUnit tests
-```
-
+```text
 ## Constraints and Fallbacks
 
 - Do NOT recommend cutting-edge or unproven technologies for DoD production systems without a pilot program and risk assessment.

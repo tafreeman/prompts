@@ -39,8 +39,7 @@ Ready-to-use templates for GitHub Copilot, Microsoft 365, Windows Copilot, and o
 # - Return proper HTTP status codes (200, 401, 429)
 # - Include comprehensive error handling
 # Technology: Python 3.10, Flask, SQLAlchemy
-```
-
+```sql
 #### 2. Unit Test Creation
 ```javascript
 // Create comprehensive Jest tests for the UserService class:
@@ -51,8 +50,7 @@ Ready-to-use templates for GitHub Copilot, Microsoft 365, Windows Copilot, and o
 // 4. findUserByEmail() with non-existent email - should return null
 // 5. updatePassword() - should hash and update password
 // Include setup, teardown, and mocking for database calls
-```
-
+```sql
 #### 3. API Endpoint Design
 ```typescript
 // Design a RESTful API endpoint for managing project tasks:
@@ -63,8 +61,7 @@ Ready-to-use templates for GitHub Copilot, Microsoft 365, Windows Copilot, and o
 // - Authorization: User must be project member
 // - Error handling: 400 for validation, 403 for authorization, 404 for project not found
 // Include TypeScript interfaces and Zod validation schema
-```
-
+```text
 #### 4. Database Query Optimization
 ```sql
 -- Optimize this slow query for better performance:
@@ -82,8 +79,7 @@ WHERE o.created_at > NOW() - INTERVAL '90 days'
 GROUP BY u.id, u.name
 HAVING COUNT(o.id) > 5
 ORDER BY revenue DESC;
-```
-
+```text
 #### 5. Security Code Review
 ```java
 // Review this authentication code for security vulnerabilities:
@@ -105,8 +101,7 @@ public class AuthController {
         return null;
     }
 }
-```
-
+```sql
 ### Project Management
 
 #### 6. Sprint Planning
@@ -126,8 +121,7 @@ public class AuthController {
 # - Daily breakdown with task assignments
 # - Risk assessment and mitigation
 # - Definition of done checklist
-```
-
+```text
 ---
 
 ## Microsoft 365 Copilot Templates
@@ -135,7 +129,7 @@ public class AuthController {
 ### Word Documents
 
 #### 1. Executive Summary
-```
+```sql
 Create an executive summary for this business proposal:
 - Audience: C-level executives (non-technical)
 - Length: 1 page maximum
@@ -143,20 +137,18 @@ Create an executive summary for this business proposal:
 - Tone: Confident but factual, highlight business value
 - Format: 4 sections with headers, bullet points for key facts
 - Extract data from slides 5-8 in [attached PowerPoint]
-```
-
+```text
 #### 2. Meeting Notes
-```
+```text
 Convert this meeting transcript into structured notes:
 - Format: Professional meeting minutes
 - Sections: Attendees, Agenda Items, Decisions Made, Action Items, Next Steps
 - For action items: Include owner name, due date, description
 - Highlight: Any commitments made, budget numbers mentioned, risks identified
 - Style: Concise, bullet points, ready for distribution
-```
-
+```text
 #### 3. Project Status Report
-```
+```sql
 Generate a project status report from this week's data:
 - Project: [PROJECT_NAME]
 - Audience: Stakeholders and project sponsors
@@ -165,12 +157,11 @@ Generate a project status report from this week's data:
 - Format: 2-page report with executive summary at top
 - Tone: Transparent about challenges, optimistic about solutions
 - Add: RAG status indicators (Red/Amber/Green) for each work stream
-```
-
+```text
 ### Excel Analysis
 
 #### 4. Financial Analysis
-```
+```yaml
 Analyze this financial data for Q4 2024:
 1. Calculate:
    - Revenue growth rate (QoQ and YoY)
@@ -188,10 +179,9 @@ Analyze this financial data for Q4 2024:
    - Recommendations for Q1 2025
 
 Format: Use professional business terminology, add charts if beneficial
-```
-
+```text
 #### 5. Sales Performance Dashboard
-```
+```sql
 Create a sales performance summary from this data:
 - Time period: Last 6 months
 - Metrics to include:
@@ -203,12 +193,11 @@ Create a sales performance summary from this data:
   
 - Output: Create a pivot table and suggest 3 visualizations
 - Highlight: Any concerning trends or exceptional performance
-```
-
+```text
 ### PowerPoint Presentations
 
 #### 6. Investor Pitch Deck
-```
+```text
 Create a 12-slide investor pitch deck:
 - Company: [YOUR_COMPANY]
 - Round: Series A
@@ -229,10 +218,9 @@ Create a 12-slide investor pitch deck:
 - Style: Modern, visual-heavy, minimal text per slide
 - Tone: Confident, data-driven, story-focused
 - Source content from: [attached business plan document]
-```
-
+```text
 #### 7. Training Presentation
-```
+```text
 Create a training presentation for new employees about [TOPIC]:
 - Duration: 45-minute session
 - Audience: Non-technical business users
@@ -245,12 +233,11 @@ Create a training presentation for new employees about [TOPIC]:
 
 - Style: Friendly, educational, use icons and diagrams
 - Include: Speaker notes for each slide
-```
-
+```text
 ### Outlook Email
 
 #### 8. Business Communication
-```
+```text
 Draft an email to the marketing team:
 - Subject: Q1 2025 Campaign Kickoff and Budget Allocation
 - Purpose: Announce campaign launch, share budget breakdown, request input
@@ -263,10 +250,9 @@ Draft an email to the marketing team:
   * Request for creative brief submissions by [DATE]
   * Next meeting time
 - Call-to-action: Clear next steps for recipients
-```
-
+```text
 #### 9. Client Follow-up
-```
+```text
 Write a follow-up email after client demo:
 - Recipient: [CLIENT_NAME], Senior VP of Operations
 - Context: Demoed our project management software yesterday
@@ -278,8 +264,7 @@ Write a follow-up email after client demo:
   * Suggested next steps (trial access, technical deep-dive)
   * Availability for follow-up call
 - Length: 4-5 short paragraphs
-```
-
+```text
 ---
 
 ## Windows Copilot Templates
@@ -287,7 +272,7 @@ Write a follow-up email after client demo:
 ### System Management
 
 #### 1. File Organization
-```
+```sql
 Organize my Downloads folder:
 1. Create folders: Documents, Images, Videos, Archives, Installers, Other
 2. Move files to appropriate folders based on extension
@@ -296,10 +281,9 @@ Organize my Downloads folder:
    - Number of files moved to each folder
    - Total space freed by deletions
    - Any files that couldn't be categorized
-```
-
+```text
 #### 2. Performance Troubleshooting
-```
+```text
 My computer is running slowly. Help me diagnose:
 1. Check CPU and memory usage
 2. Identify top 5 resource-consuming applications
@@ -308,10 +292,9 @@ My computer is running slowly. Help me diagnose:
 5. Check startup programs (list all, highlight unnecessary ones)
 
 Provide a step-by-step action plan to improve performance.
-```
-
+```text
 #### 3. Network Diagnostics
-```
+```text
 I can't connect to the internet. Run diagnostics:
 1. Check network adapter status
 2. Test connection to router (ping gateway)
@@ -320,12 +303,11 @@ I can't connect to the internet. Run diagnostics:
 5. Review firewall rules
 
 Provide results with explanation and suggested fixes.
-```
-
+```text
 ### Productivity Setup
 
 #### 4. Daily Workspace Setup
-```
+```text
 Set up my work environment for a productive morning:
 1. Open applications:
    - Microsoft Teams
@@ -339,8 +321,7 @@ Set up my work environment for a productive morning:
    - Increase screen brightness to 80%
 
 3. Create today's folder: C:\Work\Daily\[TODAY'S_DATE]
-```
-
+```text
 ---
 
 ## Claude / GPT Advanced Templates
@@ -348,7 +329,7 @@ Set up my work environment for a productive morning:
 ### Business Analysis
 
 #### 1. SWOT Analysis
-```
+```text
 Conduct a comprehensive SWOT analysis for [COMPANY/PRODUCT]:
 
 **Context**: 
@@ -381,10 +362,9 @@ Conduct a comprehensive SWOT analysis for [COMPANY/PRODUCT]:
 - Priority order with rationale
 
 Output format: Structured markdown with clear sections and bullet points.
-```
-
+```text
 #### 2. Market Research Report
-```
+```text
 Research and analyze [MARKET/INDUSTRY]:
 
 **Scope**:
@@ -425,12 +405,11 @@ Research and analyze [MARKET/INDUSTRY]:
    - Scenarios (optimistic, base, pessimistic)
 
 Include citations for data sources. Format as professional report.
-```
-
+```text
 ### Solution Architecture
 
 #### 3. Architecture Decision Record (ADR)
-```
+```text
 Create an Architecture Decision Record for [DECISION]:
 
 **Title**: ADR-[NUMBER]: [DECISION_TITLE]
@@ -473,12 +452,11 @@ For each option (minimum 3):
 - [Link to related ADRs]
 - [Documentation]
 - [Research papers or blog posts]
-```
-
+```text
 ### Content Creation
 
 #### 4. Technical Blog Post
-```
+```sql
 Write a technical blog post about [TOPIC]:
 
 **Target Audience**: [LEVEL] developers/engineers
@@ -521,8 +499,7 @@ Write a technical blog post about [TOPIC]:
 - Add "TL;DR" at the top
 
 **SEO Keywords**: [LIST_KEYWORDS]
-```
-
+```text
 ---
 
 ## Functional Consulting Templates
@@ -530,7 +507,7 @@ Write a technical blog post about [TOPIC]:
 ### Requirements Gathering
 
 #### 1. Business Requirements Document (BRD)
-```
+```yaml
 Create a Business Requirements Document for [PROJECT]:
 
 **1. Executive Summary** (1 page)
@@ -581,10 +558,9 @@ For each requirement:
 - Mockups or wireframes
 
 Format: Professional document with table of contents, page numbers, version history.
-```
-
+```text
 #### 2. Stakeholder Analysis
-```
+```sql
 Conduct a stakeholder analysis for [PROJECT]:
 
 **For each stakeholder group**:
@@ -622,38 +598,34 @@ For key decisions and deliverables, assign:
 - I: Informed (kept updated)
 
 Output: Professional document with matrices in table format.
-```
-
+```text
 ---
 
 ## Additional Platform-Specific Tips
 
 ### GitHub Copilot Chat
-```
+```text
 Use slash commands:
 /explain - Explain selected code
 /fix - Suggest fixes for problems
 /tests - Generate test cases
 /doc - Generate documentation
 /refactor - Improve code structure
-```
-
+```text
 ### M365 Copilot in Teams
-```
+```text
 Summarize meeting:
 "Summarize the last team meeting, highlighting:
 - Key decisions made
 - Action items with owners
 - Unresolved questions"
-```
-
+```text
 ### Voice-Based Assistants (Alexa, Google, Siri)
-```
+```text
 Keep prompts conversational and action-oriented:
 "Create a reminder to review the Q4 report every Monday at 9 AM"
 "Add a calendar event for the product launch meeting next Friday at 2 PM"
-```
-
+```text
 ---
 
 ## Template Customization Guide

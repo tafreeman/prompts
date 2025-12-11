@@ -45,7 +45,7 @@ You don't need any technical setup to start using prompts from this library. Fol
 Navigate to the folder that matches your needs:
 
 | Folder | Description | Best For |
-|--------|-------------|----------|
+| :--- |-------------| :--- |
 | `prompts/developers/` | Code generation, debugging, testing | Software developers |
 | `prompts/business/` | Analysis, strategy, reporting | Business professionals |
 | `prompts/creative/` | Content creation, marketing | Creative teams |
@@ -75,12 +75,11 @@ Copy the prompt text and paste it into your preferred AI tool:
 
 Replace any text in `[BRACKETS]` with your specific information:
 
-```
+```text
 [YOUR_CODE_HERE] → Your actual code
 [PROGRAMMING_LANGUAGE] → Python, JavaScript, etc.
 [SPECIFIC_REQUIREMENTS] → Your project constraints
-```
-
+```text
 **That's it!** You're now using enterprise-grade prompts.
 
 ---
@@ -92,11 +91,10 @@ Replace any text in `[BRACKETS]` with your specific information:
 ```bash
 git clone https://github.com/tafreeman/prompts.git
 cd prompts
-```
-
+```text
 ### Repository Structure
 
-```
+```text
 prompts/
 ├── agents/               # GitHub Copilot Custom Agents
 ├── prompts/              # Main prompt collection
@@ -111,8 +109,7 @@ prompts/
 ├── docs/                 # Documentation and guides
 ├── examples/             # Example usage and outputs
 └── tools/                # Validation and CLI tools
-```
-
+```text
 ### Use Prompts Programmatically
 
 Prompts are stored in Markdown with YAML frontmatter for easy parsing:
@@ -138,8 +135,7 @@ metadata, body = load_prompt('prompts/developers/code-review-assistant.md')
 print(f"Title: {metadata['title']}")
 print(f"Category: {metadata['category']}")
 print(f"Difficulty: {metadata['difficulty']}")
-```
-
+```text
 ---
 
 ## Understanding Prompt Structure
@@ -158,12 +154,11 @@ version: "1.0"
 date: "2025-11-19"
 difficulty: "beginner"
 ---
-```
-
+```text
 ### Core Sections
 
 | Section | Purpose |
-|---------|---------|
+| :--- |---------|
 | **Description** | What the prompt does |
 | **Goal** | The primary objective |
 | **Context** | Background information for the AI |
@@ -198,8 +193,7 @@ Check the `difficulty` field in prompt metadata:
 Search for specific tags in the repository:
 ```bash
 grep -r "tags:.*code-review" prompts/
-```
-
+```text
 ### By Use Case
 
 Browse the curated guides:
@@ -225,19 +219,17 @@ Browse the curated guides:
 ### Example: Customizing a Code Review Prompt
 
 **Original:**
-```
+```json
 Review [YOUR_CODE] for security vulnerabilities and best practices.
-```
-
+```text
 **Customized for Python web security:**
-```
+```text
 Review the following Django view code for OWASP Top 10 vulnerabilities, 
 focusing on SQL injection, XSS, and CSRF protection. Output findings as 
 a JSON array with severity, location, and remediation fields.
 
 [YOUR_DJANGO_VIEW_CODE]
-```
-
+```sql
 ---
 
 ## Next Steps

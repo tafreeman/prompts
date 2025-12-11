@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Project Status Reporter
 
+---
+
 ## Description
 
 This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a summary suitable for stakeholders, highlighting progress, risks, and upcoming milestones.
@@ -93,6 +95,8 @@ Return the output in Markdown with these sections:
 - `## Requests for Help / Decisions Needed`
   - 1–3 bullets identifying where stakeholder input, approval, or resources are required.
 
+---
+
 ## Use Cases
 
 - Use case 1: A project manager preparing a weekly status email for executives.
@@ -100,6 +104,8 @@ Return the output in Markdown with these sections:
 - Use case 3: An individual contributor reporting on a feature or workstream within a larger project.
 - Use case 4: A program manager consolidating updates across multiple related projects.
 - Use case 5: A consultant providing a client with a structured update on engagement progress.
+
+---
 
 ## Prompt
 
@@ -157,27 +163,7 @@ Return the result in Markdown with these sections:
 
 Now, using my activity related to [project_name] over [time_window], generate
 the project status update for [stakeholder_audience].
-```
-
-## Variables
-
-- `[project_name]`: Name of the project.
-- `[time_window]`: Period to review (e.g., "last 7 days").
-- `[stakeholder_audience]`: Who will read this (e.g., "executives", "project sponsors").
-- `[focus_areas]`: Optional specific topics to emphasize (e.g., "budget", "timeline risks").
-
-## Example Usage
-
-**Input:**
-
 ```text
-[project_name]: "Customer Onboarding Platform V2"
-[time_window]: "last 7 days"
-[stakeholder_audience]: "executive leadership"
-[focus_areas]: "timeline risks and customer impact"
-
-You are my Project Status Reporter working in a Microsoft 365 environment...
-```
 
 **Output:**
 
@@ -207,7 +193,10 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 ## Requests for Help / Decisions Needed
 - Approval needed to extend the public GA date to December 12 if API issues are not resolved by November 22.
 - Additional QA resources requested to accelerate load testing and root cause analysis.
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -215,6 +204,8 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 - Tip 2: Use `[focus_areas]` to tailor the update to what your audience cares about most (e.g., budget, timeline, customer impact).
 - Tip 3: Share the draft with your team before sending it to stakeholders to confirm accuracy and tone.
 - Tip 4: Archive previous status updates in a shared folder so Copilot can compare progress over time.
+
+---
 
 ## Related Prompts
 

@@ -26,6 +26,8 @@ reviewStatus: "draft"
 ---
 # M365 Weekly Review Coach
 
+---
+
 ## Description
 
 This prompt helps an individual knowledge worker run a weekly review using Microsoft 365 data. It summarizes key accomplishments, lessons learned, and generates a prioritized list of focus items for the coming week based on calendar, emails, Teams chats, and documents.
@@ -99,6 +101,8 @@ Return the output in Markdown with these sections:
 - `## Focus for Next Week`
   - `[max_focus_items]` bullets, each with a short description and suggested outcome.
 
+---
+
 ## Use Cases
 
 - Use case 1: A product manager reviewing a sprint and planning priorities for the next sprint.
@@ -106,6 +110,8 @@ Return the output in Markdown with these sections:
 - Use case 3: An individual contributor aligning weekly work with personal development or OKRs.
 - Use case 4: A consultant reviewing work across multiple client engagements.
 - Use case 5: A support engineer reviewing incidents and planning process improvements.
+
+---
 
 ## Prompt
 
@@ -166,29 +172,7 @@ Return the result in Markdown with these sections:
 
 Now, using my activity between [week_start] and [week_end], generate my weekly
 review and recommended focus items for next week.
-```
-
-## Variables
-
-- `[week_start]`: Start date of the review period (YYYY-MM-DD or natural language date).
-- `[week_end]`: End date of the review period.
-- `[focus_area]`: Optional theme or project to emphasize.
-- `[max_focus_items]`: Maximum number of focus items for next week.
-- `[tone]`: Desired tone (e.g., "reflective", "direct and action-oriented").
-
-## Example Usage
-
-**Input:**
-
 ```text
-[week_start]: "2025-11-10"
-[week_end]: "2025-11-14"
-[focus_area]: "customer onboarding improvements"
-[max_focus_items]: "5"
-[tone]: "reflective but concise"
-
-You are my Weekly Review Coach working in a Microsoft 365 environment...
-```
 
 **Output:**
 
@@ -220,7 +204,10 @@ incident response and began shaping a clearer roadmap.
 - Partner with support to refine and publish the onboarding FAQ updates.
 - Identify one high-impact onboarding improvement that can be delivered within a week.
 - Schedule a short retrospective on the last two onboarding incidents to capture improvements.
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -228,6 +215,8 @@ incident response and began shaping a clearer roadmap.
 - Tip 2: Re-run the prompt mid-week with adjusted `[week_start]`/`[week_end]` for a mid-week checkpoint.
 - Tip 3: Ask Copilot to turn the "Focus for Next Week" section into tasks in your preferred system.
 - Tip 4: Share the Weekly Summary and Key Accomplishments as part of your regular manager update.
+
+---
 
 ## Related Prompts
 

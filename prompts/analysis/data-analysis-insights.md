@@ -24,9 +24,13 @@ reviewStatus: "draft"
 ---
 # Data Analysis and Insights Generator
 
+---
+
 ## Description
 
 Transform raw data into meaningful insights and actionable recommendations. This prompt helps data analysts, business intelligence professionals, and decision-makers extract valuable patterns, trends, and insights from their data.
+
+---
 
 ## Use Cases
 
@@ -35,6 +39,8 @@ Transform raw data into meaningful insights and actionable recommendations. This
 - Identify trends, patterns, and anomalies
 - Create data-driven recommendations
 - Support decision-making with statistical analysis
+
+---
 
 ## Prompt
 
@@ -91,83 +97,7 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
-```
-
-## Variables
-
-- `[WHAT KIND OF DATA]`: Type of data you're analyzing (sales, customer, marketing, etc.)
-- `[TIME RANGE COVERED]`: Period your data covers
-- `[NUMBER OF RECORDS/ROWS]`: Size of your dataset
-- `[MAIN METRICS YOU'RE TRACKING]`: Key metrics (revenue, customers, conversions, etc.)
-- `[PASTE YOUR DATA SUMMARY...]`: Your actual data or summary
-- `[WHAT YOU WANT TO UNDERSTAND]`: Specific analysis goals
-- `[YOUR INDUSTRY OR CONTEXT]`: Business context
-- `[ANY KNOWN ISSUES OR CONCERNS]`: Current challenges
-- `[WHAT DECISION THIS ANALYSIS WILL INFORM]`: Purpose of the analysis
-
-## Example Usage
-
-**Input:**
-
 ```text
-You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.
-
-**Dataset Description:**
-- Type: E-commerce sales data
-- Time Period: Q1-Q4 2024 (12 months)
-- Size: 15,000 transactions
-- Key Metrics: Revenue, order count, average order value (AOV), customer acquisition cost (CAC)
-
-**Data Summary/Sample:**
-- Total Revenue: $1.2M (down 8% vs. 2023)
-- Total Orders: 15,000 (down 12% vs. 2023)
-- Average Order Value: $80 (up 4% vs. 2023)
-- Customer Acquisition Cost: $45 (up 35% vs. 2023)
-- Returning Customer Rate: 28% (down from 35% in 2023)
-- Top Category by Revenue: Electronics (45%), Fashion (30%), Home Goods (25%)
-- Geographic Split: US (60%), Canada (25%), UK (15%)
-- Q4 Revenue: $450K (37.5% of annual revenue)
-
-**Analysis Goals:**
-1. Understand why revenue decreased despite higher AOV
-2. Identify the cause of declining returning customer rate
-3. Find opportunities to reduce customer acquisition costs
-
-**Context:**
-- Business/Organization: Small e-commerce retailer, online-only
-- Current Challenges: Rising ad costs on Facebook/Google, increased competition
-- Decision to Make: Where to focus marketing budget for 2025
-
-Please provide:
-
-1. **Executive Summary**
-   - 3-5 key takeaways in plain language
-   - Most important finding highlighted
-
-2. **Detailed Analysis**
-   - Trends and patterns identified
-   - Statistical observations
-   - Comparisons (time periods, categories, segments)
-   - Anomalies or outliers
-
-3. **Insights**
-   - What the data reveals (the "so what")
-   - Potential root causes
-   - Correlations or relationships discovered
-
-4. **Recommendations**
-   - Specific, actionable next steps
-   - Prioritized by impact and feasibility
-   - Expected outcomes
-
-5. **Suggested Visualizations**
-   - What charts/graphs would best communicate these insights
-   - Key data points to highlight
-
-6. **Follow-Up Questions**
-   - Additional data that would strengthen analysis
-   - Areas needing deeper investigation
-```
 
 **Output:**
 
@@ -394,7 +324,10 @@ To communicate these insights effectively, create:
 2. Implement Priority 1 recommendations immediately
 3. Set up weekly tracking for repeat purchase rate and CAC
 4. Schedule 30-day review to assess progress
-```
+```text
+
+---
+
 
 ## Tips
 

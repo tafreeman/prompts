@@ -4,6 +4,9 @@
 # Azure Functions localsettings file
 local.settings.json
 
+# Environment configuration
+.env
+
 # User-specific files
 *.suo
 *.user
@@ -271,3 +274,29 @@ __pycache__/
 temp_*.txt
 *.db
 *.swp
+
+# Evaluation agent checkpoint file and logs
+.eval_checkpoint.json
+logs/
+app.prompts.library/mockups/mobile-view.jpg
+app.prompts.library/mockups/wizard-fill-variables.jpg
+app.prompts.library/mockups/prompt-detail-code-review.jpg
+app.prompts.library/mockups/home-browse-desktop.jpg
+docs/EVALUATION_REPORT.md
+docs/EVALUATION_REPORT.md
+docs/PHASED_EVALUATION_PLAN.md
+app.prompts.library/mockups/home-browse-desktop-dark.png
+app.prompts.library/mockups/home-browse-desktop-alt.jpg
+app.prompts.library/initialdesign.html
+app.prompts.library/architecture-dashboard.html
+docs/designs/UI_MOCKUP_PROMPTS.md
+docs/VISUAL_FORMATTING_AUDIT_REPORT.md
+docs/VISUAL_AUDIT_REPORT.md
+docs/PROMPT_WEB_APP_ARCHITECTURE.md
+docs/EVALUATION_REPORT.md
+docs/EVALUATION_REPORT.md
+docs/EVALUATION_REPORT.md
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

@@ -1,28 +1,7 @@
 ---
-title: SQL Server Security and STIG Compliance
-shortTitle: SQL Server Security and ...
-intro: Enforce SQL Server security best practices, STIG compliance, and DoD data protection
-  standards.
-type: how_to
-difficulty: intermediate
-audience:
-- senior-engineer
-- junior-engineer
-platforms:
-- github-copilot
-- claude
-- chatgpt
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
 applyTo: '**/*.sql,**/Migrations/*.cs'
 name: sql-security-stig-compliance
-description: Enforce SQL Server security best practices, STIG compliance, and DoD
-  data protection standards
+description: Enforce SQL Server security best practices, STIG compliance, and DoD data protection standards
 ---
 
 # SQL Server Security and STIG Compliance
@@ -60,14 +39,12 @@ using var command = new SqlCommand(
     "SELECT * FROM Users WHERE Email = @email AND IsActive = @isActive", connection);
 command.Parameters.AddWithValue("@email", userEmail);
 command.Parameters.AddWithValue("@isActive", true);
-```
-
+```sql
 ❌ **Avoid (string concatenation – SQL injection risk):**
 
 ```csharp
 var sql = $"SELECT * FROM Users WHERE Email = '{userEmail}' AND IsActive = 1";
-```
-
+```sql
 ### Example: Stored Procedure with Error Handling
 
 ✅ **Correct stored procedure:**
@@ -89,8 +66,7 @@ BEGIN
         THROW;
     END CATCH
 END
-```
-
+```sql
 ## Constraints and Fallbacks
 
 - Do NOT use dynamic SQL or string concatenation for user input; always use parameterized queries or stored procedures.

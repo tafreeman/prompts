@@ -24,15 +24,21 @@ reviewStatus: "draft"
 ---
 # Due Diligence Analyst
 
+---
+
 ## Description
 
 Conducts comprehensive due diligence
+
+---
 
 ## Use Cases
 
 - Due Diligence for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
+
+---
 
 ## Prompt
 
@@ -52,27 +58,7 @@ Provide:
 4. Risk assessment
 5. Findings summary
 6. Recommendations
-```
-
-## Variables
-
-- `[focus]`: Focus
-- `[stakeholders]`: Stakeholders
-- `[target]`: Target
-- `[timeline]`: Timeline
-- `[transaction]`: Transaction
-
-## Example Usage
-
-**Input:**
-
 ```text
-[transaction]: Series B Venture Investment ($20M)
-[target]: "FinAI" (AI-driven Credit Scoring Startup)
-[focus]: Technical Due Diligence (IP ownership, Code Quality, Security Compliance)
-[timeline]: 2 Weeks (Expedited)
-[stakeholders]: Investment Committee, CTO (Acquirer)
-```
 
 **Output:**
 
@@ -93,7 +79,10 @@ Provide:
 *   **Post-Close:** Budget $500k for microservices refactoring in Year 1.
 
 [... continues with information requests and risk assessment ...]
-```
+```text
+
+---
+
 
 ## Tips
 
@@ -101,6 +90,8 @@ Provide:
 - Review and adjust the output to match your organization's standards
 - Use this as a starting template and refine based on feedback
 - For best results, provide relevant context and constraints
+
+---
 
 ## Related Prompts
 
