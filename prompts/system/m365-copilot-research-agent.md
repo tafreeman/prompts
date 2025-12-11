@@ -24,12 +24,20 @@ reviewStatus: "approved"
 ---
 # M365 Copilot Frontier Research Agent
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 This prompt is engineered specifically for **Microsoft 365 Copilot** (running on GPT-4o/Frontier models). It leverages the **Microsoft Graph** and **Semantic Index** to conduct deep research _inside_ your corporate tenant while synthesizing external knowledge. It is adapted to handle M365-specific constraints (privacy boundaries, grounding, citation format).
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -39,6 +47,10 @@ This prompt is engineered specifically for **Microsoft 365 Copilot** (running on
 - Create an executive briefing that cites specific internal SharePoint/OneDrive files.
 - Compare industry best practices (external) with current company standards (internal).
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -100,6 +112,10 @@ Conduct a deep, multi-source research synthesis on: **[RESEARCH_TOPIC]**
 
 - `[RESEARCH_TOPIC]`: The specific subject to research (e.g., "Adoption of Agentic AI Workflows", "Q3 Financial Performance", "Project Alpha Status").
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage

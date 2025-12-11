@@ -39,6 +39,10 @@ To transform linear text into a dynamic, interactive Sway storyline structure.
 - **Target Audience**: [audience]
 - **Key Message**: [key_message]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -63,6 +67,10 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Section 1: Title & Intro**
 - **Section 2: [Topic Name]**
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Variables
@@ -71,6 +79,10 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - `[audience]`: Who is viewing this Sway (e.g., "Students", "Clients", "Internal Team").
 - `[key_message]`: The one thing they should remember.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -110,6 +122,10 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - **Heading 1**: "Recommendation: Double Down on Social"
   - *Visual*: bold, inspiring abstract graphic.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Tips
@@ -118,6 +134,10 @@ Please restructure this content into a **Sway Storyline Plan**. For each section
 - Use "Comparison" cards for Before/After scenarios.
 - Copy the text from the "Content" fields directly into your Sway cards.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts

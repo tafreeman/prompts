@@ -32,12 +32,20 @@ framework_compatibility:
 ---
 # C# Refactoring Assistant
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Description
 
 A specialized assistant for refactoring C# code to improve readability, maintainability, and performance while preserving behavior. Focuses on breaking down monoliths, modernizing syntax, and applying design patterns.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Use Cases
@@ -48,6 +56,10 @@ A specialized assistant for refactoring C# code to improve readability, maintain
 - Replacing imperative loops with LINQ (where appropriate)
 - Introducing Dependency Injection
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Prompt
@@ -82,11 +94,15 @@ Output Format:
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------||
+| :--- |-------------| :--- ||
 | `[code_snippet]` | The C# code to refactor | Paste the method, class, or file content |
 | `[goals]` | Specific refactoring goals | "Make it async", "Split into smaller methods", "Add DI" |
 | `[constraints]` | Limitations to preserve | "Must remain static", "Cannot change public API signature" |
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Example Usage
@@ -118,7 +134,10 @@ public string GetUserInfo(int id)
     return "User not found";
 }
 ```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -156,8 +175,12 @@ public string GetUserInfo(int id)
 
     return $"Name: {user.Name}, Role: {role}";
 }
+<<<<<<< HEAD
+```text
+=======
 ```json
 
+>>>>>>> main
 # Changes Made
 
 - **Guard Clauses**: Inverted `if` statements to return early, reducing nesting depth.
@@ -176,6 +199,10 @@ public string GetUserInfo(int id)
 - Always verify that the refactored code handles edge cases (nulls, empty lists) correctly.
 - Use this prompt to learn *why* a change is better, not just to get the result.
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 ---
 
 ## Related Prompts
