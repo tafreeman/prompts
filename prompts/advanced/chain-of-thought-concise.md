@@ -138,7 +138,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 **Step 4**: Check for missing connection.close() in error handlers or transactions left open. Also profile queries running during 9-11 AM for slow performers.
 
 **Final Answer**: Root cause is likely connection leak (unreleased connections in error paths) or slow queries accumulating during peak. Immediate actions: (1) audit connection handling in all error paths, (2) add connection timeout monitoring, (3) profile queries during peak hours. Quick win: reduce connection timeout from default to 5 seconds.
-```
+```text
 
 ---
 
@@ -168,7 +168,7 @@ Think through this in bullet steps:
 • [Key insight 2]
 • [Key insight 3]
 → Conclusion: [Final answer]
-```
+```text
 
 ### Numbered Steps with Confidence
 
@@ -176,7 +176,7 @@ Think through this in bullet steps:
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
 Final Answer: [Conclusion] (Overall Confidence: X%)
-```
+```text
 
 ---
 
@@ -205,8 +205,6 @@ For automation pipelines, request output in this format:
   "next_steps": ["...", "..."]
 }
 ```
-
----
 
 ## Governance Notes
 

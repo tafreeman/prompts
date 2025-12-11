@@ -28,6 +28,7 @@ performance_metrics: {'accuracy_improvement': 'High (reduces hallucination rate)
 testing: {'validated_on': ['Claude Sonnet 4.5', 'GPT-4'], 'pass_rate': '90%'}
 governance: {'data_classification': 'public', 'risk_level': 'low'}
 ---
+
 # Reflection: Initial Answer + Self-Critique Pattern
 
 ---
@@ -61,7 +62,7 @@ Madaan et al. demonstrated that a single LLM can serve as generator, refiner, an
 
 ## Prompt
 
-```text
+```
 You will answer a question using a two-phase reflection pattern.
 
 **Question**: [USER_QUESTION]
@@ -261,48 +262,44 @@ Timeline: 18-24 months for complete migration.
 **Before deciding, investigate:**
 
 1. **Root Cause Analysis** (2-4 weeks):
-   - Why is deployment slow? (Process vs. technical?)
-   - What specifically doesn't scale? (App logic, database, I/O?)
-   - Can these be fixed without microservices?
+  - Why is deployment slow? (Process vs. technical?)
+  - What specifically doesn't scale? (App logic, database, I/O?)
+  - Can these be fixed without microservices?
 
 2. **Team Assessment** (1-2 weeks):
-   - Microservices experience level?
-   - DevOps/SRE capability?
-   - Appetite for operational complexity?
+  - Microservices experience level?
+  - DevOps/SRE capability?
+  - Appetite for operational complexity?
 
 3. **Alternative Solutions Analysis**:
 
-   **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
-   - Fix deployment pipeline (CI/CD improvements)
-   - Add horizontal scaling (if stateless)
-   - Database optimization/caching
-   - Cost: 10% of migration cost
-   - Risk: Lower
-   - Pros: Fast, low risk, leverages existing knowledge
-   - Cons: May hit architectural limits eventually
+  **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
+  - Fix deployment pipeline (CI/CD improvements)
+  - Add horizontal scaling (if stateless)
+  - Database optimization/caching
+  - Cost: 10% of migration cost
+  - Risk: Lower
+  - Pros: Fast, low risk, leverages existing knowledge
+  - Cons: May hit architectural limits eventually
 
-   **Option B: Modular Monolith** (~$500K, 6-12 months)
-   - Refactor into modules with clear boundaries
-   - Enables future extraction if needed
-   - Cost: 25% of full migration
-   - Risk: Medium
-   - Pros: Gets many microservices benefits, easier to reverse
-   - Cons: Still a monolith, limited independent scaling
+  **Option B: Modular Monolith** (~$500K, 6-12 months)
+  - Refactor into modules with clear boundaries
+  - Enables future extraction if needed
+  - Cost: 25% of full migration
+  - Risk: Medium
+  - Pros: Gets many microservices benefits, easier to reverse
+  - Cons: Still a monolith, limited independent scaling
 
-   **Option C: Hybrid Approach** (~$1M, 12-18 months)
-   - Keep monolith for stable, core functionality
-   - Extract only problematic services (e.g., high-scale services)
-   - Cost: 50% of full migration
-   - Risk: Medium
-   - Pros: Targeted solution, manageable complexity
-   - Cons: Some organizational complexity
+  **Option C: Hybrid Approach** (~$1M, 12-18 months)
+  - Keep monolith for stable, core functionality
+  - Extract only problematic services (e.g., high-scale services)
 
-   **Option D: Full Microservices** (~$2M+, 24-36 months)
-   - Complete migration as initially suggested
-   - Cost: $2M+ (likely more based on failure history)
-   - Risk: High
-   - Pros: Full benefits (if successful)
-   - Cons: High risk, high cost, operational complexity
+  **Option D: Full Microservices** (~$2M+, 24-36 months)
+  - Complete migration as initially suggested
+  - Cost: $2M+ (likely more based on failure history)
+  - Risk: High
+  - Pros: Full benefits (if successful)
+  - Cons: High risk, high cost, operational complexity
 
 **My Recommendation**:
 
@@ -356,6 +353,8 @@ These unknowns prevent High confidence in any specific recommendation.
 - **Check your confidence calibration**: Are you overconfident? Under-confident?
 - **Time investment**: Reflection adds 50-100% to response time; use for high-stakes questions
 - **Iterate if needed**: If critique reveals major flaws, revise and critique again
+
+---
 
 ## When to Use Reflection
 
