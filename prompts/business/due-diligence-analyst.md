@@ -58,8 +58,13 @@ Provide:
 4. Risk assessment
 5. Findings summary
 6. Recommendations
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[focus]`: Focus
@@ -80,8 +85,11 @@ Provide:
 [focus]: Technical Due Diligence (IP ownership, Code Quality, Security Compliance)
 [timeline]: 2 Weeks (Expedited)
 [stakeholders]: Investment Committee, CTO (Acquirer)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -101,8 +109,13 @@ Provide:
 *   **Post-Close:** Budget $500k for microservices refactoring in Year 1.
 
 [... continues with information requests and risk assessment ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

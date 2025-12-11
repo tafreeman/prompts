@@ -58,8 +58,13 @@ Include:
 4. Change management
 5. Implementation phases
 6. Success measurement
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[budget]`: Budget
@@ -80,8 +85,11 @@ Include:
 [goals]: Achieve 100% digital claims submission, implement AI-driven underwriting, 360-degree customer view
 [budget]: $50M Capital Investment
 [timeline]: 3 Years (2025-2027)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -101,8 +109,13 @@ Include:
 *   **Year 3:** Full AI Underwriting rollout.
 
 [... continues with change management and success measurement ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

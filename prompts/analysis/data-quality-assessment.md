@@ -103,8 +103,11 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 **Time Period:** [TIME_RANGE]
 
 **Schema:**
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 [TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]
 
 ```text
@@ -113,8 +116,11 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 **Column Count:** [M]
 
 **Sample Data (first 5 rows):**
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 [SAMPLE_DATA_OR_SUMMARY_STATS]
 
 ```text
@@ -274,8 +280,14 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 1. [Step 1: e.g., "Implement validation rules in ETL pipeline"]
 2. [Step 2: e.g., "Fix high-priority data issues"]
 3. [Step 3: e.g., "Set up automated quality monitoring"]
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[DATASET_NAME]`: Name of the dataset
@@ -321,8 +333,11 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Usage Context:** Customer analytics and ML churn prediction model
 
 **Known Issues:** Some orders missing customer_id, status field has inconsistent casing
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output (abbreviated):**
 
 ```markdown
@@ -434,8 +449,13 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Definition:** `status IN ('pending', 'shipped', 'delivered', 'cancelled')`
 - **Applies To:** status
 - **Failure Action:** Block insert/update
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Quantify everything:** Use percentages and counts, not vague terms like "some" or "many"
@@ -449,7 +469,12 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 ## Related Prompts
 
 - [Data Pipeline Engineer](../developers/data-pipeline-engineer.md) - For building quality checks into pipelines
-- [Chain-of-Thought: Debugging](../advanced-techniques/chain-of-thought-debugging.md) - For investigating data issues
+<<<<<<< HEAD
+- [Chain-of-Thought: Debugging](../advanced/chain-of-thought-debugging.md) - For investigating data issues
+=======
+>>>>>>> main
+
+---
 
 ## Governance Notes
 

@@ -58,8 +58,13 @@ Include:
 4. Impact analysis
 5. Bridging strategy
 6. Implementation roadmap
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[area]`: Area
@@ -78,8 +83,11 @@ Include:
 [desired_state]: Real-time automated inventory management; <1% stockout rate
 [area]: Supply Chain Operations
 [constraints]: Budget < $50k, Must integrate with Shopify
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -98,8 +106,13 @@ Include:
 *   **Process:** Equip staff with handheld scanners for real-time "Pick and Pack" updates.
 
 [... continues with impact analysis and roadmap ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -90,8 +90,14 @@ Generate:
    - Justification tied to accomplishments
 
 Write in professional but warm tone. Be specific with examples. Avoid vague statements like "good communicator" - show, don't tell.
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[employee_info]`: Name, tenure, and any relevant context
@@ -127,8 +133,11 @@ Previous Goals:
 3. Develop leadership skills through management training
 4. Improve documentation practices
 Overall Rating: Exceeds Expectations
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -267,8 +276,13 @@ The development areas I've highlighted aren't weaknesses—they're the natural g
 I'm excited to see you continue to grow. You're on track for significant leadership opportunities at this company.
 
 — [Manager Name]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Lead with specific accomplishments, not personality traits

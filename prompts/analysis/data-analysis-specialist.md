@@ -57,8 +57,13 @@ Provide:
 4. Insights and findings
 5. Recommendations
 6. Visualization strategy
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[context]`: Context
@@ -77,8 +82,11 @@ Provide:
 [sources]: CRM (Salesforce), Support Tickets (Zendesk), Usage Logs (Mixpanel)
 [scope]: US Market, Enterprise Segment
 [context]: We implemented a 10% price increase on July 1st
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -97,8 +105,13 @@ Provide:
 *   **Finding:** Support response time increased by 4 hours in Q3, compounding frustration.
 
 [... continues with recommendations and visualization ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

@@ -58,8 +58,13 @@ Include:
 4. Error handling
 5. Monitoring and logging
 6. Governance framework
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[data_flow]`: Data Flow
@@ -78,8 +83,12 @@ Include:
 [data_flow]: Order-to-Cash process (Order placed -> Payment captured -> Inventory reserved -> Shipping label created -> Invoice generated)
 [performance]: Real-time inventory checks (<500ms), eventual consistency for reporting (15 min lag ok)
 [security]: OAuth 2.0 for all APIs, PII masking in logs, encrypted message queues
-```
+<<<<<<< HEAD
+```text
+=======
+```xml
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,8 +109,13 @@ Include:
 *   **Circuit Breaker:** Stop calling SAP if error rate > 10% to prevent cascading failure.
 
 [... continues with monitoring and governance ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

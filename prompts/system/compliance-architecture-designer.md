@@ -58,8 +58,13 @@ Provide:
 4. Audit trail design
 5. Monitoring strategy
 6. Reporting mechanisms
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[audit]`: Audit
@@ -78,8 +83,11 @@ Provide:
 [domain]: SaaS HR Management Platform (Global)
 [sensitivity]: High (PII, SPII - SSNs, Salary, Health data, Performance reviews)
 [audit]: 7-year retention for all access logs, immutable audit trail, monthly access reviews
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -99,8 +107,13 @@ Provide:
 *   **Deletion:** "Tombstoning" records for Right to be Forgotten, ensuring backups are also scrubbed (crypto-shredding).
 
 [... continues with audit trail and monitoring ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

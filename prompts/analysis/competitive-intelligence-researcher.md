@@ -109,8 +109,14 @@ Using publicly available information (company filings, press releases, news arti
 
 **Output Format:**
 Provide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.
-```
+<<<<<<< HEAD
+```text
+=======
+```markdown
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[company_name]`: Your company name (e.g., "Acme SaaS Inc.", "TechCorp Analytics")
@@ -135,8 +141,11 @@ Provide results as a structured Markdown report with executive summary, detailed
 [time_horizon]: Last 18 months (Jan 2023 - Jun 2024)
 [geographic_scope]: North America and Western Europe
 [sensitivity_level]: Internal strategy team only, not for external distribution
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output (Excerpt):**
 
 ```text
@@ -181,8 +190,13 @@ Provide results as a structured Markdown report with executive summary, detailed
    - Impact: Medium | Feasibility: High | Timeline: 12 months
 3. **Vertical-Specific CRM:** Healthcare and financial services lack compliant AI features
    - Impact: High | Feasibility: Low (regulatory complexity) | Timeline: 18+ months
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **For product intelligence:** Monitor GitHub repos, technical blogs, and developer forums where engineers discuss upcoming features
@@ -197,5 +211,8 @@ Provide results as a structured Markdown report with executive summary, detailed
 ## Related Prompts
 
 - [Market Research Analyst](market-research-analyst.md) - For broader market trend analysis
-- [SWOT Analysis Expert](../business/swot-analysis.md) - For framework-driven strategy analysis
+<<<<<<< HEAD
+- [SWOT Analysis Expert](../business/competitive-analysis.md) - For framework-driven strategy analysis
+=======
+>>>>>>> main
 - [Business Case Developer](business-case-developer.md) - For turning intelligence into investment proposals

@@ -148,10 +148,15 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
-```
+<<<<<<< HEAD
+```yaml
+```yaml
+=======
+```text
 
 ```
 
+>>>>>>> main
 ## Variables
 
 - **`[app_name]`**: Application name (e.g., "E-Commerce API", "Customer Portal", "Mobile Banking App")
@@ -184,8 +189,11 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - CI/CD Pipeline: GitHub Actions
 - Test Budget: 10 minutes per pipeline run
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output** (condensed):
 
 ```markdown
@@ -280,8 +288,12 @@ jobs:
         with:
           name: playwright-screenshots
           path: test-results/
-```
+<<<<<<< HEAD
+```csharp
+=======
+```text
 
+>>>>>>> main
 ## Test Data Management
 
 - **Strategy**: Factory pattern with Faker.js for realistic data generation
@@ -309,8 +321,13 @@ jobs:
 - **Monthly**: Update test data fixtures, review coverage gaps
 - **Quarterly**: Performance test review (load testing with k6)
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Follow Test Pyramid**: 70% unit (fast), 20% integration (medium), 10% E2E (slow) for optimal speed and reliability
@@ -328,15 +345,23 @@ jobs:
 
 - **[code-review-expert](./code-review-expert.md)** - Review test quality and coverage during code review
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Design performance test scenarios
-- **[devops-pipeline-architect](../system/devops-pipeline-architect.md)** - Integrate tests into CI/CD pipeline
+<<<<<<< HEAD
+- **[devops-pipeline-architect](./devops-pipeline-architect.md)** - Integrate tests into CI/CD pipeline
+=======
+>>>>>>> main
 - **[security-code-auditor](./security-code-auditor.md)** - Add security test cases for vulnerabilities
 
 ---
 
 ## Related Workflows
 
-- **[SDLC Blueprint](../../docs/workflows/sdlc-blueprint.md)** - Phase 3 (Development) includes TDD approach, Phase 5 (Testing & Validation) uses this prompt
+<<<<<<< HEAD
+=======
+<!-- SDLC Blueprint link removed - file doesn't exist yet -->
 
+---
+
+>>>>>>> main
 ## Research Foundation
 
 Based on:

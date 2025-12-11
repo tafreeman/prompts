@@ -58,8 +58,13 @@ Provide:
 4. Risk assessment
 5. Implementation plan
 6. Success metrics
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[benefits]`: Benefits
@@ -80,8 +85,11 @@ Provide:
 [benefits]: Reduce Tier 1 support ticket volume by 30%, Enable 24/7 support availability, Improve CSAT by 5 points
 [risks]: Low user adoption, poor answer quality damaging brand reputation
 [timeline]: 6 Months (Pilot in Month 3)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -100,8 +108,13 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 *   **Mitigation:** Implement "Human in the Loop" handoff for low-confidence answers (<80%).
 
 [... continues with implementation plan and success metrics ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Be specific when filling in placeholder values for better results

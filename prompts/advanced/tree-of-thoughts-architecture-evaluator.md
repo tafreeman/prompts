@@ -313,8 +313,13 @@ Based on the analysis, select the best option:
 ## Output Format
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[PROBLEM_DESCRIPTION]`: The architectural challenge or decision to be made
@@ -339,8 +344,11 @@ Based on the analysis, select the best option:
 
 ```text
 [Problem: E-commerce platform needs to scale from 10K to 1M users over 12 months, current monolith is hitting limits]
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:** (abbreviated)
 
 ```markdown
@@ -414,8 +422,13 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Likelihood**: Medium
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach

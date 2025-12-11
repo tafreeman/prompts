@@ -92,8 +92,13 @@ Format the script with:
 - [VISUAL] cues for B-roll or graphics
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -158,8 +163,11 @@ Format the script with:
 - [VISUAL] cues for B-roll or graphics
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -344,8 +352,8 @@ Then, merge your feature branch:
 
 "When you open the file, you'll see these markers:
 
-The stuff between `<<<<<<< HEAD` and `=======` is what's on main.
-The stuff between `=======` and `>>>>>>> feature-login` is what's on your branch."
+The block labeled `HEAD` above the divider represents what's already on main.
+The block below the `=======` divider (ending with the branch name) shows the incoming changes from your feature branch."
 
 [VISUAL: Highlight each section clearly]
 
@@ -459,8 +467,13 @@ Just main and feature branches. Create a branch for each thing you're working on
 **Tags:** git branches, git tutorial, git for beginners, how to use git branches, git merge, git checkout, git workflow, learn git, devpath academy, coding tutorial
 
 **Description first line:** Master Git branches in under 10 minutes! Perfect for beginners who want to stop fearing code changes.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Hook fast:** You have 3-5 seconds before viewers scroll away—lead with your most compelling point or a relatable pain point
@@ -476,5 +489,8 @@ Just main and feature branches. Create a branch for each thing you're working on
 
 - [Content Marketing Blog Post Generator](content-marketing-blog-post.md)
 - [Social Media Content Generator](social-media-content-generator.md)
-- [Creative Storytelling Assistant](creative-storytelling-assistant.md)
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 - [Headline and Tagline Creator](headline-tagline-creator.md)

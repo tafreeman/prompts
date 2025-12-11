@@ -97,8 +97,13 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[WHAT KIND OF DATA]`: Type of data you're analyzing (sales, customer, marketing, etc.)
@@ -175,8 +180,11 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -402,8 +410,13 @@ To communicate these insights effectively, create:
 2. Implement Priority 1 recommendations immediately
 3. Set up weekly tracking for repeat purchase rate and CAC
 4. Schedule 30-day review to assess progress
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Provide as much context as possible about your business and goals

@@ -92,8 +92,13 @@ Produce a design package with these sections:
 10. Risk Register & Next Steps (data skew, growth hotspots, future work)
 
 All code blocks must be syntactically valid. Reference relevant standards (e.g., GDPR Article 17) when describing compliance.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[business_summary]`: Short description of product/use case
@@ -124,8 +129,11 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 [compliance]: SOC2, GDPR (right to erasure), PCI SAQ-D tokenization (no PAN storage), SOX audit trail.
 [integration]: Debezium CDC to Kafka, nightly AWS DMS to Snowflake, webhooks on invoice state changes.
 [tech_prefs]: PostgreSQL 16, pg_partman, Timescale hypertables optional, prefer SQL migrations via Sqitch.
-```
+```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -169,8 +177,11 @@ CREATE INDEX idx_invoice_tenant_status_due
 2. Contract: once dual writes verified, drop legacy tenancy columns, validate FK, swap reads
 3. Deploy through Sqitch phases with rollback scripts per step
 
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 Use the full prompt with your own data to produce the entire package.
 
 ---

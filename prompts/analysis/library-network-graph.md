@@ -84,8 +84,13 @@ Draw edges (lines) between prompts that belong to the same category (e.g., all "
 Additionally, link prompts that are part of the same workflow (e.g., connect "requirements-analysis-expert.md" to "api-design-consultant.md" and "quality-assurance-planner.md" to represent an SDLC flow).
 
 This should look like a constellation showing clusters of related capabilities.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Example Visualization (Mermaid)
 
 Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
@@ -113,4 +118,21 @@ graph LR
   RAE --> ADC
   ADC --> CRA
   CRA --> SCM
+<<<<<<< HEAD
+```text
+=======
 ```
+
+## Variables
+
+| Variable | Description | Example |
+|:---------|:------------|:--------|
+| `[PROMPT_LIST]` | List of prompts in the library | ["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"] |
+| `[WORKFLOW_DEFINITIONS]` | Optional definitions of workflows connecting prompts | "SDLC: requirements-analysis → api-design → code-review → quality-assurance" |
+
+## Tips
+
+- **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
+- **Find gaps**: Disconnected nodes may indicate prompts that need better integration
+- **Use color coding**: Assign different colors to different categories for easier visual parsing
+>>>>>>> main

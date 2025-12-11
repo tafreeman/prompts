@@ -111,8 +111,13 @@ Design a comprehensive frontend architecture for:
 
 **Format:** Provide architecture decision records (ADRs) for each major decision with:
 - Context, Decision, Consequences, Alternatives Considered
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -135,8 +140,11 @@ Design a comprehensive frontend architecture for:
 [user_requirements]: Real-time data visualization, Dark/Light mode toggle, Export to PDF, Responsive for tablets
 [tech_stack]: React 18, TypeScript, Tailwind CSS, TanStack Query, Recharts
 [performance]: Core Web Vitals (LCP < 2.5s, CLS < 0.1), Time to Interactive < 3s on 4G
-```
+```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -156,8 +164,13 @@ Design a comprehensive frontend architecture for:
 *   **Virtualization:** Use `tanstack-virtual` for rendering large data tables (1000+ rows).
 
 [... continues with accessibility and testing ...]
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 ### Framework Selection Guide
@@ -178,7 +191,11 @@ Design a comprehensive frontend architecture for:
 | **Bundle (gzip)** | < 100KB | 100-200KB | > 200KB |
 
 ### Architecture Patterns Quick Reference
-```
+<<<<<<< HEAD
+```text
+=======
+```xml
+>>>>>>> main
 ┌─────────────────────────────────────────────────────────┐
 │                    ATOMIC DESIGN                        │
 ├──────────┬──────────┬───────────┬──────────┬───────────┤
@@ -187,8 +204,11 @@ Design a comprehensive frontend architecture for:
 │  Input   │FormField │   Sidebar │   Layout │  /settings│
 │  Icon    │  Card    │  DataGrid │          │           │
 └──────────┴──────────┴───────────┴──────────┴───────────┘
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### State Management Decision Tree
 1. **Is it server data?** → TanStack Query / SWR / RTK Query
 2. **Is it shared across routes?** → Global store (Zustand/Redux/Pinia)

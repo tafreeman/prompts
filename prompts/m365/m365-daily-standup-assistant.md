@@ -175,8 +175,13 @@ Return the result in Markdown with the following sections:
 
 Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
 If anything critical is unclear, ask clarifying questions first, then provide the final output.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[time_window]`: How far back to consider activity (e.g., "24 hours", "since yesterday’s standup").
@@ -200,8 +205,11 @@ You are my Daily Standup Assistant working in a Microsoft 365 environment.
 
 Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
 If anything critical is unclear, ask clarifying questions first, then provide the final output.
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -222,8 +230,13 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ## Optional Follow-ups
 - Can anyone help expedite the security review for the API change?
 - Are there additional customer examples we should review in today’s incident sync?
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Tip 1: Adjust `[time_window]` (e.g., "48 hours" or "since last Friday") if you missed a standup or had an unusually busy period.

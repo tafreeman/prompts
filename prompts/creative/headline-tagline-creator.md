@@ -85,8 +85,14 @@ Please provide:
 2. For each option, briefly explain why it works
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -138,8 +144,11 @@ Please provide:
 2. For each option, briefly explain why it works
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```text
@@ -266,8 +275,13 @@ Please provide:
 - A: "Focus that fits you." (benefit + personalization)
 - B: "Your brain's new favorite coworker." (personality/warmth)
 *Test whether users prefer functional or relational positioning.*
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **Write 20 to find 1:** The best headlines rarely come first—generate many options and let the strongest emerge

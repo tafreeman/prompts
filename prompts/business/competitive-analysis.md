@@ -96,8 +96,13 @@ Generate:
    - Go-to-market tactics
 
 Keep analysis objective and evidence-based. Flag assumptions clearly.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 - `[our_product]`: Your product/company and key differentiators
@@ -118,8 +123,11 @@ Competitors to Analyze: Fivetran, Airbyte, Stitch Data
 Market: Data integration / ETL-ELT space, targeting mid-market and enterprise companies
 Analysis Purpose: Sales battlecards for enterprise deals - need to arm AEs with competitive positioning
 Key Criteria: Performance/speed, ease of use, pricing, enterprise features (security, compliance), connector breadth, support quality
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -404,8 +412,13 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 ---
 
 *This analysis should be refreshed quarterly. For competitive intel updates, contact [Product Marketing].*
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Tips
 
 - Use objective criteria - subjective "better" claims don't hold up in sales

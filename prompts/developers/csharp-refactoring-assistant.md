@@ -75,8 +75,14 @@ Output Format:
 1. **Analysis**: Brief explanation of what was wrong (Code Smells).
 2. **Refactored Code**: The improved code.
 3. **Changes**: Bullet points explaining key changes.
-```
+<<<<<<< HEAD
+```csharp
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -115,8 +121,12 @@ public string GetUserInfo(int id)
     }
     return "User not found";
 }
-```
+<<<<<<< HEAD
+```csharp
+=======
+```text
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -154,8 +164,12 @@ public string GetUserInfo(int id)
 
     return $"Name: {user.Name}, Role: {role}";
 }
-```
+<<<<<<< HEAD
+```csharp
+=======
+```json
 
+>>>>>>> main
 # Changes Made
 
 - **Guard Clauses**: Inverted `if` statements to return early, reducing nesting depth.
@@ -164,8 +178,14 @@ public string GetUserInfo(int id)
 - **String Interpolation**: Replaced `+` concatenation with `$` interpolation for readability.
 - **Naming**: Renamed `u` to `user` for clarity.
 
-```
+<<<<<<< HEAD
+```csharp
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Tips
 
 - If the code is very complex, ask for a "Step-by-step refactoring" to see the intermediate states.

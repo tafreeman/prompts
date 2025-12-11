@@ -60,7 +60,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 ## In This Section
 
 | Track | Outcome | Representative Prompt |
-|-------|---------|------------------------|
+| :--- |---------| :--- |
 | **Architecture Decision Records** | Produce executive-ready solution blueprints with trade-offs and implementation phases | [Solution Architecture Designer](/prompts/system/solution-architecture-designer) |
 | **Cloud & Platform Reviews** | Stress-test microservices, APIs, and multi-cloud rollouts before the design review | [Cloud Architecture Consultant](/prompts/system/cloud-architecture-consultant) |
 | **Reliability & Operations** | Map SLOs, incident runbooks, and recovery strategies | [Disaster Recovery Architect](/prompts/system/disaster-recovery-architect) |

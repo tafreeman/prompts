@@ -11,7 +11,7 @@
 ### Repository Overview
 
 | Attribute | Value |
-|-----------|-------|
+| :--- |-------|
 | **Name** | tafreeman/prompts |
 | **Purpose** | Enterprise AI Prompt Library |
 | **Target Audience** | Senior developers, architects, business analysts |
@@ -33,7 +33,7 @@ Advanced prompt library targeting enterprise developers and architects, featurin
 ### ToT Setup: Branch Definitions
 
 | Branch | Focus Area | Weight |
-|--------|------------|--------|
+| :--- |------------| :--- |
 | **A** | Content Quality & Completeness | 40% |
 | **B** | Organization & Discoverability | 30% |
 | **C** | Enterprise Readiness & Governance | 30% |
@@ -55,7 +55,7 @@ Advanced prompt library targeting enterprise developers and architects, featurin
 Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.md`:
 
 | Metric | Value | Assessment |
-|--------|-------|------------|
+| :--- |-------| :--- |
 | Average Quality Score | 79.3/100 | Good (Tier 2) |
 | Average Effectiveness | 4.02/5.0 | ⭐⭐⭐⭐ Good |
 | Grade A Prompts | 0 (0%) | No exceptional prompts |
@@ -67,7 +67,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Structural Issues Identified:**
 
 | Issue | Count | Priority |
-|-------|-------|----------|
+| :--- |-------| :--- |
 | Variables lack example values | 34 | P1 |
 | Example too short | 44 | P1 |
 | Missing Tips section | 10 | P2 |
@@ -102,7 +102,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Category Distribution:**
 
 | Category | Count | Avg Quality | Avg Effectiveness |
-|----------|-------|-------------|-------------------|
+| :--- |-------| :--- |-------------------|
 | Business | 36 | 85 | 4.1 |
 | Developers | 24 | 78 | 4.0 |
 | System | 22 | 76 | 4.0 |
@@ -115,7 +115,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Navigation Assets:**
 
 | Asset | Present | Quality |
-|-------|---------|---------|
+| :--- |---------| :--- |
 | README.md | ✅ | Excellent - comprehensive with mermaid diagrams |
 | Category index.md files | ✅ | Present in each folder |
 | Quickstart guides | ✅ | 4 platform-specific guides |
@@ -159,7 +159,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Governance Metadata Fields:**
 
 | Field | Coverage | Assessment |
-|-------|----------|------------|
+| :--- |----------| :--- |
 | `governance_tags` | ~90% | Good - PII-safe, requires-human-review |
 | `dataClassification` | ~90% | Good - public, internal, confidential |
 | `reviewStatus` | ~90% | Good - draft, approved |
@@ -170,7 +170,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Validation Tooling:**
 
 | Tool | Status | Function |
-|------|--------|----------|
+| :--- |--------| :--- |
 | `frontmatter_validator.py` | ✅ Active | Validates YAML schema |
 | `prompt_validator.py` | ✅ Active | Checks prompt structure |
 | `audit_prompts.py` | ✅ Active | Generates audit reports |
@@ -180,7 +180,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Frontmatter Validation Issues (16 files):**
 
 | Issue Type | Count | Files |
-|------------|-------|-------|
+| :--- |-------| :--- |
 | Invalid audience values | 8 | api-architect, cloud-architect, dotnet-developer, etc. |
 | Invalid platform values | 2 | copilot→github-copilot, gemini not allowed |
 | Missing frontmatter | 6 | testing/evals/*.md |
@@ -188,7 +188,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Enterprise Concerns Assessment:**
 
 | Concern | Status | Evidence |
-|---------|--------|----------|
+| :--- |--------| :--- |
 | Compliance workflows | ⚠️ Partial | `governance_tags` present but only 2 governance prompts |
 | Persona breadth | ⚠️ Partial | 8 audience values invalid, need schema update |
 | Role-based templates | ✅ Good | instruction files per experience level |
@@ -213,7 +213,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 **Weighted Calculation:**
 
 | Branch | Score | Weight | Weighted |
-|--------|-------|--------|----------|
+| :--- |-------| :--- |----------|
 | A: Content Quality | 7.5 | 40% | 3.0 |
 | B: Organization | 8.0 | 30% | 2.4 |
 | C: Enterprise Readiness | 7.0 | 30% | 2.1 |
@@ -298,7 +298,7 @@ Based on the evaluation data from `EVALUATION_REPORT.md` and `IMPROVEMENT_PLAN.m
 Based on Phase 2 critique:
 
 | Original | Adjusted | Reason |
-|----------|----------|--------|
+| :--- |----------| :--- |
 | Branch A: 7.5/10 | 7.0/10 | 0 Grade A prompts warrants penalty; 44 short examples significant |
 | Branch C: 7.0/10 | 6.5/10 | 16 validation errors + 2-prompt governance category is a material gap |
 | Overall: 75/100 | 71/100 | Recalculated with adjusted branch scores |
@@ -306,7 +306,7 @@ Based on Phase 2 critique:
 **Recalculated Score:**
 
 | Branch | Adjusted Score | Weight | Weighted |
-|--------|----------------|--------|----------|
+| :--- |----------------| :--- |----------|
 | A: Content Quality | 7.0 | 40% | 2.8 |
 | B: Organization | 8.0 | 30% | 2.4 |
 | C: Enterprise Readiness | 6.5 | 30% | 1.95 |
@@ -347,7 +347,7 @@ The library is **suitable for enterprise adoption** but with the following cavea
 ### Confidence Justification
 
 | Factor | Impact |
-|--------|--------|
+| :--- |--------|
 | ✅ Quantitative data from validated tools | +20% |
 | ✅ Multiple independent evaluation rubrics | +15% |
 | ✅ Full repository access and file inspection | +15% |
@@ -384,7 +384,7 @@ The library is **suitable for enterprise adoption** but with the following cavea
 ## Appendix: Data Sources
 
 | Source | Purpose |
-|--------|---------|
+| :--- |---------|
 | `docs/EVALUATION_REPORT.md` | Quality and effectiveness scores |
 | `docs/IMPROVEMENT_PLAN.md` | Issue breakdown and priorities |
 | `README.md` | Repository overview and structure |

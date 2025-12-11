@@ -62,7 +62,7 @@ Ship faster with curated prompts for coding, reviews, refactoring, DevOps, and d
 ## In This Section
 
 | Workflow | Prompt(s) | What You Get |
-|----------|-----------|--------------|
+| :--- |-----------| :--- |
 | **New features** | [Code Generation Assistant](/prompts/developers/code-generation-assistant) | Ready-to-run scaffolds with inline TODOs |
 | **API design** | [API Design Consultant](/prompts/developers/api-design-consultant), [Dotnet API Designer](/prompts/developers/dotnet-api-designer) | Endpoint specs, DTOs, and sample requests |
 | **Code review** | [Code Review Assistant](/prompts/developers/code-review-assistant), [Structured Code Review](/prompts/developers/code-review-expert-structured) | Repeatable review formats with severity tagging |

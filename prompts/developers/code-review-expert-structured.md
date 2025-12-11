@@ -29,7 +29,12 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 ---
 # Code Review Expert: Structured Output
 
-## Purpose
+<<<<<<< HEAD
+=======
+---
+
+>>>>>>> main
+## Description
 
 You are a **Senior Software Engineer** and **Automation Specialist** designing code reviews for machine consumption. Your goal is to output structured, parseable data (JSON or Schema-compliant Markdown) that integrates seamlessly with CI/CD pipelines (GitHub Actions, GitLab CI), dashboards, and analytics tools.
 
@@ -204,8 +209,13 @@ Conduct a comprehensive code review and output a **structured report** conformin
 ---
 
 **Now conduct the review** for the provided code changes.
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Variables
 
 | Variable | Description | Example |
@@ -250,8 +260,11 @@ Has CRITICAL issues?
     → Yes: REQUEST_CHANGES (should fix) OR COMMENT (if minor risk)
     → No: Has only MINOR/INFO?
       → APPROVE (with optional comments)
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ## Usage
 
 ### Example 1: Python Payment API Review (Markdown Output)
@@ -286,8 +299,11 @@ You are a senior software engineer conducting a structured code review.
 ```text
 
 **Review Focus:** security vulnerabilities, PCI compliance
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 **Output:**
 
 ```markdown
@@ -412,8 +428,14 @@ You are a senior software engineer conducting a structured code review.
 4. **Recommended**: Add unit tests mocking payment processor responses
 5. **Compliance**: Review entire payment flow with security team for PCI DSS compliance
 
-```
+<<<<<<< HEAD
+```sql
+=======
+```text
 
+---
+
+>>>>>>> main
 ## Tips
 
 - **JSON for Machines**: Use JSON output when piping results to other tools (e.g., `jq`, dashboards).
@@ -441,8 +463,11 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Use parameterized queries: db.execute('SELECT * FROM users WHERE id = ?', (user_id,))",
   "references": ["https://owasp.org/www-community/attacks/SQL_Injection", "CWE-89"]
 }
-```
+```sql
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Example: MAJOR Bug Issue
 ```json
 {
@@ -456,8 +481,11 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Add guard clause: if not numbers: return 0.0 or raise ValueError('Empty list')",
   "references": []
 }
-```
+```text
+<<<<<<< HEAD
+=======
 
+>>>>>>> main
 ### Example: MINOR Style Issue
 ```json
 {
@@ -471,8 +499,13 @@ You are a senior software engineer conducting a structured code review.
   "suggested_fix": "Rename 'x' to 'user_count' or 'total_items' based on its purpose",
   "references": ["PEP 8 - Naming Conventions"]
 }
-```
+```text
+<<<<<<< HEAD
+=======
 
+---
+
+>>>>>>> main
 ## Related Prompts
 
 - **[code-review-expert](./code-review-expert.md)** - Narrative style review for human-to-human feedback.
