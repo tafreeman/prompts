@@ -296,3 +296,7 @@ docs/PROMPT_WEB_APP_ARCHITECTURE.md
 docs/EVALUATION_REPORT.md
 docs/EVALUATION_REPORT.md
 docs/EVALUATION_REPORT.md
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
