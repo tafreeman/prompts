@@ -59,35 +59,7 @@ Provide:
 5. Deployment strategies
 6. Automation framework
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[environments]`: Environments
-- `[quality]`: Quality
-- `[stack]`: Stack
-- `[team]`: Team
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[team]: 50 developers, 5 squads (Checkout, Search, Profile, Inventory, Payments)
-[stack]: Java/Spring Boot microservices, Angular frontend, Kubernetes (EKS), PostgreSQL
-[environments]: Dev, QA, Staging, Prod (Blue/Green)
-[quality]: 80% code coverage gate, automated security scanning (SAST/DAST), zero critical vulns
-```sql
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -111,12 +83,10 @@ Provide:
 
 [... continues with observability and security integration ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

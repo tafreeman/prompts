@@ -81,37 +81,7 @@ For each email include:
 
 Keep tone human and respectful. No guilt-tripping or desperation.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[context]`: What the original email/interaction was about
-- `[prospect]`: Name, title, company of the prospect
-- `[last_touch]`: What was your last communication (cold email, demo, proposal, etc.)
-- `[days]`: How many days since last contact
-- `[goal]`: What you're trying to achieve (meeting, response, deal close)
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Original Context: Sent cold email about our HR analytics platform that helps reduce employee turnover
-Prospect: Marcus Thompson, CHRO at Acme Corp (2,000 employees, retail industry, high turnover rates)
-Last Touchpoint: Cold email sent, no response
-Days Since Last Contact: 4 days
-Goal: Book a 20-minute discovery call
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -232,12 +202,10 @@ Great! Send calendar link immediately. Don't add more content or you'll lose the
 "Appreciate you letting me know. Curious - what made you choose [competitor]? Always looking to improve."
 (Intel gathering for next time)
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Never say "just following up" or "circling back" - these are instant delete triggers

@@ -86,14 +86,10 @@ Generate:
    - Pre-work for next meeting
 
 Keep it concise. Focus on decisions and actions, not who said what.
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[meeting_type]`: Type of meeting (e.g., "Weekly team sync", "Project kickoff", "1:1")
@@ -127,109 +123,9 @@ Notes:
 - Next meeting: Dec 13 to review contractor candidates and finalize sprint plans
 - Priya needs to update mobile designs based on delayed timeline - will share revised mockups by Dec 20
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Output:**
-
-```markdown
-# Meeting Summary: Q1 2025 Product Roadmap Review
-
-**Date**: November 29, 2024 | 2:00 PM - 3:30 PM  
-**Attendees**: Sarah Chen (VP Product), Marcus Thompson (Eng Lead), Priya Sharma (Design Lead), Jordan Lee (PM), David Miller (CEO - partial)
 
 ---
 
-## Executive Summary
-
-The team finalized Q1 2025 priorities, selecting **API v2 for Enterprise** as the top focus due to pending enterprise deals. Mobile app redesign was deprioritized to Q2 despite strong user research supporting its importance. Engineering capacity concerns were addressed with a commitment to explore contractor options and allocate 20% of sprint capacity to tech debt.
-
----
-
-## Key Decisions Made
-
-| # | Decision | Rationale | Approved By |
-| :--- |----------|-----------|-------------|
-| 1 | **API v2 is Q1 priority** | 3 enterprise deals ($[X]M ARR) contingent on delivery | David (CEO) |
-| 2 | **Mobile redesign delayed to Q2** | Insufficient resources for parallel work; enterprise revenue takes precedence | Sarah/David |
-| 3 | **20% sprint capacity for tech debt** | Address growing backlog and team morale concerns | Sarah |
-| 4 | **Explore contractors for API v2** | Engineering understaffed by 2 headcount for current timeline | Sarah |
-
----
-
-## Discussion Highlights
-
-### API v2 vs. Mobile Debate
-- **For Mobile (Priya)**: User research shows 60% of users access via mobile; current experience is poor
-- **For Mobile (Jordan's counter)**: Mobile users have lower conversion rates than desktop
-- **For API v2 (David)**: Enterprise deals worth $[X]M are contingent on API v2; immediate revenue impact
-- **Resolution**: Short-term revenue needs outweighed mobile improvements; mobile remains high priority for Q2
-
-### Engineering Capacity
-- Marcus flagged API v2 requires 2 additional engineers to hit timeline
-- Options discussed: (1) Hire contractors, (2) Delay mobile further, (3) Extend API timeline
-- Consensus: Explore contractor path first; revisit if candidates aren't available by Dec 13
-
-### Tech Debt Concerns
-- Marcus raised team morale issues due to growing tech debt backlog
-- Sarah committed to 20% sprint allocation (roughly 2 days/sprint/engineer)
-- Will track tech debt completion as an OKR metric
-
-### Parking Lot: Analytics Dashboard
-- Jordan advocated for analytics dashboard; acknowledged as important but not urgent
-- Will revisit in Q2 planning cycle
-
----
-
-## Action Items
-
-| Task | Owner | Due Date | Priority |
-|------|-------|----------|----------|
-| Explore contractor options with HR and present candidates | Sarah | Dec 6 | 🔴 High |
-| Update mobile designs for Q2 timeline, share revised mockups | Priya | Dec 20 | 🟡 Medium |
-| Draft API v2 sprint plan assuming current + 2 contractor headcount | Marcus | Dec 10 | 🔴 High |
-| Define tech debt allocation process and tracking | Marcus | Dec 13 | 🟡 Medium |
-| Share enterprise deal pipeline details for API v2 scoping | Jordan | Dec 4 | 🔴 High |
-| Schedule Q2 planning kickoff meeting | Sarah | Dec 13 | 🟢 Low |
-
----
-
-## Parking Lot (Deferred Topics)
-
-- **Analytics Dashboard**: Important but not urgent. Revisit in Q2 planning.
-- **Long-term mobile strategy**: Needs dedicated session once Q1 plan is solid.
-- **Engineering hiring plan**: Beyond contractors, should we open full-time reqs?
-
----
-
-## Next Steps
-
-**Next Meeting**: December 13, 2024 @ 2:00 PM  
-**Purpose**: Review contractor candidates + finalize Q1 sprint plans
-
-**Pre-work for Dec 13**:
-- Sarah: Contractor candidate shortlist
-- Marcus: API v2 sprint breakdown with resource scenarios
-- Jordan: Enterprise deal requirements document
-
----
-
-## Distribution
-
-**Sent to**: All attendees + Emily (Engineering Manager, FYI)  
-**Confidentiality**: Internal only - contains revenue targets
-
----
-
-*Summary prepared by [Your Name] | Questions? Reach out in #product-roadmap Slack channel*
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Tips
 
 - Capture decisions explicitly - who decided, what was decided, why

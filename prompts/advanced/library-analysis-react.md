@@ -124,41 +124,7 @@ Continue until you can provide:
 -   **High/Medium/Low**: Based on how much of the requested scope was covered.
 
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[ANALYSIS_TASK]`: The specific auditing or analysis goal (e.g., "Audit the 'analysis' folder for incomplete prompts").
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) pattern to audit and analyze a prompt library.
-
-**Task**: Analyze the `prompts/analysis` directory. Identify all prompt files, determine which are "stubs" (under 2KB or missing sections), and list any missing metadata.
-
-**Context**: 
-- Root path: `d:\source\osi\prompts`
-- Stubs often have just a header or empty sections.
-
-**Available Tools**:
-[As described above]
-
-**Instructions**:
-[As specified above]
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -260,14 +226,10 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 2.  **Use Template**: Use `data-analysis-insights.md` as the "Gold Standard" reference when expanding the stubs.
 
 **Confidence Assessment**: **High** - File size correlation with content quality was verified by sampling.
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Size Heuristics**: File size is often a good initial proxy for completeness (e.g., < 2KB is usually a stub).
@@ -304,12 +266,10 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
   "recommendations": ["..."]
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - General document research.

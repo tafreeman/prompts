@@ -94,14 +94,10 @@ Please create:
 5. Trust-building elements
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -170,84 +166,9 @@ Please create:
 6. Clear call-to-action
 7. Meta description for SEO (150-160 characters)
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Output:**
-
-```text
-# CloudRest Memory Foam Travel Pillow - Premium Neck Support with Cooling Gel | Compact Travel Neck Pillow for Airplane, Car & Train
-
-## Hook
-**Land at your destination like you just woke up at home.**
 
 ---
 
-## Description
-Stop arriving exhausted. The CloudRest Memory Foam Travel Pillow delivers chiropractor-recommended neck support that helps you sleep soundly at 35,000 feet—while packing 30% smaller than ordinary travel pillows.
-
-Our patented cooling gel layer works with premium memory foam to keep you comfortable, not sweaty. The adjustable support strap fits any seat (airplane, train, car, or even your desk chair), so you get perfect positioning every time.
-
-Whether you're crossing time zones for business or escaping for vacation, CloudRest helps you arrive ready for anything.
-
-**Join 50,000+ happy travelers who refuse to fly without it.**
-
----
-
-## ✈️ Why Travelers Love CloudRest
-
-✅ **Sleep Cool, Not Sweaty** — Patented cooling gel layer prevents overheating during long flights
-
-✅ **Pack Light, Sleep Right** — Compresses to 4"x4"x6"—fits easily in any carry-on, backpack, or personal item
-
-✅ **Adjustable Support** — Secure strap adapts to any seat type for customized positioning
-
-✅ **Premium Memory Foam** — Contours to your neck for pressure-free support that lasts the whole flight
-
-✅ **Easy Clean** — Machine washable bamboo fiber cover stays fresh trip after trip
-
----
-
-## Specifications
-
-| Feature | Detail |
-|---------|--------|
-| Dimensions | 11" x 11" x 4" |
-| Compressed Size | 4" x 4" x 6" |
-| Weight | 0.8 lbs |
-| Materials | Memory foam, cooling gel layer, bamboo fiber cover |
-| Includes | Compact carrying case |
-| Care | Machine washable cover |
-
----
-
-## Trusted By Experts
-
-🏆 **Recommended by the American Chiropractic Association**
-⭐ **4.8 stars from 2,500+ verified reviews**
-
----
-
-## 🎁 Limited Time Offer
-
-Order today and receive a **FREE sleep mask** (while supplies last).
-
-**30-Day Comfort Guarantee** — Not sleeping better? Full refund, no questions asked.
-
-**[Add to Cart]** — Your best flight sleep is one click away.
-
----
-
-**Meta Description:**
-CloudRest memory foam travel pillow with cooling gel—30% more compact than competitors. Adjustable neck support for airplanes. 4.8★ rated, 50,000+ sold.
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Tips
 
 - **Lead with benefits, not features:** "Sleep better on flights" beats "Memory foam construction"—always translate features into customer outcomes

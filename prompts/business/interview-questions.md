@@ -84,37 +84,7 @@ Generate:
 
 Format as an interview guide with timing suggestions.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[role]`: Job title and brief description of the role
-- `[level]`: Seniority level (e.g., "Senior IC", "First-time manager", "Director")
-- `[competencies]`: 3-5 key competencies to assess (e.g., "Problem-solving, collaboration, technical depth")
-- `[stage]`: Interview stage (e.g., "Phone screen", "Hiring manager round", "Final onsite")
-- `[time]`: Duration of the interview (e.g., "45 minutes", "60 minutes")
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Role: Product Manager - Growth team, responsible for user acquisition and activation funnels
-Level: Senior (5+ years PM experience), individual contributor
-Key Competencies: Data-driven decision making, cross-functional leadership, experimentation mindset, customer empathy, strategic thinking
-Interview Stage: Hiring manager round (second interview, passed recruiter screen)
-Time Available: 60 minutes
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -338,12 +308,10 @@ Time Available: 60 minutes
 - [ ] Flag any concerns for hiring committee
 - [ ] Avoid discussing with other interviewers before independent scoring
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Ask the same core questions to every candidate for fair comparison

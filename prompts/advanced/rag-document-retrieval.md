@@ -122,14 +122,10 @@ Relevance Score: [DOC_2_SCORE]
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[USER_QUESTION]`: The specific question to answer using retrieved documents
@@ -177,56 +173,9 @@ Relevance Score: 0.41
 **Instructions**:
 [As specified above]
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Output:**
-
-```text
-**Answer**:
-
-Our API rate limiting policy varies by customer tier. Standard accounts are limited to 1,000 requests per hour per API key, while Enterprise Premium customers receive 10,000 requests per hour [Doc_1]. These limits reset at the top of each hour in UTC timezone [Doc_1].
-
-When rate limits are exceeded, the API returns HTTP 429 (Too Many Requests) status code [Doc_2]. The response includes a `Retry-After` header that specifies the number of seconds until the limit resets. For example, `Retry-After: 3600` indicates you should retry in 1 hour [Doc_2].
-
-For violation handling, we have a progressive enforcement policy. Persistent rate limit violations—defined as exceeding the limit more than 5 times within 24 hours—trigger escalating consequences [Doc_3]:
-
-1. **First violation**: You'll receive a warning email
-2. **Second violation within 7 days**: 24-hour API key suspension
-3. **Third violation**: Permanent suspension, subject to manual review
-
-All enforcement actions are tracked per API key [Doc_3].
-
-For bulk data export planning, consider:
-- Calculate your request volume: If you need more than 1,000 requests/hour, consider upgrading to Enterprise Premium
-- Implement retry logic with exponential backoff when you receive 429 responses
-- Respect the `Retry-After` header value
-- Spread requests evenly across the hour rather than bursting
-
-**Confidence Assessment**: **High**
-
-The retrieved documents comprehensively cover rate limiting policy, error handling, and violation consequences. All major aspects of the question are directly addressed.
-
-**Sources Used**:
-- **Doc_1** (/docs/api/rate-limiting.md): Provided rate limit thresholds and reset timing
-- **Doc_2** (/docs/api/error-codes.md): Explained 429 error response format and retry headers
-- **Doc_3** (/policies/api-usage-policy.md): Detailed violation handling and suspension policy
-- **Doc_4** (/docs/api/authentication.md): Not used - covered key generation but not relevant to rate limiting
-
-**Information Gaps**: None identified for this question
-
-**Recommended Follow-up**:
-- If customer needs >1,000 requests/hour, offer: "Would you like information about upgrading to Enterprise Premium tier?"
-- If they're building automation, suggest: "Would you like code examples for implementing proper retry logic with exponential backoff?"
-- Clarify their specific use case: "What is the total volume of data you need to export, and over what timeframe?"
-```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Ground firmly**: Never add information not in retrieved documents, even if you "know" it's true
@@ -255,28 +204,7 @@ Metadata to include:
 - Last modified date
 - Author (if relevant)
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### For Documentation
-
-```text
-Chunk by:
-- Section (heading-based)
-- 300-500 tokens with 50-token overlap
-- Preserve context (don't split mid-sentence)
-
-Metadata to include:
-- Document title
-- Section heading hierarchy
-- Version/date
-- URL (if applicable)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### For Logs/Incident Data
 
 ```text
@@ -291,28 +219,8 @@ Metadata to include:
 - Log level
 - Error codes (if present)
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-## Retrieval Strategies
-
-### Semantic Search
-
-```python
-# Using embedding-based retrieval
-query_embedding = embed(user_question)
-chunks = vector_db.similarity_search(
-    query_embedding,
-    k=5,  # Top 5 chunks
-    threshold=0.7  # Minimum similarity
-)
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ### Hybrid Search
 
 ```python
@@ -322,12 +230,8 @@ keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ### Contextual Retrieval
 
 ```python
@@ -337,12 +241,8 @@ previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
-<<<<<<< HEAD
-```sql
-=======
 ```json
 
->>>>>>> main
 ## Output Schema (JSON)
 
 For automation pipelines:
@@ -369,14 +269,10 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
-<<<<<<< HEAD
-```powershell
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: Documents may contain PII. Implement:
@@ -404,38 +300,7 @@ For automation pipelines:
 ```text
 @workspace search for rate limiting policy and explain with citations
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### LangChain RAG Implementation
-
-```python
-from langchain.chains import RetrievalQA
-from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
-
-# Setup
-vectorstore = Chroma.from_documents(
-    documents=chunks,
-    embedding=OpenAIEmbeddings()
-)
-
-qa_chain = RetrievalQA.from_chain_type(
-    llm=ChatOpenAI(model="gpt-4"),
-    retriever=vectorstore.as_retriever(search_kwargs={"k": 5}),
-    return_source_documents=True
-)
-
-# Query
-result = qa_chain({"query": "What is our rate limiting policy?"})
-answer = result["result"]
-sources = result["source_documents"]
-```sql
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### Custom RAG Pipeline
 
 ```python
@@ -467,20 +332,12 @@ def rag_answer(question, context=""):
         "confidence": assess_confidence(response, chunks)
     }
 ```text
-<<<<<<< HEAD
-## Related Prompts
-
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
-
----
-=======
 
 ---
 
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - ReAct pattern for RAG
->>>>>>> main
 
 ## Error Handling
 
@@ -499,27 +356,7 @@ To get a better answer, I would need:
 
 Would you like me to search differently, or can you provide more context?"
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### Contradictory Information
-
-```text
-"I found contradictory information in the documentation:
-
-- Document A [Doc_1] states: [quote A]
-- Document B [Doc_3] states: [quote B]
-
-These documents may refer to different contexts:
-- [Possible explanation]
-
-Which scenario applies to your situation? Or would you like me to escalate this documentation discrepancy?"
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### No Relevant Documents Found
 
 ```text
@@ -534,8 +371,4 @@ Would you like me to:
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
-<<<<<<< HEAD
 ```text
-=======
-```text
->>>>>>> main

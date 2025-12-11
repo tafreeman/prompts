@@ -86,14 +86,10 @@ Instructions
 8. Output final section “Integration Notes” covering CI/CD steps, lint commands, and deployment artifacts.
 
 Format response with Markdown headings per section; wrap code in fenced blocks with language identifiers.
-<<<<<<< HEAD
-```text
-=======
 ```bash
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[business_scenario]`: Business context motivating the feature
@@ -125,57 +121,8 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 [testing]: Pytest + Jest unit tests, contract tests using Pact, coverage >= 85%.
 [docs_format]: README with setup, env vars, Makefile targets.
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Excerpt of Expected Output**
-
-```text
-## Code (Python)
-```python
-from fastapi import FastAPI, HTTPException, Request
-import hmac, hashlib, logging
-
-app = FastAPI()
-logger = logging.getLogger("signature")
-
-def verify_signature(secret: bytes, payload: bytes, signature: str) -> bool:
- expected = hmac.new(secret, payload, hashlib.sha256).hexdigest()
- return hmac.compare_digest(expected, signature)
-
-@app.post("/verify")
-async def verify(order: OrderPayload, request: Request):
- raw_body = await request.body()
- if not verify_signature(SECRET, raw_body, order.signature):
-  logger.warning("Invalid signature", extra={"order_id": order.order_id})
-  raise HTTPException(status_code=401, detail="invalid signature")
- return {"status": "ok"}
-```text
-
-## Tests (Pytest)
-
-```python
-class TestVerifySignature:
- def test_valid_signature(self):
-  payload = b"{\"order_id\":123}"
-  signature = hmac.new(SECRET, payload, hashlib.sha256).hexdigest()
-  assert verify_signature(SECRET, payload, signature)
-```text
-
-## README Snippet
-
-```markdown
-### Local Development
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-<<<<<<< HEAD
-=======
 ```python
 
->>>>>>> main
 ```text
 ```text
 

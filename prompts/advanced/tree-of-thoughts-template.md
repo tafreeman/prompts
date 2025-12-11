@@ -40,45 +40,6 @@ This technique is based on the paper:
 
 Yao et al. introduced Tree of Thoughts (ToT) as a framework that generalizes "chain-of-thought" prompting by enabling exploration over coherent units of text ("thoughts") that serve as intermediate steps toward problem solving. ToT allows language models to perform deliberate decision making by considering multiple different reasoning paths and self-evaluating choices to decide the next course of action, as well as looking ahead or backtracking when necessary.
 
-<<<<<<< HEAD
-### Tree-of-Thoughts Structure Visualization
-
-<!-- Diagram: Tree-of-Thoughts Branch Evaluation -->
-<!-- Alt: Tree diagram showing a problem at the root branching into multiple solution paths, each evaluated with a score, with the highest-scoring path highlighted as the selected solution -->
-
-```mermaid
-graph TD
-    Problem[🎯 Problem<br/>Complex Decision] --> Branch1[💡 Branch 1<br/>Approach A]
-    Problem --> Branch2[💡 Branch 2<br/>Approach B]
-    Problem --> Branch3[💡 Branch 3<br/>Approach C]
-    
-    Branch1 --> Eval1[📊 Evaluation<br/>Score: 7/10<br/>Pros: Fast, Simple<br/>Cons: Limited scale]
-    Branch2 --> Eval2[📊 Evaluation<br/>Score: 9/10<br/>Pros: Scalable, Robust<br/>Cons: Complex]
-    Branch3 --> Eval3[📊 Evaluation<br/>Score: 5/10<br/>Pros: Innovative<br/>Cons: Unproven]
-    
-    Eval1 -.-> Rejected1[❌ Not Selected]
-    Eval2 --> Selected[✅ Selected Solution<br/>Branch 2 chosen<br/>for implementation]
-    Eval3 -.-> Rejected2[❌ Not Selected]
-    
-    style Problem fill:#e1f5fe
-    style Branch1 fill:#fff9c4
-    style Branch2 fill:#fff9c4
-    style Branch3 fill:#fff9c4
-    style Eval1 fill:#f3e5f5
-    style Eval2 fill:#c8e6c9
-    style Eval3 fill:#f3e5f5
-    style Selected fill:#4caf50,color:#fff
-    style Rejected1 fill:#ffebee
-    style Rejected2 fill:#ffebee
-```
-
-**Key Concepts:**
-- 🎯 **Problem**: Starting point with multiple possible approaches
-- 💡 **Branches**: Different solution paths explored in parallel
-- 📊 **Evaluation**: Systematic scoring of each branch's merits
-- ✅ **Selection**: Best branch chosen based on evaluation criteria
-- ❌ **Pruning**: Less promising branches are not pursued further
-=======
 ---
 
 ## Tree-of-Thoughts Visualization
@@ -120,7 +81,6 @@ graph TD
 - 🔍 **Expansion**: Explore promising branches deeper
 - ⬅️ **Backtracking**: Abandon low-scoring paths
 - ✅ **Selection**: Choose highest-rated solution
->>>>>>> main
 
 ---
 
@@ -213,55 +173,7 @@ Compare all viable paths explored:
 - Residual risks and mitigation strategies
 
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[PROBLEM_STATEMENT]`: The complex problem requiring multi-approach exploration
-- `[BACKGROUND_AND_CONSTRAINTS]`: Context, limitations, requirements, stakeholders
-- `[WHAT_SUCCESS_LOOKS_LIKE]`: Clear success criteria for evaluating solutions
-- `[N]`: Decision point number
-- `[X]`: Specific branch identifier (A, B, C, etc.)
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
-
-**Problem**: Design a caching strategy for our global e-commerce platform that minimizes latency while controlling costs
-
-**Context**:
-- 100M+ users across 150 countries
-- 5M SKUs (products) with varying update frequencies
-- User data: profiles, wish lists, cart (frequently changing)
-- Product catalog: descriptions, images, prices (varies by region)
-- Inventory: real-time stock levels (critical accuracy)
-- Budget: $500K/month for caching infrastructure
-- Current latency: p95 = 800ms (goal: <200ms)
-- Current cache hit rate: 45% (too low)
-
-**Success Criteria**:
-- p95 latency <200ms globally
-- Cache hit rate >80%
-- Cost <$500K/month
-- Inventory accuracy >99.9% (no overselling)
-- Graceful degradation if cache fails
-
-**Instructions**:
-[As specified above]
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -543,86 +455,9 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
-## Tips
-
-- **Generate genuinely different branches**: Don't create branches that are minor variations - aim for fundamentally different approaches
-- **Score honestly**: Don't inflate scores to favor your preferred approach - be objective
-- **Prune decisively**: Don't explore every branch equally - prune low-scoring branches early
-- **Backtrack when stuck**: If a promising branch hits a dead-end, explicitly backtrack
-- **Synthesize across branches**: Look for hybrid approaches combining strengths
-- **Quantify trade-offs**: Use metrics, scores, probabilities to make comparisons concrete
-- **Time investment**: ToT is 3-5x slower than linear reasoning - reserve for complex, high-stakes problems
-
-## When to Use ToT vs Other Patterns
-
-| Pattern | Use When | Example |
-|---------|----------|---------|
-| **Direct** | Simple, one solution | "What's the capital of France?" |
-| **CoT** | Step-by-step reasoning | "Debug why API returns 500" |
-| **ToT** | Multiple approaches possible | "Choose architecture for new system" |
-| **ReAct** | Need external tools | "Research competitors and analyze" |
-| **Reflection** | Need self-validation | "Is this business case sound?" |
-
-**Use ToT specifically when**:
-
-- Multiple valid approaches exist
-- Trade-offs require explicit comparison
-- You need creative exploration
-- Cost of wrong solution is high
-- Problem is novel/uncertain
-
----
-
-## Output Schema (JSON)
-
-```json
-{
-  "problem": "...",
-  "decision_points": [
-    {
-      "point": 1,
-      "description": "...",
-      "branches": [
-        {
-          "id": "A",
-          "description": "...",
-          "pros": ["...", "..."],
-          "cons": ["...", "..."],
-          "success_probability": 0.7,
-          "score": 8.5
-        }
-      ],
-      "selected_branches": ["A", "C"],
-      "pruned_branches": ["B"]
-    }
-  ],
-  "backtracking": [
-    {
-      "from_branch": "C.2",
-      "reason": "Exceeded cost constraint",
-      "revisited_branch": "A"
-    }
-  ],
-  "final_recommendation": {
-    "selected_approach": "...",
-    "justification": "...",
-    "confidence": "high|medium|low",
-    "risks": ["...", "..."]
-  }
-}
-```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
 ## Related Prompts
 
 - [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Linear reasoning alternative

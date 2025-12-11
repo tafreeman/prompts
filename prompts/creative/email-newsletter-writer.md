@@ -85,73 +85,7 @@ Please create:
 
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description |
-|----------|-------------|
-| `[WEEKLY DIGEST/PRODUCT UPDATE/EDUCATIONAL/PROMOTIONAL/ANNOUNCEMENT]` | The type of newsletter you're sending |
-| `[YOUR BRAND NAME]` | Your company or personal brand name |
-| `[SUBSCRIBER DEMOGRAPHICS AND INTERESTS]` | Who your subscribers are and what they care about |
-| `[PROFESSIONAL/FRIENDLY/CASUAL/AUTHORITATIVE/PLAYFUL]` | The voice and tone of your newsletter |
-| `[YOUR NEWSLETTER NAME, IF ANY]` | The branded name of your newsletter |
-| `[FIRST MAIN TOPIC OR STORY]` | Primary content you want to cover |
-| `[ENGAGEMENT/CLICKS/CONVERSIONS/EDUCATION/RELATIONSHIP BUILDING]` | What you want to achieve |
-| `[MAIN ACTION YOU WANT READERS TO TAKE]` | The primary CTA |
-| `[SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]` | Desired newsletter length |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an expert email marketing copywriter who creates newsletters that people actually open, read, and act on. Write a compelling email newsletter based on the following details:
-
-**Newsletter Type:** Weekly Digest
-**Brand/Company:** TechPulse
-**Target Audience:** Software developers, tech leads, and engineering managers interested in developer productivity and tooling
-**Tone:** Friendly and knowledgeable
-**Newsletter Name:** The Dev Digest
-
-**Main Content:**
-- Topic 1: New AI coding assistants comparison - which one is worth your time?
-- Topic 2: Three terminal tricks that saved me 2 hours this week
-- Topic 3: Community spotlight: Open source project of the week
-
-**Primary Goal:** Engagement and establishing thought leadership
-**Call-to-Action:** Try one of the terminal tricks and reply with your results
-
-**Additional Elements:**
-- Include a personal note/intro: Yes
-- Add curated links/resources: Yes - 3-4 relevant links
-- Include a featured offer/promotion: No
-- Add a subscriber-exclusive element: Yes - early access to upcoming tool review
-
-**Constraints:**
-- Approximate word count: Medium (400-600)
-- Must mention: The newsletter's 1-year anniversary
-- Avoid: Overly salesy language, jargon without explanation
-
-Please create:
-1. 3 subject line options (with open rate prediction)
-2. Preview text (40-90 characters)
-3. Full newsletter content with clear sections
-4. Compelling CTA button text
-5. P.S. line for additional engagement
-
-Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -234,11 +168,7 @@ z api       # Goes to most-used api directory
 ```bash
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
-<<<<<<< HEAD
-```sql
-=======
 ```bash
->>>>>>> main
 *Time saved: 45 minutes on a multi-package repo*
 
 ---
@@ -291,12 +221,10 @@ Happy coding,
 
 P.S. — Missed our most popular issues? Here are the top 3 from year one: [Git workflows that scale], [The ultimate VS Code setup], [Debugging in production]. All still relevant, all still free.
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - **Subject lines are everything:** Test multiple versions—even a 5% improvement in open rates compounds over time

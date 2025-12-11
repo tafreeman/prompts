@@ -112,39 +112,7 @@ Design a comprehensive frontend architecture for:
 **Format:** Provide architecture decision records (ADRs) for each major decision with:
 - Context, Decision, Consequences, Alternatives Considered
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `[app_name]` | Name and brief description of the application | "MarketPulse - Marketing Analytics Dashboard" |
-| `[app_type]` | Category of application | "SaaS Dashboard", "E-commerce", "Social Platform", "Internal Tool" |
-| `[user_requirements]` | Key features and user needs | "Real-time charts, dark mode, PDF export, tablet responsive" |
-| `[tech_stack]` | Chosen or preferred technologies | "React 18, TypeScript, Tailwind CSS, TanStack Query" |
-| `[performance]` | Specific performance targets | "LCP < 2.5s, CLS < 0.1, TTI < 3s on 4G, bundle < 200KB" |
-| `[team_size]` | Number of frontend developers | "3 developers now, scaling to 8 in 6 months" |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[app_name]: "MarketPulse" - Marketing Analytics Dashboard
-[user_requirements]: Real-time data visualization, Dark/Light mode toggle, Export to PDF, Responsive for tablets
-[tech_stack]: React 18, TypeScript, Tailwind CSS, TanStack Query, Recharts
-[performance]: Core Web Vitals (LCP < 2.5s, CLS < 0.1), Time to Interactive < 3s on 4G
-```sql
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -165,37 +133,7 @@ Design a comprehensive frontend architecture for:
 
 [... continues with accessibility and testing ...]
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Tips
-
-### Framework Selection Guide
-| Application Type | Recommended | Why |
-|-----------------|-------------|-----|
-| **SaaS Dashboard** | React + TanStack Query | Rich ecosystem, great devtools |
-| **Content Site (SEO)** | Next.js / Nuxt | SSR/SSG out of the box |
-| **Enterprise Internal** | Angular | Strong typing, opinionated structure |
-| **Rapid Prototype** | Vue 3 + Vite | Fast setup, gentle learning curve |
-| **Micro-frontends** | Module Federation | Independent deployment per team |
-
-### Performance Budget Reference
-| Metric | Good | Needs Work | Poor |
-|--------|------|------------|------|
-| **LCP** | < 2.5s | 2.5-4s | > 4s |
-| **FID** | < 100ms | 100-300ms | > 300ms |
-| **CLS** | < 0.1 | 0.1-0.25 | > 0.25 |
-| **Bundle (gzip)** | < 100KB | 100-200KB | > 200KB |
-
-### Architecture Patterns Quick Reference
-<<<<<<< HEAD
-```text
-=======
 ```xml
->>>>>>> main
 ┌─────────────────────────────────────────────────────────┐
 │                    ATOMIC DESIGN                        │
 ├──────────┬──────────┬───────────┬──────────┬───────────┤
@@ -205,10 +143,8 @@ Design a comprehensive frontend architecture for:
 │  Icon    │  Card    │  DataGrid │          │           │
 └──────────┴──────────┴───────────┴──────────┴───────────┘
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
+
 ### State Management Decision Tree
 1. **Is it server data?** → TanStack Query / SWR / RTK Query
 2. **Is it shared across routes?** → Global store (Zustand/Redux/Pinia)

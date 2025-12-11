@@ -83,70 +83,7 @@ Also provide:
 - Engagement prediction (low/medium/high)
 - Alternative hook option
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description |
-|----------|-------------|
-| `[LINKEDIN/TWITTER/INSTAGRAM/FACEBOOK]` | The social media platform you're creating content for |
-| `[YOUR CONTENT TOPIC]` | The main subject or theme of your post |
-| `[ENGAGEMENT/AWARENESS/TRAFFIC/LEADS/COMMUNITY]` | The primary goal you want to achieve |
-| `[WHO YOU'RE TARGETING]` | Your target audience demographics and interests |
-| `[PROFESSIONAL/CASUAL/INSPIRATIONAL/HUMOROUS/EDUCATIONAL]` | The tone of your content |
-| `[DESCRIBE YOUR VOICE]` | Your brand personality and communication style |
-| `[MAIN POINT YOU WANT TO COMMUNICATE]` | The core message of your post |
-| `[WHAT DO YOU WANT READERS TO DO?]` | The action you want readers to take |
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an expert social media content strategist with deep knowledge of platform-specific best practices. Create an engaging social media post based on the following details:
-
-**Platform:** LinkedIn
-**Topic:** The importance of failing fast in product development
-**Goal:** Engagement and thought leadership
-**Target Audience:** Product managers, startup founders, and tech leaders
-**Tone:** Professional but conversational
-**Brand/Personal Voice:** Experienced, insightful, approachable
-
-**Key Message:**
-Teams that embrace small, quick failures learn faster and build better products than those who avoid failure at all costs.
-
-**Call-to-Action:**
-Share your experience with "failing fast" in the comments
-
-**Additional Context:**
-- Include hashtags: Yes - 3-5 relevant hashtags
-- Include emojis: Yes - subtle, professional use
-- Include statistics/data: Yes, if relevant
-- Character limit awareness: Yes
-
-Please create a post that:
-1. Hooks readers in the first line
-2. Delivers value or insight
-3. Encourages engagement (likes, comments, shares)
-4. Follows platform best practices for format and length
-5. Includes a clear call-to-action
-6. Uses appropriate hashtags and emojis if requested
-
-Also provide:
-- Best time to post suggestion
-- Engagement prediction (low/medium/high)
-- Alternative hook option
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -198,12 +135,10 @@ Drop your story in the comments 👇
 **Alternative Hook:**
 "I've helped launch 50+ products. The ones that succeeded all had this 'flaw':"
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - **Platform-specific formatting:** LinkedIn favors longer posts with line breaks, Twitter needs concise punchy content, Instagram focuses on visual captions, Facebook works best with questions and community engagement

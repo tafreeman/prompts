@@ -87,39 +87,7 @@ Generate a complete job description with:
 
 Use inclusive language. Avoid gendered terms and unnecessary requirements. Focus on outcomes over years of experience.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[role_title]`: Job title (e.g., "Senior Software Engineer", "Product Marketing Manager")
-- `[company_info]`: Company name, industry, stage, mission
-- `[team_info]`: Which team this role is on, team size, who they report to
-- `[level]`: Seniority level and scope (e.g., "Individual contributor", "People manager of 5")
-- `[location]`: Work location (remote, hybrid, on-site, specific office)
-- `[salary]`: Compensation range and any equity/bonus information
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-Role: Senior Backend Engineer
-Company: FinFlow - Series B fintech startup ($50M raised), building the future of B2B payments infrastructure. 80 employees, engineering-driven culture.
-Team: Platform team (8 engineers), reporting to VP of Engineering. Owns core payment processing infrastructure.
-Level: Senior IC (L5), no direct reports but expected to mentor junior engineers
-Location: Remote-first (US timezones), optional SF office access
-Salary Range: $180K-$220K base + 0.1-0.2% equity + annual bonus
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```markdown
@@ -210,12 +178,10 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 
 *FinFlow is an equal opportunity employer. We celebrate diversity and are committed to creating an inclusive environment for all employees. We do not discriminate based on race, religion, color, national origin, gender, sexual orientation, age, marital status, veteran status, or disability status.*
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Lead with impact, not requirements - candidates want to know why the role matters

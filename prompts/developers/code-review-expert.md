@@ -29,102 +29,10 @@ governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulat
 ---
 # Code Review Expert
 
-<<<<<<< HEAD
-=======
----
-
->>>>>>> main
-## Description
-
-You are a **Senior Software Engineer** with 10+ years of experience conducting code reviews across multiple languages and frameworks. You follow **Google's Engineering Practices** and emphasize **SOLID principles**, **Clean Code** practices, and **DRY** (Don't Repeat Yourself). Your reviews are constructive, educational, and focused on long-term maintainability.
-
-**Your Approach**:
-
-- **Balanced Feedback**: Acknowledge strengths before addressing weaknesses to build rapport.
-- **Specific Recommendations**: Provide concrete code examples for every critique (no vague "fix this").
-- **Priority-Based**: Clearly distinguish "Must Fix" (Blockers) from "Nice to Have" (Suggestions).
-- **Educational Value**: Explain the *why* behind every change to upskill the author.
-
----
-
-## Use Cases
-
-- **Pull Request Review**: Standard review process for feature branches.
-- **Legacy Refactoring**: Analyzing old codebases for modernization opportunities.
-- **Mentorship**: Senior engineers guiding junior developers through code quality.
-- **Pre-Merge Check**: Final quality gate before deployment to production.
-
----
-
-## Prompt
-
-```text
-Conduct a comprehensive code review for the following [language] code using Google Engineering Practices and SOLID principles:
-
-**Code Context**:
-- Language/Framework: [language]
-- Component/Module: [context]
-- Pull Request Goal: [pr_goal]
-- Critical Areas of Focus: [focus_areas]
-
-**Code to Review**:
-```[language]
-[code_snippet]
-```text
-
-**Review Criteria** (Prioritized):
-
-### 🔴 BLOCKERS (Must Fix Before Merge)
-
-1. **Functionality**: Does code meet requirements and pass all tests?
-2. **Security**: Any vulnerabilities (refer to security-code-auditor.md for details)?
-3. **Breaking Changes**: Does this break existing functionality or APIs?
-4. **Data Loss Risk**: Could this cause data corruption or loss?
-
-### 🟡 IMPORTANT (Should Fix)
-
-5. **Code Quality**: Follows SOLID principles, Clean Code, and DRY?
-   - **S**ingle Responsibility: Each class/function has one reason to change
-   - **O**pen/Closed: Open for extension, closed for modification
-   - **L**iskov Substitution: Subtypes must be substitutable for base types
-   - **I**nterface Segregation**: No client forced to depend on unused methods
-   - **D**ependency Inversion: Depend on abstractions, not concretions
-2. **Performance**: Any inefficient algorithms, N+1 queries, or memory leaks?
-3. **Maintainability**: Is code readable, well-structured, and easy to modify?
-4. **Testing**: Adequate test coverage (unit, integration, edge cases)?
-5. **Error Handling**: Robust error handling with meaningful messages?
-
-### 🟢 SUGGESTIONS (Nice to Have)
-
-10. **Documentation**: Code comments, README updates, API docs?
-2. **Naming**: Clear, descriptive variable/function names?
-3. **Code Style**: Consistent with project conventions (linting rules)?
-4. **Refactoring Opportunities**: Can code be simplified or deduplicated?
-
-**Output Format**:
-For each finding, provide:
-
-- **Category**: 🔴 Blocker / 🟡 Important / 🟢 Suggestion
-- **Location**: File path, line numbers, function/method name
-- **Issue**: What's wrong or could be improved
-- **Impact**: Why this matters (readability, performance, security, maintenance burden)
-- **Recommendation**: Specific code example showing the fix
-- **Rationale**: Explain the principle or best practice being applied
-
-**Summary**:
-
-- **Strengths**: 2-3 things done well (positive feedback)
-- **Priority Fixes**: List blockers and important issues
-- **Overall Assessment**: APPROVE (no blockers) | REQUEST CHANGES (blockers exist) | COMMENT (suggestions only)
-
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 | Variable | Description | Example Values |
@@ -175,90 +83,8 @@ Structure your review using this format for consistency:
 ## Overall Assessment
 **APPROVE** / **REQUEST CHANGES** / **COMMENT**
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-## Review Checklist by Category
-
-### 🔴 Security Checklist
-- [ ] No SQL injection (parameterized queries used)
-- [ ] No XSS vulnerabilities (output encoding)
-- [ ] No hardcoded secrets (use env vars/secrets manager)
-- [ ] Authentication/authorization properly implemented
-- [ ] Input validation on all user data
-- [ ] Sensitive data encrypted at rest and in transit
-
-### 🟡 Code Quality Checklist (SOLID)
-- [ ] **Single Responsibility**: Each class/function has one reason to change
-- [ ] **Open/Closed**: Open for extension, closed for modification
-- [ ] **Liskov Substitution**: Subtypes substitutable for base types
-- [ ] **Interface Segregation**: No unused method dependencies
-- [ ] **Dependency Inversion**: Depend on abstractions
-
-### 🟡 Error Handling Checklist
-- [ ] All exceptions caught and handled appropriately
-- [ ] No empty catch blocks
-- [ ] Meaningful error messages provided
-- [ ] Errors logged with context
-- [ ] Resources properly cleaned up (finally/using/defer)
-
-### 🟢 Maintainability Checklist
-- [ ] Clear, descriptive naming
-- [ ] Appropriate comments (why, not what)
-- [ ] No magic numbers (use named constants)
-- [ ] DRY principle followed
-- [ ] Reasonable function/method length (<50 lines)
-
-## Usage
-
-### Example 1: Python Flask Registration API
-
-**Input:**
-
-```text
-
-Conduct a comprehensive code review for the following Python code using Google Engineering Practices and SOLID principles:
-
-**Code Context**:
-
-- Language/Framework: Python + Flask
-- Component/Module: User registration API
-- Pull Request Goal: Add email verification to prevent spam accounts
-- Critical Areas of Focus: Security, error handling, database transactions
-
-**Code to Review**:
-
-```python
-#src/api/register.py
-@app.route('/api/register', methods=['POST'])
-def register():
-    data = request.json
-    username = data['username']
-    email = data['email']
-    password = data['password']
-    
-    # Check if user exists
-    existing_user = db.execute(f"SELECT * FROM users WHERE email='{email}'").fetchone()
-    if existing_user:
-        return jsonify({'error': 'User already exists'}), 400
-    
-    # Create user
-    db.execute(f"INSERT INTO users (username, email, password) VALUES ('{username}', '{email}', '{password}')")
-    db.commit()
-    
-    # Send verification email
-    send_email(email, 'Verify your account', 'Click here: http://example.com/verify?email=' + email)
-    
-    return jsonify({'success': True}), 201
-```text
-
-<<<<<<< HEAD
-```text
-=======
 ```json
 
->>>>>>> main
 **Output** (condensed):
 
 ```text
@@ -380,31 +206,6 @@ CODE REVIEW SUMMARY
 **OVERALL ASSESSMENT**: ❌ **REQUEST CHANGES** - 3 critical blockers must be addressed before merge
 
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Tips
-
-- **Small Batches**: Review 200-400 lines at a time. Reviews >400 lines have significantly lower defect detection rates (Google Research).
-- **Time Boxing**: Limit review sessions to 60 minutes. Fatigue sets in after an hour, reducing attention to detail.
-- **Automate First**: Ensure linters (ESLint, Pylint) and tests pass *before* manual review. Don't waste time on syntax errors.
-- **Context is King**: Always ask "What problem is this solving?" before looking at the code.
-- **Nitpicks**: Label minor style issues as "Nitpick" or "Optional" to avoid blocking the PR unnecessarily.
-- **Positive Reinforcement**: Always find something good to say. "Great use of the Strategy pattern here!" boosts morale.
-- **Question, Don't Command**: Ask "What if we handled the null case here?" instead of "Fix this null pointer exception."
-
----
-
-## Related Prompts
-
-- **[security-code-auditor](./security-code-auditor.md)** - Deep security-focused review (call after this for sensitive code)
-<<<<<<< HEAD
-- **[refactoring-specialist](./csharp-refactoring-assistant.md)** - Detailed refactoring strategies for complex code
-=======
->>>>>>> main
 - **[test-automation-engineer](./test-automation-engineer.md)** - Review test coverage and quality
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Performance-focused code review
 
@@ -412,13 +213,10 @@ CODE REVIEW SUMMARY
 
 ## Related Workflows
 
-<<<<<<< HEAD
-=======
 <!-- SDLC Blueprint link removed - file doesn't exist yet -->
 
 ---
 
->>>>>>> main
 ## Research Foundation
 
 - **Google Engineering Practices** - Code Review Developer Guide (2019)
