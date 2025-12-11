@@ -2,6 +2,7 @@
 title: "Chain-of-Thought: Concise Mode"
 shortTitle: "CoT Concise Mode"
 intro: "A concise Chain-of-Thought prompt template for efficient step-by-step reasoning when detailed explanations aren't needed."
+category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "reasoning"
   - "problem-solving"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "PII-safe"
   - "general-use"
@@ -75,18 +77,25 @@ Format your response as:
 **Final Answer**: [Concise conclusion based on the steps above]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```text
-<<<<<<< HEAD
-=======
+```
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[DESCRIBE_YOUR_TASK]`: The specific problem, question, or task you need to solve
 - `[PROVIDE_RELEVANT_CONTEXT]`: Essential background information, constraints, or data
 - `[LIST_ANY_CONSTRAINTS]`: Time limits, resource limits, requirements, or boundaries
+
+---
+
+## Usage
+
+To use this prompt:
+1. Copy the prompt template from the "## Prompt" section above
+2. Replace the bracketed placeholders with your specific information
+3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
+4. Review the step-by-step reasoning and final answer
 
 ---
 
@@ -115,11 +124,8 @@ Format your response as:
 **Final Answer**: [Concise conclusion]
 
 Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -215,11 +221,8 @@ For automation pipelines, request output in this format:
 
 ```text
 @workspace /explain [your-code-or-issue] using concise chain-of-thought reasoning
-```text
-<<<<<<< HEAD
-=======
+```
 
->>>>>>> main
 ### API Integration
 
 ```python
@@ -230,8 +233,4 @@ response = client.chat.completions.create(
         {"role": "user", "content": f"Task: {task}\nThink step-by-step (concise mode)"}
     ]
 )
-<<<<<<< HEAD
-```text
-=======
-```json
->>>>>>> main
+```

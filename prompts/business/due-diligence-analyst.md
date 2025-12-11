@@ -59,37 +59,7 @@ Provide:
 5. Findings summary
 6. Recommendations
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[focus]`: Focus
-- `[stakeholders]`: Stakeholders
-- `[target]`: Target
-- `[timeline]`: Timeline
-- `[transaction]`: Transaction
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[transaction]: Series B Venture Investment ($20M)
-[target]: "FinAI" (AI-driven Credit Scoring Startup)
-[focus]: Technical Due Diligence (IP ownership, Code Quality, Security Compliance)
-[timeline]: 2 Weeks (Expedited)
-[stakeholders]: Investment Committee, CTO (Acquirer)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -110,12 +80,10 @@ Provide:
 
 [... continues with information requests and risk assessment ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

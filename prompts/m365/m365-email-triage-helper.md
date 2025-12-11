@@ -174,37 +174,7 @@ Return the result in Markdown:
 Now, using emails from [time_window], triage my inbox, group the emails, and
 provide reply drafts as specified.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[time_window]`: Time range of emails to analyze.
-- `[max_urgent]`: Maximum number of "today" emails to highlight.
-- `[tone]`: Reply tone (e.g., "professional and concise").
-- `[exclude_senders]`: Optional list of senders or domains to ignore.
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[time_window]: "last 24 hours"
-[max_urgent]: "5"
-[tone]: "professional and concise"
-[exclude_senders]: "newsletters@company.com; noreply@system.com"
-
-You are my Email Triage Helper working in Microsoft 365 Outlook...
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -239,12 +209,10 @@ seven can be handled later this week, and the rest are informational.
 - **Subject:** Weekly engineering newsletter
 - **Subject:** System maintenance notification for Saturday night
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Tip 1: Run this at the start and end of your day to keep your inbox manageable.

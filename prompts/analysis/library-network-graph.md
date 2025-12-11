@@ -85,42 +85,6 @@ Additionally, link prompts that are part of the same workflow (e.g., connect "re
 
 This should look like a constellation showing clusters of related capabilities.
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Example Visualization (Mermaid)
-
-Represent the relationships using Mermaid's `graph` syntax. Replace the sample prompts or add additional nodes and edges to reflect your real workflows.
-
-```mermaid
-%% Mermaid graph showing category clusters plus workflow links
-graph LR
-  subgraph Business
-    BSP["Agile Sprint Planner"]
-    SCM["Stakeholder Communication Manager"]
-  end
-
-  subgraph Analysis
-    RAE["Requirements Analysis Expert"]
-    TAA["Trend Analysis Specialist"]
-  end
-
-  subgraph Developers
-    ADC["API Design Consultant"]
-    CRA["Code Review Assistant"]
-  end
-
-  BSP --> SCM
-  RAE --> TAA
-  RAE --> ADC
-  ADC --> CRA
-  CRA --> SCM
-<<<<<<< HEAD
-```text
-=======
 ```
 
 ## Variables
@@ -135,4 +99,3 @@ graph LR
 - **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
 - **Find gaps**: Disconnected nodes may indicate prompts that need better integration
 - **Use color coding**: Assign different colors to different categories for easier visual parsing
->>>>>>> main

@@ -2,6 +2,7 @@
 title: "Tree-of-Thoughts Repository Evaluator for GPT-5.1"
 shortTitle: "Tree-of-Thoughts Reposit..."
 intro: "A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr..."
+category: "system"
 type: "how_to"
 difficulty: "advanced"
 audience:
@@ -15,8 +16,9 @@ topics:
   - "evaluation"
   - "tree-of-thoughts"
 author: "Prompts Library Team"
-version: "1.0"
+version: "1.0.0"
 date: "2025-11-17"
+last_updated: "2025-12-11"
 governance_tags:
   - "general-use"
   - "PII-safe"
@@ -74,7 +76,7 @@ If at any point instructions seem ambiguous or conflicting, prioritize:
 3. These system instructions.
 
 Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
-```text
+```
 
 ### User Message (for GPT-5.1)
 
@@ -311,12 +313,26 @@ Return your answer in **this exact Markdown structure**:
 
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
 
-```text
+```
+
+---
 
 ## Variables
 
 - `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
 - Replace this in both the System and User messages to target the specific repository being evaluated
+
+---
+
+## Usage
+
+To use this Tree-of-Thoughts evaluator:
+1. Copy both the System Message and User Message from the "## Prompt" section above
+2. Replace `[REPOSITORY_NAME]` with the actual repository you want to evaluate
+3. Ensure the AI has access to the repository content or provide the structure
+4. Submit to a GPT-5.1-class reasoning model (Claude, GPT-4, or similar)
+5. Allow adequate time for multi-branch reasoning (this is a comprehensive evaluation)
+6. Review the evaluation scores, strengths, gaps, and actionable recommendations
 
 ---
 
@@ -339,7 +355,8 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 
 [... rest of user message as specified above ...]
 
-```text
+```
+
 **Output (Example excerpt):**
 
 ```markdown
@@ -365,7 +382,7 @@ Main content categories:
   - `Score`: 8/100
 
 [... continues with full evaluation ...]
-```text
+```
 
 ---
 

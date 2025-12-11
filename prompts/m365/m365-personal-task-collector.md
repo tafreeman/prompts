@@ -155,35 +155,7 @@ Return the result in Markdown:
 
 Now, using my activity from [time_window], extract and organize my tasks.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[time_window]`: How far back to scan for tasks (e.g., "last 7 days").
-- `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
-- `[exclude_completed]`: Optional; whether to exclude tasks already marked as done.
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[time_window]: "last 7 days"
-[priority_definition]: "High = urgent and important, Medium = important but not urgent, Low = nice-to-have"
-[exclude_completed]: true
-
-You are my Personal Task Collector working in a Microsoft 365 environment...
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -209,12 +181,10 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 ## Uncertain or Ambiguous Tasks
 - "Think about longer-term onboarding improvements" mentioned in a chat—needs clarification on scope and timeline.
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Tip 1: Run this prompt at the start of each week to build your weekly to-do list.

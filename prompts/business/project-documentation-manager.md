@@ -58,35 +58,7 @@ Provide:
 5. Review processes
 6. Archive procedures
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[audience]`: Audience
-- `[compliance]`: Compliance
-- `[doc_types]`: Doc Types
-- `[project_name]`: Project Name
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[project_name]: ISO 9001:2015 Certification
-[doc_types]: Process Maps (Visio), Standard Operating Procedures (SOPs), Training Manuals, Audit Checklists
-[audience]: Internal Employees (Users), External Auditors (Approvers)
-[compliance]: ISO 9001:2015 Clause 7.5 (Documented Information)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -108,12 +80,10 @@ Provide:
 
 [... continues with access management and archive procedures ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

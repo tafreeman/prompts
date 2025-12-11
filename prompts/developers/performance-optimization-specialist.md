@@ -92,14 +92,10 @@ Tasks
 10. Include cost/performance trade-offs and capacity planning (scale up/down, autoscaling policies).
 
 Format using Markdown headings, tables for recommendations, and code blocks for configuration snippets or profiling commands.
-<<<<<<< HEAD
-```text
-=======
 ```bash
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[app_name]`: Name of system/service
@@ -131,46 +127,10 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
 ```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
-**Excerpt of Expected Output**
-
-```text
-## Hypotheses
-- H1: Coupon service call per checkout adds 300-400ms (serial call, no cache)
-- H2: Postgres primary overloaded due to read-heavy workload + missing covering index
-- H3: Node event loop blocked by synchronous crypto hashing introduced in ORM upgrade
-
-## Measurement Plan
-- Enable Datadog APM trace analytics for coupon span
-- Run pyroscope CPU + wall-clock profiling for 5 minutes during peak
-- Capture Postgres EXPLAIN (ANALYZE, BUFFERS) for `SELECT * FROM orders WHERE tenant_id=? AND checkout_id=?`
-- Execute k6 ramp test (2k → 8k RPS) to reproduce issue in staging
-
-## Recommendation Table
-| Priority | Action | Expected Gain | Risk | Effort | Verification |
-| P0 | Cache coupon responses (Redis, TTL 5m, keyed by tenant+coupon) | -400ms p99 | Low | 1 day | Compare A/B latency | 
-| P0 | Add covering index `idx_orders_tenant_checkout_created_at` | -200ms | Low | 0.5 day | EXPLAIN, regression tests |
-| P1 | Refactor ORM hashing to async worker thread | -150ms CPU, -10% event loop block | Medium | 2 days | Profiling graphs |
-
-## Monitoring Snippet (Datadog Monitor)
-```yaml
-name: NovaPay Checkout p99 Latency
-query: avg(last_5m):p99:trace.http.request{service:checkout} > 0.7s
-type: metric alert
-message: "Checkout p99 >700ms. Run playbook PERF-CKO-001."
-```text
-
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - Provide recent metrics + traces so the specialist can anchor hypotheses.

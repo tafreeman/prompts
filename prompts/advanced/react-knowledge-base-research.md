@@ -228,12 +228,8 @@ Prioritized list of changes with:
 - Task description
 - Supporting evidence
 - Estimated effort
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ---
 
 ## Variables
@@ -260,74 +256,7 @@ Project: tafreeman/prompts - A prompt library with 145+ prompts
 Problem: Current prompts may have unnecessary sections/fields
 Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### Expected Output
-
-```text
-**Thought 1**: I'll research OpenAI's prompt examples first - they're the industry leader and likely have a minimal, effective format.
-
-**Action 1**: Analyze OpenAI Cookbook prompt structure.
-
-**Observation 1**: OpenAI prompts are remarkably simple:
-- Title
-- Brief description (1-2 sentences)
-- The prompt itself
-- 1 example (input/output)
-- NO extensive metadata, NO lengthy explanations
-
-**Reflection 1**: Our prompts may be over-engineered. OpenAI proves minimal works.
-
----
-
-**Thought 2**: Now I'll research prompt evaluation frameworks to understand scoring.
-
-**Action 2**: Research LangSmith and OpenAI Evals scoring approaches.
-
-**Observation 2**: Common scoring dimensions:
-- **Relevance**: Does output match intent? (0-1)
-- **Coherence**: Is output well-structured? (0-1)
-- **Groundedness**: Is output factually accurate? (0-1)
-- **Fluency**: Is output well-written? (0-1)
-- **Task Completion**: Did it achieve the goal? (0-1)
-
----
-
-## Simplification Analysis
-
-| Current Element | Keep/Remove | Rationale |
-|-----------------|-------------|-----------|
-| Title | ✅ Keep | Universal - all sources use |
-| Description | ✅ Keep | All sources have brief intro |
-| Prompt text | ✅ Keep | Core content |
-| 1-2 Examples | ✅ Keep | Industry standard |
-| Variables table | ✅ Keep | Useful for customization |
-| Frontmatter (minimal) | ✅ Keep | Needed for tooling |
-| Lengthy "When to Use" | ❌ Remove | Merge into description |
-| Multiple tip sections | ❌ Remove | Keep to 3-5 bullets max |
-| Extensive changelog | ❌ Remove | Use git history instead |
-| Related prompts (long) | ⚠️ Simplify | Keep to 2-3 max |
-
----
-
-## Prompt Scoring Rubric (Recommended)
-
-| Dimension | Weight | Criteria |
-|-----------|--------|----------|
-| Clarity | 25% | Is the prompt unambiguous? |
-| Effectiveness | 30% | Does it produce quality output? |
-| Reusability | 20% | Works across contexts? |
-| Simplicity | 15% | Minimal without losing value |
-| Examples | 10% | Are examples helpful? |
-
-**Scoring Scale**: 1-5 stars, automated where possible
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ---
 
 ## Example Usage: Content Expansion
@@ -346,84 +275,7 @@ Current State: 145 prompts total, only 2 in creative category
 Goal: Expand creative prompts to 15-20, covering writing, marketing, editing, storytelling
 Target Users: Business professionals, marketing teams, content creators
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### Expected Output
-
-```text
-**Thought 1**: I'll start with Copy.ai since they specialize in creative content templates. Their organization of marketing and writing prompts will be directly applicable.
-
-**Action 1**: Research Copy.ai template categories and structure.
-
-**Observation 1**: Copy.ai organizes templates by:
-- Use case (blog posts, emails, ads, social)
-- Output length (short-form vs long-form)
-- Tone/style options built into templates
-- Industry verticals (ecommerce, SaaS, etc.)
-
-**Reflection 1**: Key insight: they separate templates by OUTPUT TYPE not INPUT TYPE. A "Blog Post" template is different from an "Ad Copy" template even though both are "writing." This is user-centric organization.
-
----
-
-**Thought 2**: Now I'll check Anthropic's prompt library to see how they structure examples for Claude.
-
-**Action 2**: Research Anthropic's prompt examples and documentation structure.
-
-**Observation 2**: Anthropic organizes by:
-- Task category (analysis, writing, coding, math)
-- Complexity level
-- Each prompt includes: description, prompt text, example output
-- They show variations for different use cases
-
-**Reflection 2**: Anthropic uses a simpler category scheme but includes rich examples. The "show expected output" pattern is valuable for creative prompts where quality is subjective.
-
----
-
-[Continue for 2-3 more cycles...]
-
----
-
-## Research Summary Table
-
-| Aspect | Copy.ai | Anthropic | Jasper | Best Practice |
-|--------|---------|-----------|--------|---------------|
-| Organization | By output type | By task category | By use case + industry | Output type + audience |
-| Skill levels | Implicit in complexity | Explicit complexity tags | Templates vs custom | Add difficulty field |
-| Examples | Before/after | Full output | Variations | Include 2+ examples |
-| Customization | Tone, length, style inputs | System prompt guidance | Brand voice settings | Add variables section |
-
-## Recommendations
-
-**1. Organize by Output Type**
-
-- Pattern: Group prompts by what they produce (emails, posts, ads) not how they work
-- Evidence: Copy.ai, Jasper both use this
-- Application: Create subfolders: creative/emails/, creative/social/, creative/long-form/
-- Priority: P0
-- Effort: Medium
-
-**2. Include Rich Examples**
-
-- Pattern: Show 2+ example outputs for each creative prompt
-- Evidence: Anthropic shows full outputs; Copy.ai shows before/after
-- Application: Add "Example Output" section to all creative prompts
-- Priority: P0
-- Effort: High
-
-**3. Add Tone/Style Variables**
-
-- Pattern: Let users specify tone (formal/casual), length, audience
-- Evidence: All three sources include customization options
-- Application: Add [TONE], [LENGTH], [AUDIENCE] variables
-- Priority: P1
-- Effort: Low
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ---
 
 ## Tips

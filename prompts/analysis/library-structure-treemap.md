@@ -85,44 +85,6 @@ Size the tiles equally to represent count, or color-code them by "Category" to s
 
 I want to instantly see that "Business" and "Analysis" are my largest sections compared to "Creative" or "System".
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Example Visualization (Mermaid)
-
-Use Mermaid's `mindmap` diagram to approximate a treemap-style hierarchy. Replace the sample prompts with your actual files or aggregate labels when the list is long.
-
-```mermaid
-%% Mermaid mindmap approximating the prompt library hierarchy
-mindmap
-  root((Prompt Library))
-    Business
-      "Agile Sprint Planner"
-      "Resource Allocation Optimizer"
-      "Market Entry Strategist"
-    Analysis
-      "Data Analysis Insights"
-      "Requirements Analysis Expert"
-      "Trend Analysis Specialist"
-    Developers
-      "API Design Consultant"
-      "Code Review Assistant"
-      "Cloud Migration Specialist"
-    Advanced
-      "Chain of Thought Guide"
-      "Tree of Thoughts Template"
-    Creative
-      "Content Marketing Blog Post"
-    Governance
-      "Data Quality Assessment"
-    System
-      "Incident Response Orchestrator"
-<<<<<<< HEAD
-```text
-=======
 ```
 
 ## Variables
@@ -136,4 +98,3 @@ mindmap
 - **Use consistent sizing**: Ensure tiles are sized proportionally to accurately represent relative category sizes
 - **Color code by category**: Use distinct colors for each main category for quick visual identification
 - **Interactive elements**: Consider making the treemap interactive so users can drill down into individual prompts
->>>>>>> main

@@ -60,37 +60,7 @@ Provide:
 5. Recovery automation
 6. Communication plan
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[budget]`: Budget
-- `[compliance]`: Compliance
-- `[rpo]`: Rpo
-- `[rto]`: Rto
-- `[systems]`: Systems
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[systems]: Critical Patient Records Database (SQL Server), Medical Imaging Archive (PACS/Blob Storage)
-[rto]: 15 minutes (Maximum downtime)
-[rpo]: 5 minutes (Maximum data loss)
-[budget]: $50k/year for standby infrastructure
-[compliance]: HIPAA (Encryption required, data sovereignty within US)
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -111,12 +81,10 @@ Provide:
 
 [... continues with testing framework and recovery automation ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

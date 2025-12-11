@@ -148,51 +148,7 @@ When responding, follow this structure (use Markdown headings):
 
 Output must be thorough, cite relevant standards, and reference ADR IDs for every decision.
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `[business_summary]` | 3–4 sentences describing the product/problem statement | "MercuryCart is a B2C marketplace processing 40M orders/year..." |
-| `[business_goal]` | Desired business outcomes (ARR targets, latency goals, etc.) | "Reduce checkout latency to <250ms p95, enable weekly deploys" |
-| `[current_state]` | Monolith, modular monolith, partial services, tech debt context | "Monolith + background workers, shared Postgres, manual Jenkins" |
-| `[domains]` | Primary business domains / capabilities | "Catalog, Pricing, Promotions, Checkout, Payment, Inventory" |
-| `[domain_events]` | Key domain events discovered via Event Storming | "ProductListed, PriceChanged, CartCheckedOut, PaymentCaptured" |
-| `[nfrs]` | Non-functional requirements (latency, availability, compliance) | "99.95% availability, PCI DSS Level 1, <1% order failure" |
-| `[scale]` | User, transaction, data volume forecasts | "15K RPS peak reads, 2K RPS writes, 6TB growth annually" |
-| `[tech_prefs]` | Preferred stacks + prohibited technologies | "JVM/TypeScript, Kubernetes, Postgres, Kafka, no vendor lock-in" |
-| `[team_structure]` | Team Topology summary (stream-aligned, enabling, platform) | "6 stream-aligned squads + 1 enabling DevX team" |
-| `[migration_context]` | Greenfield, strangler, coexistence window, etc. | "Strangler fig around checkout/payment; co-exist 12 months" |
-| `[governance]` | Regulatory/compliance constraints that influence architecture | "Architecture Review Board, ADRs in Notion, SOC2 quarterly" |
-
----
-
-## Example Usage
-
-**Input**
-
-```text
-[business_summary]: MercuryCart is a B2C marketplace processing 40M orders/year with seasonal traffic spikes (5× during holidays). Current Ruby on Rails monolith (9 years old) slows feature velocity and fails PCI attestation due to shared DB access.
-[business_goal]: Reduce checkout latency to <250ms p95, enable weekly deploys, support 2× GMV growth in APAC.
-[current_state]: Monolith + background workers, shared Postgres, manual Jenkins pipeline, ops on-call overloaded.
-[domains]: Catalog, Pricing, Promotions, Checkout, Payment, Inventory, Fulfillment, Customer Care.
-[domain_events]: ProductListed, PriceChanged, PromotionActivated, CartCheckedOut, PaymentCaptured, InventoryReserved.
-[nfrs]: 99.95% availability, PCI DSS Level 1, GDPR, <1% order failure, audit trail 7 years.
-[scale]: 15K RPS peak reads, 2K RPS writes, 6TB order history growth annually.
-[tech_prefs]: JVM/TypeScript friendly, Kubernetes, Postgres/Elastic/Redis, Kafka, Terraform, no vendor lock-in.
-[team_structure]: 6 stream-aligned squads (Catalog, Pricing, Checkout, Fulfillment, Experience, Platform) + 1 enabling DevX team.
-[migration_context]: Strangler fig around checkout/payment first; co-exist with monolith for 12 months.
-[governance]: Architecture Review Board approval required; ADRs stored in Notion; SOC2 & PCI quarterly audits.
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Excerpt of Expected Output**
 
 ```text
@@ -225,12 +181,8 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 - Eventual consistency acceptable for promotions updates (<5s)
 
 ... (remaining sections)
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 Run the full prompt with your own inputs to receive the complete, fully formatted architecture package.
 
 ---
@@ -284,12 +236,10 @@ What is the change we're proposing and/or doing?
 ## Consequences
 What becomes easier or harder because of this decision?
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Related Prompts
 
 - `api-design-consultant`

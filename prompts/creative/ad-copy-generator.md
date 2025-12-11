@@ -89,14 +89,10 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-<<<<<<< HEAD
-```python
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Variables
 
 | Variable | Description |
@@ -157,12 +153,8 @@ Please provide:
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
-<<<<<<< HEAD
-```python
-=======
 ```text
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -347,14 +339,10 @@ Based on B2B SaaS search campaigns in this category:
 4. **Start with Target CPA bidding** once you have 15+ conversions, then test Maximize Conversions
 
 5. **Review search terms weekly** to add negatives and find new opportunities
-<<<<<<< HEAD
-```python
-=======
 ```text
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Match message to intent:** Cold audiences need education; warm audiences need differentiation; hot audiences need a clear CTA

@@ -58,35 +58,7 @@ Include:
 5. Action item tracking
 6. Follow-up procedures
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[attendees]`: Attendees
-- `[decisions]`: Decisions
-- `[duration]`: Duration
-- `[purpose]`: Purpose
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[purpose]: Q3 Quarterly Business Review (QBR)
-[attendees]: Regional Sales Directors (x4), VP Sales, Marketing Lead, Finance Partner
-[duration]: 4 Hours (Half-day offsite)
-[decisions]: Finalize Q4 Quotas, Approve Q4 Marketing Budget Allocation, Go/No-Go on "Winter Promo"
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -108,12 +80,10 @@ Include:
 
 [... continues with decision process and follow-up ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

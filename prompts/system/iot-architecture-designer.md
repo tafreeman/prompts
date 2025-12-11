@@ -60,37 +60,7 @@ Provide:
 5. Security framework
 6. Management platform
 ```text
-<<<<<<< HEAD
-=======
 
----
-
->>>>>>> main
-## Variables
-
-- `[connectivity]`: Connectivity
-- `[data_volume]`: Data Volume
-- `[devices]`: Devices
-- `[security]`: Security
-- `[use_case]`: Use Case
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[use_case]: Smart Factory Predictive Maintenance
-[devices]: Vibration sensors (10k units), Temperature gauges (5k units), PLC controllers
-[data_volume]: 1TB/day streaming telemetry
-[connectivity]: LoRaWAN for sensors (low power), MQTT over Wi-Fi for controllers
-[security]: Mutual TLS (mTLS) for device auth, end-to-end encryption, air-gapped OT network
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 **Output:**
 
 ```text
@@ -111,12 +81,10 @@ Provide:
 
 [... continues with management platform and cloud integration ...]
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
+
 ## Tips
 
 - Be specific when filling in placeholder values for better results

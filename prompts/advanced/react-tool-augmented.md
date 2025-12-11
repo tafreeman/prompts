@@ -44,35 +44,6 @@ The pattern has been further refined through reflection mechanisms:
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions allows models to create, maintain, and adjust plans while also interacting with external sources for additional information. Shinn et al. extended this by introducing verbal reinforcement learning, where agents reflect on task feedback signals and maintain their own reflective text in an episodic memory buffer to make better decisions in subsequent trials.
 
-<<<<<<< HEAD
-### ReAct Cycle Visualization
-
-<!-- Diagram: ReAct Think-Act-Observe-Reflect Loop -->
-<!-- Alt: Flowchart showing the iterative cycle of Thought leading to Action, Action producing Observation, and Observation triggering Reflection which leads back to the next Thought -->
-
-```mermaid
-flowchart LR
-    Start([🎯 Task Goal]) --> Think[💭 Thought<br/>Reason about<br/>next step]
-    Think --> Act[⚡ Action<br/>Execute tool<br/>or operation]
-    Act --> Observe[👁️ Observation<br/>Receive results<br/>from tool]
-    Observe --> Reflect{🤔 Reflection<br/>Goal achieved?}
-    Reflect -->|No, continue| Think
-    Reflect -->|Yes| End([✅ Task Complete])
-    
-    style Start fill:#e1f5fe
-    style Think fill:#fff9c4
-    style Act fill:#f3e5f5
-    style Observe fill:#e8f5e9
-    style Reflect fill:#fff3e0
-    style End fill:#c8e6c9
-```
-
-**Legend:**
-- 💭 **Thought**: AI reasons about what to do next
-- ⚡ **Action**: AI executes a tool or takes an action
-- 👁️ **Observation**: AI receives and processes tool output
-- 🤔 **Reflection**: AI evaluates if the goal is achieved
-=======
 ---
 
 ## ReAct Cycle Visualization
@@ -102,7 +73,6 @@ flowchart LR
 - 👁️ **Observation**: System returns actual tool output
 - 📊 **Reflection**: Assess progress toward goal
 - ✅ **Answer**: Complete response when sufficient information gathered
->>>>>>> main
 
 ---
 
@@ -163,64 +133,8 @@ Continue this cycle until you can provide:
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Variables
-
-- `[DESCRIBE_TASK_GOAL]`: The specific objective you're trying to achieve
-- `[PROVIDE_BACKGROUND]`: Context, constraints, success criteria
-- `[LIST_TOOLS_WITH_DESCRIPTIONS]`: Available tools with their purposes and parameters
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-You are an AI assistant using the ReAct (Reasoning + Acting) pattern to solve tasks.
-
-**Task**: Analyze the security vulnerabilities in our API and provide a risk-ranked report
-
-**Context**: 
-- Production API at https://api.example.com
-- Recent penetration test suggested issues
-- Need to prioritize fixes for next sprint
-- Budget: 40 engineering hours
-
-**Available Tools**:
-1. **security_scan**
-   - Runs automated security scanner
-   - Parameters: {endpoint: string, scan_type: "full"|"quick"}
-   - Returns: List of vulnerabilities with CVSS scores
-
-2. **api_documentation_fetch**
-   - Retrieves API docs for specific endpoints
-   - Parameters: {endpoint: string}
-   - Returns: Endpoint specification, authentication, rate limits
-
-3. **git_history_search**
-   - Searches git history for security-related changes
-   - Parameters: {keyword: string, since: date}
-   - Returns: Commits matching keyword
-
-4. **query_database**
-   - Executes read-only SQL query
-   - Parameters: {query: string}
-   - Returns: Query results
-
-**Instructions**:
-[As specified above]
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 **Output:**
 
 ```text
@@ -468,45 +382,6 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 **Total engineering time**: 50 hours across 2 sprints
 **Critical path**: 38 hours (fits in 40-hour budget for this sprint with 2 hours buffer)
 ```text
-<<<<<<< HEAD
-=======
-
----
-
->>>>>>> main
-## Tips
-
-- **Think explicitly**: Don't skip the Thought step - it's what makes reasoning transparent
-- **One tool per cycle**: Don't call multiple tools in one Action - break them into separate cycles
-- **Observe accurately**: Never hallucinate tool results - wait for actual system output
-- **Reflect meaningfully**: Don't just say "good" - analyze what you learned and what's next
-- **Know when to stop**: Once you have sufficient information, provide Final Answer
-- **Handle errors gracefully**: If a tool fails, reflect on it and try alternative approach
-- **Tool selection matters**: Think carefully about which tool gives you the information you need
-
-## When to Use ReAct vs Other Patterns
-
-| Use Case | ReAct | CoT | Direct |
-|----------|-------|-----|--------|
-| Need external data | ✓ | ✗ | ✗ |
-| Pure reasoning problem | ✗ | ✓ | ✗ |
-| Simple lookup | ✗ | ✗ | ✓ |
-| Multi-step research | ✓ | ✗ | ✗ |
-| API integration | ✓ | ✗ | ✗ |
-| Complex analysis with data | ✓ | Partial | ✗ |
-| Need action audit trail | ✓ | Partial | ✗ |
-
----
-
-## Related Prompts
-
-- [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - RAG-specific ReAct pattern
-- [Chain-of-Thought: Concise](chain-of-thought-concise.md) - Pure reasoning without tools
-<<<<<<< HEAD
-
----
-=======
->>>>>>> main
 
 ## Output Schema (JSON)
 
@@ -533,12 +408,9 @@ For automation pipelines:
   "success": true
 }
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Governance Notes
 
 - **PII Safety**: Exercise caution when using tools that query databases or APIs containing PII
@@ -554,34 +426,7 @@ For automation pipelines:
 ```text
 @workspace use ReAct pattern to [task] with available tools: @mcp-tool1, @mcp-tool2
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
-### LangChain Integration
-
-```python
-from langchain.agents import initialize_agent, AgentType
-from langchain.tools import Tool
-
-tools = [
-    Tool(name="SecurityScan", func=security_scan, description="..."),
-    Tool(name="FetchDocs", func=fetch_docs, description="...")
-]
-
-agent = initialize_agent(
-    tools,
-    llm,
-    agent=AgentType.REACT_DOCSTORE,
-    verbose=True
-)
-
-result = agent.run("Analyze security vulnerabilities...")
-```text
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 ### Custom API Implementation
 
 ```python
@@ -602,8 +447,4 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
     
     return "Max cycles reached without solution"
-<<<<<<< HEAD
-```text
-=======
 ```json
->>>>>>> main
