@@ -240,6 +240,8 @@ If applicable, provide before/after snippets showing how to fix the most critica
 [Improved version]
 ```text
 
+```
+
 ---
 
 ### Phase 2: Self-Critique and Reflection
@@ -348,12 +350,9 @@ Include:
 5. Action item tracking
 6. Follow-up procedures
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Variables
 
 - `[attendees]`: Attendees
@@ -370,10 +369,7 @@ Include:
 - Intended Audience: Business users, project managers, enterprise
 
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **Output (Excerpt):**
 
 ```text
@@ -447,10 +443,7 @@ Include:
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
 ```text
-<<<<<<< HEAD
-=======
 
->>>>>>> main
 **After:**
 
 ```text
@@ -463,12 +456,8 @@ Include:
 - `[attendees]`: Participant roles and names (e.g., "VP Product, 3 Product Managers, 2 Senior Engineers")
 - `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
 - `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
-<<<<<<< HEAD
-```sql
-=======
 ```text
 
->>>>>>> main
 ---
 
 ### Phase 2: Self-Critique
@@ -502,12 +491,9 @@ Include:
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
 ```text
-<<<<<<< HEAD
-=======
 
 ---
 
->>>>>>> main
 ## Tips
 
 - **Word count matters**: Prompts with <30 words of instruction are almost always insufficient
