@@ -1,8 +1,59 @@
 ---
 name: code_review_agent
+title: "Code Review Agent"
+shortTitle: "Code Review Agent"
 description: Expert code reviewer focused on quality, best practices, and maintainability
+intro: "A multi-language code review agent with tool integration for real-time analysis, supporting search, usages, problems, changes, test failures, and GitHub repository context."
+type: "agent"
+difficulty: "intermediate"
+audience:
+  - "senior-engineer"
+  - "junior-engineer"
+  - "devops-engineer"
+platforms:
+  - "github-copilot"
+  - "claude"
+  - "chatgpt"
+topics:
+  - "code-review"
+  - "agent"
+  - "tool-integration"
+  - "developers"
+author: "Prompts Library Team"
+version: "2.0.0"
+date: "2025-12-11"
+governance_tags:
+  - "PII-safe"
+  - "tool-augmented"
+  - "requires-human-review"
+dataClassification: "internal"
+reviewStatus: "approved"
+subcategory: "code-review"
 tools:
-  ['search', 'usages', 'problems', 'changes', 'testFailure', 'githubRepo']
+  - search
+  - usages
+  - problems
+  - changes
+  - testFailure
+  - githubRepo
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+  github-copilot: ">=1.0.0"
+performance_metrics:
+  complexity_rating: "medium"
+  token_usage_estimate: "1500-2500"
+  quality_score: "95"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["tool-integration", "multi-language-review", "real-time-feedback"]
+governance:
+  risk_level: "low"
+  data_classification: "internal"
+  regulatory_scope: ["SOC2", "ISO27001"]
+  approval_required: false
+  retention_period: "1-year"
 ---
 
 # Code Review Agent

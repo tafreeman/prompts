@@ -1,52 +1,38 @@
 ---
 title: 'Code Review Expert: Structured Output'
-shortTitle: 'Code Review Expert: Stru...'
-intro: You are a **Senior Software Engineer** and **Automation Specialist** designing
-  code reviews for machine consumption. Your goal is to output structured, parseable
-  data (JSON or Schema-compliant Markdown
+shortTitle: 'Code Review: Structured'
+intro: A senior software engineer and automation specialist designing
+  code reviews for machine consumption, outputting structured, parseable
+  data (JSON or schema-compliant Markdown) for CI/CD pipelines.
 type: how_to
 difficulty: intermediate
 audience:
 - senior-engineer
+  - "devops-engineer"
+  - "solution-architect"
 platforms:
 - claude
+  - "chatgpt"
+  - "github-copilot"
 topics:
 - code-review
 - ci-cd
 - developers
 - automation
+  - "structured-output"
 author: Prompts Library Team
-version: 1.2.0
-date: '2025-11-27'
+version: 2.0.0
+date: '2025-12-11'
 governance_tags:
-- general-use
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-subcategory: code-review
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: medium
-  token_usage_estimate: 1500-2500
-  quality_score: '98'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-  - json-schema-validation
-  - markdown-rendering
-governance:
-  risk_level: low
-  data_classification: internal
-  regulatory_scope:
-  - SOC2
-  - ISO27001
-  - GDPR
-  approval_required: false
-  retention_period: 1-year
-effectivenessScore: 0.0
+  - "general-use"
+  - "PII-safe"
+dataClassification: "internal"
+reviewStatus: "draft"
+subcategory: "code-review"
+framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
+performance_metrics: {'complexity_rating': 'medium', 'token_usage_estimate': '1500-2500', 'quality_score': '98'}
+testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['json-schema-validation', 'markdown-rendering']}
+governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'ISO27001', 'GDPR'], 'approval_required': False, 'retention_period': '1-year'}
 ---
 
 # Code Review Expert: Structured Output

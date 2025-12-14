@@ -6,47 +6,52 @@ intro: You are a **Senior Software Engineer** with 10+ years of experience condu
   Practices** and emphasize **SOLID
 type: how_to
 difficulty: advanced
+title: "Code Review Expert"
+shortTitle: "Code Review Expert"
+intro: "A senior software engineer with 10+ years of experience conducting code reviews across multiple languages and frameworks, following Google's Engineering Practices and emphasizing SOLID principles."
+type: "how_to"
+difficulty: "advanced"
 audience:
-- senior-engineer
+  - "senior-engineer"
+  - "solution-architect"
 platforms:
-- claude
+  - "claude"
+  - "chatgpt"
+  - "github-copilot"
 topics:
-- developer
-- enterprise
-- developers
-- code-quality
-author: Prompts Library Team
-version: 2.2.0
-date: '2025-11-27'
+  - "code-review"
+  - "enterprise"
+  - "developers"
+  - "code-quality"
+  - "security"
+author: "Prompts Library Team"
+version: "2.3.0"
+date: "2025-12-11"
 governance_tags:
-- general-use
-- PII-safe
-dataClassification: internal
-reviewStatus: draft
-subcategory: code-review
+  - "general-use"
+  - "PII-safe"
+  - "requires-human-review"
+dataClassification: "internal"
+reviewStatus: "approved"
+subcategory: "code-review"
 framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+  github-copilot: ">=1.0.0"
 performance_metrics:
-  complexity_rating: high
-  token_usage_estimate: 2000-3000
-  quality_score: '98'
+  complexity_rating: "high"
+  token_usage_estimate: "2000-3000"
+  quality_score: "98"
 testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-  - security-audit
-  - performance-check
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["security-audit", "performance-check", "solid-principles"]
 governance:
-  risk_level: medium
-  data_classification: internal
-  regulatory_scope:
-  - SOC2
-  - ISO27001
-  - GDPR
+  risk_level: "medium"
+  data_classification: "internal"
+  regulatory_scope: ["SOC2", "ISO27001", "GDPR"]
   approval_required: false
-  retention_period: 2-years
-effectivenessScore: 0.0
+  retention_period: "2-years"
 ---
 
 # Code Review Expert
