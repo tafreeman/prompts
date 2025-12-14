@@ -1,30 +1,33 @@
 ---
-title: "ReAct: OSINT Research & Development"
-shortTitle: "OSINT Research"
-intro: "A specialized ReAct prompt for researching and developing advanced OSINT (Open Source Intelligence) capabilities, tools, and methodologies."
-type: "how_to"
-difficulty: "advanced"
+title: 'ReAct: OSINT Research & Development'
+shortTitle: OSINT Research
+intro: A specialized ReAct prompt for researching and developing advanced OSINT (Open
+  Source Intelligence) capabilities, tools, and methodologies.
+type: how_to
+difficulty: advanced
 audience:
-  - "security-researcher"
-  - "intelligence-analyst"
-  - "investigator"
+- security-researcher
+- intelligence-analyst
+- investigator
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "osint"
-  - "research"
-  - "security"
-author: "OSINT Library Team"
-version: "1.0"
-date: "2025-11-30"
+- osint
+- research
+- security
+author: OSINT Library Team
+version: '1.0'
+date: '2025-11-30'
 governance_tags:
-  - "PII-safe"
-  - "ethical-use-only"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- ethical-use-only
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # ReAct: OSINT Research & Development
 
 ## Description

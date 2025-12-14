@@ -1,28 +1,31 @@
 ---
-title: "Tree-of-Thoughts: Architecture Evaluator"
-shortTitle: "ToT Architecture Evaluator"
-intro: "A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning."
-type: "how_to"
-difficulty: "advanced"
+title: 'Tree-of-Thoughts: Architecture Evaluator'
+shortTitle: ToT Architecture Evaluator
+intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture
+  options using systematic multi-branch reasoning.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "architecture"
-  - "decision-making"
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
+- architecture
+- decision-making
+author: Prompt Engineering Team
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Tree-of-Thoughts: Architecture Evaluator
 
 ---
@@ -52,6 +55,22 @@ Use this prompt when facing architectural crossroads: choosing between patterns 
 - Requirements (functional and non-functional)
 - Constraints (team size, budget, timeline, compliance)
 - Key evaluation criteria (scalability, cost, complexity, etc.)
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[PROBLEM_DESCRIPTION]` | Yes | The architectural problem statement to evaluate. | `Scale API from 10K to 1M users in 12 months` |
+| `[EXISTING_ARCHITECTURE_OR_GREENFIELD]` | Yes | Current context or whether it is greenfield. | `Rails monolith + PostgreSQL` |
+| `[FUNCTIONAL_REQUIREMENT_1]` | Yes | One functional requirement (add more as needed). | `Support web and mobile clients` |
+| `[SCALABILITY_REQUIREMENTS]` | Yes | Scalability requirements and assumptions. | `Handle 5× traffic spikes` |
+| `[LATENCY_THROUGHPUT_TARGETS]` | Yes | Performance targets. | `<200ms p99, 1k req/s` |
+| `[UPTIME_REQUIREMENTS]` | Yes | Availability requirements. | `99.9% uptime` |
+| `[SECURITY_COMPLIANCE_NEEDS]` | No | Security/compliance constraints. | `SOC2, GDPR` |
+| `[TEAM_SIZE_EXPERIENCE_SKILLS]` | No | Team size and skill profile. | `10 devs; strong Rails; limited ops` |
+| `[BUDGET_CONSTRAINTS]` | No | Budget constraints. | `$50k/month infra` |
+| `[DELIVERY_DEADLINE]` | No | Timeline constraints. | `12 months` |
+| `[ANY_OTHER_RELEVANT_INFO]` | No | Any additional context or constraints. | `must minimize downtime during deploys` |
 
 ## Assumptions
 
@@ -110,6 +129,22 @@ Structured Markdown with the following sections:
 - Migrating legacy systems (rewrite vs refactor vs strangle fig)
 
 ---
+
+## Example
+
+**Inputs**
+
+- `[PROBLEM_DESCRIPTION]`: `Migrate a monolith to support rapid feature delivery and 10× traffic growth`
+- `[EXISTING_ARCHITECTURE_OR_GREENFIELD]`: `Node.js monolith + PostgreSQL`
+- `[SECURITY_COMPLIANCE_NEEDS]`: `SOC2`
+- `[TEAM_SIZE_EXPERIENCE_SKILLS]`: `8 engineers; limited SRE support`
+- `[DELIVERY_DEADLINE]`: `9 months`
+
+**Expected output (high level)**
+
+- 3–5 distinct architecture branches
+- A trade-off matrix + pruned options
+- A recommendation with risks and mitigations
 
 ## Prompt
 

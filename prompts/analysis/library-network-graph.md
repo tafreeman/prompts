@@ -1,27 +1,30 @@
 ---
-title: "Library Network Graph Generator"
-shortTitle: "Network Graph Generator"
-intro: "Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library."
-type: "how_to"
-difficulty: "advanced"
+title: Library Network Graph Generator
+shortTitle: Network Graph Generator
+intro: Guides generation of a Network Graph to visualize relationships and workflows
+  between different prompts in the library.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "visualization"
-  - "analysis"
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
+- visualization
+- analysis
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
 
@@ -93,6 +96,30 @@ This should look like a constellation showing clusters of related capabilities.
 |:---------|:------------|:--------|
 | `[PROMPT_LIST]` | List of prompts in the library | ["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"] |
 | `[WORKFLOW_DEFINITIONS]` | Optional definitions of workflows connecting prompts | "SDLC: requirements-analysis → api-design → code-review → quality-assurance" |
+
+## Example
+
+**Input:**
+
+```text
+PROMPT_LIST:
+- requirements-analysis-expert.md (category: analysis)
+- api-design-consultant.md (category: developers)
+- code-review-assistant.md (category: developers)
+- market-research-analyst.md (category: analysis)
+
+WORKFLOW_DEFINITIONS:
+- "SDLC: requirements-analysis-expert.md -> api-design-consultant.md -> code-review-assistant.md"
+```
+
+**Output:**
+
+```text
+Return either:
+- Mermaid/Graphviz code that creates one node per prompt file, edges connecting prompts in the same category,
+  plus explicit edges for the SDLC workflow; or
+- Python/NetworkX code that builds the graph with category-based coloring and renders a readable layout.
+```
 
 ## Tips
 

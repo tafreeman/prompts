@@ -1,28 +1,30 @@
 ---
-title: "DevOps Architecture Planner"
-shortTitle: "DevOps Architecture Planner"
-intro: "Designs DevOps and CI/CD architectures"
-type: "how_to"
-difficulty: "advanced"
+title: DevOps Architecture Planner
+shortTitle: DevOps Architecture Planner
+intro: Designs DevOps and CI/CD architectures
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "enterprise"
-  - "devops"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- enterprise
+- devops
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # DevOps Architecture Planner
 
 ---

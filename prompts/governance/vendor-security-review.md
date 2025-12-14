@@ -1,33 +1,36 @@
 ---
-title: "Vendor Security Reviewer"
-shortTitle: "Vendor Review"
-intro: "A prompt to analyze vendor security questionnaires and documentation to assess third-party risk."
-type: "how_to"
-difficulty: "intermediate"
+title: Vendor Security Reviewer
+shortTitle: Vendor Review
+intro: A prompt to analyze vendor security questionnaires and documentation to assess
+  third-party risk.
+type: how_to
+difficulty: intermediate
 audience:
-  - "security-analyst"
-  - "procurement-manager"
+- security-analyst
+- procurement-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "security"
-  - "third-party-risk"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- security
+- third-party-risk
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "security-critical"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- security-critical
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "ISO-27001"
-  - "SOC-2"
-  - "GDPR"
+- ISO-27001
+- SOC-2
+- GDPR
+effectivenessScore: 0.0
 ---
+
 # Vendor Security Reviewer
 
 ---

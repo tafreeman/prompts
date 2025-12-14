@@ -1,30 +1,34 @@
 ---
-title: "M365 Personal Task Collector"
-shortTitle: "M365 Personal Task Colle..."
-intro: "This prompt helps an individual extract and organize personal tasks from unstructured sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes, and calendar events to identi..."
-m365App: "Microsoft 365 Copilot Chat"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Personal Task Collector
+shortTitle: M365 Personal Task Colle...
+intro: This prompt helps an individual extract and organize personal tasks from unstructured
+  sources across Microsoft 365. It scans recent emails, Teams chats, meeting notes,
+  and calendar events to identi...
+m365App: Microsoft 365 Copilot Chat
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "copilot"
-  - "task-management"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- copilot
+- task-management
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Personal Task Collector
 
 ---
@@ -55,6 +59,18 @@ The user provides:
 - `[time_window]`: How far back to scan for tasks (e.g., "last 7 days", "last 2 weeks").
 - `[priority_definition]`: How to assign priority (e.g., "High = urgent and important, Medium = important but not urgent, Low = nice-to-have").
 - Optional: `[exclude_completed]`: Whether to exclude tasks already marked as done or resolved.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[time_window]` | Yes | How far back to scan for tasks. | `last 7 days` |
+| `[priority_definition]` | Yes | How priority should be assigned. | `High = urgent + important; Medium = important; Low = nice-to-have` |
+| `[exclude_completed]` | No | Whether to exclude tasks already marked done/resolved. | `true` |
+| `[task]` | No (output placeholder) | Placeholder used in the output table rows. | `Deploy API timeout fix` |
+| `[description]` | No (output placeholder) | Placeholder used in the output table rows. | `Complete validation and deploy to production` |
+| `[date]` | No (output placeholder) | Placeholder used in the output table rows. | `Nov 22` |
+| `[priority]` | No (output placeholder) | Placeholder used in the output table rows. | `High` |
 
 ## Assumptions
 
@@ -184,6 +200,30 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 ```text
 
 ---
+
+## Example
+
+**Inputs**
+
+- `[time_window]`: `last 7 days`
+- `[priority_definition]`: `High = urgent and important; Medium = important; Low = nice-to-have`
+- `[exclude_completed]`: `true`
+
+**Expected output (excerpt)**
+
+```text
+## Tasks Summary
+I found 10 tasks you're responsible for over the last 7 days, mostly follow-ups from meetings and email requests.
+
+## Task List
+| Task | Description | Suggested Due Date | Priority |
+|------|-------------|-------------------|----------|
+| Respond to customer escalation email | Provide an update to the CS team | Nov 19 | High |
+| Schedule go/no-go meeting | Book time with key stakeholders | Nov 20 | Medium |
+
+## Uncertain or Ambiguous Tasks
+- "Review onboarding improvements" mentioned in chat — what scope and timeframe?
+```
 
 
 ## Tips

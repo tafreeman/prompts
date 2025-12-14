@@ -1,30 +1,34 @@
 ---
-title: "M365 Daily Standup Assistant"
-shortTitle: "M365 Daily Standup"
-intro: "This prompt helps an individual knowledge worker quickly generate clear, concise daily standup talking points using their recent Microsoft 365 activity. It leverages emails, calendar events, Teams ..."
-m365App: "Microsoft 365 Copilot Chat"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Daily Standup Assistant
+shortTitle: M365 Daily Standup
+intro: This prompt helps an individual knowledge worker quickly generate clear, concise
+  daily standup talking points using their recent Microsoft 365 activity. It leverages
+  emails, calendar events, Teams ...
+m365App: Microsoft 365 Copilot Chat
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "copilot"
-  - "standup"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- copilot
+- standup
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Daily Standup Assistant
 
 ---
@@ -177,6 +181,33 @@ Return the result in Markdown with the following sections:
 Now, based on [time_window] and [team_or_project_name], draft my standup talking points.
 If anything critical is unclear, ask clarifying questions first, then provide the final output.
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[time_window]` | How far back to look for relevant activity (e.g., "24 hours") |
+| `[team_or_project_name]` | Team/project name to focus the standup on |
+| `[max_bullets_per_section]` | Maximum bullets in each section (Yesterday/Today/Blockers) |
+| `[focus_topics]` | Optional themes to emphasize (risks, dependencies, customer issues) |
+
+## Example
+
+**Input:**
+
+```text
+time_window: last 24 hours
+team_or_project_name: Onboarding Platform V2
+max_bullets_per_section: 4
+focus_topics: risks, dependencies
+```
+
+**Output:**
+
+```text
+Markdown sections: ## Yesterday / ## Today / ## Blockers / ## Optional Follow-ups
+with <=4 concise bullets per section.
+```
 
 **Output:**
 

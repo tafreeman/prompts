@@ -1,49 +1,36 @@
 ---
-title: "ReAct: OSINT & Cyber Resource Gathering"
-shortTitle: "OSINT Resource Gathering"
-intro: "ReAct pattern for iteratively finding, verifying, and cataloging OSINT, SOCMINT, and Cyber tools and resources."
+title: "ReAct: Document Search and Synthesis"
+shortTitle: "ReAct Document Search"
+intro: "ReAct pattern for iterative document search and synthesis, combining reasoning with strategic retrieval for complex research questions."
 type: "how_to"
 difficulty: "advanced"
 audience:
-  - "security-researcher"
-  - "intelligence-analyst"
-  - "red-team"
+  - "senior-engineer"
+  - "solution-architect"
 platforms:
   - "claude"
   - "chatgpt"
   - "github-copilot"
 topics:
-  - "osint"
-  - "socmint"
-  - "cybersecurity"
-  - "research"
   - "react"
+  - "research"
 author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-30"
+version: "1.0"
+date: "2025-11-25"
 governance_tags:
-<<<<<<< HEAD
-  - "security-tools"
-  - "requires-verification"
-dataClassification: "public"
-=======
   - "PII-safe"
   - "requires-human-review"
   - "audit-required"
 dataClassification: "internal"
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 reviewStatus: "draft"
-effectivenessScore: 4.8
+effectivenessScore: 4.6
 ---
-# ReAct: OSINT & Cyber Resource Gathering
+# ReAct: Document Search and Synthesis
 
 ---
 
 ## Description
 
-<<<<<<< HEAD
-This prompt utilizes the ReAct (Reasoning + Acting) pattern to systematically gather, verify, and catalog resources for OSINT (Open Source Intelligence), SOCMINT (Social Media Intelligence), and Cybersecurity. Unlike simple search, this prompt enforces a rigorous cycle of finding a resource, verifying its credibility/freshness, and categorizing it within a larger library of tools.
-=======
 ReAct (Reasoning + Acting) pattern specialized for document search and synthesis combines iterative reasoning with document retrieval actions. Unlike standard RAG which retrieves documents once, ReAct allows the AI to reason about what information is needed, search for it, analyze the results, and iteratively refine its search strategy. This creates a transparent research process ideal for complex questions requiring information from multiple sources with strategic retrieval.
 
 ---
@@ -57,107 +44,120 @@ This technique combines two foundational approaches:
 **Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Küttler, H., Lewis, M., Yih, W., Rocktäschel, T., Riedel, S., & Kiela, D. (2020).** "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks." *Advances in Neural Information Processing Systems (NeurIPS) 33*. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
 
 Yao et al. demonstrated that interleaving reasoning traces with task-specific actions enables models to dynamically refine their information gathering strategy. Lewis et al. showed that grounding responses in retrieved documents improves factual accuracy and reduces hallucination. This prompt combines both approaches for strategic, multi-step document research.
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ---
 
 ## Use Cases
 
-- Building a curated library of OSINT tools for a specific domain (e.g., "Instagram Investigations").
-- Gathering Cyber Threat Intelligence (CTI) feeds and repositories.
-- Finding and verifying new SOCMINT utilities on GitHub.
-- Creating "Awesome Lists" of cybersecurity resources.
-- Vetting tools for operational security (OPSEC) risks before inclusion.
+- Complex research questions requiring multiple sources
+- Policy and procedure lookups across distributed documentation
+- Troubleshooting requiring log analysis and documentation synthesis
+- Legal research with cross-referencing requirements
+- Technical documentation navigation for multi-component systems
+- Customer support requiring information synthesis from multiple knowledge bases
+- Code repository exploration for understanding complex features
 
 ---
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[USER_QUESTION]` | Yes | The question you want answered via iterative search and synthesis. | `How does onboarding handle data residency?` |
+| `[BACKGROUND_INFORMATION]` | No | Optional context that constrains or guides the research. | `Fortune 500 customer; strict compliance requirements` |
+
+## Example
+
+**Input**
+
+- `[USER_QUESTION]`: `What is the process for configuring data residency during onboarding?`
+- `[BACKGROUND_INFORMATION]`: `Customer requires EU-only storage; call out timeline risks.`
+
+**Expected output (high level)**
+
+- A short research trail (Thought/Action/Observation/Synthesis cycles)
+- A final answer grounded in cited documents
 
 ## Prompt
 
 ```text
-You are an expert OSINT and Cybersecurity Intelligence Analyst using the ReAct (Reasoning + Acting) pattern to build a high-quality library of resources.
+You are an AI research assistant using the ReAct (Reasoning + Acting) pattern for document search and synthesis.
 
-**Objective**: Gather, verify, and catalog a set of knowledge, repositories, websites, and tools for: [TOPIC]
+**Research Question**: [USER_QUESTION]
 
 **Context**: [BACKGROUND_INFORMATION]
 
-**Available Research Tools**:
-1. **web_search**: Broad search for tools, blogs, and directories.
-   - Parameters: {query: string, site_filter: string (optional)}
-2. **github_search**: Specific search for code repositories and tools.
-   - Parameters: {query: string, language: string, min_stars: integer}
-3. **verify_resource**: Check a resource's health, update status, and reputation.
-   - Parameters: {url: string, check_type: "freshness"|"security"|"reputation"}
-4. **find_alternatives**: Find similar tools to a given resource.
-   - Parameters: {tool_name: string, category: string}
+**Available Search Tools**:
+1. **semantic_search**: Vector similarity search across documents
+   - Parameters: {query: string, max_results: integer, filters: object}
+   - Returns: Ranked document chunks with relevance scores
+
+2. **keyword_search**: Exact keyword/phrase matching
+   - Parameters: {keywords: string[], boolean_operator: "AND"|"OR"}
+   - Returns: Documents containing exact matches
+
+3. **document_fetch**: Retrieve full document by ID
+   - Parameters: {document_id: string}
+   - Returns: Complete document content with metadata
+
+4. **related_documents**: Find documents related to a given document
+   - Parameters: {document_id: string, relationship_type: "cited_by"|"references"|"similar"}
+   - Returns: Related documents with relationship metadata
 
 **Instructions**:
-Use the Thought → Action → Observation → Synthesis cycle to build the library.
+Use the Thought → Action → Observation → Synthesis cycle to research the question.
 
 For each cycle:
 
 **Thought [N]**: 
-- What type of resource am I looking for next? (Tool, Guide, Dataset, Community)
-- How do I verify if this resource is still active and safe?
-- Does this fill a gap in the current collection?
+- What information do I need next?
+- Which search strategy would be most effective?
+- What gaps remain in my understanding?
+- How does this fit with what I already know?
 
 **Action [N]**:
 Tool: [TOOL_NAME]
-Parameters: { ... }
+Parameters: {
+  "param1": "value1",
+  "param2": "value2"
+}
 
-[SYSTEM PROVIDES RESULTS]
+[SYSTEM PROVIDES SEARCH RESULTS]
 
 **Observation [N]**: 
-- What resources did I find?
-- Are they maintained (last commit < 6 months)?
-- Are there red flags (malware reports, abandoned)?
+- What did the search return?
+- Relevance assessment of retrieved documents
+- Key information extracted
+- Document IDs for citation
 
 **Synthesis [N]**:
-- Is this resource worthy of inclusion?
-- How should it be categorized?
-- What is the next logical gap to fill?
+- How does this information answer part of the question?
+- What new questions or gaps emerged?
+- Do I need to refine my search strategy?
+- Am I ready to provide a complete answer?
 
 ---
 
-Continue until you have a comprehensive set. Then provide:
+Continue until you can provide:
 
-**Final Deliverable**:
+**Final Answer**:
+[Comprehensive answer synthesized from all retrieved documents]
 
-## [TOPIC] Resource Library
+**Citations**:
+- [Doc_ID]: Brief description and relevance
+- [Doc_ID]: Brief description and relevance
 
-### 1. Primary Tools & Repositories
-| Name | Type | URL | Description | Last Verified |
-|------|------|-----|-------------|---------------|
-| ...  | CLI/Web | ... | ...         | YYYY-MM-DD    |
+**Research Path Summary**:
+Brief explanation of your search strategy and how you arrived at the answer
 
-### 2. Knowledge Bases & Guides
-- **[Title]** ([URL]): Brief summary of why this guide is valuable.
+**Confidence Assessment**:
+- **High/Medium/Low**: Based on document coverage and consistency
+- **Justification**: Why this confidence level
 
-### 3. Key Data Sources
-- **[Source Name]**: Description of the data provided.
+**Information Gaps** (if any):
+- What information would strengthen this answer
+- Suggested additional searches
 
-<<<<<<< HEAD
-### 4. Gaps & Limitations
-- What areas are still lacking good public tools?
-- Any OPSEC warnings for these specific tools?
-
-**Research Summary**:
-Briefly explain your methodology and how you vetted these resources.
-```
-
-## Variables
-
-- `[TOPIC]`: The specific OSINT/Cyber domain (e.g., "Telegram Investigations", "Cloud Forensics").
-- `[BACKGROUND_INFORMATION]`: Context on why this collection is being built (e.g., "Preparing for a CTF", "Setting up a new SOC").
-
-## Example Usage
-
-**Input:**
-
-```text
-**Objective**: Gather resources for **Instagram SOCMINT**.
-**Context**: Need a set of working tools for a new investigation team. Focus on Python scripts and active web viewers.
-```
-=======
 **Key Requirements**:
 1. Think strategically about each search
 2. Use different search strategies (semantic, keyword, related docs) as appropriate
@@ -166,62 +166,81 @@ Briefly explain your methodology and how you vetted these resources.
 5. Be explicit about search refinements
 6. Acknowledge gaps in available documentation
 ```text
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 **Output:**
 
 ```text
-**Thought 1**: I need to find active Python-based tools for Instagram. Many old tools (like Instaloader forks) are broken due to API changes. I will start by searching GitHub for recently updated repositories.
+**Thought 1**: This is a multi-faceted question covering technical, training, and compliance aspects. I should start with a broad semantic search for "enterprise onboarding" to get an overview, then drill into specific areas. Starting with a comprehensive query will help me understand what documentation exists.
 
 **Action 1**:
-Tool: github_search
+Tool: semantic_search
 Parameters: {
-  "query": "instagram osint",
-  "language": "python",
-  "min_stars": 100
+  "query": "enterprise customer onboarding process workflow",
+  "max_results": 5,
+  "filters": {"document_type": "process", "audience": "internal"}
 }
 
 **Observation 1**:
-Found:
-1. `Instaloader` (Active, high stars) - Downloads photos/metadata.
-2. `Osintgram` (Active, powerful) - Interactive shell for analysis.
-3. `Toutatis` (Active) - Extract info from phone numbers/emails.
-4. `InstaPy` (Deprecated/Botting focused) - Not suitable for pure OSINT.
+[System returns:]
+1. Doc_E001 - "Enterprise Onboarding Master Checklist" (relevance: 0.94)
+   - Overview of 4-phase onboarding process
+   - References other detailed documents
+   
+2. Doc_E012 - "Technical Infrastructure Setup for Enterprise" (relevance: 0.88)
+   - IT provisioning steps
+   - Timeline: 2-3 weeks
+   
+3. Doc_T005 - "Enterprise Training Program Overview" (relevance: 0.82)
+   - Standard training modules
+   - Customization options
+   
+4. Doc_C003 - "Customer Success Playbook - Enterprise" (relevance: 0.79)
+   - Post-onboarding success metrics
+   - Less relevant to initial onboarding
+   
+5. Doc_S001 - "SMB Onboarding Quick Start" (relevance: 0.61)
+   - Not relevant (SMB vs Enterprise)
 
-**Synthesis 1**: `Instaloader` and `Osintgram` are core tools. `Toutatis` is excellent for attribution. I need to verify if `Osintgram` is currently working as IG updates often break it. I also need web-based viewers for passive reconnaissance without login.
+**Synthesis 1**: Good start! Doc_E001 appears to be a master checklist that likely references other documents. Doc_E012 and Doc_T005 cover technical and training aspects. I'm missing compliance/legal requirements. I should fetch the master checklist first to understand the full structure, then search specifically for compliance requirements.
 
-**Thought 2**: Now I will look for web-based Instagram viewers that don't require an account (good for OPSEC).
+---
+
+**Thought 2**: The master checklist (Doc_E001) likely contains the overall process framework and will reference specific documents for each phase. Let me retrieve it in full to understand the complete structure.
 
 **Action 2**:
-Tool: web_search
+Tool: document_fetch
 Parameters: {
-  "query": "best instagram anonymous viewer 2025 osint",
-  "site_filter": "-reddit.com"
+  "document_id": "Doc_E001"
 }
 
-... [Cycles Continue] ...
+**Observation 2**:
+[System returns:]
+Document: "Enterprise Onboarding Master Checklist"
+Last Updated: 2024-10-15
+Owner: Enterprise Success Team
 
-**Final Deliverable**:
+**4-Phase Onboarding Process**:
 
-## Instagram SOCMINT Resource Library
+**Phase 1: Pre-Kickoff (Week -1 to 0)**
+- Contract signature and SOW finalization [Legal]
+- Data Processing Agreement (DPA) if required [Doc_L008]
+- Infrastructure assessment [Doc_E012]
+- Assign Customer Success Manager
+- Schedule kickoff meeting
 
-### 1. Primary Tools & Repositories
-| Name | Type | URL | Description | Last Verified |
-|------|------|-----|-------------|---------------|
-| Instaloader | Python | github.com/instaloader/instaloader | Robust media/metadata downloader. | 2025-11-01 |
-| Osintgram | Python | github.com/Datalux/Osintgram | Interactive shell for deep analysis. | 2025-10-15 |
-| Toutatis | Python | github.com/megadose/toutatis | Retrieve info from emails/phones. | 2025-09-20 |
+**Phase 2: Technical Setup (Week 1-3)**
+- Environment provisioning [Doc_E012]
+- SSO/SAML integration [Doc_T022]
+- Data migration planning [Doc_D004]
+- Security audit completion [Doc_S015]
+- Compliance validation [Doc_C019]
 
-### 2. Web Viewers (Passive)
-- **Imginn**: View stories/posts without login.
-- **Picuki**: Editor/Viewer, good for quick checks.
+**Phase 3: Training & Enablement (Week 2-4)**
+- Admin training (8 hours) [Doc_T005]
+- End-user training (4 hours) [Doc_T006]
+- Custom workflow setup [Doc_T011]
+- Champion program enrollment [Doc_T015]
 
-<<<<<<< HEAD
-### 4. Gaps & Limitations
-- **Private Profiles**: No public tool currently bypasses private profile restrictions reliably.
-- **API Limits**: Aggressive use of Instaloader will trigger IP bans. Use proxies.
-```
-=======
 **Phase 4: Go-Live & Handoff (Week 4-5)**
 - Production cutover
 - Hypercare support (2 weeks)
@@ -674,4 +693,3 @@ I need to:
 3. Note the contradiction in my final answer
 ```text
 ```sql
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

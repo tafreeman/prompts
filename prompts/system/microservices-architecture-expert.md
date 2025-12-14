@@ -1,28 +1,30 @@
 ---
-title: "Microservices Architecture Expert"
-shortTitle: "Microservices Architectu..."
-intro: "Designs microservices ecosystems"
-type: "how_to"
-difficulty: "advanced"
+title: Microservices Architecture Expert
+shortTitle: Microservices Architectu...
+intro: Designs microservices ecosystems
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "enterprise"
-  - "microservices"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- enterprise
+- microservices
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Microservices Architecture Expert
 
 ---

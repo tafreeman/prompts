@@ -1,35 +1,38 @@
 ---
-title: "GDPR Compliance Assessment"
-shortTitle: "GDPR Compliance"
-intro: "A comprehensive ReAct+Reflection prompt for assessing GDPR compliance of data processing activities, generating gap analysis and remediation plans."
-type: "how_to"
-difficulty: "advanced"
+title: GDPR Compliance Assessment
+shortTitle: GDPR Compliance
+intro: A comprehensive ReAct+Reflection prompt for assessing GDPR compliance of data
+  processing activities, generating gap analysis and remediation plans.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "security-engineer"
+- solution-architect
+- security-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "compliance"
-  - "privacy"
-  - "gdpr"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- compliance
+- privacy
+- gdpr
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "audit-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- audit-required
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "UK-GDPR"
-  - "ISO-27701"
+- GDPR
+- UK-GDPR
+- ISO-27701
+effectivenessScore: 0.0
 ---
+
 # GDPR Compliance Assessment
 
 ---

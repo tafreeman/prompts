@@ -1,27 +1,30 @@
 ---
-title: "Organizational Change Manager"
-shortTitle: "Org Change Manager"
-intro: "Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management."
-type: "how_to"
-difficulty: "advanced"
+title: Organizational Change Manager
+shortTitle: Org Change Manager
+intro: Manages organizational change initiatives with impact assessment, stakeholder
+  analysis, and resistance management.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "project-manager"
+- solution-architect
+- project-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "change-management"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- change-management
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Organizational Change Manager
 
 ---

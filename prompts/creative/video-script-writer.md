@@ -94,6 +94,63 @@ Format the script with:
 - (Actions) for speaker movements or expressions
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]` | Video type/platform |
+| `[TARGET DURATION, e.g., 60 seconds, 5 minutes, 10 minutes]` | Target duration |
+| `[MAIN SUBJECT OF THE VIDEO]` | Topic |
+| `[WHO WILL WATCH THIS]` | Target audience |
+| `[CASUAL/PROFESSIONAL/ENERGETIC/EDUCATIONAL/ENTERTAINING]` | Tone |
+| `[ON-CAMERA/VOICEOVER/MULTIPLE SPEAKERS]` | Speaker style |
+| `[EDUCATE/ENTERTAIN/PERSUADE/INFORM/CONVERT]` | Primary goal |
+| `[SUBSCRIBE/SHARE/CLICK/PURCHASE/LEARN]` | Secondary goal |
+| `[MAIN POINT 1]` | Key point #1 |
+| `[MAIN POINT 2]` | Key point #2 |
+| `[MAIN POINT 3]` | Key point #3 |
+| `[MAIN POINT 4 - OPTIONAL]` | Optional key point |
+| `[QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]` | Hook style |
+| `[WHAT SHOULD VIEWERS DO?]` | Call-to-action |
+| `[YES/NO - NAME?]` | Brand/channel mention |
+| `[YES/NO]` | B-roll suggestions |
+| `[YES/NO]` | On-screen text suggestions |
+| `[YES/NO]` | Music/sound cues |
+| `[YES/NO]` | Timestamp markers |
+
+## Example
+
+**Input:**
+
+```text
+Video Type: YouTube tutorial
+Video Length: ~6 minutes
+Topic: Writing better PR descriptions
+Target Audience: Mid-level developers
+Tone: Professional, upbeat
+Speaker Style: On-camera
+
+Primary goal: Educate
+Secondary goal: Subscribe
+
+Key points:
+1) What to include (context, change, test, risk)
+2) A reusable template
+3) Common mistakes
+
+Hook style: Bold statement
+Call-to-action: Download the template
+B-roll suggestions: Yes
+On-screen text suggestions: Yes
+Timestamp markers: Yes
+```
+
+**Output:**
+
+```text
+A script with timecodes, transitions, [VISUAL]/[AUDIO] cues, and a closing CTA.
+```
+
 **Output:**
 
 ```text

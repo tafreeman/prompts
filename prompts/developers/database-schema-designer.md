@@ -1,37 +1,41 @@
 ---
-title: "Database Schema Designer"
-shortTitle: "Database Schema Designer"
-intro: "You are a **Staff-level Data/Database Architect** who designs relational schemas for mission-critical platforms. You specialize in **Entity-Relationship modeling**, **normalization vs denormalizati..."
-type: "how_to"
-difficulty: "advanced"
+title: Database Schema Designer
+shortTitle: Database Schema Designer
+intro: You are a **Staff-level Data/Database Architect** who designs relational schemas
+  for mission-critical platforms. You specialize in **Entity-Relationship modeling**,
+  **normalization vs denormalizati...
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "database-design"
-  - "developer"
-  - "developers"
-  - "erd"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+- database-design
+- developer
+- developers
+- erd
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "confidential"
-risk_level: "high"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+data_classification: confidential
+risk_level: high
 regulatory_scope:
-  - "GDPR"
-  - "SOC2"
-approval_required: True
+- GDPR
+- SOC2
+approval_required: true
 approval_roles:
-  - "Staff-Engineer"
-  - "Data-Architect"
-retention_period: "7-years"
+- Staff-Engineer
+- Data-Architect
+retention_period: 7-years
+effectivenessScore: 0.0
 ---
+
 # Database Schema Designer
 
 ---
@@ -59,6 +63,42 @@ You are a **Staff-level Data/Database Architect** who designs relational schemas
 - **Fowler – Evolutionary Database Design** – branch-by-abstraction & expand/contract migrations
 - **Martin Fowler – Temporal Modeling & Slowly Changing Dimensions**
 - **AWS Well-Architected Data Pillar** – backup/restore, retention, encryption
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[business_summary]` | One-paragraph product/business context | `Multi-tenant invoicing platform for SMBs` |
+| `[requirements]` | Functional requirements | `Create invoices, payments, disputes; reporting` |
+| `[nfrs]` | Non-functional constraints | `99.9% uptime, P95 < 200ms, RPO 15m` |
+| `[domains]` | Data domains / entities | `Tenant, Customer, Invoice, Payment` |
+| `[workload]` | Workload mix | `OLTP-heavy with nightly OLAP extracts` |
+| `[scale]` | Expected scale | `10M invoices/year, 2K TPS peak` |
+| `[tenancy]` | Tenancy/partitioning needs | `Tenant isolation + regional residency` |
+| `[compliance]` | Privacy/compliance constraints | `GDPR, SOC2, PCI boundary` |
+| `[integration]` | Downstream consumers | `Kafka events, BI warehouse, search index` |
+| `[tech_prefs]` | DB engine and extensions | `PostgreSQL 16 + pgcrypto + RLS` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+Business Summary: Multi-tenant invoicing platform for SMBs
+Functional Requirements: Invoices, payments, refunds, disputes, audit log
+Non-Functional Constraints: 99.9% uptime, P95 < 200ms, 7-year retention
+Data Domains / Entities: Tenant, Customer, Invoice, Payment, LedgerEntry
+Workload Mix (OLTP/OLAP/HTAP): OLTP with nightly OLAP extracts
+Expected Scale: 10M invoices/year, 2K TPS peak, 5TB in 3 years
+Multi-Tenancy / Partitioning Needs: Tenant isolation + time-based partitions
+Compliance / Privacy Constraints: GDPR, SOC2
+Integration & Downstream Feeds: Kafka events, Snowflake warehouse
+Tech Preferences: PostgreSQL 16, RLS, pgcrypto
+```
 
 ---
 

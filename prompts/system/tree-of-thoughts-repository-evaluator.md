@@ -1,30 +1,34 @@
 ---
-title: "Tree-of-Thoughts Repository Evaluator for GPT-5.1"
-shortTitle: "Tree-of-Thoughts Reposit..."
-intro: "A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr..."
-category: "system"
-type: "how_to"
-difficulty: "advanced"
+title: Tree-of-Thoughts Repository Evaluator for GPT-5.1
+shortTitle: Tree-of-Thoughts Reposit...
+intro: A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class
+  reasoning models to rigorously analyze GitHub repositories, specifically prompt
+  engineering libraries. This pr...
+category: system
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "tot"
-  - "system"
-  - "evaluation"
-  - "tree-of-thoughts"
-author: "Prompts Library Team"
-version: "1.0.0"
-date: "2025-11-17"
-last_updated: "2025-12-11"
+- tot
+- system
+- evaluation
+- tree-of-thoughts
+author: Prompts Library Team
+version: 1.0.0
+date: '2025-11-17'
+last_updated: '2025-12-11'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1
 
 ---

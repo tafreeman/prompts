@@ -1,27 +1,30 @@
 ---
-title: "Competitive Analysis Researcher"
-shortTitle: "Competitive Analysis"
-intro: "Conducts comprehensive competitive market analysis including landscape mapping, feature comparison, and strategic recommendations."
-type: "how_to"
-difficulty: "intermediate"
+title: Competitive Analysis Researcher
+shortTitle: Competitive Analysis
+intro: Conducts comprehensive competitive market analysis including landscape mapping,
+  feature comparison, and strategic recommendations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "senior-engineer"
+- business-analyst
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "analysis"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- analysis
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Competitive Analysis Researcher
 
 ---
@@ -58,6 +61,15 @@ Include:
 5. Opportunities and threats
 6. Strategic recommendations
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[product]` | The product/service you’re analyzing competitors for |
+| `[segment]` | The market segment (who/where/for what job) |
+| `[competitors]` | Known competitors to include (names, URLs if available) |
+| `[focus]` | What to emphasize (features, pricing, positioning, GTM, etc.) |
 
 **Output:**
 

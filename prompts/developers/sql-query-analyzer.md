@@ -1,32 +1,36 @@
 ---
-title: "SQL Query Analyzer"
-shortTitle: "SQL Query Analyzer"
-intro: "A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations."
-type: "how_to"
-difficulty: "intermediate"
+title: SQL Query Analyzer
+shortTitle: SQL Query Analyzer
+intro: A database expert that analyzes SQL queries for performance bottlenecks, security
+  risks (SQL injection), and readability issues. Provides optimization suggestions
+  and index recommendations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "sql"
-  - "developers"
-  - "security"
-  - "performance"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
+- sql
+- developers
+- security
+- performance
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-26'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-subcategory: "database"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+subcategory: database
 framework_compatibility:
-  - "sql-server"
-  - "postgresql"
-  - "mysql"
+- sql-server
+- postgresql
+- mysql
+effectivenessScore: 0.0
 ---
+
 # SQL Query Analyzer
 
 ---
@@ -43,6 +47,33 @@ A database expert that analyzes SQL queries for performance bottlenecks, securit
 - Reviewing database migrations
 - Identifying missing indexes
 - Detecting SQL injection vulnerabilities in dynamic SQL
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[sql_query]` | SQL query to analyze | `SELECT ... FROM orders ...` |
+| `[schema_context]` | Optional schema info (tables, indexes, row counts) | `Orders(10M rows), idx_orders_date` |
+| `[engine]` | SQL engine / dialect | `SQL Server`, `PostgreSQL`, `MySQL` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+Database Engine: PostgreSQL
+
+Schema Context:
+- orders(order_id, order_date, customer_name, total_amount)
+- Indexes: idx_orders_order_date
+
+Query:
+SELECT * FROM orders WHERE DATE(order_date) = '2024-01-01';
+```
 
 ---
 

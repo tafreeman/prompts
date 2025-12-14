@@ -1,34 +1,37 @@
 ---
-title: "SOX Audit Preparer"
-shortTitle: "SOX Audit Prep"
-intro: "A prompt to assist in preparing for Sarbanes-Oxley (SOX) IT General Controls (ITGC) audits."
-type: "how_to"
-difficulty: "advanced"
+title: SOX Audit Preparer
+shortTitle: SOX Audit Prep
+intro: A prompt to assist in preparing for Sarbanes-Oxley (SOX) IT General Controls
+  (ITGC) audits.
+type: how_to
+difficulty: advanced
 audience:
-  - "security-engineer"
-  - "compliance-officer"
-  - "it-manager"
+- security-engineer
+- compliance-officer
+- it-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "compliance"
-  - "finance"
-  - "sox"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- compliance
+- finance
+- sox
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "SOX"
-  - "COBIT"
+- SOX
+- COBIT
+effectivenessScore: 0.0
 ---
+
 # SOX Audit Preparer
 
 ---

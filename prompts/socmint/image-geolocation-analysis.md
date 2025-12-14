@@ -1,29 +1,30 @@
 ---
-title: "Image Geolocation Analysis"
-shortTitle: "Image Geolocation"
-intro: "Systematic approach to geolocating images using visual indicators, metadata, and environmental clues"
+title: Image Geolocation Analysis
+shortTitle: Image Geolocation
+intro: Systematic approach to geolocating images using visual indicators, metadata,
+  and environmental clues
 type: prompt
 difficulty: advanced
 audience:
-  - security-professionals
-  - osint-analysts
-  - investigators
-  - journalists
+- security-professionals
+- osint-analysts
+- investigators
+- journalists
 platforms:
-  - GitHub Copilot
-  - ChatGPT
-  - Claude
+- github-copilot
+- chatgpt
+- claude
 topics:
-  - osint
-  - geolocation
-  - image-analysis
-  - geoint
+- osint
+- geolocation
+- image-analysis
+- geoint
 author: OSINT Library
-version: "1.0"
-date: 2024-11-30
+version: '1.0'
+date: '2024-11-30'
 governance_tags:
-  - privacy-aware
-  - ethical-osint
+- privacy-aware
+- ethical-osint
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -31,9 +32,22 @@ effectivenessScore: pending
 
 # Image Geolocation Analysis
 
+## Description
+
+Systematically geolocate a photo using metadata extraction, visual indicators, and cross-referencing with mapping and reverse-image tools, while applying ethical constraints.
+
 ## Purpose
 
 Systematically analyze images to determine their geographic location using metadata extraction, visual indicator analysis, and cross-referencing techniques.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `{{IMAGE_SOURCE}}` | Yes | Where the image comes from (file, URL, description) and how it can be accessed. | `uploaded photo file` |
+| `{{KNOWN_CONTEXT}}` | No | Any known story/context clues about the image. | `posted on social media; likely taken during travel` |
+| `{{APPROXIMATE_DATE_RANGE}}` | No | Approximate date range for temporal consistency checks. | `Summer 2024` |
+| `{{INITIAL_REGION_GUESS}}` | No | Optional starting hypothesis to guide early searches. | `possibly Central Europe` |
 
 ## Prompt
 

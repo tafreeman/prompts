@@ -1,27 +1,30 @@
 ---
-title: "Requirements Analysis Expert"
-shortTitle: "Requirements Analysis"
-intro: "Analyzes and documents business requirements with user stories, acceptance criteria, and traceability."
-type: "how_to"
-difficulty: "intermediate"
+title: Requirements Analysis Expert
+shortTitle: Requirements Analysis
+intro: Analyzes and documents business requirements with user stories, acceptance
+  criteria, and traceability.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "solution-architect"
+- business-analyst
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "requirements"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- requirements
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Requirements Analysis Expert
 
 ---
@@ -58,6 +61,15 @@ Provide:
 5. Requirements traceability
 6. Impact analysis
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[project_name]` | Project name and short context |
+| `[stakeholders]` | Stakeholder list (roles/teams) |
+| `[objectives]` | Business objectives and success criteria |
+| `[challenges]` | Current challenges, pain points, and constraints |
 
 **Output:**
 

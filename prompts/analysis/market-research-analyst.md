@@ -1,27 +1,30 @@
 ---
-title: "Market Research Analyst"
-shortTitle: "Market Research"
-intro: "Conducts comprehensive market research with research design, data collection plans, and strategic implications."
-type: "how_to"
-difficulty: "intermediate"
+title: Market Research Analyst
+shortTitle: Market Research
+intro: Conducts comprehensive market research with research design, data collection
+  plans, and strategic implications.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "solution-architect"
+- business-analyst
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "research"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- research
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Market Research Analyst
 
 ---
@@ -59,6 +62,16 @@ Provide:
 5. Market insights
 6. Strategic implications
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[topic]` | The research topic or question to investigate |
+| `[market]` | Target market definition (segments, geography, demographics) |
+| `[objectives]` | What you need to learn/decide (bullets are fine) |
+| `[methodology]` | Preferred research methods (e.g., surveys, interviews, secondary research) |
+| `[timeline]` | Time available / delivery date for results |
 
 **Output:**
 

@@ -1,27 +1,30 @@
 ---
-title: "Industry Analysis Expert"
-shortTitle: "Industry Analysis"
-intro: "Performs detailed industry analysis including market dynamics, competitive landscape, and strategic recommendations."
-type: "how_to"
-difficulty: "intermediate"
+title: Industry Analysis Expert
+shortTitle: Industry Analysis
+intro: Performs detailed industry analysis including market dynamics, competitive
+  landscape, and strategic recommendations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "solution-architect"
+- business-analyst
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "research"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- research
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Industry Analysis Expert
 
 ---
@@ -58,6 +61,15 @@ Include:
 5. Future outlook
 6. Strategic recommendations
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[industry]` | The industry/sector to analyze |
+| `[scope]` | Geographic, segment, and time horizon scope |
+| `[questions]` | Key questions to answer (bullets are fine) |
+| `[stakeholders]` | Who the analysis is for and what decisions they’ll make |
 
 **Output:**
 

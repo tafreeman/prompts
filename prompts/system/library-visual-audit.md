@@ -1,27 +1,29 @@
 ---
-title: "Library Visual & Formatting Audit"
-shortTitle: "Visual Audit"
-intro: "Systematically audit a prompt library for visual consistency, readability improvements, and formatting standardization opportunities."
-type: "how_to"
-difficulty: "intermediate"
+title: Library Visual & Formatting Audit
+shortTitle: Visual Audit
+intro: Systematically audit a prompt library for visual consistency, readability improvements,
+  and formatting standardization opportunities.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "technical-writer"
+- senior-engineer
+- technical-writer
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "documentation"
-  - "quality"
-  - "refactoring"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-03"
+- documentation
+- quality
+- refactoring
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-03'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
 
 # Library Visual & Formatting Audit

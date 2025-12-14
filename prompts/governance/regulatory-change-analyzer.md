@@ -1,32 +1,35 @@
 ---
-title: "Regulatory Change Analyzer"
-shortTitle: "Reg Change Analyzer"
-intro: "A prompt to analyze new regulations or updates and assess their impact on organization policies and systems."
-type: "how_to"
-difficulty: "advanced"
+title: Regulatory Change Analyzer
+shortTitle: Reg Change Analyzer
+intro: A prompt to analyze new regulations or updates and assess their impact on organization
+  policies and systems.
+type: how_to
+difficulty: advanced
 audience:
-  - "legal-counsel"
-  - "compliance-officer"
-  - "policy-analyst"
+- legal-counsel
+- compliance-officer
+- policy-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "legal"
-  - "compliance"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- legal
+- compliance
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "legal-advice-disclaimer"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- legal-advice-disclaimer
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "Global"
+- Global
+effectivenessScore: 0.0
 ---
+
 # Regulatory Change Analyzer
 
 ---

@@ -1,27 +1,30 @@
 ---
-title: "User Experience Analyst"
-shortTitle: "UX Analysis"
-intro: "Analyzes and improves user experiences through journey mapping, pain point analysis, and improvement recommendations."
-type: "how_to"
-difficulty: "intermediate"
+title: User Experience Analyst
+shortTitle: UX Analysis
+intro: Analyzes and improves user experiences through journey mapping, pain point
+  analysis, and improvement recommendations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "senior-engineer"
+- business-analyst
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "ux"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- ux
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # User Experience Analyst
 
 ---
@@ -58,6 +61,15 @@ Provide:
 5. Success metrics
 6. Implementation approach
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[system]` | The system/process/flow to evaluate |
+| `[users]` | User groups/personas (and device/context) |
+| `[pain_points]` | Known pain points, drop-offs, complaints, or evidence |
+| `[goals]` | Business goals and success criteria for improvements |
 
 **Output:**
 

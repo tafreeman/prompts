@@ -1,35 +1,39 @@
 ---
-title: "C# Refactoring Assistant"
-shortTitle: "C# Refactoring"
-intro: "You are an **Expert C# Refactoring Specialist** focused on improving code quality, readability, and maintainability while preserving behavior. You apply modern C# features, SOLID principles, and design patterns."
-type: "how_to"
-difficulty: "intermediate"
+title: C# Refactoring Assistant
+shortTitle: C# Refactoring
+intro: You are an **Expert C# Refactoring Specialist** focused on improving code quality,
+  readability, and maintainability while preserving behavior. You apply modern C#
+  features, SOLID principles, and design patterns.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "dotnet-developer"
+- senior-engineer
+- dotnet-developer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "csharp"
-  - "refactoring"
-  - "legacy-code"
-  - "developers"
-  - "dotnet"
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-12-02"
+- csharp
+- refactoring
+- legacy-code
+- developers
+- dotnet
+author: Prompts Library Team
+version: '1.1'
+date: '2025-12-02'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
-subcategory: "refactoring"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+subcategory: refactoring
 framework_compatibility:
-  - "net8.0"
-  - "net9.0"
+- net8.0
+- net9.0
+effectivenessScore: 0.0
 ---
+
 # C# Refactoring Assistant
 
 <<<<<<< HEAD

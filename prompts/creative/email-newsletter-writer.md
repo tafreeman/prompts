@@ -86,6 +86,57 @@ Please create:
 Format the newsletter with clear visual hierarchy using headers, short paragraphs, bullet points, and whitespace.
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[WEEKLY DIGEST/PRODUCT UPDATE/EDUCATIONAL/PROMOTIONAL/ANNOUNCEMENT]` | Newsletter type |
+| `[YOUR BRAND NAME]` | Brand/company name |
+| `[SUBSCRIBER DEMOGRAPHICS AND INTERESTS]` | Audience description |
+| `[PROFESSIONAL/FRIENDLY/CASUAL/AUTHORITATIVE/PLAYFUL]` | Tone |
+| `[YOUR NEWSLETTER NAME, IF ANY]` | Newsletter name |
+| `[FIRST MAIN TOPIC OR STORY]` | Topic/story #1 |
+| `[SECOND TOPIC - OPTIONAL]` | Topic/story #2 |
+| `[THIRD TOPIC - OPTIONAL]` | Topic/story #3 |
+| `[ENGAGEMENT/CLICKS/CONVERSIONS/EDUCATION/RELATIONSHIP BUILDING]` | Primary goal |
+| `[MAIN ACTION YOU WANT READERS TO TAKE]` | Primary CTA action |
+| `[YES/NO]` | Include a personal note/intro |
+| `[YES/NO - HOW MANY?]` | Include curated links/resources |
+| `[YES/NO - DETAILS?]` | Include a featured offer/promotion |
+| `[SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]` | Approx. word count |
+| `[ANY REQUIRED ELEMENTS]` | Must-mention items |
+| `[ANYTHING TO STAY AWAY FROM]` | Items to avoid (topics/claims/phrasing) |
+
+## Example
+
+**Input:**
+
+```text
+Newsletter Type: Weekly digest
+Brand/Company: Acme Dev Tools
+Target Audience: Backend engineers interested in reliability and performance
+Tone: Friendly, practical
+Newsletter Name: "Signals"
+
+Main Content:
+- Topic 1: A 5-minute guide to reducing p95 latency
+- Topic 2: New feature: SLO dashboards
+
+Primary Goal: Clicks
+Call-to-Action: Read the full latency guide
+
+Include a personal note/intro: Yes
+Add curated links/resources: Yes - 3
+Approximate word count: Medium (400-600)
+Avoid: hype, exaggerated claims
+```
+
+**Output:**
+
+```text
+3 subject lines + preview text + a sectioned newsletter body + one primary CTA + a P.S.
+```
+
 **Output:**
 
 ```text

@@ -1,30 +1,33 @@
 ---
-title: "RAG: Document Retrieval and Citation"
-shortTitle: "RAG Document Retrieval"
-intro: "Retrieval-Augmented Generation pattern for grounding AI responses in specific documents with proper citations and attribution."
-type: "how_to"
-difficulty: "advanced"
+title: 'RAG: Document Retrieval and Citation'
+shortTitle: RAG Document Retrieval
+intro: Retrieval-Augmented Generation pattern for grounding AI responses in specific
+  documents with proper citations and attribution.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-  - "azure-openai"
+- claude
+- chatgpt
+- github-copilot
+- azure-openai
 topics:
-  - "rag"
-  - "retrieval"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- rag
+- retrieval
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-  - "audit-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+- audit-required
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # RAG: Document Retrieval and Citation Framework
 
 ---

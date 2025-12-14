@@ -84,7 +84,7 @@ Requirements:
 - Estimate remaining timeline
 
 Status Update:
-```text
+```
 **config.json**:
 
 ```json
@@ -109,7 +109,7 @@ Status Update:
     ]
   }
 }
-```text
+```
 ## Example
 
 ### 1. Kernel Setup
@@ -129,7 +129,7 @@ builder.AddAzureOpenAIChatCompletion(
 
 // Build the kernel
 var kernel = builder.Build();
-```text
+```
 ### 2. Defining a Native Plugin
 
 ```csharp
@@ -156,7 +156,7 @@ public class SqlDataPlugin
 
 // Import into Kernel
 kernel.ImportPluginFromType<SqlDataPlugin>("SqlData");
-```sql
+```
 ### 3. Defining a Semantic Plugin (Inline)
 
 ```csharp
@@ -165,7 +165,7 @@ var summarizeFunction = kernel.CreateFunctionFromPrompt(
     functionName: "Summarize",
     description: "Summarizes text concisely"
 );
-```sql
+```
 ## Usage
 
 Planners are one of the most powerful features of Semantic Kernel. They allow the kernel to automatically select and chain plugins together to achieve a high-level goal.
@@ -196,7 +196,7 @@ Console.WriteLine($"Plan:\n{plan}");
 var result = await plan.InvokeAsync(kernel);
 
 Console.WriteLine($"Result: {result}");
-```text
+```
 ### Memory and RAG Usage
 
 Semantic Kernel simplifies RAG (Retrieval-Augmented Generation) through `ISemanticTextMemory`.
@@ -232,7 +232,7 @@ await foreach (var result in results)
 {
     Console.WriteLine($"Answer found: {result.Metadata.Text}");
 }
-```sql
+```
 ## Best Practices
 
 1. **Dependency Injection**: Always use `Kernel.CreateBuilder()` with `IServiceCollection` in ASP.NET Core apps to ensure proper lifecycle management of HTTP clients and services.

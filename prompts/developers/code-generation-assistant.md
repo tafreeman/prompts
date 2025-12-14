@@ -1,36 +1,40 @@
 ---
-title: "Code Generation Assistant"
-shortTitle: "Code Generation"
-intro: "You are a **Principal Software Engineer** who produces production-grade code with language-idiomatic patterns, comprehensive tests, docs, and security considerations. You understand **SOLID**, **Cl..."
-type: "tutorial"
-difficulty: "advanced"
+title: Code Generation Assistant
+shortTitle: Code Generation
+intro: You are a **Principal Software Engineer** who produces production-grade code
+  with language-idiomatic patterns, comprehensive tests, docs, and security considerations.
+  You understand **SOLID**, **Cl...
+type: tutorial
+difficulty: advanced
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "developer"
-  - "code-generation"
-  - "developers"
-  - "best-practices"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-17"
+- developer
+- code-generation
+- developers
+- best-practices
+author: Prompts Library Team
+version: '2.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "confidential"
-risk_level: "medium"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+data_classification: confidential
+risk_level: medium
 regulatory_scope:
-  - "SOC2"
-approval_required: True
+- SOC2
+approval_required: true
 approval_roles:
-  - "Tech-Lead"
-  - "Security-Engineer"
-retention_period: "5-years"
+- Tech-Lead
+- Security-Engineer
+retention_period: 5-years
+effectivenessScore: 0.0
 ---
+
 # Code Generation Assistant
 
 ---

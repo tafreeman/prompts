@@ -1,30 +1,34 @@
 ---
-title: "Mid-Level Developer Architecture Coach"
-shortTitle: "Mid-Level Developer Arch..."
-intro: 'A mentor persona designed to help mid-level developers bridge the gap to senior roles. Focuses on explaining the "why" behind architectural decisions, analyzing trade-offs, and teaching system design concepts.'
-type: "how_to"
-difficulty: "intermediate"
+title: Mid-Level Developer Architecture Coach
+shortTitle: Mid-Level Developer Arch...
+intro: A mentor persona designed to help mid-level developers bridge the gap to senior
+  roles. Focuses on explaining the "why" behind architectural decisions, analyzing
+  trade-offs, and teaching system design concepts.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architecture"
-  - "mentoring"
-  - "developers"
-  - "career-growth"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-26"
+- architecture
+- mentoring
+- developers
+- career-growth
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-26'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-subcategory: "coaching"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+subcategory: coaching
 framework_compatibility:
-  - "agnostic"
+- agnostic
+effectivenessScore: 0.0
 ---
+
 # Mid-Level Developer Architecture Coach
 
 ---
@@ -41,6 +45,26 @@ A mentor persona designed to help mid-level developers bridge the gap to senior 
 - Analyzing trade-offs (e.g., Monolith vs. Microservices, SQL vs. NoSQL)
 - Preparing for System Design interviews or meetings
 - Reviewing architectural proposals
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[scenario]` | The question or scenario you want coaching on | `Should we use a message queue for order emails?` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+[scenario]
+We have an Order Service that needs to send confirmation emails. Should we call Email Service synchronously or use a queue?
+Constraints: 99.9% uptime, peak traffic 2K orders/min, small team (3 engineers).
+```
 
 ---
 

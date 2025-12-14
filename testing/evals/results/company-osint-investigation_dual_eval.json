@@ -1,0 +1,84 @@
+{
+  "generated_at": "2025-12-13T08:48:07.655794",
+  "version": "1.1.0",
+  "total_files": 1,
+  "passed": 1,
+  "failed": 0,
+  "average_score": 8.4,
+  "pass_rate": 1.0,
+  "results": [
+    {
+      "prompt_title": "Company OSINT Investigation",
+      "prompt_file": "D:\\source\\prompts\\prompts\\socmint\\company-osint-investigation.md",
+      "total_runs": 1,
+      "models_used": [
+        "openai/gpt-4o-mini"
+      ],
+      "consensus_score": 8.4,
+      "score_variance": 0.0,
+      "cross_validation_passed": true,
+      "discrepancies": [],
+      "final_grade": "A-",
+      "final_pass": true,
+      "combined_strengths": [
+        "Highly detailed and structured, covering multiple phases of investigation.",
+        "Clear sections with specific tasks and sources for information gathering."
+      ],
+      "combined_improvements": [
+        "Clarify terms such as 'vulnerabilities' and 'threat surface' to avoid ambiguity.",
+        "Provide examples of what constitutes a 'complete organizational intelligence picture' for better guidance."
+      ],
+      "model_summaries": {
+        "openai/gpt-4o-mini": {
+          "runs_completed": 1,
+          "runs_failed": 0,
+          "avg_score": 8.4,
+          "min_score": 8.4,
+          "max_score": 8.4,
+          "std_dev": 0,
+          "pass_rate": 1.0,
+          "criterion_averages": {
+            "clarity": 8,
+            "specificity": 9,
+            "actionability": 8,
+            "structure": 9,
+            "completeness": 9,
+            "factuality": 8,
+            "consistency": 8,
+            "safety": 9
+          },
+          "fatal_error": null,
+          "results": [
+            {
+              "run_number": 1,
+              "overall_score": 8.4,
+              "grade": "A-",
+              "passed": true,
+              "pass_reason": "The prompt meets the overall score requirement and no individual criterion falls below 5.0.",
+              "scores": {
+                "clarity": 8,
+                "specificity": 9,
+                "actionability": 8,
+                "structure": 9,
+                "completeness": 9,
+                "factuality": 8,
+                "consistency": 8,
+                "safety": 9
+              },
+              "strengths": [
+                "Highly detailed and structured, covering multiple phases of investigation.",
+                "Clear sections with specific tasks and sources for information gathering."
+              ],
+              "improvements": [
+                "Clarify terms such as 'vulnerabilities' and 'threat surface' to avoid ambiguity.",
+                "Provide examples of what constitutes a 'complete organizational intelligence picture' for better guidance."
+              ],
+              "summary": "The prompt is well-structured and detailed, effectively guiding an OSINT investigation while maintaining clarity and specificity.",
+              "error": null
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

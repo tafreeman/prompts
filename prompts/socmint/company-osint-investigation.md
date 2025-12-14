@@ -1,29 +1,30 @@
 ---
-title: "Company OSINT Investigation"
-shortTitle: "Company OSINT"
-intro: "Comprehensive open-source intelligence gathering on organizations, including corporate structure, digital footprint, and threat surface analysis"
+title: Company OSINT Investigation
+shortTitle: Company OSINT
+intro: Comprehensive open-source intelligence gathering on organizations, including
+  corporate structure, digital footprint, and threat surface analysis
 type: prompt
 difficulty: advanced
 audience:
-  - security-professionals
-  - osint-analysts
-  - investigators
-  - competitive-intelligence
+- security-professionals
+- osint-analysts
+- investigators
+- competitive-intelligence
 platforms:
-  - GitHub Copilot
-  - ChatGPT
-  - Claude
+- github-copilot
+- chatgpt
+- claude
 topics:
-  - osint
-  - corporate-intelligence
-  - threat-surface
-  - due-diligence
+- osint
+- corporate-intelligence
+- threat-surface
+- due-diligence
 author: OSINT Library
-version: "1.0"
-date: 2024-11-30
+version: '1.0'
+date: '2024-11-30'
 governance_tags:
-  - privacy-aware
-  - ethical-osint
+- privacy-aware
+- ethical-osint
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -31,9 +32,23 @@ effectivenessScore: pending
 
 # Company OSINT Investigation
 
+## Description
+
+Comprehensive open-source intelligence (OSINT) research on an organization to understand corporate structure, digital footprint, and externally observable security posture for due diligence or security assessment.
+
 ## Purpose
 
 Conduct comprehensive open-source intelligence gathering on an organization to understand its structure, digital presence, potential vulnerabilities, and threat surface for security assessment or due diligence purposes.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `{{COMPANY_NAME}}` | Yes | Target organization name. | `TechCorp Industries` |
+| `{{PRIMARY_DOMAIN}}` | No | Known primary domain for the organization. | `techcorp.com` |
+| `{{INDUSTRY_SECTOR}}` | No | Industry/sector for context and prioritization. | `SaaS / Technology` |
+| `{{CONTEXT}}` | Yes | Investigation purpose (why you are researching). | `pre-acquisition security due diligence` |
+| `{{BOUNDARIES}}` | Yes | Scope boundaries and constraints. | `public sources only; no active probing` |
 
 ## Prompt
 

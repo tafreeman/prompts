@@ -1,35 +1,85 @@
 ---
-title: "Code Review Expert"
-shortTitle: "Code Review Expert"
-intro: "You are a **Senior Software Engineer** with 10+ years of experience conducting code reviews across multiple languages and frameworks. You follow **Google's Engineering Practices** and emphasize **SOLID"
-type: "how_to"
-difficulty: "advanced"
+title: Code Review Expert
+shortTitle: Code Review Expert
+intro: You are a **Senior Software Engineer** with 10+ years of experience conducting
+  code reviews across multiple languages and frameworks. You follow **Google's Engineering
+  Practices** and emphasize **SOLID
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "developer"
-  - "enterprise"
-  - "developers"
-  - "code-quality"
-author: "Prompts Library Team"
-version: "2.2.0"
-date: "2025-11-27"
+- developer
+- enterprise
+- developers
+- code-quality
+author: Prompts Library Team
+version: 2.2.0
+date: '2025-11-27'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-subcategory: "code-review"
-framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
-performance_metrics: {'complexity_rating': 'high', 'token_usage_estimate': '2000-3000', 'quality_score': '98'}
-testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['security-audit', 'performance-check']}
-governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'ISO27001', 'GDPR'], 'approval_required': False, 'retention_period': '2-years'}
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+subcategory: code-review
+framework_compatibility:
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
+performance_metrics:
+  complexity_rating: high
+  token_usage_estimate: 2000-3000
+  quality_score: '98'
+testing:
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - security-audit
+  - performance-check
+governance:
+  risk_level: medium
+  data_classification: internal
+  regulatory_scope:
+  - SOC2
+  - ISO27001
+  - GDPR
+  approval_required: false
+  retention_period: 2-years
+effectivenessScore: 0.0
 ---
+
 # Code Review Expert
 
+---
+
+## Description
+
+Senior-level code review prompt focused on actionable feedback and engineering excellence. Produces clear merge guidance (blockers vs. important vs. suggestions) grounded in SOLID, readability, reliability, security, and maintainability.
+
+---
+
+## Prompt
+
 ```text
+You are a Senior Software Engineer performing a structured code review.
+
+Review the following change with the stated goal and context:
+
+- Language/Framework: [language]
+- PR Goal: [pr_goal]
+- Component/Context: [context]
+- Focus Areas: [focus_areas]
+- Code/Diff:
+  [code_snippet]
+
+Requirements:
+1) Call out issues as 🔴 BLOCKERS, 🟡 IMPORTANT, 🟢 SUGGESTIONS
+2) Provide concrete recommendations and small patch-style snippets where useful
+3) Highlight strengths and what’s done well
+4) Note risks, edge cases, and missing tests
+5) End with an overall assessment: APPROVE / REQUEST CHANGES / COMMENT
+```
 
 ---
 
@@ -42,6 +92,20 @@ governance: {'risk_level': 'medium', 'data_classification': 'internal', 'regulat
 | `[context]` | Component description | `User authentication service`, `Payment processing API`, `React dashboard component` |
 | `[pr_goal]` | What the PR aims to accomplish | `Add password reset`, `Fix memory leak`, `Refactor database layer` |
 | `[focus_areas]` | Specific concerns to prioritize | `Performance`, `Thread safety`, `Error handling`, `Test coverage` |
+
+## Usage
+
+**Input:**
+
+```text
+[language]: TypeScript + React
+[context]: React dashboard component
+[pr_goal]: Fix a memory leak in a subscription hook
+[focus_areas]: Performance, Error handling, Test coverage
+
+[code_snippet]:
+<paste the relevant diff or 50–300 lines of code here>
+```
 
 ## Output Format Specification
 

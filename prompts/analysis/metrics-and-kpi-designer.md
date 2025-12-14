@@ -1,27 +1,30 @@
 ---
-title: "Metrics and KPI Designer"
-shortTitle: "Metrics & KPI Design"
-intro: "Designs business metrics and KPIs with calculation methods, data sources, and reporting strategies."
-type: "how_to"
-difficulty: "intermediate"
+title: Metrics and KPI Designer
+shortTitle: Metrics & KPI Design
+intro: Designs business metrics and KPIs with calculation methods, data sources, and
+  reporting strategies.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "project-manager"
+- business-analyst
+- project-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "metrics"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- metrics
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Metrics and KPI Designer
 
 ---
@@ -58,6 +61,15 @@ Include:
 5. Reporting strategy
 6. Action triggers
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[objective]` | The business objective the metrics should support |
+| `[stakeholders]` | Who will consume the metrics and make decisions |
+| `[data]` | Available data sources/fields and data quality constraints |
+| `[frequency]` | Reporting cadence (daily/weekly/monthly/quarterly) |
 
 **Output:**
 

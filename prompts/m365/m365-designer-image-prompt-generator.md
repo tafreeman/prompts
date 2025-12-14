@@ -1,31 +1,37 @@
 ---
-title: "M365 Designer Image Prompt Generator"
-shortTitle: "M365 Designer Image Prom..."
-intro: 'Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a prompt-engineering format that specifies style, lighting, composition, and mood.'
-m365App: "Microsoft Designer"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Designer Image Prompt Generator
+shortTitle: M365 Designer Image Prom...
+intro: Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions
+  to create high-quality images. This prompt takes your rough ideas or document context
+  and expands them into a prompt-engineering format that specifies style, lighting,
+  composition, and mood.
+m365App: Microsoft Designer
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "designer"
-  - "m365"
-  - "creative"
-  - "image-generation"
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
+- designer
+- m365
+- creative
+- image-generation
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-description: "Converts abstract concepts or document themes into highly detailed, artistic prompts for Microsoft Designer to generate professional imagery."
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Converts abstract concepts or document themes into highly detailed, artistic
+  prompts for Microsoft Designer to generate professional imagery.
+effectivenessScore: 0.0
 ---
+
 ## Description
 
 Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a "prompt engineering" format that specifies style, lighting, composition, and mood, ensuring you get the perfect visual asset.

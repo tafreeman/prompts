@@ -1,26 +1,29 @@
 ---
-title: "Chain-of-Thought: Debugging & Root Cause Analysis"
-shortTitle: "CoT Debugging"
-intro: "A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis using explicit step-by-step reasoning."
-type: "how_to"
-difficulty: "intermediate"
+title: 'Chain-of-Thought: Debugging & Root Cause Analysis'
+shortTitle: CoT Debugging
+intro: A specialized Chain-of-Thought prompt for systematic debugging and root cause
+  analysis using explicit step-by-step reasoning.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "junior-engineer"
+- senior-engineer
+- junior-engineer
 platforms:
-  - "claude"
-  - "github-copilot"
+- claude
+- github-copilot
 topics:
-  - "debugging"
-  - "development"
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
+- debugging
+- development
+author: Prompt Engineering Team
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
 ---

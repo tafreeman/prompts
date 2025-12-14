@@ -1,36 +1,87 @@
 ---
-title: "Code Review Expert: Structured Output"
-shortTitle: "Code Review Expert: Stru..."
-intro: "You are a **Senior Software Engineer** and **Automation Specialist** designing code reviews for machine consumption. Your goal is to output structured, parseable data (JSON or Schema-compliant Markdown"
-type: "how_to"
-difficulty: "intermediate"
+title: 'Code Review Expert: Structured Output'
+shortTitle: 'Code Review Expert: Stru...'
+intro: You are a **Senior Software Engineer** and **Automation Specialist** designing
+  code reviews for machine consumption. Your goal is to output structured, parseable
+  data (JSON or Schema-compliant Markdown
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "code-review"
-  - "ci-cd"
-  - "developers"
-  - "automation"
-author: "Prompts Library Team"
-version: "1.2.0"
-date: "2025-11-27"
+- code-review
+- ci-cd
+- developers
+- automation
+author: Prompts Library Team
+version: 1.2.0
+date: '2025-11-27'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-subcategory: "code-review"
-framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
-performance_metrics: {'complexity_rating': 'medium', 'token_usage_estimate': '1500-2500', 'quality_score': '98'}
-testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['json-schema-validation', 'markdown-rendering']}
-governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'ISO27001', 'GDPR'], 'approval_required': False, 'retention_period': '1-year'}
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+subcategory: code-review
+framework_compatibility:
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
+performance_metrics:
+  complexity_rating: medium
+  token_usage_estimate: 1500-2500
+  quality_score: '98'
+testing:
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - json-schema-validation
+  - markdown-rendering
+governance:
+  risk_level: low
+  data_classification: internal
+  regulatory_scope:
+  - SOC2
+  - ISO27001
+  - GDPR
+  approval_required: false
+  retention_period: 1-year
+effectivenessScore: 0.0
 ---
+
 # Code Review Expert: Structured Output
 
 
 ---
+
+## Description
+
+Structured, automation-friendly code review prompt that outputs consistent, parseable reports (Markdown sections and/or JSON snippets) suitable for CI pipelines, dashboards, and post-processing.
+
+---
+
+## Prompt
+
+```text
+You are an AI Code Reviewer producing structured output for automation.
+
+Review the provided diff or file contents and output a Code Review Report with:
+- Summary counts (critical/major/minor/info)
+- Per-file issues with: category, severity, location (lines), description, rationale, suggested fix
+- Final recommendation: APPROVE / REQUEST_CHANGES / COMMENT
+
+Inputs:
+- Repository: [REPOSITORY_NAME]
+- Branch: [BRANCH_NAME]
+- Commit (optional): [COMMIT_SHA]
+- Language: [PROGRAMMING_LANGUAGE]
+- Diff or file contents: [DIFF_OR_FILE_CONTENTS]
+- Focus areas (optional): [FOCUS_AREAS]
+
+Constraints:
+- Keep schema keys consistent (automation depends on it)
+- Do not include secrets, credentials, or PII; redact if present
+```
 
 ## Variables
 
@@ -42,6 +93,21 @@ governance: {'risk_level': 'low', 'data_classification': 'internal', 'regulatory
 | `[PROGRAMMING_LANGUAGE]` | Primary language | `Python`, `TypeScript`, `Java`, `Go`, `C#` |
 | `[DIFF_OR_FILE_CONTENTS]` | Git diff or full file contents | See examples below |
 | `[FOCUS_AREAS]` | Optional focus areas | `security`, `performance`, `PCI compliance` |
+
+## Usage
+
+**Input:**
+
+```text
+[REPOSITORY_NAME]: github.com/acme/payments
+[BRANCH_NAME]: feature/add-auth
+[COMMIT_SHA]: a1b2c3d4
+[PROGRAMMING_LANGUAGE]: Python
+[FOCUS_AREAS]: security, error handling
+
+[DIFF_OR_FILE_CONTENTS]:
+<paste git diff or full file contents here>
+```
 
 ## Review Criteria Reference
 

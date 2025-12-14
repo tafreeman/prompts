@@ -1,27 +1,30 @@
 ---
-title: "Performance Improvement Consultant"
-shortTitle: "Performance Improvement"
-intro: "Improves organizational performance with diagnosis, root cause analysis, action plans, and monitoring frameworks."
-type: "how_to"
-difficulty: "advanced"
+title: Performance Improvement Consultant
+shortTitle: Performance Improvement
+intro: Improves organizational performance with diagnosis, root cause analysis, action
+  plans, and monitoring frameworks.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "performance"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- performance
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Performance Improvement Consultant
 
 ---

@@ -168,6 +168,33 @@ Return the result in Markdown with these sections:
 Now, using the meeting transcript, chat, and context, generate the meeting recap.
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[focus_topics]` | Optional topics to emphasize (risks, budget, customer impact, etc.) |
+| `[due_date_horizon]` | Suggested timeframe for due dates (e.g., "within 2 weeks") |
+| `[priority_scheme]` | Priority labels to use (High/Medium/Low, etc.) |
+
+## Example
+
+**Input:**
+
+```text
+focus_topics: risks, timeline
+due_date_horizon: within 2 weeks
+priority_scheme: High/Medium/Low
+```
+
+**Output:**
+
+```text
+## Meeting Summary
+## Key Decisions
+## Action Items (table)
+## Open Questions / Follow-ups
+```
+
 **Output:**
 
 ```text

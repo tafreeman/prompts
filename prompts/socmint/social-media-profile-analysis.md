@@ -1,29 +1,30 @@
 ---
-title: "Social Media Profile Deep Analysis"
-shortTitle: "Profile Analysis"
-intro: "Comprehensive social media profile analysis for behavioral patterns, network mapping, and identity verification"
+title: Social Media Profile Deep Analysis
+shortTitle: Profile Analysis
+intro: Comprehensive social media profile analysis for behavioral patterns, network
+  mapping, and identity verification
 type: prompt
 difficulty: intermediate
 audience:
-  - security-professionals
-  - osint-analysts
-  - investigators
-  - hr-professionals
+- security-professionals
+- osint-analysts
+- investigators
+- hr-professionals
 platforms:
-  - GitHub Copilot
-  - ChatGPT
-  - Claude
+- github-copilot
+- chatgpt
+- claude
 topics:
-  - osint
-  - socmint
-  - profile-analysis
-  - behavioral-analysis
+- osint
+- socmint
+- profile-analysis
+- behavioral-analysis
 author: OSINT Library
-version: "1.0"
-date: 2024-11-30
+version: '1.0'
+date: '2024-11-30'
 governance_tags:
-  - privacy-aware
-  - ethical-osint
+- privacy-aware
+- ethical-osint
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -31,9 +32,22 @@ effectivenessScore: pending
 
 # Social Media Profile Deep Analysis
 
+## Description
+
+Analyze a public social media profile to assess identity signals, behavior patterns, network connections, and authenticity indicators for an investigative or risk-assessment purpose.
+
 ## Purpose
 
 Conduct systematic analysis of social media profiles to extract intelligence about identity, behavior patterns, network connections, and potential risks or opportunities.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `{{PLATFORM}}` | Yes | Social platform being analyzed. | `Twitter/X` |
+| `{{PROFILE_IDENTIFIER}}` | Yes | Profile URL or handle. | `@techanalyst_jane` |
+| `{{INVESTIGATION_CONTEXT}}` | Yes | Why the analysis is being performed. | `pre-employment verification` |
+| `{{ANALYSIS_BOUNDARIES}}` | Yes | Scope boundaries and constraints. | `public posts only; professional conduct focus` |
 
 ## Prompt
 

@@ -1,27 +1,30 @@
 ---
-title: "Process Optimization Consultant"
-shortTitle: "Process Optimization"
-intro: "Optimizes business processes through current state analysis, bottleneck identification, and implementation roadmaps."
-type: "how_to"
-difficulty: "intermediate"
+title: Process Optimization Consultant
+shortTitle: Process Optimization
+intro: Optimizes business processes through current state analysis, bottleneck identification,
+  and implementation roadmaps.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "solution-architect"
+- business-analyst
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "process-improvement"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- process-improvement
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Process Optimization Consultant
 
 ---
@@ -58,6 +61,15 @@ Include:
 5. Implementation roadmap
 6. Change management
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[process_name]` | Name and brief description of the process |
+| `[issues]` | Current issues/pain points (cycle time, errors, rework, etc.) |
+| `[stakeholders]` | Roles/teams involved (and any approvers) |
+| `[metrics]` | Success metrics and targets for the improved process |
 
 **Output:**
 

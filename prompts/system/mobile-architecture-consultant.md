@@ -1,28 +1,30 @@
 ---
-title: "Mobile Architecture Consultant"
-shortTitle: "Mobile Architecture Cons..."
-intro: "Designs mobile application architectures"
-type: "how_to"
-difficulty: "advanced"
+title: Mobile Architecture Consultant
+shortTitle: Mobile Architecture Cons...
+intro: Designs mobile application architectures
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "mobile-architecture"
-  - "architect"
-  - "system"
-  - "enterprise"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- mobile-architecture
+- architect
+- system
+- enterprise
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Mobile Architecture Consultant
 
 ---

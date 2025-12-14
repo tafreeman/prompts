@@ -1,30 +1,34 @@
 ---
-title: "M365 Meeting Prep Brief"
-shortTitle: "M365 Meeting Prep Brief"
-intro: "This prompt helps an individual quickly prepare for an upcoming meeting using Microsoft 365 context. It generates a brief that includes meeting purpose, key talking points, questions to ask, and po..."
-m365App: "Microsoft 365 Copilot Chat"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Meeting Prep Brief
+shortTitle: M365 Meeting Prep Brief
+intro: This prompt helps an individual quickly prepare for an upcoming meeting using
+  Microsoft 365 context. It generates a brief that includes meeting purpose, key talking
+  points, questions to ask, and po...
+m365App: Microsoft 365 Copilot Chat
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "meetings"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- meetings
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Meeting Prep Brief
 
 ---
@@ -165,6 +169,36 @@ Return the result in Markdown with these sections:
 
 Now, using the context around [meeting_title] on [meeting_date], prepare my meeting brief.
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[meeting_title]` | Meeting title/subject from the invite |
+| `[meeting_date]` | Meeting date/time |
+| `[focus]` | Optional emphasis area (budget, risks, decisions needed, etc.) |
+| `[time_window]` | How far back to look for relevant context |
+
+## Example
+
+**Input:**
+
+```text
+meeting_title: Q4 Onboarding Roadmap Review
+meeting_date: 2025-12-13 2:00 PM
+focus: risks and decisions needed
+time_window: last 2 weeks
+```
+
+**Output:**
+
+```text
+## Meeting Overview
+## Key Context
+## Your Talking Points
+## Questions to Ask
+## Risks or Sensitive Topics
+```
 
 **Output:**
 

@@ -45,7 +45,17 @@ class ValidationReport:
     performance_score: float = 0.0
     security_score: float = 0.0
     accessibility_score: float = 0.0
-    overall_score: float = 0.0
+    effectivenessScore: float = 0.0  # Standardized field name
+    
+    @property
+    def overall_score(self) -> float:
+        """Alias for effectivenessScore for backwards compatibility"""
+        return self.effectivenessScore
+    
+    @overall_score.setter
+    def overall_score(self, value: float):
+        """Setter alias for backwards compatibility"""
+        self.effectivenessScore = value
     
     def add_issue(self, issue: ValidationIssue):
         """Add a validation issue to the report"""
@@ -61,7 +71,7 @@ class ValidationReport:
             'accessibility': 0.10
         }
         
-        self.overall_score = (
+        self.effectivenessScore = (
             self.structure_score * weights['structure'] +
             self.metadata_score * weights['metadata'] +
             self.performance_score * weights['performance'] +
@@ -69,7 +79,7 @@ class ValidationReport:
             self.accessibility_score * weights['accessibility']
         )
         
-        return self.overall_score
+        return self.effectivenessScore
     
     def get_severity_counts(self) -> Dict[str, int]:
         """Get count of issues by severity level"""
@@ -88,7 +98,8 @@ class ValidationReport:
                 'performance': self.performance_score,
                 'security': self.security_score,
                 'accessibility': self.accessibility_score,
-                'overall': self.overall_score
+                'effectivenessScore': self.effectivenessScore,
+                'overall': self.effectivenessScore  # Alias for compatibility
             },
             'issues': [
                 {

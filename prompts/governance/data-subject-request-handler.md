@@ -1,37 +1,40 @@
 ---
-title: "Data Subject Request (DSR) Handler"
-shortTitle: "DSR Handler"
-intro: "A systematic ReAct+Reflection prompt for processing GDPR/CCPA data subject requests including access, rectification, erasure, portability, and objection rights."
-type: "how_to"
-difficulty: "intermediate"
+title: Data Subject Request (DSR) Handler
+shortTitle: DSR Handler
+intro: A systematic ReAct+Reflection prompt for processing GDPR/CCPA data subject
+  requests including access, rectification, erasure, portability, and objection rights.
+type: how_to
+difficulty: intermediate
 audience:
-  - "solution-architect"
-  - "backend-engineer"
+- solution-architect
+- backend-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "privacy"
-  - "compliance"
-  - "gdpr"
-  - "ccpa"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- privacy
+- compliance
+- gdpr
+- ccpa
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "pii-handling"
-dataClassification: "confidential"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- pii-handling
+dataClassification: confidential
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "UK-GDPR"
-  - "CCPA"
-  - "CPRA"
+- GDPR
+- UK-GDPR
+- CCPA
+- CPRA
+effectivenessScore: 0.0
 ---
+
 # Data Subject Request (DSR) Handler
 
 ---

@@ -1,28 +1,29 @@
 ---
-title: "Email OSINT Investigation"
-shortTitle: "Email OSINT"
-intro: "Comprehensive email address investigation for breach exposure, account enumeration, and identity correlation"
+title: Email OSINT Investigation
+shortTitle: Email OSINT
+intro: Comprehensive email address investigation for breach exposure, account enumeration,
+  and identity correlation
 type: prompt
 difficulty: intermediate
 audience:
-  - security-professionals
-  - osint-analysts
-  - investigators
+- security-professionals
+- osint-analysts
+- investigators
 platforms:
-  - GitHub Copilot
-  - ChatGPT
-  - Claude
+- github-copilot
+- chatgpt
+- claude
 topics:
-  - osint
-  - email-investigation
-  - breach-analysis
-  - identity-correlation
+- osint
+- email-investigation
+- breach-analysis
+- identity-correlation
 author: OSINT Library
-version: "1.0"
-date: 2024-11-30
+version: '1.0'
+date: '2024-11-30'
 governance_tags:
-  - privacy-aware
-  - ethical-osint
+- privacy-aware
+- ethical-osint
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -30,9 +31,21 @@ effectivenessScore: pending
 
 # Email OSINT Investigation
 
+## Description
+
+Investigate an email address using ethical OSINT methods to identify breach exposure, account presence, domain intelligence (if corporate), and identity correlations.
+
 ## Purpose
 
 Conduct thorough email address analysis to discover associated accounts, breach exposures, domain information, and identity correlations while maintaining ethical boundaries.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `{{EMAIL_ADDRESS}}` | Yes | Target email address to investigate. | `jsmith2024@techcorp.com` |
+| `{{CONTEXT}}` | Yes | Why the investigation is being performed. | `pre-employment background verification` |
+| `{{SCOPE}}` | Yes | Scope limitations / boundaries. | `public information only; no active probing` |
 
 ## Prompt
 

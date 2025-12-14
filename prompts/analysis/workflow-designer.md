@@ -1,27 +1,30 @@
 ---
-title: "Workflow Designer"
-shortTitle: "Workflow Design"
-intro: "Designs efficient business workflows with role definitions, decision points, exception handling, and automation opportunities."
-type: "how_to"
-difficulty: "intermediate"
+title: Workflow Designer
+shortTitle: Workflow Design
+intro: Designs efficient business workflows with role definitions, decision points,
+  exception handling, and automation opportunities.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "solution-architect"
+- business-analyst
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "workflow"
-  - "automation"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- workflow
+- automation
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Workflow Designer
 
 ---
@@ -58,6 +61,15 @@ Provide:
 5. Automation opportunities
 6. Performance metrics
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[process]` | The business process/workflow to design |
+| `[stakeholders]` | Roles/teams involved and their responsibilities |
+| `[complexity]` | Workflow complexity (low/medium/high) and constraints |
+| `[automation]` | Automation goals and constraints (tools, integrations, compliance) |
 
 **Output:**
 

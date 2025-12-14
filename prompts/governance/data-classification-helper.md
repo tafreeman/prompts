@@ -1,34 +1,37 @@
 ---
-title: "Data Classification Helper"
-shortTitle: "Data Classifier"
-intro: "A prompt to help categorize data assets based on sensitivity and regulatory requirements."
-type: "how_to"
-difficulty: "beginner"
+title: Data Classification Helper
+shortTitle: Data Classifier
+intro: A prompt to help categorize data assets based on sensitivity and regulatory
+  requirements.
+type: how_to
+difficulty: beginner
 audience:
-  - "data-steward"
-  - "compliance-officer"
-  - "developer"
+- data-steward
+- compliance-officer
+- developer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "data-management"
-  - "security"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- data-management
+- security
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "data-privacy"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- data-privacy
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "CCPA"
-  - "Internal-Policy"
+- GDPR
+- CCPA
+- Internal-Policy
+effectivenessScore: 0.0
 ---
+
 # Data Classification Helper
 
 ---

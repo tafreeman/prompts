@@ -300,3 +300,4 @@ docs/EVALUATION_REPORT.md
 
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
+docs/reports/

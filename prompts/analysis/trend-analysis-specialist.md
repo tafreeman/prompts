@@ -60,6 +60,15 @@ Include:
 6. Strategic responses
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[market]` | Industry/market to analyze |
+| `[categories]` | Trend categories to consider (tech, consumer behavior, regulation, etc.) |
+| `[horizon]` | Time horizon for projections |
+| `[impact]` | How to frame business impact (roadmap, investment, risk, GTM, etc.) |
+
 **Output:**
 
 ```text

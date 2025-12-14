@@ -84,6 +84,54 @@ Also provide:
 - Alternative hook option
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[LINKEDIN/TWITTER/INSTAGRAM/FACEBOOK]` | Target platform |
+| `[YOUR CONTENT TOPIC]` | Topic/theme |
+| `[ENGAGEMENT/AWARENESS/TRAFFIC/LEADS/COMMUNITY]` | Primary goal |
+| `[WHO YOU'RE TARGETING]` | Target audience/persona |
+| `[PROFESSIONAL/CASUAL/INSPIRATIONAL/HUMOROUS/EDUCATIONAL]` | Tone |
+| `[DESCRIBE YOUR VOICE]` | Brand/personal voice description |
+| `[MAIN POINT YOU WANT TO COMMUNICATE]` | Key message content |
+| `[WHAT DO YOU WANT READERS TO DO?]` | Call-to-action |
+| `[YES/NO - HOW MANY?]` | Hashtags preference |
+| `[YES/NO - STYLE?]` | Emoji preference/style |
+| `[YES/NO]` | Include statistics/data |
+| `[YES/NO]` | Character limit awareness |
+
+## Example
+
+**Input:**
+
+```text
+Platform: LinkedIn
+Topic: Postmortems that improve reliability
+Goal: Engagement
+Target Audience: SREs and engineering managers
+Tone: Educational
+Brand/Personal Voice: Calm, direct, no fluff
+
+Key Message:
+Blameless postmortems are about learning loops, not blame.
+
+Call-to-Action:
+Comment with your best postmortem template.
+
+Include hashtags: Yes - 4
+Include emojis: No
+Include statistics/data: No
+Character limit awareness: Yes
+```
+
+**Output:**
+
+```text
+A LinkedIn-formatted post with a strong first-line hook, line breaks for readability,
+a clear CTA question, and 3–5 relevant hashtags.
+```
+
 **Output:**
 
 ```text

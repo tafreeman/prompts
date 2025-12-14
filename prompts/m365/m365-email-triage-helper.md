@@ -1,30 +1,34 @@
 ---
-title: "M365 Email Triage Helper"
-shortTitle: "M365 Email Triage Helper"
-intro: "This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate."
-m365App: "Copilot in Outlook"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Email Triage Helper
+shortTitle: M365 Email Triage Helper
+intro: This prompt helps an individual quickly triage their inbox in Outlook using
+  Copilot. It groups important emails into action-oriented categories and drafts short
+  replies where appropriate.
+m365App: Copilot in Outlook
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "email"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- email
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Email Triage Helper
 
 ---
@@ -175,6 +179,35 @@ Return the result in Markdown:
 Now, using emails from [time_window], triage my inbox, group the emails, and
 provide reply drafts as specified.
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[time_window]` | Period to consider (e.g., "today", "last 24 hours") |
+| `[max_urgent]` | Max number of emails to include in "Need Response Today" |
+| `[tone]` | Tone for reply drafts (professional, friendly, direct, etc.) |
+| `[exclude_senders]` | Optional list of senders/domains to ignore |
+
+## Example
+
+**Input:**
+
+```text
+time_window: since Monday
+max_urgent: 5
+tone: professional and concise
+exclude_senders: noreply@, newsletters@
+```
+
+**Output:**
+
+```text
+## Inbox Summary
+## Need Response Today (with draft replies)
+## Need Response This Week
+## FYI / No Response Needed
+```
 
 **Output:**
 

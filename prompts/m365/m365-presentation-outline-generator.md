@@ -1,30 +1,34 @@
 ---
-title: "M365 Presentation Outline Generator"
-shortTitle: "M365 Presentation Outlin..."
-intro: "This prompt helps an individual quickly create a structured PowerPoint presentation outline using Microsoft 365 context. It generates slide titles, bullet points, and visual suggestions based on a ..."
-m365App: "Copilot in PowerPoint"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Presentation Outline Generator
+shortTitle: M365 Presentation Outlin...
+intro: This prompt helps an individual quickly create a structured PowerPoint presentation
+  outline using Microsoft 365 context. It generates slide titles, bullet points, and
+  visual suggestions based on a ...
+m365App: Copilot in PowerPoint
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "powerpoint"
-  - "m365"
-  - "business"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- powerpoint
+- m365
+- business
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Presentation Outline Generator
 
 ---
@@ -56,6 +60,16 @@ The user provides:
 - `[emphasis]`: What to emphasize (e.g., "benefits and ROI", "technical details", "risks and mitigations", "customer stories").
 - Optional: `[source_document]`: A Word doc, PDF, or other file to use as the primary source material.
 - Optional: `[slide_count_target]`: Desired number of slides (e.g., "8–12 slides").
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[topic]` | Yes | Main topic or title of the presentation. | `Q4 Product Roadmap` |
+| `[audience]` | Yes | Intended audience for the deck. | `executives` |
+| `[emphasis]` | Yes | What to emphasize in the narrative and slide content. | `benefits and ROI` |
+| `[source_document]` | No | Source material to extract themes and structure from. | `Roadmap-Q4.docx` |
+| `[slide_count_target]` | No | Target number of slides (range or exact). | `10 slides` |
 
 ## Assumptions
 
@@ -239,6 +253,37 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 ```text
 
 ---
+
+## Example
+
+**Inputs**
+
+- `[topic]`: `Q4 Product Roadmap`
+- `[audience]`: `executives`
+- `[emphasis]`: `benefits and ROI`
+- `[source_document]`: `Roadmap-Q4.docx`
+- `[slide_count_target]`: `10 slides`
+
+**Expected output (excerpt)**
+
+```text
+## Presentation Title
+Q4 Product Roadmap: Outcomes, ROI, and Key Milestones
+
+## Slide Outline
+
+**Slide 1: Executive Summary**
+- What changed since last quarter and why
+- Top 3 outcomes we will deliver
+- ROI framing and success metrics
+- Visual suggestion: 3-column outcomes + KPI table
+
+**Slide 2: Roadmap at a Glance**
+- Milestones by month
+- Dependencies and critical path
+- Key decision points and owners
+- Visual suggestion: timeline / Gantt chart
+```
 
 
 ## Tips

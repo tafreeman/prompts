@@ -1,27 +1,30 @@
 ---
-title: "Library Capability Radar Chart Generator"
-shortTitle: "Capability Radar"
-intro: "Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains."
-type: "how_to"
-difficulty: "intermediate"
+title: Library Capability Radar Chart Generator
+shortTitle: Capability Radar
+intro: Guides generation of a Radar Chart to assess the maturity and balance of the
+  prompt library across key domains.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "visualization"
-  - "analysis"
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
+- visualization
+- analysis
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
 
@@ -89,6 +92,31 @@ This visualization should highlight gaps in the library—for example, showing a
 | Variable | Description | Example |
 |:---------|:------------|:--------|
 | `[CATEGORY_COUNTS]` | Number of prompts in each of the 7 key domains | Advanced: 8, Analysis: 18, Business: 25, Creative: 3, Developers: 15, Governance: 4, System: 6 |
+
+## Example
+
+**Input:**
+
+```text
+CATEGORY_COUNTS:
+- Advanced: 12
+- Analysis: 24
+- Business: 30
+- Creative: 6
+- Developers: 18
+- Governance: 5
+- System: 9
+```
+
+**Output:**
+
+```text
+Provide Python/Matplotlib code that:
+1) Creates 7 radar axes labeled: Advanced, Analysis, Business, Creative, Developers, Governance, System
+2) Plots the provided values as a closed polygon
+3) Sets the radial limit to at least max(value) (e.g., 0..30)
+4) Adds a title "Prompt Library Coverage Radar" and a light grid
+```
 
 ## Tips
 

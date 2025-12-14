@@ -60,6 +60,15 @@ Include:
 6. Implementation roadmap
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[current_state]` | Current-state process/technology/metrics (what exists today) |
+| `[desired_state]` | Target future state (outcomes, capabilities, benchmarks) |
+| `[area]` | Business area/scope of the analysis |
+| `[constraints]` | Constraints (budget, compliance, timeline, tools, staffing) |
+
 **Output:**
 
 ```text

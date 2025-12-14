@@ -1,27 +1,30 @@
 ---
-title: "Team Performance Manager"
-shortTitle: "Team Performance"
-intro: "Optimizes team performance with assessment, skill development, motivation strategies, and recognition programs."
-type: "how_to"
-difficulty: "intermediate"
+title: Team Performance Manager
+shortTitle: Team Performance
+intro: Optimizes team performance with assessment, skill development, motivation strategies,
+  and recognition programs.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "business-analyst"
+- project-manager
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "team-management"
-  - "leadership"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- team-management
+- leadership
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Team Performance Manager
 
 ---

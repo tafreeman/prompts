@@ -94,7 +94,7 @@ You are a Senior C# Developer Assistant specializing in .NET 6+ and SQL Server.
 - Always use parameterized queries for SQL
 - Prefer async/await for I/O operations
 - Follow C# naming conventions (PascalCase for public, camelCase for private)
-```sql
+```
 ## Example
 
 ### Creating an Assistant with Code Interpreter
@@ -165,7 +165,7 @@ if run.status == "completed":
     messages = client.beta.threads.messages.list(thread_id=thread.id)
     latest_message = messages.data[0]
     print(latest_message.content[0].text.value)
-```text
+```
 ### Expected Response
 
 ```text
@@ -197,8 +197,8 @@ public async Task<List<User>> GetUsersAsync() {
     }
     return users;
 }
-```text
-```text
+```
+```
 ## Usage
 
 ### File Search (RAG) with Assistants
@@ -240,7 +240,7 @@ run = client.beta.threads.runs.create_and_poll(
 
 messages = client.beta.threads.messages.list(thread_id=thread.id)
 print(messages.data[0].content[0].text.value)
-```text
+```
 ### Function Calling with Assistants
 
 ```python
@@ -288,7 +288,7 @@ if run.status == "requires_action":
             "output": json.dumps(result)
         }]
     )
-```text
+```
 ## Best Practices
 
 1. **Thread Management**: Reuse threads for the same user/conversation. Delete old threads to save costs.
@@ -300,5 +300,5 @@ if run.status == "requires_action":
 
 ## Related Patterns
 
-- [Function Calling](./function-calling/openai-function-calling.md)
-- [LangChain Agents](../langchain/agent-patterns/langchain-agents.md)
+- [Function Calling](../function-calling/openai-function-calling.md)
+- [LangChain Agents](../../langchain/agent-patterns/langchain-agents.md)

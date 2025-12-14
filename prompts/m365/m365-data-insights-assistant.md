@@ -1,30 +1,34 @@
 ---
-title: "M365 Data Insights Assistant"
-shortTitle: "M365 Data Insights"
-intro: "This prompt helps an individual quickly interpret and analyze data in Excel workbooks using Microsoft 365 Copilot. It identifies trends, highlights anomalies, and recommends visualizations, all exp..."
-m365App: "Copilot in Excel"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Data Insights Assistant
+shortTitle: M365 Data Insights
+intro: This prompt helps an individual quickly interpret and analyze data in Excel
+  workbooks using Microsoft 365 Copilot. It identifies trends, highlights anomalies,
+  and recommends visualizations, all exp...
+m365App: Copilot in Excel
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "excel"
-  - "m365"
-  - "business"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- excel
+- m365
+- business
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Data Insights Assistant
 
 ---
@@ -157,6 +161,33 @@ Return the result in Markdown:
 Now, analyze this data and provide insights for [audience], focusing on [focus_areas]
 if specified.
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[audience]` | Who will consume the insights (executives, product team, etc.) |
+| `[time_window]` | Optional time range for time-based data (e.g., "Q4 2025") |
+| `[focus_areas]` | Optional areas to investigate (regions, costs, churn, etc.) |
+
+## Example
+
+**Input:**
+
+```text
+audience: finance leadership
+time_window: last 6 months
+focus_areas: cost trends, budget risks
+```
+
+**Output:**
+
+```text
+## Data Overview
+## Key Trends
+## Anomalies or Outliers
+## Recommended Visualizations
+```
 
 **Output:**
 

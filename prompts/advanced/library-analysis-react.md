@@ -1,28 +1,31 @@
 ---
-title: "ReAct: Library Structure & Content Analysis"
-shortTitle: "ReAct Library Analysis"
-intro: "A specialized ReAct pattern for analyzing the structure, quality, and completeness of a prompt library or code repository."
-type: "how_to"
-difficulty: "advanced"
+title: 'ReAct: Library Structure & Content Analysis'
+shortTitle: ReAct Library Analysis
+intro: A specialized ReAct pattern for analyzing the structure, quality, and completeness
+  of a prompt library or code repository.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "analysis"
-  - "documentation"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-25"
+- analysis
+- documentation
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-25'
 governance_tags:
-  - "PII-safe"
-  - "internal-only"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- internal-only
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # ReAct: Library Structure & Content Analysis
 
 ---
@@ -42,6 +45,24 @@ A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the stru
 - **Maintenance**: Generating reports on "to-do" items for library improvement.
 
 ---
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[ANALYSIS_TASK]` | Yes | The specific audit question or goal for the library analysis. | `Identify prompts missing required sections and propose fixes` |
+
+## Example
+
+**Input**
+
+- `[ANALYSIS_TASK]`: `Audit prompts/advanced for missing sections and inconsistent headings`
+
+**Expected output (high level)**
+
+- A list of files reviewed
+- A table of issues (missing sections, metadata gaps)
+- Prioritized recommendations (quick wins first)
 
 ## Prompt
 

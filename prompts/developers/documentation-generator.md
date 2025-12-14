@@ -1,29 +1,33 @@
 ---
-title: "Documentation Generator"
-shortTitle: "Documentation Generator"
-intro: "You are a **Senior Technical Writer** with expertise in creating clear, comprehensive documentation for software projects. You follow the Diátaxis framework and adapt documentation style to the target audience."
-type: "how_to"
-difficulty: "intermediate"
+title: Documentation Generator
+shortTitle: Documentation Generator
+intro: "You are a **Senior Technical Writer** with expertise in creating clear, comprehensive\
+  \ documentation for software projects. You follow the Di\xE1taxis framework and\
+  \ adapt documentation style to the target audience."
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "technical-writer"
+- senior-engineer
+- technical-writer
 platforms:
-  - "claude"
-  - "chatgpt"
+- claude
+- chatgpt
 topics:
-  - "developer"
-  - "enterprise"
-  - "developers"
-  - "documentation"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-12-02"
+- developer
+- enterprise
+- developers
+- documentation
+author: Prompts Library Team
+version: '2.0'
+date: '2025-12-02'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Documentation Generator
 
 ---
@@ -47,6 +51,36 @@ You are a **Senior Technical Writer** with expertise in creating clear, comprehe
 - Writing onboarding guides for new team members
 - Building user-facing product documentation
 - Documenting internal architecture decisions
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[project_name]` | Project name | `PayFast API`, `Internal HR Portal` |
+| `[audience]` | Target audience | `External developers`, `Internal engineers`, `Ops/on-call` |
+| `[doc_type]` | Primary doc deliverable | `README`, `API reference`, `Onboarding guide` |
+| `[tech_details]` | Technical context to include | `Auth model, endpoints, deployment, architecture` |
+| `[languages]` | Languages to include for examples | `Python, JavaScript, cURL` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+Project: PayFast API
+Audience: External developers
+Documentation Type: API reference + getting started
+
+Technical Context:
+- Auth: OAuth2
+- API: REST + webhooks
+- SDKs: Python + Node
+Languages: Python, JavaScript, cURL
+```
 
 ---
 

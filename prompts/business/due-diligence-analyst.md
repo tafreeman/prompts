@@ -1,27 +1,30 @@
 ---
-title: "Due Diligence Analyst"
-shortTitle: "Due Diligence"
-intro: "Conducts comprehensive due diligence with analysis frameworks, risk assessment, findings summary, and recommendations."
-type: "how_to"
-difficulty: "advanced"
+title: Due Diligence Analyst
+shortTitle: Due Diligence
+intro: Conducts comprehensive due diligence with analysis frameworks, risk assessment,
+  findings summary, and recommendations.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "analysis"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- analysis
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Due Diligence Analyst
 
 ---

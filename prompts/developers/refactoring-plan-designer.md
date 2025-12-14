@@ -1,26 +1,30 @@
 ---
-title: "Refactoring Plan Designer"
-shortTitle: "Refactoring Plan Designer"
-intro: "Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates."
-type: "how_to"
-difficulty: "intermediate"
+title: Refactoring Plan Designer
+shortTitle: Refactoring Plan Designer
+intro: Creates phased, risk-managed refactoring plans for large-scale code improvements.
+  Breaks down complex refactorings into incremental steps with pre-checks, rollback
+  strategies, and validation gates.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "refactoring"
-  - "technical-debt"
-  - "developers"
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
+- refactoring
+- technical-debt
+- developers
+author: Prompt Engineering Team
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Refactoring Plan Designer
 
 ---
@@ -84,6 +88,60 @@ Markdown with the following sections:
 - Changing database schemas or data models
 - Refactoring large modules or classes
 - Paying down technical debt systematically
+
+---
+
+## Variables
+
+<details>
+<summary><b>Common placeholders</b> (click to expand)</summary>
+
+| Variable | Description | Example |
+|---|---|---|
+| `[SYSTEM_OR_CODE_DESCRIPTION]` | What is being refactored | `User management module in monolith` |
+| `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]` | Current state details | `Tight coupling, shared DB tables, no boundaries` |
+| `[PAIN_POINT_*]` | Key pain points (1..n) | `Slow deploys`, `Frequent regressions` |
+| `[WHAT_YOU_WANT_TO_ACHIEVE]` | Refactoring goal | `Extract user service behind an API` |
+| `[SUCCESS_CRITERION_*]` | Success criteria (1..n) | `No downtime`, `Latency +10ms max` |
+| `[N developers]` | Team size constraint | `3 engineers` |
+| `[X weeks/months]` | Timeline constraint | `8 weeks` |
+| `[current %]` | Current test coverage | `55%` |
+| `[ANY_OTHER_INFO]` | Extra constraints/context | `Must be PCI-safe; feature flags required` |
+
+</details>
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+System/Code: User management module in a legacy monolith
+
+Current State:
+- Shared database tables across 5 domains
+- Authentication mixed with user CRUD
+
+Pain Points:
+- Deployments take 2 hours
+- Frequent regressions in auth flows
+
+Refactoring Goal: Extract user management into an independently deployable service
+
+Success Criteria:
+- No production incidents during migration
+- <10ms latency overhead for user operations
+
+Constraints:
+- Team Size: 3 developers
+- Timeline: 8 weeks
+- Uptime Requirement: 99.9%
+- Test Coverage: 55%
+- Deployment Frequency: weekly
+
+Additional Context: Must support feature flags and staged rollout
+```
 
 ---
 

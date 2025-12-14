@@ -1,27 +1,30 @@
 ---
-title: "Data Analysis Specialist"
-shortTitle: "Data Analysis"
-intro: "Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy."
-type: "how_to"
-difficulty: "intermediate"
+title: Data Analysis Specialist
+shortTitle: Data Analysis
+intro: Performs comprehensive data analysis including exploration, statistical analysis,
+  and visualization strategy.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "senior-engineer"
+- business-analyst
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "data-analysis"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- data-analysis
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Data Analysis Specialist
 
 ---
@@ -60,6 +63,15 @@ Provide:
 5. Recommendations
 6. Visualization strategy
 ```
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[question]` | The business question to answer |
+| `[sources]` | Data sources available (systems, tables, files) |
+| `[scope]` | Timeframe, segments, constraints, and any exclusions |
+| `[context]` | Decision context and stakeholders’ needs |
 
 **Output:**
 

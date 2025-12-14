@@ -1,28 +1,30 @@
 ---
-title: "Blockchain Architecture Specialist"
-shortTitle: "Blockchain Architecture ..."
-intro: "Designs blockchain-based architectures"
-type: "how_to"
-difficulty: "advanced"
+title: Blockchain Architecture Specialist
+shortTitle: Blockchain Architecture ...
+intro: Designs blockchain-based architectures
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "enterprise"
-  - "blockchain"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- enterprise
+- blockchain
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Blockchain Architecture Specialist
 
 ---

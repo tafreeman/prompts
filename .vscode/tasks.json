@@ -1,69 +1,231 @@
 {
 	"version": "2.0.0",
+	"inputs": [
+		{
+			"id": "evalFolder",
+			"type": "pickString",
+			"description": "Select folder to evaluate",
+			"options": [
+				"prompts/",
+				"prompts/advanced/",
+				"prompts/analysis/",
+				"prompts/business/",
+				"prompts/creative/",
+				"prompts/developers/",
+				"prompts/governance/",
+				"prompts/m365/",
+				"prompts/reasoning/",
+				"prompts/socmint/",
+				"prompts/system/"
+			],
+			"default": "prompts/"
+		},
+		{
+			"id": "evalTier",
+			"type": "pickString",
+			"description": "Select evaluation tier",
+			"options": [
+				"1 - Quick Triage (FREE, <1s)",
+				"2 - Single Model (FREE, 30s)",
+				"3 - Cross-Validate (FREE, 3 models)",
+				"4 - Full Pipeline (FREE, 5 models)",
+				"5 - Premium (FREE, all gh-models)"
+			],
+			"default": "1 - Quick Triage (FREE, <1s)"
+		}
+	],
 	"tasks": [
 		{
-			"label": "clean (functions)",
-			"command": "dotnet",
+			"label": "📊 Eval: Run Tiered Evaluation",
+			"type": "shell",
+			"command": "python",
 			"args": [
-				"clean",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"${input:evalTier/^(\\d).*//$1/}"
 			],
-			"type": "process",
-			"problemMatcher": "$msCompile"
-		},
-		{
-			"label": "build (functions)",
-			"command": "dotnet",
-			"args": [
-				"build",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
-			],
-			"type": "process",
-			"dependsOn": "clean (functions)",
-			"group": {
-				"kind": "build",
-				"isDefault": true
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
 			},
-			"problemMatcher": "$msCompile"
+			"group": "test"
 		},
 		{
-			"label": "clean release (functions)",
-			"command": "dotnet",
+			"label": "📊 Eval: Tier 1 - Quick Triage (FREE)",
+			"type": "shell",
+			"command": "python",
 			"args": [
-				"clean",
-				"--configuration",
-				"Release",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"1"
 			],
-			"type": "process",
-			"problemMatcher": "$msCompile"
-		},
-		{
-			"label": "publish (functions)",
-			"command": "dotnet",
-			"args": [
-				"publish",
-				"--configuration",
-				"Release",
-				"/property:GenerateFullPaths=true",
-				"/consoleloggerparameters:NoSummary"
-			],
-			"type": "process",
-			"dependsOn": "clean release (functions)",
-			"problemMatcher": "$msCompile"
-		},
-		{
-			"type": "func",
-			"dependsOn": "build (functions)",
-			"options": {
-				"cwd": "${workspaceFolder}/bin/Debug/net10.0"
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
 			},
-			"command": "host start",
-			"isBackground": true,
-			"problemMatcher": "$func-dotnet-watch"
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 2 - Single Model (gpt-4o-mini)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"2"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 3 - Cross-Validate (gpt-4o-mini, gpt-4.1, mistral)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"3"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 4 - Full Pipeline (5 gh-models)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"4"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 5 - Premium (all gh-models × 4 runs)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"${input:evalFolder}",
+				"--tier",
+				"5"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Current File Only",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"${file}",
+				"--tier",
+				"${input:evalTier/^(\\d).*//$1/}"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📋 Eval: List All Tiers",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"--list-tiers"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "📋 Eval: Show Model Recommendations",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/tiered_eval.py",
+				"--recommend"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "🧪 Run Python Tests",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"pytest",
+				"testing/",
+				"-v"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "🔍 Validate All Prompts",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/validate_prompts.py",
+				"--all"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
+		},
+		{
+			"label": "📈 Analyze Prompt Library",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"tools/analyzers/prompt_analyzer.py",
+				"--all"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			}
 		}
 	]
 }
