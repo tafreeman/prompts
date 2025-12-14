@@ -19,14 +19,37 @@ topics:
 - developers
 - best-practices
 author: Prompts Library Team
-version: '2.0'
-date: '2025-12-02'
+version: '2.0.0'
+date: '2025-12-11'
 governance_tags:
 - PII-safe
 - requires-human-review
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
+  - "PII-safe"
+  - "requires-human-review"
+dataClassification: "internal"
+reviewStatus: "approved"
+subcategory: "code-review"
+framework_compatibility:
+  openai: ">=1.0.0"
+  anthropic: ">=0.8.0"
+  github-copilot: ">=1.0.0"
+performance_metrics:
+  complexity_rating: "low"
+  token_usage_estimate: "1000-2000"
+  quality_score: "90"
+testing:
+  framework: "manual"
+  validation_status: "passed"
+  test_cases: ["beginner-review", "educational-feedback"]
+governance:
+  risk_level: "low"
+  data_classification: "internal"
+  regulatory_scope: ["SOC2", "ISO27001"]
+  approval_required: false
+  retention_period: "1-year"
 ---
 
 # Code Review Assistant
