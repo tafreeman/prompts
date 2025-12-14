@@ -1,27 +1,30 @@
 ---
-title: "Vendor Management Coordinator"
-shortTitle: "Vendor Management"
-intro: "Manages vendor relationships with evaluation criteria, contract management, and performance monitoring."
-type: "how_to"
-difficulty: "intermediate"
+title: Vendor Management Coordinator
+shortTitle: Vendor Management
+intro: Manages vendor relationships with evaluation criteria, contract management,
+  and performance monitoring.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "business-analyst"
+- project-manager
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "vendor-management"
-  - "procurement"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- vendor-management
+- procurement
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Vendor Management Coordinator
 
 ---

@@ -1,27 +1,30 @@
 ---
-title: "Stakeholder Requirements Gatherer"
-shortTitle: "Stakeholder Requirements"
-intro: "Gathers and manages stakeholder requirements with interview planning, conflict resolution, and communication strategies."
-type: "how_to"
-difficulty: "intermediate"
+title: Stakeholder Requirements Gatherer
+shortTitle: Stakeholder Requirements
+intro: Gathers and manages stakeholder requirements with interview planning, conflict
+  resolution, and communication strategies.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "project-manager"
+- business-analyst
+- project-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "requirements"
-  - "stakeholder-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- requirements
+- stakeholder-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Stakeholder Requirements Gatherer
 
 ---
@@ -58,6 +61,15 @@ Include:
 5. Prioritization framework
 6. Communication strategy
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[project_name]` | Project name and scope |
+| `[groups]` | Stakeholder groups/roles to interview |
+| `[domain]` | Business domain/context (industry, processes, regulations) |
+| `[complexity]` | Complexity level and notable constraints (integrations, legacy, scale) |
 
 **Output:**
 

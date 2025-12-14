@@ -1,36 +1,40 @@
 ---
-title: "Legal: Contract Review Assistant"
-shortTitle: "Legal: Contract Review"
-intro: "An AI-powered contract review assistant for legal teams to identify risks, unusual clauses, and compliance issues in commercial agreements. This prompt systematically analyzes contracts, highlights..."
-type: "how_to"
-difficulty: "advanced"
+title: 'Legal: Contract Review Assistant'
+shortTitle: 'Legal: Contract Review'
+intro: An AI-powered contract review assistant for legal teams to identify risks,
+  unusual clauses, and compliance issues in commercial agreements. This prompt systematically
+  analyzes contracts, highlights...
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "governance-compliance"
-  - "risk-assessment"
-  - "contract-review"
-  - "legal"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- governance-compliance
+- risk-assessment
+- contract-review
+- legal
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "requires-human-review"
-  - "audit-required"
-  - "CISO-approval-required"
-dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "Confidential"
-risk_level: "High"
+- requires-human-review
+- audit-required
+- CISO-approval-required
+dataClassification: internal
+reviewStatus: draft
+data_classification: Confidential
+risk_level: High
 regulatory_scope:
-  - "general-commercial-law"
-  - "contract-law"
-approval_required: "Legal Counsel"
-retention_period: "7 years"
+- general-commercial-law
+- contract-law
+approval_required: Legal Counsel
+retention_period: 7 years
+effectivenessScore: 0.0
 ---
+
 # Legal: Contract Review Assistant
 
 ---

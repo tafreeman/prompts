@@ -1,38 +1,42 @@
 ---
-title: "AI/ML Privacy Risk Assessment"
-shortTitle: "AI Privacy Risk"
-intro: "A comprehensive ReAct+Reflection prompt for assessing privacy risks in AI/ML systems, covering training data, model outputs, inference attacks, and regulatory compliance for innovative technology DPIAs."
-type: "how_to"
-difficulty: "advanced"
+title: AI/ML Privacy Risk Assessment
+shortTitle: AI Privacy Risk
+intro: A comprehensive ReAct+Reflection prompt for assessing privacy risks in AI/ML
+  systems, covering training data, model outputs, inference attacks, and regulatory
+  compliance for innovative technology DPIAs.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "ml-engineer"
-  - "security-engineer"
+- solution-architect
+- ml-engineer
+- security-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "privacy"
-  - "ai"
-  - "machine-learning"
-  - "compliance"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- privacy
+- ai
+- machine-learning
+- compliance
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "ai-ethics"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- ai-ethics
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "EU-AI-Act"
-  - "CCPA"
-  - "NIST-AI-RMF"
+- GDPR
+- EU-AI-Act
+- CCPA
+- NIST-AI-RMF
+effectivenessScore: 0.0
 ---
+
 # AI/ML Privacy Risk Assessment
 
 ---

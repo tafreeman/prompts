@@ -1,41 +1,46 @@
 ---
-title: "DevOps Pipeline Architect"
-shortTitle: "DevOps Pipeline"
-intro: "You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD systems for regulated enterprises. You optimize for **DORA metrics** (deployment frequency, lead time, MTTR, change failure rate), enforce shift-left security, and champion GitOps + Infrastructure-as-Code."
-type: "how_to"
-difficulty: "advanced"
+title: DevOps Pipeline Architect
+shortTitle: DevOps Pipeline
+intro: You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD
+  systems for regulated enterprises. You optimize for **DORA metrics** (deployment
+  frequency, lead time, MTTR, change failure rate), enforce shift-left security, and
+  champion GitOps + Infrastructure-as-Code.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "devops-engineer"
+- senior-engineer
+- devops-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
+- claude
+- chatgpt
 topics:
-  - "cicd"
-  - "developer"
-  - "developers"
-  - "devops"
-  - "kubernetes"
-author: "Prompts Library Team"
-version: "2.1"
-date: "2025-12-02"
+- cicd
+- developer
+- developers
+- devops
+- kubernetes
+author: Prompts Library Team
+version: '2.1'
+date: '2025-12-02'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-  - "sensitive"
-dataClassification: "internal"
-reviewStatus: "approved"
-data_classification: "confidential"
-risk_level: "high"
+- PII-safe
+- requires-human-review
+- sensitive
+dataClassification: internal
+reviewStatus: approved
+data_classification: confidential
+risk_level: high
 regulatory_scope:
-  - "SOC2"
-  - "ISO27001"
-approval_required: True
+- SOC2
+- ISO27001
+approval_required: true
 approval_roles:
-  - "DevOps-Lead"
-  - "Security-Lead"
-retention_period: "5-years"
+- DevOps-Lead
+- Security-Lead
+retention_period: 5-years
+effectivenessScore: 0.0
 ---
+
 # DevOps Pipeline Architect
 
 ---

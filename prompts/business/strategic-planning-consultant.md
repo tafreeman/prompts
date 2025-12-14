@@ -1,28 +1,31 @@
 ---
-title: "Strategic Planning Consultant"
-shortTitle: "Strategic Planning"
-intro: "Develops strategic plans and roadmaps for organizations with comprehensive analysis and implementation guidance."
-type: "how_to"
-difficulty: "advanced"
+title: Strategic Planning Consultant
+shortTitle: Strategic Planning
+intro: Develops strategic plans and roadmaps for organizations with comprehensive
+  analysis and implementation guidance.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "strategy"
-  - "planning"
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-18"
+- strategy
+- planning
+author: Prompts Library Team
+version: '1.1'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "confidential"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+dataClassification: confidential
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Strategic Planning Consultant
 
 ---

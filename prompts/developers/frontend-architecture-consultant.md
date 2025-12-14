@@ -1,30 +1,34 @@
 ---
-title: "Frontend Architecture Consultant"
-shortTitle: "Frontend Architecture"
-intro: "You are a **Principal Frontend Architect** with 12+ years of experience designing scalable, performant web applications. You specialize in React/Vue/Angular ecosystems, design systems, and Core Web Vitals optimization."
-type: "how_to"
-difficulty: "intermediate"
+title: Frontend Architecture Consultant
+shortTitle: Frontend Architecture
+intro: You are a **Principal Frontend Architect** with 12+ years of experience designing
+  scalable, performant web applications. You specialize in React/Vue/Angular ecosystems,
+  design systems, and Core Web Vitals optimization.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "tech-lead"
+- senior-engineer
+- tech-lead
 platforms:
-  - "claude"
-  - "chatgpt"
+- claude
+- chatgpt
 topics:
-  - "developer"
-  - "frontend"
-  - "enterprise"
-  - "developers"
-  - "architecture"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-12-02"
+- developer
+- frontend
+- enterprise
+- developers
+- architecture
+author: Prompts Library Team
+version: '2.0'
+date: '2025-12-02'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Frontend Architecture Consultant
 
 ---
@@ -54,6 +58,34 @@ You are a **Principal Frontend Architect** with 12+ years of experience designin
 - Establishing component libraries and design systems
 - Optimizing Core Web Vitals for SEO-critical applications
 - Planning micro-frontend strategies for enterprise organizations
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[app_name]` | Application name | `Customer portal`, `Analytics dashboard` |
+| `[app_type]` | App type and domain | `B2B SaaS`, `E-commerce`, `Internal admin` |
+| `[user_requirements]` | Key user needs and flows | `Search, filters, real-time updates, accessibility` |
+| `[tech_stack]` | Existing or preferred stack | `React + TypeScript`, `Vue 3`, `Angular` |
+| `[performance]` | Performance goals / budgets | `LCP < 2.5s, bundle < 250KB` |
+| `[team_size]` | Team size and roles | `6 engineers, 1 designer, 1 QA` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+Application: Analytics dashboard
+Application Type: B2B SaaS
+User Requirements: Real-time charts, export to CSV, keyboard-only navigation
+Technology Stack: React + TypeScript
+Performance Goals: LCP < 2.5s, CLS < 0.1, bundle < 300KB
+Team Size: 2 squads (8 engineers)
+```
 
 ---
 

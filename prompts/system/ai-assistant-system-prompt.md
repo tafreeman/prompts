@@ -1,28 +1,32 @@
 ---
-title: "AI Assistant System Prompt"
-shortTitle: "AI Assistant System"
-intro: "A comprehensive system prompt template for configuring AI assistants with specific roles, behaviors, and constraints. This prompt sets the foundational behavior and personality of an AI agent for c..."
-type: "how_to"
-difficulty: "advanced"
+title: AI Assistant System Prompt
+shortTitle: AI Assistant System
+intro: A comprehensive system prompt template for configuring AI assistants with specific
+  roles, behaviors, and constraints. This prompt sets the foundational behavior and
+  personality of an AI agent for c...
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "system"
-  - "configuration"
-  - "system-prompt"
-  - "ai-assistant"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
+- system
+- configuration
+- system-prompt
+- ai-assistant
+author: Prompts Library Team
+version: '1.0'
+date: '2025-10-29'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # AI Assistant System Prompt
 
 ---

@@ -1,27 +1,30 @@
 ---
-title: "Meeting Facilitator"
-shortTitle: "Meeting Facilitator"
-intro: "Facilitates effective project meetings with agendas, facilitation techniques, decision-making process, and follow-up procedures."
-type: "how_to"
-difficulty: "intermediate"
+title: Meeting Facilitator
+shortTitle: Meeting Facilitator
+intro: Facilitates effective project meetings with agendas, facilitation techniques,
+  decision-making process, and follow-up procedures.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "business-analyst"
+- project-manager
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "communication"
-  - "project-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- communication
+- project-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Meeting Facilitator
 
 ---

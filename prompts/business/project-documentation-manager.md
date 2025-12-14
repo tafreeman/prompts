@@ -1,27 +1,30 @@
 ---
-title: "Project Documentation Manager"
-shortTitle: "Project Documentation"
-intro: "Manages project documentation with strategy, template libraries, version control, and archive procedures."
-type: "how_to"
-difficulty: "intermediate"
+title: Project Documentation Manager
+shortTitle: Project Documentation
+intro: Manages project documentation with strategy, template libraries, version control,
+  and archive procedures.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "business-analyst"
+- project-manager
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "documentation"
-  - "project-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- documentation
+- project-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Project Documentation Manager
 
 ---

@@ -1,27 +1,30 @@
 ---
-title: "Market Entry Strategist"
-shortTitle: "Market Entry Strategy"
-intro: "Develops market entry strategies with market analysis, go-to-market plans, and risk assessment."
-type: "how_to"
-difficulty: "advanced"
+title: Market Entry Strategist
+shortTitle: Market Entry Strategy
+intro: Develops market entry strategies with market analysis, go-to-market plans,
+  and risk assessment.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "strategy"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- strategy
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Market Entry Strategist
 
 ---

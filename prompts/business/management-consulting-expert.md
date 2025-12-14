@@ -1,27 +1,30 @@
 ---
-title: "Management Consulting Expert"
-shortTitle: "Management Consulting"
-intro: "Provides management consulting solutions with problem diagnosis, root cause analysis, and implementation plans."
-type: "how_to"
-difficulty: "advanced"
+title: Management Consulting Expert
+shortTitle: Management Consulting
+intro: Provides management consulting solutions with problem diagnosis, root cause
+  analysis, and implementation plans.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "consulting"
-  - "business"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- consulting
+- business
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Management Consulting Expert
 
 ---

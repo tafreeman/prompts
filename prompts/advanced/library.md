@@ -1,28 +1,31 @@
 ---
-title: "ReAct: Large-Scale Prompt Library Analysis and Redesign"
-shortTitle: "ReAct Library Redesign"
-intro: "A ReAct-based AI assistant prompt for analyzing and proposing improvements to transform a prompt repository into an enterprise-grade resource."
-type: "how_to"
-difficulty: "advanced"
+title: 'ReAct: Large-Scale Prompt Library Analysis and Redesign'
+shortTitle: ReAct Library Redesign
+intro: A ReAct-based AI assistant prompt for analyzing and proposing improvements
+  to transform a prompt repository into an enterprise-grade resource.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "architecture"
-  - "documentation"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- architecture
+- documentation
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "internal-only"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- internal-only
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # ReAct: Large-Scale Prompt Library Analysis and Redesign
 
 You are an AI repository refactoring and documentation architecture assistant using the ReAct (Reasoning + Acting) pattern for **large-scale prompt library analysis and redesign**.

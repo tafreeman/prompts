@@ -1,35 +1,39 @@
 ---
-title: "Office Agent Deep Research: Modern Prompting"
-shortTitle: "Office Agent Deep Resear..."
-intro: "This prompt is strictly engineered for the **Office Agent**, an autonomous system running in an **E2B Cloud Sandbox** (Debian Trixie / Python 3.11). It instructs the agent to leverage its specific ..."
-type: "how_to"
-difficulty: "advanced"
+title: 'Office Agent Deep Research: Modern Prompting'
+shortTitle: Office Agent Deep Resear...
+intro: This prompt is strictly engineered for the **Office Agent**, an autonomous
+  system running in an **E2B Cloud Sandbox** (Debian Trixie / Python 3.11). It instructs
+  the agent to leverage its specific ...
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "github-copilot"
+- github-copilot
 topics:
-  - "system"
-  - "office-agent"
-  - "deep-research"
-  - "e2b"
-author: "Prompt Library Maintainer"
-version: "2.0"
-date: "2025-11-23"
+- system
+- office-agent
+- deep-research
+- e2b
+author: Prompt Library Maintainer
+version: '2.0'
+date: '2025-11-23'
 governance_tags:
-  - "PII-safe"
-  - "general-use"
-dataClassification: "internal"
-reviewStatus: "draft"
-data_classification: "public"
-risk_level: "medium"
+- PII-safe
+- general-use
+dataClassification: internal
+reviewStatus: draft
+data_classification: public
+risk_level: medium
 regulatory_scope:
-  - "none"
-approval_required: False
+- none
+approval_required: false
 approval_roles: None
-retention_period: "permanent"
+retention_period: permanent
+effectivenessScore: 0.0
 ---
+
 # Office Agent Deep Research: Modern Prompting Techniques
 
 <<<<<<< HEAD

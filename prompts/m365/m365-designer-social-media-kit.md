@@ -1,31 +1,36 @@
 ---
-title: "M365 Designer Social Media Kit"
-shortTitle: "M365 Designer Social Med..."
-intro: "Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Micr..."
-m365App: "Microsoft Designer"
-type: "how_to"
-difficulty: "intermediate"
+title: M365 Designer Social Media Kit
+shortTitle: M365 Designer Social Med...
+intro: Marketing teams often need to promote a single blog post or announcement across
+  multiple channels with different visual requirements. This prompt takes your core
+  content and generates specific Micr...
+m365App: Microsoft Designer
+type: how_to
+difficulty: intermediate
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "designer"
-  - "m365"
-  - "creative"
-  - "social-media"
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
+- designer
+- m365
+- creative
+- social-media
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-description: "Generates a cohesive set of image prompts for Microsoft Designer to create matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece."
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Generates a cohesive set of image prompts for Microsoft Designer to create
+  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
+effectivenessScore: 0.0
 ---
+
 ## Description
 
 Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Microsoft Designer prompts for a "Square" (Instagram), "Landscape" (LinkedIn/Twitter), and "Story" (Vertical) format, ensuring visual consistency across the campaign.

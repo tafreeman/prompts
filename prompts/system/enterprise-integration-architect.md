@@ -1,28 +1,30 @@
 ---
-title: "Enterprise Integration Architect"
-shortTitle: "Enterprise Integration A..."
-intro: "Designs enterprise integration solutions"
-type: "how_to"
-difficulty: "advanced"
+title: Enterprise Integration Architect
+shortTitle: Enterprise Integration A...
+intro: Designs enterprise integration solutions
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "enterprise"
-  - "integration"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- enterprise
+- integration
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Enterprise Integration Architect
 
 ---

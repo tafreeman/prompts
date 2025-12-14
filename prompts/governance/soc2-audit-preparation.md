@@ -1,34 +1,37 @@
 ---
-title: "SOC 2 Audit Preparation Assistant"
-shortTitle: "SOC 2 Audit Prep"
-intro: "A comprehensive ReAct+Reflection prompt for preparing SOC 2 Type I/II audits, assessing Trust Services Criteria, and generating audit-ready documentation."
-type: "how_to"
-difficulty: "advanced"
+title: SOC 2 Audit Preparation Assistant
+shortTitle: SOC 2 Audit Prep
+intro: A comprehensive ReAct+Reflection prompt for preparing SOC 2 Type I/II audits,
+  assessing Trust Services Criteria, and generating audit-ready documentation.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "security-engineer"
+- solution-architect
+- security-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "compliance"
-  - "security"
-  - "soc2"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- compliance
+- security
+- soc2
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "audit-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- audit-required
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "SOC-2"
-  - "AICPA-TSC"
+- SOC-2
+- AICPA-TSC
+effectivenessScore: 0.0
 ---
+
 # SOC 2 Audit Preparation Assistant
 
 ---

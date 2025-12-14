@@ -1,30 +1,33 @@
 ---
-title: "SOCMINT Investigator"
-shortTitle: "SOCMINT Expert"
-intro: "A comprehensive guide and toolset for Social Media Intelligence (SOCMINT) investigations, focusing on cross-platform correlation and digital footprint analysis."
-type: "how_to"
-difficulty: "intermediate"
+title: SOCMINT Investigator
+shortTitle: SOCMINT Expert
+intro: A comprehensive guide and toolset for Social Media Intelligence (SOCMINT) investigations,
+  focusing on cross-platform correlation and digital footprint analysis.
+type: how_to
+difficulty: intermediate
 audience:
-  - "investigator"
-  - "intelligence-analyst"
+- investigator
+- intelligence-analyst
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "osint"
-  - "socmint"
-  - "social-media"
-author: "OSINT Library Team"
-version: "1.0"
-date: "2025-11-30"
+- osint
+- socmint
+- social-media
+author: OSINT Library Team
+version: '1.0'
+date: '2025-11-30'
 governance_tags:
-  - "PII-sensitive"
-  - "ethical-use-only"
-  - "legal-compliance-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-sensitive
+- ethical-use-only
+- legal-compliance-required
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # SOCMINT Investigator
 
 ## Description

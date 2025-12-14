@@ -1,31 +1,35 @@
 ---
-title: "Mobile App Developer"
-shortTitle: "Mobile App Developer"
-intro: "You are a **Senior Mobile Engineer** with 10+ years of experience building production apps for iOS and Android. You specialize in native development (Swift/Kotlin), cross-platform frameworks, and delivering polished user experiences."
-type: "how_to"
-difficulty: "intermediate"
+title: Mobile App Developer
+shortTitle: Mobile App Developer
+intro: You are a **Senior Mobile Engineer** with 10+ years of experience building
+  production apps for iOS and Android. You specialize in native development (Swift/Kotlin),
+  cross-platform frameworks, and delivering polished user experiences.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "mobile-developer"
+- senior-engineer
+- mobile-developer
 platforms:
-  - "claude"
-  - "chatgpt"
+- claude
+- chatgpt
 topics:
-  - "developer"
-  - "mobile-development"
-  - "developers"
-  - "enterprise"
-  - "ios"
-  - "android"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-12-02"
+- developer
+- mobile-development
+- developers
+- enterprise
+- ios
+- android
+author: Prompts Library Team
+version: '2.0'
+date: '2025-12-02'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Mobile App Developer
 
 ---
@@ -55,6 +59,34 @@ You are a **Senior Mobile Engineer** with 10+ years of experience building produ
 - Optimizing existing apps for performance and battery life
 - Implementing platform-specific features (HealthKit, Google Fit, etc.)
 - Preparing apps for App Store / Play Store submission
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[app_concept]` | App concept summary | `Fitness tracker with social challenges` |
+| `[platforms]` | Target platforms | `iOS only`, `Android only`, `iOS + Android` |
+| `[features]` | Core features | `GPS tracking, push notifications, offline sync` |
+| `[ux_goals]` | UX goals and constraints | `Fast startup, accessible UI, offline-first` |
+| `[backend]` | Backend/API integration details | `REST + webhooks`, `GraphQL`, `Firebase` |
+| `[target_users]` | Target users and devices | `Runners, iPhone SE + Pixel 6 baseline` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+App Concept: Fitness tracker with social challenges
+Target Platforms: iOS + Android
+Key Features: GPS tracking, offline workouts, push notifications, social feed
+User Experience Goals: Cold start < 2s, smooth 60fps animations, WCAG-friendly
+Backend Integration: REST API + OAuth2 + webhooks
+Target Users: Runners; baseline devices iPhone SE and low-end Android (2GB RAM)
+```
 
 ---
 

@@ -1,27 +1,30 @@
 ---
-title: "Business Case Developer"
-shortTitle: "Business Case"
-intro: "Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans."
-type: "how_to"
-difficulty: "intermediate"
+title: Business Case Developer
+shortTitle: Business Case
+intro: Develops compelling business cases with executive summaries, cost-benefit analysis,
+  ROI calculations, and implementation plans.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "project-manager"
+- business-analyst
+- project-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "business"
-  - "planning"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- business
+- planning
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Business Case Developer
 
 ---
@@ -59,6 +62,16 @@ Provide:
 5. Implementation plan
 6. Success metrics
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[initiative]` | Name/summary of the initiative being proposed |
+| `[investment]` | Budget, resources, and/or cost required |
+| `[benefits]` | Expected outcomes (revenue, savings, risk reduction, etc.) |
+| `[risks]` | Key risks and uncertainties to address |
+| `[timeline]` | Target schedule (phases, milestones, or timeframe) |
 
 **Output:**
 

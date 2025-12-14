@@ -1,35 +1,38 @@
 ---
-title: "Access Control Reviewer"
-shortTitle: "Access Review"
-intro: "A prompt to assist in conducting User Access Reviews (UAR) and analyzing role-based access control (RBAC) policies."
-type: "how_to"
-difficulty: "intermediate"
+title: Access Control Reviewer
+shortTitle: Access Review
+intro: A prompt to assist in conducting User Access Reviews (UAR) and analyzing role-based
+  access control (RBAC) policies.
+type: how_to
+difficulty: intermediate
 audience:
-  - "security-analyst"
-  - "iam-engineer"
-  - "auditor"
+- security-analyst
+- iam-engineer
+- auditor
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "security"
-  - "iam"
-  - "access-control"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- security
+- iam
+- access-control
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "security-critical"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- security-critical
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "SOX"
-  - "ISO-27001"
-  - "NIST-800-53"
+- SOX
+- ISO-27001
+- NIST-800-53
+effectivenessScore: 0.0
 ---
+
 # Access Control Reviewer
 
 ---

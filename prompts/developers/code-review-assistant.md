@@ -1,30 +1,34 @@
 ---
-title: "Code Review Assistant"
-shortTitle: "Code Review"
-intro: "An AI assistant that performs thorough code reviews, identifying potential issues, suggesting improvements, and ensuring code quality. This prompt helps developers get constructive feedback on their code before committing or submitting pull requests."
-type: "how_to"
-difficulty: "beginner"
+title: Code Review Assistant
+shortTitle: Code Review
+intro: An AI assistant that performs thorough code reviews, identifying potential
+  issues, suggesting improvements, and ensuring code quality. This prompt helps developers
+  get constructive feedback on their code before committing or submitting pull requests.
+type: how_to
+difficulty: beginner
 audience:
-  - "senior-engineer"
-  - "junior-engineer"
+- senior-engineer
+- junior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "code-review"
-  - "quality"
-  - "developers"
-  - "best-practices"
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-12-02"
+- code-review
+- quality
+- developers
+- best-practices
+author: Prompts Library Team
+version: '2.0'
+date: '2025-12-02'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "approved"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Code Review Assistant
 
 ---
@@ -42,6 +46,30 @@ An AI assistant that performs thorough code reviews, identifying potential issue
 - Learn best practices for a specific programming language
 - Identify potential bugs or security vulnerabilities
 - Improve code readability and maintainability
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[LANGUAGE]` | Programming language (and optionally framework) | `Python`, `TypeScript + React`, `Java + Spring Boot` |
+| `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]` | What the code is intended to do | `Parses invoices and writes to DB` |
+| `[PASTE YOUR CODE HERE]` | Code to review (ideally 50–300 lines) | *(paste code)* |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+Programming Language: Python
+Context: Calculates average order value from a list of payments
+
+Code:
+<paste code here>
+```
 
 ---
 

@@ -1,29 +1,32 @@
 ---
-title: "ToT-ReAct: Prompt Library Evaluation & Research"
-shortTitle: "Library Eval ToT-ReAct"
-intro: "Tree-of-Thoughts + ReAct prompt for comprehensive evaluation, research, and improvement of the tafreeman/prompts library."
-type: "how_to"
-difficulty: "advanced"
+title: 'ToT-ReAct: Prompt Library Evaluation & Research'
+shortTitle: Library Eval ToT-ReAct
+intro: Tree-of-Thoughts + ReAct prompt for comprehensive evaluation, research, and
+  improvement of the tafreeman/prompts library.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "analysis"
-  - "architecture"
-  - "quality-assurance"
-  - "research"
-author: "Prompt Library Team"
-version: "5.0"
-date: "2025-12-11"
+- analysis
+- architecture
+- quality-assurance
+- research
+author: Prompt Library Team
+version: '5.0'
+date: '2025-12-11'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "approved"
+- PII-safe
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # ToT-ReAct: Prompt Library Evaluation & Research
 
 ---
@@ -48,6 +51,46 @@ Perform comprehensive evaluation and research on the `tafreeman/prompts` library
 5. **Generate production-ready templates** for new prompts
 
 ---
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[evaluation_goal]` | Yes | What you want this workflow to achieve. | `Reduce validator failures to 0` |
+| `[scope]` | No | Optional boundaries (folders, categories, tiers). | `prompts/advanced/* only` |
+| `[constraints]` | No | Constraints to respect while executing. | `minimal edits; do not change frontmatter` |
+
+## Prompt
+
+```text
+You are a Prompt Library Maintainer.
+
+Goal: [evaluation_goal]
+Scope: [scope]
+Constraints: [constraints]
+
+Follow the ToT-ReAct execution protocol in this document:
+1) Plan research branches and prioritize the top branches
+2) Execute iterative Thought → Action → Observe cycles to gather evidence
+3) Apply Reflexion self-critique to detect gaps
+4) Produce deliverables (structure map, scorecard, gap analysis, recommendations)
+
+When making edits, prioritize adding missing required sections (Description, Prompt, Variables, Example) while keeping original prompt intent intact.
+```
+
+## Example
+
+**Input**
+
+- `[evaluation_goal]`: `Bring all prompts into validator compliance`
+- `[scope]`: `prompts/advanced/*`
+- `[constraints]`: `smallest change possible; no rewrites`
+
+**Expected output (high level)**
+
+- A short execution plan (batched by missing sections)
+- A list of files changed
+- Validation trending to `Files with issues: 0`
 
 ## Methodology Overview
 

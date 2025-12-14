@@ -1,29 +1,32 @@
 ---
-title: "Chain-of-Thought: Decision Guide"
-shortTitle: "CoT Decision Guide"
-intro: "A practical decision framework for choosing when and how to use Chain-of-Thought prompting, including mode selection and best practices."
-type: "reference"
-difficulty: "beginner"
+title: 'Chain-of-Thought: Decision Guide'
+shortTitle: CoT Decision Guide
+intro: A practical decision framework for choosing when and how to use Chain-of-Thought
+  prompting, including mode selection and best practices.
+type: reference
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "senior-engineer"
+- junior-engineer
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-  - "azure-openai"
+- claude
+- chatgpt
+- github-copilot
+- azure-openai
 topics:
-  - "reasoning"
-  - "best-practices"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- reasoning
+- best-practices
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "general-use"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- general-use
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Chain-of-Thought: Decision Guide
 
 ---

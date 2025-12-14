@@ -1,30 +1,33 @@
 ---
-title: "Chain-of-Thought: Detailed Mode"
-shortTitle: "CoT Detailed Mode"
-intro: "A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step reasoning with detailed explanations and justifications."
-category: "advanced"
-type: "how_to"
-difficulty: "intermediate"
+title: 'Chain-of-Thought: Detailed Mode'
+shortTitle: CoT Detailed Mode
+intro: A comprehensive Chain-of-Thought prompt template that encourages thorough step-by-step
+  reasoning with detailed explanations and justifications.
+category: advanced
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "reasoning"
-  - "problem-solving"
-author: "Prompts Library Team"
-version: "1.0.0"
-date: "2025-11-17"
-last_updated: "2025-12-11"
+- reasoning
+- problem-solving
+author: Prompts Library Team
+version: 1.0.0
+date: '2025-11-17'
+last_updated: '2025-12-11'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Chain-of-Thought: Detailed Mode
 
 ---

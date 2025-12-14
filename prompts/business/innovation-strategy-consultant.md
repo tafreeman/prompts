@@ -1,27 +1,30 @@
 ---
-title: "Innovation Strategy Consultant"
-shortTitle: "Innovation Strategy"
-intro: "Develops innovation strategies with opportunity identification, innovation frameworks, and implementation roadmaps."
-type: "how_to"
-difficulty: "advanced"
+title: Innovation Strategy Consultant
+shortTitle: Innovation Strategy
+intro: Develops innovation strategies with opportunity identification, innovation
+  frameworks, and implementation roadmaps.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "business-analyst"
+- solution-architect
+- business-analyst
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "innovation"
-  - "strategy"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- innovation
+- strategy
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Innovation Strategy Consultant
 
 ---

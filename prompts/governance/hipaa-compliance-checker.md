@@ -1,35 +1,38 @@
 ---
-title: "HIPAA Compliance Checker"
-shortTitle: "HIPAA Checker"
-intro: "A comprehensive prompt for assessing healthcare applications and systems against HIPAA Privacy and Security Rules."
-type: "how_to"
-difficulty: "advanced"
+title: HIPAA Compliance Checker
+shortTitle: HIPAA Checker
+intro: A comprehensive prompt for assessing healthcare applications and systems against
+  HIPAA Privacy and Security Rules.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "security-engineer"
-  - "healthcare-it"
+- solution-architect
+- security-engineer
+- healthcare-it
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "compliance"
-  - "healthcare"
-  - "hipaa"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- compliance
+- healthcare
+- hipaa
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "phi-handling"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- phi-handling
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "HIPAA"
-  - "HITECH"
+- HIPAA
+- HITECH
+effectivenessScore: 0.0
 ---
+
 # HIPAA Compliance Checker
 
 ---

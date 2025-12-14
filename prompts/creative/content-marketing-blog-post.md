@@ -79,6 +79,56 @@ Please structure the blog post with:
 Make it engaging, valuable, and optimized for both readers and search engines.
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[YOUR BLOG TOPIC]` | Topic/title concept for the post |
+| `[WHO YOU'RE WRITING FOR]` | Target audience/persona |
+| `[PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]` | Desired tone |
+| `[DESIRED LENGTH, e.g., 800-1200 words]` | Target length |
+| `[MAIN SEO KEYWORD]` | Primary keyword to target |
+| `[2-3 RELATED KEYWORDS]` | Secondary keywords |
+| `[KEY POINT 1]` | Key point to cover |
+| `[KEY POINT 2]` | Key point to cover |
+| `[KEY POINT 3]` | Key point to cover |
+| `[KEY POINT 4 - OPTIONAL]` | Optional key point |
+| `[GOAL 1, e.g., educate readers about X]` | Primary goal |
+| `[GOAL 2, e.g., drive traffic to product page]` | Secondary goal |
+| `[GOAL 3, e.g., establish thought leadership]` | Additional goal |
+
+## Example
+
+**Input:**
+
+```text
+Topic: How to build a weekly team status update (without more meetings)
+Target Audience: Engineering managers at small startups
+Tone: Conversational, practical
+Word Count: 900–1200 words
+Primary Keyword: weekly status update
+Secondary Keywords: async updates, team communication
+
+Key Points:
+1) What makes a status update useful
+2) A simple template
+3) How to keep it short
+
+Goals:
+- Educate readers
+- Drive signups for our project tracker
+```
+
+**Output:**
+
+```text
+A complete blog post with:
+- SEO headline containing "weekly status update"
+- H2/H3 structure
+- a concrete template section
+- a 150–160 char meta description
+```
+
 **Output:**
 
 ```text

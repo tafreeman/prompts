@@ -1,27 +1,30 @@
 ---
-title: "Resource Allocation Optimizer"
-shortTitle: "Resource Allocation"
-intro: "Optimizes project resource allocation with skill gap analysis, workload balancing, and contingency planning."
-type: "how_to"
-difficulty: "intermediate"
+title: Resource Allocation Optimizer
+shortTitle: Resource Allocation
+intro: Optimizes project resource allocation with skill gap analysis, workload balancing,
+  and contingency planning.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "solution-architect"
+- project-manager
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "resource-management"
-  - "project-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- resource-management
+- project-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Resource Allocation Optimizer
 
 ---

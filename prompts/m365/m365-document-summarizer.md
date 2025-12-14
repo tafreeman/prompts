@@ -1,30 +1,34 @@
 ---
-title: "M365 Document Summarizer"
-shortTitle: "M365 Document Summarizer"
-intro: "This prompt helps an individual quickly summarize long documents in Microsoft 365 for specific audiences. It extracts key points, highlights relevant sections, and recommends next steps, tailored t..."
-m365App: "Copilot in Word"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Document Summarizer
+shortTitle: M365 Document Summarizer
+intro: This prompt helps an individual quickly summarize long documents in Microsoft
+  365 for specific audiences. It extracts key points, highlights relevant sections,
+  and recommends next steps, tailored t...
+m365App: Copilot in Word
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "document"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- document
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Document Summarizer
 
 ---
@@ -160,6 +164,35 @@ Return the result in Markdown:
 Now, summarize this document for [audience], focusing on [focus_topics], using
 a [tone] tone.
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[audience]` | Intended reader (executives, customers, engineers, legal, etc.) |
+| `[focus_topics]` | Topics to emphasize (risks, ROI, architecture, compliance, etc.) |
+| `[tone]` | Desired tone (formal, conversational, technical, etc.) |
+| `[length_target]` | Optional target length (e.g., "300 words" or "5 key points") |
+
+## Example
+
+**Input:**
+
+```text
+audience: executives
+focus_topics: risks and mitigations, budget impact
+tone: concise and formal
+length_target: 350 words
+```
+
+**Output:**
+
+```text
+## Overview
+## Key Points
+## Recommended Next Steps
+## Critical Risks or Concerns (if applicable)
+```
 
 **Output:**
 

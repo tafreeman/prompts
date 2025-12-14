@@ -1,31 +1,34 @@
 ---
-title: "Prompt Quality Evaluator: Meta-Evaluation with Reflection"
-shortTitle: "Prompt Quality Evaluator"
-intro: "A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique."
-category: "system"
-type: "reference"
-difficulty: "advanced"
+title: 'Prompt Quality Evaluator: Meta-Evaluation with Reflection'
+shortTitle: Prompt Quality Evaluator
+intro: A comprehensive meta-prompt that evaluates other prompts using a research-backed,
+  5-dimensional scoring framework combined with reflection and self-critique.
+category: system
+type: reference
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "evaluation"
-  - "quality-assessment"
-  - "meta-prompt"
-author: "Prompts Library Team"
-version: "1.0.0"
-date: "2025-11-25"
-last_updated: "2025-12-11"
+- evaluation
+- quality-assessment
+- meta-prompt
+author: Prompts Library Team
+version: 1.0.0
+date: '2025-11-25'
+last_updated: '2025-12-11'
 governance_tags:
-  - "PII-safe"
-  - "general-use"
-dataClassification: "internal"
-reviewStatus: "approved"
+- PII-safe
+- general-use
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
 ---

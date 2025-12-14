@@ -1,29 +1,32 @@
 ---
-title: "ReAct: Tool-Augmented Reasoning"
-shortTitle: "ReAct Tool-Augmented"
-intro: "An advanced prompting pattern that combines Chain-of-Thought reasoning with external tool interaction using Think/Act/Observe/Reflect loops."
-type: "how_to"
-difficulty: "advanced"
+title: 'ReAct: Tool-Augmented Reasoning'
+shortTitle: ReAct Tool-Augmented
+intro: An advanced prompting pattern that combines Chain-of-Thought reasoning with
+  external tool interaction using Think/Act/Observe/Reflect loops.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "react"
-  - "agents"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- react
+- agents
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-  - "audit-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+- audit-required
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # ReAct: Tool-Augmented Reasoning
 
 ---
@@ -87,6 +90,27 @@ flowchart LR
 - Automated customer support with ticketing systems
 
 ---
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[DESCRIBE_TASK_GOAL]` | Yes | The goal/problem to solve using ReAct loops. | `Investigate and fix failing CI tests` |
+| `[PROVIDE_BACKGROUND]` | No | Background that constrains tools and approach. | `Failures started after dependency upgrade` |
+| `[LIST_TOOLS_WITH_DESCRIPTIONS]` | Yes | The toolset available (names + what they do). | `read_file (inspect files), grep_search (find patterns), run_tests (execute suite)` |
+
+## Example
+
+**Input**
+
+- `[DESCRIBE_TASK_GOAL]`: `Triage a production incident from logs and metrics`
+- `[PROVIDE_BACKGROUND]`: `High p99 latency since 14:00 UTC; suspected DB regression`
+- `[LIST_TOOLS_WITH_DESCRIPTIONS]`: `log_search, metrics_query, deploy_history`
+
+**Expected output (high level)**
+
+- Several Think/Act/Observe/Reflect cycles
+- A final, actionable recommendation and next steps
 
 ## Prompt
 

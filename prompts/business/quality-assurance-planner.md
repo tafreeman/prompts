@@ -1,27 +1,30 @@
 ---
-title: "Quality Assurance Planner"
-shortTitle: "QA Planner"
-intro: "Develops QA strategies and plans with quality objectives, testing strategies, and continuous improvement."
-type: "how_to"
-difficulty: "intermediate"
+title: Quality Assurance Planner
+shortTitle: QA Planner
+intro: Develops QA strategies and plans with quality objectives, testing strategies,
+  and continuous improvement.
+type: how_to
+difficulty: intermediate
 audience:
-  - "project-manager"
-  - "qa-engineer"
+- project-manager
+- qa-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "quality"
-  - "project-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- quality
+- project-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Quality Assurance Planner
 
 ---

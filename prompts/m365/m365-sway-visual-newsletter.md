@@ -1,31 +1,36 @@
 ---
-title: "M365 Sway Visual Newsletter"
-shortTitle: "M365 Sway Visual Newsletter"
-intro: "Internal newsletters often get ignored in email inboxes. This prompt helps you aggregate various updates (from Teams, email, or notes) and format them into a visually engaging Sway newsletter. It o..."
-m365App: "Microsoft Sway"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Sway Visual Newsletter
+shortTitle: M365 Sway Visual Newsletter
+intro: Internal newsletters often get ignored in email inboxes. This prompt helps
+  you aggregate various updates (from Teams, email, or notes) and format them into
+  a visually engaging Sway newsletter. It o...
+m365App: Microsoft Sway
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "communication"
-  - "m365"
-  - "sway"
-  - "newsletter"
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
+- communication
+- m365
+- sway
+- newsletter
+author: GitHub Copilot
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-description: "Compiles team updates, news, and announcements into a modern, mobile-friendly newsletter format for Microsoft Sway."
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+description: Compiles team updates, news, and announcements into a modern, mobile-friendly
+  newsletter format for Microsoft Sway.
+effectivenessScore: 0.0
 ---
+
 ## Description
 
 Internal newsletters often get ignored in email inboxes. This prompt helps you aggregate various updates (from Teams, email, or notes) and format them into a visually engaging Sway newsletter. It organizes content into "Hero" sections for big news and "Grid" layouts for quick updates, ensuring high engagement.

@@ -1,28 +1,30 @@
 ---
-title: "Disaster Recovery Architect"
-shortTitle: "Disaster Recovery Architect"
-intro: "Designs disaster recovery architectures"
-type: "how_to"
-difficulty: "advanced"
+title: Disaster Recovery Architect
+shortTitle: Disaster Recovery Architect
+intro: Designs disaster recovery architectures
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "disaster-recovery"
-  - "enterprise"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- disaster-recovery
+- enterprise
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Disaster Recovery Architect
 
 ---

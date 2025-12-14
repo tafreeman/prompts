@@ -1,27 +1,30 @@
 ---
-title: "Data Analysis and Insights Generator"
-shortTitle: "Data Insights"
-intro: "Transforms raw data into meaningful insights and actionable recommendations for decision-makers."
-type: "how_to"
-difficulty: "intermediate"
+title: Data Analysis and Insights Generator
+shortTitle: Data Insights
+intro: Transforms raw data into meaningful insights and actionable recommendations
+  for decision-makers.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "senior-engineer"
+- business-analyst
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "data-analysis"
-  - "insights"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
+- data-analysis
+- insights
+author: Prompts Library Team
+version: '1.0'
+date: '2025-10-29'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Data Analysis and Insights Generator
 
 ---
@@ -98,6 +101,22 @@ Please provide:
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[WHAT KIND OF DATA - e.g., sales, customer, operational, survey]` | The dataset domain/type |
+| `[TIME RANGE COVERED]` | Time period included in the data |
+| `[NUMBER OF RECORDS/ROWS]` | Approx. dataset size |
+| `[MAIN METRICS YOU'RE TRACKING]` | Primary metrics/KPIs in the dataset |
+| `[PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]` | Data sample or summary statistics (sanitized) |
+| `[WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]` | Analysis goal #1 |
+| `[ANOTHER GOAL - e.g., understand seasonal patterns]` | Analysis goal #2 |
+| `[ANOTHER GOAL - e.g., find areas for improvement]` | Analysis goal #3 |
+| `[YOUR INDUSTRY OR CONTEXT]` | Business context/industry |
+| `[ANY KNOWN ISSUES OR CONCERNS]` | Known constraints, data quality issues, caveats |
+| `[WHAT DECISION THIS ANALYSIS WILL INFORM]` | The decision the analysis should support |
 
 **Output:**
 

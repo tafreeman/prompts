@@ -1,29 +1,32 @@
 ---
-title: "Example Research Output: Modern Prompting Techniques"
-shortTitle: "Example Research Output"
-intro: "Sample output demonstrating what a research agent produces when analyzing modern prompting techniques and agentic workflows."
-type: "reference"
-difficulty: "intermediate"
+title: 'Example Research Output: Modern Prompting Techniques'
+shortTitle: Example Research Output
+intro: Sample output demonstrating what a research agent produces when analyzing modern
+  prompting techniques and agentic workflows.
+type: reference
+difficulty: intermediate
 audience:
-  - "junior-engineer"
-  - "senior-engineer"
+- junior-engineer
+- senior-engineer
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "research"
-  - "agentic"
-  - "chain-of-thought"
-author: "Prompt Library Team"
-version: "1.0"
-date: "2025-11-30"
+- research
+- agentic
+- chain-of-thought
+author: Prompt Library Team
+version: '1.0'
+date: '2025-11-30'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "public"
-reviewStatus: "approved"
+- general-use
+- PII-safe
+dataClassification: public
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # Example Research Output: Modern Prompting Techniques (2025)
 
 ## Executive Summary

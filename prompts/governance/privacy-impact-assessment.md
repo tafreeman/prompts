@@ -1,35 +1,38 @@
 ---
-title: "Privacy Impact Assessment (DPIA) Generator"
-shortTitle: "DPIA Generator"
-intro: "A structured ReAct+Reflection prompt for conducting Data Protection Impact Assessments following ICO UK guidance and GDPR Article 35 requirements."
-type: "how_to"
-difficulty: "advanced"
+title: Privacy Impact Assessment (DPIA) Generator
+shortTitle: DPIA Generator
+intro: A structured ReAct+Reflection prompt for conducting Data Protection Impact
+  Assessments following ICO UK guidance and GDPR Article 35 requirements.
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "security-engineer"
+- solution-architect
+- security-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "compliance"
-  - "privacy"
-  - "dpia"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- compliance
+- privacy
+- dpia
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-  - "audit-required"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+- audit-required
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "UK-GDPR"
-  - "ISO-27701"
+- GDPR
+- UK-GDPR
+- ISO-27701
+effectivenessScore: 0.0
 ---
+
 # Privacy Impact Assessment (DPIA) Generator
 
 ---

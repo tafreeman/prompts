@@ -1,28 +1,31 @@
 ---
-title: "Tree-of-Thoughts: Multi-Branch Reasoning Template"
-shortTitle: "ToT Multi-Branch Template"
-intro: "An advanced reasoning pattern that explores multiple solution paths simultaneously, evaluates each branch systematically, and can backtrack when needed."
-type: "how_to"
-difficulty: "advanced"
+title: 'Tree-of-Thoughts: Multi-Branch Reasoning Template'
+shortTitle: ToT Multi-Branch Template
+intro: An advanced reasoning pattern that explores multiple solution paths simultaneously,
+  evaluates each branch systematically, and can backtrack when needed.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "solution-architect"
+- senior-engineer
+- solution-architect
 platforms:
-  - "chatgpt"
-  - "claude"
-  - "github-copilot"
+- chatgpt
+- claude
+- github-copilot
 topics:
-  - "reasoning"
-  - "decision-making"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-17"
+- reasoning
+- decision-making
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-17'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
 ---
@@ -95,6 +98,28 @@ graph TD
 - Optimization problems with multiple local maxima
 
 ---
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[PROBLEM_STATEMENT]` | Yes | The problem you want to solve. | `Design a multi-tier caching strategy for global users` |
+| `[BACKGROUND_AND_CONSTRAINTS]` | No | Relevant background and constraints. | `Budget $500K/month; 150 countries` |
+| `[WHAT_SUCCESS_LOOKS_LIKE]` | Yes | Concrete success criteria to optimize for. | `<200ms p95 latency; >80% cache hit rate` |
+
+## Example
+
+**Inputs**
+
+- `[PROBLEM_STATEMENT]`: `Improve global e-commerce latency while maintaining inventory accuracy`
+- `[BACKGROUND_AND_CONSTRAINTS]`: `100M users, 5M SKUs, 150 countries, $500K/month budget`
+- `[WHAT_SUCCESS_LOOKS_LIKE]`: `<200ms p95 latency; >99.9% inventory accuracy; >80% cache hit rate`
+
+**Expected output (high level)**
+
+- 3–5 thought branches with scores
+- A chosen path (or hybrid) with rationale
+- Risks and mitigations
 
 ## Prompt
 

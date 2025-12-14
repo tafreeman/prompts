@@ -1,25 +1,28 @@
 ---
-title: "Chain-of-Thought: Performance Analysis & Profiling"
-shortTitle: "CoT Performance Analysis"
-intro: "A specialized Chain-of-Thought prompt for analyzing performance bottlenecks using CPU profiles, memory dumps, or execution traces."
-type: "how_to"
-difficulty: "intermediate"
+title: 'Chain-of-Thought: Performance Analysis & Profiling'
+shortTitle: CoT Performance Analysis
+intro: A specialized Chain-of-Thought prompt for analyzing performance bottlenecks
+  using CPU profiles, memory dumps, or execution traces.
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
-  - "github-copilot"
+- claude
+- github-copilot
 topics:
-  - "performance"
-  - "development"
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
+- performance
+- development
+author: Prompt Engineering Team
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Chain-of-Thought: Performance Analysis & Profiling
 
 ---
@@ -49,6 +52,22 @@ Use this prompt when analyzing CPU flamegraphs, memory profiles, database query 
 - System architecture overview
 - Workload characteristics (traffic patterns, data volume)
 - Code snippets related to hotspots (optional)
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[SYSTEM_NAME]` | No | System/service name being analyzed. | `payments-api` |
+| `[PROFILE_DATA_OR_SUMMARY]` | Yes | Profiling data (or a concise summary of it). | `CPU flamegraph: 30% in loadProductsFromDB()` |
+| `[CURRENT_METRIC]` | Yes | Current performance baseline. | `800ms p99 latency` |
+| `[TARGET_METRIC]` | Yes | Target performance goal/SLO. | `200ms p99 latency` |
+| `[THROUGHPUT]` | No | Current throughput if known. | `250 req/s` |
+| `[UTILIZATION]` | No | Resource utilization snapshot. | `CPU 80%, Memory 4GB` |
+| `[PATTERN]` | No | Traffic/workload pattern. | `daily spikes` |
+| `[VOLUME]` | No | Data volume relevant to the workload. | `1M records` |
+| `[CONCURRENCY]` | No | Concurrency level. | `500 concurrent users` |
+| `[BRIEF_SYSTEM_DESCRIPTION]` | No | Short architecture overview. | `Node.js API → PostgreSQL → Redis` |
+| `[ANY_OTHER_RELEVANT_INFO]` | No | Additional context that may affect analysis. | `regression after deploy 2025-11-10` |
 
 ## Assumptions
 
@@ -103,6 +122,21 @@ Reference `docs/domain-schemas.md` for structured performance report schemas.
 - Scalability analysis for systems under load
 
 ---
+
+## Example
+
+**Inputs**
+
+- `[SYSTEM_NAME]`: `payments-api`
+- `[PROFILE_DATA_OR_SUMMARY]`: `CPU flamegraph: 35% in serializeInvoicePdf(); 20% in fetchInvoiceHistory() (possible N+1)`
+- `[CURRENT_METRIC]`: `900ms p99 latency`
+- `[TARGET_METRIC]`: `250ms p99 latency`
+
+**Expected output (high level)**
+
+- Baseline summary + bottleneck type
+- Top 3–5 hotspots with evidence
+- Ranked optimization opportunities and a validation plan
 
 ## Prompt
 

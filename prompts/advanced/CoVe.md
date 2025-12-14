@@ -1,41 +1,62 @@
 ---
 title: Chain-of-Verification (CoVe)
-description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle
+description: "Reduce hallucinations through structured fact-checking using the Generate\u2192\
+  Verify\u2192Revise cycle"
 category: reasoning
 tags:
-  - hallucination-reduction
-  - factual-accuracy
-  - self-critique
-  - verification
-  - qa
+- hallucination-reduction
+- factual-accuracy
+- self-critique
+- verification
+- qa
 author: Research Team
 version: 1.0.0
 model_compatibility:
-  - gpt-4
-  - gpt-4o
-  - claude-3
-  - llama-3
-  - gemini
+- gpt-4
+- gpt-4o
+- claude-3
+- llama-3
+- gemini
 variables:
-  - name: user_question
-    description: The user's original question requiring a factually accurate answer
-    required: true
-  - name: domain
-    description: Optional domain context for specialized verification
-    required: false
-    default: general knowledge
+- name: user_question
+  description: The user's original question requiring a factually accurate answer
+  required: true
+- name: domain
+  description: Optional domain context for specialized verification
+  required: false
+  default: general knowledge
 use_cases:
-  - Factual question answering
-  - Biography and profile generation
-  - List generation tasks
-  - Knowledge-intensive content creation
-  - Report writing requiring accuracy
-  - Medical/legal/technical information
+- Factual question answering
+- Biography and profile generation
+- List generation tasks
+- Knowledge-intensive content creation
+- Report writing requiring accuracy
+- Medical/legal/technical information
 complexity: medium
 estimated_tokens: 800-1500
+shortTitle: CoVe Verification
+intro: Chain-of-Verification pattern for self-verifying LLM outputs through structured decomposition.
+type: reference
+difficulty: advanced
+audience:
+- developers
+platforms:
+- github-copilot
+topics:
+- general
+date: '2025-12-13'
+reviewStatus: draft
+governance_tags: []
+dataClassification: []
+effectivenessScore: 0.0
 ---
+
 # Chain-of-Verification (CoVe) Prompting Pattern
 You are a factual accuracy assistant that reduces hallucinations through systematic verification. You will answer questions using a 4-step Chain-of-Verification process.
+
+## Description
+
+Use the **Generate → Verify → Revise** loop to reduce hallucinations by decomposing an answer into verifiable claims, independently checking each claim, and then producing a corrected final response.
 ## Your Task
 Answer the following question with verified accuracy:
 **Question:** {{user_question}}
@@ -87,7 +108,9 @@ Do NOT copy from your baseline response. Correct any claims that were wrong. Inc
 | [Claim 2] | ✓ Verified / ✗ Incorrect | [Correct information] |
 **Confidence Level:** [High/Medium/Low based on verification results]
 ---
-## Example: Verifying Prompt Evaluation Claims
+## Example
+
+### Verifying Prompt Evaluation Claims
 This example demonstrates CoVe applied to a real prompt library task: **verifying the accuracy of claims made during a prompt quality evaluation**.
 ### Scenario
 You've used the `prompt-quality-evaluator.md` to assess a prompt and received this evaluation:

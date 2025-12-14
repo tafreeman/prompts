@@ -1,36 +1,88 @@
 ---
-title: "SQL Security Standards Enforcer"
-shortTitle: "SQL Security Standards E..."
-intro: "You are a **Senior Database Security Engineer** and **SQL Server Expert**. Your mission is to enforce strict security standards on T-SQL code, ensuring every query, stored procedure, and view is harden"
-type: "how_to"
-difficulty: "intermediate"
+title: SQL Security Standards Enforcer
+shortTitle: SQL Security Standards E...
+intro: You are a **Senior Database Security Engineer** and **SQL Server Expert**.
+  Your mission is to enforce strict security standards on T-SQL code, ensuring every
+  query, stored procedure, and view is harden
+type: how_to
+difficulty: intermediate
 audience:
-  - "senior-engineer"
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "sql"
-  - "sql-server"
-  - "developers"
-  - "security"
-author: "Prompts Library Team"
-version: "1.1.0"
-date: "2025-11-27"
+- sql
+- sql-server
+- developers
+- security
+author: Prompts Library Team
+version: 1.1.0
+date: '2025-11-27'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
-subcategory: "security"
-framework_compatibility: {'openai': '>=1.0.0', 'anthropic': '>=0.8.0'}
-performance_metrics: {'complexity_rating': 'medium', 'token_usage_estimate': '1500-2500', 'quality_score': '98'}
-testing: {'framework': 'manual', 'validation_status': 'passed', 'test_cases': ['sql-injection-check', 'permission-audit']}
-governance: {'risk_level': 'high', 'data_classification': 'internal', 'regulatory_scope': ['SOC2', 'GDPR', 'PCI-DSS', 'HIPAA'], 'approval_required': False, 'retention_period': 'permanent'}
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+subcategory: security
+framework_compatibility:
+  openai: '>=1.0.0'
+  anthropic: '>=0.8.0'
+performance_metrics:
+  complexity_rating: medium
+  token_usage_estimate: 1500-2500
+  quality_score: '98'
+testing:
+  framework: manual
+  validation_status: passed
+  test_cases:
+  - sql-injection-check
+  - permission-audit
+governance:
+  risk_level: high
+  data_classification: internal
+  regulatory_scope:
+  - SOC2
+  - GDPR
+  - PCI-DSS
+  - HIPAA
+  approval_required: false
+  retention_period: permanent
+effectivenessScore: 0.0
 ---
+
 # SQL Security Standards Enforcer
 
 
 ---
+
+## Description
+
+Security-focused SQL review and refactoring prompt for enforcing safe T-SQL patterns (parameterization, least privilege, whitelisting, and data minimization). Intended to harden queries, stored procedures, and views against injection and excessive data exposure.
+
+---
+
+## Prompt
+
+```text
+You are a Senior Database Security Engineer and SQL Server expert.
+
+Refactor or review the SQL below to comply with strict SQL security and data-access standards.
+
+Inputs:
+- SQL Code: [sql_code]
+- Context (optional): [context]
+- Constraints (optional): [constraints]
+
+Requirements:
+1) Eliminate SQL injection risks (parameterize; avoid unsafe dynamic SQL)
+2) Enforce least privilege and secure ownership chaining assumptions
+3) Validate/whitelist identifiers that cannot be parameterized (e.g., ORDER BY columns)
+4) Avoid SELECT *; minimize sensitive column exposure
+5) Add safe error handling patterns where appropriate
+6) Provide a short checklist for reviewers and test/verification steps
+
+Return the improved SQL plus a brief explanation of each change.
+```
 
 ## Variables
 

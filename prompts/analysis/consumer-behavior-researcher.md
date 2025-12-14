@@ -1,27 +1,30 @@
 ---
-title: "Consumer Behavior Researcher"
-shortTitle: "Consumer Behavior"
-intro: "Studies consumer behavior patterns with research methodology, behavioral analysis, and business recommendations."
-type: "how_to"
-difficulty: "intermediate"
+title: Consumer Behavior Researcher
+shortTitle: Consumer Behavior
+intro: Studies consumer behavior patterns with research methodology, behavioral analysis,
+  and business recommendations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "business-analyst"
-  - "senior-engineer"
+- business-analyst
+- senior-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "research"
-  - "analysis"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- research
+- analysis
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Consumer Behavior Researcher
 
 ---
@@ -58,6 +61,15 @@ Provide:
 5. Implications for business
 6. Recommendations
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[product]` | The product/service category to study |
+| `[demographics]` | Target audience description (age, region, income, personas, etc.) |
+| `[behavior]` | Specific behavior to analyze (purchase journey, switching, churn, etc.) |
+| `[methods]` | Preferred research methods (surveys, interviews, social listening, etc.) |
 
 **Output:**
 

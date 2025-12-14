@@ -31,7 +31,8 @@ frameworks/
 ├── anthropic/      # Claude and Anthropic SDK patterns
 ├── openai/         # OpenAI API and function calling
 └── microsoft/      # Semantic Kernel and Copilot
-```text
+```
+
 ## 🔗 Framework Categories
 
 ### LangChain
@@ -72,7 +73,7 @@ OpenAI API patterns including function calling and structured outputs.
 
 - `function-calling/` - Function calling examples
 - `assistants-api/` - Assistants API patterns
-- `structured-outputs/` - JSON schema validation
+- `structured-outputs/` - JSON schema validation (planned)
 
 **Minimum Version:** openai>=1.0.0
 
@@ -99,7 +100,8 @@ from langchain_openai import ChatOpenAI
 with open('frameworks/langchain/lcel-patterns/langchain-reflexion-example.md') as f:
     # Extract and use the code examples
     pass
-```text
+```
+
 ### Anthropic Example
 
 ```python
@@ -107,7 +109,8 @@ import anthropic
 
 client = anthropic.Anthropic(api_key="...")
 # Use Claude-specific patterns from anthropic/claude-patterns/
-```text
+```
+
 ### OpenAI Example
 
 ```python
@@ -115,7 +118,8 @@ from openai import OpenAI
 
 client = OpenAI(api_key="...")
 # Use function calling patterns from openai/function-calling/
-```text
+```
+
 ## 📦 Installation
 
 Install framework dependencies as needed:
@@ -135,7 +139,8 @@ pip install openai
 
 # Microsoft Semantic Kernel
 pip install semantic-kernel
-```text
+```
+
 ## 🔄 Cross-Framework Patterns
 
 Many prompting techniques work across frameworks. See:
@@ -152,4 +157,4 @@ When adding framework examples:
 3. Document framework-specific optimizations
 4. Add integration tests
 
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) for details.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for details.

@@ -1,29 +1,33 @@
 ---
-title: "M365 Weekly Review Coach"
-shortTitle: "M365 Weekly Review Coach"
-intro: "This prompt helps an individual knowledge worker run a weekly review using Microsoft 365 data. It summarizes key accomplishments, lessons learned, and generates a prioritized list of focus items fo..."
-type: "how_to"
-difficulty: "beginner"
+title: M365 Weekly Review Coach
+shortTitle: M365 Weekly Review Coach
+intro: This prompt helps an individual knowledge worker run a weekly review using
+  Microsoft 365 data. It summarizes key accomplishments, lessons learned, and generates
+  a prioritized list of focus items fo...
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "m365"
-  - "business"
-  - "copilot"
-  - "weekly-review"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- m365
+- business
+- copilot
+- weekly-review
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Weekly Review Coach
 
 ---
@@ -61,6 +65,16 @@ The user provides:
 - `[focus_area]`: Optional focus area (e.g., "project X", "team leadership", "customer issues").
 - `[max_focus_items]`: Number of focus items to propose for next week (e.g., 5).
 - `[tone]`: Desired tone (e.g., "reflective but concise", "action-oriented").
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `[week_start]` | Yes | Start date of the review period. | `2025-11-10` |
+| `[week_end]` | Yes | End date of the review period. | `2025-11-14` |
+| `[focus_area]` | No | Optional focus theme to prioritize. | `customer onboarding` |
+| `[max_focus_items]` | Yes | Maximum number of focus items to propose. | `5` |
+| `[tone]` | Yes | Desired tone for the review output. | `reflective but concise` |
 
 ## Assumptions
 
@@ -207,6 +221,31 @@ incident response and began shaping a clearer roadmap.
 ```text
 
 ---
+
+## Example
+
+**Inputs**
+
+- `[week_start]`: `2025-11-10`
+- `[week_end]`: `2025-11-14`
+- `[focus_area]`: `customer onboarding`
+- `[max_focus_items]`: `5`
+- `[tone]`: `reflective but concise`
+
+**Expected output (excerpt)**
+
+```text
+## Weekly Summary
+This week you stabilized onboarding workflows and aligned stakeholders on a revised rollout plan.
+
+## Key Accomplishments
+- Closed two onboarding-related incidents and documented new troubleshooting steps.
+- Updated onboarding FAQ content used by support.
+
+## Focus for Next Week
+- Secure leadership approval for the phased rollout and define success metrics.
+- Validate the onboarding metrics dashboard and set up alerts.
+```
 
 
 ## Tips

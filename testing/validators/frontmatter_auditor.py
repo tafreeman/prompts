@@ -50,7 +50,7 @@ RECOMMENDED_FIELDS: List[str] = [
 LIST_FIELDS: List[str] = ["audience", "platforms", "topics", "governance_tags"]
 
 ENUM_FIELDS = {
-    "type": ["how_to", "template", "reference", "guide", "playbook"],
+    "type": ["how_to", "template", "reference", "guide", "playbook", "prompt", "tutorial", "conceptual"],
     "difficulty": ["beginner", "intermediate", "advanced"],
     "reviewStatus": ["draft", "in-review", "approved"],
 }
@@ -58,6 +58,8 @@ ENUM_FIELDS = {
 PLATFORM_NORMALIZATION = {
     "copilot": "github-copilot",
     "github": "github-copilot",
+    "github copilot": "github-copilot",
+    "github-copilot": "github-copilot",
     "m365": "m365",
     "chatgpt": "chatgpt",
     "claude": "claude",
@@ -66,6 +68,8 @@ PLATFORM_NORMALIZATION = {
 }
 
 PLACEHOLDERS = {
+    "title": "TODO: Title",
+    "shortTitle": "TODO",
     "intro": "TODO: one-sentence summary.",
     "author": "TODO: Author Name",
     "version": "0.0.1",
@@ -170,7 +174,10 @@ def _normalize_list(value: Any) -> List[Any]:
 
 
 def _normalize_date(value: Any) -> Tuple[str | Any, bool]:
+    from datetime import date
     if isinstance(value, datetime):
+        return value.strftime("%Y-%m-%d"), True
+    if isinstance(value, date):
         return value.strftime("%Y-%m-%d"), True
     if not isinstance(value, str):
         return value, False

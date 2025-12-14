@@ -1,30 +1,34 @@
 ---
-title: "M365 Project Status Reporter"
-shortTitle: "M365 Project Status Repo..."
-intro: "This prompt helps an individual quickly generate a structured project status update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents, and calendar events into a sum..."
-m365App: "Microsoft 365 Copilot Chat"
-type: "how_to"
-difficulty: "beginner"
+title: M365 Project Status Reporter
+shortTitle: M365 Project Status Repo...
+intro: This prompt helps an individual quickly generate a structured project status
+  update using Microsoft 365 context. It synthesizes recent emails, Teams chats, documents,
+  and calendar events into a sum...
+m365App: Microsoft 365 Copilot Chat
+type: how_to
+difficulty: beginner
 audience:
-  - "junior-engineer"
-  - "business-analyst"
+- junior-engineer
+- business-analyst
 platforms:
-  - "github-copilot"
-  - "m365-copilot"
+- github-copilot
+- m365-copilot
 topics:
-  - "project-management"
-  - "m365"
-  - "business"
-  - "copilot"
-author: "Your Name"
-version: "1.0"
-date: "2025-11-18"
+- project-management
+- m365
+- business
+- copilot
+author: Your Name
+version: '1.0'
+date: '2025-11-18'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # M365 Project Status Reporter
 
 ---
@@ -165,6 +169,36 @@ Return the result in Markdown with these sections:
 Now, using my activity related to [project_name] over [time_window], generate
 the project status update for [stakeholder_audience].
 ```text
+
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[project_name]` | Project name to report on |
+| `[time_window]` | Period to cover (e.g., "last 7 days") |
+| `[stakeholder_audience]` | Intended audience (executives, sponsors, cross-functional team) |
+| `[focus_areas]` | Optional emphasis (budget, timeline risk, customer impact) |
+
+## Example
+
+**Input:**
+
+```text
+project_name: Customer Onboarding Platform V2
+time_window: last 7 days
+stakeholder_audience: executives
+focus_areas: timeline risks, decisions needed
+```
+
+**Output:**
+
+```text
+## Summary
+## Progress Since Last Update
+## Risks and Issues
+## Upcoming Milestones (Next 2–4 Weeks)
+## Requests for Help / Decisions Needed
+```
 
 **Output:**
 

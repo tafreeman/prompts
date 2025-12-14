@@ -1,34 +1,37 @@
 ---
-title: "Compliance Policy Generator"
-shortTitle: "Policy Generator"
-intro: "A prompt to draft formal corporate policies (Security, Privacy, HR) based on industry standards and organizational needs."
-type: "how_to"
-difficulty: "intermediate"
+title: Compliance Policy Generator
+shortTitle: Policy Generator
+intro: A prompt to draft formal corporate policies (Security, Privacy, HR) based on
+  industry standards and organizational needs.
+type: how_to
+difficulty: intermediate
 audience:
-  - "compliance-officer"
-  - "security-manager"
-  - "hr-manager"
+- compliance-officer
+- security-manager
+- hr-manager
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "policy"
-  - "documentation"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-11"
+- governance
+- policy
+- documentation
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-11'
 governance_tags:
-  - "requires-human-review"
-  - "policy-drafting"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- policy-drafting
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "ISO-27001"
-  - "SOC-2"
-  - "NIST"
+- ISO-27001
+- SOC-2
+- NIST
+effectivenessScore: 0.0
 ---
+
 # Compliance Policy Generator
 
 ---

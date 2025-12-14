@@ -95,6 +95,62 @@ Please create comprehensive brand voice guidelines including:
 8. Quick Reference Card for team use
 ```text
 
+## Variables
+
+| Variable | Description |
+|----------|-------------|
+| `[YOUR BRAND NAME]` | Brand/company/product name |
+| `[YOUR INDUSTRY/CATEGORY]` | Industry or category (e.g., B2B SaaS, skincare, fintech) |
+| `[WHAT YOU DO AND WHY]` | Mission statement (what you do + why it matters) |
+| `[PRIMARY AUDIENCE DESCRIPTION]` | Primary audience/personas |
+| `[E.G., CONFIDENT, HELPFUL, WITTY]` | 3–5 personality traits that describe your brand |
+| `[EXAMPLE]` | A “celebrity equivalent” to clarify voice style |
+| `[EXAMPLES]` | Reference brands for voice inspiration |
+| `[DESCRIPTION]` | Current voice description |
+| `[STRENGTHS]` | What’s working well today |
+| `[CHALLENGES]` | What needs improvement |
+| `[WEBSITE/SOCIAL/EMAIL/ADS/PRODUCT/SUPPORT]` | Primary communication channels |
+| `[BLOG/SOCIAL/EMAILS/PRODUCT COPY/SUPPORT]` | Key content types |
+| `[HOW DO THEY SOUND?]` | Competitors’ voice/tone summary |
+| `[ATTRIBUTES]` | Voice aspirations (more/less) |
+| `[ATTRIBUTES TO AVOID]` | Traits to avoid |
+| `[BRAND-ALIGNED VOCABULARY]` | Words/phrases you want to use |
+| `[OFF-BRAND VOCABULARY]` | Words/phrases you want to avoid |
+| `[THEIR LANGUAGE/STYLE]` | How your audience speaks |
+| `[DIRECTNESS/WARMTH/EXPERTISE]` | What the audience values in communication |
+| `[COMMUNICATION PET PEEVES]` | What frustrates the audience |
+
+## Example
+
+**Input:**
+
+```text
+Brand Name: Nimbus
+Industry: B2B SaaS (project management)
+Brand Mission: Help small teams ship faster with less meeting overhead
+Target Audience: Team leads at 10–50 person startups
+
+Personality traits: Clear, pragmatic, encouraging, a little witty
+Celebrity equivalent: Jason Sudeikis as Ted Lasso (warm, confident, not snarky)
+Admired voices: Linear, Stripe
+
+Primary channels: Website, Product, Email, Support
+We want to sound more: confident, simple
+We want to sound less: corporate, hype-y
+Words we love: clear, ship, focus
+Words we avoid: synergy, leverage, revolutionary
+```
+
+**Output:**
+
+```text
+A structured "Nimbus Brand Voice Guidelines" doc with:
+- 3–4 voice pillars (with do/don’t examples)
+- channel-specific guidance (website, product UI, support)
+- a vocabulary table (use/avoid)
+- 3–5 rewrite examples (generic -> Nimbus)
+```
+
 **Output:**
 
 ```text

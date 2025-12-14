@@ -1,33 +1,36 @@
 ---
-title: "ReAct: OSINT/SOCMINT Knowledge Base Research"
-shortTitle: "OSINT KB Research"
-intro: "A ReAct prompt for researching and structuring OSINT, SOCMINT, and Cyber knowledge bases using curated industry resources."
-type: "how_to"
-difficulty: "advanced"
+title: 'ReAct: OSINT/SOCMINT Knowledge Base Research'
+shortTitle: OSINT KB Research
+intro: A ReAct prompt for researching and structuring OSINT, SOCMINT, and Cyber knowledge
+  bases using curated industry resources.
+type: how_to
+difficulty: advanced
 audience:
-  - "intelligence-analyst"
-  - "knowledge-manager"
-  - "security-architect"
-  - "osint-researcher"
+- intelligence-analyst
+- knowledge-manager
+- security-architect
+- osint-researcher
 platforms:
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
+- github-copilot
+- claude
+- chatgpt
 topics:
-  - "osint"
-  - "socmint"
-  - "cyber-intelligence"
-  - "knowledge-management"
-  - "research"
-  - "react"
-author: "Prompt Library Team"
-version: "3.0"
-date: "2025-11-30"
+- osint
+- socmint
+- cyber-intelligence
+- knowledge-management
+- research
+- react
+author: Prompt Library Team
+version: '3.0'
+date: '2025-11-30'
 governance_tags:
-  - "public-data-only"
-dataClassification: "internal"
-reviewStatus: "approved"
+- public-data-only
+dataClassification: internal
+reviewStatus: approved
+effectivenessScore: 0.0
 ---
+
 # ReAct: OSINT/SOCMINT Knowledge Base Research
 
 ---

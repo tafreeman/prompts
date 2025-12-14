@@ -1,28 +1,30 @@
 ---
-title: "API Architecture Designer"
-shortTitle: "API Architecture Designer"
-intro: "Designs comprehensive API architectures"
-type: "how_to"
-difficulty: "advanced"
+title: API Architecture Designer
+shortTitle: API Architecture Designer
+intro: Designs comprehensive API architectures
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "api-design"
-  - "architect"
-  - "system"
-  - "enterprise"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- api-design
+- architect
+- system
+- enterprise
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # API Architecture Designer
 
 ---

@@ -1,28 +1,30 @@
 ---
-title: "Legacy Modernization Architect"
-shortTitle: "Legacy Modernization Arc..."
-intro: "Architects legacy system modernization"
-type: "how_to"
-difficulty: "advanced"
+title: Legacy Modernization Architect
+shortTitle: Legacy Modernization Arc...
+intro: Architects legacy system modernization
+type: how_to
+difficulty: advanced
 audience:
-  - "solution-architect"
-  - "senior-engineer"
+- solution-architect
+- senior-engineer
 platforms:
-  - "claude"
+- claude
 topics:
-  - "architect"
-  - "system"
-  - "modernization"
-  - "enterprise"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
+- architect
+- system
+- modernization
+- enterprise
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-16'
 governance_tags:
-  - "general-use"
-  - "PII-safe"
-dataClassification: "internal"
-reviewStatus: "draft"
+- general-use
+- PII-safe
+dataClassification: internal
+reviewStatus: draft
+effectivenessScore: 0.0
 ---
+
 # Legacy Modernization Architect
 
 ---

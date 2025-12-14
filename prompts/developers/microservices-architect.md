@@ -1,41 +1,46 @@
 ---
-title: "Microservices Architect"
-shortTitle: "Microservices Architect"
-intro: "You are a **Principal-level Microservices Architect** with 15+ years of experience in distributed systems, Domain-Driven Design (DDD), and cloud-native operations. You lead **Event Storming** workshops, facilitate bounded context mapping, and anchor every recommendation in 12-Factor App and Team Topologies principles."
-type: "how_to"
-difficulty: "advanced"
+title: Microservices Architect
+shortTitle: Microservices Architect
+intro: You are a **Principal-level Microservices Architect** with 15+ years of experience
+  in distributed systems, Domain-Driven Design (DDD), and cloud-native operations.
+  You lead **Event Storming** workshops, facilitate bounded context mapping, and anchor
+  every recommendation in 12-Factor App and Team Topologies principles.
+type: how_to
+difficulty: advanced
 audience:
-  - "senior-engineer"
-  - "tech-lead"
-  - "principal-engineer"
+- senior-engineer
+- tech-lead
+- principal-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
+- claude
+- chatgpt
 topics:
-  - "architecture"
-  - "developer"
-  - "enterprise"
-  - "developers"
-  - "microservices"
-  - "ddd"
-author: "Prompts Library Team"
-version: "2.2"
-date: "2025-12-02"
+- architecture
+- developer
+- enterprise
+- developers
+- microservices
+- ddd
+author: Prompts Library Team
+version: '2.2'
+date: '2025-12-02'
 governance_tags:
-  - "PII-safe"
-  - "requires-human-review"
-dataClassification: "internal"
-reviewStatus: "approved"
-data_classification: "confidential"
-risk_level: "critical"
+- PII-safe
+- requires-human-review
+dataClassification: internal
+reviewStatus: approved
+data_classification: confidential
+risk_level: critical
 regulatory_scope:
-  - "SOC2"
-approval_required: True
+- SOC2
+approval_required: true
 approval_roles:
-  - "Principal-Engineer"
-  - "CTO"
-retention_period: "10-years"
+- Principal-Engineer
+- CTO
+retention_period: 10-years
+effectivenessScore: 0.0
 ---
+
 # Microservices Architect
 
 ---
@@ -77,6 +82,46 @@ This prompt is based on:
 - Aligning service boundaries with organizational team topology
 - Designing service-mesh-enabled deployments with zero-trust networking
 - Creating ADR-ready architecture packages for governance boards
+
+---
+
+## Variables
+
+| Variable | Description | Example |
+|---|---|---|
+| `[business_summary]` | Optional short narrative of the business/domain | `MercuryCart is an e-commerce platform...` |
+| `[business_goal]` | Primary goal and success metrics | `Reduce checkout failures by 50%` |
+| `[current_state]` | Current architecture and constraints | `Monolith + shared DB; 6 teams` |
+| `[domains]` | Product domains/subdomains | `Checkout, Payment, Catalog, Inventory` |
+| `[domain_events]` | Top domain events | `CartCheckedOut, PaymentCaptured...` |
+| `[nfrs]` | Non-functional requirements | `P95 < 150ms, 99.95% uptime` |
+| `[scale]` | Scale targets | `50K req/min peak, 10M users` |
+| `[tech_prefs]` | Technology preferences/constraints | `Kafka, Postgres, gRPC` |
+| `[team_structure]` | Team topology details | `4 stream-aligned squads + platform team` |
+| `[migration_context]` | Migration type | `Strangler from monolith` |
+| `[governance]` | Compliance/governance needs | `SOC2, PCI boundary, ADR process` |
+
+---
+
+## Usage
+
+**Input:**
+
+```text
+[business_summary]
+MercuryCart is an e-commerce platform with a legacy monolith struggling during peak events.
+
+Business Goal: Reduce checkout failures by 50% and improve deployment frequency to daily.
+Current State: Monolith + shared database; synchronous integrations.
+Product Domains: Checkout, Payment, Catalog, Pricing, Inventory, Fulfillment
+Critical Events: CartCheckedOut, PaymentAuthorized, PaymentCaptured, InventoryReserved, ShipmentCreated
+Non-Functional Requirements: 99.95% uptime, P95 < 150ms for checkout
+Scale Targets: 50K req/min peak, 10M active users
+Tech Preferences / Constraints: Kafka, Postgres, gRPC; avoid vendor lock-in
+Team Topology: 5 teams (4 product squads + 1 platform)
+Migration Context: Strangler fig
+Compliance / Governance: SOC2 + PCI isolation for payment flows
+```
 
 ---
 

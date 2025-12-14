@@ -1,37 +1,41 @@
 ---
-title: "Data Retention Policy Generator"
-shortTitle: "Retention Policy"
-intro: "A ReAct+Reflection prompt for generating comprehensive data retention policies aligned with GDPR data minimization principles, industry requirements, and legal obligations."
-type: "how_to"
-difficulty: "intermediate"
+title: Data Retention Policy Generator
+shortTitle: Retention Policy
+intro: A ReAct+Reflection prompt for generating comprehensive data retention policies
+  aligned with GDPR data minimization principles, industry requirements, and legal
+  obligations.
+type: how_to
+difficulty: intermediate
 audience:
-  - "solution-architect"
-  - "backend-engineer"
+- solution-architect
+- backend-engineer
 platforms:
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
+- claude
+- chatgpt
+- github-copilot
 topics:
-  - "governance"
-  - "privacy"
-  - "compliance"
-  - "gdpr"
-  - "data-management"
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-12-05"
+- governance
+- privacy
+- compliance
+- gdpr
+- data-management
+author: Prompts Library Team
+version: '1.0'
+date: '2025-12-05'
 governance_tags:
-  - "requires-human-review"
-  - "compliance-critical"
-dataClassification: "internal"
-reviewStatus: "draft"
+- requires-human-review
+- compliance-critical
+dataClassification: internal
+reviewStatus: draft
 regulatory_scope:
-  - "GDPR"
-  - "UK-GDPR"
-  - "CCPA"
-  - "HIPAA"
-  - "SOX"
+- GDPR
+- UK-GDPR
+- CCPA
+- HIPAA
+- SOX
+effectivenessScore: 0.0
 ---
+
 # Data Retention Policy Generator
 
 ---

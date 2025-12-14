@@ -1,28 +1,29 @@
 ---
-title: "Username Pivot Investigation"
-shortTitle: "Username Pivot"
-intro: "Systematic username enumeration and cross-platform pivot analysis for OSINT investigations"
+title: Username Pivot Investigation
+shortTitle: Username Pivot
+intro: Systematic username enumeration and cross-platform pivot analysis for OSINT
+  investigations
 type: prompt
 difficulty: intermediate
 audience:
-  - security-professionals
-  - osint-analysts
-  - investigators
+- security-professionals
+- osint-analysts
+- investigators
 platforms:
-  - GitHub Copilot
-  - ChatGPT
-  - Claude
+- github-copilot
+- chatgpt
+- claude
 topics:
-  - osint
-  - socmint
-  - username-enumeration
-  - pivot-analysis
+- osint
+- socmint
+- username-enumeration
+- pivot-analysis
 author: OSINT Library
-version: "1.0"
-date: 2024-11-30
+version: '1.0'
+date: '2024-11-30'
 governance_tags:
-  - privacy-aware
-  - ethical-osint
+- privacy-aware
+- ethical-osint
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -30,9 +31,21 @@ effectivenessScore: pending
 
 # Username Pivot Investigation
 
+## Description
+
+Enumerate and correlate a username across platforms to discover linked accounts and pivot opportunities using ethical OSINT methods.
+
 ## Purpose
 
 Conduct systematic username enumeration across platforms to identify connected accounts, pivot points, and build a comprehensive digital footprint profile.
+
+## Variables
+
+| Variable | Required? | Description | Example |
+|---|---:|---|---|
+| `{{USERNAME}}` | Yes | Username to pivot on and enumerate across platforms. | `techsavvy_jane` |
+| `{{KNOWN_PLATFORM}}` | No | Platform where the username is already known to exist. | `GitHub` |
+| `{{INVESTIGATION_CONTEXT}}` | Yes | Why the investigation is being performed. | `threat actor research` |
 
 ## Prompt
 
