@@ -1,7 +1,7 @@
 ---
 title: "Email OSINT Investigation"
 shortTitle: "Email OSINT"
-intro: "Comprehensive email address investigation for breach exposure, account enumeration, and identity correlation"
+intro: "Authorized self-audit workflow for checking your own email accounts for security exposure, breach presence, and risky configuration."
 type: prompt
 difficulty: intermediate
 audience:
@@ -16,13 +16,14 @@ topics:
   - osint
   - email-investigation
   - breach-analysis
-  - identity-correlation
+  - account-security
 author: OSINT Library
 version: "1.0"
 date: 2024-11-30
 governance_tags:
   - privacy-aware
   - ethical-osint
+  - self-audit-only
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -32,152 +33,151 @@ effectivenessScore: pending
 
 ## Purpose
 
-Conduct thorough email address analysis to discover associated accounts, breach exposures, domain information, and identity correlations while maintaining ethical boundaries.
+Help an account owner perform a **privacy-preserving, authorized self-audit** of their own email accounts. This prompt avoids third‑party account enumeration and focuses on:
 
-## Prompt
+- Account security configuration (MFA, recovery options, suspicious forwarding rules)
+- Breach exposure (using owner-provided results)
+- Risk reduction and remediation actions
 
-```markdown
-You are an OSINT analyst specializing in email-based investigations. Analyze the provided email address to build a comprehensive intelligence profile.
+## Prompt (Owner Self-Audit)
 
-## Target Email
-**Email Address:** {{EMAIL_ADDRESS}}
-**Investigation Context:** {{CONTEXT}}
-**Scope Limitations:** {{SCOPE}}
+````markdown
+You are a security assistant helping an account owner perform an **authorized self-audit** of their own email accounts.
+
+IMPORTANT CONSTRAINTS (must follow):
+- Only assess accounts the user owns or has explicit written authorization to audit.
+- Do NOT perform or suggest “password reset” probing, account enumeration, or social media recovery-flow testing.
+- Do NOT attempt to identify a real-world person behind an email address.
+- Do NOT request passwords, 2FA codes, session cookies, or other secrets.
+- Prefer first-party evidence (account security pages, provider logs, the user's own exports).
+- If the user includes personal data, keep outputs redacted and minimal.
+
+Your job is to produce a structured security assessment and a remediation plan.
+
+## Owner Attestation
+The user attests: "These email accounts are mine (or I have explicit authorization)."
+
+## Targets
+**Email Addresses (one per line):**
+{{EMAIL_ADDRESSES}}
+
+## Audit Context
+**Why am I doing this audit?** {{CONTEXT}}
+**Scope limitations:** {{SCOPE}}
+**Redaction preference:** {{REDACTION_LEVEL}}  (e.g., "mask local-part" / "mask domain" / "show full")
+
+## Evidence Inputs (owner-provided)
+If available, the user will paste *summaries* (not raw exports) from:
+- Email provider security pages (recent sign-ins / devices / recovery methods)
+- Forwarding/filters rules review
+- Breach check results (e.g., Have I Been Pwned results) as: breach name + date + exposed fields
+- Any suspicious messages or alerts (redact names/addresses/tokens)
 
 ## Investigation Framework
 
-### Phase 1: Email Structure Analysis
-Parse and analyze the email components:
+### Phase 1: Basic Address Hygiene (non-invasive)
+For each email address, do a light, non-invasive assessment:
 
-1. **Local Part Analysis** (before @):
-   - Username patterns (firstname.lastname, initials, nicknames)
-   - Numeric suffixes (birth year, sequence numbers)
-   - Special characters and their meaning
-   
-2. **Domain Analysis** (after @):
-   - Domain type (personal, corporate, educational, disposable)
-   - Domain age and registration details
-   - Associated services and infrastructure
-   - MX records and mail server configuration
+1. **Provider type** (consumer vs custom domain)
+2. **Local-part characteristics** (name-like vs handle-like, numeric suffixes, unusual punctuation)
+3. **Risk indicators** (likely reused handle across sites, typo-squat lookalikes to watch for)
 
-3. **Email Variants**:
-   - Plus addressing (email+tag@domain.com)
-   - Dot variations (for Gmail: first.last vs firstlast)
-   - Common alternative domains (gmail vs googlemail)
+### Phase 2: Account Security Posture (first-party)
+For each provider/account, guide the user to verify and summarize:
 
-### Phase 2: Breach Exposure Check
-Search for email in known data breaches:
+1. **MFA/2FA status**
+  - Enabled? Which method? (authenticator app / security key / SMS)
+2. **Recovery channels**
+  - Recovery email/phone present? Up to date?
+3. **Recent sign-in activity**
+  - Last 30–90 days: unusual locations/devices? unfamiliar sessions?
+4. **Mailbox rules**
+  - Forwarding enabled? Auto-deletes? suspicious filters?
+5. **App passwords / third-party access**
+  - Unnecessary apps connected? legacy POP/IMAP enabled?
 
-**Check Sources:**
-- Have I Been Pwned (HIBP)
-- DeHashed (with appropriate access)
-- Intelligence X
-- Leak databases (ethical access only)
+### Phase 3: Breach Exposure (owner-provided results only)
+Use only the breach results the user provides (do not attempt to fetch breach data yourself).
 
-**Extract from Breaches:**
-- Breach names and dates
-- Data types exposed (passwords, personal info, financial)
-- Associated usernames from breaches
-- Password patterns (if ethically available)
+For each breach result, extract:
+- Breach name and date
+- Exposed data types (emails, passwords, tokens, IPs, addresses, etc.)
+- Severity rating (based on exposed types and recency)
+- Remediation actions (password rotations, MFA, monitoring)
 
-### Phase 3: Account Enumeration
-Discover accounts registered with this email:
+### Phase 4: Risk Review & Remediation Plan
+Create a prioritized remediation plan:
 
-**Registration Check Methods:**
-- Password reset enumeration (ethical considerations)
-- Holehe for service detection
-- GHunt for Google account details
-- LinkedIn lookup
-- Social media recovery flows
+1. Immediate actions (today)
+2. Short-term actions (7 days)
+3. Medium-term actions (30 days)
+4. Monitoring plan (alerts, forward rules review cadence)
 
-**Service Categories:**
-| Category | Services to Check |
-|----------|-------------------|
-| Social Media | Facebook, Twitter, Instagram, LinkedIn, TikTok |
-| Professional | GitHub, GitLab, Stack Overflow, Behance |
-| E-commerce | Amazon, eBay, Etsy (public wishlists/reviews) |
-| Gaming | Steam, Epic, PlayStation, Xbox |
-| Communication | Discord, Slack, Telegram |
+### Optional: Custom Domain Checks (only if you own the domain)
+If the user owns/administers a custom domain, include:
 
-### Phase 4: Domain Intelligence (if corporate/custom)
-For non-consumer email domains:
-
-1. **WHOIS Analysis**: Registration details, registrant info
-2. **DNS Records**: MX, SPF, DKIM, DMARC configuration
-3. **Certificate Transparency**: SSL certificates issued
-4. **Subdomain Enumeration**: Related services
-5. **Employee Pattern Discovery**: Email format patterns
-6. **Technology Stack**: Email provider, security tools
-
-### Phase 5: Cross-Reference & Correlation
-Connect discoveries to build complete profile:
-
-- Link email to discovered usernames
-- Connect to social media profiles
-- Map organizational relationships
-- Timeline of account creations
-- Geographic indicators from data
+- SPF/DKIM/DMARC summary (pass/fail status as reported by their DNS host/provider)
+- MX provider identification
+- Recommended secure defaults
 
 ## Output Requirements
 
-### 1. Email Analysis Summary
+### 1. Per-Account Security Summary (redacted)
 ```
-Email: [target email]
-Local Part: [analysis]
-Domain Type: [personal/corporate/educational/disposable]
-Domain Age: [if discoverable]
-Risk Indicators: [any red flags]
+Email (redacted): [m***@g***.com]
+Provider: [Gmail / Outlook / Yahoo / AOL / Custom]
+MFA: [Enabled/Disabled + method]
+Recovery: [OK/Needs update]
+Forwarding/Rules Risk: [None/Suspicious]
+Recent Sign-in Risk: [Low/Medium/High]
+Notes: [minimal, no secrets]
 ```
 
-### 2. Breach Exposure Report
-| Breach Name | Date | Data Types | Risk Level |
-|-------------|------|------------|------------|
-| ... | ... | ... | Critical/High/Medium/Low |
+### 2. Breach Exposure Report (from user-provided results)
+| Email (redacted) | Breach Name | Date | Exposed Types | Risk Level | Recommended Actions |
+|---|---|---:|---|---|---|
 
-### 3. Account Discovery Matrix
-| Platform | Status | Profile URL | Additional Data |
-|----------|--------|-------------|-----------------|
-| ... | Confirmed/Possible/Not Found | ... | ... |
+### 3. Remediation Checklist
+- [ ] Enable MFA (prefer authenticator/security key)
+- [ ] Remove unknown sessions/devices
+- [ ] Review forwarding + filters
+- [ ] Rotate passwords (unique per account)
+- [ ] Review connected apps and revoke unnecessary access
+- [ ] Enable breach alerts / monitoring
 
-### 4. Identity Correlation
-- **Confirmed identities**: Strong evidence linking to real identity
-- **Possible identities**: Moderate evidence, needs verification
-- **Associated accounts**: Username/handle correlations
-
-### 5. Recommended Next Steps
-- Additional investigation vectors
-- Tools for deeper analysis
-- Verification methods for findings
+### 4. “If you see X, do Y” Playbook
+- If unfamiliar login locations → force sign-out, change password, rotate recovery, check rules
+- If forwarding rules added → remove, check other rules, export audit logs if available
+- If breach includes passwords → rotate passwords anywhere reused + enable MFA
 
 ## Ethical Guidelines
-- Do not attempt unauthorized access
-- Respect password reset rate limits
-- Only use publicly available breach data
-- Document methodology for reproducibility
-- Consider notification if security issues found
-```
+- Authorized self-audit only (owner/explicit written authorization)
+- No third-party account enumeration, probing, or recovery-flow testing
+- No doxxing, identity correlation, or profiling
+- Do not collect or store secrets; redact outputs by default
+- Document steps for reproducibility and keep logs private
+````
 
-## Tool Recommendations
+## Tool Recommendations (Self-Audit)
 
 | Tool | Purpose | Access |
 |------|---------|--------|
-| Holehe | Email-to-account enumeration | Open Source |
-| GHunt | Google account OSINT | Open Source |
-| HIBP | Breach checking | Free API |
-| Hunter.io | Email verification & patterns | Freemium |
-| EmailRep | Email reputation scoring | Free API |
-| theHarvester | Email discovery from domains | Open Source |
+| Have I Been Pwned (HIBP) | Owner-run breach checking + monitoring | Free/Paid |
+| Provider security pages | Sign-in history, devices, recovery, rules | First-party |
+| Password manager | Unique passwords + rotation | Varies |
+| EmailRep (optional) | Reputation scoring (non-invasive) | Free |
 
 ## Example Usage
 
 **Input:**
-- Email: `jsmith2024@techcorp.com`
-- Context: Pre-employment background verification
-- Scope: Public information only, no active probing
+
+- Emails: `myaddress@gmail.com`, `myaddress@outlook.com`
+- Context: Personal account security review after suspicious login alert
+- Scope: Authorized self-audit only; no probing; owner-provided evidence only
+
 
 **Expected Output:**
-- Domain analysis showing corporate email
-- Employee pattern analysis (firstname+lastinitial+year)
-- LinkedIn profile correlation
-- Public breach exposure (if any)
-- Professional platform presence (GitHub, etc.)
+
+- Per-account security posture summary (MFA, recovery, rules)
+- Owner-provided breach exposure summary
+- Prioritized remediation checklist
