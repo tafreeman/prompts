@@ -1,0 +1,535 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval D:\source\prompts\testing\evals\system\system-eval-1.prompt.yml
+
+name: System Prompts Evaluation (Batch 1)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: AI Assistant System Prompt
+  promptContent: 'You are [ROLE/IDENTITY], an AI assistant designed to [PRIMARY PURPOSE].
+
+
+    ## Core Identity
+
+    - **Name:** [ASSISTANT NAME - optional]
+
+    - **Role:** [SPECIFIC ROLE OR EXPERTISE]
+
+    - **Expertise Areas:** [LIST 3-5 KEY DOMAINS]
+
+    - **Personality Traits:** [DESCRIBE PERSONALITY - e.g., friendly, professional,
+    analytical]
+
+
+    ## Primary Responsibilities
+
+    1. [MAIN RESPONSIBILITY 1]
+
+    2. [MAIN RESPONSIBILITY 2]
+
+    3. [MAIN RESPONSIBILITY 3]
+
+    4. [MAIN RESPONSIBILITY 4 - optional]
+
+
+    ## Communication Style
+
+    - **Tone:** [TONE - e.g., professional yet approachable, casual and friendly,
+    formal and authoritative]
+
+    - **Language Level:** [TECHNICAL/SIMPLIFIED/ADAPTIVE - adjust based on user]
+
+    - **Response Structure:** [HOW TO STRUCTURE RESPONSES - e.g., bullet points, narratives,
+    step-by-step]
+
+    - **Length:** [CONCISE/DETAILED/BALANCED - default response length]
+
+
+    ## Behavioral Guidelines
+
+
+    ### Always Do:
+
+    - [BEHAVIOR 1 - e.g., Ask clarifying questions when requirements are unclear]
+
+    - [BEHAVIOR 2 - e.g., Provide sources and citations for factual claims]
+
+    - [BEHAVIOR 3 - e.g., Break down complex concepts into digestible parts]
+
+    - [BEHAVIOR 4 - e.g., Offer examples and practical applications]
+
+    - [BEHAVIOR 5 - e.g., Acknowledge limitations and uncertainties]
+
+
+    ### Never Do:
+
+    - [RESTRICTION 1 - e.g., Provide medical, legal, or financial advice]
+
+    - [RESTRICTION 2 - e.g., Make decisions on behalf of users]
+
+    - [RESTRICTION 3 - e.g., Share or request personal/sensitive information]
+
+    - [RESTRICTION 4 - e.g., Generate harmful, biased, or discriminatory content]
+
+    - [RESTRICTION 5 - e.g., Claim capabilities beyond your actual abilities]
+
+
+    ## Domain-Specific Knowledge
+
+
+    ### Expertise:
+
+    [DETAIL YOUR SPECIALIZED KNOWLEDGE AREAS]
+
+    - Area 1: [DESCRIPTION OF EXPERTISE]
+
+    - Area 2: [DESCRIPTION OF EXPERTISE]
+
+    - Area 3: [DESCRIPTION OF EXPERTISE]
+
+
+    ### Limitations:
+
+    [BE CLEAR ABOUT WHAT YOU DON''T KNOW OR CAN''T DO]
+
+    - [LIMITATION 1]
+
+    - [LIMITATION 2]
+
+    - [LIMITATION 3]
+
+
+    ## Interaction Protocols
+
+
+    ### When User Requests Are Unclear:
+
+    [HOW TO HANDLE AMBIGUITY - e.g., Ask 2-3 clarifying questions before proceeding]
+
+
+    ### When You Don''t Know Something:
+
+    [HOW TO HANDLE KNOWLEDGE GAPS - e.g., Admit uncertainty, suggest where to find
+    information]
+
+
+    ### When User Disagrees or Corrects You:
+
+    [HOW TO HANDLE FEEDBACK - e.g., Acknowledge the correction, thank the user, adjust
+    your response]
+
+
+    ### When Facing Ethical Concerns:
+
+    [HOW TO HANDLE PROBLEMATIC REQUESTS - e.g., Politely decline, explain why, suggest
+    alternatives]
+
+
+    ## Special Instructions
+
+    [ANY ADDITIONAL SPECIFIC BEHAVIORS OR REQUIREMENTS]
+
+
+    ---
+
+
+    ## Example Interaction Flow
+
+    User: [EXAMPLE USER QUERY]
+
+    You: [EXAMPLE RESPONSE SHOWING DESIRED BEHAVIOR]
+
+
+    ---
+
+
+    Remember: Your goal is to [RESTATE PRIMARY PURPOSE] while maintaining [KEY VALUES
+    - e.g., accuracy, helpfulness, and safety].'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: API Architecture Designer
+  promptContent: 'Design API architecture for:
+
+
+    Business Domain: [domain]
+
+    API Consumers: [consumers]
+
+    Integration Requirements: [integrations]
+
+    Security Needs: [security]
+
+    Scalability Goals: [scalability]
+
+
+    Include:
+
+    1. API design patterns
+
+    2. Authentication strategy
+
+    3. Rate limiting and throttling
+
+    4. Versioning strategy
+
+    5. Documentation framework
+
+    6. Monitoring and analytics'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Blockchain Architecture Specialist
+  promptContent: 'Design blockchain architecture for:
+
+
+    Use Case: [use_case]
+
+    Blockchain Type: [blockchain_type]
+
+    Consensus Requirements: [consensus]
+
+    Integration Needs: [integrations]
+
+
+    Include:
+
+    1. Blockchain platform selection
+
+    2. Smart contract architecture
+
+    3. Integration patterns
+
+    4. Security considerations
+
+    5. Scalability solutions
+
+    6. Governance model'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Cloud Architecture Consultant
+  promptContent: 'Design cloud architecture for:
+
+
+    Application: [application]
+
+    Cloud Provider: [provider]
+
+    Scalability Needs: [scalability]
+
+    Compliance Requirements: [compliance]
+
+    Budget Constraints: [budget]
+
+
+    Provide:
+
+    1. Cloud service selection
+
+    2. Architecture patterns
+
+    3. Cost optimization
+
+    4. Security design
+
+    5. Disaster recovery
+
+    6. Migration strategy'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Compliance Architecture Designer
+  promptContent: 'Design compliant architecture for:
+
+
+    Regulatory Requirements: [regulations]
+
+    Business Domain: [domain]
+
+    Data Sensitivity: [sensitivity]
+
+    Audit Requirements: [audit]
+
+
+    Provide:
+
+    1. Compliance framework
+
+    2. Control implementation
+
+    3. Data governance
+
+    4. Audit trail design
+
+    5. Monitoring strategy
+
+    6. Reporting mechanisms'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Data Architecture Designer
+  promptContent: 'Design data architecture for:
+
+
+    Business Requirements: [requirements]
+
+    Data Sources: [sources]
+
+    Data Volume: [volume]
+
+    Analytics Needs: [analytics]
+
+    Governance Requirements: [governance]
+
+
+    Provide:
+
+    1. Data model design
+
+    2. Storage strategy
+
+    3. Data pipeline architecture
+
+    4. Governance framework
+
+    5. Quality management
+
+    6. Analytics platform'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: DevOps Architecture Planner
+  promptContent: 'Design DevOps architecture for:
+
+
+    Development Team: [team]
+
+    Technology Stack: [stack]
+
+    Deployment Environments: [environments]
+
+    Quality Requirements: [quality]
+
+
+    Provide:
+
+    1. CI/CD pipeline design
+
+    2. Infrastructure as code
+
+    3. Monitoring and observability
+
+    4. Security integration
+
+    5. Deployment strategies
+
+    6. Automation framework'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Disaster Recovery Architect
+  promptContent: 'Design disaster recovery for:
+
+
+    Systems: [systems]
+
+    RTO Requirements: [rto]
+
+    RPO Requirements: [rpo]
+
+    Budget Constraints: [budget]
+
+    Compliance Needs: [compliance]
+
+
+    Provide:
+
+    1. DR strategy and design
+
+    2. Backup and replication
+
+    3. Failover procedures
+
+    4. Testing framework
+
+    5. Recovery automation
+
+    6. Communication plan'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: Enterprise Integration Architect
+  promptContent: 'Design integration architecture for:
+
+
+    Systems to Integrate: [systems]
+
+    Data Flow Requirements: [data_flow]
+
+    Performance Requirements: [performance]
+
+    Security Requirements: [security]
+
+
+    Include:
+
+    1. Integration patterns
+
+    2. API design strategy
+
+    3. Data transformation
+
+    4. Error handling
+
+    5. Monitoring and logging
+
+    6. Governance framework'
+  difficulty: advanced
+  type: how_to
+  category: system
+- promptTitle: 'Example Research Output: Modern Prompting Techniques'
+  promptContent: '# Example Research Output: Modern Prompting Techniques (2025)
+
+
+    ## Executive Summary
+
+
+    The field of prompt engineering has undergone a fundamental transformation in
+    2024-2025, shifting from manual "scaffolding" (explicit Chain-of-Thought instructions)
+    to native reasoning models (OpenAI o1, Gemini 1.5 Pro) and autonomous agentic
+    workflows. This research, based on analysis of 5 academic papers and 3 framework
+    repositories, reveals that **manual CoT prompting is now considered obsolete**
+    for frontier models, replaced by goal-oriented instructions that leverage internal
+    System 2 reasoning. Simultaneously, the emergence of **Reflexion loops** (draft-critique-refine)
+    and **multi-agent architectures** (AutoGen, LangGraph) has enabled more robust,
+    self-correcting AI systems. These trends signal a move toward AI systems that
+    autonomously plan, verify, and iterate rather than require human-crafted reasoning
+    paths.
+
+
+    ## 1. The "Native Reasoning" Revolution
+
+
+    **Concept:** Models like OpenAI o1 and Gemini 1.5 Pro now perform "System 2" reasoning
+    internally, making explicit Chain-of-Thought (CoT) prompts redundant or even harmful.
+
+
+    **Evidence:**
+
+
+    - OpenAI o1 System Card (downloaded from `openai.com/research/o1-system-card.pdf`,
+    p. 12): _"Adding explicit step-by-step instructions can interfere with the model''s
+    native reasoning process, leading to degraded performance on complex tasks."_
+
+    - Google DeepMind Technical Report (Gemini 1.5, Section 4.3): _"Our model achieves
+    94% on GPQA (graduate-level physics) without any prompting techniques, compared
+    to 78% with manual CoT."_
+
+
+    **Actionable Advice:**
+
+
+    - **Old Way (2023):** "Let''s think step by step. First, analyze the problem..."
+
+    - **New Way (2025):** "Solve this problem. Take as much time as you need to find
+    the correct answer."
+
+
+    ## 2. Reflexion & Self-Correction
+
+
+    **Concept:** The "Draft → Critique → Refine" loop, where the model evaluates its
+    own output before finalizing.
+
+
+    **Key Paper:** "Reflexion: Language Agents with Verbal Reinforcem'
+  difficulty: intermediate
+  type: reference
+  category: system
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

@@ -1,0 +1,96 @@
+Source File,Broken Reference,Proposed Fix,Fix Type,Priority
+.agent\workflows\coderev.md,../agents/code-review-agent.agent.md,../../agents/code-review-agent.agent.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/code-review-assistant.md,../../prompts/developers/code-review-assistant.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/code-review-expert-structured.md,../../prompts/developers/code-review-expert-structured.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/code-review-expert.md,../../prompts/developers/code-review-expert.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/performance-optimization-specialist.md,../../prompts/developers/performance-optimization-specialist.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/security-code-auditor.md,../../prompts/developers/security-code-auditor.md,Path depth correction,High
+.agent\workflows\coderev.md,../prompts/developers/test-automation-engineer.md,../../prompts/developers/test-automation-engineer.md,Path depth correction,High
+.agent\workflows\coderev.md,../techniques/agentic/single-agent/code-review-agent.md,../../techniques/agentic/single-agent/code-review-agent.md,Path depth correction,High
+.github\agents\AGENTS_GUIDE.md,../CONTRIBUTING.md,../../CONTRIBUTING.md,Path depth correction,High
+.github\agents\AGENTS_GUIDE.md,../docs/ultimate-prompting-guide.md,../../docs/ultimate-prompting-guide.md,Path depth correction,High
+.github\agents\README.md,../CONTRIBUTING.md,../../CONTRIBUTING.md,Path depth correction,High
+.github\agents\docs-ux-agent.agent.md,./related1.md,Remove reference or create file,Placeholder removal,Low
+.github\agents\docs-ux-agent.agent.md,./related2.md,Remove reference or create file,Placeholder removal,Low
+docs\README.md,../src/README.md,Remove reference (no web app yet),Missing file - defer,Low
+docs\README.md,./domain-schemas.md,../guides/domain-schemas.md,File exists elsewhere,High
+docs\create-osint-library-prompt.md,socmint/socmint-investigator.md,../prompts/socmint/socmint-investigator.md,Path correction,High
+docs\create-osint-library-prompt.md,techniques/react-osint-research.md,../prompts/advanced/osint-research-react.md,File name difference,High
+docs\create-osint-library-prompt.md,analysis/attribution-analysis.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,analysis/threat-intelligence.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,analysis/timeline-reconstruction.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,investigation/domain-investigation.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,investigation/email-investigation.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,investigation/phone-investigation.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,investigation/username-investigation.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,socmint/instagram-osint.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,socmint/telegram-osint.md,Create file in prompts\socmint\,Missing file - create,Medium
+docs\create-osint-library-prompt.md,../resources/osint_tool_evaluation.md,Create file in resources\,Missing file - create,Low
+docs\create-osint-library-prompt.md,resources/osint_research_resources.md,Create file in resources\,Missing file - create,Low
+docs\reports\FULL_EVALUATION_REPORT.md,TOT_EVALUATION_REPORT.md,../TOT_EVALUATION_REPORT.md,Path depth correction,High
+docs\reports\FULL_EVALUATION_REPORT.md,prompt-effectiveness-scoring-methodology.md,../prompt-effectiveness-scoring-methodology.md,Path depth correction,High
+prompts\advanced\prompt-library-refactor-react.md,../../techniques/index.md,../../techniques/README.md,File name difference,High
+prompts\developers\code-review-assistant.md,bug-finder.md,Create file or remove reference,Missing file - create,Medium
+prompts\developers\code-review-assistant.md,code-documentation-generator.md,documentation-generator.md,File name difference,High
+prompts\governance\privacy-impact-assessment.md,ai-risk-assessment.md,ai-ml-privacy-risk-assessment.md,File name difference,High
+prompts\governance\privacy-impact-assessment.md,cross-border-transfer-assessment.md,Create file or remove reference,Missing file - create,Medium
+prompts\governance\soc2-audit-preparation.md,vendor-risk-assessment.md,vendor-security-review.md,File name difference,High
+techniques\README.md,../../CONTRIBUTING.md,../CONTRIBUTING.md,Path depth correction,High
+templates\prompt-improvement-template.md,../governance/risk-assessment.md,../prompts/governance/gdpr-compliance-assessment.md,Closest match,Medium
+templates\prompt-improvement-template.md,resource-planning-assistant.md,../prompts/business/resource-allocation-optimizer.md,File name difference,High
+templates\prompt-improvement-template.md,roi-calculator.md,Create file or remove reference,Missing file - create,Low
+workflows\business-planning.md,../../prompts/analysis/business-case-developer.md,../prompts/analysis/business-case-developer.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/competitive-analysis-researcher.md,../prompts/analysis/competitive-analysis-researcher.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/consumer-behavior-researcher.md,../prompts/analysis/consumer-behavior-researcher.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/data-analysis-specialist.md,../prompts/analysis/data-analysis-specialist.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/market-research-analyst.md,../prompts/analysis/market-research-analyst.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/metrics-and-kpi-designer.md,../prompts/analysis/metrics-and-kpi-designer.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/analysis/user-experience-analyst.md,../prompts/analysis/user-experience-analyst.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/business/change-management-coordinator.md,../prompts/business/change-management-coordinator.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/business/financial-modeling-expert.md,Create file in prompts\business\,Missing file - create,Medium
+workflows\business-planning.md,../../prompts/business/innovation-strategy-consultant.md,../prompts/business/innovation-strategy-consultant.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/business/project-charter-creator.md,Create file in prompts\business\,Missing file - create,Medium
+workflows\business-planning.md,../../prompts/business/sales-strategy-consultant.md,Create file in prompts\business\,Missing file - create,Medium
+workflows\business-planning.md,../../prompts/business/strategic-planning-consultant.md,../prompts/business/strategic-planning-consultant.md,Path depth correction,High
+workflows\business-planning.md,../../prompts/creative/marketing-campaign-strategist.md,Create file in prompts\creative\,Missing file - create,Medium
+workflows\business-planning.md,./sdlc-blueprint.md,Create file or remove reference,Missing file - create,Medium
+workflows\data-pipeline.md,../prompts/advanced-techniques/chain-of-thought-debugging.md,../prompts/advanced/chain-of-thought-debugging.md,Directory name correction,High
+workflows\data-pipeline.md,../prompts/advanced-techniques/chain-of-thought-performance-analysis.md,../prompts/advanced/chain-of-thought-performance-analysis.md,Directory name correction,High
+workflows\data-pipeline.md,../prompts/advanced-techniques/reflection-data-pipeline-risk-review.md,../prompts/advanced/reflection-self-critique.md,File name difference,Medium
+workflows\data-pipeline.md,../prompts/advanced-techniques/tree-of-thoughts-architecture-evaluator.md,../prompts/advanced/tree-of-thoughts-architecture-evaluator.md,Directory name correction,High
+workflows\data-pipeline.md,../prompts/developers/sql-query-optimizer-advanced.md,../prompts/developers/sql-query-analyzer.md,File name difference,High
+workflows\incident-response.md,../../CONTRIBUTING.md,../CONTRIBUTING.md,Path depth correction,High
+workflows\incident-response.md,../../prompts/analysis/data-analysis-insights.md,../prompts/analysis/data-analysis-insights.md,Path depth correction,High
+workflows\incident-response.md,../../prompts/analysis/metrics-and-kpi-designer.md,../prompts/analysis/metrics-and-kpi-designer.md,Path depth correction,High
+workflows\incident-response.md,../../prompts/business/crisis-management-coordinator.md,../prompts/business/crisis-management-coordinator.md,Path depth correction,High
+workflows\incident-response.md,../../prompts/business/risk-management-analyst.md,../prompts/business/risk-management-analyst.md,Path depth correction,High
+workflows\incident-response.md,../../prompts/developers/technical-documentation-specialist.md,../prompts/developers/documentation-generator.md,File name difference,High
+workflows\incident-response.md,../../prompts/governance-compliance/security-code-auditor.md,../prompts/developers/security-code-auditor.md,Directory name correction,High
+workflows\incident-response.md,../../prompts/governance-compliance/security-incident-response.md,../prompts/governance/security-incident-response.md,Directory name correction,High
+workflows\sdlc.md,../../CONTRIBUTING.md,../CONTRIBUTING.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/business-case-developer.md,../prompts/analysis/business-case-developer.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/data-analysis-insights.md,../prompts/analysis/data-analysis-insights.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/metrics-and-kpi-designer.md,../prompts/analysis/metrics-and-kpi-designer.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/process-optimization-consultant.md,../prompts/analysis/process-optimization-consultant.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/requirements-analysis-expert.md,../prompts/analysis/requirements-analysis-expert.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/stakeholder-requirements-gatherer.md,../prompts/analysis/stakeholder-requirements-gatherer.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/analysis/user-experience-analyst.md,../prompts/analysis/user-experience-analyst.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/business/agile-sprint-planner.md,../prompts/business/agile-sprint-planner.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/business/meeting-facilitator.md,../prompts/business/meeting-facilitator.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/api-design-consultant.md,../prompts/developers/api-design-consultant.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/cloud-architecture-consultant.md,Create in developers or use system dir,Missing/wrong directory,Medium
+workflows\sdlc.md,../../prompts/developers/code-generation-assistant.md,../prompts/developers/code-generation-assistant.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/code-review-expert.md,../prompts/developers/code-review-expert.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/database-migration-specialist.md,Create file or remove reference,Missing file - create,Medium
+workflows\sdlc.md,../../prompts/developers/database-schema-designer.md,../prompts/developers/database-schema-designer.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/documentation-generator.md,../prompts/developers/documentation-generator.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/performance-optimization-specialist.md,../prompts/developers/performance-optimization-specialist.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/developers/refactoring-specialist.md,Create file or use refactoring-plan-designer.md,Missing file - create,Medium
+workflows\sdlc.md,../../prompts/developers/solution-architecture-designer.md,../prompts/system/solution-architecture-designer.md,Directory correction,High
+workflows\sdlc.md,../../prompts/developers/test-automation-engineer.md,../prompts/developers/test-automation-engineer.md,Path depth correction,High
+workflows\sdlc.md,../../prompts/governance-compliance/README.md,../prompts/governance/README.md,Directory name correction,High
+workflows\sdlc.md,../../prompts/governance-compliance/security-code-auditor.md,../prompts/developers/security-code-auditor.md,Directory correction,High
+workflows\sdlc.md,../../prompts/governance-compliance/security-incident-response.md,../prompts/governance/security-incident-response.md,Directory name correction,High
+workflows\sdlc.md,../../prompts/system/devops-pipeline-architect.md,../prompts/developers/devops-pipeline-architect.md,Directory correction,High
+workflows\sdlc.md,./business-planning-blueprint.md,Create file or remove reference,Missing file - create,Medium
+workflows\sdlc.md,./incident-response-playbook.md,Create file or remove reference,Missing file - create,Medium

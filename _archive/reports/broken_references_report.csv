@@ -1,0 +1,929 @@
+Source File,Reference,Link Text,Status,Issue Type
+.github\agents\AGENTS_GUIDE.md,../CONTRIBUTING.md,Contributing Guidelines,BROKEN,File not found
+.github\agents\AGENTS_GUIDE.md,../docs/ultimate-prompting-guide.md,Prompt Engineering Guide,BROKEN,File not found
+.github\agents\README.md,../CONTRIBUTING.md,CONTRIBUTING.md,BROKEN,File not found
+.github\agents\docs-ux-agent.agent.md,./related1.md,Link to related doc 1,BROKEN,File not found
+.github\agents\docs-ux-agent.agent.md,./related2.md,Link to related doc 2,BROKEN,File not found
+docs\README.md,../src/README.md,Web Application,BROKEN,File not found
+templates\prompt-improvement-template.md,../governance/risk-assessment.md,Risk Assessment Framework,BROKEN,File not found
+.agent\workflows\coderev.md,../../agents/code-review-agent.agent.md,Code Review Agent,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/code-review-assistant.md,Code Review Assistant,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/code-review-expert-structured.md,Code Review Expert: Structured,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/code-review-expert.md,Code Review Expert,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/performance-optimization-specialist.md,Performance Optimization Specialist,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/security-code-auditor.md,Security Code Auditor,OK,File exists
+.agent\workflows\coderev.md,../../prompts/developers/test-automation-engineer.md,Test Automation Engineer,OK,File exists
+.agent\workflows\coderev.md,../../techniques/agentic/single-agent/code-review-agent.md,Single-Agent Code Review,OK,File exists
+.github\agents\AGENTS_GUIDE.md,./README.md,Pre-built Agents,OK,File exists
+.github\agents\AGENTS_GUIDE.md,./README.md,pre-built agents,OK,File exists
+CoVE Reflexion Prompt Library Evaluation.md,prompts/advanced/CoVe.md,Chain-of-Verification (CoVe),OK,File exists
+CoVE Reflexion Prompt Library Evaluation.md,prompts/advanced/reflection-self-critique.md,Reflection: Self-Critique,OK,File exists
+README.md,CONTRIBUTING.md,CONTRIBUTING.md,OK,File exists
+README.md,agents/AGENTS_GUIDE.md,Complete Agents Guide →,OK,File exists
+README.md,agents/architecture-agent.agent.md,@architecture_agent,OK,File exists
+README.md,agents/code-review-agent.agent.md,@code_review_agent,OK,File exists
+README.md,agents/docs-agent.agent.md,@docs_agent,OK,File exists
+README.md,agents/prompt-agent.agent.md,@prompt_agent,OK,File exists
+README.md,agents/refactor-agent.agent.md,@refactor_agent,OK,File exists
+README.md,agents/security-agent.agent.md,@security_agent,OK,File exists
+README.md,agents/test-agent.agent.md,@test_agent,OK,File exists
+README.md,docs/advanced-techniques.md,Advanced Prompt Engineering,OK,File exists
+README.md,docs/best-practices.md,Best Practices,OK,File exists
+README.md,docs/getting-started.md,Getting Started Guide,OK,File exists
+README.md,docs/intro-to-prompts.md,Introduction to Prompts,OK,File exists
+README.md,docs/prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness Methodology,OK,File exists
+README.md,docs/prompt-effectiveness-scoring-methodology.md,View Scoring Methodology →,OK,File exists
+README.md,docs/ultimate-prompting-guide.md,Explore the Ultimate Prompting Guide →,OK,File exists
+README.md,docs/ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+agents\AGENTS_GUIDE.md,../CONTRIBUTING.md,Contributing Guidelines,OK,File exists
+agents\AGENTS_GUIDE.md,../docs/ultimate-prompting-guide.md,Prompt Engineering Guide,OK,File exists
+agents\AGENTS_GUIDE.md,./README.md,Pre-built Agents,OK,File exists
+agents\AGENTS_GUIDE.md,./README.md,pre-built agents,OK,File exists
+agents\README.md,../CONTRIBUTING.md,CONTRIBUTING.md,OK,File exists
+concepts\about-advanced-patterns.md,../docs/prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness,OK,File exists
+concepts\about-advanced-patterns.md,../get-started/choosing-the-right-pattern.md,Choosing the Right Pattern,OK,File exists
+concepts\about-advanced-patterns.md,../guides/best-practices.md,Zero-Shot vs. Few-Shot Selection,OK,File exists
+concepts\about-advanced-patterns.md,../techniques/README.md,Chain-of-Thought Techniques,OK,File exists
+concepts\about-advanced-patterns.md,./about-prompt-engineering.md,About Prompt Engineering,OK,File exists
+docs\ARCHITECTURE_PLAN.md,CONSOLIDATED_IMPROVEMENT_PLAN.md,CONSOLIDATED_IMPROVEMENT_PLAN.md,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../concepts/prompt-anatomy.md,Prompt Anatomy,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../prompts/system/prompt-quality-evaluator.md,Prompt Quality Evaluator,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../reference/cheat-sheet.md,Reference Cheat Sheet,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../testing/evals/README.md,GitHub Models Evaluation System,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,best-practices.md,Best Practices,OK,File exists
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+docs\CONSOLIDATED_IMPROVEMENT_PLAN.md,WORKSTREAM_A_UX_UI.md,WORKSTREAM_A_UX_UI.md,OK,File exists
+docs\CONSOLIDATED_IMPROVEMENT_PLAN.md,WORKSTREAM_B_CONTENT.md,WORKSTREAM_B_CONTENT.md,OK,File exists
+docs\README.md,../CONTRIBUTING.md,CONTRIBUTING.md,OK,File exists
+docs\README.md,../CONTRIBUTING.md,Contributing Guide,OK,File exists
+docs\README.md,../agents/AGENTS_GUIDE.md,Agents Guide,OK,File exists
+docs\README.md,../agents/AGENTS_GUIDE.md,Custom Agents,OK,File exists
+docs\README.md,../agents/README.md,Pre-built Agents,OK,File exists
+docs\README.md,../guides/domain-schemas.md,Domain Schemas,OK,File exists
+docs\README.md,./analysis-results.md,Analysis Results,OK,File exists
+docs\README.md,./analysis-results.md,View Results →,OK,File exists
+docs\README.md,./best-practices.md,Best Practices,OK,File exists
+docs\README.md,./getting-started.md,Getting Started Guide,OK,File exists
+docs\README.md,./prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness Scoring Methodology,OK,File exists
+docs\README.md,./prompt-effectiveness-scoring-methodology.md,Read Methodology →,OK,File exists
+docs\README.md,./prompt-effectiveness-scoring-methodology.md,Scoring Methodology,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md,Read Guide →,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#1-chain-of-thought-debugging--root-cause-analysis,Chain-of-Thought Prompts,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#best-practices-summary,Best Practices Summary,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#claude-and-gpt,Advanced Techniques,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#microsoft-365-copilot,Business Prompts,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#prompt-patterns--templates,Prompt Patterns,OK,File exists
+docs\README.md,./ultimate-prompting-guide.md#top-20-curated-prompts,Top Developer Prompts,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\CoVe.md,Chain-of-Verification (CoVe),OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\advanced-technique-research.md,Advanced Prompt Engineering Technique Re,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\chain-of-thought-concise.md,Chain-of-Thought: Concise Mode,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\chain-of-thought-debugging.md,Chain-of-Thought: Debugging & Root Cause,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\chain-of-thought-detailed.md,Chain-of-Thought: Detailed Mode,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\chain-of-thought-guide.md,Chain-of-Thought: Decision Guide,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\chain-of-thought-performance-analysis.md,Chain-of-Thought: Performance Analysis &,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\library-analysis-react.md,ReAct: Library Structure & Content Analy,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\library.md,ReAct: Large-Scale Prompt Library Analys,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\osint-research-react.md,ReAct: OSINT Research & Development,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\prompt-library-refactor-react.md,ToT-ReAct: Prompt Library Evaluation & R,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\rag-document-retrieval.md,RAG: Document Retrieval and Citation,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\react-doc-search-synthesis.md,ReAct: Document Search and Synthesis,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\react-knowledge-base-research.md,ReAct: OSINT/SOCMINT Knowledge Base Rese,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\react-tool-augmented.md,ReAct: Tool-Augmented Reasoning,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\reflection-self-critique.md,Reflection: Initial Answer + Self-Critiq,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\tree-of-thoughts-architecture-evaluator.md,Tree-of-Thoughts: Architecture Evaluator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\advanced\tree-of-thoughts-evaluator-reflection.md,ToT Evaluator: OSINT Resource Assessment,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\business-case-developer.md,Business Case Developer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\competitive-intelligence-researcher.md,Competitive Intelligence Researcher,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\consumer-behavior-researcher.md,Consumer Behavior Researcher,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\data-analysis-insights.md,Data Analysis and Insights Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\data-analysis-specialist.md,Data Analysis Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\data-quality-assessment.md,Data Quality Assessment,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\industry-analysis-expert.md,Industry Analysis Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\library-capability-radar.md,Library Capability Radar Chart Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\library-network-graph.md,Library Network Graph Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\library-structure-treemap.md,Library Structure Treemap Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\market-research-analyst.md,Market Research Analyst,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\stakeholder-requirements-gatherer.md,Stakeholder Requirements Gatherer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\user-experience-analyst.md,User Experience Analyst,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\analysis\workflow-designer.md,Workflow Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\agile-sprint-planner.md,Agile Sprint Planner,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\board-update.md,Board Update Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\budget-and-cost-controller.md,Budget and Cost Controller,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\business-process-reengineering.md,Business Process Reengineering,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\change-management-coordinator.md,Change Management Coordinator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\client-presentation-designer.md,Client Presentation Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\cold-email-generator.md,Cold Email Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\competitive-analysis.md,Competitive Analysis Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\crisis-management-coordinator.md,Crisis Management Coordinator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\digital-transformation-advisor.md,Digital Transformation Advisor,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\due-diligence-analyst.md,Due Diligence Analyst,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\follow-up-email.md,Follow-Up Email Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\innovation-strategy-consultant.md,Innovation Strategy Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\interview-questions.md,Interview Questions Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\job-description-writer.md,Job Description Writer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\management-consulting-expert.md,Management Consulting Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\market-entry-strategist.md,Market Entry Strategist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\meeting-facilitator.md,Meeting Facilitator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\meeting-summary.md,Meeting Summary Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\onboarding-checklist-creator.md,Onboarding Checklist Creator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\organizational-change-manager.md,Organizational Change Manager,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\performance-improvement-consultant.md,Performance Improvement Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\performance-review.md,Performance Review Writer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\pitch-deck-generator.md,Pitch Deck Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\project-closure-specialist.md,Project Closure Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\project-documentation-manager.md,Project Documentation Manager,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\quality-assurance-planner.md,Quality Assurance Planner,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\resource-allocation-optimizer.md,Resource Allocation Optimizer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\risk-management-analyst.md,Risk Management Analyst,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\sales-objection-handler.md,Sales Objection Handler,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\stakeholder-communication-manager.md,Stakeholder Communication Manager,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\strategic-planning-consultant.md,Strategic Planning Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\team-performance-manager.md,Team Performance Manager,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\timeline-and-milestone-tracker.md,Timeline and Milestone Tracker,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\business\vendor-management-coordinator.md,Vendor Management Coordinator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\ad-copy-generator.md,Ad Copy Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\brand-voice-developer.md,Brand Voice Developer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\email-newsletter-writer.md,Email Newsletter Writer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\product-description-generator.md,Product Description Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\social-media-content-generator.md,Social Media Content Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\creative\video-script-writer.md,Video Script Writer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\api-design-consultant.md,API Design Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\cloud-migration-specialist.md,Cloud Migration Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\code-generation-assistant.md,Code Generation Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\code-review-assistant.md,Code Review Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\code-review-expert-structured.md,Code Review Expert: Structured Output,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\code-review-expert.md,Code Review Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\csharp-enterprise-standards-enforcer.md,C# Enterprise Standards Enforcer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\csharp-refactoring-assistant.md,C# Refactoring Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\data-pipeline-engineer.md,Data Pipeline Engineer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\database-schema-designer.md,Database Schema Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\devops-pipeline-architect.md,DevOps Pipeline Architect,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\documentation-generator.md,Documentation Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\dotnet-api-designer.md,.NET API Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\frontend-architecture-consultant.md,Frontend Architecture Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\legacy-system-modernization.md,Legacy System Modernization,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\microservices-architect.md,Microservices Architect,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\mid-level-developer-architecture-coach.md,Mid-Level Developer Architecture Coach,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\mobile-app-developer.md,Mobile App Developer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\performance-optimization-specialist.md,Performance Optimization Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\refactoring-plan-designer.md,Refactoring Plan Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\security-code-auditor.md,Security Code Auditor,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\sql-query-analyzer.md,SQL Query Analyzer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\sql-security-standards-enforcer.md,SQL Security Standards Enforcer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\developers\test-automation-engineer.md,Test Automation Engineer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\access-control-reviewer.md,Access Control Reviewer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\ai-ml-privacy-risk-assessment.md,AI/ML Privacy Risk Assessment,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\compliance-policy-generator.md,Compliance Policy Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\data-classification-helper.md,Data Classification Helper,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\data-retention-policy.md,Data Retention Policy Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\data-subject-request-handler.md,Data Subject Request (DSR) Handler,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\hipaa-compliance-checker.md,HIPAA Compliance Checker,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\legal-contract-review.md,Legal: Contract Review Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\privacy-impact-assessment.md,Privacy Impact Assessment (DPIA) Generat,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\regulatory-change-analyzer.md,Regulatory Change Analyzer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\security-incident-response.md,Security: Incident Response Framework,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\soc2-audit-preparation.md,SOC 2 Audit Preparation Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\sox-audit-preparer.md,SOX Audit Preparer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\governance\vendor-security-review.md,Vendor Security Reviewer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-customer-feedback-analyzer.md,M365 Customer Feedback Analyzer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-daily-standup-assistant.md,M365 Daily Standup Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-data-insights-assistant.md,M365 Data Insights Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-designer-image-prompt-generator.md,M365 Designer Image Prompt Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-designer-infographic-brief.md,M365 Designer Infographic Brief,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-designer-social-media-kit.md,M365 Designer Social Media Kit,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-document-summarizer.md,M365 Document Summarizer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-email-triage-helper.md,M365 Email Triage Helper,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-excel-formula-expert.md,M365 Excel Formula Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-handover-document-creator.md,M365 Handover Document Creator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-manager-sync-planner.md,M365 Manager Sync Planner,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-meeting-prep-brief.md,M365 Meeting Prep Brief,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-meeting-recap-assistant.md,M365 Meeting Recap Assistant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-personal-task-collector.md,M365 Personal Task Collector,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-presentation-outline-generator.md,M365 Presentation Outline Generator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-project-status-reporter.md,M365 Project Status Reporter,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-slide-content-refiner.md,M365 Slide Content Refiner,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-sway-document-to-story.md,M365 Sway Document to Story,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-sway-visual-newsletter.md,M365 Sway Visual Newsletter,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\m365\m365-weekly-review-coach.md,M365 Weekly Review Coach,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\self-consistency-reasoning.md,Self-Consistency Chain-of-Thought Reason,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\company-osint-investigation.md,Company OSINT Investigation,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\email-osint-investigation.md,Email OSINT Investigation,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\image-geolocation-analysis.md,Image Geolocation Analysis,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\social-media-profile-analysis.md,Social Media Profile Deep Analysis,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\socmint-investigator.md,SOCMINT Investigator,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\socmint\username-pivot-investigation.md,Username Pivot Investigation,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\api-architecture-designer.md,API Architecture Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\blockchain-architecture-specialist.md,Blockchain Architecture Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\compliance-architecture-designer.md,Compliance Architecture Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\data-architecture-designer.md,Data Architecture Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\frontier-agent-deep-research.md,Office Agent Deep Research: Modern Promp,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\iot-architecture-designer.md,IoT Architecture Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\legacy-modernization-architect.md,Legacy Modernization Architect,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\library-visual-audit.md,Library Visual & Formatting Audit,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\m365-copilot-research-agent.md,M365 Copilot Frontier Research Agent,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\mobile-architecture-consultant.md,Mobile Architecture Consultant,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\office-agent-technical-specs.md,Office Agent Technical Specifications,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\prompt-quality-evaluator.md,Prompt Quality Evaluator: Meta-Evaluatio,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\solution-architecture-designer.md,Solution Architecture Designer,OK,File exists
+docs\SCORECARD.md,../prompts\prompts\system\tree-of-thoughts-repository-evaluator.md,Tree-of-Thoughts Repository Evaluator fo,OK,File exists
+docs\SCORECARD.md,../tools/rubrics/prompt-scoring.yaml,`tools/rubrics/prompt-scoring.yaml`,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/chain-of-thought-concise.md,chain-of-thought-concise.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/chain-of-thought-debugging.md,chain-of-thought-debugging.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/chain-of-thought-detailed.md,chain-of-thought-detailed.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/chain-of-thought-performance-analysis.md,chain-of-thought-performance-analysis.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/rag-document-retrieval.md,rag-document-retrieval.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/react-doc-search-synthesis.md,react-doc-search-synthesis.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/react-tool-augmented.md,react-tool-augmented.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/reflection-self-critique.md,reflection-self-critique.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/tree-of-thoughts-architecture-evaluator.md,tree-of-thoughts-architecture-evaluator.md,OK,File exists
+docs\advanced-techniques.md,../prompts/advanced/tree-of-thoughts-evaluator-reflection.md,tree-of-thoughts-evaluator-reflection.md,OK,File exists
+docs\advanced-techniques.md,best-practices.md,Best Practices,OK,File exists
+docs\advanced-techniques.md,prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness Methodology,OK,File exists
+docs\advanced-techniques.md,ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+docs\best-practices.md,advanced-techniques.md,Advanced Techniques,OK,File exists
+docs\best-practices.md,prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness Methodology,OK,File exists
+docs\best-practices.md,ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/../prompts/../prompts/../prompts/../prompts/../prompts/socmint/socmint-investigator.md,SOCMINT Investigator,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/advanced/osint-research-react.md,ReAct OSINT Research,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/attribution-analysis.md,Attribution Analysis,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/domain-investigation.md,Domain Investigation,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/email-investigation.md,Email Investigation,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/instagram-osint.md,Instagram OSINT,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/phone-investigation.md,Phone Investigation,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/telegram-osint.md,Telegram OSINT,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/threat-intelligence.md,Threat Intelligence,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/timeline-reconstruction.md,Timeline Reconstruction,OK,File exists
+docs\create-osint-library-prompt.md,../prompts/socmint/username-investigation.md,Username Investigation,OK,File exists
+docs\create-osint-library-prompt.md,../resources/osint_tool_evaluation.md,resources/osint_tool_evaluation.md,OK,File exists
+docs\create-osint-library-prompt.md,../techniques/chain-of-thought-analysis.md,Chain-of-Thought Analysis,OK,File exists
+docs\create-osint-library-prompt.md,../techniques/react-knowledge-base.md,ReAct Knowledge Base,OK,File exists
+docs\create-osint-library-prompt.md,resources/osint_research_resources.md,OSINT Research Resources,OK,File exists
+docs\create-osint-library-prompt.md,resources/osint_tool_evaluation.md,Tool Evaluation Report,OK,File exists
+docs\getting-started.md,../CONTRIBUTING.md,Contributing Guide,OK,File exists
+docs\getting-started.md,advanced-techniques.md,Advanced Techniques,OK,File exists
+docs\getting-started.md,best-practices.md,Best Practices,OK,File exists
+docs\getting-started.md,intro-to-prompts.md,Intro to Prompts,OK,File exists
+docs\getting-started.md,prompt-authorship-guide.md,Prompt Authorship Guide,OK,File exists
+docs\getting-started.md,ultimate-prompting-guide.md,Ultimate Prompting Guide,OK,File exists
+docs\intro-to-prompts.md,advanced-techniques.md,Advanced Techniques,OK,File exists
+docs\intro-to-prompts.md,best-practices.md,Best Practices Guide,OK,File exists
+docs\platform-specific-templates.md,./prompt-effectiveness-scoring-methodology.md,prompt-effectiveness-scoring-methodology.md,OK,File exists
+docs\platform-specific-templates.md,./ultimate-prompting-guide.md,ultimate-prompting-guide.md,OK,File exists
+docs\reports\FULL_EVALUATION_REPORT.md,../TOT_EVALUATION_REPORT.md,ToT Evaluation Report,OK,File exists
+docs\reports\FULL_EVALUATION_REPORT.md,../prompt-effectiveness-scoring-methodology.md,Scoring Methodology,OK,File exists
+docs\reports\FULL_EVALUATION_REPORT.md,IMPROVEMENT_PLAN.md,Improvement Plan,OK,File exists
+docs\reports\MULTI_AGENT_IMPROVEMENT_PLAN.md,FULL_EVALUATION_REPORT.md,FULL_EVALUATION_REPORT.md,OK,File exists
+docs\reports\WORKSTREAM_D_COMPLETION_REPORT.md,prompts/m365/index.md,index.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/chain-of-thought-concise.md,prompts/advanced/chain-of-thought-concise.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/chain-of-thought-debugging.md,prompts/advanced/chain-of-thought-debugging.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/chain-of-thought-detailed.md,prompts/advanced/chain-of-thought-detailed.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/chain-of-thought-performance-analysis.md,prompts/advanced/chain-of-thought-performance-analysis.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/rag-document-retrieval.md,prompts/advanced/rag-document-retrieval.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/react-tool-augmented.md,prompts/advanced/react-tool-augmented.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/reflection-self-critique.md,prompts/advanced/reflection-self-critique.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/tree-of-thoughts-architecture-evaluator.md,prompts/advanced/tree-of-thoughts-architecture-evaluator.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/advanced/tree-of-thoughts-evaluator-reflection.md,prompts/advanced/tree-of-thoughts-evaluator-reflection.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/analysis/data-quality-assessment.md,prompts/analysis/data-quality-assessment.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/developers/code-generation-assistant.md,Link,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/developers/code-review-assistant.md,prompts/developers/code-review-assistant.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/developers/code-review-expert-structured.md,prompts/developers/code-review-expert-structured.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/developers/legacy-system-modernization.md,Link,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/developers/refactoring-plan-designer.md,prompts/developers/refactoring-plan-designer.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/governance/legal-contract-review.md,prompts/governance/legal-contract-review.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/governance/security-incident-response.md,prompts/governance/security-incident-response.md,OK,File exists
+docs\ultimate-prompting-guide.md,../prompts/system/tree-of-thoughts-repository-evaluator.md,prompts/system/tree-of-thoughts-repository-evaluator.md,OK,File exists
+docs\ultimate-prompting-guide.md,./prompt-effectiveness-scoring-methodology.md,docs/prompt-effectiveness-scoring-methodology.md,OK,File exists
+examples\product-launch-example.md,../docs/best-practices.md,Best Practices,OK,File exists
+examples\product-launch-example.md,../docs/getting-started.md,Getting Started Guide,OK,File exists
+examples\product-launch-example.md,../prompts/analysis/data-analysis-insights.md,Data Analysis and Insights,OK,File exists
+examples\product-launch-example.md,../prompts/business/business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+examples\product-launch-example.md,../prompts/creative/content-marketing-blog-post.md,Content Marketing Blog Post,OK,File exists
+examples\product-launch-example.md,../prompts/developers/code-review-assistant.md,Code Review Assistant,OK,File exists
+frameworks\README.md,../CONTRIBUTING.md,CONTRIBUTING.md,OK,File exists
+frameworks\README.md,../techniques/README.md,Techniques Directory,OK,File exists
+frameworks\anthropic\tool-use\claude-tool-use.md,../../../techniques/agentic/multi-agent/multi-agent-workflow.md,Agentic Workflows,OK,File exists
+frameworks\anthropic\tool-use\claude-tool-use.md,../../openai/function-calling/openai-function-calling.md,OpenAI Function Calling,OK,File exists
+frameworks\langchain\agent-patterns\langchain-agents.md,../../../techniques/agentic/multi-agent/multi-agent-workflow.md,Multi-Agent Workflow,OK,File exists
+frameworks\langchain\agent-patterns\langchain-agents.md,../../openai/function-calling/openai-function-calling.md,OpenAI Function Calling,OK,File exists
+frameworks\langchain\lcel-patterns\langchain-reflexion-example.md,../agent-patterns/langchain-agents.md,LangChain Agent Patterns,OK,File exists
+frameworks\microsoft\copilot-patterns\github-copilot-instructions.md,../../anthropic/claude_patterns.py,Anthropic Claude Patterns,OK,File exists
+frameworks\microsoft\copilot-patterns\github-copilot-instructions.md,../../openai/openai_utilities.py,OpenAI Integration,OK,File exists
+frameworks\microsoft\dotnet\csharp-multimodel-client.md,../../anthropic/claude_patterns.py,Anthropic Claude Patterns,OK,File exists
+frameworks\microsoft\dotnet\csharp-multimodel-client.md,../../openai/function-calling/openai-function-calling.md,OpenAI Function Calling,OK,File exists
+frameworks\microsoft\semantic-kernel\semantic-kernel-patterns.md,../../../techniques/agentic/multi-agent/multi-agent-workflow.md,Agentic Workflows,OK,File exists
+frameworks\microsoft\semantic-kernel\semantic-kernel-patterns.md,../../openai/function-calling/openai-function-calling.md,OpenAI Function Calling,OK,File exists
+frameworks\openai\assistants-api\openai-assistants.md,../../langchain/agent-patterns/langchain-agents.md,LangChain Agents,OK,File exists
+frameworks\openai\assistants-api\openai-assistants.md,../function-calling/openai-function-calling.md,Function Calling,OK,File exists
+frameworks\openai\function-calling\openai-function-calling.md,../../anthropic/tool-use/claude-tool-use.md,Claude Tool Use,OK,File exists
+get-started\choosing-the-right-pattern.md,/concepts/index.md,prompt engineering concepts,OK,File exists
+get-started\choosing-the-right-pattern.md,/prompts/index.md,prompt library,OK,File exists
+get-started\choosing-the-right-pattern.md,/techniques/README.md,/techniques,OK,File exists
+get-started\index.md,choosing-the-right-pattern.md,Choosing the Right Pattern,OK,File exists
+get-started\index.md,quickstart-claude.md,Claude,OK,File exists
+get-started\index.md,quickstart-copilot.md,GitHub Copilot,OK,File exists
+get-started\index.md,quickstart-copilot.md,Quickstart for GitHub Copilot,OK,File exists
+get-started\index.md,quickstart-m365.md,M365 Copilot,OK,File exists
+get-started\index.md,quickstart-m365.md,Quickstart for M365 Copilot,OK,File exists
+get-started\quickstart-m365.md,/docs/advanced-techniques.md,Advanced Techniques,OK,File exists
+get-started\quickstart-m365.md,/guides/best-practices.md,Best Practices,OK,File exists
+guides\getting-started.md,../CONTRIBUTING.md,CONTRIBUTING.md,OK,File exists
+guides\getting-started.md,best-practices.md,docs/best-practices.md,OK,File exists
+prompts\advanced\advanced-technique-research.md,./chain-of-thought-detailed.md,Chain-of-Thought: Detailed Mode,OK,File exists
+prompts\advanced\advanced-technique-research.md,./reflection-self-critique.md,Reflection Self-Critique,OK,File exists
+prompts\advanced\chain-of-thought-concise.md,chain-of-thought-detailed.md,Chain-of-Thought: Detailed Mode,OK,File exists
+prompts\advanced\chain-of-thought-concise.md,chain-of-thought-guide.md,Chain-of-Thought Guide,OK,File exists
+prompts\advanced\chain-of-thought-concise.md,react-tool-augmented.md,ReAct Tool-Augmented,OK,File exists
+prompts\advanced\chain-of-thought-debugging.md,chain-of-thought-performance-analysis.md,Chain-of-Thought: Performance Analysis,OK,File exists
+prompts\advanced\chain-of-thought-debugging.md,tree-of-thoughts-architecture-evaluator.md,Tree-of-Thoughts: Architecture Evaluator,OK,File exists
+prompts\advanced\chain-of-thought-detailed.md,chain-of-thought-concise.md,Chain-of-Thought: Concise Mode,OK,File exists
+prompts\advanced\chain-of-thought-detailed.md,chain-of-thought-guide.md,Chain-of-Thought Guide,OK,File exists
+prompts\advanced\chain-of-thought-guide.md,chain-of-thought-concise.md,Chain-of-Thought: Concise Mode,OK,File exists
+prompts\advanced\chain-of-thought-guide.md,chain-of-thought-detailed.md,Chain-of-Thought: Detailed Mode,OK,File exists
+prompts\advanced\chain-of-thought-guide.md,react-tool-augmented.md,ReAct: Tool-Augmented Reasoning,OK,File exists
+prompts\advanced\chain-of-thought-performance-analysis.md,../analysis/data-quality-assessment.md,Data Quality Assessment,OK,File exists
+prompts\advanced\chain-of-thought-performance-analysis.md,tree-of-thoughts-architecture-evaluator.md,Tree-of-Thoughts: Architecture Evaluator,OK,File exists
+prompts\advanced\library-analysis-react.md,../analysis/data-quality-assessment.md,Data Quality Assessment,OK,File exists
+prompts\advanced\library-analysis-react.md,react-doc-search-synthesis.md,ReAct: Document Search and Synthesis,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../_archive/tools/EVALUATION_AGENT_GUIDE.md,Evaluation Agent Guide,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../reference/content-types.md,Content Types,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../reference/frontmatter-schema.md,Frontmatter Schema,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../techniques/README.md,Advanced Techniques,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../tools/evaluate_library.py,Evaluate Library,OK,File exists
+prompts\advanced\prompt-library-refactor-react.md,../../tools/validate_prompts.py,Validate Prompts,OK,File exists
+prompts\advanced\rag-document-retrieval.md,react-doc-search-synthesis.md,ReAct: Document Search and Synthesis,OK,File exists
+prompts\advanced\react-doc-search-synthesis.md,chain-of-thought-detailed.md,Chain-of-Thought: Detailed,OK,File exists
+prompts\advanced\react-doc-search-synthesis.md,rag-document-retrieval.md,RAG: Document Retrieval and Citation,OK,File exists
+prompts\advanced\react-doc-search-synthesis.md,react-tool-augmented.md,ReAct: Tool-Augmented Reasoning,OK,File exists
+prompts\advanced\react-doc-search-synthesis.md,reflection-self-critique.md,Reflection: Self-Critique,OK,File exists
+prompts\advanced\react-knowledge-base-research.md,chain-of-thought-debugging.md,Chain-of-Thought Debugging,OK,File exists
+prompts\advanced\react-knowledge-base-research.md,prompt-library-refactor-react.md,ReAct: Repository Analysis,OK,File exists
+prompts\advanced\react-knowledge-base-research.md,react-tool-augmented.md,ReAct: Tool-Augmented,OK,File exists
+prompts\advanced\reflection-self-critique.md,chain-of-thought-detailed.md,Chain-of-Thought: Detailed,OK,File exists
+prompts\advanced\tree-of-thoughts-architecture-evaluator.md,../developers/refactoring-plan-designer.md,Refactoring Plan Designer,OK,File exists
+prompts\advanced\tree-of-thoughts-architecture-evaluator.md,chain-of-thought-performance-analysis.md,Chain-of-Thought: Performance Analysis,OK,File exists
+prompts\advanced\tree-of-thoughts-evaluator-reflection.md,chain-of-thought-guide.md,Chain-of-Thought Guide,OK,File exists
+prompts\advanced\tree-of-thoughts-evaluator-reflection.md,reflection-self-critique.md,Reflection: Initial Answer + Self-Critique Pattern,OK,File exists
+prompts\advanced\tree-of-thoughts-template.md,chain-of-thought-detailed.md,Chain-of-Thought: Detailed,OK,File exists
+prompts\advanced\tree-of-thoughts-template.md,reflection-self-critique.md,Reflection: Self-Critique,OK,File exists
+prompts\analysis\README.md,../../CONTRIBUTING.md,Contribution guidelines,OK,File exists
+prompts\analysis\README.md,../../docs/best-practices.md,Best Practices,OK,File exists
+prompts\analysis\README.md,../../docs/getting-started.md,Getting Started Guide,OK,File exists
+prompts\analysis\README.md,data-analysis-insights.md,Data Analysis and Insights Generator,OK,File exists
+prompts\analysis\business-case-developer.md,../business/business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+prompts\analysis\business-case-developer.md,../business/risk-management-analyst.md,Risk Management Analyst,OK,File exists
+prompts\analysis\business-case-developer.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\business-case-developer.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\analysis\competitive-analysis-researcher.md,../business/business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+prompts\analysis\competitive-analysis-researcher.md,../business/competitive-analysis.md,Competitive Analysis Framework,OK,File exists
+prompts\analysis\competitive-analysis-researcher.md,./industry-analysis-expert.md,Industry Analysis Expert,OK,File exists
+prompts\analysis\competitive-analysis-researcher.md,./market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\analysis\competitive-intelligence-researcher.md,business-case-developer.md,Business Case Developer,OK,File exists
+prompts\analysis\competitive-intelligence-researcher.md,market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\analysis\consumer-behavior-researcher.md,./competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+prompts\analysis\consumer-behavior-researcher.md,./market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\analysis\consumer-behavior-researcher.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\consumer-behavior-researcher.md,./user-experience-analyst.md,User Experience Analyst,OK,File exists
+prompts\analysis\data-analysis-insights.md,./data-analysis-specialist.md,Data Analysis Specialist,OK,File exists
+prompts\analysis\data-analysis-insights.md,./data-quality-assessment.md,Data Quality Assessment,OK,File exists
+prompts\analysis\data-analysis-insights.md,./metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+prompts\analysis\data-analysis-insights.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\data-analysis-specialist.md,./data-analysis-insights.md,Data Analysis and Insights Generator,OK,File exists
+prompts\analysis\data-analysis-specialist.md,./data-quality-assessment.md,Data Quality Assessment,OK,File exists
+prompts\analysis\data-analysis-specialist.md,./metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+prompts\analysis\data-analysis-specialist.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\data-quality-assessment.md,../developers/data-pipeline-engineer.md,Data Pipeline Engineer,OK,File exists
+prompts\analysis\gap-analysis-expert.md,./business-case-developer.md,Business Case Developer,OK,File exists
+prompts\analysis\gap-analysis-expert.md,./process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\analysis\gap-analysis-expert.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\analysis\gap-analysis-expert.md,./workflow-designer.md,Workflow Designer,OK,File exists
+prompts\analysis\industry-analysis-expert.md,./business-case-developer.md,Business Case Developer,OK,File exists
+prompts\analysis\industry-analysis-expert.md,./competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+prompts\analysis\industry-analysis-expert.md,./market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\analysis\industry-analysis-expert.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\market-research-analyst.md,./competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+prompts\analysis\market-research-analyst.md,./consumer-behavior-researcher.md,Consumer Behavior Researcher,OK,File exists
+prompts\analysis\market-research-analyst.md,./industry-analysis-expert.md,Industry Analysis Expert,OK,File exists
+prompts\analysis\market-research-analyst.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\metrics-and-kpi-designer.md,./business-case-developer.md,Business Case Developer,OK,File exists
+prompts\analysis\metrics-and-kpi-designer.md,./data-analysis-specialist.md,Data Analysis Specialist,OK,File exists
+prompts\analysis\metrics-and-kpi-designer.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\metrics-and-kpi-designer.md,./trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+prompts\analysis\process-optimization-consultant.md,../business/business-process-reengineering.md,Business Process Reengineering,OK,File exists
+prompts\analysis\process-optimization-consultant.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\process-optimization-consultant.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\analysis\process-optimization-consultant.md,./workflow-designer.md,Workflow Designer,OK,File exists
+prompts\analysis\requirements-analysis-expert.md,./business-case-developer.md,Business Case Developer,OK,File exists
+prompts\analysis\requirements-analysis-expert.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\requirements-analysis-expert.md,./stakeholder-requirements-gatherer.md,Stakeholder Requirements Gatherer,OK,File exists
+prompts\analysis\requirements-analysis-expert.md,./user-experience-analyst.md,User Experience Analyst,OK,File exists
+prompts\analysis\stakeholder-requirements-gatherer.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\stakeholder-requirements-gatherer.md,./process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\analysis\stakeholder-requirements-gatherer.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\analysis\stakeholder-requirements-gatherer.md,./user-experience-analyst.md,User Experience Analyst,OK,File exists
+prompts\analysis\trend-analysis-specialist.md,./competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+prompts\analysis\trend-analysis-specialist.md,./consumer-behavior-researcher.md,Consumer Behavior Researcher,OK,File exists
+prompts\analysis\trend-analysis-specialist.md,./industry-analysis-expert.md,Industry Analysis Expert,OK,File exists
+prompts\analysis\trend-analysis-specialist.md,./market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\analysis\user-experience-analyst.md,./consumer-behavior-researcher.md,Consumer Behavior Researcher,OK,File exists
+prompts\analysis\user-experience-analyst.md,./process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\analysis\user-experience-analyst.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\analysis\user-experience-analyst.md,./workflow-designer.md,Workflow Designer,OK,File exists
+prompts\analysis\workflow-designer.md,./gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\analysis\workflow-designer.md,./metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+prompts\analysis\workflow-designer.md,./process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\analysis\workflow-designer.md,./requirements-analysis-expert.md,Requirements Analysis Expert,OK,File exists
+prompts\business\README.md,../../CONTRIBUTING.md,Contribution guidelines,OK,File exists
+prompts\business\README.md,../../docs/best-practices.md,Best Practices,OK,File exists
+prompts\business\README.md,../../docs/getting-started.md,Getting Started Guide,OK,File exists
+prompts\business\README.md,business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+prompts\business\agile-sprint-planner.md,./risk-management-analyst.md,risk-management-analyst,OK,File exists
+prompts\business\agile-sprint-planner.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\board-update.md,./business-strategy-analysis.md,business-strategy-analysis,OK,File exists
+prompts\business\board-update.md,./meeting-summary.md,meeting-summary,OK,File exists
+prompts\business\board-update.md,./pitch-deck-generator.md,pitch-deck-generator,OK,File exists
+prompts\business\budget-and-cost-controller.md,./risk-management-analyst.md,risk-management-analyst,OK,File exists
+prompts\business\budget-and-cost-controller.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\business-process-reengineering.md,../analysis/gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\business\business-process-reengineering.md,../analysis/process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\business\business-process-reengineering.md,./change-management-coordinator.md,Change Management Coordinator,OK,File exists
+prompts\business\business-process-reengineering.md,./digital-transformation-advisor.md,Digital Transformation Advisor,OK,File exists
+prompts\business\business-strategy-analysis.md,../analysis/competitive-analysis-researcher.md,Competitive Analysis Researcher,OK,File exists
+prompts\business\business-strategy-analysis.md,../analysis/industry-analysis-expert.md,Industry Analysis Expert,OK,File exists
+prompts\business\business-strategy-analysis.md,../analysis/market-research-analyst.md,Market Research Analyst,OK,File exists
+prompts\business\business-strategy-analysis.md,./competitive-analysis.md,Competitive Analysis Framework,OK,File exists
+prompts\business\business-strategy-analysis.md,./risk-management-analyst.md,Risk Management Analyst,OK,File exists
+prompts\business\change-management-coordinator.md,../analysis/gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\business\change-management-coordinator.md,../analysis/process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\business\change-management-coordinator.md,./agile-sprint-planner.md,agile-sprint-planner,OK,File exists
+prompts\business\change-management-coordinator.md,./risk-management-analyst.md,risk-management-analyst,OK,File exists
+prompts\business\change-management-coordinator.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\cold-email-generator.md,./follow-up-email.md,follow-up-email,OK,File exists
+prompts\business\cold-email-generator.md,./pitch-deck-generator.md,pitch-deck-generator,OK,File exists
+prompts\business\cold-email-generator.md,./sales-objection-handler.md,sales-objection-handler,OK,File exists
+prompts\business\competitive-analysis.md,./business-strategy-analysis.md,business-strategy-analysis,OK,File exists
+prompts\business\competitive-analysis.md,./pitch-deck-generator.md,pitch-deck-generator,OK,File exists
+prompts\business\competitive-analysis.md,./sales-objection-handler.md,sales-objection-handler,OK,File exists
+prompts\business\crisis-management-coordinator.md,./business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+prompts\business\crisis-management-coordinator.md,./change-management-coordinator.md,Change Management Coordinator,OK,File exists
+prompts\business\crisis-management-coordinator.md,./risk-management-analyst.md,Risk Management Analyst,OK,File exists
+prompts\business\crisis-management-coordinator.md,./stakeholder-communication-manager.md,Stakeholder Communication Manager,OK,File exists
+prompts\business\digital-transformation-advisor.md,../analysis/gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\business\digital-transformation-advisor.md,../analysis/process-optimization-consultant.md,Process Optimization Consultant,OK,File exists
+prompts\business\digital-transformation-advisor.md,./business-process-reengineering.md,Business Process Reengineering,OK,File exists
+prompts\business\digital-transformation-advisor.md,./change-management-coordinator.md,Change Management Coordinator,OK,File exists
+prompts\business\follow-up-email.md,./cold-email-generator.md,cold-email-generator,OK,File exists
+prompts\business\follow-up-email.md,./meeting-summary.md,meeting-summary,OK,File exists
+prompts\business\follow-up-email.md,./sales-objection-handler.md,sales-objection-handler,OK,File exists
+prompts\business\interview-questions.md,./job-description-writer.md,job-description-writer,OK,File exists
+prompts\business\interview-questions.md,./onboarding-checklist-creator.md,onboarding-checklist-creator,OK,File exists
+prompts\business\interview-questions.md,./performance-review.md,performance-review,OK,File exists
+prompts\business\job-description-writer.md,./interview-questions.md,interview-questions,OK,File exists
+prompts\business\job-description-writer.md,./onboarding-checklist-creator.md,onboarding-checklist-creator,OK,File exists
+prompts\business\job-description-writer.md,./performance-review.md,performance-review,OK,File exists
+prompts\business\meeting-summary.md,./board-update.md,board-update,OK,File exists
+prompts\business\meeting-summary.md,./follow-up-email.md,follow-up-email,OK,File exists
+prompts\business\meeting-summary.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\onboarding-checklist-creator.md,./interview-questions.md,interview-questions,OK,File exists
+prompts\business\onboarding-checklist-creator.md,./job-description-writer.md,job-description-writer,OK,File exists
+prompts\business\onboarding-checklist-creator.md,./performance-review.md,performance-review,OK,File exists
+prompts\business\performance-review.md,./interview-questions.md,interview-questions,OK,File exists
+prompts\business\performance-review.md,./job-description-writer.md,job-description-writer,OK,File exists
+prompts\business\performance-review.md,./meeting-summary.md,meeting-summary,OK,File exists
+prompts\business\pitch-deck-generator.md,./business-strategy-analysis.md,business-strategy-analysis,OK,File exists
+prompts\business\pitch-deck-generator.md,./client-presentation-designer.md,client-presentation-designer,OK,File exists
+prompts\business\pitch-deck-generator.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\risk-management-analyst.md,../analysis/gap-analysis-expert.md,Gap Analysis Expert,OK,File exists
+prompts\business\risk-management-analyst.md,./business-strategy-analysis.md,Business Strategy Analysis,OK,File exists
+prompts\business\risk-management-analyst.md,./change-management-coordinator.md,Change Management Coordinator,OK,File exists
+prompts\business\risk-management-analyst.md,./crisis-management-coordinator.md,Crisis Management Coordinator,OK,File exists
+prompts\business\risk-management-analyst.md,./stakeholder-communication-manager.md,Stakeholder Communication Manager,OK,File exists
+prompts\business\sales-objection-handler.md,./cold-email-generator.md,cold-email-generator,OK,File exists
+prompts\business\sales-objection-handler.md,./pitch-deck-generator.md,pitch-deck-generator,OK,File exists
+prompts\business\sales-objection-handler.md,./stakeholder-communication-manager.md,stakeholder-communication-manager,OK,File exists
+prompts\business\stakeholder-communication-manager.md,./agile-sprint-planner.md,agile-sprint-planner,OK,File exists
+prompts\business\stakeholder-communication-manager.md,./change-management-coordinator.md,change-management-coordinator,OK,File exists
+prompts\business\stakeholder-communication-manager.md,./risk-management-analyst.md,risk-management-analyst,OK,File exists
+prompts\creative\README.md,../../CONTRIBUTING.md,Share it,OK,File exists
+prompts\creative\README.md,../../docs/best-practices.md,Best Practices,OK,File exists
+prompts\creative\README.md,../../docs/getting-started.md,Getting Started Guide,OK,File exists
+prompts\creative\README.md,content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+prompts\creative\ad-copy-generator.md,email-newsletter-writer.md,Email Newsletter Writer,OK,File exists
+prompts\creative\ad-copy-generator.md,headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+prompts\creative\ad-copy-generator.md,product-description-generator.md,Product Description Generator,OK,File exists
+prompts\creative\ad-copy-generator.md,social-media-content-generator.md,Social Media Content Generator,OK,File exists
+prompts\creative\brand-voice-developer.md,content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+prompts\creative\brand-voice-developer.md,social-media-content-generator.md,Social Media Content Generator,OK,File exists
+prompts\creative\content-marketing-blog-post.md,email-newsletter-writer.md,Email Newsletter Writer,OK,File exists
+prompts\creative\content-marketing-blog-post.md,social-media-content-generator.md,Social Media Content Generator,OK,File exists
+prompts\creative\email-newsletter-writer.md,ad-copy-generator.md,Ad Copy Generator,OK,File exists
+prompts\creative\email-newsletter-writer.md,content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+prompts\creative\email-newsletter-writer.md,headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+prompts\creative\email-newsletter-writer.md,social-media-content-generator.md,Social Media Content Generator,OK,File exists
+prompts\creative\headline-tagline-creator.md,ad-copy-generator.md,Ad Copy Generator,OK,File exists
+prompts\creative\headline-tagline-creator.md,brand-voice-developer.md,Brand Voice Developer,OK,File exists
+prompts\creative\headline-tagline-creator.md,product-description-generator.md,Product Description Generator,OK,File exists
+prompts\creative\headline-tagline-creator.md,social-media-content-generator.md,Social Media Content Generator,OK,File exists
+prompts\creative\product-description-generator.md,ad-copy-generator.md,Ad Copy Generator,OK,File exists
+prompts\creative\product-description-generator.md,brand-voice-developer.md,Brand Voice Developer,OK,File exists
+prompts\creative\product-description-generator.md,content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+prompts\creative\product-description-generator.md,headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+prompts\creative\social-media-content-generator.md,ad-copy-generator.md,Ad Copy Generator,OK,File exists
+prompts\creative\social-media-content-generator.md,content-marketing-blog-post.md,Content Marketing Blog Post Generator,OK,File exists
+prompts\creative\social-media-content-generator.md,email-newsletter-writer.md,Email Newsletter Writer,OK,File exists
+prompts\creative\social-media-content-generator.md,headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+prompts\creative\video-script-writer.md,headline-tagline-creator.md,Headline and Tagline Creator,OK,File exists
+prompts\developers\README.md,../../CONTRIBUTING.md,Contribute it,OK,File exists
+prompts\developers\README.md,../../docs/best-practices.md,Best Practices,OK,File exists
+prompts\developers\README.md,../../docs/getting-started.md,Getting Started Guide,OK,File exists
+prompts\developers\README.md,code-review-assistant.md,Code Review Assistant,OK,File exists
+prompts\developers\cloud-migration-specialist.md,../system/devops-architecture-planner.md,devops-architecture-planner,OK,File exists
+prompts\developers\cloud-migration-specialist.md,./data-pipeline-engineer.md,data-pipeline-engineer,OK,File exists
+prompts\developers\cloud-migration-specialist.md,./security-code-auditor.md,security-code-auditor,OK,File exists
+prompts\developers\code-review-assistant.md,bug-finder.md,Bug Finder and Fixer,OK,File exists
+prompts\developers\code-review-assistant.md,code-review-expert-structured.md,Code Review Expert: Structured Output,OK,File exists
+prompts\developers\code-review-assistant.md,documentation-generator.md,Code Documentation Generator,OK,File exists
+prompts\developers\code-review-assistant.md,security-code-auditor.md,Security Code Auditor,OK,File exists
+prompts\developers\code-review-expert-structured.md,./code-review-expert.md,code-review-expert,OK,File exists
+prompts\developers\code-review-expert-structured.md,./security-code-auditor.md,security-code-auditor,OK,File exists
+prompts\developers\code-review-expert-structured.md,./test-automation-engineer.md,test-automation-engineer,OK,File exists
+prompts\developers\code-review-expert.md,./performance-optimization-specialist.md,performance-optimization-specialist,OK,File exists
+prompts\developers\code-review-expert.md,./test-automation-engineer.md,test-automation-engineer,OK,File exists
+prompts\developers\csharp-enterprise-standards-enforcer.md,./csharp-refactoring-assistant.md,csharp-refactoring-assistant,OK,File exists
+prompts\developers\csharp-refactoring-assistant.md,../developers/code-review-expert-structured.md,code-review-expert-structured,OK,File exists
+prompts\developers\csharp-refactoring-assistant.md,./csharp-enterprise-standards-enforcer.md,csharp-enterprise-standards-enforcer,OK,File exists
+prompts\developers\data-pipeline-engineer.md,./cloud-migration-specialist.md,Cloud Migration Specialist,OK,File exists
+prompts\developers\data-pipeline-engineer.md,./database-schema-designer.md,Database Schema Designer,OK,File exists
+prompts\developers\data-pipeline-engineer.md,./devops-pipeline-architect.md,DevOps Pipeline Architect,OK,File exists
+prompts\developers\dotnet-api-designer.md,../developers/api-design-consultant.md,api-design-consultant,OK,File exists
+prompts\developers\dotnet-api-designer.md,./csharp-enterprise-standards-enforcer.md,csharp-enterprise-standards-enforcer,OK,File exists
+prompts\developers\mid-level-developer-architecture-coach.md,./csharp-enterprise-standards-enforcer.md,csharp-enterprise-standards-enforcer,OK,File exists
+prompts\developers\mid-level-developer-architecture-coach.md,csharp-enterprise-standards-enforcer.md,C# Enterprise Standards Enforcer,OK,File exists
+prompts\developers\refactoring-plan-designer.md,code-review-expert-structured.md,Code Review Expert: Structured,OK,File exists
+prompts\developers\security-code-auditor.md,./api-design-consultant.md,api-design-consultant,OK,File exists
+prompts\developers\security-code-auditor.md,./code-review-expert.md,code-review-expert,OK,File exists
+prompts\developers\security-code-auditor.md,./sql-security-standards-enforcer.md,sql-security-standards-enforcer,OK,File exists
+prompts\developers\sql-query-analyzer.md,./csharp-enterprise-standards-enforcer.md,csharp-enterprise-standards-enforcer,OK,File exists
+prompts\developers\sql-security-standards-enforcer.md,./api-design-consultant.md,api-design-consultant,OK,File exists
+prompts\developers\sql-security-standards-enforcer.md,./security-code-auditor.md,security-code-auditor,OK,File exists
+prompts\developers\test-automation-engineer.md,./security-code-auditor.md,security-code-auditor,OK,File exists
+prompts\governance\ai-ml-privacy-risk-assessment.md,gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+prompts\governance\ai-ml-privacy-risk-assessment.md,privacy-impact-assessment.md,Privacy Impact Assessment,OK,File exists
+prompts\governance\ai-ml-privacy-risk-assessment.md,soc2-audit-preparation.md,SOC 2 Audit Preparation,OK,File exists
+prompts\governance\data-retention-policy.md,data-subject-request-handler.md,Data Subject Request Handler,OK,File exists
+prompts\governance\data-retention-policy.md,gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+prompts\governance\data-retention-policy.md,privacy-impact-assessment.md,Privacy Impact Assessment,OK,File exists
+prompts\governance\data-subject-request-handler.md,data-retention-policy.md,Data Retention Policy Generator,OK,File exists
+prompts\governance\data-subject-request-handler.md,gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+prompts\governance\data-subject-request-handler.md,privacy-impact-assessment.md,Privacy Impact Assessment,OK,File exists
+prompts\governance\gdpr-compliance-assessment.md,data-subject-request-handler.md,Data Subject Request Handler,OK,File exists
+prompts\governance\gdpr-compliance-assessment.md,privacy-impact-assessment.md,Privacy Impact Assessment Generator,OK,File exists
+prompts\governance\gdpr-compliance-assessment.md,soc2-audit-preparation.md,SOC 2 Audit Preparation,OK,File exists
+prompts\governance\privacy-impact-assessment.md,ai-ml-privacy-risk-assessment.md,AI Risk Assessment,OK,File exists
+prompts\governance\privacy-impact-assessment.md,cross-border-transfer-assessment.md,Cross-Border Transfer Assessment,OK,File exists
+prompts\governance\privacy-impact-assessment.md,gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+prompts\governance\soc2-audit-preparation.md,../system/security-architecture-specialist.md,Security Architecture Review,OK,File exists
+prompts\governance\soc2-audit-preparation.md,gdpr-compliance-assessment.md,GDPR Compliance Assessment,OK,File exists
+prompts\governance\soc2-audit-preparation.md,vendor-security-review.md,Vendor Risk Assessment,OK,File exists
+prompts\m365\README.md,m365-customer-feedback-analyzer.md,m365-customer-feedback-analyzer.md,OK,File exists
+prompts\m365\README.md,m365-daily-standup-assistant.md,m365-daily-standup-assistant.md,OK,File exists
+prompts\m365\README.md,m365-data-insights-assistant.md,m365-data-insights-assistant.md,OK,File exists
+prompts\m365\README.md,m365-designer-image-prompt-generator.md,m365-designer-image-prompt-generator.md,OK,File exists
+prompts\m365\README.md,m365-designer-infographic-brief.md,m365-designer-infographic-brief.md,OK,File exists
+prompts\m365\README.md,m365-designer-social-media-kit.md,m365-designer-social-media-kit.md,OK,File exists
+prompts\m365\README.md,m365-document-summarizer.md,m365-document-summarizer.md,OK,File exists
+prompts\m365\README.md,m365-email-triage-helper.md,m365-email-triage-helper.md,OK,File exists
+prompts\m365\README.md,m365-excel-formula-expert.md,m365-excel-formula-expert.md,OK,File exists
+prompts\m365\README.md,m365-handover-document-creator.md,m365-handover-document-creator.md,OK,File exists
+prompts\m365\README.md,m365-manager-sync-planner.md,m365-manager-sync-planner.md,OK,File exists
+prompts\m365\README.md,m365-meeting-prep-brief.md,m365-meeting-prep-brief.md,OK,File exists
+prompts\m365\README.md,m365-meeting-recap-assistant.md,m365-meeting-recap-assistant.md,OK,File exists
+prompts\m365\README.md,m365-personal-task-collector.md,m365-personal-task-collector.md,OK,File exists
+prompts\m365\README.md,m365-presentation-outline-generator.md,m365-presentation-outline-generator.md,OK,File exists
+prompts\m365\README.md,m365-project-status-reporter.md,m365-project-status-reporter.md,OK,File exists
+prompts\m365\README.md,m365-slide-content-refiner.md,m365-slide-content-refiner.md,OK,File exists
+prompts\m365\README.md,m365-sway-document-to-story.md,m365-sway-document-to-story.md,OK,File exists
+prompts\m365\README.md,m365-sway-visual-newsletter.md,m365-sway-visual-newsletter.md,OK,File exists
+prompts\m365\README.md,m365-weekly-review-coach.md,m365-weekly-review-coach.md,OK,File exists
+prompts\system\README.md,../../CONTRIBUTING.md,Contribution guidelines,OK,File exists
+prompts\system\README.md,../../docs/best-practices.md,Best Practices,OK,File exists
+prompts\system\README.md,../../docs/getting-started.md,Getting Started Guide,OK,File exists
+prompts\system\README.md,../../docs/intro-to-prompts.md,Introduction to Prompts,OK,File exists
+prompts\system\README.md,tree-of-thoughts-repository-evaluator.md,Tree-of-Thoughts Repository Evaluator,OK,File exists
+prompts\system\api-architecture-designer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\api-architecture-designer.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\api-architecture-designer.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\api-architecture-designer.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\api-architecture-designer.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\blockchain-architecture-specialist.md,compliance-architecture-designer.md,Compliance Architecture Designer,OK,File exists
+prompts\system\blockchain-architecture-specialist.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\blockchain-architecture-specialist.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\blockchain-architecture-specialist.md,iot-architecture-designer.md,IoT Architecture Designer,OK,File exists
+prompts\system\blockchain-architecture-specialist.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\cloud-architecture-consultant.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\cloud-architecture-consultant.md,disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+prompts\system\cloud-architecture-consultant.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\cloud-architecture-consultant.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\cloud-architecture-consultant.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\compliance-architecture-designer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\compliance-architecture-designer.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\compliance-architecture-designer.md,disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+prompts\system\compliance-architecture-designer.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\compliance-architecture-designer.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\data-architecture-designer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\data-architecture-designer.md,compliance-architecture-designer.md,Compliance Architecture Designer,OK,File exists
+prompts\system\data-architecture-designer.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\data-architecture-designer.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\data-architecture-designer.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\devops-architecture-planner.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\devops-architecture-planner.md,disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+prompts\system\devops-architecture-planner.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\devops-architecture-planner.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\devops-architecture-planner.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\disaster-recovery-architect.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\disaster-recovery-architect.md,compliance-architecture-designer.md,Compliance Architecture Designer,OK,File exists
+prompts\system\disaster-recovery-architect.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\disaster-recovery-architect.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\disaster-recovery-architect.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\enterprise-integration-architect.md,api-architecture-designer.md,API Architecture Designer,OK,File exists
+prompts\system\enterprise-integration-architect.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\enterprise-integration-architect.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\enterprise-integration-architect.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\enterprise-integration-architect.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\iot-architecture-designer.md,blockchain-architecture-specialist.md,Blockchain Architecture Specialist,OK,File exists
+prompts\system\iot-architecture-designer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\iot-architecture-designer.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\iot-architecture-designer.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\iot-architecture-designer.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\legacy-modernization-architect.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\legacy-modernization-architect.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\legacy-modernization-architect.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\legacy-modernization-architect.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\legacy-modernization-architect.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\library-visual-audit.md,../advanced/library-analysis-react.md,Library Analysis ReAct,OK,File exists
+prompts\system\library-visual-audit.md,../advanced/tree-of-thoughts-evaluator-reflection.md,Tree-of-Thoughts Evaluator,OK,File exists
+prompts\system\library-visual-audit.md,prompt-quality-evaluator.md,Prompt Quality Evaluator,OK,File exists
+prompts\system\microservices-architecture-expert.md,api-architecture-designer.md,API Architecture Designer,OK,File exists
+prompts\system\microservices-architecture-expert.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\microservices-architecture-expert.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\microservices-architecture-expert.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\microservices-architecture-expert.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\mobile-architecture-consultant.md,api-architecture-designer.md,API Architecture Designer,OK,File exists
+prompts\system\mobile-architecture-consultant.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\mobile-architecture-consultant.md,iot-architecture-designer.md,IoT Architecture Designer,OK,File exists
+prompts\system\mobile-architecture-consultant.md,performance-architecture-optimizer.md,Performance Architecture Optimizer,OK,File exists
+prompts\system\mobile-architecture-consultant.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\performance-architecture-optimizer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\performance-architecture-optimizer.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\performance-architecture-optimizer.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\performance-architecture-optimizer.md,disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+prompts\system\performance-architecture-optimizer.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\prompt-quality-evaluator.md,../../docs/prompt-effectiveness-scoring-methodology.md,Prompt Effectiveness Scoring Methodology,OK,File exists
+prompts\system\prompt-quality-evaluator.md,../advanced/reflection-self-critique.md,Reflection: Self-Critique Pattern,OK,File exists
+prompts\system\prompt-quality-evaluator.md,../developers/code-review-expert-structured.md,Code Review Expert,OK,File exists
+prompts\system\prompt-quality-evaluator.md,tree-of-thoughts-repository-evaluator.md,Tree-of-Thoughts Repository Evaluator,OK,File exists
+prompts\system\security-architecture-specialist.md,api-architecture-designer.md,API Architecture Designer,OK,File exists
+prompts\system\security-architecture-specialist.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\security-architecture-specialist.md,compliance-architecture-designer.md,Compliance Architecture Designer,OK,File exists
+prompts\system\security-architecture-specialist.md,devops-architecture-planner.md,DevOps Architecture Planner,OK,File exists
+prompts\system\security-architecture-specialist.md,disaster-recovery-architect.md,Disaster Recovery Architect,OK,File exists
+prompts\system\solution-architecture-designer.md,api-architecture-designer.md,API Architecture Designer,OK,File exists
+prompts\system\solution-architecture-designer.md,cloud-architecture-consultant.md,Cloud Architecture Consultant,OK,File exists
+prompts\system\solution-architecture-designer.md,data-architecture-designer.md,Data Architecture Designer,OK,File exists
+prompts\system\solution-architecture-designer.md,enterprise-integration-architect.md,Enterprise Integration Architect,OK,File exists
+prompts\system\solution-architecture-designer.md,microservices-architecture-expert.md,Microservices Architecture Expert,OK,File exists
+prompts\system\solution-architecture-designer.md,security-architecture-specialist.md,Security Architecture Specialist,OK,File exists
+prompts\system\tree-of-thoughts-repository-evaluator.md,../developers/code-review-assistant.md,Code Review Assistant,OK,File exists
+techniques\README.md,../CONTRIBUTING.md,contribution guidelines,OK,File exists
+techniques\README.md,./agentic/multi-agent/multi-agent-workflow.md,`multi-agent/multi-agent-workflow.md`,OK,File exists
+techniques\README.md,./context-optimization/many-shot-learning/many-shot-learning.md,`many-shot-learning/many-shot-learning.md`,OK,File exists
+techniques\README.md,./reflexion/basic-reflexion/basic-reflexion.md,`basic-reflexion/basic-reflexion.md`,OK,File exists
+techniques\agentic\single-agent\code-review-agent.md,../../reflexion/basic-reflexion/basic-reflexion.md,Reflexion Pattern,OK,File exists
+techniques\agentic\single-agent\code-review-agent.md,../multi-agent/multi-agent-workflow.md,Multi-Agent Workflow,OK,File exists
+techniques\context-optimization\retrieval-augmented\rag-code-documentation.md,../context_optimizer.py,Context Optimization,OK,File exists
+techniques\context-optimization\retrieval-augmented\rag-code-documentation.md,../many-shot-learning/many-shot-learning.md,Many-Shot Learning,OK,File exists
+techniques\reflexion\domain-specific\csharp-code-generator.md,../basic-reflexion/basic-reflexion.md,Basic Reflexion,OK,File exists
+techniques\reflexion\domain-specific\csharp-code-generator.md,../multi-step-reflexion/multi-step-reflexion.md,Multi-Step Reflexion,OK,File exists
+techniques\reflexion\multi-step-reflexion\multi-step-reflexion.md,../basic-reflexion/basic-reflexion.md,Basic Reflexion,OK,File exists
+templates\prompt-improvement-template.md,../prompts/business/resource-allocation-optimizer.md,Resource Planning Assistant,OK,File exists
+templates\prompt-improvement-template.md,../prompts/system/prompt-quality-evaluator.md,Prompt Quality Evaluator,OK,File exists
+templates\prompt-improvement-template.md,../prompts/system/prompt-quality-evaluator.md,Prompt Quality Evaluator,OK,File exists
+templates\prompt-improvement-template.md,../prompts/system/prompt-quality-evaluator.md,Prompt Quality Evaluator,OK,File exists
+templates\prompt-improvement-template.md,roi-calculator.md,ROI Calculator,OK,File exists
+testing\README.md,../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+testing\README.md,../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+testing\README.md,../docs/CONSOLIDATED_IMPROVEMENT_PLAN.md,CONSOLIDATED_IMPROVEMENT_PLAN.md,OK,File exists
+testing\README.md,evals/README.md,testing/evals/README.md,OK,File exists
+testing\README.md,evals/README.md,testing/evals/README.md,OK,File exists
+testing\README.md,validators/README.md,testing/validators/README.md,OK,File exists
+testing\evals\README.md,../../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+testing\evals\README.md,../../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+testing\evals\README.md,../../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,OK,File exists
+testing\evals\README.md,../../tools/README.md,tools/README.md,OK,File exists
+tools\README.md,../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+tools\README.md,../docs/ARCHITECTURE_PLAN.md,ARCHITECTURE_PLAN.md,OK,File exists
+tools\README.md,../docs/COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,OK,File exists
+tools\README.md,../testing/evals/README.md,testing/evals/README.md,OK,File exists
+workflows\business-planning.md,../prompts/analysis/business-case-developer.md,business-case-developer,OK,File exists
+workflows\business-planning.md,../prompts/analysis/competitive-analysis-researcher.md,competitive-analysis-researcher,OK,File exists
+workflows\business-planning.md,../prompts/analysis/consumer-behavior-researcher.md,consumer-behavior-researcher,OK,File exists
+workflows\business-planning.md,../prompts/analysis/data-analysis-specialist.md,data-analysis-specialist,OK,File exists
+workflows\business-planning.md,../prompts/analysis/market-research-analyst.md,market-research-analyst,OK,File exists
+workflows\business-planning.md,../prompts/analysis/metrics-and-kpi-designer.md,metrics-and-kpi-designer,OK,File exists
+workflows\business-planning.md,../prompts/analysis/metrics-and-kpi-designer.md,metrics-and-kpi-designer,OK,File exists
+workflows\business-planning.md,../prompts/analysis/user-experience-analyst.md,user-experience-analyst,OK,File exists
+workflows\business-planning.md,../prompts/business/change-management-coordinator.md,change-management-coordinator,OK,File exists
+workflows\business-planning.md,../prompts/business/financial-modeling-expert.md,financial-modeling-expert,OK,File exists
+workflows\business-planning.md,../prompts/business/innovation-strategy-consultant.md,innovation-strategy-consultant,OK,File exists
+workflows\business-planning.md,../prompts/business/project-charter-creator.md,project-charter-creator,OK,File exists
+workflows\business-planning.md,../prompts/business/sales-strategy-consultant.md,sales-strategy-consultant,OK,File exists
+workflows\business-planning.md,../prompts/business/strategic-planning-consultant.md,strategic-planning-consultant,OK,File exists
+workflows\business-planning.md,../prompts/creative/marketing-campaign-strategist.md,marketing-campaign-strategist,OK,File exists
+workflows\business-planning.md,./sdlc.md,SDLC Blueprint,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/chain-of-thought-debugging.md,Chain-of-Thought: Debugging,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/chain-of-thought-debugging.md,Chain-of-Thought: Debugging,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/chain-of-thought-performance-analysis.md,Chain-of-Thought: Performance Analysis,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/chain-of-thought-performance-analysis.md,Chain-of-Thought: Performance Analysis,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/reflection-data-pipeline-risk-review.md,Reflection: Data Pipeline Risk Review,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/tree-of-thoughts-architecture-evaluator.md,Tree-of-Thoughts: Architecture Evaluator,OK,File exists
+workflows\data-pipeline.md,../prompts/advanced/tree-of-thoughts-architecture-evaluator.md,Tree-of-Thoughts: Architecture Evaluator,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/data-analysis-specialist.md,Data Analysis Specialist,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/data-quality-assessment.md,Data Quality Assessment,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/data-quality-assessment.md,Data Quality Assessment,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/data-quality-assessment.md,Data Quality Assessment,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/metrics-and-kpi-designer.md,Metrics and KPI Designer,OK,File exists
+workflows\data-pipeline.md,../prompts/analysis/trend-analysis-specialist.md,Trend Analysis Specialist,OK,File exists
+workflows\data-pipeline.md,../prompts/developers/data-pipeline-engineer.md,Data Pipeline Engineer,OK,File exists
+workflows\data-pipeline.md,../prompts/developers/data-pipeline-engineer.md,Data Pipeline Engineer,OK,File exists
+workflows\data-pipeline.md,../prompts/developers/database-schema-designer.md,Database Schema Designer,OK,File exists
+workflows\data-pipeline.md,../prompts/developers/database-schema-designer.md,Database Schema Designer,OK,File exists
+workflows\data-pipeline.md,../prompts/developers/sql-query-analyzer.md,SQL Query Optimizer (Advanced),OK,File exists
+workflows\incident-response.md,../CONTRIBUTING.md,Repository Contributors,OK,File exists
+workflows\incident-response.md,../prompts/analysis/data-analysis-insights.md,data-analysis-insights,OK,File exists
+workflows\incident-response.md,../prompts/analysis/data-analysis-insights.md,data-analysis-insights,OK,File exists
+workflows\incident-response.md,../prompts/analysis/metrics-and-kpi-designer.md,metrics-and-kpi-designer,OK,File exists
+workflows\incident-response.md,../prompts/business/crisis-management-coordinator.md,crisis-management-coordinator,OK,File exists
+workflows\incident-response.md,../prompts/business/risk-management-analyst.md,risk-management-analyst,OK,File exists
+workflows\incident-response.md,../prompts/developers/documentation-generator.md,technical-documentation-specialist,OK,File exists
+workflows\incident-response.md,../prompts/developers/security-code-auditor.md,security-code-auditor,OK,File exists
+workflows\incident-response.md,../prompts/developers/security-code-auditor.md,security-code-auditor,OK,File exists
+workflows\incident-response.md,../prompts/governance/security-incident-response.md,security-incident-response,OK,File exists
+workflows\incident-response.md,../prompts/governance/security-incident-response.md,security-incident-response,OK,File exists
+workflows\sdlc.md,../CONTRIBUTING.md,Repository Contributors,OK,File exists
+workflows\sdlc.md,../prompts/analysis/business-case-developer.md,business-case-developer,OK,File exists
+workflows\sdlc.md,../prompts/analysis/data-analysis-insights.md,data-analysis-insights,OK,File exists
+workflows\sdlc.md,../prompts/analysis/metrics-and-kpi-designer.md,metrics-and-kpi-designer,OK,File exists
+workflows\sdlc.md,../prompts/analysis/metrics-and-kpi-designer.md,metrics-and-kpi-designer,OK,File exists
+workflows\sdlc.md,../prompts/analysis/process-optimization-consultant.md,process-optimization-consultant,OK,File exists
+workflows\sdlc.md,../prompts/analysis/requirements-analysis-expert.md,requirements-analysis-expert,OK,File exists
+workflows\sdlc.md,../prompts/analysis/requirements-analysis-expert.md,requirements-analysis-expert,OK,File exists
+workflows\sdlc.md,../prompts/analysis/stakeholder-requirements-gatherer.md,stakeholder-requirements-gatherer,OK,File exists
+workflows\sdlc.md,../prompts/analysis/user-experience-analyst.md,user-experience-analyst,OK,File exists
+workflows\sdlc.md,../prompts/business/agile-sprint-planner.md,agile-sprint-planner,OK,File exists
+workflows\sdlc.md,../prompts/business/meeting-facilitator.md,meeting-facilitator,OK,File exists
+workflows\sdlc.md,../prompts/developers/api-design-consultant.md,api-design-consultant,OK,File exists
+workflows\sdlc.md,../prompts/developers/api-design-consultant.md,api-design-consultant,OK,File exists
+workflows\sdlc.md,../prompts/developers/code-generation-assistant.md,code-generation-assistant,OK,File exists
+workflows\sdlc.md,../prompts/developers/code-review-expert.md,code-review-expert,OK,File exists
+workflows\sdlc.md,../prompts/developers/database-migration-specialist.md,database-migration-specialist,OK,File exists
+workflows\sdlc.md,../prompts/developers/database-schema-designer.md,database-schema-designer,OK,File exists
+workflows\sdlc.md,../prompts/developers/database-schema-designer.md,database-schema-designer,OK,File exists
+workflows\sdlc.md,../prompts/developers/devops-pipeline-architect.md,devops-pipeline-architect,OK,File exists
+workflows\sdlc.md,../prompts/developers/devops-pipeline-architect.md,devops-pipeline-architect,OK,File exists
+workflows\sdlc.md,../prompts/developers/documentation-generator.md,documentation-generator,OK,File exists
+workflows\sdlc.md,../prompts/developers/performance-optimization-specialist.md,performance-optimization-specialist,OK,File exists
+workflows\sdlc.md,../prompts/developers/performance-optimization-specialist.md,performance-optimization-specialist,OK,File exists
+workflows\sdlc.md,../prompts/developers/refactoring-specialist.md,refactoring-specialist,OK,File exists
+workflows\sdlc.md,../prompts/developers/refactoring-specialist.md,refactoring-specialist,OK,File exists
+workflows\sdlc.md,../prompts/developers/security-code-auditor.md,security-code-auditor,OK,File exists
+workflows\sdlc.md,../prompts/developers/security-code-auditor.md,security-code-auditor,OK,File exists
+workflows\sdlc.md,../prompts/developers/test-automation-engineer.md,test-automation-engineer,OK,File exists
+workflows\sdlc.md,../prompts/developers/test-automation-engineer.md,test-automation-engineer,OK,File exists
+workflows\sdlc.md,../prompts/governance/README.md,Governance & Compliance Workflows,OK,File exists
+workflows\sdlc.md,../prompts/governance/README.md,Governance & Compliance Workflows,OK,File exists
+workflows\sdlc.md,../prompts/governance/security-incident-response.md,incident-response-coordinator,OK,File exists
+workflows\sdlc.md,../prompts/system/cloud-architecture-consultant.md,cloud-architecture-consultant,OK,File exists
+workflows\sdlc.md,../prompts/system/solution-architecture-designer.md,solution-architecture-designer,OK,File exists
+workflows\sdlc.md,../prompts/system/solution-architecture-designer.md,solution-architecture-designer,OK,File exists
+workflows\sdlc.md,./business-planning-blueprint.md,Business Planning Blueprint,OK,File exists
+workflows\sdlc.md,./incident-response-playbook.md,Incident Response Playbook,OK,File exists
+workflows\sdlc.md,./incident-response-playbook.md,Incident Response Playbook,OK,File exists
+.github\agents\AGENTS_GUIDE.md,./agent-template.md,Agent Template,SKIP,Placeholder/Example
+.github\agents\AGENTS_GUIDE.md,./agent-template.md,template,SKIP,Placeholder/Example
+.github\agents\README.md,./agent-template.md,agent-template.md,SKIP,Placeholder/Example
+CoVE Reflexion Prompt Library Evaluation.md,prompts/advanced/tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+README.md,agents/agent-template.md,Agent Template →,SKIP,Placeholder/Example
+README.md,docs/platform-specific-templates.md,Platform-Specific Templates,SKIP,Placeholder/Example
+README.md,docs/platform-specific-templates.md,Quick Start Templates →,SKIP,Placeholder/Example
+README.md,examples/,examples/,SKIP,Placeholder/Example
+README.md,templates/prompt-template.md,Prompt Template,SKIP,Placeholder/Example
+agents\AGENTS_GUIDE.md,./agent-template.md,Agent Template,SKIP,Placeholder/Example
+agents\AGENTS_GUIDE.md,./agent-template.md,template,SKIP,Placeholder/Example
+agents\README.md,./agent-template.md,agent-template.md,SKIP,Placeholder/Example
+concepts\about-advanced-patterns.md,../docs/platform-specific-templates.md,Platform-Specific Templates,SKIP,Placeholder/Example
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../templates/prompt-improvement-template.md,Prompt Improvement Template,SKIP,Placeholder/Example
+docs\COMPREHENSIVE_PROMPT_DEVELOPMENT_GUIDE.md,../templates/prompt-template.md,Prompt Template,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\IMPROVEMENT_PROMPTS.md,path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+docs\README.md,../agents/agent-template.md,Agent Template,SKIP,Placeholder/Example
+docs\README.md,./platform-specific-templates.md,Platform-Specific Templates,SKIP,Placeholder/Example
+docs\README.md,./platform-specific-templates.md,View Templates →,SKIP,Placeholder/Example
+docs\README.md,./platform-specific-templates.md#github-copilot-templates,GitHub Copilot Templates,SKIP,Placeholder/Example
+docs\README.md,./platform-specific-templates.md#microsoft-365-copilot-templates,M365 Templates,SKIP,Placeholder/Example
+docs\README.md,./platform-specific-templates.md#template-customization-guide,Template Customization,SKIP,Placeholder/Example
+docs\SCORECARD.md,../prompts\prompts\advanced\tree-of-thoughts-template.md,Tree-of-Thoughts: Multi-Branch Reasoning,SKIP,Placeholder/Example
+docs\SCORECARD.md,../prompts\prompts\system\ai-assistant-system-prompt.md,AI Assistant System Prompt,SKIP,Placeholder/Example
+docs\SCORECARD.md,../prompts\prompts\system\example-research-output.md,Example Research Output: Modern Promptin,SKIP,Placeholder/Example
+docs\WORKSTREAM_B_CONTENT.md,{link},{text},SKIP,Placeholder/Example
+docs\advanced-techniques.md,../prompts/advanced/tree-of-thoughts-template.md,tree-of-thoughts-template.md,SKIP,Placeholder/Example
+docs\best-practices.md,platform-specific-templates.md,Platform-Specific Templates,SKIP,Placeholder/Example
+docs\create-osint-library-prompt.md,../techniques/tree-of-thoughts-template.md,Tree-of-Thoughts Attribution,SKIP,Placeholder/Example
+docs\getting-started.md,../templates/prompt-template.md,Prompt Template,SKIP,Placeholder/Example
+docs\getting-started.md,platform-specific-templates.md,Platform-Specific Templates,SKIP,Placeholder/Example
+docs\intro-to-prompts.md,../templates/prompt-template.md,Prompt Template,SKIP,Placeholder/Example
+docs\ultimate-prompting-guide.md,../prompts/advanced/tree-of-thoughts-template.md,prompts/advanced/tree-of-thoughts-template.md,SKIP,Placeholder/Example
+examples\product-launch-example.md,../prompts/system/ai-assistant-system-prompt.md,AI Assistant System Prompt,SKIP,Placeholder/Example
+frameworks\README.md,./langchain/lcel-patterns/langchain-reflexion-example.md,`lcel-patterns/langchain-reflexion-example.md`,SKIP,Placeholder/Example
+prompts\advanced\README.md,../../templates/,Template Library,SKIP,Placeholder/Example
+prompts\advanced\advanced-technique-research.md,./tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+prompts\advanced\chain-of-thought-concise.md,tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+prompts\advanced\chain-of-thought-detailed.md,tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+prompts\advanced\reflection-data-pipeline-risk-review.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+prompts\advanced\reflection-data-pipeline-risk-review.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+prompts\advanced\reflection-self-critique.md,tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+prompts\advanced\tree-of-thoughts-evaluator-reflection.md,tree-of-thoughts-template.md,Tree-of-Thoughts Template,SKIP,Placeholder/Example
+prompts\business\financial-modeling-expert.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+prompts\business\financial-modeling-expert.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+prompts\creative\README.md,../../examples/,Examples Directory,SKIP,Placeholder/Example
+prompts\governance\risk-assessment.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+prompts\governance\risk-assessment.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+prompts\system\README.md,ai-assistant-system-prompt.md,AI Assistant System Prompt,SKIP,Placeholder/Example
+prompts\system\frontier-agent-deep-research.md,example-research-output.md,example-research-output.md,SKIP,Placeholder/Example
+prompts\system\tree-of-thoughts-repository-evaluator.md,ai-assistant-system-prompt.md,AI Assistant System Prompt,SKIP,Placeholder/Example
+resources\osint_research_resources.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+resources\osint_research_resources.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+resources\osint_tool_evaluation.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+resources\osint_tool_evaluation.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+techniques\chain-of-thought-analysis.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+techniques\chain-of-thought-analysis.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+techniques\react-knowledge-base.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+techniques\react-knowledge-base.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+templates\prompt-template.md,../path/to/prompt.md,Related Prompt 1,SKIP,Placeholder/Example
+templates\prompt-template.md,../path/to/prompt.md,Related Prompt 2,SKIP,Placeholder/Example
+templates\quick-start-template.md,./prompt-template.md,Prompt Template,SKIP,Placeholder/Example

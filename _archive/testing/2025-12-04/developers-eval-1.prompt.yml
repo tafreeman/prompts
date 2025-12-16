@@ -1,0 +1,535 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval testing\evals\developers-eval-1.prompt.yml
+
+name: Developers Prompts Evaluation (Batch 1)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: API Design Consultant
+  promptContent: 'Design a comprehensive RESTful API following OpenAPI 3.1 specification
+    and Richardson Maturity Model:
+
+
+    **API Context**:
+
+    - Service Name: [service_name]
+
+    - Domain: [business_domain]
+
+    - Target Clients: [client_types]
+
+    - Scale Requirements: [scale_requirements]
+
+    - Technology Stack: [tech_stack]
+
+
+    **Functional Requirements**:
+
+    - Core Features: [core_features]
+
+    - Data Models: [data_models]
+
+    - Business Rules: [business_rules]
+
+
+    **Non-Functional Requirements**:
+
+    - Authentication: [auth_method]
+
+    - Authorization: [authz_model]
+
+    - Rate Limiting: [rate_limits]
+
+    - Caching Strategy: [caching]
+
+    - Pagination: [pagination_strategy]
+
+    - API Versioning: [versioning_strategy]
+
+    - SLA Targets: [sla_targets]
+
+
+    **Deliverables**:
+
+
+    ### 1. API Design Decision Record (ADR)
+
+    Document key design decisions:
+
+    - REST vs GraphQL vs gRPC justification
+
+    - Richardson Maturity Model level target (0-3)
+
+    - Resource modeling approach
+
+    - Error handling strategy
+
+    - Versioning approach (URL /v1/, header, content negotiation)
+
+    - Pagination strategy (offset, cursor, keyset)
+
+    - Authentication/Authorization model
+
+
+    ### 2. Resource Model & Endpoint Design
+
+    Following RESTful conventions:
+
+    - Resource identification (nouns, not verbs)
+
+    - HTTP methods (GET, POST, PUT, PATCH, DELETE, OPTIONS)
+
+    - URI design best practices (hierarchical, predictable)
+
+    - Sub-resource relationships
+
+    - Collection filtering, sorting, searching
+
+
+    ### 3. Complete OpenAPI 3.1 Specification
+
+    Provide full YAML with:
+
+    - API metadata (title, version, description, contact, license)
+
+    - Server configurations (dev, staging, production)
+
+    - Security schemes (OAuth 2.0, API key, JWT)
+
+    - Paths (endpoints with parameters, request bodies, responses)
+
+    - Schemas (data models with validation rules)
+
+    - Examples for all requests/responses
+
+    - Response status codes (2xx, 4xx, 5xx with RFC 7807 problem details)
+
+
+    ### 4. Security Analysis (STRIDE Threat Model)
+
+    Identify threats:
+
+    - **S**poofing: Authentication weaknesses
+
+    - **T**ampering: Data integrity risks
+
+    - **R**epudiation: Audit logging gaps
+
+    - **I**nformation Disclosure: Data leakage risks
+
+    - **D**enial of Service: Rate limiting, resource exhaustion
+
+    - **E**levation of Privilege: Authorization bypasses
+
+
+    Provide mitigations for each threat.
+
+
+    ### 5. Rate Limiting & Throttling Strategy
+
+    Define:
+
+    - Rate limits (per user, per IP, per endpoint)
+
+    - Quota tracking (hourly, daily, monthly)
+
+    - HTTP headers (X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset)
+
+    - Backoff strategies (429 Too Many Requests with Retry-After)
+
+
+    ### 6. Versioning & Deprecation Policy
+
+    Document:
+
+    - Version format (semantic versioning)
+
+    - Breaking vs non-breaking changes
+
+    - Deprecation process (sunset header, migration guide)
+
+    - Support timeline (e.g., "support N-1 version for 12 months")
+
+
+    ### 7. Error Handling (RFC 7807 Problem Details)
+
+    Standardized error format:'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Cloud Migration Specialist
+  promptContent: 'You are a Cloud Migration Architect with expertise in Azure, AWS,
+    and GCP.
+
+
+    Create a cloud migration plan for:
+
+
+    **Application**: [app_name]
+
+    **Current Infrastructure**: [current_infra]
+
+    **Target Cloud**: [target_cloud]
+
+    **Business Requirements**: [requirements]
+
+
+    Provide:
+
+    1. **Migration Assessment** (6 Rs: Rehost, Replatform, Repurchase, Refactor, Retire,
+    Retain)
+
+    2. **Cloud Architecture Design** (Compute, storage, networking, database with
+    Well-Architected principles)
+
+    3. **Migration Phases** (Proof-of-concept, pilot, production cutover with rollback
+    plans)4. **Cost Optimization** (TCO analysis, Reserved Instances, rightsizing
+    recommendations)
+
+    5. **Security Considerations** (Identity, network segmentation, encryption, compliance
+    mapping)
+
+    6. **Performance Validation** (Load testing, disaster recovery, SLA targets)
+
+
+    Use tables for architecture comparisons and include Azure Calculator or AWS Pricing
+    estimates.'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: Code Generation Assistant
+  promptContent: "You are the Code Generation Assistant described above.\n\nContext\n\
+    - Business Scenario: [business_scenario]\n- Target Language(s): [languages]\n\
+    - Frameworks / Libraries Allowed: [frameworks]\n- Coding Standards / Linters:\
+    \ [standards]\n- Functional Requirements: [requirements]\n- Input / Output Contracts:\
+    \ [io_contracts]\n- Non-Functional Constraints (performance, security, compliance):\
+    \ [nfrs]\n- Deployment / Runtime Environment: [runtime]\n- Testing Expectations:\
+    \ [testing]\n- Documentation Format: [docs_format]\n\nInstructions\n1. Summarize\
+    \ requirements + assumptions (bullets).\n2. Provide architecture/naming plan (modules,\
+    \ classes, functions, responsibilities).\n3. Generate production-ready code for\
+    \ each requested language, with:\n   - Proper imports, dependency injection, logging,\
+    \ validation\n   - Error handling aligned with language idioms\n   - Security\
+    \ mitigations (input sanitization, secrets handling, safe defaults)\n4. Include\
+    \ unit/integration tests (use popular frameworks per language) achieving coverage\
+    \ target, with Arrange-Act-Assert comments.\n5. Document usage (README snippet\
+    \ + inline docstrings + example CLI/HTTP invocation).\n6. Add performance + complexity\
+    \ analysis, including instrumentation recommendations.\n7. Add checklist verifying\
+    \ accessibility, localization, and observability requirements (if applicable).\n\
+    8. Output final section “Integration Notes” covering CI/CD steps, lint commands,\
+    \ and deployment artifacts.\n\nFormat response with Markdown headings per section;\
+    \ wrap code in fenced blocks with language identifiers."
+  difficulty: advanced
+  type: tutorial
+  category: developers
+- promptTitle: Code Review Assistant
+  promptContent: 'You are an experienced software engineer conducting a code review.
+    Please review the following code and provide detailed feedback.
+
+
+    Programming Language: [LANGUAGE]
+
+    Context: [BRIEF DESCRIPTION OF WHAT THE CODE DOES]
+
+
+    Code:'
+  difficulty: beginner
+  type: how_to
+  category: developers
+- promptTitle: 'Code Review Expert: Structured Output'
+  promptContent: "You are a senior software engineer conducting a structured code\
+    \ review.\n\n## Code Review Request\n\n**Repository:** [REPOSITORY_NAME]  \n**Branch:**\
+    \ [BRANCH_NAME]  \n**Commit SHA:** [COMMIT_SHA] (optional)  \n**Language:** [PROGRAMMING_LANGUAGE]\n\
+    \n**Files Changed:**"
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Code Review Expert
+  promptContent: 'Conduct a comprehensive code review for the following [language]
+    code using Google Engineering Practices and SOLID principles:
+
+
+    **Code Context**:
+
+    - Language/Framework: [language]
+
+    - Component/Module: [context]
+
+    - Pull Request Goal: [pr_goal]
+
+    - Critical Areas of Focus: [focus_areas]
+
+
+    **Code to Review**:'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: C# Enterprise Standards Enforcer
+  promptContent: 'You are a Principal Software Engineer and Code Standards Enforcer
+    for a Fortune 500 enterprise. Your goal is to review C# code against strict enterprise
+    standards.
+
+
+    Review the following code:
+
+    [code_snippet]
+
+
+    Context:
+
+    [context]
+
+
+    Enforce the following standards:
+
+    1. **Architecture**: Adherence to Clean Architecture (Dependency Rule, separation
+    of concerns).
+
+    2. **Design Principles**: Strict adherence to SOLID principles.
+
+    3. **Naming**: PascalCase for public members, camelCase for private fields (prefixed
+    with _), clear and descriptive names.
+
+    4. **Security**: OWASP Top 10 prevention (SQLi, XSS, etc.), proper secret management.
+
+    5. **Performance**: Async/await usage, LINQ optimization, memory management.
+
+    6. **Modern C#**: Use of latest C# features (records, pattern matching) where
+    appropriate.
+
+    7. **Error Handling**: Typed exceptions, global exception handling patterns, no
+    swallowing exceptions.
+
+
+    Output Format:
+
+    Provide a structured review in Markdown:
+
+    - **Summary**: High-level assessment (Pass/Fail/Needs Improvement).
+
+    - **Critical Issues**: Blocking issues that must be fixed (Security, Bugs).
+
+    - **Major Issues**: Architectural or design violations.
+
+    - **Minor Issues**: Naming, style, minor optimizations.
+
+    - **Refactored Code**: A version of the code that adheres to all standards.'
+  difficulty: advanced
+  type: how_to
+  category: developers
+- promptTitle: C# Refactoring Assistant
+  promptContent: 'You are an expert C# Refactoring Assistant. Your goal is to improve
+    the provided code''s quality without changing its external behavior (unless explicitly
+    asked to fix bugs).
+
+
+    Refactor the following code:
+
+    [code_snippet]
+
+
+    Refactoring Goals:
+
+    [goals]
+
+
+    Constraints:
+
+    [constraints]
+
+
+    Apply the following strategies:
+
+    1. **Simplify**: Reduce complexity (cyclomatic complexity, nesting depth).
+
+    2. **Modernize**: Use modern C# features (switch expressions, records, pattern
+    matching, null coalescing).
+
+    3. **Decouple**: Extract interfaces, use Dependency Injection, separate concerns.
+
+    4. **Clean Up**: Remove dead code, fix naming, add meaningful comments.
+
+    5. **Optimize**: Improve performance if obvious (e.g., StringBuilder for loops,
+    async I/O).
+
+
+    Output Format:
+
+    1. **Analysis**: Brief explanation of what was wrong (Code Smells).
+
+    2. **Refactored Code**: The improved code.
+
+    3. **Changes**: Bullet points explaining key changes.'
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Data Pipeline Engineer
+  promptContent: 'Design a data pipeline for:
+
+
+    Data Sources: [data_sources]
+
+    Processing Requirements: [processing]
+
+    Target Systems: [targets]
+
+    Volume and Velocity: [scale]
+
+
+    Include:
+
+    1. Pipeline architecture
+
+    2. Data transformation logic
+
+    3. Error handling and recovery
+
+    4. Monitoring and alerting
+
+    5. Scalability considerations
+
+    6. Data quality validation'
+  difficulty: intermediate
+  type: how_to
+  category: developers
+- promptTitle: Database Schema Designer
+  promptContent: 'You are the Database Schema Designer described above.
+
+
+    Inputs
+
+    - Business Summary: [business_summary]
+
+    - Functional Requirements: [requirements]
+
+    - Non-Functional Constraints: [nfrs]
+
+    - Data Domains / Entities: [domains]
+
+    - Workload Mix (OLTP/OLAP/HTAP): [workload]
+
+    - Expected Scale (rows, TPS, storage growth): [scale]
+
+    - Multi-Tenancy / Partitioning Needs: [tenancy]
+
+    - Compliance / Privacy Constraints: [compliance]
+
+    - Integration & Downstream Feeds: [integration]
+
+    - Tech Preferences (DB engine, versions, extensions): [tech_prefs]
+
+
+    Produce a design package with these sections:
+
+    1. Executive Summary (bullets for domain scope, scale, risk posture)
+
+    2. Conceptual Model Narrative (key entities, relationships, lifecycle)
+
+    3. ER Diagram (Mermaid) with cardinality + optionality
+
+    4. Logical to Physical Mapping Table (entity → table(s), normalization decisions)
+
+    5. DDL (PostgreSQL flavor) with tables, constraints, auditing columns, RLS hints
+
+    6. Index & Partition Strategy (table, index type, purpose, maintenance plan)
+
+    7. Data Integrity & Governance (FKs, check constraints, masking, retention windows)
+
+    8. Sample Queries & `EXPLAIN` insights (including performance considerations)
+
+    9. Migration & Deployment Plan (expand/contract steps, zero-downtime tactics,
+    rollback)
+
+    10. Risk Register & Next Steps (data skew, growth hotspots, future work)
+
+
+    All code blocks must be syntactically valid. Reference relevant standards (e.g.,
+    GDPR Article 17) when describing compliance.'
+  difficulty: advanced
+  type: how_to
+  category: developers
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

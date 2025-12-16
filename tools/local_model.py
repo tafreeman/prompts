@@ -182,6 +182,41 @@ Return ONLY valid JSON in this exact format:
 {{"scores": {{"clarity": N, "specificity": N, "actionability": N, "structure": N, "completeness": N, "safety": N}}, "overall": N, "summary": "brief assessment"}}"""
 
         response = self.generate(eval_prompt, max_tokens=500, temperature=0.3)
+
+        # Some model exports (or generation modes) may return a JSON string with
+        # escaped quotes (e.g. "{\"scores\": {...}}") which defeats the
+        # normal JSON extraction. Try to unescape obvious cases first.
+        try:
+            resp_strip = response.strip()
+            # If the entire response looks like a quoted JSON string, unescape it
+            if (resp_strip.startswith('"') and resp_strip.endswith('"')) or (resp_strip.startswith("'") and resp_strip.endswith("'")):
+                try:
+                    # json.loads will unescape a JSON string literal
+                    unquoted = json.loads(resp_strip)
+                    if isinstance(unquoted, str) and unquoted.count('{'):
+                        response = unquoted
+                except Exception:
+                    # Fallback: try python literal eval
+                    try:
+                        import ast
+                        unquoted = ast.literal_eval(resp_strip)
+                        if isinstance(unquoted, str) and unquoted.count('{'):
+                            response = unquoted
+                    except Exception:
+                        pass
+
+            # If response contains many escaped quotes like \"scores\", try a unicode-escape pass
+            if '\\"' in response or '\\n' in response:
+                try:
+                    unescaped = bytes(response, 'utf-8').decode('unicode_escape')
+                    # If unescaped looks more like JSON (contains { and }), prefer it
+                    if unescaped.count('{') >= response.count('{'):
+                        response = unescaped
+                except Exception:
+                    pass
+        except Exception:
+            # Non-fatal; we'll fall back to other parsing heuristics below
+            pass
         
         # Try to parse JSON from response
         try:
@@ -328,6 +363,11 @@ def main():
         help="Path to prompt file to evaluate"
     )
     parser.add_argument(
+        "--batch-evaluate",
+        type=str,
+        help="Path to a JSON file containing a list of prompt file paths to evaluate in batch (loads model once)",
+    )
+    parser.add_argument(
         "--verbose", "-v",
         action="store_true",
         help="Verbose output"
@@ -358,6 +398,44 @@ def main():
             sys.exit(1)
         
         sys.exit(0)
+
+    # Batch evaluate mode: accepts a JSON file listing prompt file paths
+    if args.batch_evaluate:
+        batch_file = Path(args.batch_evaluate)
+        if not batch_file.exists():
+            print(f"Error: Batch file not found: {batch_file}")
+            sys.exit(1)
+
+        try:
+            paths = json.loads(batch_file.read_text(encoding="utf-8"))
+            if not isinstance(paths, list):
+                print("Error: batch file must contain a JSON array of file paths")
+                sys.exit(1)
+
+            model = LocalModel(args.model_path, verbose=args.verbose)
+            results = []
+            for p in paths:
+                try:
+                    prompt_path = Path(p)
+                    if not prompt_path.exists():
+                        results.append({"file": str(p), "error": "file not found"})
+                        continue
+                    content = prompt_path.read_text(encoding="utf-8")
+                    res = model.evaluate_prompt(content)
+                    # Normalize return
+                    out = {
+                        "file": str(prompt_path),
+                        "result": res,
+                    }
+                    results.append(out)
+                except Exception as e:
+                    results.append({"file": str(p), "error": str(e)})
+
+            print(json.dumps({"results": results}, indent=2))
+            sys.exit(0)
+        except Exception as e:
+            print(f"Error during batch evaluation: {e}")
+            sys.exit(1)
     
     # Interactive mode
     if not args.prompt:

@@ -73,32 +73,46 @@ GH_AVAILABLE_MODELS = [
 
 # All models (including those requiring direct API access)
 ALL_MODELS = {
-    # Local models (onnxruntime-genai)
+    # Local models (onnxruntime-genai) - Available from AI Gallery cache
+    "local/phi4mini": {"provider": "local-onnx", "speed": "fast", "quality": "high", "cost": "free"},
+    "local/phi3.5": {"provider": "local-onnx", "speed": "fast", "quality": "good", "cost": "free"},
+    "local/phi3.5-vision": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
+    "local/phi3": {"provider": "local-onnx", "speed": "fast", "quality": "good", "cost": "free"},
+    "local/phi3-medium": {"provider": "local-onnx", "speed": "medium", "quality": "high", "cost": "free"},
+    "local/phi3-vision": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
     "local/mistral-7b": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
-    
+
     # GitHub Models (available via gh models run)
     "openai/gpt-4.1": {"provider": "gh-models", "speed": "fast", "quality": "high", "cost": "free"},
     "openai/gpt-4o": {"provider": "gh-models", "speed": "fast", "quality": "high", "cost": "free"},
     "openai/gpt-4o-mini": {"provider": "gh-models", "speed": "very-fast", "quality": "good", "cost": "free"},
     "mistral-ai/mistral-small-2503": {"provider": "gh-models", "speed": "fast", "quality": "good", "cost": "free"},
     "meta/llama-3.3-70b-instruct": {"provider": "gh-models", "speed": "medium", "quality": "high", "cost": "free"},
-    
+
     # Claude models (Copilot Chat only - NOT gh models)
     "claude-haiku-4.5": {"provider": "copilot-chat", "speed": "fast", "quality": "good", "cost": "included"},
     "claude-sonnet-4": {"provider": "copilot-chat", "speed": "medium", "quality": "high", "cost": "included"},
     "claude-sonnet-4.5": {"provider": "copilot-chat", "speed": "medium", "quality": "very-high", "cost": "included"},
     "claude-opus-4.5": {"provider": "copilot-chat", "speed": "slow", "quality": "exceptional", "cost": "included"},
-    
+
     # GPT-5 models (may require API key)
     "openai/gpt-5-mini": {"provider": "api", "speed": "very-fast", "quality": "good", "cost": "low"},
     "openai/gpt-5": {"provider": "api", "speed": "medium", "quality": "very-high", "cost": "high"},
+
+    # Azure Foundry models (your own Azure deployment)
+    "azure-foundry/phi4mini": {"provider": "azure-foundry", "speed": "fast", "quality": "good", "cost": "pay-per-use"},
+    "azure-foundry/mistral": {"provider": "azure-foundry", "speed": "fast", "quality": "good", "cost": "pay-per-use"},
 }
 
 # Model definitions by category (using ONLY gh-models compatible ones for dual_eval)
 MODELS = {
-    # Local models - Free, no rate limits
+    # Local models - Free, no rate limits (all available from AI Gallery)
     "local": [
-        "local/mistral-7b",            # Local ONNX Mistral 7B
+        "local/phi4mini",            # Phi-4 Mini - Latest and best Phi
+        "local/phi3.5",              # Phi-3.5 Mini
+        "local/phi3",                # Phi-3 Mini
+        "local/phi3-medium",         # Phi-3 Medium (larger)
+        "local/mistral-7b",          # Mistral 7B Instruct
     ],
     # Fast/cheap models - Best for quick checks
     "fast": [
@@ -211,6 +225,19 @@ TIERS: Dict[int, TierConfig] = {
         runs_per_model=4,
         uses_llm=True,
         tools=["dual_eval.py", "evaluation_agent.py"],
+    ),
+    6: TierConfig(
+        name="Azure Foundry",
+        description="Azure-hosted models (Phi-4 Mini, Mistral) - your own deployment",
+        cost_estimate="Pay-per-use (Azure pricing)",
+        time_estimate="15-30 seconds per prompt",
+        models=[
+            "azure-foundry/phi4mini",           # Fast SLM on Azure
+            "azure-foundry/mistral",            # Mistral on Azure
+        ],
+        runs_per_model=2,
+        uses_llm=True,
+        tools=["llm_client.py", "cove_runner.py"],
     ),
 }
 
@@ -425,83 +452,99 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     print(f"   ✓ onnxruntime-genai: {model_info.get('onnxruntime_genai_version', 'unknown')}")
     
     print(f"\n🤖 Running local model evaluation on {len(prompts)} prompts...")
-    
-    for i, prompt_path in enumerate(prompts, 1):
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
-        print(f"  [{i}/{len(prompts)}] Evaluating: {rel_path}")
-        
-        try:
-            result = subprocess.run(
-                [sys.executable, str(local_model_path),
-                 "--evaluate", str(prompt_path)],
-                capture_output=True,
-                text=True,
-                timeout=120,  # 2 minutes timeout for local inference
-                cwd=str(repo_root),
-            )
-            
-            if result.returncode == 0 and result.stdout:
-                try:
-                    eval_result = json.loads(result.stdout)
-                    overall_score = eval_result.get("overall", 0)
-                    
-                    # Pass threshold: 7.0 or higher
-                    passed = overall_score >= 7.0
-                    
-                    results["results"].append({
-                        "file": str(rel_path),
-                        "score": overall_score,
-                        "scores": eval_result.get("scores", {}),
-                        "summary": eval_result.get("summary", ""),
-                        "passed": passed,
-                        "model": "local/mistral-7b",
-                        "tool": "local_model.py",
-                    })
-                    
-                    status = "✅" if passed else "❌"
-                    print(f"       {status} Score: {overall_score}/10")
-                    
-                    if passed:
-                        results["passed"] += 1
-                    else:
-                        results["failed"] += 1
-                        
-                except json.JSONDecodeError as e:
-                    results["results"].append({
-                        "file": str(rel_path),
-                        "error": f"JSON parse error: {e}",
-                        "raw_output": result.stdout[:500],
-                        "tool": "local_model.py",
-                    })
-                    results["errors"] += 1
-                    print(f"       ⚠️ JSON parse error")
-            else:
+    import tempfile
+    # Write a JSON array of prompt paths so local_model.py can process them in one load
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as tf:
+        json.dump([str(p) for p in prompts], tf)
+        tmp_path = Path(tf.name)
+
+    try:
+        cmd = [sys.executable, str(local_model_path), "--batch-evaluate", str(tmp_path)]
+        if 'SELECTED_MODEL_PATH' in globals() and SELECTED_MODEL_PATH:
+            cmd += ["--model-path", str(SELECTED_MODEL_PATH)]
+
+        proc = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=max(300, 60 * len(prompts)),
+            cwd=str(repo_root),
+        )
+
+        if proc.returncode != 0:
+            print(f"       ⚠️ local_model.py failed: {proc.stderr[:300]}")
+            # Mark all prompts as errors
+            for prompt_path in prompts:
                 results["results"].append({
-                    "file": str(rel_path),
-                    "error": result.stderr or "Unknown error",
+                    "file": str(prompt_path),
+                    "error": proc.stderr or "local_model failure",
                     "tool": "local_model.py",
                 })
                 results["errors"] += 1
-                print(f"       ⚠️ Error: {result.stderr[:50] if result.stderr else 'Unknown'}")
-                
-        except subprocess.TimeoutExpired:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": "Timeout (>120s)",
-                "tool": "local_model.py",
-            })
-            results["errors"] += 1
-            print(f"       ⚠️ Timeout")
+                results["prompts_evaluated"] += 1
+            return results
+
+        # Parse JSON output
+        try:
+            data = json.loads(proc.stdout)
+            batch_results = data.get("results", []) if isinstance(data, dict) else data
         except Exception as e:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": str(e),
-                "tool": "local_model.py",
-            })
-            results["errors"] += 1
-            print(f"       ⚠️ Error: {e}")
-        
-        results["prompts_evaluated"] += 1
+            print(f"       ⚠️ Could not parse batch output: {e}")
+            for prompt_path in prompts:
+                results["results"].append({
+                    "file": str(prompt_path),
+                    "error": f"Batch parse error: {e}",
+                    "tool": "local_model.py",
+                })
+                results["errors"] += 1
+                results["prompts_evaluated"] += 1
+            return results
+
+        # Process each returned result
+        for item in batch_results:
+            file_path = item.get("file") or item.get("prompt") or item.get("path")
+            if not file_path:
+                # Skip malformed entry
+                continue
+            rel_path = Path(file_path).relative_to(repo_root) if Path(file_path).is_relative_to(repo_root) else Path(file_path)
+
+            if "error" in item:
+                results["results"].append({
+                    "file": str(rel_path),
+                    "error": item.get("error"),
+                    "tool": "local_model.py",
+                })
+                results["errors"] += 1
+            else:
+                res = item.get("result") or item.get("result", {})
+                overall = res.get("overall") if isinstance(res, dict) else 0
+                # If overall missing, try compute from scores
+                if not overall and isinstance(res, dict) and "scores" in res:
+                    scores = res.get("scores", {})
+                    nums = [v for v in scores.values() if isinstance(v, (int, float))]
+                    overall = sum(nums) / len(nums) if nums else 0
+
+                passed = overall >= 7.0
+                results["results"].append({
+                    "file": str(rel_path),
+                    "score": overall,
+                    "scores": res.get("scores", {}) if isinstance(res, dict) else {},
+                    "summary": res.get("summary", "") if isinstance(res, dict) else "",
+                    "passed": passed,
+                    "model": "local/mistral-7b",
+                    "tool": "local_model.py",
+                })
+                if passed:
+                    results["passed"] += 1
+                else:
+                    results["failed"] += 1
+
+            results["prompts_evaluated"] += 1
+    finally:
+        try:
+            tmp_path.unlink()
+        except Exception:
+            pass
     
     return results
 
@@ -901,6 +944,188 @@ def run_tier_5(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     return results
 
 
+def run_tier_6(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
+    """
+    Tier 6: Azure Foundry - Uses your own Azure-hosted models (Phi-4 Mini, Mistral)
+    Uses: llm_client.py or cove_runner.py with Azure Foundry endpoints
+
+    Benefits:
+    - Your own deployment (no shared rate limits)
+    - Pay-per-use Azure pricing
+    - Fast inference on Azure infrastructure
+
+    Required environment variables:
+    - AZURE_FOUNDRY_API_KEY
+    - AZURE_FOUNDRY_ENDPOINT_1 (Phi-4 Mini)
+    - AZURE_FOUNDRY_ENDPOINT_2 (Mistral)
+    """
+    import os
+    import urllib.request
+    import urllib.error
+
+    config = TIERS[6]
+
+    results = {
+        "tier": 6,
+        "name": "Azure Foundry",
+        "models": config.models,
+        "runs_per_model": config.runs_per_model,
+        "prompts_evaluated": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "total_cost": config.cost_estimate,
+        "results": [],
+    }
+
+    # Check for API key
+    api_key = os.environ.get("AZURE_FOUNDRY_API_KEY")
+    if not api_key:
+        print("\n❌ Error: AZURE_FOUNDRY_API_KEY not set")
+        print("   Set this environment variable with your Azure Foundry API key")
+        return results
+
+    # Check for at least one endpoint
+    endpoint_1 = os.environ.get("AZURE_FOUNDRY_ENDPOINT_1")
+    endpoint_2 = os.environ.get("AZURE_FOUNDRY_ENDPOINT_2")
+    if not endpoint_1 and not endpoint_2:
+        print("\n❌ Error: No Azure Foundry endpoints configured")
+        print("   Set AZURE_FOUNDRY_ENDPOINT_1 and/or AZURE_FOUNDRY_ENDPOINT_2")
+        return results
+
+    repo_root = get_repo_root()
+
+    print(f"\n☁️  Running Azure Foundry evaluation on {len(prompts)} prompts...")
+    print(f"   Models: {', '.join(config.models)}")
+    print(f"   Runs per model: {config.runs_per_model}")
+
+    for prompt_path in prompts:
+        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        print(f"\n  Evaluating: {rel_path}")
+
+        try:
+            content = prompt_path.read_text(encoding="utf-8")
+        except Exception as e:
+            results["results"].append({
+                "file": str(rel_path),
+                "error": f"Could not read file: {e}",
+            })
+            results["errors"] += 1
+            results["prompts_evaluated"] += 1
+            continue
+
+        # Build evaluation prompt
+        eval_prompt = f"""Evaluate this prompt template on a 1-10 scale for each criterion.
+Return JSON with scores and brief reasoning.
+
+Criteria:
+- clarity: Is it unambiguous and easy to understand?
+- specificity: Enough detail for consistent outputs?
+- actionability: Can the AI determine what to do?
+- structure: Well-organized with clear sections?
+- completeness: Covers all necessary aspects?
+- safety: Avoids harmful patterns?
+
+Prompt to evaluate:
+```
+{content[:4000]}
+```
+
+Return ONLY valid JSON:
+{{"scores": {{"clarity": N, "specificity": N, "actionability": N, "structure": N, "completeness": N, "safety": N}}, "overall": N, "summary": "brief assessment"}}"""
+
+        model_results = []
+
+        # Try each configured model
+        for model_spec in config.models:
+            # Determine which endpoint to use
+            if "phi" in model_spec:
+                endpoint = endpoint_1
+                model_name = "phi4mini"
+            else:
+                endpoint = endpoint_2 or endpoint_1
+                model_name = "mistral" if endpoint_2 else "phi4mini"
+
+            if not endpoint:
+                continue
+
+            # Ensure endpoint format
+            if not endpoint.endswith("/chat/completions"):
+                endpoint = endpoint.rstrip("/") + "/chat/completions"
+            if "api-version" not in endpoint:
+                endpoint += "?api-version=2024-02-15-preview"
+
+            for run_idx in range(config.runs_per_model):
+                try:
+                    messages = [{"role": "user", "content": eval_prompt}]
+                    payload = json.dumps({
+                        "messages": messages,
+                        "temperature": 0.7,
+                        "max_tokens": 2000
+                    }).encode("utf-8")
+
+                    req = urllib.request.Request(
+                        endpoint,
+                        data=payload,
+                        headers={
+                            "Content-Type": "application/json",
+                            "api-key": api_key
+                        }
+                    )
+
+                    with urllib.request.urlopen(req, timeout=120) as resp:
+                        data = json.loads(resp.read().decode("utf-8"))
+                        response_text = data["choices"][0]["message"]["content"]
+
+                    # Parse JSON from response
+                    import re
+                    json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+                    if json_match:
+                        eval_data = json.loads(json_match.group())
+                        model_results.append({
+                            "model": model_name,
+                            "run": run_idx + 1,
+                            "scores": eval_data.get("scores", {}),
+                            "overall": eval_data.get("overall", 0),
+                            "summary": eval_data.get("summary", ""),
+                        })
+                    else:
+                        model_results.append({
+                            "model": model_name,
+                            "run": run_idx + 1,
+                            "error": "Could not parse JSON from response",
+                        })
+
+                except Exception as e:
+                    model_results.append({
+                        "model": model_name,
+                        "run": run_idx + 1,
+                        "error": str(e),
+                    })
+
+        # Aggregate results
+        valid_scores = [r.get("overall", 0) for r in model_results if "overall" in r and r["overall"] > 0]
+        avg_score = sum(valid_scores) / len(valid_scores) if valid_scores else 0
+        passed = avg_score >= 7.0
+
+        results["results"].append({
+            "file": str(rel_path),
+            "model_results": model_results,
+            "avg_score": round(avg_score, 2),
+            "passed": passed,
+            "tool": "azure_foundry",
+        })
+
+        if passed:
+            results["passed"] += 1
+        else:
+            results["failed"] += 1
+
+        results["prompts_evaluated"] += 1
+
+    return results
+
+
 # =============================================================================
 # REPORT GENERATION
 # =============================================================================
@@ -1054,6 +1279,7 @@ Examples:
     parser.add_argument("path", nargs="?", help="Prompt file or directory to evaluate")
     parser.add_argument("--tier", "-t", type=int, choices=[0, 1, 2, 3, 4, 5], default=1,
                         help="Evaluation tier (1-5)")
+    parser.add_argument("--model-path", "-m", help="Path to local ONNX model directory to use for Tier 0 (overrides detected model)")
     parser.add_argument("--output", "-o", help="Output report path")
     parser.add_argument("--limit", "-l", type=int, help="Limit number of prompts to evaluate")
     parser.add_argument("--list-models", action="store_true", help="List available models")
@@ -1062,6 +1288,9 @@ Examples:
     parser.add_argument("--json", action="store_true", help="Output JSON instead of report")
     
     args = parser.parse_args()
+    # Store selected model path globally for tier_0 runner to forward to local_model.py
+    global SELECTED_MODEL_PATH
+    SELECTED_MODEL_PATH = args.model_path if hasattr(args, 'model_path') else None
     
     # List models
     if args.list_models:
