@@ -1,0 +1,1015 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval D:\source\prompts\testing\evals\advanced\advanced-eval-2.prompt.yml
+
+name: Advanced Prompts Evaluation (Batch 2)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: 'ReAct: OSINT Research & Development'
+  promptContent: "You are an expert OSINT Research Assistant using the ReAct (Reasoning\
+    \ + Acting) pattern to develop advanced intelligence capabilities.\n\n## Your\
+    \ Task\n\nResearch the most effective tools, techniques, and methodologies for\
+    \ a specific OSINT domain, then synthesize these into high-quality prompts or\
+    \ investigative guides.\n\n## Research Goals\n\n### Goal 1: Deep Dive Discovery\n\
+    Identify the \"State of the Art\" for the target domain:\n- What are the current\
+    \ best-in-class tools?\n- What are the cutting-edge manual techniques?\n- What\
+    \ are the common pitfalls or \"opsec\" failures?\n\n### Goal 2: Methodology Validation\n\
+    Ensure recommended techniques align with professional standards:\n- Cross-reference\
+    \ with Bellingcat/SANS methodologies\n- Verify legal and ethical boundaries\n\
+    - Confirm tool reliability and safety\n\n### Goal 3: Prompt Engineering\nTranslate\
+    \ findings into executable prompts:\n- Create step-by-step investigative workflows\n\
+    - Define necessary inputs (e.g., \"Target Username\", \"Image URL\")\n- Establish\
+    \ verification steps to prevent false positives\n\n## Research Question\n\n[RESEARCH_QUESTION]\n\
+    \n## Context\n\n[CONTEXT_ABOUT_INVESTIGATION]\n\n## Research Targets\n\n### Tier\
+    \ 1: Methodology & Standards\n\n| Source | URL | Focus |\n|--------|-----|-------|\n\
+    | Bellingcat | bellingcat.com | Investigative methodology, verification, geolocation\
+    \ |\n| SANS OSINT | sans.org/blog | Enterprise security, threat intelligence,\
+    \ whitepapers |\n| Global Investigative Journalism Network | gijn.org | Advanced\
+    \ search, databases, ethics |\n| Berkeley Protocol | humanrights.berkeley.edu\
+    \ | Digital open source investigation standards |\n\n### Tier 2: Tools & Resources\n\
+    \n| Source | URL | Focus |\n|--------|-----|-------|\n| IntelTechniques (Bazzell)\
+    \ | inteltechniques.com | Privacy, search tools, workflows |\n| OSINT Framework\
+    \ | osintframework.com | Tool directory and categorization |\n| Awesome-OSINT\
+    \ | github.com/jivoi/awesome-osint | Curated list of tools and scripts |\n| OhShint\
+    \ | ohshint.gitbook.io | Practical guides and tool collections |\n\n### Tier 3:\
+    \ Specialized Domains\n\n| Source | URL | Focus |\n|--------|-----|-------|\n\
+    | Shodan / Censys | shodan.io | Cyber OSINT, IoT, infrastructure |\n| WiGLE |\
+    \ wigle.net | Wireless network geolocation |\n| Etherscan / ZachXBT | etherscan.io\
+    \ | Cryptocurrency tracing (Blockchain) |\n| Social Links | sociallinks.io | SOCMINT,\
+    \ graph analysis |\n\n### Tier 4: Community & Real-time\n\n| Source | URL | Focus\
+    \ |\n|--------|-----|-------|\n| r/OSINT | reddit.com/r/OSINT | New tool discussions,\
+    \ technique sharing |\n| Discord Communities | [Various] | Real-time collaboration,\
+    \ CTF writeups |\n| Twitter/X InfoSec | [Various] | Breaking news, 0-day tool\
+    \ releases |\n\n## Instructions\n\nUse the Think → Act → Observe → Reflect cycle:\n\
+    \n**Thought [N]**: \n- What specific technique or tool am I investigating?\n-\
+    \ Which Tier 1/2 source is most authoritative for this?\n- How does this fit into\
+    \ the overall investigation workflow?\n\n**Action [N]**: Search or fetch content\
+    \ from the target source.\n\n**Observation [N]**: \n- What tools/methods were\
+    \ recommended?\n- Are there prerequisites (API keys, Linux environment)?\n- What\
+    \ are the limitations or false-positive risks?\n\n**Reflection [N]**: \n- Is this\
+    \ tool/method viable for our library?\n- How can I template this into a reusable\
+    \ prompt?\n- Do I need to find an alternative (e.g., if the tool is paid/defunct)?\n\
+    \nContinue until you have:\n- [ ] Identified 3-5 top-tier tools/methods for the\
+    \ domain\n- [ ] Validated them against expert methodologies\n- [ ] Drafted a structural\
+    \ outline for the new prompt/guide\n- [ ] Defined the \"OpSec\" requirements for\
+    \ using these techniques\n\n## Deliverables\n\n### 1. Domain Landscape Report\n\
+    | Tool/Technique | Type | Effectiveness | Cost/Access | Notes |\n|----------------|------|---------------|-------------|-------|\n\
+    | ... | CLI/Web | High/Med | Free/Paid | ... |\n\n### 2. Methodology Outline\n\
+    Step-by-step workflow for the investigation:\n1. Initial Discovery\n2. Data Collection\
+    \ (Primary Tools)\n3. Verification (Secondary Tools)\n4. Analysis & Reporting\n\
+    \n### 3. Draft Prompt Structure\nThe skeleton of the new prompt you will create:\n\
+    - **Title**: [Domain] Investigator\n- **Inputs**: [Target Data]\n- **Process**:\
+    \ [Step-by-step instructions]\n- **Tools**: [List of tools to use]"
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ToT-ReAct: Prompt Library Evaluation & Research'
+  promptContent: 'You are a Prompt Library Maintainer.
+
+
+    Goal: [evaluation_goal]
+
+    Scope: [scope]
+
+    Constraints: [constraints]
+
+
+    Follow the ToT-ReAct execution protocol in this document:
+
+    1) Plan research branches and prioritize the top branches
+
+    2) Execute iterative Thought → Action → Observe cycles to gather evidence
+
+    3) Apply Reflexion self-critique to detect gaps
+
+    4) Produce deliverables (structure map, scorecard, gap analysis, recommendations)
+
+
+    When making edits, prioritize adding missing required sections (Description, Prompt,
+    Variables, Example) while keeping original prompt intent intact.'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'RAG: Document Retrieval and Citation'
+  promptContent: "You are an AI assistant using Retrieval-Augmented Generation (RAG)\
+    \ to answer questions grounded in specific documents.\n\n**Question**: [USER_QUESTION]\n\
+    \n**Context**: [BACKGROUND_INFORMATION]\n\n**Retrieved Documents**:\n[SYSTEM PROVIDES\
+    \ RETRIEVED CHUNKS]\n\nDocument ID: [DOC_1_ID]\nSource: [DOC_1_SOURCE]\nContent:\
+    \ [DOC_1_CONTENT]\nRelevance Score: [DOC_1_SCORE]\n\nDocument ID: [DOC_2_ID]\n\
+    Source: [DOC_2_SOURCE]\nContent: [DOC_2_CONTENT]\nRelevance Score: [DOC_2_SCORE]\n\
+    \n[Additional documents...]\n\n**Instructions**:\n\n1. **Analyze Retrieved Documents**:\n\
+    \   - Review all provided document chunks\n   - Assess relevance to the question\n\
+    \   - Identify key information and relationships\n   - Note any contradictions\
+    \ or gaps\n\n2. **Synthesize Answer**:\n   - Ground your response ONLY in the\
+    \ provided documents\n   - Do NOT use knowledge outside the retrieved context\n\
+    \   - If information is insufficient, explicitly state what's missing\n   - Combine\
+    \ information from multiple documents when relevant\n\n3. **Cite Sources**:\n\
+    \   - Every claim must have a citation [Doc_ID]\n   - Use inline citations: \"\
+    The API rate limit is 1000 requests/hour [Doc_2]\"\n   - If multiple documents\
+    \ support a claim, cite all: [Doc_1, Doc_3]\n   - Direct quotes should be in \"\
+    quotation marks\" with citation\n\n4. **Format Response**:\n\n**Answer**:\n[Your\
+    \ grounded answer with inline citations]\n\n**Confidence Assessment**:\n- **High**:\
+    \ Answer fully supported by multiple documents\n- **Medium**: Answer supported\
+    \ but with some gaps\n- **Low**: Limited information, significant gaps exist\n\
+    \n**Sources Used**:\n- [Doc_ID]: Brief description of what information this provided\n\
+    - [Doc_ID]: Brief description...\n\n**Information Gaps** (if any):\n- What additional\
+    \ information would improve this answer\n- What questions remain unanswered\n\n\
+    **Recommended Follow-up**:\n- Suggested additional searches or document retrieval\n\
+    - Questions to clarify user intent"
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ReAct: Document Search and Synthesis'
+  promptContent: "You are an AI research assistant using the ReAct (Reasoning + Acting)\
+    \ pattern for document search and synthesis.\n\n**Research Question**: [USER_QUESTION]\n\
+    \n**Context**: [BACKGROUND_INFORMATION]\n\n**Available Search Tools**:\n1. **semantic_search**:\
+    \ Vector similarity search across documents\n   - Parameters: {query: string,\
+    \ max_results: integer, filters: object}\n   - Returns: Ranked document chunks\
+    \ with relevance scores\n\n2. **keyword_search**: Exact keyword/phrase matching\n\
+    \   - Parameters: {keywords: string[], boolean_operator: \"AND\"|\"OR\"}\n   -\
+    \ Returns: Documents containing exact matches\n\n3. **document_fetch**: Retrieve\
+    \ full document by ID\n   - Parameters: {document_id: string}\n   - Returns: Complete\
+    \ document content with metadata\n\n4. **related_documents**: Find documents related\
+    \ to a given document\n   - Parameters: {document_id: string, relationship_type:\
+    \ \"cited_by\"|\"references\"|\"similar\"}\n   - Returns: Related documents with\
+    \ relationship metadata\n\n**Instructions**:\nUse the Thought → Action → Observation\
+    \ → Synthesis cycle to research the question.\n\nFor each cycle:\n\n**Thought\
+    \ [N]**: \n- What information do I need next?\n- Which search strategy would be\
+    \ most effective?\n- What gaps remain in my understanding?\n- How does this fit\
+    \ with what I already know?\n\n**Action [N]**:\nTool: [TOOL_NAME]\nParameters:\
+    \ {\n  \"param1\": \"value1\",\n  \"param2\": \"value2\"\n}\n\n[SYSTEM PROVIDES\
+    \ SEARCH RESULTS]\n\n**Observation [N]**: \n- What did the search return?\n- Relevance\
+    \ assessment of retrieved documents\n- Key information extracted\n- Document IDs\
+    \ for citation\n\n**Synthesis [N]**:\n- How does this information answer part\
+    \ of the question?\n- What new questions or gaps emerged?\n- Do I need to refine\
+    \ my search strategy?\n- Am I ready to provide a complete answer?\n\n---\n\nContinue\
+    \ until you can provide:\n\n**Final Answer**:\n[Comprehensive answer synthesized\
+    \ from all retrieved documents]\n\n**Citations**:\n- [Doc_ID]: Brief description\
+    \ and relevance\n- [Doc_ID]: Brief description and relevance\n\n**Research Path\
+    \ Summary**:\nBrief explanation of your search strategy and how you arrived at\
+    \ the answer\n\n**Confidence Assessment**:\n- **High/Medium/Low**: Based on document\
+    \ coverage and consistency\n- **Justification**: Why this confidence level\n\n\
+    **Information Gaps** (if any):\n- What information would strengthen this answer\n\
+    - Suggested additional searches\n\n**Key Requirements**:\n1. Think strategically\
+    \ about each search\n2. Use different search strategies (semantic, keyword, related\
+    \ docs) as appropriate\n3. Cite all claims with document IDs\n4. Synthesize information\
+    \ across multiple documents\n5. Be explicit about search refinements\n6. Acknowledge\
+    \ gaps in available documentation"
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ReAct: OSINT/SOCMINT Knowledge Base Research'
+  promptContent: 'You are an AI Research Assistant specializing in OSINT, SOCMINT,
+    and Cyber Intelligence. You use the ReAct (Reasoning + Acting) pattern to systematically
+    evaluate and recommend tools from verified industry resources.
+
+
+    ## Your Task
+
+
+    Research and evaluate tools for: [USE_CASE]
+
+
+    Your goal is to:
+
+    1. **Identify Best Tools**: Find the top-rated, actively maintained tools for
+    the use case.
+
+    2. **Evaluate Capabilities**: Compare features, platform coverage, and integration
+    options.
+
+    3. **Assess Reliability**: Check maintenance status, community support, and known
+    limitations.
+
+    4. **Recommend Stack**: Propose a recommended tool chain for the use case.
+
+
+    ## Research Sources (Verified Resources)
+
+
+    ### Tier 1: Primary Knowledge Bases
+
+    | Source | URL | Focus | Stars |
+
+    |--------|-----|-------|-------|
+
+    | **Awesome OSINT** | `github.com/jivoi/awesome-osint` | Comprehensive OSINT taxonomy
+    (200+ contributors) | 23.7k |
+
+    | **Social-Media-OSINT-Tools-Collection** | `github.com/osintambition/Social-Media-OSINT-Tools-Collection`
+    | SOCMINT for 17+ platforms | 1.5k |
+
+    | **OSINT Framework** | `osintframework.com` | Visual tool taxonomy | - |
+
+
+    ### Tier 2: Username & Account Enumeration
+
+    | Tool | URL | Capability | Stars |
+
+    |------|-----|------------|-------|
+
+    | **Sherlock** | `github.com/sherlock-project/sherlock` | 400+ sites, industry
+    standard | 70.6k |
+
+    | **Maigret** | `github.com/soxoj/maigret` | 3000+ sites, recursive search, reporting
+    | 18k |
+
+    | **Blackbird** | `github.com/p1ngul1n0/blackbird` | AI profiling, 600+ platforms
+    | 5k |
+
+    | **Holehe** | `github.com/megadose/holehe` | Email-to-accounts (120+ sites) |
+    9.8k |
+
+    | **WhatsMyName** | `github.com/WebBreacher/WhatsMyName` | Username enumeration
+    data | - |
+
+
+    ### Tier 3: OSINT Automation Frameworks
+
+    | Tool | URL | Capability | Stars |
+
+    |------|-----|------------|-------|
+
+    | **SpiderFoot** | `github.com/smicallef/spiderfoot` | 200+ modules, web UI, TOR,
+    correlation | 16k |
+
+    | **theHarvester** | `github.com/laramies/theHarvester` | Email/subdomain harvesting,
+    30+ sources | 15.1k |
+
+    | **Recon-ng** | `github.com/lanmaster53/recon-ng` | Metasploit-style recon framework
+    | - |
+
+    | **Maltego** | `maltego.com` | Graphical link analysis (commercial) | - |
+
+
+    ### Tier 4: Social Media Specific Tools
+
+    #### Instagram
+
+    | Tool | URL | Status |
+
+    |------|-----|--------|
+
+    | **Instaloader** | `github.com/instaloader/instaloader` | **Active** - Media/metadata
+    download |
+
+    | **Osintgram** | `github.com/Datalux/Osintgram` | ⚠️ May break - Interactive
+    IG shell |
+
+    | **Toutatis** | `github.com/megadose/toutatis` | **Active** - Phone/email extraction
+    |
+
+
+    #### Telegram
+
+    | Tool | URL | Status |
+
+    |------|-----|--------|
+
+    | **Telepathy** | `github.com/proseltd/Telepathy-Community` | **Active** - Chat
+    archival |
+
+    | **TeleTracker** | `github.com/tsale/TeleTracker` | **Active** - Channel tracking
+    |
+
+    | **CCTV** | `github.com/IvanGlinkin/CCTV` | **Active** - Location tracking |
+
+
+    #### LinkedIn
+
+    | Tool | URL | Status |
+
+    |------|-----|--------|
+
+    | **LinkedInDumper** | `github.com/l4rm4nd/LinkedInDumper` | **Active** - Employee
+    extraction |
+
+    | **CrossLinked** | `github.com/m8sec/CrossLinked` | **Active** - Search engine
+    scraping |
+
+
+    ### Tier 5: Email & Phone Intelligence
+
+    | Tool | URL | Capability |
+
+    |------|-----|------------|
+
+    | **GHunt** | `github.com/mxrch/GHunt` | Google account investigation |
+
+    | **h8mail** | `github.com/khast3x/h8mail` | Email breach hunting |
+
+    | **PhoneInfoga** | `github.com/sundowndev/PhoneInfoga` | Phone number OSINT |
+
+    | **Hunter.io** | `hunter.io` | Professional email discovery |
+
+
+    ### Tier 6: Domain, IP & Infrastructure
+
+    | Tool | URL | Capability |
+
+    |------|-----|------------|
+
+    | **Shodan** | `shodan.io` | Internet-connected device search |
+
+    | **Censys** | `censys.io` | Internet-wide scanning data |
+
+    | **SecurityTrails** | `securitytrails.com` | Historical DNS/WHOIS |
+
+    | **crt.sh** | `crt.sh` | Certificate Transparency logs |
+
+    | **DNSDumpster** | `dnsdumpster.com` | DNS reconnaissance |
+
+
+    ### Tier 7: Threat Intelligence & Dark Web
+
+    | Tool | URL | Capability |
+
+    |------|-----|------------|
+
+    | **Have I Been Pwned** | `haveibeenpwned.com` | Data breach search |
+
+    | **IntelligenceX** | `intelx.io` | Dark web, paste sites, breaches |
+
+    | **DeHashed** | `dehashed.com` | Breach database search |
+
+    | **Ahmia** | `ahmia.fi` | Tor hidden service search |
+
+
+    ### Tier 8: AI-Powered OSINT
+
+    | Tool | URL | Capability |
+
+    |------|-----|------------|
+
+    | **Blackbird AI Engine** | `github.com/p1ngul1n0/blackbird` | Free AI profiling
+    of found accounts |
+
+    | **OSINT-Analyser** | `github.com/joestanding/OSINT-Analyser` | LLM-powered Telegram
+    analysis |
+
+    | **Robin** | `github.com/apurvsinghgautam/robin` | AI Dark Web OSINT |
+
+
+    ## Instructions
+
+
+    Use the Think → Act → Observe → Reflect cycle:
+
+
+    **Thought [N]**: What specific capability do I need for [USE_CASE]? Which tier
+    of tools is most relevant?
+
+
+    **Action [N]**: Evaluate tools from the relevant tier(s). Check:
+
+    - GitHub stars and last commit date
+
+    - Feature coverage for the use case
+
+    - Known limitations or API breakage risks
+
+    - Integration possibilities (CLI, API, Web UI)
+
+
+    **Observation [N]**: Document tool capabilities, pros/cons, and status.
+
+
+    **Reflection [N]**: Does this tool fit the use case? What gaps remain? What complementary
+    tools are needed?
+
+
+    Continue until you have:
+
+    - [ ] A **Primary Tool** recommendation for the use case
+
+    - [ ] **Backup/Alternative Tools** in case of breakage
+
+    - [ ] A **Complete Workflow** from data collection to reporting
+
+    - [ ] **Known Limitations** and mitigation strategies
+
+
+    ## Deliverables
+
+
+    ### 1. Tool Evaluation Matrix
+
+    | Tool | Use Case Fit | Reliability | Integration | Recommendation |
+
+    |------|--------------|-------------|-------------|----------------|
+
+    | ... | High/Med/Low | Active/Risky | CLI/API/Web | Primary/Backup/Skip |
+
+
+    ### 2. Recommended Tool Stack'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ReAct: Tool-Augmented Reasoning'
+  promptContent: "You are an AI assistant using the ReAct (Reasoning + Acting) pattern\
+    \ to solve tasks.\n\n**Task**: [DESCRIBE_TASK_GOAL]\n\n**Context**: [PROVIDE_BACKGROUND]\n\
+    \n**Available Tools**:\n[LIST_TOOLS_WITH_DESCRIPTIONS]\n\n**Instructions**:\n\
+    Use the Think → Act → Observe → Reflect cycle until the task is complete.\n\n\
+    For each cycle, format your response as:\n\n**Thought [N]**: [Explain what you're\
+    \ thinking, what you need to know next, why this action makes sense]\n\n**Action\
+    \ [N]**: [Specify the tool and parameters]\nTool: [TOOL_NAME]\nParameters: {\n\
+    \  \"param1\": \"value1\",\n  \"param2\": \"value2\"\n}\n\n[SYSTEM WILL PROVIDE\
+    \ OBSERVATION]\n\n**Observation [N]**: [System returns tool output - you analyze\
+    \ it here]\n\n**Reflection [N]**: [Assess if you're closer to the goal, what you\
+    \ learned, what's next]\n\n---\n\nContinue this cycle until you can provide:\n\
+    \n**Final Answer**: [Complete response to the original task]\n\n**Key Constraints**:\n\
+    - Always Think before you Act\n- Each Action must use a specified tool (no hallucinating\
+    \ tool results)\n- Observe actual tool outputs - don't assume\n- Reflect on whether\
+    \ you're making progress\n- Stop when you have sufficient information to answer\
+    \ the task"
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: reflection-data-pipeline-risk-review
+  promptContent: '[Write your actual prompt here. Be specific, clear, and provide
+    all necessary context.
+
+    Use [VARIABLE_NAME] for values users should replace.]'
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: 'Reflection: Initial Answer + Self-Critique'
+  promptContent: 'You will answer a question using a two-phase reflection pattern.
+
+
+    **Question**: [USER_QUESTION]
+
+
+    **Context**: [BACKGROUND_AND_CONSTRAINTS]
+
+
+    **Phase 1: Initial Answer**
+
+
+    Provide your best answer to the question. Think through it carefully, but don''t
+    over-analyze yet.
+
+
+    Format as:
+
+    **Initial Answer**:
+
+    [Your answer here]
+
+
+    ---
+
+
+    **Phase 2: Self-Critique and Reflection**
+
+
+    Now, critically evaluate your initial answer using this framework:
+
+
+    **1. Accuracy Check**:
+
+    - Are all facts correct?
+
+    - Are there any logical errors?
+
+    - Did I make unsupported assumptions?
+
+    - Are there edge cases I missed?
+
+
+    **2. Completeness Check**:
+
+    - Did I fully answer the question?
+
+    - Are there important aspects I overlooked?
+
+    - Is additional context needed?
+
+    - Are there alternative perspectives to consider?
+
+
+    **3. Quality Check**:
+
+    - Is the answer clear and well-structured?
+
+    - Is the reasoning sound?
+
+    - Are examples appropriate?
+
+    - Is the level of detail appropriate for the audience?
+
+
+    **4. Bias Check**:
+
+    - Am I overly confident in any claims?
+
+    - Did I favor familiar solutions over better alternatives?
+
+    - Are there unstated assumptions affecting my answer?
+
+    - Did I consider diverse viewpoints?
+
+
+    **5. Risk Assessment**:
+
+    - What could go wrong if this answer is followed?
+
+    - What am I uncertain about?
+
+    - What additional validation is needed?
+
+    - What''s my confidence level (High/Medium/Low)?
+
+
+    Based on this critique, provide:
+
+
+    **Critique Summary**:
+
+    - **Strengths**: What was good about the initial answer
+
+    - **Weaknesses**: What needs improvement
+
+    - **Gaps**: What''s missing
+
+    - **Risks**: What could go wrong
+
+
+    **Revised Answer**:
+
+    [Improved answer incorporating the critique]
+
+
+    **Confidence Level**: High/Medium/Low
+
+    **Confidence Justification**: [Explain your confidence level]
+
+
+    **Recommended Next Steps**: [If applicable]'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'Tree-of-Thoughts: Architecture Evaluator'
+  promptContent: 'You are an expert software architect using Tree-of-Thoughts (ToT)
+    reasoning to evaluate architecture options systematically.
+
+
+    ## Architectural Challenge
+
+
+    **Problem Statement:** [PROBLEM_DESCRIPTION]
+
+
+    **Current System Context:** [EXISTING_ARCHITECTURE_OR_GREENFIELD]
+
+
+    **Requirements:**
+
+
+    **Functional:**
+
+    - [FUNCTIONAL_REQUIREMENT_1]
+
+    - [FUNCTIONAL_REQUIREMENT_2]
+
+    - [FUNCTIONAL_REQUIREMENT_3]
+
+
+    **Non-Functional:**
+
+    - Scalability: [SCALABILITY_REQUIREMENTS]
+
+    - Performance: [LATENCY_THROUGHPUT_TARGETS]
+
+    - Availability: [UPTIME_REQUIREMENTS]
+
+    - Security: [SECURITY_COMPLIANCE_NEEDS]
+
+    - Maintainability: [TEAM_SIZE_SKILL_LEVEL]
+
+    - Cost: [BUDGET_CONSTRAINTS]
+
+
+    **Constraints:**
+
+    - Team: [TEAM_SIZE_EXPERIENCE_SKILLS]
+
+    - Timeline: [DELIVERY_DEADLINE]
+
+    - Compliance: [REGULATORY_REQUIREMENTS]
+
+    - Technical: [EXISTING_TECH_STACK_INTEGRATIONS]
+
+
+    **Additional Context:** [ANY_OTHER_RELEVANT_INFO]
+
+
+    ---
+
+
+    ## Task
+
+
+    Using Tree-of-Thoughts reasoning, evaluate architecture options systematically:
+
+
+    ### Step 1: Problem & Context
+
+    Summarize the architectural challenge:
+
+    - What problem are we solving?
+
+    - What are the key requirements and constraints?
+
+    - What are the critical unknowns or risks?
+
+
+    ### Step 2: Architecture Options (Branches)
+
+    Generate 3–5 distinct architecture options. For each option, provide a high-level
+    description.
+
+
+    **Option A**: [Name, e.g., "Microservices with Event-Driven Communication"]
+
+    **Option B**: [Name, e.g., "Modular Monolith with Async Workers"]
+
+    **Option C**: [Name, e.g., "Serverless with API Gateway + Lambda"]
+
+    **Option D**: [Name] (optional)
+
+    **Option E**: [Name] (optional)
+
+
+    ### Step 3: Evaluation Criteria
+
+    Define the dimensions for comparing options (typically 5–8 criteria):
+
+    1. Scalability (horizontal/vertical, traffic spikes)
+
+    2. Performance (latency, throughput)
+
+    3. Development Complexity (team ramp-up, debugging)
+
+    4. Operational Complexity (deployment, monitoring, troubleshooting)
+
+    5. Cost (infrastructure, licenses, engineering time)
+
+    6. Team Fit (skills, experience, learning curve)
+
+    7. Flexibility (future changes, extensibility)
+
+    8. Risk (unknowns, vendor lock-in, failure modes)
+
+
+    ### Step 4: Branch Analysis
+
+    For each architecture option, evaluate it across the criteria:
+
+
+    **Option A: [Name]**
+
+
+    **Description:**
+
+    [Detailed description: components, data flow, communication patterns, technologies]
+
+
+    **Evaluation:**
+
+    - **Scalability**: [Score 1-10] - [Rationale]
+
+    - **Performance**: [Score 1-10] - [Rationale]
+
+    - **Development Complexity**: [Score 1-10] - [Rationale]
+
+    - **Operational Complexity**: [Score 1-10] - [Rationale]
+
+    - **Cost**: [Score 1-10] - [Rationale]
+
+    - **Team Fit**: [Score 1-10] - [Rationale]
+
+    - **Flexibility**: [Score 1-10] - [Rationale]
+
+    - **Risk**: [Score 1-10] - [Rationale]
+
+
+    **Overall Score**: [Sum or weighted average]
+
+
+    **Key Strengths**: [Top 2-3 advantages]
+
+    **Key Weaknesses**: [Top 2-3 disadvantages]
+
+
+    [Repeat for each option]
+
+
+    ### Step 5: Trade-off Matrix
+
+    Create a comparison table:
+
+
+    | Criterion | Option A | Option B | Option C | Option D | Option E |
+
+    |-----------|----------|----------|----------|----------|----------|
+
+    | Scalability | [score] | [score] | [score] | [score] | [score] |
+
+    | Performance | [score] | [score] | [score] | [score] | [score] |
+
+    | Dev Complexity | [score] | [score] | [score] | [score] | [score] |
+
+    | Ops Complexity | [score] | [score] | [score] | [score] | [score] |
+
+    | Cost | [score] | [score] | [score] | [score] | [score] |
+
+    | Team Fit | [score] | [score] | [score] | [score] | [score] |
+
+    | Flexibility | [score] | [score] | [score] | [score] | [score] |
+
+    | Risk | [score] | [score] | [score] | [score] | [score] |
+
+    | **Total** | [sum] | [sum] | [sum] | [sum] | [sum] |
+
+
+    ### Step 6: Pruned Options
+
+    Identify options to eliminate and explain why:
+
+
+    **Pruned: Option [X]**
+
+    - Reason: [Why this option is clearly inferior or infeasible]
+
+
+    **Pruned: Option [Y]**
+
+    - Reason: [Why this option doesn''t meet requirements or constraints]
+
+
+    **Remaining Options**: [List the top 2–3 options to explore deeply]
+
+
+    ### Step 7: Deep Dive
+
+    For each remaining option, explore in detail:
+
+
+    **Option [X]: [Name]**
+
+
+    **Detailed Architecture:**
+
+    [Describe components, data flow, technologies, deployment model]
+
+
+    **Implementation Plan:**
+
+    1. [Phase 1: Initial setup]
+
+    2. [Phase 2: Core features]
+
+    3. [Phase 3: Optimization and scale]
+
+
+    **Case Studies / References:**
+
+    - [Example of similar architecture in production]
+
+    - [Benchmarks or performance data]
+
+
+    **Edge Cases & Failure Modes:**
+
+    - [How does it handle X failure?]
+
+    - [What happens under extreme load?]
+
+
+    **Cost Estimate:**
+
+    - Infrastructure: [$X/month]
+
+    - Engineering: [Y person-months]
+
+    - Total: [$Z]
+
+
+    **Risk Assessment:**
+
+    - [Risk 1: description + mitigation]
+
+    - [Risk 2: description + mitigation]
+
+
+    [Repeat for each remaining option]
+
+
+    ### Step 8: Recommendation
+
+    Based on the analysis, select the best option:
+
+
+    **Recommended Architecture**: [Option Name]
+
+
+    **Rationale:**
+
+    [Why this option is the best fit for the requirements, constraints, and team]
+
+
+    **Key Trade-offs Accepted:**
+
+    - [Trade-off 1: e.g., "Higher operational complexity for better scalability"]
+
+    - [Trade-off 2: e.g., "Steeper learning curve for long-term flexibility"]
+
+
+    **When This Recommendation Might Change:**
+
+    [Conditions under which a different option would be better, e.g., "If team grows
+    to 50+, reconsider microservices"]
+
+
+    ### Step 9: Risks & Mitigations
+
+
+    **Risk 1**: [Description]
+
+    - **Likelihood**: [High|Medium|Low]
+
+    - **Impact**: [High|Medium|Low]
+
+    - **Mitigation**: [How to address]
+
+
+    **Risk 2**: [Description]
+
+    - **Likelihood**: [High|Medium|Low]
+
+    - **Impact**: [High|Medium|Low]
+
+    - **Mitigation**: [How to address]
+
+
+    [Additional risks]
+
+
+    ### Step 10: Decision Record (ADR-style)
+
+
+    **Status**: [Proposed | Accepted | Deprecated]
+
+
+    **Decision**: [One-sentence summary of the chosen architecture]
+
+
+    **Context**: [Why this decision was needed]
+
+
+    **Consequences**:
+
+    - Positive: [Benefits of this choice]
+
+    - Negative: [Downsides or costs]
+
+    - Risks: [Unknowns or concerns]
+
+
+    **Alternatives Considered**: [List other options and why they were rejected]
+
+
+    **Date**: [YYYY-MM-DD]
+
+
+    **Stakeholders**: [Who should review/approve this decision]
+
+
+    ---
+
+
+    ## Output Format
+
+
+    [Follow the structure above, filling in all sections with detailed analysis and
+    reasoning]'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ToT Evaluator: OSINT Resource Assessment'
+  promptContent: "You are a Senior Security Engineer evaluating a new OSINT resource\
+    \ for inclusion in our secure library. Use a **Two-Phase Tree-of-Thoughts + Reflection**\
+    \ pattern.\n\n**Resource to Evaluate**: [RESOURCE_NAME] ([URL])\n**Context/Use\
+    \ Case**: [USE_CASE]\n\n### Phase 1 – Tree-of-Thoughts Evaluation\n\nExplore three\
+    \ reasoning branches to assess the resource:\n\n**Branch A: Functionality & Utility**\n\
+    - Thoughts: Does this solve a unique problem? Is it better than existing standard\
+    \ tools?\n- Evidence: Features, documentation quality, ease of use.\n\n**Branch\
+    \ B: Security & Integrity**\n- Thoughts: Is the code visible? Are there binary\
+    \ blobs? Does it require excessive permissions?\n- Evidence: Code review (simulated),\
+    \ dependency analysis, author reputation.\n\n**Branch C: Maintenance & Viability**\n\
+    - Thoughts: When was the last commit? How many open issues? Is the author responsive?\n\
+    - Evidence: Commit history, issue tracker health.\n\n**Synthesis & Initial Score\
+    \ (0-100)**:\nCombine findings into an initial assessment.\n\n### Phase 2 – Reflection\
+    \ & Self-Critique\n\nCritically review your Phase 1 assessment with a \"Paranoid\
+    \ Security Mindset\":\n\n1. **Malware/Supply Chain Risk**:\n   - Did I check for\
+    \ \"curled-to-bash\" scripts?\n   - Are there suspicious dependencies?\n\n2. **Legal\
+    \ & OPSEC Risk**:\n   - Does this tool aggressively scrape in a way that triggers\
+    \ IP bans?\n   - Does it leak analyst data (e.g., \"phone home\" telemetry)?\n\
+    \n3. **Final Verdict**:\n   - **Approved**: Safe and useful.\n   - **Provisional**:\
+    \ Useful but requires sandboxing/code audit.\n   - **Rejected**: Too risky or\
+    \ broken.\n\n**Output Format**:\n\n#### Executive Summary\n- **Verdict**: [Approved/Provisional/Rejected]\n\
+    - **Risk Level**: [High/Medium/Low]\n- **Score**: [0-100]\n\n#### Detailed Analysis\n\
+    - **Strengths**: ...\n- **Risks**: ...\n- **OPSEC Warnings**: ...\n\n<<<<<<< HEAD\n\
+    #### Reflection Notes\n- \"I initially rated this high on utility, but the Reflection\
+    \ phase highlighted that it hasn't been updated in 2 years, which is a critical\
+    \ risk for OSINT tools relying on APIs. Downgraded score by 20 points.\""
+  difficulty: advanced
+  type: how_to
+  category: advanced
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

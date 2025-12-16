@@ -1,0 +1,220 @@
+# Auto-generated evaluation file
+# Generated from: 1 prompts
+# Run with: gh models eval D:\source\prompts\testing\evals\advanced\advanced-eval-3.prompt.yml
+
+name: Advanced Prompts Evaluation (Batch 3)
+description: Automated evaluation of 1 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: 'Tree-of-Thoughts: Multi-Branch Reasoning Template'
+  promptContent: 'You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a
+    complex problem.
+
+
+    **Problem**: [PROBLEM_STATEMENT]
+
+
+    **Context**: [BACKGROUND_AND_CONSTRAINTS]
+
+
+    **Success Criteria**: [WHAT_SUCCESS_LOOKS_LIKE]
+
+
+    **Instructions**:
+
+
+    Use multi-branch exploration to find the best solution. For each decision point,
+    generate multiple alternative approaches, evaluate them, and pursue the most promising
+    paths.
+
+
+    Format your response as:
+
+
+    **Problem Understanding**:
+
+    - Restate the problem
+
+    - Identify key challenges
+
+    - Note critical unknowns
+
+
+    ---
+
+
+    **Branch Generation at Decision Point [N]**:
+
+
+    Generate [3-5] distinct approaches:
+
+
+    **Thought Branch A**: [First approach]
+
+    - **Description**: What this approach entails
+
+    - **Pros**: Strengths and advantages
+
+    - **Cons**: Weaknesses and risks
+
+    - **Estimated Success Probability**: X%
+
+    - **Score (0-10)**: [Rate this branch''s promise]
+
+
+    **Thought Branch B**: [Second approach]
+
+    [Same format as Branch A]
+
+
+    **Thought Branch C**: [Third approach]
+
+    [Same format as Branch A]
+
+
+    [Additional branches if needed]
+
+
+    **Branch Evaluation**:
+
+    - Compare branches head-to-head
+
+    - Identify which branches to pursue further
+
+    - **Selected Branch(es)**: [Which to explore deeper]
+
+    - **Pruned Branch(es)**: [Which to discard and why]
+
+
+    ---
+
+
+    **Deep Exploration of Selected Branch [X]**:
+
+
+    [For each selected branch, explore it deeply with substeps]
+
+    - Sub-decision points within this branch
+
+    - Implementation details
+
+    - Risk mitigation strategies
+
+
+    If this branch hits a dead-end or reveals unexpected complexity:
+
+    → **BACKTRACK**: Return to previous decision point and explore alternative branch
+
+
+    ---
+
+
+    **Cross-Branch Synthesis**:
+
+
+    Compare all viable paths explored:
+
+    - What did we learn from each branch?
+
+    - Are there hybrid approaches combining strengths?
+
+    - What trade-offs exist between approaches?
+
+
+    **Final Recommendation**:
+
+    - Selected approach with justification
+
+    - Why this beats alternatives
+
+    - Confidence level (High/Medium/Low)
+
+    - Residual risks and mitigation strategies'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

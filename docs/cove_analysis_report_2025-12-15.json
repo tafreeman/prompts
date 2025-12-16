@@ -1,0 +1,4263 @@
+{
+  "timestamp": "2025-12-16T11:58:57.339592",
+  "summary": {
+    "total": 187,
+    "analyzed": 187,
+    "passed": 11,
+    "failed": 176,
+    "errors": 0
+  },
+  "averages": {
+    "clarity": 0.71,
+    "effectiveness": 0.61,
+    "reusability": 0.79,
+    "simplicity": 0.75,
+    "examples": 0.38,
+    "overall": 3.14
+  },
+  "by_priority": {
+    "medium": 17,
+    "low": 4,
+    "high": 166
+  },
+  "by_category": {
+    "advanced": {
+      "passed": 4,
+      "failed": 13,
+      "total": 17
+    },
+    "analysis": {
+      "passed": 2,
+      "failed": 18,
+      "total": 20
+    },
+    "business": {
+      "passed": 1,
+      "failed": 38,
+      "total": 39
+    },
+    "creative": {
+      "passed": 1,
+      "failed": 8,
+      "total": 9
+    },
+    "developers": {
+      "passed": 2,
+      "failed": 25,
+      "total": 27
+    },
+    "governance": {
+      "passed": 1,
+      "failed": 15,
+      "total": 16
+    },
+    "m365": {
+      "passed": 0,
+      "failed": 20,
+      "total": 20
+    },
+    "reasoning": {
+      "passed": 0,
+      "failed": 1,
+      "total": 1
+    },
+    "socmint": {
+      "passed": 0,
+      "failed": 15,
+      "total": 15
+    },
+    "system": {
+      "passed": 0,
+      "failed": 23,
+      "total": 23
+    }
+  },
+  "results": [
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\advanced-technique-research.md",
+      "title": "Advanced Prompt Engineering Technique Researcher",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\chain-of-thought-concise.md",
+      "title": "Chain-of-Thought: Concise Mode",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\chain-of-thought-debugging.md",
+      "title": "Chain-of-Thought: Debugging & Root Cause Analysis",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\chain-of-thought-detailed.md",
+      "title": "Chain-of-Thought: Detailed Mode",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "low",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\chain-of-thought-performance-analysis.md",
+      "title": "Chain-of-Thought: Performance Analysis & Profiling",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\library-analysis-react.md",
+      "title": "ReAct: Library Structure & Content Analysis",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\library.md",
+      "title": "ReAct: Large-Scale Prompt Library Analysis and Redesign",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\osint-research-react.md",
+      "title": "ReAct: OSINT Research & Development",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\prompt-library-refactor-react.md",
+      "title": "ToT-ReAct: Prompt Library Evaluation & Research",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\rag-document-retrieval.md",
+      "title": "RAG: Document Retrieval and Citation",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\react-doc-search-synthesis.md",
+      "title": "ReAct: Document Search and Synthesis",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\react-knowledge-base-research.md",
+      "title": "ReAct: OSINT/SOCMINT Knowledge Base Research",
+      "category": "advanced",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\react-tool-augmented.md",
+      "title": "ReAct: Tool-Augmented Reasoning",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\reflection-data-pipeline-risk-review.md",
+      "title": "reflection-data-pipeline-risk-review",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 4.15
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\reflection-self-critique.md",
+      "title": "Reflection: Initial Answer + Self-Critique",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\tree-of-thoughts-architecture-evaluator.md",
+      "title": "Tree-of-Thoughts: Architecture Evaluator",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\tree-of-thoughts-evaluator-reflection.md",
+      "title": "ToT Evaluator: OSINT Resource Assessment",
+      "category": "advanced",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 5.0,
+        "examples": 3.0,
+        "overall": 4.25
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\business-case-developer.md",
+      "title": "Business Case Developer",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\competitive-analysis-researcher.md",
+      "title": "Competitive Analysis Researcher",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\competitive-intelligence-researcher.md",
+      "title": "Competitive Intelligence Researcher",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\consumer-behavior-researcher.md",
+      "title": "Consumer Behavior Researcher",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\data-analysis-insights.md",
+      "title": "Data Analysis and Insights Generator",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\data-analysis-specialist.md",
+      "title": "Data Analysis Specialist",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\data-quality-assessment.md",
+      "title": "Data Quality Assessment",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\gap-analysis-expert.md",
+      "title": "Gap Analysis Expert",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\industry-analysis-expert.md",
+      "title": "Industry Analysis Expert",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\library-capability-radar.md",
+      "title": "Library Capability Radar Chart Generator",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\library-network-graph.md",
+      "title": "Library Network Graph Generator",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\library-structure-treemap.md",
+      "title": "Library Structure Treemap Generator",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\market-research-analyst.md",
+      "title": "Market Research Analyst",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\metrics-and-kpi-designer.md",
+      "title": "Metrics and KPI Designer",
+      "category": "analysis",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\process-optimization-consultant.md",
+      "title": "Process Optimization Consultant",
+      "category": "analysis",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\requirements-analysis-expert.md",
+      "title": "Requirements Analysis Expert",
+      "category": "analysis",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\stakeholder-requirements-gatherer.md",
+      "title": "Stakeholder Requirements Gatherer",
+      "category": "analysis",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "low",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\trend-analysis-specialist.md",
+      "title": "Trend Analysis Specialist",
+      "category": "analysis",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\user-experience-analyst.md",
+      "title": "User Experience Analyst",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\analysis\\workflow-designer.md",
+      "title": "Workflow Designer",
+      "category": "analysis",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\agile-sprint-planner.md",
+      "title": "Agile Sprint Planner",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\board-update.md",
+      "title": "Board Update Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\budget-and-cost-controller.md",
+      "title": "Budget and Cost Controller",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\business-process-reengineering.md",
+      "title": "Business Process Reengineering",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\business-strategy-analysis.md",
+      "title": "Business Strategy Analysis",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\change-management-coordinator.md",
+      "title": "Change Management Coordinator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\client-presentation-designer.md",
+      "title": "Client Presentation Designer",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\cold-email-generator.md",
+      "title": "Cold Email Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\competitive-analysis.md",
+      "title": "Competitive Analysis Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\crisis-management-coordinator.md",
+      "title": "Crisis Management Coordinator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\digital-transformation-advisor.md",
+      "title": "Digital Transformation Advisor",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\due-diligence-analyst.md",
+      "title": "Due Diligence Analyst",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\financial-modeling-expert.md",
+      "title": "Financial Modeling Expert",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\follow-up-email.md",
+      "title": "Follow-Up Email Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\innovation-strategy-consultant.md",
+      "title": "Innovation Strategy Consultant",
+      "category": "business",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\interview-questions.md",
+      "title": "Interview Questions Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\job-description-writer.md",
+      "title": "Job Description Writer",
+      "category": "business",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "low",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\management-consulting-expert.md",
+      "title": "Management Consulting Expert",
+      "category": "business",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\market-entry-strategist.md",
+      "title": "Market Entry Strategist",
+      "category": "business",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\meeting-facilitator.md",
+      "title": "Meeting Facilitator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\meeting-summary.md",
+      "title": "Meeting Summary Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\onboarding-checklist-creator.md",
+      "title": "Onboarding Checklist Creator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\organizational-change-manager.md",
+      "title": "Organizational Change Manager",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\performance-improvement-consultant.md",
+      "title": "Performance Improvement Consultant",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\performance-review.md",
+      "title": "Performance Review Writer",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\pitch-deck-generator.md",
+      "title": "Pitch Deck Generator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\project-charter-creator.md",
+      "title": "Project Charter Creator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\project-closure-specialist.md",
+      "title": "Project Closure Specialist",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\project-documentation-manager.md",
+      "title": "Project Documentation Manager",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\quality-assurance-planner.md",
+      "title": "Quality Assurance Planner",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\resource-allocation-optimizer.md",
+      "title": "Resource Allocation Optimizer",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\risk-management-analyst.md",
+      "title": "Risk Management Analyst",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\sales-objection-handler.md",
+      "title": "Sales Objection Handler",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\sales-strategy-consultant.md",
+      "title": "Sales Strategy Consultant",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\stakeholder-communication-manager.md",
+      "title": "Stakeholder Communication Manager",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\strategic-planning-consultant.md",
+      "title": "Strategic Planning Consultant",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\team-performance-manager.md",
+      "title": "Team Performance Manager",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\timeline-and-milestone-tracker.md",
+      "title": "Timeline and Milestone Tracker",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\business\\vendor-management-coordinator.md",
+      "title": "Vendor Management Coordinator",
+      "category": "business",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\ad-copy-generator.md",
+      "title": "Ad Copy Generator",
+      "category": "creative",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\brand-voice-developer.md",
+      "title": "Brand Voice Developer",
+      "category": "creative",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\content-marketing-blog-post.md",
+      "title": "Content Marketing Blog Post Generator",
+      "category": "creative",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\email-newsletter-writer.md",
+      "title": "Email Newsletter Writer",
+      "category": "creative",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\headline-tagline-creator.md",
+      "title": "Headline and Tagline Creator",
+      "category": "creative",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 3.0,
+        "overall": 4.1
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\marketing-campaign-strategist.md",
+      "title": "Marketing Campaign Strategist",
+      "category": "creative",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\product-description-generator.md",
+      "title": "Product Description Generator",
+      "category": "creative",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\social-media-content-generator.md",
+      "title": "Social Media Content Generator",
+      "category": "creative",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 3.0,
+        "overall": 4.1
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\creative\\video-script-writer.md",
+      "title": "Video Script Writer",
+      "category": "creative",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\api-design-consultant.md",
+      "title": "API Design Consultant",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\bug-finder.md",
+      "title": "Bug Finder and Fixer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\cloud-migration-specialist.md",
+      "title": "Cloud Migration Specialist",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\code-generation-assistant.md",
+      "title": "Code Generation Assistant",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\code-review-assistant.md",
+      "title": "Code Review Assistant",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\code-review-expert-structured.md",
+      "title": "Code Review Expert: Structured Output",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\code-review-expert.md",
+      "title": "Code Review Expert",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\csharp-enterprise-standards-enforcer.md",
+      "title": "C# Enterprise Standards Enforcer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\csharp-refactoring-assistant.md",
+      "title": "C# Refactoring Assistant",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\data-pipeline-engineer.md",
+      "title": "Data Pipeline Engineer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\database-migration-specialist.md",
+      "title": "Database Migration Specialist",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\database-schema-designer.md",
+      "title": "Database Schema Designer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\devops-pipeline-architect.md",
+      "title": "DevOps Pipeline Architect",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\documentation-generator.md",
+      "title": "Documentation Generator",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\dotnet-api-designer.md",
+      "title": ".NET API Designer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\frontend-architecture-consultant.md",
+      "title": "Frontend Architecture Consultant",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\legacy-system-modernization.md",
+      "title": "Legacy System Modernization",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\microservices-architect.md",
+      "title": "Microservices Architect",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\mid-level-developer-architecture-coach.md",
+      "title": "Mid-Level Developer Architecture Coach",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\mobile-app-developer.md",
+      "title": "Mobile App Developer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\performance-optimization-specialist.md",
+      "title": "Performance Optimization Specialist",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\refactoring-plan-designer.md",
+      "title": "Refactoring Plan Designer",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\refactoring-specialist.md",
+      "title": "Refactoring Specialist",
+      "category": "developers",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\security-code-auditor.md",
+      "title": "Security Code Auditor",
+      "category": "developers",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 5.0,
+        "examples": 2.0,
+        "overall": 3.65
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\sql-query-analyzer.md",
+      "title": "SQL Query Analyzer",
+      "category": "developers",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 4.0
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "low",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\sql-security-standards-enforcer.md",
+      "title": "SQL Security Standards Enforcer",
+      "category": "developers",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 3.0,
+        "overall": 4.1
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\developers\\test-automation-engineer.md",
+      "title": "Test Automation Engineer",
+      "category": "developers",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\access-control-reviewer.md",
+      "title": "Access Control Reviewer",
+      "category": "governance",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": true,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\ai-ml-privacy-risk-assessment.md",
+      "title": "AI/ML Privacy Risk Assessment",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\compliance-policy-generator.md",
+      "title": "Compliance Policy Generator",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\data-classification-helper.md",
+      "title": "Data Classification Helper",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\data-retention-policy.md",
+      "title": "Data Retention Policy Generator",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\data-subject-request-handler.md",
+      "title": "Data Subject Request (DSR) Handler",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\gdpr-compliance-assessment.md",
+      "title": "GDPR Compliance Assessment",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\hipaa-compliance-checker.md",
+      "title": "HIPAA Compliance Checker",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\legal-contract-review.md",
+      "title": "Legal: Contract Review Assistant",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\privacy-impact-assessment.md",
+      "title": "Privacy Impact Assessment (DPIA) Generator",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\regulatory-change-analyzer.md",
+      "title": "Regulatory Change Analyzer",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\risk-assessment.md",
+      "title": "Risk Assessment Framework",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\security-incident-response.md",
+      "title": "Security: Incident Response Framework",
+      "category": "governance",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\soc2-audit-preparation.md",
+      "title": "SOC 2 Audit Preparation Assistant",
+      "category": "governance",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\sox-audit-preparer.md",
+      "title": "SOX Audit Preparer",
+      "category": "governance",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 4.0,
+        "reusability": 5.0,
+        "simplicity": 4.0,
+        "examples": 3.0,
+        "overall": 4.1
+      },
+      "implementation_verified": false,
+      "would_produce_results": true,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\governance\\vendor-security-review.md",
+      "title": "Vendor Security Reviewer",
+      "category": "governance",
+      "scores": {
+        "clarity": 4.0,
+        "effectiveness": 3.0,
+        "reusability": 4.0,
+        "simplicity": 4.0,
+        "examples": 2.0,
+        "overall": 3.5
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "medium",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Add or improve examples with clear input/output"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-customer-feedback-analyzer.md",
+      "title": "M365 Customer Feedback Analyzer",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-daily-standup-assistant.md",
+      "title": "M365 Daily Standup Assistant",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-data-insights-assistant.md",
+      "title": "M365 Data Insights Assistant",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-designer-image-prompt-generator.md",
+      "title": "M365 Designer Image Prompt Generator",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-designer-infographic-brief.md",
+      "title": "M365 Designer Infographic Brief",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-designer-social-media-kit.md",
+      "title": "M365 Designer Social Media Kit",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-document-summarizer.md",
+      "title": "M365 Document Summarizer",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-email-triage-helper.md",
+      "title": "M365 Email Triage Helper",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-excel-formula-expert.md",
+      "title": "M365 Excel Formula Expert",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-handover-document-creator.md",
+      "title": "M365 Handover Document Creator",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-manager-sync-planner.md",
+      "title": "M365 Manager Sync Planner",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-meeting-prep-brief.md",
+      "title": "M365 Meeting Prep Brief",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-meeting-recap-assistant.md",
+      "title": "M365 Meeting Recap Assistant",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-personal-task-collector.md",
+      "title": "M365 Personal Task Collector",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-presentation-outline-generator.md",
+      "title": "M365 Presentation Outline Generator",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-project-status-reporter.md",
+      "title": "M365 Project Status Reporter",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-slide-content-refiner.md",
+      "title": "M365 Slide Content Refiner",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-sway-document-to-story.md",
+      "title": "M365 Sway Document to Story",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-sway-visual-newsletter.md",
+      "title": "M365 Sway Visual Newsletter",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\m365\\m365-weekly-review-coach.md",
+      "title": "M365 Weekly Review Coach",
+      "category": "m365",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\self-consistency-reasoning.md",
+      "title": "Self-Consistency Chain-of-Thought Reasoning",
+      "category": "reasoning",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\attribution-analysis.md",
+      "title": "Attribution Analysis",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\company-osint-investigation.md",
+      "title": "Company OSINT Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\domain-investigation.md",
+      "title": "Domain Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\email-investigation.md",
+      "title": "Email Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\email-osint-investigation.md",
+      "title": "Email OSINT Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\image-geolocation-analysis.md",
+      "title": "Image Geolocation Analysis",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\instagram-osint.md",
+      "title": "Instagram OSINT Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\phone-investigation.md",
+      "title": "Phone Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\social-media-profile-analysis.md",
+      "title": "Social Media Profile Deep Analysis",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\socmint-investigator.md",
+      "title": "SOCMINT Investigator",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\telegram-osint.md",
+      "title": "Telegram OSINT Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\threat-intelligence.md",
+      "title": "Threat Intelligence Analysis",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\timeline-reconstruction.md",
+      "title": "Timeline Reconstruction",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\username-investigation.md",
+      "title": "Username Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\socmint\\username-pivot-investigation.md",
+      "title": "Username Pivot Investigation",
+      "category": "socmint",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\ai-assistant-system-prompt.md",
+      "title": "AI Assistant System Prompt",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\api-architecture-designer.md",
+      "title": "API Architecture Designer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\blockchain-architecture-specialist.md",
+      "title": "Blockchain Architecture Specialist",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\cloud-architecture-consultant.md",
+      "title": "Cloud Architecture Consultant",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\compliance-architecture-designer.md",
+      "title": "Compliance Architecture Designer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\data-architecture-designer.md",
+      "title": "Data Architecture Designer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\devops-architecture-planner.md",
+      "title": "DevOps Architecture Planner",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\disaster-recovery-architect.md",
+      "title": "Disaster Recovery Architect",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\enterprise-integration-architect.md",
+      "title": "Enterprise Integration Architect",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\example-research-output.md",
+      "title": "Example Research Output: Modern Prompting Techniques",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\frontier-agent-deep-research.md",
+      "title": "Office Agent Deep Research: Modern Prompting",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\iot-architecture-designer.md",
+      "title": "IoT Architecture Designer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\legacy-modernization-architect.md",
+      "title": "Legacy Modernization Architect",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\library-visual-audit.md",
+      "title": "Library Visual & Formatting Audit",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\m365-copilot-research-agent.md",
+      "title": "M365 Copilot Frontier Research Agent",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\microservices-architecture-expert.md",
+      "title": "Microservices Architecture Expert",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\mobile-architecture-consultant.md",
+      "title": "Mobile Architecture Consultant",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\office-agent-technical-specs.md",
+      "title": "Office Agent Technical Specifications",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\performance-architecture-optimizer.md",
+      "title": "Performance Architecture Optimizer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\prompt-quality-evaluator.md",
+      "title": "Prompt Quality Evaluator: Meta-Evaluation with Reflection",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\security-architecture-specialist.md",
+      "title": "Security Architecture Specialist",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\solution-architecture-designer.md",
+      "title": "Solution Architecture Designer",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\system\\tree-of-thoughts-repository-evaluator.md",
+      "title": "Tree-of-Thoughts Repository Evaluator for GPT-5.1",
+      "category": "system",
+      "scores": {
+        "clarity": 0.0,
+        "effectiveness": 0.0,
+        "reusability": 0.0,
+        "simplicity": 0.0,
+        "examples": 0.0,
+        "overall": 3.0
+      },
+      "implementation_verified": false,
+      "would_produce_results": false,
+      "priority": "high",
+      "recommendations": [
+        "Implementation doesn't fully match stated purpose",
+        "May not produce expected results - review structure",
+        "Improve clarity - purpose should be clear within 10 seconds",
+        "Add or improve examples with clear input/output",
+        "Simplify - remove redundant content"
+      ]
+    }
+  ]
+}

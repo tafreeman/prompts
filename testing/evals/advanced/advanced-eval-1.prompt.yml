@@ -1,0 +1,835 @@
+# Auto-generated evaluation file
+# Generated from: 10 prompts
+# Run with: gh models eval D:\source\prompts\testing\evals\advanced\advanced-eval-1.prompt.yml
+
+name: Advanced Prompts Evaluation (Batch 1)
+description: Automated evaluation of 10 prompts from the library
+model: openai/gpt-4o-mini
+modelParameters:
+  temperature: 0.3
+  max_tokens: 2000
+testData:
+- promptTitle: _audit_chain-of-thought-guide
+  promptContent: '# CoVE Prompt Library Rubric Validation Audit (GenAI Research, 2023-2025)
+
+
+    ## Target Prompt File: prompts/advanced/chain-of-thought-guide.md
+
+
+    ## Audit Instructions
+
+
+    Below is the rubric validation meta-prompt. Please use it to evaluate the scoring
+    rubric and research alignment of the target prompt file.
+
+
+    ---
+
+
+    # Audit Meta-Prompt
+
+
+    [Insert the full content of CoVE-Prompt-Library-Audit.md here]
+
+
+    ---
+
+
+    # Target Prompt Content
+
+
+    [Insert the full content of chain-of-thought-guide.md here]
+
+
+    ---
+
+
+    # Instructions for LLM
+
+
+    Using the above audit meta-prompt, perform a rubric validation audit of the target
+    prompt file. Output the required validation table, research alignment reflection,
+    and actionable recommendations as specified.'
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: Advanced Prompt Engineering Technique Researcher
+  promptContent: 'You are an AI research assistant conducting deep research on advanced
+    prompt engineering techniques. You use Tree-of-Thoughts (ToT) for multi-path exploration
+    wrapped in Reflexion for iterative quality improvement.
+
+
+    ---
+
+
+    ## Research Topic
+
+    [RESEARCH_TOPIC]
+
+
+    ## Research Questions
+
+    [RESEARCH_QUESTIONS]
+
+
+    ## Research Depth
+
+    [RESEARCH_DEPTH]
+
+
+    ## Time Range
+
+    [TIME_RANGE]
+
+
+    ---
+
+
+    ## Phase 1: Research Planning (ToT Branching)
+
+
+    Generate 3-5 distinct research paths to explore this topic comprehensively.
+
+
+    For each branch:
+
+    - **Branch [N]: [Research Angle]**
+
+    - **Focus:** What aspect this branch investigates
+
+    - **Key Sources to Find:** Academic papers, documentation, implementations
+
+    - **Expected Insights:** What this path should reveal
+
+    - **Priority:** High/Medium/Low based on relevance to research questions
+
+
+    Select the top 3 branches based on priority and potential yield.
+
+
+    ---
+
+
+    ## Phase 2: Research Execution (ReAct Loop)
+
+
+    For each selected branch, execute:
+
+
+    ### Round 1 - Initial Investigation
+
+    1. **Think:** What specific information will best answer the research questions?
+
+    2. **Act:** Describe what you''re searching for or analyzing
+
+    3. **Observe:** Document findings with citations
+
+    4. **Reflect:** What''s missing? Are sources authoritative and recent?
+
+
+    ### Round 2 - Refinement (if gaps remain)
+
+    1. **Think:** Based on reflection, what angle was missed?
+
+    2. **Act:** Targeted follow-up investigation
+
+    3. **Observe:** New findings
+
+    4. **Reflect:** Is this branch now sufficiently explored?
+
+
+    ### Capture for each branch:
+
+    - Key concepts and mechanisms discovered
+
+    - Source quality (academic paper / industry documentation / blog)
+
+    - Publication dates and citation counts where available
+
+    - Implementation examples or code repositories
+
+    - Benchmark results and performance data
+
+    - Contradictions or debates in the literature
+
+
+    ---
+
+
+    ## Phase 3: Cross-Branch Reflection (Reflexion)
+
+
+    ### Self-Critique Questions:
+
+    1. Have I covered the major research directions for this topic?
+
+    2. Are my sources recent (within [TIME_RANGE]) and authoritative?
+
+    3. Did I find contradictory information requiring reconciliation?
+
+    4. What gaps remain in my understanding?
+
+    5. Am I confident enough to write implementation guidance?
+
+
+    ### If gaps exist:
+
+    Open 1-2 new targeted investigations to fill critical gaps.
+
+
+    ---
+
+
+    ## Phase 4: Synthesis & Output
+
+
+    Produce a structured research report:
+
+
+    ### Executive Summary
+
+    - 3-4 sentence overview of the technique/topic
+
+    - Key breakthrough or insight identified
+
+    - Readiness for production use (High/Medium/Low/Experimental)
+
+
+    ### Technique Overview Table
+
+
+    | Aspect | Details |
+
+    |--------|---------|
+
+    | **Name** | [Technique name] |
+
+    | **Origin** | [Paper/authors/year] |
+
+    | **Core Mechanism** | [How it works in 2-3 sentences] |
+
+    | **Key Innovation** | [What makes it different] |
+
+    | **Best Use Cases** | [When to use this] |
+
+    | **Limitations** | [Known drawbacks] |
+
+    | **Implementation Complexity** | [Low/Medium/High] |
+
+
+    ### Detailed Findings
+
+
+    #### Mechanism & Theory
+
+    [How the technique works, with citations]
+
+
+    #### Comparison to Related Techniques
+
+    | Technique | Similarity | Key Difference | When to Prefer |
+
+    |-----------|------------|----------------|----------------|
+
+    | [Related 1] | | | |
+
+    | [Related 2] | | | |
+
+
+    #### Implementation Guidance
+
+    [Practical steps, parameters, code patterns if available]
+
+
+    #### Benchmark Results
+
+    [Performance data from papers with proper citations]
+
+
+    ### Contradictions & Open Questions
+
+    - Areas where sources disagree
+
+    - Techniques with mixed benchmark results
+
+    - Unanswered research questions
+
+
+    ### Practical Recommendations
+
+    1. [Most important takeaway for implementation]
+
+    2. [Key parameter or configuration advice]
+
+    3. [What to avoid or use cautiously]
+
+
+    ### Citation List
+
+    [Full citations in academic format]
+
+
+    ### Further Research Directions
+
+    - Unexplored areas worth investigating
+
+    - Related papers to read next'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'Chain-of-Thought: Concise Mode'
+  promptContent: 'You are an expert problem solver using concise chain-of-thought
+    reasoning.
+
+
+    **Task**: [DESCRIBE_YOUR_TASK]
+
+
+    **Context**: [PROVIDE_RELEVANT_CONTEXT]
+
+
+    **Constraints**: [LIST_ANY_CONSTRAINTS]
+
+
+    **Instructions**:
+
+    Think through this step-by-step, but keep each step brief (1-2 sentences max).
+
+
+    Format your response as:
+
+
+    **Step 1**: [First logical step - what needs to be understood or done first]
+
+    **Step 2**: [Second logical step - what follows from step 1]
+
+    **Step 3**: [Continue as needed]
+
+    ...
+
+    **Final Answer**: [Concise conclusion based on the steps above]
+
+
+    Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
+    drive the solution.'
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: 'Chain-of-Thought: Debugging & Root Cause Analysis'
+  promptContent: 'You are an expert software debugger using Chain-of-Thought reasoning
+    to systematically identify and fix bugs.
+
+
+    ## Bug Report
+
+
+    **Description:** [BUG_DESCRIPTION]
+
+
+    **Error Message:**'
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: 'Chain-of-Thought: Detailed Mode'
+  promptContent: 'You are an expert problem solver using detailed chain-of-thought
+    reasoning.
+
+
+    **Task**: [DESCRIBE_YOUR_TASK]
+
+
+    **Context**: [PROVIDE_COMPREHENSIVE_CONTEXT]
+
+
+    **Success Criteria**: [DEFINE_WHAT_SUCCESS_LOOKS_LIKE]
+
+
+    **Constraints**: [LIST_CONSTRAINTS_AND_REQUIREMENTS]
+
+
+    **Instructions**:
+
+    Think through this problem systematically and thoroughly. For each step:
+
+    1. Explain your reasoning in detail
+
+    2. Consider alternatives and explain why you chose this approach
+
+    3. Acknowledge assumptions explicitly
+
+    4. Note any uncertainties or risks
+
+
+    Format your response as:
+
+
+    **Understanding the Problem**
+
+    - Restate the problem in your own words
+
+    - Identify key challenges and unknowns
+
+    - List critical assumptions
+
+
+    **Step 1: [Title of Step]**
+
+    - **What**: [What you''re doing in this step]
+
+    - **Why**: [Reasoning and justification]
+
+    - **Alternatives Considered**: [What else you thought about]
+
+    - **Risks/Assumptions**: [What could go wrong or what you''re assuming]
+
+    - **Outcome**: [Result of this step]
+
+
+    **Step 2: [Title of Step]**
+
+    [Continue the same detailed format]
+
+
+    ...
+
+
+    **Synthesis and Validation**
+
+    - How the steps fit together
+
+    - Validation that this addresses the original problem
+
+    - Edge cases or scenarios not fully addressed
+
+
+    **Final Answer**
+
+    - Clear, actionable conclusion
+
+    - Confidence level (High/Medium/Low) with justification
+
+    - Recommended next steps
+
+    - Potential refinements or follow-up questions'
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: 'Chain-of-Thought: Decision Guide'
+  promptContent: '---
+
+
+    ## When to Use Each Mode
+
+
+    ### No CoT (Direct Prompting)
+
+
+    **Use for:**
+
+
+    - Simple lookups (facts, definitions, syntax)
+
+    - Straightforward formatting tasks
+
+    - Well-defined, routine operations
+
+    - Very token-sensitive applications
+
+
+    **Example tasks:**
+
+
+    - "Translate this to Spanish"
+
+    - "Extract email addresses from this text"
+
+    - "Convert CSV to JSON"
+
+    - "What''s the syntax for Python list comprehension?"
+
+
+    **Tokens saved:** Baseline (no overhead)
+
+
+    ### Concise CoT
+
+
+    **Use for:**
+
+
+    - Moderate complexity problems
+
+    - Debugging and troubleshooting
+
+    - Quick technical decisions
+
+    - When you need reasoning audit trail
+
+    - Time-sensitive situations
+
+
+    **Example tasks:**
+
+
+    - "Debug why this API call is failing"
+
+    - "Recommend database indexes for this query"
+
+    - "Review this code for security issues"
+
+    - "Estimate project completion time"
+
+
+    **Token overhead:** ~30-50 extra tokens
+
+    **Accuracy gain:** ~15-25% on reasoning tasks
+
+    **Time to completion:** +20-30%
+
+
+    ### Detailed CoT
+
+
+    **Use for:**
+
+
+    - Complex, novel problems
+
+    - High-stakes decisions (>$10K impact)
+
+    - Architecture and strategic choices
+
+    - Teaching and knowledge transfer
+
+    - Compliance documentation needs
+
+
+    **Example tasks:**
+
+
+    - "Design migration strategy for legacy system"
+
+    - "Evaluate build vs. buy for core platform"
+
+    - "Create incident postmortem with root cause analysis"
+
+    - "Recommend enterprise security architecture"
+
+
+    **Token overhead:** ~200-400 extra tokens
+
+    **Accuracy gain:** ~30-50% on complex problems
+
+    **Time to completion:** +100-200%
+
+
+    ---
+
+
+    ## Comparative Examples
+
+
+    ### Example 1: API Error
+
+
+    **Problem:** "Our API returns 401 errors sporadically"
+
+
+    **Direct Prompt** (No CoT):'
+  difficulty: beginner
+  type: reference
+  category: advanced
+- promptTitle: 'Chain-of-Thought: Performance Analysis & Profiling'
+  promptContent: "You are an expert performance engineer using Chain-of-Thought reasoning\
+    \ to analyze profiling data and identify optimization opportunities.\n\n## Performance\
+    \ Profile\n\n**System:** [SYSTEM_NAME]\n\n**Profiling Data:**\n[PROFILE_DATA_OR_SUMMARY]\n\
+    (e.g., CPU flamegraph summary, memory heap dump summary, database slow query log,\
+    \ network trace)\n\n**Baseline Metrics:**\n- Current Performance: [CURRENT_METRIC]\
+    \ (e.g., \"500ms p99 latency\")\n- Target Performance: [TARGET_METRIC] (e.g.,\
+    \ \"200ms p99 latency\")\n- Current Throughput: [THROUGHPUT] (e.g., \"1000 req/s\"\
+    )\n- Resource Utilization: [UTILIZATION] (e.g., \"CPU 80%, Memory 4GB\")\n\n**Workload:**\n\
+    - Traffic Pattern: [PATTERN] (e.g., \"steady\", \"bursty\", \"daily spikes\")\n\
+    - Data Volume: [VOLUME] (e.g., \"1M records\", \"500GB dataset\")\n- Concurrent\
+    \ Users/Requests: [CONCURRENCY]\n\n**Architecture:**\n[BRIEF_SYSTEM_DESCRIPTION]\n\
+    (e.g., \"Node.js API → PostgreSQL → Redis cache, 3-tier architecture\")\n\n**Additional\
+    \ Context:**\n[ANY_OTHER_RELEVANT_INFO]\n\n---\n\n## Task\n\nUsing Chain-of-Thought\
+    \ reasoning, analyze this performance data systematically:\n\n### Step 1: Baseline\
+    \ Analysis\nSummarize the current state:\n- What is the performance baseline?\n\
+    - How far are we from the target?\n- What is the primary bottleneck type (CPU,\
+    \ memory, I/O, network)?\n\n### Step 2: Hotspot Identification\nFrom the profiling\
+    \ data, identify the top 3–5 hotspots:\n- What functions/queries/operations consume\
+    \ the most resources?\n- What percentage of total time/memory do they represent?\n\
+    - Are there outliers or unexpected resource consumers?\n\nFor each hotspot, provide:\n\
+    - Name/description\n- Resource consumption (%, absolute time, memory)\n- Call\
+    \ frequency (how often it's invoked)\n\n### Step 3: Root Cause Hypotheses\nFor\
+    \ each hotspot, generate hypotheses about why it's slow:\n- Is it algorithmic\
+    \ complexity (O(n²) instead of O(n))?\n- Is it excessive I/O (database queries,\
+    \ file reads, network calls)?\n- Is it unnecessary work (redundant computation,\
+    \ over-fetching)?\n- Is it resource contention (locks, thread pool saturation)?\n\
+    - Is it inefficient data structures or memory allocation?\n\n### Step 4: Impact\
+    \ Prioritization\nRank the hotspots by optimization potential:\n- Which hotspot\
+    \ offers the highest performance gain?\n- Which is easiest to optimize (low risk,\
+    \ clear fix)?\n- What is the cost/benefit trade-off for each?\n\nProvide a ranked\
+    \ list with justification.\n\n### Step 5: Optimization Proposals\nFor the top\
+    \ 2–3 hotspots, propose specific optimizations:\n- What code/query/configuration\
+    \ should change?\n- Why will this change improve performance?\n- What is the expected\
+    \ improvement (quantitative estimate)?\n- What are the risks or trade-offs?\n\n\
+    ### Step 6: Validation & Measurement Plan\nHow will you validate that the optimization\
+    \ works?\n- What metrics to track (before/after)?\n- What benchmarks or load tests\
+    \ to run?\n- How to prevent performance regressions (monitoring, tests)?\n\n---\n\
+    \n## Output Format\n\n**Baseline Performance Summary:**\n- Current: [metric]\n\
+    - Target: [metric]\n- Gap: [quantified difference]\n- Primary Bottleneck: [CPU|Memory|I/O|Network]\n\
+    \n**Hotspot Analysis:**\n\n1. **[Hotspot Name]**\n   - Resource Consumption: [%\
+    \ or absolute value]\n   - Call Frequency: [N calls/sec or total]\n   - Significance:\
+    \ [why this matters]\n\n2. **[Hotspot Name]**\n   - ...\n\n**Root Cause Hypotheses:**\n\
+    \n- Hotspot 1: [hypothesis with evidence from profile]\n- Hotspot 2: [hypothesis\
+    \ with evidence from profile]\n\n**Impact Prioritization (Ranked):**\n\n1. [Hotspot\
+    \ X] - Expected improvement: [N]%, Effort: [Low|Medium|High]\n2. [Hotspot Y] -\
+    \ Expected improvement: [N]%, Effort: [Low|Medium|High]\n\n**Optimization Proposals:**\n\
+    \n### Optimization 1: [Title]\n**Target Hotspot:** [hotspot name]\n\n**Proposed\
+    \ Change:**\n[specific code change, query rewrite, or configuration]\n\n**Rationale:**\n\
+    [why this will improve performance]\n\n**Expected Improvement:**\n[quantitative\
+    \ estimate, e.g., \"30% latency reduction\"]\n\n**Risks/Trade-offs:**\n[any downsides\
+    \ or complexity]\n\n### Optimization 2: [Title]\n...\n\n**Validation & Measurement\
+    \ Plan:**\n\n**Metrics to Track:**\n- [Metric 1] (baseline: [value], target: [value])\n\
+    - [Metric 2] (baseline: [value], target: [value])\n\n**Benchmarks:**\n1. [Benchmark\
+    \ scenario]\n2. [Load test parameters]\n\n**Regression Prevention:**\n- [Monitoring/alerting\
+    \ setup]\n- [Performance test in CI/CD]"
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: CoVe
+  promptContent: "---\ntitle: Chain-of-Verification (CoVe)\ndescription:\n  \"Reduce\
+    \ hallucinations through structured fact-checking using the Generate\\u2192\\\n\
+    \  Verify\\u2192Revise cycle\"                          \ncategory: reasoning\n\
+    tags:\n  - hallucination-reduction\n  - factual-accuracy\n  - self-critique\n\
+    \  - verification\n  - qa\nauthor: Research Team\nversion: 1.0.0\nmodel_compatibility:\n\
+    \  - gpt-4\n  - gpt-4o\n  - claude-3\n  - llama-3\n  - gemini\nvariables:\n  -\
+    \ name: user_question\n    description: The user's original question requiring\
+    \ a factually accurate answer\n    required: true\n  - name: domain\n    description:\
+    \ Optional domain context for specialized verification\n    required: false\n\
+    \    default: general knowledge\nuse_cases:\n  - Factual question answering\n\
+    \  - Biography and profile generation\n  - List generation tasks\n  - Knowledge-intensive\
+    \ content creation\n  - Report writing requiring accuracy\n  - Medical/legal/technical\
+    \ information\ncomplexity: medium\nestimated_tokens: 800-1500\nshortTitle: CoVe\
+    \ Verification\nintro: Chain-of-Verification pattern for self-verifying LLM outputs\
+    \ through structured decomposition.\ntype: reference\ndifficulty: advanced\naudience:\n\
+    \  - developers\nplatforms:\n  - github-copilot\ntopics:\n  - general\ndate: \"\
+    2025-12-13\"\nreviewStatus: draft\ngovernance_tags: []\ndataClassification: []\n\
+    effectivenessScore: 0.0\n---\n\n# Chain-of-Verification (CoVe) Prompting Pattern\n\
+    \nYou are a factual accuracy assistant that reduces hallucinations through systematic\
+    \ verification. You will answer questions using a 4-step Chain-of-Verification\
+    \ process.\n\n## Description\n\nUse the **Generate → Verify → Revise** loop to\
+    \ reduce hallucinations by decomposing an answer into verifiable claims, independently\
+    \ checking each claim, and then producing a corrected final response.\n\n## Your\
+    \ Task\n\nAnswer the following question with verified accuracy:\n**Question:**\
+    \ {{user_question}}\n**Domain:** {{domain}}\n\n---\n\n## STEP 1: BASELINE RESPONSE\n\
+    \nGenerate your initial answer to the question. Do not verify yet—provide your\
+    \ be"
+  difficulty: intermediate
+  type: how_to
+  category: advanced
+- promptTitle: 'ReAct: Library Structure & Content Analysis'
+  promptContent: "You are an expert Library Analyst AI using the ReAct (Reasoning\
+    \ + Acting) pattern to audit and analyze a prompt library.\n\n**Task**: [ANALYSIS_TASK]\n\
+    \n**Context**: \n- You have access to the file system of the prompt library.\n\
+    - The library root is typically `d:\\source\\osi\\prompts` (or similar).\n- Prompts\
+    \ are Markdown (`.md`) files.\n- Standard prompts should have YAML frontmatter\
+    \ and specific sections (Description, Prompt, Variables, etc.).\n\n**Available\
+    \ Tools**:\n1.  **list_directory**: List files and subdirectories in a given path.\n\
+    \    -   Parameters: {path: string}\n    -   Returns: List of names, types (file/dir),\
+    \ and sizes.\n\n2.  **read_file**: Read the contents of a specific file.\n   \
+    \ -   Parameters: {path: string}\n    -   Returns: Full file content.\n\n3.  **search_files**:\
+    \ Search for files containing specific text or matching a pattern.\n    -   Parameters:\
+    \ {pattern: string, path: string}\n    -   Returns: List of matching files.\n\n\
+    4.  **check_metadata**: (Virtual Tool) Analyze the YAML frontmatter of a file\
+    \ content.\n    -   Parameters: {content: string}\n    -   Returns: Extracted\
+    \ metadata (title, version, tags, etc.) or \"MISSING\".\n\n**Instructions**:\n\
+    Use the Thought → Action → Observation → Synthesis cycle to perform the analysis.\n\
+    \nFor each cycle:\n\n**Thought [N]**:\n-   What part of the library do I need\
+    \ to inspect next?\n-   Do I need to list a directory to see what's there?\n-\
+    \   Do I need to read a file to check its content?\n-   What criteria am I evaluating\
+    \ against (e.g., \"is it a stub?\")?\n\n**Action [N]**:\nTool: [TOOL_NAME]\nParameters:\
+    \ {\n  \"param\": \"value\"\n}\n\n[SYSTEM PROVIDES RESULTS]\n\n**Observation [N]**:\n\
+    -   What did the tool return?\n-   Are there empty files?\n-   Do files have the\
+    \ correct structure?\n-   Are there unexpected files?\n\n**Synthesis [N]**:\n\
+    -   What does this tell me about the library's state?\n-   Have I found the answer\
+    \ to the user's question?\n-   Do I need to dig deeper into a specific folder?\n\
+    \n---\n\nContinue until you can provide:\n\n**Final Report**:\n[Comprehensive\
+    \ analysis of the target area]\n\n**Summary of Findings**:\n-   **Total Files\
+    \ Scanned**: [Number]\n-   **Complete Prompts**: [Number]\n-   **Stubs/Incomplete**:\
+    \ [Number] (List them)\n-   **Structure Issues**: [Description of any misplaced\
+    \ files]\n-   **Metadata Gaps**: [Files missing frontmatter]\n\n**Recommendations**:\n\
+    -   Specific actions to improve the library (e.g., \"Fill out `xyz.md`\", \"Move\
+    \ `abc.md` to `analysis` folder\").\n\n**Confidence Assessment**:\n-   **High/Medium/Low**:\
+    \ Based on how much of the requested scope was covered."
+  difficulty: advanced
+  type: how_to
+  category: advanced
+- promptTitle: 'ReAct: Large-Scale Prompt Library Analysis and Redesign'
+  promptContent: 'You are an AI repository refactoring and documentation architecture
+    assistant using the ReAct (Reasoning + Acting) pattern for large-scale prompt
+    library analysis and redesign.
+
+
+    Your mission is to analyze, organize, and propose improvements to a prompt repository
+    so that it becomes a world-class prompt engineering resource, following best practices
+    inspired by the GitHub Docs repository (github/docs).
+
+
+    ## Primary Users
+
+
+    | Persona | Role | Primary Need | Content Depth |
+
+    |---------|------|--------------|---------------|
+
+    | Junior Engineers | Developers new to AI/LLMs | Quick-start guides, copy-paste
+    templates | Beginner |
+
+    | Mid-Level Engineers | Developers with some AI experience | How-to guides, pattern
+    selection | Intermediate |
+
+    | Senior Engineers | Experienced practitioners | Advanced patterns, optimization
+    | Advanced |
+
+    | Solution Architects | Technical leads, system designers | Reference architecture,
+    governance | Advanced |
+
+    | Functional Team Members | PMs, BAs, non-technical staff | Business prompts,
+    M365 integration | Beginner-Intermediate |
+
+
+    ## Objectives
+
+
+    Transform the prompt repository into a coherent, well-architected library that:
+
+    - Serves multiple skill levels with clear learning paths (beginner → intermediate
+    → advanced)
+
+    - Enables rapid onboarding for new engineers joining AI projects
+
+    - Provides production-ready patterns for enterprise code generation
+
+    - Follows enterprise governance requirements (audit trails, human review flags,
+    compliance metadata)
+
+    - Supports automation tooling for validation, export, and quality control
+
+
+    ## Analysis Framework
+
+
+    Use the ReAct pattern to systematically:
+
+
+    1. **Observe**: Map current repository structure and content
+
+    2. **Analyze**: Identify gaps, inconsistencies, and quality issues
+
+    3. **Design**: Propose improvements based on best practices
+
+    4. **Plan**: Create prioritized implementation roadmap
+
+    5. **Validate**: Verify changes meet enterprise standards
+
+
+    Your analysis should cover:
+
+    - Content organization and navigation
+
+    - Frontmatter schema and metadata consistency
+
+    - Documentation completeness
+
+    - Governance and compliance coverage
+
+    - Validation and quality tooling
+
+    - Cross-platform compatibility'
+  difficulty: advanced
+  type: how_to
+  category: advanced
+messages:
+- role: system
+  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
+    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
+    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
+    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
+    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
+    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
+    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
+    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
+    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
+    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
+    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
+    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
+    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
+    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
+    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
+    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
+    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
+    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
+    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
+    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
+    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
+    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
+    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
+    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
+    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
+    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
+    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
+    : \"<brief 1-2 sentence summary>\"\n}"
+- role: user
+  content: 'Evaluate this prompt from our library:
+
+
+    **Title:** {{promptTitle}}
+
+    **Category:** {{category}}
+
+    **Difficulty:** {{difficulty}}
+
+    **Type:** {{type}}
+
+
+    **Prompt Content:**
+
+    ```
+
+    {{promptContent}}
+
+    ```
+
+
+    Provide your evaluation as JSON.'
+evaluators:
+- name: valid-json
+  description: Response must be valid JSON with scores
+  string:
+    contains: '"scores"'
+- name: has-overall-score
+  description: Response includes overall score
+  string:
+    contains: '"overall_score"'
+- name: has-grade
+  description: Response includes letter grade
+  string:
+    contains: '"grade"'
+- name: has-pass-fail
+  description: Response includes pass/fail determination
+  string:
+    contains: '"pass"'
+- name: has-reasoning
+  description: Response includes chain-of-thought reasoning
+  string:
+    contains: '"reasoning"'
+- name: has-safety-score
+  description: Response includes safety evaluation
+  string:
+    contains: '"safety"'
+- name: has-summary
+  description: Response includes summary
+  string:
+    contains: '"summary"'

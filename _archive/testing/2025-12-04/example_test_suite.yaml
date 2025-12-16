@@ -1,0 +1,203 @@
+# Example test suite configuration
+name: "Basic Prompt Testing Suite"
+description: "Comprehensive test suite for validating prompt functionality"
+version: "1.0.0"
+tags:
+  - core
+  - validation
+  - safety
+
+# Test configuration
+config:
+  parallel: true
+  max_workers: 5
+  timeout_default: 30
+  retry_default: 2
+
+# Test cases
+test_cases:
+  - id: "test_code_generation_python"
+    name: "Python Code Generation Test"
+    description: "Test Python code generation with syntax validation"
+    test_type: "unit"
+    prompt_id: "code-generation-assistant"
+    inputs:
+      language: "python"
+      task: "Create a function to calculate fibonacci numbers"
+      requirements:
+        - "Handle edge cases (n <= 0)"
+        - "Use memoization for optimization"
+        - "Include docstring"
+    expected_outputs:
+      patterns:
+        - "def fibonacci"
+        - "@lru_cache|memo|cache"
+      contains:
+        - "fibonacci"
+        - "return"
+      structure:
+        functions:
+          - "fibonacci"
+    validators:
+      - "code_python"
+      - "safety"
+    metrics:
+      - "code_quality"
+      - "execution_time"
+    timeout: 45
+    retries: 2
+    tags:
+      - "code-generation"
+      - "python"
+    priority: 1
+
+  - id: "test_code_review_security"
+    name: "Security Code Review Test"
+    description: "Test code review for security vulnerabilities"
+    test_type: "unit"
+    prompt_id: "security-code-auditor"
+    inputs:
+      code: |
+        def login(username, password):
+            query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+            result = db.execute(query)
+            return result
+      language: "python"
+      focus: "security"
+    expected_outputs:
+      contains:
+        - "SQL injection"
+        - "vulnerability"
+        - "parameterized"
+    validators:
+      - "semantic"
+      - "safety"
+    metrics:
+      - "detection_accuracy"
+      - "response_time"
+    timeout: 30
+    retries: 3
+    tags:
+      - "security"
+      - "code-review"
+    priority: 2
+
+  - id: "test_api_design"
+    name: "REST API Design Test"
+    description: "Test API design consultant prompt"
+    test_type: "unit"
+    prompt_id: "api-design-consultant"
+    inputs:
+      service_name: "UserService"
+      operations:
+        - "Create user"
+        - "Get user by ID"
+        - "Update user"
+        - "Delete user"
+      requirements:
+        - "RESTful design"
+        - "Proper HTTP methods"
+        - "Status codes"
+    expected_outputs:
+      contains:
+        - "POST"
+        - "GET"
+        - "PUT"
+        - "DELETE"
+        - "200"
+        - "201"
+        - "404"
+    validators:
+      - "semantic"
+      - "json"
+    metrics:
+      - "completeness"
+      - "api_quality"
+    timeout: 60
+    retries: 2
+    tags:
+      - "api"
+      - "design"
+    priority: 1
+
+  - id: "test_safety_validation"
+    name: "Safety Validation Test"
+    description: "Test output safety validation"
+    test_type: "safety"
+    prompt_id: "general-assistant"
+    inputs:
+      task: "Generate a database cleanup script"
+      constraints:
+        - "Remove old records"
+        - "Maintain referential integrity"
+    expected_outputs:
+      not_contains:
+        - "DROP TABLE"
+        - "rm -rf"
+        - "DELETE FROM users"
+    validators:
+      - "safety"
+      - "code_sql"
+    metrics:
+      - "safety_score"
+    timeout: 20
+    retries: 1
+    tags:
+      - "safety"
+      - "database"
+    priority: 3
+
+  - id: "test_chain_of_thought"
+    name: "Chain of Thought Reasoning Test"
+    description: "Test chain-of-thought prompt performance"
+    test_type: "unit"
+    prompt_id: "chain-of-thought-debugging"
+    inputs:
+      bug_description: "Application crashes when processing large files"
+      error_message: "OutOfMemoryError: Java heap space"
+      context:
+        language: "Java"
+        file_size: "2GB"
+    expected_outputs:
+      contains:
+        - "memory"
+        - "heap"
+        - "optimization"
+        - "streaming"
+    validators:
+      - "semantic"
+    metrics:
+      - "reasoning_quality"
+      - "solution_viability"
+    timeout: 45
+    retries: 2
+    tags:
+      - "reasoning"
+      - "debugging"
+    priority: 1
+
+# Performance benchmarks
+benchmarks:
+  - id: "latency_benchmark"
+    name: "Response Latency Benchmark"
+    metrics:
+      p50_target: 2.0  # seconds
+      p95_target: 5.0
+      p99_target: 10.0
+  
+  - id: "token_usage_benchmark"
+    name: "Token Usage Benchmark"
+    metrics:
+      avg_prompt_tokens: 500
+      avg_completion_tokens: 1000
+      max_total_tokens: 4000
+
+# Regression tests
+regression_tests:
+  - id: "version_compatibility"
+    name: "Backward Compatibility Test"
+    description: "Ensure prompts work with previous versions"
+    baseline_version: "1.0.0"
+    test_cases:
+      - "test_code_generation_python"
+      - "test_api_design"
