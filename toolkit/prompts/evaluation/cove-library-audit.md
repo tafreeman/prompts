@@ -1,29 +1,7 @@
----
-title: CoVE Prompt Library Rubric Validation Audit
-shortTitle: CoVE Rubric Audit
-intro: Validate prompt library scoring rubrics against GenAI research (2023-2025)
-type: template
-difficulty: advanced
-audience:
-  - researchers
-  - developers
-platforms:
-  - copilot
-  - chatgpt
-  - claude
-  - gemini
-  - generic
-topics:
-  - prompt-engineering
-  - evaluation
-  - quality-assurance
-date: "2025-12-18"
----
 
 # CoVE Prompt Library Rubric Validation Audit (GenAI Research, 2023-2025)
 
 ## Purpose
-
 Validate the accuracy, relevance, and research alignment of the scoring rubrics used in this prompt library. Ensure that each rubric dimension and scoring practice is grounded in the latest GenAI prompt engineering research (2023-2025) and provides actionable, trustworthy guidance for prompt authors and reviewers.
 
 ---
@@ -90,7 +68,6 @@ For each prompt/rubric, output:
 ---
 
 ## References
-
 - Dhuliawala et al., "Chain-of-Verification Reduces Hallucination in Large Language Models," arXiv:2309.11495 (2023)
 - DAIR.AI Prompt Engineering Guide (2023-2025)
 - Madaan et al., "Self-Refine: Iterative Refinement with Self-Feedback," arXiv:2303.17651 (2023)

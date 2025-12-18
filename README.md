@@ -102,6 +102,23 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 ---
 
+## 🔧 Unified Tooling
+
+The library includes a powerful CLI and a unified backend for executing, evaluating, and improving prompts across local (ONNX/NPU) and cloud providers.
+
+| Tool | Purpose | Key Command |
+|------|---------|-------------|
+| **Prompt Runner** | Execute prompts on local/cloud models | `python prompt.py run` |
+| **Tiered Eval** | Multi-tier prompt quality evaluation | `python prompt.py eval` |
+| **CoVe Runner** | Fact-checking via Chain-of-Verification | `python prompt.py cove` |
+| **Windows AI** | Local NPU-accelerated inference | `python prompt.py run -p windows` |
+| **Local Media** | Local Image Gen & Speech-to-Text | `python tools/local_media.py` |
+
+📖 **[Full Tools Documentation & Usage Guide →](tools/README.md)**  
+⚡ **[Windows AI Setup Guide →](WINDOWS_AI_INSTALL.md)**
+
+---
+
 ## 📁 Repository Structure
 
 ```text

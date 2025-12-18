@@ -619,13 +619,6 @@ class PromptTestRunner:
             return await self._execute_ollama(prompt, inputs)
         else:
             return await self._execute_local_model(prompt, inputs)
-                "prompt_tokens": len(formatted_prompt) // 4,
-                "completion_tokens": 100,
-                "total_tokens": len(formatted_prompt) // 4 + 100
-            }
-        }
-        
-        return response["output"], response["token_usage"]
     
     async def _execute_multimodal(self, 
                                  prompt: Dict, 

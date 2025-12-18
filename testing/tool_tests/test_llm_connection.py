@@ -5,10 +5,18 @@ Verifies that the LLMClient can connect to the configured providers.
 """
 
 import os
-from llm_client import LLMClient
+import sys
+from pathlib import Path
+
+# Add project root to path for imports
+ROOT_DIR = Path(__file__).parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from tools.llm_client import LLMClient
 
 
-def test_provider(provider_name, model_name):
+def _check_provider(provider_name, model_name):
     print(f"\nTesting {provider_name} ({model_name})...")
 
     # Check for API key first
@@ -31,9 +39,9 @@ def main():
     print("LLM Connection Tester")
     print("=====================")
 
-    test_provider("gemini", "gemini-1.5-pro")
-    test_provider("claude", "claude-3-sonnet-20240229")
-    test_provider("gpt", "gpt-4")
+    _check_provider("gemini", "gemini-1.5-pro")
+    _check_provider("claude", "claude-3-sonnet-20240229")
+    _check_provider("gpt", "gpt-4")
 
     print("\nDone.")
 

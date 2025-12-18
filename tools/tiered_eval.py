@@ -239,6 +239,16 @@ TIERS: Dict[int, TierConfig] = {
         uses_llm=True,
         tools=["llm_client.py", "cove_runner.py"],
     ),
+    7: TierConfig(
+        name="Windows AI (NPU)",
+        description="Local NPU-accelerated Phi Silica via Windows Copilot Runtime",
+        cost_estimate="$0 (Local NPU)",
+        time_estimate="10-30 seconds per prompt",
+        models=["windows-ai/phi-silica"],
+        runs_per_model=2,
+        uses_llm=True,
+        tools=["windows_ai.py", "PhiSilicaBridge.exe"],
+    ),
 }
 
 
@@ -1126,6 +1136,81 @@ Return ONLY valid JSON:
     return results
 
 
+def run_tier_7(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
+    """
+    Tier 7: Windows AI (NPU) - Uses local NPU-accelerated Phi Silica ($0)
+    Uses: windows_ai.py via llm_client.py
+    """
+    config = TIERS[7]
+    
+    results = {
+        "tier": 7,
+        "name": config.name,
+        "prompts_evaluated": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "total_cost": config.cost_estimate,
+        "results": [],
+    }
+    
+    repo_root = get_repo_root()
+    sys.path.insert(0, str(repo_root / "tools"))
+    from llm_client import LLMClient
+    
+    print(f"\n🧠 Running Windows AI (NPU) evaluation on {len(prompts)} prompts...")
+    
+    for prompt_path in prompts:
+        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        print(f"  Evaluating: {rel_path}")
+        
+        try:
+            content = prompt_path.read_text(encoding="utf-8")
+            
+            # Build evaluation prompt
+            eval_prompt = f"""Evaluate this prompt template on a 1-10 scale for clarity and specificity.
+Return JSON with overall score 1-10.
+
+Prompt:
+{content[:2000]}
+
+Return JSON: {{"overall": N, "summary": "..."}}"""
+
+            response = LLMClient.generate_text("windows-ai:phi-silica", eval_prompt)
+            
+            # Simple score extraction if model doesn't return clean JSON
+            import re
+            score_match = re.search(r'"overall":\s*(\d+)', response)
+            score = int(score_match.group(1)) if score_match else 5
+            
+            passed = score >= 7
+            results["results"].append({
+                "file": str(rel_path),
+                "score": score,
+                "passed": passed,
+                "model": "windows-ai/phi-silica",
+                "tool": "windows_ai.py",
+                "response": response[:100] + "..."
+            })
+            
+            if passed:
+                results["passed"] += 1
+            else:
+                results["failed"] += 1
+                
+        except Exception as e:
+            results["results"].append({
+                "file": str(rel_path),
+                "error": str(e),
+                "tool": "windows_ai.py",
+            })
+            results["errors"] += 1
+            
+        results["prompts_evaluated"] += 1
+        
+    return results
+
+
 # =============================================================================
 # REPORT GENERATION
 # =============================================================================
@@ -1385,6 +1470,8 @@ NOTE: Claude and Gemini models are only available via Copilot Chat,
         3: run_tier_3,
         4: run_tier_4,
         5: run_tier_5,
+        6: run_tier_6,
+        7: run_tier_7,
     }
     
     runner = tier_runners.get(args.tier)

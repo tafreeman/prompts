@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 import click
 
-from universal_code_generator import UniversalCodeGenerator  # type: ignore
-from prompts.config import default_config
+from tools.code_generator import UniversalCodeGenerator
+from tools.config import default_config
 from .interactive import interactive_wizard
 
 

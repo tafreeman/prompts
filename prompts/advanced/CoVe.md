@@ -1,4 +1,4 @@
-     ---
+---
 title: Chain-of-Verification (CoVe)
 description:
   "Reduce hallucinations through structured fact-checking using the Generate\u2192\

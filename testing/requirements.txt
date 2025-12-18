@@ -39,7 +39,6 @@ tqdm>=4.66
 
 # Database (for storing results)
 sqlalchemy>=2.0
-sqlite3>=3.43
 
 # Monitoring
 prometheus-client>=0.18

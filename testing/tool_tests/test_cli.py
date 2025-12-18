@@ -1,6 +1,14 @@
-from click.testing import CliRunner
-from tools.cli.main import cli
+import sys
 import json
+from pathlib import Path
+from click.testing import CliRunner
+
+# Add project root to path for imports
+ROOT_DIR = Path(__file__).parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from tools.cli.main import cli
 
 def test_create_command():
     runner = CliRunner()
