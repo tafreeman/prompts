@@ -90,6 +90,7 @@ Options:
 | 4 | Full Pipeline | Free | 5-10m | Release |
 | 5 | Premium | Free | 10-20m | Critical |
 | 6 | Azure Foundry | $ | 15-30s | Production |
+| 7 | Windows AI (NPU) | Free | 5-15s | Local + Fast |
 
 **Examples:**
 

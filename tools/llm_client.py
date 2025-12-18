@@ -21,17 +21,70 @@ class LLMClient:
     """
 
     # Available local models (from AI Gallery cache)
+    # Updated 2025-12-18 - Full model list from ~/.cache/aigallery
+    # Format: "key": ("base_dir", "subpath") or just "base_dir" for auto-detect
     LOCAL_MODELS = {
-        "phi4mini": "microsoft--Phi-4-mini-instruct-onnx",
+        # ═══════════════════════════════════════════════════════════════════
+        # PHI-4 (Latest - 3.8B params)
+        # ═══════════════════════════════════════════════════════════════════
         "phi4": "microsoft--Phi-4-mini-instruct-onnx",
+        "phi4mini": "microsoft--Phi-4-mini-instruct-onnx",
+        "phi4-cpu": "microsoft--Phi-4-mini-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        "phi4-gpu": "microsoft--Phi-4-mini-instruct-onnx/main/gpu/gpu-int4-rtn-block-32",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # PHI-3.5 (3.8B params)
+        # ═══════════════════════════════════════════════════════════════════
         "phi3.5": "microsoft--Phi-3.5-mini-instruct-onnx",
-        "phi3.5-vision": "microsoft--Phi-3.5-vision-instruct-onnx",
+        "phi3.5-cpu": "microsoft--Phi-3.5-mini-instruct-onnx/main/cpu_and_mobile/cpu-int4-awq-block-128-acc-level-4",
+        "phi3.5-vision": "microsoft--Phi-3.5-vision-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # PHI-3 MINI (3.8B params)
+        # ═══════════════════════════════════════════════════════════════════
         "phi3": "microsoft--Phi-3-mini-4k-instruct-onnx",
-        "phi3-medium": "microsoft--Phi-3-medium-4k-instruct-onnx",
-        "phi3-vision": "microsoft--Phi-3-vision-128k-instruct-onnx",
-        "mistral-7b": "microsoft--mistral-7b-instruct-v0.2-ONNX",
+        "phi3-cpu": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        "phi3-cpu-acc1": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32",
+        "phi3-dml": "microsoft--Phi-3-mini-4k-instruct-onnx/main/directml/directml-int4-awq-block-128",
+        "phi3-vision": "microsoft--Phi-3-vision-128k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # PHI-3 MEDIUM (14B params - larger, slower, more capable)
+        # ═══════════════════════════════════════════════════════════════════
+        "phi3-medium": "microsoft--Phi-3-medium-4k-instruct-onnx-cpu",
+        "phi3-medium-cpu": "microsoft--Phi-3-medium-4k-instruct-onnx-cpu/main/cpu-int4-rtn-block-32-acc-level-4",
+        "phi3-medium-dml": "microsoft--Phi-3-medium-4k-instruct-onnx-directml/main/directml-int4-awq-block-128",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # MISTRAL 7B (7B params)
+        # ═══════════════════════════════════════════════════════════════════
         "mistral": "microsoft--mistral-7b-instruct-v0.2-ONNX",
+        "mistral-7b": "microsoft--mistral-7b-instruct-v0.2-ONNX",
+        "mistral-cpu": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4",
+        "mistral-cpu-acc1": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32",
+        "mistral-dml": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/directml/mistralai_Mistral-7B-Instruct-v0.2",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # EMBEDDING MODELS (for RAG, similarity search)
+        # ═══════════════════════════════════════════════════════════════════
+        "minilm-l6": "sentence-transformers--all-MiniLM-L6-v2",
+        "minilm-l12": "sentence-transformers--all-MiniLM-L12-v2",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # WHISPER (Speech-to-Text)
+        # ═══════════════════════════════════════════════════════════════════
+        "whisper-tiny": "khmyznikov--whisper-int8-cpu-ort.onnx",
+        "whisper-small": "khmyznikov--whisper-int8-cpu-ort.onnx",
+        "whisper-medium": "khmyznikov--whisper-int8-cpu-ort.onnx",
+        "whisper": "khmyznikov--whisper-int8-cpu-ort.onnx",
+        
+        # ═══════════════════════════════════════════════════════════════════
+        # IMAGE MODELS
+        # ═══════════════════════════════════════════════════════════════════
+        "stable-diffusion": "CompVis--stable-diffusion-v1-4",
+        "esrgan": "microsoft--dml-ai-hub-models",
     }
+
 
     @staticmethod
     def generate_text(model_name: str, prompt: str, system_instruction: Optional[str] = None,
@@ -48,6 +101,7 @@ class LLMClient:
 
         Supported model name patterns:
           - local:* -> Local ONNX models (e.g., "local:phi4mini", "local:mistral-7b")
+          - windows-ai:* -> Windows AI APIs / Phi Silica (NPU-accelerated, local)
           - azure-foundry:* -> Azure Foundry API (e.g., "azure-foundry:phi4mini")
           - gh:* -> GitHub Models (e.g., "gh:gpt-4o-mini", "gh:llama-3.3-70b")
           - gemini* -> Google Gemini API
@@ -60,6 +114,9 @@ class LLMClient:
             if model_name.lower().startswith("local:"):
                 return LLMClient._call_local(model_name, prompt, system_instruction,
                                              temperature, max_tokens)
+            elif model_name.lower().startswith("windows-ai:"):
+                return LLMClient._call_windows_ai(model_name, prompt, system_instruction,
+                                                  temperature, max_tokens)
             elif model_name.lower().startswith("azure-foundry:"):
                 return LLMClient._call_azure_foundry(
                     model_name, prompt, system_instruction, temperature, max_tokens)
@@ -73,7 +130,7 @@ class LLMClient:
                 return LLMClient._call_openai(model_name, prompt, system_instruction,
                                               temperature, max_tokens)
             else:
-                return f"Unknown model: {model_name}. Use local:, azure-foundry:, gh:, gemini, claude, or gpt"
+                return f"Unknown model: {model_name}. Use local:, windows-ai:, azure-foundry:, gh:, gemini, claude, or gpt"
         except Exception as e:
             return f"Error calling {model_name}: {str(e)}"
 
@@ -126,6 +183,46 @@ class LLMClient:
             return lm.generate(full_prompt, max_tokens=max_tokens, temperature=temperature)
         except Exception as e:
             return f"Local model error: {str(e)}"
+
+    @staticmethod
+    def _call_windows_ai(model_name: str, prompt: str, system_instruction: Optional[str],
+                         temperature: float = 0.7, max_tokens: int = 2000) -> str:
+        """
+        Call Windows AI APIs (Phi Silica via Windows Copilot Runtime).
+        
+        Model name format: windows-ai:phi-silica
+        
+        Requirements:
+          - Windows 11 with NPU (Copilot+ PC)
+          - Windows App SDK 1.7+
+          - pip install winrt-runtime
+        
+        Reference:
+          https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica
+        """
+        try:
+            from windows_ai import WindowsAIModel
+            
+            model = WindowsAIModel(verbose=False)
+            return model.generate(
+                prompt,
+                system_instruction=system_instruction,
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            
+        except ImportError:
+            return (
+                "❌ Windows AI integration not available.\n\n"
+                "Requirements:\n"
+                "  • Windows 11 with NPU (Copilot+ PC)\n"
+                "  • Windows App SDK 1.7+\n"
+                "  • pip install winrt-runtime\n\n"
+                "Documentation: https://learn.microsoft.com/en-us/windows/ai/apis/\n\n"
+                "Falling back to other providers..."
+            )
+        except Exception as e:
+            return f"Windows AI error: {str(e)}"
 
     @staticmethod
     def _call_github_models(model_name: str, prompt: str, system_instruction: Optional[str]) -> str:

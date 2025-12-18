@@ -56,21 +56,22 @@ BANNER = """
 """
 
 PROVIDERS = {
-    "local": "Local ONNX models (phi4mini, phi3.5, mistral-7b) - FREE",
-    "gh": "GitHub Models (gpt-4o-mini, gpt-4.1, llama-3.3) - FREE tier",
-    "azure": "Azure Foundry (your deployment) - PAY-PER-USE",
-    "openai": "OpenAI API (gpt-4o, gpt-4.1) - PAID",
-    "ollama": "Local Ollama server - FREE",
-    "claude": "Anthropic Claude API - PAID",
-    "gemini": "Google Gemini API - PAID",
-    "windows": "Windows AI Gallery / Copilot Runtime - FREE",
+    "local": "Local ONNX Models (Phi-4, Mistral) - CPU/GPU, cross-platform",
+    "windows": "Windows AI APIs (Phi Silica) - Local NPU, Copilot+ PCs only",
+    "gh": "GitHub Models (gpt-4o-mini, gpt-4.1) - Cloud-based, FREE tier",
+    "azure": "Azure Foundry (Enterprise) - Cloud-based, PAY-PER-USE",
+    "openai": "OpenAI API (GPT-4o) - Cloud-based, PAID",
+    "ollama": "Local Ollama Server - Local models (Llama, etc.)",
+    "claude": "Anthropic Claude API - Cloud-based, PAID",
+    "gemini": "Google Gemini API - Cloud-based, PAID",
 }
 
 TIERS = {
-    0: ("Local Model", "Local ONNX - free, 30-60s/prompt"),
+    0: ("Local ONNX", "Local ONNX via CPU/GPU - cross-platform, ~30-60s"),
+    7: ("Windows AI", "Local NPU via Windows App SDK - Copilot+ PCs only, ~10-20s"),
     1: ("Quick Triage", "Structural only - <1 second"),
-    2: ("Single Model", "One model check - 15-45s"),
-    3: ("Cross-Validation", "3 models × 2 runs - 2-4 min"),
+    2: ("Single Model", "One cloud model (gpt-4o-mini) - 15-45s"),
+    3: ("Cross-Validate", "3 models × 2 runs - 2-4 min"),
     4: ("Full Pipeline", "5 models × 3 runs - 5-10 min"),
     5: ("Premium", "5 models × 4 runs - 10-20 min"),
     6: ("Azure Foundry", "Your Azure models - 15-30s"),
@@ -117,20 +118,14 @@ COMMANDS:
 EXAMPLES:
 ─────────────────────────────────────────────────────────────────────────────
 
-  # Execute a prompt with local ONNX model
+  # Run with Local ONNX (Mistral)
   python prompt.py run prompts/basic/greeting.md -p local
 
-  # Evaluate with tier 3 (cross-validation)
-  python prompt.py eval prompts/advanced/react-tool-augmented.md -t 3
+  # Run with Windows AI (Phi Silica on NPU)
+  python prompt.py run prompts/basic/greeting.md -p windows
 
-  # Verify a factual claim with CoVe
-  python prompt.py cove "When was Python created and by whom?"
-
-  # Batch evaluate with GitHub Models
-  python prompt.py batch prompts/socmint/ -p gh
-
-  # Get improvement suggestions
-  python prompt.py improve prompts/business/
+  # Evaluate with Tier 7 (Windows AI NPU)
+  python prompt.py eval prompts/advanced/ -t 7
 """)
 
 
@@ -427,6 +422,11 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
             from llm_client import LLMClient
             model_name = model or "gpt-4o-mini"
             response = LLMClient.generate_text(model_name, content)
+
+        elif provider in ("windows", "windows-ai", "win"):
+            from llm_client import LLMClient
+            model_name = model or "phi-silica"
+            response = LLMClient.generate_text(f"windows-ai:{model_name}", content)
 
         else:
             print(f"❌ Provider {provider} not implemented yet")

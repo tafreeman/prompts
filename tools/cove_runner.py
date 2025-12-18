@@ -103,89 +103,25 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
       model_path: For local provider, explicit path to ONNX model directory
     """
 
-    if provider == "windows":
-        # Windows AI - uses AI Gallery models or Windows Copilot Runtime
+    if provider == "windows" or provider == "windows-ai":
+        # Windows AI - uses Local NPU (Phi Silica) via Windows App SDK
         try:
-            # First try the official Windows AI SDK (when available)
-            from microsoft.windows.ai.generative import LanguageModel
-
-            model_name = "phi-silica"
-
-            async def _async_generate(prompt: str) -> str:
-                lm = await LanguageModel.create_async()
-                response = await lm.generate_async(prompt)
-                return response.text
+            sys.path.insert(0, str(Path(__file__).parent))
+            from windows_ai import WindowsAIModel
+            
+            w_model = WindowsAIModel(verbose=verbose)
+            model_name = "phi-silica (NPU)"
 
             def windows_call(prompt: str, system_prompt: Optional[str] = None) -> str:
-                import asyncio
-                full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
-                return asyncio.run(_async_generate(full_prompt))
+                return w_model.generate(prompt, system_instruction=system_prompt)
 
             windows_call.model_name = model_name
             return windows_call
 
-        except ImportError:
-            # Fallback: use onnxruntime-genai with Windows AI Gallery models
-            try:
-                import onnxruntime_genai as og
-
-                # Search Windows AI Gallery cache for Phi models
-                ai_gallery_path = Path.home() / ".cache" / "aigallery"
-                windows_model_paths = [
-                                       # Windows AI native paths (future)
-                    Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft" / "Windows.AI" / "Models" / "phi-silica",
-                    Path(r"C:\Windows\System32\AI\Models\phi-silica"),
-                ]
-
-                # Add AI Gallery Phi models
-                if ai_gallery_path.exists():
-                    for phi_dir in ai_gallery_path.glob("microsoft--Phi-*"):
-                        for cpu_dir in phi_dir.glob("**/cpu*"):
-                            if cpu_dir.is_dir():
-                                windows_model_paths.append(cpu_dir)
-
-                model_path_found = None
-                for p in windows_model_paths:
-                    if p.exists() and (any(p.glob("*.onnx")) or any(p.glob("**/genai_config.json"))):
-                        model_path_found = p
-                        if verbose:
-                            print(f"Found Windows AI model: {p}")
-                        break
-
-                if model_path_found:
-                    if verbose:
-                        print(f"Loading Windows AI model from: {model_path_found}")
-                    og_model = og.Model(str(model_path_found))
-                    tokenizer = og.Tokenizer(og_model)
-                    model_name = f"windows-{model_path_found.parent.parent.name}" if "Phi" in str(model_path_found) else "windows-ai"
-
-                    def windows_onnx_call(prompt: str, system_prompt: Optional[str] = None) -> str:
-                        full_prompt = f"<|system|>\n{system_prompt}<|end|>\n<|user|>\n{prompt}<|end|>\n<|assistant|>\n" if system_prompt else f"<|user|>\n{prompt}<|end|>\n<|assistant|>\n"
-                        input_tokens = tokenizer.encode(full_prompt)
-                        params = og.GeneratorParams(og_model)
-                        params.set_search_options(max_length=len(input_tokens) + 1500, batch_size=1)
-                        generator = og.Generator(og_model, params)
-                        generator.append_tokens(input_tokens)
-                        while not generator.is_done():
-                            generator.generate_next_token()
-                        output = tokenizer.decode(generator.get_sequence(0))
-                        # Clean up Phi chat template markers
-                        output = output.replace("<|assistant|>", "").replace("<|end|>", "").strip()
-                        del generator
-                        return output
-
-                    windows_onnx_call.model_name = model_name
-                    return windows_onnx_call
-                else:
-                    raise FileNotFoundError("No Windows AI Gallery models found. Download Phi models from AI Gallery.")
-
-            except Exception as e:
-                print(f"⚠️  Windows AI not available: {e}")
-                print("\nTo use Windows AI, either:")
-                print("  1. Download Phi models from Windows AI Gallery")
-                print("  2. Use --provider local --model-path <path-to-model>")
-                print("  3. Wait for microsoft-windows-ai SDK release")
-                raise ValueError(f"Windows AI provider not available: {e}")
+        except Exception as e:
+            if verbose:
+                print(f"⚠️  Windows AI NPU not available: {e}")
+            raise ValueError(f"Windows AI NPU provider not available: {e}")
 
     if provider == "local":
         try:

@@ -11,10 +11,12 @@ from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from io import StringIO
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+# Add project root to path for imports
+ROOT_DIR = Path(__file__).parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-from evaluation_agent import (
+from tools.evaluation_agent import (
     AgentConfig,
     AgentState,
     CategoryResult,
@@ -27,15 +29,15 @@ from evaluation_agent import (
 class TestEndToEndExecution(unittest.TestCase):
     """End-to-end test with mocked external dependencies."""
     
-    @patch('evaluation_agent.check_prerequisites')
-    @patch('evaluation_agent.count_prompts_in_category')
-    @patch('evaluation_agent.generate_eval_files')
-    @patch('evaluation_agent.run_evaluations')
-    @patch('evaluation_agent.parse_evaluation_results')
-    @patch('evaluation_agent.generate_improvement_plan')
-    @patch('evaluation_agent.generate_final_report')
-    @patch('evaluation_agent.save_checkpoint')
-    @patch('evaluation_agent.clear_checkpoint')
+    @patch('tools.evaluation_agent.check_prerequisites')
+    @patch('tools.evaluation_agent.count_prompts_in_category')
+    @patch('tools.evaluation_agent.generate_eval_files')
+    @patch('tools.evaluation_agent.run_evaluations')
+    @patch('tools.evaluation_agent.parse_evaluation_results')
+    @patch('tools.evaluation_agent.generate_improvement_plan')
+    @patch('tools.evaluation_agent.generate_final_report')
+    @patch('tools.evaluation_agent.save_checkpoint')
+    @patch('tools.evaluation_agent.clear_checkpoint')
     def test_full_pipeline_dry_run_e2e(
         self,
         mock_clear,
@@ -96,10 +98,10 @@ class TestEndToEndExecution(unittest.TestCase):
         # Verify final report was generated
         mock_report.assert_called_once()
     
-    @patch('evaluation_agent.check_prerequisites')
-    @patch('evaluation_agent.generate_eval_files')
-    @patch('evaluation_agent.run_evaluations')
-    @patch('evaluation_agent.save_checkpoint')
+    @patch('tools.evaluation_agent.check_prerequisites')
+    @patch('tools.evaluation_agent.generate_eval_files')
+    @patch('tools.evaluation_agent.run_evaluations')
+    @patch('tools.evaluation_agent.save_checkpoint')
     def test_single_phase_execution(
         self,
         mock_save,
@@ -131,7 +133,7 @@ class TestEndToEndExecution(unittest.TestCase):
         # Verify results
         self.assertTrue(result)
     
-    @patch('evaluation_agent.load_checkpoint')
+    @patch('tools.evaluation_agent.load_checkpoint')
     def test_resume_from_checkpoint(self, mock_load):
         """Test resuming from a checkpoint."""
         # Mock checkpoint loading

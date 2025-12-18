@@ -29,20 +29,49 @@ Focused testing framework for validation and multi-model evaluation.
 
 ```text
 testing/
-├── README.md           # This file
-├── conftest.py         # Shared pytest fixtures
-├── requirements.txt    # Test dependencies
-├── evals/              # Primary evaluation tool
-│   ├── dual_eval.py        # Multi-model evaluation (PRIMARY)
-│   ├── test_dual_eval.py   # Unit tests (66 tests)
-│   ├── README.md           # Eval tool documentation
-│   └── results/            # Evaluation outputs
-├── validators/         # Validation tests
-│   ├── test_frontmatter.py # Frontmatter validation (27 tests)
-│   ├── test_schema.py      # Schema compliance (23 tests)
-│   └── README.md           # Validator documentation
-└── archive/            # Archived legacy framework
-```text
+├── README.md               # This file
+├── conftest.py             # Shared pytest fixtures
+├── requirements.txt        # Test dependencies
+├── run_tests.py            # Test runner script
+│
+├── unit/                   # Unit tests
+│   └── __init__.py
+│
+├── integration/            # Integration & E2E tests
+│   ├── __init__.py
+│   ├── test_prompt_integration.py
+│   ├── test_prompt_toolkit.py
+│   ├── test_evaluation_agent_e2e.py
+│   └── test_evaluation_agent_integration.py
+│
+├── tools/                  # Tool-specific tests
+│   ├── __init__.py
+│   ├── test_evaluation_agent.py
+│   ├── test_generator.py
+│   ├── test_llm_connection.py
+│   └── test_cli.py
+│
+├── evals/                  # Evaluation tests & tool
+│   ├── dual_eval.py            # Multi-model evaluation (PRIMARY)
+│   ├── test_dual_eval.py       # Unit tests (66 tests)
+│   ├── README.md               # Eval tool documentation
+│   └── results/                # Evaluation outputs
+│
+├── validators/             # Validation tests
+│   ├── test_frontmatter.py     # Frontmatter validation (27 tests)
+│   ├── test_frontmatter_auditor.py
+│   ├── test_schema.py          # Schema compliance (23 tests)
+│   └── README.md               # Validator documentation
+│
+├── framework/              # Test framework core
+│   └── core/
+│       └── test_runner.py
+│
+└── archive/                # Archived legacy tests
+```
+
+text
+
 ## 🚀 Quick Start
 
 ```bash

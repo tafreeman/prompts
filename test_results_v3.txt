@@ -1,0 +1,440 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.1, pluggy-1.6.0 -- D:\source\prompts\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\source\prompts
+configfile: pytest.ini
+plugins: anyio-4.12.0, asyncio-1.3.0, cov-7.0.0, timeout-2.4.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 194 items
+
+testing/evals/test_dual_eval.py::TestEvalResult::test_default_values PASSED [  0%]
+testing/evals/test_dual_eval.py::TestEvalResult::test_with_scores PASSED [  1%]
+testing/evals/test_dual_eval.py::TestEvalResult::test_with_error PASSED  [  1%]
+testing/evals/test_dual_eval.py::TestModelSummary::test_default_values PASSED [  2%]
+testing/evals/test_dual_eval.py::TestModelSummary::test_with_results PASSED [  2%]
+testing/evals/test_dual_eval.py::TestCrossValidationReport::test_default_values PASSED [  3%]
+testing/evals/test_dual_eval.py::TestParsePromptFile::test_parses_frontmatter PASSED [  3%]
+testing/evals/test_dual_eval.py::TestParsePromptFile::test_extracts_content PASSED [  4%]
+testing/evals/test_dual_eval.py::TestParsePromptFile::test_file_not_found PASSED [  4%]
+testing/evals/test_dual_eval.py::TestParsePromptFile::test_file_without_frontmatter PASSED [  5%]
+testing/evals/test_dual_eval.py::TestCreateTempEvalFile::test_creates_yaml_file PASSED [  5%]
+testing/evals/test_dual_eval.py::TestCreateTempEvalFile::test_includes_evaluation_criteria PASSED [  6%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_detects_model_not_found PASSED [  6%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_detects_access_denied PASSED [  7%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_detects_forbidden PASSED [  7%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_returns_none_for_transient_error PASSED [  8%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_returns_none_for_empty_message PASSED [  8%]
+testing/evals/test_dual_eval.py::TestDetectFatalErrorReason::test_case_insensitive PASSED [  9%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_returns_none_when_no_file PASSED [  9%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_creates_log_file PASSED [ 10%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_writes_success_entry PASSED [ 10%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_writes_error_entry PASSED [ 11%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_sequential_ids PASSED [ 11%]
+testing/evals/test_dual_eval.py::TestCreateLogWriter::test_thread_safety PASSED [ 12%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_calculates_consensus_score PASSED [ 12%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_passes_cross_validation PASSED [ 13%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_fails_cross_validation_high_variance PASSED [ 13%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_identifies_discrepancies PASSED [ 14%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_assigns_grade_a_plus PASSED [ 14%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_assigns_grade_b PASSED [ 15%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_assigns_grade_f PASSED [ 15%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_determines_pass_fail PASSED [ 16%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_counts_total_runs PASSED [ 17%]
+testing/evals/test_dual_eval.py::TestCrossValidate::test_combines_strengths_and_improvements PASSED [ 17%]
+testing/evals/test_dual_eval.py::TestConfiguration::test_pass_threshold PASSED [ 18%]
+testing/evals/test_dual_eval.py::TestConfiguration::test_cross_validation_threshold PASSED [ 18%]
+testing/evals/test_dual_eval.py::TestConfiguration::test_fatal_error_patterns_exist PASSED [ 19%]
+testing/evals/test_dual_eval.py::TestConfiguration::test_default_models_defined PASSED [ 19%]
+testing/evals/test_dual_eval.py::TestRunSingleEval::test_successful_eval PASSED [ 20%]
+testing/evals/test_dual_eval.py::TestRunSingleEval::test_failed_eval PASSED [ 20%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_discovers_single_file PASSED [ 21%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_discovers_directory PASSED [ 21%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_recursive_discovery PASSED [ 22%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_skips_nonexistent_paths PASSED [ 22%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_skips_non_markdown_files PASSED [ 23%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_deduplicates_files PASSED [ 23%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_excludes_readme_files PASSED [ 24%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_excludes_index_files PASSED [ 24%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_excludes_agent_files PASSED [ 25%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_excludes_instruction_files PASSED [ 25%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_excludes_archive_directory PASSED [ 26%]
+testing/evals/test_dual_eval.py::TestDiscoverPromptFiles::test_include_all_overrides_filtering PASSED [ 26%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_accepts_regular_prompt PASSED [ 27%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_rejects_readme PASSED [ 27%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_rejects_index PASSED [ 28%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_rejects_agent PASSED [ 28%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_rejects_instructions PASSED [ 29%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_rejects_archive_path PASSED [ 29%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_handles_git_not_found PASSED [ 30%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_handles_git_timeout PASSED [ 30%]
+testing/evals/test_dual_eval.py::TestIsPromptFile::test_parses_git_output PASSED [ 31%]
+testing/evals/test_dual_eval.py::TestJsonReport::test_report_to_dict PASSED [ 31%]
+testing/evals/test_dual_eval.py::TestJsonReport::test_generate_json_report_single PASSED [ 32%]
+testing/evals/test_dual_eval.py::TestJsonReport::test_generate_json_report_batch PASSED [ 32%]
+testing/evals/test_dual_eval.py::TestBatchMarkdownReport::test_generates_summary_table PASSED [ 33%]
+testing/evals/test_dual_eval.py::TestBatchReport::test_default_values PASSED [ 34%]
+testing/integration/test_evaluation_agent_e2e.py::TestEndToEndExecution::test_command_line_interface PASSED [ 34%]
+testing/integration/test_evaluation_agent_e2e.py::TestEndToEndExecution::test_full_pipeline_dry_run_e2e PASSED [ 35%]
+testing/integration/test_evaluation_agent_e2e.py::TestEndToEndExecution::test_resume_from_checkpoint PASSED [ 35%]
+testing/integration/test_evaluation_agent_e2e.py::TestEndToEndExecution::test_single_phase_execution PASSED [ 36%]
+testing/integration/test_evaluation_agent_integration.py::TestFullPipelineIntegration::test_agent_tracks_completed_categories PASSED [ 36%]
+testing/integration/test_evaluation_agent_integration.py::TestFullPipelineIntegration::test_full_pipeline_dry_run PASSED [ 37%]
+testing/integration/test_evaluation_agent_integration.py::TestFullPipelineIntegration::test_phase_execution_dry_run PASSED [ 37%]
+testing/integration/test_evaluation_agent_integration.py::TestCommandLineIntegration::test_full_flag_creates_agent PASSED [ 38%]
+testing/integration/test_evaluation_agent_integration.py::TestCommandLineIntegration::test_phase_flag_with_dry_run PASSED [ 38%]
+testing/integration/test_evaluation_agent_integration.py::TestCommandLineIntegration::test_resume_flag PASSED [ 39%]
+testing/integration/test_evaluation_agent_integration.py::TestAgentStateManagement::test_state_accumulates_metrics PASSED [ 39%]
+testing/integration/test_evaluation_agent_integration.py::TestAgentStateManagement::test_state_calculates_pass_rate PASSED [ 40%]
+testing/integration/test_evaluation_agent_integration.py::TestCategoryPrioritization::test_categories_have_priorities PASSED [ 40%]
+testing/integration/test_evaluation_agent_integration.py::TestCategoryPrioritization::test_phase_selects_correct_categories PASSED [ 41%]
+testing/integration/test_evaluation_agent_integration.py::TestErrorHandling::test_agent_handles_initialization_failure PASSED [ 41%]
+testing/integration/test_evaluation_agent_integration.py::TestErrorHandling::test_agent_handles_missing_category PASSED [ 42%]
+testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_cove_command_local FAILED [ 42%]
+testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_eval_command_structure PASSED [ 43%]
+testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_run_command_local_provider FAILED [ 43%]
+testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_run_command_with_system_flag PASSED [ 44%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_azure_prefix_routes_to_azure PASSED [ 44%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_claude_routes_to_claude PASSED [ 45%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_gemini_routes_to_gemini PASSED [ 45%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_gh_prefix_routes_to_github PASSED [ 46%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_gpt_routes_to_openai PASSED [ 46%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_local_prefix_routes_to_local PASSED [ 47%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientProviderRouting::test_unknown_provider_returns_error PASSED [ 47%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientParameterHandling::test_azure_receives_temperature_and_max_tokens PASSED [ 48%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientParameterHandling::test_default_max_tokens PASSED [ 48%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientParameterHandling::test_default_temperature PASSED [ 49%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientParameterHandling::test_local_receives_temperature_and_max_tokens PASSED [ 50%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientParameterHandling::test_openai_receives_temperature_and_max_tokens PASSED [ 50%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientErrorHandling::test_azure_missing_api_key PASSED [ 51%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientErrorHandling::test_exception_handling_returns_error_message PASSED [ 51%]
+testing/integration/test_prompt_toolkit.py::TestLLMClientErrorHandling::test_openai_missing_api_key PASSED [ 52%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_cove_command FAILED [ 52%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_max_tokens FAILED [ 53%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_multiple_options FAILED [ 53%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_output_option FAILED [ 54%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_provider_long_option FAILED [ 54%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_provider_short_option FAILED [ 55%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_questions_option FAILED [ 55%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_run_command FAILED [ 56%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_system_option FAILED [ 56%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_temperature FAILED [ 57%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_tier_short_option FAILED [ 57%]
+testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_verbose_flag FAILED [ 58%]
+testing/integration/test_prompt_toolkit.py::TestPromptModuleFunctions::test_providers_dict_exists FAILED [ 58%]
+testing/integration/test_prompt_toolkit.py::TestPromptModuleFunctions::test_tiers_dict_exists FAILED [ 59%]
+testing/tool_tests/test_cli.py::test_create_command PASSED               [ 59%]
+testing/tool_tests/test_evaluation_agent.py::TestAgentConfiguration::test_agent_config_categories PASSED [ 60%]
+testing/tool_tests/test_evaluation_agent.py::TestAgentConfiguration::test_agent_config_paths_exist PASSED [ 60%]
+testing/tool_tests/test_evaluation_agent.py::TestAgentConfiguration::test_category_config_structure PASSED [ 61%]
+testing/tool_tests/test_evaluation_agent.py::TestAgentConfiguration::test_thresholds_valid PASSED [ 61%]
+testing/tool_tests/test_evaluation_agent.py::TestLoggingSetup::test_setup_logging_creates_logger PASSED [ 62%]
+testing/tool_tests/test_evaluation_agent.py::TestLoggingSetup::test_setup_logging_verbose_mode PASSED [ 62%]
+testing/tool_tests/test_evaluation_agent.py::TestCheckpointManagement::test_checkpoint_includes_category_results PASSED [ 63%]
+testing/tool_tests/test_evaluation_agent.py::TestCheckpointManagement::test_load_checkpoint_no_file PASSED [ 63%]
+testing/tool_tests/test_evaluation_agent.py::TestCheckpointManagement::test_save_checkpoint_creates_file PASSED [ 64%]
+testing/tool_tests/test_evaluation_agent.py::TestCheckpointManagement::test_save_load_checkpoint_roundtrip PASSED [ 64%]
+testing/tool_tests/test_evaluation_agent.py::TestTaskResult::test_task_result_creation PASSED [ 65%]
+testing/tool_tests/test_evaluation_agent.py::TestTaskResult::test_task_status_enum PASSED [ 65%]
+testing/tool_tests/test_evaluation_agent.py::TestEvaluationAgent::test_agent_dry_run_mode PASSED [ 66%]
+testing/tool_tests/test_evaluation_agent.py::TestEvaluationAgent::test_agent_initialization PASSED [ 67%]
+testing/tool_tests/test_evaluation_agent.py::TestEvaluationAgent::test_agent_state_tracking PASSED [ 67%]
+testing/tool_tests/test_evaluation_agent.py::TestCountPromptsInCategory::test_count_prompts_excludes_index PASSED [ 68%]
+testing/tool_tests/test_evaluation_agent.py::TestCountPromptsInCategory::test_count_prompts_nonexistent_category PASSED [ 68%]
+testing/tool_tests/test_evaluation_agent.py::TestCommandLineInterface::test_dry_run_flag_parsing PASSED [ 69%]
+testing/tool_tests/test_evaluation_agent.py::TestCommandLineInterface::test_full_flag_parsing PASSED [ 69%]
+testing/tool_tests/test_evaluation_agent.py::TestCommandLineInterface::test_phase_flag_parsing PASSED [ 70%]
+testing/tool_tests/test_evaluation_agent.py::TestCategoryResult::test_category_result_creation PASSED [ 70%]
+testing/tool_tests/test_evaluation_agent.py::TestCategoryResult::test_category_result_with_data PASSED [ 71%]
+testing/tool_tests/test_generator.py::test_generator FAILED              [ 71%]
+testing/tool_tests/test_llm_connection.py::test_provider ERROR           [ 72%]
+testing/validators/test_frontmatter.py::TestFrontmatterParsing::test_parse_valid_frontmatter PASSED [ 72%]
+testing/validators/test_frontmatter.py::TestFrontmatterParsing::test_parse_missing_frontmatter PASSED [ 73%]
+testing/validators/test_frontmatter.py::TestFrontmatterParsing::test_parse_incomplete_frontmatter PASSED [ 73%]
+testing/validators/test_frontmatter.py::TestFrontmatterParsing::test_parse_invalid_yaml PASSED [ 74%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_title PASSED [ 74%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_short_title PASSED [ 75%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_intro PASSED [ 75%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_type PASSED [ 76%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_difficulty PASSED [ 76%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_audience PASSED [ 77%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_platforms PASSED [ 77%]
+testing/validators/test_frontmatter.py::TestRequiredFields::test_has_topics PASSED [ 78%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_type_values[how_to] PASSED [ 78%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_type_values[template] PASSED [ 79%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_type_values[reference] PASSED [ 79%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_type_values[guide] PASSED [ 80%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_difficulty_values[beginner] PASSED [ 80%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_difficulty_values[intermediate] PASSED [ 81%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_difficulty_values[advanced] PASSED [ 81%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[copilot] PASSED [ 82%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[chatgpt] PASSED [ 82%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[claude] PASSED [ 83%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[m365] PASSED [ 84%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[gemini] PASSED [ 84%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_valid_platform_values[generic] PASSED [ 85%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_invalid_type_rejected PASSED [ 85%]
+testing/validators/test_frontmatter.py::TestFieldValidation::test_invalid_difficulty_rejected PASSED [ 86%]
+testing/validators/test_frontmatter.py::TestPromptFileValidation::test_prompt_files_exist PASSED [ 86%]
+testing/validators/test_frontmatter.py::TestPromptFileValidation::test_prompt_files_have_frontmatter FAILED [ 87%]
+testing/validators/test_frontmatter.py::TestPromptFileValidation::test_prompt_files_have_required_fields FAILED [ 87%]
+testing/validators/test_frontmatter.py::TestTempFileFixtures::test_temp_prompt_file_valid PASSED [ 88%]
+testing/validators/test_frontmatter.py::TestTempFileFixtures::test_temp_invalid_prompt PASSED [ 88%]
+testing/validators/test_frontmatter_auditor.py::test_validate_detects_missing_required PASSED [ 89%]
+testing/validators/test_frontmatter_auditor.py::test_autofix_adds_missing_fields PASSED [ 89%]
+testing/validators/test_frontmatter_auditor.py::test_autofix_normalizes_scalar_lists PASSED [ 90%]
+testing/validators/test_frontmatter_auditor.py::test_validate_frontmatter_dict_ok PASSED [ 90%]
+testing/validators/test_schema.py::TestSchemaStructure::test_schema_has_required_section PASSED [ 91%]
+testing/validators/test_schema.py::TestSchemaStructure::test_schema_has_optional_section PASSED [ 91%]
+testing/validators/test_schema.py::TestSchemaStructure::test_required_fields_have_types PASSED [ 92%]
+testing/validators/test_schema.py::TestSchemaStructure::test_enum_fields_have_values PASSED [ 92%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_field_type_string PASSED [ 93%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_field_type_list PASSED [ 93%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_field_type_tuple PASSED [ 94%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_field_length PASSED [ 94%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_enum PASSED [ 95%]
+testing/validators/test_schema.py::TestValidationFunctions::test_validate_list_items PASSED [ 95%]
+testing/validators/test_schema.py::TestFrontmatterValidation::test_valid_frontmatter_passes PASSED [ 96%]
+testing/validators/test_schema.py::TestFrontmatterValidation::test_missing_required_field_fails PASSED [ 96%]
+testing/validators/test_schema.py::TestFrontmatterValidation::test_wrong_type_fails PASSED [ 97%]
+testing/validators/test_schema.py::TestFrontmatterValidation::test_invalid_enum_fails PASSED [ 97%]
+testing/validators/test_schema.py::TestFrontmatterValidation::test_empty_list_fails PASSED [ 98%]
+testing/validators/test_schema.py::TestContentStructure::test_prompt_has_heading PASSED [ 98%]
+testing/validators/test_schema.py::TestContentStructure::test_prompt_body_not_empty PASSED [ 99%]
+testing/validators/test_schema.py::TestContentStructure::test_prompt_reasonable_length PASSED [100%]
+
+=================================== ERRORS ====================================
+_______________________ ERROR at setup of test_provider _______________________
+file D:\source\prompts\testing\tools\test_llm_connection.py, line 19: source code not available
+E       fixture 'provider_name' not found
+>       available fixtures: _class_scoped_runner, _function_scoped_runner, _module_scoped_runner, _package_scoped_runner, _session_scoped_runner, all_prompt_files, anyio_backend, anyio_backend_name, anyio_backend_options, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, cov, doctest_namespace, event_loop_policy, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, frontmatter_schema, minimal_frontmatter, mock_cross_validation_report, mock_eval_result, monkeypatch, no_cover, prompt_categories, prompts_dir, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, repo_root, subtests, temp_dir, temp_invalid_prompt, temp_prompt_file, testing_dir, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory, tools_dir, unused_tcp_port, unused_tcp_port_factory, unused_udp_port, unused_udp_port_factory, valid_frontmatter
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+D:\source\prompts\testing\tools\test_llm_connection.py:19
+================================== FAILURES ===================================
+____________ TestPromptToolkitIntegration.test_cove_command_local _____________
+testing\integration\test_prompt_integration.py:125: in test_cove_command_local
+    self.assertIn("Draft Response", result.stdout)
+E   AssertionError: 'Draft Response' not found in 'Loading model from: C:\\\\Users\\\\tandf\\\\.cache\\\\aigallery\\\\microsoft--mistral-7b-instruct-v0.2-ONNX\\\\main\\\\onnx\\\\cpu_and_mobile\\\\mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4\\nModel loaded successfully!\\n   Model: mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4\\n\\n\U0001f4dd Phase 1: Generating draft response...\\n   Draft: Who discovered the element Neon?\\nAnswer: Neon was discovered in 1898 by Sir William Ramsay and Morris Travers. They isolated the element from liquid air by passing it through a cooling system. Neon is...\\n\\n\U0001f50d Phase 2: Generating 1 verification questions...\\n   Generated 1 questions:\\n      1. Are all the first 500 characters of the draft accurately represented in this answer?\\n\\n\u2705 Phase 3: Answering verification questions independently...\\n   Verifying Q1: Are all the first 500 characters of the draft accurately rep...\\n\\n\U0001f4cb Phase 4: Synthesizing final verified response...\\n\\n# Chain-of-Verification (CoVe) Result\\n\\n**Question:** What is the capital of France?\\n**Model:** mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4\\n**Confidence:** High\\n\\n## Verification Questions (Phase 2)\\n\\n1. Are all the first 500 characters of the draft accurately represented in this answer?\\n\\n## Verified Answers (Phase 3)\\n\\n**Q:** Are all the first 500 characters of the draft accurately represented in this answer?\\n**A:** In the context of question-answering systems, VQ (Variable Queries) refers to a type of question where the answer may depend on the specific context or details provided in the question itself. These queries can be more complex and open-ended than fixed or factual queries, as they require a deeper understanding of the information and the ability to reason and make connections between different pieces of data. VQs can be used to test the comprehension and reasoning abilities of AI models, and they can also be more challenging for humans to answer accurately and consistently.\\n\\n## Final Answer (Phase 4)\\n\\nAlexander Fleming is credited with the discovery of penicillin in 1928. He noticed the mold Penicillium notatum growing in a petri dish and observed that it inhibited the growth of bacteria. Penicillin was later isolated and produced in large quantities for medical use.\\n\\n## Verification Summary\\n\\n| Claim | Status | Note |\\n|-------|--------|------|\\n| Are all the first 500 characters of the draft accu... | Verified | In the context of question-answering sys... |\\n\\n**Overall Confidence:** High\\n'
+________ TestPromptToolkitIntegration.test_run_command_local_provider _________
+testing\integration\test_prompt_integration.py:61: in test_run_command_local_provider
+    self.assertIn("4", result.stdout)
+E   AssertionError: '4' not found in '\\n\u2705 Response:\\n\\nFour. While I answered in one word, I felt compelled to provide the complete answer for the sake of accuracy. In a single word, however, the answer is indeed "Four".\\n'
+_______________ TestCLIArgumentParsing.test_parse_cove_command ________________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+________________ TestCLIArgumentParsing.test_parse_max_tokens _________________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_____________ TestCLIArgumentParsing.test_parse_multiple_options ______________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_______________ TestCLIArgumentParsing.test_parse_output_option _______________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+___________ TestCLIArgumentParsing.test_parse_provider_long_option ____________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+___________ TestCLIArgumentParsing.test_parse_provider_short_option ___________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_____________ TestCLIArgumentParsing.test_parse_questions_option ______________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+________________ TestCLIArgumentParsing.test_parse_run_command ________________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_______________ TestCLIArgumentParsing.test_parse_system_option _______________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+________________ TestCLIArgumentParsing.test_parse_temperature ________________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_____________ TestCLIArgumentParsing.test_parse_tier_short_option _____________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_______________ TestCLIArgumentParsing.test_parse_verbose_flag ________________
+testing\integration\test_prompt_toolkit.py:181: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+____________ TestPromptModuleFunctions.test_providers_dict_exists _____________
+testing\integration\test_prompt_toolkit.py:267: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+______________ TestPromptModuleFunctions.test_tiers_dict_exists _______________
+testing\integration\test_prompt_toolkit.py:267: in setUp
+    spec.loader.exec_module(self.prompt_module)
+<frozen importlib._bootstrap_external>:1022: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1159: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1217: in get_data
+    ???
+E   FileNotFoundError: [Errno 2] No such file or directory: 'D:\\source\\prompts\\testing\\integration\\prompt.py'
+_______________________________ test_generator ________________________________
+D:\source\prompts\testing\tools\test_generator.py:28: in test_generator
+    ???
+E   assert 0 == 88
+---------------------------- Captured stdout call -----------------------------
+Initializing UniversalCodeGenerator...
+
+Testing generation for: Project Budget Tracker
+[gemini-1.5-pro] Processing request...
+[claude-sonnet-4] Processing request...
+[gemini-1.5-pro] Processing request...
+
+--- Result ---
+Draft: Error calling gemini-1.5-pro: GOOGLE_API_KEY environment variable not set
+Review Score: 0
+Refined: Error calling gemini-1.5-pro: GOOGLE_API_KEY environment variable not set
+_________ TestPromptFileValidation.test_prompt_files_have_frontmatter _________
+testing\validators\test_frontmatter.py:230: in test_prompt_files_have_frontmatter
+    assert len(missing_frontmatter) == 0, \
+E   AssertionError: Files missing frontmatter: ['CoVE-Prompt-Library-Audit.md', 'CoVe.md']
+E   assert 2 == 0
+E    +  where 2 = len(['CoVE-Prompt-Library-Audit.md', 'CoVe.md'])
+_______ TestPromptFileValidation.test_prompt_files_have_required_fields _______
+testing\validators\test_frontmatter.py:245: in test_prompt_files_have_required_fields
+    pytest.fail(f"Files with missing required fields:\n{details}")
+E   Failed: Files with missing required fields:
+E     CoVE-Prompt-Library-Audit.md: missing ['title', 'shortTitle', 'intro', 'type', 'difficulty', 'audience', 'platforms', 'topics']
+E     CoVe.md: missing ['title', 'shortTitle', 'intro', 'type', 'difficulty', 'audience', 'platforms', 'topics']
+============================== warnings summary ===============================
+testing\framework\core\test_runner.py:24
+  D:\source\prompts\testing\framework\core\test_runner.py:24: PytestCollectionWarning: cannot collect test class 'TestType' because it has a __init__ constructor (from: testing/framework/core/test_runner.py)
+    class TestType(Enum):
+
+testing\framework\core\test_runner.py:35
+  D:\source\prompts\testing\framework\core\test_runner.py:35: PytestCollectionWarning: cannot collect test class 'TestStatus' because it has a __init__ constructor (from: testing/framework/core/test_runner.py)
+    class TestStatus(Enum):
+
+testing\framework\core\test_runner.py:45
+  D:\source\prompts\testing\framework\core\test_runner.py:45: PytestCollectionWarning: cannot collect test class 'TestCase' because it has a __init__ constructor (from: testing/framework/core/test_runner.py)
+    @dataclass
+
+testing\framework\core\test_runner.py:76
+  D:\source\prompts\testing\framework\core\test_runner.py:76: PytestCollectionWarning: cannot collect test class 'TestResult' because it has a __init__ constructor (from: testing/framework/core/test_runner.py)
+    @dataclass
+
+testing/tool_tests/test_cli.py::test_create_command
+  D:\source\prompts\tools\llm_client.py:357: FutureWarning: 
+  
+  All support for the `google.generativeai` package has ended. It will no longer be receiving 
+  updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+  See README for more details:
+  
+  https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+  
+    import google.generativeai as genai
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_cove_command_local
+FAILED testing/integration/test_prompt_integration.py::TestPromptToolkitIntegration::test_run_command_local_provider
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_cove_command
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_max_tokens
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_multiple_options
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_output_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_provider_long_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_provider_short_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_questions_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_run_command
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_system_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_temperature
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_tier_short_option
+FAILED testing/integration/test_prompt_toolkit.py::TestCLIArgumentParsing::test_parse_verbose_flag
+FAILED testing/integration/test_prompt_toolkit.py::TestPromptModuleFunctions::test_providers_dict_exists
+FAILED testing/integration/test_prompt_toolkit.py::TestPromptModuleFunctions::test_tiers_dict_exists
+FAILED testing/tool_tests/test_generator.py::test_generator - assert 0 == 88
+FAILED testing/validators/test_frontmatter.py::TestPromptFileValidation::test_prompt_files_have_frontmatter
+FAILED testing/validators/test_frontmatter.py::TestPromptFileValidation::test_prompt_files_have_required_fields
+ERROR testing/tool_tests/test_llm_connection.py::test_provider
+======= 19 failed, 174 passed, 5 warnings, 1 error in 92.28s (0:01:32) ========

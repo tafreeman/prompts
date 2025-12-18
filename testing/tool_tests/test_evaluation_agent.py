@@ -19,10 +19,12 @@ from datetime import datetime
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+# Add project root to path for imports
+ROOT_DIR = Path(__file__).parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-from evaluation_agent import (
+from tools.evaluation_agent import (
     AgentConfig,
     AgentState,
     CategoryResult,
@@ -42,6 +44,7 @@ class TestAgentConfiguration(unittest.TestCase):
     
     def test_agent_config_paths_exist(self):
         """Verify configuration paths are properly defined."""
+        # Ensure ROOT_DIR is correctly set in AgentConfig
         self.assertIsInstance(AgentConfig.ROOT_DIR, Path)
         self.assertIsInstance(AgentConfig.PROMPTS_DIR, Path)
         self.assertIsInstance(AgentConfig.EVALS_DIR, Path)

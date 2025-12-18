@@ -17,9 +17,9 @@ from unittest.mock import patch
 from pathlib import Path
 
 # Add project root to path
-SCRIPT_DIR = Path(__file__).parent
-sys.path.insert(0, str(SCRIPT_DIR))
-sys.path.insert(0, str(SCRIPT_DIR / "tools"))
+REPO_ROOT = Path(__file__).parents[2]
+sys.path.insert(0, str(REPO_ROOT))
+sys.path.insert(0, str(REPO_ROOT / "tools"))
 
 
 class TestLLMClientProviderRouting(unittest.TestCase):
@@ -174,9 +174,10 @@ class TestCLIArgumentParsing(unittest.TestCase):
 
     def setUp(self):
         """Import parse_args from prompt.py."""
-        # Import the module
+        # Import the module - use resolve() to ensure absolute path
         import importlib.util
-        spec = importlib.util.spec_from_file_location("prompt", SCRIPT_DIR / "prompt.py")
+        prompt_path = (REPO_ROOT / "prompt.py").resolve()
+        spec = importlib.util.spec_from_file_location("prompt", prompt_path)
         self.prompt_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.prompt_module)
         self.parse_args = self.prompt_module.parse_args
@@ -262,7 +263,8 @@ class TestPromptModuleFunctions(unittest.TestCase):
     def setUp(self):
         """Import prompt module."""
         import importlib.util
-        spec = importlib.util.spec_from_file_location("prompt", SCRIPT_DIR / "prompt.py")
+        prompt_path = (REPO_ROOT / "prompt.py").resolve()
+        spec = importlib.util.spec_from_file_location("prompt", prompt_path)
         self.prompt_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.prompt_module)
 
@@ -275,11 +277,11 @@ class TestPromptModuleFunctions(unittest.TestCase):
         self.assertIn("openai", providers)
 
     def test_tiers_dict_exists(self):
-        """Test TIERS dictionary exists and has 7 tiers."""
+        """Test TIERS dictionary exists and has expected tiers."""
         tiers = self.prompt_module.TIERS
-        self.assertEqual(len(tiers), 7)
+        self.assertEqual(len(tiers), 8)  # Tiers 0-7 including Windows AI
         self.assertIn(0, tiers)
-        self.assertIn(6, tiers)
+        self.assertIn(7, tiers)  # Windows AI tier
 
 
 if __name__ == "__main__":

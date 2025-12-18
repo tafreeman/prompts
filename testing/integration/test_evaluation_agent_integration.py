@@ -14,10 +14,12 @@ from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from io import StringIO
 
-# Add parent directory to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
+# Add project root to path for imports
+ROOT_DIR = Path(__file__).parents[2]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-from evaluation_agent import (
+from tools.evaluation_agent import (
     AgentConfig,
     AgentState,
     CategoryResult,
@@ -63,8 +65,8 @@ class TestFullPipelineIntegration(unittest.TestCase):
         agent.initialize()
         
         # Run phase 1 in dry-run mode
-        with patch('evaluation_agent.generate_eval_files') as mock_gen:
-            with patch('evaluation_agent.run_evaluations') as mock_eval:
+        with patch('tools.evaluation_agent.generate_eval_files') as mock_gen:
+            with patch('tools.evaluation_agent.run_evaluations') as mock_eval:
                 # Mock the task results
                 mock_gen.return_value = TaskResult(
                     task_name="test",
@@ -101,7 +103,7 @@ class TestCommandLineIntegration(unittest.TestCase):
     """Integration tests for CLI functionality."""
     
     @patch('sys.argv', ['evaluation_agent.py', '--full', '--dry-run'])
-    @patch('evaluation_agent.EvaluationAgent')
+    @patch('tools.evaluation_agent.EvaluationAgent')
     def test_full_flag_creates_agent(self, mock_agent_class):
         """Verify --full flag creates and runs agent."""
         mock_agent = Mock()
@@ -133,7 +135,7 @@ class TestCommandLineIntegration(unittest.TestCase):
         self.assertTrue(args.dry_run)
     
     @patch('sys.argv', ['evaluation_agent.py', '--resume'])
-    @patch('evaluation_agent.load_checkpoint')
+    @patch('tools.evaluation_agent.load_checkpoint')
     def test_resume_flag(self, mock_load):
         """Verify --resume flag attempts to load checkpoint."""
         mock_load.return_value = None
