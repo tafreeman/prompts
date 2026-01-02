@@ -1,26 +1,38 @@
 #!/usr/bin/env python3
+"""tools.windows_ai
+
+Windows AI (Phi Silica) Integration
+===================================
+
+This module integrates Phi Silica via the .NET bridge in
+`tools/windows_ai_bridge/`.
+
+Why a bridge?
+- The Windows AI APIs are exposed via Windows App SDK WinRT APIs.
+- The bridge provides a stable CLI interface for Python to call.
+
+Limited Access Feature (LAF)
+----------------------------
+Depending on your Windows/App SDK channel, Phi Silica may be gated behind
+Limited Access Features.
+
+If you have a LAF token, configure these environment variables (recommended):
+- PHI_SILICA_LAF_FEATURE_ID
+- PHI_SILICA_LAF_TOKEN
+- PHI_SILICA_LAF_ATTESTATION
+
+Docs:
+- Phi Silica: https://learn.microsoft.com/windows/ai/apis/phi-silica
+- Troubleshooting: https://learn.microsoft.com/windows/ai/apis/troubleshooting
+- Unlock (short link): https://aka.ms/phi-silica-unlock
 """
-Windows AI APIs Integration
-============================
 
-Integrates Windows Copilot Runtime APIs (Phi Silica SLM) running locally on NPU.
-
-Requirements:
-    - Windows 11 with NPU (Copilot+ PC)
-    - Windows App SDK 1.7+
-    - pip install winrt-runtime (for Python/WinRT bridge)
-
-Usage:
-    from tools.windows_ai import WindowsAIModel
-    model = WindowsAIModel()
-    response = model.generate("Your prompt here")
-
-Reference:
-    https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica
-"""
-
+import json
+import os
+import subprocess
 import sys
-from typing import Optional, Dict, Any
+from pathlib import Path
+from typing import Optional, Dict, Any, Tuple
 
 
 class WindowsAIModel:
@@ -28,43 +40,21 @@ class WindowsAIModel:
 
     def __init__(self, verbose: bool = False):
         self.verbose = verbose
-        self.model = None
         self._check_availability()
 
     def _check_availability(self) -> bool:
-        """Check if Windows AI APIs are available."""
+        """Check if Phi Silica is available via the bridge."""
         if sys.platform != 'win32':
             raise OSError("Windows AI APIs are only available on Windows")
 
-        try:
-            # Try to import Windows Runtime bridge to see if it's installed
-            import winrt  # noqa: F401
-
-            if self.verbose:
-                print("[OK] Windows Runtime bridge available")
-
-            # Check for Phi Silica availability
-            # This requires Windows App SDK 1.7+ and NPU hardware
-            try:
-                # Import Windows AI Foundry APIs
-                # Note: This namespace is from Windows App SDK 1.7+
-                from winrt.microsoft.windows.ai.generative import PhiSilicaModel
-
-                if self.verbose:
-                    print("[OK] Phi Silica model available")
-
-                self.model = PhiSilicaModel()
-                return True
-
-            except (ImportError, ModuleNotFoundError):
-                if self.verbose:
-                    print("[WARN] Phi Silica not available - requires Windows App SDK 1.7+")
-                return False
-
-        except ImportError:
-            if self.verbose:
-                print("[WARN] winrt-runtime not installed")
-            return False
+        info, _ = get_phi_silica_bridge_info(timeout_s=60)
+        available = bool(info.get("available")) if isinstance(info, dict) else False
+        if not available:
+            err = None
+            if isinstance(info, dict):
+                err = info.get("error")
+            raise RuntimeError(err or "Phi Silica not available")
+        return True
 
     def generate(
         self,
@@ -85,7 +75,7 @@ class WindowsAIModel:
         Returns:
             Generated text response
         """
-        # Always use C# bridge - no need to check for winrt model
+        # Always use the C# bridge.
 
         try:
             # Build the full prompt
@@ -122,9 +112,6 @@ class WindowsAIModel:
         Uses subprocess to call the PhiSilicaBridge C# application
         which has access to Windows App SDK AI APIs.
         """
-        import subprocess
-        from pathlib import Path
-
         # Find the C# bridge
         bridge_dir = Path(__file__).parent / "windows_ai_bridge"
         bridge_proj = bridge_dir / "PhiSilicaBridge.csproj"
@@ -136,18 +123,22 @@ class WindowsAIModel:
             )
 
         try:
+            # The bridge reads LAF settings from environment variables.
             result = subprocess.run(
                 ["dotnet", "run", "--project", str(bridge_proj), "--", prompt],
                 capture_output=True,
                 text=True,
                 timeout=120,
-                cwd=str(bridge_dir.parent.parent)
+                cwd=str(bridge_dir)
             )
 
             if result.returncode == 0:
                 return result.stdout.strip()
-            else:
-                return f"[ERROR] Bridge error: {result.stderr.strip()}"
+
+            stderr = (result.stderr or "").strip()
+            stdout = (result.stdout or "").strip()
+            msg = stderr or stdout or "Bridge failed"
+            return f"[ERROR] Bridge error: {msg}"
 
         except subprocess.TimeoutExpired:
             return "[ERROR] Phi Silica request timed out (120s)"
@@ -160,47 +151,82 @@ class WindowsAIModel:
 def check_windows_ai_available() -> bool:
     """Check if Windows AI APIs are available on this system."""
     try:
-        model = WindowsAIModel(verbose=False)
-        # We consider it available if the hardware/OS requirements are met,
-        # even if winrt-runtime itself isn't used for the bridge.
-        return sys.platform == 'win32'
+        info, _ = get_phi_silica_bridge_info(timeout_s=30)
+        return bool(info.get("available")) if isinstance(info, dict) else False
     except Exception:
         return False
 
 
 def get_model_info() -> Dict[str, Any]:
     """Get information about Windows AI model availability."""
-    info = {
+    info, raw = get_phi_silica_bridge_info(timeout_s=60)
+    out: Dict[str, Any] = {
         "platform": sys.platform,
-        "windows_ai_available": False,
-        "phi_silica_available": False,
-        "requirements": {
-            "os": "Windows 11 with NPU (Copilot+ PC)",
-            "sdk": "Windows App SDK 1.7+",
-            "python_package": "winrt-runtime"
-        }
+        "bridge": {
+            "project": str(_bridge_project_path()),
+            "dotnet_on_path": bool(_which("dotnet")),
+        },
+        "info": info,
     }
 
-    if sys.platform != 'win32':
-        info["error"] = "Not running on Windows"
-        return info
+    if raw and not info:
+        out["info_raw"] = raw[:2000]
+    return out
+
+
+def _which(cmd: str) -> Optional[str]:
+    import shutil
+    return shutil.which(cmd)
+
+
+def _bridge_project_path() -> Path:
+    return Path(__file__).parent / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
+
+
+def get_phi_silica_bridge_info(timeout_s: int = 60) -> Tuple[Dict[str, Any], str]:
+    """Call the bridge `--info` and parse its JSON output.
+
+    Returns: (info_dict, raw_stdout)
+    - `info_dict` may include `available`, `readyState`, and `error`.
+    - bridge may return non-zero even when it prints JSON to stdout.
+    """
+    if sys.platform != "win32":
+        return {"available": False, "error": "Not running on Windows"}, ""
+
+    proj = _bridge_project_path()
+    if not proj.exists():
+        return {"available": False, "error": "Bridge project not found"}, ""
+
+    if not _which("dotnet"):
+        return {"available": False, "error": "dotnet not found. Install .NET SDK."}, ""
 
     try:
-        import winrt  # noqa: F401
-        info["winrt_installed"] = True
+        r = subprocess.run(
+            ["dotnet", "run", "--project", str(proj), "--", "--info"],
+            capture_output=True,
+            text=True,
+            timeout=timeout_s,
+            cwd=str(proj.parent),
+        )
+        stdout = (r.stdout or "").strip()
+        stderr = (r.stderr or "").strip()
 
-        try:
-            model = WindowsAIModel(verbose=False)
-            info["windows_ai_available"] = True
-            info["phi_silica_available"] = True  # Assuming bridge works if model exists
-        except Exception as e:
-            info["error"] = str(e)
+        if stdout:
+            try:
+                return json.loads(stdout), stdout
+            except Exception:
+                # Fall through; return raw.
+                pass
 
-    except ImportError:
-        info["winrt_installed"] = False
-        info["error"] = "winrt-runtime not installed"
-
-    return info
+        return {
+            "available": False,
+            "error": stderr or stdout or f"Bridge exited {r.returncode}",
+            "bridge_exit_code": r.returncode,
+        }, stdout
+    except subprocess.TimeoutExpired:
+        return {"available": False, "error": f"Bridge --info timed out after {timeout_s}s"}, ""
+    except Exception as e:
+        return {"available": False, "error": str(e)}, ""
 
 
 if __name__ == "__main__":

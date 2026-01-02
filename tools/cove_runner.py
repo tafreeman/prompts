@@ -129,8 +129,18 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
             lm = LocalModel(model_path=model_path, verbose=verbose)
             model_name = lm.model_path.name if lm.model_path else "local-onnx"
 
+            # CoVe makes multiple LLM calls; keep local generations short by default
+            # to avoid timeouts on CPU-only machines. Override if needed.
+            local_max_tokens = int(os.environ.get("COVE_LOCAL_MAX_TOKENS", "512"))
+            local_temperature = float(os.environ.get("COVE_LOCAL_TEMPERATURE", "0.3"))
+
             def local_call(prompt: str, system_prompt: Optional[str] = None) -> str:
-                return lm.generate(prompt, system_prompt=system_prompt, temperature=0.7, max_tokens=1500)
+                return lm.generate(
+                    prompt,
+                    system_prompt=system_prompt,
+                    temperature=local_temperature,
+                    max_tokens=local_max_tokens,
+                )
 
             local_call.model_name = model_name
             return local_call
@@ -415,7 +425,7 @@ def run_cove(
         print("\n📝 Phase 1: Generating draft response...")
 
     domain_hint = f" ({domain})" if domain else ""
-    draft_prompt = """Question{domain_hint}: {question}
+    draft_prompt = f"""Question{domain_hint}: {question}
 
 Answer with specific facts, dates, and names."""
 
@@ -435,7 +445,7 @@ Answer with specific facts, dates, and names."""
     # ─────────────────────────────────────────────────────────────────────────
     if verbose:
         print(f"\n🔍 Phase 2: Generating {n_questions} verification questions...")
-    verification_prompt = """Read this answer and write {n_questions} fact-checking questions:
+    verification_prompt = f"""Read this answer and write {n_questions} fact-checking questions:
 
 "{draft[:500]}"
 

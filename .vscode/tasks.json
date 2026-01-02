@@ -40,11 +40,15 @@
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"${input:evalTier/^(\\d).*//$1/}"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -53,15 +57,40 @@
 			"group": "test"
 		},
 		{
-			"label": "📊 Eval: Tier 1 - Quick Triage (FREE)",
+			"label": "📊 Eval: Tier 0 - Structural Only (instant)",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
+				"${input:evalFolder}",
+				"--tier",
+				"0"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 1 - Local Quick (phi4)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"1"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -70,15 +99,19 @@
 			"group": "test"
 		},
 		{
-			"label": "📊 Eval: Tier 2 - Single Model (gpt-4o-mini)",
+			"label": "📊 Eval: Tier 2 - Local G-Eval (default)",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"2"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -87,15 +120,19 @@
 			"group": "test"
 		},
 		{
-			"label": "📊 Eval: Tier 3 - Cross-Validate (gpt-4o-mini, gpt-4.1, mistral)",
+			"label": "📊 Eval: Tier 3 - Local Cross-Validate",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"3"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -104,15 +141,19 @@
 			"group": "test"
 		},
 		{
-			"label": "📊 Eval: Tier 4 - Full Pipeline (5 gh-models)",
+			"label": "📊 Eval: Tier 4 - Cloud Quick (gpt-4o-mini)",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"4"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -121,15 +162,19 @@
 			"group": "test"
 		},
 		{
-			"label": "📊 Eval: Tier 5 - Premium (all gh-models × 4 runs)",
+			"label": "📊 Eval: Tier 5 - Cloud Cross-Validate",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"5"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -142,11 +187,15 @@
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"${file}",
 				"--tier",
 				"${input:evalTier/^(\\d).*//$1/}"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -159,9 +208,13 @@
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
+				"-m",
+				"prompteval",
 				"--list-tiers"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",
@@ -169,13 +222,17 @@
 			}
 		},
 		{
-			"label": "📋 Eval: Show Model Recommendations",
+			"label": "📋 Eval: List Available Models",
 			"type": "shell",
 			"command": "python",
 			"args": [
-				"tools/tiered_eval.py",
-				"--recommend"
+				"-m",
+				"prompteval",
+				"--list-models"
 			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
 			"problemMatcher": [],
 			"presentation": {
 				"reveal": "always",

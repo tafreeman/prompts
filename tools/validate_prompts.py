@@ -50,17 +50,27 @@ def validate_file(path: Path) -> list:
     
     # Check frontmatter
     fm = extract_frontmatter(content)
+    if isinstance(fm, list):
+        issues.append("Invalid frontmatter: YAML frontmatter is a list, not a dict. Check for duplicate or malformed frontmatter blocks.")
+        return issues
     for field in REQUIRED_FRONTMATTER:
         if field not in fm:
             issues.append(f"Missing frontmatter: {field}")
-    
     # Check for description OR intro field
     if not any(field in fm for field in DESCRIPTION_FIELDS):
         issues.append(f"Missing frontmatter: description or intro")
-    
     # Determine required sections based on file type
-    file_type = fm.get('type', 'how_to').lower()
-    is_reference = file_type in REFERENCE_TYPES
+    file_type_raw = fm.get('type')
+    if file_type_raw is None:
+        # Default to 'how_to' for backward compatibility, but surface the missing field
+        issues.append("Missing frontmatter: type (defaulting to 'how_to')")
+        file_type = 'how_to'
+    elif isinstance(file_type_raw, str):
+        file_type = file_type_raw.lower()
+    else:
+        issues.append("Invalid frontmatter: type must be a string")
+        file_type = 'how_to'
+    is_reference = isinstance(file_type, str) and file_type in REFERENCE_TYPES
     
     # Reference guides don't need Prompt/Variables sections
     required_sections = ['Description']

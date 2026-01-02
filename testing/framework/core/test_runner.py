@@ -600,7 +600,7 @@ class PromptTestRunner:
         return {
             "id": prompt_id,
             "template": "You are a helpful assistant. {input}",
-            "model": "gpt-4",
+            "model": "gpt-4o-mini",
             "temperature": 0.7
         }
     
