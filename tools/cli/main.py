@@ -202,74 +202,97 @@ def run(file: str, provider: str, model: str, input_text: str, input_file: str, 
 
 @cli.command('eval')
 @click.argument('path', type=click.Path(exists=True))
-@click.option('--tier', '-t', type=click.IntRange(0, 6), default=2,
-              help='Evaluation tier (0=local, 1=structural, 2=single, 3=cross, 4=full, 5=premium, 6=azure)')
-@click.option('--output', '-o', help='Output file path for results')
-@click.option('--format', 'fmt', type=click.Choice(['json', 'markdown']), default='markdown',
-              help='Output format')
-def eval_prompt(path: str, tier: int, output: str, fmt: str):
-    """Run tiered evaluation on a prompt file or directory.
+@click.option('--tier', '-t', type=click.IntRange(0, 7), default=2,
+              help='Evaluation tier (0=structural, 1-3=local, 4-7=cloud)')
+@click.option('--output', '-o', help='Output file path for results (.json or .md)')
+@click.option('--models', '-m', help='Comma-separated models (e.g., phi4,gpt-4o-mini)')
+@click.option('--runs', '-r', type=int, help='Runs per model (overrides tier default)')
+@click.option('--ci', is_flag=True, help='CI mode: exit 1 if any failed')
+@click.option('--verbose', '-v', is_flag=True, help='Verbose output')
+def eval_prompt(path: str, tier: int, output: str, models: str, runs: int, ci: bool, verbose: bool):
+    """Run evaluation on a prompt file or directory using PromptEval.
 
     Examples:
         prompt eval prompts/basic/greeting.md --tier 2
         prompt eval prompts/socmint/ --tier 3 --output results.json
-        prompt eval prompts/advanced/analysis.md --tier 6  # Azure Foundry
+        prompt eval prompts/advanced/ --models phi4,gpt-4o-mini
     """
-    click.echo(f"📊 Running Tier {tier} evaluation...")
+    click.echo(f"📊 Running Tier {tier} evaluation via PromptEval...")
 
     tools_dir = Path(__file__).parent.parent
     sys.path.insert(0, str(tools_dir))
 
     try:
-        from tiered_eval import find_prompts, TIERS  # type: ignore
-        from tiered_eval import run_tier_0, run_tier_1, run_tier_2  # type: ignore
-        from tiered_eval import run_tier_3, run_tier_4, run_tier_5, run_tier_6  # type: ignore
+        from prompteval import evaluate, evaluate_directory
+        from prompteval.tiers import TIERS
 
-        prompts = find_prompts(path)
-        if not prompts:
-            click.echo("❌ No prompts found at specified path", err=True)
-            sys.exit(1)
+        target = Path(path)
+        tier_info = TIERS.get(tier, {})
+        click.echo(f"   Tier: {tier_info.get('name', f'Tier {tier}')} - {tier_info.get('description', '')}")
 
-        click.echo(f"   Found {len(prompts)} prompt(s)")
-        click.echo(f"   Tier: {TIERS[tier].name} - {TIERS[tier].description}")
-
-        output_dir = Path(output).parent if output else Path(".")
-        tier_funcs = {
-            0: run_tier_0, 1: run_tier_1, 2: run_tier_2,
-            3: run_tier_3, 4: run_tier_4, 5: run_tier_5, 6: run_tier_6
+        # Build kwargs for prompteval
+        kwargs = {
+            "tier": tier,
+            "verbose": verbose,
         }
+        if models:
+            kwargs["models"] = models.split(",")
+        if runs:
+            kwargs["runs"] = runs
 
-        results = tier_funcs[tier](prompts, output_dir)
-
-        if fmt == 'json':
-            result_text = json.dumps(results, indent=2, default=str)
+        # Run evaluation
+        if target.is_file():
+            result = evaluate(str(target), **kwargs)
+            results = {"results": [result], "prompts_evaluated": 1}
         else:
-            # Markdown summary
-            lines = [
-                f"# Tier {tier} Evaluation Results",
-                f"**Tier:** {TIERS[tier].name}",
-                f"**Prompts Evaluated:** {results.get('prompts_evaluated', 0)}",
-                ""
-            ]
-            for r in results.get('results', []):
-                status = "✅" if r.get('passed') or r.get('final_pass') else "❌"
-                score = r.get('overall') or r.get('consensus_score') or r.get('avg_score') or r.get('score', 'N/A')
-                lines.append(f"- {status} `{r.get('file', 'unknown')}` - Score: {score}")
-            result_text = "\n".join(lines)
+            results = evaluate_directory(str(target), **kwargs)
 
-        click.echo("\n" + result_text)
-
+        # Output formatting
         if output:
-            with open(output, 'w', encoding='utf-8') as f:
-                f.write(result_text)
+            if output.endswith('.json'):
+                import json
+                with open(output, 'w', encoding='utf-8') as f:
+                    json.dump(results, f, indent=2, default=str)
+            else:
+                # Markdown summary
+                lines = [
+                    f"# Tier {tier} Evaluation Results",
+                    f"**Tier:** {tier_info.get('name', f'Tier {tier}')}",
+                    f"**Prompts Evaluated:** {results.get('prompts_evaluated', len(results.get('results', [])))}",
+                    ""
+                ]
+                for r in results.get('results', []):
+                    passed = r.get('passed', r.get('overall', 0) >= 70)
+                    status = "✅" if passed else "❌"
+                    score = r.get('overall', r.get('score', 'N/A'))
+                    lines.append(f"- {status} `{r.get('file', r.get('path', 'unknown'))}` - Score: {score}")
+                with open(output, 'w', encoding='utf-8') as f:
+                    f.write("\n".join(lines))
             click.echo(f"\n💾 Results saved to: {output}")
+        else:
+            # Print summary to console
+            click.echo(f"\n✅ Evaluated {len(results.get('results', []))} prompt(s)")
+            for r in results.get('results', []):
+                passed = r.get('passed', r.get('overall', 0) >= 70)
+                status = "✅" if passed else "❌"
+                score = r.get('overall', r.get('score', 'N/A'))
+                click.echo(f"   {status} {Path(r.get('file', r.get('path', ''))).name}: {score}")
+
+        # CI mode exit code
+        if ci:
+            failed = sum(1 for r in results.get('results', []) if not r.get('passed', r.get('overall', 0) >= 70))
+            if failed > 0:
+                sys.exit(1)
 
     except ImportError as e:
         click.echo(f"❌ Import error: {e}", err=True)
-        click.echo("   Make sure tiered_eval.py is available", err=True)
+        click.echo("   Make sure prompteval is available in tools/prompteval/", err=True)
         sys.exit(1)
     except Exception as e:
         click.echo(f"❌ Evaluation error: {e}", err=True)
+        if verbose:
+            import traceback
+            traceback.print_exc()
         sys.exit(1)
 
 

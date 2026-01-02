@@ -4,9 +4,11 @@ from dataclasses import dataclass
 
 @dataclass
 class ModelConfig:
-    generator_model: str = "gemini-1.5-pro"
-    reviewer_model: str = "claude-sonnet-4"
-    refiner_model: str = "gemini-1.5-pro"
+    # Defaults chosen to be broadly available and work out-of-the-box.
+    # Override via GEN_MODEL / REV_MODEL / REF_MODEL as needed.
+    generator_model: str = "gpt-4o-mini"
+    reviewer_model: str = "gpt-4o-mini"
+    refiner_model: str = "gpt-4o-mini"
     generator_temp: float = 0.7
     reviewer_temp: float = 0.0
     refiner_temp: float = 0.5
@@ -26,9 +28,9 @@ class Config:
     """
     def __init__(self):
         self.models = ModelConfig(
-            generator_model=os.getenv("GEN_MODEL", "gemini-1.5-pro"),
-            reviewer_model=os.getenv("REV_MODEL", "claude-sonnet-4"),
-            refiner_model=os.getenv("REF_MODEL", "gemini-1.5-pro")
+            generator_model=os.getenv("GEN_MODEL", "gpt-4o-mini"),
+            reviewer_model=os.getenv("REV_MODEL", "gpt-4o-mini"),
+            refiner_model=os.getenv("REF_MODEL", "gpt-4o-mini")
         )
         self.paths = PathConfig()
 

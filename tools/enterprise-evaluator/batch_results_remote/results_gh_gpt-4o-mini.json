@@ -1,0 +1,100 @@
+{
+  "model": "gh:gpt-4o-mini",
+  "model_type": "remote",
+  "total_prompts": 2,
+  "successful": 2,
+  "failed": 0,
+  "avg_score": 57.0,
+  "min_score": 56.5,
+  "max_score": 57.5,
+  "results": [
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\advanced-technique-research.md",
+      "final_score": 56.5,
+      "performance_level": "Inadequate",
+      "dimension_results": [
+        {
+          "id": "technical_quality",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "business_alignment",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "security_compliance",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "performance_reliability",
+          "score": 70.0,
+          "level": "Competent",
+          "reasoning": "Combined score of runtime reproducibility (100.0) and judge assessment (50.0). Reason: Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "maintainability",
+          "score": 85.0,
+          "level": "Proficient",
+          "reasoning": "Base judge score: 50.0. Bonus points for: Has frontmatter/metadata, Mentions versioning, Has comments. Reason: Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "innovation_optimization",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        }
+      ],
+      "evaluation_time_seconds": 4.08
+    },
+    {
+      "file": "d:\\source\\prompts\\prompts\\advanced\\chain-of-thought-concise.md",
+      "final_score": 57.5,
+      "performance_level": "Inadequate",
+      "dimension_results": [
+        {
+          "id": "technical_quality",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "business_alignment",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "security_compliance",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "performance_reliability",
+          "score": 70.0,
+          "level": "Competent",
+          "reasoning": "Combined score of runtime reproducibility (100.0) and judge assessment (50.0). Reason: Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "maintainability",
+          "score": 95.0,
+          "level": "Exceptional",
+          "reasoning": "Base judge score: 50.0. Bonus points for: Has frontmatter/metadata, Mentions versioning, Uses template variables {}, Has comments. Reason: Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        },
+        {
+          "id": "innovation_optimization",
+          "score": 50.0,
+          "level": "Inadequate",
+          "reasoning": "Failed to parse LLM response: gh models error: Error: rate limited: Too many requests. For more on scraping GitHub and how it may affect your rights, please review our Terms of Ser"
+        }
+      ],
+      "evaluation_time_seconds": 4.13
+    }
+  ]
+}

@@ -71,9 +71,9 @@ Use these commands for common workflows. All models listed are pre-integrated in
 | | **NPU / Copilot+** | `python prompt.py run <file> -p windows` | `phi-silica` |
 | | **GPU Accelerated**| `python prompt.py run <file> -p local -m phi3-dml` | `phi3-dml`, `mistral-dml` |
 | | **Cloud (GitHub)** | `python prompt.py run <file> -p gh -m gpt-4o-mini` | `gpt-4o-mini` |
-| **Evaluation** | **Local Triage** | `python prompt.py eval <dir> -t 0` | All Local ONNX |
-| | **NPU (Tier 7)** | `python prompt.py eval <dir> -t 7` | `phi-silica` |
-| | **Cross-Model** | `python prompt.py eval <dir> -t 3` | GPT-4o, Phi4, Mistral |
+| **Evaluation** | **Local Triage** | `python -m prompteval <dir> -t 0` | All Local ONNX |
+| | **Local G-Eval** | `python -m prompteval <dir> -t 2` | `phi4`, `mistral` |
+| | **Cross-Model** | `python -m prompteval <dir> -t 3` | GPT-4o, Phi4, Mistral |
 | **Media Gen** | **Image Gen** | `python tools/local_media.py image "<prompt>"` | `stable-diffusion` |
 | | **Speech-to-Text** | `python tools/local_media.py transcribe <audio>`| `whisper-small` |
 | | **Upscale Image** | `python tools/local_media.py upscale <image>` | `esrgan` |
@@ -165,6 +165,33 @@ model = LocalModel(verbose=True)
 response = model.generate("What is machine learning?", max_tokens=500)
 ```
 
+**Evaluation Methods (all FREE with local models):**
+
+| Method | Description | Best For |
+|--------|-------------|----------|
+| `evaluate_prompt()` | Direct 6-criteria scoring | Fast evaluation |
+| `evaluate_prompt_geval()` | G-Eval with Chain-of-Thought | Explainable scoring |
+| `evaluate_prompt_dual()` | Both methods combined | Most robust evaluation |
+
+```python
+from tools.local_model import LocalModel
+
+model = LocalModel()
+content = open("prompts/example.md").read()
+
+# Direct scoring (6 criteria)
+result = model.evaluate_prompt(content)
+print(f"Score: {result['overall']}")
+
+# G-Eval with CoT reasoning (NeurIPS 2023)
+result = model.evaluate_prompt_geval(content)
+print(f"Score: {result['overall']}, Reasoning: {result['criteria_results']}")
+
+# Dual evaluation (both methods combined)
+result = model.evaluate_prompt_dual(content)
+print(f"Combined Score: {result['combined_score']}")
+```
+
 ---
 
 ### Windows AI (`windows_ai.py`)
@@ -237,49 +264,23 @@ upscale_image("photo.jpg", output_path="photo_4x.png")
 
 ## 🔍 Evaluation Tools
 
-### Tiered Evaluation (`tiered_eval.py`)
+### PromptEval (`prompteval`)
 
-Multi-tier prompt evaluation system with escalating rigor.
+ The unified tool for all evaluation needs. Replaces `tiered_eval.py`, `evaluate_library.py`, and `batch_evaluate.py`.
 
-| Tier | Name | Description | Cost |
-|------|------|-------------|------|
-| 0 | Local ONNX | CPU/GPU local models | $0 |
-| 1 | Quick Triage | Structure only | $0 |
-| 2 | Single Model | One cloud model | ~$0.01 |
-| 3 | Cross-Validate | 3 models × 2 runs | ~$0.05 |
-| 4 | Full Pipeline | 5 models × 3 runs | ~$0.15 |
-| 5 | Premium | 5 models × 4 runs | ~$0.25 |
-| 6 | Azure Foundry | Your Azure deployment | Varies |
-| 7 | Windows AI | Local NPU (Phi Silica) | $0 |
-
-**Usage:**
-
-```bash
-python prompt.py eval prompts/advanced/ -t 3
-python prompt.py eval prompts/ -t 7  # Windows AI NPU
-```
-
----
-
-### CoVe Runner (`cove_runner.py`)
-
-Chain-of-Verification for factual accuracy.
-
-```bash
-python prompt.py cove "What year was the Eiffel Tower built?" -p local
-python prompt.py cove "List the planets in our solar system" -p gh -n 3
-```
-
----
-
-### Batch Evaluation (`batch_evaluate.py`, `cove_batch_analyzer.py`)
-
-Evaluate multiple prompts in batch.
-
-```bash
-python tools/batch_evaluate.py prompts/developers/ -p gh -o results.json
-python tools/cove_batch_analyzer.py prompts/ --provider local --output report.md
-```
+ ```bash
+ # Local G-Eval (Tier 2 - Free)
+ python -m prompteval prompts/advanced/
+ 
+ # Cross-model validation (Tier 3)
+ python -m prompteval prompts/ --tier 3
+ 
+ # Specific models
+ python -m prompteval prompt.md -m phi4,gpt-4o-mini
+ 
+ # CI/CD mode
+ python -m prompteval prompts/ --ci
+ ```
 
 ---
 
@@ -330,49 +331,29 @@ python tools/improve_prompts.py prompts/advanced/react-pattern.md
 ```text
 tools/
 ├── README.md                      # This file
-│
+├── prompteval/                    # ✅ NEW: Unified Evaluation Tool
 ├── # ═══ Core LLM Integration ═══
 ├── llm_client.py                  # Unified LLM dispatcher
 ├── local_model.py                 # Local ONNX model runner
 ├── windows_ai.py                  # Windows AI (NPU) integration
-├── windows_ai_bridge/             # C# bridge for Phi Silica
-│   ├── PhiSilicaBridge.csproj
-│   └── Program.cs
 ├── local_media.py                 # Image/Audio multi-modal
 │
-├── # ═══ Evaluation ═══
-├── tiered_eval.py                 # Multi-tier evaluation system
-├── cove_runner.py                 # Chain-of-Verification
-├── cove_batch_analyzer.py         # Batch CoVe analysis
-├── batch_evaluate.py              # Batch evaluation
+├── # ═══ Other Tools ═══
+├── cove_runner.py                 # Chain-of-Verification (single run)
 ├── evaluation_agent.py            # Autonomous eval agent
-├── evaluate_library.py            # Library evaluator
-├── run_gh_eval.py                 # GitHub Models eval runner
+├── improve_prompts.py             # Improvement recommendations
 │
 ├── # ═══ Validation ═══
 ├── validators/
 │   ├── frontmatter_validator.py   # Schema validation
-│   ├── metadata_schema.yaml       # Schema definition
 │   └── prompt_validator.py        # Content validation
-├── audit_prompts.py               # CSV migration audit
-├── validate_prompts.py            # Prompt validation
 ├── check_links.py                 # Link checker
-│
-├── # ═══ Improvement ═══
-├── improve_prompts.py             # Improvement recommendations
-├── normalize_frontmatter.py       # Frontmatter normalization
-│
-├── # ═══ Configuration ═══
-├── config.py                      # Tool configuration
-├── rubrics/
-│   ├── quality_standards.json     # Tier scoring
-│   └── prompt-scoring.yaml        # Effectiveness scoring
 │
 ├── # ═══ Testing ═══
 ├── test_*.py                      # Tool unit tests
 ├── tests_README.md                # Test documentation
 │
-└── archive/                       # Deprecated tools
+└── archive/                       # Deprecated tools (tiered_eval, etc.)
 ```
 
 ---

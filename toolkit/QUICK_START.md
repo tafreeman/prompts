@@ -7,7 +7,7 @@ Get productive with the Prompt Library Toolkit in 5 minutes.
 ## 1️⃣ Run Your First Prompt (30 seconds)
 
 ```bash
-python prompt.py run prompts/basic/greeting.md -p local -m phi4-cpu
+python prompt.py run prompts/tools/validate_prompts.py -p local -m phi4-cpu
 ```
 
 This executes a prompt using your local Phi-4 model (no API keys needed).
