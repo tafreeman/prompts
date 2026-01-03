@@ -41,9 +41,11 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test azure-foundry: prefix routes to _call_azure_foundry."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_azure_foundry', return_value="azure response") as mock:
-            LLMClient.generate_text("azure-foundry:phi4mini", "test prompt")
-            mock.assert_called_once()
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_azure_foundry', return_value="azure response") as mock:
+                LLMClient.generate_text("azure-foundry:phi4mini", "test prompt")
+                mock.assert_called_once()
 
     def test_gh_prefix_routes_to_github(self):
         """Test gh: prefix routes to _call_github_models."""
@@ -57,25 +59,31 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test gemini in name routes to _call_gemini."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_gemini', return_value="gemini response") as mock:
-            LLMClient.generate_text("gemini-1.5-flash", "test prompt")
-            mock.assert_called_once()
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_gemini', return_value="gemini response") as mock:
+                LLMClient.generate_text("gemini-1.5-flash", "test prompt")
+                mock.assert_called_once()
 
     def test_claude_routes_to_claude(self):
         """Test claude in name routes to _call_claude."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_claude', return_value="claude response") as mock:
-            LLMClient.generate_text("claude-3-sonnet", "test prompt")
-            mock.assert_called_once()
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_claude', return_value="claude response") as mock:
+                LLMClient.generate_text("claude-3-sonnet", "test prompt")
+                mock.assert_called_once()
 
     def test_gpt_routes_to_openai(self):
         """Test gpt in name routes to _call_openai."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_openai', return_value="openai response") as mock:
-            LLMClient.generate_text("gpt-4o", "test prompt")
-            mock.assert_called_once()
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_openai', return_value="openai response") as mock:
+                LLMClient.generate_text("gpt-4o", "test prompt")
+                mock.assert_called_once()
 
     def test_unknown_provider_returns_error(self):
         """Test unknown provider returns error message."""
@@ -102,21 +110,25 @@ class TestLLMClientParameterHandling(unittest.TestCase):
         """Test _call_azure_foundry receives temperature and max_tokens."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_azure_foundry', return_value="response") as mock:
-            LLMClient.generate_text("azure-foundry:phi4mini", "prompt", None, 0.3, 2000)
-            args, kwargs = mock.call_args
-            self.assertEqual(args[3], 0.3)
-            self.assertEqual(args[4], 2000)
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_azure_foundry', return_value="response") as mock:
+                LLMClient.generate_text("azure-foundry:phi4mini", "prompt", None, 0.3, 2000)
+                args, kwargs = mock.call_args
+                self.assertEqual(args[3], 0.3)
+                self.assertEqual(args[4], 2000)
 
     def test_openai_receives_temperature_and_max_tokens(self):
         """Test _call_openai receives temperature and max_tokens."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_openai', return_value="response") as mock:
-            LLMClient.generate_text("gpt-4o", "prompt", None, 1.0, 8000)
-            args, kwargs = mock.call_args
-            self.assertEqual(args[3], 1.0)
-            self.assertEqual(args[4], 8000)
+        # Enable remote providers for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+            with patch.object(LLMClient, '_call_openai', return_value="response") as mock:
+                LLMClient.generate_text("gpt-4o", "prompt", None, 1.0, 8000)
+                args, kwargs = mock.call_args
+                self.assertEqual(args[3], 1.0)
+                self.assertEqual(args[4], 8000)
 
     def test_default_temperature(self):
         """Test default temperature is 0.7."""
@@ -144,8 +156,8 @@ class TestLLMClientErrorHandling(unittest.TestCase):
         """Test Azure returns error when API key missing."""
         from tools.llm_client import LLMClient
         
-        with patch.dict(os.environ, {}, clear=True):
-            # Remove any existing key
+        # Enable remote providers and clear API key
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}, clear=False):
             os.environ.pop('AZURE_FOUNDRY_API_KEY', None)
             result = LLMClient.generate_text("azure-foundry:phi4mini", "test")
             self.assertIn("Error", result)
@@ -154,7 +166,8 @@ class TestLLMClientErrorHandling(unittest.TestCase):
         """Test OpenAI returns error when API key missing."""
         from tools.llm_client import LLMClient
         
-        with patch.dict(os.environ, {}, clear=True):
+        # Enable remote providers and clear API key
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}, clear=False):
             os.environ.pop('OPENAI_API_KEY', None)
             result = LLMClient.generate_text("gpt-4o", "test")
             self.assertIn("Error", result)

@@ -1,6 +1,8 @@
 import sys
+import os
 import json
 from pathlib import Path
+from unittest.mock import patch
 from click.testing import CliRunner
 
 # Add project root to path for imports
@@ -15,13 +17,16 @@ def test_create_command():
     variables = json.dumps({"project_name": "Test Project", "budget": "$10k"})
     
     print("Testing 'create' command...")
-    result = runner.invoke(cli, [
-        'create',
-        '--category', 'business',
-        '--use-case', 'Test Use Case',
-        '--variables', variables,
-        '--no-auto-refine'
-    ])
+    
+    # Enable remote providers for this test (the generator defaults to gpt-4o-mini)
+    with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        result = runner.invoke(cli, [
+            'create',
+            '--category', 'business',
+            '--use-case', 'Test Use Case',
+            '--variables', variables,
+            '--no-auto-refine'
+        ])
     
     if result.exit_code != 0:
         print(f"FAILED: {result.output}")
