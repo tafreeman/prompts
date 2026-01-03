@@ -5,6 +5,9 @@ Integration Tests for Unified Prompt Toolkit
 
 Verifies the full execution pipeline using the local model (Tier 0).
 Requires: Local ONNX model (phi4mini or mistral) in AI Gallery cache.
+
+These tests are marked as 'slow' and skipped by default in pytest.
+Run with: pytest -m slow to include them.
 """
 
 import sys
@@ -12,19 +15,27 @@ import os
 import unittest
 import subprocess
 from pathlib import Path
+import pytest
 
 # Add project root to path
 SCRIPT_DIR = Path(__file__).parent
-sys.path.insert(0, str(SCRIPT_DIR))
+REPO_ROOT = SCRIPT_DIR.parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 
 
+@pytest.mark.slow
 class TestPromptToolkitIntegration(unittest.TestCase):
-    """Integration tests executing prompt.py against local models."""
+    """Integration tests executing prompt.py against local models.
+    
+    These tests are slow (load ONNX models) and marked with @pytest.mark.slow.
+    Skip by default with: pytest -m "not slow"
+    Run only these with: pytest -m slow
+    """
 
     @classmethod
     def setUpClass(cls):
         """Check if local model is available before running tests."""
-        sys.path.insert(0, str(SCRIPT_DIR / "tools"))
+        sys.path.insert(0, str(REPO_ROOT / "tools"))
         
         # Check for library
         try:
@@ -47,13 +58,14 @@ class TestPromptToolkitIntegration(unittest.TestCase):
         prompt_file.write_text("What is 2+2? Answer in one word.", encoding="utf-8")
 
         try:
-            # Execute prompt.py
+            # Execute prompt.py - increase timeout for slow model loading
             result = subprocess.run(
-                [sys.executable, "prompt.py", "run", str(prompt_file), "-p", "local", "--temperature", "0.1"],
+                [sys.executable, str(REPO_ROOT / "prompt.py"), "run", str(prompt_file), "-p", "local", "--temperature", "0.1"],
                 capture_output=True,
                 text=True,
-                timeout=120,
-                encoding="utf-8"
+                timeout=300,  # 5 minutes for model loading
+                encoding="utf-8",
+                cwd=str(REPO_ROOT)
             )
 
             # Check success
@@ -72,11 +84,12 @@ class TestPromptToolkitIntegration(unittest.TestCase):
 
         try:
             result = subprocess.run(
-                [sys.executable, "prompt.py", "run", str(prompt_file), "-p", "local", "-s", "Answer in json"],
+                [sys.executable, str(REPO_ROOT / "prompt.py"), "run", str(prompt_file), "-p", "local", "-s", "Answer in json"],
                 capture_output=True,
                 text=True,
-                timeout=120,
-                encoding="utf-8"
+                timeout=300,  # 5 minutes for model loading
+                encoding="utf-8",
+                cwd=str(REPO_ROOT)
             )
 
             self.assertEqual(result.returncode, 0)
@@ -97,11 +110,12 @@ class TestPromptToolkitIntegration(unittest.TestCase):
         try:
             # Run quick structure check (Tier 1)
             result = subprocess.run(
-                [sys.executable, "prompt.py", "eval", str(test_dir), "-t", "1"],
+                [sys.executable, str(REPO_ROOT / "prompt.py"), "eval", str(test_dir), "-t", "1"],
                 capture_output=True,
                 text=True,
-                timeout=60,
-                encoding="utf-8"
+                timeout=300,  # 5 minutes
+                encoding="utf-8",
+                cwd=str(REPO_ROOT)
             )
 
             self.assertEqual(result.returncode, 0, f"Eval failed: {result.stderr}")
@@ -114,14 +128,15 @@ class TestPromptToolkitIntegration(unittest.TestCase):
     def test_cove_command_local(self):
         """Test 'cove' command runs with local provider."""
         result = subprocess.run(
-            [sys.executable, "prompt.py", "cove", "What is the capital of France?", "-p", "local", "-n", "1"],
+            [sys.executable, str(REPO_ROOT / "prompt.py"), "cove", "What is the capital of France?", "-p", "local", "-n", "1"],
             capture_output=True,
             text=True,
-            timeout=120,
-            encoding="utf-8"
+            timeout=300,  # 5 minutes for model loading
+            encoding="utf-8",
+            cwd=str(REPO_ROOT)
         )
         
-        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.returncode, 0, f"CoVe failed: {result.stderr}")
         # Check for CoVe output - look for phase markers (output format may vary)
         output = result.stdout.lower()
         has_cove_markers = (
