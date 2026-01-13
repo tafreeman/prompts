@@ -1,100 +1,111 @@
 # Prompt Effectiveness Scoring Rubric
-# Version: 1.0.0
-# Created: 2025-11-30
-# Based on: Research from OpenAI Evals, LangSmith, and industry practices
+# Version: 2.0.0
+# Updated: 2026-01-04
+# Based on: Research from OpenAI Evals, LangSmith, DeepEval, and industry practices
 # Reference: docs/RESEARCH_REPORT_2025-11-30.md
 
 # =============================================================================
 # OVERVIEW
 # =============================================================================
-# This rubric defines how to score prompts in the library using a 5-dimensional
-# model with weighted scoring. Each prompt receives a single `effectivenessScore`
-# value (1.0-5.0) that represents its overall quality.
+# This rubric defines how to score prompts using a 5-dimensional model with
+# weighted scoring. The dimensions focus on actionable, measurable qualities.
+#
+# Key Changes in v2.0:
+#   - Replaced "reusability" with "structure" (more measurable)
+#   - Replaced "simplicity" with "specificity" (more actionable)  
+#   - Replaced "examples" with "completeness" (broader coverage)
+#   - Added detailed evidence requirements
+#   - Added example improvement generation
 #
 # Usage:
-#   - Add `effectivenessScore: 4.2` to prompt frontmatter after evaluation
-#   - Minimum score for new prompts: 3.0
-#   - Prompts below 3.0 should be improved or removed
+#   - Run: python -m prompteval prompts/ --verbose
+#   - Results include specific fixes for each criterion
+#   - Priority fixes guide improvement order
 
 # =============================================================================
-# SCORING DIMENSIONS
+# SCORING DIMENSIONS (v2.0)
 # =============================================================================
 
 dimensions:
   clarity:
     weight: 0.25
     description: "Is the prompt unambiguous and easy to understand?"
+    focus: "Purpose clarity, variable names, instruction flow, jargon-free"
     criteria:
-      5: "Immediately understandable, no ambiguity, clear structure"
-      4: "Clear with minor room for interpretation"
-      3: "Understandable but requires some thought"
-      2: "Confusing in places, needs improvement"
-      1: "Very difficult to understand, major rewrites needed"
-    evaluation_questions:
-      - "Can a user understand the purpose within 10 seconds?"
-      - "Are variable names self-explanatory?"
-      - "Is the instruction structure logical?"
-      - "Are there ambiguous phrases or jargon?"
+      9-10: "Crystal clear purpose, zero ambiguity, perfect structure, self-explanatory variables"
+      7-8: "Clear purpose, minimal ambiguity, good structure, mostly clear variables"
+      5-6: "Understandable but some interpretation needed, decent structure"
+      3-4: "Confusing in places, unclear variables, needs improvement"
+      1-2: "Very difficult to understand, major rewrites needed"
+    evidence_required:
+      - "Quote specific unclear passages"
+      - "Identify ambiguous variable names"
+      - "Note structural issues"
+    improvement_template: "Change '{original}' to '{improved}' for clarity"
 
   effectiveness:
     weight: 0.30
     description: "Does it consistently produce quality output?"
+    focus: "Output consistency, edge case handling, platform compatibility"
     criteria:
-      5: "Works reliably 95%+ of the time with excellent results"
-      4: "Works well 85%+ of the time with good results"
-      3: "Works 70%+ of the time with acceptable results"
-      2: "Works 50-70% of the time with mixed results"
-      1: "Frequently fails or produces poor results"
-    evaluation_questions:
-      - "Does the prompt produce consistent outputs?"
-      - "Does it handle edge cases gracefully?"
-      - "Is the output quality meeting expectations?"
-      - "Does it work across different AI platforms?"
+      9-10: "Produces excellent results 95%+ of time, handles edge cases, works across platforms"
+      7-8: "Good results 85%+ of time, decent edge case handling"
+      5-6: "Acceptable results 70%+ of time, some inconsistency"
+      3-4: "Mixed results 50-70%, often unpredictable"
+      1-2: "Frequently fails or produces poor results"
+    evidence_required:
+      - "Identify potential failure modes"
+      - "Note missing edge case handling"
+      - "Check output format constraints"
+    improvement_template: "Add constraint: '{constraint}' to prevent {failure_mode}"
 
-  reusability:
+  structure:
     weight: 0.20
-    description: "Works across different contexts/inputs?"
+    description: "How well organized and professionally formatted is the prompt?"
+    focus: "Markdown formatting, section organization, visual hierarchy"
     criteria:
-      5: "Works across many contexts unchanged"
-      4: "Works in most contexts with minor adjustments"
-      3: "Works in several contexts with some modifications"
-      2: "Limited to specific contexts"
-      1: "Single-use only, highly specific"
-    evaluation_questions:
-      - "Can this prompt be used for similar tasks?"
-      - "Are variables generic enough for multiple use cases?"
-      - "Does it require significant modification per use?"
-      - "Would other teams find this useful?"
+      9-10: "Perfect markdown, clear sections, excellent headers/lists, professional"
+      7-8: "Good formatting, well-organized sections, minor improvements possible"
+      5-6: "Adequate structure but could be better organized"
+      3-4: "Poorly organized, inconsistent formatting"
+      1-2: "No structure, wall of text, unprofessional"
+    evidence_required:
+      - "Note formatting inconsistencies"
+      - "Identify missing sections"
+      - "Check heading hierarchy"
+    improvement_template: "Add section: '## {section_name}' with {content}"
 
-  simplicity:
+  specificity:
     weight: 0.15
-    description: "Minimal without losing value?"
+    description: "How specific and actionable are the instructions?"
+    focus: "Concrete instructions, success criteria, defined constraints"
     criteria:
-      5: "Minimal, nothing to remove, everything essential"
-      4: "Concise with minor redundancy"
-      3: "Some unnecessary content but not excessive"
-      2: "Significant bloat or redundancy"
-      1: "Significantly over-engineered"
-    evaluation_questions:
-      - "Can any section be removed without losing value?"
-      - "Is the prompt length appropriate for its purpose?"
-      - "Are there redundant instructions?"
-      - "Does it follow the minimal structure template?"
+      9-10: "Highly specific instructions, clear success criteria, defined constraints"
+      7-8: "Good specificity, reasonable constraints, clear expectations"
+      5-6: "Somewhat vague, could be more specific"
+      3-4: "Too vague or too restrictive, unclear expectations"
+      1-2: "Extremely vague or unusable constraints"
+    evidence_required:
+      - "Quote vague instructions"
+      - "Note missing constraints"
+      - "Identify unclear success criteria"
+    improvement_template: "Make specific: '{vague}' → '{specific_instruction}'"
 
-  examples:
+  completeness:
     weight: 0.10
-    description: "Are examples helpful and realistic?"
+    description: "Does the prompt have all necessary components?"
+    focus: "Context, instructions, examples, output format, error handling"
     criteria:
-      5: "Excellent examples with clear input/output, realistic scenarios"
-      4: "Good examples that demonstrate usage well"
-      3: "Adequate examples but could be improved"
-      2: "Examples present but not very helpful"
-      1: "Missing or poor examples"
-    evaluation_questions:
-      - "Do examples show realistic use cases?"
-      - "Is input/output clearly demonstrated?"
-      - "Are examples comprehensive enough?"
-      - "Do examples help understand edge cases?"
+      9-10: "Has context, instructions, examples, output format, error handling guidance"
+      7-8: "Has most key elements, minor additions needed"
+      5-6: "Missing some important elements"
+      3-4: "Missing multiple key components"
+      1-2: "Severely incomplete, missing critical information"
+    evidence_required:
+      - "List missing components"
+      - "Note incomplete sections"
+      - "Check for example coverage"
+    improvement_template: "Add missing {component}: {example_content}"
 
 # =============================================================================
 # SCORING SCALE

@@ -1,0 +1,85 @@
+{
+  "id": "lats-lite",
+  "title": "LATS-Lite: Compact Prompt Evaluator",
+  "description": "Streamlined LATS evaluator optimized for local models (~1.5KB vs 16KB full version)",
+  "version": "1.0.0",
+  "category": "evaluation",
+  "tags": ["lats", "evaluation", "local-models", "optimization"],
+  
+  "prompt_file": "lats-lite.prompt.txt",
+  "full_version": "lats-self-refine-evaluator.md",
+  
+  "variables": {
+    "PROMPT_CONTENT": {
+      "required": true,
+      "description": "The prompt text to evaluate",
+      "max_length": 3000
+    },
+    "QUALITY_THRESHOLD": {
+      "required": false,
+      "default": "80",
+      "description": "Minimum score (0-100) to pass"
+    },
+    "MAX_ITERATIONS": {
+      "required": false,
+      "default": "3",
+      "description": "Maximum refinement loops"
+    }
+  },
+  
+  "criteria": {
+    "clarity": {"weight": 25, "description": "Goal and role clarity"},
+    "effectiveness": {"weight": 30, "description": "Produces good results"},
+    "specificity": {"weight": 20, "description": "Precise instructions with examples"},
+    "completeness": {"weight": 25, "description": "Edge cases and output format"}
+  },
+  
+  "model_compatibility": {
+    "optimized_for": ["ollama:*", "local:*", "windows-ai:*"],
+    "also_works": ["gh:gpt-4o-mini", "gh:gpt-4o", "claude-3-haiku"],
+    "recommended_context": 4096,
+    "estimated_tokens": {
+      "input": 500,
+      "output": 800
+    }
+  },
+  
+  "performance": {
+    "size_bytes": 1500,
+    "size_tokens": 500,
+    "vs_full_version": {
+      "size_reduction": "90%",
+      "full_size_bytes": 16000
+    }
+  },
+  
+  "output_format": {
+    "scores_table": true,
+    "weighted_score": true,
+    "threshold_check": true,
+    "json_decision": true,
+    "final_prompt": true,
+    "summary_table": true
+  },
+  
+  "removed_from_full": [
+    "ASCII architecture diagram",
+    "Research citations table",
+    "Detailed sub-steps (A1-A4, B1-B4, C1-C3)",
+    "2KB example section",
+    "Comparison tables",
+    "Design rationale",
+    "CoVe verification questions",
+    "ReAct thought-action-observe format"
+  ],
+  
+  "preserved_from_full": [
+    "4 scoring criteria with weights",
+    "Weighted score calculation",
+    "Threshold-based termination",
+    "Iteration loop logic",
+    "Before/After fix format",
+    "JSON decision output",
+    "Final prompt output"
+  ]
+}

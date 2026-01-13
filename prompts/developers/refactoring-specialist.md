@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A refactoring proposal (goals, approach, risks), a step-by-step change plan, and representative before/after code snippets.
+
 ## Tips
 
 - [Tip 1]

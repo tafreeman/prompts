@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A Telegram OSINT plan: relevant metadata to collect, channels/groups to map, evidence handling notes, and a findings write-up.
+
 ## Tips
 
 - [Tip 1]

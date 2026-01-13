@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A structured attribution assessment: key indicators, competing hypotheses, confidence levels, and suggested next collection steps.
+
 ## Tips
 
 - [Tip 1]

@@ -28,6 +28,10 @@ import json
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 
+# Repo-local path helper (kept for UI/document navigation). We intentionally do NOT
+# modify sys.path here.
+SCRIPT_DIR = Path(__file__).parent
+
 # Fix Windows console encoding for Unicode support
 if sys.platform == 'win32':
     try:
@@ -37,10 +41,10 @@ if sys.platform == 'win32':
         # Fallback for older Python or restricted environments
         pass
 
-# Add tools directory to path
-SCRIPT_DIR = Path(__file__).parent
-TOOLS_DIR = SCRIPT_DIR / "tools"
-sys.path.insert(0, str(TOOLS_DIR))
+# NOTE:
+# This repository packages `tools/` as an importable Python package (see pyproject.toml).
+# When running from the repo root (common usage), the working directory is already on
+# sys.path, so `import tools.*` works without any sys.path manipulation.
 
 
 # =============================================================================
@@ -209,7 +213,7 @@ def menu_run_prompt():
         provider = "local"
 
     # Model (optional)
-    model = input(f"Model name (press Enter for default): ").strip() or None
+    model = input("Model name (press Enter for default): ").strip() or None
 
     # Execute
     print(f"\n⏳ Executing with {provider}...")
@@ -396,7 +400,7 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
             content = f"{content}\n\n---\nUser Input:\n{input_text}"
 
         if provider == "local":
-            from local_model import LocalModel
+            from tools.local_model import LocalModel
             lm = LocalModel(verbose=False)
             response = lm.generate(content, max_tokens=max_tokens, temperature=temperature,
                                    system_prompt=system)
@@ -414,17 +418,17 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
             response = result.stdout
 
         elif provider == "azure":
-            from llm_client import LLMClient
+            from tools.llm_client import LLMClient
             model_key = model or "phi4mini"
             response = LLMClient.generate_text(f"azure-foundry:{model_key}", content)
 
         elif provider == "openai":
-            from llm_client import LLMClient
+            from tools.llm_client import LLMClient
             model_name = model or "gpt-4o-mini"
             response = LLMClient.generate_text(model_name, content)
 
         elif provider in ("windows", "windows-ai", "win"):
-            from llm_client import LLMClient
+            from tools.llm_client import LLMClient
             model_name = model or "phi-silica"
             response = LLMClient.generate_text(f"windows-ai:{model_name}", content)
 
@@ -446,12 +450,8 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
 def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
     """Run tiered evaluation on prompts using PromptEval (canonical evaluator)."""
     try:
-        # Add tools to path for prompteval import
-        tools_dir = Path(__file__).parent / "tools"
-        sys.path.insert(0, str(tools_dir))
-
-        from prompteval import evaluate, evaluate_directory
-        from prompteval.tiers import TIERS
+        from tools.prompteval import evaluate, evaluate_directory
+        from tools.prompteval.tiers import TIERS
 
         target = Path(path)
         if not target.exists():
@@ -493,7 +493,7 @@ def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
 def run_cove(question: str, provider: str = "local", n_questions: int = 5):
     """Run Chain-of-Verification analysis."""
     try:
-        from cove_runner import get_llm_function, run_cove as _run_cove, format_result
+        from tools.cove_runner import get_llm_function, run_cove as _run_cove, format_result
 
         llm_call = get_llm_function(provider, None, verbose=True)
         print(f"   Model: {getattr(llm_call, 'model_name', 'unknown')}")
@@ -508,7 +508,7 @@ def run_cove(question: str, provider: str = "local", n_questions: int = 5):
 def batch_process(folder: str, provider: str = "local", output: Optional[str] = None):
     """Batch process prompts in a folder."""
     try:
-        from tiered_eval import find_prompts
+        from tools.tiered_eval import find_prompts
 
         prompts = find_prompts(folder)
         if not prompts:
@@ -523,10 +523,10 @@ def batch_process(folder: str, provider: str = "local", output: Optional[str] = 
             print(f"   Processing: {prompt_path.name}...", end="")
             try:
                 if provider == "local":
-                    from local_model import LocalModel
+                    from tools.local_model import LocalModel
                     lm = LocalModel(verbose=False)
                     content = prompt_path.read_text(encoding='utf-8')[:4000]
-                    response = lm.generate(f"Evaluate this prompt (1-10): {content[:500]}", max_tokens=200)
+                    lm.generate(f"Evaluate this prompt (1-10): {content[:500]}", max_tokens=200)
                     print(" ✅")
                     results["processed"] += 1
                 else:
@@ -544,7 +544,7 @@ def batch_process(folder: str, provider: str = "local", output: Optional[str] = 
 def get_improvements(path: str, output: Optional[str] = None):
     """Get improvement suggestions for prompts."""
     try:
-        from improve_prompts import find_prompt_files, assess_prompt, print_worst_prompts
+        from tools.improve_prompts import find_prompt_files, assess_prompt
 
         root = Path(path)
         if root.is_file():
@@ -680,6 +680,21 @@ def main():
 
     elif cmd == "tiers":
         show_tiers()
+
+    elif cmd in ("tools-eval", "ecosystem", "tools-ecosystem"):
+        # Tools Ecosystem Evaluator (looped runner)
+        try:
+            from tools.tools_ecosystem_evaluator import main as run_tools_ecosystem_eval
+        except Exception as e:
+            print(f"❌ Failed to load tools ecosystem evaluator: {e}")
+            print("   Ensure tools/tools_ecosystem_evaluator.py exists and dependencies are installed.")
+            sys.exit(1)
+
+        # Forward remaining args to the runner (it has its own argparse)
+        # Example:
+        #   python prompt.py tools-eval --model gh:gpt-4o-mini --tree-depth 4
+        runner_argv = sys.argv[2:]
+        sys.exit(run_tools_ecosystem_eval(runner_argv))
 
     else:
         print(f"❌ Unknown command: {cmd}")

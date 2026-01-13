@@ -120,7 +120,62 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** [BUG_DESCRIPTION]
 
 **Error Message:**
-```text
+[ERROR_MESSAGE_OR_STACK_TRACE]
+
+**Reproduction Steps:**
+[REPRODUCTION_STEPS]
+
+**Expected Behavior:** [EXPECTED_BEHAVIOR]
+
+**Actual Behavior:** [ACTUAL_BEHAVIOR]
+
+**Environment:**
+- OS: [OPERATING_SYSTEM]
+- Runtime: [RUNTIME_VERSION]
+- Dependencies: [KEY_DEPENDENCIES]
+
+**Relevant Code:**
+[CODE_SNIPPET]
+
+**Additional Context:**
+[LOGS_TELEMETRY_OR_OTHER_INFO]
+
+---
+
+## Instructions
+
+Use Chain-of-Thought reasoning to debug this issue:
+
+### Step 1: Understanding the Bug
+Summarize the symptoms, timeline, and any patterns. Note what works and what doesn't.
+
+### Step 2: Hypothesis Generation
+Generate 3-5 testable hypotheses about possible root causes. For each:
+- State the hypothesis clearly
+- Assess likelihood (HIGH/MEDIUM/LOW)
+- List supporting evidence
+
+### Step 3: Hypothesis Prioritization
+Rank hypotheses by: (1) likelihood based on evidence, (2) ease of testing
+
+### Step 4: Evidence Analysis
+For the top hypothesis:
+- Explain why it's most likely
+- Design an experiment to confirm/refute it
+- If refuted, move to next hypothesis
+
+### Step 5: Root Cause
+State the confirmed root cause with evidence chain.
+
+### Step 6: Recommended Fix
+Provide:
+- Immediate fix (code/config change)
+- Long-term fix (prevent recurrence)
+- Infrastructure improvements if applicable
+
+### Step 7: Regression Test
+Provide test cases that would catch this bug if it recurs.
+```
 
 ---
 
@@ -144,8 +199,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 
 **Input:**
 
-```text
-
+```markdown
 You are an expert software debugger using Chain-of-Thought reasoning to systematically identify and fix bugs.
 
 ## Bug Report
@@ -153,18 +207,12 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Description:** User authentication fails intermittently in production (~5% of requests)
 
 **Error Message:**
-
-```text
-
 AuthenticationError: JWT token verification failed
     at verifyToken (auth.js:45)
     at authenticate (middleware.js:12)
     at app.use (server.js:30)
 
-```text
-
 **Reproduction Steps:**
-
 1. User logs in successfully
 2. User makes an authenticated API request within 5 minutes
 3. ~5% of the time, the request fails with JWT verification error
@@ -174,14 +222,11 @@ AuthenticationError: JWT token verification failed
 **Actual Behavior:** Some requests fail with JWT verification error, even with valid tokens
 
 **Environment:**
-
 - OS: Ubuntu 22.04 (production)
 - Runtime: Node.js 20.10
 - Dependencies: jsonwebtoken 9.0.2, express 4.18.2
 
 **Relevant Code:**
-
-```javascript
 // auth.js
 function verifyToken(token) {
   return jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
@@ -200,14 +245,11 @@ async function authenticate(req, res, next) {
     res.status(401).json({ error: 'Invalid token' });
   }
 }
-```text
 
 **Additional Context:**
-
 - Logs show "invalid signature" errors
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
-
 ```
 
 **Expected Output:**

@@ -132,9 +132,9 @@ flowchart TD
 ## Current Repository Context
 
 > **Repository**: `tafreeman/prompts`  
-> **Last Evaluation**: December 11, 2025  
-> **Prompt Count**: ~165 prompts across 9 categories  
-> **Overall Score**: 79/100 (Grade B) — Dec 4, 2025 baseline
+> **Last Evaluation**: January 2, 2026 (run new baseline)  
+> **Prompt Count**: 190 prompts across 9 categories  
+> **Validation Status**: 18 files with issues (missing Example sections)
 
 ### Completed Infrastructure ✅
 
@@ -143,23 +143,24 @@ flowchart TD
 | Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
 | Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
 | Validation tooling | ✅ Complete | `tools/validate_prompts.py` |
-| Evaluation tooling | ✅ Complete | `tools/evaluation_agent.py`, `tools/evaluate_library.py` |
+| Evaluation tooling | ✅ Complete | `tools/evaluation_agent.py`, `python -m prompteval` |
 | Navigation structure | ✅ Complete | All `index.md` files created with proper frontmatter |
 | Advanced techniques | ✅ Complete | CoT, ToT, ReAct, RAG, CoVe, Reflexion |
 
-### Current Content Inventory
+### Current Content Inventory (January 2026)
 
-| Category | Count | Status | Quality Tier |
-|----------|-------|--------|--------------|
-| **Developers** | 26 prompts | ✅ Mature | Tier 2 (70-84) |
-| **Business** | 38 prompts | ✅ Mature | Tier 2 (70-84) |
-| **Analysis** | 21 prompts | ✅ Mature | Tier 2 (70-84) |
-| **M365** | 20 prompts | ✅ Mature | Tier 2 (70-84) |
-| **System** | 24 prompts | ✅ Mature | Tier 2 (70-84) |
-| **Advanced** | 18 prompts | ✅ Mature | Tier 1 (85-100) |
-| **Creative** | 9 prompts | ⚠️ Growing | Tier 3 (55-69) |
-| **Governance** | 9 prompts | ⚠️ Growing | Tier 3 (55-69) |
-| **Total** | ~165 prompts | | Avg: 79/100 |
+| Category | Count | Status | Notes |
+|----------|-------|--------|-------|
+| **Business** | 39 prompts | ✅ Mature | Largest category |
+| **Developers** | 27 prompts | ✅ Mature | Core dev workflows |
+| **System** | 23 prompts | ✅ Mature | Agent/system prompts |
+| **Advanced** | 21 prompts | ✅ Mature | Complex patterns |
+| **Analysis** | 20 prompts | ✅ Mature | Data/research |
+| **M365** | 20 prompts | ✅ Mature | Microsoft 365 |
+| **Governance** | 16 prompts | ✅ **COMPLETE** | Target exceeded! |
+| **SOCMINT** | 15 prompts | ✅ New | OSINT/investigation |
+| **Creative** | 9 prompts | ⚠️ **GAP** | Need +11 prompts |
+| **Total** | **190 prompts** | | +25 since Dec 2025 |
 
 ### Evaluation Tools Available
 
@@ -202,7 +203,7 @@ flowchart TD
 
 - [x] Core categories well-covered (developers, business, analysis)
 - [ ] Creative category expansion (9 → 20 target)
-- [ ] Governance category expansion (3 → 15 target)
+- [x] Governance category expansion (16 prompts) ✅
 - [ ] Cross-platform prompt variants
 - [ ] Industry-specific prompt packs
 
@@ -218,52 +219,68 @@ flowchart TD
 
 - [ ] Role-based access patterns
 - [ ] Audit trail templates
-- [ ] Compliance-specific prompt packs (HIPAA, SOX, GDPR)
+- [x] Compliance-specific prompt packs (HIPAA, SOX, GDPR) ✅
 - [ ] Cost optimization guidance
 - [ ] SLA and performance benchmarks
 
 ---
 
-## Priority Expansion Areas (December 2025)
+## Priority Expansion Areas (January 2026)
 
-### P0 - Critical: Governance Category (3 → 15 prompts)
+### ~~P0 - Critical: Governance Category~~ ✅ COMPLETE (16 prompts)
 
-**Gap**: Enterprise customers need compliance, legal, and security prompts.
+**Status**: Target exceeded! 16 governance prompts now available.
 
-| Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
-| `compliance-policy-generator.md` | how_to | intermediate | M |
-| `gdpr-data-review.md` | how_to | advanced | L |
-| `hipaa-compliance-checker.md` | how_to | advanced | L |
-| `sox-audit-preparer.md` | how_to | advanced | L |
-| `privacy-impact-assessment.md` | how_to | intermediate | M |
-| `risk-assessment-template.md` | how_to | intermediate | M |
-| `vendor-security-review.md` | how_to | intermediate | M |
-| `access-control-reviewer.md` | how_to | intermediate | M |
-| `data-classification-helper.md` | how_to | beginner | S |
-| `policy-document-generator.md` | how_to | intermediate | M |
-| `audit-evidence-collector.md` | how_to | intermediate | M |
-| `regulatory-change-analyzer.md` | how_to | advanced | L |
+<details>
+<summary>Current Governance Prompts (click to expand)</summary>
 
-### P1 - High: Creative Category (9 → 20 prompts)
+| Prompt | Status |
+|--------|--------|
+| `access-control-reviewer.md` | ✅ |
+| `ai-ml-privacy-risk-assessment.md` | ✅ |
+| `compliance-policy-generator.md` | ✅ |
+| `data-classification-helper.md` | ✅ |
+| `data-retention-policy.md` | ✅ |
+| `data-subject-request-handler.md` | ✅ |
+| `gdpr-compliance-assessment.md` | ✅ |
+| `hipaa-compliance-checker.md` | ✅ |
+| `legal-contract-review.md` | ✅ |
+| `privacy-impact-assessment.md` | ✅ |
+| `regulatory-change-analyzer.md` | ✅ |
+| `risk-assessment.md` | ✅ |
+| `security-incident-response.md` | ✅ |
+| `soc2-audit-preparation.md` | ✅ |
+| `sox-audit-preparer.md` | ✅ |
+| `vendor-security-review.md` | ✅ |
 
-**Gap**: Marketing and content teams need more variety.
+</details>
 
-| Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
-| `case-study-builder.md` | how_to | intermediate | M |
-| `whitepaper-outliner.md` | how_to | intermediate | M |
-| `press-release-generator.md` | how_to | beginner | S |
-| `landing-page-copy.md` | how_to | intermediate | M |
-| `seo-content-optimizer.md` | how_to | intermediate | M |
-| `podcast-script-writer.md` | how_to | intermediate | M |
-| `webinar-content-creator.md` | how_to | intermediate | M |
-| `customer-testimonial-formatter.md` | how_to | beginner | S |
-| `infographic-content-planner.md` | how_to | beginner | S |
-| `content-calendar-generator.md` | how_to | beginner | S |
-| `a]b-test-copy-variants.md` | how_to | intermediate | M |
+### P0 - Critical: Creative Category (9 → 20 prompts)
 
-### P2 - Medium: Advanced Patterns
+**Gap**: Marketing and content teams need more variety. **11 prompts needed.**
+
+**Current Creative Prompts (9)**:
+- `ad-copy-generator.md`, `brand-voice-developer.md`, `content-marketing-blog-post.md`
+- `email-newsletter-writer.md`, `headline-tagline-creator.md`, `marketing-campaign-strategist.md`
+- `product-description-generator.md`, `social-media-content-generator.md`, `video-script-writer.md`
+
+**Recommended Additions (11)**:
+
+| Prompt | Type | Difficulty | Effort | Priority |
+|--------|------|------------|--------|----------|
+| `case-study-builder.md` | how_to | intermediate | M | High |
+| `whitepaper-outliner.md` | how_to | intermediate | M | High |
+| `press-release-generator.md` | how_to | beginner | S | High |
+| `landing-page-copy.md` | how_to | intermediate | M | High |
+| `seo-content-optimizer.md` | how_to | intermediate | M | Medium |
+| `podcast-script-writer.md` | how_to | intermediate | M | Medium |
+| `webinar-content-creator.md` | how_to | intermediate | M | Medium |
+| `customer-testimonial-formatter.md` | how_to | beginner | S | Low |
+| `infographic-content-planner.md` | how_to | beginner | S | Low |
+| `content-calendar-generator.md` | how_to | beginner | S | Low |
+| `ab-test-copy-variants.md` | how_to | intermediate | M | Medium |
+
+### P1 - High: Advanced Patterns
 
 **Gap**: Power users need more sophisticated patterns.
 
@@ -276,7 +293,7 @@ flowchart TD
 | `vision-prompt-templates.md` | reference | intermediate | M |
 | `structured-output-patterns.md` | reference | intermediate | M |
 
-### P3 - Future: Industry Packs
+### P2 - Medium: Industry Packs
 
 **Gap**: Vertical-specific prompt collections.
 
@@ -566,62 +583,61 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 
 Based on December 2025 repository state, focus analysis on these maturity areas:
 
-### Governance Category (CRITICAL - 3 prompts → 15 target)
+### ~~Governance Category~~ ✅ COMPLETE (16 prompts)
 
-**Why Critical**: Enterprise adoption requires compliance, legal, and security coverage.
+**Status**: Target exceeded. Enterprise compliance coverage achieved.
 
-**Research Focus Areas**:
+**Coverage Areas**:
+- ✅ Regulatory compliance (GDPR, HIPAA, SOX, SOC2)
+- ✅ Security review and incident response
+- ✅ Policy and procedure generation
+- ✅ Risk assessment and mitigation
+- ✅ Data classification and retention
+- ✅ Privacy impact assessments
+- ✅ AI/ML-specific privacy risks
 
-- Regulatory compliance (GDPR, HIPAA, SOX, CCPA)
-- Security review and incident response
-- Policy and procedure generation
-- Audit preparation and evidence collection
-- Risk assessment and mitigation
+### Creative Category (CRITICAL - 9 prompts → 20 target)
 
-**Recommended Additions**:
+**Why Critical**: Now the #1 gap. Content and marketing teams drive significant AI adoption.
 
-1. `compliance-policy-generator.md` - Generate compliance policies
-2. `gdpr-data-review.md` - GDPR compliance assessment
-3. `hipaa-compliance-checker.md` - Healthcare data compliance
-4. `sox-audit-preparer.md` - Financial controls audit
-5. `privacy-impact-assessment.md` - PIA documentation
-6. `risk-assessment-template.md` - Risk identification and scoring
-7. `vendor-security-review.md` - Third-party security assessment
-8. `access-control-reviewer.md` - Permission and access audit
-9. `data-classification-helper.md` - Data sensitivity classification
-10. `policy-document-generator.md` - Policy drafting assistance
-11. `audit-evidence-collector.md` - Audit documentation
-12. `regulatory-change-analyzer.md` - Regulatory impact analysis
-
-### Creative Category (HIGH - 9 prompts → 20 target)
-
-**Why High**: Content and marketing teams drive significant AI adoption.
+**Current Prompts (9)**:
+- `ad-copy-generator.md`
+- `brand-voice-developer.md`
+- `content-marketing-blog-post.md`
+- `email-newsletter-writer.md`
+- `headline-tagline-creator.md`
+- `marketing-campaign-strategist.md`
+- `product-description-generator.md`
+- `social-media-content-generator.md`
+- `video-script-writer.md`
 
 **Research Focus Areas**:
 
 - Long-form content (whitepapers, case studies)
 - SEO and content optimization
-- Multimedia content (podcasts, webinars, video)
+- Multimedia content (podcasts, webinars)
 - Campaign and launch content
 - Content planning and strategy
 
-**Recommended Additions**:
+**Recommended Additions (11 needed)**:
 
-1. `case-study-builder.md` - Customer success stories
-2. `whitepaper-outliner.md` - Long-form technical content
-3. `press-release-generator.md` - Media announcements
-4. `landing-page-copy.md` - Conversion-focused web copy
-5. `seo-content-optimizer.md` - Search optimization
-6. `podcast-script-writer.md` - Audio content scripts
-7. `webinar-content-creator.md` - Presentation content
-8. `customer-testimonial-formatter.md` - Quote formatting
-9. `infographic-content-planner.md` - Visual content planning
-10. `content-calendar-generator.md` - Editorial planning
-11. `ab-test-copy-variants.md` - A/B testing variations
+| # | Prompt | Description | Priority |
+|---|--------|-------------|----------|
+| 1 | `case-study-builder.md` | Customer success stories | High |
+| 2 | `whitepaper-outliner.md` | Long-form technical content | High |
+| 3 | `press-release-generator.md` | Media announcements | High |
+| 4 | `landing-page-copy.md` | Conversion-focused web copy | High |
+| 5 | `seo-content-optimizer.md` | Search optimization | Medium |
+| 6 | `podcast-script-writer.md` | Audio content scripts | Medium |
+| 7 | `webinar-content-creator.md` | Presentation content | Medium |
+| 8 | `customer-testimonial-formatter.md` | Quote formatting | Low |
+| 9 | `infographic-content-planner.md` | Visual content planning | Low |
+| 10 | `content-calendar-generator.md` | Editorial planning | Low |
+| 11 | `ab-test-copy-variants.md` | A/B testing variations | Medium |
 
-### Advanced Patterns (MEDIUM - Add sophisticated capabilities)
+### Advanced Patterns (HIGH - Add sophisticated capabilities)
 
-**Why Medium**: Power users and architects need advanced patterns.
+**Why High**: Power users and architects need advanced patterns.
 
 **Research Focus Areas**:
 
@@ -699,7 +715,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 
 | Document | Date | Score | Notes |
 |----------|------|-------|-------|
-| `CoVE Reflexion Prompt Library Evaluation.md` | 2025-12-11 | 79/100 | ToT methodology research |
+| *Run new evaluation* | 2026-01-02 | TBD | Current state baseline |
 | `docs/TOT_EVALUATION_REPORT.md` | 2025-12-05 | 79/100 | Tree-of-Thoughts evaluation |
 | `docs/evaluations/EVALUATION_REPORT_*.md` | 2025-12-04 | 79/100 | Archived baseline reports |
 

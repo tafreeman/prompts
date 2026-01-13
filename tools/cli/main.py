@@ -4,8 +4,13 @@ import sys
 from pathlib import Path
 import click
 
-from tools.code_generator import UniversalCodeGenerator
-from tools.config import default_config
+# Ensure tools directory is importable
+_TOOLS_DIR = Path(__file__).parent.parent
+if str(_TOOLS_DIR) not in sys.path:
+    sys.path.insert(0, str(_TOOLS_DIR))
+
+from code_generator import UniversalCodeGenerator
+from config import default_config
 from .interactive import interactive_wizard
 
 
@@ -379,7 +384,7 @@ def batch(path: str, provider: str, output: str, fmt: str, parallel: bool):
     sys.path.insert(0, str(tools_dir))
 
     try:
-        from tiered_eval import find_prompts  # type: ignore
+        from prompteval import find_prompts
 
         prompts = find_prompts(path)
         if not prompts:

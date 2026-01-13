@@ -46,90 +46,10 @@ import hashlib
 
 
 # =============================================================================
-# ERROR CLASSIFICATION
+# ERROR CLASSIFICATION - Import from canonical source
 # =============================================================================
 
-class ErrorCode(str, Enum):
-    """Standardized error codes (matches EVALUATION_SCHEMA.md)."""
-    SUCCESS = "success"
-    UNAVAILABLE_MODEL = "unavailable_model"
-    PERMISSION_DENIED = "permission_denied"
-    RATE_LIMITED = "rate_limited"
-    TIMEOUT = "timeout"
-    PARSE_ERROR = "parse_error"
-    FILE_NOT_FOUND = "file_not_found"
-    INVALID_INPUT = "invalid_input"
-    NETWORK_ERROR = "network_error"
-    INTERNAL_ERROR = "internal_error"
-
-
-# Errors that should NOT be retried
-PERMANENT_ERRORS = {
-    ErrorCode.UNAVAILABLE_MODEL,
-    ErrorCode.PERMISSION_DENIED,
-    ErrorCode.FILE_NOT_FOUND,
-    ErrorCode.INVALID_INPUT,
-}
-
-# Errors that CAN be retried
-TRANSIENT_ERRORS = {
-    ErrorCode.RATE_LIMITED,
-    ErrorCode.TIMEOUT,
-    ErrorCode.NETWORK_ERROR,
-}
-
-
-def classify_error(error_message: str, return_code: int = None) -> Tuple[ErrorCode, bool]:
-    """
-    Classify an error message into a standard error code.
-    
-    Returns:
-        Tuple of (ErrorCode, should_retry)
-    """
-    msg = error_message.lower() if error_message else ""
-    
-    # Permission/entitlement errors
-    if "403" in msg or "forbidden" in msg:
-        return ErrorCode.PERMISSION_DENIED, False
-    if "401" in msg or "unauthorized" in msg:
-        return ErrorCode.PERMISSION_DENIED, False
-    if "access denied" in msg or "access is denied" in msg:
-        return ErrorCode.PERMISSION_DENIED, False
-    if "limited access feature" in msg or "laf" in msg and "token" in msg:
-        return ErrorCode.PERMISSION_DENIED, False
-    if "systemaimodels" in msg or "package identity" in msg:
-        return ErrorCode.PERMISSION_DENIED, False
-    
-    # Model availability
-    if "unavailable_model" in msg or "unavailable model" in msg:
-        return ErrorCode.UNAVAILABLE_MODEL, False
-    if "model not found" in msg or "unknown model" in msg:
-        return ErrorCode.UNAVAILABLE_MODEL, False
-    if "does not exist" in msg and "model" in msg:
-        return ErrorCode.UNAVAILABLE_MODEL, False
-    
-    # Rate limiting
-    if "429" in msg or "rate limit" in msg or "too many requests" in msg:
-        return ErrorCode.RATE_LIMITED, True
-    if "quota" in msg or "exceeded" in msg:
-        return ErrorCode.RATE_LIMITED, True
-    
-    # Timeouts
-    if "timeout" in msg or "timed out" in msg:
-        return ErrorCode.TIMEOUT, True
-    
-    # Network errors
-    if "connection" in msg or "network" in msg or "unreachable" in msg:
-        return ErrorCode.NETWORK_ERROR, True
-    if "dns" in msg or "resolve" in msg:
-        return ErrorCode.NETWORK_ERROR, True
-    
-    # Parse errors (usually transient - model gave bad output)
-    if "json" in msg and ("parse" in msg or "decode" in msg):
-        return ErrorCode.PARSE_ERROR, True
-    
-    # Default to internal error (don't retry unknown errors)
-    return ErrorCode.INTERNAL_ERROR, False
+from tools.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
 
 
 # =============================================================================
@@ -1430,6 +1350,29 @@ def get_model_error(model: str) -> Optional[str]:
     """Get the error message for an unusable model."""
     result = get_probe().check_model(model)
     return result.error_message if not result.usable else None
+
+
+# =============================================================================
+# CANONICAL SINGLETON ACCESS
+# =============================================================================
+
+_DEFAULT_PROBE: Optional[ModelProbe] = None
+
+
+def get_probe(*, verbose: bool = False, use_cache: bool = True) -> ModelProbe:
+    """Return a process-wide ModelProbe instance.
+
+    Many scripts (and tool_init) want a quick probe without managing lifetime.
+    We provide a singleton so callers share cache and avoid repeated disk I/O.
+
+    Args:
+        verbose: Enable probe logging.
+        use_cache: Enable persistent cache.
+    """
+    global _DEFAULT_PROBE
+    if _DEFAULT_PROBE is None:
+        _DEFAULT_PROBE = ModelProbe(use_cache=use_cache, verbose=verbose)
+    return _DEFAULT_PROBE
 
 
 # =============================================================================

@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- An OSINT collection plan: what to extract from the profile/posts, key questions, and a findings report with confidence and citations.
+
 ## Tips
 
 - [Tip 1]

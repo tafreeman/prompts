@@ -29,20 +29,22 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test local: prefix routes to _call_local."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_local', return_value="local response") as mock:
-            LLMClient.generate_text("local:phi4mini", "test prompt")
-            mock.assert_called_once()
-            # Verify args were passed
-            args, kwargs = mock.call_args
-            self.assertEqual(args[0], "local:phi4mini")
-            self.assertEqual(args[1], "test prompt")
+        # Disable cache for routing tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_local', return_value="local response") as mock:
+                LLMClient.generate_text("local:phi4mini", "test prompt")
+                mock.assert_called_once()
+                # Verify args were passed
+                args, kwargs = mock.call_args
+                self.assertEqual(args[0], "local:phi4mini")
+                self.assertEqual(args[1], "test prompt")
 
     def test_azure_prefix_routes_to_azure(self):
         """Test azure-foundry: prefix routes to _call_azure_foundry."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_azure_foundry', return_value="azure response") as mock:
                 LLMClient.generate_text("azure-foundry:phi4mini", "test prompt")
                 mock.assert_called_once()
@@ -51,16 +53,18 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test gh: prefix routes to _call_github_models."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_github_models', return_value="gh response") as mock:
-            LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")
-            mock.assert_called_once()
+        # Disable cache for routing tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_github_models', return_value="gh response") as mock:
+                LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")
+                mock.assert_called_once()
 
     def test_gemini_routes_to_gemini(self):
         """Test gemini in name routes to _call_gemini."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_gemini', return_value="gemini response") as mock:
                 LLMClient.generate_text("gemini-1.5-flash", "test prompt")
                 mock.assert_called_once()
@@ -69,8 +73,8 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test claude in name routes to _call_claude."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_claude', return_value="claude response") as mock:
                 LLMClient.generate_text("claude-3-sonnet", "test prompt")
                 mock.assert_called_once()
@@ -79,8 +83,8 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test gpt in name routes to _call_openai."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_openai', return_value="openai response") as mock:
                 LLMClient.generate_text("gpt-4o", "test prompt")
                 mock.assert_called_once()
@@ -89,8 +93,10 @@ class TestLLMClientProviderRouting(unittest.TestCase):
         """Test unknown provider returns error message."""
         from tools.llm_client import LLMClient
         
-        result = LLMClient.generate_text("unknown-model", "test prompt")
-        self.assertIn("Unknown model", result)
+        # Disable cache for this test
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            result = LLMClient.generate_text("unknown-model", "test prompt")
+            self.assertIn("Unknown model", result)
 
 
 class TestLLMClientParameterHandling(unittest.TestCase):
@@ -100,18 +106,20 @@ class TestLLMClientParameterHandling(unittest.TestCase):
         """Test _call_local receives temperature and max_tokens."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_local', return_value="response") as mock:
-            LLMClient.generate_text("local:phi4mini", "prompt", None, 0.5, 1000)
-            args, kwargs = mock.call_args
-            self.assertEqual(args[3], 0.5)  # temperature
-            self.assertEqual(args[4], 1000)  # max_tokens
+        # Disable cache for parameter tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_local', return_value="response") as mock:
+                LLMClient.generate_text("local:phi4mini", "prompt", None, 0.5, 1000)
+                args, kwargs = mock.call_args
+                self.assertEqual(args[3], 0.5)  # temperature
+                self.assertEqual(args[4], 1000)  # max_tokens
 
     def test_azure_receives_temperature_and_max_tokens(self):
         """Test _call_azure_foundry receives temperature and max_tokens."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_azure_foundry', return_value="response") as mock:
                 LLMClient.generate_text("azure-foundry:phi4mini", "prompt", None, 0.3, 2000)
                 args, kwargs = mock.call_args
@@ -122,8 +130,8 @@ class TestLLMClientParameterHandling(unittest.TestCase):
         """Test _call_openai receives temperature and max_tokens."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers for this test
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}):
+        # Enable remote providers and disable cache for this test
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
             with patch.object(LLMClient, '_call_openai', return_value="response") as mock:
                 LLMClient.generate_text("gpt-4o", "prompt", None, 1.0, 8000)
                 args, kwargs = mock.call_args
@@ -134,19 +142,23 @@ class TestLLMClientParameterHandling(unittest.TestCase):
         """Test default temperature is 0.7."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_local', return_value="response") as mock:
-            LLMClient.generate_text("local:phi4mini", "prompt")
-            args, kwargs = mock.call_args
-            self.assertEqual(args[3], 0.7)  # default temperature
+        # Disable cache for parameter tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_local', return_value="response") as mock:
+                LLMClient.generate_text("local:phi4mini", "prompt")
+                args, kwargs = mock.call_args
+                self.assertEqual(args[3], 0.7)  # default temperature
 
     def test_default_max_tokens(self):
         """Test default max_tokens is 4096."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_local', return_value="response") as mock:
-            LLMClient.generate_text("local:phi4mini", "prompt")
-            args, kwargs = mock.call_args
-            self.assertEqual(args[4], 4096)  # default max_tokens
+        # Disable cache for parameter tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_local', return_value="response") as mock:
+                LLMClient.generate_text("local:phi4mini", "prompt")
+                args, kwargs = mock.call_args
+                self.assertEqual(args[4], 4096)  # default max_tokens
 
 
 class TestLLMClientErrorHandling(unittest.TestCase):
@@ -156,8 +168,8 @@ class TestLLMClientErrorHandling(unittest.TestCase):
         """Test Azure returns error when API key missing."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers and clear API key
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}, clear=False):
+        # Enable remote providers, disable cache, and clear API key
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}, clear=False):
             os.environ.pop('AZURE_FOUNDRY_API_KEY', None)
             result = LLMClient.generate_text("azure-foundry:phi4mini", "test")
             self.assertIn("Error", result)
@@ -166,8 +178,8 @@ class TestLLMClientErrorHandling(unittest.TestCase):
         """Test OpenAI returns error when API key missing."""
         from tools.llm_client import LLMClient
         
-        # Enable remote providers and clear API key
-        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1"}, clear=False):
+        # Enable remote providers, disable cache, and clear API key
+        with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}, clear=False):
             os.environ.pop('OPENAI_API_KEY', None)
             result = LLMClient.generate_text("gpt-4o", "test")
             self.assertIn("Error", result)
@@ -176,8 +188,10 @@ class TestLLMClientErrorHandling(unittest.TestCase):
         """Test that exceptions are caught and returned as error messages."""
         from tools.llm_client import LLMClient
         
-        with patch.object(LLMClient, '_call_local', side_effect=Exception("Test error")):
-            result = LLMClient.generate_text("local:phi4mini", "test")
+        # Disable cache for error handling tests
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch.object(LLMClient, '_call_local', side_effect=Exception("Test error")):
+                result = LLMClient.generate_text("local:phi4mini", "test")
             self.assertIn("Error", result)
             self.assertIn("Test error", result)
 
