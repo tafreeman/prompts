@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- An investigation checklist and findings summary: possible owner signals, associated accounts, verification steps, and safety/legal cautions.
+
 ## Tips
 
 - [Tip 1]

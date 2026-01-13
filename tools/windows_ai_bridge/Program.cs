@@ -261,7 +261,22 @@ Example:
             {
                 // For generation we only support env-based LAF config.
                 var envOpts = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                var laf = BuildLafReport(envOpts);
+                var (featureId, token, attestation, present) = GetLafConfig(envOpts);
+                
+                // Attempt LAF unlock if configured, and keep the result alive
+                LimitedAccessFeatureRequestResult? lafResult = null;
+                if (present && !string.IsNullOrWhiteSpace(featureId) && !string.IsNullOrWhiteSpace(token) && !string.IsNullOrWhiteSpace(attestation))
+                {
+                    try
+                    {
+                        lafResult = LimitedAccessFeatures.TryUnlockFeature(featureId, token, attestation);
+                        Console.Error.WriteLine($"[PhiSilica] LAF unlock attempted: {lafResult.Status}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine($"[PhiSilica] LAF unlock failed: {ex.Message}");
+                    }
+                }
 
                 // Check if model is ready
                 if (LanguageModel.GetReadyState() == AIFeatureReadyState.NotReady)
@@ -277,6 +292,13 @@ Example:
                 var result = await languageModel.GenerateResponseAsync(prompt);
 
                 Console.WriteLine(result.Text);
+                
+                // Keep LAF result alive until we're done
+                if (lafResult != null)
+                {
+                    GC.KeepAlive(lafResult);
+                }
+                
                 return 0;
             }
             catch (UnauthorizedAccessException)

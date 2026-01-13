@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A time-ordered timeline with events, evidence links/citations, gaps/unknowns, and next steps to validate key points.
+
 ## Tips
 
 - [Tip 1]

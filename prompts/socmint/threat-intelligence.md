@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A threat intel brief: actors/TTPS, IOCs (if any), impacted assets, severity, recommended mitigations, and source citations.
+
 ## Tips
 
 - [Tip 1]

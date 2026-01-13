@@ -283,6 +283,382 @@
 				"reveal": "always",
 				"panel": "new"
 			}
+		},
+		{
+			"label": "🧰 Tools: Ecosystem Evaluator (single)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}\\scripts\\run-tools-ecosystem-eval.ps1"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "🧰 Tools: Ecosystem Evaluator (parallel: 2 models)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}\\scripts\\run-tools-ecosystem-eval.ps1",
+				"-Parallel",
+				"-CaptureConsoleOutput"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "🧰 Tools: Ecosystem Evaluator (parallel: 5 models + merge MVP)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-ExecutionPolicy",
+				"Bypass",
+				"-File",
+				"${workspaceFolder}\\scripts\\run-tools-ecosystem-eval.ps1",
+				"-Parallel",
+				"-CaptureConsoleOutput",
+				"-Merge"
+			],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "new"
+			},
+			"group": "test"
+		},
+		{
+			"label": "📊 Eval: Tier 2 - Local G-Eval (prompts folder)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval ..\\prompts --tier 2"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "📊 Debug: Tier 2 verbose (first prompt)",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-NoProfile",
+				"-Command",
+				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval ..\\prompts\\advanced\\advanced-technique-research.md --tier 2 --verbose"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Advanced Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/advanced/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Analysis Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/analysis/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Business Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/business/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Creative Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/creative/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Developers Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/developers/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: Governance Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/governance/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: M365 Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/m365/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: SOCMINT Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/socmint/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "📂 Eval: System Folder (Tier 2, Verbose)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/system/",
+				"--tier",
+				"2",
+				"--verbose",
+				"--ci"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🚀 Eval: All Folders - Tier 2 (Sequential)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/",
+				"--tier",
+				"2",
+				"--verbose",
+				"-o",
+				"../results/full-eval-tier2.json"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🔥 Eval: All Folders - Tier 3 (Cross-Validate)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/",
+				"--tier",
+				"3",
+				"--verbose",
+				"-o",
+				"../results/full-eval-tier3.json"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "☁️ Eval: All Folders - Tier 5 (Cloud)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"-m",
+				"prompteval",
+				"../prompts/",
+				"--tier",
+				"5",
+				"--verbose",
+				"-o",
+				"../results/full-eval-tier5.json"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/tools"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
 		}
 	]
 }

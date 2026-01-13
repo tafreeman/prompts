@@ -18,14 +18,14 @@ topics:
 - research
 - security
 author: OSINT Library Team
-version: '1.0'
-date: '2025-11-30'
+version: '1.1'
+date: '2026-01-12'
 governance_tags:
 - PII-safe
 - ethical-use-only
 dataClassification: internal
 reviewStatus: draft
-effectivenessScore: 0.0
+effectivenessScore: 33.3
 ---
 
 # ReAct: OSINT Research & Development
@@ -128,6 +128,11 @@ Use the Think → Act → Observe → Reflect cycle:
 - How does this fit into the overall investigation workflow?
 
 **Action [N]**: Search or fetch content from the target source.
+- **Inaccessible URLs**: If a source is down or blocked, you must:
+  1. Attempt to access via `archive.org` (Wayback Machine).
+  2. Search for `cache:[URL]` or alternative mirrors.
+  3. Find official documentation repositories (e.g., GitHub wikis).
+  4. Explicitly note the access issue in the Observation.
 
 **Observation [N]**: 
 - What tools/methods were recommended?
@@ -148,9 +153,12 @@ Continue until you have:
 ## Deliverables
 
 ### 1. Domain Landscape Report
+
 | Tool/Technique | Type | Effectiveness | Cost/Access | Notes |
 |----------------|------|---------------|-------------|-------|
-| ... | CLI/Web | High/Med | Free/Paid | ... |
+| [Tool Name] | [CLI/Web/SaaS] | [High/Med/Low] | [Free/Paid] | [Key capabilities or limitations] |
+| [Tool Name] | [CLI/Web/SaaS] | [High/Med/Low] | [Free/Paid] | [Key capabilities or limitations] |
+| [Tool Name] | [CLI/Web/SaaS] | [High/Med/Low] | [Free/Paid] | [Key capabilities or limitations] |
 
 ### 2. Methodology Outline
 Step-by-step workflow for the investigation:
@@ -166,6 +174,34 @@ The skeleton of the new prompt you will create:
 - **Process**: [Step-by-step instructions]
 - **Tools**: [List of tools to use]
 
+## Output Format
+
+Please present your final deliverable in the following structure:
+
+# OSINT Research Report: [Research Question]
+
+## Executive Summary
+[Brief summary of findings, top recommendations, and any critical blockers encountered]
+
+## Domain Landscape
+[Insert Domain Landscape Report Table]
+
+## Methodology
+[Insert Methodology Outline]
+
+## Component Definitions
+### Inputs
+- `[Variable_Name]`: [Description]
+
+### Recommended Tools
+- **[Tool Name]**: [Usage Context]
+
+## Draft Prompt
+[Insert Draft Prompt Structure with detailed steps, ensuring all variables are defined]
+
+## Validation Notes
+- **Methodology Check**: [How this aligns with Tier 1 standards]
+- **OpSec Considerations**: [Safety warnings]
 ```
 
 ---
@@ -204,5 +240,8 @@ Constraint: Must use free/public tools only.
 ...
 
 **Final Deliverable**:
-[Draft of "GEOINT Investigator" prompt including steps for SunCalc and Sentinel Hub]
+# OSINT Research Report: Geolocation using Shadow Analysis
+
+## Executive Summary
+Geolocation via shadow analysis is a mature field...
 ```

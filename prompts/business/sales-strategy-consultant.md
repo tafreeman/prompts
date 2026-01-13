@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A sales strategy outline including ICP, positioning, channels, messaging, funnel plan, and a 30/60/90-day execution plan.
+
 ## Tips
 
 - [Tip 1]

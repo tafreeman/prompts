@@ -113,7 +113,7 @@ START: Do you have a task that needs AI reasoning?
 │       │
 │       └─→ Need to explore multiple approaches?
 │           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
-```text
+```
 
 ---
 
@@ -191,7 +191,7 @@ START: Do you have a task that needs AI reasoning?
 
 ```text
 Fix: Check authentication tokens are being passed correctly.
-```text
+```
 
 *Token count: ~70*
 *Accuracy: Good - covers main scenarios*
@@ -201,7 +201,7 @@ Fix: Check authentication tokens are being passed correctly.
 ```text
 [10+ steps analyzing authentication flow, token types, edge cases, 
 alternative hypotheses, considering rate limiting, caching, etc.]
-```text
+```
 
 *Token count: ~15*
 *Accuracy: Poor - no context consideration*
@@ -215,8 +215,7 @@ Step 3: Domain complexity? Simple domain → monolith fine.
 Step 4: Time to market? Monolith faster for MVP.
 
 Recommendation: Start with modular monolith, extract services later if needed.
-```text
-```text
+```
 
 *Token count: ~500*
 *Accuracy: Excellent - considers all factors*
@@ -233,7 +232,19 @@ Try: Direct prompt
 Try: Concise CoT
 ↓ (if still uncertain)
 Try: Detailed CoT or Tree-of-Thoughts
-```text
+```
+
+### 2. Match Mode to Stakes
+
+- Low stakes (quick lookup): No CoT
+- Medium stakes (daily decisions): Concise CoT
+- High stakes (architecture, compliance): Detailed CoT
+
+### 3. Consider Your Audience
+
+- Experts who need quick answers: No CoT or Concise
+- Learning/teaching contexts: Detailed CoT
+- Audit/compliance: Detailed CoT with explicit reasoning
 
 ### 4. Optimize Token Usage
 
@@ -253,21 +264,44 @@ results = {
 
 # Choose based on accuracy vs. cost trade-off
 optimal_mode = optimize(results, cost_constraint=budget)
-```text
+```
+
+## Common Anti-Patterns
 
 ### ❌ Not Using CoT for Complex Tasks
 
 ```text
 Bad: "Direct prompt for system architecture decision"
 Risk: Missing critical considerations, expensive mistakes
-```text
+```
 
 ### ❌ Using Detailed CoT Under Time Pressure
 
 ```text
 Bad: "Production is down, need detailed analysis of all possibilities"
 Problem: Too slow, need concise CoT for quick fix first
+```
+
+### ❌ Overusing CoT for Simple Tasks
+
 ```text
+Bad: "Use detailed CoT to translate 'hello' to Spanish"
+Problem: Wasted tokens, slower response, no accuracy gain
+```
+
+## Integration Patterns
+
+### Pattern 1: Adaptive CoT
+
+```python
+def choose_cot_mode(task):
+    if task.complexity < 3:
+        return "none"
+    elif task.stakes > 10000 or task.is_novel:
+        return "detailed"
+    else:
+        return "concise"
+```
 
 ### Pattern 2: Human-in-the-Loop
 
@@ -282,8 +316,7 @@ else:
     # Escalate to detailed or revise
     reasoning = llm.generate(prompt, mode="detailed_cot", 
                             feedback=user.feedback)
-```text
-```json
+```
 
 ## Cost-Benefit Analysis
 
@@ -313,8 +346,15 @@ Value = 0.25 × $1,000 = $250
 Cost = 100 × $0.00003 = $0.003
 
 ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
-```text
+```
 
+---
+
+## Related Prompts
+
+- [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems
+- [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quick reasoning
+- [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - For multi-path exploration
 - [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks with external tools
 
 ---

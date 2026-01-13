@@ -1,5 +1,10 @@
 from typing import Dict
-from ..llm_client import LLMClient
+
+# Support both package-style and direct imports
+try:
+    from ..llm_client import LLMClient
+except ImportError:
+    from llm_client import LLMClient
 
 
 class Generator:

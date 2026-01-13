@@ -20,10 +20,12 @@ import json
 import time
 from pathlib import Path
 
-# Ensure we can import from local modules
-sys.path.append(str(Path(__file__).parent))
+# Add parent tools directory to path for imports
+TOOLS_DIR = Path(__file__).parent.parent
+sys.path.insert(0, str(TOOLS_DIR))
 
-from core.llm_client import LLMClient
+# Import from main tools (not local duplicates)
+from llm_client import LLMClient
 from evaluator import EnterpriseEvaluator
 
 

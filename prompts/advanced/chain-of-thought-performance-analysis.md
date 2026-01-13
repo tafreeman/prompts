@@ -366,7 +366,7 @@ async function loadProductsFromDB(filters) {
   
   return products;
 }
-```text
+```
 
 **Rationale:**
 Product data is relatively static (updated infrequently). Caching in Redis eliminates 30% CPU and ~90% of DB queries for product listings. Cache TTL of 5 minutes balances freshness and performance.
@@ -412,7 +412,7 @@ async function fetchOrderHistory(userId) {
   
   return result.rows;
 }
-```text
+```
 
 **Rationale:**
 Eliminates N+1 pattern by fetching orders and items in a single query using JOIN and json_agg. Reduces database round-trips from (1 + N) to 1, cutting 20% CPU and improving latency.
@@ -446,8 +446,11 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - Add performance tests to CI: p99 latency must stay <300ms under 100 concurrent users
 - Set up CloudWatch alarms: alert if p99 > 400ms or throughput drops below 200 req/s
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
+```
 
-```sql
+---
+
+## Related Prompts
 
 - [Tree-of-Thoughts: Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md) - For system-level design decisions
 - [Data Quality Assessment](../analysis/data-quality-assessment.md) - For data pipeline performance

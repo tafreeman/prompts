@@ -22,15 +22,97 @@ Output:
 """
 
 import sys
+import io
 import json
 import argparse
 import time
 import os
 import yaml
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime
 from dataclasses import dataclass, asdict
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
+
+
+# =============================================================================
+# WINDOWS CONSOLE ENCODING FIX
+# =============================================================================
+# Fix emoji/unicode encoding issues on Windows console (cp1252 -> utf-8)
+def _is_pytest_running() -> bool:
+    """Check if we're running under pytest (avoid breaking capture)."""
+    return "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ
+
+
+def _is_already_wrapped(stream) -> bool:
+    """Check if stream is already a TextIOWrapper with UTF-8."""
+    return (
+        isinstance(stream, io.TextIOWrapper)
+        and getattr(stream, 'encoding', '').lower() == 'utf-8'
+    )
+
+
+if sys.platform == "win32" and not _is_pytest_running():
+    # Set environment variable for subprocesses
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+    
+    # Reconfigure stdout/stderr to use UTF-8
+    try:
+        if not _is_already_wrapped(sys.stdout):
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+        if not _is_already_wrapped(sys.stderr):
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    except (AttributeError, IOError):
+        pass  # Already wrapped or not available
+
+
+# =============================================================================
+# CUSTOM EXCEPTIONS
+# =============================================================================
+
+class JSONParseError(Exception):
+    """Raised when JSON parsing fails with the raw response for debugging."""
+    def __init__(self, message: str, raw_response: str, model_name: str):
+        super().__init__(message)
+        self.raw_response = raw_response
+        self.model_name = model_name
+        self.truncated_response = raw_response[:500] if raw_response else ""
+
+
+# =============================================================================
+# FAILED FILES TRACKING
+# =============================================================================
+
+FAILED_FILES_PATH = Path(__file__).parent.parent.parent / "results" / "failed-prompts.json"
+
+def load_failed_files() -> Dict[str, Any]:
+    """Load previously failed files for retry."""
+    if FAILED_FILES_PATH.exists():
+        try:
+            with open(FAILED_FILES_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {"failed": [], "timestamp": None}
+
+def save_failed_files(failed_list: List[Dict[str, Any]]):
+    """Save failed files for later retry."""
+    FAILED_FILES_PATH.parent.mkdir(parents=True, exist_ok=True)
+    data = {
+        "failed": failed_list,
+        "timestamp": datetime.now().isoformat(),
+        "count": len(failed_list),
+    }
+    with open(FAILED_FILES_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+    print(f"\n📁 Saved {len(failed_list)} failed prompt(s) to: {FAILED_FILES_PATH}")
+
+def clear_failed_files():
+    """Clear the failed files list after successful retry."""
+    if FAILED_FILES_PATH.exists():
+        FAILED_FILES_PATH.unlink()
 
 
 # =============================================================================
@@ -71,16 +153,95 @@ def _require_model_allowed(model_full: str, allow_remote: bool):
     )
 
 
-# Add tools directory to path
-TOOLS_DIR = Path(__file__).parent.parent
-sys.path.insert(0, str(TOOLS_DIR))
+# Add repo root + tools directory to path
+# This allows imports like `tools.errors` regardless of current working directory.
+TOOLS_DIR = Path(__file__).resolve().parent.parent
+REPO_ROOT = TOOLS_DIR.parent
+for p in (str(REPO_ROOT), str(TOOLS_DIR)):
+    if p and p not in sys.path:
+        sys.path.insert(0, p)
+
+# =============================================================================
+# LOGGING
+# =============================================================================
+
+# Global counter for unique keys per model per session
+_eval_counters = defaultdict(int)
+
+def get_log_path() -> Path:
+    """Get the evaluation log file path."""
+    log_dir = Path(__file__).parent.parent.parent / "results" / "eval-logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    return log_dir / "evaluations.jsonl"
+
+def log_evaluation_result(
+    date: str,
+    origin: str,
+    model: str,
+    prompt_file: str,
+    result: "ModelResult",
+):
+    """Log evaluation result immediately to file with unique key."""
+    # Increment counter for this model
+    _eval_counters[model] += 1
+    count = _eval_counters[model]
+    
+    # Generate unique key: date.origin.model.count
+    # e.g., 2026-01-04.advanced.deepseek-v3.2.001
+    unique_key = f"{date}.{origin}.{model.replace(':', '-')}.{count:03d}"
+    
+    # Extract priority fixes and summary from improvements
+    improvements = result.improvements or {}
+    priority_fixes = improvements.get('_priority_fixes', [])
+    summary = improvements.get('_summary', '')
+    example_improvement = improvements.get('_example_improvement', '')
+    
+    # Extract per-criterion fixes
+    criterion_fixes = {}
+    for k, v in improvements.items():
+        if k.startswith('_'):
+            continue
+        if isinstance(v, dict):
+            criterion_fixes[k] = {
+                'evidence': v.get('evidence', ''),
+                'issue': v.get('issue', ''),
+                'fix': v.get('fix', ''),
+            }
+        elif isinstance(v, str):
+            criterion_fixes[k] = v
+    
+    # Create enriched log entry
+    log_entry = {
+        "key": unique_key,
+        "timestamp": datetime.now().isoformat(),
+        "date": date,
+        "origin": origin,
+        "model": model,
+        "prompt_file": prompt_file,
+        "run": result.run,
+        "score": result.score,
+        "criteria": result.criteria,
+        "improvements": {
+            "summary": summary,
+            "priority_fixes": priority_fixes,
+            "example_improvement": example_improvement,
+            "by_criterion": criterion_fixes,
+        },
+        "duration": result.duration,
+        "error": result.error,
+    }
+    
+    # Append to log file (JSON Lines format)
+    log_file = get_log_path()
+    with open(log_file, "a", encoding="utf-8") as f:
+        f.write(json.dumps(log_entry) + "\n")
 
 # =============================================================================
 # MODEL PRESETS
 # =============================================================================
 
-# Available local models (from local_model.py)
-LOCAL_MODELS = {
+# Available local ONNX models (from local_model.py)
+LOCAL_ONNX_MODELS = {
     "phi4": "local:phi4mini",
     "phi4mini": "local:phi4mini",
     "phi3": "local:phi3",
@@ -89,6 +250,26 @@ LOCAL_MODELS = {
     "mistral-7b": "local:mistral",
 }
 
+# Ollama models (require Ollama server running locally - FREE, FAST)
+OLLAMA_MODELS = {
+    # Reasoning models (best for evaluation)
+    "phi4-reasoning": "ollama:phi4-reasoning",
+    "deepseek-r1": "ollama:deepseek-r1:14b",
+    "deepseek-r1-14b": "ollama:deepseek-r1:14b",
+    "qwen-coder": "ollama:qwen2.5-coder:14b",
+    "qwen2.5-coder": "ollama:qwen2.5-coder:14b",
+    # General models
+    "llama3.3": "ollama:llama3.3",
+    "llama3.1": "ollama:llama3.1",
+    "qwen2.5": "ollama:qwen2.5",
+    "deepseek-v3": "ollama:deepseek-v3",
+    "gemma2": "ollama:gemma2",
+    "mistral-ollama": "ollama:mistral",
+}
+
+# Combined local models (ONNX + Ollama)
+LOCAL_MODELS = {**LOCAL_ONNX_MODELS, **OLLAMA_MODELS}
+
 # GitHub Models (require GITHUB_TOKEN)
 CLOUD_MODELS = {
     "gpt-4o-mini": "gh:gpt-4o-mini",
@@ -96,18 +277,19 @@ CLOUD_MODELS = {
     "gpt-4o": "gh:gpt-4o",
     "llama-70b": "gh:llama-3.3-70b-instruct",
     "mistral-small": "gh:mistral-small-2503",
+    "deepseek-r1-cloud": "gh:deepseek/deepseek-r1",
 }
 
-# Tier presets
+# Tier presets (updated to prefer Ollama models when available)
 TIER_CONFIGS = {
     0: {"name": "Structural", "models": [], "runs": 1, "cost": "$0", "time": "<1s"},
     1: {"name": "Local Quick", "models": ["phi4"], "runs": 1, "cost": "$0", "time": "~30s"},
-    2: {"name": "Local G-Eval", "models": ["phi4"], "runs": 1, "cost": "$0", "time": "~60s"},
+    2: {"name": "Local G-Eval", "models": ["mistral"], "runs": 1, "cost": "$0", "time": "~60s"},
     3: {"name": "Local Cross", "models": ["phi4", "mistral", "phi3.5"], "runs": 2, "cost": "$0", "time": "~5min"},
-    4: {"name": "Cloud Quick", "models": ["gpt-4o-mini"], "runs": 1, "cost": "~$0.01", "time": "~5s"},
-    5: {"name": "Cloud Cross", "models": ["gpt-4o-mini", "gpt-4.1", "llama-70b"], "runs": 2, "cost": "~$0.10", "time": "~30s"},
-    6: {"name": "Premium", "models": ["phi4", "mistral", "gpt-4o-mini", "gpt-4.1", "llama-70b"], "runs": 3, "cost": "~$0.30", "time": "~2min"},
-    7: {"name": "Enterprise", "models": ["phi4", "mistral", "gpt-4o-mini", "gpt-4.1", "llama-70b"], "runs": 4, "cost": "~$0.50", "time": "~5min"},
+    4: {"name": "Cloud Quick", "models": ["deepseek-r1"], "runs": 1, "cost": "~$0.01", "time": "~5s"},
+    5: {"name": "Cloud Cross", "models": ["gpt-4o-mini", "deepseek-r1", "llama-70b"], "runs": 2, "cost": "~$0.10", "time": "~30s"},
+    6: {"name": "Premium", "models": ["phi4", "mistral", "deepseek-r1", "gpt-4.1", "llama-70b"], "runs": 3, "cost": "~$0.30", "time": "~2min"},
+    7: {"name": "Enterprise", "models": ["phi4", "mistral", "deepseek-r1", "gpt-4.1", "llama-70b"], "runs": 4, "cost": "~$0.50", "time": "~5min"},
 }
 
 # Rubric versioning
@@ -149,6 +331,7 @@ class ModelResult:
     criteria: Dict[str, float]
     duration: float
     error: Optional[str] = None
+    improvements: Optional[Dict[str, str]] = None  # Suggested improvements per criterion
 
 
 @dataclass
@@ -267,6 +450,129 @@ def resolve_model(name: str) -> str:
     return f"local:{name}"
 
 
+def extract_json_robust(response: str, model_name: str = "unknown") -> Dict[str, Any]:
+    """
+    Robustly extract JSON from an LLM response with multiple fallback strategies.
+    
+    Strategies (in order):
+    1. Find JSON with proper brace matching
+    2. Extract from markdown code blocks
+    3. Try to fix truncated JSON by completing braces
+    4. Parse raw response
+    5. Raise JSONParseError with full context
+    
+    Args:
+        response: Raw LLM response text
+        model_name: Name of the model (for error reporting)
+        
+    Returns:
+        Parsed JSON as dict
+        
+    Raises:
+        JSONParseError: If all parsing strategies fail
+    """
+    import re
+    
+    if not response or not response.strip():
+        raise JSONParseError("Empty response from model", response or "", model_name)
+    
+    # Strategy 1: Find outermost JSON object with proper brace matching
+    try:
+        start_idx = response.find('{')
+        if start_idx >= 0:
+            brace_count = 0
+            end_idx = start_idx
+            in_string = False
+            escape_next = False
+            
+            for i, char in enumerate(response[start_idx:], start_idx):
+                if escape_next:
+                    escape_next = False
+                    continue
+                if char == '\\':
+                    escape_next = True
+                    continue
+                if char == '"' and not escape_next:
+                    in_string = not in_string
+                    continue
+                if in_string:
+                    continue
+                if char == '{':
+                    brace_count += 1
+                elif char == '}':
+                    brace_count -= 1
+                    if brace_count == 0:
+                        end_idx = i + 1
+                        break
+            
+            json_str = response[start_idx:end_idx]
+            if json_str:
+                data = json.loads(json_str)
+                return data
+    except json.JSONDecodeError:
+        pass  # Try next strategy
+    
+    # Strategy 2: Look for JSON in markdown code blocks
+    code_patterns = [
+        r'```json\s*\n?([\s\S]*?)\n?```',
+        r'```\s*\n?([\s\S]*?)\n?```',
+    ]
+    for pattern in code_patterns:
+        match = re.search(pattern, response, re.IGNORECASE)
+        if match:
+            try:
+                json_str = match.group(1).strip()
+                data = json.loads(json_str)
+                return data
+            except json.JSONDecodeError:
+                pass
+    
+    # Strategy 3: Try to fix truncated JSON (incomplete due to token limits)
+    try:
+        start_idx = response.find('{')
+        if start_idx >= 0:
+            json_candidate = response[start_idx:]
+            
+            # Count open braces and brackets
+            open_braces = json_candidate.count('{') - json_candidate.count('}')
+            open_brackets = json_candidate.count('[') - json_candidate.count(']')
+            
+            # Try completing truncated JSON
+            if open_braces > 0 or open_brackets > 0:
+                # Remove trailing incomplete values (after last complete key-value)
+                # Look for patterns like ',"key": ' at the end (incomplete)
+                truncated = re.sub(r',\s*"[^"]*"\s*:\s*[^,}\]]*$', '', json_candidate)
+                truncated = re.sub(r',\s*"[^"]*"\s*:\s*\{[^}]*$', '', truncated)
+                truncated = re.sub(r',\s*"[^"]*"\s*$', '', truncated)
+                
+                # Close remaining braces/brackets
+                completion = ']' * open_brackets + '}' * open_braces
+                repaired = truncated.rstrip() + completion
+                
+                try:
+                    data = json.loads(repaired)
+                    print(f"    ⚠️  Repaired truncated JSON from {model_name}")
+                    return data
+                except json.JSONDecodeError:
+                    pass
+    except Exception:
+        pass
+    
+    # Strategy 4: Simple raw parse
+    try:
+        data = json.loads(response.strip())
+        return data
+    except json.JSONDecodeError:
+        pass
+    
+    # Strategy 5: All strategies failed - raise descriptive error
+    raise JSONParseError(
+        f"All JSON extraction strategies failed for {model_name}",
+        response,
+        model_name
+    )
+
+
 def _model_is_usable(model_name: str, inventory: Dict[str, Any]) -> bool:
     """Best-effort determination of whether a requested model is usable."""
     try:
@@ -349,29 +655,32 @@ def evaluate_structural(file_path: Path) -> Dict[str, Any]:
             }
 
     content = file_path.read_text(encoding="utf-8")
+    content_stripped = content.lstrip()
     
     # Parse frontmatter
     frontmatter = {}
-    if content.startswith("---"):
+    if content_stripped.startswith("---"):
         try:
-            end = content.find("---", 3)
+            end = content_stripped.find("---", 3)
             if end > 0:
-                frontmatter = yaml.safe_load(content[3:end]) or {}
+                frontmatter = yaml.safe_load(content_stripped[3:end]) or {}
         except:
             pass
     
-    body = content.lower()
+    body = content_stripped.lower()
     
     # Score components
     scores = {}
     
     # 1. Frontmatter (25%)
-    required = ["title", "intro", "category", "type"]
+    # Align with reference/frontmatter-schema.md
+    required = ["title", "intro", "type"]
     present = sum(1 for f in required if f in frontmatter)
     scores["frontmatter"] = (present / len(required)) * 100
     
     # 2. Sections (25%)
-    sections = ["description", "prompt", "variables", "example", "usage"]
+    # Keep Tier 0 lightweight: these are the most common prompt sections.
+    sections = ["description", "prompt", "variables", "example"]
     found = sum(1 for s in sections if f"## {s}" in body or f"# {s}" in body)
     scores["sections"] = (found / len(sections)) * 100
     
@@ -382,7 +691,7 @@ def evaluate_structural(file_path: Path) -> Dict[str, Any]:
     scores["docs"] = 100 if len(content) > 500 else 60
     
     # 5. Governance (15%)
-    scores["governance"] = 100 if "governance" in str(frontmatter).lower() else 60
+    scores["governance"] = 100 if frontmatter.get("governance_tags") else 60
     
     overall = sum(s * w for s, w in zip(scores.values(), [0.25, 0.25, 0.20, 0.15, 0.15]))
     
@@ -390,7 +699,7 @@ def evaluate_structural(file_path: Path) -> Dict[str, Any]:
         "score": round(overall, 1),
         "criteria": scores,
         "title": frontmatter.get("title", file_path.stem),
-        "category": frontmatter.get("category", "unknown"),
+        "category": frontmatter.get("type", "unknown"),
     }
 
 
@@ -664,14 +973,14 @@ def evaluate_with_model(
     """
     start = time.time()
     
-    # Import error classification
+    # Import error classification from canonical source
     try:
-        from model_probe import classify_error
+        from tools.errors import classify_error, ErrorCode
     except ImportError:
-        # Fallback if model_probe not available
+        # Fallback if errors module not available
         def classify_error(msg, rc=None):
             return ("internal_error", False)
-        # No transient error registry available; continue without it.
+        # No error code registry available; continue without it.
     
     last_error = None
     
@@ -715,42 +1024,186 @@ def evaluate_with_model(
 
                 content = file_path.read_text(encoding="utf-8")
 
-                # G-Eval style prompt
-                eval_prompt = f"""Evaluate this prompt template on a scale of 1-10 for each criterion.
+                # Enhanced G-Eval prompt with detailed rubric and actionable feedback
+                eval_prompt = f"""You are an expert prompt engineer evaluating prompt templates.
 
 PROMPT TO EVALUATE:
-{content[:3000]}
+---
+{content[:4000]}
+---
 
-Rate each criterion (1=poor, 10=excellent):
-1. Clarity - Is it clear and unambiguous?
-2. Effectiveness - Will it produce good outputs?
-3. Reusability - Can it be used in multiple contexts?
-4. Simplicity - Is it minimal without losing value?
-5. Examples - Are examples helpful and realistic?
+## EVALUATION RUBRIC (Score 1-10 for each)
 
-Respond in JSON format:
-{{"clarity": N, "effectiveness": N, "reusability": N, "simplicity": N, "examples": N, "overall": N}}
+### 1. CLARITY (Weight: 25%)
+Assess how clear, unambiguous, and understandable the prompt is.
+- 9-10: Crystal clear purpose, zero ambiguity, perfect structure, self-explanatory variables
+- 7-8: Clear purpose, minimal ambiguity, good structure, mostly clear variables
+- 5-6: Understandable but some interpretation needed, decent structure
+- 3-4: Confusing in places, unclear variables, needs improvement
+- 1-2: Very difficult to understand, major rewrites needed
+
+### 2. EFFECTIVENESS (Weight: 30%)
+Assess how well this prompt will produce quality outputs consistently.
+- 9-10: Will produce excellent results 95%+ of time, handles edge cases, works across platforms
+- 7-8: Good results 85%+ of time, decent edge case handling
+- 5-6: Acceptable results 70%+ of time, some inconsistency
+- 3-4: Mixed results 50-70%, often unpredictable
+- 1-2: Frequently fails or produces poor results
+
+### 3. STRUCTURE (Weight: 20%)
+Assess the prompt's organization, formatting, and professional quality.
+- 9-10: Perfect markdown, clear sections, excellent use of headers/lists, professional
+- 7-8: Good formatting, well-organized sections, minor improvements possible
+- 5-6: Adequate structure but could be better organized
+- 3-4: Poorly organized, inconsistent formatting
+- 1-2: No structure, wall of text, unprofessional
+
+### 4. SPECIFICITY (Weight: 15%)
+Assess how specific and actionable the instructions are.
+- 9-10: Highly specific instructions, clear success criteria, defined constraints
+- 7-8: Good specificity, reasonable constraints, clear expectations
+- 5-6: Somewhat vague, could be more specific
+- 3-4: Too vague or too restrictive, unclear expectations
+- 1-2: Extremely vague or unusable constraints
+
+### 5. COMPLETENESS (Weight: 10%)
+Assess whether the prompt has all necessary components.
+- 9-10: Has context, instructions, examples, output format, error handling guidance
+- 7-8: Has most key elements, minor additions needed
+- 5-6: Missing some important elements
+- 3-4: Missing multiple key components
+- 1-2: Severely incomplete, missing critical information
+
+## REQUIRED OUTPUT
+
+Provide a detailed JSON response with:
+1. Scores for each criterion (1-10)
+2. Specific evidence/quotes from the prompt supporting each score
+3. Actionable improvements with EXAMPLE rewrites for any score below 8
+4. Overall assessment and priority fixes
+
+{{
+  "clarity": {{
+    "score": N,
+    "evidence": "specific quote or observation from prompt",
+    "issue": "what's wrong (if score < 8)",
+    "fix": "specific rewrite or addition to improve this"
+  }},
+  "effectiveness": {{
+    "score": N,
+    "evidence": "specific observation",
+    "issue": "what's wrong (if score < 8)",
+    "fix": "specific improvement suggestion"
+  }},
+  "structure": {{
+    "score": N,
+    "evidence": "specific observation",
+    "issue": "what's wrong (if score < 8)",
+    "fix": "specific improvement suggestion"
+  }},
+  "specificity": {{
+    "score": N,
+    "evidence": "specific observation",
+    "issue": "what's wrong (if score < 8)",
+    "fix": "specific improvement suggestion"
+  }},
+  "completeness": {{
+    "score": N,
+    "evidence": "specific observation",
+    "issue": "what's wrong (if score < 8)",
+    "fix": "specific improvement suggestion"
+  }},
+  "overall": N,
+  "weighted_score": N,
+  "summary": "one sentence overall assessment",
+  "priority_fixes": ["most important fix first", "second priority", "third priority"],
+  "example_improvement": "show a specific rewrite of the weakest section"
+}}
 """
 
-                response = LLMClient.generate_text(model_full, eval_prompt, max_tokens=500)
+                # Check cache first
+                response = None
+                try:
+                    from response_cache import get_cache
+                    cache = get_cache()
+                    if cache.enabled:
+                        cached_response = cache.get(content, model_full, eval_prompt[:500])
+                        if cached_response:
+                            response = cached_response
+                except ImportError:
+                    pass  # Cache not available
+                
+                # Make LLM call if not cached
+                if response is None:
+                    response = LLMClient.generate_text(model_full, eval_prompt, max_tokens=2000)
+                    
+                    # Store in cache
+                    try:
+                        from response_cache import get_cache
+                        cache = get_cache()
+                        if cache.enabled:
+                            cache.set(content, model_full, eval_prompt[:500], response)
+                    except ImportError:
+                        pass
 
-                # Parse response
-                import re
-                json_match = re.search(r"\{[^}]+\}", response)
-                if json_match:
-                    data = json.loads(json_match.group())
-                    overall = data.get("overall", 5)
-                    criteria = {k: (v - 1) / 9 * 100 for k, v in data.items() if k != "overall"}
-                    normalized = (overall - 1) / 9 * 100
-                else:
-                    normalized = 50
+                # Parse response using robust JSON extraction
+                try:
+                    data = extract_json_robust(response, model_name)
+                except JSONParseError as e:
+                    # Log the parsing failure with context
+                    print(f"\n    ⚠️  JSON Parse Error from {model_name}")
+                    print(f"    Error: {str(e)}")
+                    print(f"    Response preview (first 300 chars):")
+                    print(f"    {e.truncated_response[:300]}")
+                    print(f"    ---")
+                    
+                    # Re-raise to be caught by outer exception handler
+                    raise
+                
+                if data:
+                    # Extract scores from nested or flat structure
                     criteria = {}
+                    improvements = {}
+                    
+                    for key in ['clarity', 'effectiveness', 'structure', 'specificity', 'completeness']:
+                        val = data.get(key)
+                        if isinstance(val, dict):
+                            # Nested structure with detailed feedback
+                            score = val.get('score', 5)
+                            criteria[key] = (score - 1) / 9 * 100
+                            # Combine issue and fix into improvement
+                            if val.get('issue') or val.get('fix'):
+                                improvements[key] = {
+                                    'evidence': val.get('evidence', ''),
+                                    'issue': val.get('issue', ''),
+                                    'fix': val.get('fix', ''),
+                                }
+                        elif isinstance(val, (int, float)):
+                            # Flat structure (backward compat)
+                            criteria[key] = (val - 1) / 9 * 100
+                    
+                    # Extract additional high-value fields
+                    summary = data.get('summary', '')
+                    priority_fixes = data.get('priority_fixes', [])
+                    example_improvement = data.get('example_improvement', '')
+                    
+                    # Add to improvements dict
+                    if summary:
+                        improvements['_summary'] = summary
+                    if priority_fixes:
+                        improvements['_priority_fixes'] = priority_fixes
+                    if example_improvement:
+                        improvements['_example_improvement'] = example_improvement
+                    
+                    overall = data.get("overall", data.get("weighted_score", 5))
+                    normalized = (overall - 1) / 9 * 100 if overall else 50
 
                 return ModelResult(
                     model=model_name,
                     run=run_num,
                     score=round(normalized, 1),
                     criteria=criteria,
+                    improvements=improvements if improvements else None,
                     duration=round(time.time() - start, 1),
                 )
         
@@ -788,6 +1241,175 @@ Respond in JSON format:
 
 
 # =============================================================================
+# SINGLE PROMPT EVALUATOR (for parallel execution)
+# =============================================================================
+
+# Thread-safe lock for console output
+_print_lock = threading.Lock()
+
+
+def _evaluate_single_prompt(
+    prompt_path: Path,
+    prompt_index: int,
+    total_prompts: int,
+    tier: int,
+    models: List[str],
+    runs: int,
+    threshold: float,
+    allow_remote: bool,
+    delay: float,
+    verbose: bool,
+) -> Tuple[PromptResult, Optional[Dict]]:
+    """
+    Evaluate a single prompt file (thread-safe).
+    
+    Returns:
+        Tuple of (PromptResult, optional failure dict for --retry-failed)
+    """
+    with _print_lock:
+        if verbose:
+            print(f"[{prompt_index}/{total_prompts}] {prompt_path.name}")
+    
+    # Structural analysis first
+    structural = evaluate_structural(prompt_path)
+    
+    model_results = []
+    
+    if tier == 0 or not models:
+        # Structural only
+        model_results.append(ModelResult(
+            model="structural",
+            run=1,
+            score=structural["score"],
+            criteria=structural["criteria"],
+            duration=0,
+        ))
+    else:
+        # Run each model
+        eval_count = 0
+        for model in models:
+            for run in range(1, runs + 1):
+                # Add delay between evaluations to avoid rate limiting
+                if delay > 0 and eval_count > 0:
+                    time.sleep(delay)
+                eval_count += 1
+                
+                with _print_lock:
+                    if verbose:
+                        print(f"  > {model} (run {run}/{runs})", end=" ", flush=True)
+                
+                try:
+                    result = evaluate_with_model(prompt_path, model, run, allow_remote=allow_remote)
+                    model_results.append(result)
+                    
+                except JSONParseError as e:
+                    # Continue with error result
+                    result = ModelResult(
+                        model=model,
+                        run=run,
+                        score=0,
+                        criteria={},
+                        duration=0,
+                        error=f"JSONParseError: {str(e)[:100]}",
+                    )
+                    model_results.append(result)
+                
+                # Log result immediately to file
+                date_str = datetime.now().strftime("%Y-%m-%d")
+                origin = prompt_path.parent.name  # e.g., "advanced", "business"
+                log_evaluation_result(date_str, origin, model, prompt_path.name, result)
+                
+                with _print_lock:
+                    if verbose:
+                        if result.error:
+                            print(f"❌ {result.error[:30]}")
+                        else:
+                            print(f"✓ {result.score:.0f}%")
+                            # Show per-criterion breakdown if available
+                            if result.criteria:
+                                weak_criteria = [(k, v) for k, v in result.criteria.items() if v < 70]
+                                if weak_criteria:
+                                    print(f"    ⚠️  Weak: {', '.join(f'{k}={v:.0f}%' for k, v in weak_criteria)}")
+    
+    # Aggregate results with proper statistics
+    valid_scores = [r.score for r in model_results if not r.error and r.score > 0]
+    
+    if valid_scores:
+        n = len(valid_scores)
+        avg_score = sum(valid_scores) / n
+        min_score = min(valid_scores)
+        max_score = max(valid_scores)
+        variance = max_score - min_score  # Range for backward compat
+        
+        # Standard deviation
+        if n > 1:
+            sum_sq_diff = sum((x - avg_score) ** 2 for x in valid_scores)
+            std_dev = (sum_sq_diff / (n - 1)) ** 0.5  # Sample std dev
+        else:
+            std_dev = 0.0
+        
+        # Stability: stable if std_dev < 10 points
+        is_stable = std_dev < 10.0
+        
+        # Outlier detection: count scores > 2σ from mean
+        if std_dev > 0:
+            outlier_count = sum(1 for s in valid_scores if abs(s - avg_score) > 2 * std_dev)
+        else:
+            outlier_count = 0
+        
+        passed = avg_score >= threshold
+        passes = sum(1 for s in valid_scores if s >= threshold)
+        agreement = passes / n * 100
+    else:
+        avg_score = structural["score"]
+        min_score = max_score = avg_score
+        variance = 0
+        std_dev = 0.0
+        is_stable = True
+        outlier_count = 0
+        passed = avg_score >= threshold
+        agreement = 100
+    
+    prompt_result = PromptResult(
+        file=str(prompt_path),
+        title=structural["title"],
+        category=structural["category"],
+        avg_score=round(avg_score, 1),
+        min_score=round(min_score, 1),
+        max_score=round(max_score, 1),
+        std_dev=round(std_dev, 2),
+        variance=round(variance, 1),
+        model_results=model_results,
+        passed=passed,
+        grade=get_grade(avg_score),
+        agreement=round(agreement, 1),
+        is_stable=is_stable,
+        outlier_count=outlier_count,
+        threshold=threshold,
+        rubric_version=RUBRIC_VERSION,
+    )
+    
+    # Track failures for --retry-failed
+    failure_info = None
+    if not passed:
+        failure_info = {
+            "file": str(prompt_path),
+            "score": avg_score,
+            "threshold": threshold,
+            "models": [m.model for m in model_results],
+            "timestamp": datetime.now().isoformat(),
+        }
+    
+    with _print_lock:
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            stability = "stable" if is_stable else f"UNSTABLE (sd={std_dev:.1f})"
+            print(f"  {status} -> {avg_score:.1f}% +/-{std_dev:.1f} ({stability})\n")
+    
+    return prompt_result, failure_info
+
+
+# =============================================================================
 # MAIN EVALUATOR
 # =============================================================================
 
@@ -801,6 +1423,9 @@ def run_evaluation(
     verbose: bool = False,
     skip_probe: bool = False,
     allow_remote: bool = False,
+    delay: float = 0.0,
+    fail_fast: bool = False,
+    retry_failed: bool = False,
 ) -> EvalRun:
     """
     Run a complete evaluation.
@@ -814,6 +1439,7 @@ def run_evaluation(
         parallel: Number of parallel evaluations
         verbose: Print progress
         skip_probe: Skip model availability probing
+        delay: Seconds to wait between evaluations (prevents rate limiting)
     """
     start_time = time.time()
     
@@ -821,6 +1447,38 @@ def run_evaluation(
     tier_config = TIER_CONFIGS.get(tier, TIER_CONFIGS[2])
     requested_models = models or tier_config["models"]
     runs = runs or tier_config["runs"]
+    
+    # Auto-discover Ollama models and add to LOCAL_MODELS if available
+    try:
+        import urllib.request
+        import urllib.error
+        ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+        req = urllib.request.Request(
+            f"{ollama_host}/api/tags",
+            headers={"Accept": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=2) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            ollama_models = []
+            for m in data.get("models", []):
+                full_name = m.get("name", "")
+                if not full_name:
+                    continue
+                # Keep full name with tag (e.g., deepseek-v3.2:cloud)
+                # Also create a short alias without tag for convenience
+                short_name = full_name.split(":")[0]
+                ollama_models.append(full_name)
+                
+                # Add both full name and short name to LOCAL_MODELS
+                if full_name not in LOCAL_MODELS:
+                    LOCAL_MODELS[full_name] = f"ollama:{full_name}"
+                if short_name not in LOCAL_MODELS:
+                    LOCAL_MODELS[short_name] = f"ollama:{full_name}"  # Short name points to full name
+            
+            if verbose and ollama_models:
+                print(f"🦙 Discovered {len(ollama_models)} Ollama models: {', '.join(ollama_models[:5])}")
+    except:
+        pass  # Ollama not running, continue with ONNX models
     
     # Probe models for availability (Phase 2 reliability)
     skipped_models = []
@@ -871,6 +1529,23 @@ def run_evaluation(
         print(f"No prompts found in: {path}")
         return None
     
+    # Handle --retry-failed mode
+    if retry_failed:
+        failed_data = load_failed_files()
+        if not failed_data.get("failed"):
+            print("No previously failed prompts found. Run a normal evaluation first.")
+            return None
+        
+        failed_paths = [Path(f["file"]) for f in failed_data["failed"]]
+        prompts = [p for p in prompts if p in failed_paths]
+        
+        if not prompts:
+            print("None of the previously failed prompts were found in the current path.")
+            return None
+        
+        print(f"\n🔄 Retry mode: Evaluating {len(prompts)} previously failed prompt(s)")
+        print(f"Last failure timestamp: {failed_data.get('timestamp', 'unknown')}")
+    
     if verbose:
         print(f"\n{'='*60}")
         print(f"PromptEval - Tier {tier}: {tier_config['name']}")
@@ -882,108 +1557,276 @@ def run_evaluation(
             print(f"Skipped: {len(skipped_models)} unavailable model(s)")
         print(f"Runs per model: {runs}")
         print(f"Est. cost: {tier_config['cost']}")
+        if fail_fast:
+            print(f"Mode: Fail-fast (stop on first error)")
+        if retry_failed:
+            print(f"Mode: Retry failed prompts only")
+        if parallel > 1:
+            print(f"Mode: Parallel evaluation ({parallel} workers)")
         print(f"{'='*60}\n")
     
     results = []
+    failed_list = []  # Track failed prompts for saving
     
-    for i, prompt_path in enumerate(prompts, 1):
+    # Choose sequential or parallel execution
+    if parallel > 1 and len(prompts) > 1 and not fail_fast:
+        # Parallel execution using ThreadPoolExecutor
+        # Note: fail_fast is incompatible with parallel mode
         if verbose:
-            print(f"[{i}/{len(prompts)}] {prompt_path.name}")
+            print(f"🚀 Starting parallel evaluation with {parallel} workers...\n")
         
-        # Structural analysis first
-        structural = evaluate_structural(prompt_path)
-        
-        model_results = []
-        
-        if tier == 0 or not models:
-            # Structural only
-            model_results.append(ModelResult(
-                model="structural",
-                run=1,
-                score=structural["score"],
-                criteria=structural["criteria"],
-                duration=0,
-            ))
-        else:
-            # Run each model
-            for model in models:
-                for run in range(1, runs + 1):
-                    if verbose:
-                        print(f"  → {model} (run {run}/{runs})", end=" ", flush=True)
-                    
-                    result = evaluate_with_model(prompt_path, model, run)
-                    model_results.append(result)
-                    
-                    if verbose:
-                        if result.error:
-                            print(f"❌ {result.error[:30]}")
-                        else:
-                            print(f"✓ {result.score:.0f}%")
-        
-        # Aggregate results with proper statistics
-        valid_scores = [r.score for r in model_results if not r.error and r.score > 0]
-        
-        if valid_scores:
-            n = len(valid_scores)
-            avg_score = sum(valid_scores) / n
-            min_score = min(valid_scores)
-            max_score = max(valid_scores)
-            variance = max_score - min_score  # Range for backward compat
+        with ThreadPoolExecutor(max_workers=parallel) as executor:
+            # Submit all tasks
+            future_to_prompt = {
+                executor.submit(
+                    _evaluate_single_prompt,
+                    prompt_path=prompt_path,
+                    prompt_index=i,
+                    total_prompts=len(prompts),
+                    tier=tier,
+                    models=models,
+                    runs=runs,
+                    threshold=threshold,
+                    allow_remote=allow_remote,
+                    delay=delay,
+                    verbose=verbose,
+                ): prompt_path
+                for i, prompt_path in enumerate(prompts, 1)
+            }
             
-            # Standard deviation
-            if n > 1:
-                sum_sq_diff = sum((x - avg_score) ** 2 for x in valid_scores)
-                std_dev = (sum_sq_diff / (n - 1)) ** 0.5  # Sample std dev
+            # Collect results as they complete
+            for future in as_completed(future_to_prompt):
+                prompt_path = future_to_prompt[future]
+                try:
+                    prompt_result, failure_info = future.result()
+                    results.append(prompt_result)
+                    if failure_info:
+                        failed_list.append(failure_info)
+                except Exception as e:
+                    # Handle unexpected errors
+                    with _print_lock:
+                        print(f"❌ Error evaluating {prompt_path.name}: {e}")
+                    # Create a failed result
+                    results.append(PromptResult(
+                        file=str(prompt_path),
+                        title=prompt_path.stem,
+                        category="unknown",
+                        avg_score=0,
+                        min_score=0,
+                        max_score=0,
+                        std_dev=0,
+                        variance=0,
+                        model_results=[],
+                        passed=False,
+                        grade="F",
+                        agreement=0,
+                        is_stable=False,
+                        outlier_count=0,
+                        threshold=threshold,
+                        rubric_version=RUBRIC_VERSION,
+                    ))
+                    failed_list.append({
+                        "file": str(prompt_path),
+                        "error": str(e),
+                        "timestamp": datetime.now().isoformat(),
+                    })
+    else:
+        # Sequential execution (original behavior, supports fail-fast)
+        for i, prompt_path in enumerate(prompts, 1):
+            if verbose:
+                print(f"[{i}/{len(prompts)}] {prompt_path.name}")
+            
+            # Structural analysis first
+            structural = evaluate_structural(prompt_path)
+            
+            model_results = []
+            
+            if tier == 0 or not models:
+                # Structural only
+                model_results.append(ModelResult(
+                    model="structural",
+                    run=1,
+                    score=structural["score"],
+                    criteria=structural["criteria"],
+                    duration=0,
+                ))
             else:
+                # Run each model
+                eval_count = 0
+                for model in models:
+                    for run in range(1, runs + 1):
+                        # Add delay between evaluations to avoid rate limiting
+                        if delay > 0 and eval_count > 0:
+                            time.sleep(delay)
+                        eval_count += 1
+                        
+                        if verbose:
+                            print(f"  > {model} (run {run}/{runs})", end=" ", flush=True)
+                        
+                        try:
+                            result = evaluate_with_model(prompt_path, model, run, allow_remote=allow_remote)
+                            model_results.append(result)
+                            
+                            # Check for JSON parse errors (raised as exceptions now)
+                            if result.error and "JSONParseError" in result.error:
+                                if fail_fast:
+                                    print(f"\n\n🛑 FAIL-FAST: JSON parsing failed for {prompt_path.name}")
+                                    print(f"   Error: {result.error}")
+                                    print(f"\n   Stopping evaluation. Fix the issue and retry with --retry-failed")
+                                    
+                                    # Save this failed prompt
+                                    failed_list.append({
+                                        "file": str(prompt_path),
+                                        "model": model,
+                                        "error": result.error,
+                                        "timestamp": datetime.now().isoformat(),
+                                    })
+                                    save_failed_files(failed_list)
+                                    raise SystemExit(1)
+                        
+                        except JSONParseError as e:
+                            # JSON parsing failed completely
+                            if fail_fast:
+                                print(f"\n\n🛑 FAIL-FAST: JSON parsing failed for {prompt_path.name}")
+                                print(f"   Model: {model}")
+                                print(f"   Error: {str(e)}")
+                                print(f"   Response preview: {e.truncated_response[:200]}...")
+                                print(f"\n   Stopping evaluation. Fix the issue and retry with --retry-failed")
+                                
+                                # Save this failed prompt
+                                failed_list.append({
+                                    "file": str(prompt_path),
+                                    "model": model,
+                                    "error": str(e),
+                                    "timestamp": datetime.now().isoformat(),
+                                })
+                                save_failed_files(failed_list)
+                                raise SystemExit(1)
+                            
+                            # Continue with error result
+                            result = ModelResult(
+                                model=model,
+                                run=run,
+                                score=0,
+                                criteria={},
+                                duration=0,
+                                error=f"JSONParseError: {str(e)[:100]}",
+                            )
+                            model_results.append(result)
+                        
+                        # Log result immediately to file
+                        date_str = datetime.now().strftime("%Y-%m-%d")
+                        origin = prompt_path.parent.name  # e.g., "advanced", "business"
+                        log_evaluation_result(date_str, origin, model, prompt_path.name, result)
+                        
+                        if verbose:
+                            if result.error:
+                                print(f"❌ {result.error[:30]}")
+                            else:
+                                print(f"✓ {result.score:.0f}%")
+                                # Show per-criterion breakdown if available
+                                if result.criteria:
+                                    weak_criteria = [(k, v) for k, v in result.criteria.items() if v < 70]
+                                    if weak_criteria:
+                                        print(f"    ⚠️  Weak: {', '.join(f'{k}={v:.0f}%' for k, v in weak_criteria)}")
+                                        # Show detailed improvement suggestions
+                                        if result.improvements:
+                                            for criterion, info in result.improvements.items():
+                                                if criterion.startswith('_'):
+                                                    continue  # Skip meta fields
+                                                if isinstance(info, dict) and criterion in [k for k, v in weak_criteria]:
+                                                    if info.get('fix'):
+                                                        print(f"    💡 {criterion}: {info['fix'][:70]}...")
+                                                        if info.get('evidence'):
+                                                            print(f"       Evidence: \"{info['evidence'][:50]}...\"")
+                                                elif isinstance(info, str) and criterion in [k for k, v in weak_criteria]:
+                                                    print(f"    💡 {criterion}: {info[:70]}...")
+                                            # Show priority fixes if available
+                                            if result.improvements.get('_priority_fixes'):
+                                                print(f"    🎯 Priority: {', '.join(result.improvements['_priority_fixes'][:2])}")
+            
+            # Aggregate results with proper statistics
+            valid_scores = [r.score for r in model_results if not r.error and r.score > 0]
+            
+            if valid_scores:
+                n = len(valid_scores)
+                avg_score = sum(valid_scores) / n
+                min_score = min(valid_scores)
+                max_score = max(valid_scores)
+                variance = max_score - min_score  # Range for backward compat
+                
+                # Standard deviation
+                if n > 1:
+                    sum_sq_diff = sum((x - avg_score) ** 2 for x in valid_scores)
+                    std_dev = (sum_sq_diff / (n - 1)) ** 0.5  # Sample std dev
+                else:
+                    std_dev = 0.0
+                
+                # Stability: stable if std_dev < 10 points
+                is_stable = std_dev < 10.0
+                
+                # Outlier detection: count scores > 2σ from mean
+                if std_dev > 0:
+                    outlier_count = sum(1 for s in valid_scores if abs(s - avg_score) > 2 * std_dev)
+                else:
+                    outlier_count = 0
+                
+                passed = avg_score >= threshold
+                passes = sum(1 for s in valid_scores if s >= threshold)
+                agreement = passes / n * 100
+            else:
+                avg_score = structural["score"]
+                min_score = max_score = avg_score
+                variance = 0
                 std_dev = 0.0
-            
-            # Stability: stable if std_dev < 10 points
-            is_stable = std_dev < 10.0
-            
-            # Outlier detection: count scores > 2σ from mean
-            if std_dev > 0:
-                outlier_count = sum(1 for s in valid_scores if abs(s - avg_score) > 2 * std_dev)
-            else:
+                is_stable = True
                 outlier_count = 0
+                passed = avg_score >= threshold
+                agreement = 100
             
-            passed = avg_score >= threshold
-            passes = sum(1 for s in valid_scores if s >= threshold)
-            agreement = passes / n * 100
-        else:
-            avg_score = structural["score"]
-            min_score = max_score = avg_score
-            variance = 0
-            std_dev = 0.0
-            is_stable = True
-            outlier_count = 0
-            passed = avg_score >= threshold
-            agreement = 100
-        
-        prompt_result = PromptResult(
-            file=str(prompt_path),
-            title=structural["title"],
-            category=structural["category"],
-            avg_score=round(avg_score, 1),
-            min_score=round(min_score, 1),
-            max_score=round(max_score, 1),
-            std_dev=round(std_dev, 2),
-            variance=round(variance, 1),
-            model_results=model_results,
-            passed=passed,
-            grade=get_grade(avg_score),
-            agreement=round(agreement, 1),
-            is_stable=is_stable,
-            outlier_count=outlier_count,
-            threshold=threshold,
-            rubric_version=RUBRIC_VERSION,
-        )
-        
-        results.append(prompt_result)
-        
-        if verbose:
-            status = "PASS" if passed else "FAIL"
-            stability = "stable" if is_stable else f"UNSTABLE (sd={std_dev:.1f})"
-            print(f"  {status} -> {avg_score:.1f}% +/-{std_dev:.1f} ({stability})\n")
+            prompt_result = PromptResult(
+                file=str(prompt_path),
+                title=structural["title"],
+                category=structural["category"],
+                avg_score=round(avg_score, 1),
+                min_score=round(min_score, 1),
+                max_score=round(max_score, 1),
+                std_dev=round(std_dev, 2),
+                variance=round(variance, 1),
+                model_results=model_results,
+                passed=passed,
+                grade=get_grade(avg_score),
+                agreement=round(agreement, 1),
+                is_stable=is_stable,
+                outlier_count=outlier_count,
+                threshold=threshold,
+                rubric_version=RUBRIC_VERSION,
+            )
+            
+            results.append(prompt_result)
+            
+            # Track failures for --retry-failed
+            if not passed:
+                failed_list.append({
+                    "file": str(prompt_path),
+                    "score": avg_score,
+                    "threshold": threshold,
+                    "models": [m.model for m in model_results],
+                    "timestamp": datetime.now().isoformat(),
+                })
+            
+            if verbose:
+                status = "PASS" if passed else "FAIL"
+                stability = "stable" if is_stable else f"UNSTABLE (sd={std_dev:.1f})"
+                print(f"  {status} -> {avg_score:.1f}% +/-{std_dev:.1f} ({stability})\n")
+    
+    # Save failed prompts list for --retry-failed
+    if failed_list and not retry_failed:
+        save_failed_files(failed_list)
+    elif retry_failed and not failed_list:
+        # All retries passed! Clear the failed list
+        clear_failed_files()
+        print("\n✅ All previously failed prompts now pass!")
     
     # Build summary
     passed_count = sum(1 for r in results if r.passed)
@@ -1034,20 +1877,49 @@ def print_summary(run: EvalRun):
         for r in sorted_results[-min(5, run.failed):]:
             if not r.passed:
                 print(f"  ✗ {r.avg_score:5.1f}% | {r.title[:40]}")
+                # Show weakest criteria for actionable insight
+                if r.model_results and r.model_results[0].criteria:
+                    criteria = r.model_results[0].criteria
+                    weak = [(k, v) for k, v in criteria.items() if v < 60]
+                    if weak:
+                        weak_str = ', '.join(f"{k} ({v:.0f}%)" for k, v in sorted(weak, key=lambda x: x[1]))
+                        print(f"      → Focus on: {weak_str}")
+                    # Show detailed improvement suggestions
+                    if r.model_results[0].improvements:
+                        impr = r.model_results[0].improvements
+                        # Show priority fixes first
+                        if impr.get('_priority_fixes'):
+                            for i, fix in enumerate(impr['_priority_fixes'][:3], 1):
+                                print(f"      {i}. {fix[:70]}")
+                        # Show example improvement if available
+                        if impr.get('_example_improvement'):
+                            print(f"      📝 Example fix:")
+                            example = impr['_example_improvement']
+                            for line in example.split('\\n')[:3]:
+                                print(f"         {line[:60]}")
+                        # Fallback to per-criterion fixes
+                        elif not impr.get('_priority_fixes'):
+                            for criterion, info in impr.items():
+                                if criterion.startswith('_'):
+                                    continue
+                                if isinstance(info, dict) and info.get('fix'):
+                                    print(f"      💡 {criterion}: {info['fix'][:70]}")
+                                elif isinstance(info, str):
+                                    print(f"      💡 {criterion}: {info[:70]}")
     
     print(f"\n{'='*60}\n")
 
 
 def save_json(run: EvalRun, path: Path):
     """Save results to JSON."""
-    with open(path, "w") as f:
-        json.dump(run.to_dict(), f, indent=2, default=str)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(run.to_dict(), f, indent=2, default=str, ensure_ascii=False)
     print(f"Saved: {path}")
 
 
 def save_markdown(run: EvalRun, path: Path):
     """Save results to Markdown."""
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write(f"# Prompt Evaluation Report\n\n")
         f.write(f"**Date:** {run.timestamp}\n")
         f.write(f"**Tier:** {run.tier} ({run.tier_name})\n")
@@ -1087,9 +1959,16 @@ Examples:
   prompteval prompt.md                   # Single file
   prompteval prompts/ --tier 0           # Structural only (no LLM, instant)
   prompteval prompts/ --tier 3           # Cross-model validation
+  prompteval prompts/ -p 4               # Parallel (4 workers)
+  prompteval prompts/ --cache            # Enable response caching
   prompteval prompts/ --models phi4,gpt-4o-mini  # Specific models
   prompteval prompts/ -o results.json    # Save JSON report
   prompteval prompts/ --ci               # CI mode (exit code)
+
+Other Entry Points:
+  python prompt.py                       # Interactive toolkit (menu-driven)
+  prompt-tools                           # Code generation wizard
+  python -c "from cli_help import print_quick_reference; print_quick_reference()"
         """,
     )
     
@@ -1120,10 +1999,66 @@ Examples:
             "Disabled by default to prevent accidental remote usage."
         ),
     )
+    parser.add_argument(
+        "--delay",
+        type=float,
+        default=0.0,
+        help="Seconds to wait between evaluations (prevents rate limiting, default: 0)",
+    )
+    parser.add_argument(
+        "--fail-fast",
+        action="store_true",
+        help="Stop immediately on first JSON parsing or evaluation error",
+    )
+    parser.add_argument(
+        "--retry-failed",
+        action="store_true",
+        help="Only evaluate prompts that previously failed (reads from failed-prompts.json)",
+    )
+    parser.add_argument(
+        "-p", "--parallel",
+        type=int,
+        default=1,
+        help="Number of parallel workers for batch evaluation (default: 1, sequential). "
+             "Incompatible with --fail-fast.",
+    )
+    parser.add_argument(
+        "--cache",
+        action="store_true",
+        help="Enable response caching to avoid redundant LLM calls. "
+             "Cached responses are stored in ~/.cache/prompts-eval/responses/",
+    )
+    parser.add_argument(
+        "--clear-cache",
+        action="store_true",
+        help="Clear the response cache and exit.",
+    )
     
     args = parser.parse_args()
 
     allow_remote = bool(args.allow_remote) or _env_truthy("PROMPTEVAL_ALLOW_REMOTE")
+
+    # Handle --clear-cache
+    if args.clear_cache:
+        try:
+            from response_cache import ResponseCache
+            cache = ResponseCache(enabled=True)
+            count = cache.clear()
+            print(f"Cleared {count} cache entries")
+            return 0
+        except Exception as e:
+            print(f"Failed to clear cache: {e}")
+            return 1
+
+    # Initialize response cache if enabled
+    if args.cache:
+        try:
+            from response_cache import enable_cache
+            enable_cache(verbose=args.verbose)
+            if args.verbose:
+                print("📦 Response cache enabled")
+        except ImportError:
+            print("Warning: response_cache module not found, caching disabled")
 
     # Startup capability inventory (skip by default in CI to reduce noise and surprise network calls)
     inventory: Optional[Dict[str, Any]] = None
@@ -1147,14 +2082,39 @@ Examples:
     
     # Handle info commands
     if args.list_models:
-        print("\nLocal Models (FREE):")
+        # Check for Ollama models
+        ollama_discovered = []
+        try:
+            import urllib.request
+            import urllib.error
+            ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+            req = urllib.request.Request(
+                f"{ollama_host}/api/tags",
+                headers={"Accept": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=2) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                ollama_discovered = [m.get("name", "").split(":")[0] for m in data.get("models", []) if m.get("name")]
+        except:
+            pass
+        
+        print("\nLocal Models (ONNX - Always Available, FREE):")
         for k, v in LOCAL_MODELS.items():
-            print(f"  {k:15} → {v}")
+            if not v.startswith("ollama:"):
+                print(f"  {k:15} -> {v}")
+        
+        print("\nLocal Models (Ollama - Requires Ollama Running, FREE):")
+        if ollama_discovered:
+            for model in ollama_discovered:
+                print(f"  {model:15} -> ollama:{model} ✅ AVAILABLE")
+        else:
+            print("  (Start Ollama to use local Llama, DeepSeek, etc.)")
+        
         print("\nCloud Models (require GITHUB_TOKEN):")
         for k, v in CLOUD_MODELS.items():
-            print(f"  {k:15} → {v}")
+            print(f"  {k:15} -> {v}")
         print("\nWindows AI (local NPU, may be gated):")
-        print("  phi-silica       → windows-ai:phi-silica")
+        print("  phi-silica       -> windows-ai:phi-silica")
         if inventory is not None:
             print("\nTip: use --inventory to see your detected providers/models.")
         return 0
@@ -1189,14 +2149,22 @@ Examples:
         print(f"Error: Path not found: {path}")
         return 1
     
+    # Warn if --parallel and --fail-fast are both set
+    if args.parallel > 1 and args.fail_fast:
+        print("Warning: --parallel and --fail-fast are incompatible. Using sequential mode.")
+    
     run = run_evaluation(
         path=path,
         tier=args.tier,
         threshold=args.threshold,
         models=models,
         runs=args.runs,
+        parallel=args.parallel,
         verbose=args.verbose or not args.ci,
         allow_remote=allow_remote,
+        delay=args.delay,
+        fail_fast=args.fail_fast,
+        retry_failed=args.retry_failed,
     )
     
     if run is None:

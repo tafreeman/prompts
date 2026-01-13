@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A migration plan with ordered steps, a rollback strategy, and example SQL/commands for schema and data changes.
+
 ## Tips
 
 - [Tip 1]

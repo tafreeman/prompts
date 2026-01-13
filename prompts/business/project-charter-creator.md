@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A structured project charter draft with clear scope, objectives, key stakeholders, timeline, and success criteria.
+
 ## Tips
 
 - [Tip 1]

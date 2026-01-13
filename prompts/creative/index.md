@@ -22,12 +22,16 @@ layout: "category-landing"
 children:
   - /prompts/creative/ad-copy-generator
   - /prompts/creative/brand-voice-developer
+  - /prompts/creative/case-study-builder
   - /prompts/creative/content-marketing-blog-post
   - /prompts/creative/email-newsletter-writer
   - /prompts/creative/headline-tagline-creator
+  - /prompts/creative/landing-page-copy
+  - /prompts/creative/press-release-generator
   - /prompts/creative/product-description-generator
   - /prompts/creative/social-media-content-generator
   - /prompts/creative/video-script-writer
+  - /prompts/creative/whitepaper-outliner
 featuredLinks:
   gettingStarted:
     - /docs/prompt-authorship-guide
@@ -55,16 +59,22 @@ Unlock creativity and streamline content production with prompts designed for ma
 - **Need a blog post?** Use [Content Marketing Blog Post](/prompts/creative/content-marketing-blog-post) to generate an outline and draft.
 - **Launching a product?** Combine [Product Description Generator](/prompts/creative/product-description-generator) with [Ad Copy Generator](/prompts/creative/ad-copy-generator) for a full campaign.
 - **Stuck on a headline?** Let [Headline Tagline Creator](/prompts/creative/headline-tagline-creator) brainstorm options for you.
+- **Creating a success story?** Start with [Case Study Builder](/prompts/creative/case-study-builder) for a structured draft and pull-quotes.
+- **Need a long-form asset?** Use [Whitepaper Outliner](/prompts/creative/whitepaper-outliner) to plan claims, evidence, and visuals before drafting.
 
 ## Browse by Focus
 
 ### Content Creation
 - [Content Marketing Blog Post](/prompts/creative/content-marketing-blog-post)
+- [Whitepaper Outliner](/prompts/creative/whitepaper-outliner)
+- [Case Study Builder](/prompts/creative/case-study-builder)
 - [Video Script Writer](/prompts/creative/video-script-writer)
 - [Email Newsletter Writer](/prompts/creative/email-newsletter-writer)
+- [Press Release Generator](/prompts/creative/press-release-generator)
 
 ### Copywriting & Ads
 - [Ad Copy Generator](/prompts/creative/ad-copy-generator)
+- [Landing Page Copy Builder](/prompts/creative/landing-page-copy)
 - [Product Description Generator](/prompts/creative/product-description-generator)
 - [Headline Tagline Creator](/prompts/creative/headline-tagline-creator)
 

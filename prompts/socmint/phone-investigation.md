@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A phone number investigation workflow: normalization, carrier/region checks, associated services, verification steps, and safe documentation.
+
 ## Tips
 
 - [Tip 1]

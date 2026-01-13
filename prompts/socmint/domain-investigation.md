@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A domain investigation summary: key findings, timelines, risk signals, recommended pivots (WHOIS/DNS/hosting), and documentation of sources.
+
 ## Tips
 
 - [Tip 1]

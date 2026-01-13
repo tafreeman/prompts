@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A concise bug report (steps, expected vs actual, suspected root cause) and a proposed fix with a small patch or pseudocode.
+
 ## Tips
 
 - [Tip 1]

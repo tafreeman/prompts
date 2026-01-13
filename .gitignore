@@ -311,6 +311,26 @@ tot_*_output.txt
 tot_output.txt
 tot_*.txt
 
+# PromptEval / tooling outputs (generated)
+results/
+
+# Model discovery snapshots (machine/user-specific)
+discovery_results.json
+tools/discovery_results.json
+
+# Python packaging build artifacts
+*.egg-info/
+prompts_tools.egg-info/
+
+# Windows AI bridge: downloaded tooling + generated resources
+tools/windows_ai_bridge/reshacker/
+tools/windows_ai_bridge/*.res
+tools/windows_ai_bridge/inject.log
+tools/windows_ai_bridge/resource_hacker.zip
+
+# Scratch notebooks (keep real notebooks explicitly named)
+prompts/**/Untitled-*.ipynb
+
 
 
 #Ignore vscode AI rules

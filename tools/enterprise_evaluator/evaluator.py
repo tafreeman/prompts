@@ -17,10 +17,12 @@ try:
 except ImportError:
     pass  # dotenv not installed, rely on system env vars
 
-# Add core to path to allow imports
-sys.path.append(str(Path(__file__).parent))
+# Add parent tools directory to path for imports
+TOOLS_DIR = Path(__file__).parent.parent
+sys.path.insert(0, str(TOOLS_DIR))
 
-from core.llm_client import LLMClient
+# Import from main tools (not local duplicates)
+from llm_client import LLMClient
 from framework.dimensions import Dimension, EvaluationResult, PerformanceLevel
 from framework.scoring import calculate_weighted_score, determine_performance_level
 from framework.rubrics import ALL_DIMENSIONS, TECHNICAL_QUALITY, BUSINESS_ALIGNMENT, SECURITY_COMPLIANCE, PERFORMANCE_RELIABILITY, MAINTAINABILITY, INNOVATION_OPTIMIZATION

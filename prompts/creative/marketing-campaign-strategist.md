@@ -52,6 +52,16 @@ This prompt is currently under development and not yet ready for production use.
 [Prompt content to be added]
 ```
 
+## Example
+
+**Input**
+
+- `[VARIABLE1]`: Example value
+
+**Expected output (high level)**
+
+- A campaign brief with goal, target audience, key message, channel mix, timeline, creative concepts, and success metrics.
+
 ## Tips
 
 - [Tip 1]

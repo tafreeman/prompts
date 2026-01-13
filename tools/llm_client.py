@@ -7,6 +7,24 @@ import urllib.error
 from pathlib import Path
 
 
+# =============================================================================
+# WINDOWS CONSOLE ENCODING FIX - Use shared module
+# =============================================================================
+try:
+    from _encoding import setup_encoding
+    setup_encoding()
+except ImportError:
+    # Fallback if running as standalone script
+    import io
+    if sys.platform == "win32":
+        os.environ["PYTHONIOENCODING"] = "utf-8"
+        try:
+            sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+            sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+        except (AttributeError, IOError):
+            pass
+
+
 class LLMClient:
     """
     Unified client for interacting with different LLM providers.
@@ -197,7 +215,28 @@ class LLMClient:
           - gemini* -> Google Gemini API
           - claude* -> Anthropic Claude API
           - gpt* -> OpenAI API
+        
+        Caching:
+          - Set PROMPTS_CACHE_ENABLED=0 to disable response caching
+          - Use tools/cache.py to manage cache manually
         """
+        # Check cache first (if enabled)
+        # Check env var at runtime to allow tests to disable caching
+        cache_enabled = os.environ.get("PROMPTS_CACHE_ENABLED", "1").lower() in ("1", "true", "yes")
+        cache_response = None
+        try:
+            from cache import get_cached_response, cache_response
+            if cache_enabled:
+                cached = get_cached_response(
+                    model_name, prompt, system_instruction,
+                    temperature=temperature, max_tokens=max_tokens
+                )
+                if cached is not None:
+                    print(f"[{model_name}] Cache hit")
+                    return cached
+        except ImportError:
+            cache_enabled = False
+        
         def _remote_allowed() -> bool:
             v = (os.getenv("PROMPTEVAL_ALLOW_REMOTE") or "").strip().lower()
             return v in {"1", "true", "yes", "y", "on"}
@@ -231,45 +270,58 @@ class LLMClient:
         print(f"[{model_name}] Processing request...")
 
         try:
+            result = None
             if model_name.lower().startswith("local:"):
-                return LLMClient._call_local(model_name, prompt, system_instruction,
+                result = LLMClient._call_local(model_name, prompt, system_instruction,
                                              temperature, max_tokens)
             elif model_name.lower().startswith("ollama:"):
-                return LLMClient._call_ollama(model_name, prompt, system_instruction)
+                result = LLMClient._call_ollama(model_name, prompt, system_instruction)
             elif model_name.lower().startswith("windows-ai:"):
-                return LLMClient._call_windows_ai(model_name, prompt, system_instruction,
+                result = LLMClient._call_windows_ai(model_name, prompt, system_instruction,
                                                   temperature, max_tokens)
             elif model_name.lower().startswith("azure-foundry:"):
-                return LLMClient._call_azure_foundry(
+                result = LLMClient._call_azure_foundry(
                     model_name, prompt, system_instruction, temperature, max_tokens)
             elif model_name.lower().startswith("azure-openai:"):
-                return LLMClient._call_azure_openai(
+                result = LLMClient._call_azure_openai(
                     model_name, prompt, system_instruction, temperature, max_tokens)
             elif model_name.lower().startswith("gh:"):
-                return LLMClient._call_github_models(model_name, prompt, system_instruction)
+                result = LLMClient._call_github_models(model_name, prompt, system_instruction)
             elif model_name.lower().startswith("openai:"):
                 # Explicit prefix for OpenAI hosted models
                 model_id = model_name.split(":", 1)[1]
-                return LLMClient._call_openai(model_id, prompt, system_instruction,
+                result = LLMClient._call_openai(model_id, prompt, system_instruction,
                                               temperature, max_tokens)
             elif model_name.lower().startswith("gemini:"):
                 model_id = model_name.split(":", 1)[1]
-                return LLMClient._call_gemini(model_id, prompt, system_instruction)
+                result = LLMClient._call_gemini(model_id, prompt, system_instruction)
             elif model_name.lower().startswith("claude:"):
                 model_id = model_name.split(":", 1)[1]
-                return LLMClient._call_claude(model_id, prompt, system_instruction)
+                result = LLMClient._call_claude(model_id, prompt, system_instruction)
             elif "gemini" in model_name.lower():
-                return LLMClient._call_gemini(model_name, prompt, system_instruction)
+                result = LLMClient._call_gemini(model_name, prompt, system_instruction)
             elif "claude" in model_name.lower():
-                return LLMClient._call_claude(model_name, prompt, system_instruction)
+                result = LLMClient._call_claude(model_name, prompt, system_instruction)
             elif "gpt" in model_name.lower():
-                return LLMClient._call_openai(model_name, prompt, system_instruction,
+                result = LLMClient._call_openai(model_name, prompt, system_instruction,
                                               temperature, max_tokens)
             else:
                 return (
                     f"Unknown model: {model_name}. Use local:, ollama:, windows-ai:, azure-foundry:, "
                     "azure-openai:, gh:, openai:, gemini:, claude:, or a plain model name containing gemini/claude/gpt"
                 )
+            
+            # Cache successful response
+            if result and cache_enabled and cache_response:
+                try:
+                    cache_response(
+                        model_name, prompt, result, system_instruction,
+                        temperature=temperature, max_tokens=max_tokens
+                    )
+                except Exception:
+                    pass  # Don't fail on cache errors
+            
+            return result
         except Exception as e:
             return f"Error calling {model_name}: {str(e)}"
 
@@ -303,7 +355,7 @@ class LLMClient:
         )
 
         try:
-            with urllib.request.urlopen(req, timeout=120) as resp:
+            with urllib.request.urlopen(req, timeout=600) as resp:  # 10 minutes for reasoning models
                 data = json.loads(resp.read().decode("utf-8"))
                 return data.get("response", "")
         except urllib.error.HTTPError as e:
@@ -514,7 +566,7 @@ class LLMClient:
         try:
             result = subprocess.run(
                 ["gh", "models", "run", full_model, "--", full_prompt],
-                capture_output=True, text=True, timeout=120
+                capture_output=True, text=True, timeout=120, encoding='utf-8', errors='replace'
             )
             if result.returncode == 0:
                 return result.stdout
