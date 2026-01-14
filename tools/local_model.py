@@ -43,6 +43,20 @@ _MODEL_DIRS = {
 }
 
 
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    """Best-effort float conversion.
+
+    Local model outputs occasionally include `null` / missing numeric fields.
+    Treat those as `default` instead of raising.
+    """
+    try:
+        if value is None:
+            return default
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
+
 def _find_onnx_model_dir(base: Path) -> Optional[Path]:
     """Return the first directory under base that looks like an ONNX model folder."""
     if not base.exists() or not base.is_dir():
@@ -437,9 +451,9 @@ Return ONLY valid JSON in this exact format:
         # If we got a result, validate and return
         if json_result:
             return {
-                "score": float(json_result.get("score", 0)),
-                "reasoning": json_result.get("reasoning", []),
-                "summary": json_result.get("summary", "")
+                "score": _safe_float(json_result.get("score", 0), 0.0),
+                "reasoning": json_result.get("reasoning") or [],
+                "summary": json_result.get("summary") or "",
             }
         
         # Fallback: extract with regex
@@ -592,7 +606,7 @@ Return ONLY valid JSON:
             # Parse response with improved parsing
             parsed = self._parse_geval_criterion(response)
             if parsed:
-                score = parsed.get("score", 0)
+                score = _safe_float(parsed.get("score", 0), 0.0)
                 all_scores.append(score)
                 results["criteria_results"][criterion] = parsed
             else:
@@ -603,7 +617,10 @@ Return ONLY valid JSON:
         
         # Calculate overall - normalize to 1-10 scale (G-Eval uses 1-5, multiply by 2)
         # This makes G-Eval scores comparable to evaluate_prompt() which uses 1-10
-        normalized_scores = {c: min(r.get("score", 0) * 2, 10) for c, r in results["criteria_results"].items()}
+        normalized_scores = {
+            c: min(_safe_float(r.get("score", 0), 0.0) * 2, 10)
+            for c, r in results["criteria_results"].items()
+        }
         results["scores"] = normalized_scores
         results["scores_raw"] = {c: r.get("score", 0) for c, r in results["criteria_results"].items()}  # Keep original 1-5 scores
         all_normalized = [s * 2 for s in all_scores]

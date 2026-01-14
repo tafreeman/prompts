@@ -293,7 +293,15 @@ class PromptEval:
         results = {}
         
         for name, desc in criteria_defs.items():
-            prompt_text = f"You are an expert AI prompt evaluator.\nEvaluate the following prompt for {name.upper()}.\n\nDefinition: {desc}\n\nEvaluation Steps:\n1. Read the prompt carefully.\n2. Identify strengths and weaknesses related to {name}.\n3. Assign a score from 1-5 (5 is best).\n\nPROMPT:\n```\n{content[:3000]}\n```\n\nResponse Format (JSON ONLY):\n{{\n    \"reasoning\": \"brief explanation\",\n    \"score\": <number 1-5>\n}}\n"
+            # Ask for a numeric score 1.0-5.0 (integer preferred) to reduce parsing variance.
+            prompt_text = (
+                f"You are an expert AI prompt evaluator.\nEvaluate the following prompt for {name.upper()}.\n\n"
+                f"Definition: {desc}\n\n"
+                "Evaluation Steps:\n1. Read the prompt carefully.\n2. Identify strengths and weaknesses related to {name}.\n3. Assign a numeric score from 1.0-5.0 (5 is best). Integers preferred.\n\n"
+                "PROMPT:\n```\n" + content[:3000] + "\n```\n\n"
+                "Response Format (JSON ONLY):\n{\n    \"reasoning\": \"brief explanation\",\n    \"score\": <number 1.0-5.0>\n}\n"
+            )
+
             try:
                 # Use LLMClient to generate
                 response = self.llm_client.generate_text(
@@ -302,17 +310,30 @@ class PromptEval:
                     temperature=0.1,
                     max_tokens=500
                 )
-                
-                # Parse JSON
+
+                # Parse JSON robustly
                 data = self._parse_json_response(response)
-                score = float(data.get("score", 0)) * 20  # content to 0-100
+                raw_score = data.get("score", None)
+                try:
+                    if raw_score is None:
+                        raise ValueError("score missing or null")
+                    score_val = float(raw_score)
+                except Exception as pe:
+                    logging.warning(f"Failed parsing score for criterion '{name}': {pe}; response preview: {str(response)[:400]}")
+                    score_val = 0.0
+
+                # Clamp into expected 0.0-5.0 range
+                score_val = max(0.0, min(5.0, score_val))
+                score = score_val * 20.0  # normalize to 0-100
+
                 results[name] = {
                     "score": score,
                     "reasoning": data.get("reasoning", "")
                 }
             except Exception as e:
-                # Fallback
-                results[name] = {"score": 0, "reasoning": f"Error: {str(e)}"}
+                # Fallback: log and continue with zeroed score
+                logging.exception(f"G-Eval generation/parsing failed for criterion '{name}': {e}")
+                results[name] = {"score": 0.0, "reasoning": f"Error: {str(e)}"}
         
         return results
 

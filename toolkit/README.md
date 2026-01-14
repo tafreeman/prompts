@@ -132,9 +132,9 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 
 | Tool | Path | Purpose |
 |------|------|---------|
-| `tiered_eval.py` | `tools/tiered_eval.py` | Multi-tier evaluation (Tiers 0-7) |
+| `prompteval` | `tools/prompteval/` | Unified evaluation CLI (replaces `tiered_eval.py`) |
 | `cove_runner.py` | `tools/cove_runner.py` | Chain-of-Verification |
-| `batch_evaluate.py` | `tools/batch_evaluate.py` | Batch evaluation |
+| `batch_evaluate.py` | `tools/batch_evaluate.py` | Batch evaluation (legacy — prefer `prompteval`) |
 | `evaluation_agent.py` | `tools/evaluation_agent.py` | Autonomous eval agent |
 
 ### **Validation**

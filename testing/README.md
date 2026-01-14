@@ -52,7 +52,7 @@ testing/
 │   └── test_cli.py
 │
 ├── evals/                  # Evaluation tests & tool
-│   ├── dual_eval.py            # Multi-model evaluation (PRIMARY)
+│   ├── dual_eval.py            # Legacy evaluation script (see tools/prompteval/)
 │   ├── test_dual_eval.py       # Unit tests (66 tests)
 │   ├── README.md               # Eval tool documentation
 │   └── results/                # Evaluation outputs
@@ -85,13 +85,13 @@ python -m pytest testing/evals/ -v
 python -m pytest testing/validators/ -v
 
 # Run the primary evaluation tool
-python testing/evals/dual_eval.py prompts/developers/ --format markdown
+python -m prompteval prompts/developers/ --tier 2 --verbose
 ```text
 ## 🔬 Primary Evaluation Tool
 
-The main tool for prompt evaluation is `testing/evals/dual_eval.py`.
+The canonical evaluation tool is `tools/prompteval/` (invoke via `python -m prompteval`).
 
-See [testing/evals/README.md](evals/README.md) for full documentation.
+Legacy: `testing/evals/dual_eval.py` remains in the repo for historical tests, but new workflows and CI should use `prompteval` (see `testing/evals/README.md` for legacy doc).
 
 ### Key Features
 
@@ -105,17 +105,17 @@ See [testing/evals/README.md](evals/README.md) for full documentation.
 ### Example Commands
 
 ```bash
-# Evaluate a single prompt
-python testing/evals/dual_eval.py prompts/developers/code-review.md
+# Evaluate a single prompt (PromptEval)
+python -m prompteval prompts/developers/code-review.md --tier 2
 
-# Evaluate folder with JSON output
-python testing/evals/dual_eval.py prompts/ --format json --output results.json
+# Evaluate folder with JSON output (PromptEval)
+python -m prompteval prompts/ -o results.json --tier 2 --ci
 
-# CI/CD: Only changed files
-python testing/evals/dual_eval.py prompts/ --changed-only --quiet
+# CI/CD: Only changed files (use `--ci` to fail the run on low scores)
+python -m prompteval prompts/ --ci --threshold 70 --tier 3
 
 # Include all files (override filtering)
-python testing/evals/dual_eval.py prompts/ --include-all
+python -m prompteval prompts/ --include-all --tier 2
 ```text
 ## ✅ Test Categories
 
