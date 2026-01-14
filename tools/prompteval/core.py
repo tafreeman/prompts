@@ -24,32 +24,14 @@ from datetime import datetime
 import logging
 
 # NOTE:
-# This repo supports running PromptEval both as:
-#   - `python -m prompteval ...` (cwd often: repo/tools)
-#   - an installed package
-# Make imports resilient without requiring callers to set PYTHONPATH.
-_PROMPTEVAL_DIR = Path(__file__).resolve().parent           # .../tools/prompteval
-_TOOLS_DIR = _PROMPTEVAL_DIR.parent                         # .../tools
-_REPO_ROOT = _TOOLS_DIR.parent                              # repo root
+# PromptEval is now invoked via package structure:
+#   - Console script: `prompteval` (defined in pyproject.toml)
+#   - Module: `python -m tools.prompteval`
+# All imports use proper package paths.
 
-for p in (str(_REPO_ROOT), str(_TOOLS_DIR)):
-    if p and p not in sys.path:
-        sys.path.insert(0, p)
-
-try:
-    # Preferred when repo root is on sys.path
-    from tools.prompteval.config import EvalConfig, EvalResult, Tier, CriterionScore
-except Exception:
-    # Fallback when `prompteval` is imported as a package directly
-    from .config import EvalConfig, EvalResult, Tier, CriterionScore
-
-try:
-    from tools.llm_client import LLMClient
-    from tools.model_probe import ModelProbe
-except Exception:
-    # Fallback when running from within `tools/` where `llm_client.py` is importable directly
-    from llm_client import LLMClient
-    from model_probe import ModelProbe
+from tools.prompteval.config import EvalConfig, EvalResult, Tier, CriterionScore
+from tools.llm_client import LLMClient
+from tools.model_probe import ModelProbe
 
 
 # =============================================================================

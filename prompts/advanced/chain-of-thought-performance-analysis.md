@@ -284,7 +284,7 @@ How will you validate that the optimization works?
 **Regression Prevention:**
 - [Monitoring/alerting setup]
 - [Performance test in CI/CD]
-```text
+```
 
 **Output:**
 

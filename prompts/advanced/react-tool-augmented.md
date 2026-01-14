@@ -156,8 +156,7 @@ Continue this cycle until you can provide:
 - Observe actual tool outputs - don't assume
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
-```text
-```text
+```
 
 **Output:**
 
