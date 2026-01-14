@@ -350,7 +350,7 @@ Based on the analysis, select the best option:
 ## Output Format
 
 [Follow the structure above, filling in all sections with detailed analysis and reasoning]
-```text
+```
 
 **Output:** (abbreviated)
 
@@ -425,10 +425,9 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Likelihood**: Medium
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
-```text
+```
 
 ---
-
 
 ## Tips
 

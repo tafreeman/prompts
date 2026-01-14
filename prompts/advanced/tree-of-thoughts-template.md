@@ -197,7 +197,7 @@ Compare all viable paths explored:
 - Confidence level (High/Medium/Low)
 - Residual risks and mitigation strategies
 
-```text
+```
 
 **Output:**
 
@@ -479,7 +479,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 - Weeks 7-8: Migration and testing
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
-```text
+```
 
 ---
 

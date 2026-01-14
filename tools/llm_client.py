@@ -453,11 +453,8 @@ class LLMClient:
           - local:mistral-7b -> Mistral 7B Instruct
         """
         # Import local_model module
-        tools_dir = Path(__file__).parent
-        sys.path.insert(0, str(tools_dir))
-
         try:
-            from local_model import LocalModel
+            from tools.local_model import LocalModel
         except ImportError:
             return "Error: local_model.py not found or onnxruntime-genai not installed"
 

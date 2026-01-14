@@ -153,13 +153,8 @@ def _require_model_allowed(model_full: str, allow_remote: bool):
     )
 
 
-# Add repo root + tools directory to path
-# This allows imports like `tools.errors` regardless of current working directory.
-TOOLS_DIR = Path(__file__).resolve().parent.parent
-REPO_ROOT = TOOLS_DIR.parent
-for p in (str(REPO_ROOT), str(TOOLS_DIR)):
-    if p and p not in sys.path:
-        sys.path.insert(0, p)
+# Package imports work via pyproject.toml packaging
+# Console script: prompteval = "tools.prompteval.__main__:main"
 
 # =============================================================================
 # LOGGING
@@ -829,7 +824,7 @@ def evaluate_yaml_prompt(file_path: Path, model_full: str, run_num: int, start_t
             error="Missing testData or messages in YAML",
         )
 
-    from llm_client import LLMClient
+    from tools.llm_client import LLMClient
 
     total_score = 0.0
     case_count = 0
@@ -1020,7 +1015,7 @@ def evaluate_with_model(
             
             else:
                 # Use llm_client for anything non-local (gh:, openai:, gemini:, claude:, azure-*)
-                from llm_client import LLMClient
+                from tools.llm_client import LLMClient
 
                 content = file_path.read_text(encoding="utf-8")
 
@@ -1484,7 +1479,7 @@ def run_evaluation(
     skipped_models = []
     if requested_models and not skip_probe:
         try:
-            from model_probe import ModelProbe
+            from tools.model_probe import ModelProbe
             probe = ModelProbe(verbose=verbose)
             
             # Resolve model names and probe

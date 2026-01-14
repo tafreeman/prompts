@@ -41,13 +41,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"${input:evalTier/^(\\d).*//$1/}"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -62,13 +62,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"0"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -83,13 +83,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"1"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -104,13 +104,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"2"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -125,13 +125,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"3"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -146,13 +146,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"4"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -167,13 +167,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${input:evalFolder}",
 				"--tier",
 				"5"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -188,13 +188,13 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"${file}",
 				"--tier",
 				"${input:evalTier/^(\\d).*//$1/}"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -209,11 +209,11 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"--list-tiers"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -227,11 +227,11 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
+				"tools.prompteval",
 				"--list-models"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -350,7 +350,7 @@
 			"args": [
 				"-NoProfile",
 				"-Command",
-				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval ..\\prompts --tier 2"
+				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval prompts --tier 2"
 			],
 			"isBackground": false,
 			"problemMatcher": [],
@@ -363,7 +363,7 @@
 			"args": [
 				"-NoProfile",
 				"-Command",
-				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval ..\\prompts\\advanced\\advanced-technique-research.md --tier 2 --verbose"
+				"Set-Location \"${workspaceFolder}\\tools\"; python -m prompteval prompts\\advanced\\advanced-technique-research.md --tier 2 --verbose"
 			],
 			"isBackground": false,
 			"problemMatcher": [],
@@ -375,15 +375,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/advanced/",
+				"tools.prompteval",
+				"prompts/advanced/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -399,15 +399,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/analysis/",
+				"tools.prompteval",
+				"prompts/analysis/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -423,15 +423,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/business/",
+				"tools.prompteval",
+				"prompts/business/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -447,15 +447,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/creative/",
+				"tools.prompteval",
+				"prompts/creative/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -471,15 +471,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/developers/",
+				"tools.prompteval",
+				"prompts/developers/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -495,15 +495,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/governance/",
+				"tools.prompteval",
+				"prompts/governance/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -519,15 +519,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/m365/",
+				"tools.prompteval",
+				"prompts/m365/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -543,15 +543,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/socmint/",
+				"tools.prompteval",
+				"prompts/socmint/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -567,15 +567,15 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/system/",
+				"tools.prompteval",
+				"prompts/system/",
 				"--tier",
 				"2",
 				"--verbose",
 				"--ci"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -591,8 +591,8 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/",
+				"tools.prompteval",
+				"prompts/",
 				"--tier",
 				"2",
 				"--verbose",
@@ -600,7 +600,7 @@
 				"../results/full-eval-tier2.json"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -616,8 +616,8 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/",
+				"tools.prompteval",
+				"prompts/",
 				"--tier",
 				"3",
 				"--verbose",
@@ -625,7 +625,7 @@
 				"../results/full-eval-tier3.json"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
@@ -641,8 +641,8 @@
 			"command": "python",
 			"args": [
 				"-m",
-				"prompteval",
-				"../prompts/",
+				"tools.prompteval",
+				"prompts/",
 				"--tier",
 				"5",
 				"--verbose",
@@ -650,7 +650,7 @@
 				"../results/full-eval-tier5.json"
 			],
 			"options": {
-				"cwd": "${workspaceFolder}/tools"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"presentation": {
