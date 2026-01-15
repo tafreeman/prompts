@@ -94,14 +94,15 @@ jobs:
       - name: Run evaluations on changed prompts
         if: steps.changed-files.outputs.files != ''
         run: |
-          # Evaluate only changed files with a single fast model
+          # Evaluate only changed files with PromptEval (fast single-model run)
           for file in ${{ steps.changed-files.outputs.files }}; do
             if [ -f "$file" ]; then
               echo "Evaluating: $file"
-              python testing/evals/dual_eval.py "$file" \
-                --models "openai/gpt-4o-mini" \
+              python -m prompteval "$file" \
+                --models openai/gpt-4o-mini \
                 --runs 1 \
-                --output "eval-$(basename $file .md).json" || true
+                --tier 2 \
+                -o "eval-$(basename $file .md).json" || true
             fi
           done
         env:

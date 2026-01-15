@@ -37,7 +37,8 @@ python tools/model_probe.py --discover -v
 python prompt.py run prompts/example.md -p local -m phi4
 
 # 3. Evaluate prompts (FREE, local G-Eval, with parallel)
-python -m prompteval prompts/advanced/ --tier 2 --parallel 4
+cd tools
+python -m prompteval ../prompts/advanced/ --tier 2 --parallel 4
 
 # 4. Validate all prompt frontmatter
 python tools/validators/frontmatter_validator.py --all
@@ -152,10 +153,11 @@ tools/
 | 4 | Full Suite | 5+ models | $$$$ | Publication release |
 
 ```powershell
-# Examples
-python -m prompteval prompts/ -t 0    # Structural only
-python -m prompteval prompts/ -t 2    # Local G-Eval (FREE)
-python -m prompteval prompts/ -t 3    # Cross-model
+# Examples (run from tools/ directory)
+cd tools
+python -m prompteval ../prompts/ -t 0    # Structural only
+python -m prompteval ../prompts/ -t 2    # Local G-Eval (FREE)
+python -m prompteval ../prompts/ -t 3    # Cross-model
 ```
 
 ---
