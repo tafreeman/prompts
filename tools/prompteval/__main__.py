@@ -249,6 +249,8 @@ LOCAL_ONNX_MODELS = {
 OLLAMA_MODELS = {
     # Reasoning models (best for evaluation)
     "phi4-reasoning": "ollama:phi4-reasoning",
+    # Open-source large model (if installed in Ollama)
+    "gpt-oss-120b": "ollama:gpt-oss:120b-cloud",
     "deepseek-r1": "ollama:deepseek-r1:14b",
     "deepseek-r1-14b": "ollama:deepseek-r1:14b",
     "qwen-coder": "ollama:qwen2.5-coder:14b",
@@ -397,6 +399,45 @@ def get_grade(score: float) -> str:
     if score >= 70: return "Competent ⭐⭐⭐"
     if score >= 60: return "Developing ⭐⭐"
     return "Inadequate ⭐"
+
+
+def _clamp_pct(value: float) -> float:
+    """Clamp a numeric value into the 0-100 range."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return 0.0
+    return max(0.0, min(100.0, v))
+
+
+def _normalize_score_to_pct(value: Any) -> float:
+    """Normalize model-provided scores into a 0-100 percentage.
+
+    Models are *supposed* to return rubric scores 1-10, but in practice they
+    sometimes return 0, fractions (0-1), or already-normalized 0-100 values.
+
+    This function ensures user-facing scores never go negative.
+    """
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return 0.0
+
+    # Common case: probability / fraction (strictly less than 1.0 to avoid
+    # misclassifying a rubric score of 1 as 100%)
+    if 0.0 <= v < 1.0:
+        return _clamp_pct(v * 100.0)
+
+    # Rubric score (allow 0 as "worst" even though rubric says 1-10)
+    if 0.0 <= v <= 10.0:
+        return _clamp_pct((v - 1.0) / 9.0 * 100.0)
+
+    # Already normalized percent
+    if 0.0 <= v <= 100.0:
+        return _clamp_pct(v)
+
+    # Fallback: clamp anything unexpected
+    return _clamp_pct(v)
 
 
 def find_prompts(path: Path, exclude: List[str] = None) -> List[Path]:
@@ -567,7 +608,6 @@ def extract_json_robust(response: str, model_name: str = "unknown") -> Dict[str,
         model_name
     )
 
-
 def _model_is_usable(model_name: str, inventory: Dict[str, Any]) -> bool:
     """Best-effort determination of whether a requested model is usable."""
     try:
@@ -603,6 +643,64 @@ def _model_is_usable(model_name: str, inventory: Dict[str, Any]) -> bool:
 
     # local:* and everything else: let the evaluator attempt it.
     return True
+
+
+def verify_model_online(model_name: str, timeout: float = 30.0) -> Tuple[bool, str]:
+    """
+    Actively verify that a model responds correctly by sending a test prompt.
+    
+    Args:
+        model_name: Model identifier (e.g., "ollama:phi4", "gh:gpt-4o-mini")
+        timeout: Maximum time to wait for response
+        
+    Returns:
+        Tuple of (success: bool, message: str)
+    """
+    from tools.llm_client import LLMClient
+    
+    test_prompt = "Respond with exactly: OK"
+    
+    try:
+        resolved = resolve_model(model_name)
+        start = time.time()
+        response = LLMClient.generate_text(resolved, test_prompt, max_tokens=20)
+        duration = time.time() - start
+        
+        if not response or len(response.strip()) < 2:
+            return False, f"Empty response from {model_name}"
+        
+        if response.strip().lower().startswith("error"):
+            return False, f"Error from {model_name}: {response[:100]}"
+        
+        # Check for suspiciously fast response (could indicate caching or no-op)
+        if duration < 0.1:
+            return True, f"{model_name} responded in {duration:.2f}s (possibly cached)"
+        
+        return True, f"{model_name} online ({duration:.1f}s)"
+        
+    except Exception as e:
+        return False, f"{model_name} failed: {str(e)[:100]}"
+
+
+# Model circuit breaker - skip models that fail repeatedly
+_model_failure_counts: Dict[str, int] = {}
+_MODEL_FAILURE_THRESHOLD = 3
+
+
+def _record_model_failure(model_name: str) -> None:
+    """Record a model failure for circuit breaker logic."""
+    _model_failure_counts[model_name] = _model_failure_counts.get(model_name, 0) + 1
+
+
+def _should_skip_model(model_name: str) -> bool:
+    """Check if model should be skipped due to repeated failures."""
+    return _model_failure_counts.get(model_name, 0) >= _MODEL_FAILURE_THRESHOLD
+
+
+def _reset_model_failures() -> None:
+    """Reset all model failure counts."""
+    global _model_failure_counts
+    _model_failure_counts = {}
 
 
 # =============================================================================
@@ -990,7 +1088,7 @@ def evaluate_with_model(
             
             if model_full.startswith("local:"):
                 # Use local_model.py (no retries needed for local)
-                from local_model import LocalModel
+                from tools.local_model import LocalModel
 
                 content = file_path.read_text(encoding="utf-8")
                 model_key = model_full.split(":", 1)[1] if ":" in model_full else None
@@ -1002,8 +1100,8 @@ def evaluate_with_model(
                 scores = result.get("scores", {})
                 
                 # Normalize 1-10 to 0-100
-                normalized = (overall - 1) / 9 * 100 if overall > 0 else 0
-                criteria = {k: (v - 1) / 9 * 100 for k, v in scores.items()}
+                normalized = _normalize_score_to_pct(overall)
+                criteria = {k: _normalize_score_to_pct(v) for k, v in scores.items()}
                 
                 return ModelResult(
                     model=model_name,
@@ -1130,7 +1228,28 @@ Provide a detailed JSON response with:
                 
                 # Make LLM call if not cached
                 if response is None:
+                    llm_start = time.time()
                     response = LLMClient.generate_text(model_full, eval_prompt, max_tokens=2000)
+                    llm_duration = time.time() - llm_start
+                    
+                    # =================================================================
+                    # VALIDATION: Detect empty or suspiciously fast responses
+                    # =================================================================
+                    
+                    # Check for empty/minimal response
+                    if not response or len(response.strip()) < 50:
+                        raise ValueError(
+                            f"Model returned empty/minimal response ({len(response) if response else 0} chars). "
+                            "This may indicate the model is not available or not processing correctly."
+                        )
+                    
+                    # Check for error-containing response (from LLMClient)
+                    if response.strip().lower().startswith("error"):
+                        raise ValueError(f"Model returned error: {response[:200]}")
+                    
+                    # Warn about suspiciously fast responses (< 1 second for real LLM inference)
+                    if llm_duration < 1.0:
+                        print(f"    ⚠️  Suspiciously fast response ({llm_duration:.2f}s) - model may not be processing correctly")
                     
                     # Store in cache
                     try:
@@ -1140,6 +1259,7 @@ Provide a detailed JSON response with:
                             cache.set(content, model_full, eval_prompt[:500], response)
                     except ImportError:
                         pass
+
 
                 # Parse response using robust JSON extraction
                 try:
@@ -1156,6 +1276,22 @@ Provide a detailed JSON response with:
                     raise
                 
                 if data:
+                    # =================================================================
+                    # VALIDATION: Ensure extracted JSON contains evaluation data
+                    # Prevents silent 44.4% scores when models return empty/minimal JSON
+                    # =================================================================
+                    REQUIRED_EVAL_KEYS = {'clarity', 'effectiveness', 'structure', 'specificity', 'completeness', 'overall'}
+                    found_keys = set(data.keys()) & REQUIRED_EVAL_KEYS
+                    
+                    if not found_keys:
+                        # Response parsed as JSON but contains no evaluation keys
+                        # This indicates model returned irrelevant/empty content
+                        raise JSONParseError(
+                            f"Response contains no evaluation keys (got: {list(data.keys())[:5]})",
+                            response[:500] if response else "",
+                            model_name
+                        )
+                    
                     # Extract scores from nested or flat structure
                     criteria = {}
                     improvements = {}
@@ -1164,8 +1300,12 @@ Provide a detailed JSON response with:
                         val = data.get(key)
                         if isinstance(val, dict):
                             # Nested structure with detailed feedback
-                            score = val.get('score', 5)
-                            criteria[key] = (score - 1) / 9 * 100
+                            score = val.get('score')
+                            if score is None:
+                                # Missing score in nested structure - flag as incomplete
+                                print(f"    ⚠️  Missing 'score' in {key} for {model_name}")
+                                score = 5  # Default only after warning
+                            criteria[key] = _normalize_score_to_pct(score)
                             # Combine issue and fix into improvement
                             if val.get('issue') or val.get('fix'):
                                 improvements[key] = {
@@ -1175,7 +1315,15 @@ Provide a detailed JSON response with:
                                 }
                         elif isinstance(val, (int, float)):
                             # Flat structure (backward compat)
-                            criteria[key] = (val - 1) / 9 * 100
+                            criteria[key] = _normalize_score_to_pct(val)
+                    
+                    # Validate that we extracted at least some criteria
+                    if not criteria:
+                        raise JSONParseError(
+                            f"No valid criteria scores extracted from response",
+                            response[:500] if response else "",
+                            model_name
+                        )
                     
                     # Extract additional high-value fields
                     summary = data.get('summary', '')
@@ -1190,8 +1338,20 @@ Provide a detailed JSON response with:
                     if example_improvement:
                         improvements['_example_improvement'] = example_improvement
                     
-                    overall = data.get("overall", data.get("weighted_score", 5))
-                    normalized = (overall - 1) / 9 * 100 if overall else 50
+                    # Get overall score - require it to be present
+                    overall = data.get("overall", data.get("weighted_score"))
+                    if overall is None:
+                        # Calculate from criteria if overall is missing
+                        if criteria:
+                            overall = sum(criteria.values()) / len(criteria)
+                            print(f"    ℹ️  Calculated overall from criteria avg: {overall:.1f}%")
+                        else:
+                            raise JSONParseError(
+                                "No 'overall' score and no criteria to calculate from",
+                                response[:500] if response else "",
+                                model_name
+                            )
+                    normalized = _normalize_score_to_pct(overall)
 
                 return ModelResult(
                     model=model_name,
@@ -1283,6 +1443,13 @@ def _evaluate_single_prompt(
         # Run each model
         eval_count = 0
         for model in models:
+            # Circuit breaker: skip models that have failed too many times
+            if _should_skip_model(model):
+                with _print_lock:
+                    if verbose:
+                        print(f"  > {model} SKIPPED (circuit breaker - {_MODEL_FAILURE_THRESHOLD}+ failures)")
+                continue
+                
             for run in range(1, runs + 1):
                 # Add delay between evaluations to avoid rate limiting
                 if delay > 0 and eval_count > 0:
@@ -1297,7 +1464,14 @@ def _evaluate_single_prompt(
                     result = evaluate_with_model(prompt_path, model, run, allow_remote=allow_remote)
                     model_results.append(result)
                     
+                    # If result has an error, record it for circuit breaker
+                    if result.error:
+                        _record_model_failure(model)
+                    
                 except JSONParseError as e:
+                    # Record failure for circuit breaker
+                    _record_model_failure(model)
+                    
                     # Continue with error result
                     result = ModelResult(
                         model=model,
@@ -1306,6 +1480,21 @@ def _evaluate_single_prompt(
                         criteria={},
                         duration=0,
                         error=f"JSONParseError: {str(e)[:100]}",
+                    )
+                    model_results.append(result)
+                
+                except Exception as e:
+                    # Record failure for circuit breaker
+                    _record_model_failure(model)
+                    
+                    # Continue with error result
+                    result = ModelResult(
+                        model=model,
+                        run=run,
+                        score=0,
+                        criteria={},
+                        duration=0,
+                        error=f"Error: {str(e)[:100]}",
                     )
                     model_results.append(result)
                 
@@ -2089,7 +2278,9 @@ Other Entry Points:
             )
             with urllib.request.urlopen(req, timeout=2) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
-                ollama_discovered = [m.get("name", "").split(":")[0] for m in data.get("models", []) if m.get("name")]
+                # Keep full tag names (e.g., gpt-oss:120b-cloud) so users can
+                # distinguish between sizes/variants.
+                ollama_discovered = [m.get("name", "") for m in data.get("models", []) if m.get("name")]
         except:
             pass
         
@@ -2101,7 +2292,7 @@ Other Entry Points:
         print("\nLocal Models (Ollama - Requires Ollama Running, FREE):")
         if ollama_discovered:
             for model in ollama_discovered:
-                print(f"  {model:15} -> ollama:{model} ✅ AVAILABLE")
+                print(f"  {model:25} -> ollama:{model} ✅ AVAILABLE")
         else:
             print("  (Start Ollama to use local Llama, DeepSeek, etc.)")
         

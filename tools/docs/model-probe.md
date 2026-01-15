@@ -195,6 +195,14 @@ Probe results are cached at:
 
 ---
 
+## Recent Changes
+
+### January 14, 2026
+- Updated scoring logic in `prompteval` to normalize rubric scores and clamp values to the range 0-100.
+- Added regression tests to ensure robustness of the normalization logic.
+
+---
+
 ## See Also
 
 - [llm-client.md](./llm-client.md) - LLM dispatcher

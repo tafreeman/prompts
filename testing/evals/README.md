@@ -1,51 +1,37 @@
 # 🔬 Prompt Evaluation with GitHub Models
-
-This directory contains the **primary evaluation tool** for the prompt library using GitHub Models (`gh models eval`).
-
-> **📋 Architecture**: See [ARCHITECTURE_PLAN.md](../../docs/ARCHITECTURE_PLAN.md) for the complete evaluation architecture.
-
-## Prerequisites
-
-1. **GitHub CLI** - Install from [cli.github.com](https://cli.github.com/)
-2. **gh-models extension** - Install with:
-   ```bash
-   gh extension install github/gh-models
-   ```
-3. **Authentication** - Login with `gh auth login`
-4. **Python 3.10+** with `pyyaml` installed
-
 ## Quick Start
 
-### Evaluate prompts with `dual_eval.py`
+### Evaluate prompts (use `prompteval` — canonical)
 
 ```bash
-# Evaluate a single prompt
-python testing/evals/dual_eval.py prompts/developers/code-review.md
+# Evaluate a single prompt (Tier 2 - local G-Eval)
+python -m prompteval prompts/developers/code-review.md --tier 2
 
 # Evaluate all prompts in a folder (recursive)
-python testing/evals/dual_eval.py prompts/developers/
+python -m prompteval prompts/developers/ --tier 2 --verbose
 
 # Evaluate with JSON output for CI/CD
-python testing/evals/dual_eval.py prompts/ --format json --output report.json
+python -m prompteval prompts/ -o report.json --tier 2 --ci
 
 # Evaluate only changed files (for PR validation)
-python testing/evals/dual_eval.py prompts/ --changed-only
+python -m prompteval prompts/ --ci --changed-only
 
 # Use specific models with fewer runs
-python testing/evals/dual_eval.py prompts/advanced/ --models openai/gpt-4o --runs 2
+python -m prompteval prompts/advanced/ --models openai/gpt-4o --runs 2
 
 # Glob pattern support
-python testing/evals/dual_eval.py "prompts/**/*.md" --format json
+python -m prompteval "prompts/**/*.md" --tier 2 -o report.json
 
 # Real-time logging to markdown
-python testing/evals/dual_eval.py prompts/ --log-file eval.md
+python -m prompteval prompts/ --log-file eval.md --tier 2
 
-# Fast evaluation (skip model validation)
-python testing/evals/dual_eval.py prompts/developers/ --skip-validation
-```text
-## Primary Tool: `dual_eval.py`
+# Fast evaluation (structural only)
+python -m prompteval prompts/developers/ --tier 0
+```
 
-Multi-model prompt evaluation with cross-validation and batch support.
+## Primary Tool: `prompteval`
+
+`prompteval` is the unified evaluation tool (see `tools/prompteval/`). It replaces legacy scripts such as `dual_eval.py`, `tiered_eval.py`, and `batch_evaluate.py` and exposes tiered evaluation, model lists, CI flags, and JSON/markdown outputs.
 
 ### Features
 
@@ -58,7 +44,6 @@ Multi-model prompt evaluation with cross-validation and batch support.
 - **Real-time logging**: Markdown file updated after each evaluation
 - **8-dimension rubric**: Comprehensive quality assessment
 - **Pass/fail grading**: Clear thresholds with exit codes
-
 ### File Filtering
 
 By default, the tool automatically excludes non-prompt files:
@@ -180,7 +165,8 @@ pytest testing/evals/test_dual_eval.py::TestJsonReport -v
 
 | File | Description |
 |------|-------------|
-| `dual_eval.py` | **Primary evaluation tool** |
+| `prompteval` | **Canonical evaluation tool (see `tools/prompteval/`)** |
+| `dual_eval.py` | Legacy evaluation script (kept for historical tests) |
 | `test_dual_eval.py` | Unit tests (54 tests) |
 | `results/` | Evaluation output storage |
 | `analysis/` | Analysis eval files |
@@ -218,13 +204,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       
-      - name: Evaluate changed prompts
+      - name: Evaluate changed prompts (PromptEval)
         run: |
-          python testing/evals/dual_eval.py prompts/ \
-            --changed-only \
-            --format json \
-            --output eval-results.json \
-            --runs 1
+          python -m prompteval prompts/ \
+            --ci --changed-only --tier 3 \
+            --output eval-results.json --runs 1
         env:
           GH_TOKEN: ${{ github.token }}
       
