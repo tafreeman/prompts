@@ -1,7 +1,3 @@
-# Auto-generated evaluation file
-# Generated from: 10 prompts
-# Run with: gh models eval D:\source\tafreeman\prompts\testing\evals\analysis\analysis-eval-1.prompt.yml
-
 name: Analysis Prompts Evaluation (Batch 1)
 description: Automated evaluation of 10 prompts from the library
 model: openai/gpt-4o-mini
@@ -9,364 +5,467 @@ modelParameters:
   temperature: 0.3
   max_tokens: 2000
 testData:
-- promptTitle: Business Case Developer
-  promptContent: 'Develop business case for:
+  - promptTitle: Business Case Developer
+    promptContent: |-
+      Develop business case for:
+
+      Initiative: [initiative]
+      Investment Required: [investment]
+      Expected Benefits: [benefits]
+      Risks: [risks]
+      Timeline: [timeline]
+
+      Provide:
+      1. Executive summary
+      2. Cost-benefit analysis
+      3. ROI calculations
+      4. Risk assessment
+      5. Implementation plan
+      6. Success metrics
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Competitive Analysis Researcher
+    promptContent: |-
+      Analyze competition for:
 
+      Product/Service: [product]
+      Market Segment: [segment]
+      Key Competitors: [competitors]
+      Analysis Focus: [focus]
 
-    Initiative: [initiative]
+      Include:
+      1. Competitive landscape
+      2. Feature comparison
+      3. Pricing analysis
+      4. Market positioning
+      5. Opportunities and threats
+      6. Strategic recommendations
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Competitive Intelligence Researcher
+    promptContent: >-
+      You are a senior competitive intelligence analyst with expertise in
+      strategic analysis frameworks and ethical intelligence gathering.
 
-    Investment Required: [investment]
 
-    Expected Benefits: [benefits]
+      **Intelligence Target:**
+
+      - Company: [company_name]
+
+      - Competitors to Analyze: [competitor_list]
+
+      - Intelligence Focus Areas: [focus_areas]
+
+      - Decision Context: [decision_context]
+
+
+      **Research Parameters:**
+
+      - Time Horizon: [time_horizon]
 
-    Risks: [risks]
+      - Geographic Scope: [geographic_scope]
 
-    Timeline: [timeline]
+      - Information Sensitivity Level: [sensitivity_level]
 
 
-    Provide:
+      **Analysis Framework:**
 
-    1. Executive summary
 
-    2. Cost-benefit analysis
+      Using publicly available information (company filings, press releases,
+      news articles, job postings, patent databases, social media, customer
+      reviews, analyst reports), provide:
 
-    3. ROI calculations
 
-    4. Risk assessment
+      1. **Intelligence Gathering Framework**
+         - Primary data sources to prioritize
+         - Secondary data sources for validation
+         - Data collection methodology
+         - Verification approach for claims
 
-    5. Implementation plan
+      2. **Data Collection Strategy**
+         - Key information to gather (product features, pricing, partnerships, hiring patterns, technology stack)
+         - Monitoring cadence and triggers
+         - Tools and platforms to leverage
+         - Red flags for early warning signals
 
-    6. Success metrics'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Competitive Analysis Researcher
-  promptContent: 'Analyze competition for:
+      3. **Competitive Analysis**
+         - Strengths and weaknesses assessment (SWOT)
+         - Competitive positioning map
+         - Product/feature comparison matrix
+         - Pricing and go-to-market strategy analysis
+         - Customer sentiment analysis
 
+      4. **Strategic Insights**
+         - What are competitors doing well that we should learn from?
+         - What vulnerabilities can we exploit?
+         - What market gaps exist that neither we nor competitors address?
+         - How are competitive dynamics shifting?
 
-    Product/Service: [product]
+      5. **Threat Assessment**
+         - Immediate threats (0-6 months)
+         - Medium-term concerns (6-18 months)
+         - Long-term strategic risks (18+ months)
+         - Likelihood and impact scoring (High/Medium/Low)
 
-    Market Segment: [segment]
+      6. **Opportunity Identification**
+         - Market opportunities competitors are missing
+         - Potential partnership or acquisition targets
+         - Underserved customer segments
+         - Technology or capability gaps we can fill
 
-    Key Competitors: [competitors]
+      **Ethical and Legal Boundaries:**
 
-    Analysis Focus: [focus]
+      - Use ONLY publicly available information
 
+      - Do NOT recommend espionage, misrepresentation, or unethical tactics
 
-    Include:
+      - Cite sources for all major claims
 
-    1. Competitive landscape
+      - Flag any information that seems proprietary or confidential
 
-    2. Feature comparison
 
-    3. Pricing analysis
+      **Output Format:**
 
-    4. Market positioning
+      Provide results as a structured Markdown report with executive summary,
+      detailed findings by competitor, and actionable recommendations ranked by
+      impact and feasibility.
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Consumer Behavior Researcher
+    promptContent: |-
+      Research consumer behavior for:
 
-    5. Opportunities and threats
+      Product/Service: [product]
+      Target Demographics: [demographics]
+      Behavior Focus: [behavior]
+      Research Methods: [methods]
 
-    6. Strategic recommendations'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Competitive Intelligence Researcher
-  promptContent: "You are a senior competitive intelligence analyst with expertise\
-    \ in strategic analysis frameworks and ethical intelligence gathering.\n\n**Intelligence\
-    \ Target:**\n- Company: [company_name]\n- Competitors to Analyze: [competitor_list]\n\
-    - Intelligence Focus Areas: [focus_areas]\n- Decision Context: [decision_context]\n\
-    \n**Research Parameters:**\n- Time Horizon: [time_horizon]\n- Geographic Scope:\
-    \ [geographic_scope]\n- Information Sensitivity Level: [sensitivity_level]\n\n\
-    **Analysis Framework:**\n\nUsing publicly available information (company filings,\
-    \ press releases, news articles, job postings, patent databases, social media,\
-    \ customer reviews, analyst reports), provide:\n\n1. **Intelligence Gathering\
-    \ Framework**\n   - Primary data sources to prioritize\n   - Secondary data sources\
-    \ for validation\n   - Data collection methodology\n   - Verification approach\
-    \ for claims\n\n2. **Data Collection Strategy**\n   - Key information to gather\
-    \ (product features, pricing, partnerships, hiring patterns, technology stack)\n\
-    \   - Monitoring cadence and triggers\n   - Tools and platforms to leverage\n\
-    \   - Red flags for early warning signals\n\n3. **Competitive Analysis**\n   -\
-    \ Strengths and weaknesses assessment (SWOT)\n   - Competitive positioning map\n\
-    \   - Product/feature comparison matrix\n   - Pricing and go-to-market strategy\
-    \ analysis\n   - Customer sentiment analysis\n\n4. **Strategic Insights**\n  \
-    \ - What are competitors doing well that we should learn from?\n   - What vulnerabilities\
-    \ can we exploit?\n   - What market gaps exist that neither we nor competitors\
-    \ address?\n   - How are competitive dynamics shifting?\n\n5. **Threat Assessment**\n\
-    \   - Immediate threats (0-6 months)\n   - Medium-term concerns (6-18 months)\n\
-    \   - Long-term strategic risks (18+ months)\n   - Likelihood and impact scoring\
-    \ (High/Medium/Low)\n\n6. **Opportunity Identification**\n   - Market opportunities\
-    \ competitors are missing\n   - Potential partnership or acquisition targets\n\
-    \   - Underserved customer segments\n   - Technology or capability gaps we can\
-    \ fill\n\n**Ethical and Legal Boundaries:**\n- Use ONLY publicly available information\n\
-    - Do NOT recommend espionage, misrepresentation, or unethical tactics\n- Cite\
-    \ sources for all major claims\n- Flag any information that seems proprietary\
-    \ or confidential\n\n**Output Format:**\nProvide results as a structured Markdown\
-    \ report with executive summary, detailed findings by competitor, and actionable\
-    \ recommendations ranked by impact and feasibility."
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Consumer Behavior Researcher
-  promptContent: 'Research consumer behavior for:
+      Provide:
+      1. Research methodology
+      2. Data collection approach
+      3. Behavioral analysis
+      4. Consumer insights
+      5. Implications for business
+      6. Recommendations
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Data Analysis and Insights Generator
+    promptContent: >-
+      You are an experienced data analyst specializing in extracting actionable
+      insights from data. I need help analyzing a dataset and generating
+      insights.
 
 
-    Product/Service: [product]
+      **Dataset Description:**
 
-    Target Demographics: [demographics]
+      - Type: [WHAT KIND OF DATA - e.g., sales, customer, operational, survey]
 
-    Behavior Focus: [behavior]
+      - Time Period: [TIME RANGE COVERED]
 
-    Research Methods: [methods]
+      - Size: [NUMBER OF RECORDS/ROWS]
 
+      - Key Metrics: [MAIN METRICS YOU'RE TRACKING]
 
-    Provide:
 
-    1. Research methodology
+      **Data Summary/Sample:**
 
-    2. Data collection approach
+      [PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]
 
-    3. Behavioral analysis
+      - You can include: summary statistics, sample rows, aggregated data, or
+      describe the data structure
 
-    4. Consumer insights
+      - Example: "Total sales: $500K across 1,200 transactions, 5 product
+      categories, 3 regions"
 
-    5. Implications for business
 
-    6. Recommendations'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Data Analysis and Insights Generator
-  promptContent: "You are an experienced data analyst specializing in extracting actionable\
-    \ insights from data. I need help analyzing a dataset and generating insights.\n\
-    \n**Dataset Description:**\n- Type: [WHAT KIND OF DATA - e.g., sales, customer,\
-    \ operational, survey]\n- Time Period: [TIME RANGE COVERED]\n- Size: [NUMBER OF\
-    \ RECORDS/ROWS]\n- Key Metrics: [MAIN METRICS YOU'RE TRACKING]\n\n**Data Summary/Sample:**\n\
-    [PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]\n- You can include:\
-    \ summary statistics, sample rows, aggregated data, or describe the data structure\n\
-    - Example: \"Total sales: $500K across 1,200 transactions, 5 product categories,\
-    \ 3 regions\"\n\n**Analysis Goals:**\n1. [WHAT YOU WANT TO UNDERSTAND - e.g.,\
-    \ identify top-performing products]\n2. [ANOTHER GOAL - e.g., understand seasonal\
-    \ patterns]\n3. [ANOTHER GOAL - e.g., find areas for improvement]\n\n**Context:**\n\
-    - Business/Organization: [YOUR INDUSTRY OR CONTEXT]\n- Current Challenges: [ANY\
-    \ KNOWN ISSUES OR CONCERNS]\n- Decision to Make: [WHAT DECISION THIS ANALYSIS\
-    \ WILL INFORM]\n\nPlease provide:\n\n1. **Executive Summary**\n   - 3-5 key takeaways\
-    \ in plain language\n   - Most important finding highlighted\n\n2. **Detailed\
-    \ Analysis**\n   - Trends and patterns identified\n   - Statistical observations\n\
-    \   - Comparisons (time periods, categories, segments)\n   - Anomalies or outliers\n\
-    \n3. **Insights**\n   - What the data reveals (the \"so what\")\n   - Potential\
-    \ root causes\n   - Correlations or relationships discovered\n\n4. **Recommendations**\n\
-    \   - Specific, actionable next steps\n   - Prioritized by impact and feasibility\n\
-    \   - Expected outcomes\n\n5. **Suggested Visualizations**\n   - What charts/graphs\
-    \ would best communicate these insights\n   - Key data points to highlight\n\n\
-    6. **Follow-Up Questions**\n   - Additional data that would strengthen analysis\n\
-    \   - Areas needing deeper investigation"
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Data Analysis Specialist
-  promptContent: 'Analyze data for:
+      **Analysis Goals:**
 
+      1. [WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]
 
-    Business Question: [question]
+      2. [ANOTHER GOAL - e.g., understand seasonal patterns]
 
-    Data Sources: [sources]
+      3. [ANOTHER GOAL - e.g., find areas for improvement]
 
-    Analysis Scope: [scope]
 
-    Decision Context: [context]
+      **Context:**
 
+      - Business/Organization: [YOUR INDUSTRY OR CONTEXT]
 
-    Provide:
+      - Current Challenges: [ANY KNOWN ISSUES OR CONCERNS]
 
-    1. Data exploration
+      - Decision to Make: [WHAT DECISION THIS ANALYSIS WILL INFORM]
 
-    2. Statistical analysis
 
-    3. Trend identification
+      Please provide:
 
-    4. Insights and findings
 
-    5. Recommendations
+      1. **Executive Summary**
+         - 3-5 key takeaways in plain language
+         - Most important finding highlighted
 
-    6. Visualization strategy'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Data Quality Assessment
-  promptContent: 'You are a data quality expert assessing a dataset across six quality
-    dimensions.
+      2. **Detailed Analysis**
+         - Trends and patterns identified
+         - Statistical observations
+         - Comparisons (time periods, categories, segments)
+         - Anomalies or outliers
 
+      3. **Insights**
+         - What the data reveals (the "so what")
+         - Potential root causes
+         - Correlations or relationships discovered
 
-    ## Dataset Information
+      4. **Recommendations**
+         - Specific, actionable next steps
+         - Prioritized by impact and feasibility
+         - Expected outcomes
 
+      5. **Suggested Visualizations**
+         - What charts/graphs would best communicate these insights
+         - Key data points to highlight
 
-    **Dataset Name:** [DATASET_NAME]
+      6. **Follow-Up Questions**
+         - Additional data that would strengthen analysis
+         - Areas needing deeper investigation
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Data Analysis Specialist
+    promptContent: |-
+      Analyze data for:
 
+      Business Question: [question]
+      Data Sources: [sources]
+      Analysis Scope: [scope]
+      Decision Context: [context]
 
-    **Source:** [SOURCE_SYSTEM_OR_FILE]
+      Provide:
+      1. Data exploration
+      2. Statistical analysis
+      3. Trend identification
+      4. Insights and findings
+      5. Recommendations
+      6. Visualization strategy
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Data Quality Assessment
+    promptContent: >-
+      You are a data quality expert assessing a dataset across six quality
+      dimensions.
 
 
-    **Time Period:** [TIME_RANGE]
+      ## Dataset Information
 
 
-    **Schema:**'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Gap Analysis Expert
-  promptContent: 'Perform gap analysis for:
+      **Dataset Name:** [DATASET_NAME]
 
 
-    Current State: [current_state]
+      **Source:** [SOURCE_SYSTEM_OR_FILE]
 
-    Desired State: [desired_state]
 
-    Business Area: [area]
+      **Time Period:** [TIME_RANGE]
 
-    Constraints: [constraints]
 
+      **Schema:**
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Gap Analysis Expert
+    promptContent: |-
+      Perform gap analysis for:
 
-    Include:
+      Current State: [current_state]
+      Desired State: [desired_state]
+      Business Area: [area]
+      Constraints: [constraints]
 
-    1. Current state assessment
+      Include:
+      1. Current state assessment
+      2. Future state definition
+      3. Gap identification
+      4. Impact analysis
+      5. Bridging strategy
+      6. Implementation roadmap
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Industry Analysis Expert
+    promptContent: |-
+      Analyze industry:
 
-    2. Future state definition
+      Industry: [industry]
+      Analysis Scope: [scope]
+      Key Questions: [questions]
+      Stakeholder Interest: [stakeholders]
 
-    3. Gap identification
+      Include:
+      1. Industry overview
+      2. Market dynamics
+      3. Competitive landscape
+      4. Trends and drivers
+      5. Future outlook
+      6. Strategic recommendations
+    difficulty: intermediate
+    type: how_to
+    category: analysis
+  - promptTitle: Library Capability Radar Chart Generator
+    promptContent: >-
+      Design a Radar Chart (Spider Plot) to score the maturity of my prompt
+      library across its 7 key domains: Advanced, Analysis, Business, Creative,
+      Developers, Governance, and System.
 
-    4. Impact analysis
 
-    5. Bridging strategy
+      Use the provided [CATEGORY_COUNTS] for the axes.
 
-    6. Implementation roadmap'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Industry Analysis Expert
-  promptContent: 'Analyze industry:
+      The axis for each domain should represent the number of prompts available
+      (e.g., Business might score 25, while Creative scores 2).
 
 
-    Industry: [industry]
-
-    Analysis Scope: [scope]
-
-    Key Questions: [questions]
-
-    Stakeholder Interest: [stakeholders]
-
-
-    Include:
-
-    1. Industry overview
-
-    2. Market dynamics
-
-    3. Competitive landscape
-
-    4. Trends and drivers
-
-    5. Future outlook
-
-    6. Strategic recommendations'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
-- promptTitle: Library Capability Radar Chart Generator
-  promptContent: 'Design a Radar Chart (Spider Plot) to score the maturity of my prompt
-    library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers,
-    Governance, and System.
-
-
-    Use the provided [CATEGORY_COUNTS] for the axes.
-
-    The axis for each domain should represent the number of prompts available (e.g.,
-    Business might score 25, while Creative scores 2).
-
-
-    This visualization should highlight gaps in the library—for example, showing a
-    strong spike in "Business" analysis but a potential deficiency in "Creative" or
-    "Governance" tools.'
-  difficulty: intermediate
-  type: how_to
-  category: analysis
+      This visualization should highlight gaps in the library—for example,
+      showing a strong spike in "Business" analysis but a potential deficiency
+      in "Creative" or "Governance" tools.
+    difficulty: intermediate
+    type: how_to
+    category: analysis
 messages:
-- role: system
-  content: "You are an expert prompt engineer evaluating AI prompts for quality and\
-    \ effectiveness.\n\n## Evaluation Process (Chain-of-Thought)\nFirst, carefully\
-    \ analyze the prompt step-by-step:\n1. Read the entire prompt to understand its\
-    \ intent\n2. Identify the target audience and use case\n3. Assess each criterion\
-    \ individually with specific evidence\n4. Consider industry best practices (OpenAI,\
-    \ Anthropic, Google)\n5. Formulate actionable improvements\n\n## Evaluation Criteria\
-    \ (score 1-10 each):\n\n### Core Quality\n1. **Clarity** - How clear and unambiguous\
-    \ are the instructions?\n2. **Specificity** - Does it provide enough detail for\
-    \ consistent outputs?\n3. **Actionability** - Can the AI clearly determine what\
-    \ actions to take?\n4. **Structure** - Is it well-organized with clear sections?\n\
-    5. **Completeness** - Does it cover all necessary aspects?\n\n### Advanced Quality\
-    \ (Industry Best Practices)\n6. **Factuality** - Are any claims/examples accurate?\
-    \ No misleading information?\n7. **Consistency** - Will it produce reproducible,\
-    \ reliable outputs?\n8. **Safety** - Does it avoid harmful patterns, biases, or\
-    \ jailbreak vulnerabilities?\n\n## Grading Scale\n- A (8.5-10): Excellent - production\
-    \ ready\n- B (7.0-8.4): Good - minor improvements possible  \n- C (5.5-6.9): Average\
-    \ - several areas need work\n- D (4.0-5.4): Below Average - significant rework\
-    \ needed\n- F (<4.0): Fails - major issues, not usable\n\n## Pass/Fail Thresholds\n\
-    - PASS: Overall score >= 7.0 AND no individual criterion < 5.0\n- FAIL: Overall\
-    \ score < 7.0 OR any criterion < 5.0\n\nRespond with JSON in this exact format:\n\
-    {\n  \"reasoning\": \"<2-3 sentences explaining your chain-of-thought analysis>\"\
-    ,\n  \"scores\": {\n    \"clarity\": <1-10>,\n    \"specificity\": <1-10>,\n \
-    \   \"actionability\": <1-10>,\n    \"structure\": <1-10>,\n    \"completeness\"\
-    : <1-10>,\n    \"factuality\": <1-10>,\n    \"consistency\": <1-10>,\n    \"safety\"\
-    : <1-10>\n  },\n  \"overall_score\": <weighted average>,\n  \"grade\": \"<A/B/C/D/F>\"\
-    ,\n  \"pass\": <true/false>,\n  \"strengths\": [\"<strength1>\", \"<strength2>\"\
-    ],\n  \"improvements\": [\"<improvement1>\", \"<improvement2>\"],\n  \"summary\"\
-    : \"<brief 1-2 sentence summary>\"\n}"
-- role: user
-  content: 'Evaluate this prompt from our library:
+  - role: system
+    content: >-
+      You are an expert prompt engineer evaluating AI prompts for quality and
+      effectiveness.
 
 
-    **Title:** {{promptTitle}}
+      ## Evaluation Process (Chain-of-Thought)
 
-    **Category:** {{category}}
+      First, carefully analyze the prompt step-by-step:
 
-    **Difficulty:** {{difficulty}}
+      1. Read the entire prompt to understand its intent
 
-    **Type:** {{type}}
+      2. Identify the target audience and use case
 
+      3. Assess each criterion individually with specific evidence
 
-    **Prompt Content:**
+      4. Consider industry best practices (OpenAI, Anthropic, Google)
 
-    ```
-
-    {{promptContent}}
-
-    ```
+      5. Formulate actionable improvements
 
 
-    Provide your evaluation as JSON.'
+      ## Evaluation Criteria (score 1-10 each):
+
+
+      ### Core Quality
+
+      1. **Clarity** - How clear and unambiguous are the instructions?
+
+      2. **Specificity** - Does it provide enough detail for consistent outputs?
+
+      3. **Actionability** - Can the AI clearly determine what actions to take?
+
+      4. **Structure** - Is it well-organized with clear sections?
+
+      5. **Completeness** - Does it cover all necessary aspects?
+
+
+      ### Advanced Quality (Industry Best Practices)
+
+      6. **Factuality** - Are any claims/examples accurate? No misleading
+      information?
+
+      7. **Consistency** - Will it produce reproducible, reliable outputs?
+
+      8. **Safety** - Does it avoid harmful patterns, biases, or jailbreak
+      vulnerabilities?
+
+
+      ## Grading Scale
+
+      - A (8.5-10): Excellent - production ready
+
+      - B (7.0-8.4): Good - minor improvements possible  
+
+      - C (5.5-6.9): Average - several areas need work
+
+      - D (4.0-5.4): Below Average - significant rework needed
+
+      - F (<4.0): Fails - major issues, not usable
+
+
+      ## Pass/Fail Thresholds
+
+      - PASS: Overall score >= 7.0 AND no individual criterion < 5.0
+
+      - FAIL: Overall score < 7.0 OR any criterion < 5.0
+
+
+      Respond with JSON in this exact format:
+
+      {
+        "reasoning": "<2-3 sentences explaining your chain-of-thought analysis>",
+        "scores": {
+          "clarity": <1-10>,
+          "specificity": <1-10>,
+          "actionability": <1-10>,
+          "structure": <1-10>,
+          "completeness": <1-10>,
+          "factuality": <1-10>,
+          "consistency": <1-10>,
+          "safety": <1-10>
+        },
+        "overall_score": <weighted average>,
+        "grade": "<A/B/C/D/F>",
+        "pass": <true/false>,
+        "strengths": ["<strength1>", "<strength2>"],
+        "improvements": ["<improvement1>", "<improvement2>"],
+        "summary": "<brief 1-2 sentence summary>"
+      }
+  - role: user
+    content: |-
+      Evaluate this prompt from our library:
+
+      **Title:** {{promptTitle}}
+      **Category:** {{category}}
+      **Difficulty:** {{difficulty}}
+      **Type:** {{type}}
+
+      **Prompt Content:**
+      ```
+      {{promptContent}}
+      ```
+
+      Provide your evaluation as JSON.
 evaluators:
-- name: valid-json
-  description: Response must be valid JSON with scores
-  string:
-    contains: '"scores"'
-- name: has-overall-score
-  description: Response includes overall score
-  string:
-    contains: '"overall_score"'
-- name: has-grade
-  description: Response includes letter grade
-  string:
-    contains: '"grade"'
-- name: has-pass-fail
-  description: Response includes pass/fail determination
-  string:
-    contains: '"pass"'
-- name: has-reasoning
-  description: Response includes chain-of-thought reasoning
-  string:
-    contains: '"reasoning"'
-- name: has-safety-score
-  description: Response includes safety evaluation
-  string:
-    contains: '"safety"'
-- name: has-summary
-  description: Response includes summary
-  string:
-    contains: '"summary"'
+  - name: valid-json
+    description: Response must be valid JSON with scores
+    string:
+      contains: '"scores"'
+  - name: has-overall-score
+    description: Response includes overall score
+    string:
+      contains: '"overall_score"'
+  - name: has-grade
+    description: Response includes letter grade
+    string:
+      contains: '"grade"'
+  - name: has-pass-fail
+    description: Response includes pass/fail determination
+    string:
+      contains: '"pass"'
+  - name: has-reasoning
+    description: Response includes chain-of-thought reasoning
+    string:
+      contains: '"reasoning"'
+  - name: has-summary
+    description: Response includes summary
+    string:
+      contains: '"summary"'
+  - name: Fluency
+    uses: github/fluency
+  - name: Coherence
+    uses: github/coherence
+  - name: Relevance
+    uses: github/relevance
+  - name: Groundedness
+    uses: github/groundedness
