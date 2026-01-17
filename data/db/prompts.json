@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "c6708ed9-b75e-4fb4-bdf1-690fd725c16c",
+    "name": "advanced-technique-research.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.477882"
+      }
+    ]
+  },
+  {
+    "id": "75a1f46e-ed90-4705-a18e-935faf452855",
+    "name": "chain-of-thought-concise.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.484781"
+      }
+    ]
+  },
+  {
+    "id": "e2a4afae-5077-4395-a0d9-1054647ecccd",
+    "name": "chain-of-thought-debugging.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.535801"
+      }
+    ]
+  },
+  {
+    "id": "adbda1e2-915a-4cac-8e67-f6abea467b40",
+    "name": "chain-of-thought-detailed.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.555910"
+      }
+    ]
+  },
+  {
+    "id": "72043536-415d-464d-8657-e8a4f2b55b07",
+    "name": "chain-of-thought-guide.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.577447"
+      }
+    ]
+  },
+  {
+    "id": "e8e49363-caa6-4ee1-bce2-7b34deeb76bf",
+    "name": "chain-of-thought-performance-analysis.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.600578"
+      }
+    ]
+  },
+  {
+    "id": "52ff020f-eaa4-44f7-9e96-8d4078388c75",
+    "name": "CoVe.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.625639"
+      }
+    ]
+  },
+  {
+    "id": "cc52eace-41cd-4df2-9fba-08a3408b0eef",
+    "name": "lats-lite-evaluator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.653011"
+      }
+    ]
+  },
+  {
+    "id": "7aec2e06-e607-45b9-a2bc-669b8a076fa8",
+    "name": "lats-self-refine-evaluator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.682069"
+      }
+    ]
+  },
+  {
+    "id": "91ea2fd5-2124-44c4-8a09-4c752d5b939c",
+    "name": "library-analysis-react.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.716962"
+      }
+    ]
+  },
+  {
+    "id": "a8236b6d-ce45-41f5-a8a6-1e342e8f5b19",
+    "name": "library.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.785539"
+      }
+    ]
+  },
+  {
+    "id": "7244253b-f724-4ec8-b442-a7b46df29d95",
+    "name": "osint-research-react.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.796790"
+      }
+    ]
+  },
+  {
+    "id": "1f555dee-897d-4d4c-bd67-ccfc7390e3bb",
+    "name": "prompt-library-refactor-react.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.808812"
+      }
+    ]
+  },
+  {
+    "id": "34f5e3aa-dc1d-4aea-a308-2b037f8da0e3",
+    "name": "rag-document-retrieval.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.821905"
+      }
+    ]
+  },
+  {
+    "id": "b9e57c0d-4ae1-4c3e-bc19-cfc75a703e94",
+    "name": "react-doc-search-synthesis.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.834689"
+      }
+    ]
+  },
+  {
+    "id": "fb0af996-ba33-4105-8518-b749b831192b",
+    "name": "react-knowledge-base-research.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.846597"
+      }
+    ]
+  },
+  {
+    "id": "8229820f-8647-4029-9fd3-fa9f59f2d01a",
+    "name": "react-tool-augmented.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.858963"
+      }
+    ]
+  },
+  {
+    "id": "b2cc726d-89ca-4d32-ac9a-f9612beb867e",
+    "name": "reflection-self-critique.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.870868"
+      }
+    ]
+  },
+  {
+    "id": "8517c19c-1099-444f-949a-8f126b280ace",
+    "name": "tree-of-thoughts-architecture-evaluator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.882701"
+      }
+    ]
+  },
+  {
+    "id": "e9bb4ec1-bcbe-46a7-be7e-03bc4e34d639",
+    "name": "tree-of-thoughts-evaluator-reflection.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.894708"
+      }
+    ]
+  },
+  {
+    "id": "929df72f-7628-4300-b622-f9b8a3beb5db",
+    "name": "tree-of-thoughts-template.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:51.907604"
+      }
+    ]
+  },
+  {
+    "id": "699cbc26-6db9-4340-a472-079e52f5f7c4",
+    "name": "api-design-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.485499"
+      }
+    ]
+  },
+  {
+    "id": "25518d34-d910-4c18-957e-ab7e4e6d4178",
+    "name": "bug-finder.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.546697"
+      }
+    ]
+  },
+  {
+    "id": "6f682b42-939e-4b71-83da-ec02ec651afa",
+    "name": "cloud-migration-specialist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.609035"
+      }
+    ]
+  },
+  {
+    "id": "d6f2a225-b214-4390-a6a4-4c875723525e",
+    "name": "code-generation-assistant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.683731"
+      }
+    ]
+  },
+  {
+    "id": "3f8a0a26-aab0-4c86-bafa-7b03195180dc",
+    "name": "code-review-assistant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.731778"
+      }
+    ]
+  },
+  {
+    "id": "56e52308-c11e-4c96-8617-85782a4fd8eb",
+    "name": "code-review-expert-structured.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.774586"
+      }
+    ]
+  },
+  {
+    "id": "2bfd9bb9-4dc8-4450-b4f2-6811d7dedf12",
+    "name": "code-review-expert.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.814965"
+      }
+    ]
+  },
+  {
+    "id": "2d75d838-7c5e-409d-9660-14652365970a",
+    "name": "csharp-enterprise-standards-enforcer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.860928"
+      }
+    ]
+  },
+  {
+    "id": "ff2e9a4d-532a-45b5-922a-3ba85bb039bb",
+    "name": "csharp-refactoring-assistant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.905118"
+      }
+    ]
+  },
+  {
+    "id": "ed22b1d9-9400-431b-b649-fde09939ecab",
+    "name": "data-pipeline-engineer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.947372"
+      }
+    ]
+  },
+  {
+    "id": "84984a7d-e425-47a5-a9fb-6d34ef697d06",
+    "name": "database-migration-specialist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:52.995206"
+      }
+    ]
+  },
+  {
+    "id": "a499f398-a4a9-43cb-9e95-c734fe7676b9",
+    "name": "database-schema-designer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.046405"
+      }
+    ]
+  },
+  {
+    "id": "91cbb8eb-a8ec-4f9b-ae21-85bdb0dcac93",
+    "name": "devops-pipeline-architect.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.105501"
+      }
+    ]
+  },
+  {
+    "id": "4a025b51-8bcb-461e-ad71-66976085698b",
+    "name": "documentation-generator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.157425"
+      }
+    ]
+  },
+  {
+    "id": "17e24a97-a778-496d-9b43-ebede0c3f7a8",
+    "name": "dotnet-api-designer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.235276"
+      }
+    ]
+  },
+  {
+    "id": "5a54f330-d9f4-4629-8f24-d67d7591f4e3",
+    "name": "frontend-architecture-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.300669"
+      }
+    ]
+  },
+  {
+    "id": "227c8c45-bf32-43ba-acd8-9430b47f4ca5",
+    "name": "legacy-system-modernization.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.347508"
+      }
+    ]
+  },
+  {
+    "id": "26ed6082-c655-465b-b71c-2130e1d7df31",
+    "name": "microservices-architect.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.396459"
+      }
+    ]
+  },
+  {
+    "id": "b6b6a814-6231-42b9-880e-dcd657cce77b",
+    "name": "mid-level-developer-architecture-coach.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.438880"
+      }
+    ]
+  },
+  {
+    "id": "9127092a-46a6-4d42-9cd2-2e4e61e0d007",
+    "name": "mobile-app-developer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.481038"
+      }
+    ]
+  },
+  {
+    "id": "6d1b2b7c-bd21-426d-b247-4814c369a2ed",
+    "name": "performance-optimization-specialist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.524671"
+      }
+    ]
+  },
+  {
+    "id": "ef054f81-2426-4cec-a1b6-c20fe2554a3d",
+    "name": "refactoring-plan-designer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.568130"
+      }
+    ]
+  },
+  {
+    "id": "5fb2c621-7f14-4cdd-a2c8-eb373be81533",
+    "name": "refactoring-specialist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.616633"
+      }
+    ]
+  },
+  {
+    "id": "33f58af5-e9b6-46f8-a83b-6593fe411065",
+    "name": "security-code-auditor.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.664111"
+      }
+    ]
+  },
+  {
+    "id": "913bd924-c41e-49ee-b669-208fa31328d8",
+    "name": "sql-query-analyzer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.708045"
+      }
+    ]
+  },
+  {
+    "id": "e2c90aaf-14f3-466e-b433-d34e4e9795d7",
+    "name": "sql-security-standards-enforcer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.752956"
+      }
+    ]
+  },
+  {
+    "id": "be4f2af6-b33b-474e-9298-4dbebff8727e",
+    "name": "test-automation-engineer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.799544"
+      }
+    ]
+  },
+  {
+    "id": "7a540aa2-b11d-42de-be9d-700f665419b4",
+    "name": "agile-sprint-planner.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.848439"
+      }
+    ]
+  },
+  {
+    "id": "55c2a0d1-6b2c-4b11-8ea5-d408bec613b0",
+    "name": "board-update.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.898063"
+      }
+    ]
+  },
+  {
+    "id": "e0407fa9-2414-4914-8315-9ee19319a2e7",
+    "name": "budget-and-cost-controller.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.944899"
+      }
+    ]
+  },
+  {
+    "id": "a613ef0c-73ea-4e60-a20f-b90cb7338537",
+    "name": "business-process-reengineering.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:53.991242"
+      }
+    ]
+  },
+  {
+    "id": "6ff5e977-c2e0-4f5b-bc9d-80c5a6a8e41c",
+    "name": "business-strategy-analysis.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.037544"
+      }
+    ]
+  },
+  {
+    "id": "f125fbf5-3ef6-40d6-814a-5f1f77f8c31f",
+    "name": "change-management-coordinator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.082965"
+      }
+    ]
+  },
+  {
+    "id": "32ea0f7a-8dd5-439d-997b-09f1128acc28",
+    "name": "client-presentation-designer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.133923"
+      }
+    ]
+  },
+  {
+    "id": "4e7e93c9-7703-4530-90fb-f7f407f684ed",
+    "name": "cold-email-generator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.189951"
+      }
+    ]
+  },
+  {
+    "id": "920cc49f-5747-4561-b941-d50961a86816",
+    "name": "competitive-analysis.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.237946"
+      }
+    ]
+  },
+  {
+    "id": "1ec268c7-b7d4-4264-8d8e-1f33b4519329",
+    "name": "crisis-management-coordinator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.285216"
+      }
+    ]
+  },
+  {
+    "id": "c75d7420-7d78-4f93-b1a4-0c6eedd02ceb",
+    "name": "digital-transformation-advisor.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.334144"
+      }
+    ]
+  },
+  {
+    "id": "b6220375-639e-4124-98d9-7c08b2341f46",
+    "name": "due-diligence-analyst.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.384936"
+      }
+    ]
+  },
+  {
+    "id": "04fb8d86-1520-495e-9771-045db464eff2",
+    "name": "financial-modeling-expert.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.434921"
+      }
+    ]
+  },
+  {
+    "id": "883d9b84-397b-4317-82c7-195139494d5c",
+    "name": "follow-up-email.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.486986"
+      }
+    ]
+  },
+  {
+    "id": "d80ab257-d412-465b-af75-56ed03e13530",
+    "name": "innovation-strategy-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.537531"
+      }
+    ]
+  },
+  {
+    "id": "02245b97-d2ac-4da1-97b9-0e81fb6a57f1",
+    "name": "interview-questions.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.586486"
+      }
+    ]
+  },
+  {
+    "id": "1bac3b80-1a53-4471-887d-2728eed20d74",
+    "name": "job-description-writer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.643274"
+      }
+    ]
+  },
+  {
+    "id": "f043e738-09ba-4ef0-b092-fad54bd6978b",
+    "name": "management-consulting-expert.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.695257"
+      }
+    ]
+  },
+  {
+    "id": "82ea5d57-0a9a-4531-94b1-8baa882b277b",
+    "name": "market-entry-strategist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.746687"
+      }
+    ]
+  },
+  {
+    "id": "19628c12-e3f5-4650-98b7-03291aa6fadd",
+    "name": "meeting-facilitator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.796125"
+      }
+    ]
+  },
+  {
+    "id": "c43d436f-9af5-4867-87ca-6718289f3f23",
+    "name": "meeting-summary.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.847782"
+      }
+    ]
+  },
+  {
+    "id": "d4cac903-f419-4087-89fc-87e55b113a50",
+    "name": "onboarding-checklist-creator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.900492"
+      }
+    ]
+  },
+  {
+    "id": "6a3b8b87-3204-4ac1-8467-2f8c43625bc7",
+    "name": "organizational-change-manager.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:54.952226"
+      }
+    ]
+  },
+  {
+    "id": "579abb1b-d619-46f7-a37c-4445a8341d87",
+    "name": "performance-improvement-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.007566"
+      }
+    ]
+  },
+  {
+    "id": "6105a5b7-0cf3-40ec-b089-86192d87b297",
+    "name": "performance-review.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.060152"
+      }
+    ]
+  },
+  {
+    "id": "40038cd6-de29-4491-bffd-e02c355965f8",
+    "name": "pitch-deck-generator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.112858"
+      }
+    ]
+  },
+  {
+    "id": "c48690dd-feda-4fc0-903a-0c8689a6ee00",
+    "name": "project-charter-creator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.172415"
+      }
+    ]
+  },
+  {
+    "id": "e673ae7c-c0dd-4f8e-a359-9238642a8ec8",
+    "name": "project-closure-specialist.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.227080"
+      }
+    ]
+  },
+  {
+    "id": "273dbdd4-6530-4354-af10-716379ac728a",
+    "name": "project-documentation-manager.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.280609"
+      }
+    ]
+  },
+  {
+    "id": "3a9ebc94-5419-4c19-ab75-3beceda704a0",
+    "name": "quality-assurance-planner.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.336535"
+      }
+    ]
+  },
+  {
+    "id": "5894b7c7-8595-4593-91be-5a04c25400d9",
+    "name": "resource-allocation-optimizer.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.392010"
+      }
+    ]
+  },
+  {
+    "id": "fae22525-22ec-43d5-aa6d-635e081f6d22",
+    "name": "risk-management-analyst.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.446190"
+      }
+    ]
+  },
+  {
+    "id": "6258df72-9ff1-42fb-968e-bdf10f78ead7",
+    "name": "sales-objection-handler.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.501955"
+      }
+    ]
+  },
+  {
+    "id": "358fa44d-1209-42a1-a0c6-e9b48b75c469",
+    "name": "sales-strategy-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.556980"
+      }
+    ]
+  },
+  {
+    "id": "ef8e5e5a-62d3-4955-8106-2cc06a6a41bb",
+    "name": "stakeholder-communication-manager.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.614456"
+      }
+    ]
+  },
+  {
+    "id": "e951cb7d-45bc-478c-af0d-db7fcfcafa53",
+    "name": "strategic-planning-consultant.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.683292"
+      }
+    ]
+  },
+  {
+    "id": "67b20089-1fe6-4018-9e8a-b766d104135c",
+    "name": "team-performance-manager.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.742006"
+      }
+    ]
+  },
+  {
+    "id": "2b4b2603-655a-49e0-98c1-a7b83d066815",
+    "name": "timeline-and-milestone-tracker.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.800581"
+      }
+    ]
+  },
+  {
+    "id": "3d745376-763a-4439-a0c1-997ac1dedcb4",
+    "name": "vendor-management-coordinator.md",
+    "versions": [
+      {
+        "version": "1.0",
+        "content": "",
+        "metadata": {
+          "migrated": true
+        },
+        "created_at": "2026-01-16T17:52:55.859265"
+      }
+    ]
+  }
+]
