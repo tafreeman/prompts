@@ -327,22 +327,13 @@ class LLMClient:
 
     @staticmethod
     def _call_ollama(model_name: str, prompt: str, system_instruction: Optional[str]) -> str:
-        """
-        Call a local Ollama server using its REST API.
+        """Call a local Ollama server.
 
         Model name format: ollama:<model>
         Example: ollama:llama3
 
         Environment variables:
-          - OLLAMA_HOST: URL of the Ollama server (default: http://localhost:11434)
-        
-        Args:
-            model_name: Name of the model in Ollama.
-            prompt: User message.
-            system_instruction: System instructions to prepend.
-            
-        Returns:
-            Generated text response.
+          - OLLAMA_HOST (default: http://localhost:11434)
         """
         host = os.getenv("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
         model = model_name.split(":", 1)[1] if ":" in model_name else "llama3"
@@ -381,27 +372,16 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
-        """
-        Call Azure OpenAI Service via the OpenAI Python SDK (deployment-based).
+        """Call Azure OpenAI Service via the OpenAI Python SDK (deployment-based).
 
         Model name formats:
           - azure-openai:<deployment>
-          - azure-openai:<slot>:<deployment> (uses slot-specific env vars)
+          - azure-openai:<slot>:<deployment>  (uses AZURE_OPENAI_ENDPOINT_<slot> / AZURE_OPENAI_API_KEY_<slot>)
 
         Environment variables:
-          - AZURE_OPENAI_ENDPOINT: Main service endpoint.
-          - AZURE_OPENAI_API_KEY: Authentication key.
-          - AZURE_OPENAI_API_VERSION: API version (default: 2024-02-15-preview).
-          
-        Args:
-            model_name: Deployment string including optional slot.
-            prompt: User message.
-            system_instruction: System prompt.
-            temperature: Sampling temperature.
-            max_tokens: Token limit.
-            
-        Returns:
-            Generated text content.
+          - AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_ENDPOINT_0,1,...
+          - AZURE_OPENAI_API_KEY or AZURE_OPENAI_API_KEY_0,1,...
+          - AZURE_OPENAI_API_VERSION (default: 2024-02-15-preview)
         """
         parts = model_name.split(":")
         # parts[0] == "azure-openai"
@@ -464,20 +444,13 @@ class LLMClient:
     def _call_local(model_name: str, prompt: str, system_instruction: Optional[str],
                     temperature: float = 0.7, max_tokens: int = 2000) -> str:
         """
-        Call a local ONNX model using the LocalModel class (onnxruntime-genai).
+        Call local ONNX model via local_model.py.
 
         Model name format: local:<model_key>
-        Supported keys are defined in LLMClient.LOCAL_MODELS.
-        
-        Args:
-            model_name: Key for the local model.
-            prompt: User message.
-            system_instruction: System prompt.
-            temperature: Sampling temperature.
-            max_tokens: Token limit.
-            
-        Returns:
-            Generated text from local inference.
+        Examples:
+          - local:phi4mini -> Phi-4 Mini
+          - local:phi3.5 -> Phi-3.5 Mini
+          - local:mistral-7b -> Mistral 7B Instruct
         """
         # Import local_model module
         try:
@@ -753,3 +726,122 @@ class LLMClient:
             return response.choices[0].message.content
         except ImportError:
             raise ImportError("openai package not installed. Run: pip install openai")
+
+
+# =============================================================================
+# SIMPLIFIED PUBLIC API
+# =============================================================================
+
+def generate(
+    model: str,
+    prompt: str,
+    system: str = "",
+    temperature: float = 0.7,
+    max_tokens: int = 4096,
+) -> str:
+    """
+    Generate text from any supported model.
+    
+    This is the simplified wrapper for LLMClient.generate_text().
+    
+    Args:
+        model: Model identifier (e.g., "local:phi4mini", "gh:gpt-4o-mini")
+        prompt: The user prompt
+        system: Optional system prompt
+        temperature: Sampling temperature
+        max_tokens: Maximum tokens to generate
+        
+    Returns:
+        Generated text response
+        
+    Example:
+        response = generate("gh:gpt-4o-mini", "Explain Python")
+    """
+    return LLMClient.generate_text(
+        model_name=model,
+        prompt=prompt,
+        system_instruction=system if system else None,
+        temperature=temperature,
+        max_tokens=max_tokens,
+    )
+
+
+def list_models(provider: Optional[str] = None) -> list:
+    """
+    List available models.
+    
+    Args:
+        provider: Filter by provider ("local", "ollama", "gh", etc.)
+        
+    Returns:
+        List of model identifiers
+    """
+    models = []
+    
+    if not provider or provider == "local":
+        models.extend([f"local:{k}" for k in LLMClient.LOCAL_MODELS.keys()])
+    
+    if not provider or provider == "gh":
+        # Common GitHub models
+        models.extend([
+            "gh:gpt-4o-mini",
+            "gh:gpt-4.1",
+            "gh:gpt-4o",
+            "gh:llama-3.3-70b-instruct",
+            "gh:mistral-small-2503",
+        ])
+    
+    if not provider or provider == "openai":
+        try:
+            models.extend([f"openai:{m}" for m in LLMClient.list_openai_models()])
+        except Exception:
+            pass
+    
+    if not provider or provider == "gemini":
+        try:
+            models.extend([f"gemini:{m}" for m in LLMClient.list_gemini_models()])
+        except Exception:
+            pass
+    
+    return models
+
+
+def probe(model: str) -> bool:
+    """
+    Test if a model is available and working.
+    
+    Args:
+        model: Model identifier
+        
+    Returns:
+        True if model responds, False otherwise
+    """
+    try:
+        response = generate(model, "Say ok", max_tokens=10)
+        return bool(response and len(response) > 0)
+    except Exception:
+        return False
+
+
+def get_best_model(preferred: Optional[list] = None) -> Optional[str]:
+    """
+    Get the best available model from a preference list.
+    
+    Args:
+        preferred: List of models in preference order
+        
+    Returns:
+        First available model, or None
+    """
+    default_preferred = [
+        "local:phi4mini",
+        "ollama:phi4-reasoning",
+        "ollama:llama3.3",
+        "gh:gpt-4o-mini",
+    ]
+    preferred = preferred or default_preferred
+    
+    for m in preferred:
+        if probe(m):
+            return m
+    return None

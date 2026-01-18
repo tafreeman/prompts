@@ -637,50 +637,6 @@ def save_incremental_result(result: LATS_Result, output_path: Path, total_prompt
     print(f"   💾 Progress saved ({len(existing_results)}/{total_prompts})")
 
 
-
-def save_incremental_result(result: LATS_Result, output_path: Path, total_prompts: int):
-    """Save individual result immediately after evaluation (incremental backup)."""
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    
-    # Load existing results if file exists
-    existing_results = []
-    if output_path.exists():
-        try:
-            with open(output_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                existing_results = data.get("results", [])
-        except (json.JSONDecodeError, IOError):
-            pass  # Start fresh if corrupted
-    
-    # Append new result
-    existing_results.append(asdict(result))
-    
-    # Calculate summary stats
-    passed = sum(1 for r in existing_results if r.get("threshold_met", False))
-    failed = len(existing_results) - passed
-    avg_improvement = sum(r.get("improvement", 0) for r in existing_results) / len(existing_results) if existing_results else 0.0
-    
-    # Update file with new result
-    data = {
-        "timestamp": datetime.now().isoformat(),
-        "status": "in_progress",
-        "summary": {
-            "total_prompts": total_prompts,
-            "evaluated": len(existing_results),
-            "passed": passed,
-            "failed": failed,
-            "skipped": total_prompts - len(existing_results),
-            "avg_improvement": round(avg_improvement, 1),
-        },
-        "results": existing_results,
-    }
-    
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-    
-    print(f"   💾 Progress saved ({len(existing_results)}/{total_prompts})")
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="LATS Library Improvement - Systematic prompt evaluation and improvement",

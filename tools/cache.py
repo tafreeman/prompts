@@ -1,9 +1,9 @@
 """
-LLM Response Cache
-==================
+LLM Response Cache - Unified Interface
+=======================================
 
-Caches LLM responses to avoid redundant API calls during development/evaluation.
-This significantly speeds up re-runs and reduces API costs.
+This module provides a simple, function-based API for caching LLM responses.
+It wraps the more feature-rich ResponseCache class from response_cache.py.
 
 Usage:
     from tools.cache import get_cached_response, cache_response, clear_cache
@@ -22,37 +22,46 @@ Usage:
     clear_cache(max_age_hours=24)  # Older than 24 hours
 
 Author: Prompts Library Team
-Version: 1.0.0
+Version: 2.0.0 (consolidated with response_cache.py)
+
+NOTE: This module delegates to response_cache.ResponseCache for the actual
+implementation. Both modules now use the same underlying cache storage.
 """
 
-import hashlib
-import json
 import os
-from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Optional, Dict, Any
 
-# Cache directory
-CACHE_DIR = Path.home() / ".cache" / "prompts-tools" / "llm-responses"
+# Import the canonical implementation
+from response_cache import (
+    ResponseCache,
+    get_cache,
+    enable_cache as _enable_cache,
+    DEFAULT_TTL_HOURS,
+    get_cache_dir,
+)
 
 
-def _get_cache_key(model: str, prompt: str, system_instruction: Optional[str] = None, **kwargs) -> str:
-    """Generate a unique cache key for the request."""
-    # Include all parameters that affect the response
-    content = json.dumps({
-        "model": model,
-        "prompt": prompt,
-        "system": system_instruction or "",
-        "temperature": kwargs.get("temperature", 0.7),
-        "max_tokens": kwargs.get("max_tokens", 4096),
-    }, sort_keys=True)
-    return hashlib.sha256(content.encode()).hexdigest()[:16]
+# =============================================================================
+# GLOBAL CACHE INSTANCE
+# =============================================================================
+
+# Lazily initialized global cache
+_cache: Optional[ResponseCache] = None
 
 
-def _get_cache_file(key: str) -> Path:
-    """Get the cache file path for a key."""
-    return CACHE_DIR / f"{key}.json"
+def _get_cache() -> ResponseCache:
+    """Get or create the global cache instance."""
+    global _cache
+    if _cache is None:
+        # Check if caching is enabled via environment
+        enabled = os.environ.get("PROMPTS_CACHE_ENABLED", "1").lower() in ("1", "true", "yes")
+        _cache = ResponseCache(enabled=enabled, ttl_hours=DEFAULT_TTL_HOURS)
+    return _cache
 
+
+# =============================================================================
+# SIMPLE API (backward compatible)
+# =============================================================================
 
 def get_cached_response(
     model: str,
@@ -68,31 +77,23 @@ def get_cached_response(
         model: Model identifier (e.g., "gh:gpt-4o-mini")
         prompt: The user prompt
         system_instruction: Optional system prompt
-        max_age_hours: Maximum age of cached response in hours
-        **kwargs: Additional parameters (temperature, max_tokens)
+        max_age_hours: Maximum age of cached response in hours (default: 24)
+        **kwargs: Additional parameters (temperature, max_tokens) - used for cache key
     
     Returns:
         Cached response string, or None if not cached/expired
     """
-    key = _get_cache_key(model, prompt, system_instruction, **kwargs)
-    cache_file = _get_cache_file(key)
-    
-    if not cache_file.exists():
+    cache = _get_cache()
+    if not cache.enabled:
         return None
     
-    try:
-        data = json.loads(cache_file.read_text(encoding="utf-8"))
-        cached_time = datetime.fromisoformat(data["timestamp"])
-        
-        # Check if expired
-        if datetime.now() - cached_time > timedelta(hours=max_age_hours):
-            return None
-        
-        return data["response"]
-    except (json.JSONDecodeError, KeyError, ValueError):
-        # Corrupted cache file
-        cache_file.unlink(missing_ok=True)
-        return None
+    # Build a combined prompt that includes relevant kwargs for cache key
+    # This ensures different temperatures/max_tokens get different cache entries
+    cache_prompt = prompt
+    if kwargs:
+        cache_prompt = f"{prompt}||temp={kwargs.get('temperature', 0.7)}||max={kwargs.get('max_tokens', 4096)}"
+    
+    return cache.get(cache_prompt, model, system_instruction or "")
 
 
 def cache_response(
@@ -110,21 +111,18 @@ def cache_response(
         prompt: The user prompt
         response: The LLM response to cache
         system_instruction: Optional system prompt
-        **kwargs: Additional parameters
+        **kwargs: Additional parameters (temperature, max_tokens)
     """
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache = _get_cache()
+    if not cache.enabled:
+        return
     
-    key = _get_cache_key(model, prompt, system_instruction, **kwargs)
-    cache_file = _get_cache_file(key)
+    # Match the cache key computation from get_cached_response
+    cache_prompt = prompt
+    if kwargs:
+        cache_prompt = f"{prompt}||temp={kwargs.get('temperature', 0.7)}||max={kwargs.get('max_tokens', 4096)}"
     
-    data = {
-        "model": model,
-        "timestamp": datetime.now().isoformat(),
-        "response": response,
-        "prompt_preview": prompt[:100] + "..." if len(prompt) > 100 else prompt,
-    }
-    
-    cache_file.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    cache.set(cache_prompt, model, system_instruction or "", response)
 
 
 def clear_cache(max_age_hours: Optional[float] = None) -> int:
@@ -138,57 +136,54 @@ def clear_cache(max_age_hours: Optional[float] = None) -> int:
     Returns:
         Number of entries cleared
     """
-    if not CACHE_DIR.exists():
-        return 0
+    cache = _get_cache()
     
-    cleared = 0
-    cutoff = datetime.now() - timedelta(hours=max_age_hours) if max_age_hours else None
-    
-    for cache_file in CACHE_DIR.glob("*.json"):
-        try:
-            if cutoff:
-                data = json.loads(cache_file.read_text(encoding="utf-8"))
-                cached_time = datetime.fromisoformat(data["timestamp"])
-                if cached_time >= cutoff:
-                    continue
-            
-            cache_file.unlink()
-            cleared += 1
-        except Exception:
-            # If we can't read it, delete it
-            cache_file.unlink(missing_ok=True)
-            cleared += 1
-    
-    return cleared
+    if max_age_hours is not None:
+        # Clean up entries older than specified age
+        return cache.cleanup_expired()
+    else:
+        # Clear all
+        return cache.clear()
 
 
 def get_cache_stats() -> Dict[str, Any]:
     """Get statistics about the cache."""
-    if not CACHE_DIR.exists():
-        return {"entries": 0, "size_mb": 0, "oldest": None, "newest": None}
-    
-    entries = list(CACHE_DIR.glob("*.json"))
-    total_size = sum(f.stat().st_size for f in entries)
-    
-    timestamps = []
-    for f in entries:
-        try:
-            data = json.loads(f.read_text(encoding="utf-8"))
-            timestamps.append(datetime.fromisoformat(data["timestamp"]))
-        except Exception:
-            pass
-    
-    return {
-        "entries": len(entries),
-        "size_mb": round(total_size / 1024 / 1024, 2),
-        "oldest": min(timestamps).isoformat() if timestamps else None,
-        "newest": max(timestamps).isoformat() if timestamps else None,
-    }
+    cache = _get_cache()
+    return cache.get_stats()
 
 
-# Environment variable to disable caching (useful for testing)
+def invalidate_cache(
+    model: str,
+    prompt: str, 
+    system_instruction: Optional[str] = None,
+    **kwargs
+) -> bool:
+    """
+    Invalidate a specific cache entry.
+    
+    Returns:
+        True if an entry was invalidated, False otherwise.
+    """
+    cache = _get_cache()
+    
+    cache_prompt = prompt
+    if kwargs:
+        cache_prompt = f"{prompt}||temp={kwargs.get('temperature', 0.7)}||max={kwargs.get('max_tokens', 4096)}"
+    
+    return cache.invalidate(cache_prompt, model, system_instruction or "")
+
+
+# =============================================================================
+# CONVENIENCE EXPORTS
+# =============================================================================
+
+# Re-export CACHE_ENABLED for backward compatibility
 CACHE_ENABLED = os.environ.get("PROMPTS_CACHE_ENABLED", "1").lower() in ("1", "true", "yes")
 
+
+# =============================================================================
+# CLI
+# =============================================================================
 
 if __name__ == "__main__":
     import argparse
@@ -203,10 +198,11 @@ if __name__ == "__main__":
     
     if args.stats:
         stats = get_cache_stats()
-        print(f"Cache entries: {stats['entries']}")
-        print(f"Total size: {stats['size_mb']} MB")
-        print(f"Oldest: {stats['oldest']}")
-        print(f"Newest: {stats['newest']}")
+        print(f"Cache entries: {stats.get('entries', 0)}")
+        print(f"Hits: {stats.get('hits', 0)}")
+        print(f"Misses: {stats.get('misses', 0)}")
+        print(f"Hit rate: {stats.get('hit_rate', 0)}%")
+        print(f"Cache location: {get_cache_dir()}")
     elif args.clear:
         cleared = clear_cache()
         print(f"Cleared {cleared} cache entries")
