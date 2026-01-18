@@ -107,7 +107,7 @@ tools/
 | Tool | Purpose | Quick Command | Docs |
 |------|---------|---------------|------|
 | `prompteval/` | ⭐ Unified evaluation | `python -m prompteval prompts/` | [📄](./prompteval/README.md) |
-| `enterprise-evaluator/` | Batch multi-model | `cd enterprise-evaluator && python main.py` | [📄](./enterprise-evaluator/README.md) |
+| `archive/enterprise-evaluator/` | (Archived) Batch eval | `cd archive/enterprise-evaluator` | [📄](./archive/enterprise-evaluator/README.md) |
 | `evaluation_agent.py` | Autonomous agent | `python tools/evaluation_agent.py --category advanced` | [📄](./docs/evaluation-agent.md) |
 | `run_lats_improvement.py` | LATS Self-Refine | `python tools/run_lats_improvement.py prompts/` | [📄](./docs/lats-improvement.md) |
 | `cove_runner.py` | Chain-of-Verification | `python tools/cove_runner.py "Question?"` | [📄](./docs/cove-runner.md) |
@@ -119,7 +119,7 @@ tools/
 | `frontmatter_validator.py` | YAML validation | `python tools/validators/frontmatter_validator.py --all` | [📄](./docs/validators.md) |
 | `prompt_analyzer.py` | 5-dimension scoring | `python tools/analyzers/prompt_analyzer.py prompts/` | [📄](./docs/analyzers.md) |
 | `improve_prompts.py` | AI improvements | `python tools/improve_prompts.py prompts/ --worst 10` | [📄](./docs/analyzers.md) |
-| `check_links.py` | Link integrity | `python tools/check_links.py docs/` | [📄](./docs/validators.md) |
+| `check_links.py` | Link integrity | `python tools/utils/check_links.py docs/` | [📄](./docs/validators.md) |
 
 ### Media
 

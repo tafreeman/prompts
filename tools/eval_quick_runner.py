@@ -12,12 +12,13 @@ def run_cmd(cmd, timeout=600):
     return proc.returncode, proc.stdout, proc.stderr
 
 def run_tiered_eval(target, tier, limit=None):
-    cmd = [sys.executable, str(ROOT / "tools" / "tiered_eval.py"), str(target), "--tier", str(tier)]
+    """Run tiered evaluation using prompteval (the canonical evaluator)."""
+    cmd = [sys.executable, "-m", "prompteval", str(target), "--tier", str(tier)]
     if limit:
         cmd += ["--limit", str(limit)]
     rc, out, err = run_cmd(cmd, timeout=900)
     if rc != 0:
-        print("tiered_eval failed:", err)
+        print("prompteval failed:", err)
     return rc, out
 
 def gen_eval_files(target, outdir):

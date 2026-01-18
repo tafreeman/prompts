@@ -42,7 +42,7 @@ Set-Location $PSScriptRoot
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $env:PYTHONIOENCODING = "utf-8"
 
-Write-Host "`n╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host "╔════════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║  🚀 ADVANCED PROMPTS EVALUATION - LOCAL MODELS ONLY           ║" -ForegroundColor Cyan
 Write-Host "╚════════════════════════════════════════════════════════════════╝`n" -ForegroundColor Cyan
 

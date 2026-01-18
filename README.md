@@ -83,13 +83,13 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 | Agent | Description | Best For |
 |-------|-------------|----------|
-| **[@docs_agent](agents/docs-agent.agent.md)** | Technical writing specialist | README, API docs, guides |
-| **[@code_review_agent](agents/code-review-agent.agent.md)** | Code quality reviewer | PR reviews, best practices |
-| **[@test_agent](agents/test-agent.agent.md)** | Test generation expert | Unit tests, integration tests |
-| **[@refactor_agent](agents/refactor-agent.agent.md)** | Code improvement specialist | Code cleanup, optimization |
-| **[@prompt_agent](agents/prompt-agent.agent.md)** | Prompt creation expert | AI prompts, templates |
-| **[@security_agent](agents/security-agent.agent.md)** | Security analysis expert | Vulnerability review, hardening |
-| **[@architecture_agent](agents/architecture-agent.agent.md)** | System design specialist | Design decisions, patterns |
+| **[@docs_agent](prompts/agents/docs-agent.agent.md)** | Technical writing specialist | README, API docs, guides |
+| **[@code_review_agent](prompts/agents/code-review-agent.agent.md)** | Code quality reviewer | PR reviews, best practices |
+| **[@test_agent](prompts/agents/test-agent.agent.md)** | Test generation expert | Unit tests, integration tests |
+| **[@refactor_agent](prompts/agents/refactor-agent.agent.md)** | Code improvement specialist | Code cleanup, optimization |
+| **[@prompt_agent](prompts/agents/prompt-agent.agent.md)** | Prompt creation expert | AI prompts, templates |
+| **[@security_agent](prompts/agents/security-agent.agent.md)** | Security analysis expert | Vulnerability review, hardening |
+| **[@architecture_agent](prompts/agents/architecture-agent.agent.md)** | System design specialist | Design decisions, patterns |
 
 ### Quick Start with Agents
 
@@ -97,8 +97,8 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 2. Merge to your default branch
 3. Use `@agent_name` in Copilot Chat
 
-📖 **[Complete Agents Guide →](agents/AGENTS_GUIDE.md)**  
-📋 **[Agent Template →](agents/agent-template.md)**
+📖 **[Complete Agents Guide →](prompts/agents/AGENTS_GUIDE.md)**  
+📋 **[Agent Template →](prompts/agents/agent-template.md)**
 
 ---
 
@@ -123,48 +123,26 @@ The library includes a powerful CLI and a unified backend for executing, evaluat
 
 ```text
 prompts/
-├── get-started/            # ⭐ START HERE - Platform quickstarts
-│   ├── quickstart-copilot.md       # GitHub Copilot in 10 min
-│   ├── quickstart-chatgpt.md       # ChatGPT in 10 min
-│   ├── quickstart-claude.md        # Claude in 10 min
-│   └── quickstart-m365.md          # M365 Copilot in 10 min
-├── tutorials/              # 📖 Step-by-step learning
-│   ├── first-prompt.md             # Your first prompt (15 min)
-│   ├── building-effective-prompts.md
-│   └── prompt-iteration.md
-├── concepts/               # 💡 Theory & understanding
-│   ├── about-prompt-engineering.md
-│   └── about-advanced-patterns.md
-├── prompts/                # 📚 Ready-to-use prompts
-│   ├── developers/         # Code generation, debugging, testing
-│   ├── business/           # Analysis, strategy, reporting
-│   ├── creative/           # Content, marketing, storytelling
-│   ├── analysis/           # Data analysis & research
-│   ├── system/             # System prompts & AI agents
-│   ├── advanced/           # CoT, ReAct, RAG, ToT patterns
-│   ├── governance/         # Legal, security, compliance
-│   └── m365/               # Microsoft 365 Copilot
-├── reference/              # 📋 Quick lookup
-│   ├── cheat-sheet.md              # Patterns & templates
-│   ├── platform-comparison.md      # GPT vs Claude vs Copilot
-│   ├── glossary.md                 # Terminology definitions
-│   └── frontmatter-schema.md       # Metadata reference
-├── troubleshooting/        # 🔧 Fix common issues
-│   ├── common-issues.md
-│   ├── model-specific.md
-│   └── prompt-debugging.md
-├── agents/                 # 🤖 GitHub Copilot Custom Agents
-│   ├── docs-agent.agent.md
-│   ├── code-review-agent.agent.md
-│   └── ...
-├── instructions/           # 📝 Copilot instructions files
-├── templates/              # 📄 Reusable templates
-├── techniques/             # 🎯 Advanced technique patterns
-├── frameworks/             # 🏗️ Prompting frameworks
-├── tools/                  # 🔧 Validation & CLI tools
-├── docs/                   # 📖 Extended documentation
+├── docs/                   # 📖 Documentation & Guides
+│   ├── get-started/        # Platform quickstarts
+│   ├── tutorials/          # Step-by-step learning
+│   ├── concepts/           # Theory & understanding
+│   ├── reference/          # Quick lookup & Glossary
+│   ├── instructions/       # Copilot instructions files
+│   └── troubleshooting/    # Fix common issues
+├── prompts/                # 📚 Prompt Library & Content
+│   ├── developers/         # Code generation, debugging
+│   ├── business/           # Analysis, strategy
+│   ├── advanced/           # CoT, ReAct, RAG patterns
+│   ├── agents/             # 🤖 GitHub Copilot Agents
+│   ├── templates/          # 📄 Reusable templates
+│   ├── techniques/         # 🎯 Advanced techniques
+│   └── frameworks/         # 🏗️ Prompting frameworks
+├── scripts/                # 🛠️ Utility scripts
+├── tools/                  # 🔧 Unified Tooling (CLI)
 └── README.md               # This file
-```text
+```
+
 ### Visual Architecture
 
 ```mermaid
@@ -173,27 +151,21 @@ graph TB
         A[prompts/] --> A1[developers/]
         A --> A2[business/]
         A --> A3[advanced/]
-        A --> A4[governance/]
-    end
-    
-    subgraph "🤖 Agents"
-        B[agents/] --> B1[docs-agent]
-        B --> B2[code-review-agent]
-        B --> B3[test-agent]
+        A --> A4[agents/]
     end
     
     subgraph "📖 Docs"
-        C[docs/] --> C1[Guides]
-        C --> C2[Reference]
+        C[docs/] --> C1[get-started/]
+        C --> C2[reference/]
+        C --> C3[tutorials/]
     end
     
     subgraph "🔧 Tools"
-        D[tools/] --> D1[validators/]
+        D[tools/] --> D1[prompteval/]
         D --> D2[cli/]
     end
     
     style A fill:#e3f2fd
-    style B fill:#e8f5e9
     style C fill:#fff3e0
     style D fill:#f3e5f5
 ```text
@@ -242,13 +214,13 @@ journey
 
 | Your Goal | Start Here | Time |
 |-----------|------------|------|
-| **First time?** | [Your First Prompt](/tutorials/first-prompt) | 15 min |
-| **Using GitHub Copilot?** | [Quickstart for Copilot](/get-started/quickstart-copilot) | 10 min |
-| **Using ChatGPT?** | [Quickstart for ChatGPT](/get-started/quickstart-chatgpt) | 10 min |
-| **Using Claude?** | [Quickstart for Claude](/get-started/quickstart-claude) | 10 min |
-| **Using M365 Copilot?** | [Quickstart for M365](/get-started/quickstart-m365) | 10 min |
-| **Need quick patterns?** | [Cheat Sheet](/reference/cheat-sheet) | 5 min |
-| **Something not working?** | [Troubleshooting](/troubleshooting/) | varies |
+| **First time?** | [Your First Prompt](/docs/tutorials/first-prompt) | 15 min |
+| **Using GitHub Copilot?** | [Quickstart for Copilot](/docs/get-started/quickstart-copilot) | 10 min |
+| **Using ChatGPT?** | [Quickstart for ChatGPT](/docs/get-started/quickstart-chatgpt) | 10 min |
+| **Using Claude?** | [Quickstart for Claude](/docs/get-started/quickstart-claude) | 10 min |
+| **Using M365 Copilot?** | [Quickstart for M365](/docs/get-started/quickstart-m365) | 10 min |
+| **Need quick patterns?** | [Cheat Sheet](/docs/reference/cheat-sheet) | 5 min |
+| **Something not working?** | [Troubleshooting](/docs/troubleshooting/) | varies |
 
 ### For Non-Technical Users
 
@@ -270,12 +242,12 @@ journey
    cd prompts
    ```
 
-2. **Use prompts programmatically**:
+1. **Use prompts programmatically**:
    - Prompts are stored in Markdown format with YAML frontmatter
    - Parse metadata for categorization, versioning, and filtering
    - Integrate into your prompt management systems
 
-3. **Version control**: All prompts are version-controlled via Git
+2. **Version control**: All prompts are version-controlled via Git
    - Track changes and improvements
    - Roll back to previous versions
    - Collaborate through pull requests
@@ -343,14 +315,14 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 ## 📚 Documentation
 
 ### Getting Started
-- **[Your First Prompt](/tutorials/first-prompt)**: 15-minute hands-on tutorial
-- **[Choosing the Right Pattern](/get-started/choosing-the-right-pattern)**: Decision guide for prompt selection
-- **[Platform Quickstarts](/get-started/)**: Get productive on any platform in 10 minutes
+- **[Your First Prompt](/docs/tutorials/first-prompt)**: 15-minute hands-on tutorial
+- **[Choosing the Right Pattern](/docs/get-started/choosing-the-right-pattern)**: Decision guide for prompt selection
+- **[Platform Quickstarts](/docs/get-started/)**: Get productive on any platform in 10 minutes
 
 ### Reference
-- **[Cheat Sheet](/reference/cheat-sheet)**: Quick patterns and templates
-- **[Platform Comparison](/reference/platform-comparison)**: GPT vs Claude vs Copilot
-- **[Glossary](/reference/glossary)**: Prompt engineering terminology
+- **[Cheat Sheet](/docs/reference/cheat-sheet)**: Quick patterns and templates
+- **[Platform Comparison](/docs/reference/platform-comparison)**: GPT vs Claude vs Copilot
+- **[Glossary](/docs/reference/glossary)**: Prompt engineering terminology
 
 ### Curated Guides (Research-Backed)
 - **[Ultimate Prompting Guide](docs/ultimate-prompting-guide.md)**: Top 20% most effective prompts, platform-specific templates, research-backed best practices
@@ -361,7 +333,7 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 
 - **[Getting Started Guide](docs/getting-started.md)**: For first-time users
 - **[Best Practices](docs/best-practices.md)**: Tips for effective prompt engineering
-- **[Prompt Template](templates/prompt-template.md)**: Template for creating new prompts
+- **[Prompt Template](prompts/templates/prompt-template.md)**: Template for creating new prompts
 
 ## 🏷️ Categories
 

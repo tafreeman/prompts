@@ -20,6 +20,10 @@ Examples:
     python prompt.py run prompts/basic/greeting.md -p local
     python prompt.py eval prompts/advanced/ -t 3
     python prompt.py cove "When was Python created?" -p github
+
+This script serves as the primary entry point for all prompt engineering tasks,
+providing both a CLI and an interactive experience for executing, evaluating,
+and improving AI prompts across multiple providers and models.
 """
 
 import sys
@@ -400,12 +404,14 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
             content = f"{content}\n\n---\nUser Input:\n{input_text}"
 
         if provider == "local":
+            # Direct call to LocalModel for the fastest execution
             from tools.local_model import LocalModel
             lm = LocalModel(verbose=False)
             response = lm.generate(content, max_tokens=max_tokens, temperature=temperature,
                                    system_prompt=system)
 
         elif provider in ("gh", "github"):
+            # Use GitHub CLI 'gh models' extension
             import subprocess
             model_name = model or "openai/gpt-4o-mini"
             result = subprocess.run(
@@ -508,9 +514,9 @@ def run_cove(question: str, provider: str = "local", n_questions: int = 5):
 def batch_process(folder: str, provider: str = "local", output: Optional[str] = None):
     """Batch process prompts in a folder."""
     try:
-        from tools.tiered_eval import find_prompts
+        from tools.run_lats_improvement import find_prompts
 
-        prompts = find_prompts(folder)
+        prompts = find_prompts(Path(folder))
         if not prompts:
             print(f"❌ No prompts found in: {folder}")
             return
