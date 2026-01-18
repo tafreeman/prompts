@@ -18,8 +18,8 @@ topics:
 - quality-assurance
 - research
 author: Prompt Library Team
-version: '5.0'
-date: '2025-12-11'
+version: '5.1'
+date: '2026-01-18'
 governance_tags:
 - PII-safe
 dataClassification: internal
@@ -80,17 +80,165 @@ When making edits, prioritize adding missing required sections (Description, Pro
 
 ## Example
 
-**Input**
+### Scenario: Bringing the Advanced Folder to 100% Validation
 
-- `[evaluation_goal]`: `Bring all prompts into validator compliance`
-- `[scope]`: `prompts/advanced/*`
-- `[constraints]`: `smallest change possible; no rewrites`
+**Input:**
 
-**Expected output (high level)**
+```text
+[evaluation_goal]: Bring all prompts into validator compliance
+[scope]: prompts/advanced/*
+[constraints]: smallest change possible; no rewrites
+```
 
-- A short execution plan (batched by missing sections)
-- A list of files changed
-- Validation trending to `Files with issues: 0`
+**Output:**
+
+```markdown
+# ToT-ReAct Execution Report: Advanced Folder Compliance
+
+**Date**: 2026-01-18
+**Goal**: Bring all prompts into validator compliance
+**Scope**: prompts/advanced/*
+**Constraints**: Minimal edits; preserve original prompt intent
+
+---
+
+## Phase 1: ToT Research Planning
+
+### Selected Branches
+
+| Branch | Focus | Priority |
+|--------|-------|----------|
+| A | Structural Validation Audit | High |
+| B | Missing Section Identification | High |
+| C | Frontmatter Schema Compliance | Medium |
+
+---
+
+## Phase 2: ReAct Execution
+
+### Branch A - Cycle 1: Validation Baseline
+
+**Thought**: I need to establish the current validation status.
+
+**Action**: `run_in_terminal("python tools/validate_prompts.py prompts/advanced/")`
+
+**Observation**:
+- Total files: 21
+- Files with issues: 5
+- Common issue: Missing "## Example" section (4 files)
+- Common issue: Missing "## Tips" section (3 files)
+
+### Branch A - Cycle 2: Issue Categorization
+
+**Thought**: I need to group files by the type of fix required.
+
+**Action**: `grep_search("## Example", "prompts/advanced/*.md")`
+
+**Observation**:
+- Files missing Example section:
+  1. `chain-of-thought-concise.md`
+  2. `rag-document-retrieval.md`
+  3. `react-tool-augmented.md`
+  4. `tree-of-thoughts-template.md`
+
+### Branch B - Cycle 1: Section Gap Analysis
+
+**Thought**: I need to identify all missing required sections.
+
+**Action**: Cross-reference each file against template requirements.
+
+**Observation**:
+
+| File | Missing Sections |
+|------|------------------|
+| `chain-of-thought-concise.md` | Example, Tips |
+| `rag-document-retrieval.md` | Example |
+| `react-tool-augmented.md` | Example, Variables |
+| `tree-of-thoughts-template.md` | Tips |
+| `reflection-self-critique.md` | Tips |
+
+---
+
+## Phase 3: Reflexion Self-Critique
+
+### Completeness Check
+1. ✅ Evaluated ALL 21 prompts in scope
+2. ✅ Checked both structural and content validation
+3. ✅ Identified specific missing sections per file
+
+### Gap Identification
+- 5/21 files (24%) have validation issues
+- Most common gap: Missing Example section (4 files)
+- Second gap: Missing Tips section (3 files)
+
+### Improvement Batch Plan
+- **Batch 1**: Add Example sections to 4 files (highest impact)
+- **Batch 2**: Add Tips sections to 3 files
+- **Batch 3**: Add Variables section to 1 file
+
+---
+
+## Phase 4: Execution Summary
+
+### Files Modified
+
+| File | Change | Status |
+|------|--------|--------|
+| `chain-of-thought-concise.md` | Added Example + Tips | ✅ |
+| `rag-document-retrieval.md` | Added Example | ✅ |
+| `react-tool-augmented.md` | Added Example + Variables | ✅ |
+| `tree-of-thoughts-template.md` | Added Tips | ✅ |
+| `reflection-self-critique.md` | Added Tips | ✅ |
+
+### Validation After Changes
+
+```text
+python tools/validate_prompts.py prompts/advanced/
+✅ Validated 21 files
+✅ Files with issues: 0
+✅ All files pass frontmatter and section requirements
+```
+
+### Quality Metrics
+
+| Metric | Before | After | Δ |
+|--------|--------|-------|---|
+| Validation Pass Rate | 76% | 100% | +24% |
+| Avg Quality Score | 72/100 | 81/100 | +9 |
+| Files with Examples | 17/21 | 21/21 | +4 |
+| Files with Tips | 18/21 | 21/21 | +3 |
+
+---
+
+## Recommendations
+
+### Immediate (This Session)
+
+1. ✅ Completed - All validation issues resolved
+
+### Short-Term (Next Sprint)
+
+1. Expand example depth in 5 prompts (currently < 10 lines)
+2. Add platform-specific variations to 3 prompts
+
+### Medium-Term (Next Month)
+
+1. Create advanced pattern cross-references
+2. Add Mermaid diagrams to 4 methodology prompts
+
+```
+
+---
+
+## Tips
+
+- **Start with validation baseline**: Always run `python tools/validate_prompts.py` before and after changes to track progress quantitatively.
+- **Batch by missing section**: Group files by the same missing section type (e.g., all files missing "Example") to apply consistent fixes efficiently.
+- **Use the dry-run flag**: Run `python tools/evaluation_agent.py --full --dry-run` to preview the execution plan before making changes.
+- **Preserve original intent**: When adding missing sections, read the existing prompt carefully to ensure new content aligns with the author's original purpose.
+- **Leverage ToT backtracking**: If a branch leads to a dead end (e.g., a file can't be fixed without a rewrite), explicitly document why and move to the next branch.
+- **Check for cascading effects**: After fixing one file, re-run validation to ensure no new issues were introduced.
+- **Use Reflexion iteratively**: If the self-critique reveals gaps, loop back to Phase 2 with a targeted follow-up action rather than restarting from scratch.
 
 ## Methodology Overview
 
@@ -260,6 +408,7 @@ flowchart TD
 **Gap**: Marketing and content teams need more variety. **11 prompts needed.**
 
 **Current Creative Prompts (9)**:
+
 - `ad-copy-generator.md`, `brand-voice-developer.md`, `content-marketing-blog-post.md`
 - `email-newsletter-writer.md`, `headline-tagline-creator.md`, `marketing-campaign-strategist.md`
 - `product-description-generator.md`, `social-media-content-generator.md`, `video-script-writer.md`
@@ -588,6 +737,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Status**: Target exceeded. Enterprise compliance coverage achieved.
 
 **Coverage Areas**:
+
 - ✅ Regulatory compliance (GDPR, HIPAA, SOX, SOC2)
 - ✅ Security review and incident response
 - ✅ Policy and procedure generation
@@ -601,6 +751,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Critical**: Now the #1 gap. Content and marketing teams drive significant AI adoption.
 
 **Current Prompts (9)**:
+
 - `ad-copy-generator.md`
 - `brand-voice-developer.md`
 - `content-marketing-blog-post.md`
@@ -729,14 +880,3 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 - [Frontmatter Schema](../../reference/frontmatter-schema.md) - Field definitions
 - [Content Types](../../reference/content-types.md) - Type selection guide
 - [Advanced Techniques](../../techniques/index.md) - CoT, ToT, Reflexion patterns
-
----
-
-## Changelog
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 5.0 | 2025-12-11 | Integrated ToT-ReAct-Reflexion methodology; updated to current tooling; added 4-phase execution protocol |
-| 4.0 | 2025-12-02 | Updated after Phase 1-6 completion; added maturity framework, new expansion priorities |
-| 3.0 | 2025-11-30 | Added governance context, expanded deliverables |
-| 2.0 | 2025-11-29 | Initial ReAct structure |
