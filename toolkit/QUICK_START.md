@@ -57,7 +57,7 @@ python tools/audit_prompts.py prompts/
 | Category | Location | Count |
 |----------|----------|-------|
 | Python Tools | `tools/` | 20+ scripts |
-| Meta-Prompts | `toolkit/prompts/` | 8 key prompts |
+| Meta-Prompts | `archive/clutter/toolkit_prompts/` | 8 key prompts |
 | Rubrics | `toolkit/rubrics/` | 2 scoring files |
 | Agents | `agents/` | 9 Copilot agents |
 | Workflows | `.agent/workflows/` | 2 slash commands |
@@ -85,6 +85,6 @@ export AZURE_OPENAI_KEY=xxxxxxxxxxxx
 ## 📚 Next Steps
 
 1. **Browse the full toolkit**: [toolkit/README.md](README.md)
-2. **Explore meta-prompts**: [toolkit/prompts/](prompts/)
+2. **Explore meta-prompts**: [archive/clutter/toolkit_prompts/](archive/clutter/toolkit_prompts/)
 3. **Review rubrics**: [toolkit/rubrics/](rubrics/)
 4. **Learn about agents**: [agents/AGENTS_GUIDE.md](../agents/AGENTS_GUIDE.md)

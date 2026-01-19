@@ -154,7 +154,7 @@ JSON-based quality checklist with weighted criteria:
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/analysis/library-network.md` |
+| **Location** | `archive/clutter/toolkit_prompts/analysis/library-network.md` |
 | **Type** | How-To / Visualization |
 | **Size** | 3.9 KB |
 
@@ -179,7 +179,7 @@ Prompt for generating a network graph to visualize relationships between prompts
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/analysis/library-radar.md` |
+| **Location** | `archive/clutter/toolkit_prompts/analysis/library-radar.md` |
 | **Type** | How-To / Visualization |
 | **Size** | 3.4 KB |
 
@@ -203,7 +203,7 @@ Prompt for generating a radar chart to assess library maturity across key domain
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/analysis/library-treemap.md` |
+| **Location** | `archive/clutter/toolkit_prompts/analysis/library-treemap.md` |
 | **Type** | How-To / Visualization |
 | **Size** | 3.8 KB |
 
@@ -229,7 +229,7 @@ Prompt for generating a hierarchical treemap showing prompt distribution across 
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/evaluation/quality-evaluator.md` |
+| **Location** | `archive/clutter/toolkit_prompts/evaluation/quality-evaluator.md` |
 | **Type** | Meta-Prompt / Evaluator |
 | **Size** | 16 KB |
 
@@ -252,7 +252,7 @@ Meta-prompt for evaluating other prompts using a research-backed, 5-dimensional 
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/evaluation/tree-of-thoughts-evaluator.md` |
+| **Location** | `archive/clutter/toolkit_prompts/evaluation/tree-of-thoughts-evaluator.md` |
 | **Type** | Meta-Prompt / Framework |
 | **Size** | 17 KB |
 
@@ -275,7 +275,7 @@ Tree-of-Thoughts evaluation framework for analyzing prompt engineering repositor
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/evaluation/cove-library-audit.md` |
+| **Location** | `archive/clutter/toolkit_prompts/evaluation/cove-library-audit.md` |
 | **Type** | How-To / Audit |
 | **Size** | 3.9 KB |
 
@@ -295,7 +295,7 @@ Chain-of-Verification audit for scoring rubrics. Ensures alignment with GenAI re
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/improvement/refactor-react.md` |
+| **Location** | `archive/clutter/toolkit_prompts/improvement/refactor-react.md` |
 | **Type** | Meta-Prompt / Research |
 | **Size** | 25 KB |
 
@@ -318,7 +318,7 @@ Combines Tree-of-Thoughts and ReAct patterns for comprehensive evaluation, resea
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/improvement/self-critique.md` |
+| **Location** | `archive/clutter/toolkit_prompts/improvement/self-critique.md` |
 | **Type** | Meta-Prompt / Reflection |
 | **Size** | 16 KB |
 
@@ -343,7 +343,7 @@ Two-phase reflection pattern: generate initial answer, then systematically criti
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/orchestrator/repo-doc-orchestrator.md` |
+| **Location** | `archive/clutter/toolkit_prompts/orchestrator/repo-doc-orchestrator.md` |
 | **Type** | Template / Orchestrator |
 | **Size** | 2.7 KB |
 
@@ -366,7 +366,7 @@ Template for orchestrating comprehensive repository documentation. Includes file
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/orchestrator/directory-doc-generator.md` |
+| **Location** | `archive/clutter/toolkit_prompts/orchestrator/directory-doc-generator.md` |
 | **Type** | Template / Generator |
 | **Size** | 3.3 KB |
 
@@ -390,7 +390,7 @@ Template prompt for generating directory-level documentation in markdown referen
 
 | Attribute | Value |
 |-----------|-------|
-| **Location** | `toolkit/prompts/orchestrator/README.md` |
+| **Location** | `archive/clutter/toolkit_prompts/orchestrator/README.md` |
 | **Type** | How-To / Usage Guide |
 | **Size** | 8.5 KB |
 

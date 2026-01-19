@@ -182,5 +182,5 @@ Tooling Docs:
   UNIFIED_TOOLING_GUIDE.md → ARCHITECTURE_PLAN.md → [reference docs]
 
 Research:
-  research/CoVE Reflexion*.md → toolkit/prompts/evaluation/*
+  research/CoVE Reflexion*.md → archive/clutter/toolkit_prompts/evaluation/*
 ```

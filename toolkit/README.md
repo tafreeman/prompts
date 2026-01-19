@@ -96,24 +96,24 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 
 | Prompt | Path | Purpose |
 |--------|------|---------|
-| Prompt Quality Evaluator | `toolkit/prompts/evaluation/quality-evaluator.md` | Score prompts on 5 dimensions |
-| CoVe Library Audit | `toolkit/prompts/evaluation/cove-library-audit.md` | Chain-of-Verification audit |
-| Tree-of-Thoughts Evaluator | `toolkit/prompts/evaluation/tree-of-thoughts-evaluator.md` | Multi-branch reasoning |
+| Prompt Quality Evaluator | `archive/clutter/toolkit_prompts/evaluation/quality-evaluator.md` | Score prompts on 5 dimensions |
+| CoVe Library Audit | `archive/clutter/toolkit_prompts/evaluation/cove-library-audit.md` | Chain-of-Verification audit |
+| Tree-of-Thoughts Evaluator | `archive/clutter/toolkit_prompts/evaluation/tree-of-thoughts-evaluator.md` | Multi-branch reasoning |
 
 ### **Library Analysis**
 
 | Prompt | Path | Purpose |
 |--------|------|---------|
-| Library Treemap | `toolkit/prompts/analysis/library-treemap.md` | Visualize structure |
-| Library Radar | `toolkit/prompts/analysis/library-radar.md` | Capability radar chart |
-| Library Network | `toolkit/prompts/analysis/library-network.md` | Relationship graph |
+| Library Treemap | `archive/clutter/toolkit_prompts/analysis/library-treemap.md` | Visualize structure |
+| Library Radar | `archive/clutter/toolkit_prompts/analysis/library-radar.md` | Capability radar chart |
+| Library Network | `archive/clutter/toolkit_prompts/analysis/library-network.md` | Relationship graph |
 
 ### **Improvement**
 
 | Prompt | Path | Purpose |
 |--------|------|---------|
-| Refactor (ReAct) | `toolkit/prompts/improvement/refactor-react.md` | ReAct-based refactoring |
-| Self-Critique | `toolkit/prompts/improvement/self-critique.md` | Iterative self-improvement |
+| Refactor (ReAct) | `archive/clutter/toolkit_prompts/improvement/refactor-react.md` | ReAct-based refactoring |
+| Self-Critique | `archive/clutter/toolkit_prompts/improvement/self-critique.md` | Iterative self-improvement |
 
 ---
 

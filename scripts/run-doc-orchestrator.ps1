@@ -23,7 +23,7 @@ if (!(Test-Path "docs")) {
 foreach ($dir in $dirs) {
     Write-Host "[$dir] Analyzing..." -ForegroundColor Green
     
-    python prompt.py run toolkit/prompts/orchestrator/repo-doc-orchestrator.md `
+    python prompt.py run archive/clutter/toolkit_prompts/orchestrator/repo-doc-orchestrator.md `
         -p gh -m $Model `
         --temperature $Temperature `
         --max-tokens $MaxTokens `

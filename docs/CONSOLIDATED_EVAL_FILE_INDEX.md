@@ -42,7 +42,7 @@ This index lists files in the repository that are related to prompt evaluation a
 | `prompts/system/prompt-quality-evaluator.md` | Prompt | Prompt pattern for quality evaluation |
 | `prompts/system/tree-of-thoughts-repository-evaluator.md` | Prompt | ToT-style evaluator prompt for repo-level scoring |
 | `prompts/advanced/tree-of-thoughts-architecture-evaluator.md` | Prompt | ToT architecture evaluation template (scoring matrix) |
-| `toolkit/prompts/evaluation/*` | Prompts | Toolkit prompts for evaluation (ToT, quality, CoVE audit) |
+| `archive/clutter/toolkit_prompts/evaluation/*` | Prompts | Toolkit prompts for evaluation (ToT, quality, CoVE audit) |
 | `frameworks/enterprise-prompt-evaluation-framework.md` | Reference | Framework-level recommendations and patterns for enterprise evals |
 | `frameworks/*` | Reference | Framework-specific evaluation patterns (OpenAI, Anthropic, LangChain, Microsoft) |
 | `eval_direct_results.json` / `eval_geval_results*.json` | Data | Aggregated result files produced by different eval runners |
