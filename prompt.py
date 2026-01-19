@@ -405,7 +405,7 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
 
         if provider == "local":
             # Direct call to LocalModel for the fastest execution
-            from tools.local_model import LocalModel
+            from tools.llm.local_model import LocalModel
             lm = LocalModel(verbose=False)
             response = lm.generate(content, max_tokens=max_tokens, temperature=temperature,
                                    system_prompt=system)
@@ -424,17 +424,17 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
             response = result.stdout
 
         elif provider == "azure":
-            from tools.llm_client import LLMClient
+            from tools.llm.llm_client import LLMClient
             model_key = model or "phi4mini"
             response = LLMClient.generate_text(f"azure-foundry:{model_key}", content)
 
         elif provider == "openai":
-            from tools.llm_client import LLMClient
+            from tools.llm.llm_client import LLMClient
             model_name = model or "gpt-4o-mini"
             response = LLMClient.generate_text(model_name, content)
 
         elif provider in ("windows", "windows-ai", "win"):
-            from tools.llm_client import LLMClient
+            from tools.llm.llm_client import LLMClient
             model_name = model or "phi-silica"
             response = LLMClient.generate_text(f"windows-ai:{model_name}", content)
 
@@ -499,7 +499,7 @@ def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
 def run_cove(question: str, provider: str = "local", n_questions: int = 5):
     """Run Chain-of-Verification analysis."""
     try:
-        from tools.cove_runner import get_llm_function, run_cove as _run_cove, format_result
+        from tools.runners.cove_runner import get_llm_function, run_cove as _run_cove, format_result
 
         llm_call = get_llm_function(provider, None, verbose=True)
         print(f"   Model: {getattr(llm_call, 'model_name', 'unknown')}")
@@ -529,7 +529,7 @@ def batch_process(folder: str, provider: str = "local", output: Optional[str] = 
             print(f"   Processing: {prompt_path.name}...", end="")
             try:
                 if provider == "local":
-                    from tools.local_model import LocalModel
+                    from tools.llm.local_model import LocalModel
                     lm = LocalModel(verbose=False)
                     content = prompt_path.read_text(encoding='utf-8')[:4000]
                     lm.generate(f"Evaluate this prompt (1-10): {content[:500]}", max_tokens=200)
@@ -690,7 +690,7 @@ def main():
     elif cmd in ("tools-eval", "ecosystem", "tools-ecosystem"):
         # Tools Ecosystem Evaluator (looped runner)
         try:
-            from tools.tools_ecosystem_evaluator import main as run_tools_ecosystem_eval
+            from tools.analysis.tools_ecosystem_evaluator import main as run_tools_ecosystem_eval
         except Exception as e:
             print(f"❌ Failed to load tools ecosystem evaluator: {e}")
             print("   Ensure tools/tools_ecosystem_evaluator.py exists and dependencies are installed.")

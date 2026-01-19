@@ -49,7 +49,7 @@ import hashlib
 # ERROR CLASSIFICATION - Import from canonical source
 # =============================================================================
 
-from tools.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
+from tools.core.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
 
 
 # =============================================================================
@@ -196,7 +196,7 @@ class ModelProbe:
             ai_gallery = Path.home() / ".cache" / "aigallery"
             
             # Import LLMClient to get model paths
-            from tools.llm_client import LLMClient
+            from tools.llm.llm_client import LLMClient
             
             model_path = LLMClient.LOCAL_MODELS.get(model_key)
             if not model_path:
@@ -1030,7 +1030,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     local_missing = []
     
     try:
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         for key, model_path in LLMClient.LOCAL_MODELS.items():
             top_dir = str(model_path).split("/")[0]

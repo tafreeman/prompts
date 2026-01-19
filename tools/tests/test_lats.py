@@ -7,9 +7,9 @@ import sys
 from pathlib import Path
 
 # Add tools to path
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parents[2]))
 
-from run_lats_improvement import evaluate_prompt_with_lats, load_lats_evaluator
+from tools.scripts.run_lats_improvement import evaluate_prompt_with_lats, load_lats_evaluator
 
 def main():
     import argparse

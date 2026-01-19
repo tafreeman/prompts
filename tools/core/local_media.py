@@ -12,11 +12,11 @@ Requirements:
 
 Usage:
     # Image Generation
-    from tools.local_media import generate_image
+    from tools.core.local_media import generate_image
     image = generate_image("A sunset over mountains", output_path="output.png")
 
     # Speech-to-Text
-    from tools.local_media import transcribe_audio
+    from tools.core.local_media import transcribe_audio
     text = transcribe_audio("audio.wav")
 
 Author: Prompts Library Team

@@ -13,7 +13,7 @@ Usage:
     python tools/local_model.py "Evaluate this prompt for clarity"
     
     # As a module
-    from tools.local_model import LocalModel
+    from tools.llm.local_model import LocalModel
     model = LocalModel()
     response = model.generate("Your prompt here")
 
