@@ -13,8 +13,8 @@ Key modules:
 Usage:
     # After: pip install -e .
     from tools.prompteval import evaluate, TIERS
-    from tools.llm_client import LLMClient
-    from tools.model_probe import is_model_usable
+    from tools.llm.llm_client import LLMClient
+    from tools.llm.model_probe import is_model_usable
 """
 
 __version__ = "1.0.0"

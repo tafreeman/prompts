@@ -445,8 +445,8 @@ def run_tools_ecosystem_evaluator(
             key_files.append((rel, read_text_file(p, max_chars=max_initial_file_chars)))
 
     # Import shared tooling via the packaged namespace (no sys.path hacks).
-    from tools.tool_init import init_tool
-    from tools.llm_client import LLMClient
+    from tools.core.tool_init import init_tool
+    from tools.llm.llm_client import LLMClient
 
     init = init_tool(
         name="tools_ecosystem_evaluator",

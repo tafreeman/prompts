@@ -12,7 +12,7 @@ Import this module at the top of any script to automatically enforce:
 - Error classification
 
 Usage:
-    from tools.tool_init import ToolInit, init_tool
+    from tools.core.tool_init import ToolInit, init_tool
 
     # Quick initialization (most common)
     init = init_tool(
@@ -44,7 +44,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, List, Optional
 
-from tools.errors import ErrorCode, classify_error
+from tools.core.errors import ErrorCode, classify_error
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX (Applied on import)
@@ -208,7 +208,7 @@ class ToolInit:
         unavailable = []
         try:
             # Import here to avoid circular dependency
-            from tools.model_probe import is_model_usable
+            from tools.llm.model_probe import is_model_usable
             for model in required:
                 if not is_model_usable(model):
                     unavailable.append(model)

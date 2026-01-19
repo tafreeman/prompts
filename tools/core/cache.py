@@ -6,7 +6,7 @@ This module provides a simple, function-based API for caching LLM responses.
 It wraps the more feature-rich ResponseCache class from response_cache.py.
 
 Usage:
-    from tools.cache import get_cached_response, cache_response, clear_cache
+    from tools.core.cache import get_cached_response, cache_response, clear_cache
     
     # Check for cached response first
     cached = get_cached_response("gh:gpt-4o-mini", "Hello world")

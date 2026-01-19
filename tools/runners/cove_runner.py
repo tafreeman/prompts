@@ -103,7 +103,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
     if provider == "windows" or provider == "windows-ai":
         # Windows AI - uses Local NPU (Phi Silica) via Windows App SDK
         try:
-            from tools.windows_ai import WindowsAIModel
+            from tools.llm.windows_ai import WindowsAIModel
             
             w_model = WindowsAIModel(verbose=verbose)
             model_name = "phi-silica (NPU)"
@@ -121,7 +121,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
 
     if provider == "local":
         try:
-            from tools.local_model import LocalModel
+            from tools.llm.local_model import LocalModel
             lm = LocalModel(model_path=model_path, verbose=verbose)
             model_name = lm.model_path.name if lm.model_path else "local-onnx"
 
@@ -367,7 +367,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
     if provider in ("claude", "gemini"):
         # Claude/Gemini API - delegate to llm_client
         try:
-            from tools.llm_client import LLMClient
+            from tools.llm.llm_client import LLMClient
         except ImportError:
             raise ValueError(f"llm_client.py not found - required for {provider} provider")
 

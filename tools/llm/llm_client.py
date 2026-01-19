@@ -481,7 +481,7 @@ class LLMClient:
         """
         # Import local_model module
         try:
-            from tools.local_model import LocalModel
+            from tools.llm.local_model import LocalModel
         except ImportError:
             return "Error: local_model.py not found or onnxruntime-genai not installed"
 

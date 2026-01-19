@@ -27,7 +27,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_local_prefix_routes_to_local(self):
         """Test local: prefix routes to _call_local."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for routing tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -41,7 +41,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_azure_prefix_routes_to_azure(self):
         """Test azure-foundry: prefix routes to _call_azure_foundry."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -51,7 +51,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_gh_prefix_routes_to_github(self):
         """Test gh: prefix routes to _call_github_models."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for routing tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -61,7 +61,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_gemini_routes_to_gemini(self):
         """Test gemini in name routes to _call_gemini."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -71,7 +71,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_claude_routes_to_claude(self):
         """Test claude in name routes to _call_claude."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -81,7 +81,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_gpt_routes_to_openai(self):
         """Test gpt in name routes to _call_openai."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -91,7 +91,7 @@ class TestLLMClientProviderRouting(unittest.TestCase):
 
     def test_unknown_provider_returns_error(self):
         """Test unknown provider returns error message."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for this test
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -104,7 +104,7 @@ class TestLLMClientParameterHandling(unittest.TestCase):
 
     def test_local_receives_temperature_and_max_tokens(self):
         """Test _call_local receives temperature and max_tokens."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for parameter tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -116,7 +116,7 @@ class TestLLMClientParameterHandling(unittest.TestCase):
 
     def test_azure_receives_temperature_and_max_tokens(self):
         """Test _call_azure_foundry receives temperature and max_tokens."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -128,7 +128,7 @@ class TestLLMClientParameterHandling(unittest.TestCase):
 
     def test_openai_receives_temperature_and_max_tokens(self):
         """Test _call_openai receives temperature and max_tokens."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers and disable cache for this test
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}):
@@ -140,7 +140,7 @@ class TestLLMClientParameterHandling(unittest.TestCase):
 
     def test_default_temperature(self):
         """Test default temperature is 0.7."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for parameter tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -151,7 +151,7 @@ class TestLLMClientParameterHandling(unittest.TestCase):
 
     def test_default_max_tokens(self):
         """Test default max_tokens is 4096."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for parameter tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
@@ -166,7 +166,7 @@ class TestLLMClientErrorHandling(unittest.TestCase):
 
     def test_azure_missing_api_key(self):
         """Test Azure returns error when API key missing."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers, disable cache, and clear API key
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}, clear=False):
@@ -176,7 +176,7 @@ class TestLLMClientErrorHandling(unittest.TestCase):
 
     def test_openai_missing_api_key(self):
         """Test OpenAI returns error when API key missing."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Enable remote providers, disable cache, and clear API key
         with patch.dict(os.environ, {"PROMPTEVAL_ALLOW_REMOTE": "1", "PROMPTS_CACHE_ENABLED": "0"}, clear=False):
@@ -186,7 +186,7 @@ class TestLLMClientErrorHandling(unittest.TestCase):
 
     def test_exception_handling_returns_error_message(self):
         """Test that exceptions are caught and returned as error messages."""
-        from tools.llm_client import LLMClient
+        from tools.llm.llm_client import LLMClient
         
         # Disable cache for error handling tests
         with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
