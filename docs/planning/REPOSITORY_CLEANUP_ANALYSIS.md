@@ -595,21 +595,20 @@
 ├── .github/           (workflows) [✅ Clean]
 ├── .vscode/           (IDE settings) [✅ Clean]
 ├── app.prompts.library/ (placeholder) [✅ Clean]
-├── archive/           (30 files, 4 subfolders) [⚠️ Has stub file]
+├── archive/           (12 files, 3 subfolders) [✅ Clean]
 │   ├── audit-files/   (3 files) [✅ Clean]
 │   ├── scripts/       (6 files) [✅ Clean]
-│   ├── testing/       (duplicate) [🔴 Duplicate]
 │   └── tools/         (1 file) [✅ Clean]
 ├── data/              (2 subfolders) [✅ Clean]
-├── docs/              (10 subfolders) [⚠️ Empty file]
-│   └── reports/       [🔴 Empty file]
+├── docs/              (10 subfolders) [✅ Clean]
+│   └── reports/       [✅ Clean (gitignored)]
 ├── examples/          [✅ Clean]
 ├── guides/            [✅ Clean]
 ├── prompts/           (257 files, 13 subfolders) [⚠️ Misplaced file]
 ├── prompttools/       (1 subfolder) [✅ Clean]
 ├── reasoning/         (1 file) [❓ Potential overlap]
 ├── scripts/           (14 files) [✅ Clean]
-├── testing/           (8 subfolders) [⚠️ Has duplicate archive]
+├── testing/           (8 subfolders) [✅ Clean]
 ├── toolkit/           (2 subfolders) [✅ Clean]
 ├── tools/             (13 subfolders, 30+ files) [✅ Clean]
 └── workflows/         (6 files) [✅ Clean]
@@ -619,24 +618,24 @@
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Total Files | ~450+ | ✅ |
-| Total Folders | ~60+ | ✅ |
-| Clutter Files Identified | 2 | ⚠️ |
-| Duplicate Content | 1 set | 🔴 |
+| Total Files | ~430+ | ✅ |
+| Total Folders | ~55+ | ✅ |
+| Clutter Files Identified | 2 | ✅ (cleaned) |
+| Duplicate Content | 1 set | ✅ (consolidated) |
 | Legacy Code Files (archived) | 38 | ✅ (properly archived) |
-| Estimated Cleanup Size | <1 MB | 📊 |
+| Estimated Cleanup Size | <1 MB | ✅ (completed) |
 
 ---
 
 ### Deliverable 2: Cleanup Scorecard
 
-| Category | Count | Files | Action | Risk | Priority |
-|----------|-------|-------|--------|------|----------|
-| Stub Files | 1 | archive/tmp-pe-score.md | Delete | Low | P0 |
-| Empty Files | 1 | docs/reports/IMPROVEMENT_PLAN.md | Delete or populate | Low | P0 |
-| Duplicate Archives | 1 set | archive/testing/2025-12-04/ | Remove (keep testing/archive/) | Low | P1 |
-| Misplaced Files | 1 | prompts/self-consistency-reasoning.md | Move to prompts/techniques/ | Low | P2 |
-| Root Docs | 4 | eval-strategy.md, index.md, etc. | Consider moving to docs/ | Low | P3 |
+| Category | Count | Files | Action | Risk | Priority | Status |
+|----------|-------|-------|--------|------|----------|--------|
+| Stub Files | 1 | archive/tmp-pe-score.md | Delete | Low | P0 | ✅ Done |
+| Empty Files | 1 | docs/reports/IMPROVEMENT_PLAN.md | Delete | Low | P0 | ✅ Done |
+| Duplicate Archives | 1 set | archive/testing/2025-12-04/ | Remove (keep testing/archive/) | Low | P1 | ✅ Done |
+| Misplaced Files | 1 | prompts/self-consistency-reasoning.md | Move to prompts/techniques/ | Low | P2 | Pending |
+| Root Docs | 4 | eval-strategy.md, index.md, etc. | Consider moving to docs/ | Low | P3 | User Decision |
 
 ### Priority Legend
 
@@ -656,22 +655,18 @@
 # Repository: /home/runner/work/prompts/prompts
 # ============================================
 
-# --- P0: SAFE IMMEDIATE ACTIONS ---
+# --- P0: SAFE IMMEDIATE ACTIONS (COMPLETED) ---
 
-# Delete stub file
-rm -f archive/tmp-pe-score.md
+# ✅ DONE: Deleted stub file
+# rm -f archive/tmp-pe-score.md
 
-# Delete empty report file (or create placeholder)
-rm -f docs/reports/IMPROVEMENT_PLAN.md
-# Alternative: echo "# Improvement Plan\n\nTODO: Document improvement plan" > docs/reports/IMPROVEMENT_PLAN.md
+# ✅ DONE: Deleted empty report file
+# rm -f docs/reports/IMPROVEMENT_PLAN.md
 
-# --- P1: ARCHIVE CONSOLIDATION ---
+# --- P1: ARCHIVE CONSOLIDATION (COMPLETED) ---
 
-# Remove duplicate archives (keeping testing/archive/ as canonical)
-# Verify first:
-diff -r archive/testing/2025-12-04/ testing/archive/2025-12-04/ --brief
-# If satisfied, remove duplicate:
-rm -rf archive/testing/
+# ✅ DONE: Removed duplicate archives (keeping testing/archive/ as canonical)
+# rm -rf archive/testing/
 
 # --- P2: FILE ORGANIZATION ---
 
@@ -698,16 +693,16 @@ mv prompts/self-consistency-reasoning.md prompts/techniques/
 
 ### Deliverable 4: Follow-Up Recommendations
 
-### Immediate (This Session)
+### Immediate (This Session) - ✅ COMPLETED
 
 1. [x] Execute P0 commands (delete stub and empty files)
-2. [ ] Review P1 duplicate archive consolidation
-3. [ ] Verify no imports of archived testing files
+2. [x] Execute P1 duplicate archive consolidation
+3. [x] Verify no imports of archived testing files
 
 ### Short-Term (This Week)
 
 1. [ ] Decide on prompts/self-consistency-reasoning.md placement
-2. [ ] Consolidate archive/testing/ with testing/archive/
+2. [x] ~~Consolidate archive/testing/ with testing/archive/~~ (Done)
 3. [ ] Review reasoning/ folder for potential consolidation
 
 ### Medium-Term (This Month)
