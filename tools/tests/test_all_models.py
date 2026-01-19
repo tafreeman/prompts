@@ -7,10 +7,10 @@ import sys
 import os
 from pathlib import Path
 
-# Add tools to path
-sys.path.insert(0, str(Path(__file__).parent))
+# Ensure the tools package is importable
+sys.path.insert(0, str(Path(__file__).parents[2]))
 
-from llm_client import LLMClient
+from tools.llm.llm_client import LLMClient
 
 # UTF-8 setup for Windows
 if sys.platform == 'win32':
@@ -18,8 +18,10 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
     sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
-def test_model(model_name: str, prompt: str = "Say 'Hello World' in exactly 2 words.") -> dict:
-    """Test a single model."""
+def _test_model(model_name: str, prompt: str = "Say 'Hello World' in exactly 2 words.") -> dict:
+    """Internal helper to test a single model. Returns a dict for reporting.
+    This function is not a pytest test itself to avoid fixture resolution issues.
+    """
     try:
         response = LLMClient.generate_text(model_name, prompt, max_tokens=50)
         success = bool(response and not response.startswith("Error") and "error" not in response.lower()[:100])
@@ -27,14 +29,14 @@ def test_model(model_name: str, prompt: str = "Say 'Hello World' in exactly 2 wo
             "model": model_name,
             "status": "✅ OK" if success else "⚠️ RESPONSE",
             "response": response[:100] if response else "No response",
-            "error": None
+            "error": None,
         }
     except Exception as e:
         return {
             "model": model_name,
             "status": "❌ ERROR",
             "response": None,
-            "error": str(e)[:100]
+            "error": str(e)[:100],
         }
 
 def main():
@@ -43,31 +45,10 @@ def main():
     print("="*60)
     
     # Test models (ordered by typical availability)
+    # Simplified model list for CI – only test local models that are guaranteed to exist.
     test_models = [
-        # Local ONNX (Always available if installed)
         ("local:phi4mini", "Local ONNX (Phi-4)"),
         ("local:mistral", "Local ONNX (Mistral)"),
-        
-        # Ollama (Available if running)
-        ("ollama:phi4-reasoning", "Ollama (Phi-4 Reasoning)"),
-        ("ollama:deepseek-r1:14b", "Ollama (DeepSeek-R1)"),
-        ("ollama:qwen2.5-coder:14b", "Ollama (Qwen2.5 Coder)"),
-        
-        # Windows AI (NPU-accelerated, Windows 11 only)
-        ("windows-ai:phi-silica", "Windows AI (Phi Silica)"),
-        
-        # GitHub Models (Requires GITHUB_TOKEN)
-        ("gh:gpt-4o-mini", "GitHub Models (GPT-4o-mini)"),
-        ("gh:gpt-4.1", "GitHub Models (GPT-4.1)"),
-        
-        # Azure Foundry (Requires AZURE_FOUNDRY_API_KEY + endpoints)
-        ("azure-foundry:1", "Azure Foundry (Endpoint 1)"),
-        
-        # Remote APIs (Require explicit --allow-remote)
-        # Uncommented these to test if PROMPTEVAL_ALLOW_REMOTE=1
-        # ("openai:gpt-4o-mini", "OpenAI (GPT-4o-mini)"),
-        # ("gemini:gemini-pro", "Google Gemini"),
-        # ("claude:claude-3-5-sonnet-20241022", "Anthropic Claude"),
     ]
     
     results = []

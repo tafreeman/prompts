@@ -143,8 +143,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     in_paths = [Path(p).resolve() for p in args.inputs]
 
     # Import shared tooling via the packaged namespace (no sys.path hacks).
-    from tools.tool_init import init_tool
-    from tools.llm_client import LLMClient
+    from tools.core.tool_init import init_tool
+    from tools.llm.llm_client import LLMClient
 
     init = init_tool(
         name="tools_ecosystem_merge",

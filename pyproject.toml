@@ -54,7 +54,7 @@ prompt-tools = "tools.cli.main:cli"
 "Repository" = "https://github.com/tafreeman/prompts"
 
 [tool.setuptools]
-packages = ["tools", "tools.prompteval", "tools.cli", "tools.models", "tools.validators"]
+packages = ["tools", "tools.cli", "tools.models", "tools.core", "tools.llm", "tools.runners", "tools.agents", "tools.scripts", "tools.analysis"]
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]

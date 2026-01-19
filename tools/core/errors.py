@@ -6,7 +6,7 @@ Standardized error codes and classification for the tools ecosystem.
 This is the canonical source of truth for error handling.
 
 Usage:
-    from tools.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
+    from tools.core.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
     
     code, should_retry = classify_error("Rate limit exceeded")
     if code in TRANSIENT_ERRORS:

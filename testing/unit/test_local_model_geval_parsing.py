@@ -1,4 +1,4 @@
-from tools.local_model import LocalModel
+from tools.llm.local_model import LocalModel
 
 
 def test_parse_geval_criterion_null_score_does_not_crash():

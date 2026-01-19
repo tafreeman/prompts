@@ -8,7 +8,7 @@ ROOT_DIR = Path(__file__).parents[2]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from tools.code_generator import UniversalCodeGenerator
+from tools.agents.code_generator import UniversalCodeGenerator
 
 
 # Skip if required API keys are not available

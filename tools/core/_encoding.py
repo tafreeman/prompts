@@ -6,11 +6,11 @@ Provides consistent UTF-8 handling for Windows console output.
 Import this module early in any script to fix encoding issues.
 
 Usage:
-    from tools._encoding import setup_encoding
+    from tools.core._encoding import setup_encoding
     setup_encoding()  # Apply fix if needed
     
     # Or use the safe_print helper:
-    from tools._encoding import safe_print
+    from tools.core._encoding import safe_print
     safe_print("Hello 世界 🌍")
 
 Note: This fix is automatically applied when importing from tool_init.py
