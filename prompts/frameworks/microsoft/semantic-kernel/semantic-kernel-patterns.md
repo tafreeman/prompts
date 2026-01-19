@@ -5,17 +5,23 @@ intro: A prompt for semantic kernel integration patterns tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -25,10 +31,12 @@ framework_compatibility:
   dotnet: '>=6.0'
   semantic-kernel: '>=1.0.0'
 use_cases:
+
 - enterprise-orchestration
 - plugin-architecture
 - planner-usage
 - memory-integration
+
 performance_metrics:
   productivity_improvement: 40-60%
   integration_speed: high
@@ -41,14 +49,18 @@ governance:
   data_classification: internal
   risk_level: low
   compliance_standards:
+
   - ISO27001
+
 last_updated: '2025-11-23'
 tags:
+
 - semantic-kernel
 - csharp
 - dotnet
 - plugins
 - planners
+
 ---
 
 # Semantic Kernel Integration Patterns
@@ -79,12 +91,14 @@ Context:
 {{$input}}
 
 Requirements:
+
 - Identify key risks
 - List completed milestones
 - Estimate remaining timeline
 
 Status Update:
 ```
+
 **config.json**:
 
 ```json
@@ -110,6 +124,7 @@ Status Update:
   }
 }
 ```
+
 ## Example
 
 ### 1. Kernel Setup
@@ -130,6 +145,7 @@ builder.AddAzureOpenAIChatCompletion(
 // Build the kernel
 var kernel = builder.Build();
 ```
+
 ### 2. Defining a Native Plugin
 
 ```csharp
@@ -157,6 +173,7 @@ public class SqlDataPlugin
 // Import into Kernel
 kernel.ImportPluginFromType<SqlDataPlugin>("SqlData");
 ```
+
 ### 3. Defining a Semantic Plugin (Inline)
 
 ```csharp
@@ -166,6 +183,7 @@ var summarizeFunction = kernel.CreateFunctionFromPrompt(
     description: "Summarizes text concisely"
 );
 ```
+
 ## Usage
 
 Planners are one of the most powerful features of Semantic Kernel. They allow the kernel to automatically select and chain plugins together to achieve a high-level goal.
@@ -197,6 +215,7 @@ var result = await plan.InvokeAsync(kernel);
 
 Console.WriteLine($"Result: {result}");
 ```
+
 ### Memory and RAG Usage
 
 Semantic Kernel simplifies RAG (Retrieval-Augmented Generation) through `ISemanticTextMemory`.
@@ -233,6 +252,7 @@ await foreach (var result in results)
     Console.WriteLine($"Answer found: {result.Metadata.Text}");
 }
 ```
+
 ## Best Practices
 
 1. **Dependency Injection**: Always use `Kernel.CreateBuilder()` with `IServiceCollection` in ASP.NET Core apps to ensure proper lifecycle management of HTTP clients and services.

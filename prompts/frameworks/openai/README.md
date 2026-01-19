@@ -5,16 +5,22 @@ intro: "OpenAI API patterns including GPT-4, function calling, assistants, and s
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
+
 platforms:
+
   - "openai"
   - "chatgpt"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -236,10 +242,12 @@ messages = [
     {
         "role": "system",
         "content": """You are an expert Python developer.
+
         - Write clean, idiomatic code
         - Include type hints
         - Add docstrings
         - Follow PEP 8 style guide"""
+
     },
     {
         "role": "user",
@@ -275,12 +283,12 @@ conversation = [
 while True:
     user_input = input("You: ")
     conversation.append({"role": "user", "content": user_input})
-    
+
     response = client.chat.completions.create(
         model="gpt-4",
         messages=conversation
     )
-    
+
     assistant_message = response.choices[0].message.content
     conversation.append({"role": "assistant", "content": assistant_message})
     print(f"Assistant: {assistant_message}")
@@ -341,12 +349,12 @@ from openai import AsyncOpenAI
 
 async def main():
     client = AsyncOpenAI(api_key="your-api-key")
-    
+
     response = await client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": "Hello"}]
     )
-    
+
     print(response.choices[0].message.content)
 
 asyncio.run(main())
@@ -359,7 +367,7 @@ import asyncio
 
 async def process_batch(prompts):
     client = AsyncOpenAI()
-    
+
     tasks = [
         client.chat.completions.create(
             model="gpt-4",
@@ -367,7 +375,7 @@ async def process_batch(prompts):
         )
         for prompt in prompts
     ]
-    
+
     return await asyncio.gather(*tasks)
 
 prompts = ["Translate 'hello' to Spanish", "What is 2+2?", "Tell me a joke"]
@@ -379,11 +387,13 @@ results = asyncio.run(process_batch(prompts))
 ### 1. Use System Messages
 
 ✅ **Do:**
+
 ```python
 {"role": "system", "content": "You are an expert Python developer. Write clean, documented code."}
 ```
 
 ❌ **Don't:**
+
 ```python
 {"role": "user", "content": "Act as a Python expert and write clean code."}
 ```
@@ -391,15 +401,19 @@ results = asyncio.run(process_batch(prompts))
 ### 2. Be Specific
 
 ✅ **Do:**
+
 ```python
 """Generate a Python function that:
+
 - Accepts a list of integers
 - Returns the median value
 - Handles empty lists by returning None
 - Includes type hints and docstring"""
+
 ```
 
 ❌ **Don't:**
+
 ```python
 "Write a median function"
 ```
@@ -407,7 +421,7 @@ results = asyncio.run(process_batch(prompts))
 ### 3. Use Appropriate Models
 
 | Model | Use Case | Cost |
-|-------|----------|------|
+| ------- | ---------- | ------ |
 | **gpt-4-turbo** | Complex reasoning, coding | High |
 | **gpt-4** | High-quality outputs | Highest |
 | **gpt-3.5-turbo** | Simple tasks, speed | Low |
@@ -424,18 +438,18 @@ def count_tokens(text, model="gpt-4"):
 # Truncate if needed
 def truncate_conversation(messages, max_tokens=4000):
     total_tokens = sum(count_tokens(m["content"]) for m in messages)
-    
+
     while total_tokens > max_tokens and len(messages) > 1:
         messages.pop(1)  # Remove oldest message after system
         total_tokens = sum(count_tokens(m["content"]) for m in messages)
-    
+
     return messages
 ```
 
 ## 📊 Model Comparison
 
 | Model | Context | Capabilities | Best For |
-|-------|---------|--------------|----------|
+| ------- | --------- | -------------- | ---------- |
 | **GPT-4 Turbo** | 128K | Vision, JSON, functions | Complex tasks, long context |
 | **GPT-4** | 8K | High reasoning | Quality over speed |
 | **GPT-3.5 Turbo** | 16K | Fast, cost-effective | Simple tasks, high volume |
@@ -473,14 +487,17 @@ cost = estimate_cost(tokens, model="gpt-4")
 ## 📖 Additional Resources
 
 ### Official Documentation
+
 - [OpenAI API Reference](https://platform.openai.com/docs/api-reference)
 - [OpenAI Cookbook](https://github.com/openai/openai-cookbook)
 - [Best Practices Guide](https://platform.openai.com/docs/guides/prompt-engineering)
 
 ### Pricing
+
 - [OpenAI Pricing](https://openai.com/pricing)
 
 ### Community
+
 - [OpenAI Community Forum](https://community.openai.com/)
 - [OpenAI Discord](https://discord.gg/openai)
 
@@ -501,6 +518,7 @@ See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
 ### Issue: Rate limit errors
 
 **Solution:** Implement exponential backoff:
+
 ```python
 from tenacity import retry, wait_exponential, stop_after_attempt
 
@@ -512,6 +530,7 @@ def make_request():
 ### Issue: Token limit exceeded
 
 **Solution:** Truncate or summarize:
+
 ```python
 # Truncate conversation history
 messages = truncate_conversation(messages, max_tokens=4000)
@@ -526,6 +545,7 @@ summary = client.chat.completions.create(
 ### Issue: Inconsistent outputs
 
 **Solution:** Set temperature to 0 for deterministic results:
+
 ```python
 response = client.chat.completions.create(
     model="gpt-4",

@@ -5,18 +5,24 @@ intro: "A comprehensive, community-driven prompt library for AI/LLM interactions
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -82,7 +88,7 @@ Production AI requires governance, risk management, and compliance controls:
 We provide a library of pre-built custom agents optimized for GitHub Copilot:
 
 | Agent | Description | Best For |
-|-------|-------------|----------|
+| ------- | ------------- | ---------- |
 | **[@docs_agent](prompts/agents/docs-agent.agent.md)** | Technical writing specialist | README, API docs, guides |
 | **[@code_review_agent](prompts/agents/code-review-agent.agent.md)** | Code quality reviewer | PR reviews, best practices |
 | **[@test_agent](prompts/agents/test-agent.agent.md)** | Test generation expert | Unit tests, integration tests |
@@ -107,7 +113,7 @@ We provide a library of pre-built custom agents optimized for GitHub Copilot:
 The library includes a powerful CLI and a unified backend for executing, evaluating, and improving prompts across local (ONNX/NPU) and cloud providers.
 
 | Tool | Purpose | Key Command |
-|------|---------|-------------|
+| ------ | --------- | ------------- |
 | **Prompt Runner** | Execute prompts on local/cloud models | `python prompt.py run` |
 | **Tiered Eval** | Multi-tier prompt quality evaluation | `python prompt.py eval` |
 | **CoVe Runner** | Fact-checking via Chain-of-Verification | `python prompt.py cove` |
@@ -153,22 +159,23 @@ graph TB
         A --> A3[advanced/]
         A --> A4[agents/]
     end
-    
+
     subgraph "📖 Docs"
         C[docs/] --> C1[get-started/]
         C --> C2[reference/]
         C --> C3[tutorials/]
     end
-    
+
     subgraph "🔧 Tools"
         D[tools/] --> D1[prompteval/]
         D --> D2[cli/]
     end
-    
+
     style A fill:#e3f2fd
     style C fill:#fff3e0
     style D fill:#f3e5f5
 ```text
+
 ### User Journey: Finding and Using a Prompt
 
 ```mermaid
@@ -191,11 +198,12 @@ journey
       Adjust prompt if needed: 3: User
       Achieve goal: 5: User
 ```text
+
 <details>
 <summary>📊 <strong>Library Statistics</strong></summary>
 
 | Category | Prompts | Difficulty Distribution |
-|----------|---------|------------------------|
+| ---------- | --------- | ------------------------ |
 | Developers | 25+ | 🟢 40% 🟡 45% 🔴 15% |
 | Business | 26 | 🟢 60% 🟡 35% 🔴 5% |
 | Advanced | 17 | 🟡 20% 🔴 80% |
@@ -213,7 +221,7 @@ journey
 ### Start Here
 
 | Your Goal | Start Here | Time |
-|-----------|------------|------|
+| ----------- | ------------ | ------ |
 | **First time?** | [Your First Prompt](/docs/tutorials/first-prompt) | 15 min |
 | **Using GitHub Copilot?** | [Quickstart for Copilot](/docs/get-started/quickstart-copilot) | 10 min |
 | **Using ChatGPT?** | [Quickstart for ChatGPT](/docs/get-started/quickstart-chatgpt) | 10 min |
@@ -273,6 +281,7 @@ difficulty: "beginner|intermediate|advanced"
 Brief description of what this prompt does and when to use it.
 
 ## Use Cases
+
 - Use case 1
 - Use case 2
 - Use case 3
@@ -282,6 +291,7 @@ Brief description of what this prompt does and when to use it.
 [Your actual prompt text goes here]
 
 ## Variables
+
 - `[variable1]`: Description of what to replace this with
 - `[variable2]`: Description of what to replace this with
 
@@ -289,20 +299,25 @@ Brief description of what this prompt does and when to use it.
 
 **Input:**
 ```text
+
 Example of the prompt with real values
 
 ```text
 
 **Output:**
 ```text
+
 Example of expected output
 
 ```text
 
 ## Tips
+
 - Tip 1 for better results
 - Tip 2 for customization
+
 ```text
+
 ## 🤝 Contributing
 
 We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
@@ -315,16 +330,19 @@ We welcome contributions from everyone! See [CONTRIBUTING.md](CONTRIBUTING.md) f
 ## 📚 Documentation
 
 ### Getting Started
+
 - **[Your First Prompt](/docs/tutorials/first-prompt)**: 15-minute hands-on tutorial
 - **[Choosing the Right Pattern](/docs/get-started/choosing-the-right-pattern)**: Decision guide for prompt selection
 - **[Platform Quickstarts](/docs/get-started/)**: Get productive on any platform in 10 minutes
 
 ### Reference
+
 - **[Cheat Sheet](/docs/reference/cheat-sheet)**: Quick patterns and templates
 - **[Platform Comparison](/docs/reference/platform-comparison)**: GPT vs Claude vs Copilot
 - **[Glossary](/docs/reference/glossary)**: Prompt engineering terminology
 
 ### Curated Guides (Research-Backed)
+
 - **[Ultimate Prompting Guide](docs/ultimate-prompting-guide.md)**: Top 20% most effective prompts, platform-specific templates, research-backed best practices
 - **[Platform-Specific Templates](docs/platform-specific-templates.md)**: Ready-to-use templates for GitHub Copilot, M365, Windows Copilot, and more
 - **[Prompt Effectiveness Methodology](docs/prompt-effectiveness-scoring-methodology.md)**: Scientific scoring system based on academic research and industry standards

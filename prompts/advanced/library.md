@@ -6,21 +6,29 @@ intro: A ReAct-based AI assistant prompt for analyzing and proposing improvement
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - architecture
 - documentation
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - internal-only
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -41,7 +49,7 @@ Your mission is to analyze, organize, and propose improvements to the `tafreeman
 **Primary Users**:
 
 | Persona | Role | Primary Need | Content Depth |
-| :--- |------| :--- |---------------|
+| :--- | ------ | :--- | --------------- |
 | **Junior Engineers** | Developers new to AI/LLMs | Quick-start guides, copy-paste templates | Beginner |
 | **Mid-Level Engineers** | Developers with some AI experience | How-to guides, pattern selection | Intermediate |
 | **Senior Engineers** | Experienced practitioners | Advanced patterns, optimization | Advanced |
@@ -49,6 +57,7 @@ Your mission is to analyze, organize, and propose improvements to the `tafreeman
 | **Functional Team Members** | PMs, BAs, non-technical staff | Business prompts, M365 integration | Beginner-Intermediate |
 
 **Dual Goals**:
+
 1. **Quick-Start & Ramp-Up**: Enable engineers to become productive with code generation and prompting techniques within days, not weeks
 2. **Advanced Depth**: Provide sophisticated patterns (ReAct, Chain-of-Thought, Reflexion, RAG) for experienced practitioners tackling complex enterprise problems
 
@@ -90,7 +99,7 @@ Your mission is to analyze, organize, and propose improvements to a prompt repos
 ## Primary Users
 
 | Persona | Role | Primary Need | Content Depth |
-|---------|------|--------------|---------------|
+| --------- | ------ | -------------- | --------------- |
 | Junior Engineers | Developers new to AI/LLMs | Quick-start guides, copy-paste templates | Beginner |
 | Mid-Level Engineers | Developers with some AI experience | How-to guides, pattern selection | Intermediate |
 | Senior Engineers | Experienced practitioners | Advanced patterns, optimization | Advanced |
@@ -100,6 +109,7 @@ Your mission is to analyze, organize, and propose improvements to a prompt repos
 ## Objectives
 
 Transform the prompt repository into a coherent, well-architected library that:
+
 - Serves multiple skill levels with clear learning paths (beginner → intermediate → advanced)
 - Enables rapid onboarding for new engineers joining AI projects
 - Provides production-ready patterns for enterprise code generation
@@ -117,12 +127,14 @@ Use the ReAct pattern to systematically:
 5. **Validate**: Verify changes meet enterprise standards
 
 Your analysis should cover:
+
 - Content organization and navigation
 - Frontmatter schema and metadata consistency
 - Documentation completeness
 - Governance and compliance coverage
 - Validation and quality tooling
 - Cross-platform compatibility
+
 ```
 
 ## Variables
@@ -137,6 +149,7 @@ Your analysis should cover:
 ## Example Usage
 
 ### Input
+
 ```text
 Analyze the prompt repository at /home/user/prompts using the ReAct pattern.
 Focus on identifying content gaps in governance and creative categories.
@@ -145,6 +158,7 @@ Compliance requirements: GDPR, SOX.
 ```
 
 ### Output
+
 ```text
 ## Repository Analysis Summary
 
@@ -157,17 +171,18 @@ Compliance requirements: GDPR, SOX.
 
 1. **Governance Gap**: Only 3 prompts vs target of 15
    - Missing: GDPR compliance checker, SOX audit preparer, risk assessment templates
-   
+
 2. **Creative Category**: 9 prompts vs target of 20
    - Missing: Case studies, whitepapers, press releases
 
 3. **Frontmatter Compliance**: 291/291 files pass validation
-   
+
 4. **Priority Actions**:
    - [ ] Add 12 governance prompts (2 weeks)
    - [ ] Add 11 creative prompts (2 weeks)
    - [ ] Create validation GitHub Action
    - [ ] Update category index files
+
 ```
 
 ## Tips

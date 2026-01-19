@@ -5,21 +5,29 @@ intro: Designs microservices ecosystems
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - enterprise
 - microservices
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -43,33 +51,33 @@ flowchart TB
         APIGW[API Gateway]
         BFF[BFF Services]
     end
-    
+
     subgraph Services[Service Layer]
         Svc1[Order Service]
         Svc2[Inventory Service]
         Svc3[Payment Service]
         Svc4[Notification Service]
     end
-    
+
     subgraph Mesh[Service Mesh]
         Sidecar1[Sidecar]
         Sidecar2[Sidecar]
         Sidecar3[Sidecar]
     end
-    
+
     subgraph Data[Data Layer]
         DB1[(Order DB)]
         DB2[(Inventory DB)]
         DB3[(Payment DB)]
         Events[Event Bus]
     end
-    
+
     subgraph Observability[Observability]
         Metrics[Metrics]
         Traces[Traces]
         Logs[Logs]
     end
-    
+
     APIGW --> BFF
     BFF --> Svc1
     Svc1 --> Sidecar1
@@ -94,7 +102,7 @@ flowchart TB
 ### When to Use Microservices
 
 | Criteria | Microservices | Monolith |
-|----------|---------------|----------|
+| ---------- | --------------- | ---------- |
 | Team size | 50+ developers | <20 developers |
 | Deployment frequency | Multiple/day per service | Weekly/monthly |
 | Scale requirements | Varies by component | Uniform scaling |
@@ -104,7 +112,7 @@ flowchart TB
 ### Communication Pattern Selection
 
 | Pattern | When to Use | Trade-offs |
-|---------|-------------|------------|
+| --------- | ------------- | ------------ |
 | **Sync REST/gRPC** | Query responses, low latency needed | Tight coupling, cascading failures |
 | **Async Messaging** | Fire-and-forget, eventual consistency OK | Message broker dependency |
 | **Event-Driven** | Loose coupling, event sourcing | Eventual consistency, debugging complexity |
@@ -135,12 +143,14 @@ Scale Requirements: [scale]
 Team Structure: [teams]
 
 Include:
+
 1. Service decomposition
 2. Communication patterns
 3. Data management
 4. Service mesh design
 5. Observability strategy
 6. Deployment architecture
+
 ```text
 
 **Output:**
@@ -151,6 +161,7 @@ Include:
 ### 1. Service Decomposition (Domain-Driven Design)
 
 **Bounded Contexts:**
+
 *   **Logistics Core:**
     *   `Shipment Service` (Lifecycle of a package)
     *   `Routing Service` (Graph algorithms for pathfinding)
@@ -162,6 +173,7 @@ Include:
     *   `Payroll Service` (Driver compensation)
 
 ### 2. Communication Patterns
+
 *   **Synchronous (Internal):** gRPC for high-performance inter-service communication (e.g., Routing -> Telemetry).
 *   **Asynchronous (Event-Driven):** Kafka for domain events (e.g., `PackageDelivered` event triggers `Billing` and `Notification`).
 *   **External:** GraphQL Gateway for mobile apps and web dashboard.
@@ -183,6 +195,7 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Container Platform**: Azure Kubernetes Service (AKS), Container Apps
 - **Service Mesh**: Azure Service Mesh (Istio-based), Dapr
 - **API Gateway**: Azure API Management, Azure Application Gateway
@@ -190,6 +203,7 @@ Include:
 - **Observability**: Azure Monitor, Application Insights, Log Analytics
 
 ### AWS
+
 - **Container Platform**: EKS, ECS, App Mesh
 - **Service Mesh**: AWS App Mesh, Istio on EKS
 - **API Gateway**: Amazon API Gateway, AppSync
@@ -197,6 +211,7 @@ Include:
 - **Observability**: CloudWatch, X-Ray, OpenSearch
 
 ### GCP
+
 - **Container Platform**: GKE, Cloud Run
 - **Service Mesh**: Anthos Service Mesh (Istio-based)
 - **API Gateway**: Apigee, Cloud Endpoints
@@ -211,6 +226,7 @@ Include:
 A logistics company needs to redesign their monolithic tracking system into microservices.
 
 ### Input
+
 ```text
 Domain: Last-mile logistics with real-time tracking
 Business Capabilities: Shipment management, route optimization, driver management

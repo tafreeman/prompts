@@ -5,23 +5,31 @@ intro: "A specialized ReAct prompt for researching and developing advanced OSINT
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "security-researcher"
   - "intelligence-analyst"
   - "investigator"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "osint"
   - "research"
   - "security"
+
 author: "OSINT Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "ethical-use-only"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
@@ -54,18 +62,21 @@ Research the most effective tools, techniques, and methodologies for a specific 
 
 ### Goal 1: Deep Dive Discovery
 Identify the "State of the Art" for the target domain:
+
 - What are the current best-in-class tools?
 - What are the cutting-edge manual techniques?
 - What are the common pitfalls or "opsec" failures?
 
 ### Goal 2: Methodology Validation
 Ensure recommended techniques align with professional standards:
+
 - Cross-reference with Bellingcat/SANS methodologies
 - Verify legal and ethical boundaries
 - Confirm tool reliability and safety
 
 ### Goal 3: Prompt Engineering
 Translate findings into executable prompts:
+
 - Create step-by-step investigative workflows
 - Define necessary inputs (e.g., "Target Username", "Image URL")
 - Establish verification steps to prevent false positives
@@ -83,7 +94,7 @@ Translate findings into executable prompts:
 ### Tier 1: Methodology & Standards
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| -------- | ----- | ------- |
 | Bellingcat | bellingcat.com | Investigative methodology, verification, geolocation |
 | SANS OSINT | sans.org/blog | Enterprise security, threat intelligence, whitepapers |
 | Global Investigative Journalism Network | gijn.org | Advanced search, databases, ethics |
@@ -92,7 +103,7 @@ Translate findings into executable prompts:
 ### Tier 2: Tools & Resources
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| -------- | ----- | ------- |
 | IntelTechniques (Bazzell) | inteltechniques.com | Privacy, search tools, workflows |
 | OSINT Framework | osintframework.com | Tool directory and categorization |
 | Awesome-OSINT | github.com/jivoi/awesome-osint | Curated list of tools and scripts |
@@ -101,7 +112,7 @@ Translate findings into executable prompts:
 ### Tier 3: Specialized Domains
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| -------- | ----- | ------- |
 | Shodan / Censys | shodan.io | Cyber OSINT, IoT, infrastructure |
 | WiGLE | wigle.net | Wireless network geolocation |
 | Etherscan / ZachXBT | etherscan.io | Cryptocurrency tracing (Blockchain) |
@@ -110,7 +121,7 @@ Translate findings into executable prompts:
 ### Tier 4: Community & Real-time
 
 | Source | URL | Focus |
-|--------|-----|-------|
+| -------- | ----- | ------- |
 | r/OSINT | reddit.com/r/OSINT | New tool discussions, technique sharing |
 | Discord Communities | [Various] | Real-time collaboration, CTF writeups |
 | Twitter/X InfoSec | [Various] | Breaking news, 0-day tool releases |
@@ -120,6 +131,7 @@ Translate findings into executable prompts:
 Use the Think → Act → Observe → Reflect cycle:
 
 **Thought [N]**: 
+
 - What specific technique or tool am I investigating?
 - Which Tier 1/2 source is most authoritative for this?
 - How does this fit into the overall investigation workflow?
@@ -127,16 +139,19 @@ Use the Think → Act → Observe → Reflect cycle:
 **Action [N]**: Search or fetch content from the target source.
 
 **Observation [N]**: 
+
 - What tools/methods were recommended?
 - Are there prerequisites (API keys, Linux environment)?
 - What are the limitations or false-positive risks?
 
 **Reflection [N]**: 
+
 - Is this tool/method viable for our library?
 - How can I template this into a reusable prompt?
 - Do I need to find an alternative (e.g., if the tool is paid/defunct)?
 
 Continue until you have:
+
 - [ ] Identified 3-5 top-tier tools/methods for the domain
 - [ ] Validated them against expert methodologies
 - [ ] Drafted a structural outline for the new prompt/guide
@@ -146,11 +161,12 @@ Continue until you have:
 
 ### 1. Domain Landscape Report
 | Tool/Technique | Type | Effectiveness | Cost/Access | Notes |
-|----------------|------|---------------|-------------|-------|
+| ---------------- | ------ | --------------- | ------------- | ------- |
 | ... | CLI/Web | High/Med | Free/Paid | ... |
 
 ### 2. Methodology Outline
 Step-by-step workflow for the investigation:
+
 1. Initial Discovery
 2. Data Collection (Primary Tools)
 3. Verification (Secondary Tools)
@@ -158,6 +174,7 @@ Step-by-step workflow for the investigation:
 
 ### 3. Draft Prompt Structure
 The skeleton of the new prompt you will create:
+
 - **Title**: [Domain] Investigator
 - **Inputs**: [Target Data]
 - **Process**: [Step-by-step instructions]
@@ -170,7 +187,7 @@ The skeleton of the new prompt you will create:
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[RESEARCH_QUESTION]` | The specific OSINT topic to research | "Best practices for tracking cryptocurrency transactions on Ethereum" |
 | `[CONTEXT_ABOUT_INVESTIGATION]` | Background on the goal | "Creating a 'Crypto-Sleuth' prompt for financial fraud investigations" |
 

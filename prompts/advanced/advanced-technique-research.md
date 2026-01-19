@@ -5,21 +5,29 @@ intro: "Research an advanced prompt engineering technique using Tree-of-Thoughts
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "analysis"
   - "architecture"
+
 technique: "tree-of-thought"
 author: "Prompts Library Team"
 version: "1.1"
 date: "2026-01-12"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -56,6 +64,7 @@ Your goal is to produce a high-quality, evidence-backed research report.
 ---
 
 ## Research Parameters
+
 - **Topic:** [RESEARCH_TOPIC]
 - **Core Questions:** [RESEARCH_QUESTIONS]
 - **Depth:** [RESEARCH_DEPTH]
@@ -69,12 +78,14 @@ Generate 3-5 distinct research paths (branches) to explore this topic comprehens
 
 **Source Evaluation Criteria:**
 Before selecting resources, establish these criteria:
+
 1.  **Authority:** Is the source an academic paper (arXiv, NeurIPS, ICLR), official documentation, or a reputable engineering blog?
 2.  **Recency:** Does it fall within the [TIME_RANGE]?
 3.  **Empirical Evidence:** Does the source provide benchmarks, code, or reproducible results vs. theoretical claims?
 4.  **Citations/Impact:** (If applicable) Is the work widely cited or adopted?
 
 **For each branch plan:**
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** Specific aspect to investigate (e.g., "Theoretical Underpinnings" or "Cost/Latency Trade-offs").
 - **Target Sources:** Types of sources that meet the criteria above.
@@ -89,12 +100,14 @@ Before selecting resources, establish these criteria:
 For each selected branch, execute the investigation loop:
 
 ### Round 1 - Initial Investigation
+
 1.  **Think:** (Reasoning) What specific query or analysis will yield high-authority data?
 2.  **Act:** (Search/Analyze) Execute the search for information.
 3.  **Observe:** (Data Collection) Record findings. **Explicitly evaluate each key source against the defined Criteria.**
 4.  **Reflect:** (Critique) Do these findings answer the specific aspect of this branch? Are the sources weak?
 
 ### Round 2 - Refinement (if evaluation failed or gaps remain)
+
 1.  **Think:** (Reasoning) How to find better sources or fill the gap?
 2.  **Act:** (Search/Analyze) Targeted investigation.
 3.  **Observe:** (Data Collection) New findings.
@@ -107,6 +120,7 @@ For each selected branch, execute the investigation loop:
 Pause and critique the collective findings.
 
 **Self-Critique Questions:**
+
 1.  **Completeness:** Have I answered all Core Questions?
 2.  **Contradictions:** Do findings from Branch A contradict Branch B? (e.g., Paper claims X, but engineering blog shows Y).
 3.  **Quality:** Are any critical claims supported only by low-authority sources?
@@ -144,16 +158,19 @@ Generate the final report using strictly this format:
 | **Complexity** | [Low/Medium/High] |
 
 ### 3. Detailed Analysis
+
 *   **Mechanism & Theory:** (How it works deep-dive)
 *   **Evidence:** (Summary of benchmarks/results found)
 *   **Pros/Cons:** (Bulleted list)
 
 ### 4. Implementation Guide
+
 *   **Best Use Cases:**
 *   **When to Avoid:**
 *   **Code/Prompt Pattern Example:** (Abstract or concrete example)
 
 ### 5. Source Evaluation
+
 *   **Primary Sources:** List top sources used.
 *   **Confidence Score:** (1-10) How confident are we in these findings based on source quality?
 *   **Limitations:** What could not be verified?
@@ -172,6 +189,7 @@ A definitive closing statement on the value and future application of this techn
 ## Example Usage
 
 **Input:**
+
 ```text
 [RESEARCH_TOPIC]: "Chain-of-Verification (CoVe)"
 [RESEARCH_QUESTIONS]: "Does it effectively reduce hallucinations? What is the latency cost?"
@@ -180,6 +198,7 @@ A definitive closing statement on the value and future application of this techn
 ```
 
 **Output:**
+
 ```text
 ... (Structured Research Report including Executive Summary, Analysis, and Source Evaluation)
 ```

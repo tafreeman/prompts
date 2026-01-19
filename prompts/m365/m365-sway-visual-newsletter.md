@@ -8,22 +8,30 @@ m365App: Microsoft Sway
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - communication
 - m365
 - sway
 - newsletter
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Compiles team updates, news, and announcements into a modern, mobile-friendly

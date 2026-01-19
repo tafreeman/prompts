@@ -13,7 +13,7 @@ This directory contains hands-on, practical tutorials that teach you how to writ
 Start here if you're new to AI prompting:
 
 | Order | Tutorial | Time | What You'll Learn |
-|-------|----------|------|-------------------|
+| ------- | ---------- | ------ | ------------------- |
 | 1 | [Your First Prompt](first-prompt.md) | 15 min | Create and refine your first prompt |
 | 2 | [Building Effective Prompts](building-effective-prompts.md) | 30 min | Master the 7 key components |
 
@@ -22,13 +22,14 @@ Start here if you're new to AI prompting:
 Once you're comfortable with basics:
 
 | Order | Tutorial | Time | What You'll Learn |
-|-------|----------|------|-------------------|
+| ------- | ---------- | ------ | ------------------- |
 | 1 | [Prompt Iteration](prompt-iteration.md) | 40 min | Systematic improvement techniques |
 | 2 | [Platform-Specific Optimization](../reference/platform-comparison.md) | 20 min | Adapt prompts for different AI models |
 
 ### 🔴 Advanced Path
 
 Ready to master advanced techniques? See the [Advanced Techniques](../../prompts/advanced/) directory for:
+
 - Chain-of-Thought reasoning
 - ReAct patterns
 - RAG (Retrieval-Augmented Generation)
@@ -43,6 +44,7 @@ Ready to master advanced techniques? See the [Advanced Techniques](../../prompts
 The perfect starting point. Learn the fundamentals by creating, testing, and refining your first AI prompt. No experience required.
 
 **You'll learn:**
+
 - How to write a basic prompt
 - Why some prompts work better than others
 - The iteration process for improvement
@@ -54,6 +56,7 @@ The perfect starting point. Learn the fundamentals by creating, testing, and ref
 Discover the 7 essential components that make prompts consistently effective across all AI platforms.
 
 **You'll learn:**
+
 - Role definition and context setting
 - Clear instructions and constraints
 - Output format specification
@@ -66,6 +69,7 @@ Discover the 7 essential components that make prompts consistently effective acr
 Master the systematic process of improving prompts through testing and refinement.
 
 **You'll learn:**
+
 - The iterate-test-refine cycle
 - How to identify prompt weaknesses
 - Techniques for continuous improvement
@@ -75,16 +79,19 @@ Master the systematic process of improving prompts through testing and refinemen
 ## 🚀 Quick Start
 
 **New to prompting?**
+
 1. Start with [Your First Prompt](first-prompt.md)
 2. Complete [Building Effective Prompts](building-effective-prompts.md)
 3. Practice with examples from the [prompts library](../../prompts/)
 
 **Want hands-on practice?**
+
 - Each tutorial includes exercises
 - Try the examples in your preferred AI tool
 - Experiment with variations
 
 **Stuck on something?**
+
 - Check the [FAQ](../reference/faq.md)
 - Review [Common Mistakes](../reference/common-mistakes.md)
 - Ask in [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)
@@ -92,18 +99,21 @@ Master the systematic process of improving prompts through testing and refinemen
 ## 💡 Using These Tutorials
 
 ### For Self-Study
+
 1. Work through tutorials in order
 2. Complete all exercises before moving forward
 3. Save your prompts for future reference
 4. Experiment beyond the examples
 
 ### For Teams
+
 1. Assign tutorials as onboarding materials
 2. Host workshop sessions using tutorial content
 3. Create team challenges based on exercises
 4. Share successful prompt variations
 
 ### For Educators
+
 - Use as curriculum for AI literacy training
 - Adapt exercises for classroom activities
 - Create assignments based on tutorial concepts
@@ -148,6 +158,7 @@ Have an idea for a new tutorial?
 4. Submit a pull request
 
 **Good tutorial topics:**
+
 - Specific use cases (e.g., "Prompts for Technical Documentation")
 - Platform-specific features (e.g., "Using GitHub Copilot Agents")
 - Domain applications (e.g., "Prompts for Data Analysis")

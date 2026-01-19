@@ -55,7 +55,7 @@ python tools/audit_prompts.py prompts/
 ## 📦 What's Included
 
 | Category | Location | Count |
-|----------|----------|-------|
+| ---------- | ---------- | ------- |
 | Python Tools | `tools/` | 20+ scripts |
 | Meta-Prompts | `archive/clutter/toolkit_prompts/` | 8 key prompts |
 | Rubrics | `toolkit/rubrics/` | 2 scoring files |

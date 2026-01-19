@@ -5,20 +5,28 @@ intro: "Agile/Scrum sprint planner for capacity planning, story point estimation
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "agile"
   - "project-management"
+
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.5
@@ -57,6 +65,7 @@ Plan sprint for:
 **Definition of Done**: [dod]
 
 Provide:
+
 1. **Sprint Goal** (One-sentence SMART goal)
 2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
 3. **Task Estimation** (Story points + hourly breakdown)
@@ -98,11 +107,13 @@ Plan sprint for:
 **Sprint Duration**: 2 Weeks (Nov 20 - Dec 1)
 **Team Capacity**: 80 Story Points (Reduced from 100 due to Thanksgiving holiday - 2 devs on PTO for 3 days)
 **Priority Features**:
+
 - "One-click Checkout" (Epic: Checkout Optimization)
 - "Apple Pay Integration" (Epic: Payment Methods)
 - "Wishlist Sync Across Devices" (Epic: Social Commerce)
 
 **Definition of Done**:
+
 - Unit tests passed (>90% coverage)
 - UI automated tests green (Appium suite)
 - Product Owner sign-off on acceptance criteria
@@ -110,6 +121,7 @@ Plan sprint for:
 - API documentation updated in Swagger
 
 Provide:
+
 1. **Sprint Goal** (One-sentence SMART goal)
 2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
 3. **Task Estimation** (Story points + hourly breakdown)

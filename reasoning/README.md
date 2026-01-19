@@ -9,8 +9,7 @@ reasoning/
 └── chain-of-verification.md    # CoVe: Reduce hallucinations through systematic fact-checking
 ```
 
-## 🧠 What is Reasoning?
-
+## 🧠 What is Reasoning
 Reasoning patterns are structured prompt frameworks that guide AI models through complex cognitive processes. Unlike simple question-answer prompts, reasoning patterns:
 
 - **Break down complexity**: Decompose problems into manageable steps
@@ -47,6 +46,7 @@ CoVe is particularly effective for:
 ### When to Use CoVe
 
 **Use CoVe when**:
+
 - Factual accuracy is critical
 - Risk of hallucination is high
 - Information needs verification
@@ -54,6 +54,7 @@ CoVe is particularly effective for:
 - Working with knowledge-intensive domains
 
 **Don't use CoVe when**:
+
 - Creative/subjective tasks (brainstorming, creative writing)
 - Simple queries with obvious answers
 - Real-time conversational responses needed
@@ -66,15 +67,18 @@ CoVe is particularly effective for:
 **Domain:** EU data protection law
 
 # Model follows 4-step CoVe process:
+
 1. Generates initial answer
 2. Creates verification questions
 3. Independently verifies each claim
 4. Produces final verified response with corrections
+
 ```
 
 ### Model Compatibility
 
 CoVe works well with:
+
 - ✅ GPT-4, GPT-4o (OpenAI)
 - ✅ Claude 3 Opus, Sonnet (Anthropic)
 - ✅ Llama 3 70B+ (Meta)
@@ -85,7 +89,7 @@ CoVe works well with:
 ### Variables
 
 | Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
+| ---------- | ------------- | ---------- | --------- |
 | `user_question` | The question requiring factual accuracy | Yes | - |
 | `domain` | Optional domain context for specialized verification | No | general knowledge |
 
@@ -114,7 +118,7 @@ All reasoning patterns are based on peer-reviewed research:
 ## 🎯 Choosing the Right Pattern
 
 | Task Type | Recommended Pattern | Why |
-|-----------|-------------------|-----|
+| ----------- | ------------------- | ----- |
 | Factual Q&A | CoVe | Verification reduces hallucinations |
 | Math/Logic | Chain-of-Thought | Step-by-step reasoning |
 | Tool Use | ReAct | Combines reasoning with actions |
@@ -217,6 +221,7 @@ estimated_tokens: range
 
 1. Step 1
 2. Step 2
+
 ...
 
 ## Example

@@ -8,22 +8,30 @@ m365App: Copilot in PowerPoint
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - powerpoint
 - m365
 - business
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -64,7 +72,7 @@ The user provides:
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[topic]` | Yes | Main topic or title of the presentation. | `Q4 Product Roadmap` |
 | `[audience]` | Yes | Intended audience for the deck. | `executives` |
 | `[emphasis]` | Yes | What to emphasize in the narrative and slide content. | `benefits and ROI` |
@@ -134,29 +142,42 @@ Help me create a PowerPoint outline for a presentation on [topic], tailored for
 [audience] and emphasizing [emphasis].
 
 Context:
+
 - I use PowerPoint, Word, OneDrive/SharePoint, and Teams in Microsoft 365.
 - I want a clear, structured outline with slide titles, bullet points, and visual
+
   suggestions that I can execute in PowerPoint.
 
 Scope:
+
 - If [source_document] is provided, extract key themes and structure the presentation
+
   around them.
+
 - If no source document, synthesize from the topic and any recent related context
+
   (emails, chats, documents).
+
 - Tailor language and detail level to [audience].
 - Emphasize [emphasis].
 
 Assumptions and constraints:
+
 - Provide slide titles that are clear and action-oriented, not generic.
 - For each slide, provide 3–5 bullet points and a visual suggestion (chart, image,
+
   diagram, callout).
+
 - Aim for [slide_count_target] slides if specified; otherwise, default to 10–12 slides.
 - Structure the presentation with a clear flow: intro → body → conclusion/next steps.
 
 Process:
+
 1. Identify the main narrative and key themes for [topic].
 2. Structure slides logically: opening, key themes (1 theme per slide or section),
+
    conclusion, next steps.
+
 3. For each slide, draft bullet points and suggest where visuals would help.
 
 Output format:
@@ -168,11 +189,13 @@ Return the result in Markdown:
 ## Slide Outline
 
 **Slide 1: [Title]**
+
 - [Bullet]
 - [Bullet]
 - Visual suggestion: [suggestion]
 
 **Slide 2: [Title]**
+
 - [Bullet]
 - [Bullet]
 - Visual suggestion: [suggestion]
@@ -192,64 +215,75 @@ Q4 Customer Onboarding Roadmap: Timeline, Risks, and Customer Impact
 ## Slide Outline
 
 **Slide 1: Executive Summary**
+
 - Overview of the Q4 onboarding roadmap and goals.
 - Key customer benefits: faster onboarding, better self-service, improved support.
 - High-level timeline: internal beta (mid-Nov), public GA (early Dec).
 - Visual suggestion: Timeline graphic showing phases and key dates.
 
 **Slide 2: Current State and Challenges**
+
 - Existing onboarding process takes 3–5 days on average.
 - Customer feedback highlights confusion and lack of self-service options.
 - Support team spends 60% of time on onboarding-related issues.
 - Visual suggestion: Bar chart comparing current vs. target onboarding time.
 
 **Slide 3: Proposed Solution Overview**
+
 - New onboarding platform with improved flow and self-service capabilities.
 - Phased rollout: internal beta → stabilization → public GA.
 - Expected outcomes: 40% faster onboarding, reduced support load.
 - Visual suggestion: Architecture diagram showing new onboarding flow.
 
 **Slide 4: Phased Rollout Plan**
+
 - Phase 1 (Internal Beta): Nov 18–29, 50 internal users, feedback collection.
 - Phase 2 (Stabilization): Nov 30–Dec 4, fixes and final validation.
 - Phase 3 (Public GA): Dec 5 (or Dec 12 contingency).
 - Visual suggestion: Gantt chart showing phases and milestones.
 
 **Slide 5: Success Criteria for Internal Beta**
+
 - Zero critical incidents during beta period.
 - Support documentation reviewed and approved by support team.
 - At least 50 internal users successfully onboarded.
 - Visual suggestion: Checklist graphic with success criteria.
 
 **Slide 6: Timeline Risks**
+
 - API timeout issues must be resolved by Nov 22.
 - If not resolved, public GA shifts to Dec 12 (1-week delay).
 - Support training materials behind schedule; risk to day-1 readiness.
 - Visual suggestion: Risk matrix (likelihood vs. impact).
 
 **Slide 7: Customer Impact**
+
 - Faster onboarding reduces time-to-value for customers.
 - Self-service options improve customer satisfaction and reduce support burden.
 - Early feedback from beta users expected to validate improvements.
 - Visual suggestion: Customer quote callout or testimonial.
 
 **Slide 8: Budget and Resource Impact**
+
 - 1-week delay adds ~$15K in engineering and QA costs.
 - Additional QA resources requested to accelerate load testing.
 - Budget impact is justified by reduced risk of post-launch incidents.
 - Visual suggestion: Simple cost comparison table (on-time vs. delayed).
 
 **Slide 9: Go/No-Go Decision Framework**
+
 - Decision meeting scheduled for Dec 2.
 - Key criteria: API stability, internal beta feedback, support readiness.
 - Clear escalation path if criteria are not met.
 - Visual suggestion: Decision tree diagram.
 
 **Slide 10: Next Steps and Approvals Needed**
+
 - Approve phased rollout plan and contingency timeline.
 - Allocate additional QA resources for load testing.
 - Confirm go/no-go decision process and attendees.
 - Visual suggestion: Action items table with owners and dates.
+
 ```text
 
 ---
@@ -273,16 +307,19 @@ Q4 Product Roadmap: Outcomes, ROI, and Key Milestones
 ## Slide Outline
 
 **Slide 1: Executive Summary**
+
 - What changed since last quarter and why
 - Top 3 outcomes we will deliver
 - ROI framing and success metrics
 - Visual suggestion: 3-column outcomes + KPI table
 
 **Slide 2: Roadmap at a Glance**
+
 - Milestones by month
 - Dependencies and critical path
 - Key decision points and owners
 - Visual suggestion: timeline / Gantt chart
+
 ```
 
 

@@ -22,7 +22,7 @@ python tools/audit_prompts.py prompts/ --output audit_report.csv
 ## Available Tools
 
 | Tool | Purpose | Output |
-|------|---------|--------|
+| ------ | --------- | -------- |
 | `prompt_analyzer.py` | 5-dimension scoring | Scorecard |
 | `improve_prompts.py` | AI-powered improvements | Recommendations |
 | `audit_prompts.py` | Migration/validation audit | CSV report |
@@ -37,7 +37,7 @@ python tools/audit_prompts.py prompts/ --output audit_report.csv
 ### Scoring Dimensions
 
 | Dimension | Weight | Description |
-|-----------|--------|-------------|
+| ----------- | -------- | ------------- |
 | Clarity | 25% | Clear, unambiguous instructions |
 | Effectiveness | 25% | Achieves intended outcome |
 | Reusability | 20% | Works across contexts |

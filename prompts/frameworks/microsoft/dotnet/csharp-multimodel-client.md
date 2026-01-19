@@ -5,16 +5,22 @@ intro: A prompt for c# prompt engineering utilities tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - solution-architect
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -24,15 +30,19 @@ framework_compatibility:
   dotnet: '>=6.0'
   csharp: '>=10.0'
 use_cases:
+
 - multi-model-integration
 - prompt-templating
 - enterprise-integration
+
 last_updated: '2025-11-23'
 tags:
+
 - csharp
 - dotnet
 - multi-model
 - enterprise
+
 ---
 
 # C# Prompt Engineering Utilities
@@ -63,7 +73,7 @@ namespace PromptEngineering.Core
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<MultiModelClient> _logger;
-        
+
         public MultiModelClient(
             HttpClient httpClient,
             IConfiguration configuration,
@@ -73,7 +83,7 @@ namespace PromptEngineering.Core
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        
+
         /// <summary>
         /// Calls the specified AI model with the given prompt.
         /// </summary>
@@ -82,7 +92,7 @@ namespace PromptEngineering.Core
             CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Calling {Provider} model {Model}", request.Provider, request.Model);
-            
+
             return request.Provider switch
             {
                 ModelProvider.OpenAI => await CallOpenAIAsync(request, cancellationToken),
@@ -91,17 +101,17 @@ namespace PromptEngineering.Core
                 _ => throw new NotSupportedException($"Provider {request.Provider} is not supported")
             };
         }
-        
+
         private async Task<ModelResponse> CallOpenAIAsync(
             ModelRequest request,
             CancellationToken cancellationToken)
         {
             var apiKey = _configuration["OpenAI:ApiKey"] 
                 ?? throw new InvalidOperationException("OpenAI API key not configured");
-            
+
             _httpClient.DefaultRequestHeaders.Authorization = 
                 new AuthenticationHeaderValue("Bearer", apiKey);
-            
+
             var payload = new
             {
                 model = request.Model,
@@ -113,22 +123,22 @@ namespace PromptEngineering.Core
                 temperature = request.Temperature,
                 max_tokens = request.MaxTokens
             };
-            
+
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
                 "application/json");
-            
+
             var response = await _httpClient.PostAsync(
                 "https://api.openai.com/v1/chat/completions",
                 content,
                 cancellationToken);
-            
+
             response.EnsureSuccessStatusCode();
-            
+
             var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
             var openAIResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
-            
+
             return new ModelResponse
             {
                 Content = openAIResponse.Choices[0].Message.Content,
@@ -137,18 +147,18 @@ namespace PromptEngineering.Core
                 TokensUsed = openAIResponse.Usage.TotalTokens
             };
         }
-        
+
         private async Task<ModelResponse> CallAnthropicAsync(
             ModelRequest request,
             CancellationToken cancellationToken)
         {
             var apiKey = _configuration["Anthropic:ApiKey"] 
                 ?? throw new InvalidOperationException("Anthropic API key not configured");
-            
+
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
             _httpClient.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
-            
+
             var payload = new
             {
                 model = request.Model,
@@ -159,22 +169,22 @@ namespace PromptEngineering.Core
                 },
                 system = request.SystemPrompt
             };
-            
+
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
                 "application/json");
-            
+
             var response = await _httpClient.PostAsync(
                 "https://api.anthropic.com/v1/messages",
                 content,
                 cancellationToken);
-            
+
             response.EnsureSuccessStatusCode();
-            
+
             var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
             var anthropicResponse = JsonSerializer.Deserialize<AnthropicResponse>(jsonResponse);
-            
+
             return new ModelResponse
             {
                 Content = anthropicResponse.Content[0].Text,
@@ -183,7 +193,7 @@ namespace PromptEngineering.Core
                 TokensUsed = anthropicResponse.Usage.InputTokens + anthropicResponse.Usage.OutputTokens
             };
         }
-        
+
         private async Task<ModelResponse> CallAzureOpenAIAsync(
             ModelRequest request,
             CancellationToken cancellationToken)
@@ -191,10 +201,10 @@ namespace PromptEngineering.Core
             var apiKey = _configuration["AzureOpenAI:ApiKey"];
             var endpoint = _configuration["AzureOpenAI:Endpoint"];
             var deploymentName = _configuration["AzureOpenAI:DeploymentName"];
-            
+
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
-            
+
             var payload = new
             {
                 messages = new[]
@@ -205,20 +215,20 @@ namespace PromptEngineering.Core
                 temperature = request.Temperature,
                 max_tokens = request.MaxTokens
             };
-            
+
             var url = $"{endpoint}/openai/deployments/{deploymentName}/chat/completions?api-version=2023-05-15";
-            
+
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
                 "application/json");
-            
+
             var response = await _httpClient.PostAsync(url, content, cancellationToken);
             response.EnsureSuccessStatusCode();
-            
+
             var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
             var azureResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
-            
+
             return new ModelResponse
             {
                 Content = azureResponse.Choices[0].Message.Content,
@@ -227,13 +237,13 @@ namespace PromptEngineering.Core
                 TokensUsed = azureResponse.Usage.TotalTokens
             };
         }
-        
+
         public void Dispose()
         {
             _httpClient?.Dispose();
         }
     }
-    
+
     // DTOs
     public enum ModelProvider
     {
@@ -242,7 +252,7 @@ namespace PromptEngineering.Core
         AzureOpenAI,
         Google
     }
-    
+
     public class ModelRequest
     {
         public ModelProvider Provider { get; set; }
@@ -252,7 +262,7 @@ namespace PromptEngineering.Core
         public double Temperature { get; set; } = 0.7;
         public int MaxTokens { get; set; } = 1000;
     }
-    
+
     public class ModelResponse
     {
         public string Content { get; set; }
@@ -260,47 +270,48 @@ namespace PromptEngineering.Core
         public string Model { get; set; }
         public int TokensUsed { get; set; }
     }
-    
+
     // API Response DTOs
     internal class OpenAIResponse
     {
         public Choice[] Choices { get; set; }
         public Usage Usage { get; set; }
-        
+
         public class Choice
         {
             public Message Message { get; set; }
         }
-        
+
         public class Message
         {
             public string Content { get; set; }
         }
     }
-    
+
     internal class AnthropicResponse
     {
         public ContentBlock[] Content { get; set; }
         public AnthropicUsage Usage { get; set; }
-        
+
         public class ContentBlock
         {
             public string Text { get; set; }
         }
-        
+
         public class AnthropicUsage
         {
             public int InputTokens { get; set; }
             public int OutputTokens { get; set; }
         }
     }
-    
+
     internal class Usage
     {
         public int TotalTokens { get; set; }
     }
 }
 ```
+
 ## Configuration (appsettings.json)
 
 ```json
@@ -318,6 +329,7 @@ namespace PromptEngineering.Core
   }
 }
 ```
+
 ## Dependency Injection Setup
 
 ```csharp
@@ -330,11 +342,12 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<MultiModelClient>();
         services.AddSingleton<IPromptTemplateEngine, PromptTemplateEngine>();
         services.AddScoped<IPromptValidator, PromptValidator>();
-        
+
         return services;
     }
 }
 ```
+
 ## Usage Example
 
 ```csharp
@@ -342,13 +355,13 @@ public class PromptService
 {
     private readonly MultiModelClient _client;
     private readonly ILogger<PromptService> _logger;
-    
+
     public PromptService(MultiModelClient client, ILogger<PromptService> logger)
     {
         _client = client;
         _logger = logger;
     }
-    
+
     public async Task<string> GenerateCodeReviewAsync(string code)
     {
         var request = new ModelRequest
@@ -360,13 +373,13 @@ public class PromptService
             Temperature = 0.3,
             MaxTokens = 2000
         };
-        
+
         try
         {
             var response = await _client.CallAsync(request);
             _logger.LogInformation("Generated review using {Model}, tokens: {Tokens}", 
                 response.Model, response.TokensUsed);
-            
+
             return response.Content;
         }
         catch (Exception ex)
@@ -377,6 +390,7 @@ public class PromptService
     }
 }
 ```
+
 ## Best Practices
 
 1. **Use Dependency Injection**: Register clients and services in DI container.

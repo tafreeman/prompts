@@ -5,21 +5,29 @@ intro: Designs mobile application architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - mobile-architecture
 - architect
 - system
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -45,26 +53,26 @@ flowchart TB
         Repo[Repository]
         Cache[(Local Cache)]
     end
-    
+
     subgraph Network[Network Layer]
         API[API Client]
         Sync[Sync Engine]
         Push[Push Handler]
     end
-    
+
     subgraph Backend[Backend Services]
         BFF[BFF API]
         Auth[Auth Service]
         Gateway[API Gateway]
         Services[Microservices]
     end
-    
+
     subgraph Platform[Platform Services]
         PushSvc[Push Notifications]
         Analytics[Analytics]
         CDN[Asset CDN]
     end
-    
+
     UI --> VM
     VM --> Repo
     Repo --> Cache
@@ -86,7 +94,7 @@ flowchart TB
 ### Framework Selection
 
 | Framework | When to Use | Trade-offs |
-|-----------|-------------|------------|
+| ----------- | ------------- | ------------ |
 | **Native (Swift/Kotlin)** | Performance critical, platform-specific features | Two codebases, higher cost |
 | **React Native** | Web team, code sharing with web | Bridge overhead, native module needs |
 | **Flutter** | Consistent UI, single codebase | Dart ecosystem, large app size |
@@ -96,7 +104,7 @@ flowchart TB
 ### Offline Strategy Decision
 
 | Strategy | When to Use | Complexity |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **Cache-first** | Read-heavy, stale data acceptable | Low |
 | **Network-first** | Fresh data important | Low |
 | **Offline-first** | Unreliable connectivity, field work | High |
@@ -127,12 +135,14 @@ Performance Requirements: [performance]
 Security Needs: [security]
 
 Include:
+
 1. Architecture patterns
 2. Backend integration
 3. Offline capabilities
 4. Security implementation
 5. Performance optimization
 6. Testing strategy
+
 ```text
 
 **Output:**
@@ -141,17 +151,20 @@ Include:
 ## Mobile Architecture Design
 
 ### 1. Architecture Pattern
+
 *   **MVVM-C (Model-View-ViewModel + Coordinator):**
     *   Decouples UI from business logic for testability.
     *   Coordinators handle navigation flow, enabling deep linking support.
 *   **Modularization:** Feature-based modules (Auth, Appointments, VideoCall, Prescriptions) to speed up build times.
 
 ### 2. Backend Integration
+
 *   **Protocol:** GraphQL (Apollo Client) to minimize over-fetching on mobile networks.
 *   **Real-time:** WebSockets for chat and appointment status updates.
 *   **Resilience:** Circuit breaker pattern for flaky network conditions.
 
 ### 3. Offline Capabilities
+
 *   **Strategy:** "Offline-First" for read-only data (Prescription history).
 *   **Storage:** Encrypted Realm/Room database.
 *   **Sync:** Background sync worker to upload vitals when connectivity restores.
@@ -174,6 +187,7 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Backend**: Azure App Service, Azure Functions, Container Apps
 - **BFF**: Azure API Management with mobile-optimized policies
 - **Push**: Azure Notification Hubs (multi-platform)
@@ -181,6 +195,7 @@ Include:
 - **Analytics**: Azure Application Insights, App Center
 
 ### AWS
+
 - **Backend**: API Gateway, Lambda, AppSync (GraphQL)
 - **BFF**: API Gateway with caching, AWS Amplify
 - **Push**: Amazon SNS, Pinpoint for targeted messaging
@@ -188,6 +203,7 @@ Include:
 - **Analytics**: Pinpoint, CloudWatch
 
 ### GCP
+
 - **Backend**: Cloud Run, Cloud Functions, Firebase
 - **BFF**: Apigee, Cloud Endpoints
 - **Push**: Firebase Cloud Messaging (FCM)
@@ -202,6 +218,7 @@ Include:
 A healthcare startup needs a telemedicine app with video consultations and secure messaging.
 
 ### Input
+
 ```text
 App Type: Telemedicine platform with video, chat, prescriptions
 Target Platforms: iOS (14+), Android (10+)

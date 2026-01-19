@@ -6,20 +6,28 @@ intro: Gathers and manages stakeholder requirements with interview planning, con
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - project-manager
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - requirements
 - stakeholder-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Business Domain: [domain]
 Complexity Level: [complexity]
 
 Include:
+
 1. Stakeholder analysis
 2. Interview planning
 3. Requirements elicitation
 4. Conflict resolution
 5. Prioritization framework
 6. Communication strategy
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[project_name]` | Project name and scope |
 | `[groups]` | Stakeholder groups/roles to interview |
 | `[domain]` | Business domain/context (industry, processes, regulations) |
@@ -77,14 +87,17 @@ Include:
 ## Stakeholder Requirements Plan
 
 ### 1. Stakeholder Analysis
+
 *   **Sales Reps:** High Influence / High Interest. Concern: "Will this slow me down?"
 *   **Marketing:** Medium Influence / High Interest. Concern: "Will lead attribution break?"
 
 ### 2. Interview Planning
+
 *   **Format:** "Day in the Life" shadowing sessions with top 3 sales reps.
 *   **Key Question:** "Show me the most frustrating part of logging a deal today."
 
 ### 3. Requirements Elicitation
+
 *   **Requirement (Sales):** "Must be able to log calls from mobile app in < 2 clicks."
 *   **Requirement (Ops):** "Must enforce 'Deal Stage' validation rules."
 

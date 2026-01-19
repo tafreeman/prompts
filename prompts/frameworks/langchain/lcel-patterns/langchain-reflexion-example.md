@@ -5,14 +5,18 @@ intro: A prompt for langchain lcel pattern with reflexion tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms: []
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -22,22 +26,28 @@ framework_compatibility:
   langchain: '>=0.1.0'
   openai: '>=1.0.0'
 use_cases:
+
 - chain-composition
 - iterative-improvement
 - error-correction
+
 performance_metrics:
   accuracy_improvement: 18-28%
   latency_impact: medium
   cost_multiplier: 1.3-1.5x
 last_updated: '2025-11-23'
 tags:
+
 - langchain
 - lcel
 - reflexion
 - chains
+
 platform:
+
 - openai
 - anthropic
+
 ---
 
 # LangChain LCEL Pattern with Reflexion
@@ -141,6 +151,7 @@ print("\nReflection:", result["reflection"])
 print("\nFinal Analysis:", result["final_analysis"])
 
 ```
+
 ## Advanced Pattern: Multi-Iteration LCEL
 
 ```python
@@ -148,20 +159,20 @@ from langchain_core.runnables import RunnableBranch
 
 def create_multi_iteration_reflexion(max_iterations: int = 3):
     """Create a reflexion chain with multiple iterations"""
-    
+
     def should_continue(state: Dict) -> bool:
         """Decide if we need another iteration"""
         iteration = state.get("iteration", 0)
         confidence = state.get("confidence", 0)
         return iteration < max_iterations and confidence < 8.0
-    
+
     def extract_confidence(text: str) -> float:
         """Extract confidence score from analysis"""
         # Simplified - in production, use structured output
         import re
         match = re.search(r'confidence[:\s]+(\d+(?:\.\d+)?)', text.lower())
         return float(match.group(1)) if match else 5.0
-    
+
     # Iteration chain
     iteration_chain = (
         RunnablePassthrough.assign(
@@ -181,9 +192,10 @@ def create_multi_iteration_reflexion(max_iterations: int = 3):
             lambda x: x  # Base case: return final result
         )
     )
-    
+
     return iteration_chain
 ```
+
 ## Structured Output with Pydantic
 
 ```python
@@ -215,6 +227,7 @@ structured_chain = structured_prompt | llm | parser
 result: CodeAnalysis = structured_chain.invoke({"code": "..."})
 print(f"Found {len(result.issues)} issues with {result.severity} severity")
 ```
+
 ## Best Practices
 
 1. **Use `RunnablePassthrough.assign()`** for building state across steps

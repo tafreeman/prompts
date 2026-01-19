@@ -6,21 +6,29 @@ intro: A specialized ReAct pattern for analyzing the structure, quality, and com
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - analysis
 - documentation
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-25'
 governance_tags:
+
 - PII-safe
 - internal-only
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -49,7 +57,7 @@ A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the stru
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[ANALYSIS_TASK]` | Yes | The specific audit question or goal for the library analysis. | `Identify prompts missing required sections and propose fixes` |
 
 ## Example
@@ -72,12 +80,14 @@ You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) patter
 **Task**: [ANALYSIS_TASK]
 
 **Context**: 
+
 - You have access to the file system of the prompt library.
 - The library root is typically `d:\source\osi\prompts` (or similar).
 - Prompts are Markdown (`.md`) files.
 - Standard prompts should have YAML frontmatter and specific sections (Description, Prompt, Variables, etc.).
 
 **Available Tools**:
+
 1.  **list_directory**: List files and subdirectories in a given path.
     -   Parameters: {path: string}
     -   Returns: List of names, types (file/dir), and sizes.
@@ -100,6 +110,7 @@ Use the Thought → Action → Observation → Synthesis cycle to perform the an
 For each cycle:
 
 **Thought [N]**:
+
 -   What part of the library do I need to inspect next?
 -   Do I need to list a directory to see what's there?
 -   Do I need to read a file to check its content?
@@ -114,12 +125,14 @@ Parameters: {
 [SYSTEM PROVIDES RESULTS]
 
 **Observation [N]**:
+
 -   What did the tool return?
 -   Are there empty files?
 -   Do files have the correct structure?
 -   Are there unexpected files?
 
 **Synthesis [N]**:
+
 -   What does this tell me about the library's state?
 -   Have I found the answer to the user's question?
 -   Do I need to dig deeper into a specific folder?
@@ -132,6 +145,7 @@ Continue until you can provide:
 [Comprehensive analysis of the target area]
 
 **Summary of Findings**:
+
 -   **Total Files Scanned**: [Number]
 -   **Complete Prompts**: [Number]
 -   **Stubs/Incomplete**: [Number] (List them)
@@ -139,9 +153,11 @@ Continue until you can provide:
 -   **Metadata Gaps**: [Files missing frontmatter]
 
 **Recommendations**:
+
 -   Specific actions to improve the library (e.g., "Fill out `xyz.md`", "Move `abc.md` to `analysis` folder").
 
 **Confidence Assessment**:
+
 -   **High/Medium/Low**: Based on how much of the requested scope was covered.
 
 ```text
@@ -159,6 +175,7 @@ Parameters: {
 
 **Observation 1**:
 [System returns:]
+
 - competitive-analysis-researcher.md (1.8 KB)
 - consumer-behavior-researcher.md (1.8 KB)
 - data-analysis-insights.md (24.6 KB)
@@ -166,6 +183,7 @@ Parameters: {
 - gap-analysis-expert.md (1.8 KB)
 - market-research-analyst.md (1.8 KB)
 - user-experience-analyst.md (1.8 KB)
+
 ... (total 15 files)
 
 **Synthesis 1**: I see a mix of file sizes. `data-analysis-insights.md` is large (24.6 KB) and likely complete. `data-quality-assessment.md` is also substantial (12.1 KB). However, there are several files around 1.8 KB (e.g., `competitive-analysis-researcher.md`, `gap-analysis-expert.md`). These are likely stubs or templates. I need to read one of the small files and one of the large files to confirm my hypothesis and check for metadata.
@@ -182,6 +200,7 @@ Parameters: {
 
 **Observation 2**:
 [System returns content of competitive-analysis-researcher.md]
+
 - Frontmatter: Present (title, category, tags...)
 - Description: "Conducts competitive market analysis" (Very brief)
 - Prompt: Brief placeholder text.
@@ -196,6 +215,7 @@ Parameters: {
 
 **Observation 3**:
 [System returns content of data-analysis-insights.md]
+
 - Frontmatter: Present and detailed.
 - Description: Detailed paragraph.
 - Prompt: Comprehensive, multi-section prompt.
@@ -236,6 +256,7 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
     -   Tags are present but generic in stubs.
 
 **Summary of Findings**:
+
 -   **Total Files Scanned**: 15
 -   **Complete Prompts**: 2
 -   **Stubs/Incomplete**: 13
@@ -243,6 +264,7 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 -   **Metadata Gaps**: None (frontmatter exists)
 
 **Recommendations**:
+
 1.  **Prioritize Expansion**: The `analysis` category is thin. Focus on expanding `competitive-analysis-researcher.md` and `gap-analysis-expert.md` first as these are high-value use cases.
 2.  **Use Template**: Use `data-analysis-insights.md` as the "Gold Standard" reference when expanding the stubs.
 

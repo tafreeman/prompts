@@ -19,8 +19,7 @@ python tools/cove_runner.py "Who invented electricity?" --provider local --model
 
 ---
 
-## What is Chain-of-Verification?
-
+## What is Chain-of-Verification
 CoVe is a multi-step approach to reduce hallucinations:
 
 1. **Initial Response** - Get first answer from LLM
@@ -85,11 +84,13 @@ Question: What year was Python created?
 Initial Response: Python was created in 1991 by Guido van Rossum.
 
 Verification Questions:
+
 1. Who created Python?
 2. When did Guido van Rossum start working on Python?
 3. What year was Python 1.0 released?
 
 Verification Answers:
+
 1. Guido van Rossum created Python.
 2. Guido van Rossum started Python in 1989 during Christmas.
 3. Python 1.0 was released in January 1994.
@@ -107,7 +108,7 @@ Confidence: 0.92
 ## Best Models for CoVe
 
 | Model | Quality | Speed | Cost |
-|-------|---------|-------|------|
+| ------- | --------- | ------- | ------ |
 | `local:phi4` | Good | Fast | FREE |
 | `local:mistral` | Better | Medium | FREE |
 | `gh:gpt-4o-mini` | Best | Medium | FREE tier |

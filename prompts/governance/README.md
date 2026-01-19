@@ -5,19 +5,25 @@ intro: "Prompts for governance, compliance, legal, security operations, privacy,
 type: reference
 difficulty: intermediate
 audience:
+
   - security-engineer
   - compliance-officer
   - solution-architect
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 author: Prompts Library Team
 version: "1.1"
 date: "2025-12-11"
 governance_tags:
+
   - requires-human-review
   - compliance-critical
+
 dataClassification: internal
 reviewStatus: draft
 ---

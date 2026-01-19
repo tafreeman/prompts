@@ -8,22 +8,30 @@ m365App: Microsoft 365 Copilot Chat
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - copilot
 - standup
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -124,6 +132,7 @@ Help me generate clear, concise talking points for my daily standup with the
 [team_or_project_name] team, based on my recent work activity.
 
 Context:
+
 - I use Outlook, Teams, OneDrive/SharePoint, and calendar in Microsoft 365.
 - My daily standup follows the standard format:
   - What I did yesterday
@@ -132,6 +141,7 @@ Context:
 - I want bullet points that I can read aloud directly to the team.
 
 Scope:
+
 - Look at my work activity in the last [time_window], including:
   - Emails I sent or received that required meaningful work.
   - Meetings and calendar events I attended or prepared for.
@@ -141,15 +151,21 @@ Scope:
 - Emphasize these topics where applicable: [focus_topics].
 
 Assumptions and constraints:
+
 - If specific information is missing or ambiguous, ask me up to two quick clarifying
+
   questions before finalizing the output.
+
 - If you infer something from partial information, clearly label it as an inference
+
   (for example, "Likely work item").
+
 - Use a neutral, professional tone.
 - Keep each section to at most [max_bullets_per_section] bullet points.
 - Each bullet should be 10–20 words and action-oriented.
 
 Process:
+
 1. Review my recent activity in the specified [time_window].
 2. Group related activities by theme or work item.
 3. Map activities to:
@@ -163,18 +179,22 @@ Output format:
 Return the result in Markdown with the following sections:
 
 ## Yesterday
+
 - [bullet]
 - [bullet]
 
 ## Today
+
 - [bullet]
 - [bullet]
 
 ## Blockers
+
 - [bullet]
 - [bullet]
 
 ## Optional Follow-ups
+
 - [question to ask the team]
 - [question to ask the team]
 
@@ -185,7 +205,7 @@ If anything critical is unclear, ask clarifying questions first, then provide th
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[time_window]` | How far back to look for relevant activity (e.g., "24 hours") |
 | `[team_or_project_name]` | Team/project name to focus the standup on |
 | `[max_bullets_per_section]` | Maximum bullets in each section (Yesterday/Today/Blockers) |
@@ -213,22 +233,27 @@ with <=4 concise bullets per section.
 
 ```text
 ## Yesterday
+
 - Investigated delayed account activations and confirmed root cause in onboarding API timeout.
 - Aligned with product owner on scope and timeline for onboarding flow hotfix.
 - Reviewed customer escalation emails and documented recurring issues in shared incident log.
 
 ## Today
+
 - Implement hotfix for onboarding API timeout and coordinate deployment with DevOps.
 - Prepare summary for leadership on onboarding delays and mitigation plan.
 - Sync with support team to validate top escalation patterns and update runbook.
 
 ## Blockers
+
 - Waiting on final approval from security team for API configuration change.
 - Limited test data for simulating high-volume onboarding scenarios.
 
 ## Optional Follow-ups
+
 - Can anyone help expedite the security review for the API change?
 - Are there additional customer examples we should review in today’s incident sync?
+
 ```text
 
 ---

@@ -5,6 +5,7 @@ The Evaluation Agent is an autonomous system that runs comprehensive evaluations
 ## Overview
 
 The evaluation agent automatically:
+
 1. Generates evaluation files for all prompt categories
 2. Runs evaluations using multiple AI models
 3. Analyzes results and calculates pass rates
@@ -26,6 +27,7 @@ python tools/evaluation_agent.py --full --dry-run
 # Full evaluation with verbose logging
 python tools/evaluation_agent.py --full --verbose
 ```text
+
 ### Run Specific Phase
 
 The evaluation is organized into 4 phases based on category priority:
@@ -43,6 +45,7 @@ python tools/evaluation_agent.py --phase 3
 # Run phase 4 only (creative, governance)
 python tools/evaluation_agent.py --phase 4
 ```sql
+
 ### Resume from Checkpoint
 
 If an evaluation is interrupted, you can resume from the last checkpoint:
@@ -50,6 +53,7 @@ If an evaluation is interrupted, you can resume from the last checkpoint:
 ```bash
 python tools/evaluation_agent.py --resume
 ```text
+
 ### Clear Checkpoint
 
 To start fresh and clear any existing checkpoint:
@@ -57,6 +61,7 @@ To start fresh and clear any existing checkpoint:
 ```bash
 python tools/evaluation_agent.py --clear-checkpoint
 ```yaml
+
 ## Prerequisites
 
 Before running the evaluation agent, ensure you have:
@@ -75,6 +80,7 @@ The agent is configured in `tools/evaluation_agent.py` via the `AgentConfig` cla
 ### Categories
 
 Evaluated categories (in priority order):
+
 - **Phase 1**: analysis, business
 - **Phase 2**: m365, developers
 - **Phase 3**: system, advanced
@@ -83,6 +89,7 @@ Evaluated categories (in priority order):
 ### Models
 
 Each category is evaluated with a specific AI model:
+
 - `analysis`: openai/gpt-5-mini
 - `business`: xai/grok-3-mini
 - `m365`: openai/gpt-5-mini
@@ -104,12 +111,14 @@ The agent generates several reports:
 
 ### Evaluation Report
 Location: `docs/reports/EVALUATION_REPORT.md`
+
 - Detailed evaluation results
 - Category-by-category breakdown
 - Individual prompt scores
 
 ### Agent Execution Summary
 Location: `docs/reports/AGENT_EXECUTION_SUMMARY.md`
+
 - Overall statistics
 - Pass/fail rates by category
 - List of failing prompts
@@ -117,6 +126,7 @@ Location: `docs/reports/AGENT_EXECUTION_SUMMARY.md`
 
 ### Improvement Plan
 Location: `docs/reports/IMPROVEMENT_PLAN.md`
+
 - Generated only if prompts fail
 - Recommendations for improving failing prompts
 - Priority-ordered action items
@@ -124,11 +134,13 @@ Location: `docs/reports/IMPROVEMENT_PLAN.md`
 ## Checkpoint System
 
 The agent saves checkpoints to `.eval_checkpoint.json` allowing:
+
 - Resume capability after interruption
 - State preservation across runs
 - Progress tracking
 
 The checkpoint includes:
+
 - Current phase and category
 - Completed categories
 - Category results
@@ -146,6 +158,7 @@ python tools/test_evaluation_agent.py
 # Integration tests
 python tools/test_evaluation_agent_integration.py
 ```sql
+
 ## Troubleshooting
 
 ### "GitHub CLI (gh) not found"
@@ -158,11 +171,13 @@ Run: `gh extension install github/gh-models`
 Run: `gh auth login` and follow the prompts
 
 ### Evaluation times out
+
 - Increase `EVAL_TIMEOUT_SECONDS` in `AgentConfig`
 - Run with fewer parallel evaluations
 - Run specific phases instead of full pipeline
 
 ### Rate limiting errors
+
 - Increase `DELAY_BETWEEN_EVALS_SECONDS`
 - Reduce `MAX_PARALLEL_EVALS`
 
@@ -175,7 +190,9 @@ Test what would happen without actually running evaluations:
 ```bash
 python tools/evaluation_agent.py --full --dry-run
 ```text
+
 This mode:
+
 - Validates prerequisites
 - Shows what would be executed
 - Doesn't make API calls
@@ -188,7 +205,9 @@ Get detailed debug information:
 ```bash
 python tools/evaluation_agent.py --full --verbose
 ```text
+
 Useful for:
+
 - Debugging issues
 - Understanding execution flow
 - Monitoring API calls
@@ -241,6 +260,7 @@ The evaluation agent consists of:
 ## Support
 
 For issues or questions:
+
 1. Check the troubleshooting section above
 2. Review test files for usage examples
 3. Examine the source code documentation

@@ -8,24 +8,32 @@ intro: You are an **Enterprise Cloud Migration Architect** specializing in lift-
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - cloud-architect
+
 platforms:
+
 - claude
 - chatgpt
+
 topics:
+
 - cloud-migration
 - developer
 - enterprise
 - developers
 - azure
 - aws
+
 author: Prompts Library Team
 version: '1.2'
 date: '2025-12-02'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -54,7 +62,7 @@ Enterprise cloud migration architect specializing in lift-and-shift, re-platform
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[app_name]` | Application name / short description | `Legacy CRM`, `Billing API` |
 | `[current_infra]` | Current infrastructure summary | `VMware + Oracle + F5`, `On-prem Kubernetes` |
 | `[target_cloud]` | Target cloud provider / landing zone | `Azure`, `AWS`, `GCP`, `Hybrid` |
@@ -88,6 +96,7 @@ Create a cloud migration plan for:
 **Business Requirements**: [requirements]
 
 Provide:
+
 1. **Migration Assessment** (6 Rs: Rehost, Replatform, Repurchase, Refactor, Retire, Retain)
 2. **Cloud Architecture Design** (Compute, storage, networking, database with Well-Architected principles)
 3. **Migration Phases** (Proof-of-concept, pilot, production cutover with rollback plans)4. **Cost Optimization** (TCO analysis, Reserved Instances, rightsizing recommendations)
@@ -113,7 +122,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Application Component Analysis
 
 | Component | Current | Migration Strategy | Rationale |
-|-----------|---------|-------------------|-----------|
+| ----------- | --------- | ------------------- | ----------- |
 | **Web/App Tier** | WebLogic 12c (Java 8) | **Re-platform** → Azure App Service (Linux containers) | Eliminate WebLogic licensing; modernize to containerized deployment |
 | **Database** | Oracle 11g RAC | **Re-platform** → Azure SQL Managed Instance | Reduce Oracle licensing 80% via SQL Server migration; SSMA tool available |
 | **Load Balancer** | F5 BIG-IP | **Rehost** → Azure Application Gateway | Native Azure service; no hardware maintenance |
@@ -126,6 +135,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Selected Strategy: Re-platform (85% of workload)**
 
 **Rejected Alternatives**:
+
 - ❌ **Rehost (Lift-and-Shift IaaS)**: Keeps Oracle 11g licensing costs; no cost savings achieved
 - ❌ **Refactor (Microservices Rewrite)**: 18-month timeline exceeds 9-month constraint; high risk
 
@@ -136,12 +146,13 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Conceptual Architecture
 
 ```text
+
 ```text
 
 ### Detailed Component Specifications
 
 | Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
-|-------|---------------|-------------------|--------------|-------|
+| ------- | --------------- | ------------------- | -------------- | ------- |
 | **CDN/WAF** | Azure Front Door Premium | Standard tier | $280 | DDoS Protection Standard included |
 | **Compute** | App Service Plan (Premium v3) | P2v3 (2 cores, 8GB) × 6 instances | $1,200 | Linux containers; auto-scale to 12 |
 | **Database** | SQL Managed Instance - Business Critical | 8 vCores, 32GB RAM | $2,400 | 99.99% SLA; zone-redundant |
@@ -162,6 +173,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Goal**: Validate Oracle → Azure SQL migration feasibility
 
 **Tasks**:
+
 1. **Database Migration Assessment**:
    - Run SQL Server Migration Assistant (SSMA) on Oracle 11g schema
    - Generate compatibility report (expected: 85% auto-convertible, 15% manual remediation)
@@ -175,6 +187,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
    - Target: Avg response time \u003c 600ms (vs. 800ms current)
 
 **Success Criteria**:
+
 - ✅ 95% of regression tests pass
 - ✅ Performance within 20% of current baseline
 - ✅ Zero P0/P1 showstoppers identified
@@ -188,6 +201,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Goal**: Migrate non-production environments + 10% of user base
 
 **Tasks**:
+
 1. **Full Data Migration** (Month 3):
    - Use Azure DMS for continuous replication (on-prem Oracle → Azure SQL MI)
    - Initial full load: 2TB (estimated 48 hours over 1Gbps link)
@@ -202,6 +216,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
    - Run in parallel with on-prem for 4 weeks (shadowing mode)
 
 **Rollback Plan**:
+
 - DNS TTL = 5 minutes (fast failback to on-prem)
 - Keep Oracle 11g in sync via bidirectional replication during pilot
 
@@ -214,7 +229,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Cutover Weekend (July 4-6, 2026)**:
 
 | Time | Activity | Owner | Rollback Trigger |
-|------|----------|-------|------------------|
+| ------ | ---------- | ------- | ------------------ |
 | **Fri 6pm** | Freeze Oracle writes; enable read-only mode | DBA | N/A |
 | **Fri 7pm** | Final DMS sync (incremental changes since pilot) | Migration Team | Sync duration \u003e 4 hours |
 | **Fri 11pm** | Validate data integrity (row counts, checksums) | QA Team | \u003e 1% data discrepancy |
@@ -232,6 +247,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Goal**: Decommission on-prem; optimize Azure costs
 
 **Tasks**:
+
 1. **Decommission On-Prem** (Month 8):
    - Shut down Oracle 11g RAC (August 15, 2026)
    - Reclaim VMware licenses ($200K/year savings)
@@ -242,6 +258,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
    - Enable auto-shutdown for dev/test environments (weekends)
 
 **Final Cost**:
+
 - Current estimate: $60K/year
 - Post-optimization: $420K/year with 3-year RI commitment
 
@@ -252,7 +269,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### On-Premise vs. Azure - 3-Year Comparison
 
 | Cost Category | Current (On-Prem) | Azure (Year 1) | Azure (Year 2-3 with RI) |
-|---------------|-------------------|----------------|-------------------------|
+| --------------- | ------------------- | ---------------- | ------------------------- |
 | **Oracle Licensing** | $300K/year | $0 | $0 |
 | **VMware Licensing** | $120K/year | $0 | $0 |
 | **Hardware Refresh** | $150K/year (amortized) | $0 | $0 |
@@ -279,7 +296,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Identity & Access Management
 
 | Security Control | On-Prem | Azure Implementation | Benefit |
-|------------------|---------|----------------------|---------|
+| ------------------ | --------- | ---------------------- | --------- |
 | **Authentication** | LDAP (cleartext passwords) | Azure AD (Entra ID) with MFA | Phishing-resistant; conditional access policies |
 | **Authorization** | Hard-coded roles in app | Azure RBAC + App Registrations | Least-privilege; audit logs in Azure AD |
 | **Secrets Management** | Hardcoded in `web.xml` | Azure Key Vault | Rotate secrets without app redeployment |
@@ -287,9 +304,11 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Network Segmentation
 
 ```text
+
 ```text
 
 **Security Hardening**:
+
 - ✅ No public IPs on App Service or SQL MI (private endpoints only)
 - ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
 - ✅ TLS 1.3 enforced; HTTP → HTTPS redirect
@@ -298,7 +317,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Encryption
 
 | Data State | On-Prem | Azure |
-|------------|---------|-------|
+| ------------ | --------- | ------- |
 | **At Rest** | Oracle TDE (Basic) | SQL MI TDE with customer-managed keys (Azure Key Vault) |
 | **In Transit** | TLS 1.2 (app ↔ Oracle) | TLS 1.3 (end-to-end: client ↔ Azure) |
 | **In Use** (SQL queries) | None | Always Encrypted (column-level encryption for PII) |
@@ -306,7 +325,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Compliance Mapping
 
 | Requirement | Current Compliance | Azure Service | Attestation |
-|-------------|-------------------|---------------|-------------|
+| ------------- | ------------------- | --------------- | ------------- |
 | **SOC 2 Type II** | Self-attested | Azure inherits Microsoft SOC 2 | Azure Trust Center |
 | **ISO 27001** | Not certified | Azure SQL MI is ISO 27001 certified | Shared responsibility model |
 | **GDPR** (EU users) | Manual DPO processes | Azure Policy + Data Residency (EU regions) | GDPR compliance toolkit |
@@ -321,13 +340,14 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 **Scenario**: Simulate Black Friday peak load (10,000 concurrent users)
 
 | Metric | Target (SLA) | Current (On-Prem) | Azure (Pilot Results) | Status |
-|--------|--------------|-------------------|----------------------|--------|
+| -------- | -------------- | ------------------- | ---------------------- | -------- |
 | **Avg Response Time** | \u003c 600ms | 800ms | **520ms** | 🟢 35% improvement |
 | **95th Percentile** | \u003c 1.5s | 2.5s | **1.2s** | 🟢 52% improvement |
 | **Throughput** | \u003e 500 req/sec | 400 req/sec | **650 req/sec** | 🟢 63% improvement |
 | **Error Rate** | \u003c 0.1% | 0.3% | **0.05%** | 🟢 Exceeds target |
 
 **Performance Improvement Drivers**:
+
 - Azure SQL MI has faster SSD storage (100K IOPS vs. 20K IOPS on NetApp SAN)
 - App Service Premium v3 uses newer Intel CPUs (20% faster than on-prem VMware)
 - Azure Front Door CDN reduces latency for static assets (images, CSS, JS)
@@ -336,11 +356,13 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 
 **Scenario**: Primary region (East US 2) failure  
 **Procedure**:
+
 1. Trigger manual failover to West US 2 (via Azure Portal)
 2. Verify SQL MI geo-replica promotion (automated)
 3. DNS failover to West US 2 App Service (manual via Azure Traffic Manager)
 
 **DR Test Results** (July 2026):
+
 - **RPO** (Recovery Point Objective): 5 minutes (exceeds 1-hour target)
 - **RTO** (Recovery Time Objective): 45 minutes (exceeds 4-hour target)
 - **Data Loss**: 0 rows (continuous geo-replication)
@@ -352,7 +374,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Migration KPIs (Track Monthly)
 
 | Metric | Baseline | Target | Actual (Post-Migration) |
-|--------|----------|--------|------------------------|
+| -------- | ---------- | -------- | ------------------------ |
 | **Cost Savings** | $650K/year | -30% ($455K/year) | **-84% ($102K/year)** 🟢 |
 | **Availability SLA** | 99.5% (43.8 hrs down/year) | 99.9% (8.76 hrs/year) | **99.95% (4.4 hrs/year)** 🟢 |
 | **Avg Response Time** | 800ms | \u003c 600ms | **520ms** 🟢 |
@@ -372,6 +394,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 
 **Trigger**: Load test results fail SLA target  
 **Mitigation**:
+
 1. Scale up SQL MI: 8 vCores → 16 vCores (+$2.4K/month)
 2. Enable SQL MI read replicas for reporting queries
 3. Add Azure Redis Cache for session state ($200/month)
@@ -379,6 +402,7 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 ### Scenario 3: Cutover Weekend Overrun (\u003e 4-Hour Downtime)
 
 **Rollback Plan**:
+
 - Revert DNS to on-prem F5 load balancer (5-minute TTL)
 - Re-enable Oracle 11g writes (remove read-only mode)
 - Notify users: "Migration postponed to next maintenance window (August 1)"

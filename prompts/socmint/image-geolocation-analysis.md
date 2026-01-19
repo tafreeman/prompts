@@ -6,25 +6,33 @@ intro: Systematic approach to geolocating images using visual indicators, metada
 type: prompt
 difficulty: advanced
 audience:
+
 - security-professionals
 - osint-analysts
 - investigators
 - journalists
+
 platforms:
+
 - github-copilot
 - chatgpt
 - claude
+
 topics:
+
 - osint
 - geolocation
 - image-analysis
 - geoint
+
 author: OSINT Library
 version: '1.0'
 date: '2024-11-30'
 governance_tags:
+
 - privacy-aware
 - ethical-osint
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -43,7 +51,7 @@ Systematically analyze images to determine their geographic location using metad
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `{{IMAGE_SOURCE}}` | Yes | Where the image comes from (file, URL, description) and how it can be accessed. | `uploaded photo file` |
 | `{{KNOWN_CONTEXT}}` | No | Any known story/context clues about the image. | `posted on social media; likely taken during travel` |
 | `{{APPROXIMATE_DATE_RANGE}}` | No | Approximate date range for temporal consistency checks. | `Summer 2024` |
@@ -67,7 +75,7 @@ Extract and analyze EXIF/metadata:
 
 **Priority Metadata Fields:**
 | Field | Intelligence Value |
-|-------|-------------------|
+| ------- | ------------------- |
 | GPS Coordinates | Direct location (if present) |
 | Date/Time Original | When photo was taken |
 | Camera Make/Model | Device identification |
@@ -76,6 +84,7 @@ Extract and analyze EXIF/metadata:
 | Focal Length | Perspective analysis |
 
 **Metadata Tools:**
+
 - ExifTool for comprehensive extraction
 - Jeffrey's EXIF Viewer (online)
 - Forensically for image forensics
@@ -85,6 +94,7 @@ Extract and analyze EXIF/metadata:
 Systematically catalog all visible elements:
 
 **Natural Indicators:**
+
 - Sun position/shadows → Time and hemisphere
 - Vegetation type → Climate zone, season
 - Terrain features → Mountains, coastlines, plains
@@ -92,6 +102,7 @@ Systematically catalog all visible elements:
 - Water features → Rivers, lakes, ocean characteristics
 
 **Built Environment:**
+
 - Architecture style → Regional building patterns
 - Road markings → Country-specific standards
 - Traffic signs → Language, design standards
@@ -99,6 +110,7 @@ Systematically catalog all visible elements:
 - Street furniture → Benches, bins, posts
 
 **Human Elements:**
+
 - Vehicle types/plates → Country, region
 - Clothing styles → Cultural indicators
 - Signage/text → Language, alphabet
@@ -106,6 +118,7 @@ Systematically catalog all visible elements:
 - Flags/symbols → National, regional, organizational
 
 **Unique Identifiers:**
+
 - Business names → Searchable entities
 - Street names → Direct mapping
 - Building numbers → Address correlation
@@ -116,10 +129,11 @@ Systematically catalog all visible elements:
 
 Rate each indicator:
 | Indicator | Specificity | Confidence | Searchability |
-|-----------|-------------|------------|---------------|
+| ----------- | ------------- | ------------ | --------------- |
 | [item] | Global/Regional/Local/Unique | High/Medium/Low | Easy/Moderate/Difficult |
 
 **Focus on:**
+
 1. **Unique identifiers** first (business names, landmarks)
 2. **Highly specific** regional indicators
 3. **Searchable** elements for verification
@@ -127,6 +141,7 @@ Rate each indicator:
 ### Phase 4: Cross-Reference Strategy
 
 **Mapping Tools:**
+
 - Google Maps/Street View for ground-level verification
 - Google Earth for aerial perspective
 - Bing Maps for alternative imagery
@@ -135,6 +150,7 @@ Rate each indicator:
 - Apple Maps for recent imagery
 
 **Specialized Resources:**
+
 - Wikimapia for user-annotated locations
 - OpenStreetMap for detailed mapping data
 - SunCalc for sun position verification
@@ -142,6 +158,7 @@ Rate each indicator:
 - Sentinel Hub for satellite imagery
 
 **Reverse Image Search:**
+
 - Google Images
 - Yandex Images (often better for obscure locations)
 - TinEye for exact matches
@@ -150,12 +167,14 @@ Rate each indicator:
 ### Phase 5: Verification & Confidence Assessment
 
 **Verification Methods:**
+
 1. **Multi-source confirmation**: Same location from different sources
 2. **Street View matching**: Ground-level perspective alignment
 3. **Temporal consistency**: Do visible elements match the timeframe?
 4. **Shadow verification**: Does sun position match claimed time/date?
 
 **Confidence Levels:**
+
 - **Confirmed**: Exact location verified through multiple methods
 - **High confidence**: Strong indicator match, limited verification
 - **Moderate confidence**: Multiple indicators align, some uncertainty
@@ -166,16 +185,18 @@ Rate each indicator:
 
 ### 1. Metadata Analysis Report
 ```
+
 GPS Data: [Present/Absent/Stripped]
 Timestamp: [Original time if available]
 Device: [Camera/phone identification]
 Processing: [Evidence of editing]
 Integrity: [Assessment of authenticity]
+
 ```
 
 ### 2. Visual Indicator Inventory
 | Category | Indicator | Description | Location Relevance |
-|----------|-----------|-------------|-------------------|
+| ---------- | ----------- | ------------- | ------------------- |
 | Natural | ... | ... | ... |
 | Built | ... | ... | ... |
 | Human | ... | ... | ... |
@@ -183,22 +204,25 @@ Integrity: [Assessment of authenticity]
 
 ### 3. Geolocation Hypothesis
 ```
+
 Primary Hypothesis: [Most likely location]
 Coordinates: [Lat, Long if determined]
 Confidence: [Level with justification]
 Supporting Evidence: [Key indicators]
 Contradicting Evidence: [Any conflicts]
+
 ```
 
 ### 4. Verification Results
 | Method | Result | Notes |
-|--------|--------|-------|
+| -------- | -------- | ------- |
 | Street View | Match/No Match/Partial | ... |
 | Satellite | Match/No Match/Partial | ... |
 | Reverse Image | Found/Not Found | ... |
 | Shadow Analysis | Consistent/Inconsistent | ... |
 
 ### 5. Final Assessment
+
 - **Determined Location**: [Address or coordinates]
 - **Confidence Level**: [With percentage if applicable]
 - **Key Evidence**: [Top 3 determining factors]
@@ -206,17 +230,19 @@ Contradicting Evidence: [Any conflicts]
 - **Recommended Follow-up**: [Additional analysis needed]
 
 ## Ethical Considerations
+
 - Consider privacy implications of geolocation
 - Do not geolocate to enable harm
 - Respect personal safety concerns
 - Document methodology for verification
 - Consider context of why location is being sought
+
 ```
 
 ## Tool Reference
 
 | Tool | Purpose | URL |
-|------|---------|-----|
+| ------ | --------- | ----- |
 | ExifTool | Metadata extraction | exiftool.org |
 | SunCalc | Sun position calculation | suncalc.org |
 | Google Earth Pro | Satellite/historical imagery | google.com/earth |
@@ -227,12 +253,14 @@ Contradicting Evidence: [Any conflicts]
 ## Example Usage
 
 **Input:**
+
 - Image: Street scene photograph
 - Context: Posted on social media, location unknown
 - Date Range: Summer 2024
 - Hypothesis: Possibly European based on architecture
 
 **Expected Output:**
+
 - Metadata showing stripped GPS but iPhone capture
 - Visual indicators: Cyrillic signage, Soviet-era architecture, specific bus model
 - Hypothesis: Eastern European city, likely Ukraine or Belarus

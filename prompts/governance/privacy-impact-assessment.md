@@ -6,30 +6,40 @@ intro: A structured ReAct+Reflection prompt for conducting Data Protection Impac
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - security-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - compliance
 - privacy
 - dpia
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - audit-required
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - UK-GDPR
 - ISO-27701
+
 effectivenessScore: 0.0
 ---
 
@@ -46,16 +56,19 @@ A comprehensive prompt for conducting Data Protection Impact Assessments (DPIAs)
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - GDPR Article 35: Data Protection Impact Assessment
 - ICO UK DPIA Guidance (2023)
 - European Data Protection Board Guidelines on DPIAs
 
 **Methodology:**
+
 - 7-step DPIA process from ICO UK
 - ReAct reasoning pattern (Yao et al., ICLR 2023) for systematic assessment
 - Self-Refine reflection (Madaan et al., NeurIPS 2023) for quality assurance
 
 **When DPIA is Mandatory:**
+
 - Systematic and extensive profiling with significant effects
 - Large-scale processing of special category data
 - Systematic monitoring of publicly accessible areas
@@ -92,18 +105,19 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 
 ---
 
-## Step 1: Screening - Do We Need a DPIA?
-
+## Step 1: Screening - Do We Need a DPIA
 **Think:** Does this processing require a mandatory DPIA under GDPR Article 35(3)?
 
 **Act:** Check against ICO screening criteria:
 
 ### Automatic DPIA Triggers
+
 - [ ] Systematic and extensive profiling with significant effects
 - [ ] Large-scale processing of special category data (Art. 9) or criminal data (Art. 10)
 - [ ] Systematic monitoring of publicly accessible areas
 
 ### High-Risk Indicators (2+ = DPIA likely required)
+
 - [ ] Evaluation/scoring (profiling, predicting)
 - [ ] Automated decision-making with legal/significant effects
 - [ ] Systematic monitoring
@@ -118,6 +132,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 **Observe:** Count indicators triggered: [X/10]
 
 **Reflect:** Based on the screening, is a DPIA:
+
 - [ ] **Mandatory** (automatic trigger or 2+ high-risk indicators)
 - [ ] **Recommended** (1 indicator but novel processing)
 - [ ] **Not required** (but document reasoning)
@@ -134,6 +149,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 **Act:** Document the processing systematically:
 
 ### 2.1 Nature of Processing
+
 - What will you do with the data?
 - How is data collected?
 - How is data stored?
@@ -141,6 +157,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 - What is the data flow?
 
 ### 2.2 Scope of Processing
+
 - What data is being processed?
 - How much data is involved?
 - How often is processing performed?
@@ -148,6 +165,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 - What is the geographical area covered?
 
 ### 2.3 Context of Processing
+
 - What is the relationship with data subjects?
 - How much control do individuals have?
 - Would individuals expect this processing?
@@ -155,13 +173,16 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 - What is the current state of technology in this area?
 
 ### 2.4 Purposes of Processing
+
 - What are you trying to achieve?
 - What is the intended effect on individuals?
 - What are the benefits (to you and to individuals)?
 
 **Observe:** Create a data flow diagram showing:
 ```
+
 [Data Source] → [Collection Point] → [Processing System] → [Storage] → [Output/Sharing]
+
 ```
 
 **Reflect:** Is the description complete enough for risk assessment?
@@ -176,19 +197,21 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 
 ### 3.1 Internal Consultation
 | Stakeholder | Role | Input Needed | Status |
-|-------------|------|--------------|--------|
+| ------------- | ------ | -------------- | -------- |
 | DPO | Privacy expert | Risk assessment, compliance | [ ] |
 | IT Security | Technical controls | Security measures | [ ] |
 | Legal | Legal basis, contracts | Lawfulness | [ ] |
 | Business Owner | Requirements | Necessity | [ ] |
 
 ### 3.2 Data Subject Consultation
+
 - Is consultation with data subjects feasible?
 - If not, why not? (Document justification)
 - What form will consultation take?
 - How will feedback be incorporated?
 
 ### 3.3 External Consultation
+
 - Are third-party processors involved?
 - Is supervisory authority consultation required (Art. 36)?
 
@@ -206,28 +229,31 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 
 ### 4.1 Lawful Basis Assessment
 | Purpose | Lawful Basis | Justification |
-|---------|--------------|---------------|
+| --------- | -------------- | --------------- |
 | [Purpose 1] | [Basis] | [Why appropriate] |
 | [Purpose 2] | [Basis] | [Why appropriate] |
 
 ### 4.2 Necessity Test
+
 - Could the same result be achieved with less data?
 - Could the same result be achieved differently?
 - Is the processing proportionate to the aim?
 
 ### 4.3 Data Minimization Check
+
 - Is all data collected actually needed?
 - Can any data fields be removed?
 - Can data be anonymized/pseudonymized?
 
 ### 4.4 Storage Limitation Check
+
 - What is the retention period?
 - Is this the minimum necessary?
 - How is data deleted?
 
 ### 4.5 Data Subject Rights
 | Right | How Fulfilled | Evidence |
-|-------|---------------|----------|
+| ------- | --------------- | ---------- |
 | Information | [Mechanism] | [Link] |
 | Access | [Mechanism] | [Process] |
 | Rectification | [Mechanism] | [Process] |
@@ -250,7 +276,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ### Risk Assessment Matrix
 
 | Risk | Likelihood | Severity | Risk Level | Affected Rights |
-|------|------------|----------|------------|-----------------|
+| ------ | ------------ | ---------- | ------------ | ----------------- |
 | Unauthorized access | H/M/L | H/M/L | [Score] | Confidentiality |
 | Data breach | H/M/L | H/M/L | [Score] | Security |
 | Inaccurate decisions | H/M/L | H/M/L | [Score] | Accuracy |
@@ -260,6 +286,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 | Function creep | H/M/L | H/M/L | [Score] | Purpose limitation |
 
 ### Risk Scoring Guide
+
 - **Likelihood:** High (probable), Medium (possible), Low (unlikely)
 - **Severity:** High (significant harm), Medium (moderate harm), Low (minimal harm)
 - **Risk Level:** H×H=Critical, H×M or M×H=High, M×M=Medium, Others=Low
@@ -279,13 +306,14 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ### Mitigation Plan
 
 | Risk | Measure | Effect on Risk | Residual Risk | Owner |
-|------|---------|----------------|---------------|-------|
+| ------ | --------- | ---------------- | --------------- | ------- |
 | [Risk 1] | [Control] | Eliminates/Reduces | H/M/L | [Role] |
 | [Risk 2] | [Control] | Eliminates/Reduces | H/M/L | [Role] |
 
 ### Categories of Measures
 
 **Technical Measures:**
+
 - [ ] Encryption (at rest, in transit)
 - [ ] Pseudonymization/anonymization
 - [ ] Access controls
@@ -294,6 +322,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 - [ ] Data loss prevention
 
 **Organizational Measures:**
+
 - [ ] Staff training
 - [ ] Policies and procedures
 - [ ] Contractual safeguards
@@ -301,12 +330,14 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 - [ ] Incident response plan
 
 **Privacy-Enhancing Measures:**
+
 - [ ] Privacy by design architecture
 - [ ] Consent management
 - [ ] Transparency mechanisms
 - [ ] User controls
 
 **Observe:** Confirm each measure is:
+
 - Practical to implement
 - Effective at reducing risk
 - Proportionate to the risk level
@@ -324,7 +355,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ### 7.1 Risk Assessment Summary
 
 | Risk Level | Count Before | Count After | Acceptable? |
-|------------|--------------|-------------|-------------|
+| ------------ | -------------- | ------------- | ------------- |
 | Critical | [X] | [Y] | Y/N |
 | High | [X] | [Y] | Y/N |
 | Medium | [X] | [Y] | Y/N |
@@ -341,7 +372,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ### 7.3 Sign-Off
 
 | Role | Name | Date | Signature |
-|------|------|------|-----------|
+| ------ | ------ | ------ | ----------- |
 | DPO | [Name] | [Date] | [Sig] |
 | Project Owner | [Name] | [Date] | [Sig] |
 | Senior Management | [Name] | [Date] | [Sig] |
@@ -357,16 +388,19 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ### Quality Assurance Checklist
 
 **Accuracy:**
+
 - [ ] All facts are verified
 - [ ] Risk assessments are evidence-based
 - [ ] Mitigation effectiveness is realistic
 
 **Completeness:**
+
 - [ ] All 7 steps fully addressed
 - [ ] All relevant risks identified
 - [ ] All data flows documented
 
 **Compliance:**
+
 - [ ] Aligns with ICO DPIA guidance
 - [ ] Meets GDPR Art. 35 requirements
 - [ ] Consultation requirements met
@@ -381,7 +415,7 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[PROJECT_NAME]` | Name of project or processing activity | "AI-Powered Customer Churn Prediction" |
 | `[PROJECT_DESCRIPTION]` | Brief description of what the project does | "ML model to predict customer churn using behavioral data" |
 | `[CONTROLLER_NAME]` | Organization responsible for processing | "Contoso Ltd" |
@@ -409,13 +443,15 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 **Output (Excerpt - Step 1):**
 
 ```markdown
-## Step 1: Screening - Do We Need a DPIA?
-
+## Step 1: Screening - Do We Need a DPIA
 ### Automatic DPIA Triggers
+
 - [x] Systematic and extensive profiling with significant effects
+
   → **TRIGGERED**: Continuous monitoring of employee communications constitutes systematic profiling
 
 ### High-Risk Indicators
+
 - [x] Evaluation/scoring - Detecting "burnout" involves employee evaluation
 - [x] Systematic monitoring - Ongoing communication analysis
 - [x] Sensitive data - Health-related inferences (mental wellbeing)
@@ -433,9 +469,11 @@ You are an expert Data Protection Officer conducting a Data Protection Impact As
 
 **Screening Decision:** DPIA MANDATORY
 **Rationale:** 
+
 1. Automatic trigger: Systematic profiling of employees with significant effects on their employment
 2. High-risk indicators: 5 of 10 triggered including sensitive health inferences and vulnerable individuals
 3. Novel AI technology processing employee communications requires careful assessment
+
 ```
 
 ---

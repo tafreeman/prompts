@@ -5,21 +5,29 @@ intro: Architects legacy system modernization
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - modernization
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -43,12 +51,12 @@ flowchart TB
         Mono[Monolith]
         MainDB[(Legacy DB)]
     end
-    
+
     subgraph Facade[Anti-Corruption Layer]
         Gateway[API Gateway]
         Adapter[Data Adapter]
     end
-    
+
     subgraph Modern[Modern Architecture]
         Svc1[Service 1]
         Svc2[Service 2]
@@ -56,12 +64,12 @@ flowchart TB
         NewDB[(Modern DB)]
         Events[Event Bus]
     end
-    
+
     subgraph Sync[Data Sync]
         CDC[CDC Pipeline]
         Transform[Transform]
     end
-    
+
     Mono --> Gateway
     MainDB --> CDC
     Gateway --> Svc1
@@ -82,7 +90,7 @@ flowchart TB
 ### Modernization Strategy Selection
 
 | Strategy | When to Use | Risk | Timeline |
-|----------|-------------|------|----------|
+| ---------- | ------------- | ------ | ---------- |
 | **Retain** | Working well, no business driver | None | N/A |
 | **Retire** | Redundant, low usage | Low | Weeks |
 | **Rehost (Lift & Shift)** | Quick cloud migration needed | Low | Months |
@@ -94,7 +102,7 @@ flowchart TB
 ### Strangler Fig Pattern Decision Points
 
 | Criteria | Strangler Fig | Big Bang Rewrite |
-|----------|---------------|------------------|
+| ---------- | --------------- | ------------------ |
 | Risk tolerance | Low | High |
 | Business continuity | Critical | Can tolerate downtime |
 | Codebase quality | Extractable modules | Completely unmaintainable |
@@ -126,12 +134,14 @@ Constraints: [constraints]
 Timeline: [timeline]
 
 Include:
+
 1. Current state assessment
 2. Target architecture
 3. Migration strategy
 4. Risk mitigation
 5. Phased approach
 6. Success metrics
+
 ```text
 
 **Output:**
@@ -140,15 +150,18 @@ Include:
 ## Modernization Strategy
 
 ### 1. Current State Assessment
+
 *   **Technical Debt:** High coupling, brittle point-to-point integrations.
 *   **Risk:** Knowledge silo concentrated in retiring staff.
 
 ### 2. Target Architecture
+
 *   **Pattern:** Strangler Fig Pattern to incrementally replace functionality.
 *   **Stack:** Java Spring Boot microservices on Kubernetes (EKS), Aurora PostgreSQL.
 *   **Integration:** Kafka for event streaming between Mainframe (CDC) and Cloud.
 
 ### 3. Migration Strategy (Phased)
+
 *   **Phase 1 (Hollow Core):** Build read-only APIs on cloud, syncing data via CDC (Change Data Capture) from DB2.
 *   **Phase 2 (Vertical Slice):** Migrate "Customer Profile" module completely (read/write).
 *   **Phase 3 (Transaction Core):** Migrate ledger logic.
@@ -170,6 +183,7 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Assessment**: Azure Migrate, Azure App Service Migration Assistant
 - **Containers**: Azure Kubernetes Service (AKS), Container Apps
 - **Database Migration**: Azure Database Migration Service, Data Migration Assistant
@@ -177,6 +191,7 @@ Include:
 - **Mainframe**: Azure Mainframe Migration (Micro Focus, Raincode)
 
 ### AWS
+
 - **Assessment**: AWS Migration Hub, Application Discovery Service
 - **Containers**: EKS, ECS, App Runner
 - **Database Migration**: AWS DMS, Schema Conversion Tool
@@ -184,6 +199,7 @@ Include:
 - **Mainframe**: AWS Mainframe Modernization (Blu Age, Micro Focus)
 
 ### GCP
+
 - **Assessment**: Migration Center, StratoZone
 - **Containers**: GKE, Cloud Run
 - **Database Migration**: Database Migration Service
@@ -198,6 +214,7 @@ Include:
 A financial services company needs to modernize a 25-year-old COBOL mainframe while maintaining 24/7 operations.
 
 ### Input
+
 ```text
 Legacy System: IBM z/OS mainframe, 5M lines of COBOL, DB2 database
 Business Drivers: Mainframe licensing costs ($5M/year), talent retirement risk

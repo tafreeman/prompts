@@ -5,18 +5,24 @@ intro: "Advanced patterns for autonomous agents, multi-agent systems, and tool-a
 type: "reference"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "ai-researcher"
+
 platforms:
+
   - "langchain"
   - "semantic-kernel"
   - "anthropic"
   - "openai"
+
 author: "AI Research Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -36,9 +42,9 @@ agentic/
     └── code-review-agent.md       # Single agent with specialized role
 ```
 
-## 🎯 What are Agentic Patterns?
-
+## 🎯 What are Agentic Patterns
 **Agentic AI** refers to AI systems that can:
+
 - **Plan**: Break down complex goals into steps
 - **Act**: Take actions and use tools
 - **Observe**: Monitor results and adapt
@@ -73,7 +79,7 @@ These patterns go beyond simple prompt-response by enabling autonomous, goal-dir
 ### Agent Types
 
 | Type | Description | Complexity | Use Case |
-|------|-------------|------------|----------|
+| ------ | ------------- | ------------ | ---------- |
 | **Reactive** | Respond to inputs directly | Low | Simple tasks, chatbots |
 | **Deliberative** | Plan before acting | Medium | Problem-solving |
 | **Learning** | Improve from experience | High | Adaptive systems |
@@ -175,6 +181,7 @@ Patterns for individual autonomous agents with specialized capabilities.
 Autonomous code reviewer with deep analysis capabilities.
 
 **Features:**
+
 - Static analysis integration
 - Security vulnerability detection
 - Performance profiling
@@ -182,6 +189,7 @@ Autonomous code reviewer with deep analysis capabilities.
 - Automated fix suggestions
 
 **Example Use:**
+
 ```python
 review_result = code_review_agent.invoke({
     "code": source_code,
@@ -212,11 +220,13 @@ Orchestrated collaboration between specialized agents.
 **Architectures:**
 
 1. **Sequential**: Agents work in sequence
+
    ```text
    Agent A → Agent B → Agent C → Result
    ```
 
 2. **Parallel**: Agents work simultaneously
+
    ```text
          ┌─ Agent A ─┐
    Input ├─ Agent B ─┤ → Aggregation → Result
@@ -224,6 +234,7 @@ Orchestrated collaboration between specialized agents.
    ```
 
 3. **Hierarchical**: Manager coordinates workers
+
    ```text
    Manager Agent
       ├─ Worker A (specialized task 1)
@@ -232,6 +243,7 @@ Orchestrated collaboration between specialized agents.
    ```
 
 4. **Collaborative**: Agents negotiate and iterate
+
    ```text
    Agent A ←→ Agent B ←→ Agent C
    (Iterative improvement through discussion)
@@ -254,6 +266,7 @@ Thought: Task complete
 ```
 
 **Implementation:**
+
 ```python
 prompt = """Answer the following question: {input}
 
@@ -357,14 +370,17 @@ Original Task: {task}
 Your Response: {response}
 
 Evaluate:
+
 1. Completeness: Did you fully address the task?
 2. Accuracy: Are your facts correct?
 3. Quality: Could the response be improved?
 
 Provide:
+
 - Issues found
 - Improvements needed
 - Revised response (if necessary)
+
 """
 ```
 
@@ -432,7 +448,7 @@ agent = create_agent(llm, tools, prompt)
 ## 📊 Comparison: Single vs Multi-Agent
 
 | Aspect | Single Agent | Multi-Agent |
-|--------|--------------|-------------|
+| -------- | -------------- | ------------- |
 | **Complexity** | Low-Medium | High |
 | **Latency** | Lower | Higher (coordination overhead) |
 | **Specialization** | Generalist | Deep expertise per agent |
@@ -442,12 +458,14 @@ agent = create_agent(llm, tools, prompt)
 | **Use Cases** | Simple tasks | Complex, multi-faceted problems |
 
 **When to Use Single Agent:**
+
 - Task is well-defined and focused
 - Latency is critical
 - Cost constraints
 - Simpler debugging needs
 
 **When to Use Multi-Agent:**
+
 - Task requires diverse expertise
 - Parallel processing beneficial
 - Quality > speed
@@ -458,7 +476,7 @@ agent = create_agent(llm, tools, prompt)
 ### Agent Frameworks
 
 | Framework | Language | Strengths | Learning Curve |
-|-----------|----------|-----------|----------------|
+| ----------- | ---------- | ----------- | ---------------- |
 | **LangChain** | Python | Comprehensive, well-documented | Medium |
 | **AutoGPT** | Python | Autonomous, goal-directed | Low |
 | **BabyAGI** | Python | Task-driven autonomy | Low |
@@ -484,16 +502,20 @@ pip install wandb      # Experiment tracking
 ### 1. Design Clear Roles
 
 ✅ **Do:**
+
 ```python
 researcher_prompt = """You are a research specialist.
 Your role:
+
 - Find accurate information
 - Verify sources
 - Cite references
+
 Do NOT attempt to write or format content."""
 ```
 
 ❌ **Don't:**
+
 ```python
 agent_prompt = "You are a helpful assistant."
 ```
@@ -515,13 +537,13 @@ def safe_agent_execution(agent, input_data, max_iterations=10):
     """Execute with safety limits."""
     for i in range(max_iterations):
         result = agent.invoke(input_data)
-        
+
         if is_complete(result):
             return result
-        
+
         if is_stuck(result):
             return fallback_handler(input_data)
-    
+
     raise MaxIterationsExceeded()
 ```
 
@@ -536,28 +558,31 @@ logger = logging.getLogger(__name__)
 def logged_agent_call(agent, input_data):
     logger.info(f"Agent call started: {input_data}")
     start_time = time.time()
-    
+
     result = agent.invoke(input_data)
-    
+
     duration = time.time() - start_time
     logger.info(f"Agent call completed in {duration:.2f}s")
-    
+
     return result
 ```
 
 ## 📚 Additional Resources
 
 ### Research Papers
+
 - [ReAct: Synergizing Reasoning and Acting](https://arxiv.org/abs/2210.03629)
 - [Generative Agents](https://arxiv.org/abs/2304.03442)
 - [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT)
 
 ### Frameworks & Tools
+
 - [LangChain Agents](https://python.langchain.com/docs/modules/agents/)
 - [Semantic Kernel Planning](https://learn.microsoft.com/en-us/semantic-kernel/agents/)
 - [AutoGen](https://microsoft.github.io/autogen/)
 
 ### Tutorials
+
 - [Building Autonomous Agents](https://www.deeplearning.ai/short-courses/functions-tools-agents-langchain/)
 - [Multi-Agent Systems](https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/)
 
@@ -580,6 +605,7 @@ See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
 **Problem:** Agent gets stuck repeating actions
 
 **Solution:**
+
 ```python
 max_iterations = 10
 iteration_count = 0
@@ -594,6 +620,7 @@ while not task_complete and iteration_count < max_iterations:
 **Problem:** Agent invents non-existent tools
 
 **Solution:**
+
 ```python
 # Strict tool validation
 available_tools = ["search", "calculate", "database"]
@@ -606,6 +633,7 @@ if requested_tool not in available_tools:
 **Problem:** Memory grows too large
 
 **Solution:**
+
 ```python
 from langchain.memory import ConversationSummaryMemory
 

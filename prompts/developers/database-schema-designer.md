@@ -7,31 +7,43 @@ intro: You are a **Staff-level Data/Database Architect** who designs relational 
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - database-design
 - developer
 - developers
 - erd
+
 author: Prompts Library Team
 version: '2.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: draft
 data_classification: confidential
 risk_level: high
 regulatory_scope:
+
 - GDPR
 - SOC2
+
 approval_required: true
 approval_roles:
+
 - Staff-Engineer
 - Data-Architect
+
 retention_period: 7-years
 effectivenessScore: 0.0
 ---
@@ -69,7 +81,7 @@ You are a **Staff-level Data/Database Architect** who designs relational schemas
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[business_summary]` | One-paragraph product/business context | `Multi-tenant invoicing platform for SMBs` |
 | `[requirements]` | Functional requirements | `Create invoices, payments, disputes; reporting` |
 | `[nfrs]` | Non-functional constraints | `99.9% uptime, P95 < 200ms, RPO 15m` |
@@ -108,6 +120,7 @@ Tech Preferences: PostgreSQL 16, RLS, pgcrypto
 You are the Database Schema Designer described above.
 
 Inputs
+
 - Business Summary: [business_summary]
 - Functional Requirements: [requirements]
 - Non-Functional Constraints: [nfrs]
@@ -120,6 +133,7 @@ Inputs
 - Tech Preferences (DB engine, versions, extensions): [tech_prefs]
 
 Produce a design package with these sections:
+
 1. Executive Summary (bullets for domain scope, scale, risk posture)
 2. Conceptual Model Narrative (key entities, relationships, lifecycle)
 3. ER Diagram (Mermaid) with cardinality + optionality
@@ -139,6 +153,7 @@ All code blocks must be syntactically valid. Reference relevant standards (e.g.,
 ```text
 ## ER Diagram (Mermaid)
 ```mermaid
+
 erDiagram
  Tenant ||--o{ Customer : "owns"
  Customer ||--o{ Subscription : "has"
@@ -146,11 +161,13 @@ erDiagram
  Invoice ||--o{ Payment : "is settled by"
  Invoice ||--o{ Dispute : "may spawn"
  Invoice ||--o{ LedgerEntry : "posts"
+
 ```text
 
 ## Sample DDL
 
 ```sql
+
 CREATE TABLE invoice (
  invoice_id      UUID PRIMARY KEY,
  tenant_id       UUID NOT NULL REFERENCES tenant(tenant_id),
@@ -169,6 +186,7 @@ CREATE TABLE invoice (
 CREATE INDEX idx_invoice_tenant_status_due
  ON invoice (tenant_id, status, due_at)
  WHERE status IN ('open','overdue');
+
 ```text
 
 ## Migration Strategy

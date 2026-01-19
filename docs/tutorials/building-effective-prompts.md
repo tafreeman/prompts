@@ -5,25 +5,33 @@ intro: "Learn the essential components and techniques for crafting prompts that 
 type: tutorial
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - prompt-structure
   - best-practices
   - fundamentals
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -64,6 +72,7 @@ Every effective prompt can include up to seven key components. Not every prompt 
 │  7. TONE        │  Voice and style guidance                 │
 └─────────────────────────────────────────────────────────────┘
 ```text
+
 ## Step 1: Start with Context (5 minutes)
 
 Context provides background information the AI needs to understand your situation.
@@ -73,6 +82,7 @@ Context provides background information the AI needs to understand your situatio
 ```text
 How should I handle this error?
 ```text
+
 **Problem:** The AI doesn't know what error, what language, or what situation.
 
 ### With Context
@@ -84,6 +94,7 @@ The form is used by customers on our public website.
 
 How should I handle this error?
 ```text
+
 **Result:** The AI can now provide specific, relevant advice.
 
 ### Practice Exercise 1
@@ -93,7 +104,9 @@ Transform this vague prompt by adding context:
 ```text
 Write a function to process the data.
 ```sql
+
 Think about:
+
 - What language?
 - What kind of data?
 - What does "process" mean in your situation?
@@ -108,7 +121,7 @@ Assigning a role tells the AI what expertise and perspective to bring.
 ### Common Role Patterns
 
 | Pattern | Example | Best For |
-|---------|---------|----------|
+| --------- | --------- | ---------- |
 | Expert | "You are a senior security engineer..." | Technical depth |
 | Reviewer | "You are a code reviewer focusing on..." | Critical analysis |
 | Teacher | "You are explaining to a junior developer..." | Clarity |
@@ -125,6 +138,7 @@ potential issues for a production environment:
 
 [configuration here]
 ```text
+
 ### Practice Exercise 2
 
 Add an appropriate role to this prompt:
@@ -132,6 +146,7 @@ Add an appropriate role to this prompt:
 ```text
 Review this marketing email and suggest improvements.
 ```sql
+
 Consider: What kind of expert would you want reviewing this?
 
 ---
@@ -143,7 +158,7 @@ The task is the core of your prompt. Make it specific and actionable.
 ### Weak vs. Strong Tasks
 
 | Weak | Strong |
-|------|--------|
+| ------ | -------- |
 | "Tell me about databases" | "Compare PostgreSQL and MongoDB for an e-commerce app with 10,000 concurrent users, focusing on query performance and operational complexity" |
 | "Help with this code" | "Refactor this function to reduce cyclomatic complexity from 15 to under 10 while maintaining the same behavior" |
 | "Write documentation" | "Write a README with sections for installation, configuration, usage examples, and troubleshooting" |
@@ -151,6 +166,7 @@ The task is the core of your prompt. Make it specific and actionable.
 ### Task Checklist
 
 Good tasks are:
+
 - ☑️ **Specific** — Name exactly what you need
 - ☑️ **Actionable** — Use clear action verbs
 - ☑️ **Scoped** — Define boundaries
@@ -176,6 +192,7 @@ Format specification tells the AI how to structure its response.
 
 # Structured document
 "Write as a technical specification with sections for:
+
 1. Overview
 2. Requirements
 3. Implementation
@@ -184,6 +201,7 @@ Format specification tells the AI how to structure its response.
 # JSON/Data format
 "Return as valid JSON matching this schema: {name: string, items: array}"
 ```json
+
 ### Practice Exercise 3
 
 Add format requirements to this prompt:
@@ -191,6 +209,7 @@ Add format requirements to this prompt:
 ```text
 Analyze the strengths and weaknesses of our competitor's product.
 ```text
+
 ---
 
 ## Step 5: Set Constraints (5 minutes)
@@ -200,7 +219,7 @@ Constraints set boundaries on what to include, exclude, or limit.
 ### Types of Constraints
 
 | Type | Example |
-|------|---------|
+| ------ | --------- |
 | Length | "Maximum 200 words" |
 | Scope | "Focus only on frontend concerns" |
 | Exclusions | "Do not include deprecated methods" |
@@ -213,12 +232,15 @@ Constraints set boundaries on what to include, exclude, or limit.
 Write a function to validate user input.
 
 Constraints:
+
 - Maximum 30 lines of code
 - Use only standard library (no external dependencies)
 - Must handle: empty input, None values, invalid types
 - Include type hints
 - No print statements in production code
+
 ```text
+
 ---
 
 ## Step 6: Provide Examples (When Needed) (5 minutes)
@@ -247,6 +269,7 @@ Output: Category: Authentication, Priority: High, Team: Security
 Now classify:
 Input: "Dashboard graphs not loading on mobile devices"
 ```text
+
 ---
 
 ## Step 7: Guide the Tone (When Needed)
@@ -256,7 +279,7 @@ Tone guidance shapes voice and style, especially important for user-facing conte
 ### Tone Dimensions
 
 | Dimension | Range |
-|-----------|-------|
+| ----------- | ------- |
 | Formality | Casual ↔ Formal |
 | Technical level | Beginner ↔ Expert |
 | Emotion | Neutral ↔ Enthusiastic ↔ Empathetic |
@@ -270,6 +293,7 @@ business analyst with limited technical background. Avoid
 jargon—when technical terms are necessary, provide brief 
 explanations in parentheses.
 ```text
+
 ---
 
 ## Putting It All Together
@@ -277,7 +301,7 @@ explanations in parentheses.
 ### Component Selection Guide
 
 | Include When... | Component |
-|-----------------|-----------|
+| ----------------- | ----------- |
 | Background affects the answer | Context |
 | Expertise/perspective matters | Role |
 | Always | Task |
@@ -298,23 +322,27 @@ a healthcare company. We need to classify incoming messages.
 tickets into: Billing, Technical, Medical, Appointments, Other.
 
 **Format:** Technical design document with sections for:
+
 1. Classification approach
 2. Feature engineering
 3. Model recommendations
 4. Edge case handling
 
 **Constraints:**
+
 - Must handle HIPAA compliance
 - Should work with 500 labeled examples
 - Real-time classification (<100ms)
 
 **Examples of each category:**
+
 - Billing: "I need to update my payment method"
 - Technical: "The mobile app keeps crashing"
 - Medical: "What are the side effects of my medication?"
 
 **Tone:** Technical, suitable for engineering team review.
 ```text
+
 ---
 
 ## Common Patterns
@@ -328,6 +356,7 @@ Role: You are a [specific expert]...
 Task: [Clear action verb] [specific deliverable]...
 Format: [Output structure]...
 ```text
+
 ### Context-Task-Constraints Pattern
 
 For technical tasks:
@@ -337,6 +366,7 @@ Context: [Situation and background]
 Task: [What needs to be done]
 Constraints: [Limitations and requirements]
 ```text
+
 ---
 
 ## Practice Exercises

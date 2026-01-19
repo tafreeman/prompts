@@ -5,17 +5,23 @@ intro: A prompt for retrieval augmented code documentation tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -25,21 +31,25 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - code-documentation
 - api-documentation
 - knowledge-retrieval
 - codebase-qa
+
 performance_metrics:
   accuracy_improvement: 35-50%
   latency_impact: medium
   cost_multiplier: 1.3-1.8x
 last_updated: '2025-11-23'
 tags:
+
 - rag
 - retrieval
 - documentation
 - csharp
 - vector-search
+
 ---
 
 # Retrieval-Augmented Code Documentation
@@ -72,6 +82,7 @@ LLM Generation: Create documentation
         ↓
 Output: XML comments + README section
 ```text
+
 ## Prompt Template
 
 ```markdown
@@ -81,19 +92,25 @@ You are a technical writer creating C# XML documentation comments.
 
 **Method to Document**:
 ```csharp
+
 {{target_method}}
+
 ```csharp
 **Retrieved Context** (similar methods and their documentation):
 
 ### Example 1: Similar Method
 
 ```csharp
+
 {{similar_method_1}}
+
 ```csharp
 ### Example 2: Similar Pattern
 
 ```csharp
+
 {{similar_method_2}}
+
 ```sql
 **Project Documentation Standards**:
 {{doc_standards}}
@@ -108,6 +125,7 @@ You are a technical writer creating C# XML documentation comments.
 **Format**:
 
 ```csharp
+
 /// <summary>
 /// [Your summary]
 /// </summary>
@@ -117,8 +135,10 @@ You are a technical writer creating C# XML documentation comments.
 /// <example>
 /// [Code example]
 /// </example>
+
 ```text
 ```text
+
 ## C# Implementation with Vector Search
 
 ```csharp
@@ -138,7 +158,7 @@ namespace PromptEngineering.RAG
         private readonly IVectorStore _vectorStore;
         private readonly AIModelClient _aiClient;
         private readonly ILogger<RAGDocumentationGenerator> _logger;
-        
+
         public RAGDocumentationGenerator(
             IVectorStore vectorStore,
             AIModelClient aiClient,
@@ -148,7 +168,7 @@ namespace PromptEngineering.RAG
             _aiClient = aiClient ?? throw new ArgumentNullException(nameof(aiClient));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        
+
         /// <summary>
         /// Generates documentation for a method using RAG.
         /// </summary>
@@ -158,15 +178,15 @@ namespace PromptEngineering.RAG
         public async Task<string> GenerateDocumentationAsync(string methodCode, int topK = 3)
         {
             _logger.LogInformation("Generating documentation with RAG (retrieving top {TopK} examples)", topK);
-            
+
             // Step 1: Retrieve similar documented methods
             var similarMethods = await _vectorStore.FindSimilarAsync(methodCode, topK);
-            
+
             _logger.LogDebug("Retrieved {Count} similar methods", similarMethods.Count);
-            
+
             // Step 2: Build context-augmented prompt
             var prompt = BuildRAGPrompt(methodCode, similarMethods);
-            
+
             // Step 3: Generate documentation
             var response = await _aiClient.CallAsync(new ModelRequest
             {
@@ -177,16 +197,18 @@ namespace PromptEngineering.RAG
                 Temperature = 0.3,
                 MaxTokens = 1500
             });
-            
+
             return response.Content;
         }
-        
+
         private string BuildRAGPrompt(string targetMethod, List<CodeSnippet> similarMethods)
         {
             var examples = string.Join("\n\n", similarMethods.Select((snippet, i) => 
                 $@"### Example {i + 1}: {snippet.MethodName}
 ```csharp
+
 {snippet.Code}
+
 ```powershell
 "));
 
@@ -198,7 +220,9 @@ You are a technical writer creating C# XML documentation comments.
 **Method to Document**:
 
 ```csharp
+
 {targetMethod}
+
 ```sql
 **Retrieved Context** (similar methods and their documentation from this codebase):
 
@@ -214,10 +238,12 @@ You are a technical writer creating C# XML documentation comments.
 **Output Format**:
 
 ```csharp
+
 /// <summary>
 /// [Detailed summary]
 /// </summary>
 /// [Other tags]
+
 ```csharp
 ";
         }
@@ -232,13 +258,13 @@ You are a technical writer creating C# XML documentation comments.
         /// Finds code snippets similar to the query.
         /// </summary>
         Task<List<CodeSnippet>> FindSimilarAsync(string query, int topK);
-        
+
         /// <summary>
         /// Indexes a code snippet for later retrieval.
         /// </summary>
         Task IndexAsync(CodeSnippet snippet);
     }
-    
+
     public class CodeSnippet
     {
         public string MethodName { get; set; }
@@ -249,6 +275,7 @@ You are a technical writer creating C# XML documentation comments.
 }
 
 ```text
+
 ## Vector Store Implementation (Example with Qdrant)
 
 ```csharp
@@ -269,7 +296,7 @@ namespace PromptEngineering.RAG
         private readonly HttpClient _httpClient;
         private readonly string _collectionName;
         private readonly AIModelClient _embeddingClient;
-        
+
         public QdrantVectorStore(
             HttpClient httpClient,
             string collectionName,
@@ -279,12 +306,12 @@ namespace PromptEngineering.RAG
             _collectionName = collectionName;
             _embeddingClient = embeddingClient;
         }
-        
+
         public async Task<List<CodeSnippet>> FindSimilarAsync(string query, int topK)
         {
             // 1. Generate embedding for query
             var queryEmbedding = await GenerateEmbeddingAsync(query);
-            
+
             // 2. Search Qdrant
             var searchRequest = new
             {
@@ -292,18 +319,18 @@ namespace PromptEngineering.RAG
                 limit = topK,
                 with_payload = true
             };
-            
+
             var response = await _httpClient.PostAsync(
                 $"collections/{_collectionName}/points/search",
                 new StringContent(
                     JsonSerializer.Serialize(searchRequest),
                     Encoding.UTF8,
                     "application/json"));
-            
+
             response.EnsureSuccessStatusCode();
-            
+
             var result = await response.Content.ReadFromJsonAsync<QdrantSearchResponse>();
-            
+
             return result.Result.Select(r => new CodeSnippet
             {
                 MethodName = r.Payload["methodName"].ToString(),
@@ -311,12 +338,12 @@ namespace PromptEngineering.RAG
                 Documentation = r.Payload["documentation"].ToString()
             }).ToList();
         }
-        
+
         public async Task IndexAsync(CodeSnippet snippet)
         {
             // 1. Generate embedding for code
             var embedding = await GenerateEmbeddingAsync(snippet.Code);
-            
+
             // 2. Store in Qdrant
             var point = new
             {
@@ -329,17 +356,17 @@ namespace PromptEngineering.RAG
                     documentation = snippet.Documentation
                 }
             };
-            
+
             var response = await _httpClient.PutAsync(
                 $"collections/{_collectionName}/points",
                 new StringContent(
                     JsonSerializer.Serialize(new { points = new[] { point } }),
                     Encoding.UTF8,
                     "application/json"));
-            
+
             response.EnsureSuccessStatusCode();
         }
-        
+
         private async Task<List<float>> GenerateEmbeddingAsync(string text)
         {
             // Use OpenAI embeddings or similar
@@ -349,23 +376,23 @@ namespace PromptEngineering.RAG
                 Model = "text-embedding-3-small",
                 Prompt = text
             });
-            
+
             // Parse embedding from response (simplified)
             return ParseEmbedding(response.Content);
         }
-        
+
         private List<float> ParseEmbedding(string json)
         {
             // Simplified - actual implementation would parse JSON properly
             return new List<float>();
         }
     }
-    
+
     internal class QdrantSearchResponse
     {
         public List<SearchResult> Result { get; set; }
     }
-    
+
     internal class SearchResult
     {
         public Dictionary<string, object> Payload { get; set; }
@@ -373,6 +400,7 @@ namespace PromptEngineering.RAG
     }
 }
 ```text
+
 ## Usage Example
 
 ```csharp
@@ -409,6 +437,7 @@ var generatedDocs = await ragGenerator.GenerateDocumentationAsync(newMethod);
 
 Console.WriteLine(generatedDocs);
 ```text
+
 ## Output Example
 
 ```csharp
@@ -432,6 +461,7 @@ Console.WriteLine(generatedDocs);
 /// </code>
 /// </example>
 ```text
+
 ## Best Practices
 
 1. **Index Strategy**: Index all well-documented methods first to build quality retrieval base.

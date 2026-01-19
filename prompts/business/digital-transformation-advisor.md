@@ -5,20 +5,28 @@ intro: "Guides digital transformation initiatives with maturity assessment, tech
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "digital-transformation"
   - "strategy"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -55,12 +63,14 @@ Budget: [budget]
 Timeline: [timeline]
 
 Include:
+
 1. Digital maturity assessment
 2. Transformation strategy
 3. Technology roadmap
 4. Change management
 5. Implementation phases
 6. Success measurement
+
 ```text
 
 ---
@@ -93,12 +103,14 @@ Budget: $25M over 3 years (CapEx + OpEx); preference for cloud‑first solutions
 Timeline: 3‑year programme starting Q2 2026, with visible wins in the first 9 months.
 
 Include:
+
 1. Digital maturity assessment
 2. Transformation strategy
 3. Technology roadmap
 4. Change management
 5. Implementation phases
 6. Success measurement
+
 ```text
 
 ### Expected Output

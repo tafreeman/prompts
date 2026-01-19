@@ -7,22 +7,30 @@ intro: This prompt helps an individual knowledge worker run a weekly review usin
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - copilot
 - weekly-review
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -69,7 +77,7 @@ The user provides:
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[week_start]` | Yes | Start date of the review period. | `2025-11-10` |
 | `[week_end]` | Yes | End date of the review period. | `2025-11-14` |
 | `[focus_area]` | No | Optional focus theme to prioritize. | `customer onboarding` |
@@ -137,19 +145,23 @@ Help me review my week from [week_start] to [week_end] and choose what to
 focus on next week, based on my actual work.
 
 Context:
+
 - I use Outlook, Teams, OneDrive/SharePoint, and a calendar in Microsoft 365.
 - I want a realistic, constructive picture of my week.
 - I am especially focused on: [focus_area].
 
 Scope:
 Look at:
+
 - Meetings and calendar events between [week_start] and [week_end].
 - Emails I sent or received that required significant work.
 - Teams chats and channels where I was active.
 - Documents, spreadsheets, and presentations I created or edited.
+
 Prioritize insights related to [focus_area] where relevant.
 
 Assumptions and constraints:
+
 - If data is sparse in some areas, still provide a brief assessment and call that out.
 - Use a [tone] tone: supportive, honest, and specific.
 - Keep the entire output under 800 words.
@@ -157,6 +169,7 @@ Assumptions and constraints:
 - Propose at most [max_focus_items] focus items for next week.
 
 Process:
+
 1. Identify key accomplishments and high-impact events in the period.
 2. Surface patterns, lessons, and any recurring issues.
 3. List open loops or incomplete items that may need attention.
@@ -169,18 +182,22 @@ Return the result in Markdown with these sections:
 [1–2 short paragraphs]
 
 ## Key Accomplishments
+
 - [bullet]
 - [bullet]
 
 ## Lessons and Insights
+
 - [bullet]
 - [bullet]
 
 ## Open Loops / Incomplete Items
+
 - [bullet]
 - [bullet]
 
 ## Focus for Next Week
+
 - [bullet with brief outcome]
 - [bullet with brief outcome]
 
@@ -197,6 +214,7 @@ aligning stakeholders on the revised rollout plan. You made solid progress on
 incident response and began shaping a clearer roadmap.
 
 ## Key Accomplishments
+
 - Resolved two high-priority onboarding incidents and documented new troubleshooting steps.
 - Facilitated a cross-team meeting to align product, support, and engineering on onboarding goals.
 - Updated the onboarding FAQ document used by the support team.
@@ -204,20 +222,24 @@ incident response and began shaping a clearer roadmap.
 - Drafted a proposal for a phased rollout of the new onboarding flow.
 
 ## Lessons and Insights
+
 - Early, cross-functional alignment reduces rework and confusion later in the week.
 - Customers are most sensitive to delays in the first 24 hours after signup.
 - Support benefits significantly from concise, scenario-based documentation.
 
 ## Open Loops / Incomplete Items
+
 - Final sign-off on the phased rollout plan is still pending from product leadership.
 - Metrics dashboard is partially configured and needs additional filters and alerts.
 
 ## Focus for Next Week
+
 - Secure leadership approval for the phased rollout and define success metrics.
 - Finish configuring the onboarding metrics dashboard and validate data with analytics.
 - Partner with support to refine and publish the onboarding FAQ updates.
 - Identify one high-impact onboarding improvement that can be delivered within a week.
 - Schedule a short retrospective on the last two onboarding incidents to capture improvements.
+
 ```text
 
 ---
@@ -239,12 +261,15 @@ incident response and began shaping a clearer roadmap.
 This week you stabilized onboarding workflows and aligned stakeholders on a revised rollout plan.
 
 ## Key Accomplishments
+
 - Closed two onboarding-related incidents and documented new troubleshooting steps.
 - Updated onboarding FAQ content used by support.
 
 ## Focus for Next Week
+
 - Secure leadership approval for the phased rollout and define success metrics.
 - Validate the onboarding metrics dashboard and set up alerts.
+
 ```
 
 

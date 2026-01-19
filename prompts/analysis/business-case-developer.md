@@ -6,20 +6,28 @@ intro: Develops compelling business cases with executive summaries, cost-benefit
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - project-manager
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - business
 - planning
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -55,18 +63,20 @@ Risks: [risks]
 Timeline: [timeline]
 
 Provide:
+
 1. Executive summary
 2. Cost-benefit analysis
 3. ROI calculations
 4. Risk assessment
 5. Implementation plan
 6. Success metrics
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[initiative]` | Name/summary of the initiative being proposed |
 | `[investment]` | Budget, resources, and/or cost required |
 | `[benefits]` | Expected outcomes (revenue, savings, risk reduction, etc.) |
@@ -82,11 +92,13 @@ Provide:
 Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/year in support costs and providing 24/7 service. Payback period is 9 months.
 
 ### 2. Cost-Benefit Analysis
+
 *   **Costs:** $250k Year 1 (One-time setup + License).
 *   **Savings:** $400k/year (Equivalent to 6 FTEs).
 *   **Net Benefit (Year 1):** $150k.
 
 ### 3. Risk Assessment
+
 *   **Risk:** "Hallucinations" providing wrong answers.
 *   **Mitigation:** Implement "Human in the Loop" handoff for low-confidence answers (<80%).
 

@@ -19,7 +19,7 @@ python -c "from tools.llm_client import LLMClient; print(LLMClient.generate_text
 ## Supported Providers
 
 | Prefix | Provider | Cost | Requirements |
-|--------|----------|------|--------------|
+| -------- | ---------- | ------ | -------------- |
 | `local:*` | Local ONNX | $0 | onnxruntime-genai + model files |
 | `windows-ai:*` | Windows AI (NPU) | $0 | Windows 11 + NPU + LAF token |
 | `gh:*` | GitHub Models | FREE tier | gh CLI + auth |
@@ -88,7 +88,7 @@ python -c "from tools.llm_client import LLMClient; print(LLMClient.generate_text
 ## Environment Variables
 
 | Variable | Provider | Required |
-|----------|----------|----------|
+| ---------- | ---------- | ---------- |
 | `GITHUB_TOKEN` | GitHub Models (`gh:*`) | Yes |
 | `OPENAI_API_KEY` | OpenAI (`openai:*`) | Yes |
 | `AZURE_OPENAI_ENDPOINT` | Azure OpenAI | Yes |

@@ -6,20 +6,28 @@ intro: Manages project documentation with strategy, template libraries, version 
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - documentation
 - project-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Audience: [audience]
 Compliance Requirements: [compliance]
 
 Provide:
+
 1. Documentation strategy
 2. Template library
 3. Version control
 4. Access management
 5. Review processes
 6. Archive procedures
+
 ```text
 
 ---
@@ -79,16 +89,19 @@ Provide:
 ## Documentation Strategy
 
 ### 1. Strategy & Hierarchy
+
 *   **Level 1:** Quality Manual (Policy).
 *   **Level 2:** Procedures (Who, What, When).
 *   **Level 3:** Work Instructions (How-to steps).
 *   **Level 4:** Records (Evidence).
 
 ### 2. Template Library
+
 *   **SOP Header:** Must include Doc ID, Version, Owner, Approver, Effective Date.
 *   **Format:** Standardized MS Word styles for auto-generated Table of Contents.
 
 ### 3. Version Control
+
 *   **Naming Convention:** `ISO-PROC-[Dept]-[ID]-v[Major].[Minor]` (e.g., `ISO-PROC-HR-001-v2.0`).
 *   **Change Log:** Mandatory table at start of every document tracking "Reason for Change".
 

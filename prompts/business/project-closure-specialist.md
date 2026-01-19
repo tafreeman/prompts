@@ -6,20 +6,28 @@ intro: Manages project closure activities with checklists, deliverable review, s
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - project-management
 - closure
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Stakeholder Satisfaction: [satisfaction]
 Lessons Learned: [lessons]
 
 Provide:
+
 1. Closure checklist
 2. Final deliverable review
 3. Stakeholder sign-off
 4. Documentation handover
 5. Team transition plan
 6. Post-project evaluation
+
 ```text
 
 ---
@@ -79,19 +89,23 @@ Provide:
 ## Project Closure Plan
 
 ### 1. Closure Checklist
+
 *   [x] **Financial:** Final invoice sent and paid.
 *   [x] **Technical:** Admin credentials transferred to client IT.
 *   [ ] **Marketing:** Case study draft approved by client.
 
 ### 2. Final Deliverable Review
+
 *   **Scope Verification:** All SOW items delivered.
 *   **Quality:** SEO Audit delay noted; root cause was tool API outage (force majeure).
 
 ### 3. Stakeholder Sign-off
+
 *   **Action:** Schedule "Final Walkthrough & Sign-off" meeting for Friday.
 *   **Document:** "Project Acceptance Form" ready for digital signature.
 
 ### 4. Lessons Learned (Retrospective)
+
 *   **Issue:** Content Migration delay.
 *   **Action:** Update estimation template to include "Content Audit" phase *before* quoting migration hours.
 

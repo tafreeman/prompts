@@ -5,17 +5,23 @@ intro: "Guidelines for contributing new prompts and improvements to the library.
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -101,6 +107,7 @@ difficulty: "beginner"
 Clear, concise description of what this prompt does.
 
 ## Use Cases
+
 - Specific use case 1
 - Specific use case 2
 - Specific use case 3
@@ -110,6 +117,7 @@ Clear, concise description of what this prompt does.
 [Your actual prompt text. Be clear, specific, and include any necessary context.]
 
 ## Variables
+
 - `[variable1]`: What the user should replace this with
 - `[variable2]`: What the user should replace this with
 
@@ -117,20 +125,25 @@ Clear, concise description of what this prompt does.
 
 **Input:**
 ```text
+
 Show a real example with actual values
 
 ```text
 
 **Output:**
 ```text
+
 Show the expected result
 
 ```text
 
 ## Tips
+
 - Helpful tip for better results
 - Customization suggestions
+
 ```sql
+
 ### Step 3: Follow Best Practices
 
 **Good Prompt Characteristics:**
@@ -155,16 +168,19 @@ Show the expected result
 We provide two templates to help you get started:
 
 **Full Template** (`templates/prompt-template.md`)
+
 - Comprehensive structure with all optional sections
 - Best for complex prompts with multiple use cases
 - Includes sections for governance, examples, tips, and more
 
 **Minimal Template** (`templates/prompt-template-minimal.md`) ⭐ **Recommended for most prompts**
+
 - Simplified structure focusing on essentials
 - Quick to fill out - perfect for straightforward prompts
 - Includes: Description, Prompt, Variables, Example Usage
 
 **When to use which:**
+
 - Use **minimal** for: Simple, focused prompts with clear purpose
 - Use **full** for: Complex patterns, multi-step workflows, governance-sensitive content
 
@@ -179,6 +195,7 @@ Every prompt MUST include these sections:
 - [ ] **Example Usage** - Real example showing input and expected output
 
 **Optional but recommended:**
+
 - [ ] **Use Cases** - Specific scenarios where this prompt helps
 - [ ] **Tips** - Advice for better results or customization
 - [ ] **Related Prompts** - Links to similar or complementary prompts
@@ -200,6 +217,7 @@ date: "YYYY-MM-DD"
 ```
 
 **Required fields:**
+
 - `title`: Clear, descriptive title
 - `description`: One-line summary (shown in search results)
 - `category`: Must be one of the standard categories
@@ -232,13 +250,16 @@ When improving an existing prompt:
 
    ```markdown
    ## Changelog
-   
+
    ### Version 1.1 (2025-10-29)
+
    - Improved clarity in step 3
    - Added additional example
-   
+
    ### Version 1.0 (2025-10-15)
+
    - Initial version
+
    ```
 
 4. **Explain your changes** in the pull request description
@@ -348,8 +369,7 @@ We do **NOT** accept:
 - ❌ Spam or promotional content
 - ❌ Prompts that violate privacy or security
 
-## 📞 Questions or Help?
-
+## 📞 Questions or Help
 - **Unsure about something?** Open an issue with your question
 - **Need feedback?** Create a draft pull request and ask for input
 - **Want to discuss ideas?** Use GitHub Discussions

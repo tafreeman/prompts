@@ -6,20 +6,28 @@ intro: Performs detailed industry analysis including market dynamics, competitiv
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - research
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Key Questions: [questions]
 Stakeholder Interest: [stakeholders]
 
 Include:
+
 1. Industry overview
 2. Market dynamics
 3. Competitive landscape
 4. Trends and drivers
 5. Future outlook
 6. Strategic recommendations
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[industry]` | The industry/sector to analyze |
 | `[scope]` | Geographic, segment, and time horizon scope |
 | `[questions]` | Key questions to answer (bullets are fine) |
@@ -77,14 +87,17 @@ Include:
 ## Industry Analysis Report
 
 ### 1. Industry Overview
+
 *   **Size:** $3B market in 2024, projected to reach $15B by 2030 (CAGR 25%).
 *   **Structure:** Fragmented market consolidating around 3-4 major networks (Tesla, Electrify America, ChargePoint).
 
 ### 2. Market Dynamics
+
 *   **Driver:** Federal NEVI funding ($5B) accelerating highway corridor buildout.
 *   **Constraint:** Grid capacity bottlenecks delaying site energization by 12-18 months.
 
 ### 3. Future Outlook
+
 *   **Standardization:** NACS (Tesla) adoption by Ford/GM signals the end of the "Connector War."
 *   **Prediction:** 40% of smaller CPOs (Charge Point Operators) will be acquired by 2026.
 

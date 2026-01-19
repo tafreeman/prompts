@@ -6,20 +6,28 @@ intro: Analyzes and documents business requirements with user stories, acceptanc
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - requirements
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Business Objectives: [objectives]
 Current Challenges: [challenges]
 
 Provide:
+
 1. Functional requirements
 2. Non-functional requirements
 3. User stories
 4. Acceptance criteria
 5. Requirements traceability
 6. Impact analysis
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[project_name]` | Project name and short context |
 | `[stakeholders]` | Stakeholder list (roles/teams) |
 | `[objectives]` | Business objectives and success criteria |
@@ -77,15 +87,18 @@ Provide:
 ## Requirements Analysis Document
 
 ### 1. Functional Requirements
+
 *   **FR-01:** User must be able to select a transaction from history and click "Split".
 *   **FR-02:** User must be able to select contacts from phone book or enter email/phone.
 *   **FR-03:** System must calculate split amounts (Equal or Custom).
 
 ### 2. Non-functional Requirements
+
 *   **Security:** All split requests must be authenticated via FaceID/TouchID.
 *   **Performance:** Split notification must be delivered < 5 seconds.
 
 ### 3. User Stories
+
 *   **US-1:** "As a roommate, I want to split the rent unequally (based on room size), so we pay our fair share."
 *   **Acceptance Criteria:** Input fields accept decimal values; Total must equal 100%.
 

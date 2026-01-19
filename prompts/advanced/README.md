@@ -6,21 +6,29 @@ type: "reference"
 category: "advanced-techniques"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
   - "azure-openai"
+
 topics:
+
   - "reasoning"
   - "agents"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

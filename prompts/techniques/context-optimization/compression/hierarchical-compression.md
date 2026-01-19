@@ -5,17 +5,23 @@ intro: A prompt for hierarchical compression tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -25,9 +31,11 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - book-summarization
 - large-codebase-analysis
 - multi-document-synthesis
+
 performance_metrics:
   compression_ratio: 80-90%
   information_retention: medium
@@ -40,13 +48,17 @@ governance:
   data_classification: internal
   risk_level: low
   compliance_standards:
+
   - GDPR
+
 last_updated: '2025-11-23'
 tags:
+
 - compression
 - hierarchy
 - recursive-summarization
 - python
+
 ---
 
 # Hierarchical Compression
@@ -76,6 +88,7 @@ Summarize the following section of a larger document. Focus on the main argument
 
 **Summary**:
 ```text
+
 ### High-Level Synthesis Prompt
 
 ```markdown
@@ -86,6 +99,7 @@ Combine the following summaries into a coherent high-level overview of the entir
 
 **Overview**:
 ```text
+
 ## Example
 
 ### Python Implementation
@@ -109,6 +123,7 @@ final_summary = optimizer.compress_context(
 
 print(f"Final Summary: {final_summary}")
 ```text
+
 ### Conceptual Flow
 
 ```mermaid
@@ -117,17 +132,18 @@ graph TD
     Doc --> C2[Chunk 2]
     Doc --> C3[Chunk 3]
     Doc --> C4[Chunk 4]
-    
+
     C1 --> S1[Summary 1]
     C2 --> S2[Summary 2]
     C3 --> S3[Summary 3]
     C4 --> S4[Summary 4]
-    
+
     S1 & S2 --> M1[Meta Summary A]
     S3 & S4 --> M2[Meta Summary B]
-    
+
     M1 & M2 --> Final[Final Overview]
 ```text
+
 ## Usage
 
 ### When to Use

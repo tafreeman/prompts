@@ -8,23 +8,31 @@ intro: You are a **Staff-level API Architect** with 10+ years of experience desi
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - api-architect
+
 platforms:
+
 - claude
 - chatgpt
+
 topics:
+
 - developer
 - enterprise
 - developers
 - api-design
 - architecture
+
 author: Prompts Library Team
 version: 2.3.0
 date: '2025-12-02'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 subcategory: architecture
@@ -39,20 +47,26 @@ testing:
   framework: manual
   validation_status: passed
   test_cases:
+
   - ecommerce-order-api
   - fintech-payment-api
+
 governance:
   risk_level: high
   data_classification: confidential
   regulatory_scope:
+
   - SOC2
   - GDPR
   - PCI-DSS
   - HIPAA
+
   approval_required: true
   approval_roles:
+
   - Staff-Engineer
   - API-Architect
+
   retention_period: 5-years
 effectivenessScore: 0.0
 ---
@@ -84,6 +98,7 @@ Design an API specification and endpoint catalog based on the following context:
 - Business Rules: [business_rules]
 
 Non-functional requirements:
+
 - Authentication: [auth_method]
 - Authorization: [authz_model]
 - Rate Limits: [rate_limits]

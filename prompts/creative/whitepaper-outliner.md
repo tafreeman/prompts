@@ -5,24 +5,32 @@ intro: "Create a defensible whitepaper outline with claims mapped to evidence, v
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "creative"
   - "documentation"
   - "analysis"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2026-01-03"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
   - "requires-review"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -50,7 +58,7 @@ Generate a whitepaper outline that is structured, persuasive, and evidence-drive
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[topic]` | Whitepaper topic | `Modernizing data governance for mid-market orgs` |
 | `[audience]` | Primary reader persona | `CIOs and data leaders` |
 | `[goal]` | What the whitepaper should achieve | `Drive demo requests and position expertise` |
@@ -90,6 +98,7 @@ Call to action: [cta]
 4) Provide a drafting plan (what to write first, and what inputs to request).
 
 ## Output format (Markdown)
+
 - Working title (5 options)
 - Executive summary (bullet outline)
 - Detailed outline with H2/H3 headings
@@ -98,6 +107,7 @@ Call to action: [cta]
 - References plan (what sources to cite)
 - Drafting plan (sequence + ownership suggestions)
 - Missing inputs (questions to answer before writing)
+
 ```
 
 ---
@@ -123,12 +133,15 @@ Call to action: [cta]
 
 ```text
 ## Working title options
+
 1. "SaaS Governance That Doesn’t Slow Teams"
 2. "A Practical Playbook to Reduce SaaS Sprawl"
+
 ...
 
 ## Detailed outline
 ## 1. The real cost of SaaS sprawl
+
 - Purpose: Establish urgency for IT/procurement
 - Key claims:
   - Sprawl increases security and compliance risk
@@ -138,11 +151,14 @@ Call to action: [cta]
   - Example: anonymized internal audit counts [ADD DATA]
 - Suggested visuals:
   - Table: "Symptoms of sprawl" vs "Business impact"
+
 ...
 
 ## Missing inputs
+
 - What assessment deliverable do we offer (scope, timeline)?
 - Which internal audit metrics are publishable?
+
 ```
 
 ---

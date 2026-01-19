@@ -6,22 +6,30 @@ intro: Tree-of-Thoughts + ReAct prompt for comprehensive evaluation, research, a
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - analysis
 - architecture
 - quality-assurance
 - research
+
 author: Prompt Library Team
 version: '5.1'
 date: '2026-01-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -55,7 +63,7 @@ Perform comprehensive evaluation and research on the `tafreeman/prompts` library
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[evaluation_goal]` | Yes | What you want this workflow to achieve. | `Reduce validator failures to 0` |
 | `[scope]` | No | Optional boundaries (folders, categories, tiers). | `prompts/advanced/* only` |
 | `[constraints]` | No | Constraints to respect while executing. | `minimal edits; do not change frontmatter` |
@@ -107,7 +115,7 @@ When making edits, prioritize adding missing required sections (Description, Pro
 ### Selected Branches
 
 | Branch | Focus | Priority |
-|--------|-------|----------|
+| -------- | ------- | ---------- |
 | A | Structural Validation Audit | High |
 | B | Missing Section Identification | High |
 | C | Frontmatter Schema Compliance | Medium |
@@ -123,6 +131,7 @@ When making edits, prioritize adding missing required sections (Description, Pro
 **Action**: `run_in_terminal("python tools/validate_prompts.py prompts/advanced/")`
 
 **Observation**:
+
 - Total files: 21
 - Files with issues: 5
 - Common issue: Missing "## Example" section (4 files)
@@ -135,6 +144,7 @@ When making edits, prioritize adding missing required sections (Description, Pro
 **Action**: `grep_search("## Example", "prompts/advanced/*.md")`
 
 **Observation**:
+
 - Files missing Example section:
   1. `chain-of-thought-concise.md`
   2. `rag-document-retrieval.md`
@@ -150,7 +160,7 @@ When making edits, prioritize adding missing required sections (Description, Pro
 **Observation**:
 
 | File | Missing Sections |
-|------|------------------|
+| ------ | ------------------ |
 | `chain-of-thought-concise.md` | Example, Tips |
 | `rag-document-retrieval.md` | Example |
 | `react-tool-augmented.md` | Example, Variables |
@@ -162,16 +172,19 @@ When making edits, prioritize adding missing required sections (Description, Pro
 ## Phase 3: Reflexion Self-Critique
 
 ### Completeness Check
+
 1. ✅ Evaluated ALL 21 prompts in scope
 2. ✅ Checked both structural and content validation
 3. ✅ Identified specific missing sections per file
 
 ### Gap Identification
+
 - 5/21 files (24%) have validation issues
 - Most common gap: Missing Example section (4 files)
 - Second gap: Missing Tips section (3 files)
 
 ### Improvement Batch Plan
+
 - **Batch 1**: Add Example sections to 4 files (highest impact)
 - **Batch 2**: Add Tips sections to 3 files
 - **Batch 3**: Add Variables section to 1 file
@@ -183,7 +196,7 @@ When making edits, prioritize adding missing required sections (Description, Pro
 ### Files Modified
 
 | File | Change | Status |
-|------|--------|--------|
+| ------ | -------- | -------- |
 | `chain-of-thought-concise.md` | Added Example + Tips | ✅ |
 | `rag-document-retrieval.md` | Added Example | ✅ |
 | `react-tool-augmented.md` | Added Example + Variables | ✅ |
@@ -193,16 +206,18 @@ When making edits, prioritize adding missing required sections (Description, Pro
 ### Validation After Changes
 
 ```text
+
 python tools/validate_prompts.py prompts/advanced/
 ✅ Validated 21 files
 ✅ Files with issues: 0
 ✅ All files pass frontmatter and section requirements
+
 ```
 
 ### Quality Metrics
 
 | Metric | Before | After | Δ |
-|--------|--------|-------|---|
+| -------- | -------- | ------- | --- |
 | Validation Pass Rate | 76% | 100% | +24% |
 | Avg Quality Score | 72/100 | 81/100 | +9 |
 | Files with Examples | 17/21 | 21/21 | +4 |
@@ -248,13 +263,13 @@ flowchart TD
         A["Research Question"] --> B["Generate 3-5 Research Branches"]
         B --> C["Prioritize Top 3 Branches"]
     end
-    
+
     subgraph Phase2["Phase 2: ReAct Execution"]
         C --> D["Branch A: Thought → Action → Observe"]
         C --> E["Branch B: Thought → Action → Observe"]
         C --> F["Branch C: Thought → Action → Observe"]
     end
-    
+
     subgraph Phase3["Phase 3: Reflexion"]
         D & E & F --> G["Self-Critique Questions"]
         G --> H{"Gaps Remain?"}
@@ -262,13 +277,13 @@ flowchart TD
         H -->|No| J["Proceed to Synthesis"]
         I --> G
     end
-    
+
     subgraph Phase4["Phase 4: Synthesis"]
         J --> K["Compile Findings"]
         K --> L["Generate Deliverables"]
         L --> M["Quality Score + Recommendations"]
     end
-    
+
     style Phase1 fill:#e1f5fe
     style Phase2 fill:#fff3e0
     style Phase3 fill:#e8f5e9
@@ -287,7 +302,7 @@ flowchart TD
 ### Completed Infrastructure ✅
 
 | Component | Status | Details |
-|-----------|--------|---------|
+| ----------- | -------- | --------- |
 | Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
 | Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
 | Validation tooling | ✅ Complete | `tools/validate_prompts.py` |
@@ -298,7 +313,7 @@ flowchart TD
 ### Current Content Inventory (January 2026)
 
 | Category | Count | Status | Notes |
-|----------|-------|--------|-------|
+| ---------- | ------- | -------- | ------- |
 | **Business** | 39 prompts | ✅ Mature | Largest category |
 | **Developers** | 27 prompts | ✅ Mature | Core dev workflows |
 | **System** | 23 prompts | ✅ Mature | Agent/system prompts |
@@ -313,7 +328,7 @@ flowchart TD
 ### Evaluation Tools Available
 
 | Tool | Command | Purpose |
-|------|---------|---------|
+| ------ | --------- | --------- |
 | Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase evaluation |
 | Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
 | Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
@@ -323,7 +338,7 @@ flowchart TD
 ### Infrastructure Components
 
 | Component | Count | Status |
-|-----------|-------|--------|
+| ----------- | ------- | -------- |
 | Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
 | Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
 | Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
@@ -383,7 +398,7 @@ flowchart TD
 <summary>Current Governance Prompts (click to expand)</summary>
 
 | Prompt | Status |
-|--------|--------|
+| -------- | -------- |
 | `access-control-reviewer.md` | ✅ |
 | `ai-ml-privacy-risk-assessment.md` | ✅ |
 | `compliance-policy-generator.md` | ✅ |
@@ -416,7 +431,7 @@ flowchart TD
 **Recommended Additions (11)**:
 
 | Prompt | Type | Difficulty | Effort | Priority |
-|--------|------|------------|--------|----------|
+| -------- | ------ | ------------ | -------- | ---------- |
 | `case-study-builder.md` | how_to | intermediate | M | High |
 | `whitepaper-outliner.md` | how_to | intermediate | M | High |
 | `press-release-generator.md` | how_to | beginner | S | High |
@@ -434,7 +449,7 @@ flowchart TD
 **Gap**: Power users need more sophisticated patterns.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| -------- | ------ | ------------ | -------- |
 | `prompt-chain-orchestrator.md` | tutorial | advanced | L |
 | `multi-model-router.md` | how_to | advanced | L |
 | `context-window-optimizer.md` | how_to | advanced | M |
@@ -447,7 +462,7 @@ flowchart TD
 **Gap**: Vertical-specific prompt collections.
 
 | Pack | Prompts | Priority |
-|------|---------|----------|
+| ------ | --------- | ---------- |
 | Healthcare | 10-15 | Future |
 | Financial Services | 10-15 | Future |
 | Legal | 10-15 | Future |
@@ -463,7 +478,7 @@ When executing this analysis, you have access to these tool categories:
 ### 1. Workspace Navigation
 
 | Tool | Usage | Example |
-|------|-------|---------|
+| ------ | ------- | --------- |
 | `file_search` | Find files by glob pattern | `file_search("prompts/**/*.md")` |
 | `list_dir` | List directory contents | `list_dir("/prompts/")` |
 | `read_file` | Read file contents | `read_file("prompts/developers/code-review.md", 1, 50)` |
@@ -473,7 +488,7 @@ When executing this analysis, you have access to these tool categories:
 ### 2. Evaluation & Validation
 
 | Tool | Command | Purpose |
-|------|---------|---------|
+| ------ | --------- | --------- |
 | Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase scoring |
 | Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
 | Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
@@ -483,7 +498,7 @@ When executing this analysis, you have access to these tool categories:
 ### 3. External Research (MCP Tools)
 
 | Tool | Purpose |
-|------|---------|
+| ------ | --------- |
 | `fetch_webpage` | Fetch content from URLs for research |
 | `github_repo` | Search GitHub repos for prompt examples |
 | `mcp_context7_get-library-docs` | Get library documentation |
@@ -492,7 +507,7 @@ When executing this analysis, you have access to these tool categories:
 ### 4. Execution
 
 | Tool | Purpose |
-|------|---------|
+| ------ | --------- |
 | `run_in_terminal` | Execute Python scripts, validation, git commands |
 | `create_file` | Create new prompt files |
 | `replace_string_in_file` | Edit existing content |
@@ -511,29 +526,35 @@ Execute using the 4-phase methodology shown above. Each phase builds on the prev
 ## Research Branches for Library Evaluation
 
 ### Branch A: Structural Quality Analysis
+
 - Question: How well-organized is the prompt library structure?
 - Approach: Map directories, validate frontmatter, check index.md files
 - Priority: High (foundational)
 
 ### Branch B: Content Coverage Assessment  
+
 - Question: What content gaps exist across categories and audiences?
 - Approach: Count by type/platform/difficulty, compare to targets
 - Priority: High (roadmap input)
 
 ### Branch C: Academic Best Practices Comparison
+
 - Question: How does this library compare to published prompting research?
 - Approach: Research CoT, ToT, Reflexion patterns; compare to library coverage
 - Priority: Medium (quality improvement)
 
 ### Branch D: Scoring & Benchmarking
+
 - Question: What is the current quality score using dual rubrics?
 - Approach: Run evaluation_agent.py, analyze per-category scores
 - Priority: High (baseline)
 
 ### Branch E: External Competitive Analysis
+
 - Question: How does this compare to other public prompt libraries?
 - Approach: Analyze awesome-prompts, dair-ai/Prompt-Engineering-Guide
 - Priority: Low (future expansion)
+
 ```
 
 **Prioritize Top 3**: Select A, B, D for core evaluation; C, E for enhancement.
@@ -624,24 +645,29 @@ After completing ReAct cycles, apply structured self-critique:
 ## Reflexion Questions
 
 ### Completeness Check
+
 1. Did I evaluate ALL prompt categories? [Yes/No - list any missed]
 2. Did I check BOTH rubrics (Quality 0-100 AND Effectiveness 1.0-5.0)?
 3. Did I compare against target counts for each category?
 
 ### Accuracy Verification  
+
 4. Are my counts accurate? [Re-verify with file_search if uncertain]
 5. Did validation pass? [If failures, list specific files]
 6. Are scores from the LATEST evaluation run?
 
 ### Gap Identification
+
 7. What categories are below target count? [List with current/target]
 8. What content types are underrepresented? [quickstart, tutorial, etc.]
 9. What audiences lack coverage? [junior, senior, architect, etc.]
 
 ### Improvement Opportunities
+
 10. Which 5 prompts would benefit most from improvement?
 11. What new prompts would have highest impact?
 12. Are there emerging techniques not yet covered? [Reflexion, Agentic, etc.]
+
 ```
 
 **If gaps remain**: Return to Phase 2 for targeted follow-up actions.
@@ -674,7 +700,7 @@ Total: X prompts | Validation: X% pass | Overall Score: X/100
 
 ```markdown
 | Category | Count | Quality Score | Effectiveness | Trend |
-|----------|-------|---------------|---------------|-------|
+| ---------- | ------- | --------------- | --------------- | ------- |
 | Advanced | X | X/100 | X.X/5.0 | ↑↓→ |
 | Analysis | X | X/100 | X.X/5.0 | ↑↓→ |
 | ... | ... | ... | ... | ... |
@@ -685,7 +711,7 @@ Total: X prompts | Validation: X% pass | Overall Score: X/100
 
 ```markdown
 | Dimension | Current | Target | Gap | Priority |
-|-----------|---------|--------|-----|----------|
+| ----------- | --------- | -------- | ----- | ---------- |
 | Governance prompts | X | 15 | X | P0 |
 | Creative prompts | X | 20 | X | P1 |
 | Industry packs | 0 | 45 | 45 | P2 |
@@ -696,16 +722,20 @@ Total: X prompts | Validation: X% pass | Overall Score: X/100
 
 ```markdown
 ## Immediate Actions (This Sprint)
+
 1. [Specific prompt to create or improve]
 2. [Specific prompt to create or improve]
 
 ## Short-Term (Next 2 Weeks)
+
 1. [Category expansion goal]
 2. [Quality improvement target]
 
 ## Medium-Term (Next Month)
+
 1. [New capability to add]
 2. [Research area to explore]
+
 ```
 
 #### Deliverable 5: Execution Commands
@@ -773,7 +803,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Recommended Additions (11 needed)**:
 
 | # | Prompt | Description | Priority |
-|---|--------|-------------|----------|
+| --- | -------- | ------------- | ---------- |
 | 1 | `case-study-builder.md` | Customer success stories | High |
 | 2 | `whitepaper-outliner.md` | Long-form technical content | High |
 | 3 | `press-release-generator.md` | Media announcements | High |
@@ -812,7 +842,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Future**: Enterprise customers need domain expertise.
 
 | Industry | Key Use Cases | Prompt Count |
-|----------|---------------|--------------|
+| ---------- | --------------- | -------------- |
 | Healthcare | Patient communication, clinical documentation, HIPAA compliance | 10-15 |
 | Financial Services | Risk analysis, regulatory reporting, fraud detection | 10-15 |
 | Legal | Contract review, legal research, document drafting | 10-15 |
@@ -865,7 +895,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 ### Previous Evaluations
 
 | Document | Date | Score | Notes |
-|----------|------|-------|-------|
+| ---------- | ------ | ------- | ------- |
 | *Run new evaluation* | 2026-01-02 | TBD | Current state baseline |
 | `docs/TOT_EVALUATION_REPORT.md` | 2025-12-05 | 79/100 | Tree-of-Thoughts evaluation |
 | `docs/evaluations/EVALUATION_REPORT_*.md` | 2025-12-04 | 79/100 | Archived baseline reports |

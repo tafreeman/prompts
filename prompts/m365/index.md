@@ -5,20 +5,27 @@ intro: "Prompts tuned for Outlook, Teams, Word, PowerPoint, Excel, Loop, Designe
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "project-manager"
   - "business-analyst"
   - "functional-team"
+
 platforms:
+
   - "m365-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/m365/m365-customer-feedback-analyzer
   - /prompts/m365/m365-daily-standup-assistant
   - /prompts/m365/m365-data-insights-assistant
@@ -39,13 +46,18 @@ children:
   - /prompts/m365/m365-sway-document-to-story
   - /prompts/m365/m365-sway-visual-newsletter
   - /prompts/m365/m365-weekly-review-coach
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-m365
+
   popular:
+
     - /prompts/m365/m365-meeting-recap-assistant
     - /prompts/m365/m365-project-status-reporter
     - /prompts/m365/m365-email-triage-helper
+
 ---
 
 # M365 Copilot Prompt Pack
@@ -55,7 +67,7 @@ Accelerate exec updates, knowledge handoffs, and daily communications across the
 ## In This Section
 
 | App | Prompt | Output |
-| :--- |--------| :--- |
+| :--- | -------- | :--- |
 | Outlook | [Email Triage Helper](/prompts/m365/m365-email-triage-helper) | Prioritized inbox with draft responses |
 | Teams/Loop | [Daily Standup Assistant](/prompts/m365/m365-daily-standup-assistant) | Digest with blockers + action requests |
 | Word | [Handover Document Creator](/prompts/m365/m365-handover-document-creator) | SOP + ownership table |

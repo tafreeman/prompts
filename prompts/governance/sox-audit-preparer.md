@@ -6,29 +6,39 @@ intro: A prompt to assist in preparing for Sarbanes-Oxley (SOX) IT General Contr
 type: how_to
 difficulty: advanced
 audience:
+
 - security-engineer
 - compliance-officer
 - it-manager
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - compliance
 - finance
 - sox
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - SOX
 - COBIT
+
 effectivenessScore: 0.0
 ---
 
@@ -67,15 +77,18 @@ You are an expert SOX IT Auditor. Assist the user in preparing for a SOX ITGC au
 [PROCESS_DESCRIPTION]
 
 ## Instructions
+
 1.  Identify the key risks associated with this domain in a financial reporting context.
 2.  Define the expected key controls based on COBIT/SOX best practices.
 3.  Evaluate the provided process description for gaps or weaknesses.
 4.  List the specific evidence (population, samples, screenshots) an external auditor would request.
 
 ## Output Format
+
 - **Risk & Control Matrix (RCM) Draft**
 - **Gap Analysis**
 - **Evidence Request List**
+
 ```
 
 ---
@@ -94,22 +107,26 @@ You are an expert SOX IT Auditor. Assist the user in preparing for a SOX ITGC au
 ## SOX ITGC Assessment: Change Management for SAP
 
 ### Risk & Control Matrix (Draft)
+
 *   **Risk:** Unauthorized changes to the ERP system could lead to financial misstatement.
 *   **Control Activity:** Changes to production are approved by business owners and tested prior to migration.
 *   **Frequency:** Per Change.
 *   **Type:** Preventive / Manual.
 
 ### Gap Analysis
+
 *   **Segregation of Duties (SoD) Conflict:** Developers have access to migrate code to production. This is a significant deficiency.
 *   **Lack of Audit Trail:** "No formal approval ticket" means there is no evidence of authorization.
 
 ### Evidence Request List
+
 1.  **Population:** List of all changes migrated to production in the audit period (system generated).
 2.  **Sample Testing:** For 25 random changes, provide:
     *   Change Request Ticket.
     *   UAT Sign-off email/screenshot.
     *   Approval from Change Advisory Board (CAB).
     *   Evidence that the migrator was different from the developer.
+
 ```
 
 ---

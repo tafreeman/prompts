@@ -5,20 +5,28 @@ intro: "Generate constructive, balanced performance reviews with specific feedba
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "management"
   - "hr"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -124,19 +132,25 @@ Write a performance review for:
 **Review Period**: H2 2024 (July - December)
 **Role/Level**: Senior Software Engineer / Tech Lead, Platform Team (5 direct reports)
 **Key Accomplishments**:
+
 - Led migration of payment service to new architecture, completed 2 weeks early
 - Reduced on-call incidents by 40% through proactive monitoring improvements
 - Mentored 2 junior engineers who both got promoted
 - Initiated and ran weekly tech talks series (12 sessions, avg 25 attendees)
+
 **Areas for Growth**:
+
 - Struggles to delegate; tends to jump in and fix things rather than coach
 - Written communication could be clearer in design docs
 - Sometimes avoids difficult conversations with underperformers
+
 **Goals from Last Period**:
+
 1. Complete payment service migration (Q3)
 2. Reduce P1 incidents by 25%
 3. Develop leadership skills through management training
 4. Improve documentation practices
+
 **Overall Rating**: Exceeds Expectations
 ```text
 

@@ -85,6 +85,7 @@ pytest testing/integration/ -k "toolkit" -v
 **Purpose:** Integration tests for prompt execution pipeline with local models.
 
 **Coverage:**
+
 - Prompt loading and parsing
 - Variable substitution and formatting
 - Local ONNX model execution
@@ -92,13 +93,14 @@ pytest testing/integration/ -k "toolkit" -v
 - Error handling
 
 **Requirements:**
+
 - Local ONNX model (`phi4mini` or `mistral` in AI Gallery cache)
 - `onnxruntime-genai` library installed
 
 **Key Tests:**
 
 | Test | Description | Speed |
-|------|-------------|-------|
+| ------ | ------------- | ------- |
 | `test_prompt_execution_basic` | Execute simple prompt with local model | Slow |
 | `test_prompt_variable_substitution` | Verify variable replacement | Slow |
 | `test_prompt_error_handling` | Test error scenarios | Slow |
@@ -119,6 +121,7 @@ pytest testing/integration/test_prompt_integration.py -m slow -v
 **Purpose:** Integration tests for the unified prompt toolkit.
 
 **Coverage:**
+
 - Prompt discovery and loading
 - Format detection (Markdown, YAML, JSON)
 - Batch processing
@@ -128,7 +131,7 @@ pytest testing/integration/test_prompt_integration.py -m slow -v
 **Key Tests:**
 
 | Test | Description | Speed |
-|------|-------------|-------|
+| ------ | ------------- | ------- |
 | `test_toolkit_initialization` | Initialize toolkit components | Fast |
 | `test_discover_prompts` | Find prompts in directory | Fast |
 | `test_load_markdown_prompt` | Load .md prompt file | Fast |
@@ -151,6 +154,7 @@ pytest testing/integration/test_prompt_toolkit.py -v
 **Purpose:** Integration tests for the evaluation agent's workflow coordination.
 
 **Coverage:**
+
 - Agent initialization and configuration
 - Task queue management
 - Checkpoint save/load
@@ -161,7 +165,7 @@ pytest testing/integration/test_prompt_toolkit.py -v
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_agent_initialization` | Agent starts with valid config |
 | `test_checkpoint_save_load` | State persistence works |
 | `test_evaluate_single_category` | Evaluate one category |
@@ -180,6 +184,7 @@ pytest testing/integration/test_evaluation_agent_integration.py -v
 **Purpose:** End-to-end tests for complete evaluation agent workflows.
 
 **Coverage:**
+
 - Full evaluation pipeline
 - Multi-category processing
 - Report generation
@@ -189,7 +194,7 @@ pytest testing/integration/test_evaluation_agent_integration.py -v
 **Key Tests:**
 
 | Test | Description | Duration |
-|------|-------------|----------|
+| ------ | ------------- | ---------- |
 | `test_full_library_evaluation` | Evaluate entire library | Long |
 | `test_category_evaluation` | Evaluate single category | Medium |
 | `test_incremental_evaluation` | Resume from checkpoint | Medium |
@@ -248,7 +253,7 @@ timeout = 60
 ### Test Execution Time
 
 | Test Suite | Count | Avg Time | Total Time |
-|------------|-------|----------|------------|
+| ------------ | ------- | ---------- | ------------ |
 | Prompt Integration | 8 | 2.5s | 20s |
 | Prompt Toolkit | 12 | 0.8s | 10s |
 | Evaluation Agent Integration | 15 | 1.2s | 18s |
@@ -258,7 +263,7 @@ timeout = 60
 ### Coverage Targets
 
 | Component | Target Coverage | Current |
-|-----------|----------------|---------|
+| ----------- | ---------------- | --------- |
 | Prompt execution | 90% | 85% |
 | Agent workflows | 85% | 80% |
 | Error handling | 95% | 90% |
@@ -316,10 +321,10 @@ from unittest.mock import Mock, patch
 @patch('tools.evaluation_agent.call_llm')
 def test_evaluation_with_mock(mock_llm):
     mock_llm.return_value = {"score": 8.5, "reasoning": "Good"}
-    
+
     agent = EvaluationAgent()
     result = agent.evaluate_prompt("test.md")
-    
+
     assert result['score'] == 8.5
     mock_llm.assert_called_once()
 ```
@@ -405,6 +410,7 @@ name: Integration Tests
 on:
   pull_request:
     paths:
+
       - 'testing/integration/**'
       - 'tools/**'
       - 'prompts/**'
@@ -412,26 +418,31 @@ on:
 jobs:
   integration-tests:
     runs-on: ubuntu-latest
-    
+
     steps:
+
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python
+
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      
+
       - name: Install dependencies
+
         run: |
           pip install -r testing/requirements.txt
           pip install pytest pytest-cov pytest-asyncio
-      
+
       - name: Setup GitHub Models
+
         run: gh extension install github/gh-models
         env:
           GH_TOKEN: ${{ github.token }}
-      
+
       - name: Run integration tests (fast only)
+
         run: |
           pytest testing/integration/ \
             -v \
@@ -440,8 +451,9 @@ jobs:
             --cov-report=xml
         env:
           GH_TOKEN: ${{ github.token }}
-      
+
       - name: Upload coverage
+
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.xml

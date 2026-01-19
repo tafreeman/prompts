@@ -7,25 +7,33 @@ intro: A senior software engineer and automation specialist designing
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
   - "devops-engineer"
   - "solution-architect"
+
 platforms:
+
 - claude
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
 - code-review
 - ci-cd
 - developers
 - automation
   - "structured-output"
+
 author: Prompts Library Team
 version: 2.0.0
 date: '2025-12-11'
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 subcategory: "code-review"
@@ -52,11 +60,13 @@ Structured, automation-friendly code review prompt that outputs consistent, pars
 You are an AI Code Reviewer producing structured output for automation.
 
 Review the provided diff or file contents and output a Code Review Report with:
+
 - Summary counts (critical/major/minor/info)
 - Per-file issues with: category, severity, location (lines), description, rationale, suggested fix
 - Final recommendation: APPROVE / REQUEST_CHANGES / COMMENT
 
 Inputs:
+
 - Repository: [REPOSITORY_NAME]
 - Branch: [BRANCH_NAME]
 - Commit (optional): [COMMIT_SHA]
@@ -65,14 +75,16 @@ Inputs:
 - Focus areas (optional): [FOCUS_AREAS]
 
 Constraints:
+
 - Keep schema keys consistent (automation depends on it)
 - Do not include secrets, credentials, or PII; redact if present
+
 ```
 
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[REPOSITORY_NAME]` | Repository name or URL | `ecommerce-api`, `github.com/acme/payments` |
 | `[BRANCH_NAME]` | Branch being reviewed | `feature/add-auth`, `fix/memory-leak` |
 | `[COMMIT_SHA]` | Commit hash (optional) | `a1b2c3d4e5f6` |
@@ -102,7 +114,7 @@ Use this guide to classify issues consistently:
 ### Severity Classification
 
 | Severity | Criteria | Examples | Action |
-|----------|----------|----------|--------|
+| ---------- | ---------- | ---------- | -------- |
 | **CRITICAL** | Security vulnerabilities, data loss risk, breaking production | SQL injection, plaintext passwords, null pointer in hot path | Block merge, fix immediately |
 | **MAJOR** | Logic bugs, missing error handling, performance issues | Unhandled exceptions, N+1 queries, memory leaks | Should fix before merge |
 | **MINOR** | Code quality, maintainability, style | Missing docs, non-idiomatic code, long methods | Consider fixing |
@@ -111,7 +123,7 @@ Use this guide to classify issues consistently:
 ### Category Classification
 
 | Category | What to Look For | Impact Area |
-|----------|------------------|-------------|
+| ---------- | ------------------ | ------------- |
 | **security** | Injection, auth bypass, XSS, CSRF, secrets exposure | Data breach, compliance violation |
 | **performance** | N+1 queries, inefficient algorithms, memory leaks | User experience, infrastructure cost |
 | **bug** | Logic errors, race conditions, edge cases | Incorrect behavior, data corruption |
@@ -169,12 +181,14 @@ Has CRITICAL issues?
 - **Description:** Payment card data (card_number, cvv) is transmitted in plaintext within the application and potentially logged.
 - **Rationale:** Violates PCI DSS requirements. Exposing card data in plaintext creates massive security and compliance risk.
 - **Suggested Fix:**
+
   ```python
+
   # Never handle raw card data in application code
   # Use a PCI-compliant payment processor SDK that tokenizes card data client-side
-  
+
   from payment_processor import PaymentClient
-  
+
   def process_payment(amount, payment_token):
       """
       Process payment using tokenized card data.
@@ -183,6 +197,7 @@ Has CRITICAL issues?
       client = PaymentClient(api_key=os.environ['PAYMENT_API_KEY'])
       response = client.charge(amount=amount, token=payment_token)
       return response
+
   ```
 
 - **References:**
@@ -198,18 +213,20 @@ Has CRITICAL issues?
 - **Suggested Fix:**
 
   ```python
+
   import os
-  
+
   API_KEY = os.environ.get('PAYMENT_API_KEY')
   if not API_KEY:
       raise ValueError("PAYMENT_API_KEY environment variable not set")
-  
+
   headers = {"Authorization": f"Bearer {API_KEY}"}
   response = requests.post(
       "https://payment-api.example.com/charge", 
       json=payload, 
       headers=headers
   )
+
   ```
 
 - **References:** [OWASP: Hardcoded Secrets](https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password)
@@ -223,8 +240,9 @@ Has CRITICAL issues?
 - **Suggested Fix:**
 
   ```python
+
   import logging
-  
+
   def process_payment(amount, payment_token):
       try:
           client = PaymentClient(api_key=os.environ['PAYMENT_API_KEY'])
@@ -236,6 +254,7 @@ Has CRITICAL issues?
       except requests.exceptions.RequestException as e:
           logging.error(f"Network error during payment: {e}")
           return {"success": False, "error": "Service unavailable"}
+
   ```text
 
 ---
@@ -273,6 +292,7 @@ Has CRITICAL issues?
 ## Example Issue Classifications
 
 ### Example: CRITICAL Security Issue
+
 ```json
 {
   "issue_id": "SEC-001",
@@ -288,6 +308,7 @@ Has CRITICAL issues?
 ```sql
 
 ### Example: MINOR Style Issue
+
 ```json
 {
   "issue_id": "STYLE-001",

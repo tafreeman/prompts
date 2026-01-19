@@ -6,30 +6,40 @@ intro: A prompt to assist in conducting User Access Reviews (UAR) and analyzing 
 type: how_to
 difficulty: intermediate
 audience:
+
 - security-analyst
 - iam-engineer
 - auditor
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - security
 - iam
 - access-control
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - security-critical
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - SOX
 - ISO-27001
 - NIST-800-53
+
 effectivenessScore: 0.0
 ---
 
@@ -66,15 +76,18 @@ You are an Identity and Access Management (IAM) Expert. Review the provided acce
 [DATA] (e.g., List of users and roles, or JSON policy definition)
 
 ## Instructions
+
 1.  Analyze for Principle of Least Privilege violations.
 2.  Identify potential Segregation of Duties (SoD) conflicts (e.g., can create and approve).
 3.  Flag generic or shared accounts.
 4.  Suggest improvements to the role structure.
 
 ## Output Format
+
 - **Risk Analysis**
 - **SoD Conflicts**
 - **Cleanup Recommendations**
+
 ```
 
 ---
@@ -93,18 +106,22 @@ You are an Identity and Access Management (IAM) Expert. Review the provided acce
 ## Access Review: AWS Production Account
 
 ### Risk Analysis
+
 *   **Over-privileged Users:** User `jdoe` has `AdministratorAccess` policy attached directly. Best practice is to use groups/roles.
 *   **Shared Account:** Found user `devops-shared`. Shared accounts destroy non-repudiation and should be removed.
 *   **MFA Missing:** 3 users with write access do not have MFA enabled.
 
 ### SoD Conflicts
+
 *   **Conflict:** Role `Deployer` has `iam:CreateUser` AND `ec2:RunInstances`. This allows a user to create a backdoor admin account and launch resources.
     *   *Recommendation:* Separate IAM administration from Infrastructure management.
 
 ### Cleanup Recommendations
+
 1.  Delete `devops-shared` account immediately.
 2.  Remove `AdministratorAccess` from `jdoe` and assign a specific role (e.g., `NetworkAdmin`).
 3.  Enforce MFA for all IAM users via policy.
+
 ```
 
 ---

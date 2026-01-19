@@ -5,15 +5,21 @@ intro: A prompt for basic reflexion pattern for code analysis tasks.
 type: reference
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - azure-openai
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -24,15 +30,19 @@ framework_compatibility:
   anthropic: '>=0.8.0'
   openai: '>=1.0.0'
 use_cases:
+
 - code-generation
 - problem-solving
 - analysis
+
 performance_metrics:
   accuracy_improvement: 20-30%
   latency_impact: medium
   cost_multiplier: 1.3-1.6x
 dependencies:
+
 - base-prompt-template
+
 last_updated: '2025-11-23'
 governance:
   data_classification: internal
@@ -44,14 +54,18 @@ testing:
   last_tested: '2025-11-23'
   test_coverage: 95
 tags:
+
 - reflexion
 - code-analysis
 - self-correction
 - iterative-improvement
+
 platform:
+
 - openai
 - anthropic
 - azure-openai
+
 ---
 
 # Basic Reflexion Pattern for Code Analysis
@@ -77,7 +91,7 @@ This pattern is particularly effective for complex code analysis tasks where ini
 ## Variables
 
 | Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
+| ---------- | ---------- | ------------- | --------- |
 | `{code_snippet}` | Yes | The code to analyze | Python function, class, or module |
 
 ## Prompt
@@ -87,6 +101,7 @@ You are an expert code analyst tasked with performing iterative code analysis us
 
 ## Task
 Analyze the following code for:
+
 - Potential bugs and errors
 - Performance optimization opportunities
 - Code quality and maintainability issues
@@ -102,6 +117,7 @@ Perform your initial code analysis. Be thorough but recognize this is your first
 
 ### Phase 2: Self-Evaluation
 Now, critically evaluate your initial analysis:
+
 - What did you potentially miss?
 - Were there any assumptions you made that might be incorrect?
 - Are there edge cases you didn't consider?
@@ -109,6 +125,7 @@ Now, critically evaluate your initial analysis:
 
 ### Phase 3: Reflection and Improved Analysis
 Based on your self-evaluation, provide an improved, more comprehensive analysis:
+
 - Address the gaps you identified
 - Refine conclusions based on deeper thinking
 - Add any additional insights from reflection
@@ -116,9 +133,11 @@ Based on your self-evaluation, provide an improved, more comprehensive analysis:
 
 ## Output Format
 Provide your response in three clearly marked sections:
+
 1. INITIAL ANALYSIS
 2. SELF-EVALUATION
 3. FINAL IMPROVED ANALYSIS
+
 ```
 
 ## Example
@@ -133,6 +152,7 @@ def calculate_average(numbers):
 result = calculate_average([1, 2, 3, 4, 5])
 print(f"Average: {result}")
 ```sql
+
 ### Expected Output Structure
 
 **INITIAL ANALYSIS:**
@@ -167,28 +187,28 @@ class ReflexionCodeAnalyzer:
     def __init__(self, llm_client):
         self.llm = llm_client
         self.prompt_template = """[Insert prompt template above]"""
-    
+
     def analyze(self, code_snippet: str, max_iterations: int = 1) -> dict:
         """Perform reflexion-based code analysis"""
         response = self.llm.generate(
             self.prompt_template.format(code_snippet=code_snippet)
         )
-        
+
         # Parse the three sections
         sections = self._parse_response(response)
-        
+
         return {
             'initial_analysis': sections['initial'],
             'self_evaluation': sections['evaluation'],
             'final_analysis': sections['final'],
             'improvement_delta': self._calculate_improvement(sections)
         }
-    
+
     def _parse_response(self, response: str) -> dict:
         """Parse the structured response"""
         sections = {}
         current_section = None
-        
+
         for line in response.split('\n'):
             if 'INITIAL ANALYSIS' in line:
                 current_section = 'initial'
@@ -201,9 +221,10 @@ class ReflexionCodeAnalyzer:
                 sections[current_section] = []
             elif current_section:
                 sections[current_section].append(line)
-        
+
         return {k: '\n'.join(v) for k, v in sections.items()}
 ```text
+
 ### LangChain Integration
 
 ```python
@@ -224,6 +245,7 @@ chain = LLMChain(llm=llm, prompt=reflexion_prompt)
 # Execute analysis
 result = chain.run(code_snippet="def add(a, b): return a + b")
 ```text
+
 ## Advanced Variations
 
 ### Multi-Iteration Reflexion
@@ -234,20 +256,25 @@ For complex code, you can extend this to multiple reflexion cycles:
 ## Extended Reflexion (3 Iterations)
 
 ### Iteration 1
+
 - Initial Analysis
 - Self-Evaluation 1
 - Improvements
 
 ### Iteration 2
+
 - Review previous iteration findings
 - Identify remaining gaps
 - Deeper analysis of complex issues
 
 ### Iteration 3
+
 - Final comprehensive review
 - Consolidate all findings
 - Prioritized action items
+
 ```text
+
 ### Domain-Specific Reflexion
 
 Customize the evaluation criteria for specific domains:

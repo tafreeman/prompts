@@ -6,29 +6,39 @@ intro: A prompt to draft formal corporate policies (Security, Privacy, HR) based
 type: how_to
 difficulty: intermediate
 audience:
+
 - compliance-officer
 - security-manager
 - hr-manager
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - policy
 - documentation
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - policy-drafting
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - ISO-27001
 - SOC-2
 - NIST
+
 effectivenessScore: 0.0
 ---
 
@@ -67,6 +77,7 @@ You are a Policy Writer specializing in corporate governance. Draft a formal pol
 [REQUIREMENTS] (e.g., "Must require MFA," "Passwords expire every 90 days," "No personal devices")
 
 ## Instructions
+
 1.  Structure the document with standard headers: Purpose, Scope, Definitions, Policy Statements, Roles & Responsibilities, Enforcement, Version History.
 2.  Use clear, mandatory language ("Employees must..." rather than "should").
 3.  Ensure alignment with the specified framework.
@@ -98,15 +109,18 @@ This policy applies to all employees, contractors, and third parties accessing [
 
 ## 3. Policy Statements
 ### 3.1 Password Complexity
+
 *   Passwords must be at least 12 characters long.
 *   Must contain a mix of uppercase, lowercase, numbers, and symbols.
 *   Common phrases or dictionary words alone are prohibited.
 
 ### 3.2 Multi-Factor Authentication (MFA)
+
 *   MFA is mandatory for all remote access and cloud applications (Email, CRM, AWS).
 *   SMS-based MFA is discouraged; Authenticator apps or hardware tokens are preferred.
 
 ### 3.3 Password Management
+
 *   Passwords must not be shared or written down.
 *   Use of the corporate Password Manager (e.g., 1Password) is mandatory.
 
@@ -115,7 +129,7 @@ Violation of this policy may result in disciplinary action, up to and including 
 
 ## 5. Version History
 | Version | Date | Author | Changes |
-|---------|------|--------|---------|
+| --------- | ------ | -------- | --------- |
 | 1.0 | 2025-12-11 | SecTeam | Initial Draft |
 ```
 

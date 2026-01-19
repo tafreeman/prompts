@@ -8,22 +8,30 @@ m365App: Copilot in Word or Microsoft 365 Copilot Chat
 type: tutorial
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - handover
 - documentation
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Generates a comprehensive handover document for role transitions or project

@@ -5,20 +5,28 @@ intro: "Generate effective responses to common sales objections with persuasive 
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "sales"
   - "negotiation"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -135,6 +143,7 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 **Root Cause**: This isn't a pure price objection - they completed a successful POC and want to buy. They're negotiating to justify the spend internally and ensure they're getting the best deal.
 
 **Emotional Driver**: 
+
 - **Fear**: CISO had a breach 18 months ago. They need a solution that won't fail them again, but also need to justify the premium to CFO/board.
 - **Pressure**: Procurement is doing their job - testing whether you'll discount. This is expected behavior, not a red flag.
 
@@ -155,6 +164,7 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 ### Explore (Probing questions)
 
 *"Help me understand - when you say competitors are 40% less, are you comparing apples to apples? Specifically:*
+
 - *Does that include 24/7 SOC coverage, or is that an add-on?*
 - *What's their SLA for threat detection response time?*
 - *Are they SOC 2 Type II and PCI-DSS compliant out of the box?*
@@ -166,6 +176,7 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 *"Here's my honest take: You could go with a cheaper solution. But after a breach, the question isn't 'how do I save 40%?' - it's 'how do I make sure this never happens again?'*
 
 *Our customers pay a premium because:*
+
 - *Average breach cost in fintech is $5.9M. We've prevented 147 breaches for customers like [Similar Company] last year.*
 - *Your IT team already validated the POC. They're not going to get that same experience with [Competitor].*
 - *You're in a regulated industry. Our compliance automation will save your team 200+ hours per audit cycle.*
@@ -222,6 +233,7 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 ### When to Walk Away
 
 Walk away if:
+
 - They explicitly say a competitor has already won
 - They're asking for 40%+ discount (not negotiating in good faith)
 - The CISO isn't the real decision-maker and can't get you to the CFO
@@ -229,6 +241,7 @@ Walk away if:
 ### When to Persist
 
 Persist if:
+
 - They keep engaging in the conversation (interest signal)
 - They're asking for creative terms (they want to buy)
 - The POC feedback was genuinely positive

@@ -14,8 +14,7 @@ workflows/
 └── sdlc.md                          # Software Development Lifecycle workflow
 ```
 
-## 🔄 What are Workflows?
-
+## 🔄 What are Workflows
 Workflows are **structured, multi-step processes** that orchestrate AI interactions with human oversight, external tools, and decision points. Unlike single prompts, workflows:
 
 - **Chain multiple steps**: Connect prompts in a logical sequence
@@ -33,6 +32,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: End-to-end business planning and strategy development
 
 **Workflow Steps**:
+
 1. Market analysis and research
 2. Competitive landscape assessment
 3. SWOT analysis generation
@@ -50,6 +50,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: Blueprint template for customizing business planning workflows
 
 **Features**:
+
 - Modular sections for different industries
 - Customizable templates
 - Integration with financial tools
@@ -65,6 +66,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: Design, implement, and optimize data processing pipelines
 
 **Workflow Steps**:
+
 1. Requirements gathering and data source identification
 2. Pipeline architecture design
 3. ETL logic definition
@@ -78,6 +80,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Deliverables**: Pipeline code, documentation, monitoring dashboards
 
 **Integrations**:
+
 - Data warehouse platforms (Snowflake, BigQuery, Redshift)
 - ETL tools (Airflow, dbt, Fivetran)
 - Monitoring (Datadog, Grafana)
@@ -89,6 +92,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: Structured response to security incidents and operational issues
 
 **Workflow Phases**:
+
 1. **Detection**: Identify and triage incident
 2. **Containment**: Limit scope and impact
 3. **Investigation**: Root cause analysis
@@ -105,6 +109,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: Detailed playbook with specific incident scenarios
 
 **Covered Scenarios**:
+
 - Security breaches (data leaks, unauthorized access)
 - Service outages (downtime, performance degradation)
 - Data corruption or loss
@@ -112,6 +117,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 - Supply chain incidents
 
 **Features**:
+
 - Step-by-step checklists
 - Communication templates
 - Escalation procedures
@@ -126,6 +132,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Purpose**: AI-assisted Software Development Lifecycle from planning to deployment
 
 **SDLC Phases**:
+
 1. **Requirements**: User story creation, acceptance criteria
 2. **Design**: Architecture decisions, system design
 3. **Implementation**: Code generation, pair programming
@@ -139,6 +146,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 **Deliverables**: Code, tests, documentation, deployment artifacts
 
 **AI Integration Points**:
+
 - Requirements: User story generation
 - Design: Architecture review
 - Code: GitHub Copilot integration
@@ -149,7 +157,7 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 ## 🎯 Choosing the Right Workflow
 
 | Your Goal | Workflow | Duration | Complexity |
-|-----------|----------|----------|------------|
+| ----------- | ---------- | ---------- | ------------ |
 | Create business plan | business-planning.md | 2-4 hrs | Medium |
 | Design data pipeline | data-pipeline.md | 3-6 hrs | High |
 | Respond to incident | incident-response.md | Varies | High |
@@ -162,12 +170,14 @@ Workflows are **structured, multi-step processes** that orchestrate AI interacti
 Each workflow document follows a consistent structure:
 
 ### 1. Overview
+
 - **Purpose**: What the workflow achieves
 - **When to use**: Applicable scenarios
 - **Prerequisites**: Required tools, data, permissions
 
 ### 2. Workflow Steps
 Numbered, sequential steps with:
+
 - **Description**: What happens in this step
 - **Prompts**: AI prompts to use
 - **Tools**: External tools or APIs
@@ -175,16 +185,19 @@ Numbered, sequential steps with:
 - **Outputs**: Expected deliverables
 
 ### 3. Human Oversight
+
 - **Review gates**: Where human approval is required
 - **Escalation**: When to escalate to experts
 - **Validation**: How to verify AI outputs
 
 ### 4. Deliverables
+
 - **Artifacts**: What gets produced
 - **Documentation**: Required documentation
 - **Handoffs**: Who receives the output
 
 ### 5. Integration
+
 - **Tools**: Compatible platforms and services
 - **APIs**: External system connections
 - **Automation**: CI/CD and orchestration
@@ -259,7 +272,7 @@ Track these metrics to evaluate workflow effectiveness:
 Different workflows have different compliance requirements:
 
 | Workflow | Compliance Frameworks | Key Controls |
-|----------|----------------------|--------------|
+| ---------- | ---------------------- | -------------- |
 | incident-response | SOX, ISO 27001, GDPR | Audit logs, encryption |
 | data-pipeline | GDPR, CCPA, HIPAA | Data lineage, access control |
 | business-planning | None (internal) | Confidentiality agreements |
@@ -296,6 +309,7 @@ complexity: "low|medium|high"
 [Description of what this workflow achieves]
 
 ## Prerequisites
+
 - Tool 1
 - Permission 2
 - Data source 3
@@ -307,7 +321,9 @@ complexity: "low|medium|high"
 
 **Prompts**:
 ```
+
 [AI prompt to use]
+
 ```
 
 **Tools**: [External tools needed]
@@ -317,10 +333,12 @@ complexity: "low|medium|high"
 [... additional steps ...]
 
 ## Deliverables
+
 - Artifact 1
 - Artifact 2
 
 ## Validation Checklist
+
 - [ ] Check 1
 - [ ] Check 2
 
@@ -331,6 +349,7 @@ Common issues and solutions
 ### Quality Standards
 
 Workflows must include:
+
 - ✅ Clear step-by-step instructions
 - ✅ Specific AI prompts (not generic)
 - ✅ Decision criteria and review gates

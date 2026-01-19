@@ -5,21 +5,29 @@ intro: "Generate engaging, SEO-optimized blog posts for content marketing. This 
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
+
 topics:
+
   - "content-marketing"
   - "creative"
   - "blogging"
   - "seo"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-10-29"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.3
@@ -57,17 +65,20 @@ You are an expert content marketing writer specializing in creating engaging, SE
 **Secondary Keywords:** [2-3 RELATED KEYWORDS]
 
 **Key Points to Cover:**
+
 1. [KEY POINT 1]
 2. [KEY POINT 2]
 3. [KEY POINT 3]
 4. [KEY POINT 4 - OPTIONAL]
 
 **Goals:**
+
 - [GOAL 1, e.g., educate readers about X]
 - [GOAL 2, e.g., drive traffic to product page]
 - [GOAL 3, e.g., establish thought leadership]
 
 Please structure the blog post with:
+
 - Attention-grabbing headline (include primary keyword)
 - Compelling introduction with a hook
 - Clear subheadings (H2, H3) for readability
@@ -82,7 +93,7 @@ Make it engaging, valuable, and optimized for both readers and search engines.
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[YOUR BLOG TOPIC]` | Topic/title concept for the post |
 | `[WHO YOU'RE WRITING FOR]` | Target audience/persona |
 | `[PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]` | Desired tone |
@@ -115,18 +126,22 @@ Key Points:
 3) How to keep it short
 
 Goals:
+
 - Educate readers
 - Drive signups for our project tracker
+
 ```
 
 **Output:**
 
 ```text
 A complete blog post with:
+
 - SEO headline containing "weekly status update"
 - H2/H3 structure
 - a concrete template section
 - a 150–160 char meta description
+
 ```
 
 **Output:**
@@ -175,12 +190,14 @@ Not all project management software is created equal. Here's what actually matte
 
 **1. Intuitive Interface**
 Your team won't use a tool they can't understand. Look for:
+
 - Clean, simple design
 - Minimal learning curve
 - Mobile accessibility
 - Quick onboarding (under 30 minutes)
 
 **2. Core Task Management**
+
 - Create and assign tasks easily
 - Set deadlines and priorities
 - Add descriptions and attachments
@@ -188,6 +205,7 @@ Your team won't use a tool they can't understand. Look for:
 - Status tracking (To Do, In Progress, Done)
 
 **3. Team Collaboration**
+
 - Comments and mentions
 - File sharing and version control
 - Real-time updates
@@ -195,12 +213,14 @@ Your team won't use a tool they can't understand. Look for:
 
 **4. Visual Project Views**
 Different people prefer different views:
+
 - **List view** for detail-oriented team members
 - **Board view** (Kanban) for visual thinkers
 - **Calendar view** for deadline tracking
 - **Gantt charts** for project timelines (nice to have, not essential)
 
 **5. Reasonable Pricing**
+
 - Transparent pricing (no hidden fees)
 - Per-user model that makes sense
 - Free tier or trial period
@@ -209,6 +229,7 @@ Different people prefer different views:
 ### Nice-to-Have Features
 
 These add value but aren't dealbreakers:
+
 - Time tracking
 - Reporting and analytics
 - Integrations with tools you already use
@@ -221,6 +242,7 @@ These add value but aren't dealbreakers:
 ### Step 1: Assess Your Team's Needs
 
 Ask yourself:
+
 - What's our biggest pain point? (Start here)
 - How tech-savvy is our team?
 - What's our budget? ($0-10/user/month is typical for small teams)
@@ -241,6 +263,7 @@ Ask yourself:
 ### Step 3: Consider the Total Cost
 
 Price isn't just the subscription:
+
 - **Setup time:** How long to get running?
 - **Training:** Do people need extensive tutorials?
 - **Migration:** Can you import existing data?
@@ -252,24 +275,28 @@ Price isn't just the subscription:
 Here's a quick snapshot of popular options (not exhaustive, but representative):
 
 **Best for Simplicity:** Trello, Asana
+
 - Visual, board-based
 - Quick to learn
 - Free tiers available
 - Great for straightforward projects
 
 **Best for Flexibility:** ClickUp, Monday.com
+
 - Highly customizable
 - Multiple views
 - Robust features
 - Slightly steeper learning curve
 
 **Best for Developers:** Jira, Linear
+
 - Code integration
 - Sprint planning
 - Bug tracking
 - Technical team focus
 
 **Best for Remote Teams:** Basecamp, Notion
+
 - Centralized communication
 - Document collaboration
 - Async-friendly
@@ -278,6 +305,7 @@ Here's a quick snapshot of popular options (not exhaustive, but representative):
 ## Red Flags to Avoid
 
 Watch out for:
+
 - ❌ Tools requiring lengthy training
 - ❌ Confusing pricing structures
 - ❌ Poor mobile experience

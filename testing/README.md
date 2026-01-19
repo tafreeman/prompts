@@ -5,17 +5,23 @@ intro: Testing framework for prompt validation and evaluation.
 type: reference
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '3.0'
 date: '2025-12-04'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -87,6 +93,7 @@ python -m pytest testing/validators/ -v
 # Run the primary evaluation tool
 python -m prompteval prompts/developers/ --tier 2 --verbose
 ```text
+
 ## 🔬 Primary Evaluation Tool
 
 The canonical evaluation tool is `tools/prompteval/` (invoke via `python -m prompteval`).
@@ -117,10 +124,11 @@ python -m prompteval prompts/ --ci --threshold 70 --tier 3
 # Include all files (override filtering)
 python -m prompteval prompts/ --include-all --tier 2
 ```text
+
 ## ✅ Test Categories
 
 | Category | Location | Tests | Purpose |
-|----------|----------|-------|---------|
+| ---------- | ---------- | ------- | --------- |
 | **Evaluation** | `evals/test_dual_eval.py` | 66 | Core eval tool functionality |
 | **Frontmatter** | `validators/test_frontmatter.py` | 27 | Required fields, parsing |
 | **Schema** | `validators/test_schema.py` | 23 | Field types, constraints |
@@ -137,12 +145,13 @@ python -m pytest testing/validators/test_schema.py::TestValidationFunctions -v
 # Run by test name pattern
 python -m pytest testing/ -k "frontmatter" -v
 ```text
+
 ## 📊 Scoring Rubric
 
 Prompts are evaluated on **8 dimensions** (scored 1-10):
 
 | Criterion | Description | Pass Threshold |
-|-----------|-------------|----------------|
+| ----------- | ------------- | ---------------- |
 | **Clarity** | How clear and unambiguous | ≥7.0 |
 | **Specificity** | Enough detail for consistency | ≥7.0 |
 | **Actionability** | Clear actions to take | ≥7.0 |
@@ -153,6 +162,7 @@ Prompts are evaluated on **8 dimensions** (scored 1-10):
 | **Safety** | Avoids harmful patterns | ≥7.0 |
 
 **Pass Criteria**:
+
 - Overall score ≥ 7.0/10
 - No individual dimension < 5.0/10
 - Cross-validation variance ≤ 1.5
@@ -163,18 +173,23 @@ The testing framework is integrated with GitHub Actions:
 
 ```yaml
 # .github/workflows/prompt-validation.yml
+
 - name: Run unit tests
+
   run: pytest testing/evals/test_dual_eval.py -v
 
 - name: Validate frontmatter
+
   run: python tools/validators/frontmatter_validator.py --all
 
 - name: Evaluate changed prompts (PR only)
+
   run: |
     python testing/evals/dual_eval.py prompts/ \
       --changed-only \
       --format json
 ```json
+
 ## 📦 Dependencies
 
 Install test dependencies:
@@ -182,7 +197,9 @@ Install test dependencies:
 ```bash
 pip install -r testing/requirements.txt
 ```json
+
 Required packages:
+
 - `pytest` - Test runner
 - `pyyaml` - YAML parsing
 - `pytest-asyncio` - Async test support (optional)

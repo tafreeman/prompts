@@ -7,26 +7,36 @@ intro: Expert architect for designing RESTful APIs using ASP.NET Core. Focuses o
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - dotnet
 - rest
 - developers
 - api
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-26'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 subcategory: api-design
 framework_compatibility:
+
 - net8.0
 - net9.0
+
 effectivenessScore: 0.0
 ---
 
@@ -61,18 +71,21 @@ Constraints:
 [constraints]
 
 Deliverables:
+
 1. **Endpoints**: List of endpoints with HTTP verbs and resource paths.
 2. **Contracts**: C# definitions for Request/Response DTOs (records preferred).
 3. **Controller/Endpoint Code**: Example implementation (Controller or Minimal API).
 4. **OpenAPI**: Key Swagger annotations/attributes.
 
 Guidelines:
+
 - **REST Maturity**: Level 2 (Resources, Verbs, Status Codes) minimum.
 - **Naming**: Plural nouns for resources (e.g., `/users`), kebab-case for URLs.
 - **Status Codes**: Correct use of 200, 201, 204, 400, 404, 500.
 - **Versioning**: URL or Header-based versioning.
 - **Validation**: FluentValidation or DataAnnotations.
 - **Async**: All operations must be async.
+
 ```text
 
 ---
@@ -101,7 +114,7 @@ Constraints: Use ASP.NET Core Minimal APIs.
 ## 1. Endpoints
 
 | Verb | Path | Description | Status Codes |
-|------|------|-------------|--------------|
+| ------ | ------ | ------------- | -------------- |
 | GET | `/api/v1/todos` | List user's todos | 200 |
 | POST | `/api/v1/todos` | Create a new todo | 201, 400 |
 | GET | `/api/v1/todos/{id}` | Get specific todo | 200, 404 |
@@ -111,14 +124,17 @@ Constraints: Use ASP.NET Core Minimal APIs.
 ## 2. Contracts (DTOs)
 
 ```csharp
+
 public record CreateTodoRequest(string Title, string? Description, DateTime? DueDate);
 public record UpdateTodoRequest(string Title, string? Description, bool IsComplete);
 public record TodoResponse(Guid Id, string Title, string? Description, bool IsComplete, DateTime CreatedAt);
+
 ```text
 
 ## 3. Implementation (Minimal API)
 
 ```csharp
+
 var app = WebApplication.Create(args);
 
 var todos = app.MapGroup("/api/v1/todos")
@@ -147,6 +163,7 @@ todos.MapPut("/{id:guid}", async (ITodoService service, Guid id, [FromBody] Upda
 })
 .Produces(204)
 .Produces(404);
+
 ```text
 
 ```

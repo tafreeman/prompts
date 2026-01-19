@@ -5,21 +5,29 @@ intro: "Generate clear, actionable meeting summaries with key decisions, action 
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "productivity"
   - "communication"
   - "meetings"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -119,6 +127,7 @@ Create a meeting summary from:
 **Attendees**: Sarah (VP Product), Marcus (Eng Lead), Priya (Design Lead), Jordan (PM), David (CEO - partial)
 **Meeting Purpose**: Finalize Q1 2025 product priorities and resource allocation
 **Notes/Transcript**:
+
 - David kicked off with company context: Q4 revenue 15% below target, need to focus on features that drive expansion revenue
 - Sarah presented 3 options for Q1 focus: (A) New analytics dashboard, (B) API v2 for enterprise, (C) Mobile app redesign
 - Marcus raised concern that API v2 is understaffed - would need 2 more engineers or slip timeline
@@ -130,6 +139,7 @@ Create a meeting summary from:
 - Marcus mentioned tech debt backlog is growing - team morale concern. Sarah agreed to allocate 20% of sprint capacity to tech debt.
 - Next meeting: Dec 13 to review contractor candidates and finalize sprint plans
 - Priya needs to update mobile designs based on delayed timeline - will share revised mockups by Dec 20
+
 ```text
 
 ### Expected Output

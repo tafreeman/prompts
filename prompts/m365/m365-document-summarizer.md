@@ -8,22 +8,30 @@ m365App: Copilot in Word
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - document
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -121,25 +129,34 @@ Goal:
 Help me summarize this document for [audience], focusing on [focus_topics].
 
 Context:
+
 - I use Word, SharePoint, OneDrive, and Teams in Microsoft 365.
 - This document is [length or complexity, if known], and my audience needs a
+
   concise, actionable summary.
 
 Scope:
+
 - Read the full document and identify the core narrative, key sections, and
+
   supporting details.
+
 - Adapt the level of detail and language to suit [audience].
 - Emphasize [focus_topics] and extract actionable takeaways.
 
 Assumptions and constraints:
+
 - If the document is highly technical, translate jargon into plain language for
+
   non-technical audiences.
+
 - Use a [tone] tone.
 - Keep the summary under [length_target] if specified; otherwise, aim for ~500 words.
 - Use bullets, short paragraphs, and section headings for scannability.
 - Highlight any critical decisions, risks, or action items relevant to [audience].
 
 Process:
+
 1. Identify the document's purpose and main conclusion.
 2. Extract the most important information for [audience].
 3. Propose actionable next steps or recommendations.
@@ -151,14 +168,17 @@ Return the result in Markdown:
 [1 paragraph]
 
 ## Key Points
+
 - [bullet]
 - [bullet]
 
 ## Recommended Next Steps
+
 - [bullet]
 - [bullet]
 
 ## Critical Risks or Concerns (if applicable)
+
 - [bullet]
 
 Now, summarize this document for [audience], focusing on [focus_topics], using
@@ -168,7 +188,7 @@ a [tone] tone.
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[audience]` | Intended reader (executives, customers, engineers, legal, etc.) |
 | `[focus_topics]` | Topics to emphasize (risks, ROI, architecture, compliance, etc.) |
 | `[tone]` | Desired tone (formal, conversational, technical, etc.) |
@@ -201,6 +221,7 @@ length_target: 350 words
 This document proposes a phased rollout of the Customer Onboarding Platform V2, targeting an internal beta in mid-November and public GA in early December. The proposal emphasizes customer experience improvements, timeline risks related to API stability, and budget implications of potential delays.
 
 ## Key Points
+
 - The phased rollout mitigates risk by validating the new onboarding flow with internal users before public launch.
 - Key customer benefits include 40% faster onboarding time, improved self-service capabilities, and better support documentation.
 - Timeline risk: API timeout issues must be resolved by November 22; otherwise, public GA will shift from December 5 to December 12.
@@ -208,13 +229,16 @@ This document proposes a phased rollout of the Customer Onboarding Platform V2, 
 - Success criteria for internal beta: zero critical incidents, support documentation readiness, and at least 50 internal users onboarded successfully.
 
 ## Recommended Next Steps
+
 - Approve the phased rollout plan and proposed timeline, including contingency date of December 12 for public GA.
 - Allocate additional QA resources to accelerate load testing and API validation.
 - Schedule a go/no-go decision meeting for December 2 to confirm public GA readiness.
 
 ## Critical Risks or Concerns
+
 - If API issues persist beyond November 22, public GA delay is unavoidable, which may impact Q4 customer acquisition targets.
 - Support team training materials are behind schedule and may not be ready until November 28, creating risk for day-1 support readiness.
+
 ```text
 
 ---

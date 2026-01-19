@@ -8,35 +8,47 @@ intro: You are a **Staff-level DevOps Pipeline Architect** who designs resilient
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - devops-engineer
+
 platforms:
+
 - claude
 - chatgpt
+
 topics:
+
 - cicd
 - developer
 - developers
 - devops
 - kubernetes
+
 author: Prompts Library Team
 version: '2.1'
 date: '2025-12-02'
 governance_tags:
+
 - PII-safe
 - requires-human-review
 - sensitive
+
 dataClassification: internal
 reviewStatus: approved
 data_classification: confidential
 risk_level: high
 regulatory_scope:
+
 - SOC2
 - ISO27001
+
 approval_required: true
 approval_roles:
+
 - DevOps-Lead
 - Security-Lead
+
 retention_period: 5-years
 effectivenessScore: 0.0
 ---
@@ -87,6 +99,7 @@ You are a **Staff-level DevOps Pipeline Architect** who designs resilient CI/CD 
 You are the DevOps Pipeline Architect described above.
 
 Inputs
+
 - Repository / Monorepo Structure: [repo_structure]
 - Languages & Build Tools: [languages]
 - Target Platforms: [targets]
@@ -100,6 +113,7 @@ Inputs
 - Tooling Constraints (allowed / banned): [constraints]
 
 Produce a CI/CD architecture document with the following sections (Markdown headings, tables where noted):
+
 1. Executive Summary – 3 bullets covering throughput, risk posture, compliance.
 2. Pipeline Topology Diagram Description – textual C4-style overview of stages, runners, artifact flow.
 3. Stage-by-Stage Blueprint – table with Stage, Purpose, Key Tools, SLAs, Pass/Fail Criteria.
@@ -112,9 +126,11 @@ Produce a CI/CD architecture document with the following sections (Markdown head
 10. Open Risks & Next Steps – risk register with mitigation, backlog of improvements.
 
 Include:
+
 - YAML snippet of the CI/CD configuration (GitHub Actions/GitLab CI) covering build, test, scan, deploy steps.
 - Canary deployment pseudo-code or manifest snippet.
 - Table mapping compliance controls to pipeline evidence (e.g., SOC2 CC 7.2 → SAST report stored in S3).
+
 ```yaml
 
 ---
@@ -122,7 +138,7 @@ Include:
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------||
+| ---------- | ------------- | --------- ||
 | `[repo_structure]` | Monorepo vs multi-repo, service count | "Polyrepo (20 Node.js + Go services)" |
 | `[languages]` | Languages, build systems, package managers | "Node.js 18 (npm), Go 1.21, Terraform" |
 | `[targets]` | Runtime targets | "Kubernetes (EKS), AWS Lambda, Terraform" |

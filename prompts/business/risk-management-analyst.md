@@ -5,21 +5,29 @@ intro: "Enterprise-grade risk analyst using ISO 31000 and PMI PMBOK frameworks f
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "risk-management"
   - "compliance"
+
 author: "Prompts Library Team"
 version: "1.2"
 date: "2025-11-26"
 governance_tags:
+
   - "PII-safe"
   - "audit-required"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -57,6 +65,7 @@ Analyze risks for:
 **Stakeholder Impact**: [impact]
 
 Provide:
+
 1. **Risk Identification Matrix** (Risk ID, Category, Description, Owner)
 2. **Probability and Impact Assessment** (Quantitative scoring: P×I = Risk Score)
 3. **Risk Register** (Top 10 risks with heat map)
@@ -95,17 +104,20 @@ Analyze risks for:
 **Project**: New Data Center Build (DC-04) - 50MW Hyperscale Facility
 **Project Phase**: Construction / Fit-Out (Month 8 of 18-month timeline)
 **Key Concerns**:
+
 - Supply chain delays for 120 CRAC (Computer Room Air Conditioning) units from primary vendor (Vertiv)
 - Potential labor strike by Local 793 (HVAC fitters union) — contract expires in 45 days
 - Power grid connection permit stuck at municipal planning office for 6 weeks (should take 2 weeks)
 - Anchor tenant (AWS) threatening to walk if go-live slips past Oct 1 deadline
 
 **Stakeholder Impact**:
+
 - Critical path delay incurs $500K/month in liquidated damages to anchor tenant
 - Loss of anchor tenant = $50M contract voided + reputational damage
 - Every month of delay = $800K in lost revenue from colocation customers
 
 Provide:
+
 1. **Risk Identification Matrix** (Risk ID, Category, Description, Owner)
 2. **Probability and Impact Assessment** (Quantitative scoring: P×I = Risk Score)
 3. **Risk Register** (Top 10 risks with heat map)
@@ -113,6 +125,7 @@ Provide:
 5. **Contingency Plans** (Trigger conditions and fallback options)
 6. **Monitoring Procedures** (KRIs - Key Risk Indicators with thresholds)
 7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
+
 ```text
 
 ### Expected Output
@@ -128,6 +141,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 **Response Strategy**: **AVOID** + **TRANSFER**
 
 **Primary Mitigation** (Cost: $240K, Timeline: Immediate):
+
 1. **Dual-Source Procurement**: Pre-order 60 units from secondary vendor (Carrier) at 10% premium ($200K).
    - **Rationale**: Vertiv lead time is 10 weeks; Carrier can deliver in 6 weeks.
    - **Risk Reduction**: Probability drops from 70% → 20% (backup units ensure critical path continuity).
@@ -135,6 +149,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 3. **Expedited Shipping**: Charter cargo flight if units miss sea freight window ($40K vs. 4-week delay).
 
 **RACI**:
+
 - **Responsible**: Procurement Director
 - **Accountable**: Project Manager
 - **Consulted**: Construction Manager, Finance
@@ -149,6 +164,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 **Response Strategy**: **MITIGATE** + **ACCEPT** (with negotiation)
 
 **Primary Mitigation** (Cost: $150K legal + relationship management):
+
 1. **Contract Amendment Negotiation**:
    - Propose 30-day extension (Oct 1 → Nov 1) in exchange for 3-month rent discount ($500K concession).
    - **Rationale**: AWS has no alternative DC capacity in region for Q4 workloads (leverage their dependency).
@@ -156,10 +172,12 @@ The AI generates a risk register and analysis pack including: identified risks w
 3. **Executive Escalation**: CEO-to-CEO call (our CEO + AWS VP Infrastructure) to reinforce partnership.
 
 **Contingency Plan (If AWS walks)**:
+
 - **Backup Tenant Pipeline**: 3 Tier-2 cloud providers (Oracle Cloud, Alibaba Cloud, IBM) pre-qualified and ready to sign.
 - **Revenue Impact**: $50M AWS contract → $35M from 3 smaller tenants (30% revenue reduction vs. catastrophic loss).
 
 **RACI**:
+
 - **Responsible**: VP Sales
 - **Accountable**: CEO
 - **Consulted**: Legal, Project Manager
@@ -172,6 +190,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 **Response Strategy**: **TRANSFER** + **MITIGATE**
 
 **Primary Mitigation**:
+
 1. **Labor Agreement Pre-Negotiation**: Engage union rep NOW (before Oct 31 contract expiry) to offer 8% wage increase ($120K total cost vs. $2.5M strike delay).
 2. **Non-Union Subcontractor Standby**: Contract backup HVAC team from out-of-state (higher cost but strike-proof).
    - **Cost**: $300K premium vs. union rates.
@@ -187,6 +206,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 **Response Strategy**: **MITIGATE**
 
 **Primary Mitigation**:
+
 1. **Expeditor Hire**: Retain specialized municipal permit consultant ($25K/month) to navigate planning office bureaucracy.
    - **Track Record**: Consultant has 90% success rate unblocking permits within 2 weeks.
 2. **Political Escalation**: Engage city council member (via Chamber of Commerce relationship) to flag delay (estimated 1-week resolution).
@@ -201,7 +221,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 ### Contingency Budget Allocation
 
 | Risk | Trigger Condition | Contingency Action | Reserved Budget | Approval Authority |
-|------|-------------------|--------------------|-----------------|--------------------|
+| ------ | ------------------- | -------------------- | ----------------- | -------------------- |
 | R-01 | Vertiv confirms \u003e8-week delay | Activate Carrier backup order | $240K | PM (approved) |
 | R-04 | AWS sends cancellation notice | Engage backup tenant pipeline | $2M (revenue gap fund) | CEO |
 | R-02 | Union votes to strike (Nov 10) | Deploy non-union contractor | $300K | Construction Mgr |
@@ -216,7 +236,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 ### KRI Dashboard (Weekly Review)
 
 | Risk | Key Risk Indicator (KRI) | Green Threshold | Yellow Threshold | Red Threshold | Current Status |
-|------|--------------------------|-----------------|------------------|---------------|----------------|
+| ------ | -------------------------- | ----------------- | ------------------ | --------------- | ---------------- |
 | R-01 | Vertiv production status | On-schedule | 1-week delay | \u003e2-week delay | 🟡 (Monitoring) |
 | R-04 | AWS satisfaction score | \u003e8/10 (survey) | 6-8/10 | \u003c6/10 | 🟢 (Score: 7.5) |
 | R-02 | Union negotiation progress | Agreement signed | Talks ongoing | Breakdown | 🟡 (In negotiation) |
@@ -224,6 +244,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 | R-05 | Generator test results | All pass | 1 failure | \u003e1 failure | 🟢 (Scheduled Oct 30) |
 
 **Review Cadence**: 
+
 - **Daily**: PM reviews R-01, R-04 (critical risks)
 - **Weekly**: Steering Committee reviews all KRIs
 - **Monthly**: Board briefing on top 3 risks
@@ -235,7 +256,7 @@ The AI generates a risk register and analysis pack including: identified risks w
 ### Escalation Matrix
 
 | Scenario | Immediate Action | Escalation Level | Communication |
-|----------|-----------------|------------------|---------------|
+| ---------- | ----------------- | ------------------ | --------------- |
 | **Red KRI triggered** | PM investigates root cause (within 4 hours) | Level 1: Steering Committee (same day) | Email + emergency meeting |
 | **Risk Score increases ≥5 points** | Re-assess mitigation plan | Level 2: Executive Sponsor (within 24 hours) | Written brief + phone call |
 | **Contingency budget exceeded** | Halt non-critical spending | Level 3: CEO / CFO (immediate) | Board notification |
@@ -282,7 +303,7 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 ### Risk Management Effectiveness KPIs
 
 | Metric | Target | Current (Month 8) | Trend |
-|--------|--------|-------------------|-------|
+| -------- | -------- | ------------------- | ------- |
 | **% Risks Identified Before Impact** | \u003e90% | 85% | 🟡 (Improved from 70% in Month 5) |
 | **Average Risk Response Time** | \u003c48 hours | 36 hours | 🟢 (Exceeding target) |
 | **Contingency Budget Utilization** | \u003c50% | 12% ($324K of $2.69M) | 🟢 (Healthy reserve) |
@@ -296,14 +317,16 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 For high-complexity risks (e.g., R-05 Generator Testing), use FMEA methodology:
 
 | Failure Mode | Potential Effects | Severity (1-10) | Occurrence (1-10) | Detection (1-10) | RPN (Risk Priority Number) | Mitigation |
-|--------------|-------------------|-----------------|-------------------|------------------|----------------------------|------------|
+| -------------- | ------------------- | ----------------- | ------------------- | ------------------ | ---------------------------- | ------------ |
 | Generator fails load test | Cannot achieve required 50MW capacity | 9 | 3 | 2 | **54** | Pre-test with vendor engineer present; backup generator on-site |
 | Cooling system leak | Equipment damage, downtime | 8 | 2 | 4 | **64** | Pressure test all lines before commissioning; leak detection sensors |
 
 **RPN Scoring**: Severity × Occurrence × Detection (1-1000 scale)
+
 - **RPN \u003e 100**: Immediate action required
 - **RPN 50-100**: High priority mitigation
 - **RPN \u003c 50**: Monitor and review quarterly
+
 ```
 
 ---

@@ -5,17 +5,23 @@ intro: A prompt for openai assistants api patterns tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - internal-only
+
 dataClassification: confidential
 reviewStatus: draft
 category: frameworks
@@ -24,10 +30,12 @@ technique_type: assistants-api
 framework_compatibility:
   openai: '>=1.0.0'
 use_cases:
+
 - persistent-conversations
 - code-interpreter
 - file-retrieval
 - customer-support
+
 performance_metrics:
   conversation_retention: high
   file_processing: excellent
@@ -40,15 +48,19 @@ governance:
   data_classification: confidential
   risk_level: medium
   compliance_standards:
+
   - GDPR
   - SOC2
+
 last_updated: '2025-11-23'
 tags:
+
 - openai
 - assistants
 - persistent-state
 - code-interpreter
 - retrieval
+
 ---
 
 # OpenAI Assistants API Patterns
@@ -80,21 +92,26 @@ Key concepts:
 You are a Senior C# Developer Assistant specializing in .NET 6+ and SQL Server.
 
 **Your Capabilities**:
+
 - Analyze C# code for bugs and suggest improvements
 - Generate SQL queries and optimize database performance
 - Explain architectural patterns (SOLID, DI, async/await)
 - Use Code Interpreter to test algorithms
 
 **Your Personality**:
+
 - Be concise and technical
 - Provide code examples when helpful
 - Ask clarifying questions when requirements are ambiguous
 
 **Constraints**:
+
 - Always use parameterized queries for SQL
 - Prefer async/await for I/O operations
 - Follow C# naming conventions (PascalCase for public, camelCase for private)
+
 ```
+
 ## Example
 
 ### Creating an Assistant with Code Interpreter
@@ -128,8 +145,9 @@ message = client.beta.threads.messages.create(
     role="user",
     content="""
     Analyze this C# code for potential issues:
-    
+
     ```csharp
+
     public List<User> GetUsers() {
         var users = new List<User>();
         using (var conn = new SqlConnection(connectionString)) {
@@ -142,6 +160,7 @@ message = client.beta.threads.messages.create(
         }
         return users;
     }
+
     ```
     """
 )
@@ -166,21 +185,25 @@ if run.status == "completed":
     latest_message = messages.data[0]
     print(latest_message.content[0].text.value)
 ```
+
 ### Expected Response
 
 ```text
 Issues found in your C# code:
 
 1. **Not using async/await**: Database operations block the thread.
+
    Fix: Use `OpenAsync()`, `ExecuteReaderAsync()`, `ReadAsync()`
 
 2. **Unsafe casting**: `(int)reader["Id"]` throws if Id is NULL.
+
    Fix: Use `reader.GetInt32(reader.GetOrdinal("Id"))` or check for DBNull
 
 3. **Incomplete User object**: Only Id is populated.
-   
+
 Improved version:
 ```csharp
+
 public async Task<List<User>> GetUsersAsync() {
     var users = new List<User>();
     await using (var conn = new SqlConnection(connectionString)) {
@@ -197,8 +220,10 @@ public async Task<List<User>> GetUsersAsync() {
     }
     return users;
 }
+
 ```
 ```
+
 ## Usage
 
 ### File Search (RAG) with Assistants
@@ -241,6 +266,7 @@ run = client.beta.threads.runs.create_and_poll(
 messages = client.beta.threads.messages.list(thread_id=thread.id)
 print(messages.data[0].content[0].text.value)
 ```
+
 ### Function Calling with Assistants
 
 ```python
@@ -275,10 +301,10 @@ if run.status == "requires_action":
     tool_call = run.required_action.submit_tool_outputs.tool_calls[0]
     function_name = tool_call.function.name
     arguments = json.loads(tool_call.function.arguments)
-    
+
     # Execute your function
     result = get_order_status(arguments["order_id"])
-    
+
     # Submit result back
     run = client.beta.threads.runs.submit_tool_outputs(
         thread_id=thread.id,
@@ -289,6 +315,7 @@ if run.status == "requires_action":
         }]
     )
 ```
+
 ## Best Practices
 
 1. **Thread Management**: Reuse threads for the same user/conversation. Delete old threads to save costs.

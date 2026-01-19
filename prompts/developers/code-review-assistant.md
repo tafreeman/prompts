@@ -7,28 +7,38 @@ intro: An AI assistant that performs thorough code reviews, identifying potentia
 type: how_to
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - code-review
 - quality
 - developers
 - best-practices
+
 author: Prompts Library Team
 version: '2.0.0'
 date: '2025-12-11'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
+
   - "PII-safe"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 subcategory: "code-review"
@@ -75,7 +85,7 @@ An AI assistant that performs thorough code reviews, identifying potential issue
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[LANGUAGE]` | Programming language (and optionally framework) | `Python`, `TypeScript + React`, `Java + Spring Boot` |
 | `[BRIEF DESCRIPTION OF WHAT THE CODE DOES]` | What the code is intended to do | `Parses invoices and writes to DB` |
 | `[PASTE YOUR CODE HERE]` | Code to review (ideally 50–300 lines) | *(paste code)* |
@@ -106,7 +116,9 @@ Context: [BRIEF DESCRIPTION OF WHAT THE CODE DOES]
 
 Code:
 ```[LANGUAGE]
+
 [PASTE YOUR CODE HERE]
+
 ```text
 
 Please analyze the code and provide:
@@ -157,26 +169,28 @@ The function is functionally correct for basic use cases but lacks error handlin
 **Refactoring:**
 
 ```python
+
 def calculate_average(numbers: list[float]) -> float:
     """
     Calculate the average of a list of numbers.
-    
+
     Args:
         numbers: A list of numeric values
-        
+
     Returns:
         The arithmetic mean of the numbers
-        
+
     Raises:
         ValueError: If the list is empty or contains non-numeric values
     """
     if not numbers:
         raise ValueError("Cannot calculate average of empty list")
-    
+
     if not all(isinstance(n, (int, float)) for n in numbers):
         raise ValueError("All elements must be numeric")
-    
+
     return sum(numbers) / len(numbers)
+
 ```text
 
 This refactored version:
@@ -201,24 +215,28 @@ This refactored version:
 ## Language-Specific Considerations
 
 ### Python
+
 - Check for type hints and proper use of `Optional`
 - Look for `with` statements for resource management
 - Verify PEP 8 compliance
 - Check for mutable default arguments
 
 ### JavaScript/TypeScript
+
 - Verify proper async/await usage (no floating promises)
 - Check for proper null/undefined handling
 - Look for TypeScript type safety (`any` overuse)
 - Verify proper event listener cleanup
 
 ### Java
+
 - Check for proper exception handling (no empty catches)
 - Verify resource management (try-with-resources)
 - Look for null safety (Optional usage)
 - Check for thread safety in concurrent code
 
 ### Go
+
 - Verify error handling (no ignored errors)
 - Check for proper defer usage
 - Look for goroutine leaks
@@ -229,6 +247,7 @@ This refactored version:
 ## Example Feedback Snippets
 
 ### Critical: Security Issue
+
 ```text
 🔴 **CRITICAL - Security Vulnerability**
 **Line 15**: SQL injection vulnerability
@@ -243,6 +262,7 @@ The query uses string concatenation with user input:
 ```sql
 
 ### Major: Missing Error Handling
+
 ```text
 🟡 **MAJOR - Missing Error Handling**
 **Lines 23-25**: API call has no error handling
@@ -251,18 +271,21 @@ The `requests.get()` call will crash if the network fails.
 
 **Fix**:
 ```python
+
 try:
     response = requests.get(url, timeout=30)
     response.raise_for_status()
 except requests.RequestException as e:
     logger.error(f"API call failed: {e}")
     return None
+
 ```json
 
 **Why**: Unhandled exceptions cause poor user experience and make debugging harder.
 ```
 
 ### Minor: Naming Improvement
+
 ```text
 🟢 **MINOR - Naming Suggestion**
 **Line 8**: Variable name `x` is not descriptive

@@ -6,21 +6,29 @@ type: "reference"
 category: "business"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "project-manager"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "business"
   - "strategy"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

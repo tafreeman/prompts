@@ -5,18 +5,24 @@ intro: Validate prompt library scoring rubrics against GenAI research (2023-2025
 type: template
 difficulty: advanced
 audience:
+
   - researchers
   - developers
+
 platforms:
+
   - copilot
   - chatgpt
   - claude
   - gemini
   - generic
+
 topics:
+
   - prompt-engineering
   - evaluation
   - quality-assurance
+
 date: "2025-12-18"
 ---
 
@@ -47,7 +53,7 @@ Validate the accuracy, relevance, and research alignment of the scoring rubrics 
 ## Rubric Validation Table (GenAI, 2023-2025)
 
 | Dimension      | Weight | Research Support (Y/N) | Justification / Source |
-|---------------|--------|-----------------------|-----------------------|
+| --------------- | -------- | ----------------------- | ----------------------- |
 | Clarity       | 25%    |                       |                       |
 | Effectiveness | 30%    |                       |                       |
 | Reusability   | 20%    |                       |                       |
@@ -76,7 +82,7 @@ For each prompt/rubric, output:
 **Prompt File:** prompts/chain-of-thought-guide.md
 
 | Dimension      | Weight | Research Support | Justification / Source |
-|---------------|--------|-----------------|-----------------------|
+| --------------- | -------- | ----------------- | ----------------------- |
 | Clarity       | 25%    | Y               | DAIR.AI Guide 2024     |
 | Effectiveness | 30%    | Y               | Dhuliawala et al. 2023 |
 | Reusability   | 20%    | Y               | Madaan et al. 2023     |

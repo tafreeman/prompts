@@ -8,22 +8,30 @@ m365App: Copilot in Outlook or Microsoft 365 Copilot Chat
 type: conceptual
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - management
 - m365
 - business
 - career
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Generates a structured agenda for 1:1 meetings with your manager, highlighting

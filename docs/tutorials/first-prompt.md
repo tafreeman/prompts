@@ -5,24 +5,32 @@ intro: "Learn the basics of prompting by creating and refining your first AI pro
 type: tutorial
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - fundamentals
   - getting-started
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -57,13 +65,14 @@ Open your AI assistant and enter:
 ```text
 Write a summary.
 ```text
-### What Happened?
 
+### What Happened
 The AI probably asked what you want summarized, or gave a generic response. This demonstrates the first principle:
 
 > **Principle 1**: AI needs to know what you're working with.
 
 The prompt failed because it lacked:
+
 - Subject matter (what to summarize)
 - Context (why you need it)
 - Format (how long, what style)
@@ -77,9 +86,10 @@ Let's improve by adding the subject matter.
 ```text
 Write a summary of the benefits of remote work.
 ```text
-### What Happened?
 
+### What Happened
 You likely got a reasonable response this time! The AI had enough information to work with. But the output might be:
+
 - Too long or too short for your needs
 - Missing specific aspects you cared about
 - In a format that doesn't work for you
@@ -96,12 +106,14 @@ Now let's control how the output is structured.
 Write a summary of the benefits of remote work.
 
 Format as:
+
 - A single paragraph
 - Maximum 3 sentences
 - Professional tone suitable for a business presentation
-```text
-### What Happened?
 
+```text
+
+### What Happened
 The response should now match your format requirements. This demonstrates:
 
 > **Principle 3**: Explicit format instructions guide output structure.
@@ -118,14 +130,17 @@ I'm preparing a slide for our quarterly leadership meeting about updating our wo
 Write a summary of the benefits of remote work.
 
 Format as:
+
 - A single paragraph
 - Maximum 3 sentences  
 - Professional tone suitable for executive audience
 - Focus on productivity and retention benefits (our leadership cares most about these)
-```text
-### What Happened?
 
+```text
+
+### What Happened
 The response should now be:
+
 - ✅ Correctly sized
 - ✅ Appropriately toned
 - ✅ Focused on your priorities
@@ -146,6 +161,7 @@ Add Context
     ↓ (usable result!)
 Done
 ```text
+
 This pattern—starting simple and adding specificity—is faster than trying to write the perfect prompt on the first try.
 
 ## Practice Exercises
@@ -186,21 +202,25 @@ Create a prompt for a meeting agenda:
 ```text
 Help me with my project.
 ```text
+
 ### ✅ Better
 
 ```sql
 I'm working on a Python web scraper that collects product prices from e-commerce sites. I'm getting timeout errors when scraping large sites. What are some strategies to handle this?
 ```text
+
 ### ❌ Too Much at Once
 
 ```text
 Write me a complete business plan with executive summary, market analysis, financial projections for 5 years, marketing strategy, operations plan, and team structure for a new AI startup.
 ```text
+
 ### ✅ Better
 
 ```text
 Write an executive summary (250 words) for a business plan for an AI-powered customer service startup targeting mid-size e-commerce companies.
 ```text
+
 (Then follow up with separate prompts for each section)
 
 ## What You Learned

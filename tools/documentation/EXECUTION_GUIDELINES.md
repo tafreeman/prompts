@@ -5,18 +5,24 @@ intro: Mandatory patterns for executing tools and scripts in this repository.
 type: reference
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
 - ai-agent
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2026-01-06'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -67,7 +73,7 @@ sys.exit(init.exit_code())
 **What `tool_init.py` automatically provides:**
 
 | Feature | Automatic Behavior |
-|---------|-------------------|
+| --------- | ------------------- |
 | **Unicode Fix** | Applied on import (Windows console encoding) |
 | **Model Check** | Exits with code 1 if required models unavailable |
 | **Env Check** | Exits with code 1 if required env vars missing |
@@ -131,26 +137,26 @@ from pathlib import Path
 
 def main():
     # === FAIL-FAST CHECKS ===
-    
+
     # Check required environment
     required_env = ["GITHUB_TOKEN"]
     for var in required_env:
         if not os.getenv(var):
             print(f"FATAL: Missing required env var: {var}", file=sys.stderr)
             sys.exit(1)
-    
+
     # Check required files
     input_path = Path(sys.argv[1]) if len(sys.argv) > 1 else None
     if not input_path or not input_path.exists():
         print(f"FATAL: Input path does not exist: {input_path}", file=sys.stderr)
         sys.exit(1)
-    
+
     # Check model availability
     from tools.model_probe import is_model_usable
     if not is_model_usable("local:phi4"):
         print("FATAL: Required model 'local:phi4' not available", file=sys.stderr)
         sys.exit(1)
-    
+
     print("✓ All prerequisites satisfied")
     # === PROCEED WITH MAIN LOGIC ===
 ```
@@ -187,7 +193,7 @@ def log_result(prompt_file: str, model: str, result: dict):
 # Usage in loop
 for i, prompt_file in enumerate(prompt_files, 1):
     print(f"[{i}/{len(prompt_files)}] Processing {prompt_file.name}...")
-    
+
     try:
         result = evaluate(prompt_file)
         log_result(prompt_file, model, {"score": result.score})
@@ -239,7 +245,7 @@ def safe_print(text: str):
 Use standardized error codes from `model_probe.py`:
 
 | Code | Meaning | Retry? |
-|------|---------|--------|
+| ------ | --------- | -------- |
 | `success` | Operation completed | N/A |
 | `unavailable_model` | Model not found | NO |
 | `permission_denied` | Auth/access error | NO |
@@ -256,7 +262,7 @@ try:
     result = call_model(prompt)
 except Exception as e:
     error_code, should_retry = classify_error(str(e))
-    
+
     if should_retry:
         print(f"Transient error ({error_code}), will retry...")
         time.sleep(10)
@@ -281,7 +287,7 @@ for i, item in enumerate(items, 1):
     # Progress indicator
     pct = (i / total) * 100
     print(f"\r[{i:4d}/{total}] ({pct:5.1f}%) Processing... ", end="", flush=True)
-    
+
     try:
         process(item)
         success += 1
@@ -314,12 +320,12 @@ def load_checkpoint() -> dict:
 def main():
     state = load_checkpoint()
     completed = set(state.get("completed", []))
-    
+
     for item in all_items:
         if item in completed:
             print(f"Skipping {item} (already done)")
             continue
-        
+
         process(item)
         completed.add(item)
         save_checkpoint({"completed": list(completed)})

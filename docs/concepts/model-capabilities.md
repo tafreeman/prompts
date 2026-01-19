@@ -5,26 +5,34 @@ intro: Compare the strengths, limitations, and ideal use cases of major AI model
 type: conceptual
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - solution-architect
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - model-selection
   - fundamentals
   - best-practices
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -50,19 +58,21 @@ Not all AI models are created equal. Each has distinct strengths, training appro
 OpenAI's GPT (Generative Pre-trained Transformer) models are among the most widely deployed AI systems.
 
 | Model | Best For | Context Window | Speed |
-|-------|----------|----------------|-------|
+| ------- | ---------- | ---------------- | ------- |
 | GPT-4.1 | Complex reasoning, code generation, analysis | 128K tokens | Moderate |
 | GPT-4o | Balanced performance, multi-modal tasks | 128K tokens | Fast |
 | GPT-4o-mini | Quick tasks, cost-sensitive applications | 128K tokens | Very Fast |
 | o1-preview | Deep reasoning, math, scientific analysis | 128K tokens | Slow |
 
 **Strengths**:
+
 - Excellent general knowledge and reasoning
 - Strong code generation capabilities
 - Good at following complex instructions
 - Extensive fine-tuning options
 
 **Considerations**:
+
 - Can be verbose without explicit constraints
 - May "hallucinate" confidently on niche topics
 - Reasoning models (o1) trade speed for accuracy
@@ -72,18 +82,20 @@ OpenAI's GPT (Generative Pre-trained Transformer) models are among the most wide
 Claude models are designed with a focus on helpfulness, harmlessness, and honesty.
 
 | Model | Best For | Context Window | Speed |
-|-------|----------|----------------|-------|
+| ------- | ---------- | ---------------- | ------- |
 | Claude 3.5 Sonnet | Balanced tasks, coding, analysis | 200K tokens | Fast |
 | Claude 3 Opus | Complex reasoning, nuanced writing | 200K tokens | Moderate |
 | Claude 3 Haiku | Quick responses, simple tasks | 200K tokens | Very Fast |
 
 **Strengths**:
+
 - Excellent at nuanced writing and analysis
 - Strong at following safety guidelines
 - Large context window for document processing
 - Good at admitting uncertainty
 
 **Considerations**:
+
 - May be more cautious on edge cases
 - Sometimes over-qualifies responses
 - Availability varies by region
@@ -93,24 +105,27 @@ Claude models are designed with a focus on helpfulness, harmlessness, and honest
 GitHub Copilot provides AI assistance specifically optimized for software development workflows.
 
 | Feature | Capability |
-|---------|------------|
+| --------- | ------------ |
 | Code completion | Real-time suggestions in IDE |
 | Chat | Conversational coding assistance |
 | Code review | Automated PR review suggestions |
 | Documentation | Generate docs from code |
 
 **Available Models in Copilot**:
+
 - GPT-4o (default for most tasks)
 - Claude 3.5 Sonnet (available in chat)
 - o1-preview (for complex reasoning)
 
 **Strengths**:
+
 - Deep IDE integration
 - Context-aware of your codebase
 - Understands project structure
 - Optimized for code workflows
 
 **Considerations**:
+
 - Focused on development tasks
 - Requires IDE or GitHub integration
 - Some features require enterprise plans
@@ -120,6 +135,7 @@ GitHub Copilot provides AI assistance specifically optimized for software develo
 Azure OpenAI provides enterprise-grade access to OpenAI models with additional security and compliance features.
 
 **Key Benefits**:
+
 - Data doesn't leave your Azure tenant
 - Enterprise SLAs and support
 - Integration with Azure services
@@ -132,7 +148,7 @@ Azure OpenAI provides enterprise-grade access to OpenAI models with additional s
 M365 Copilot integrates AI across Microsoft productivity applications.
 
 | Application | AI Capabilities |
-|-------------|-----------------|
+| ------------- | ----------------- |
 | Word | Draft, rewrite, summarize documents |
 | Excel | Analyze data, create formulas, generate charts |
 | PowerPoint | Create presentations, design slides |
@@ -140,12 +156,14 @@ M365 Copilot integrates AI across Microsoft productivity applications.
 | Teams | Meeting summaries, action items |
 
 **Strengths**:
+
 - Native integration with Microsoft apps
 - Access to organizational data (with permissions)
 - Familiar interface for business users
 - Enterprise security and compliance
 
 **Considerations**:
+
 - Requires Microsoft 365 license
 - Capabilities vary by application
 - Less customizable than API access
@@ -155,7 +173,7 @@ M365 Copilot integrates AI across Microsoft productivity applications.
 ### Task Suitability
 
 | Task Type | GPT-4 | Claude Sonnet | Copilot | M365 Copilot |
-|-----------|-------|---------------|---------|--------------|
+| ----------- | ------- | --------------- | --------- | -------------- |
 | Code Generation | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
 | Creative Writing | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
 | Data Analysis | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
@@ -176,6 +194,7 @@ M365 Copilot integrates AI across Microsoft productivity applications.
     Quality       └─────────────────────────────────────────┘
                   Slower                              Faster
 ```text
+
 ## Selecting the Right Model
 
 ### Decision Framework
@@ -199,7 +218,7 @@ Use this framework to select the appropriate model:
 #### 3. Match to Model Strengths
 
 | If You Need... | Consider... |
-|----------------|-------------|
+| ---------------- | ------------- |
 | Best overall reasoning | GPT-4, o1-preview |
 | Fastest responses | GPT-4o-mini, Claude Haiku |
 | Longest context | Claude (200K tokens) |
@@ -211,22 +230,27 @@ Use this framework to select the appropriate model:
 ### Common Scenarios
 
 **Scenario 1: Code Review**
+
 - **Recommended**: GitHub Copilot (IDE integration) or Claude Sonnet (detailed analysis)
 - **Why**: Context awareness and ability to explain reasoning
 
 **Scenario 2: Document Summarization**
+
 - **Recommended**: Claude Sonnet (long context) or GPT-4o (balanced)
 - **Why**: Large context windows handle full documents
 
 **Scenario 3: Real-time Chat Support**
+
 - **Recommended**: GPT-4o-mini or Claude Haiku
 - **Why**: Speed is critical, tasks are typically straightforward
 
 **Scenario 4: Complex Analysis**
+
 - **Recommended**: o1-preview or Claude Opus
 - **Why**: Deep reasoning capabilities, accuracy over speed
 
 **Scenario 5: Business Documents**
+
 - **Recommended**: M365 Copilot or Claude Sonnet
 - **Why**: Native integration or strong writing capabilities
 
@@ -267,7 +291,7 @@ Different models respond differently to the same prompt. Here are model-specific
 Model pricing varies significantly. Consider these factors:
 
 | Factor | Impact |
-|--------|--------|
+| -------- | -------- |
 | Input tokens | Charged per 1K tokens sent |
 | Output tokens | Usually 2-3x input pricing |
 | Model tier | Premium models cost more |
@@ -275,6 +299,7 @@ Model pricing varies significantly. Consider these factors:
 | Committed use | Volume discounts available |
 
 **Cost Optimization Tips**:
+
 1. Use smaller models for simple tasks
 2. Optimize prompts to reduce token usage
 3. Cache common responses when appropriate

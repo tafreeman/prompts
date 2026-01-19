@@ -61,7 +61,7 @@ python -m prompteval testing/evals/advanced/ --tier 2 -o results.json
 Advanced prompts are evaluated on:
 
 | Criterion | Weight | Focus for Advanced |
-|-----------|--------|-------------------|
+| ----------- | -------- | ------------------- |
 | **Clarity** | 1.0x | Complex instructions must still be clear |
 | **Specificity** | 1.2x | Precise steps and expectations |
 | **Actionability** | 1.2x | Clear reasoning/action steps |
@@ -72,6 +72,7 @@ Advanced prompts are evaluated on:
 | **Safety** | 1.0x | No harmful reasoning patterns |
 
 **Higher standards for advanced prompts:**
+
 - Overall score ≥ 8.0 (vs. 7.0 for basic prompts)
 - No dimension < 6.0 (vs. 5.0 for basic prompts)
 - Variance ≤ 1.0 (vs. 1.5 for basic prompts)
@@ -83,6 +84,7 @@ Advanced prompts are evaluated on:
 **Prompts Evaluated:** 10
 
 **Techniques Covered:**
+
 - Chain-of-Thought (Concise, Detailed, Decision Guide)
 - CoT for Debugging & Root Cause Analysis
 - CoT for Performance Analysis & Profiling
@@ -94,7 +96,7 @@ Advanced prompts are evaluated on:
 **Key Prompts:**
 
 | Prompt | Technique | Difficulty | Type |
-|--------|-----------|------------|------|
+| -------- | ----------- | ------------ | ------ |
 | Chain-of-Thought: Concise Mode | CoT | Intermediate | How-to |
 | Chain-of-Thought: Detailed Mode | CoT | Intermediate | How-to |
 | Chain-of-Thought: Decision Guide | CoT | Beginner | Reference |
@@ -120,6 +122,7 @@ python -m prompteval testing/evals/advanced/advanced-eval-1.prompt.yml --tier 2
 **Prompts Evaluated:** TBD
 
 **Techniques Covered:**
+
 - Self-Consistency
 - Least-to-Most Prompting
 - Automatic Reasoning and Tool-use (ART)
@@ -133,6 +136,7 @@ python -m prompteval testing/evals/advanced/advanced-eval-1.prompt.yml --tier 2
 **Prompts Evaluated:** TBD
 
 **Techniques Covered:**
+
 - Expert-level prompt combinations
 - Novel research patterns
 - Production optimization techniques
@@ -148,6 +152,7 @@ Score: 8.7/10 (Grade: A)
 Pass: ✅
 
 Dimensions:
+
 - clarity: 9        # Clear step-by-step instructions
 - specificity: 9    # Precise reasoning format
 - actionability: 9  # Well-defined actions
@@ -158,20 +163,23 @@ Dimensions:
 - safety: 9         # No harmful patterns
 
 Strengths:
+
 - Clear reasoning structure with labeled phases
 - Comprehensive coverage of technique mechanics
 - Well-defined output format
 - Practical examples and use cases
 
 Improvements:
+
 - Could add more example outputs
 - Consider edge case handling
+
 ```
 
 ### Common Issues with Advanced Prompts
 
 | Issue | Description | Fix |
-|-------|-------------|-----|
+| ------- | ------------- | ----- |
 | **Overly Complex** | Too many nested steps | Simplify or break into sub-prompts |
 | **Unclear Reasoning Format** | Vague step structure | Define explicit step format |
 | **Missing Examples** | Theory without practice | Add concrete examples |
@@ -183,7 +191,7 @@ Improvements:
 ### Evaluation Speed
 
 | Batch | Prompts | Avg Time/Prompt | Total Time |
-|-------|---------|-----------------|------------|
+| ------- | --------- | ----------------- | ------------ |
 | Batch 1 | 10 | ~45s | ~7.5 min |
 | Batch 2 | TBD | ~45s | TBD |
 | Batch 3 | TBD | ~45s | TBD |
@@ -193,7 +201,7 @@ Improvements:
 ### Historical Scores
 
 | Batch | Avg Score | Pass Rate | Common Grade |
-|-------|-----------|-----------|--------------|
+| ------- | ----------- | ----------- | -------------- |
 | Batch 1 | 8.3/10 | 90% | B+ |
 | Batch 2 | TBD | TBD | TBD |
 | Batch 3 | TBD | TBD | TBD |
@@ -209,15 +217,25 @@ modelParameters:
   max_tokens: 2000      # Higher for detailed analysis
 
 evaluators:
+
   - name: valid-json
+
     description: Response must be valid JSON
+
   - name: has-overall-score
+
     description: Includes overall score
+
   - name: has-grade
+
     description: Includes letter grade
+
   - name: has-reasoning
+
     description: Chain-of-thought reasoning
+
   - name: has-safety-score
+
     description: Safety evaluation
 ```
 
@@ -226,21 +244,26 @@ evaluators:
 ```yaml
 evaluators:
   # Standard evaluators
+
   - name: valid-json
   - name: has-overall-score
-  
+
   # Advanced-specific evaluators
+
   - name: has-reasoning-structure
+
     description: Evaluates reasoning step structure
     string:
       contains: '"reasoning_quality"'
-  
+
   - name: has-phase-evaluation
+
     description: Evaluates multi-phase organization
     string:
       contains: '"phase_clarity"'
-  
+
   - name: has-technique-accuracy
+
     description: Validates technique implementation
     string:
       contains: '"technique_accuracy"'
@@ -266,13 +289,13 @@ Common reasons for low scores in advanced prompts:
 
 1. **Unclear Reasoning Format**
    - Fix: Define explicit step format with examples
-   
+
 2. **Too Complex**
    - Fix: Break into smaller sub-prompts
-   
+
 3. **Missing Context**
    - Fix: Add more background and examples
-   
+
 4. **Inconsistent Terminology**
    - Fix: Use standard technique names and definitions
 

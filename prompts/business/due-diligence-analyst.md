@@ -6,20 +6,28 @@ intro: Conducts comprehensive due diligence with analysis frameworks, risk asses
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - analysis
 - business
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -55,12 +63,14 @@ Timeline: [timeline]
 Stakeholders: [stakeholders]
 
 Provide:
+
 1. Due diligence plan
 2. Information requests
 3. Analysis framework
 4. Risk assessment
 5. Findings summary
 6. Recommendations
+
 ```text
 
 ---
@@ -81,15 +91,18 @@ Provide:
 ## Technical Due Diligence Report
 
 ### 1. Due Diligence Plan
+
 *   **Day 1-3:** Codebase scan (Black Duck) for Open Source license violations.
 *   **Day 4-7:** Architecture review and key personnel interviews.
 
 ### 2. Findings Summary
+
 *   **IP Risk:** 🔴 HIGH. Core AI algorithm contains GPL v3 licensed code (Copyleft), contaminating proprietary IP.
 *   **Security:** 🟢 LOW. SOC2 Type II certified; Pen test remediation complete.
 *   **Scalability:** 🟡 MEDIUM. Monolithic Python backend may struggle with 10x user growth.
 
 ### 3. Recommendations
+
 *   **Deal Breaker:** Require "FinAI" to rewrite the GPL-contaminated module *before* closing.
 *   **Post-Close:** Budget $500k for microservices refactoring in Year 1.
 

@@ -5,36 +5,48 @@ intro: "Understand the fundamentals of prompt engineering and AI-assisted develo
 type: "conceptual"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "solution-architect"
   - "business-analyst"
   - "project-manager"
   - "functional-team"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
   - "azure-openai"
   - "m365-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-11-29"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 layout: "category-landing"
 children:
+
   - /concepts/about-prompt-engineering
   - /concepts/about-advanced-patterns
   - /concepts/model-capabilities
   - /concepts/prompt-anatomy
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-copilot
+
   popular:
+
     - /concepts/about-advanced-patterns
+
 ---
 
 # Concepts
@@ -44,7 +56,7 @@ Understand the fundamentals before diving into specific prompts. These conceptua
 ## In This Section
 
 | Concept | Description |
-|---------|-------------|
+| --------- | ------------- |
 | [About Prompt Engineering](/concepts/about-prompt-engineering) | Fundamentals of crafting effective AI prompts |
 | [About Advanced Patterns](/concepts/about-advanced-patterns) | Chain-of-Thought, ReAct, Tree-of-Thought overview |
 | [Model Capabilities](/concepts/model-capabilities) | Compare GPT, Claude, Copilot strengths |
@@ -52,8 +64,7 @@ Understand the fundamentals before diving into specific prompts. These conceptua
 
 ---
 
-## Why Read These First?
-
+## Why Read These First
 Understanding concepts helps you:
 
 1. **Choose the right pattern** for your task

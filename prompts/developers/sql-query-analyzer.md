@@ -7,27 +7,37 @@ intro: A database expert that analyzes SQL queries for performance bottlenecks, 
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - sql
 - developers
 - security
 - performance
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-26'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 subcategory: database
 framework_compatibility:
+
 - sql-server
 - postgresql
 - mysql
+
 effectivenessScore: 0.0
 ---
 
@@ -53,7 +63,7 @@ A database expert that analyzes SQL queries for performance bottlenecks, securit
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[sql_query]` | SQL query to analyze | `SELECT ... FROM orders ...` |
 | `[schema_context]` | Optional schema info (tables, indexes, row counts) | `Orders(10M rows), idx_orders_date` |
 | `[engine]` | SQL engine / dialect | `SQL Server`, `PostgreSQL`, `MySQL` |
@@ -68,6 +78,7 @@ A database expert that analyzes SQL queries for performance bottlenecks, securit
 Database Engine: PostgreSQL
 
 Schema Context:
+
 - orders(order_id, order_date, customer_name, total_amount)
 - Indexes: idx_orders_order_date
 
@@ -91,16 +102,19 @@ Schema Context (Optional):
 Database Engine: [engine] (Default: SQL Server)
 
 Analyze for:
+
 1. **Performance**: SARGability, Index usage, expensive operations (scans, sorts).
 2. **Security**: SQL Injection risks, permission issues.
 3. **Correctness**: Logic errors, potential NULL handling issues.
 4. **Readability**: Formatting, aliasing, CTE usage.
 
 Output Format:
+
 - **Analysis Summary**: Brief overview.
 - **Findings**: Bulleted list of issues (Critical/Major/Minor).
 - **Optimized Query**: Rewritten SQL.
 - **Index Recommendations**: Suggested indexes to support the query.
+
 ```sql
 
 **Output:**
@@ -113,31 +127,37 @@ Output Format:
 ## Findings
 
 ### Critical (Performance)
+
 1.  **Non-SARGable Predicate**: `YEAR(OrderDate) = 2024` wraps the column in a function. This prevents the database from using an index on `OrderDate`.
     - *Fix*: Use a range search: `OrderDate >= '2024-01-01' AND OrderDate < '2025-01-01'`.
 2.  **Leading Wildcard**: `LIKE '%Corp%'` prevents index seek. It forces a scan of the entire index/table.
     - *Fix*: If possible, remove leading wildcard (`'Corp%'`). If full-text search is needed, use Full-Text Indexing (`CONTAINS`).
 
 ### Minor (Best Practices)
+
 1.  **SELECT ***: Selecting all columns is inefficient. Specify only needed columns to reduce I/O and network payload.
 
 ## Optimized Query
 
 ```sql
+
 SELECT OrderId, OrderDate, CustomerName, TotalAmount
 FROM Orders
 WHERE OrderDate >= '2024-01-01' 
   AND OrderDate < '2025-01-01'
   AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
+
 ```xml
 
 ## Index Recommendations
 
 ```sql
+
 -- Supports the Date range filter and includes the other columns
 CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
 ON Orders (OrderDate) 
 INCLUDE (CustomerName, TotalAmount);
+
 ```text
 
 ```

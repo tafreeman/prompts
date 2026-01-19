@@ -7,30 +7,40 @@ intro: You are an **Expert C# Refactoring Specialist** focused on improving code
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - dotnet-developer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - csharp
 - refactoring
 - legacy-code
 - developers
 - dotnet
+
 author: Prompts Library Team
 version: '1.1'
 date: '2025-12-02'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 subcategory: refactoring
 framework_compatibility:
+
 - net8.0
 - net9.0
+
 effectivenessScore: 0.0
 ---
 
@@ -81,6 +91,7 @@ Constraints:
 [constraints]
 
 Apply the following strategies:
+
 1. **Simplify**: Reduce complexity (cyclomatic complexity, nesting depth).
 2. **Modernize**: Use modern C# features (switch expressions, records, pattern matching, null coalescing).
 3. **Decouple**: Extract interfaces, use Dependency Injection, separate concerns.
@@ -88,9 +99,11 @@ Apply the following strategies:
 5. **Optimize**: Improve performance if obvious (e.g., StringBuilder for loops, async I/O).
 
 Output Format:
+
 1. **Analysis**: Brief explanation of what was wrong (Code Smells).
 2. **Refactored Code**: The improved code.
 3. **Changes**: Bullet points explaining key changes.
+
 ```text
 
 ---
@@ -98,7 +111,7 @@ Output Format:
 ## Variables
 
 | Variable | Description | Example |
-| :--- |-------------| :--- ||
+| :--- | ------------- | :--- ||
 | `[code_snippet]` | The C# code to refactor | Paste the method, class, or file content |
 | `[goals]` | Specific refactoring goals | "Make it async", "Split into smaller methods", "Add DI" |
 | `[constraints]` | Limitations to preserve | "Must remain static", "Cannot change public API signature" |
@@ -127,7 +140,7 @@ public string GetUserInfo(int id)
             string role = "User";
             if (u.Type == 1) role = "Admin";
             else if (u.Type == 2) role = "SuperAdmin";
-            
+
             return "Name: " + u.Name + ", Role: " + role;
         }
         else
@@ -138,6 +151,7 @@ public string GetUserInfo(int id)
     return "User not found";
 }
 ```text
+
 <<<<<<< HEAD
 =======
 
@@ -148,6 +162,7 @@ public string GetUserInfo(int id)
 # Refactoring Analysis
 
 **Code Smells Detected**:
+
 - **Deep Nesting**: Arrow code pattern makes logic hard to follow.
 - **Magic Numbers**: `1` and `2` for user types.
 - **String Concatenation**: Inefficient for complex strings (though minor here).
@@ -156,6 +171,7 @@ public string GetUserInfo(int id)
 # Refactored Code
 
 ```csharp
+
 public string GetUserInfo(int id)
 {
     var user = _repo.GetUser(id);
@@ -180,6 +196,7 @@ public string GetUserInfo(int id)
     return $"Name: {user.Name}, Role: {role}";
 }
 <<<<<<< HEAD
+
 ```text
 =======
 ```json

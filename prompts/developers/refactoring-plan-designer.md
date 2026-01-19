@@ -7,19 +7,27 @@ intro: Creates phased, risk-managed refactoring plans for large-scale code impro
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - refactoring
 - technical-debt
 - developers
+
 author: Prompt Engineering Team
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -97,7 +105,7 @@ Markdown with the following sections:
 <summary><b>Common placeholders</b> (click to expand)</summary>
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[SYSTEM_OR_CODE_DESCRIPTION]` | What is being refactored | `User management module in monolith` |
 | `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]` | Current state details | `Tight coupling, shared DB tables, no boundaries` |
 | `[PAIN_POINT_*]` | Key pain points (1..n) | `Slow deploys`, `Frequent regressions` |
@@ -120,20 +128,24 @@ Markdown with the following sections:
 System/Code: User management module in a legacy monolith
 
 Current State:
+
 - Shared database tables across 5 domains
 - Authentication mixed with user CRUD
 
 Pain Points:
+
 - Deployments take 2 hours
 - Frequent regressions in auth flows
 
 Refactoring Goal: Extract user management into an independently deployable service
 
 Success Criteria:
+
 - No production incidents during migration
 - <10ms latency overhead for user operations
 
 Constraints:
+
 - Team Size: 3 developers
 - Timeline: 8 weeks
 - Uptime Requirement: 99.9%
@@ -158,6 +170,7 @@ You are a senior software architect creating a phased refactoring plan.
 [DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]
 
 **Pain Points:**
+
 - [PAIN_POINT_1]
 - [PAIN_POINT_2]
 - [PAIN_POINT_3]
@@ -165,10 +178,12 @@ You are a senior software architect creating a phased refactoring plan.
 **Refactoring Goal:** [WHAT_YOU_WANT_TO_ACHIEVE]
 
 **Success Criteria:**
+
 - [SUCCESS_CRITERION_1]
 - [SUCCESS_CRITERION_2]
 
 **Constraints:**
+
 - Team Size: [N developers]
 - Timeline: [X weeks/months]
 - Uptime Requirement: [e.g., 99.9%]
@@ -182,6 +197,7 @@ You are a senior software architect creating a phased refactoring plan.
 ## Task
 
 Create a **detailed, phased refactoring plan** that:
+
 1. Breaks the refactoring into small, independently deployable steps
 2. Quantifies risk for each phase
 3. Includes pre-checks, validation gates, and rollback plans
@@ -196,10 +212,12 @@ Create a **detailed, phased refactoring plan** that:
 **Goal:** [One-sentence summary]
 
 **Scope:**
+
 - [What's included]
 - [What's excluded]
 
 **Success Criteria:**
+
 1. [Measurable criterion 1]
 2. [Measurable criterion 2]
 
@@ -210,7 +228,7 @@ Create a **detailed, phased refactoring plan** that:
 ### 2. Risk Assessment
 
 | Risk | Likelihood | Impact | Mitigation |
-|------|-----------|---------|-----------|
+| ------ | ----------- | --------- | ----------- |
 | [Risk 1] | High/Med/Low | High/Med/Low | [How to address] |
 | [Risk 2] | High/Med/Low | High/Med/Low | [How to address] |
 
@@ -219,6 +237,7 @@ Create a **detailed, phased refactoring plan** that:
 ### 3. Pre-Refactoring Checklist
 
 Before starting, ensure:
+
 - [ ] [Pre-check 1, e.g., "Test coverage >70%"]
 - [ ] [Pre-check 2, e.g., "Feature flag system in place"]
 - [ ] [Pre-check 3, e.g., "Monitoring/alerting configured"]
@@ -235,17 +254,20 @@ Before starting, ensure:
 **Goal:** [What this phase achieves]
 
 **Steps:**
+
 1. [Step 1]
 2. [Step 2]
 3. [Step 3]
 
 **Changes:**
+
 - Files/modules affected: [list]
 - Lines of code: [estimate]
 
 **Risk Level:** [High/Medium/Low]
 
 **Validation:**
+
 - [ ] [Validation step 1, e.g., "All tests pass"]
 - [ ] [Validation step 2, e.g., "Performance unchanged"]
 - [ ] [Validation step 3, e.g., "No error rate increase"]
@@ -271,10 +293,12 @@ Before starting, ensure:
 ### 5. Validation & Monitoring
 
 **During Refactoring:**
+
 - Monitor: [Metrics to track, e.g., "error rate, latency, CPU usage"]
 - Alerts: [When to stop and rollback]
 
 **After Completion:**
+
 - [ ] [Final validation 1]
 - [ ] [Final validation 2]
 - [ ] [Documentation updated]
@@ -294,7 +318,7 @@ Before starting, ensure:
 ### 7. Timeline Estimate
 
 | Phase | Duration | Start | End |
-|-------|----------|-------|-----|
+| ------- | ---------- | ------- | ----- |
 | Phase 1 | [X weeks] | [Date] | [Date] |
 | Phase 2 | [X weeks] | [Date] | [Date] |
 | ... | ... | ... | ... |
@@ -312,10 +336,12 @@ Before starting, ensure:
 **Goal:** Extract user management into an independently deployable microservice
 
 **Scope:**
+
 - Included: User CRUD, authentication, profile management
 - Excluded: User analytics (remains in monolith for now)
 
 **Success Criteria:**
+
 1. User service handles 100% of user operations with <10ms latency overhead
 2. Zero production incidents during migration
 3. User service independently deployable (CI/CD pipeline)
@@ -327,7 +353,7 @@ Before starting, ensure:
 ### 2. Risk Assessment
 
 | Risk | Likelihood | Impact | Mitigation |
-|------|-----------|---------|-----------|
+| ------ | ----------- | --------- | ----------- |
 | Data migration failure | Medium | High | Dual-write period + rollback script |
 | Performance degradation | Medium | High | Load testing before each phase |
 | Authentication breaks | Low | Critical | Feature flags + canary rollout |
@@ -343,6 +369,7 @@ Before starting, ensure:
 **Goal:** Isolate user management code within monolith
 
 **Steps:**
+
 1. Create user module boundary (namespace, separate folder)
 2. Identify all dependencies (inbound/outbound calls)
 3. Add integration tests for user service interface
@@ -351,6 +378,7 @@ Before starting, ensure:
 **Risk Level:** Low
 
 **Validation:**
+
 - [ ] User module passes all tests independently
 - [ ] No new cross-module dependencies
 - [ ] Performance benchmarks unchanged
@@ -366,6 +394,7 @@ Before starting, ensure:
 **Goal:** Write user data to both monolith DB and new user service DB
 
 **Steps:**
+
 1. Set up user service infrastructure (DB, app, CI/CD)
 2. Implement dual-write logic (write to both DBs)
 3. Enable dual-write via feature flag (off by default)
@@ -374,6 +403,7 @@ Before starting, ensure:
 **Risk Level:** Medium
 
 **Validation:**
+
 - [ ] Data consistency checks pass (monolith DB == user service DB)
 - [ ] No latency increase >5ms
 - [ ] Error rates unchanged

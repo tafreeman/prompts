@@ -5,21 +5,29 @@ intro: "Generate professional board updates and investor communications with key
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "executive-communication"
   - "investor-relations"
   - "strategy"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -134,24 +142,32 @@ Create a board update for:
 **Company**: TechFlow - Series B enterprise SaaS company, workflow automation platform
 **Period**: November 2024 (monthly update)
 **Key Metrics**:
+
 - ARR: $12.4M (target: $12.8M) - 97% of target
 - Net Revenue Retention: 118%
 - New Logos: 8 (target: 10)
 - Burn: $890K (budget: $950K)
 - Runway: 22 months
+
 **Highlights**:
+
 - Closed Fortune 500 deal (Acme Corp) - $480K ACV, largest deal ever
 - Launched AI features, 40% of users adopted in first 2 weeks
 - Engineering shipped 23% faster after process improvements
 - NPS increased from 42 to 51
+
 **Challenges**:
+
 - Pipeline coverage dropped to 2.1x (target: 3x) - concerning for Q1
 - Lost 2 senior engineers to FAANG companies
 - Enterprise sales cycle lengthening (now 120 days avg, was 90)
+
 **Asks/Decisions Needed**:
+
 - Approve $200K budget increase for sales team expansion (2 AEs)
 - Board input on whether to pursue partnership with Microsoft
 - Intro requests: Need intros to procurement at 3 target accounts
+
 **Audience**: 5-person board (2 VCs, 2 independents, CEO). Monthly update format they prefer.
 
 Generate the board update structure and content as specified in the prompt.

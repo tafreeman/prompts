@@ -5,20 +5,28 @@ intro: "Generate compelling, inclusive job descriptions that attract qualified c
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "hr"
   - "recruiting"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -147,6 +155,7 @@ FinFlow is building the future of B2B payments. We make it radically simple for 
 We're a Series B company backed by Stripe, a]16z, and Ribbit Capital, with $50M raised and strong product-market fit (3x revenue growth last year). Our 80-person team is engineering-driven—we believe great products come from empowered engineers who own problems end-to-end.
 
 **Why people love working here:**
+
 - Real ownership: Engineers ship features to production in their first week
 - Technical excellence: We invest heavily in developer experience and system reliability
 - Growth stage: Big enough to have impact, small enough to shape the culture
@@ -158,6 +167,7 @@ We're a Series B company backed by Stripe, a]16z, and Ribbit Capital, with $50M 
 As a Senior Backend Engineer on our Platform team, you'll own critical payment processing infrastructure that handles real money for real businesses.
 
 **What you'll do:**
+
 - Design, build, and scale backend systems processing $2B+ in monthly payment volume
 - Own the reliability and performance of our core payment APIs (current target: 99.99% uptime)
 - Lead technical initiatives from design through implementation—you'll write RFCs, get buy-in, and ship
@@ -165,6 +175,7 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 - Mentor engineers across the team through code reviews, pairing, and technical guidance
 
 **You'll work with:**
+
 - A Platform team of 8 engineers building distributed systems in Go and Python
 - Our Infrastructure team on Kubernetes, AWS, and observability tooling
 - Product engineers who depend on your APIs to build customer-facing features
@@ -174,6 +185,7 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 ## What We're Looking For
 
 ### Must-Have
+
 - Strong backend engineering fundamentals—you can design systems that are reliable, scalable, and maintainable
 - Experience with distributed systems (event-driven architectures, message queues, eventual consistency)
 - Proficiency in Go, Python, or similar languages (we use Go primarily)
@@ -181,6 +193,7 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 - Clear communication—you can explain complex technical concepts to engineers and non-engineers alike
 
 ### Nice-to-Have
+
 - Experience in payments, fintech, or financial infrastructure
 - Familiarity with compliance requirements (PCI-DSS, SOC 2)
 - Background in platform/infrastructure engineering
@@ -206,11 +219,13 @@ As a Senior Backend Engineer on our Platform team, you'll own critical payment p
 **Apply here**: [link]
 
 **What to include:**
+
 - Resume or LinkedIn profile
 - Brief note on why this role interests you (2-3 sentences is fine)
 - Optional: Link to GitHub, a project you're proud of, or writing you've done
 
 **Our process:**
+
 1. Application review (we respond within 5 business days)
 2. 30-min recruiter screen
 3. 60-min technical conversation with hiring manager

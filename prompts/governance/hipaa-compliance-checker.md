@@ -6,30 +6,40 @@ intro: A comprehensive prompt for assessing healthcare applications and systems 
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - security-engineer
 - healthcare-it
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - compliance
 - healthcare
 - hipaa
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - phi-handling
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - HIPAA
 - HITECH
+
 effectivenessScore: 0.0
 ---
 
@@ -62,12 +72,14 @@ You are an expert HIPAA Compliance Officer and Security Architect. Your task is 
 [DESCRIPTION]
 
 ## Assessment Scope
+
 - [ ] Administrative Safeguards
 - [ ] Physical Safeguards
 - [ ] Technical Safeguards
 - [ ] Privacy Rule Requirements
 
 ## Instructions
+
 1.  Analyze the provided description against specific HIPAA citations (e.g., 45 CFR § 164.312).
 2.  Identify potential compliance gaps or risks.
 3.  Recommend specific technical or procedural controls to address each gap.
@@ -75,10 +87,12 @@ You are an expert HIPAA Compliance Officer and Security Architect. Your task is 
 
 ## Output Format
 Provide a structured report with:
+
 - **Executive Summary**
 - **Compliance Matrix** (Rule | Requirement | Status | Observation)
 - **Gap Analysis**
 - **Remediation Roadmap**
+
 ```
 
 ---
@@ -100,18 +114,21 @@ The proposed architecture leverages AWS services which are HIPAA-eligible, but s
 ### Compliance Matrix (Partial)
 
 | Rule Ref | Requirement | Status | Observation |
-|----------|-------------|--------|-------------|
+| ---------- | ------------- | -------- | ------------- |
 | § 164.312(a)(1) | Access Control | ⚠️ Partial | Unique user IDs present, but automatic logoff not described. |
 | § 164.312(a)(2)(iv) | Encryption and Decryption | ✅ Compliant | Data at rest encrypted via AWS KMS; in transit via TLS 1.3. |
 | § 164.312(b) | Audit Controls | ❌ Gap | No centralized logging of PHI access events mentioned. |
 
 ### Gap Analysis
+
 1.  **Audit Trails (High Risk):** Lack of detailed logs for "read" access to patient records violates § 164.312(b).
 2.  **BAA (Medium Risk):** Need to confirm Business Associate Agreement is signed with AWS and Twilio (if used).
 
 ### Remediation Roadmap
+
 1.  **Immediate:** Enable CloudTrail and S3 server access logging; configure application-level logging for patient record access.
 2.  **Short-term:** Implement 15-minute idle session timeout in the mobile app.
+
 ```
 
 ---

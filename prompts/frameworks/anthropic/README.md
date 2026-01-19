@@ -5,15 +5,21 @@ intro: "Claude-specific prompt patterns and optimization techniques for Anthropi
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
+
 platforms:
+
   - "claude"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -58,12 +64,15 @@ You are a helpful AI assistant specialized in [domain].
 </user_request>
 
 <guidelines>
+
 - Guideline 1
 - Guideline 2
+
 </guidelines>
 ```
 
 **When to Use:**
+
 - Complex prompts with multiple sections
 - When you need clear separation of concerns
 - For better token efficiency and Claude's comprehension
@@ -74,14 +83,17 @@ Built-in safety and ethical guidelines:
 
 ```xml
 <constitution>
+
 1. Be helpful and harmless
 2. Respect user intent
 3. Avoid stereotypes and bias
 4. Explain limitations clearly
+
 </constitution>
 ```
 
 **When to Use:**
+
 - Sensitive topics or content moderation
 - When ethical considerations are paramount
 - Production systems requiring safety guarantees
@@ -93,14 +105,17 @@ Encourage step-by-step reasoning:
 ```xml
 <thinking>
 Please think step-by-step:
+
 1. Analyze the problem
 2. Break it into components
 3. Consider edge cases
 4. Formulate your response
+
 </thinking>
 ```
 
 **When to Use:**
+
 - Complex analysis or problem-solving
 - When you need to see the reasoning process
 - Code review or mathematical proofs
@@ -117,6 +132,7 @@ messages = [
 ```
 
 **When to Use:**
+
 - Enforce specific output formats
 - Skip preambles and get straight to content
 - JSON or structured data generation
@@ -184,6 +200,7 @@ safe_prompt = optimizer.optimize_for_claude(raw_prompt, 'constitutional')
 **Location:** `tool-use/claude-tool-use.md`
 
 Learn how to:
+
 - Define tools/functions for Claude
 - Handle tool use responses
 - Chain multiple tool calls
@@ -217,6 +234,7 @@ response = client.messages.create(
 **Location:** `claude_patterns.py`
 
 Python utilities for:
+
 - XML tag structuring
 - Constitutional AI integration
 - Chain of Thought enforcement
@@ -228,6 +246,7 @@ Python utilities for:
 ### 1. Use XML Tags
 
 ✅ **Do:**
+
 ```xml
 <document>
 <title>Document Title</title>
@@ -236,6 +255,7 @@ Python utilities for:
 ```
 
 ❌ **Don't:**
+
 ```markdown
 # Document Title
 The actual content here
@@ -244,6 +264,7 @@ The actual content here
 ### 2. Be Explicit About Output Format
 
 ✅ **Do:**
+
 ```xml
 <instruction>
 Respond in JSON format with keys: analysis, recommendation, confidence
@@ -251,6 +272,7 @@ Respond in JSON format with keys: analysis, recommendation, confidence
 ```
 
 ❌ **Don't:**
+
 ```text
 Give me a JSON response
 ```
@@ -289,6 +311,7 @@ Design a distributed system architecture for [use case]
 
 <thinking>
 Think through:
+
 1. Scalability requirements
 2. Consistency vs availability tradeoffs
 3. Communication patterns
@@ -301,7 +324,7 @@ Show your reasoning in <thinking> tags before providing the final design.
 ## 📊 Model Comparison
 
 | Model | Context Window | Best For | Cost |
-|-------|---------------|----------|------|
+| ------- | --------------- | ---------- | ------ |
 | **Claude 3 Opus** | 200K tokens | Complex analysis, creative tasks | Highest |
 | **Claude 3.5 Sonnet** | 200K tokens | Balanced performance, coding | Medium |
 | **Claude 3 Haiku** | 200K tokens | Speed, simple tasks | Lowest |
@@ -349,7 +372,7 @@ with client.messages.stream(
 ### ClaudePromptOptimizer Class
 
 | Method | Description | Use Case |
-|--------|-------------|----------|
+| -------- | ------------- | ---------- |
 | `optimize_for_claude()` | Main optimization entry point | General optimization |
 | `_apply_xml_structure()` | Wraps content in XML tags | Structured prompts |
 | `_apply_constitutional_principles()` | Adds safety guidelines | Sensitive content |
@@ -360,15 +383,18 @@ with client.messages.stream(
 ## 📖 Additional Resources
 
 ### Official Documentation
+
 - [Anthropic API Documentation](https://docs.anthropic.com/)
 - [Claude Model Guide](https://docs.anthropic.com/claude/docs/models-overview)
 - [Prompt Engineering Guide](https://docs.anthropic.com/claude/docs/prompt-engineering)
 
 ### Community Resources
+
 - [Anthropic Cookbook](https://github.com/anthropics/anthropic-cookbook)
 - [LangChain Anthropic Integration](https://python.langchain.com/docs/integrations/chat/anthropic)
 
 ### Research Papers
+
 - [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073)
 - [Claude 3 Model Family](https://www.anthropic.com/news/claude-3-family)
 

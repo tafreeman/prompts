@@ -5,22 +5,29 @@ intro: "Battle-tested workflows for consultants, business analysts, and program 
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "m365-copilot"
   - "chatgpt"
   - "claude"
   - "github-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/business/agile-sprint-planner
   - /prompts/business/board-update
   - /prompts/business/budget-and-cost-controller
@@ -57,13 +64,18 @@ children:
   - /prompts/business/team-performance-manager
   - /prompts/business/timeline-and-milestone-tracker
   - /prompts/business/vendor-management-coordinator
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-m365
+
   popular:
+
     - /prompts/business/board-update
     - /prompts/business/pitch-deck-generator
     - /prompts/business/strategic-planning-consultant
+
 ---
 
 # Business & Operations Prompts
@@ -73,7 +85,7 @@ Give every stakeholder update, operating review, and transformation workstream a
 ## In This Section
 
 | Scenario | Prompt | Output |
-| :--- |--------| :--- |
+| :--- | -------- | :--- |
 | Executive briefings | [Board Update](/prompts/business/board-update) | Slide-ready summary with KPIs and risks |
 | Change programs | [Organizational Change Manager](/prompts/business/organizational-change-manager) | Stakeholder map, messaging, adoption plan |
 | Delivery cadence | [Agile Sprint Planner](/prompts/business/agile-sprint-planner) | Sprint goals, risks, demo story |
@@ -89,21 +101,25 @@ Give every stakeholder update, operating review, and transformation workstream a
 ## Browse by Focus Area
 
 ### Strategy & Transformation
+
 - [Business Strategy Analysis](/prompts/business/business-strategy-analysis)
 - [Digital Transformation Advisor](/prompts/business/digital-transformation-advisor)
 - [Innovation Strategy Consultant](/prompts/business/innovation-strategy-consultant)
 
 ### People & Change
+
 - [Interview Questions](/prompts/business/interview-questions)
 - [Job Description Writer](/prompts/business/job-description-writer)
 - [Onboarding Checklist Creator](/prompts/business/onboarding-checklist-creator)
 
 ### Delivery & Quality
+
 - [Quality Assurance Planner](/prompts/business/quality-assurance-planner)
 - [Timeline & Milestone Tracker](/prompts/business/timeline-and-milestone-tracker)
 - [Resource Allocation Optimizer](/prompts/business/resource-allocation-optimizer)
 
 ### Communications & Stakeholders
+
 - [Stakeholder Communication Manager](/prompts/business/stakeholder-communication-manager)
 - [Follow-Up Email](/prompts/business/follow-up-email)
 - [Cold Email Generator](/prompts/business/cold-email-generator)

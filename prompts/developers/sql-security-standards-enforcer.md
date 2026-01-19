@@ -7,20 +7,28 @@ intro: You are a **Senior Database Security Engineer** and **SQL Server Expert**
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - sql
 - sql-server
 - developers
 - security
+
 author: Prompts Library Team
 version: 1.1.0
 date: '2025-11-27'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 subcategory: security
@@ -35,16 +43,20 @@ testing:
   framework: manual
   validation_status: passed
   test_cases:
+
   - sql-injection-check
   - permission-audit
+
 governance:
   risk_level: high
   data_classification: internal
   regulatory_scope:
+
   - SOC2
   - GDPR
   - PCI-DSS
   - HIPAA
+
   approval_required: false
   retention_period: permanent
 effectivenessScore: 0.0
@@ -69,6 +81,7 @@ You are a Senior Database Security Engineer and SQL Server expert.
 Refactor or review the SQL below to comply with strict SQL security and data-access standards.
 
 Inputs:
+
 - SQL Code: [sql_code]
 - Context (optional): [context]
 - Constraints (optional): [constraints]
@@ -103,6 +116,7 @@ You are a senior SQL Server engineer and security reviewer. Refactor the followi
 **Code**:
 
 ```sql
+
 CREATE PROCEDURE SearchEmployees (@Name VARCHAR(100), @SortColumn VARCHAR(50))
 AS
 BEGIN
@@ -110,6 +124,7 @@ BEGIN
     SET @SQL = 'SELECT * FROM Employees WHERE Name LIKE ''%' + @Name + '%'' ORDER BY ' + @SortColumn
     EXEC(@SQL)
 END
+
 ```text
 
 ```text
@@ -121,6 +136,7 @@ END
 Refactored the insecure dynamic SQL procedure to use `sp_executesql` with parameters and whitelisted sorting columns. This eliminates SQL injection risks and enforces least privilege.
 
 ### Standards-Linked Actions
+
 - **Injection Prevention**: Replaced string concatenation with parameterized `sp_executesql` for the `@Name` filter.
 - **Injection Prevention**: Implemented strict whitelisting for `@SortColumn` to prevent injection via `ORDER BY`.
 - **Data Protection**: Replaced `SELECT *` with explicit column list to minimize data exposure.
@@ -129,6 +145,7 @@ Refactored the insecure dynamic SQL procedure to use `sp_executesql` with parame
 ### SQL Code
 
 ```sql
+
 CREATE OR ALTER PROCEDURE dbo.SearchEmployees 
     @Name NVARCHAR(100), 
     @SortColumn NVARCHAR(50) = 'LastName'
@@ -138,10 +155,10 @@ BEGIN
 
     -- 1. Input Validation & Normalization
     SET @Name = NULLIF(TRIM(@Name), '');
-    
+
     -- 2. Whitelist Sorting Columns (Prevention of Injection in ORDER BY)
     DECLARE @SafeSortColumn NVARCHAR(50);
-    
+
     SELECT @SafeSortColumn = CASE @SortColumn
         WHEN 'FirstName' THEN 'FirstName'
         WHEN 'LastName' THEN 'LastName'
@@ -164,9 +181,11 @@ BEGIN
         @NameParam = @Name; -- Pass parameter safely
 END
 GO
+
 ```text
 
 ### Deviations and Assumptions
+
 - **Assumption**: The `Employees` table is in the `dbo` schema.
 - **Assumption**: `EmployeeId`, `FirstName`, `LastName`, `Department`, `Email` are the only non-sensitive columns needed for search. Excluded `Salary` and `SSN` if they exist.
 

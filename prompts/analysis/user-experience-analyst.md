@@ -6,20 +6,28 @@ intro: Analyzes and improves user experiences through journey mapping, pain poin
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - senior-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - ux
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Current Pain Points: [pain_points]
 Business Goals: [goals]
 
 Provide:
+
 1. User journey mapping
 2. Pain point analysis
 3. Improvement opportunities
 4. Solution recommendations
 5. Success metrics
 6. Implementation approach
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[system]` | The system/process/flow to evaluate |
 | `[users]` | User groups/personas (and device/context) |
 | `[pain_points]` | Known pain points, drop-offs, complaints, or evidence |
@@ -77,13 +87,16 @@ Provide:
 ## UX Analysis Report
 
 ### 1. User Journey Mapping (Current)
+
 *   **Step 4 (Friction):** User must scan receipt, email to self, save to desktop, then upload. (Time: 5 mins).
 *   **Step 7 (Friction):** "Category" dropdown has 50 options not sorted alphabetically.
 
 ### 2. Pain Point Analysis
+
 *   **Severity: Critical.** Mobile incompatibility forces users to do expenses on weekends (unpaid time), leading to resentment.
 
 ### 3. Improvement Opportunities
+
 *   **Quick Win:** Enable "Drag and Drop" for receipt images.
 *   **Feature:** Implement OCR (Optical Character Recognition) to auto-fill Date and Amount.
 

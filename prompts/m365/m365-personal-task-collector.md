@@ -8,22 +8,30 @@ m365App: Microsoft 365 Copilot Chat
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - copilot
 - task-management
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -63,7 +71,7 @@ The user provides:
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[time_window]` | Yes | How far back to scan for tasks. | `last 7 days` |
 | `[priority_definition]` | Yes | How priority should be assigned. | `High = urgent + important; Medium = important; Low = nice-to-have` |
 | `[exclude_completed]` | No | Whether to exclude tasks already marked done/resolved. | `true` |
@@ -130,18 +138,23 @@ Help me identify and organize tasks I'm responsible for, based on recent emails,
 Teams chats, meetings, and calendar events.
 
 Context:
+
 - I use Outlook, Teams, OneDrive/SharePoint, and a calendar in Microsoft 365.
 - Tasks often emerge from emails, chat messages, and meeting discussions but are
+
   not always explicitly tracked.
+
 - I want a clear, prioritized list I can use as my to-do list or copy into a task tracker.
 
 Scope:
+
 - Scan my emails, Teams chats, meeting notes, and calendar events from [time_window].
 - Look for tasks where I am the explicit or implied owner.
 - Exclude tasks owned by someone else.
 - If [exclude_completed] is true, skip tasks already marked as done or resolved.
 
 Assumptions and constraints:
+
 - If a task lacks a clear due date, propose a reasonable due date based on context.
 - State tasks clearly and concisely, not as full sentences or quotes.
 - If the same task appears in multiple sources, consolidate it into a single entry.
@@ -150,6 +163,7 @@ Assumptions and constraints:
 - Limit the list to the top 15–20 tasks unless I specify otherwise.
 
 Process:
+
 1. Scan [time_window] for action-oriented language indicating tasks I'm responsible for.
 2. Infer due dates from context (meeting deadlines, email urgency, follow-up timelines).
 3. Assign priority based on urgency, importance, and context clues.
@@ -163,11 +177,12 @@ Return the result in Markdown:
 
 ## Task List
 | Task | Description | Suggested Due Date | Priority |
-|------|-------------|-------------------|----------|
+| ------ | ------------- | ------------------- | ---------- |
 | [task] | [description] | [date] | [priority] |
 | [task] | [description] | [date] | [priority] |
 
 ## Uncertain or Ambiguous Tasks
+
 - [task or question needing clarification]
 
 Now, using my activity from [time_window], extract and organize my tasks.
@@ -181,7 +196,7 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 
 ## Task List
 | Task | Description | Suggested Due Date | Priority |
-|------|-------------|-------------------|----------|
+| ------ | ------------- | ------------------- | ---------- |
 | Deploy API timeout fix | Complete validation and deploy to production | Nov 22 | High |
 | Finalize onboarding FAQ | Review and publish updated onboarding FAQ document | Nov 25 | Medium |
 | Respond to customer escalation email | Provide update on onboarding delay to customer success team | Nov 19 | High |
@@ -196,7 +211,9 @@ I found 12 tasks you're responsible for over the last 7 days, with a mix of proj
 | Schedule 1:1 with Jordan | Book time to discuss internal beta feedback | Nov 20 | Low |
 
 ## Uncertain or Ambiguous Tasks
+
 - "Think about longer-term onboarding improvements" mentioned in a chat—needs clarification on scope and timeline.
+
 ```text
 
 ---
@@ -217,12 +234,14 @@ I found 10 tasks you're responsible for over the last 7 days, mostly follow-ups 
 
 ## Task List
 | Task | Description | Suggested Due Date | Priority |
-|------|-------------|-------------------|----------|
+| ------ | ------------- | ------------------- | ---------- |
 | Respond to customer escalation email | Provide an update to the CS team | Nov 19 | High |
 | Schedule go/no-go meeting | Book time with key stakeholders | Nov 20 | Medium |
 
 ## Uncertain or Ambiguous Tasks
+
 - "Review onboarding improvements" mentioned in chat — what scope and timeframe?
+
 ```
 
 

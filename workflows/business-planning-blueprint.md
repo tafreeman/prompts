@@ -5,19 +5,27 @@ intro: Work in progress - This prompt is currently under development.
 type: how_to
 difficulty: beginner
 audience:
+
   - general
+
 platforms:
+
   - claude
   - chatgpt
   - github-copilot
+
 topics:
+
   - workflow
+
 author: Prompts Library Team
 version: '0.1.0'
 date: '2025-12-15'
 governance_tags:
+
   - WIP
   - requires-review
+
 dataClassification: internal
 reviewStatus: work-in-progress
 effectivenessScore: 0.0
@@ -43,7 +51,7 @@ This prompt is currently under development and not yet ready for production use.
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | [VARIABLE1] | Description | Example value |
 
 ## Prompt

@@ -6,20 +6,28 @@ intro: Develops QA strategies and plans with quality objectives, testing strateg
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - qa-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - quality
 - project-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Deliverables: [deliverables]
 Testing Requirements: [testing]
 
 Include:
+
 1. Quality objectives
 2. QA processes and procedures
 3. Testing strategy
 4. Quality metrics
 5. Review and approval workflows
 6. Continuous improvement
+
 ```text
 
 ---
@@ -79,16 +89,19 @@ Include:
 ## Quality Assurance Plan
 
 ### 1. Quality Objectives
+
 *   **Functional:** Zero Critical/High severity bugs at launch.
 *   **Performance:** App load time < 2s on 4G.
 *   **Security:** Pass external Pen Test with no high-risk findings.
 
 ### 2. Testing Strategy
+
 *   **Shift Left:** Static code analysis (SonarQube) in CI/CD pipeline.
 *   **Manual Testing:** Exploratory testing for "Check Deposit" flow (high risk).
 *   **Automation:** Appium for regression suite (Target: 80% coverage).
 
 ### 3. Review Workflows
+
 *   **Defect Triage:** Daily meeting (PM, Dev Lead, QA Lead) to prioritize bugs.
 *   **Exit Criteria:** 100% of Test Cases executed, 95% Pass rate.
 

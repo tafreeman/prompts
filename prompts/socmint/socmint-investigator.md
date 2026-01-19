@@ -6,23 +6,31 @@ intro: A comprehensive guide and toolset for Social Media Intelligence (SOCMINT)
 type: how_to
 difficulty: intermediate
 audience:
+
 - investigator
 - intelligence-analyst
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - osint
 - socmint
 - social-media
+
 author: OSINT Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-sensitive
 - ethical-use-only
 - legal-compliance-required
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -62,6 +70,7 @@ You are an expert SOCMINT Investigator assisting with a digital footprint analys
 **Objective**: Find where the target exists online.
 
 **Tools**:
+
 - `sherlock`: Fast username check.
 - `maigret`: Deep recursive search (checks for bio/link matches).
 - `whatsmyname.app`: Web-based alternative.
@@ -69,11 +78,13 @@ You are an expert SOCMINT Investigator assisting with a digital footprint analys
 **Action**:
 Run the following commands (in your secure environment):
 ```bash
+
 # Basic scan
 sherlock [TARGET_USERNAME]
 
 # Deep scan with report generation
 maigret [TARGET_USERNAME] --pdf
+
 ```
 
 **Analysis**:
@@ -92,8 +103,10 @@ maigret [TARGET_USERNAME] --pdf
 1. **Google Dorking**:
 
     ```text
+
     site:linkedin.com/in/ "Target Name"
     site:linkedin.com/in/ "Target Company"
+
     ```
 
 2. **Profile Analysis**:
@@ -109,8 +122,10 @@ maigret [TARGET_USERNAME] --pdf
 1. **Scraping (No API)**:
 
     ```bash
+
     # Scrape all tweets containing specific keywords
     twint -u [TARGET_USERNAME] -s "keyword" -o target_tweets.csv --csv
+
     ```
 
 2. **Timeline Analysis**:
@@ -149,7 +164,7 @@ maigret [TARGET_USERNAME] --pdf
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[TARGET_IDENTIFIER]` | The starting point for the investigation | "jdoe1990" or "john.doe@example.com" |
 | `[INVESTIGATION_GOAL]` | What you are trying to find | "Verify employment history and identify public leaks" |
 
@@ -166,16 +181,20 @@ maigret [TARGET_USERNAME] --pdf
 
 ```text
 **Phase 1 Analysis**:
+
 - Sherlock found "cryptoking_99" on: Twitter, Reddit, GitHub, and Steam.
 - GitHub profile links to a personal website: `cryptoking.io`.
 
 **Phase 2 Deep Dive**:
+
 - **Twitter**: Twint scrape shows frequent posts about "Miami" and "Python".
 - **GitHub**: Code commits show email `alex.smith@gmail.com`.
 - **Whois**: `cryptoking.io` is registered to "Alex Smith" in Miami, FL.
 
 **Phase 3 Correlation**:
+
 - **Avatar**: Twitter pfp matches LinkedIn profile for "Alex Smith (Blockchain Dev)".
 - **Location**: Both are in Miami.
 - **Conclusion**: High confidence that "cryptoking_99" is Alex Smith.
+
 ```

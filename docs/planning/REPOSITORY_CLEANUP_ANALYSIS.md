@@ -120,7 +120,7 @@
 ### Branch Prioritization Matrix
 
 | Branch | Feasibility | Impact | Priority Score |
-|--------|-------------|--------|----------------|
+| -------- | ------------- | -------- | ---------------- |
 | B (Documentation) | 4 | 4 | 16 |
 | E (Archive Org) | 4 | 4 | 16 |
 | A (Root Hygiene) | 5 | 3 | 15 |
@@ -153,7 +153,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | eval-strategy.md | Documentation | Move to docs/ | Low | Medium |
 | index.md | Documentation | Move to docs/ | Low | Medium |
 | prompt.py | Source | Verify usage; consider moving to tools/ | Medium | Low |
@@ -182,7 +182,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | archive/tmp-pe-score.md | Stub | Delete | P0 | High |
 | archive/testing/2025-12-04/* | Archived | Keep as-is | - | High |
 | archive/scripts/*.py | Archived | Keep as-is | - | High |
@@ -207,7 +207,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | archive/testing/2025-12-04/ | Duplicate | Consider consolidating with testing/archive/ | P2 | Medium |
 
 **Folder Status**: ✅ Complete
@@ -227,7 +227,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | docs/reports/IMPROVEMENT_PLAN.md | Empty file | Delete or populate | P1 | High |
 
 **Folder Status**: ✅ Complete
@@ -249,7 +249,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | tools/archive/* | Archived legacy | Keep as-is | - | High |
 
 **Folder Status**: ✅ Complete
@@ -269,7 +269,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | prompts/self-consistency-reasoning.md | Misplaced | Move to prompts/techniques/ or prompts/advanced/ | P1 | Medium |
 
 **Folder Status**: ✅ Complete
@@ -289,7 +289,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | tools/analyzers/__init__.py | Package marker | Keep as-is (standard Python practice) | - | High |
 
 **Folder Status**: ✅ Complete
@@ -326,7 +326,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | Duplicate archives | Redundant | Consolidate testing archives to testing/archive/ only | P2 | Medium |
 
 **Folder Status**: ✅ Complete
@@ -394,7 +394,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | reasoning/ folder | Potential duplicate | Verify if content duplicates prompts/advanced/CoVe.md | P2 | Low |
 
 **Folder Status**: ✅ Complete
@@ -460,7 +460,7 @@
 
 **Classification**:
 | Item | Type | Recommendation | Priority | Confidence |
-|------|------|----------------|----------|------------|
+| ------ | ------ | ---------------- | ---------- | ------------ |
 | prompttools/ | Potential overlap | Verify distinction from toolkit/ | P3 | Low |
 
 **Folder Status**: ✅ Complete
@@ -617,7 +617,7 @@
 ### Health Metrics
 
 | Metric | Value | Status |
-|--------|-------|--------|
+| -------- | ------- | -------- |
 | Total Files | ~430+ | ✅ |
 | Total Folders | ~55+ | ✅ |
 | Clutter Files Identified | 2 | ✅ (cleaned) |
@@ -630,7 +630,7 @@
 ### Deliverable 2: Cleanup Scorecard
 
 | Category | Count | Files | Action | Risk | Priority | Status |
-|----------|-------|-------|--------|------|----------|--------|
+| ---------- | ------- | ------- | -------- | ------ | ---------- | -------- |
 | Stub Files | 1 | archive/tmp-pe-score.md | Delete | Low | P0 | ✅ Done |
 | Empty Files | 1 | docs/reports/IMPROVEMENT_PLAN.md | Delete | Low | P0 | ✅ Done |
 | Duplicate Archives | 1 set | archive/testing/2025-12-04/ | Remove (keep testing/archive/) | Low | P1 | ✅ Done |
@@ -714,7 +714,7 @@ mv prompts/self-consistency-reasoning.md prompts/techniques/
 ### Blocked/Needs Input
 
 | Item | Question for User | Options |
-|------|-------------------|---------|
+| ------ | ------------------- | --------- |
 | Root docs | Keep in root or move to docs/? | Keep / Move |
 | reasoning/ folder | Consolidate with prompts/advanced/? | Keep separate / Merge |
 | prompttools/ vs toolkit/ | Are these distinct purposes? | Clarify / Consolidate |

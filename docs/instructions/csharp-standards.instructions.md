@@ -84,11 +84,13 @@ using var command = new SqlCommand(
     "SELECT * FROM Users WHERE Email = @email", connection);
 command.Parameters.AddWithValue("@email", email);
 ```csharp
+
 ❌ Avoid:
 
 ```csharp
 var sql = $"SELECT * FROM Users WHERE Email = '{email}'";
 ```csharp
+
 ### Layered Architecture Usage
 
 ✅ Preferred:
@@ -111,6 +113,7 @@ public class UserController : ControllerBase
     }
 }
 ```csharp
+
 ❌ Avoid:
 
 ```csharp
@@ -124,6 +127,7 @@ public class UserController : ControllerBase
     }
 }
 ```csharp
+
 ## Constraints and Fallbacks
 
 - Do NOT introduce new frameworks or patterns that conflict with these standards without explicit team approval.

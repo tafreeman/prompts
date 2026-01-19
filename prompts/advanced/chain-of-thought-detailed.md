@@ -7,22 +7,30 @@ category: advanced
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - reasoning
 - problem-solving
+
 author: Prompts Library Team
 version: 1.0.0
 date: '2025-11-17'
 last_updated: '2025-12-11'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -73,6 +81,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 
 **Instructions**:
 Think through this problem systematically and thoroughly. For each step:
+
 1. Explain your reasoning in detail
 2. Consider alternatives and explain why you chose this approach
 3. Acknowledge assumptions explicitly
@@ -81,11 +90,13 @@ Think through this problem systematically and thoroughly. For each step:
 Format your response as:
 
 **Understanding the Problem**
+
 - Restate the problem in your own words
 - Identify key challenges and unknowns
 - List critical assumptions
 
 **Step 1: [Title of Step]**
+
 - **What**: [What you're doing in this step]
 - **Why**: [Reasoning and justification]
 - **Alternatives Considered**: [What else you thought about]
@@ -98,15 +109,18 @@ Format your response as:
 ...
 
 **Synthesis and Validation**
+
 - How the steps fit together
 - Validation that this addresses the original problem
 - Edge cases or scenarios not fully addressed
 
 **Final Answer**
+
 - Clear, actionable conclusion
 - Confidence level (High/Medium/Low) with justification
 - Recommended next steps
 - Potential refinements or follow-up questions
+
 ```
 
 ---
@@ -123,6 +137,7 @@ Format your response as:
 ## Usage
 
 To use this prompt:
+
 1. Copy the prompt template from the "## Prompt" section above
 2. Replace all bracketed placeholders with your comprehensive information
 3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
@@ -141,6 +156,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 **Task**: Design a microservices migration strategy for our monolithic e-commerce platform
 
 **Context**: 
+
 - Current monolith: 500K LOC Java application, 15 years old
 - 200 developers, 50M active users, $500M annual revenue
 - Database: MySQL 8TB, 10K+ tables
@@ -150,6 +166,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 - Need to maintain 99.99% uptime during migration
 
 **Success Criteria**: 
+
 - Gradual migration with no service disruptions
 - Each phase delivers measurable business value
 - Reduced deployment time from weeks to hours
@@ -157,6 +174,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 - Clear rollback plan for each phase
 
 **Constraints**: 
+
 - $10M budget over 24 months
 - Cannot hire more than 20 additional engineers
 - Must maintain current feature delivery velocity
@@ -175,6 +193,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 *Restating the problem*: We need to decompose a large, business-critical monolith into microservices while the system continues serving 50M users and processing transactions worth $500M annually. The previous attempt failed, so we must learn from that and design a more cautious, incremental approach.
 
 *Key challenges*:
+
 1. Identifying service boundaries in a 15-year-old codebase with likely technical debt
 2. Managing data migration for 8TB across 10K+ tables
 3. Maintaining 99.99% uptime (only 52 minutes downtime/year allowed)
@@ -182,6 +201,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 5. Learning from previous $5M failed attempt
 
 *Critical assumptions*:
+
 - The monolith has some logical separation we can exploit (needs verification)
 - The previous failure left documentation we can learn from
 - Infrastructure can support gradual dual-running of old and new services
@@ -264,6 +284,7 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
   2. Route small percentage of traffic to new service (canary)
   3. Gradually increase traffic
   4. Deprecate monolith code only when 100% on new service
+
   Add Anti-Corruption Layer (ACL) to translate between old and new models.
 
 - **Why**: Strangler Fig allows zero-downtime migration and instant rollback. ACL prevents new service from being constrained by monolith's data model. This addresses the uptime requirement and provides safety net.
@@ -334,12 +355,14 @@ You are an expert problem solver using detailed chain-of-thought reasoning.
 **Synthesis and Validation**
 
 *How steps fit together*: The strategy has three parallel tracks:
+
 1. **Foundation** (Step 1): Infrastructure and learning from past
 2. **Planning** (Steps 2-3): Domain understanding and phased approach
 3. **Execution** (Steps 4-5): Technical patterns for safe migration
 4. **Enablement** (Step 6): Team structure and skills
 
 This addresses the root causes of previous failure:
+
 - Insufficient infrastructure → Fixed in Step 1
 - Unclear domain boundaries → Fixed in Steps 2-3
 - Big-bang risk → Mitigated by Strangler Fig (Step 4)
@@ -355,6 +378,7 @@ This addresses the root causes of previous failure:
 ✓ Clear rollback: Strangler Fig allows instant rollback
 
 *Edge cases not fully addressed*:
+
 - What if bounded contexts are too entangled? (May need refactoring first)
 - What if performance degrades >5% during migration? (Need performance budgets)
 - What if team doesn't achieve skill level needed? (May need to slow down)
@@ -377,11 +401,13 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 **Confidence Level**: **Medium-High (70%)**
 
 *Justification*:
+
 - High confidence in technical approach (Strangler Fig + Event Sourcing are proven patterns)
 - Medium confidence in execution (organizational change is hard, previous attempt failed)
 - Risk factors: Team skill level, domain untangling difficulty, budget constraints
 
 **Recommended Next Steps**:
+
 1. **Week 1-2**: Review documentation from previous failed attempt
 2. **Week 3-6**: Set up infrastructure (service mesh, observability, CI/CD)
 3. **Week 7-14**: Conduct DDD workshops with domain experts
@@ -389,17 +415,20 @@ Implement a 6-phase, 24-month migration using Domain-Driven Design, Strangler Fi
 5. **Month 4+**: Begin Phase 1 execution
 
 **Potential Refinements**:
+
 - May need to adjust timeline after DDD workshops (if domains more entangled than expected)
 - Budget may need to shift between infrastructure and services based on findings
 - Team size may need adjustment if skill-up takes longer than 3 months
 - Consider external DDD consultant for workshops (accounted in budget)
 
 **Follow-up Questions to Address**:
+
 1. What exactly went wrong in the previous attempt? (Need detailed post-mortem)
 2. Can we achieve eventual consistency for all services, or do some require strong consistency?
 3. What is current team's microservices maturity level?
 4. Are there regulatory constraints (PCI-DSS, GDPR) that affect data migration strategy?
 5. What is current infrastructure capacity and can it support dual-running?
+
 ```
 
 ## Tips

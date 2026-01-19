@@ -5,26 +5,36 @@ intro: Acts as a strict code reviewer enforcing enterprise-grade C
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - dotnet
 - csharp
 - developers
 - standards
+
 author: Prompts Library Team
 version: '1.1'
 date: '2025-11-26'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 subcategory: code-review
 framework_compatibility:
+
 - net8.0
 - net9.0
+
 effectivenessScore: 0.0
 ---
 
@@ -59,6 +69,7 @@ Context:
 [context]
 
 Enforce the following standards:
+
 1. **Architecture**: Adherence to Clean Architecture (Dependency Rule, separation of concerns).
 2. **Design Principles**: Strict adherence to SOLID principles.
 3. **Naming**: PascalCase for public members, camelCase for private fields (prefixed with _), clear and descriptive names.
@@ -69,11 +80,13 @@ Enforce the following standards:
 
 Output Format:
 Provide a structured review in Markdown:
+
 - **Summary**: High-level assessment (Pass/Fail/Needs Improvement).
 - **Critical Issues**: Blocking issues that must be fixed (Security, Bugs).
 - **Major Issues**: Architectural or design violations.
 - **Minor Issues**: Naming, style, minor optimizations.
 - **Refactored Code**: A version of the code that adheres to all standards.
+
 ```text
 
 ---
@@ -113,22 +126,26 @@ public class UserService {
 **Summary**: 🔴 **FAIL** - Critical security and architectural violations.
 
 ## Critical Issues (Blocking)
+
 1.  **Security (SQL Injection)**: Direct string concatenation in SQL query (`INSERT INTO ...`). Must use parameterized queries or an ORM (EF Core).
 2.  **Security (Hardcoded Credentials)**: Connection string with password embedded in code. Move to `appsettings.json` or Azure Key Vault.
 3.  **Resource Leaks**: `SqlConnection` and `SqlCommand` are not disposed. Use `using` statements or `await using`.
 
 ## Major Issues (Architecture & Design)
+
 1.  **Dependency Violation**: `UserService` directly instantiates `SqlConnection`. This violates Dependency Inversion. Inject an `IUserRepository` or `IDbConnectionFactory`.
 2.  **Blocking I/O**: `db.Open()` and `cmd.ExecuteNonQuery()` are synchronous. Use `OpenAsync()` and `ExecuteNonQueryAsync()` for scalability.
 3.  **Error Handling**: Throwing generic `Exception` ("Bad data") is poor practice. Use specific exceptions (e.g., `ArgumentNullException`) or a Result pattern.
 
 ## Minor Issues
+
 1.  **Naming**: Parameter names `u` and `p` are non-descriptive. Use `username` and `password`.
 2.  **Style**: Missing namespace declaration.
 
 ## Refactored Code
 
 ```csharp
+
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities;
@@ -159,6 +176,7 @@ namespace Application.Services
         }
     }
 }
+
 ```text
 
 ```

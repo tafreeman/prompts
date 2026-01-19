@@ -5,23 +5,31 @@ intro: "A rigorous Tree-of-Thoughts evaluation pattern for assessing the safety,
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "security-engineer"
   - "soc-manager"
   - "compliance-officer"
+
 platforms:
+
   - "chatgpt"
   - "claude"
   - "github-copilot"
+
 topics:
+
   - "evaluation"
   - "osint"
   - "supply-chain-security"
+
 author: "Prompts Library Team"
 version: "2.0"
 date: "2025-11-30"
 governance_tags:
+
   - "risk-assessment"
   - "supply-chain"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 effectivenessScore: 4.7
@@ -47,11 +55,15 @@ To produce a **Decision-Grade Verdict** on whether a specific OSINT resource sho
    - **Branch C (Viability)**: Is it actively maintained? Is the community healthy?
 
 2. **Phase 2 – Reflection & Self-Critique**
+
 <<<<<<< HEAD
+
    - **Safety Check**: Did we miss any red flags? (e.g., "install.sh" piping to bash)
    - **Legal/Ethical Check**: Does this tool violate platform ToS (e.g., scraping)?
    - **Verdict Refinement**: Adjust the final score based on these risks.
+
 =======
+
    - Re-read Phase 1 output and apply the checklist:
      - Accuracy, Completeness, Quality, Bias, Risk.
    - Summarize strengths/weaknesses of the Phase 1 draft.
@@ -83,6 +95,7 @@ Deliver a single Markdown document:
 - Vendor risk assessments for AI prompt packs.
 - Regression testing after repository updates.
 - Training AI evaluators on self-checking workflows.
+
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ---
@@ -100,14 +113,17 @@ You are a Senior Security Engineer evaluating a new OSINT resource for inclusion
 Explore three reasoning branches to assess the resource:
 
 **Branch A: Functionality & Utility**
+
 - Thoughts: Does this solve a unique problem? Is it better than existing standard tools?
 - Evidence: Features, documentation quality, ease of use.
 
 **Branch B: Security & Integrity**
+
 - Thoughts: Is the code visible? Are there binary blobs? Does it require excessive permissions?
 - Evidence: Code review (simulated), dependency analysis, author reputation.
 
 **Branch C: Maintenance & Viability**
+
 - Thoughts: When was the last commit? How many open issues? Is the author responsive?
 - Evidence: Commit history, issue tracker health.
 
@@ -134,18 +150,22 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 **Output Format**:
 
 #### Executive Summary
+
 - **Verdict**: [Approved/Provisional/Rejected]
 - **Risk Level**: [High/Medium/Low]
 - **Score**: [0-100]
 
 #### Detailed Analysis
+
 - **Strengths**: ...
 - **Risks**: ...
 - **OPSEC Warnings**: ...
 
 <<<<<<< HEAD
 #### Reflection Notes
+
 - "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
+
 ```
 
 ## Variables
@@ -153,8 +173,10 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - `[RESOURCE_NAME]`: Name of the tool/repo.
 - `[URL]`: Link to the resource.
 - `[USE_CASE]`: How you intend to use it (e.g., "Automated daily scraping of Twitter").
+
 =======
 Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
+
 ```text
 
 ---
@@ -162,7 +184,7 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[REPOSITORY_NAME]` | Repository identifier (org/repo format or local path) | `tafreeman/prompts`, `./my-prompts` |
 | `[REPO_CONTEXT_SUMMARY]` | Brief description of the repository's purpose and target audience | "Enterprise prompt library targeting senior developers and architects" |
 | `[OBSERVED_STRENGTHS]` | Known positive attributes from initial assessment | "Strong template structure, comprehensive metadata, clear categorization" |
@@ -177,10 +199,13 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 ### Input
 
 <<<<<<< HEAD
+
 - **Resource**: `Twint` (Twitter Intelligence Tool)
 - **Use Case**: Historical tweet retrieval for sentiment analysis.
+
 =======
 ```text
+
 You will evaluate the local workspace copy of tafreeman/prompts using ToT + Reflection.
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
@@ -188,24 +213,30 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 **Observed Strengths**: Robust template, governance metadata, analytics dashboard.
 **Observed Gaps**: Needs more developer focus, cookbooks, Azure deployment docs.
 **Enterprise Concerns**: Compliance workflows, persona breadth, role-based templates.
+
 ```text
 ```text
 
 <<<<<<< HEAD
+
 ```text
 ...
 **Branch C (Maintenance)**: Twint is legendary but has been largely broken since Twitter's 2023 API changes.
 ...
 **Phase 2 Reflection**:
+
 - **Critique**: Phase 1 correctly identified it as "broken", but I need to be stronger on the *rejection*. Using this tool now is a waste of time.
 - **Legal Check**: It bypasses API limits, which is a ToS violation. Enterprise risk is high.
 
 **Executive Summary**:
+
 - **Verdict**: Rejected
 - **Risk Level**: High (Functional & Legal)
 - **Score**: 15/100
 - **Reason**: Tool is unmaintained and non-functional against current Twitter defenses.
+
 ```
+
 =======
 ---
 
@@ -254,4 +285,5 @@ During Phase 2, be genuinely critical. I want you to find real flaws in your Pha
 - [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
 - [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)
 - [Chain-of-Thought Guide](chain-of-thought-guide.md)
+
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

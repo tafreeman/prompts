@@ -13,14 +13,14 @@ The **Planning** directory contains forward-looking documentation about library 
 ### Repository Management
 
 | Document | Description | Status |
-|----------|-------------|--------|
+| ---------- | ------------- | -------- |
 | **[Repository Cleanup Analysis](REPOSITORY_CLEANUP_ANALYSIS.md)** | Analysis of repo structure, duplicates, and cleanup recommendations | Active |
 | **[Repo Update Tracking](REPO_UPDATE_TRACKING.md)** | Change log for major repository reorganizations | Active |
 
 ### Architectural Planning
 
 | Document | Description | Status |
-|----------|-------------|--------|
+| ---------- | ------------- | -------- |
 | **[Tree-of-Thoughts Architecture Evaluator](tree-of-thoughts-architecture-evaluator.md)** | Design for advanced reasoning pattern implementation | In Progress |
 | **[Tree-of-Thoughts Evaluator Reflection](tree-of-thoughts-evaluator-reflection.md)** | Analysis and lessons learned from ToT implementation | In Progress |
 | **[Tree-of-Thoughts Template](tree-of-thoughts-template.md)** | Reusable template for ToT prompt patterns | Draft |
@@ -29,11 +29,10 @@ The **Planning** directory contains forward-looking documentation about library 
 ### Refactoring & Evolution
 
 | Document | Description | Status |
-|----------|-------------|--------|
+| ---------- | ------------- | -------- |
 | **[Prompt Library Refactor - ReAct](prompt-library-refactor-react.md)** | Plan for incorporating ReAct patterns into library | Proposed |
 
-## 🎯 Use These Documents When...
-
+## 🎯 Use These Documents When
 - ✅ You're **contributing** major features or refactors
 - ✅ You want to **understand design decisions** behind library structure
 - ✅ You're **proposing architectural changes** or improvements
@@ -76,12 +75,14 @@ The **Planning** directory contains forward-looking documentation about library 
 **Purpose**: Examine current state, identify issues, propose solutions
 
 **Examples**:
+
 - Repository structure analysis
 - Technical debt assessments
 - Performance audits
 - Security reviews
 
 **Format**:
+
 ```markdown
 # Analysis Title
 ## Current State
@@ -95,11 +96,13 @@ The **Planning** directory contains forward-looking documentation about library 
 **Purpose**: Define technical design for major features or patterns
 
 **Examples**:
+
 - Tree-of-Thoughts evaluator design
 - Multi-model orchestration framework
 - Prompt validation pipeline
 
 **Format**:
+
 ```markdown
 # Architecture Title
 ## Goals & Objectives
@@ -116,11 +119,13 @@ The **Planning** directory contains forward-looking documentation about library 
 **Purpose**: Document planned changes to existing codebase or structure
 
 **Examples**:
+
 - Library reorganization
 - Breaking changes roadmap
 - Migration strategies
 
 **Format**:
+
 ```markdown
 # Refactor Plan
 ## Motivation
@@ -136,11 +141,13 @@ The **Planning** directory contains forward-looking documentation about library 
 **Purpose**: Record historical changes and decision rationale
 
 **Examples**:
+
 - Repository update log
 - Breaking changes history
 - Deprecation timeline
 
 **Format**:
+
 ```markdown
 # Update Tracking
 ## [Version/Date] - Change Title
@@ -152,11 +159,13 @@ The **Planning** directory contains forward-looking documentation about library 
 ## 🔗 Related Documentation
 
 ### Implementation Resources
+
 - **[Concepts](../concepts/)** — Theory behind planned patterns
 - **[Research](../research/)** — Evidence supporting architectural decisions
 - **[Prompts Library](../../prompts/)** — Current prompt implementations
 
 ### Contributing
+
 - **[CONTRIBUTING.md](../../CONTRIBUTING.md)** — How to propose changes
 - **[Reference](../reference/)** — Standards and conventions
 - **[Tutorials](../tutorials/)** — Learning resources for new patterns
@@ -166,6 +175,7 @@ The **Planning** directory contains forward-looking documentation about library 
 ### Repository Structure
 
 Current focus areas:
+
 - **Organization**: Logical directory structure for scalability
 - **Duplication**: Eliminating redundant content
 - **Naming**: Consistent file naming conventions
@@ -175,6 +185,7 @@ Current focus areas:
 ### Advanced Pattern Integration
 
 Planned implementations:
+
 - **Tree-of-Thoughts**: Multi-path reasoning evaluation
 - **ReAct**: Iterative reasoning and action loops
 - **Multi-Agent**: Orchestrated AI collaboration
@@ -184,6 +195,7 @@ Planned implementations:
 ### Documentation Evolution
 
 Ongoing improvements:
+
 - **Searchability**: Enhanced metadata and tagging
 - **Interactivity**: Code sandboxes and live examples
 - **Versioning**: Documentation for multiple library versions
@@ -193,6 +205,7 @@ Ongoing improvements:
 ### Governance & Compliance
 
 Strategic considerations:
+
 - **PII Handling**: Data classification policies
 - **Citation Standards**: Research attribution requirements
 - **Security Reviews**: Regular prompt security audits
@@ -204,6 +217,7 @@ Strategic considerations:
 ### When to Create a Planning Doc
 
 Create a planning document when:
+
 - Proposing **architectural changes** affecting multiple components
 - Planning **breaking changes** requiring migration path
 - Conducting **analysis** of current state and issues
@@ -233,9 +247,11 @@ Why is this needed? What problem does it solve?
 
 ## Goals & Non-Goals
 **Goals:**
+
 - What we're trying to achieve
 
 **Non-Goals:**
+
 - What's explicitly out of scope
 
 ## Current State
@@ -248,6 +264,7 @@ Detailed design, architecture, or refactoring plan.
 Other approaches evaluated and why they were not chosen.
 
 ## Implementation Plan
+
 1. Phase 1: ...
 2. Phase 2: ...
 
@@ -267,7 +284,9 @@ How will we measure if this was successful?
 Unresolved issues requiring discussion.
 
 ## References
+
 - Links to research, issues, PRs, discussions
+
 ```
 
 ## 📊 Planning Status Workflow
@@ -326,6 +345,7 @@ All planning documentation is licensed under [MIT License](../../LICENSE).
 ---
 
 **Next Steps**:
+
 - 📖 Review: [Repository Cleanup Analysis](REPOSITORY_CLEANUP_ANALYSIS.md)
 - 🚀 Propose: Create a planning doc for your idea
 - 💬 Discuss: [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)

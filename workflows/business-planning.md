@@ -5,17 +5,23 @@ intro: A prompt for enterprise business planning workflow blueprint tasks.
 type: quickstart
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -244,7 +250,7 @@ Before defining the workflow, we evaluated three distinct business planning stra
 ### Comparative Analysis
 
 | Criteria | Branch A: Market Entry (7.0) | Branch B: Product Launch (8.5) | Branch C: Cost Optimization (7.5) |
-|----------|------------------------------|----------------------------------|-------------------------------------|
+| ---------- | ------------------------------ | ---------------------------------- | ------------------------------------- |
 | **Applicability** | 20% of business planning needs | **40% of business planning needs** | 25% of business planning needs |
 | **Timeline** | 14-16 weeks planning | **11-16 weeks planning** | 9-13 weeks planning |
 | **Execution Speed** | Slow (12-24 months) | **Medium (6-12 months)** | Medium (6-18 months) |
@@ -330,6 +336,7 @@ Step 4: Strategic Positioning (Week 3-4)
 │  └─ Go-to-market hypotheses to validate in Phase 2
 └─ Output: Strategic positioning document
 ```powershell
+
 **Deliverables**:
 
 - Market sizing report (TAM/SAM/SOM with growth projections)
@@ -356,6 +363,7 @@ SAM: $8B (AI-powered predictive analytics for mid-market SaaS)
 SOM: $120M (Year 3 target, assuming 1.5% market capture)
 Growth: 22% CAGR (2024-2027)
 ```text
+
 **Positioning Statement**:
 
 ```text
@@ -366,6 +374,7 @@ that turns historical data into actionable forecasts in minutes, not weeks.
 Unlike traditional BI tools (Tableau, Looker) that require data science teams,
 our platform enables business users to build ML models with natural language.
 ```text
+
 ---
 
 ### Phase 2: Product-Market Fit Validation (4-6 weeks)
@@ -418,6 +427,7 @@ Step 4: Financial Modeling (Week 4-6)
 │  └─ 3-year P&L with sensitivity analysis
 └─ Output: Comprehensive financial model with scenario planning
 ```text
+
 **Deliverables**:
 
 - Validated MVP/prototype with user testing results (usability score, NPS, feature priorities)
@@ -440,20 +450,25 @@ Step 4: Financial Modeling (Week 4-6)
 
 ```text
 Tier 1: Starter ($499/month)
+
 - 5 users, 3 data sources, 10 ML models
 - Basic dashboards, email support
 - Target: Small SaaS teams (50-100 employees)
 
 Tier 2: Professional ($1,499/month) [Most Popular]
+
 - 15 users, 10 data sources, 50 ML models
 - Advanced dashboards, Slack integration, priority support
 - Target: Mid-market SaaS (100-500 employees)
 
 Tier 3: Enterprise ($4,999/month + custom)
+
 - Unlimited users, unlimited data sources, unlimited models
 - White-label, SSO, dedicated CSM, SLA
 - Target: Large SaaS (500+ employees)
+
 ```text
+
 **Unit Economics**:
 
 ```text
@@ -463,6 +478,7 @@ LTV:CAC Ratio: 4.8x (healthy, target > 3x)
 CAC Payback: 8 months (target < 12 months)
 Annual Churn: 15% (competitive for SaaS)
 ```powershell
+
 ---
 
 ## End-to-End Example: CreativeFlow Launching AI Resource Planner
@@ -515,6 +531,7 @@ SAM: $2.5B (Creative agencies 50-1,000 employees in NA + WE)
 SOM (3-year target): $400M (assuming 16% share of AI-enabled resource planning niche)
 Growth: 18–22% CAGR for AI-enabled PSA tools
 ```powershell
+
 #### Step 2: Competitive landscape with `competitive-analysis-researcher`
 
 The team analyzed Monday.com, Asana, ClickUp, and niche agency tools.
@@ -551,6 +568,7 @@ Unlike generic project tools that only show current allocations,
 CreativeFlow combines historical timesheet data, project mix,
 and pipeline to prevent over/under-staffing before it happens.
 ```sql
+
 **Phase 1 decision**: Proceed.
 
 - TAM and SAM large with high growth.
@@ -600,6 +618,7 @@ Expensive: $2,499/month
 Too expensive: $3,999/month
 Recommended sweet spot: $1,999/month as Professional tier add-on
 ```powershell
+
 They defined tiers:
 
 - Core platform: existing pricing unchanged.
@@ -627,6 +646,7 @@ LTV: $35,000–$40,000 per customer
 LTV:CAC: ~4.8x
 CAC payback: ~8 months
 ```sql
+
 **Phase 2 decision**: Proceed.
 
 - Prototype validated (8/10 design partners very positive).
@@ -857,6 +877,7 @@ Step 6: Internal Change Management (Week 4-6)
 │  └─ Feedback loops (weekly standups, retrospectives)
 └─ Output: Change management plan with communication templates
 ```text
+
 **Deliverables**:
 
 - Project charter with phased launch roadmap (beta, limited release, GA)
@@ -881,45 +902,56 @@ Step 6: Internal Change Management (Week 4-6)
 
 ```text
 Phase 1: Private Beta (Month 1-2)
+
 - 10 design partner customers (hand-selected, high-touch)
 - Goal: Validate core workflows, gather feedback, refine UX
 - Success: 8/10 customers rate as "very satisfied", 2+ case studies
 
 Phase 2: Public Beta (Month 3-4)
+
 - Open beta registration (target: 100 companies)
 - Goal: Scale testing, stress test infrastructure, validate pricing
 - Success: 50+ active users, <5% churn, 30+ paying conversions
 
 Phase 3: Limited Release (Month 5-6)
+
 - General availability with controlled onboarding (10 customers/week)
 - Goal: Ramp sales and support capacity, optimize conversion funnel
 - Success: $50K MRR, 25%+ demo-to-trial conversion, <10% trial-to-paid churn
 
 Phase 4: General Availability (Month 7+)
+
 - Full marketing launch, remove onboarding caps
 - Goal: Scale to $500K ARR by Month 12
 - Success: 100+ paying customers, 4.5+ G2 rating, 50%+ NRR expansion
+
 ```text
+
 **Marketing Campaign** (12-Week Launch Campaign):
 
 ```text
 Pre-Launch (Weeks 1-4):
+
 - Teaser campaign: "AI is Coming to SaaS Analytics" (thought leadership content)
 - Analyst briefings: Gartner, Forrester (category positioning)
 - PR outreach: TechCrunch, VentureBeat (exclusive preview pitch)
 
 Launch (Weeks 5-8):
+
 - Launch event: Virtual product demo with 500+ attendees
 - Press release: Distribution to tech media, SaaS industry publications
 - Content blitz: 10 blog posts, 3 case studies, 2 whitepapers, 5 webinars
 - Paid media: LinkedIn ads ($50K budget), Google Search ($30K), retargeting
 
 Post-Launch (Weeks 9-12):
+
 - Customer success stories: Video testimonials, written case studies
 - Thought leadership: Speaking at SaaStr, SaaS conferences
 - Partnerships: Integration announcements (Salesforce, HubSpot, Stripe)
 - Community building: Slack community, user conference planning
+
 ```text
+
 ---
 
 ### Phase 4: Launch & Optimization (6-12 months)
@@ -993,6 +1025,7 @@ Month 7-12: General Availability & Scaling
 │  └─ Team efficiency: Revenue per employee, CAC payback period
 └─ Success Criteria: Hit $500K ARR, 100+ customers, NRR > 110%, product-market fit achieved
 ```sql
+
 **Deliverables**:
 
 - Weekly metrics dashboard (North Star, OKRs, leading/lagging indicators)
@@ -1039,6 +1072,7 @@ Scenario 3: High CAC (> $10K)
    ├─ Market: Target larger customers with higher ACVs (justify CAC)
    └─ Sales Process: Implement freemium model (build pipeline organically)
 ```text
+
 **Example Outputs**:
 
 **Monthly QBR Metrics** (Month 6):
@@ -1047,11 +1081,13 @@ Scenario 3: High CAC (> $10K)
 North Star: 500 Weekly Active Users creating ML models (vs 450 target) ✅
 
 Leading Indicators:
+
 - Trial signups: 120 (vs 100 target) ✅
 - Demo requests: 45 (vs 50 target) ⚠️
 - Qualified pipeline: $180K (vs $150K target) ✅
 
 Lagging Indicators:
+
 - MRR: $52K (vs $50K target) ✅
 - Customer count: 38 (vs 35 target) ✅
 - Gross retention: 92% (vs 90% target) ✅
@@ -1065,10 +1101,13 @@ Key Insights:
 ⚠️ Demo request volume flat (need more top-of-funnel marketing)
 
 Actions:
+
 1. Launch expansion playbook (identify upsell opportunities from usage data)
 2. Increase content marketing budget by 25% (drive demo requests)
 3. Hire 1 additional AE to handle growing pipeline
+
 ```text
+
 ---
 
 ## Success Metrics & Targets
@@ -1094,7 +1133,7 @@ Actions:
 ### Phase-Specific Targets
 
 | Metric | Beta (M1-2) | Public Beta (M3-4) | Limited Release (M5-6) | GA (M7-12) |
-|--------|-------------|-------------------|----------------------|------------|
+| -------- | ------------- | ------------------- | ---------------------- | ------------ |
 | **Customers** | 10 | 50 | 35 paying | 100+ |
 | **MRR** | $0 (free beta) | $5K | $50K | $500K |
 | **Activation Rate** | 60% | 65% | 70% | 75% |

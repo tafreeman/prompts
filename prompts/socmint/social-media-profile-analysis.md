@@ -6,25 +6,33 @@ intro: Comprehensive social media profile analysis for behavioral patterns, netw
 type: prompt
 difficulty: intermediate
 audience:
+
 - security-professionals
 - osint-analysts
 - investigators
 - hr-professionals
+
 platforms:
+
 - github-copilot
 - chatgpt
 - claude
+
 topics:
+
 - osint
 - socmint
 - profile-analysis
 - behavioral-analysis
+
 author: OSINT Library
 version: '1.0'
 date: '2024-11-30'
 governance_tags:
+
 - privacy-aware
 - ethical-osint
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -43,7 +51,7 @@ Conduct systematic analysis of social media profiles to extract intelligence abo
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `{{PLATFORM}}` | Yes | Social platform being analyzed. | `Twitter/X` |
 | `{{PROFILE_IDENTIFIER}}` | Yes | Profile URL or handle. | `@techanalyst_jane` |
 | `{{INVESTIGATION_CONTEXT}}` | Yes | Why the analysis is being performed. | `pre-employment verification` |
@@ -67,7 +75,7 @@ Extract all available profile information:
 
 **Identity Elements:**
 | Element | Data | Intelligence Value |
-|---------|------|-------------------|
+| --------- | ------ | ------------------- |
 | Display Name | ... | Name variations, nicknames |
 | Username/Handle | ... | Cross-platform searching |
 | Bio/Description | ... | Self-identification, interests |
@@ -79,6 +87,7 @@ Extract all available profile information:
 | Verification | ... | Identity confirmation |
 
 **Account Statistics:**
+
 - Follower/Following counts and ratio
 - Post/Tweet count
 - Engagement rates
@@ -88,6 +97,7 @@ Extract all available profile information:
 Analyze posted content systematically:
 
 **Content Categories:**
+
 1. **Original Content**: Posts, photos, videos created by user
 2. **Shared Content**: Reposts, retweets, shares
 3. **Engagement**: Likes, comments, reactions
@@ -95,7 +105,7 @@ Analyze posted content systematically:
 
 **Analysis Dimensions:**
 | Dimension | What to Look For |
-|-----------|------------------|
+| ----------- | ------------------ |
 | Topics | Recurring themes, interests, expertise areas |
 | Sentiment | Emotional patterns, attitudes, opinions |
 | Language | Style, vocabulary, multilingual ability |
@@ -104,6 +114,7 @@ Analyze posted content systematically:
 | Media | Photo/video content, original vs shared |
 
 **Red Flag Indicators:**
+
 - Inconsistent information across posts
 - Unusual posting patterns (bot-like behavior)
 - Engagement anomalies (fake followers)
@@ -113,6 +124,7 @@ Analyze posted content systematically:
 Analyze social connections:
 
 **Connection Analysis:**
+
 - **Mutual connections**: Shared contacts indicating real-world relationships
 - **Interaction frequency**: Who they engage with most
 - **Mention patterns**: Who mentions them, who they mention
@@ -121,7 +133,7 @@ Analyze social connections:
 
 **Network Categories:**
 | Category | Indicators | Intelligence Value |
-|----------|------------|-------------------|
+| ---------- | ------------ | ------------------- |
 | Family | Shared surnames, relationship tags | Personal life |
 | Friends | High engagement, personal content | Social circle |
 | Professional | Work-related content, colleagues | Career intel |
@@ -132,6 +144,7 @@ Analyze social connections:
 Map activity over time:
 
 **Timeline Construction:**
+
 - Account creation and early content
 - Major life events mentioned
 - Career/location changes
@@ -139,6 +152,7 @@ Map activity over time:
 - Interest evolution over time
 
 **Pattern Recognition:**
+
 - Daily posting schedule → Timezone, routine
 - Weekly patterns → Work/life balance
 - Seasonal variations → Travel, holidays
@@ -148,6 +162,7 @@ Map activity over time:
 Link to other online presence:
 
 **Discovery Methods:**
+
 - Username search across platforms
 - Email enumeration (if discoverable)
 - Reverse image search on profile photos
@@ -156,7 +171,7 @@ Link to other online presence:
 
 **Correlation Matrix:**
 | Platform | Username | Profile Match | Confidence |
-|----------|----------|---------------|------------|
+| ---------- | ---------- | --------------- | ------------ |
 | Twitter | ... | ... | High/Med/Low |
 | Instagram | ... | ... | High/Med/Low |
 | LinkedIn | ... | ... | High/Med/Low |
@@ -168,7 +183,7 @@ Evaluate profile legitimacy:
 
 **Authenticity Indicators:**
 | Factor | Positive Signs | Negative Signs |
-|--------|----------------|----------------|
+| -------- | ---------------- | ---------------- |
 | Account Age | Years old, consistent history | Very new, rapid growth |
 | Content | Original, personal, varied | Stock photos, generic |
 | Engagement | Natural patterns, real conversations | Bot-like, purchased |
@@ -179,21 +194,25 @@ Evaluate profile legitimacy:
 
 ### 1. Profile Summary Card
 ```
+
 Platform: [Platform name]
 Handle: [Username]
 Display Name: [Full name shown]
 Account Age: [Years/months]
 Verification: [Verified/Unverified]
 Authenticity Score: [1-10 with justification]
+
 ```
 
 ### 2. Identity Intelligence
+
 - **Confirmed Identity Elements**: What can be verified
 - **Claimed Information**: Self-reported, unverified
 - **Inferred Information**: Deduced from content
 - **Unknown/Gaps**: Information not discoverable
 
 ### 3. Behavioral Profile
+
 - **Posting Patterns**: When and how often
 - **Content Themes**: Primary interests and topics
 - **Communication Style**: Formal/informal, engagement type
@@ -201,6 +220,7 @@ Authenticity Score: [1-10 with justification]
 - **Influence Level**: Reach and engagement metrics
 
 ### 4. Network Analysis
+
 - **Key Connections**: Most significant relationships
 - **Affiliation Map**: Groups, organizations, communities
 - **Influence Network**: Who influences them, who they influence
@@ -208,28 +228,31 @@ Authenticity Score: [1-10 with justification]
 
 ### 5. Cross-Platform Presence
 | Platform | Status | Confidence | Notes |
-|----------|--------|------------|-------|
+| ---------- | -------- | ------------ | ------- |
 | ... | Found/Not Found | ... | ... |
 
 ### 6. Risk Assessment (if applicable)
+
 - **Identity Risks**: Authenticity concerns
 - **Security Risks**: Information exposure
 - **Reputation Risks**: Content concerns
 - **Recommendations**: Actions based on findings
 
 ## Ethical Guidelines
+
 - Only analyze publicly available information
 - Respect privacy settings and boundaries
 - Do not create fake accounts for access
 - Document all sources and methods
 - Consider the purpose and proportionality
 - Do not enable harassment or harm
+
 ```
 
 ## Platform-Specific Tools
 
 | Platform | Tool | Purpose |
-|----------|------|---------|
+| ---------- | ------ | --------- |
 | Twitter/X | Followerwonk, Twitonomy | Analytics, network |
 | Instagram | Instaloader, Dumpor | Content archiving |
 | LinkedIn | - | Manual analysis only |
@@ -240,12 +263,14 @@ Authenticity Score: [1-10 with justification]
 ## Example Usage
 
 **Input:**
+
 - Platform: Twitter
 - Handle: @techanalyst_jane
 - Purpose: Pre-employment verification
 - Scope: Professional conduct assessment
 
 **Expected Output:**
+
 - Profile summary with 3-year account age
 - Content analysis showing tech industry focus
 - Network map revealing industry connections

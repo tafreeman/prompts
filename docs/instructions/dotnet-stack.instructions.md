@@ -31,6 +31,7 @@ var app = builder.Build();
 app.MapControllers();
 app.Run();
 ```csharp
+
 ## Frontend Technology
 
 - Razor Pages for server-side rendering
@@ -49,6 +50,7 @@ app.Run();
 	<button class="btn btn-primary">Refresh</button>
 </div>
 ```csharp
+
 ## Database Standards
 
 - SQL Server 2022 with Always Encrypted for sensitive data

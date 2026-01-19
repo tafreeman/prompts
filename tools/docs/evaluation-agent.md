@@ -131,14 +131,17 @@ By Model:
   gpt-4o-mini: 80.6 avg
 
 Top Performers:
+
   1. react-pattern.md: 95.0
   2. chain-of-thought.md: 92.0
   3. few-shot-learning.md: 89.0
 
 Needs Improvement:
+
   1. legacy-format.md: 58.0
   2. incomplete-example.md: 62.0
   3. unclear-instructions.md: 65.0
+
 ```
 
 ---
@@ -148,7 +151,7 @@ Needs Improvement:
 The agent uses default configuration from `config.py`:
 
 | Setting | Default | Description |
-|---------|---------|-------------|
+| --------- | --------- | ------------- |
 | `default_models` | `["local:phi4"]` | Models to use |
 | `pass_threshold` | `70` | Minimum passing score |
 | `max_retries` | `3` | Retry count on error |
@@ -170,9 +173,11 @@ jobs:
   evaluate:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt
       - run: python tools/evaluation_agent.py --category all --runs 1 --ci
+
 ```
 
 ---

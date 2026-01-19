@@ -40,11 +40,13 @@ using var command = new SqlCommand(
 command.Parameters.AddWithValue("@email", userEmail);
 command.Parameters.AddWithValue("@isActive", true);
 ```sql
+
 ❌ **Avoid (string concatenation – SQL injection risk):**
 
 ```csharp
 var sql = $"SELECT * FROM Users WHERE Email = '{userEmail}' AND IsActive = 1";
 ```sql
+
 ### Example: Stored Procedure with Error Handling
 
 ✅ **Correct stored procedure:**
@@ -67,6 +69,7 @@ BEGIN
     END CATCH
 END
 ```sql
+
 ## Constraints and Fallbacks
 
 - Do NOT use dynamic SQL or string concatenation for user input; always use parameterized queries or stored procedures.

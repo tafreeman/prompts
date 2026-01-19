@@ -52,7 +52,9 @@ python testing/run_tests.py test_suite.yaml \
 name: My Test Suite
 description: Tests for my prompts
 test_cases:
+
   - id: test_001
+
     name: Test basic prompt
     description: Verify basic prompt execution
     test_type: unit
@@ -62,15 +64,21 @@ test_cases:
     expected_outputs:
       contains: "greeting"
     validators:
+
       - semantic
       - format
+
     metrics:
+
       - response_relevance
+
     timeout: 30
     retries: 3
     tags:
+
       - quick
       - smoke
+
 ```
 
 ### Programmatic Usage
@@ -81,7 +89,7 @@ from framework.core.test_runner import PromptTestRunner, TestCase, TestType
 
 async def run_tests():
     runner = PromptTestRunner()
-    
+
     # Create test case
     test_case = TestCase(
         id="test_001",
@@ -93,7 +101,7 @@ async def run_tests():
         validators=["semantic"],
         timeout=10
     )
-    
+
     # Run test
     result = await runner.run_single_test(test_case)
     print(f"Status: {result.status.value}")
@@ -108,7 +116,7 @@ asyncio.run(run_tests())
 ### Test Types
 
 | Type | Purpose | Use Cases |
-|------|---------|-----------|
+| ------ | --------- | ----------- |
 | `unit` | Single prompt validation | Individual prompt testing |
 | `integration` | Multi-component tests | End-to-end workflows |
 | `regression` | Prevent regressions | CI/CD validation |
@@ -151,7 +159,9 @@ Tests automatically retry on failure with exponential backoff:
 
 ```yaml
 test_cases:
+
   - id: test_flaky
+
     retries: 3  # Will retry up to 3 times
     timeout: 30  # 30 second timeout per attempt
 ```
@@ -214,12 +224,14 @@ The framework integrates with validators in `framework/validators/`:
 ```python
 # Available validators
 validators:
+
   - json          # JSON structure validation
   - code_python   # Python code validation
   - code_javascript  # JavaScript code validation
   - semantic      # Semantic similarity
   - safety        # Safety checks
   - performance   # Performance metrics
+
 ```
 
 See [validators/README.md](validators/README.md) for details.
@@ -229,7 +241,7 @@ See [validators/README.md](validators/README.md) for details.
 Automatically collected metrics:
 
 | Metric | Description |
-|--------|-------------|
+| -------- | ------------- |
 | `execution_time` | Test execution duration (seconds) |
 | `total_tokens` | Combined prompt + completion tokens |
 | `prompt_tokens` | Input tokens |
@@ -289,12 +301,15 @@ runner.validators['my_validator'] = MyValidator()
 
 ```yaml
 # .github/workflows/test.yml
+
 - name: Run test suite
+
   run: |
     python testing/run_tests.py test_suite.yaml \
       --output results.json
-  
+
 - name: Check results
+
   run: |
     python -c "
     import json
@@ -334,7 +349,9 @@ Increase timeout values in test suite:
 
 ```yaml
 test_cases:
+
   - timeout: 60  # Increase to 60 seconds
+
 ```
 
 ### Rate Limiting

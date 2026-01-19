@@ -5,23 +5,31 @@ intro: "Create compelling video scripts for YouTube, TikTok, explainer videos, t
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "video-production"
   - "creative"
   - "content-marketing"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.0
@@ -59,27 +67,32 @@ You are an expert video scriptwriter who understands viewer psychology, platform
 **Speaker Style:** [ON-CAMERA/VOICEOVER/MULTIPLE SPEAKERS]
 
 **Video Goals:**
+
 - Primary: [EDUCATE/ENTERTAIN/PERSUADE/INFORM/CONVERT]
 - Secondary: [SUBSCRIBE/SHARE/CLICK/PURCHASE/LEARN]
 
 **Key Points to Cover:**
+
 1. [MAIN POINT 1]
 2. [MAIN POINT 2]
 3. [MAIN POINT 3]
 4. [MAIN POINT 4 - OPTIONAL]
 
 **Must Include:**
+
 - Hook style: [QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]
 - Call-to-action: [WHAT SHOULD VIEWERS DO?]
 - Brand/Channel mention: [YES/NO - NAME?]
 
 **Technical Requirements:**
+
 - B-roll suggestions: [YES/NO]
 - On-screen text suggestions: [YES/NO]
 - Music/sound cues: [YES/NO]
 - Timestamp markers: [YES/NO]
 
 Please create a script that includes:
+
 1. Attention-grabbing hook (first 3-5 seconds)
 2. Context/intro that builds curiosity
 3. Clear content structure with transitions
@@ -88,16 +101,18 @@ Please create a script that includes:
 6. Visual and audio cues where relevant
 
 Format the script with:
+
 - Timecodes for each section
 - [VISUAL] cues for B-roll or graphics
 - [AUDIO] cues for music or sound effects
 - (Actions) for speaker movements or expressions
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]` | Video type/platform |
 | `[TARGET DURATION, e.g., 60 seconds, 5 minutes, 10 minutes]` | Target duration |
 | `[MAIN SUBJECT OF THE VIDEO]` | Topic |
@@ -190,6 +205,7 @@ A script with timecodes, transitions, [VISUAL]/[AUDIO] cues, and a closing CTA.
 [VISUAL: On-screen chapter list appearing]
 
 "Here's what we'll cover:
+
 - First, what branches actually are—with a simple visual
 - Then, creating and switching branches in seconds
 - Next, merging your work and handling those scary conflicts
@@ -201,8 +217,7 @@ A script with timecodes, transitions, [VISUAL]/[AUDIO] cues, and a closing CTA.
 
 ---
 
-### [0:45-2:30] SECTION 1: What Are Branches?
-
+### [0:45-2:30] SECTION 1: What Are Branches
 [VISUAL: Switch to animated diagram of a tree with branches]
 [AUDIO: Subtle transition sound]
 
@@ -410,6 +425,7 @@ Just main and feature branches. Create a branch for each thing you're working on
 [VISUAL: Quick animated recap]
 
 "- Branches are safe workspaces for your code
+
 - `git checkout -b branch-name` creates and switches
 - `git merge` brings your changes home
 - Conflicts are normal—you've got this
@@ -443,6 +459,7 @@ Just main and feature branches. Create a branch for each thing you're working on
 ## VIDEO NOTES
 
 **Thumbnail suggestions:**
+
 - Split image: confused face vs. confident face
 - Text overlay: "Git Branches EXPLAINED"
 - Branch diagram graphic

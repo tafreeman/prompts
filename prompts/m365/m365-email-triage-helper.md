@@ -8,22 +8,30 @@ m365App: Copilot in Outlook
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - email
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -123,18 +131,21 @@ Help me quickly triage my inbox for the last [time_window], grouping emails
 by urgency and drafting short replies for the most critical ones.
 
 Context:
+
 - I receive a mix of high-priority and low-priority emails.
 - I want to focus on what needs my attention today versus later this week.
 - I prefer short, clear emails that get to the point.
 
 Scope:
 Look at emails in my inbox from [time_window].
+
 - Prioritize messages that:
   - Come from key stakeholders or my direct manager.
   - Contain clear requests, deadlines, or escalations.
 - Exclude senders or domains listed in [exclude_senders], if any.
 
 Assumptions and constraints:
+
 - Group emails into:
   - "Need response today"
   - "Need response this week"
@@ -145,6 +156,7 @@ Assumptions and constraints:
 - Keep each drafted reply under 150 words.
 
 Process:
+
 1. Analyze emails from [time_window] and assess urgency and importance.
 2. Group emails into the three categories.
 3. For each "Need response today" email:
@@ -159,9 +171,11 @@ Return the result in Markdown:
 [short paragraph]
 
 ## Need Response Today
+
 1. **Subject:** [subject]
    - Why it matters: [one-line explanation]
    - Draft reply:
+
    ```
 
    [reply text]
@@ -169,10 +183,12 @@ Return the result in Markdown:
    ```text
 
 ## Need Response This Week
+
 - **Subject:** [subject] — [what is needed]
 - **Subject:** [subject] — [what is needed]
 
 ## FYI / No Response Needed
+
 - **Subject:** [subject]
 - **Subject:** [subject]
 
@@ -183,7 +199,7 @@ provide reply drafts as specified.
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[time_window]` | Period to consider (e.g., "today", "last 24 hours") |
 | `[max_urgent]` | Max number of emails to include in "Need Response Today" |
 | `[tone]` | Tone for reply drafts (professional, friendly, direct, etc.) |
@@ -217,9 +233,11 @@ You received 32 emails in the last 24 hours. Five require same-day attention,
 seven can be handled later this week, and the rest are informational.
 
 ## Need Response Today
+
 1. **Subject:** Customer escalation: onboarding delay
    - Why it matters: High-priority customer escalation with a requested update today.
    - Draft reply:
+
    ```
 
    Hi [Name],
@@ -236,12 +254,15 @@ seven can be handled later this week, and the rest are informational.
    ```text
 
 ## Need Response This Week
+
 - **Subject:** Q4 planning deck review — Provide feedback on slides by Thursday.
 - **Subject:** Team offsite dates — Confirm your availability for the proposed dates.
 
 ## FYI / No Response Needed
+
 - **Subject:** Weekly engineering newsletter
 - **Subject:** System maintenance notification for Saturday night
+
 ```text
 
 ---

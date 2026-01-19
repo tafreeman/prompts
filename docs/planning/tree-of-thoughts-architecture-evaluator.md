@@ -5,21 +5,29 @@ intro: "A specialized Tree-of-Thoughts prompt for evaluating multiple architectu
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "architecture"
   - "decision-making"
+
 author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
+
   - "PII-safe"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
@@ -125,11 +133,13 @@ You are an expert software architect using Tree-of-Thoughts (ToT) reasoning to e
 **Requirements:**
 
 **Functional:**
+
 - [FUNCTIONAL_REQUIREMENT_1]
 - [FUNCTIONAL_REQUIREMENT_2]
 - [FUNCTIONAL_REQUIREMENT_3]
 
 **Non-Functional:**
+
 - Scalability: [SCALABILITY_REQUIREMENTS]
 - Performance: [LATENCY_THROUGHPUT_TARGETS]
 - Availability: [UPTIME_REQUIREMENTS]
@@ -138,6 +148,7 @@ You are an expert software architect using Tree-of-Thoughts (ToT) reasoning to e
 - Cost: [BUDGET_CONSTRAINTS]
 
 **Constraints:**
+
 - Team: [TEAM_SIZE_EXPERIENCE_SKILLS]
 - Timeline: [DELIVERY_DEADLINE]
 - Compliance: [REGULATORY_REQUIREMENTS]
@@ -153,6 +164,7 @@ Using Tree-of-Thoughts reasoning, evaluate architecture options systematically:
 
 ### Step 1: Problem & Context
 Summarize the architectural challenge:
+
 - What problem are we solving?
 - What are the key requirements and constraints?
 - What are the critical unknowns or risks?
@@ -168,6 +180,7 @@ Generate 3–5 distinct architecture options. For each option, provide a high-le
 
 ### Step 3: Evaluation Criteria
 Define the dimensions for comparing options (typically 5–8 criteria):
+
 1. Scalability (horizontal/vertical, traffic spikes)
 2. Performance (latency, throughput)
 3. Development Complexity (team ramp-up, debugging)
@@ -186,6 +199,7 @@ For each architecture option, evaluate it across the criteria:
 [Detailed description: components, data flow, communication patterns, technologies]
 
 **Evaluation:**
+
 - **Scalability**: [Score 1-10] - [Rationale]
 - **Performance**: [Score 1-10] - [Rationale]
 - **Development Complexity**: [Score 1-10] - [Rationale]
@@ -206,7 +220,7 @@ For each architecture option, evaluate it across the criteria:
 Create a comparison table:
 
 | Criterion | Option A | Option B | Option C | Option D | Option E |
-|-----------|----------|----------|----------|----------|----------|
+| ----------- | ---------- | ---------- | ---------- | ---------- | ---------- |
 | Scalability | [score] | [score] | [score] | [score] | [score] |
 | Performance | [score] | [score] | [score] | [score] | [score] |
 | Dev Complexity | [score] | [score] | [score] | [score] | [score] |
@@ -221,9 +235,11 @@ Create a comparison table:
 Identify options to eliminate and explain why:
 
 **Pruned: Option [X]**
+
 - Reason: [Why this option is clearly inferior or infeasible]
 
 **Pruned: Option [Y]**
+
 - Reason: [Why this option doesn't meet requirements or constraints]
 
 **Remaining Options**: [List the top 2–3 options to explore deeply]
@@ -237,24 +253,29 @@ For each remaining option, explore in detail:
 [Describe components, data flow, technologies, deployment model]
 
 **Implementation Plan:**
+
 1. [Phase 1: Initial setup]
 2. [Phase 2: Core features]
 3. [Phase 3: Optimization and scale]
 
 **Case Studies / References:**
+
 - [Example of similar architecture in production]
 - [Benchmarks or performance data]
 
 **Edge Cases & Failure Modes:**
+
 - [How does it handle X failure?]
 - [What happens under extreme load?]
 
 **Cost Estimate:**
+
 - Infrastructure: [$X/month]
 - Engineering: [Y person-months]
 - Total: [$Z]
 
 **Risk Assessment:**
+
 - [Risk 1: description + mitigation]
 - [Risk 2: description + mitigation]
 
@@ -269,6 +290,7 @@ Based on the analysis, select the best option:
 [Why this option is the best fit for the requirements, constraints, and team]
 
 **Key Trade-offs Accepted:**
+
 - [Trade-off 1: e.g., "Higher operational complexity for better scalability"]
 - [Trade-off 2: e.g., "Steeper learning curve for long-term flexibility"]
 
@@ -278,11 +300,13 @@ Based on the analysis, select the best option:
 ### Step 9: Risks & Mitigations
 
 **Risk 1**: [Description]
+
 - **Likelihood**: [High|Medium|Low]
 - **Impact**: [High|Medium|Low]
 - **Mitigation**: [How to address]
 
 **Risk 2**: [Description]
+
 - **Likelihood**: [High|Medium|Low]
 - **Impact**: [High|Medium|Low]
 - **Mitigation**: [How to address]
@@ -298,6 +322,7 @@ Based on the analysis, select the best option:
 **Context**: [Why this decision was needed]
 
 **Consequences**:
+
 - Positive: [Benefits of this choice]
 - Negative: [Downsides or costs]
 - Risks: [Unknowns or concerns]
@@ -320,6 +345,7 @@ Based on the analysis, select the best option:
 ```markdown
 ### Step 1: Problem & Context
 We need to scale an e-commerce platform from 10K to 1M users in 12 months. Current monolith (Rails + PostgreSQL) is experiencing:
+
 - Database bottlenecks (long queries, connection pool saturation)
 - Deployment risks (downtime during deploys)
 - Team coordination issues (10 developers committing to same codebase)
@@ -336,6 +362,7 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 **Option B: Modular Monolith with Read Replicas and Async Workers**
 
 **Description:**
+
 - Single deployable Rails app, but modularized internally (bounded contexts)
 - PostgreSQL primary + 2 read replicas
 - Sidekiq workers for async tasks (emails, analytics)
@@ -343,6 +370,7 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - Vertical scaling (larger DB instances) + horizontal scaling (app servers behind load balancer)
 
 **Evaluation:**
+
 - **Scalability**: 7/10 - Handles 1M users with read replicas and caching, but eventual limit
 - **Performance**: 8/10 - Read replicas reduce DB load, caching improves latency
 - **Development Complexity**: 9/10 - Team already knows Rails, modularization is incremental
@@ -362,6 +390,7 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 **Recommended Architecture**: Modular Monolith with Read Replicas and Async Workers (Option B)
 
 **Rationale:**
+
 - **Best fit for current team** (Rails expertise, no need to learn distributed systems)
 - **Lowest risk** (incremental improvements to existing system)
 - **Cost-effective** (avoids microservices overhead)
@@ -369,10 +398,12 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Future-proof** (modularization enables service extraction if needed beyond 1M users)
 
 **Key Trade-offs Accepted:**
+
 - **Accepting**: Tighter coupling and single deployment unit
 - **Gaining**: Faster delivery, lower operational complexity, better team productivity
 
 **When This Recommendation Might Change:**
+
 - If traffic grows beyond 5M users, revisit microservices (Option A)
 - If team grows beyond 30 developers, independent deployments become critical
 - If compliance requires data isolation, consider service boundaries
@@ -380,14 +411,17 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 ### Step 9: Risks & Mitigations
 
 **Risk 1**: Database becomes bottleneck even with read replicas
+
 - **Likelihood**: Medium
 - **Impact**: High
 - **Mitigation**: Implement query optimization, add more read replicas, consider sharding hot tables
 
 **Risk 2**: Modularization discipline erodes over time
+
 - **Likelihood**: Medium
 - **Impact**: Medium
 - **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
+
 ```text
 
 ---

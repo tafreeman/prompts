@@ -5,21 +5,29 @@ intro: "Systematically evaluates dataset quality across six dimensions and gener
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "data-quality"
   - "analysis"
+
 author: "Prompt Engineering Team"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.6
@@ -127,11 +135,13 @@ Conduct a comprehensive data quality assessment across six dimensions:
 6. **Uniqueness**: Duplicate records
 
 For each dimension, provide:
+
 - **Score (0–100%)**
 - **Issues Identified** (with examples and impact)
 - **Severity** (High/Medium/Low)
 
 Then provide:
+
 - **Overall Score** (weighted average across dimensions)
 - **Recommended Actions** (prioritized by impact and effort)
 - **Validation Rules** (to prevent future issues)
@@ -163,7 +173,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Missing Values by Column:**
 
 | Column | Missing % |
-|--------|-----------|
+| -------- | ----------- |
 | [col1] | [N]%      |
 | [col2] | [N]%      |
 
@@ -214,7 +224,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Type Mismatches:**
 
 | Column | Expected | Actual | Error Rate |
-|--------|----------|--------|------------|
+| -------- | ---------- | -------- | ------------ |
 | [col1] | [type]   | [type] | [N]%       |
 
 - **Out-of-Range Values:**
@@ -264,6 +274,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 1. [Step 1: e.g., "Implement validation rules in ETL pipeline"]
 2. [Step 2: e.g., "Fix high-priority data issues"]
 3. [Step 3: e.g., "Set up automated quality monitoring"]
+
 ```text
 
 ---
@@ -293,6 +304,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Time Period:** 2025-01-01 to 2025-11-18
 
 **Schema:**
+
 - order_id (int, primary key)
 - customer_id (int, foreign key)
 - order_date (timestamp)
@@ -305,7 +317,7 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 **Sample Data:**
 | order_id | customer_id | order_date | total_amount | status | shipping_address |
-|----------|-------------|------------|--------------|--------|------------------|
+| ---------- | ------------- | ------------ | -------------- | -------- | ------------------ |
 | 1 | 101 | 2025-01-05 10:30 | 49.99 | shipped | 123 Main St |
 | 2 | NULL | 2025-01-05 11:00 | 199.99 | pending | NULL |
 | 3 | 103 | 2025-01-05 11:15 | -10.00 | SHIPPED | 456 Oak Ave |

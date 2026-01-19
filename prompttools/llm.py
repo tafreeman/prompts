@@ -60,7 +60,10 @@ class LLMClient:
         # ═══════════════════════════════════════════════════════════════════
         "phi3.5": "microsoft--Phi-3.5-mini-instruct-onnx",
         "phi3.5-cpu": "microsoft--Phi-3.5-mini-instruct-onnx/main/cpu_and_mobile/cpu-int4-awq-block-128-acc-level-4",
-        "phi3.5-vision": "microsoft--Phi-3.5-vision-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        "phi3.5-vision": (
+            "microsoft--Phi-3.5-vision-instruct-onnx/main/cpu_and_mobile/"
+            "cpu-int4-rtn-block-32-acc-level-4"
+        ),
         
         # ═══════════════════════════════════════════════════════════════════
         # PHI-3 MINI (3.8B params)
@@ -69,7 +72,10 @@ class LLMClient:
         "phi3-cpu": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
         "phi3-cpu-acc1": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32",
         "phi3-dml": "microsoft--Phi-3-mini-4k-instruct-onnx/main/directml/directml-int4-awq-block-128",
-        "phi3-vision": "microsoft--Phi-3-vision-128k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
+        "phi3-vision": (
+            "microsoft--Phi-3-vision-128k-instruct-onnx/main/cpu_and_mobile/"
+            "cpu-int4-rtn-block-32-acc-level-4"
+        ),
         
         # ═══════════════════════════════════════════════════════════════════
         # PHI-3 MEDIUM (14B params - larger, slower, more capable)
@@ -83,8 +89,14 @@ class LLMClient:
         # ═══════════════════════════════════════════════════════════════════
         "mistral": "microsoft--mistral-7b-instruct-v0.2-ONNX",
         "mistral-7b": "microsoft--mistral-7b-instruct-v0.2-ONNX",
-        "mistral-cpu": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4",
-        "mistral-cpu-acc1": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32",
+        "mistral-cpu": (
+            "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/"
+            "mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4"
+        ),
+        "mistral-cpu-acc1": (
+            "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/"
+            "mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32"
+        ),
         "mistral-dml": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/directml/mistralai_Mistral-7B-Instruct-v0.2",
         
         # ═══════════════════════════════════════════════════════════════════
@@ -272,13 +284,15 @@ class LLMClient:
         try:
             result = None
             if model_name.lower().startswith("local:"):
-                result = LLMClient._call_local(model_name, prompt, system_instruction,
-                                             temperature, max_tokens)
+                result = LLMClient._call_local(
+                    model_name, prompt, system_instruction,
+                    temperature, max_tokens)
             elif model_name.lower().startswith("ollama:"):
                 result = LLMClient._call_ollama(model_name, prompt, system_instruction)
             elif model_name.lower().startswith("windows-ai:"):
-                result = LLMClient._call_windows_ai(model_name, prompt, system_instruction,
-                                                  temperature, max_tokens)
+                result = LLMClient._call_windows_ai(
+                    model_name, prompt, system_instruction,
+                    temperature, max_tokens)
             elif model_name.lower().startswith("azure-foundry:"):
                 result = LLMClient._call_azure_foundry(
                     model_name, prompt, system_instruction, temperature, max_tokens)
@@ -290,8 +304,9 @@ class LLMClient:
             elif model_name.lower().startswith("openai:"):
                 # Explicit prefix for OpenAI hosted models
                 model_id = model_name.split(":", 1)[1]
-                result = LLMClient._call_openai(model_id, prompt, system_instruction,
-                                              temperature, max_tokens)
+                result = LLMClient._call_openai(
+                    model_id, prompt, system_instruction,
+                    temperature, max_tokens)
             elif model_name.lower().startswith("gemini:"):
                 model_id = model_name.split(":", 1)[1]
                 result = LLMClient._call_gemini(model_id, prompt, system_instruction)

@@ -15,7 +15,7 @@
 ### Criterion Averages
 
 | Criterion | Average | Status |
-|-----------|---------|--------|
+| ----------- | --------- | -------- |
 | Actionability | 7.4/10 | ✅ Pass |
 | Clarity | 7.5/10 | ✅ Pass |
 | Completeness | 7.2/10 | ✅ Pass |
@@ -28,7 +28,7 @@
 ## Developers Prompts Evaluation
 
 | Prompt | Score | Grade | Pass | Summary |
-|--------|-------|-------|------|---------|
+| -------- | ------- | ------- | ------ | --------- |
 | API Design Consultant | 8.4/10 | B | ✅ | The prompt is robust and well-organized, making it... |
 | C# Enterprise Standards Enforcer | 8.4/10 | B | ✅ | The prompt effectively guides the AI in reviewing ... |
 | Cloud Migration Specialist | 8.0/10 | B | ✅ | The prompt is effective for guiding cloud migratio... |
@@ -56,6 +56,7 @@
 **Failure Reason:** Model failed
 
 **Suggested Improvements:**
+
 - Add specific criteria for the code review (e.g., readability, performance, security)
 - Improve structure by providing sections for different types of feedback
 
@@ -63,6 +64,7 @@
 **Failure Reason:** Model failed
 
 **Suggested Improvements:**
+
 - Add specific criteria or aspects to review in the code
 - Include examples of expected output format
 
@@ -72,16 +74,19 @@
 
 ### Code Review Expert (7.0/10)
 **Suggested improvements:**
+
 - Add specific guidelines on applying Google Engineering Practices and SOLID principles
 - Provide examples of what constitutes a critical area of focus
 
 ### Data Pipeline Engineer (7.0/10)
 **Suggested improvements:**
+
 - Provide examples for placeholders to enhance specificity
 - Add more detailed instructions for each component to improve clarity
 
 ### Code Generation Assistant (7.5/10)
 **Suggested improvements:**
+
 - Clarify the placeholders to guide users on how to fill them
 - Provide examples for each section to enhance understanding
 
@@ -90,6 +95,7 @@
 ## Evaluation Methodology
 
 This evaluation uses industry best practices from:
+
 - **OpenAI Evals**: Chain-of-thought grading with model-graded evaluation
 - **Promptfoo**: Pass/fail assertions with thresholds
 - **Anthropic**: Structured test formats and state tracking
@@ -98,7 +104,7 @@ This evaluation uses industry best practices from:
 ### Criteria Evaluated
 
 | Category | Criterion | Description |
-|----------|-----------|-------------|
+| ---------- | ----------- | ------------- |
 | Core | Clarity | How clear and unambiguous are the instructions? |
 | Core | Specificity | Does it provide enough detail for consistent outputs? |
 | Core | Actionability | Can the AI clearly determine what actions to take? |

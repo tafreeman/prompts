@@ -6,22 +6,30 @@ intro: A practical decision framework for choosing when and how to use Chain-of-
 type: reference
 difficulty: beginner
 audience:
+
 - junior-engineer
 - senior-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
 - azure-openai
+
 topics:
+
 - reasoning
 - best-practices
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - general-use
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -61,19 +69,19 @@ flowchart TD
     A[🎯 Start: AI Task] --> B{Simple lookup<br/>or direct task?}
     B -->|Yes| C[✅ No CoT Needed<br/>Use direct prompt]
     B -->|No| D{Requires logical<br/>reasoning?}
-    
+
     D -->|No| C
     D -->|Yes| E{High stakes<br/>or novel?}
-    
+
     E -->|Yes| F[📋 USE DETAILED CoT<br/>Full justification]
     E -->|No| G{Need audit<br/>trail?}
-    
+
     G -->|Yes| H[📝 USE CONCISE CoT<br/>Step-by-step visible]
     G -->|No| I{Multiple<br/>approaches?}
-    
+
     I -->|Yes| J[🌳 USE TREE-OF-THOUGHTS<br/>Explore branches]
     I -->|No| H
-    
+
     style C fill:#c8e6c9
     style F fill:#81c784
     style H fill:#aed581
@@ -82,6 +90,7 @@ flowchart TD
 ```
 
 **Decision Criteria:**
+
 - **Simple Task**: Direct lookup, formatting, translation → No CoT
 - **High Stakes**: >$10K impact, compliance, novel domain → Detailed CoT
 - **Audit Trail**: Debugging, learning, transparency → Concise CoT  
@@ -323,7 +332,7 @@ else:
 ### Token Cost Estimates
 
 | Mode | Input Overhead | Output Overhead | Total Overhead |
-|------|---------------|----------------|----------------|
+| ------ | --------------- | ---------------- | ---------------- |
 | No CoT | 0 tokens | 0 tokens | 0 tokens |
 | Concise CoT | +20-30 | +40-70 | +60-100 |
 | Detailed CoT | +30-50 | +200-400 | +230-450 |

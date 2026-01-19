@@ -71,6 +71,7 @@ description: Enforce security, accessibility, and performance standards for Razo
     <button type="submit" class="btn btn-primary">Register</button>
 </form>
 ```text
+
 ❌ **Avoid: Inline script and missing CSRF protection**
 
 ```cshtml
@@ -79,6 +80,7 @@ description: Enforce security, accessibility, and performance standards for Razo
     <script>alert('inline script');</script>
 </form>
 ```text
+
 ## Constraints and Fallbacks
 
 - Do NOT disable CSRF protection or HTML encoding without explicit security review and documented justification.

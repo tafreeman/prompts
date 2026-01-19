@@ -5,6 +5,7 @@ intro: "Browse the complete collection of AI prompts organized by category and u
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "solution-architect"
@@ -12,21 +13,27 @@ audience:
   - "business-analyst"
   - "project-manager"
   - "functional-team"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
   - "azure-openai"
   - "m365-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-11-29"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 layout: "category-landing"
 children:
+
   - /prompts/developers
   - /prompts/advanced
   - /prompts/business
@@ -35,13 +42,18 @@ children:
   - /prompts/system
   - /prompts/governance
   - /prompts/creative
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-copilot
     - /concepts/about-prompt-engineering
+
   popular:
+
     - /prompts/advanced/chain-of-thought
     - /prompts/developers
+
 ---
 
 # Prompt Library
@@ -51,7 +63,7 @@ Browse our complete collection of AI prompts, organized by category and use case
 ## Categories
 
 | Category | Description | Count |
-| :--- |-------------| :--- |
+| :--- | ------------- | :--- |
 | [**Developers**](/prompts/developers) | Code generation, debugging, refactoring, testing | 50+ |
 | [**Advanced**](/prompts/advanced) | Chain-of-Thought, ReAct, Tree-of-Thought, RAG | 15+ |
 | [**Business**](/prompts/business) | Reports, communications, strategy, planning | 26 |
@@ -93,7 +105,7 @@ Complex multi-step patterns requiring deep understanding of prompting techniques
 ## By Platform
 
 | Platform | Best Categories |
-| :--- |----------------|
+| :--- | ---------------- |
 | **GitHub Copilot** | [Developers](/prompts/developers), [Advanced](/prompts/advanced) |
 | **Claude** | [Analysis](/prompts/analysis), [Advanced](/prompts/advanced) |
 | **ChatGPT** | [Business](/prompts/business), [Creative](/prompts/creative) |

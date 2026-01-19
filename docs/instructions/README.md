@@ -15,7 +15,7 @@ The **Instructions** directory contains specialized configuration files that cus
 Role-based instructions that adapt AI assistance to experience levels:
 
 | Instruction File | Description | Best For |
-|-----------------|-------------|----------|
+| ----------------- | ------------- | ---------- |
 | **[Junior Developer](junior-developer.instructions.md)** | Verbose explanations, learning-focused guidance | New developers, interns, bootcamp graduates |
 | **[Mid-Level Developer](mid-level-developer.instructions.md)** | Balanced detail, best practices emphasis | Engineers with 2-5 years experience |
 | **[Senior Developer](senior-developer.instructions.md)** | Concise, production-ready, design patterns | Experienced engineers, tech leads |
@@ -26,7 +26,7 @@ Role-based instructions that adapt AI assistance to experience levels:
 Language and framework-specific coding conventions:
 
 | Instruction File | Description | Best For |
-|-----------------|-------------|----------|
+| ----------------- | ------------- | ---------- |
 | **[C# Standards](csharp-standards.instructions.md)** | C# coding conventions, naming, patterns | .NET development teams |
 | **[.NET Stack](dotnet-stack.instructions.md)** | ASP.NET Core, Entity Framework patterns | Full-stack .NET projects |
 | **[Razor Standards](razor-standards.instructions.md)** | Razor Pages, Blazor conventions | ASP.NET web UI development |
@@ -37,12 +37,11 @@ Language and framework-specific coding conventions:
 Security-focused instructions for hardened code generation:
 
 | Instruction File | Description | Best For |
-|-----------------|-------------|----------|
+| ----------------- | ------------- | ---------- |
 | **[Security Compliance](security-compliance.instructions.md)** | Secure coding practices, OWASP guidelines | Security-critical applications |
 | **[SQL Security](sql-security.instructions.md)** | Parameterized queries, injection prevention | Database-heavy applications |
 
-## 🎯 Use These Instructions When...
-
+## 🎯 Use These Instructions When
 - ✅ You want **consistent code style** across your team
 - ✅ You need to **enforce security standards** in AI-generated code
 - ✅ You're **onboarding new developers** and need consistent guidance
@@ -78,36 +77,48 @@ Security-focused instructions for hardened code generation:
 ### Recommended Combinations
 
 **Full-Stack .NET Developer**:
+
 ```markdown
 Combine:
+
 - Senior Developer (senior-developer.instructions.md)
 - C# Standards (csharp-standards.instructions.md)
 - .NET Stack (dotnet-stack.instructions.md)
 - Security Compliance (security-compliance.instructions.md)
+
 ```
 
 **Security-Focused Team**:
+
 ```markdown
 Combine:
+
 - Senior Developer (senior-developer.instructions.md)
 - Security Compliance (security-compliance.instructions.md)
 - SQL Security (sql-security.instructions.md)
+
 ```
 
 **Junior Developer Onboarding**:
+
 ```markdown
 Combine:
+
 - Junior Developer (junior-developer.instructions.md)
 - C# Standards (csharp-standards.instructions.md)
 - Project Structure (project-structure.instructions.md)
+
 ```
 
 **Tech Lead / Code Reviewer**:
+
 ```markdown
 Combine:
+
 - Team Lead (team-lead.instructions.md)
 - Security Compliance (security-compliance.instructions.md)
 - C# Standards (csharp-standards.instructions.md)
+
 ```
 
 ## 📖 How to Use
@@ -131,6 +142,7 @@ Combine:
 ### Before/After Examples
 
 **Without Instructions**:
+
 ```csharp
 // Generic, may not follow team standards
 public string GetUser(int id) {
@@ -140,6 +152,7 @@ public string GetUser(int id) {
 ```
 
 **With Senior Developer + C# Standards + SQL Security Instructions**:
+
 ```csharp
 /// <summary>
 /// Retrieves user name by ID with parameterized query to prevent SQL injection.
@@ -162,16 +175,19 @@ public async Task<string?> GetUserNameAsync(int userId)
 ## 🔗 Related Documentation
 
 ### Setup & Configuration
+
 - **[GitHub Copilot Documentation](https://docs.github.com/en/copilot)** — Official setup guide
 - **[VS Code Copilot Settings](https://code.visualstudio.com/docs/copilot/overview)** — Editor configuration
 - **[Custom Instructions Guide](https://platform.openai.com/docs/guides/prompt-engineering)** — General guidance
 
 ### Learning Resources
+
 - **[Concepts](../concepts/)** — Understand prompting theory
 - **[Tutorials](../tutorials/)** — Hands-on prompt engineering practice
 - **[Reference](../reference/)** — Quick lookups and cheat sheets
 
 ### Enterprise Use
+
 - **[Planning](../planning/)** — Architecture and governance frameworks
 - **[Research](../research/)** — Evidence-based best practices
 
@@ -180,18 +196,21 @@ public async Task<string?> GetUserNameAsync(int userId)
 ### Role-Based Personas
 
 **Junior Developer Instructions Provide**:
+
 - Detailed explanations for each code suggestion
 - Links to documentation and learning resources
 - Step-by-step guidance for complex tasks
 - Emphasis on understanding over speed
 
 **Senior Developer Instructions Provide**:
+
 - Concise, production-ready code
 - Design patterns and SOLID principles
 - Performance and scalability considerations
 - Minimal comments, self-documenting code
 
 **Team Lead Instructions Provide**:
+
 - Code review checklists
 - Architectural guidance and trade-offs
 - Mentorship-focused explanations
@@ -219,12 +238,16 @@ public async Task<string?> GetUserNameAsync(int userId)
 
 1. **Start with a base** (e.g., `senior-developer.instructions.md`)
 2. **Add organization-specific rules**:
+
    ```markdown
    ## Company-Specific Standards
+
    - Use internal NuGet feed: https://nuget.company.com
    - Follow CompanyName.Namespace.Project naming
    - Include JIRA ticket references in commit messages
+
    ```
+
 3. **Test thoroughly** with various code generation scenarios
 4. **Share with team** and iterate based on feedback
 
@@ -285,6 +308,7 @@ All instruction files are licensed under [MIT License](../../LICENSE).
 ---
 
 **Next Steps**:
+
 - 🚀 Quick setup: Copy [Senior Developer](senior-developer.instructions.md) to your Copilot settings
 - 📖 Learn more: [About Prompt Engineering](../concepts/about-prompt-engineering.md)
 - 💬 Share feedback: [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)

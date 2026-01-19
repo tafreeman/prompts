@@ -5,21 +5,29 @@ intro: Designs enterprise data architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - enterprise
 - data-architecture
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -45,31 +53,31 @@ flowchart LR
         SaaS[SaaS APIs]
         DB[(Databases)]
     end
-    
+
     subgraph Ingestion[Ingestion Layer]
         Batch[Batch ETL]
         Stream[Stream Processing]
         CDC[CDC Connectors]
     end
-    
+
     subgraph Storage[Storage Layer]
         Bronze[Bronze/Raw]
         Silver[Silver/Cleansed]
         Gold[Gold/Curated]
     end
-    
+
     subgraph Processing[Processing Layer]
         Transform[Transformation]
         Quality[Data Quality]
         Catalog[Data Catalog]
     end
-    
+
     subgraph Consumption[Consumption Layer]
         BI[BI Dashboards]
         ML[ML Platform]
         API[Data APIs]
     end
-    
+
     Apps --> Batch
     IoT --> Stream
     SaaS --> CDC
@@ -94,7 +102,7 @@ flowchart LR
 ### Architecture Pattern Selection
 
 | Pattern | When to Use | Trade-offs |
-|---------|-------------|------------|
+| --------- | ------------- | ------------ |
 | **Data Warehouse** | Structured data, known queries, BI focus | Schema rigidity, cost at scale |
 | **Data Lake** | Raw data storage, data science, schema-on-read | Query complexity, governance challenges |
 | **Lakehouse** | Best of both, unified analytics | Platform maturity, complexity |
@@ -104,7 +112,7 @@ flowchart LR
 ### When to Use This Pattern
 
 | Criteria | Indicators |
-|----------|------------|
+| ---------- | ------------ |
 | **Data Volume** | Terabytes to petabytes of data |
 | **Multiple Sources** | 10+ data sources requiring integration |
 | **Analytics Needs** | BI reporting, ML/AI, or advanced analytics |
@@ -136,12 +144,14 @@ Analytics Needs: [analytics]
 Governance Requirements: [governance]
 
 Provide:
+
 1. Data model design
 2. Storage strategy
 3. Data pipeline architecture
 4. Governance framework
 5. Quality management
 6. Analytics platform
+
 ```text
 
 **Output:**
@@ -150,15 +160,18 @@ Provide:
 ## Data Architecture Design
 
 ### 1. Data Model Design (Lakehouse)
+
 *   **Bronze Layer (Raw):** Immutable landing zone for all source data (Parquet format).
 *   **Silver Layer (Cleansed):** Conformed dimensions, PII tokenized, data quality checks applied.
 *   **Gold Layer (Curated):** Aggregated "Customer 360" tables optimized for BI.
 
 ### 2. Storage Strategy
+
 *   **Data Lake:** S3 (Standard for hot, Glacier Deep Archive for >3 years).
 *   **Warehouse:** Snowflake (Separation of storage and compute).
 
 ### 3. Data Pipeline Architecture
+
 *   **Ingestion:** Kafka Connect for real-time streams (Clickstream), Airbyte for batch (CRM/ERP).
 *   **Transformation:** dbt (Data Build Tool) for SQL-based transformations in Snowflake.
 *   **Orchestration:** Airflow for dependency management.
@@ -180,6 +193,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Storage**: Azure Data Lake Storage Gen2, Azure Blob Storage
 - **Processing**: Azure Synapse Analytics, Azure Databricks, Data Factory
 - **Streaming**: Event Hubs, Stream Analytics
@@ -187,6 +201,7 @@ Provide:
 - **BI**: Power BI with DirectQuery and Import modes
 
 ### AWS
+
 - **Storage**: S3 with Intelligent Tiering, Lake Formation
 - **Processing**: Redshift, EMR, Glue, Athena
 - **Streaming**: Kinesis Data Streams, Kinesis Data Firehose
@@ -194,6 +209,7 @@ Provide:
 - **BI**: QuickSight with SPICE engine
 
 ### GCP
+
 - **Storage**: Cloud Storage, BigLake
 - **Processing**: BigQuery, Dataflow, Dataproc
 - **Streaming**: Pub/Sub, Dataflow (unified batch/stream)
@@ -208,6 +224,7 @@ Provide:
 A retail company with 500 stores needs to build a Customer 360 platform integrating POS transactions, e-commerce, loyalty program, and marketing data.
 
 ### Input
+
 ```text
 Business Requirements: Customer 360 view, real-time personalization, churn prediction
 Data Sources: POS systems (500 stores), e-commerce, CRM, loyalty app, marketing tools

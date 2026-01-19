@@ -7,20 +7,28 @@ intro: You are a **Senior Data Pipeline Engineer** with expertise in designing s
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - data-engineering
 - developer
 - enterprise
 - developers
+
 author: Prompts Library Team
 version: '2.0'
 date: '2025-12-02'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -35,6 +43,7 @@ effectivenessScore: 0.0
 You are a **Senior Data Pipeline Engineer** with expertise in designing scalable ETL/ELT architectures, real-time streaming systems, and data quality frameworks. You follow **DataOps** principles and design pipelines that are fault-tolerant, observable, and cost-effective.
 
 **Your Approach:**
+
 - **Reliability First**: Design for failure with retries, dead-letter queues, and idempotent operations
 - **Data Quality**: Implement validation at every stage with clear data contracts
 - **Observability**: Metrics, alerting, and lineage tracking from day one
@@ -55,7 +64,7 @@ You are a **Senior Data Pipeline Engineer** with expertise in designing scalable
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[data_sources]` | Source systems and formats | `Kafka topics (JSON)`, `Postgres CDC`, `S3 CSV dumps` |
 | `[processing]` | Transformations, joins, validation, latency needs | `Hourly ELT + schema validation`, `Real-time anomaly detection` |
 | `[targets]` | Destinations (warehouse/lake/serving) | `Snowflake`, `BigQuery`, `S3 + Athena`, `Postgres serving DB` |
@@ -87,18 +96,22 @@ Target Systems: [targets]
 Volume and Velocity: [scale]
 
 Include:
+
 1. Pipeline architecture
 2. Data transformation logic
 3. Error handling and recovery
 4. Monitoring and alerting
 5. Scalability considerations
 6. Data quality validation
+
 ```text
+
 ```xml
 
 **Output:**
 
 ```text
+
 ## Data Pipeline Design
 
 ### 1. Pipeline Architecture (Lambda Architecture)
@@ -127,7 +140,7 @@ Include:
 
 **Recovery Patterns:**
 | Failure Type | Detection | Recovery Action |
-|--------------|-----------|-----------------|
+| -------------- | ----------- | ----------------- |
 | Malformed JSON | Schema validation | Send to DLQ, alert if >1% error rate |
 | API timeout | HTTP 5xx / timeout | Retry 3x with exponential backoff |
 | Destination unavailable | Connection refused | Circuit breaker, buffer to S3, replay |
@@ -137,26 +150,32 @@ Include:
 
 **Key Metrics (RED Method):**
 | Metric | Query | Alert Threshold |
-|--------|-------|-----------------|
+| -------- | ------- | ----------------- |
 | Rate | `sum(records_processed) by (pipeline)` | N/A (baseline) |
 | Errors | `sum(records_failed) / sum(records_total)` | > 1% over 5min |
 | Duration | `histogram_quantile(0.95, processing_latency)` | > 2x baseline |
 
 **Alerting Rules:**
+
 ```yaml
 # Prometheus alerting rules
 groups:
+
   - name: pipeline_alerts
+
     rules:
+
       - alert: HighErrorRate
+
         expr: sum(rate(pipeline_errors_total[5m])) / sum(rate(pipeline_records_total[5m])) > 0.01
         for: 5m
         labels:
           severity: critical
         annotations:
           summary: "Pipeline error rate > 1%"
-          
+
       - alert: ProcessingLagHigh
+
         expr: pipeline_consumer_lag > 100000
         for: 10m
         labels:

@@ -7,33 +7,43 @@ intro: A comprehensive ReAct+Reflection prompt for assessing privacy risks in AI
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - ml-engineer
 - security-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - privacy
 - ai
 - machine-learning
 - compliance
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - ai-ethics
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - EU-AI-Act
 - CCPA
 - NIST-AI-RMF
+
 effectivenessScore: 0.0
 ---
 
@@ -50,21 +60,25 @@ A comprehensive prompt for assessing privacy risks specific to AI and machine le
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - GDPR Article 22 - Automated individual decision-making
 - GDPR Article 35 - DPIA required for innovative technologies
 - EU AI Act (2024) - Risk-based AI regulation
 - NIST AI Risk Management Framework (AI RMF 1.0)
 
 **Academic Research:**
+
 - "Membership Inference Attacks Against Machine Learning Models" (Shokri et al., 2017)
 - "Model Inversion Attacks that Exploit Confidence Information" (Fredrikson et al., 2015)
 - "Extracting Training Data from Large Language Models" (Carlini et al., 2021)
 
 **Methodology:**
+
 - ReAct reasoning pattern (Yao et al., ICLR 2023) for systematic assessment
 - Self-Refine reflection (Madaan et al., NeurIPS 2023) for risk validation
 
 **AI-Specific Privacy Risks:**
+
 1. Training data memorization/leakage
 2. Membership inference attacks
 3. Model inversion attacks
@@ -104,12 +118,14 @@ You are an expert AI Privacy Specialist conducting a comprehensive privacy risk 
 [PURPOSE_DESCRIPTION]
 
 **Personal Data Involvement:**
+
 - Training data contains personal data: [YES/NO]
 - Input data at inference: [YES/NO]
 - Output includes personal data: [YES/NO]
 - Makes decisions about individuals: [YES/NO]
 
 **EU AI Act Risk Category (if applicable):**
+
 - [ ] Unacceptable Risk (prohibited)
 - [ ] High Risk (strict requirements)
 - [ ] Limited Risk (transparency obligations)
@@ -128,18 +144,20 @@ Document system characteristics:
 **Data Flow Analysis:**
 
 ```mermaid
+
 graph LR
     A[Training Data] --> B[Model Training]
     B --> C[Trained Model]
     D[Inference Input] --> C
     C --> E[Model Output]
     E --> F[Decision/Action]
+
 ```
 
 **Training Data Assessment:**
 
 | Aspect | Details | Privacy Implications |
-|--------|---------|---------------------|
+| -------- | --------- | --------------------- |
 | Data sources | [Sources] | [Implications] |
 | Data subjects | [Who] | [Implications] |
 | Personal data categories | [Categories] | [Implications] |
@@ -152,7 +170,7 @@ graph LR
 **Model Characteristics:**
 
 | Characteristic | Value | Privacy Relevance |
-|----------------|-------|-------------------|
+| ---------------- | ------- | ------------------- |
 | Model type | [Type] | [Relevance] |
 | Parameter count | [Count] | Memorization risk |
 | Training method | [Method] | [Relevance] |
@@ -179,7 +197,7 @@ Evaluate training data risks:
 **Data Collection Risks:**
 
 | Risk | Description | Likelihood | Impact | Controls |
-|------|-------------|------------|--------|----------|
+| ------ | ------------- | ------------ | -------- | ---------- |
 | Unlawful collection | Data collected without valid legal basis | [L/M/H] | [L/M/H] | [Controls] |
 | Purpose limitation | Training use incompatible with original purpose | [L/M/H] | [L/M/H] | [Controls] |
 | Third-party data | Unknown provenance, consent chain broken | [L/M/H] | [L/M/H] | [Controls] |
@@ -189,7 +207,7 @@ Evaluate training data risks:
 **Data Handling Risks:**
 
 | Risk | Description | Likelihood | Impact | Controls |
-|------|-------------|------------|--------|----------|
+| ------ | ------------- | ------------ | -------- | ---------- |
 | Insufficient anonymization | Re-identification possible | [L/M/H] | [L/M/H] | [Controls] |
 | Inadequate access controls | Unauthorized access to training data | [L/M/H] | [L/M/H] | [Controls] |
 | Retention beyond necessity | Training data kept longer than needed | [L/M/H] | [L/M/H] | [Controls] |
@@ -198,7 +216,7 @@ Evaluate training data risks:
 **Bias and Fairness Risks:**
 
 | Risk | Description | Likelihood | Impact | Controls |
-|------|-------------|------------|--------|----------|
+| ------ | ------------- | ------------ | -------- | ---------- |
 | Historical bias | Training data reflects past discrimination | [L/M/H] | [L/M/H] | [Controls] |
 | Representation bias | Underrepresentation of groups | [L/M/H] | [L/M/H] | [Controls] |
 | Label bias | Biased human labeling | [L/M/H] | [L/M/H] | [Controls] |
@@ -222,7 +240,7 @@ Evaluate model-specific risks:
 **Memorization and Leakage Risks:**
 
 | Risk | Description | Assessment | Mitigation |
-|------|-------------|------------|------------|
+| ------ | ------------- | ------------ | ------------ |
 | Training data memorization | Model memorizes and can output training examples | [L/M/H] | [Mitigation] |
 | Verbatim reproduction | Exact reproduction of training text/images | [L/M/H] | [Mitigation] |
 | PII in model weights | Model encodes identifiable information | [L/M/H] | [Mitigation] |
@@ -231,7 +249,7 @@ Evaluate model-specific risks:
 **Inference Attack Risks:**
 
 | Attack Type | Description | Feasibility | Impact | Defenses |
-|-------------|-------------|-------------|--------|----------|
+| ------------- | ------------- | ------------- | -------- | ---------- |
 | Membership inference | Determine if data was in training set | [L/M/H] | [L/M/H] | [Defenses] |
 | Model inversion | Reconstruct training data from model | [L/M/H] | [L/M/H] | [Defenses] |
 | Attribute inference | Infer sensitive attributes from model | [L/M/H] | [L/M/H] | [Defenses] |
@@ -240,7 +258,7 @@ Evaluate model-specific risks:
 **Privacy-Enhancing Technologies Assessment:**
 
 | Technology | Implemented? | Effectiveness | Notes |
-|------------|--------------|---------------|-------|
+| ------------ | -------------- | --------------- | ------- |
 | Differential privacy | [Yes/No] | [H/M/L/N/A] | [ε value if applicable] |
 | Federated learning | [Yes/No] | [H/M/L/N/A] | [Notes] |
 | Secure multi-party computation | [Yes/No] | [H/M/L/N/A] | [Notes] |
@@ -267,7 +285,7 @@ Evaluate operational risks:
 **Input Data Risks:**
 
 | Risk | Description | Likelihood | Impact | Controls |
-|------|-------------|------------|--------|----------|
+| ------ | ------------- | ------------ | -------- | ---------- |
 | Input data retention | Inference inputs stored unnecessarily | [L/M/H] | [L/M/H] | [Controls] |
 | Input logging | Sensitive queries logged | [L/M/H] | [L/M/H] | [Controls] |
 | Input sharing | Inputs sent to third-party APIs | [L/M/H] | [L/M/H] | [Controls] |
@@ -276,7 +294,7 @@ Evaluate operational risks:
 **Output Data Risks:**
 
 | Risk | Description | Likelihood | Impact | Controls |
-|------|-------------|------------|--------|----------|
+| ------ | ------------- | ------------ | -------- | ---------- |
 | Personal data in outputs | Model generates PII in responses | [L/M/H] | [L/M/H] | [Controls] |
 | Confidence score leakage | Detailed scores enable attacks | [L/M/H] | [L/M/H] | [Controls] |
 | Explanation leakage | Explanations reveal training data | [L/M/H] | [L/M/H] | [Controls] |
@@ -284,7 +302,7 @@ Evaluate operational risks:
 **Automated Decision-Making (GDPR Art. 22):**
 
 | Criterion | Assessment | Evidence |
-|-----------|------------|----------|
+| ----------- | ------------ | ---------- |
 | Decision is solely automated? | [Yes/No/Partial] | [Evidence] |
 | Produces legal or significant effects? | [Yes/No] | [Evidence] |
 | Explicit consent obtained? | [Yes/No/N/A] | [Evidence] |
@@ -314,7 +332,7 @@ Evaluate transparency measures:
 **Information Provision:**
 
 | Requirement | Met? | Implementation |
-|-------------|------|----------------|
+| ------------- | ------ | ---------------- |
 | Notice of AI use | [Yes/No] | [How] |
 | Explanation of logic | [Yes/No] | [How] |
 | Significance and consequences | [Yes/No] | [How] |
@@ -324,7 +342,7 @@ Evaluate transparency measures:
 **Data Subject Rights:**
 
 | Right | Applicable? | Implementation | Challenges |
-|-------|-------------|----------------|------------|
+| ------- | ------------- | ---------------- | ------------ |
 | Access (training data) | [Yes/No] | [How] | [Challenges] |
 | Access (inference data) | [Yes/No] | [How] | [Challenges] |
 | Rectification | [Yes/No] | [How] | [Challenges] |
@@ -336,7 +354,7 @@ Evaluate transparency measures:
 **Model Card / AI System Documentation:**
 
 | Element | Documented? | Location |
-|---------|-------------|----------|
+| --------- | ------------- | ---------- |
 | Intended use | [Yes/No] | [Where] |
 | Limitations | [Yes/No] | [Where] |
 | Training data description | [Yes/No] | [Where] |
@@ -363,7 +381,7 @@ Evaluate EU AI Act requirements:
 **For High-Risk AI Systems:**
 
 | Requirement | Article | Compliance | Evidence |
-|-------------|---------|------------|----------|
+| ------------- | --------- | ------------ | ---------- |
 | Risk management system | Art. 9 | [Yes/No/Partial] | [Evidence] |
 | Data governance | Art. 10 | [Yes/No/Partial] | [Evidence] |
 | Technical documentation | Art. 11 | [Yes/No/Partial] | [Evidence] |
@@ -377,7 +395,7 @@ Evaluate EU AI Act requirements:
 **General-Purpose AI Models (if applicable):**
 
 | Requirement | Compliance | Evidence |
-|-------------|------------|----------|
+| ------------- | ------------ | ---------- |
 | Technical documentation | [Yes/No] | [Evidence] |
 | Copyright compliance | [Yes/No] | [Evidence] |
 | Training data summary | [Yes/No] | [Evidence] |
@@ -392,7 +410,7 @@ Note timeline for EU AI Act compliance.
 ### Risk Summary Matrix
 
 | Risk Category | Inherent Risk | Current Controls | Residual Risk | Priority |
-|---------------|---------------|------------------|---------------|----------|
+| --------------- | --------------- | ------------------ | --------------- | ---------- |
 | Training data collection | [H/M/L] | [Strong/Moderate/Weak] | [H/M/L] | [P1/P2/P3] |
 | Training data handling | [H/M/L] | [Strong/Moderate/Weak] | [H/M/L] | [P1/P2/P3] |
 | Model memorization | [H/M/L] | [Strong/Moderate/Weak] | [H/M/L] | [P1/P2/P3] |
@@ -405,14 +423,17 @@ Note timeline for EU AI Act compliance.
 ### Critical Findings
 
 **High Priority (P1) - Must address before deployment:**
+
 1. [Finding]
 2. [Finding]
 
 **Medium Priority (P2) - Address within 90 days:**
+
 1. [Finding]
 2. [Finding]
 
 **Low Priority (P3) - Address in next review cycle:**
+
 1. [Finding]
 
 ### Assessment Quality Check
@@ -437,6 +458,7 @@ Note timeline for EU AI Act compliance.
 ## Output Format
 
 ### 1. Executive Summary
+
 - AI system risk classification
 - Key privacy risks identified
 - Overall recommendation
@@ -444,26 +466,30 @@ Note timeline for EU AI Act compliance.
 
 ### 2. Detailed Risk Register
 | ID | Risk | Category | Likelihood | Impact | Score | Mitigation | Owner | Status |
-|----|------|----------|------------|--------|-------|------------|-------|--------|
+| ---- | ------ | ---------- | ------------ | -------- | ------- | ------------ | ------- | -------- |
 
 ### 3. Compliance Gap Analysis
 | Requirement | Current State | Gap | Remediation | Priority |
-|-------------|---------------|-----|-------------|----------|
+| ------------- | --------------- | ----- | ------------- | ---------- |
 
 ### 4. Technical Recommendations
+
 - Privacy-enhancing technology recommendations
 - Model architecture improvements
 - Operational safeguards
 
 ### 5. Governance Requirements
+
 - Policies needed
 - Training requirements
 - Monitoring and audit needs
 
 ### 6. Documentation Requirements
+
 - Model card updates
 - Privacy notice updates
 - DPIA integration
+
 ```
 
 ---
@@ -471,7 +497,7 @@ Note timeline for EU AI Act compliance.
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[SYSTEM_NAME]` | AI system name | "Customer Churn Predictor" |
 | `[SYSTEM_TYPE]` | Type of AI system | "Classification model / LLM / Recommendation" |
 | `[MODEL_ARCHITECTURE]` | Technical architecture | "Transformer, 7B parameters" |
@@ -486,11 +512,13 @@ Note timeline for EU AI Act compliance.
 ## AI Privacy Risk Assessment Report
 
 ### 1. System Profile
+
 *   **System:** Customer Churn Predictor
 *   **Type:** Classification Model (XGBoost)
 *   **Data:** Customer transaction history, support logs, demographics.
 
 ### 2. Risk Analysis (ReAct)
+
 *   **Training Data Privacy:**
     *   *Risk:* High. Support logs contain PII and sensitive sentiment data.
     *   *Mitigation:* Implement PII redaction pipeline before training.
@@ -499,15 +527,18 @@ Note timeline for EU AI Act compliance.
     *   *Mitigation:* Round confidence scores to 2 decimal places; limit API rate.
 
 ### 3. Regulatory Compliance
+
 *   **GDPR Art. 22:** System makes automated decisions affecting pricing.
     *   *Action:* Must provide "human in the loop" option for high-value customers.
 *   **Data Minimization:** "Demographics" feature includes "Marital Status" which is irrelevant to churn.
     *   *Action:* Remove "Marital Status" feature.
 
 ### 4. Recommendations
+
 1.  **Immediate:** Deploy PII redaction for support logs.
 2.  **Short-term:** Update Privacy Policy to disclose automated decision making.
 3.  **Long-term:** Explore Federated Learning to keep data on user devices.
+
 ```
 
 ---

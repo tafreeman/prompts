@@ -5,18 +5,26 @@ intro: Compact version of the tools ecosystem evaluator for local models with li
 type: reference
 difficulty: advanced
 audience:
+
   - senior-engineer
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 author: Prompts Library Team
 version: "1.0"
 date: "2026-01-12"
 techniques:
+
   - structured-output
+
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -111,6 +119,7 @@ Respond with JSON only.
 ## Usage
 
 This lite version is designed for:
+
 - Local models (phi4, mistral, etc.) with 4K-8K context
 - Quick evaluations where full analysis isn't needed
 - CI pipelines where speed matters

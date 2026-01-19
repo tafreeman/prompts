@@ -6,27 +6,37 @@ intro: A prompt to analyze new regulations or updates and assess their impact on
 type: how_to
 difficulty: advanced
 audience:
+
 - legal-counsel
 - compliance-officer
 - policy-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - legal
 - compliance
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - legal-advice-disclaimer
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - Global
+
 effectivenessScore: 0.0
 ---
 
@@ -62,16 +72,19 @@ You are a Legal Compliance Analyst. Analyze the provided regulatory text or summ
 [ORG_CONTEXT] (e.g., "Global SaaS company with customers in EU and US, processing HR data")
 
 ## Instructions
+
 1.  Summarize the key requirements of the regulation.
 2.  Identify the specific impacts on the organization based on the context.
 3.  Highlight critical deadlines and penalties.
 4.  Suggest immediate next steps for compliance.
 
 ## Output Format
+
 - **Executive Summary**
 - **Key Requirements Checklist**
 - **Impact Assessment**
 - **Action Plan**
+
 ```
 
 ---
@@ -92,6 +105,7 @@ You are a Legal Compliance Analyst. Analyze the provided regulatory text or summ
 The EU AI Act introduces strict obligations for "High-Risk" AI systems. Given your company provides "AI-based recruitment software," your product likely falls under the High-Risk classification (Annex III), requiring immediate attention to conformity assessments.
 
 ### Key Requirements Checklist
+
 *   [ ] Risk Management System (Art. 9)
 *   [ ] Data Governance & Training Data Quality (Art. 10)
 *   [ ] Technical Documentation (Art. 11)
@@ -99,14 +113,17 @@ The EU AI Act introduces strict obligations for "High-Risk" AI systems. Given yo
 *   [ ] Registration in EU Database (Art. 51)
 
 ### Impact Assessment
+
 *   **Product:** Need to implement logging and transparency features to explain ranking decisions to candidates.
 *   **Data:** Must audit training data for gender/racial bias to meet Art. 10.
 *   **Legal:** Need to appoint an Authorized Representative in the EU.
 
 ### Action Plan
+
 1.  **Q1:** Conduct a gap analysis against Annex III requirements.
 2.  **Q2:** Update technical documentation to include detailed model cards.
 3.  **Q3:** Establish a "Human Oversight" workflow for the recruitment tool.
+
 ```
 
 ---

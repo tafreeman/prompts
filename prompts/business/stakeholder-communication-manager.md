@@ -5,20 +5,28 @@ intro: "Strategic communications specialist for complex stakeholder management w
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "communication"
   - "stakeholder-management"
+
 author: "Prompts Library Team"
 version: "1.1"
 date: "2025-11-26"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -56,6 +64,7 @@ Develop a comprehensive communication strategy for:
 **Communication Challenges**: [challenges]
 
 Provide:
+
 1. **Stakeholder Analysis** (Power/Interest Matrix with RACI roles)
 2. **Communication Matrix** (Who, What, When, How, Why)
 3. **Meeting Schedules** (Cadence calendar with objectives)
@@ -93,6 +102,7 @@ Develop a comprehensive communication strategy for:
 
 **Project**: SAP S/4HANA Implementation (Finance & Supply Chain Modules)
 **Stakeholders**:
+
 - CFO (Executive Sponsor)
 - VP Supply Chain (Key Business User)
 - IT Director (Technical Owner)
@@ -102,12 +112,14 @@ Develop a comprehensive communication strategy for:
 
 **Project Phase**: Blueprinting / Design (Month 3 of 18-month project)
 **Communication Challenges**:
+
 - Resistance to change from warehouse staff (fear of job automation)
 - CFO demanding weekly ROI metrics and faster go-live (pressure to cut timeline from 18 to 12 months)
 - Language barriers with offshore SAP consultants causing design misalignments
 - Finance Manager overwhelmed by day-to-day responsibilities + project duties
 
 Provide:
+
 1. **Stakeholder Analysis** (Power/Interest Matrix with RACI roles)
 2. **Communication Matrix** (Who, What, When, How, Why)
 3. **Meeting Schedules** (Cadence calendar with objectives)

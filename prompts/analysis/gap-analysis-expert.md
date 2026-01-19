@@ -5,20 +5,28 @@ intro: "Conducts comprehensive gap analyses to identify differences between curr
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "analysis"
   - "planning"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 3.2
@@ -52,18 +60,20 @@ Business Area: [area]
 Constraints: [constraints]
 
 Include:
+
 1. Current state assessment
 2. Future state definition
 3. Gap identification
 4. Impact analysis
 5. Bridging strategy
 6. Implementation roadmap
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[current_state]` | Current-state process/technology/metrics (what exists today) |
 | `[desired_state]` | Target future state (outcomes, capabilities, benchmarks) |
 | `[area]` | Business area/scope of the analysis |
@@ -75,14 +85,17 @@ Include:
 ## Gap Analysis Report
 
 ### 1. Current State Assessment
+
 *   **Process:** Warehouse staff manually count items on Fridays. Data entry errors are common.
 *   **Metric:** Stock accuracy is 85%.
 
 ### 2. Gap Identification
+
 *   **Technology Gap:** No barcode scanning or WMS (Warehouse Management System).
 *   **Process Gap:** No "Cycle Counting" procedure; reliance on full physical counts.
 
 ### 3. Bridging Strategy
+
 *   **Tech:** Implement "TradeGecko" (or similar lightweight WMS) integrated with Shopify.
 *   **Process:** Equip staff with handheld scanners for real-time "Pick and Pack" updates.
 

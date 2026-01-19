@@ -5,17 +5,23 @@ intro: A prompt for prompt improvement template & workflow tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -28,7 +34,7 @@ This template provides a systematic approach to upgrading low-quality prompts id
 ## Quick Reference: Common Issues & Fixes
 
 | Issue | Solution | Effort | Impact |
-|-------|----------|--------|--------|
+| ------- | ---------- | -------- | -------- |
 | **<30 words** | Expand with context, constraints, output format | Low | +10-15 points |
 | **Missing metadata** | Add complete YAML frontmatter | Low | +5 points |
 | **No examples** | Create 1-2 realistic examples | Medium | +8-10 points |
@@ -60,25 +66,32 @@ If flagged as **<30 words**:
 ## Prompt
 
 ```text
+
 Analyze this data: [data]
 Provide insights and recommendations.
+
 ```text
 ```text
+
 **After:**
+
 ```text
 ## Prompt
 
 ```text
+
 You are a senior data analyst specializing in extracting actionable business insights.
 
 **Dataset:** [data_description]
 
 **Analysis Goals:**
+
 1. [primary_goal]
 2. [secondary_goal]
 3. [tertiary_goal]
 
 **Context:**
+
 - Business domain: [domain]
 - Decision to inform: [decision]
 - Constraints: [constraints]
@@ -86,17 +99,22 @@ You are a senior data analyst specializing in extracting actionable business ins
 Provide your analysis in the following format:
 
 **Key Findings:**
+
 - [Finding 1 with supporting data]
 - [Finding 2 with supporting data]
 
 **Recommendations:**
+
 1. [Actionable recommendation with expected impact]
 2. [Actionable recommendation with expected impact]
 
 **Next Steps:**
+
 - [Immediate actions]
+
 ```text
 ```text
+
 If **missing YAML frontmatter**:
 
 ```yaml
@@ -112,6 +130,7 @@ platform: "Claude Sonnet 4.5"
 governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 ---
 ```text
+
 ### Step 3: Address High Priority Issues (P1)
 
 **Goal:** Tier 3 (55-69 points) → Tier 2 (70-84 points)
@@ -126,6 +145,7 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 **Input:**
 
 ```text
+
 [Show the prompt with placeholders filled in with realistic values]
 
 [data_description]: E-commerce sales data for Q4 2024
@@ -136,37 +156,47 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 [domain]: Online retail
 [decision]: Q1 2025 marketing budget allocation
 [constraints]: Must complete analysis within 24 hours, focus on actionable insights
+
 ```text
 **Output:**
 
 ```text
+
 [Show expected AI response formatted as specified]
 
 **Key Findings:**
+
 - Electronics category grew 45% YoY, driven by smart home devices
 - Mobile traffic converted 12% better than desktop in Q4
 - Cart abandonment rate spiked to 78% during week of 12/15 (holiday shipping deadline)
 
 **Recommendations:**
+
 1. **Increase smart home device inventory by 30%** (expected $150K revenue increase based on sell-through rate)
 2. **Optimize mobile checkout flow** (estimated 8% conversion lift = $45K/month)
 3. **Extend shipping deadline campaign to 12/20** (reduce abandonment by 15% = $22K recovery)
 
 **Next Steps:**
+
 - Meet with supply chain team to confirm smart home inventory capacity (by 12/1)
 - A/B test mobile checkout improvements (launch 12/15)
 - Update homepage shipping deadline messaging (deploy 12/10)
+
 ```text
 ```text
+
 **Improve Variable Documentation:**
 
 **Before:**
+
 ```markdown
 ## Variables
 
 - `[data]`: Data
 - `[goal]`: Goal
+
 ```text
+
 **After:**
 
 ```markdown
@@ -179,7 +209,9 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 - `[domain]`: Business context (e.g., "Online retail", "SaaS analytics", "Healthcare reporting")
 - `[decision]`: What this analysis will inform (e.g., "Q1 marketing budget allocation")
 - `[constraints]`: Limitations or requirements (e.g., "Analysis must complete in 24 hours", "Focus on top 10 products only")
+
 ```text
+
 **Add Actionable Tips:**
 
 **Template:**
@@ -192,7 +224,9 @@ governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
 - **For stakeholder presentations:** Request visualization recommendations alongside insights
 - **To improve accuracy:** Provide industry benchmarks in the context (e.g., "Industry avg conversion rate: 2.3%")
 - **For recurring reports:** Save successful outputs as templates for future use
+
 ```text
+
 ### Step 4: Medium Priority Enhancements (P2)
 
 **Goal:** Tier 2 (70-84 points) → Tier 1 (85-100 points)
@@ -205,6 +239,7 @@ When appropriate (complex analysis, multi-step problem-solving), add Chain-of-Th
 ## Prompt
 
 ```text
+
 [Existing prompt intro...]
 
 **Reasoning Process:**
@@ -212,23 +247,28 @@ When appropriate (complex analysis, multi-step problem-solving), add Chain-of-Th
 Before providing your final analysis, think through:
 
 **Step 1: Data Understanding**
+
 - What patterns do I see in the raw numbers?
 - Are there any anomalies or outliers?
 - What's the data quality level?
 
 **Step 2: Insight Generation**
+
 - What do these patterns mean for the business?
 - What are potential root causes?
 - What assumptions am I making?
 
 **Step 3: Validation**
+
 - Do my insights align with the stated goals?
 - Are my recommendations actionable and measurable?
 - Have I considered alternative explanations?
 
 Then provide your structured output.
+
 ```text
 ```text
+
 **Add Structured Output Schema:**
 
 For automation-friendly prompts:
@@ -239,6 +279,7 @@ For automation-friendly prompts:
 If you need machine-readable output, request this format:
 
 ```json
+
 {
   "executive_summary": "Brief 2-3 sentence overview",
   "key_findings": [
@@ -260,8 +301,10 @@ If you need machine-readable output, request this format:
   "confidence": 0.85,
   "assumptions": ["Assumption 1", "Assumption 2"]
 }
+
 ```text
 ```text
+
 **Add Research Citations:**
 
 ```markdown
@@ -274,9 +317,12 @@ This prompt is based on:
 - **Best Practice**: Authority and reference
 
 Example:
+
 - **The Prompt Report (arXiv:2406.06608)**: Comprehensive taxonomy of effective prompting techniques
 - **OpenAI Best Practices**: Structured outputs and clear instruction guidelines
+
 ```text
+
 ### Step 5: Validate Improvements
 
 After making changes, re-run the [Prompt Quality Evaluator](../prompts/system/prompt-quality-evaluator.md):
@@ -303,6 +349,7 @@ category: "business"
 
 Create a budget for [project].
 ```text
+
 **After (Score: 75/100 - Tier 2)**
 
 ```markdown
@@ -333,20 +380,24 @@ Generate comprehensive project budgets with line-item breakdowns, risk contingen
 ## Prompt
 
 ```text
+
 You are a senior project financial analyst creating a detailed project budget.
 
 **Project Details:**
+
 - Project Name: [project_name]
 - Duration: [duration]
 - Team Size: [team_size]
 - Deliverables: [deliverables]
 
 **Budget Constraints:**
+
 - Total Budget Cap: [budget_cap]
 - Must Include: [required_categories]
 - Contingency Percentage: [contingency_pct]
 
 **Context:**
+
 - Organization: [organization_type]
 - Approval Authority: [approver]
 - Reporting Period: [period]
@@ -375,6 +426,7 @@ Create a detailed budget including:
    - Payment milestones
 
 Output as a Markdown table for easy import into Excel/Google Sheets.
+
 ```powershell
 ## Variables
 
@@ -394,6 +446,7 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 **Input:**
 
 ```text
+
 [project_name]: Customer Portal Redesign
 [duration]: 6 months (Jan-Jun 2025)
 [team_size]: 7 FTE (3 frontend devs, 1 backend dev, 1 UX designer, 1 PM, 1 QA)
@@ -404,25 +457,30 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 [organization_type]: B2B SaaS company
 [approver]: VP Engineering & CFO
 [period]: H1 2025
+
 ```text
 **Output:**
 
 ```text
+
 ## Executive Summary
 
 **Total Project Budget:** $340,000 (within $350K cap)
+
 - Personnel: 68% ($231,200)
 - Software/Tools: 12% ($40,800)
 - External Services: 8% ($27,200)
 - Contingency/Risk: 12% ($40,800)
 
 **Key Assumptions:**
+
 - Developers: $85/hr blended rate
 - 6-month duration with ramp-up in month 1
 - Cloud hosting costs included in software budget
 - No major scope changes requiring re-budgeting
 
 [... full detailed budget breakdown ...]
+
 ```sql
 ## Tips
 
@@ -453,7 +511,9 @@ Output as a Markdown table for easy import into Excel/Google Sheets.
 - Initial minimal version
 
 ```text
+
 **Improvement Summary:**
+
 - Added 7 missing sections (Variables, Example, Tips, etc.)
 - Expanded prompt from 12 words → 142 words
 - Added complete YAML metadata

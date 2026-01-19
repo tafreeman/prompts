@@ -6,22 +6,30 @@ m365App: "Copilot in Excel"
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "junior-engineer"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "m365-copilot"
+
 topics:
+
   - "excel"
   - "m365"
   - "analysis"
   - "data-analysis"
+
 author: "GitHub Copilot"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 description: "Translates plain English descriptions of data problems into complex Excel formulas, explaining the logic and syntax."

@@ -5,18 +5,24 @@ intro: "Reusable templates for creating high-quality prompts following best prac
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -42,7 +48,7 @@ templates/
 ## 🎯 When to Use Templates
 
 | Template | Best For | Time to Complete |
-|----------|----------|------------------|
+| ---------- | ---------- | ------------------ |
 | **[prompt-template-minimal.md](./prompt-template-minimal.md)** | Quick prompts, simple tasks | 5 min |
 | **[prompt-template.md](./prompt-template.md)** | Standard prompts, most use cases | 15 min |
 | **[advanced_research_prompt.md](./advanced_research_prompt.md)** | Complex analysis, research | 30 min |
@@ -52,6 +58,7 @@ templates/
 ## ✨ Template Features
 
 All templates include:
+
 - ✅ YAML frontmatter with metadata
 - ✅ Structured sections (Description, Prompt, Variables, Examples)
 - ✅ Clear formatting guidelines
@@ -64,18 +71,21 @@ All templates include:
 ### 1. Choose Your Template
 
 **For Simple Prompts:**
+
 ```bash
 # Copy minimal template
 cp templates/prompt-template-minimal.md prompts/your-category/your-prompt.md
 ```
 
 **For Standard Prompts:**
+
 ```bash
 # Copy standard template
 cp templates/prompt-template.md prompts/your-category/your-prompt.md
 ```
 
 **For Complex Analysis:**
+
 ```bash
 # Copy advanced template
 cp templates/advanced_research_prompt.md prompts/your-category/your-prompt.md
@@ -91,19 +101,27 @@ intro: "One-sentence description"
 type: "how_to"              # how_to, reference, tutorial
 difficulty: "beginner"       # beginner, intermediate, advanced
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "code-generation"
+
 author: "Your Name"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 ---
@@ -120,6 +138,7 @@ Follow the template structure and fill in each section.
 **File:** [prompt-template.md](./prompt-template.md)
 
 The most commonly used template. Includes:
+
 - Complete metadata schema
 - Description section
 - Prompt text area
@@ -128,11 +147,13 @@ The most commonly used template. Includes:
 - Tips section
 
 **Use When:**
+
 - Creating most prompts
 - Need structured format
 - Want comprehensive documentation
 
 **Example Structure:**
+
 ```markdown
 # Prompt Title
 
@@ -146,7 +167,7 @@ Your actual prompt text with [VARIABLES]
 
 ## Variables
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | [VAR]    | What to replace |
 
 ## Example
@@ -163,11 +184,13 @@ Best practices and suggestions
 Stripped-down version for quick prompts.
 
 **Use When:**
+
 - Need a prompt fast
 - Simple, straightforward use case
 - Prototyping or testing
 
 **Example Structure:**
+
 ```markdown
 # Quick Prompt Title
 
@@ -189,6 +212,7 @@ Quick example
 Comprehensive template for complex analytical tasks.
 
 **Includes:**
+
 - Multi-stage analysis sections
 - Research methodology
 - Source evaluation
@@ -196,6 +220,7 @@ Comprehensive template for complex analytical tasks.
 - Confidence scoring
 
 **Use When:**
+
 - Complex research tasks
 - Multi-step analysis required
 - Need thorough documentation
@@ -208,6 +233,7 @@ Comprehensive template for complex analytical tasks.
 Structured approach to refining existing prompts.
 
 **Sections:**
+
 - Original prompt analysis
 - Issues identified
 - Improvement strategy
@@ -215,6 +241,7 @@ Structured approach to refining existing prompts.
 - A/B testing results
 
 **Use When:**
+
 - Prompt not performing well
 - Need systematic improvement
 - Optimizing for specific platform
@@ -227,12 +254,14 @@ Structured approach to refining existing prompts.
 Get users productive immediately.
 
 **Includes:**
+
 - 5-minute quickstart
 - Minimal setup
 - Copy-paste ready examples
 - Common variations
 
 **Use When:**
+
 - Creating getting-started guides
 - Need rapid adoption
 - Simplicity is key
@@ -244,16 +273,20 @@ Get users productive immediately.
 #### 1. Be Specific
 
 ✅ **Do:**
+
 ```text
 Write a Python function that validates email addresses using regex.
 Include:
+
 - Type hints
 - Docstring with examples
 - Error handling for invalid formats
 - Unit tests using pytest
+
 ```
 
 ❌ **Don't:**
+
 ```text
 Write code to check emails
 ```
@@ -261,15 +294,19 @@ Write code to check emails
 #### 2. Provide Context
 
 ✅ **Do:**
+
 ```text
 You are a senior Python developer following PEP 8 style guide.
 Write production-ready code with:
+
 - Comprehensive error handling
 - Logging for debugging
 - Type hints for clarity
+
 ```
 
 ❌ **Don't:**
+
 ```text
 Write good code
 ```
@@ -277,6 +314,7 @@ Write good code
 #### 3. Use Examples
 
 ✅ **Do:**
+
 ```text
 Convert natural language to SQL. Examples:
 
@@ -290,6 +328,7 @@ Now convert: "Show users who joined in 2024"
 ```
 
 ❌ **Don't:**
+
 ```text
 Convert this to SQL: "Show users who joined in 2024"
 ```
@@ -297,6 +336,7 @@ Convert this to SQL: "Show users who joined in 2024"
 #### 4. Define Output Format
 
 ✅ **Do:**
+
 ```text
 Respond in JSON format:
 {
@@ -307,6 +347,7 @@ Respond in JSON format:
 ```
 
 ❌ **Don't:**
+
 ```text
 Give me JSON output
 ```
@@ -316,7 +357,7 @@ Give me JSON output
 #### Difficulty Levels
 
 | Level | Description | User Expertise |
-|-------|-------------|----------------|
+| ------- | ------------- | ---------------- |
 | **beginner** | Simple, single-step tasks | No prior experience needed |
 | **intermediate** | Multi-step, requires some knowledge | Some AI/domain experience |
 | **advanced** | Complex, specialized knowledge | Expert in domain/technique |
@@ -324,7 +365,7 @@ Give me JSON output
 #### Type Categories
 
 | Type | Description | Example |
-|------|-------------|---------|
+| ------ | ------------- | --------- |
 | **how_to** | Step-by-step guide | "How to debug code" |
 | **reference** | Quick lookup | "API reference" |
 | **tutorial** | Learning path | "Introduction to prompting" |
@@ -333,6 +374,7 @@ Give me JSON output
 #### Audience Tags
 
 Common audiences:
+
 - `junior-engineer` - Early career developers
 - `senior-engineer` - Experienced developers
 - `business-analyst` - Non-technical analysts
@@ -342,6 +384,7 @@ Common audiences:
 #### Platform Tags
 
 Common platforms:
+
 - `github-copilot` - GitHub Copilot
 - `claude` - Anthropic Claude
 - `chatgpt` - OpenAI ChatGPT
@@ -356,6 +399,7 @@ You can extend templates with additional sections:
 
 ```markdown
 ## Prerequisites
+
 - Required tools
 - Knowledge needed
 - Setup steps
@@ -364,13 +408,16 @@ You can extend templates with additional sections:
 Common issues and solutions
 
 ## Related Prompts
+
 - [Similar Prompt 1](../link1.md)
 - [Similar Prompt 2](../link2.md)
 
 ## Performance Notes
+
 - Expected token usage: ~500 tokens
 - Average response time: 3-5 seconds
 - Cost estimate: $0.01 per request
+
 ```
 
 ### Creating Domain-Specific Templates
@@ -378,6 +425,7 @@ Common issues and solutions
 For specialized domains, create derived templates:
 
 **Example: Code Review Template**
+
 ```markdown
 ---
 title: "Code Review: [Component Name]"
@@ -393,6 +441,7 @@ review_type: "security|performance|maintainability"
 \`\`\`
 
 ## Review Focus
+
 - [ ] Security vulnerabilities
 - [ ] Performance issues
 - [ ] Code maintainability
@@ -408,7 +457,7 @@ review_type: "security|performance|maintainability"
 ## 📊 Template Comparison
 
 | Template | Sections | Complexity | Setup Time | Best For |
-|----------|----------|------------|------------|----------|
+| ---------- | ---------- | ------------ | ------------ | ---------- |
 | Minimal | 3 | Low | 5 min | Quick tasks |
 | Standard | 7 | Medium | 15 min | Most prompts |
 | Advanced | 12+ | High | 30 min | Research/analysis |
@@ -448,17 +497,20 @@ python tools/generators/prompt_creator.py \
 ## 📖 Additional Resources
 
 ### Prompt Engineering Guides
+
 - [OpenAI Best Practices](https://platform.openai.com/docs/guides/prompt-engineering)
 - [Anthropic Prompt Engineering](https://docs.anthropic.com/claude/docs/prompt-engineering)
 - [Ultimate Prompting Guide](../../docs/ultimate-prompting-guide.md)
 
 ### Examples
 Browse existing prompts for inspiration:
+
 - [Developer Prompts](../developers/)
 - [Business Prompts](../business/)
 - [Advanced Techniques](../techniques/)
 
 ### Community
+
 - [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)
 - Share your templates
 - Get feedback on prompts
@@ -493,6 +545,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for full guidelines.
 ### 1. Start Simple
 
 Begin with minimal template, expand as needed:
+
 ```text
 Minimal → Standard → Advanced
 ```
@@ -500,6 +553,7 @@ Minimal → Standard → Advanced
 ### 2. Iterate Quickly
 
 Don't aim for perfection on first draft:
+
 1. Create basic version
 2. Test with AI
 3. Refine based on results
@@ -508,6 +562,7 @@ Don't aim for perfection on first draft:
 ### 3. Version Control
 
 Track improvements:
+
 ```yaml
 version: "1.0"  # Initial
 version: "1.1"  # Minor improvements
@@ -517,11 +572,14 @@ version: "2.0"  # Major rewrite
 ### 4. Document Learnings
 
 Add tips based on actual usage:
+
 ```markdown
 ## Tips
+
 - Works best with GPT-4 (tested 2025-11-30)
 - For Claude, add XML tags around code blocks
 - Set temperature to 0.7 for creative tasks
+
 ```
 
 ## 📝 Version History

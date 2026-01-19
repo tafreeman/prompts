@@ -7,23 +7,31 @@ category: system
 type: reference
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - evaluation
 - quality-assessment
 - meta-prompt
+
 author: Prompts Library Team
 version: 1.0.0
 date: '2025-11-25'
 last_updated: '2025-12-11'
 governance_tags:
+
 - PII-safe
 - general-use
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -61,6 +69,7 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 [PASTE_PROMPT_CONTENT_HERE]
 
 **Evaluation Context:**
+
 - Repository: [REPOSITORY_NAME]
 - Target Platforms: [PLATFORMS] (e.g., GitHub Copilot, M365 Copilot, Claude, GPT)
 - Intended Audience: [AUDIENCE] (e.g., developers, business users, enterprise)
@@ -74,23 +83,27 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 ### 1. Clarity & Specificity (0-20 points)
 
 **Objective Criteria:**
+
 - Clear goal statement (5 points)
 - Specific instructions without ambiguity (5 points)
 - Defined success criteria (5 points)
 - Explicit constraints and boundaries (5 points)
 
 **Evaluation Questions:**
+
 - Can a user understand what the prompt does in <30 seconds?
 - Are all placeholders/variables clearly defined?
 - Are there any ambiguous terms without definitions?
 - Is the expected output format specified?
 
 **Word Count Check:**
+
 - Flag if the main prompt instructions are <30 words (automatic -10 points penalty)
 
 ### 2. Structure & Completeness (0-20 points)
 
 **Required Sections (2 points each, max 16):**
+
 - [ ] Description/Goal
 - [ ] Context/Background
 - [ ] Use Cases (≥3 examples)
@@ -101,31 +114,37 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 - [ ] Related prompts or resources
 
 **Bonus (4 points):**
+
 - Research citations (+2)
 - Governance/compliance metadata (+2)
 
 **Metadata Check (YAML frontmatter):**
+
 - Title, category, tags, author, version, date, difficulty, platform
 
 ### 3. Usefulness & Reusability (0-20 points)
 
 **Use Case Coverage (10 points):**
+
 - Addresses common, high-value problem (5 points)
 - Multiple applicable scenarios (3 points)
 - Clear value proposition (2 points)
 
 **Reusability (10 points):**
+
 - Parameterized with placeholders (4 points)
 - Adaptable to variations (3 points)
 - Domain-agnostic where appropriate (3 points)
 
 **Pattern Recognition:**
+
 - Does it follow established patterns (RTF, TAG, CARE)?
 - Would it be useful across multiple contexts?
 
 ### 4. Technical Quality (0-20 points)
 
 **Prompt Engineering Best Practices (15 points):**
+
 - Uses appropriate reasoning style (CoT/ToT/ReAct/Direct) (5 points)
 - Provides context and background (3 points)
 - Specifies output format (JSON/Markdown/structured) (3 points)
@@ -133,6 +152,7 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 - Uses delimiters for sections (XML/code blocks/headers) (2 points)
 
 **Advanced Techniques Bonus (5 points, pick most applicable):**
+
 - Chain-of-Thought reasoning (+2)
 - Multi-branch exploration (ToT) (+2)
 - Tool-augmented reasoning (ReAct) (+1)
@@ -142,12 +162,14 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 ### 5. Ease of Use (0-20 points)
 
 **User Experience (15 points):**
+
 - Straightforward to customize (5 points)
 - Minimal prerequisites/setup (4 points)
 - Clear examples provided (3 points)
 - Helpful tips included (3 points)
 
 **Documentation Quality (5 points):**
+
 - Variables explained clearly (2 points)
 - Tips section is actionable (2 points)
 - Related prompts linked (1 point)
@@ -165,6 +187,7 @@ Provide your evaluation in this structure:
 **Total Score:** X/100
 
 **Quality Tier:**
+
 - Tier 1 (Exceptional): 85-100 points - Best-in-class, production-ready
 - Tier 2 (Strong): 70-84 points - High quality, minor improvements possible
 - Tier 3 (Good): 55-69 points - Solid foundation, some gaps to address
@@ -237,13 +260,17 @@ If applicable, provide before/after snippets showing how to fix the most critica
 
 **Before:**
 ```text
+
 [Current problematic section]
+
 ```
 
 **After:**
 
 ```text
+
 [Improved version]
+
 ```
 
 ---
@@ -251,27 +278,32 @@ If applicable, provide before/after snippets showing how to fix the most critica
 ### Phase 2: Self-Critique and Reflection
 
 ```text
+
 Now, critically evaluate your own Phase 1 evaluation using this reflection framework:
 
 **1. Accuracy Check:**
+
 - Did I apply the scoring criteria consistently?
 - Did I make any unsupported assumptions?
 - Are my scores calibrated correctly?
 - Did I double-check word count and metadata?
 
 **2. Completeness Check:**
+
 - Did I evaluate all 5 dimensions?
 - Did I identify all critical issues?
 - Are my recommendations specific and actionable?
 - Did I provide expected impact estimates?
 
 **3. Bias Check:**
+
 - Am I being too harsh or too lenient?
 - Did I favor certain prompt styles over others?
 - Are my priorities aligned with user needs (not just theoretical best practices)?
 - Did I consider the prompt's intended audience and platform?
 
 **4. Usefulness Check:**
+
 - Would my recommendations actually improve this prompt?
 - Can someone act on my feedback immediately?
 - Did I prioritize by impact vs. effort?
@@ -279,6 +311,7 @@ Now, critically evaluate your own Phase 1 evaluation using this reflection frame
 **Revised Evaluation:**
 
 If any issues were found in your self-critique, provide:
+
 - **Corrections:** [What changed and why]
 - **Revised Total Score:** X/100
 - **Revised Priority Recommendations:** [Updated list]
@@ -289,6 +322,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 **Confidence Justification:**
 [Explain your confidence in this evaluation]
+
 ```text
 
 ---
@@ -382,6 +416,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 - `[attendees]`: Attendees
 - `[decisions]`: Decisions
+
 ```text
 
 **After:**
@@ -396,6 +431,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 - `[attendees]`: Participant roles and names (e.g., "VP Product, 3 Product Managers, 2 Senior Engineers")
 - `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
 - `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
+
 ```
 
 ---
@@ -431,6 +467,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 **Confidence Justification:** Evaluation is grounded in observable prompt content, scores align with established criteria, and self-critique revealed one calibration issue which was corrected. The prompt clearly falls in Tier 3 (solid foundation, needs targeted improvements).
 
 ```text
+
 ```
 
 ---
@@ -438,6 +475,7 @@ If no changes needed, state: "No revisions necessary after reflection."
 ## Usage
 
 To use this prompt evaluator:
+
 1. Copy the Phase 1 and Phase 2 prompts from the "## Prompt" section above
 2. Replace `[PASTE_PROMPT_CONTENT_HERE]` with the complete content of the prompt you want to evaluate
 3. Replace `[REPOSITORY_NAME]`, `[PLATFORMS]`, and `[AUDIENCE]` with relevant context

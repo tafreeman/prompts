@@ -6,20 +6,28 @@ intro: Guides generation of a Network Graph to visualize relationships and workf
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - visualization
 - analysis
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -88,6 +96,7 @@ Additionally, link prompts that are part of the same workflow (e.g., connect "re
 
 This should look like a constellation showing clusters of related capabilities.
 ```text
+
 ```
 
 ## Variables
@@ -102,23 +111,32 @@ This should look like a constellation showing clusters of related capabilities.
 **Input:**
 
 ```text
+
 PROMPT_LIST:
+
 - requirements-analysis-expert.md (category: analysis)
 - api-design-consultant.md (category: developers)
 - code-review-assistant.md (category: developers)
 - market-research-analyst.md (category: analysis)
 
 WORKFLOW_DEFINITIONS:
+
 - "SDLC: requirements-analysis-expert.md -> api-design-consultant.md -> code-review-assistant.md"
+
 ```
 
 **Output:**
 
 ```text
+
 Return either:
+
 - Mermaid/Graphviz code that creates one node per prompt file, edges connecting prompts in the same category,
+
   plus explicit edges for the SDLC workflow; or
+
 - Python/NetworkX code that builds the graph with category-based coloring and renders a readable layout.
+
 ```
 
 ## Tips

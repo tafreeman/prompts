@@ -5,22 +5,29 @@ intro: "Foundation prompts for solution architects, platform teams, and AI syste
 type: "reference"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "chatgpt"
   - "claude"
   - "azure-openai"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/system/ai-assistant-system-prompt
   - /prompts/system/api-architecture-designer
   - /prompts/system/blockchain-architecture-specialist
@@ -44,14 +51,19 @@ children:
   - /prompts/system/security-architecture-specialist
   - /prompts/system/solution-architecture-designer
   - /prompts/system/tree-of-thoughts-repository-evaluator
+
 featuredLinks:
   gettingStarted:
+
     - /docs/prompt-authorship-guide
     - /prompts/system/ai-assistant-system-prompt
+
   popular:
+
     - /prompts/system/solution-architecture-designer
     - /prompts/system/devops-architecture-planner
     - /prompts/system/security-architecture-specialist
+
 ---
 
 # System & Architecture Prompt Hub
@@ -61,7 +73,7 @@ Design end-to-end solutions, codify operational guardrails, and brief AI copilot
 ## In This Section
 
 | Track | Outcome | Representative Prompt |
-| :--- |---------| :--- |
+| :--- | --------- | :--- |
 | **Architecture Decision Records** | Produce executive-ready solution blueprints with trade-offs and implementation phases | [Solution Architecture Designer](/prompts/system/solution-architecture-designer) |
 | **Cloud & Platform Reviews** | Stress-test microservices, APIs, and multi-cloud rollouts before the design review | [Cloud Architecture Consultant](/prompts/system/cloud-architecture-consultant) |
 | **Reliability & Operations** | Map SLOs, incident runbooks, and recovery strategies | [Disaster Recovery Architect](/prompts/system/disaster-recovery-architect) |

@@ -11,7 +11,7 @@
 ## Developers Prompts Evaluation
 
 | Prompt | Score | Grade | Summary |
-|--------|-------|-------|---------|
+| -------- | ------- | ------- | --------- |
 | Code Generation Assistant | 9.6/10 | A | The prompt is exceptionally clear and specific, providing co... |
 | API Design Consultant | 9.4/10 | A | This prompt is exceptionally clear and comprehensive, provid... |
 | C# Enterprise Standards Enforcer | 9.4/10 | A | The prompt is clear, specific, and actionable, providing a c... |

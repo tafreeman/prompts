@@ -5,17 +5,23 @@ intro: A prompt for claude tool use pattern tasks.
 type: conceptual
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -24,18 +30,22 @@ technique_type: tool-use
 framework_compatibility:
   anthropic: '>=0.8.0'
 use_cases:
+
 - data-extraction
 - api-integration
 - complex-workflows
+
 performance_metrics:
   accuracy_improvement: 20-30%
   latency_impact: medium
 last_updated: '2025-11-23'
 tags:
+
 - anthropic
 - claude
 - tool-use
 - function-calling
+
 ---
 
 # Claude Tool Use Pattern
@@ -86,16 +96,19 @@ You are a helpful assistant with access to the following tools:
 Your goal is to assist the user by using these tools when necessary.
 
 <instructions>
+
 1. **Think before you act**: Analyze the user's request. Determine if a tool is needed.
 2. **Chain of Thought**: If a tool is needed, output your reasoning in <thinking> tags before calling the tool.
 3. **Tool Call**: Use the provided tool format to execute the action.
 4. **Response**: Once you have the tool result, formulate a natural language response to the user.
+
 </instructions>
 
 <user_request>
 {{user_input}}
 </user_request>
 ```
+
 ## Python Implementation (Anthropic SDK)
 
 ```python
@@ -130,19 +143,19 @@ def run_conversation(user_input):
 
     # 3. Process Tool Use
     final_content = []
-    
+
     for content_block in response.content:
         if content_block.type == "tool_use":
             tool_name = content_block.name
             tool_input = content_block.input
             tool_use_id = content_block.id
-            
+
             print(f"Tool Call: {tool_name}({tool_input})")
-            
+
             # Simulate tool execution
             if tool_name == "get_stock_price":
                 result = {"price": 150.00, "currency": "USD"}
-                
+
                 # 4. Respond with Tool Result
                 tool_result_message = {
                     "role": "user",
@@ -154,7 +167,7 @@ def run_conversation(user_input):
                         }
                     ]
                 }
-                
+
                 # 5. Get Final Answer
                 final_response = client.messages.create(
                     model="claude-3-opus-20240229",
@@ -167,7 +180,7 @@ def run_conversation(user_input):
                     ]
                 )
                 return final_response.content[0].text
-        
+
         elif content_block.type == "text":
             final_content.append(content_block.text)
 
@@ -176,6 +189,7 @@ def run_conversation(user_input):
 # Example
 # print(run_conversation("What is the stock price of Apple?"))
 ```
+
 ## Best Practices
 
 1. **Clear Descriptions**: The `description` field in the tool definition is part of the prompt. Make it descriptive and precise.

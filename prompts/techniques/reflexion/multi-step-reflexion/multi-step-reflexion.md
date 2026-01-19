@@ -5,17 +5,23 @@ intro: A prompt for multi step reflexion pattern tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -26,20 +32,24 @@ framework_compatibility:
   anthropic: '>=0.8.0'
   openai: '>=1.0.0'
 use_cases:
+
 - complex-reasoning
 - code-generation
 - mathematical-proofs
 - creative-writing
+
 performance_metrics:
   accuracy_improvement: 25-40%
   latency_impact: high
   cost_multiplier: 2.0-3.0x
 last_updated: '2025-11-23'
 tags:
+
 - reflexion
 - multi-step
 - iterative
 - self-correction
+
 ---
 
 # Multi-Step Reflexion Pattern
@@ -69,25 +79,30 @@ Task: {{task_description}}
 You will proceed through the following steps. Do not stop until you have completed all steps.
 
 ### Step 1: Analysis & Planning
+
 - Break down the task into components.
 - Identify potential challenges and edge cases.
 - Outline your approach.
 
 ### Step 2: Initial Draft
+
 - Execute your plan to create a first version of the solution.
 - Focus on completeness rather than perfection.
 
 ### Step 3: Critical Reflection
+
 - Review your Initial Draft.
 - Identify at least 3 specific areas for improvement.
 - Check against these criteria: {{evaluation_criteria}}
 - Be harsh in your critique.
 
 ### Step 4: Refined Solution
+
 - Rewrite the solution incorporating your reflections.
 - Address every issue identified in Step 3.
 
 ### Step 5: Final Verification
+
 - Does the Refined Solution meet all original requirements?
 - If yes, present the Final Output.
 - If no, list remaining issues and repeat Step 4.
@@ -104,6 +119,7 @@ Output Format:
 [Final Output]
 ...
 ```sql
+
 ## Usage Example: Complex Code Generation
 
 **Input:**
@@ -114,6 +130,7 @@ Output Format:
 ```text
 [Step 1: Analysis]
 Components:
+
 1. Recursive directory traversal.
 2. Hashing file content (MD5 or SHA256) for comparison.
 3. Tracking files: Map hash to list of (timestamp, path).
@@ -121,6 +138,7 @@ Components:
 5. Error handling: PermissionError, OSError.
 
 Challenges:
+
 - Large files (memory usage during hashing).
 - Race conditions (file deleted during processing).
 - System files/Protected directories.
@@ -140,6 +158,7 @@ def find_duplicates(dir):
     # ... (rest of draft)
 
 [Step 3: Critique]
+
 1. Memory Issue: `open(path, 'rb').read()` loads entire file into memory. Will crash on large files.
 2. Logic Error: The draft doesn't check timestamps to preserve the oldest. It just groups them.
 3. Error Handling: No try/except blocks for PermissionError as requested.
@@ -169,6 +188,7 @@ def clean_duplicates(start_dir):
 [Final Output]
 (Final polished script provided)
 ```text
+
 ## Python Implementation
 
 ```python
@@ -205,12 +225,13 @@ class MultiStepReflexionChain:
             content = response.choices[0].message.content
             step.output = content
             results[step.name] = content
-            
+
             # Append to context for next step
             context += f"\n[{step.name} Output]\n{content}\n\n"
-        
+
         return results
 ```text
+
 ## Best Practices
 
 1. **Explicit Separation**: Force the model to use headers (e.g., `[Step 1]`) to clearly demarcate phases.

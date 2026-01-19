@@ -28,18 +28,24 @@ Defines target user personas and their typical needs.
 **Purpose**: Maps prompts to specific user roles for better discoverability.
 
 **Schema**:
+
 ```yaml
 audiences:
+
   - id: junior-engineer
+
     name: Junior Engineer
     description: Engineers with 0-2 years of experience
     typical_needs:
+
       - Copy-paste templates
       - Clear step-by-step instructions
+
     learning_track: engineer-quickstart
 ```
 
 **Supported Audiences**:
+
 - `junior-engineer`: 0-2 years experience, needs templates
 - `senior-engineer`: 3+ years experience, needs customizable patterns
 - `solution-architect`: System design and architecture focus
@@ -57,6 +63,7 @@ Defines AI platforms and their capabilities.
 **Purpose**: Ensures prompts specify compatible platforms for optimal results.
 
 **Example Platforms**:
+
 - `github-copilot`: GitHub Copilot (Chat, Edits, Agents)
 - `claude`: Anthropic Claude (3.x, Sonnet, Opus)
 - `chatgpt`: OpenAI ChatGPT (GPT-4, GPT-4o)
@@ -72,14 +79,18 @@ Defines the topic taxonomy for categorizing and filtering prompts.
 **Purpose**: Enables tag-based search and filtering across the library.
 
 **Schema**:
+
 ```yaml
 topics:
+
   - id: code-generation
+
     name: Code Generation
     description: Prompts for generating code, functions, classes
 ```
 
 **Supported Topics**:
+
 - `code-generation`: Generate code, functions, classes
 - `debugging`: Identify and fix bugs
 - `refactoring`: Improve code structure and quality
@@ -106,6 +117,7 @@ Curated learning paths for different user personas, defined in `learning-tracks/
 **Duration**: Advanced, self-paced
 
 **Contents**:
+
 - Architecture decision records
 - System design prompts
 - Trade-off analysis frameworks
@@ -118,6 +130,7 @@ Curated learning paths for different user personas, defined in `learning-tracks/
 **Duration**: Beginner to intermediate, 2-4 hours
 
 **Contents**:
+
 - Your first prompt (15 min)
 - Code generation basics
 - Test-driven prompting
@@ -130,6 +143,7 @@ Curated learning paths for different user personas, defined in `learning-tracks/
 **Duration**: Beginner-friendly, 1-2 hours
 
 **Contents**:
+
 - Document generation
 - Meeting summaries
 - Status reports
@@ -144,6 +158,7 @@ JSON-based storage for evaluation results and metadata.
 Stores evaluation results for all prompts.
 
 **Schema**:
+
 ```json
 {
   "prompt_id": "developers/code-generation",
@@ -164,6 +179,7 @@ Stores evaluation results for all prompts.
 Index of all prompts with metadata for fast lookup.
 
 **Schema**:
+
 ```json
 {
   "id": "developers/code-generation",
@@ -183,6 +199,7 @@ Index of all prompts with metadata for fast lookup.
 Evaluation rubrics and scoring criteria.
 
 **Schema**:
+
 ```json
 {
   "clarity": {
@@ -209,12 +226,18 @@ When adding a new prompt, reference valid values from these files:
 ---
 title: "My New Prompt"
 audience:
+
   - junior-engineer      # Must exist in audiences.yml
+
 platforms:
+
   - github-copilot       # Must exist in platforms.yml
   - claude
+
 tags:
+
   - code-generation      # Must exist in topics.yml
+
 ---
 ```
 
@@ -239,7 +262,7 @@ Use learning tracks to guide users:
 import yaml
 with open("data/learning-tracks/engineer-quickstart.yml") as f:
     track = yaml.safe_load(f)
-    
+
 # Display recommended sequence
 for module in track["modules"]:
     print(f"- {module['title']} ({module['duration']})")
@@ -250,13 +273,18 @@ for module in track["modules"]:
 ### Adding a New Audience
 
 1. Edit `audiences.yml`:
+
    ```yaml
+
    - id: new-role
+
      name: New Role
      description: Description of the role
      typical_needs:
+
        - Need 1
        - Need 2
+
      learning_track: appropriate-track
    ```
 
@@ -267,8 +295,11 @@ for module in track["modules"]:
 ### Adding a New Topic
 
 1. Edit `topics.yml`:
+
    ```yaml
+
    - id: new-topic
+
      name: New Topic
      description: What this topic covers
    ```
@@ -280,13 +311,18 @@ for module in track["modules"]:
 ### Adding a New Platform
 
 1. Edit `platforms.yml`:
+
    ```yaml
+
    - id: new-platform
+
      name: New Platform
      description: Platform description
      capabilities:
+
        - Feature 1
        - Feature 2
+
    ```
 
 2. Test prompts on the new platform

@@ -58,6 +58,7 @@ Keep components focused on single responsibilities:
 │            Infrastructure Layer              │
 └─────────────────────────────────────────────┘
 ```sql
+
 ### 2. Design for Failure
 
 - Implement circuit breakers
@@ -88,6 +89,7 @@ Keep components focused on single responsibilities:
 │    A    │     │         │     │    B    │
 └─────────┘     └─────────┘     └─────────┘
 ```text
+
 ### Event-Driven
 
 ```text
@@ -103,6 +105,7 @@ Keep components focused on single responsibilities:
         │    A    │ │    B    │ │    C    │
         └─────────┘ └─────────┘ └─────────┘
 ```text
+
 ### CQRS (Command Query Responsibility Segregation)
 
 ```sql
@@ -123,6 +126,7 @@ Keep components focused on single responsibilities:
 │   (Primary)   │ Events│ (Optimized)   │
 └───────────────┘       └───────────────┘
 ```text
+
 ## Output Format
 
 ### Architecture Decision Record (ADR)
@@ -142,29 +146,36 @@ Proposed | Accepted | Deprecated | Superseded
 ## Consequences
 
 ### Positive
+
 - [Benefit 1]
 - [Benefit 2]
 
 ### Negative
+
 - [Tradeoff 1]
 - [Tradeoff 2]
 
 ### Risks
+
 - [Risk 1 and mitigation]
 - [Risk 2 and mitigation]
 
 ## Alternatives Considered
 
 ### Option A: [Name]
+
 - **Pros**: [list]
 - **Cons**: [list]
 - **Why rejected**: [reason]
 
 ### Option B: [Name]
+
 - **Pros**: [list]
 - **Cons**: [list]
 - **Why rejected**: [reason]
+
 ```text
+
 ### System Design Document
 
 ```markdown
@@ -176,10 +187,12 @@ Proposed | Accepted | Deprecated | Superseded
 ## 2. Requirements
 
 ### Functional Requirements
+
 - [Requirement 1]
 - [Requirement 2]
 
 ### Non-Functional Requirements
+
 - **Scalability**: [targets]
 - **Availability**: [SLA]
 - **Performance**: [latency, throughput]
@@ -191,6 +204,7 @@ Proposed | Accepted | Deprecated | Superseded
 [Mermaid or ASCII diagram]
 
 ### Components
+
 - **Component A**: [description and responsibility]
 - **Component B**: [description and responsibility]
 
@@ -199,7 +213,7 @@ Proposed | Accepted | Deprecated | Superseded
 
 ## 4. Technology Choices
 | Component | Technology | Rationale |
-|-----------|------------|-----------|
+| ----------- | ------------ | ----------- |
 | [name]    | [tech]     | [why]     |
 
 ## 5. Scalability Strategy
@@ -214,6 +228,7 @@ Proposed | Accepted | Deprecated | Superseded
 ## 8. Deployment Strategy
 [How the system is deployed and updated]
 ```text
+
 ## Process
 
 1. Understand business requirements and constraints
@@ -232,24 +247,24 @@ flowchart TB
         Web[Web App]
         Mobile[Mobile App]
     end
-    
+
     subgraph API Layer
         Gateway[API Gateway]
         Auth[Auth Service]
     end
-    
+
     subgraph Service Layer
         UserSvc[User Service]
         OrderSvc[Order Service]
         NotifySvc[Notification Service]
     end
-    
+
     subgraph Data Layer
         UserDB[(User DB)]
         OrderDB[(Order DB)]
         Cache[(Redis Cache)]
     end
-    
+
     Web --> Gateway
     Mobile --> Gateway
     Gateway --> Auth
@@ -260,6 +275,7 @@ flowchart TB
     OrderSvc --> NotifySvc
     UserSvc --> Cache
 ```text
+
 ## Tips for Best Results
 
 - Provide business context and requirements

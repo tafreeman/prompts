@@ -5,22 +5,29 @@ intro: "High-leverage prompting workflows like Chain-of-Thought, ReAct, RAG, and
 type: "reference"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
   - "azure-openai"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/advanced/advanced-technique-research
   - /prompts/advanced/chain-of-thought-concise
   - /prompts/advanced/chain-of-thought-debugging
@@ -39,13 +46,18 @@ children:
   - /prompts/advanced/tree-of-thoughts-architecture-evaluator
   - /prompts/advanced/tree-of-thoughts-evaluator-reflection
   - /prompts/advanced/tree-of-thoughts-template
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/choosing-the-right-pattern
+
   popular:
+
     - /prompts/advanced/chain-of-thought-detailed
     - /prompts/advanced/rag-document-retrieval
     - /prompts/advanced/tree-of-thoughts-template
+
 ---
 
 # Advanced Prompt Patterns
@@ -61,7 +73,7 @@ Tackle ambiguous research briefs, multi-step diagnostics, and large knowledge ba
 ## In This Section
 
 | Pattern | When to Use | Representative Prompt |
-| :--- |-------------| :--- |
+| :--- | ------------- | :--- |
 | **Chain-of-Thought** | Step-by-step reasoning, debugging, performance analysis | [Detailed CoT](/prompts/advanced/chain-of-thought-detailed) |
 | **Reflection & Self-Critique** | Improve answers using AI feedback loops | [Reflection Self-Critique](/prompts/advanced/reflection-self-critique) |
 | **Tree-of-Thoughts** | Branching exploration, architecture trade-offs | [ToT Template](/prompts/advanced/tree-of-thoughts-template) |

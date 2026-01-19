@@ -60,7 +60,7 @@ python -m prompteval testing/evals/business/ --tier 2 -o release-report.json
 Business prompts are evaluated with focus on:
 
 | Criterion | Weight | Focus for Business |
-|-----------|--------|-------------------|
+| ----------- | -------- | ------------------- |
 | **Clarity** | 1.3x | Clear professional tone |
 | **Specificity** | 1.2x | Precise business requirements |
 | **Actionability** | 1.4x | Clear next steps/CTAs |
@@ -71,6 +71,7 @@ Business prompts are evaluated with focus on:
 | **Safety** | 1.2x | Professional, appropriate |
 
 **Quality Standards:**
+
 - Overall score ≥ 7.0 (professional quality)
 - No dimension < 6.0 (acceptable for business use)
 - Variance ≤ 1.3 (consistent professional tone)
@@ -84,6 +85,7 @@ Business prompts are evaluated with focus on:
 **Prompts Evaluated:** 10-12
 
 **Content Types:**
+
 - Professional email templates
 - Announcement drafts
 - Follow-up messages
@@ -94,7 +96,7 @@ Business prompts are evaluated with focus on:
 **Key Prompts:**
 
 | Prompt Type | Use Case | Target Audience |
-|-------------|----------|-----------------|
+| ------------- | ---------- | ----------------- |
 | Email: Project Update | Status communication | Stakeholders |
 | Email: Meeting Request | Schedule coordination | Teams |
 | Email: Announcement | Company-wide news | All staff |
@@ -115,6 +117,7 @@ python -m prompteval testing/evals/business/business-eval-1.prompt.yml --tier 2
 **Prompts Evaluated:** 10-12
 
 **Content Types:**
+
 - Meeting agendas
 - Meeting minutes/notes
 - Action item tracking
@@ -125,7 +128,7 @@ python -m prompteval testing/evals/business/business-eval-1.prompt.yml --tier 2
 **Key Prompts:**
 
 | Prompt Type | Use Case | Format |
-|-------------|----------|--------|
+| ------------- | ---------- | -------- |
 | Meeting Agenda | Structure meetings | Markdown |
 | Meeting Minutes | Document discussions | Structured |
 | Action Items | Track commitments | Checklist |
@@ -145,6 +148,7 @@ python -m prompteval testing/evals/business/business-eval-2.prompt.yml --tier 2
 **Prompts Evaluated:** 10-12
 
 **Content Types:**
+
 - Status reports
 - Project proposals
 - Risk assessments
@@ -155,7 +159,7 @@ python -m prompteval testing/evals/business/business-eval-2.prompt.yml --tier 2
 **Key Prompts:**
 
 | Prompt Type | Use Case | Frequency |
-|-------------|----------|-----------|
+| ------------- | ---------- | ----------- |
 | Status Report | Weekly updates | Weekly |
 | Project Proposal | Initiative planning | Ad-hoc |
 | Risk Assessment | Risk identification | Monthly |
@@ -175,6 +179,7 @@ python -m prompteval testing/evals/business/business-eval-3.prompt.yml --tier 2
 **Prompts Evaluated:** 10-12
 
 **Content Types:**
+
 - Business reports
 - Executive summaries
 - Technical documentation
@@ -185,7 +190,7 @@ python -m prompteval testing/evals/business/business-eval-3.prompt.yml --tier 2
 **Key Prompts:**
 
 | Prompt Type | Use Case | Length |
-|-------------|----------|--------|
+| ------------- | ---------- | -------- |
 | Executive Summary | High-level overview | 1-2 pages |
 | Technical Report | Detailed analysis | 5-10 pages |
 | Proposal | Business case | 3-5 pages |
@@ -207,6 +212,7 @@ Score: 7.8/10 (Grade: B+)
 Pass: ✅
 
 Dimensions:
+
 - clarity: 8        # Clear professional language
 - specificity: 8    # Specific business context
 - actionability: 9  # Clear next steps
@@ -217,20 +223,24 @@ Dimensions:
 - safety: 8         # Appropriate content
 
 Strengths:
+
 - Professional tone and formatting
 - Clear call-to-action
 - Appropriate for target audience
 - Follows business communication best practices
 
 Improvements:
+
 - Add more context variables
 - Include alternative tone options
 - Provide more examples
+
 ```
 
 ### Business Prompt Quality Indicators
 
 **Excellent Business Prompt (8.0+):**
+
 - ✅ Clear, professional tone
 - ✅ Appropriate for context
 - ✅ Well-structured format
@@ -239,6 +249,7 @@ Improvements:
 - ✅ Follows best practices
 
 **Good Business Prompt (7.0-7.9):**
+
 - ✅ Professional tone
 - ✅ Clear structure
 - ✅ Mostly actionable
@@ -246,6 +257,7 @@ Improvements:
 - 🟡 Minor improvements needed
 
 **Needs Improvement (<7.0):**
+
 - ❌ Unclear tone or purpose
 - ❌ Poor structure
 - ❌ Missing key elements
@@ -258,20 +270,24 @@ Improvements:
 
 ```markdown
 ## Target Audience
+
 - **Primary:** Engineering managers
 - **Secondary:** Project stakeholders
 - **Tone:** Professional but approachable
 - **Technical Level:** Intermediate
+
 ```
 
 ### 2. Specify Business Context
 
 ```markdown
 ## Context
+
 - **Situation:** [What's happening]
 - **Background:** [Why this communication]
 - **Objective:** [What you want to achieve]
 - **Constraints:** [Deadlines, requirements]
+
 ```
 
 ### 3. Include Clear Structure
@@ -282,21 +298,26 @@ Improvements:
 **Subject Line:** [Clear, actionable subject]
 
 **Opening:**
+
 - Greeting
 - Context/purpose
 
 **Body:**
+
 - Main message
 - Supporting details
 - Evidence/data
 
 **Closing:**
+
 - Call to action
 - Next steps
 - Timeline
 
 **Signature:**
+
 - Professional sign-off
+
 ```
 
 ### 4. Provide Variables
@@ -334,27 +355,33 @@ modelParameters:
 
 evaluators:
   # Standard evaluators
+
   - name: valid-json
   - name: has-overall-score
   - name: has-grade
-  
+
   # Business-specific evaluators
+
   - name: professional-tone
+
     description: Maintains professional tone
     string:
       contains: '"tone_quality"'
-  
+
   - name: clear-action
+
     description: Has clear call-to-action
     string:
       contains: '"actionability"'
-  
+
   - name: audience-appropriate
+
     description: Appropriate for target audience
     string:
       contains: '"audience_fit"'
-  
+
   - name: format-quality
+
     description: Professional formatting
     string:
       contains: '"structure"'
@@ -365,7 +392,7 @@ evaluators:
 ### Evaluation Statistics
 
 | Batch | Prompts | Avg Score | Pass Rate | Avg Time |
-|-------|---------|-----------|-----------|----------|
+| ------- | --------- | ----------- | ----------- | ---------- |
 | Batch 1 (Communication) | 12 | 7.6/10 | 92% | 5 min |
 | Batch 2 (Meetings) | 11 | 7.8/10 | 91% | 5 min |
 | Batch 3 (Projects) | 10 | 7.4/10 | 85% | 5 min |
@@ -375,7 +402,7 @@ evaluators:
 ### Common Issues
 
 | Issue | Frequency | Impact | Priority |
-|-------|-----------|--------|----------|
+| ------- | ----------- | -------- | ---------- |
 | Too generic | 30% | Medium | High |
 | Missing context | 20% | High | High |
 | Unclear CTA | 15% | High | High |
@@ -390,6 +417,7 @@ evaluators:
 **Issue:** Prompt language is unclear or ambiguous
 
 **Fix:**
+
 - Use simple, direct language
 - Define all acronyms
 - Clarify purpose upfront
@@ -400,6 +428,7 @@ evaluators:
 **Issue:** No clear next steps or call-to-action
 
 **Fix:**
+
 - Add explicit CTA
 - Define specific actions
 - Include timeline
@@ -410,6 +439,7 @@ evaluators:
 **Issue:** Poor formatting or organization
 
 **Fix:**
+
 - Use consistent headers
 - Add clear sections
 - Include bullets/lists
@@ -420,6 +450,7 @@ evaluators:
 **Issue:** Inappropriate formality level
 
 **Fix:**
+
 - Define target audience
 - Specify tone requirements
 - Add tone examples
@@ -449,6 +480,7 @@ Hi {{recipient_name}},
 {{main_message}}
 
 **Key Points:**
+
 - {{point_1}}
 - {{point_2}}
 - {{point_3}}
@@ -474,6 +506,7 @@ Best regards,
 **Attendees:** {{attendees}}
 
 ## Objectives
+
 - {{objective_1}}
 - {{objective_2}}
 
@@ -496,6 +529,7 @@ Best regards,
    - Set follow-up meeting
 
 5. **Closing** (5 min)
+
 ```
 
 ## 📖 See Also

@@ -5,24 +5,32 @@ intro: "Draft a credible, metrics-driven customer case study with a clear narrat
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "creative"
   - "documentation"
   - "business"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2026-01-03"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
   - "human-review-recommended"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -50,7 +58,7 @@ Create a structured, believable case study that clearly explains the customer pr
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[company_name]` | Your company/product name | `Acme Analytics` |
 | `[customer_name]` | Customer name (or "Anonymous Customer") | `Northwind Logistics` |
 | `[customer_profile]` | Customer segment and context | `Mid-market 3PL with 500 employees` |
@@ -92,6 +100,7 @@ Privacy rules: [privacy_rules]
 4) Avoid hype. Use credible language and concrete evidence.
 
 ## Output format (Markdown)
+
 - Title
 - Executive summary (3–5 bullets)
 - Customer overview
@@ -135,6 +144,7 @@ B) 3 short social posts (LinkedIn style) summarizing the win
 # Northwind Logistics streamlines KPI reporting with Acme Analytics
 
 ## Executive summary
+
 - Reduced weekly KPI reporting time from ~16 hours/week to ~2 hours/week within 30 days
 - Improved on-time shipment rate from 91% to 95% over 8 weeks
 - Consolidated data from WMS, TMS, ERP, and CRM into governed dashboards
@@ -146,14 +156,16 @@ Northwind Logistics is a mid-market third-party logistics provider operating eig
 
 ## Results
 | Metric | Before | After | Timeframe |
-|---|---:|---:|---|
+| --- |---:|---:| --- |
 | KPI reporting effort | ~16 hours/week | ~2 hours/week | 30 days |
 | On-time shipment rate | 91% | 95% | 8 weeks |
 
 ...
 
 ## Missing inputs
+
 - [ADD DETAIL] Primary business objective for the project (cost savings, service levels, growth support)
+
 ```
 
 ---

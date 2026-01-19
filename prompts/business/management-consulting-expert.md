@@ -6,20 +6,28 @@ intro: Provides management consulting solutions with problem diagnosis, root cau
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - consulting
 - business
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -55,12 +63,14 @@ Stakeholders: [stakeholders]
 Success Criteria: [criteria]
 
 Deliver:
+
 1. Problem diagnosis
 2. Root cause analysis
 3. Solution alternatives
 4. Recommendation
 5. Implementation plan
 6. Change management
+
 ```text
 
 ---
@@ -81,14 +91,17 @@ Deliver:
 ## Management Consulting Report
 
 ### 1. Problem Diagnosis
+
 *   **Issue:** SnackCo's "Healthy" line is perceived as "processed" by Gen Z consumers.
 *   **Data:** Competitors with "Clean Label" (5 ingredients or less) grew 20%.
 
 ### 2. Root Cause Analysis
+
 *   **R&D:** Innovation cycle (2 years) is too slow to catch micro-trends (e.g., Keto, Paleo).
 *   **Marketing:** Brand messaging focuses on "Low Calorie" (outdated) vs "High Protein" (trending).
 
 ### 3. Recommendation
+
 *   **Strategy:** "Acquire & Scale". Don't build internally.
 *   **Target:** Acquire a high-growth indie brand ($20M-$50M revenue) with authentic "Clean Label" credentials.
 

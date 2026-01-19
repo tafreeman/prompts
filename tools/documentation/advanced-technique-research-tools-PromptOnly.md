@@ -34,6 +34,7 @@ Generate 3-5 distinct research paths for rubric and scoring system maturity and 
 - **Key Sources to Find:** Academic papers, best-in-class scoring/rubric repos, benchmarks, LangChain, HuggingFace, Anthropic, OpenAI, Google, Microsoft documentation
 - **Expected Insights:** Rubric/scoring maturity, integration, and performance in prompt evaluation
 - **Priority:** High/Medium/Low
+
 Select the top 3 branches for execution.
 
 ## Phase 2: Research Execution (ReAct Loop)
@@ -52,6 +53,7 @@ If gaps remain, repeat with targeted follow-up.
 - Have all rubric/scoring systems in the repository been evaluated?
 - Are sources recent and authoritative?
 - Are there gaps in rubric/scoring integration, benchmarks, or metadata-driven config?
+
 If gaps exist, open targeted investigations.
 
 ## Phase 4: Synthesis & Output

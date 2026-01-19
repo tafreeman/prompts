@@ -5,21 +5,29 @@ intro: Optimizes system performance architecture
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - performance
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -43,30 +51,30 @@ flowchart TB
         CDN[CDN]
         WAF[WAF/DDoS]
     end
-    
+
     subgraph LoadBalance[Load Balancing]
         GLB[Global LB]
         RLB[Regional LB]
     end
-    
+
     subgraph Compute[Compute Layer]
         App1[App Server 1]
         App2[App Server 2]
         App3[App Server N]
     end
-    
+
     subgraph Cache[Caching Layer]
         L1[L1 App Cache]
         L2[L2 Redis]
         L3[L3 CDN Cache]
     end
-    
+
     subgraph Data[Data Layer]
         Primary[(Primary DB)]
         Read1[(Read Replica 1)]
         Read2[(Read Replica N)]
     end
-    
+
     CDN --> GLB
     GLB --> RLB
     RLB --> App1
@@ -86,7 +94,7 @@ flowchart TB
 ### Optimization Priority Matrix
 
 | Symptom | Likely Cause | First Optimization |
-|---------|--------------|--------------------|
+| --------- | -------------- | -------------------- |
 | High p99 latency | Slow queries, lock contention | Database indexing, query optimization |
 | CPU spikes | Inefficient algorithms, no caching | Algorithm optimization, caching |
 | Memory pressure | Leaks, large objects, no eviction | Memory profiling, cache sizing |
@@ -96,7 +104,7 @@ flowchart TB
 ### Caching Strategy Selection
 
 | Pattern | When to Use | Cache Hit Impact |
-|---------|-------------|------------------|
+| --------- | ------------- | ------------------ |
 | **Cache-aside** | Read-heavy, tolerates stale data | High |
 | **Write-through** | Data consistency critical | Medium |
 | **Write-behind** | Write-heavy, eventual consistency OK | High |
@@ -127,12 +135,14 @@ User Load: [load]
 Budget Constraints: [budget]
 
 Provide:
+
 1. Performance bottleneck analysis
 2. Architecture optimization
 3. Caching strategy
 4. Load balancing design
 5. Database optimization
 6. Monitoring framework
+
 ```text
 
 ---
@@ -150,6 +160,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **CDN**: Azure CDN, Azure Front Door with caching
 - **Caching**: Azure Cache for Redis, Azure Cosmos DB integrated cache
 - **Load Balancing**: Azure Load Balancer, Application Gateway, Traffic Manager
@@ -157,6 +168,7 @@ Provide:
 - **Monitoring**: Application Insights, Azure Monitor, Performance Diagnostics
 
 ### AWS
+
 - **CDN**: CloudFront with Lambda@Edge for dynamic content
 - **Caching**: ElastiCache (Redis/Memcached), DAX for DynamoDB
 - **Load Balancing**: ALB, NLB, Global Accelerator
@@ -164,6 +176,7 @@ Provide:
 - **Monitoring**: CloudWatch, X-Ray, Performance Insights
 
 ### GCP
+
 - **CDN**: Cloud CDN with Cloud Armor
 - **Caching**: Memorystore (Redis/Memcached)
 - **Load Balancing**: Cloud Load Balancing (global, regional)
@@ -178,6 +191,7 @@ Provide:
 A video streaming platform experiencing 5-second latency during live events.
 
 ### Input
+
 ```text
 System: Global Video Streaming Platform (10M concurrent viewers)
 Performance Issues: High latency during live events (p99 > 5s), database CPU at 100%

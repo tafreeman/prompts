@@ -6,18 +6,26 @@ intro: A specialized Chain-of-Thought prompt for analyzing performance bottlenec
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
 - github-copilot
+
 topics:
+
 - performance
 - development
+
 author: Prompt Engineering Team
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -56,7 +64,7 @@ Use this prompt when analyzing CPU flamegraphs, memory profiles, database query 
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[SYSTEM_NAME]` | No | System/service name being analyzed. | `payments-api` |
 | `[PROFILE_DATA_OR_SUMMARY]` | Yes | Profiling data (or a concise summary of it). | `CPU flamegraph: 30% in loadProductsFromDB()` |
 | `[CURRENT_METRIC]` | Yes | Current performance baseline. | `800ms p99 latency` |
@@ -152,12 +160,14 @@ You are an expert performance engineer using Chain-of-Thought reasoning to analy
 (e.g., CPU flamegraph summary, memory heap dump summary, database slow query log, network trace)
 
 **Baseline Metrics:**
+
 - Current Performance: [CURRENT_METRIC] (e.g., "500ms p99 latency")
 - Target Performance: [TARGET_METRIC] (e.g., "200ms p99 latency")
 - Current Throughput: [THROUGHPUT] (e.g., "1000 req/s")
 - Resource Utilization: [UTILIZATION] (e.g., "CPU 80%, Memory 4GB")
 
 **Workload:**
+
 - Traffic Pattern: [PATTERN] (e.g., "steady", "bursty", "daily spikes")
 - Data Volume: [VOLUME] (e.g., "1M records", "500GB dataset")
 - Concurrent Users/Requests: [CONCURRENCY]
@@ -177,23 +187,27 @@ Using Chain-of-Thought reasoning, analyze this performance data systematically:
 
 ### Step 1: Baseline Analysis
 Summarize the current state:
+
 - What is the performance baseline?
 - How far are we from the target?
 - What is the primary bottleneck type (CPU, memory, I/O, network)?
 
 ### Step 2: Hotspot Identification
 From the profiling data, identify the top 3–5 hotspots:
+
 - What functions/queries/operations consume the most resources?
 - What percentage of total time/memory do they represent?
 - Are there outliers or unexpected resource consumers?
 
 For each hotspot, provide:
+
 - Name/description
 - Resource consumption (%, absolute time, memory)
 - Call frequency (how often it's invoked)
 
 ### Step 3: Root Cause Hypotheses
 For each hotspot, generate hypotheses about why it's slow:
+
 - Is it algorithmic complexity (O(n²) instead of O(n))?
 - Is it excessive I/O (database queries, file reads, network calls)?
 - Is it unnecessary work (redundant computation, over-fetching)?
@@ -202,6 +216,7 @@ For each hotspot, generate hypotheses about why it's slow:
 
 ### Step 4: Impact Prioritization
 Rank the hotspots by optimization potential:
+
 - Which hotspot offers the highest performance gain?
 - Which is easiest to optimize (low risk, clear fix)?
 - What is the cost/benefit trade-off for each?
@@ -210,6 +225,7 @@ Provide a ranked list with justification.
 
 ### Step 5: Optimization Proposals
 For the top 2–3 hotspots, propose specific optimizations:
+
 - What code/query/configuration should change?
 - Why will this change improve performance?
 - What is the expected improvement (quantitative estimate)?
@@ -217,6 +233,7 @@ For the top 2–3 hotspots, propose specific optimizations:
 
 ### Step 6: Validation & Measurement Plan
 How will you validate that the optimization works?
+
 - What metrics to track (before/after)?
 - What benchmarks or load tests to run?
 - How to prevent performance regressions (monitoring, tests)?
@@ -226,6 +243,7 @@ How will you validate that the optimization works?
 ## Output Format
 
 **Baseline Performance Summary:**
+
 - Current: [metric]
 - Target: [metric]
 - Gap: [quantified difference]
@@ -274,22 +292,27 @@ How will you validate that the optimization works?
 **Validation & Measurement Plan:**
 
 **Metrics to Track:**
+
 - [Metric 1] (baseline: [value], target: [value])
 - [Metric 2] (baseline: [value], target: [value])
 
 **Benchmarks:**
+
 1. [Benchmark scenario]
 2. [Load test parameters]
 
 **Regression Prevention:**
+
 - [Monitoring/alerting setup]
 - [Performance test in CI/CD]
+
 ```
 
 **Output:**
 
 ```markdown
 **Baseline Performance Summary:**
+
 - Current: 800ms p99 latency
 - Target: 200ms p99 latency
 - Gap: 600ms (75% reduction needed)
@@ -331,10 +354,10 @@ How will you validate that the optimization works?
 
 1. **loadProductsFromDB** - Expected improvement: 50% latency reduction, Effort: Low
    - Caching products in Redis would eliminate 30% CPU, dramatically reduce DB load
-   
+
 2. **fetchOrderHistory (N+1)** - Expected improvement: 30% latency reduction, Effort: Medium
    - Rewriting to use JOIN would eliminate 20% CPU and reduce DB round-trips
-   
+
 3. **enrichProductData** - Expected improvement: 10% latency reduction, Effort: Medium
    - Optimization here is incremental; address after top 2
 
@@ -345,6 +368,7 @@ How will you validate that the optimization works?
 
 **Proposed Change:**
 ```javascript
+
 // Before:
 async function loadProductsFromDB(filters) {
   return await db.query('SELECT * FROM products WHERE category = $1', [filters.category]);
@@ -353,19 +377,20 @@ async function loadProductsFromDB(filters) {
 // After:
 async function loadProductsFromDB(filters) {
   const cacheKey = `products:${filters.category}`;
-  
+
   // Try cache first
   const cached = await redis.get(cacheKey);
   if (cached) return JSON.parse(cached);
-  
+
   // Cache miss: fetch from DB
   const products = await db.query('SELECT * FROM products WHERE category = $1', [filters.category]);
-  
+
   // Cache for 5 minutes (products change infrequently)
   await redis.setex(cacheKey, 300, JSON.stringify(products));
-  
+
   return products;
 }
+
 ```
 
 **Rationale:**
@@ -387,14 +412,15 @@ Product data is relatively static (updated infrequently). Caching in Redis elimi
 **Proposed Change:**
 
 ```javascript
+
 // Before (N+1 pattern):
 async function fetchOrderHistory(userId) {
   const orders = await db.query('SELECT * FROM orders WHERE user_id = $1', [userId]);
-  
+
   for (let order of orders) {
     order.items = await db.query('SELECT * FROM order_items WHERE order_id = $1', [order.id]);
   }
-  
+
   return orders;
 }
 
@@ -409,9 +435,10 @@ async function fetchOrderHistory(userId) {
     WHERE o.user_id = $1
     GROUP BY o.id
   `, [userId]);
-  
+
   return result.rows;
 }
+
 ```
 
 **Rationale:**
@@ -446,6 +473,7 @@ Eliminates N+1 pattern by fetching orders and items in a single query using JOIN
 - Add performance tests to CI: p99 latency must stay <300ms under 100 concurrent users
 - Set up CloudWatch alarms: alert if p99 > 400ms or throughput drops below 200 req/s
 - Dashboard: track latency, throughput, DB query rate, Redis hit rate
+
 ```
 
 ---

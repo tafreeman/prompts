@@ -5,17 +5,23 @@ intro: "Prompts and patterns for Microsoft AI platforms including Semantic Kerne
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
+
 platforms:
+
   - "github-copilot"
   - "semantic-kernel"
   - "dotnet"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -54,6 +60,7 @@ Microsoft's AI platform includes:
 Enterprise AI orchestration framework for .NET, Python, and Java.
 
 **Key Features:**
+
 - Plugin-based architecture
 - Memory and embeddings
 - Planning and orchestration
@@ -87,6 +94,7 @@ var result = await kernel.InvokePromptAsync(
 AI-powered code completion and chat.
 
 **Key Features:**
+
 - Context-aware code suggestions
 - Natural language to code
 - Custom agents (.agent.md files)
@@ -102,6 +110,7 @@ description: Expert code reviewer
 ---
 
 You are an expert code reviewer. Review code for:
+
 - Best practices
 - Security vulnerabilities
 - Performance issues
@@ -115,6 +124,7 @@ Provide actionable feedback with specific suggestions.
 AI assistant integrated into Microsoft 365 apps.
 
 **Available In:**
+
 - Word (document creation)
 - Excel (data analysis)
 - PowerPoint (presentation design)
@@ -128,6 +138,7 @@ AI assistant integrated into Microsoft 365 apps.
 Build AI-powered applications with .NET.
 
 **Key Libraries:**
+
 - Microsoft.SemanticKernel
 - Azure.AI.OpenAI
 - Microsoft.ML
@@ -212,16 +223,19 @@ description: Code review expert
 ---
 
 You are an expert code reviewer specializing in:
+
 - Security best practices
 - Performance optimization
 - Code maintainability
 - Testing coverage
 
 When reviewing code:
+
 1. Identify potential issues
 2. Explain the impact
 3. Suggest specific improvements
 4. Provide code examples
+
 ```
 
 2. Use in Copilot Chat:
@@ -331,6 +345,7 @@ await foreach (var message in chatService.GetStreamingChatMessageContentsAsync(
 ### 1. Write Clear Comments
 
 ✅ **Do:**
+
 ```python
 # Create a function that validates email addresses using regex
 # Should return True for valid emails, False otherwise
@@ -338,6 +353,7 @@ await foreach (var message in chatService.GetStreamingChatMessageContentsAsync(
 ```
 
 ❌ **Don't:**
+
 ```python
 # email validator
 ```
@@ -345,6 +361,7 @@ await foreach (var message in chatService.GetStreamingChatMessageContentsAsync(
 ### 2. Use Descriptive Function Names
 
 ✅ **Do:**
+
 ```python
 def calculate_compound_interest_with_monthly_contributions(
     principal: float,
@@ -355,6 +372,7 @@ def calculate_compound_interest_with_monthly_contributions(
 ```
 
 ❌ **Don't:**
+
 ```python
 def calc(p, r, y, m):
 ```
@@ -363,11 +381,13 @@ def calc(p, r, y, m):
 
 ```
 Generate a FastAPI endpoint that:
+
 1. Accepts user registration data
 2. Validates email format
 3. Hashes password with bcrypt
 4. Stores in PostgreSQL
 5. Returns JWT token
+
 Include error handling and rate limiting
 ```
 
@@ -438,7 +458,7 @@ var options = new ChatCompletionsOptions
 ## 📊 Platform Comparison
 
 | Platform | Language | Use Case | Deployment |
-|----------|----------|----------|------------|
+| ---------- | ---------- | ---------- | ------------ |
 | **Semantic Kernel** | C#, Python, Java | AI orchestration | Cloud + On-prem |
 | **GitHub Copilot** | Any | Code generation | Cloud (GitHub) |
 | **M365 Copilot** | N/A | Productivity | Cloud (Microsoft 365) |
@@ -459,6 +479,7 @@ sk test "my test prompt"
 ### GitHub Copilot Commands
 
 In Copilot Chat:
+
 - `/explain` - Explain code
 - `/fix` - Fix bugs
 - `/test` - Generate tests
@@ -469,16 +490,19 @@ In Copilot Chat:
 ## 📖 Additional Resources
 
 ### Official Documentation
+
 - [Semantic Kernel Docs](https://learn.microsoft.com/en-us/semantic-kernel/)
 - [GitHub Copilot Docs](https://docs.github.com/en/copilot)
 - [Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
 - [M365 Copilot](https://learn.microsoft.com/en-us/microsoft-365-copilot/)
 
 ### GitHub Repositories
+
 - [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
 - [Semantic Kernel Samples](https://github.com/microsoft/semantic-kernel/tree/main/samples)
 
 ### Learning Resources
+
 - [Semantic Kernel Learn Path](https://learn.microsoft.com/en-us/training/paths/develop-ai-agents-azure-open-ai-semantic-kernel-sdk/)
 - [GitHub Copilot Quickstart](https://docs.github.com/en/copilot/quickstart)
 
@@ -499,6 +523,7 @@ See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
 ### Issue: Semantic Kernel authentication fails
 
 **Solution:** Verify Azure OpenAI endpoint and key:
+
 ```csharp
 // Ensure correct format
 endpoint: "https://YOUR-RESOURCE-NAME.openai.azure.com/"
@@ -508,6 +533,7 @@ endpoint: "https://YOUR-RESOURCE-NAME.openai.azure.com/"
 ### Issue: GitHub Copilot suggestions not appearing
 
 **Solution:** 
+
 1. Check Copilot subscription status
 2. Verify file type is supported
 3. Ensure clear context in comments
@@ -516,6 +542,7 @@ endpoint: "https://YOUR-RESOURCE-NAME.openai.azure.com/"
 ### Issue: Plugin not found
 
 **Solution:**
+
 ```csharp
 // Register plugin before use
 kernel.ImportPluginFromType<MyPlugin>();

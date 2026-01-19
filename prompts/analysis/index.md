@@ -5,22 +5,29 @@ intro: "Structured frameworks for market research, KPI tracking, quality reviews
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "solution-architect"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "m365-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/analysis/business-case-developer
   - /prompts/analysis/competitive-analysis-researcher
   - /prompts/analysis/competitive-intelligence-researcher
@@ -41,13 +48,18 @@ children:
   - /prompts/analysis/trend-analysis-specialist
   - /prompts/analysis/user-experience-analyst
   - /prompts/analysis/workflow-designer
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-chatgpt
+
   popular:
+
     - /prompts/analysis/market-research-analyst
     - /prompts/analysis/metrics-and-kpi-designer
     - /prompts/analysis/business-case-developer
+
 ---
 
 # Analysis & Research Prompts
@@ -57,7 +69,7 @@ Turn raw interviews, spreadsheets, and telemetry into decision-ready insight pac
 ## In This Section
 
 | Objective | Prompt | Deliverable |
-| :--- |--------| :--- |
+| :--- | -------- | :--- |
 | Build a go/no-go case | [Business Case Developer](/prompts/analysis/business-case-developer) | ROI summary, risks, KPIs |
 | Map competitors | [Competitive Intelligence Researcher](/prompts/analysis/competitive-intelligence-researcher) | Feature matrix + SWOT |
 | Design KPIs | [Metrics & KPI Designer](/prompts/analysis/metrics-and-kpi-designer) | SMART metric proposal |
@@ -73,16 +85,19 @@ Turn raw interviews, spreadsheets, and telemetry into decision-ready insight pac
 ## Browse by Focus Area
 
 ### Market & Customer Research
+
 - [Market Research Analyst](/prompts/analysis/market-research-analyst)
 - [Consumer Behavior Researcher](/prompts/analysis/consumer-behavior-researcher)
 - [Trend Analysis Specialist](/prompts/analysis/trend-analysis-specialist)
 
 ### Product & Requirements
+
 - [Requirements Analysis Expert](/prompts/analysis/requirements-analysis-expert)
 - [Stakeholder Requirements Gatherer](/prompts/analysis/stakeholder-requirements-gatherer)
 - [Workflow Designer](/prompts/analysis/workflow-designer)
 
 ### Data & KPI Ops
+
 - [Data Analysis Specialist](/prompts/analysis/data-analysis-specialist)
 - [Metrics & KPI Designer](/prompts/analysis/metrics-and-kpi-designer)
 - [Gap Analysis Expert](/prompts/analysis/gap-analysis-expert)

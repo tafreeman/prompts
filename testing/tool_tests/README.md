@@ -71,6 +71,7 @@ pytest testing/tool_tests/ -k "validation" -v
 **Purpose:** Unit tests for the evaluation agent tool.
 
 **Coverage:**
+
 - Agent configuration and initialization
 - Checkpoint save/load functionality
 - Task result tracking
@@ -84,16 +85,16 @@ pytest testing/tool_tests/ -k "validation" -v
 ```python
 class TestAgentConfiguration:
     """Test agent configuration and setup."""
-    
+
 class TestCheckpointManagement:
     """Test checkpoint save/load functionality."""
-    
+
 class TestTaskResultTracking:
     """Test task result accumulation."""
-    
+
 class TestAgentState:
     """Test agent state transitions."""
-    
+
 class TestCategoryResults:
     """Test category result aggregation."""
 ```
@@ -101,7 +102,7 @@ class TestCategoryResults:
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_agent_config_paths_exist` | Verify config paths are set |
 | `test_save_checkpoint` | Checkpoint saving works |
 | `test_load_checkpoint` | Checkpoint loading works |
@@ -129,18 +130,18 @@ def test_checkpoint_save_load():
     """Test checkpoint can be saved and loaded."""
     with tempfile.TemporaryDirectory() as tmpdir:
         checkpoint_path = Path(tmpdir) / "checkpoint.json"
-        
+
         # Create state
         state = AgentState(
             current_category="developers",
             total_prompts=10,
             processed_prompts=5
         )
-        
+
         # Save checkpoint
         save_checkpoint(state, checkpoint_path)
         assert checkpoint_path.exists()
-        
+
         # Load checkpoint
         loaded_state = load_checkpoint(checkpoint_path)
         assert loaded_state.current_category == "developers"
@@ -152,6 +153,7 @@ def test_checkpoint_save_load():
 **Purpose:** Unit tests for prompt generation utilities.
 
 **Coverage:**
+
 - Template parsing and rendering
 - Variable substitution
 - Format detection and conversion
@@ -162,7 +164,7 @@ def test_checkpoint_save_load():
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_parse_template` | Parse Jinja2/mustache templates |
 | `test_substitute_variables` | Variable replacement |
 | `test_detect_format` | Detect .md, .yml, .json formats |
@@ -182,6 +184,7 @@ pytest testing/tool_tests/test_generator.py -v
 **Purpose:** Unit tests for command-line interface utilities.
 
 **Coverage:**
+
 - Argument parsing
 - Command dispatch
 - Option validation
@@ -192,7 +195,7 @@ pytest testing/tool_tests/test_generator.py -v
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_parse_args_basic` | Basic argument parsing |
 | `test_parse_args_with_options` | Options and flags |
 | `test_invalid_arguments` | Error handling for bad args |
@@ -212,9 +215,9 @@ pytest testing/tool_tests/test_cli.py -v
 def test_parse_args_basic():
     """Test basic argument parsing."""
     from tools.cli import parse_args
-    
+
     args = parse_args(['evaluate', 'prompts/', '--tier', '2'])
-    
+
     assert args.command == 'evaluate'
     assert args.path == 'prompts/'
     assert args.tier == 2
@@ -225,6 +228,7 @@ def test_parse_args_basic():
 **Purpose:** Unit tests for LLM provider connection handlers.
 
 **Coverage:**
+
 - Provider detection
 - Authentication handling
 - Request formatting
@@ -234,6 +238,7 @@ def test_parse_args_basic():
 - Timeout handling
 
 **Supported Providers:**
+
 - Azure Foundry
 - GitHub Models
 - Ollama
@@ -242,7 +247,7 @@ def test_parse_args_basic():
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_detect_provider` | Auto-detect available provider |
 | `test_azure_connection` | Azure Foundry authentication |
 | `test_github_models_connection` | GitHub Models setup |
@@ -269,7 +274,7 @@ pytest testing/tool_tests/test_llm_connection.py -k "azure" -v
 def test_detect_provider():
     """Test provider auto-detection."""
     from tools.llm_connection import detect_provider
-    
+
     # With Azure env vars
     with mock.patch.dict(os.environ, {
         'AZURE_FOUNDRY_API_KEY': 'test-key',
@@ -277,7 +282,7 @@ def test_detect_provider():
     }):
         provider = detect_provider()
         assert provider == 'azure'
-    
+
     # With gh CLI available
     with mock.patch('shutil.which', return_value='/usr/bin/gh'):
         provider = detect_provider()
@@ -289,6 +294,7 @@ def test_detect_provider():
 **Purpose:** Unit tests for the tools ecosystem evaluator.
 
 **Coverage:**
+
 - Tool discovery
 - Compatibility checking
 - Version validation
@@ -298,7 +304,7 @@ def test_detect_provider():
 **Key Tests:**
 
 | Test | Description |
-|------|-------------|
+| ------ | ------------- |
 | `test_discover_tools` | Find all available tools |
 | `test_check_tool_availability` | Verify tool is installed |
 | `test_check_tool_version` | Validate tool versions |
@@ -348,10 +354,10 @@ def test_with_mocked_llm(mock_llm):
         "score": 8.5,
         "reasoning": "Good prompt"
     }
-    
+
     agent = EvaluationAgent()
     result = agent.evaluate("test.md")
-    
+
     assert result['score'] == 8.5
     mock_llm.assert_called_once()
 ```
@@ -364,21 +370,21 @@ import pytest
 def test_empty_input():
     """Test handling of empty input."""
     from tools.generator import generate_prompt
-    
+
     with pytest.raises(ValueError, match="Input cannot be empty"):
         generate_prompt("")
 
 def test_invalid_format():
     """Test handling of invalid format."""
     from tools.generator import parse_prompt
-    
+
     result = parse_prompt("invalid data")
     assert result is None
 
 def test_boundary_values():
     """Test boundary conditions."""
     from tools.validator import validate_score
-    
+
     assert validate_score(0) is True   # Min value
     assert validate_score(10) is True  # Max value
     assert validate_score(-1) is False # Below min
@@ -406,10 +412,10 @@ def test_uppercase_conversion(input, expected):
 def test_error_message_clarity():
     """Test that error messages are helpful."""
     from tools.validator import validate_config
-    
+
     with pytest.raises(ValueError) as exc_info:
         validate_config({"invalid": "config"})
-    
+
     error_message = str(exc_info.value)
     assert "required field" in error_message.lower()
     assert "missing" in error_message.lower()
@@ -420,7 +426,7 @@ def test_error_message_clarity():
 ### Current Coverage
 
 | Tool | Tests | Coverage | Status |
-|------|-------|----------|--------|
+| ------ | ------- | ---------- | -------- |
 | evaluation_agent | 35 | 92% | ✅ |
 | generator | 18 | 85% | ✅ |
 | cli | 22 | 88% | ✅ |
@@ -431,7 +437,7 @@ def test_error_message_clarity():
 ### Test Execution Time
 
 | Test File | Count | Avg Time | Total |
-|-----------|-------|----------|-------|
+| ----------- | ------- | ---------- | ------- |
 | test_evaluation_agent.py | 35 | 0.05s | 1.75s |
 | test_generator.py | 18 | 0.08s | 1.44s |
 | test_cli.py | 22 | 0.03s | 0.66s |
@@ -512,12 +518,12 @@ def test_with_debug():
     """Test with debug output."""
     import logging
     logging.basicConfig(level=logging.DEBUG)
-    
+
     result = some_function()
-    
+
     # Add breakpoint for debugging
     import pdb; pdb.set_trace()
-    
+
     assert result is not None
 ```
 
@@ -531,35 +537,41 @@ name: Tool Tests
 on:
   pull_request:
     paths:
+
       - 'tools/**'
       - 'testing/tool_tests/**'
 
 jobs:
   test-tools:
     runs-on: ubuntu-latest
-    
+
     steps:
+
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python
+
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      
+
       - name: Install dependencies
+
         run: |
           pip install -r testing/requirements.txt
           pip install pytest pytest-cov
-      
+
       - name: Run tool tests
+
         run: |
           pytest testing/tool_tests/ \
             -v \
             --cov=tools \
             --cov-report=xml \
             --cov-report=term
-      
+
       - name: Upload coverage
+
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.xml

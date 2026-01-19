@@ -6,20 +6,28 @@ intro: Facilitates effective project meetings with agendas, facilitation techniq
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - communication
 - project-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Duration: [duration]
 Key Decisions Needed: [decisions]
 
 Include:
+
 1. Meeting agenda
 2. Pre-meeting preparation
 3. Facilitation techniques
 4. Decision-making process
 5. Action item tracking
 6. Follow-up procedures
+
 ```text
 
 ---
@@ -79,16 +89,19 @@ Include:
 ## Meeting Plan
 
 ### 1. Agenda
+
 *   **09:00 - 10:00:** Q3 Performance Review (Data Deep Dive).
 *   **10:00 - 11:00:** Marketing Retrospective & Q4 Plan.
 *   **11:15 - 12:30:** Q4 Quota Setting & "Winter Promo" Decision.
 *   **12:30 - 13:00:** Action Items & Lunch.
 
 ### 2. Pre-meeting Preparation
+
 *   **Requirement:** All Regional Directors must update Salesforce pipeline by Friday 5pm.
 *   **Read-ahead:** Finance to circulate "Q3 Variance Report" 48hrs prior.
 
 ### 3. Facilitation Techniques
+
 *   **"Parking Lot":** Use for tactical issues (e.g., specific deal blockers) to keep QBR strategic.
 *   **ELMO Rule:** "Enough, Let's Move On" if quota debates circle for >10 mins.
 
