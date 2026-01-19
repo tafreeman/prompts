@@ -6,20 +6,28 @@ intro: Conducts comprehensive competitive market analysis including landscape ma
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - senior-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - analysis
 - business
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Key Competitors: [competitors]
 Analysis Focus: [focus]
 
 Include:
+
 1. Competitive landscape
 2. Feature comparison
 3. Pricing analysis
 4. Market positioning
 5. Opportunities and threats
 6. Strategic recommendations
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[product]` | The product/service you’re analyzing competitors for |
 | `[segment]` | The market segment (who/where/for what job) |
 | `[competitors]` | Known competitors to include (names, URLs if available) |
@@ -77,15 +87,18 @@ Include:
 ## Competitive Analysis Report
 
 ### 1. Competitive Landscape
+
 *   **Asana:** Market Leader. Strong on usability, weak on reporting. Expensive ($30/user).
 *   **Monday.com:** Strong marketing. Highly customizable but complex setup.
 *   **ClickUp:** "All-in-one" value play. Feature rich but buggy.
 
 ### 2. Feature Comparison (Creative Proofing)
+
 *   **TaskMaster (Us):** Basic file attachment only. 🔴 Gap.
 *   **Competitors:** All three offer visual annotation on images/videos. Asana's is best-in-class.
 
 ### 3. Strategic Recommendations
+
 *   **Product:** Prioritize "Visual Proofing" integration (e.g., with Figma) to close the gap.
 *   **Pricing:** Undercut Asana by 20% to capture price-sensitive agencies.
 

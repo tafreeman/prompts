@@ -5,21 +5,29 @@ intro: Designs enterprise integration solutions
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - enterprise
 - integration
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -45,27 +53,27 @@ flowchart TB
         Legacy[Legacy Apps]
         SaaS[SaaS Apps]
     end
-    
+
     subgraph Integration[Integration Layer]
         Gateway[API Gateway]
         ESB[Integration Platform]
         Queue[Message Queue]
         Events[Event Bus]
     end
-    
+
     subgraph Processing[Processing Layer]
         Transform[Transformation]
         Orchestrate[Orchestration]
         Route[Routing Engine]
     end
-    
+
     subgraph Targets[Target Systems]
         DataLake[(Data Lake)]
         Analytics[Analytics]
         Mobile[Mobile Apps]
         Partners[Partner APIs]
     end
-    
+
     ERP --> Gateway
     CRM --> ESB
     Legacy --> ESB
@@ -87,7 +95,7 @@ flowchart TB
 ### Integration Pattern Selection
 
 | Pattern | When to Use | Trade-offs |
-|---------|-------------|------------|
+| --------- | ------------- | ------------ |
 | **Point-to-Point** | Simple, few integrations | Spaghetti at scale |
 | **Hub-and-Spoke (ESB)** | Centralized control, legacy | Single point of failure |
 | **Event-Driven** | Real-time, loose coupling | Eventual consistency |
@@ -97,7 +105,7 @@ flowchart TB
 ### Integration Style Decision Matrix
 
 | Requirement | Sync API | Async Message | Event Stream | Batch |
-|-------------|----------|---------------|--------------|-------|
+| ------------- | ---------- | --------------- | -------------- | ------- |
 | Real-time response | ✅ | ❌ | ❌ | ❌ |
 | Fire-and-forget | ❌ | ✅ | ✅ | ❌ |
 | High volume | ⚠️ | ✅ | ✅ | ✅ |
@@ -128,35 +136,43 @@ Performance Requirements: [performance]
 Security Requirements: [security]
 
 Include:
+
 1. Integration patterns
 2. API design strategy
 3. Data transformation
 4. Error handling
 5. Monitoring and logging
 6. Governance framework
+
 ```text
+
 ```xml
 
 **Output:**
 
 ```text
+
 ## Integration Architecture
 
 ### 1. Integration Patterns
+
 *   **Orchestration:** MuleSoft/Camel for complex Order-to-Cash workflow state management.
 *   **Event-Driven:** "Order Created" event published to Kafka topic to trigger parallel downstream processes (Billing, Fulfillment).
 
 ### 2. Data Flow Design
+
 1.  **Order Entry:** Salesforce triggers webhook to Integration Layer.
 2.  **Validation:** Integration Layer calls SAP synchronously to check Inventory (Real-time).
 3.  **Payment:** If stock exists, call Stripe to capture funds.
 4.  **Fulfillment:** Publish `OrderConfirmed` event. Logistics App consumes event to schedule shipment.
 
 ### 3. Error Handling (Reliability)
+
 *   **Dead Letter Queues (DLQ):** For failed messages (e.g., SAP downtime) to allow manual replay.
 *   **Circuit Breaker:** Stop calling SAP if error rate > 10% to prevent cascading failure.
 
 [... continues with monitoring and governance ...]
+
 ```text
 
 ---
@@ -173,6 +189,7 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Integration**: Azure Integration Services (Logic Apps, Service Bus, API Management, Event Grid)
 - **iPaaS**: Azure Integration Account for B2B/EDI
 - **Messaging**: Service Bus (queues/topics), Event Hubs (streaming)
@@ -180,6 +197,7 @@ Include:
 - **B2B**: EDI, AS2, X12 support in Integration Account
 
 ### AWS
+
 - **Integration**: Amazon EventBridge, Step Functions, AppFlow
 - **Messaging**: SQS (queues), SNS (pub/sub), Kinesis (streaming)
 - **API**: API Gateway, AppSync (GraphQL)
@@ -187,6 +205,7 @@ Include:
 - **B2B**: AWS B2B Data Interchange (EDI)
 
 ### GCP
+
 - **Integration**: Application Integration, Pub/Sub
 - **Messaging**: Pub/Sub (streaming), Cloud Tasks (queues)
 - **API**: Apigee for API management
@@ -202,10 +221,12 @@ A manufacturing company needs to integrate SAP ERP, Salesforce CRM, and logistic
 
 ### Input
 ```text
+
 Systems to Integrate: SAP S/4HANA, Salesforce, 15 logistics partners, e-commerce platform
 Data Flow Requirements: Order → Fulfillment → Shipping → Delivery updates
 Performance Requirements: 500 orders/minute peak, <5s end-to-end latency
 Security Requirements: OAuth 2.0 for partners, field-level encryption for PII
+
 ```
 
 ### Expected Output

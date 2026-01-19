@@ -6,19 +6,27 @@ intro: A specialized Chain-of-Thought prompt for systematic debugging and root c
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - claude
 - github-copilot
+
 topics:
+
 - debugging
 - development
+
 author: Prompt Engineering Team
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -130,6 +138,7 @@ You are an expert software debugger using Chain-of-Thought reasoning to systemat
 **Actual Behavior:** [ACTUAL_BEHAVIOR]
 
 **Environment:**
+
 - OS: [OPERATING_SYSTEM]
 - Runtime: [RUNTIME_VERSION]
 - Dependencies: [KEY_DEPENDENCIES]
@@ -151,6 +160,7 @@ Summarize the symptoms, timeline, and any patterns. Note what works and what doe
 
 ### Step 2: Hypothesis Generation
 Generate 3-5 testable hypotheses about possible root causes. For each:
+
 - State the hypothesis clearly
 - Assess likelihood (HIGH/MEDIUM/LOW)
 - List supporting evidence
@@ -160,6 +170,7 @@ Rank hypotheses by: (1) likelihood based on evidence, (2) ease of testing
 
 ### Step 4: Evidence Analysis
 For the top hypothesis:
+
 - Explain why it's most likely
 - Design an experiment to confirm/refute it
 - If refuted, move to next hypothesis
@@ -169,6 +180,7 @@ State the confirmed root cause with evidence chain.
 
 ### Step 6: Recommended Fix
 Provide:
+
 - Immediate fix (code/config change)
 - Long-term fix (prevent recurrence)
 - Infrastructure improvements if applicable
@@ -213,6 +225,7 @@ AuthenticationError: JWT token verification failed
     at app.use (server.js:30)
 
 **Reproduction Steps:**
+
 1. User logs in successfully
 2. User makes an authenticated API request within 5 minutes
 3. ~5% of the time, the request fails with JWT verification error
@@ -222,6 +235,7 @@ AuthenticationError: JWT token verification failed
 **Actual Behavior:** Some requests fail with JWT verification error, even with valid tokens
 
 **Environment:**
+
 - OS: Ubuntu 22.04 (production)
 - Runtime: Node.js 20.10
 - Dependencies: jsonwebtoken 9.0.2, express 4.18.2
@@ -236,7 +250,7 @@ function verifyToken(token) {
 async function authenticate(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'No token' });
-  
+
   try {
     const decoded = verifyToken(token);
     req.user = decoded;
@@ -247,9 +261,11 @@ async function authenticate(req, res, next) {
 }
 
 **Additional Context:**
+
 - Logs show "invalid signature" errors
 - Issue started after deploying to multiple servers (load-balanced)
 - Single-server staging environment doesn't reproduce the issue
+
 ```
 
 **Expected Output:**
@@ -260,6 +276,7 @@ async function authenticate(req, res, next) {
 ### Step 1: Understanding the Bug
 
 **Symptoms:**
+
 - ~5% of authenticated requests fail with "JWT token verification failed"
 - Error: "invalid signature"
 - Started after deploying to multiple servers (load-balanced)
@@ -272,7 +289,7 @@ async function authenticate(req, res, next) {
 ### Step 2: Hypothesis Generation
 
 | # | Hypothesis | Likelihood | Evidence |
-|---|-----------|-----------|----------|
+| --- | ----------- | ----------- | ---------- |
 | H1 | JWT_SECRET differs between servers | HIGH | Started after multi-server deploy; "invalid signature" error; staging works |
 | H2 | Clock skew between servers causes token timing issues | MEDIUM | Intermittent failures; multi-server environment |
 | H3 | Token parsing issue (header format) | LOW | Would fail consistently, not 5% |
@@ -290,7 +307,7 @@ async function authenticate(req, res, next) {
 1. **"Invalid signature" error**: This specific error occurs when:
    - Token was signed with a different secret than used for verification
    - Token was corrupted
-   
+
 2. **~5% failure rate**: If 1 of 4 servers has a different JWT_SECRET, we'd expect ~25% failure. But if the secret is loaded from env vars and one server has a stale value, intermittent failures make sense.
 
 3. **Single-server staging works**: Same codebase, different environment = environment variable issue
@@ -300,11 +317,13 @@ async function authenticate(req, res, next) {
 **Experiment to confirm:**
 
 ```bash
+
 # SSH into each production server and check JWT_SECRET
 for server in prod-1 prod-2 prod-3 prod-4; do
   echo "=== $server ==="
   ssh $server 'echo $JWT_SECRET | sha256sum'
 done
+
 ```
 
 If the hashes differ, H1 is confirmed.
@@ -318,6 +337,7 @@ If the hashes differ, H1 is confirmed.
 When new servers were deployed, the JWT_SECRET was not synchronized. Tokens signed by Server A cannot be verified by Server B if they have different secrets.
 
 **Evidence chain:**
+
 1. "Invalid signature" error → secret mismatch
 2. ~5% failure → only some servers affected
 3. Started after multi-server deploy → new servers have different config
@@ -329,13 +349,16 @@ When new servers were deployed, the JWT_SECRET was not synchronized. Tokens sign
 
 **Immediate Fix:**
 ```bash
+
 # Sync JWT_SECRET across all servers from authoritative source
 JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id prod/jwt-secret | jq -r .SecretString)
 # Deploy to all servers via your config management tool
+
 ```
 
 **Code Fix (defense in depth):**
 ```javascript
+
 // auth.js - Add validation at startup
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -347,18 +370,23 @@ if (!JWT_SECRET || JWT_SECRET.length < 32) {
 function verifyToken(token) {
   return jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
 }
+
 ```
 
 **Infrastructure Fix (prevent recurrence):**
 ```yaml
+
 # Use centralized secrets management (e.g., AWS Secrets Manager, Vault)
 # kubernetes/deployment.yaml
 env:
+
   - name: JWT_SECRET
+
     valueFrom:
       secretKeyRef:
         name: jwt-secrets
         key: JWT_SECRET
+
 ```
 
 ---
@@ -366,26 +394,28 @@ env:
 ### Step 6: Regression Test
 
 ```javascript
+
 // test/auth.integration.test.js
 describe('JWT Authentication (multi-server simulation)', () => {
   const SECRET_A = 'secret-server-a';
   const SECRET_B = 'secret-server-b';  // Different secret
-  
+
   it('should fail verification if secrets mismatch', () => {
     const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
-    
+
     expect(() => {
       jwt.verify(token, SECRET_B, { algorithms: ['HS256'] });
     }).toThrow('invalid signature');
   });
-  
+
   it('should succeed verification if secrets match', () => {
     const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
     const decoded = jwt.verify(token, SECRET_A, { algorithms: ['HS256'] });
-    
+
     expect(decoded.userId).toBe('123');
   });
 });
+
 ```
 
 ---
@@ -393,7 +423,7 @@ describe('JWT Authentication (multi-server simulation)', () => {
 ### Summary
 
 | Attribute | Value |
-|-----------|-------|
+| ----------- | ------- |
 | **Root Cause** | JWT_SECRET environment variable mismatch across production servers |
 | **Confidence** | HIGH (95%) |
 | **Category** | Configuration / Environment |

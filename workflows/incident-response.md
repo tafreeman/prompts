@@ -5,17 +5,23 @@ intro: A prompt for enterprise security incident response playbook tasks.
 type: conceptual
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -50,10 +56,11 @@ This playbook provides a structured approach to detecting, triaging, investigati
 │   • Application bugs → SDLC workflow                           │
 └─────────────────────────────────────────────────────────────────┘
 ```sql
+
 ### Incident Severity Classification
 
 | Severity | Definition | Response Time | Examples |
-|----------|------------|---------------|----------|
+| ---------- | ------------ | --------------- | ---------- |
 | **Critical (P0)** | Data breach, ransomware, C-level compromise | Immediate (< 15 min) | Customer PII exposed, production database encrypted, CEO account compromised |
 | **High (P1)** | Service disruption, privilege escalation | < 1 hour | Web server defaced, admin account compromised, DDoS attack |
 | **Medium (P2)** | Attempted breach, suspicious activity | < 4 hours | Failed login attempts, malware quarantined, phishing email reported |
@@ -107,13 +114,16 @@ Step 1: Alert Received
 Step 2: Initial Classification (Severity P0-P3)
   ↓
 Step 3: Check for False Positive
+
   - Review historical data (same alert pattern before?)
   - Validate with context (planned maintenance? authorized activity?)
+
   ↓
 Step 4: If CONFIRMED incident → Escalate to Phase 2 (Triage)
        If FALSE POSITIVE → Document and close
        If UNCERTAIN → Collect more data (1-2 additional checks)
 ```text
+
 ### Example: Detecting Ransomware
 
 **Alert**: EDR (Endpoint Detection & Response) detects suspicious file encryption activity on file server (FS-PROD-01)
@@ -131,12 +141,14 @@ AI Response:
 "CRITICAL SEVERITY (P0) - High confidence ransomware attack:
 
 Indicators:
+
 1. Mass file encryption (500+ files in 2 min = exfiltration or encryption)
 2. Extension change to .encrypted (ransomware signature)
 3. PowerShell execution (common ransomware delivery mechanism)
 4. Outbound connection to unknown IP (potential C2 communication)
 
 Immediate Actions:
+
 1. ISOLATE FS-PROD-01 from network (disconnect immediately)
 2. Preserve forensic evidence (take memory dump before shutdown)
 3. Activate P0 incident response (page on-call CISO)
@@ -146,6 +158,7 @@ Immediate Actions:
 Estimated Impact: HIGH (file server compromise affects 200+ users)
 Regulatory: GDPR breach notification may be required (assess data affected)"
 ```text
+
 **Decision Point**: Confirmed ransomware (P0) → Escalate to Phase 2 immediately
 
 ### Detection Checklists
@@ -178,8 +191,7 @@ Regulatory: GDPR breach notification may be required (assess data affected)"
 - **Initial Timeline**: Start of incident clock (critical for GDPR 72-hour notification)
 - **Stakeholder Notification**: For P0/P1, page on-call CISO and security team
 
-### Decision Point: Proceed to Phase 2?
-
+### Decision Point: Proceed to Phase 2
 **YES if**:
 
 - ✓ Confirmed security incident (not false positive)
@@ -222,42 +234,59 @@ Assess incident scope, impact, and urgency; activate appropriate response team a
 
 ```text
 Step 1: Assemble Incident Response Team
+
   - Incident Commander (IC): Coordinates response
   - Security Analyst: Technical investigation
   - System Admin: Access to affected systems
   - Legal/Compliance (P0/P1): For breach notification assessment
   - Communications (P0/P1): Stakeholder and customer messaging
+
   ↓
 Step 2: Scope Assessment (5 Questions)
+
   1. What systems/data are affected? (identify assets)
   2. How many users/customers impacted? (calculate blast radius)
   3. What is the attack vector? (phishing, vulnerability, insider threat)
   4. Is attacker still active? (ongoing vs historical compromise)
   5. What regulations apply? (GDPR, HIPAA, SOC2, PCI-DSS)
+
   ↓
 Step 3: Impact Analysis
+
   - Confidentiality: What data was exposed? (classify: Public, Internal, Confidential, Restricted)
   - Integrity: What was modified or destroyed? (data corruption, ransomware)
   - Availability: What services are down? (downtime cost, SLA breach)
+
   ↓
 Step 4: Regulatory Assessment
+
   - Is this a reportable breach? (GDPR: personal data, HIPAA: PHI)
   - What is the notification timeline? (GDPR: 72 hours, state laws vary)
   - Who must be notified? (regulators, customers, media)
+
   ↓
 Step 5: Response Strategy Selection (Choose ONE)
   A. CONTAIN & INVESTIGATE (most common)
+
      - Isolate affected systems, preserve evidence, deep-dive forensics
+
   B. IMMEDIATE ERADICATION (active threat)
+
      - Remove attacker access NOW, investigate after
+
   C. MONITOR & GATHER INTELLIGENCE (sophisticated APT)
+
      - Allow continued access under observation to understand tactics
+
   ↓
 Step 6: Activate Response Plan
+
   - Assign roles and tasks
   - Set up war room (physical or virtual)
   - Establish communication channels (Slack, Teams, conference bridge)
+
 ```sql
+
 ### Example: Triaging Ransomware (Continued from Phase 1)
 
 **Incident**: Ransomware detected on file server FS-PROD-01
@@ -268,6 +297,7 @@ Step 6: Activate Response Plan
 Prompt: "Triage this ransomware incident. Context: File server FS-PROD-01 compromised, 
 500+ files encrypted, PowerShell execution detected, outbound connection to suspicious IP 
 203.0.113.45. File server hosts:
+
 - Employee documents (HR records, contracts, NDA agreements)
 - Customer project files (designs, source code, specifications)
 - Financial reports (Q4 2024 earnings, budgets)
@@ -280,6 +310,7 @@ AI Response:
 "TRIAGE SUMMARY - Ransomware Incident (P0)
 
 SCOPE ASSESSMENT:
+
 1. Affected Systems: 
    - Primary: FS-PROD-01 (file server, 500+ files encrypted)
    - Potential lateral movement: Scan domain controller DC-01 and backup server BKP-01
@@ -292,11 +323,13 @@ SCOPE ASSESSMENT:
    - INTERNAL: Financial reports (material non-public information)
 
 IMPACT ANALYSIS:
+
 - Confidentiality: CRITICAL - PHI and personal data exposed (HIPAA + GDPR breach)
 - Integrity: HIGH - 500+ files encrypted (data loss, but backups may exist)
 - Availability: MEDIUM - File server offline, 200 users affected (workaround: restore from backup)
 
 REGULATORY IMPACT:
+
 - HIPAA Breach: YES (PHI compromised → HHS OCR notification required within 60 days)
 - GDPR Breach: YES (personal data compromised → supervisory authority notification within 72 hours)
 - Notification Requirements:
@@ -308,11 +341,13 @@ REGULATORY IMPACT:
 RESPONSE STRATEGY: **IMMEDIATE ERADICATION + CONTAINMENT**
 
 Rationale:
+
 - Active C2 connection = attacker can escalate (spread ransomware, exfiltrate more data)
 - PHI/GDPR data exposed = regulatory clock started (need fast containment)
 - Backup availability = can restore services quickly after eradication
 
 IMMEDIATE ACTIONS (Next 15 Minutes):
+
 1. ISOLATE: Disconnect FS-PROD-01 from network (already done in Phase 1)
 2. KILL C2: Block IP 203.0.113.45 at firewall + DNS sinkhole
 3. HUNT: Scan all domain-joined systems for same PowerShell IOCs
@@ -321,11 +356,14 @@ IMMEDIATE ACTIONS (Next 15 Minutes):
 6. NOTIFY: Brief CEO/CTO on breach scope and regulatory timeline
 
 NEXT PHASE: Proceed to Phase 3 (Investigation) to:
+
 - Identify ransomware variant (Locky? Ryuk? REvil?)
 - Determine initial infection vector (phishing email analysis)
 - Assess data exfiltration (was data stolen before encryption?)
 - Check backup integrity (verify clean restore point exists)"
+
 ```text
+
 **Decision Point**: Confirmed P0 breach requiring IMMEDIATE ERADICATION → Proceed to Phase 3 (Investigation)
 
 ### Triage Checklists
@@ -392,28 +430,33 @@ NEXT PHASE: Proceed to Phase 3 (Investigation) to:
 Subject: P0 SECURITY INCIDENT - Ransomware on File Server [CONFIDENTIAL]
 
 INCIDENT SUMMARY:
+
 - What: Ransomware encryption detected on file server FS-PROD-01
 - When: Detected at 14:35 UTC, attack likely started 14:30 UTC
 - Impact: 500+ files encrypted, 200 users affected, PHI/GDPR data potentially exposed
 - Status: System isolated, attacker C2 blocked, investigation in progress
 
 IMMEDIATE ACTIONS TAKEN:
+
 - File server disconnected from network (14:37 UTC)
 - Attacker command-and-control IP blocked (14:40 UTC)
 - Forensic evidence preserved (memory dump captured)
 - Incident Response Team activated (IC: Jane Doe, CISO)
 
 NEXT STEPS:
+
 - Phase 3: Deep-dive investigation (ransomware variant ID, infection vector)
 - Phase 4: Containment and eradication (remove malware, restore from backup)
 - Legal/Compliance: Assess GDPR/HIPAA breach notification requirements (72-hour clock started)
 
 ESTIMATED TIMELINE:
+
 - Investigation: 2-4 hours
 - Recovery: 4-6 hours (restore from backup)
 - Full resolution: 8-12 hours
 
 LEADERSHIP REQUIRED:
+
 - CEO: Approve external PR statement (if customer notification required)
 - CFO: Approve cyber insurance claim (estimated cost: $50k-$200k)
 - CTO: Approve temporary service disruption for forensics
@@ -421,7 +464,9 @@ LEADERSHIP REQUIRED:
 WAR ROOM: Conference Bridge +1-555-123-4567, Slack #incident-2025-11-17-ransomware
 
 - Jane Doe, CISO (Incident Commander)
+
 ```text
+
 **P1/P2 Incident - IT Team Notification**:
 
 ```text
@@ -430,11 +475,13 @@ Subject: P1 Security Incident - Investigating Suspicious Activity on Web Server
 Team,
 
 We're investigating a P1 security incident:
+
 - Affected System: WEB-PROD-03 (customer portal)
 - Issue: Unusual outbound traffic to unknown IP (possible data exfiltration)
 - Impact: 5,000 customers use this portal (no confirmed breach yet)
 
 Current Actions:
+
 - Web server isolated for forensics
 - Traffic logs being analyzed
 - Backup portal activated (customers redirected to WEB-PROD-04)
@@ -444,7 +491,9 @@ No customer notification yet - awaiting investigation results.
 Updates every 30 minutes in #incident-response Slack channel.
 
 - Security Team
+
 ```sql
+
 ### Escalation Triggers (When to Escalate Severity)
 
 **P2 → P1 Escalation**:
@@ -502,17 +551,22 @@ Use MITRE ATT&CK framework to categorize attacker tactics:
 
 ```text
 Step 1: Preserve Evidence (First 15 Minutes)
+
   - Take forensic images (memory dump, disk image)
   - Collect logs (system, application, security, firewall, SIEM)
   - Photograph screens (if systems being shut down)
   - Document chain of custody (who accessed what, when)
+
   ↓
 Step 2: Timeline Construction (Kill Chain Analysis)
+
   - Identify Initial Access timestamp (first malicious activity)
   - Map attacker actions chronologically (MITRE ATT&CK tactics)
   - Identify dwell time (how long attacker was in environment before detection)
+
   ↓
 Step 3: Indicator of Compromise (IOC) Extraction
+
   - File hashes (MD5, SHA256 of malware)
   - IP addresses (C2 servers, attacker infrastructure)
   - Domain names (malicious domains contacted)
@@ -521,24 +575,32 @@ Step 3: Indicator of Compromise (IOC) Extraction
   - File paths (malware locations)
   - Registry keys (persistence mechanisms)
   - User accounts (compromised or created by attacker)
+
   ↓
 Step 4: Scope Expansion (Hunt for Lateral Movement)
+
   - Search all systems for IOCs (file hashes, IPs, domains)
   - Check for same attack patterns on other hosts
   - Review authentication logs (did compromised account access other systems?)
   - Analyze network traffic (lateral movement, data exfiltration)
+
   ↓
 Step 5: Root Cause Analysis
+
   - What vulnerability was exploited? (CVE, misconfig, weak password)
   - Why did security controls fail? (AV missed malware, SIEM alert ignored)
   - What could have prevented this? (patch management, MFA, network segmentation)
+
   ↓
 Step 6: Data Impact Assessment
+
   - What files were accessed/exfiltrated/encrypted?
   - Classify data sensitivity (PII, PHI, IP, financial)
   - Determine if encryption keys can recover data (for ransomware)
   - Estimate data loss (if backups unavailable or corrupted)
+
 ```sql
+
 ### Example: Investigating Ransomware (Continued from Phase 2)
 
 **Incident**: Ransomware on FS-PROD-01, active C2 blocked, system isolated
@@ -557,6 +619,7 @@ Prompt: "Conduct forensic investigation of ransomware incident. Evidence collect
    - Email Gateway Logs (Proofpoint) - 90 days retention
 
 Analyze and provide:
+
 1. Attack timeline (initial access to detection)
 2. MITRE ATT&CK TTPs used
 3. IOCs (file hashes, IPs, domains)
@@ -568,6 +631,7 @@ AI Response (Using data-analysis-insights prompt on logs):
 "FORENSIC INVESTIGATION REPORT - Ransomware Incident
 
 ATTACK TIMELINE:
+
 - 2025-11-17 09:23 UTC: INITIAL ACCESS (Phishing Email)
   * Email from "invoices@legitimate-vendor.com" (spoofed) sent to finance@company.com
   * Subject: "Urgent: Payment Overdue - Invoice #8472"
@@ -620,6 +684,7 @@ TOTAL DWELL TIME: 5 hours 14 minutes (09:23-14:37 UTC)
 ENCRYPTION DURATION: 5 minutes (14:30-14:35 UTC)
 
 MITRE ATT&CK TTPs:
+
 - T1566.001: Phishing - Spearphishing Attachment
 - T1204.002: User Execution - Malicious File
 - T1547.001: Boot or Logon Autostart - Registry Run Keys
@@ -633,30 +698,38 @@ MITRE ATT&CK TTPs:
 
 INDICATORS OF COMPROMISE (IOCs):
 File Hashes (SHA256):
+
 - a3f8d9c2e1b4567890abcdef1234567890abcdef1234567890abcdef12345678 (dropper: Invoice_8472.pdf.exe)
 - b1c2d3e4f5a6789012345678901234567890abcdef1234567890abcdef123456 (ransomware payload: svchost.exe)
 
 IP Addresses:
+
 - 203.0.113.45 (C2 server, Netherlands)
 - 198.51.100.72 (data exfiltration server, Russia)
 
 Domains:
+
 - invoice-payment-update.com (phishing email infrastructure)
 
 Email:
+
 - invoices@legitimate-vendor.com (spoofed sender)
 
 File Paths:
+
 - C:\Users\jsmith\AppData\Local\Temp\svchost.exe
 - C:\Users\jsmith\Downloads\Invoice_8472.pdf.exe
 
 Registry Keys:
+
 - HKCU\Software\Microsoft\Windows\CurrentVersion\Run\svchost
 
 Ransom Note:
+
 - README_RECOVERY.txt (contains Bitcoin wallet address: 1BoatSLRHtKNngkdXEeobR76b53LETtpyT)
 
 SCOPE EXPANSION RECOMMENDATIONS:
+
 1. HUNT for IOCs on ALL systems (250 workstations, 50 servers)
    - Search for file hashes a3f8d9c2... and b1c2d3e4...
    - Check network connections to 203.0.113.45 and 198.51.100.72
@@ -678,6 +751,7 @@ Secondary: Email gateway allowed delivery despite suspicious flag (user override
 Tertiary: Lack of multi-factor authentication (MFA) for domain admin accounts
 
 WHY SECURITY CONTROLS FAILED:
+
 1. Email Gateway: Proofpoint flagged email as suspicious but user overrode warning
    - Recommendation: Disable user override for suspicious attachments
 2. Antivirus: Windows Defender failed to detect REvil variant (signature mismatch)
@@ -690,6 +764,7 @@ WHY SECURITY CONTROLS FAILED:
    - Recommendation: Segment critical servers, require jump hosts for admin access
 
 PREVENTION RECOMMENDATIONS:
+
 1. IMMEDIATE (Next 7 Days):
    - Enable MFA for all domain admin and privileged accounts
    - Reset all domain admin passwords (assume compromise)
@@ -712,6 +787,7 @@ PREVENTION RECOMMENDATIONS:
    - Establish SOC 24/7 monitoring (current: business hours only)
 
 DATA IMPACT ASSESSMENT:
+
 - Files Accessed: 12,000+ files on FS-PROD-01
 - Data Exfiltrated: 85GB (HR records, customer data, source code, financial reports)
 - Files Encrypted: 500+ files (before containment stopped encryption)
@@ -722,6 +798,7 @@ DATA IMPACT ASSESSMENT:
   * PUBLIC: 2,000 files (~10GB) - no breach impact
 
 RECOVERY OPTIONS:
+
 1. RESTORE FROM BACKUP (Recommended)
    - Last clean backup: 2025-11-16 22:00 UTC (18 hours before infection)
    - Data loss: 18 hours of file changes (acceptable per RPO)
@@ -740,6 +817,7 @@ RECOVERY OPTIONS:
 
 RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 ```text
+
 ### Investigation Checklists
 
 **Evidence Preservation**:
@@ -842,7 +920,7 @@ RECOMMENDATION: Proceed to Phase 4 (Containment) with backup restore strategy"
 
 | Version | Date | Changes |
 
-|---------|------|---------|
+| --------- | ------ | --------- |
 | 1.0 | 2025-11-17 | Initial playbook created (Phases 1-3: Detection, Triage, Investigation) |
 
 ---

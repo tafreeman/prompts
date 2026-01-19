@@ -5,22 +5,30 @@ intro: "Guide to the six content types used in the Prompt Library and when to us
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
   - "azure-openai"
   - "m365-copilot"
+
 topics:
+
   - "documentation"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-11-29"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -32,7 +40,7 @@ The Prompt Library uses six standardized content types, based on the [GitHub Doc
 ## Quick Reference
 
 | Type | Purpose | Title Pattern | Time |
-|------|---------|---------------|------|
+| ------ | --------- | --------------- | ------ |
 | `conceptual` | Explain what/why/when | "About [Subject]" | 10-30 min |
 | `quickstart` | First success | "Quickstart for [Platform]" | ≤15 min |
 | `how_to` | Complete a task | Gerund/imperative verb | 15-45 min |
@@ -220,12 +228,13 @@ Is this about fixing a problem?
 ├── Yes → troubleshooting
 └── No → Re-evaluate scope (may need to split content)
 ```text
+
 ---
 
 ## Content Type by Folder
 
 | Folder | Primary Type | Secondary Types |
-|--------|--------------|-----------------|
+| -------- | -------------- | ----------------- |
 | `get-started/` | quickstart | how_to |
 | `concepts/` | conceptual | — |
 | `prompts/` | how_to | reference |

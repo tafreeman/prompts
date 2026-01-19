@@ -5,17 +5,23 @@ intro: A prompt for c# code generator with reflexion tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -25,20 +31,24 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - code-generation
 - refactoring
 - boilerplate-reduction
 - dotnet-development
+
 performance_metrics:
   accuracy_improvement: 30-45%
   latency_impact: medium
   cost_multiplier: 1.5-2.0x
 last_updated: '2025-11-23'
 tags:
+
 - reflexion
 - csharp
 - code-generation
 - domain-specific
+
 ---
 
 # C# Code Generator with Reflexion
@@ -68,6 +78,7 @@ You are an expert C# developer specializing in .NET 6+ and clean architecture.
 {{requirements}}
 
 **Constraints**:
+
 - Target Framework: {{framework_version}}
 - Use async/await for I/O operations
 - Include XML documentation comments
@@ -78,24 +89,30 @@ You are an expert C# developer specializing in .NET 6+ and clean architecture.
 - Use dependency injection where appropriate
 
 **Generate**:
+
 1. The complete C# class(es) meeting the requirements
 2. Include all necessary using statements
 3. Add unit test examples
 
 **Output Format**:
 ```csharp
+
 // [Namespace and using statements]
 // [Class implementation]
 // [Unit tests]
+
 ```csharp
 ```csharp
+
 ### Reflexion (Self-Critique) Prompt
 
 ```markdown
 You just generated the following C# code:
 
 ```csharp
+
 {{generated_code}}
+
 ```csharp
 **Critique This Code** against these criteria:
 
@@ -141,11 +158,13 @@ You just generated the following C# code:
 
 1. [Issue 1]
 2. [Issue 2]
+
 ...
 
 **Self-Assessment Score**: X/10
 
 ```csharp
+
 ### Refinement Prompt
 
 ```markdown
@@ -156,7 +175,9 @@ Based on your critique:
 
 **Original Code**:
 ```csharp
+
 {{original_code}}
+
 ```csharp
 **Generate Improved Code** that fixes all identified issues while maintaining the original functionality.
 
@@ -170,6 +191,7 @@ Based on your critique:
 3. Updated unit tests
 
 ```csharp
+
 ## Usage Example
 
 ### Requirements
@@ -184,7 +206,7 @@ using System.Data.SqlClient;
 public class UserRepository
 {
     private string connectionString = "Server=...";
-    
+
     public User GetUser(int userId)
     {
         using (var conn = new SqlConnection(connectionString))
@@ -197,6 +219,7 @@ public class UserRepository
     }
 }
 ```csharp
+
 ### Reflexion Output
 
 **Issues Found**:
@@ -233,7 +256,7 @@ namespace MyApp.Repositories
         private readonly IMemoryCache _cache;
         private readonly ILogger<UserRepository> _logger;
         private const int CacheDurationMinutes = 10;
-        
+
         public UserRepository(
             string connectionString,
             IMemoryCache cache,
@@ -243,7 +266,7 @@ namespace MyApp.Repositories
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        
+
         /// <summary>
         /// Retrieves a user by ID with caching.
         /// </summary>
@@ -253,26 +276,26 @@ namespace MyApp.Repositories
         public async Task<User?> GetUserAsync(int userId)
         {
             string cacheKey = $"User_{userId}";
-            
+
             // Check cache first
             if (_cache.TryGetValue(cacheKey, out User? cachedUser))
             {
                 _logger.LogDebug("User {UserId} retrieved from cache", userId);
                 return cachedUser;
             }
-            
+
             try
             {
                 await using var conn = new SqlConnection(_connectionString);
                 await conn.OpenAsync();
-                
+
                 await using var cmd = new SqlCommand(
                     "SELECT Id, Name, Email FROM Users WHERE Id = @UserId", 
                     conn);
                 cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
-                
+
                 await using var reader = await cmd.ExecuteReaderAsync();
-                
+
                 if (await reader.ReadAsync())
                 {
                     var user = new User
@@ -281,14 +304,14 @@ namespace MyApp.Repositories
                         Name = reader.GetString(1),
                         Email = reader.GetString(2)
                     };
-                    
+
                     // Cache the result
                     _cache.Set(cacheKey, user, TimeSpan.FromMinutes(CacheDurationMinutes));
-                    
+
                     _logger.LogInformation("User {UserId} retrieved from database", userId);
                     return user;
                 }
-                
+
                 _logger.LogWarning("User {UserId} not found", userId);
                 return null;
             }
@@ -299,12 +322,12 @@ namespace MyApp.Repositories
             }
         }
     }
-    
+
     public interface IUserRepository
     {
         Task<User?> GetUserAsync(int userId);
     }
-    
+
     public class DataAccessException : Exception
     {
         public DataAccessException(string message, Exception innerException) 
@@ -312,6 +335,7 @@ namespace MyApp.Repositories
     }
 }
 ```csharp
+
 ### Final Reflexion
 
 **Issues Fixed**: ✅ All 8 issues resolved
@@ -325,44 +349,44 @@ public class CSharpReflexionGenerator
 {
     private readonly AIModelClient _client;
     private readonly int _maxIterations;
-    
+
     public CSharpReflexionGenerator(AIModelClient client, int maxIterations = 3)
     {
         _client = client;
         _maxIterations = maxIterations;
     }
-    
+
     public async Task<GenerationResult> GenerateCodeAsync(
         string requirements,
         string frameworkVersion = ".NET 6")
     {
         string currentCode = null;
         var iterations = new List<IterationResult>();
-        
+
         for (int i = 0; i < _maxIterations; i++)
         {
             // Step 1: Generate or Refine
             var generatePrompt = i == 0
                 ? BuildInitialPrompt(requirements, frameworkVersion)
                 : BuildRefinementPrompt(requirements, currentCode, iterations[i-1].Issues);
-            
+
             currentCode = await CallModelAsync(generatePrompt);
-            
+
             // Step 2: Reflexion (Self-Critique)
             var critiquePrompt = BuildCritiquePrompt(currentCode);
             var critique = await CallModelAsync(critiquePrompt);
-            
+
             var iterationResult = ParseCritique(critique);
             iterationResult.GeneratedCode = currentCode;
             iterations.Add(iterationResult);
-            
+
             // Stop if quality threshold met
             if (iterationResult.Score >= 8)
             {
                 break;
             }
         }
-        
+
         return new GenerationResult
         {
             FinalCode = currentCode,
@@ -370,7 +394,7 @@ public class CSharpReflexionGenerator
             TotalIterations = iterations.Count
         };
     }
-    
+
     private async Task<string> CallModelAsync(string prompt)
     {
         var response = await _client.CallAsync(new ModelRequest
@@ -384,6 +408,7 @@ public class CSharpReflexionGenerator
     }
 }
 ```csharp
+
 ## Best Practices
 
 1. **Start Simple**: Initial generation should be basic but functional.

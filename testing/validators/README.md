@@ -5,7 +5,7 @@ This directory contains validation tests for the prompt library schema and front
 ## Test Files
 
 | File | Description | Tests |
-|------|-------------|-------|
+| ------ | ------------- | ------- |
 | `test_frontmatter.py` | Frontmatter parsing and required field validation | ~20 |
 | `test_schema.py` | Schema structure and field type validation | ~25 |
 | `test_frontmatter_auditor.py` | Auditor/autofix library tests | few |
@@ -31,7 +31,7 @@ python -m pytest testing/validators/test_frontmatter_auditor.py -v
 Required frontmatter fields:
 
 | Field | Type | Constraints |
-|-------|------|-------------|
+| ------- | ------ | ------------- |
 | `title` | string | 3-100 chars |
 | `shortTitle` | string | 2-30 chars |
 | `intro` | string | 10-500 chars |

@@ -6,29 +6,39 @@ intro: A prompt to help categorize data assets based on sensitivity and regulato
 type: how_to
 difficulty: beginner
 audience:
+
 - data-steward
 - compliance-officer
 - developer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - data-management
 - security
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-11'
 governance_tags:
+
 - requires-human-review
 - data-privacy
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - CCPA
 - Internal-Policy
+
 effectivenessScore: 0.0
 ---
 
@@ -58,6 +68,7 @@ Assists in classifying data fields or datasets into standard sensitivity levels 
 You are a Data Governance Specialist. Classify the following data elements based on a standard 4-tier classification scheme (Public, Internal, Confidential, Restricted).
 
 ## Classification Scheme Definition
+
 - **Public:** Freely shareable (e.g., marketing info).
 - **Internal:** Business data, low risk if leaked (e.g., org charts).
 - **Confidential:** Sensitive business data or PII (e.g., salaries, customer emails).
@@ -67,13 +78,14 @@ You are a Data Governance Specialist. Classify the following data elements based
 [DATA_LIST]
 
 ## Instructions
+
 1.  Assign a classification level to each element.
 2.  Cite the reasoning (e.g., "Contains PII", "PCI-DSS requirement").
 3.  Recommend handling controls (e.g., "Encrypt at rest").
 
 ## Output Format
 | Data Element | Classification | Reasoning | Handling Controls |
-|--------------|----------------|-----------|-------------------|
+| -------------- | ---------------- | ----------- | ------------------- |
 ```
 
 ---
@@ -90,7 +102,7 @@ You are a Data Governance Specialist. Classify the following data elements based
 ## Data Classification Report
 
 | Data Element | Classification | Reasoning | Handling Controls |
-|--------------|----------------|-----------|-------------------|
+| -------------- | ---------------- | ----------- | ------------------- |
 | Public Profile URL | **Public** | Intended for public consumption. | None specific. |
 | User ID | **Internal** | System identifier, low risk alone. | Access control. |
 | Email Address | **Confidential** | PII (GDPR/CCPA). | Encrypt in transit, access logging. |

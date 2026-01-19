@@ -5,24 +5,31 @@ intro: "Enterprise governance, privacy, and compliance prompts using ReAct reaso
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "solution-architect"
   - "project-manager"
   - "security-engineer"
+
 platforms:
+
   - "github-copilot"
   - "chatgpt"
   - "claude"
+
 author: "Prompt Library Team"
 version: "1.1"
 date: "2025-12-05"
 governance_tags:
+
   - "requires-human-review"
   - "compliance-critical"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/governance/access-control-reviewer
   - /prompts/governance/ai-ml-privacy-risk-assessment
   - /prompts/governance/compliance-policy-generator
@@ -38,13 +45,18 @@ children:
   - /prompts/governance/soc2-audit-preparation
   - /prompts/governance/sox-audit-preparer
   - /prompts/governance/vendor-security-review
+
 featuredLinks:
   gettingStarted:
+
     - /docs/prompt-authorship-guide
+
   popular:
+
     - /prompts/governance/gdpr-compliance-assessment
     - /prompts/governance/soc2-audit-preparation
     - /prompts/governance/privacy-impact-assessment
+
 ---
 
 # Governance & Risk Prompts
@@ -180,7 +192,7 @@ All governance prompts are grounded in:
 ## Governance Tags
 
 | Tag | Meaning |
-|-----|---------|
+| ----- | --------- |
 | `requires-human-review` | Output must be reviewed by qualified personnel |
 | `compliance-critical` | Errors may result in regulatory violations |
 | `audit-required` | Actions should create audit trail |

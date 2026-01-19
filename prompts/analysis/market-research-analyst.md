@@ -6,20 +6,28 @@ intro: Conducts comprehensive market research with research design, data collect
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - research
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -55,18 +63,20 @@ Methodology Preference: [methodology]
 Timeline: [timeline]
 
 Provide:
+
 1. Research design
 2. Data collection plan
 3. Analysis framework
 4. Key findings
 5. Market insights
 6. Strategic implications
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[topic]` | The research topic or question to investigate |
 | `[market]` | Target market definition (segments, geography, demographics) |
 | `[objectives]` | What you need to learn/decide (bullets are fine) |
@@ -79,14 +89,17 @@ Provide:
 ## Market Research Plan
 
 ### 1. Research Design
+
 *   **Phase 1 (Qual):** In-home interviews to observe current security setups and frustrations.
 *   **Phase 2 (Quant):** MaxDiff survey to rank feature importance (e.g., "Face Recognition" vs "Local Storage").
 
 ### 2. Data Collection Plan
+
 *   **Recruitment:** Use panel provider (e.g., UserInterviews.com) targeting suburban homeowners.
 *   **Incentive:** $100 Amazon Gift Card for 60-min interview.
 
 ### 3. Analysis Framework
+
 *   **Segmentation:** Cluster analysis to identify "Privacy Purists" vs "Tech Enthusiasts."
 
 [... continues with key findings and strategic implications ...]

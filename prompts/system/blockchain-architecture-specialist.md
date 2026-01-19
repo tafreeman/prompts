@@ -5,21 +5,29 @@ intro: Designs blockchain-based architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - enterprise
 - blockchain
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,13 +52,13 @@ flowchart TB
         Mobile[Mobile App]
         IoT[IoT Devices]
     end
-    
+
     subgraph Integration[Integration Layer]
         API[REST/GraphQL API]
         Oracle[Blockchain Oracle]
         Events[Event Listener]
     end
-    
+
     subgraph Blockchain[Blockchain Network]
         Node1[Peer Node 1]
         Node2[Peer Node 2]
@@ -58,12 +66,12 @@ flowchart TB
         Smart[Smart Contracts]
         Ledger[(Distributed Ledger)]
     end
-    
+
     subgraph OffChain[Off-Chain Storage]
         IPFS[IPFS/Filecoin]
         DB[(Traditional DB)]
     end
-    
+
     WebApp --> API
     Mobile --> API
     IoT --> Oracle
@@ -85,7 +93,7 @@ flowchart TB
 ### When to Use Blockchain
 
 | Criteria | Indicators |
-|----------|------------|
+| ---------- | ------------ |
 | **Multiple Parties** | 3+ organizations need shared truth without central authority |
 | **Trust Issues** | Parties don't fully trust each other or intermediaries |
 | **Audit Trail** | Immutable, tamper-proof transaction history required |
@@ -125,12 +133,14 @@ Consensus Requirements: [consensus]
 Integration Needs: [integrations]
 
 Include:
+
 1. Blockchain platform selection
 2. Smart contract architecture
 3. Integration patterns
 4. Security considerations
 5. Scalability solutions
 6. Governance model
+
 ```text
 
 **Output:**
@@ -139,14 +149,17 @@ Include:
 ## Blockchain Architecture
 
 ### 1. Platform Selection
+
 *   **Hyperledger Fabric:** Chosen for privacy channels (competitors don't see each other's volume) and high throughput (3000+ tps).
 
 ### 2. Smart Contract (Chaincode) Architecture
+
 *   **Asset:** `LuxuryItem` (ID, Manufacturer, CurrentOwner, Status, History).
 *   **Functions:** `Mint()` (Factory), `TransferOwnership()` (Logistics/Retail), `VerifyAuthenticity()` (Public).
 *   **Endorsement Policy:** Requires signature from Manufacturer Org + Logistics Org.
 
 ### 3. Integration Patterns
+
 *   **Off-Chain Storage:** Store high-res product photos/certificates in IPFS, store hash on-chain (Cost optimization).
 *   **Event Listener:** Node.js service listening for `ItemTransferred` events to update SAP ERP status.
 
@@ -167,18 +180,21 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Platform**: Azure Confidential Ledger for tamper-proof data, Azure Blockchain Workbench (deprecated)
 - **Managed Nodes**: Partner solutions (ConsenSys Quorum, R3 Corda) via Azure Marketplace
 - **Integration**: Azure Logic Apps, Event Grid for blockchain event processing
 - **Identity**: Azure AD for permissioned network participant management
 
 ### AWS
+
 - **Platform**: Amazon Managed Blockchain (Hyperledger Fabric, Ethereum)
 - **Serverless**: AWS Lambda for off-chain processing triggered by blockchain events
 - **Storage**: Amazon QLDB for centralized immutable ledger use cases
 - **Integration**: Amazon EventBridge for blockchain event routing
 
 ### GCP
+
 - **Blockchain Node Engine**: Managed Ethereum nodes for Web3 applications
 - **BigQuery**: Blockchain analytics with public datasets (Bitcoin, Ethereum)
 - **Cloud Functions**: Event-driven processing for smart contract events
@@ -192,6 +208,7 @@ Include:
 A global luxury goods consortium (5 manufacturers, 200+ retailers, logistics partners) needs to track product authenticity from factory to consumer to combat counterfeiting worth $500B annually.
 
 ### Input
+
 ```text
 Use Case: Luxury goods supply chain provenance (anti-counterfeiting)
 Blockchain Type: Permissioned consortium (5 founding members, 200+ participants)

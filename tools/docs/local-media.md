@@ -22,7 +22,7 @@ python tools/local_media.py upscale low_res.png -o high_res.png
 ## Capabilities
 
 | Feature | Model | Hardware | Output |
-|---------|-------|----------|--------|
+| --------- | ------- | ---------- | -------- |
 | Image Generation | Stable Diffusion | GPU | PNG/JPG |
 | Speech-to-Text | Whisper | CPU | TXT/SRT |
 | Image Upscaling | ESRGAN | GPU | PNG |
@@ -92,7 +92,7 @@ python tools/local_media.py transcribe video.mp4 --srt -o subtitles.srt
 ### Model Sizes
 
 | Model | Size | Speed | Accuracy | VRAM |
-|-------|------|-------|----------|------|
+| ------- | ------ | ------- | ---------- | ------ |
 | `tiny` | 39M | Fastest | Lower | 1GB |
 | `base` | 74M | Fast | Good | 1GB |
 | `small` | 244M | Medium | Better | 2GB |
@@ -149,7 +149,7 @@ upscale_image("image.png", output_path="image_2x.png", scale=2)
 ### Input Formats
 
 | Type | Formats |
-|------|---------|
+| ------ | --------- |
 | Audio | .wav, .mp3, .m4a, .flac, .ogg |
 | Image | .png, .jpg, .jpeg, .webp, .bmp |
 | Video | .mp4 (audio extraction only) |
@@ -157,7 +157,7 @@ upscale_image("image.png", output_path="image_2x.png", scale=2)
 ### Output Formats
 
 | Type | Formats |
-|------|---------|
+| ------ | --------- |
 | Image | .png, .jpg |
 | Text | .txt, .srt |
 

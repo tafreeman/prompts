@@ -5,17 +5,23 @@ intro: A prompt for semantic compression tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -25,10 +31,12 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - long-document-summarization
 - chat-history-management
 - token-optimization
 - cost-reduction
+
 performance_metrics:
   compression_ratio: 40-60%
   information_retention: high
@@ -41,13 +49,17 @@ governance:
   data_classification: internal
   risk_level: low
   compliance_standards:
+
   - GDPR
+
 last_updated: '2025-11-23'
 tags:
+
 - compression
 - summarization
 - token-optimization
 - python
+
 ---
 
 # Semantic Compression
@@ -76,6 +88,7 @@ Compress the following text to retain all key information, facts, and entities, 
 
 **Compressed Version**:
 ```text
+
 ## Example
 
 ### Python Implementation
@@ -107,6 +120,7 @@ compressed_text = optimizer.compress_context(
 print(f"Original Length: {len(long_text)}")
 print(f"Compressed Text: {compressed_text}")
 ```text
+
 ### Expected Output
 
 ```text
@@ -115,6 +129,7 @@ Goal: MVP by 12/15.
 Issue: DB schema (user profile). 
 Action: Eng to review/propose solution by Friday.
 ```text
+
 ## Usage
 
 ### When to Use

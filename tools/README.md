@@ -5,17 +5,23 @@ intro: Unified tooling for prompt execution, evaluation, and AI model integratio
 type: reference
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '3.0'
 date: '2025-12-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -32,7 +38,7 @@ Unified tooling for prompt execution, evaluation, validation, and multi-modal AI
 graph TD
     User([User]) --> CLI[prompt.py CLI]
     User --> PAPI[Python API]
-    
+
     subgraph "Core Execution"
         CLI --> LLC[LLM Client]
         PAPI --> LLC
@@ -41,7 +47,7 @@ graph TD
         LLC --> GH[GitHub Models]
         LLC --> AZ[Azure Foundry]
     end
-    
+
     subgraph "Specialized Tools"
         CLI --> TE[Tiered Eval]
         CLI --> CoVe[CoVe Runner]
@@ -49,7 +55,7 @@ graph TD
         Med --> SD[Stable Diffusion]
         Med --> WH[Whisper]
     end
-    
+
     subgraph "Validation"
         CLI --> VAL[Validators]
         VAL --> FM[Frontmatter]
@@ -97,7 +103,7 @@ Use these commands for common workflows. All models listed are pre-integrated in
 Unified dispatcher for all LLM providers. Routes requests based on model prefix.
 
 | Prefix | Provider | Cost | Example |
-|--------|----------|------|---------|
+| -------- | ---------- | ------ | --------- |
 | `local:*` | Local ONNX (CPU/GPU) | $0 | `local:phi4-cpu` |
 | `windows-ai:*` | Windows AI (NPU) | $0 | `windows-ai:phi-silica` |
 | `gh:*` | GitHub Models | FREE tier | `gh:gpt-4o-mini` |
@@ -113,7 +119,7 @@ graph LR
     D -->|windows:*| CPP[C# Bridge / Phi Silica]
     D -->|gh:*| HTTP[GitHub Models API]
     D -->|azure:*| AF[Azure Foundry]
-    
+
     ONNX --> CPU[CPU]
     ONNX --> GPU[GPU / DirectML]
     CPP --> NPU[NPU]
@@ -143,7 +149,7 @@ Direct interface for local ONNX models via `onnxruntime-genai`.
 **Available Models (28 total):**
 
 | Key | Model | Params | Hardware |
-|-----|-------|--------|----------|
+| ----- | ------- | -------- | ---------- |
 | `phi4` / `phi4-cpu` | Phi-4 Mini | 3.8B | CPU |
 | `phi4-gpu` | Phi-4 Mini | 3.8B | GPU |
 | `phi3.5` / `phi3.5-cpu` | Phi-3.5 Mini | 3.8B | CPU |
@@ -168,7 +174,7 @@ response = model.generate("What is machine learning?", max_tokens=500)
 **Evaluation Methods (all FREE with local models):**
 
 | Method | Description | Best For |
-|--------|-------------|----------|
+| -------- | ------------- | ---------- |
 | `evaluate_prompt()` | Direct 6-criteria scoring | Fast evaluation |
 | `evaluate_prompt_geval()` | G-Eval with Chain-of-Thought | Explainable scoring |
 | `evaluate_prompt_dual()` | Both methods combined | Most robust evaluation |
@@ -271,13 +277,13 @@ upscale_image("photo.jpg", output_path="photo_4x.png")
  ```bash
  # Local G-Eval (Tier 2 - Free)
  python -m prompteval prompts/advanced/
- 
+
  # Cross-model validation (Tier 3)
  python -m prompteval prompts/ --tier 3
- 
+
  # Specific models
  python -m prompteval prompt.md -m phi4,gpt-4o-mini
- 
+
  # CI/CD mode
  python -m prompteval prompts/ --ci
  ```
@@ -363,7 +369,7 @@ tools/
 ### Environment Variables
 
 | Variable | Purpose | Default |
-|----------|---------|---------|
+| ---------- | --------- | --------- |
 | `GITHUB_TOKEN` | GitHub Models API | Required for `gh:*` |
 | `AZURE_OPENAI_ENDPOINT` | Azure Foundry | Required for `azure-foundry:*` |
 | `AZURE_OPENAI_KEY` | Azure Foundry | Required for `azure-foundry:*` |

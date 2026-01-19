@@ -5,21 +5,29 @@ intro: Designs secure system architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - security
 - architect
 - system
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,31 +52,31 @@ flowchart TB
         DDoS[DDoS Protection]
         Firewall[Firewall]
     end
-    
+
     subgraph Identity[Identity Layer]
         IdP[Identity Provider]
         MFA[MFA]
         RBAC[RBAC/ABAC]
     end
-    
+
     subgraph Network[Network Security]
         Segment[Network Segmentation]
         mTLS[mTLS/Zero Trust]
         VPN[VPN/Private Link]
     end
-    
+
     subgraph Data[Data Protection]
         Encrypt[Encryption]
         KMS[Key Management]
         DLP[Data Loss Prevention]
     end
-    
+
     subgraph Monitor[Security Monitoring]
         SIEM[SIEM]
         SOC[SOC/SOAR]
         Threat[Threat Intel]
     end
-    
+
     WAF --> Firewall
     DDoS --> WAF
     Firewall --> IdP
@@ -91,7 +99,7 @@ flowchart TB
 ### Security Control Selection (NIST CSF)
 
 | Function | Key Controls | Implementation |
-|----------|--------------|----------------|
+| ---------- | -------------- | ---------------- |
 | **Identify** | Asset inventory, risk assessment | CMDB, vulnerability scanning |
 | **Protect** | Access control, encryption, training | IAM, KMS, security awareness |
 | **Detect** | Monitoring, anomaly detection | SIEM, EDR, threat intel |
@@ -101,7 +109,7 @@ flowchart TB
 ### Zero Trust Architecture Decision Points
 
 | Principle | Implementation | Maturity Level |
-|-----------|----------------|----------------|
+| ----------- | ---------------- | ---------------- |
 | Verify explicitly | MFA, device posture | Basic |
 | Least privilege | JIT/JEA, RBAC | Intermediate |
 | Assume breach | Micro-segmentation, mTLS | Advanced |
@@ -131,12 +139,14 @@ Compliance Standards: [compliance]
 Threat Landscape: [threats]
 
 Include:
+
 1. Security controls framework
 2. Identity and access management
 3. Data protection strategy
 4. Network security design
 5. Monitoring and incident response
 6. Compliance mapping
+
 ```text
 
 **Output:**
@@ -147,10 +157,12 @@ Include:
 ### 1. Security Controls Framework (NIST CSF Aligned)
 
 **Identify:**
+
 *   Asset Management: AWS Config + Tagging policies
 *   Risk Assessment: Quarterly penetration testing (external)
 
 **Protect:**
+
 *   **Data Protection:**
     *   At Rest: AES-256 (AWS KMS with customer-managed keys)
     *   In Transit: TLS 1.3 with mTLS for service-to-service
@@ -160,6 +172,7 @@ Include:
     *   Service: IAM Roles with least privilege (IRSA for Kubernetes)
 
 **Detect:**
+
 *   GuardDuty (Threat detection)
 *   WAF (Web Application Firewall) with managed rules for OWASP Top 10
 *   Macie (Sensitive data discovery)
@@ -182,6 +195,7 @@ Include:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Identity**: Azure AD, Entra ID, Managed Identities, PIM
 - **Network**: Azure Firewall, NSG, Private Link, Azure Bastion
 - **Data Protection**: Azure Key Vault, Azure Information Protection
@@ -189,6 +203,7 @@ Include:
 - **Compliance**: Compliance Manager, Azure Policy, Blueprints
 
 ### AWS
+
 - **Identity**: IAM, Identity Center (SSO), STS, IRSA for Kubernetes
 - **Network**: Security Groups, NACL, WAF, Shield, PrivateLink
 - **Data Protection**: KMS, CloudHSM, Macie, Secrets Manager
@@ -196,6 +211,7 @@ Include:
 - **Compliance**: Config Rules, Audit Manager, Artifact
 
 ### GCP
+
 - **Identity**: Cloud IAM, Workload Identity, BeyondCorp Enterprise
 - **Network**: Cloud Armor, VPC Service Controls, Private Service Connect
 - **Data Protection**: Cloud KMS, Secret Manager, DLP API
@@ -210,6 +226,7 @@ Include:
 A fintech company handling payment card data needs PCI-DSS compliant infrastructure.
 
 ### Input
+
 ```text
 System: Payment processing platform with card-present and card-not-present transactions
 Security Requirements: PCI-DSS Level 1, SOC 2 Type II, zero-trust architecture

@@ -5,23 +5,31 @@ intro: "A Tree-of-Thoughts wrapped in Reflexion research prompt for conducting d
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
   - "researcher"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "research"
   - "prompt-engineering"
   - "reasoning"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-12-06"
 governance_tags:
+
   - "PII-safe"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -83,6 +91,7 @@ You are an AI research assistant conducting deep research on advanced prompt eng
 Generate 3-5 distinct research paths to explore this topic comprehensively.
 
 For each branch:
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** What aspect this branch investigates
 - **Key Sources to Find:** Academic papers, documentation, implementations
@@ -98,18 +107,21 @@ Select the top 3 branches based on priority and potential yield.
 For each selected branch, execute:
 
 ### Round 1 - Initial Investigation
+
 1. **Think:** What specific information will best answer the research questions?
 2. **Act:** Describe what you're searching for or analyzing
 3. **Observe:** Document findings with citations
 4. **Reflect:** What's missing? Are sources authoritative and recent?
 
 ### Round 2 - Refinement (if gaps remain)
+
 1. **Think:** Based on reflection, what angle was missed?
 2. **Act:** Targeted follow-up investigation
 3. **Observe:** New findings
 4. **Reflect:** Is this branch now sufficiently explored?
 
 ### Capture for each branch:
+
 - Key concepts and mechanisms discovered
 - Source quality (academic paper / industry documentation / blog)
 - Publication dates and citation counts where available
@@ -122,6 +134,7 @@ For each selected branch, execute:
 ## Phase 3: Cross-Branch Reflection (Reflexion)
 
 ### Self-Critique Questions:
+
 1. Have I covered the major research directions for this topic?
 2. Are my sources recent (within [TIME_RANGE]) and authoritative?
 3. Did I find contradictory information requiring reconciliation?
@@ -138,6 +151,7 @@ Open 1-2 new targeted investigations to fill critical gaps.
 Produce a structured research report:
 
 ### Executive Summary
+
 - 3-4 sentence overview of the technique/topic
 - Key breakthrough or insight identified
 - Readiness for production use (High/Medium/Low/Experimental)
@@ -145,7 +159,7 @@ Produce a structured research report:
 ### Technique Overview Table
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | [Technique name] |
 | **Origin** | [Paper/authors/year] |
 | **Core Mechanism** | [How it works in 2-3 sentences] |
@@ -161,7 +175,7 @@ Produce a structured research report:
 
 #### Comparison to Related Techniques
 | Technique | Similarity | Key Difference | When to Prefer |
-|-----------|------------|----------------|----------------|
+| ----------- | ------------ | ---------------- | ---------------- |
 | [Related 1] | | | |
 | [Related 2] | | | |
 
@@ -172,11 +186,13 @@ Produce a structured research report:
 [Performance data from papers with proper citations]
 
 ### Contradictions & Open Questions
+
 - Areas where sources disagree
 - Techniques with mixed benchmark results
 - Unanswered research questions
 
 ### Practical Recommendations
+
 1. [Most important takeaway for implementation]
 2. [Key parameter or configuration advice]
 3. [What to avoid or use cautiously]
@@ -185,8 +201,10 @@ Produce a structured research report:
 [Full citations in academic format]
 
 ### Further Research Directions
+
 - Unexplored areas worth investigating
 - Related papers to read next
+
 ```
 
 ---
@@ -211,6 +229,7 @@ Produce a structured research report:
 Self-Consistency prompting pattern for chain-of-thought reasoning
 
 ## Research Questions
+
 1. How does Self-Consistency differ from simple majority voting?
 2. What sampling parameters (k, temperature) are optimal?
 3. How should multiple reasoning paths be presented in a prompt template?
@@ -236,7 +255,7 @@ implementation overhead. Production readiness: High for reasoning-heavy applicat
 
 ## Technique Overview Table
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Self-Consistency |
 | **Origin** | Wang et al., ICLR 2023 (arXiv:2203.11171) |
 | **Core Mechanism** | Sample k diverse reasoning paths via temperature sampling, extract final answers, select most frequent answer |

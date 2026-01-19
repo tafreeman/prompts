@@ -5,21 +5,29 @@ intro: Designs DevOps and CI/CD architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - enterprise
 - devops
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -43,33 +51,33 @@ flowchart LR
         Code[Source Code]
         PR[Pull Request]
     end
-    
+
     subgraph CI[Continuous Integration]
         Build[Build]
         Test[Unit Tests]
         SAST[SAST Scan]
         Artifact[Artifact Registry]
     end
-    
+
     subgraph CD[Continuous Delivery]
         Deploy[Deploy]
         Integration[Integration Tests]
         Approval[Approval Gate]
     end
-    
+
     subgraph Envs[Environments]
         Dev_Env[Dev]
         Stage[Staging]
         Prod[Production]
     end
-    
+
     subgraph Observe[Observability]
         Metrics[Metrics]
         Logs[Logs]
         Traces[Traces]
         Alerts[Alerts]
     end
-    
+
     Code --> PR
     PR --> Build
     Build --> Test
@@ -94,7 +102,7 @@ flowchart LR
 ### Deployment Strategy Selection
 
 | Strategy | When to Use | Risk Level | Rollback Time |
-|----------|-------------|------------|---------------|
+| ---------- | ------------- | ------------ | --------------- |
 | **Rolling** | Stateless apps, gradual rollout | Medium | Minutes |
 | **Blue-Green** | Zero downtime, instant rollback | Low | Seconds |
 | **Canary** | Risk mitigation, metrics validation | Low | Seconds |
@@ -104,7 +112,7 @@ flowchart LR
 ### When to Use This Pattern
 
 | Criteria | Indicators |
-|----------|------------|
+| ---------- | ------------ |
 | **Release Frequency** | Multiple deployments per day/week |
 | **Team Size** | 5+ developers contributing to same codebase |
 | **Environments** | 3+ environments (dev, staging, prod) |
@@ -135,12 +143,14 @@ Deployment Environments: [environments]
 Quality Requirements: [quality]
 
 Provide:
+
 1. CI/CD pipeline design
 2. Infrastructure as code
 3. Monitoring and observability
 4. Security integration
 5. Deployment strategies
 6. Automation framework
+
 ```text
 
 **Output:**
@@ -149,6 +159,7 @@ Provide:
 ## DevOps Architecture
 
 ### 1. CI/CD Pipeline Design (GitLab CI / GitHub Actions)
+
 *   **Commit Stage:** Unit Tests, Checkstyle, SAST (SonarQube).
 *   **Build Stage:** Build Docker container, tag with commit SHA, push to ECR.
 *   **Deploy Dev:** Helm upgrade to Dev namespace.
@@ -156,10 +167,12 @@ Provide:
 *   **Promote:** Manual approval gate for Staging/Prod.
 
 ### 2. Infrastructure as Code (IaC)
+
 *   **Tool:** Terraform with remote state locking (S3 + DynamoDB).
 *   **Structure:** Modular approach (VPC module, EKS module, RDS module) to enforce standards across squads.
 
 ### 3. Deployment Strategy
+
 *   **Production:** Blue/Green deployment using ArgoCD Rollouts.
     *   Traffic shifted 1% -> 10% -> 50% -> 100% based on health metrics (Error rate < 1%).
     *   Instant rollback if metrics degrade.
@@ -181,6 +194,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **CI/CD**: Azure DevOps Pipelines, GitHub Actions
 - **IaC**: Azure Bicep, Terraform with Azure provider
 - **Container Registry**: Azure Container Registry (ACR)
@@ -188,6 +202,7 @@ Provide:
 - **Observability**: Azure Monitor, Application Insights, Log Analytics
 
 ### AWS
+
 - **CI/CD**: CodePipeline, CodeBuild, CodeDeploy
 - **IaC**: CloudFormation, CDK, Terraform
 - **Container Registry**: Elastic Container Registry (ECR)
@@ -195,6 +210,7 @@ Provide:
 - **Observability**: CloudWatch, X-Ray, OpenSearch
 
 ### GCP
+
 - **CI/CD**: Cloud Build, Cloud Deploy
 - **IaC**: Deployment Manager, Terraform, Pulumi
 - **Container Registry**: Artifact Registry
@@ -209,6 +225,7 @@ Provide:
 A fintech startup with 50 developers needs to implement a CI/CD pipeline that supports 20+ microservices with strict compliance requirements.
 
 ### Input
+
 ```text
 Development Team: 50 developers, 8 squads, platform engineering team
 Technology Stack: Java/Spring Boot microservices, React SPA, PostgreSQL

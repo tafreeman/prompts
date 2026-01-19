@@ -8,22 +8,30 @@ m365App: Microsoft 365 Copilot Chat
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - project-management
 - m365
 - business
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -122,24 +130,33 @@ Help me generate a project status update for [project_name] covering the last
 [time_window], tailored for [stakeholder_audience].
 
 Context:
+
 - I use Outlook, Teams, OneDrive/SharePoint, and a calendar in Microsoft 365.
 - This update should be clear, concise, and suitable for stakeholders who may
+
   not be deeply familiar with day-to-day details.
 
 Scope:
+
 - Review recent emails, Teams chats, documents, and calendar events related to
+
   [project_name] from [time_window].
+
 - Prioritize information relevant to: [focus_areas].
 - Compare progress to the previous status update if available.
 
 Assumptions and constraints:
+
 - Provide a balanced view: celebrate wins, surface risks honestly, and propose
+
   clear next steps or asks.
+
 - Use simple language and avoid unnecessary jargon.
 - Keep the entire update under 600 words.
 - Highlight any decisions or approvals needed from stakeholders.
 
 Process:
+
 1. Identify key accomplishments in the [time_window].
 2. Surface current risks, blockers, or issues.
 3. Map upcoming calendar events to milestones or deadlines.
@@ -152,18 +169,22 @@ Return the result in Markdown with these sections:
 [1–2 sentences]
 
 ## Progress Since Last Update
+
 - [bullet]
 - [bullet]
 
 ## Risks and Issues
+
 - [bullet with context and impact]
 - [bullet with context and impact]
 
 ## Upcoming Milestones (Next 2–4 Weeks)
+
 - [milestone and date]
 - [milestone and date]
 
 ## Requests for Help / Decisions Needed
+
 - [specific request or decision]
 
 Now, using my activity related to [project_name] over [time_window], generate
@@ -173,7 +194,7 @@ the project status update for [stakeholder_audience].
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[project_name]` | Project name to report on |
 | `[time_window]` | Period to cover (e.g., "last 7 days") |
 | `[stakeholder_audience]` | Intended audience (executives, sponsors, cross-functional team) |
@@ -207,6 +228,7 @@ focus_areas: timeline risks, decisions needed
 The Customer Onboarding Platform V2 project made solid progress this week on stabilization and beta readiness, but timeline risks remain due to unresolved API performance issues.
 
 ## Progress Since Last Update
+
 - Deployed initial API timeout fix to staging and began validation testing.
 - Onboarded 35 internal beta users and collected early feedback on the new flow.
 - Finalized onboarding FAQ documentation and shared with the support team for review.
@@ -214,11 +236,13 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 - Updated the project roadmap to reflect a potential 1-week buffer for stabilization.
 
 ## Risks and Issues
+
 - API timeout fix is still under validation; if issues persist, public GA may need to shift from December 5 to December 12.
 - Support team flagged that training materials are behind schedule and may not be ready until November 28.
 - Load testing revealed intermittent failures under high concurrency; QA is investigating root cause.
 
 ## Upcoming Milestones (Next 2–4 Weeks)
+
 - November 22: API timeout fix validation complete and deployed to production.
 - November 25: Support training materials finalized and reviewed.
 - November 29: Internal beta feedback synthesized and incorporated into final release.
@@ -226,8 +250,10 @@ The Customer Onboarding Platform V2 project made solid progress this week on sta
 - December 5 (or December 12): Public GA launch.
 
 ## Requests for Help / Decisions Needed
+
 - Approval needed to extend the public GA date to December 12 if API issues are not resolved by November 22.
 - Additional QA resources requested to accelerate load testing and root cause analysis.
+
 ```text
 
 ---

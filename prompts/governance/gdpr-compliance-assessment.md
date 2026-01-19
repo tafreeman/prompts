@@ -6,30 +6,40 @@ intro: A comprehensive ReAct+Reflection prompt for assessing GDPR compliance of 
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - security-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - compliance
 - privacy
 - gdpr
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - audit-required
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - UK-GDPR
 - ISO-27701
+
 effectivenessScore: 0.0
 ---
 
@@ -46,6 +56,7 @@ A comprehensive prompt for assessing General Data Protection Regulation (GDPR) c
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - General Data Protection Regulation (EU) 2016/679
 - UK GDPR (retained EU law)
 - ISO/IEC 27701:2019 (Privacy Information Management)
@@ -94,6 +105,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** What lawful basis applies to this processing? Is it appropriate for the data types and purposes?
 
 **Act:** Check against the six lawful bases:
+
 - [ ] Consent (explicit for special categories)
 - [ ] Contract necessity
 - [ ] Legal obligation
@@ -110,6 +122,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** How are data subject rights fulfilled? What mechanisms exist?
 
 **Act:** Assess each right:
+
 - [ ] Right to be informed (privacy notice)
 - [ ] Right of access (SAR process)
 - [ ] Right to rectification
@@ -128,6 +141,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** How is privacy embedded into the system design?
 
 **Act:** Evaluate:
+
 - [ ] Data minimization practices
 - [ ] Purpose limitation enforcement
 - [ ] Storage limitation (retention policies)
@@ -144,6 +158,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** What security measures protect personal data?
 
 **Act:** Review:
+
 - [ ] Encryption at rest and in transit
 - [ ] Access controls and authentication
 - [ ] Logging and monitoring
@@ -160,6 +175,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** Does personal data leave the EEA? What safeguards apply?
 
 **Act:** Identify:
+
 - [ ] Transfer destinations
 - [ ] Transfer mechanisms (SCCs, BCRs, adequacy)
 - [ ] Supplementary measures (if required)
@@ -174,6 +190,7 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 **Think:** How does the organization demonstrate compliance?
 
 **Act:** Check:
+
 - [ ] Records of Processing Activities (RoPA)
 - [ ] DPO appointment (if required)
 - [ ] Data protection policies
@@ -192,21 +209,25 @@ For each GDPR compliance area, follow the Think → Act → Observe → Reflect 
 After completing the ReAct assessment, critically evaluate your findings:
 
 ### Accuracy Check
+
 - Are all compliance determinations based on specific GDPR articles?
 - Have I made any assumptions without evidence?
 - Are there areas where I need more information?
 
 ### Completeness Check
+
 - Did I assess all six core areas?
 - Are there processing activities I may have missed?
 - Have I considered all relevant data flows?
 
 ### Risk Assessment
+
 - What are the highest-risk compliance gaps?
 - What is the likelihood of regulatory scrutiny?
 - What is the potential impact of non-compliance (fines, reputational)?
 
 ### Bias Check
+
 - Am I being overly conservative or lenient?
 - Have I considered the organization's specific context?
 - Are my recommendations practical and proportionate?
@@ -218,6 +239,7 @@ After completing the ReAct assessment, critically evaluate your findings:
 Provide your assessment in this structure:
 
 ### 1. Executive Summary
+
 - Overall compliance score (1-5 scale)
 - Critical findings count
 - Top 3 risks requiring immediate attention
@@ -225,7 +247,7 @@ Provide your assessment in this structure:
 ### 2. Detailed Findings
 
 | Area | Status | Gap | Risk Level | GDPR Article | Evidence |
-|------|--------|-----|------------|--------------|----------|
+| ------ | -------- | ----- | ------------ | -------------- | ---------- |
 | Lawful Basis | ✅/⚠️/❌ | [Gap description] | High/Med/Low | Art. X | [Evidence] |
 | Data Subject Rights | ✅/⚠️/❌ | [Gap description] | High/Med/Low | Art. X | [Evidence] |
 | Privacy by Design | ✅/⚠️/❌ | [Gap description] | High/Med/Low | Art. X | [Evidence] |
@@ -236,12 +258,13 @@ Provide your assessment in this structure:
 ### 3. Remediation Roadmap
 
 | Priority | Finding | Recommended Action | Owner | Timeline | Effort |
-|----------|---------|-------------------|-------|----------|--------|
+| ---------- | --------- | ------------------- | ------- | ---------- | -------- |
 | P0 | [Critical gap] | [Specific action] | [Role] | [Date] | [Days] |
 | P1 | [High gap] | [Specific action] | [Role] | [Date] | [Days] |
 | P2 | [Medium gap] | [Specific action] | [Role] | [Date] | [Days] |
 
 ### 4. Self-Critique Summary
+
 - Confidence level: High/Medium/Low
 - Key assumptions made
 - Additional information needed
@@ -256,7 +279,7 @@ Provide your assessment in this structure:
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[ORGANIZATION_OR_SYSTEM_NAME]` | Name of org or system being assessed | "Contoso Customer Portal" |
 | `[DESCRIPTION_OF_DATA_PROCESSING]` | What processing occurs | "Collection and analysis of customer behavior for personalization" |
 | `[TYPES_OF_PERSONAL_DATA_PROCESSED]` | Categories of data | "Name, email, browsing history, purchase history" |
@@ -285,6 +308,7 @@ Provide your assessment in this structure:
 
 ```markdown
 ### 1. Executive Summary
+
 - Overall compliance score: 3.5/5 (Moderate - Improvements Required)
 - Critical findings: 2
 - Top 3 risks:
@@ -295,7 +319,7 @@ Provide your assessment in this structure:
 ### 2. Detailed Findings
 
 | Area | Status | Gap | Risk Level | GDPR Article | Evidence |
-|------|--------|-----|------------|--------------|----------|
+| ------ | -------- | ----- | ------------ | -------------- | ---------- |
 | Lawful Basis | ⚠️ | Marketing consent bundled with T&Cs | High | Art. 6, 7 | Consent form review |
 | Data Subject Rights | ✅ | Minor - DSR response time not documented | Low | Art. 12 | Process exists but SLA unclear |
 | Privacy by Design | ⚠️ | No DPIA conducted for profiling | Medium | Art. 35 | Profiling for fraud detection |
@@ -306,7 +330,7 @@ Provide your assessment in this structure:
 ### 3. Remediation Roadmap
 
 | Priority | Finding | Recommended Action | Owner | Timeline | Effort |
-|----------|---------|-------------------|-------|----------|--------|
+| ---------- | --------- | ------------------- | ------- | ---------- | -------- |
 | P0 | US transfer without SCCs | Execute SCCs with analytics vendor or migrate to EU | Legal/IT | 30 days | 5 days |
 | P0 | Bundled consent | Implement granular consent with separate opt-ins | Product | 45 days | 10 days |
 | P1 | Missing DPIA | Conduct DPIA for fraud profiling | DPO | 60 days | 3 days |

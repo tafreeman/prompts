@@ -5,21 +5,29 @@ intro: "An advanced reasoning pattern that explores multiple solution paths simu
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "chatgpt"
   - "claude"
   - "github-copilot"
+
 topics:
+
   - "reasoning"
   - "decision-making"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 governance_tags:
+
   - "PII-safe"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
@@ -51,22 +59,22 @@ graph TD
     A[🎯 Problem] --> B1[💡 Approach 1]
     A --> B2[💡 Approach 2]
     A --> B3[💡 Approach 3]
-    
+
     B1 --> C1[📊 Evaluate: 7/10]
     B2 --> C2[📊 Evaluate: 9/10]
     B3 --> C3[📊 Evaluate: 5/10]
-    
+
     C2 --> D1[🔍 Explore Further]
     D1 --> E1[💡 Sub-option 2a]
     D1 --> E2[💡 Sub-option 2b]
-    
+
     E1 --> F1[📊 Evaluate: 8/10]
     E2 --> F2[📊 Evaluate: 10/10]
-    
+
     F2 --> G[✅ Selected Solution]
-    
+
     C3 -.->|Backtrack| A
-    
+
     style A fill:#e3f2fd
     style B2 fill:#c8e6c9
     style C2 fill:#c8e6c9
@@ -76,6 +84,7 @@ graph TD
 ```
 
 **Key Concepts:**
+
 - 💡 **Branch Generation**: Create multiple solution approaches
 - 📊 **Evaluation**: Score each branch on feasibility, cost, risk
 - 🔍 **Expansion**: Explore promising branches deeper
@@ -114,6 +123,7 @@ Use multi-branch exploration to find the best solution. For each decision point,
 Format your response as:
 
 **Problem Understanding**:
+
 - Restate the problem
 - Identify key challenges
 - Note critical unknowns
@@ -125,6 +135,7 @@ Format your response as:
 Generate [3-5] distinct approaches:
 
 **Thought Branch A**: [First approach]
+
 - **Description**: What this approach entails
 - **Pros**: Strengths and advantages
 - **Cons**: Weaknesses and risks
@@ -140,6 +151,7 @@ Generate [3-5] distinct approaches:
 [Additional branches if needed]
 
 **Branch Evaluation**:
+
 - Compare branches head-to-head
 - Identify which branches to pursue further
 - **Selected Branch(es)**: [Which to explore deeper]
@@ -150,6 +162,7 @@ Generate [3-5] distinct approaches:
 **Deep Exploration of Selected Branch [X]**:
 
 [For each selected branch, explore it deeply with substeps]
+
 - Sub-decision points within this branch
 - Implementation details
 - Risk mitigation strategies
@@ -162,11 +175,13 @@ If this branch hits a dead-end or reveals unexpected complexity:
 **Cross-Branch Synthesis**:
 
 Compare all viable paths explored:
+
 - What did we learn from each branch?
 - Are there hybrid approaches combining strengths?
 - What trade-offs exist between approaches?
 
 **Final Recommendation**:
+
 - Selected approach with justification
 - Why this beats alternatives
 - Confidence level (High/Medium/Low)
@@ -180,18 +195,21 @@ Compare all viable paths explored:
 **Problem Understanding**:
 
 The core challenge is designing a multi-tier caching strategy that:
+
 1. Delivers <200ms p95 latency across 150 countries (current: 800ms)
 2. Maintains >99.9% inventory accuracy despite real-time changes
 3. Improves cache hit rate from 45% to >80%
 4. Operates within $500K/month budget
 
 **Key challenges**:
+
 - Tension between latency (favors aggressive caching) and accuracy (favors real-time queries)
 - Geographic distribution requires cache near users (expensive)
 - Different data types have different freshness requirements
 - Scale: 100M users × 5M SKUs creates vast cache space
 
 **Critical unknowns**:
+
 - Traffic patterns (uniform vs. localized popularity)
 - Update frequency per data type
 - Current cost breakdown
@@ -201,6 +219,7 @@ The core challenge is designing a multi-tier caching strategy that:
 **Branch Generation at Decision Point 1: Overall Architecture**
 
 **Thought Branch A: CDN-Heavy Approach**
+
 - **Description**: Use CDN (CloudFront, Cloudflare) edge caching for static content, regional Redis clusters for dynamic data
 - **Pros**: 
   - CDN gets you closest to users globally
@@ -214,6 +233,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score (0-10)**: 7
 
 **Thought Branch B: Multi-Tier Write-Through Cache**
+
 - **Description**: L1 (local in-app cache) → L2 (regional Redis) → L3 (global Redis) → Database. All writes go through cache.
 - **Pros**:
   - High hit rate potential (multi-level)
@@ -228,6 +248,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score (0-10)**: 5.5
 
 **Thought Branch C: Hybrid: CDN for Immutable + Regional Redis for Mutable**
+
 - **Description**: Separate immutable content (product images, descriptions) to CDN. Mutable content (inventory, cart, prices) to regional Redis clusters.
 - **Pros**:
   - Optimizes each data type appropriately
@@ -242,6 +263,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score (0-10)**: 8.5
 
 **Branch Evaluation**:
+
 - Branch A (CDN-heavy) scores well but CDN invalidation latency problematic for inventory accuracy
 - Branch B (write-through) adds write latency and has SPOF concerns - lowest score
 - Branch C (hybrid) balances latency, accuracy, and cost effectively - highest score
@@ -256,11 +278,13 @@ The core challenge is designing a multi-tier caching strategy that:
 **Sub-Decision Point C.1: CDN Configuration**
 
 **Thought Branch C.1.A: CloudFront with S3 origin**
+
 - Long TTL (24h) for images, descriptions
 - Cost: ~$150K/month at scale
 - **Score**: 8
 
 **Thought Branch C.1.B: Cloudflare with custom origin**
+
 - Similar to C.1.A but cheaper (~$100K/month)
 - Better DDoS protection
 - **Score**: 9 (selected)
@@ -270,6 +294,7 @@ The core challenge is designing a multi-tier caching strategy that:
 **Sub-Decision Point C.2: Regional Redis Strategy**
 
 **Thought Branch C.2.A: Redis Cluster in 15 regions**
+
 - Full presence in each region
 - Cost: ~$250K/month (15 regions × $15K Redis cluster)
 - p95 latency: ~50ms (excellent)
@@ -278,6 +303,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score**: 7
 
 **Thought Branch C.2.B: Redis in 6 major regions + anycast routing**
+
 - Major regions: US-East, US-West, EU-West, Asia-Pacific, South America, Middle East
 - Anycast routes to nearest
 - Cost: ~$120K/month (6 × $20K larger clusters)
@@ -287,6 +313,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score**: 9 (better cost/latency trade-off)
 
 **Thought Branch C.2.C: Hybrid: 3 major regions + Cloudflare Workers edge compute**
+
 - 3 large Redis clusters (US, EU, APAC)
 - Cloudflare Workers for compute at edge (can cache in-memory)
 - Cost: ~$80K/month Redis + $50K Workers = $130K
@@ -300,6 +327,7 @@ The core challenge is designing a multi-tier caching strategy that:
 **Sub-Decision Point C.3: Inventory Accuracy Strategy**
 
 **Thought Branch C.3.A: Short TTL (5 seconds) + write-through**
+
 - Inventory cached for 5s only
 - All purchases write through Redis to DB
 - **Pros**: Simple, accurate
@@ -307,6 +335,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score**: 6
 
 **Thought Branch C.3.B: Optimistic locking with version numbers**
+
 - Cache inventory with version number
 - On purchase, validate version before decrementing
 - If version mismatch (concurrent purchase), fetch latest and retry
@@ -315,6 +344,7 @@ The core challenge is designing a multi-tier caching strategy that:
 - **Score**: 9 (selected)
 
 **Thought Branch C.3.C: Event-driven cache invalidation**
+
 - When inventory changes, publish event to message bus
 - All Redis instances subscribe and invalidate cached SKU
 - **Pros**: Real-time accuracy, long TTL possible
@@ -328,6 +358,7 @@ The core challenge is designing a multi-tier caching strategy that:
 **Testing Branch C Feasibility: Cost Check**
 
 Let's validate the budget:
+
 - Cloudflare CDN: $100K/month
 - Redis (3 major regions): $80K/month
 - Cloudflare Workers: $50K/month
@@ -341,6 +372,7 @@ Let's validate the budget:
 **Testing Branch C Feasibility: Latency Modeling**
 
 p95 latency calculation:
+
 - CDN cache hit (images, static): 20ms (80% of requests) ✓
 - Workers cache hit (product data): 50ms (15% of requests) ✓
 - Redis cache hit (inventory, cart): 80ms (4% of requests) ✓
@@ -357,6 +389,7 @@ Weighted p95: 0.80×20 + 0.15×50 + 0.04×80 + 0.01×600 = 25.7ms average, ~120m
 Let's revisit Branch A (CDN-heavy) now that we know inventory accuracy can be handled with optimistic locking. Could we make Branch A work?
 
 **Branch A.2: CDN-heavy with edge compute for inventory checks**
+
 - Use CDN for everything
 - Add edge compute (Workers/Lambda@Edge) for inventory validation
 - On purchase attempt at edge:
@@ -366,6 +399,7 @@ Let's revisit Branch A (CDN-heavy) now that we know inventory accuracy can be ha
   4. If invalid, invalidate cache and retry
 
 **Re-evaluation**:
+
 - **Pros**: Simpler architecture (CDN + edge compute only, no Redis)
 - **Cons**: Edge compute limited memory (can't cache all 5M SKUs), higher compute cost
 - **Updated Score**: 7.5 (still lower than Branch C)
@@ -377,6 +411,7 @@ Let's revisit Branch A (CDN-heavy) now that we know inventory accuracy can be ha
 **Cross-Branch Synthesis**:
 
 **Key Learnings**:
+
 1. **From Branch A**: CDN is essential for static content cost control
 2. **From Branch B**: Write-through adds latency - avoid for this use case
 3. **From Branch C**: Hybrid approach leverages strengths of each technology
@@ -389,7 +424,7 @@ Could we combine Branch C + insights from Branch A?
 **Trade-offs Matrix**:
 
 | Approach | Latency | Cost | Accuracy | Complexity |
-|----------|---------|------|----------|------------|
+| ---------- | --------- | ------ | ---------- | ------------ |
 | Branch A | Medium | High | Medium | Low |
 | Branch B | Medium | Medium | High | High |
 | Branch C | Low | Low | High | Medium |
@@ -403,6 +438,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 **Selected Architecture: Hybrid CDN + Regional Redis with Edge Compute**
 
 **Implementation**:
+
 1. **Cloudflare CDN ($100K/month)**:
    - Cache product images, descriptions (immutable)
    - TTL: 24 hours
@@ -424,10 +460,12 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
    - Retry on version mismatch
 
 **Why This Beats Alternatives**:
+
 - **vs. Branch A (CDN-only)**: Better latency (edge compute + Redis), more flexibility for complex queries
 - **vs. Branch B (write-through)**: No write latency penalty, simpler consistency model, lower cost
 
 **Expected Results**:
+
 - p95 latency: ~120ms (40% improvement, meets <200ms goal) ✓
 - Cache hit rate: 85% (40% improvement from 45%, exceeds 80% goal) ✓
 - Cost: $180K/month (64% under budget) ✓
@@ -438,6 +476,7 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
 **Justification**: Architecture is proven (similar to Shopify, Amazon approaches), math checks out, well under budget with headroom for growth.
 
 **Residual Risks & Mitigation**:
+
 1. **Risk**: Regional failover if Redis cluster goes down
    - **Mitigation**: Multi-AZ Redis with automatic failover, fallback to DB queries
 2. **Risk**: Workers memory limits with 5M SKUs
@@ -448,12 +487,14 @@ Branch C wins on 3/4 dimensions (only slightly more complex than A).
    - **Mitigation**: Multi-CDN strategy (Cloudflare primary, Fastly backup)
 
 **Implementation Timeline**:
+
 - Weeks 1-2: Setup Cloudflare CDN + Workers
 - Weeks 3-4: Deploy Redis clusters in 3 regions
 - Weeks 5-6: Implement optimistic locking
 - Weeks 7-8: Migration and testing
 - Week 9: Gradual rollout (10% → 50% → 100%)
 - Week 10: Monitoring and optimization
+
 ```text
 
 ---

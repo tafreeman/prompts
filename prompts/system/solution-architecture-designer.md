@@ -5,21 +5,29 @@ intro: Designs comprehensive solution architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - solution-design
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,32 +52,32 @@ flowchart TB
         Mobile[Mobile App]
         Portal[Partner Portal]
     end
-    
+
     subgraph Application[Application Layer]
         BFF[BFF Services]
         API[API Gateway]
         Workflow[Workflow Engine]
     end
-    
+
     subgraph Domain[Domain Layer]
         Svc1[Domain Service 1]
         Svc2[Domain Service 2]
         Svc3[Domain Service 3]
     end
-    
+
     subgraph Integration[Integration Layer]
         Events[Event Bus]
         Queue[Message Queue]
         External[External APIs]
     end
-    
+
     subgraph Data[Data Layer]
         Operational[(Operational DB)]
         Analytics[(Analytics DB)]
         Cache[(Cache)]
         Files[(File Storage)]
     end
-    
+
     Web --> BFF
     Mobile --> BFF
     Portal --> API
@@ -93,7 +101,7 @@ flowchart TB
 ### Architecture Style Selection
 
 | Style | When to Use | Trade-offs |
-|-------|-------------|------------|
+| ------- | ------------- | ------------ |
 | **Monolith** | Small team, simple domain, fast MVP | Scaling limits, deployment coupling |
 | **Modular Monolith** | Growing team, domain boundaries emerging | Discipline required, still coupled deploy |
 | **Microservices** | Large teams, independent deployments needed | Complexity, distributed systems challenges |
@@ -103,7 +111,7 @@ flowchart TB
 ### Technology Selection Criteria
 
 | Factor | Weight | Considerations |
-|--------|--------|----------------|
+| -------- | -------- | ---------------- |
 | Business fit | High | Does it solve the problem well? |
 | Team expertise | High | Can we build and operate it? |
 | Total cost | Medium | License, infrastructure, training |
@@ -136,12 +144,14 @@ Constraints: [constraints]
 Integration Needs: [integrations]
 
 Provide:
+
 1. High-level architecture diagram
 2. Component specifications
 3. Technology stack recommendations
 4. Integration patterns
 5. Scalability considerations
 6. Security architecture
+
 ```text
 
 **Output:**
@@ -189,6 +199,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Compute**: App Service, Functions, Container Apps, AKS
 - **Data**: Azure SQL, Cosmos DB, Azure Synapse
 - **Integration**: Logic Apps, Service Bus, Event Grid
@@ -196,6 +207,7 @@ Provide:
 - **Frontend**: Azure Static Web Apps, CDN, Front Door
 
 ### AWS
+
 - **Compute**: Lambda, ECS, EKS, App Runner
 - **Data**: RDS, DynamoDB, Redshift, Aurora
 - **Integration**: Step Functions, EventBridge, SQS/SNS
@@ -203,6 +215,7 @@ Provide:
 - **Frontend**: Amplify, CloudFront, S3
 
 ### GCP
+
 - **Compute**: Cloud Run, Cloud Functions, GKE
 - **Data**: Cloud SQL, Firestore, BigQuery, Spanner
 - **Integration**: Workflows, Pub/Sub, Eventarc
@@ -217,6 +230,7 @@ Provide:
 A retail company needs a customer engagement platform supporting personalization, loyalty programs, and omnichannel experiences across web, mobile, and in-store.
 
 ### Input
+
 ```text
 Business Problem: Fragmented customer experience across channels, low loyalty engagement
 Functional Requirements: Customer profiles, personalization engine, loyalty points, promotions

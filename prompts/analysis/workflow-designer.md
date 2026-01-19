@@ -6,20 +6,28 @@ intro: Designs efficient business workflows with role definitions, decision poin
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - workflow
 - automation
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Complexity Level: [complexity]
 Automation Goals: [automation]
 
 Provide:
+
 1. Workflow diagram
 2. Role definitions
 3. Decision points
 4. Exception handling
 5. Automation opportunities
 6. Performance metrics
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[process]` | The business process/workflow to design |
 | `[stakeholders]` | Roles/teams involved and their responsibilities |
 | `[complexity]` | Workflow complexity (low/medium/high) and constraints |
@@ -77,13 +87,16 @@ Provide:
 ## Workflow Design Document
 
 ### 1. Workflow Diagram (Logic)
+
 *   **Draft** -> **SEO Review** (If Fail: Return to Draft) -> **Editorial Review** -> **Legal Review** (Only if "Product Claim" tag is present) -> **Publish**.
 
 ### 2. Role Definitions
+
 *   **SEO Specialist:** Gatekeeper. Must approve keyword usage before Editor sees it.
 *   **Legal:** Consulted only on specific topics (Medical/Financial claims).
 
 ### 3. Automation Opportunities
+
 *   **Trigger:** When status = "Published" in CMS.
 *   **Action:** Zapier webhook posts title + link to Company LinkedIn Page.
 

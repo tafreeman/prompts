@@ -5,24 +5,32 @@ intro: "Orchestrates comprehensive code review processes by selecting and applyi
 type: "workflow"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "code-review"
   - "workflow"
   - "automation"
   - "developers"
+
 author: "Prompts Library Team"
 version: "2.0.0"
 date: "2025-12-11"
 governance_tags:
+
   - "PII-safe"
   - "workflow-orchestration"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 subcategory: "workflows"
@@ -79,12 +87,14 @@ graph TD
 **Path**: `prompts/developers/code-review-assistant.md`
 
 **When to Use**:
+
 - Junior developers learning code review practices
 - Educational contexts
 - First-time contributors
 - General purpose reviews with explanations
 
 **Characteristics**:
+
 - Beginner difficulty
 - Multi-platform support
 - Educational tone with rationale
@@ -98,12 +108,14 @@ graph TD
 **Path**: `prompts/developers/code-review-expert.md`
 
 **When to Use**:
+
 - Senior engineer reviews
 - Complex architecture decisions
 - SOLID principle enforcement
 - Security-critical components
 
 **Characteristics**:
+
 - Advanced difficulty
 - Claude-optimized
 - Google Engineering Practices alignment
@@ -117,12 +129,14 @@ graph TD
 **Path**: `prompts/developers/code-review-expert-structured.md`
 
 **When to Use**:
+
 - CI/CD pipeline integration
 - Automated quality gates
 - Dashboard/metrics collection
 - Machine parsing required
 
 **Characteristics**:
+
 - JSON or structured Markdown output
 - Schema-compliant formatting
 - Severity classification with metrics
@@ -136,12 +150,14 @@ graph TD
 **Path**: `techniques/agentic/single-agent/code-review-agent.md`
 
 **When to Use**:
+
 - .NET/C# codebases
 - ASP.NET Core applications
 - Entity Framework reviews
 - Microsoft stack projects
 
 **Characteristics**:
+
 - .NET best practices focus
 - SQL Server patterns
 - Async/await enforcement
@@ -155,12 +171,14 @@ graph TD
 **Path**: `agents/code-review-agent.agent.md`
 
 **When to Use**:
+
 - IDE/Editor integration
 - Real-time feedback during development
 - Tool-augmented reviews (search, usages, problems)
 - Multi-language repositories
 
 **Characteristics**:
+
 - Tool integration support
 - Multi-language expertise
 - Real-time analysis capability
@@ -175,6 +193,7 @@ graph TD
 ### Stage 1: Context Analysis
 
 **Input Variables**:
+
 - `[CODE_SNIPPET]` - The code to review
 - `[REVIEW_CONTEXT]` - PR review, security audit, refactoring, etc.
 - `[LANGUAGE]` - Programming language/framework
@@ -182,6 +201,7 @@ graph TD
 - `[OUTPUT_FORMAT]` - Narrative, JSON, CI/CD
 
 **Decision Logic**:
+
 ```python
 def select_review_prompt(context):
     if context.output_format == "JSON":
@@ -199,12 +219,14 @@ def select_review_prompt(context):
 ### Stage 2: Review Execution
 
 **Process**:
+
 1. Load selected prompt template
 2. Inject context variables
 3. Execute review with appropriate AI model
 4. Parse and validate output format
 
 **Model Selection**:
+
 - **Structured Output**: Claude Opus (best JSON adherence)
 - **Narrative Reviews**: Claude Sonnet or GPT-4
 - **Real-time/IDE**: GPT-4 Turbo or Claude Instant
@@ -212,6 +234,7 @@ def select_review_prompt(context):
 ### Stage 3: Post-Processing
 
 **Actions**:
+
 - Format output for target platform (GitHub PR, Azure DevOps, Slack)
 - Extract severity metrics
 - Generate summary statistics
@@ -220,6 +243,7 @@ def select_review_prompt(context):
 ### Stage 4: Integration
 
 **Output Destinations**:
+
 - **GitHub**: Post as PR comment with emoji severity indicators
 - **CI/CD**: Fail build on critical issues
 - **Dashboard**: Send metrics to monitoring
@@ -247,7 +271,9 @@ OUTPUT_FORMAT="narrative"
 
 ```yaml
 # .github/workflows/code-review.yml
+
 - name: AI Code Review
+
   run: |
     gh copilot review \
       --prompt prompts/developers/code-review-expert-structured.md \
@@ -298,9 +324,11 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
-      
+
       - name: Determine Review Strategy
+
         id: strategy
         run: |
           if [[ "${{ github.event.pull_request.user.login }}" == "dependabot"* ]]; then
@@ -310,8 +338,9 @@ jobs:
           else
             echo "prompt=code-review-expert" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Run AI Review
+
         run: |
           gh copilot review \
             --prompt .agent/workflows/coderev.md \
@@ -322,6 +351,7 @@ jobs:
 
 ```yaml
 trigger:
+
   - main
   - develop
 
@@ -329,7 +359,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
 - script: |
+
     python scripts/code_review_orchestrator.py \
       --files $(git diff --name-only HEAD~1) \
       --workflow .agent/workflows/coderev.md \
@@ -337,6 +369,7 @@ steps:
   displayName: 'AI Code Review'
 
 - task: PublishTestResults@2
+
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/review-results.xml'
@@ -349,7 +382,7 @@ steps:
 All prompts use consistent severity levels:
 
 | Severity | Emoji | Criteria | Action |
-|----------|-------|----------|--------|
+| ---------- | ------- | ---------- | -------- |
 | **CRITICAL** | 🔴 | Security vulnerabilities, data loss risk, production blockers | Block merge immediately |
 | **MAJOR** | 🟡 | Logic bugs, performance issues, missing error handling | Request changes |
 | **MINOR** | 🟢 | Code quality, maintainability, style issues | Suggest improvements |
@@ -360,6 +393,7 @@ All prompts use consistent severity levels:
 ## Output Format Standards
 
 ### Narrative Format
+
 ```markdown
 ## Code Review Summary
 **Overall Assessment**: [APPROVE | REQUEST CHANGES | COMMENT]
@@ -378,6 +412,7 @@ All prompts use consistent severity levels:
 ```
 
 ### Structured JSON Format
+
 ```json
 {
   "review_id": "uuid",
@@ -409,23 +444,27 @@ All prompts use consistent severity levels:
 ## Best Practices
 
 ### Prompt Selection
+
 1. **Start with assistant** for new team members learning review practices
 2. **Use expert** for production-critical reviews requiring deep analysis
 3. **Use structured** for automation and metrics collection
 4. **Use single-agent** for language-specific deep dives
 
 ### Context Provision
+
 - Always include programming language and framework version
 - Specify PR intent (bugfix, feature, refactoring)
 - Mention specific concerns (security, performance, etc.)
 - Provide relevant project standards or conventions
 
 ### Review Iteration
+
 - For large changes (>500 lines), review in chunks
 - Focus on critical paths first (auth, payment, data access)
 - Use different prompts for different file types in same PR
 
 ### Human Oversight
+
 - AI reviews are first-pass; always require human approval
 - Critical security findings should be verified by security team
 - Architecture decisions need senior engineer sign-off
@@ -435,18 +474,22 @@ All prompts use consistent severity levels:
 ## Related Resources
 
 ### Prompts
+
 - [Code Review Assistant](../prompts/developers/code-review-assistant.md)
 - [Code Review Expert](../prompts/developers/code-review-expert.md)
 - [Code Review Expert: Structured](../prompts/developers/code-review-expert-structured.md)
 - [Security Code Auditor](../prompts/developers/security-code-auditor.md)
 
 ### Agents
+
 - [Code Review Agent](../agents/code-review-agent.agent.md)
 
 ### Techniques
+
 - [Single-Agent Code Review](../techniques/agentic/single-agent/code-review-agent.md)
 
 ### Supporting Tools
+
 - [Test Automation Engineer](../prompts/developers/test-automation-engineer.md)
 - [Performance Optimization Specialist](../prompts/developers/performance-optimization-specialist.md)
 
@@ -467,6 +510,7 @@ Track these metrics across reviews:
 ## Continuous Improvement
 
 This workflow evolves based on:
+
 - Team feedback on review quality
 - False positive/negative analysis
 - New language/framework support

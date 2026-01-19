@@ -5,26 +5,34 @@ intro: "An autonomous single-agent pattern for comprehensive C#/.NET code review
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "code-review"
   - "dotnet"
   - "csharp"
   - "agentic"
   - "autonomous"
+
 author: "Prompts Library Team"
 version: "2.0.0"
 date: "2025-12-11"
 governance_tags:
+
   - "PII-safe"
   - "language-specific"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 category: "techniques"
@@ -35,11 +43,13 @@ framework_compatibility:
   anthropic: ">=0.8.0"
   github-copilot: ">=1.0.0"
 use_cases:
+
   - "code-review"
   - "refactoring"
   - "technical-debt-analysis"
   - "security-scanning"
   - "dotnet-best-practices"
+
 performance_metrics:
   complexity_rating: "medium"
   token_usage_estimate: "2000-3500"
@@ -59,11 +69,13 @@ governance:
   retention_period: "1-year"
 last_updated: "2025-12-11"
 tags:
+
   - "single-agent"
   - "code-review"
   - "autonomous"
   - "dotnet"
   - "csharp"
+
 ---
 
 # Single-Agent Code Review Workflow
@@ -87,6 +99,7 @@ Ideal for .NET/C# codebases where you need consistent, thorough reviews.
 
 ```markdown
 You are an expert C# code reviewer with deep knowledge of:
+
 - .NET best practices and patterns
 - SOLID principles and clean architecture
 - Security vulnerabilities (OWASP Top 10)
@@ -97,7 +110,9 @@ You are an expert C# code reviewer with deep knowledge of:
 
 **Code to Review**:
 ```csharp
+
 {{code}}
+
 ```sql
 **Context**:
 
@@ -144,6 +159,7 @@ For each issue:
 **Output Format**:
 
 ```markdown
+
 ## Summary
 [2-3 sentence overview of code quality and major concerns]
 
@@ -164,18 +180,21 @@ For each issue:
 
 ## Overall Score: X/10
 [Brief justification]
+
 ```text
 ```text
+
 ## Usage Example
 
 ### Input
 
 **Code**:
+
 ```csharp
 public class UserService
 {
     private string _connectionString = "Server=prod;Database=Users;User Id=admin;Password=admin123;";
-    
+
     public User GetUser(string userId)
     {
         using (var conn = new SqlConnection(_connectionString))
@@ -183,7 +202,7 @@ public class UserService
             conn.Open();
             var cmd = new SqlCommand("SELECT * FROM Users WHERE Id = '" + userId + "'", conn);
             var reader = cmd.ExecuteReader();
-            
+
             if (reader.Read())
             {
                 return new User 
@@ -198,6 +217,7 @@ public class UserService
     }
 }
 ```text
+
 **Context**:
 
 - Project Type: ASP.NET Core Web API
@@ -218,13 +238,17 @@ This UserService contains critical security vulnerabilities (SQL injection, hard
 
 **Problematic Code**:
 ```csharp
+
 var cmd = new SqlCommand("SELECT * FROM Users WHERE Id = '" + userId + "'", conn);
+
 ```sql
 **Fix**:
 
 ```csharp
+
 var cmd = new SqlCommand("SELECT * FROM Users WHERE Id = @UserId", conn);
 cmd.Parameters.AddWithValue("@UserId", userId);
+
 ```sql
 ### 2. Hardcoded Credentials
 
@@ -234,15 +258,17 @@ cmd.Parameters.AddWithValue("@UserId", userId);
 **Fix**: Use configuration and dependency injection:
 
 ```csharp
+
 public class UserService
 {
     private readonly string _connectionString;
-    
+
     public UserService(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("UsersDb");
     }
 }
+
 ```text
 ## High Priority Issues
 
@@ -252,6 +278,7 @@ public class UserService
 **Fix**: Wrap in try-catch and log errors:
 
 ```csharp
+
 public User GetUser(string userId)
 {
     try
@@ -264,6 +291,7 @@ public User GetUser(string userId)
         throw new DataAccessException("Failed to retrieve user", ex);
     }
 }
+
 ```sql
 ### 4. Missing Input Validation
 
@@ -271,8 +299,10 @@ public User GetUser(string userId)
 **Fix**:
 
 ```csharp
+
 if (string.IsNullOrWhiteSpace(userId))
     throw new ArgumentException("User ID cannot be null or empty", nameof(userId));
+
 ```csharp
 ## Medium Priority Issues
 
@@ -282,10 +312,12 @@ if (string.IsNullOrWhiteSpace(userId))
 **Fix**: Use async methods:
 
 ```csharp
+
 public async Task<User> GetUserAsync(string userId)
 {
     // ... use SqlCommand.ExecuteReaderAsync()
 }
+
 ```sql
 ### 6. Manual Object Mapping
 
@@ -302,6 +334,7 @@ public async Task<User> GetUserAsync(string userId)
 Critical security vulnerabilities and lack of error handling make this unsuitable for production. After applying fixes, would rate 8/10.
 
 ```text
+
 ## C# Implementation
 
 ```csharp
@@ -314,13 +347,13 @@ namespace PromptEngineering.Agents
     {
         private readonly AIModelClient _aiClient;
         private readonly ILogger<CodeReviewAgent> _logger;
-        
+
         public CodeReviewAgent(AIModelClient aiClient, ILogger<CodeReviewAgent> logger)
         {
             _aiClient = aiClient;
             _logger = logger;
         }
-        
+
         public async Task<CodeReviewResult> ReviewCodeAsync(
             string code,
             string projectType = "ASP.NET Core Web API",
@@ -328,9 +361,9 @@ namespace PromptEngineering.Agents
             string database = "SQL Server")
         {
             var prompt = BuildReviewPrompt(code, projectType, framework, database);
-            
+
             _logger.LogInformation("Starting code review for {ProjectType}", projectType);
-            
+
             var response = await _aiClient.CallAsync(new ModelRequest
             {
                 Provider = ModelProvider.Anthropic,
@@ -340,10 +373,10 @@ namespace PromptEngineering.Agents
                 Temperature = 0.3,
                 MaxTokens = 3000
             });
-            
+
             return ParseReviewResult(response.Content);
         }
-        
+
         private string BuildReviewPrompt(string code, string projectType, string framework, string database)
         {
             return $@"
@@ -351,7 +384,9 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
 
 **Code to Review**:
 ```csharp
+
 {code}
+
 ```sql
 **Context**:
 
@@ -375,7 +410,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
                 HighPriorityIssues = ExtractSection(content, "High Priority Issues")
             };
         }
-        
+
         private int ExtractScore(string content)
         {
             // Simple regex to extract score from "Overall Score: X/10"
@@ -383,7 +418,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
                 content, @"Overall Score:\s*(\d+)/10");
             return match.Success ? int.Parse(match.Groups[1].Value) : 0;
         }
-        
+
         private string ExtractSection(string content, string sectionTitle)
         {
             // Extract content between section headers
@@ -393,7 +428,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
             return match.Success ? match.Groups[1].Value.Trim() : string.Empty;
         }
     }
-    
+
     public class CodeReviewResult
     {
         public string RawContent { get; set; }
@@ -404,6 +439,7 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
 }
 
 ```text
+
 ## Best Practices
 
 1. **Temperature**: Use low temperature (0.2-0.4) for consistency in code reviews.
@@ -413,5 +449,6 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
 5. **Custom Rules**: Extend the prompt with project-specific rules (e.g., "Always use ILogger, never Console.WriteLine").
 
 ## Related Patterns
+
 - [Multi-Agent Workflow](../multi-agent/multi-agent-workflow.md)
 - [Reflexion Pattern](../../reflexion/basic-reflexion/basic-reflexion.md)

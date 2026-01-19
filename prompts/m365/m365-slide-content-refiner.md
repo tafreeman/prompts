@@ -8,22 +8,30 @@ m365App: Copilot in PowerPoint
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - powerpoint
 - m365
 - creative
 - presentation
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Transforms dense text or rough bullet points into concise, punchy slide

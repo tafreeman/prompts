@@ -5,20 +5,28 @@ intro: "Manages project changes with impact analysis, approval workflow, communi
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "change-management"
   - "project-management"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Impact Assessment: [impact]
 Stakeholder Concerns: [concerns]
 
 Provide:
+
 1. Change impact analysis
 2. Approval workflow
 3. Communication strategy
 4. Implementation plan
 5. Risk mitigation
 6. Success measurement
+
 ```text
 
 ---
@@ -88,18 +98,21 @@ Project: CRM System Migration (Salesforce → Microsoft Dynamics 365)
 Proposed Changes: Migrate 500 users (Sales, Marketing, Customer Success) from Salesforce to Dynamics 365. Includes data migration (10 years of customer records, 2.5M contacts), custom workflow recreation, and third-party integrations (Mailchimp, DocuSign, PowerBI).
 Impact Assessment: 2-week migration window (Dec 10-23), 40 hours training per department, $200K implementation cost, temporary loss of mobile access during cutover.
 Stakeholder Concerns:
+
 - Sales VP: "We can't lose pipeline visibility during Q4 close"
 - Marketing Director: "Our email campaigns are tightly integrated with Salesforce"
 - IT Director: "Dynamics 365 doesn't natively support our legacy inventory system API"
 - CFO: "$200K budget not approved; need cost justification"
 
 Provide:
+
 1. Change impact analysis
 2. Approval workflow
 3. Communication strategy
 4. Implementation plan
 5. Risk mitigation
 6. Success measurement
+
 ```text
 
 ### Expected Output

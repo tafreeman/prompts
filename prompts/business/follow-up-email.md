@@ -5,20 +5,28 @@ intro: "Generate effective follow-up email sequences that re-engage prospects wi
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "sales"
   - "email"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.8
@@ -75,6 +83,7 @@ Generate a 4-email follow-up sequence:
    - Clear final ask
 
 For each email include:
+
 - Subject line
 - Email body (under 100 words)
 - Psychological principle being used
@@ -192,7 +201,7 @@ Alex
 ## Sequence Timing Summary
 
 | Email | Day | Approach | Ask Level |
-|-------|-----|----------|-----------|
+| ------- | ----- | ---------- | ----------- |
 | Original | 0 | Cold outreach | Medium (call) |
 | FU #1 | 4 | Value add | Medium (call) |
 | FU #2 | 9 | Pattern interrupt | Low (yes/no) |

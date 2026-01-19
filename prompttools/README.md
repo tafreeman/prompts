@@ -85,17 +85,20 @@ else:
 **Purpose**: User-facing commands for common operations
 
 **Commands**:
+
 - `evaluate` (alias: `eval`, `e`): Score prompt quality
 - `validate` (alias: `val`, `v`): Check structure and metadata
 - `generate` (alias: `gen`, `g`): Direct LLM interaction
 - `parse` (alias: `p`): Extract frontmatter and content
 
 **Example**:
+
 ```bash
 prompttools evaluate prompts/business/ --tier 2 --model gh:gpt-4o-mini
 ```
 
 **Options**:
+
 - `--tier`: Evaluation tier (0=structural, 1=local, 2=cloud, 3=premium)
 - `--model`: Specific model (format: `provider:model-name`)
 - `--output`: Save results to file
@@ -106,12 +109,14 @@ prompttools evaluate prompts/business/ --tier 2 --model gh:gpt-4o-mini
 **Purpose**: Score prompts against quality rubrics
 
 **Tiers**:
+
 - **Tier 0 (Structural)**: Metadata and format checks (no LLM)
 - **Tier 1 (Local)**: ONNX/NPU models (phi-3, llama)
 - **Tier 2 (Cloud)**: GitHub Models, OpenAI GPT-4o-mini
 - **Tier 3 (Premium)**: GPT-4, Claude Opus
 
 **Scoring Dimensions**:
+
 1. **Clarity** (25%): How clear and understandable
 2. **Structure** (25%): Organization and formatting
 3. **Usefulness** (20%): Practical applicability
@@ -119,6 +124,7 @@ prompttools evaluate prompts/business/ --tier 2 --model gh:gpt-4o-mini
 5. **Ease of Use** (10%): User-friendliness
 
 **Example**:
+
 ```python
 from prompttools.evaluate import evaluate_prompt
 
@@ -137,12 +143,14 @@ print(f"Total: {result['total_score']}/100")
 **Purpose**: Abstract interface to multiple LLM providers
 
 **Supported Providers**:
+
 - **OpenAI**: GPT-4, GPT-4o, GPT-4o-mini
 - **Anthropic**: Claude 3 Opus, Sonnet, Haiku
 - **GitHub Models**: Via GitHub token
 - **Local ONNX**: Phi-3, Llama (CPU/NPU)
 
 **Usage**:
+
 ```python
 from prompttools.llm import LLMClient
 
@@ -152,6 +160,7 @@ print(response.text)
 ```
 
 **Environment Variables**:
+
 ```bash
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
@@ -163,12 +172,14 @@ GITHUB_TOKEN=ghp_...
 **Purpose**: Extract frontmatter and content from Markdown files
 
 **Features**:
+
 - YAML frontmatter extraction
 - Content body parsing
 - Metadata validation
 - Variable extraction
 
 **Example**:
+
 ```python
 from prompttools.parse import parse_prompt_file
 
@@ -183,6 +194,7 @@ print(f"Content length: {len(prompt['content'])} chars")
 **Purpose**: Ensure prompts meet quality standards
 
 **Checks**:
+
 - ✅ Required frontmatter fields present
 - ✅ Valid metadata values (against `data/` schemas)
 - ✅ Proper Markdown structure
@@ -191,6 +203,7 @@ print(f"Content length: {len(prompt['content'])} chars")
 - ✅ File naming conventions
 
 **Example**:
+
 ```python
 from prompttools.validate import validate_prompt
 
@@ -203,8 +216,10 @@ else:
 ```
 
 **Validation Rules**:
+
 ```yaml
 required_fields:
+
   - title
   - category
   - tags
@@ -212,12 +227,14 @@ required_fields:
   - version
 
 valid_categories:
+
   - developers
   - business
   - creative
   - analysis
   - system
   - governance
+
 ```
 
 ### cache.py - Response Caching
@@ -225,12 +242,14 @@ valid_categories:
 **Purpose**: Cache LLM responses to reduce API costs and latency
 
 **Features**:
+
 - File-based caching (`.cache/` directory)
 - Configurable TTL (time-to-live)
 - Automatic cache invalidation
 - Cache hit/miss metrics
 
 **Usage**:
+
 ```python
 from prompttools.cache import cached_generate
 
@@ -248,6 +267,7 @@ response = cached_generate("Explain CoVe", model="gpt-4o-mini")
 **Purpose**: Manage settings and environment configuration
 
 **Configuration Sources**:
+
 1. Environment variables
 2. `.env` file
 3. `config.yaml` file
@@ -255,6 +275,7 @@ response = cached_generate("Explain CoVe", model="gpt-4o-mini")
 5. Defaults
 
 **Example**:
+
 ```python
 from prompttools.config import Config
 
@@ -264,6 +285,7 @@ print(f"Default model: {config.default_model}")
 ```
 
 **Configuration File** (`config.yaml`):
+
 ```yaml
 evaluation:
   default_tier: 1
@@ -293,51 +315,58 @@ dimensions:
     weight: 0.25
     description: "How clear and understandable is the prompt?"
     criteria:
+
       - "Unambiguous language"
       - "Clear objectives"
       - "Minimal jargon"
       - "Consistent terminology"
-    
+
   structure:
     weight: 0.25
     description: "How well-organized is the prompt?"
     criteria:
+
       - "Logical flow"
       - "Proper sections"
       - "Consistent formatting"
       - "Complete metadata"
-  
+
   usefulness:
     weight: 0.20
     description: "How practical and applicable is the prompt?"
     criteria:
+
       - "Solves real problems"
       - "Includes examples"
       - "Actionable guidance"
       - "Appropriate scope"
-  
+
   technical_quality:
     weight: 0.20
     description: "Technical correctness and best practices"
     criteria:
+
       - "Follows best practices"
       - "Accurate information"
       - "Appropriate complexity"
       - "Error-free"
-  
+
   ease_of_use:
     weight: 0.10
     description: "How easy is the prompt to use?"
     criteria:
+
       - "Clear instructions"
       - "Documented variables"
       - "Copy-paste ready"
       - "Minimal customization needed"
+
 ```
 
 ### Scoring System
 
 Each dimension is scored 0-100:
+
 - **90-100**: Exceptional quality
 - **75-89**: High quality
 - **60-74**: Good quality
@@ -356,6 +385,7 @@ Each dimension is scored 0-100:
 **Use Case**: Quick checks, CI/CD pipelines
 
 **Example**:
+
 ```bash
 prompttools validate prompts/ --tier 0
 ```
@@ -370,6 +400,7 @@ prompttools validate prompts/ --tier 0
 **Models**: Phi-3-mini, Llama-3-8B
 
 **Example**:
+
 ```bash
 prompttools evaluate prompts/ --tier 1 --model onnx:phi-3
 ```
@@ -384,6 +415,7 @@ prompttools evaluate prompts/ --tier 1 --model onnx:phi-3
 **Models**: gpt-4o-mini, claude-3-haiku
 
 **Example**:
+
 ```bash
 prompttools evaluate prompts/ --tier 2 --model gh:gpt-4o-mini
 ```
@@ -398,6 +430,7 @@ prompttools evaluate prompts/ --tier 2 --model gh:gpt-4o-mini
 **Models**: gpt-4, claude-3-opus
 
 **Example**:
+
 ```bash
 prompttools evaluate prompts/ --tier 3 --model openai:gpt-4
 ```
@@ -483,16 +516,22 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+
         with:
           python-version: '3.11'
+
       - run: pip install -r requirements.txt
       - run: prompttools validate prompts/ --strict
       - run: prompttools evaluate prompts/ --tier 2 --output results.json
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/upload-artifact@v2
+
         with:
           name: evaluation-results
           path: results.json
@@ -519,14 +558,14 @@ from prompttools import evaluate_prompt, validate_prompt
 def evaluate_library(prompts_dir: str, tier: int = 1):
     """Evaluate all prompts in library."""
     results = []
-    
+
     for prompt_file in Path(prompts_dir).rglob("*.md"):
         # Validate structure
         issues = validate_prompt(str(prompt_file))
         if issues:
             print(f"⚠️  {prompt_file}: {len(issues)} validation issues")
             continue
-        
+
         # Evaluate quality
         result = evaluate_prompt(str(prompt_file), tier=tier)
         results.append({
@@ -535,12 +574,12 @@ def evaluate_library(prompts_dir: str, tier: int = 1):
             "tier": result.get("tier", "passed")
         })
         print(f"✅ {prompt_file}: {result['total_score']}/100")
-    
+
     # Generate report
     avg_score = sum(r["score"] for r in results) / len(results)
     print(f"\n📊 Average Score: {avg_score:.1f}/100")
     print(f"📈 Prompts Evaluated: {len(results)}")
-    
+
     # Find top performers
     top_prompts = sorted(results, key=lambda x: x["score"], reverse=True)[:5]
     print("\n🏆 Top 5 Prompts:")

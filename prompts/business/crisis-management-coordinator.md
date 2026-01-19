@@ -5,20 +5,28 @@ intro: "Manages project crises with response plans, stakeholder communication, r
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "risk-management"
   - "project-management"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Impact Assessment: [impact]
 Urgency Level: [urgency]
 
 Provide:
+
 1. Crisis response plan
 2. Stakeholder communication
 3. Resource mobilization
 4. Risk mitigation
 5. Recovery strategy
 6. Lessons learned
+
 ```text
 
 ---
@@ -90,12 +100,14 @@ Impact Assessment: Estimated $250K in lost revenue per hour, reputational damage
 Urgency Level: Critical (SEV-1) – immediate executive visibility required.
 
 Provide:
+
 1. Crisis response plan
 2. Stakeholder communication
 3. Resource mobilization
 4. Risk mitigation
 5. Recovery strategy
 6. Lessons learned
+
 ```text
 
 ### Expected Output

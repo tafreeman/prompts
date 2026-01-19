@@ -5,21 +5,29 @@ intro: Designs IoT system architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - iot
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,25 +52,25 @@ flowchart TB
         Actuators[Actuators]
         Gateway[Edge Gateway]
     end
-    
+
     subgraph Edge[Edge Layer]
         EdgeML[Edge ML/AI]
         Buffer[Local Buffer]
         Protocol[Protocol Translation]
     end
-    
+
     subgraph Cloud[Cloud Layer]
         Ingest[IoT Hub/Broker]
         Stream[Stream Processing]
         Store[(Time Series DB)]
     end
-    
+
     subgraph Analytics[Analytics Layer]
         ML[ML Platform]
         BI[Dashboards]
         Alerts[Alert Engine]
     end
-    
+
     Sensors --> Gateway
     Actuators --> Gateway
     Gateway --> EdgeML
@@ -85,7 +93,7 @@ flowchart TB
 ### Protocol Selection
 
 | Protocol | When to Use | Trade-offs |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **MQTT** | Low bandwidth, unreliable networks | QoS overhead, broker dependency |
 | **HTTP/REST** | Simple devices, request-response | Higher overhead, no push |
 | **CoAP** | Constrained devices, UDP | Less mature tooling |
@@ -95,7 +103,7 @@ flowchart TB
 ### Edge vs Cloud Processing
 
 | Criteria | Edge | Cloud |
-|----------|------|-------|
+| ---------- | ------ | ------- |
 | Latency requirements | <100ms | >1s acceptable |
 | Connectivity | Intermittent/offline | Always connected |
 | Data volume | High-frequency, filter locally | All data needed centrally |
@@ -127,12 +135,14 @@ Connectivity: [connectivity]
 Security Requirements: [security]
 
 Provide:
+
 1. Device architecture
 2. Communication protocols
 3. Data processing pipeline
 4. Cloud integration
 5. Security framework
 6. Management platform
+
 ```text
 
 **Output:**
@@ -141,15 +151,18 @@ Provide:
 ## IoT Architecture Design
 
 ### 1. Device Architecture
+
 *   **Edge Gateway:** Aggregates sensor data via LoRaWAN, performs local anomaly detection (Edge ML), and batches uploads to cloud.
 *   **Protocol:** MQTT over TLS for efficient, lightweight messaging.
 
 ### 2. Data Processing Pipeline
+
 *   **Ingestion:** AWS IoT Core (MQTT Broker).
 *   **Hot Path (Real-time):** IoT Rules -> Kinesis Data Streams -> Lambda (Alerting if temp > threshold).
 *   **Cold Path (Analytics):** Kinesis Firehose -> S3 Data Lake -> Athena/Quicksight for historical trend analysis.
 
 ### 3. Security Framework
+
 *   **Device Identity:** X.509 Certificates provisioned at manufacturing.
 *   **Network:** Network segmentation separating OT (Operational Tech) from IT networks.
 
@@ -171,6 +184,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **IoT Hub**: Device management, D2C/C2D messaging, device twins
 - **Edge**: Azure IoT Edge for containerized edge workloads
 - **Analytics**: Stream Analytics, Time Series Insights, Azure Digital Twins
@@ -178,6 +192,7 @@ Provide:
 - **Security**: Azure Sphere, Device Provisioning Service (DPS)
 
 ### AWS
+
 - **IoT Core**: MQTT broker, device shadows, rules engine
 - **Edge**: AWS IoT Greengrass for edge compute and ML
 - **Analytics**: Kinesis, IoT Analytics, Timestream
@@ -185,6 +200,7 @@ Provide:
 - **Security**: IoT Device Defender, X.509 certificates
 
 ### GCP
+
 - **Edge**: Edge TPU, Anthos for edge Kubernetes
 - **Analytics**: Dataflow, BigQuery for time series
 - **ML**: AutoML Edge, Vertex AI edge deployment
@@ -198,6 +214,7 @@ Provide:
 A food manufacturer needs to monitor 500 cold storage facilities for FDA compliance.
 
 ### Input
+
 ```text
 Use Case: Cold chain monitoring for FDA compliance (FSMA)
 Device Types: Temperature sensors (5 per facility), humidity, door sensors

@@ -5,20 +5,28 @@ intro: "Generate compelling pitch deck outlines and content for investor present
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "sales"
   - "presentations"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -120,10 +128,12 @@ Create a pitch deck outline for:
 **Target Audience**: Enterprise SaaS VCs (Bessemer, Battery, Accel)
 **Key Value Proposition**: Reduce enterprise data integration time from 6 months to 6 days
 **Supporting Data**:
+
 - 45 enterprise customers (including 3 Fortune 500)
 - $2.1M ARR, growing 15% MoM
 - NPS: 72
 - Average contract value: $48K/year
+
 **Ask/Goal**: $8M Series A at $40M pre-money valuation
 
 Generate a complete pitch deck with the slide structure and storytelling arc described in the prompt.

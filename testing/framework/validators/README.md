@@ -48,11 +48,15 @@ is_valid = await semantic_validator.validate(
 ```yaml
 # test_suite.yaml
 test_cases:
+
   - id: test_code_generation
+
     validators:
+
       - code_python      # Python syntax validation
       - semantic         # Semantic correctness
       - format           # Output format
+
 ```
 
 ```python
@@ -74,6 +78,7 @@ Abstract base class for all validators.
 **Purpose:** Provides common validation infrastructure and utilities.
 
 **Features:**
+
 - Error and warning collection
 - Deep object comparison
 - Pattern matching
@@ -85,7 +90,7 @@ class BaseValidator(ABC):
     async def validate(self, output: Any, expected: Optional[Any] = None) -> bool:
         """Validate output against expected result."""
         pass
-    
+
     def add_error(self, message: str)
     def add_warning(self, message: str)
     def get_validation_report(self) -> Dict[str, Any]
@@ -104,10 +109,10 @@ class MyValidator(BaseValidator):
         if output is None:
             self.add_error("Output is None")
             return False
-        
+
         if expected and not self._contains_all(output, expected.get("keywords", [])):
             return False
-        
+
         return True
 ```
 
@@ -118,6 +123,7 @@ Validates code syntax and structure.
 **Purpose:** Ensure generated code is syntactically correct and follows conventions.
 
 **Supported Languages:**
+
 - Python
 - JavaScript
 - TypeScript (future)
@@ -137,7 +143,7 @@ validator = CodeValidator(
 **Validation Checks:**
 
 | Check | Description | Example |
-|-------|-------------|---------|
+| ------- | ------------- | --------- |
 | Syntax | Valid language syntax | No `SyntaxError` |
 | Imports | Valid import statements | `import os` exists |
 | Functions | Function definitions | `def func():` present |
@@ -178,7 +184,7 @@ Validates content quality and completeness.
 **Validation Checks:**
 
 | Check | Description | Configuration |
-|-------|-------------|---------------|
+| ------- | ------------- | --------------- |
 | Length | Min/max character count | `min_length`, `max_length` |
 | Required sections | Expected sections present | `required_sections` |
 | Keywords | Required keywords included | `required_keywords` |
@@ -211,6 +217,7 @@ Validates output format and structure.
 **Purpose:** Ensure output follows specified format (JSON, XML, Markdown, etc.).
 
 **Supported Formats:**
+
 - JSON
 - XML
 - YAML
@@ -273,7 +280,7 @@ Validates semantic meaning and similarity.
 **Validation Approaches:**
 
 | Approach | Description | Use Case |
-|----------|-------------|----------|
+| ---------- | ------------- | ---------- |
 | Keyword matching | Required terms present | Specific terminology |
 | Phrase matching | Expected phrases found | Exact requirements |
 | Embedding similarity | Vector similarity (future) | Semantic equivalence |
@@ -318,14 +325,14 @@ async def validate_all(output, expected):
         SemanticValidator(['correct', 'valid']),
         FormatValidator(format='json')
     ]
-    
+
     results = {}
     for validator in validators:
         results[validator.__class__.__name__] = await validator.validate(
             output, 
             expected
         )
-    
+
     return all(results.values()), results
 ```
 
@@ -380,7 +387,7 @@ from framework.validators.base_validator import BaseValidator
 
 class SecurityValidator(BaseValidator):
     """Validates code for security issues."""
-    
+
     def __init__(self, strict=True):
         super().__init__()
         self.strict = strict
@@ -390,10 +397,10 @@ class SecurityValidator(BaseValidator):
             r'__import__',
             r'os\.system',
         ]
-    
+
     async def validate(self, output, expected=None):
         import re
-        
+
         # Check for dangerous patterns
         for pattern in self.dangerous_patterns:
             if re.search(pattern, output):
@@ -402,11 +409,11 @@ class SecurityValidator(BaseValidator):
                     return False
                 else:
                     self.add_warning(f"Potentially unsafe: {pattern}")
-        
+
         # Check for SQL injection vulnerabilities
         if 'SELECT' in output and '%s' in output:
             self.add_warning("Potential SQL injection vulnerability")
-        
+
         return len(self.validation_errors) == 0
 
 # Register with test runner
@@ -420,23 +427,23 @@ Combine multiple validators:
 ```python
 class CompositeValidator(BaseValidator):
     """Combines multiple validators."""
-    
+
     def __init__(self, validators: List[BaseValidator]):
         super().__init__()
         self.validators = validators
-    
+
     async def validate(self, output, expected=None):
         all_valid = True
-        
+
         for validator in self.validators:
             is_valid = await validator.validate(output, expected)
             all_valid = all_valid and is_valid
-            
+
             # Collect errors from sub-validators
             report = validator.get_validation_report()
             self.validation_errors.extend(report['errors'])
             self.validation_warnings.extend(report['warnings'])
-        
+
         return all_valid
 
 # Usage
@@ -459,25 +466,25 @@ class MetricsCollectingValidator(BaseValidator):
         self.validation_count = 0
         self.success_count = 0
         self.avg_time = 0
-    
+
     async def validate(self, output, expected=None):
         import time
         start = time.time()
-        
+
         result = await self.wrapped.validate(output, expected)
-        
+
         self.validation_count += 1
         if result:
             self.success_count += 1
-        
+
         duration = time.time() - start
         self.avg_time = (
             (self.avg_time * (self.validation_count - 1) + duration) 
             / self.validation_count
         )
-        
+
         return result
-    
+
     def get_metrics(self):
         return {
             "total_validations": self.validation_count,
@@ -523,7 +530,7 @@ class CachedValidator(BaseValidator):
     def _cached_validate(self, output_hash, expected_hash):
         # Expensive validation logic
         pass
-    
+
     async def validate(self, output, expected):
         import hashlib
         output_hash = hashlib.md5(str(output).encode()).hexdigest()

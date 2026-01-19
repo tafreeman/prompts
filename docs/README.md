@@ -132,7 +132,7 @@ estimated_time: "10 min"
 ## 🎯 Finding What You Need
 
 | I Want To... | Go To... |
-|-------------|----------|
+| ------------- | ---------- |
 | Learn from scratch | [tutorials/first-prompt.md](tutorials/first-prompt.md) |
 | Get quick answers | [reference/cheat-sheet.md](reference/cheat-sheet.md) |
 | Understand concepts | [concepts/](concepts/) |

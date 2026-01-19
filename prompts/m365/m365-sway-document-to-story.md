@@ -8,21 +8,29 @@ m365App: Microsoft Sway
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - storytelling
 - m365
 - creative
 - sway
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Converts a standard Word document or report into an engaging Microsoft

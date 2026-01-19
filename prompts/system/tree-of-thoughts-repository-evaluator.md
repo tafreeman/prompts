@@ -8,22 +8,30 @@ category: system
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - tot
 - system
 - evaluation
 - tree-of-thoughts
+
 author: Prompts Library Team
 version: 1.0.0
 date: '2025-11-17'
 last_updated: '2025-12-11'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -258,61 +266,75 @@ Show the calculation explicitly.
 Return your answer in **this exact Markdown structure**:
 
 ```markdown
+
 ## 1. Repository Overview
 
 ## 2. ToT Setup
 
 ### Branch A – Candidate Thoughts
+
 - Thought A1 …
 - Thought A2 …
 - Thought A3 …
+
 **Selected Thought (A):** …
 
 ### Branch B – Candidate Thoughts
+
 - Thought B1 …
 - Thought B2 …
 - Thought B3 …
+
 **Selected Thought (B):** …
 
 ### Branch C – Candidate Thoughts
+
 - Thought C1 …
 - Thought C2 …
 - Thought C3 …
+
 **Selected Thought (C):** …
 
 ## 3. Branch A – Structural & Foundational Integrity
+
 - Score (0–100): …
 - Analysis:
 - Improvements:
 
 ## 4. Branch B – Advanced Technique Depth & Accuracy
+
 - Score (0–100): …
 - Analysis:
 - Improvements:
 
 ## 5. Branch C – Enterprise Applicability & Breadth
+
 - Score (0–100): …
 - Analysis:
 - Recommendations:
 
 ## 6. Cross-Branch Synthesis & Final Score
+
 - Structural Score: …
 - Advanced Technique Score: …
 - Enterprise Score: …
 - Final Weighted Score (0–1000): …
 
 ### Key Strengths
+
 1.
 2.
 3.
 
 ### Key Risks / Gaps
+
 1.
 2.
 3.
 
 ### Executive Summary
 …
+
 ```text
 
 Always fill every section. If information is missing from the repository, reason explicitly about the most likely situation and mark it as an **assumption**.
@@ -331,6 +353,7 @@ Always fill every section. If information is missing from the repository, reason
 ## Usage
 
 To use this Tree-of-Thoughts evaluator:
+
 1. Copy both the System Message and User Message from the "## Prompt" section above
 2. Replace `[REPOSITORY_NAME]` with the actual repository you want to evaluate
 3. Ensure the AI has access to the repository content or provide the structure
@@ -369,6 +392,7 @@ Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation,
 The `tafreeman/prompts` repository is a community-driven prompt engineering library containing well-organized, reusable prompts for AI/LLM interactions. It targets diverse users from developers to business professionals, providing prompts across categories including developers, business, creative, analysis, and system.
 
 Main content categories:
+
 - Technical/coding prompts (developers)
 - Business analysis and strategy (business)
 - Content creation and marketing (creative)

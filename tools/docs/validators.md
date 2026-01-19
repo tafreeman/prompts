@@ -22,7 +22,7 @@ python tools/check_links.py docs/
 ## Available Validators
 
 | Tool | Purpose | Output |
-|------|---------|--------|
+| ------ | --------- | -------- |
 | `frontmatter_validator.py` | YAML metadata schema | Pass/Fail + errors |
 | `prompt_validator.py` | Content structure | Score + issues |
 | `score_validator.py` | Score validation | Numeric validation |
@@ -99,7 +99,7 @@ for issue in report.issues:
 ### Issue Categories
 
 | Category | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `frontmatter` | YAML metadata issues |
 | `structure` | Document structure |
 | `content` | Content quality |
@@ -150,13 +150,17 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+
         with:
           python-version: '3.11'
+
       - run: pip install -r requirements.txt
       - run: python tools/validators/frontmatter_validator.py --all --strict
       - run: python tools/check_links.py --all
+
 ```
 
 ---

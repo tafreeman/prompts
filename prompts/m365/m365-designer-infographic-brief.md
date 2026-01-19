@@ -8,22 +8,30 @@ m365App: Microsoft Designer
 type: tutorial
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - designer
 - m365
 - creative
 - infographic
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 description: Transforms raw data points and key messages into a structured design

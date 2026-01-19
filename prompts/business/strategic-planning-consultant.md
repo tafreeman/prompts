@@ -6,21 +6,29 @@ intro: Develops strategic plans and roadmaps for organizations with comprehensiv
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - strategy
 - planning
+
 author: Prompts Library Team
 version: '1.1'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: confidential
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -56,12 +64,14 @@ Growth Objectives: [objectives]
 Timeframe: [timeframe]
 
 Provide:
+
 1. Situation analysis
 2. Strategic options
 3. Recommended strategy
 4. Implementation roadmap
 5. Success metrics
 6. Risk mitigation
+
 ```text
 
 ---
@@ -82,16 +92,19 @@ Provide:
 ## Strategic Plan (2025-2028)
 
 ### 1. Situation Analysis (SWOT)
+
 *   **Strengths:** Strong local brand presence, experienced store staff.
 *   **Weaknesses:** Legacy IT systems, no mobile app.
 *   **Opportunities:** "Buy Online, Pick Up In-Store" (BOPIS), hyper-local marketing.
 *   **Threats:** Big-box price wars, supply chain inflation.
 
 ### 2. Strategic Options
+
 *   **Option A (Defensive):** Cut costs, close 10 stores, focus on profitability.
 *   **Option B (Pivot):** Aggressive digital transformation, omnichannel focus. (Recommended)
 
 ### 3. Recommended Strategy: "Omnichannel Neighborhood Hub"
+
 *   Transform stores into fulfillment centers for online orders.
 *   Launch "ShopMart Rewards" app to drive foot traffic via personalized offers.
 

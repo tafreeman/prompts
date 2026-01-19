@@ -5,23 +5,31 @@ intro: "Retrieval-Augmented Generation pattern for grounding AI responses in spe
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
   - "azure-openai"
+
 topics:
+
   - "rag"
   - "retrieval"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 governance_tags:
+
   - "PII-safe"
   - "requires-human-review"
   - "audit-required"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---
@@ -106,19 +114,23 @@ Relevance Score: [DOC_2_SCORE]
 [Your grounded answer with inline citations]
 
 **Confidence Assessment**:
+
 - **High**: Answer fully supported by multiple documents
 - **Medium**: Answer supported but with some gaps
 - **Low**: Limited information, significant gaps exist
 
 **Sources Used**:
+
 - [Doc_ID]: Brief description of what information this provided
 - [Doc_ID]: Brief description...
 
 **Information Gaps** (if any):
+
 - What additional information would improve this answer
 - What questions remain unanswered
 
 **Recommended Follow-up**:
+
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
@@ -193,54 +205,65 @@ Relevance Score: 0.41
 
 ```text
 Chunk by:
+
 - Function/method (including docstring and signature)
 - Class definition (with methods)
 - Module-level documentation
 - README sections
 
 Metadata to include:
+
 - File path
 - Language
 - Last modified date
 - Author (if relevant)
+
 ```text
 
 ### For Logs/Incident Data
 
 ```text
 Chunk by:
+
 - Time range (e.g., 5-minute windows)
 - Log level groups (errors together)
 - Service/component
 
 Metadata to include:
+
 - Timestamp range
 - Service name
 - Log level
 - Error codes (if present)
+
 ```text
+
 ```text
 
 ### Hybrid Search
 
 ```python
+
 # Combine semantic + keyword search
 semantic_results = vector_db.similarity_search(query, k=10)
 keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
+
 ```text
 
 ### Contextual Retrieval
 
 ```python
+
 # Retrieve chunk + surrounding context
 main_chunk = retrieve(query)
 previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
+
 ```json
 
 ## Output Schema (JSON)
@@ -248,6 +271,7 @@ context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
 For automation pipelines:
 
 ```json
+
 {
   "answer": "...",
   "confidence": "high|medium|low",
@@ -269,6 +293,7 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
+
 ```text
 
 ---
@@ -298,12 +323,15 @@ For automation pipelines:
 ### GitHub Copilot with Retrieval
 
 ```text
+
 @workspace search for rate limiting policy and explain with citations
+
 ```text
 
 ### Custom RAG Pipeline
 
 ```python
+
 def rag_answer(question, context=""):
     # 1. Retrieve relevant documents
     chunks = vector_db.similarity_search(
@@ -311,26 +339,27 @@ def rag_answer(question, context=""):
         k=5,
         filter={"access_level": user.access_level}
     )
-    
+
     # 2. Format prompt with retrieved context
     prompt = format_rag_prompt(
         question=question,
         context=context,
         documents=chunks
     )
-    
+
     # 3. Generate grounded answer
     response = llm.generate(prompt)
-    
+
     # 4. Validate citations
     if not validate_all_claims_cited(response, chunks):
         response = llm.generate(prompt + "\nEnsure all claims are cited.")
-    
+
     return {
         "answer": response,
         "sources": chunks,
         "confidence": assess_confidence(response, chunks)
     }
+
 ```text
 
 ---
@@ -344,6 +373,7 @@ def rag_answer(question, context=""):
 ### Insufficient Retrieved Documents
 
 ```text
+
 If fewer than 3 relevant documents (score >0.7) retrieved:
 
 "I found limited information about [topic]. Based on available documents:
@@ -351,24 +381,30 @@ If fewer than 3 relevant documents (score >0.7) retrieved:
 [Provide what you can with citations]
 
 To get a better answer, I would need:
+
 - [Specific type of document needed]
 - [Specific information missing]
 
 Would you like me to search differently, or can you provide more context?"
+
 ```text
 
 ### No Relevant Documents Found
 
 ```text
+
 "I couldn't find relevant documentation about [topic]. 
 
 Possible reasons:
+
 - Information may not be documented yet
 - Different terminology might be used (can you rephrase?)
 - Topic may be covered in restricted documents I don't have access to
 
 Would you like me to:
+
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
+
 ```text

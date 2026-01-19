@@ -79,6 +79,7 @@ cat > testing/archive/$ARCHIVE_DATE/README.md << EOF
 [Explanation of why these tests were archived]
 
 ## Contents
+
 - old_test_file.py - [Description]
 
 ## Replacement
@@ -130,10 +131,12 @@ archive/
 ## Contents
 
 ### Test Files
+
 - `test_file1.py` - [Description, reason for archival]
 - `test_file2.py` - [Description, reason for archival]
 
 ### Supporting Files
+
 - `fixtures.json` - [Description]
 - `config.yaml` - [Description]
 
@@ -163,11 +166,13 @@ archive/
 
 ### If You Need to Restore
 ```bash
+
 # Copy back from archive
 cp testing/archive/[date]/test_file.py testing/[location]/
 
 # Update dependencies and imports
 # [Specific instructions]
+
 ```
 
 ### Known Issues
@@ -178,6 +183,7 @@ cp testing/archive/[date]/test_file.py testing/[location]/
 - Original PR: [link]
 - Discussion: [link]
 - Related Issues: [links]
+
 ```
 
 ## 🔍 Accessing Archived Tests
@@ -226,7 +232,7 @@ diff testing/archive/2024-06-20/test_feature.py testing/unit/test_feature.py
 ### Current Archives
 
 | Archive Date | Reason | Files | Size | Notes |
-|--------------|--------|-------|------|-------|
+| -------------- | -------- | ------- | ------ | ------- |
 | 2025-12-04 | [Reason] | [Count] | [Size] | [Notes] |
 
 ### Archive History
@@ -286,6 +292,7 @@ git commit -m "Restore test_feature.py from archive (2024-06-20)"
 ### Archive Documentation
 
 ✅ **Always Include:**
+
 - Date of archival
 - Reason for archival
 - What replaced these tests
@@ -293,6 +300,7 @@ git commit -m "Restore test_feature.py from archive (2024-06-20)"
 - Context and history
 
 ✅ **Archive Metadata:**
+
 - Original purpose
 - Test coverage
 - Known issues
@@ -302,12 +310,14 @@ git commit -m "Restore test_feature.py from archive (2024-06-20)"
 ### Retention Policy
 
 **Keep Archives For:**
+
 - At least 2 years (minimum)
 - Longer for major versions
 - Indefinitely for critical features
 - As long as referenced in documentation
 
 **Can Delete After:**
+
 - 5+ years for minor features
 - After multiple major versions
 - When storage is constrained

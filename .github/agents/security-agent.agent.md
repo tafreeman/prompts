@@ -67,6 +67,7 @@ cursor.execute(query)
 query = "SELECT * FROM users WHERE id = ?"
 cursor.execute(query, [user_id])
 ```sql
+
 ### Cross-Site Scripting (XSS)
 
 ```javascript
@@ -78,6 +79,7 @@ element.textContent = userInput;
 // or
 element.innerHTML = DOMPurify.sanitize(userInput);
 ```text
+
 ### Insecure Deserialization
 
 ```python
@@ -90,6 +92,7 @@ import json
 data = json.loads(untrusted_data)
 # Validate against schema
 ```text
+
 ### Secrets in Code
 
 ```python
@@ -100,6 +103,7 @@ API_KEY = "sk-abc123xyz789"
 import os
 API_KEY = os.environ.get("API_KEY")
 ```text
+
 ### Path Traversal
 
 ```python
@@ -115,12 +119,14 @@ if ".." in safe_path or safe_path.startswith("/"):
     raise ValueError("Invalid filename")
 file_path = os.path.join("/uploads", safe_path)
 ```text
+
 ## Output Format
 
 ```markdown
 ## Security Assessment
 
 ### 🔴 Critical Vulnerabilities
+
 - **Issue**: [Description]
   - **Location**: `file.py:line`
   - **Risk**: [Impact description]
@@ -128,24 +134,31 @@ file_path = os.path.join("/uploads", safe_path)
   - **Remediation**: [How to fix]
 
 ### 🟠 High Severity Issues
+
 - **Issue**: [Description]
   - **Location**: `file.py:line`
   - **Risk**: [Impact description]
   - **Remediation**: [How to fix]
 
 ### 🟡 Medium Severity Issues
+
 - [Issue description and remediation]
 
 ### 🟢 Low Severity / Informational
+
 - [Issue description and remediation]
 
 ### ✅ Security Best Practices Observed
+
 - [What was done well]
 
 ### 📋 Recommendations
+
 1. [Priority recommendation]
 2. [Additional recommendation]
+
 ```text
+
 ## Secrets Detection Patterns
 
 Look for these patterns:
@@ -183,10 +196,11 @@ npx snyk test
 trufflehog filesystem .
 gitleaks detect
 ```text
+
 ## Severity Classification
 
 | Severity | CVSS | Description | Response Time |
-|----------|------|-------------|---------------|
+| ---------- | ------ | ------------- | --------------- |
 | Critical | 9.0-10.0 | Remote code execution, data breach | Immediate |
 | High | 7.0-8.9 | Significant data access, auth bypass | 24-48 hours |
 | Medium | 4.0-6.9 | Limited data exposure, DOS | 1 week |

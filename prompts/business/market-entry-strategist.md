@@ -6,20 +6,28 @@ intro: Develops market entry strategies with market analysis, go-to-market plans
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - strategy
 - business
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -55,12 +63,14 @@ Competitive Landscape: [competition]
 Resources: [resources]
 
 Provide:
+
 1. Market analysis
 2. Entry strategy options
 3. Go-to-market plan
 4. Resource requirements
 5. Risk assessment
 6. Success metrics
+
 ```text
 
 ---
@@ -81,14 +91,17 @@ Provide:
 ## Market Entry Strategy: Germany
 
 ### 1. Market Analysis
+
 *   **Regulatory:** GDPR compliance is non-negotiable; Local data residency (Frankfurt region) required.
 *   **Culture:** Preference for "Trust" and "Certifications" over "Innovation" marketing.
 
 ### 2. Entry Strategy Options
+
 *   **Option A:** Direct Sales (Hire local team). High control, slow scale.
 *   **Option B:** Channel Partners (Resellers). Lower margin, faster reach. (Recommended)
 
 ### 3. Go-to-Market Plan
+
 *   **Positioning:** " The GDPR-compliant alternative for modern SMEs."
 *   **Channel:** Partner with local HR consultancies who implement software.
 

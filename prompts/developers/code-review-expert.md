@@ -12,25 +12,33 @@ intro: "A senior software engineer with 10+ years of experience conducting code 
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "code-review"
   - "enterprise"
   - "developers"
   - "code-quality"
   - "security"
+
 author: "Prompts Library Team"
 version: "2.3.0"
 date: "2025-12-11"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 subcategory: "code-review"
@@ -76,6 +84,7 @@ Review the following change with the stated goal and context:
 - Component/Context: [context]
 - Focus Areas: [focus_areas]
 - Code/Diff:
+
   [code_snippet]
 
 Requirements:
@@ -91,7 +100,7 @@ Requirements:
 ## Variables
 
 | Variable | Description | Example Values |
-|----------|-------------|----------------|
+| ---------- | ------------- | ---------------- |
 | `[language]` | Programming language/framework | `Python + Django`, `TypeScript + React`, `Java + Spring Boot`, `Go`, `C# + .NET` |
 | `[code_snippet]` | Code to review (50-300 lines optimal) | Paste actual code from PR |
 | `[context]` | Component description | `User authentication service`, `Payment processing API`, `React dashboard component` |
@@ -133,25 +142,32 @@ Structure your review using this format for consistency:
 ### Detailed Findings
 
 #### Finding 1: [Title]
+
 - **Category**: 🔴 Blocker / 🟡 Important / 🟢 Suggestion
 - **Location**: `file.py`, lines 10-15, function `process_data()`
 - **Issue**: What's wrong
 - **Impact**: Why it matters
 - **Recommendation**:
+
   ```python
+
   # Fixed code here
+
   ```
+
 - **Rationale**: Principle or best practice being applied
 
 ---
 
 ## Strengths
+
 - [Positive observation 1]
 - [Positive observation 2]
 
 ## Overall Assessment
 **APPROVE** / **REQUEST CHANGES** / **COMMENT**
 ```text
+
 ```json
 
 **Output** (condensed):
@@ -163,6 +179,7 @@ CODE REVIEW SUMMARY
 🔴 **BLOCKERS** (Must Fix Before Merge):
 
 1. **Category**: 🔴 Blocker - Security Vulnerability  
+
    **Location**: src/api/register.py, lines 6-7, 11  
    **Issue**: SQL Injection vulnerabilities  
    **Impact**: Attacker can inject SQL commands, steal database, delete data (CVSS 9.8 Critical)  
@@ -173,7 +190,7 @@ CODE REVIEW SUMMARY
    existing_user = db.execute(
        "SELECT * FROM users WHERE email = ?", (email,)
    ).fetchone()
-   
+
    db.execute(
        "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
        (username, email, password_hash)  # Also fix password storage (see #2)
@@ -183,6 +200,7 @@ CODE REVIEW SUMMARY
    **Rationale**: OWASP A03:2021 Injection - Never concatenate user input into SQL queries
 
 2. **Category**: 🔴 Blocker - Security  
+
    **Location**: line 11  
    **Issue**: Plain text password storage  
    **Impact**: If database is breached, all user passwords are exposed  
@@ -197,6 +215,7 @@ CODE REVIEW SUMMARY
    **Rationale**: OWASP Password Storage Cheat Sheet - Use bcrypt/Argon2/PBKDF2
 
 3. **Category**: 🔴 Blocker - Data Loss Risk  
+
    **Location**: Missing throughout  
    **Issue**: No transaction rollback on email failure  
    **Impact**: User created in DB but no verification email sent → orphan records  
@@ -215,6 +234,7 @@ CODE REVIEW SUMMARY
 🟡 **IMPORTANT** (Should Fix):
 
 1. **Category**: 🟡 Important - Error Handling  
+
    **Location**: line 4-6  
    **Issue**: KeyError if 'username'/'email'/'password' missing from request  
    **Recommendation**:
@@ -223,25 +243,26 @@ CODE REVIEW SUMMARY
    username = data.get('username')
    email = data.get('email')
    password = data.get('password')
-   
+
    if not all([username, email, password]):
        return jsonify({'error': 'Missing required fields'}), 400
    ```text
 
 2. **Category**: 🟡 Important - Code Quality (Single Responsibility Principle)  
+
    **Issue**: register() does too much (validation, DB logic, email sending)  
    **Recommendation**: Extract to separate functions:
 
    ```python
    def validate_registration_data(data):
        # Return (is_valid, error_message)
-   
+
    def create_user(username, email, password_hash):
        # Return user_id or raise exception
-   
+
    def send_verification_email(email, user_id):
        # Handle email logic
-   
+
    @app.route('/api/register', methods=['POST'])
    def register():
        is_valid, error = validate_registration_data(request.json)
@@ -253,6 +274,7 @@ CODE REVIEW SUMMARY
 🟢 **SUGGESTIONS** (Nice to Have):
 
 1. **Category**: 🟢 Suggestion - Testing  
+
    **Issue**: No unit tests provided  
    **Recommendation**: Add tests for happy path + error cases (existing user, missing fields, SQL injection attempts)
 
@@ -275,6 +297,7 @@ CODE REVIEW SUMMARY
 **OVERALL ASSESSMENT**: ❌ **REQUEST CHANGES** - 3 critical blockers must be addressed before merge
 
 ```text
+
 - **[test-automation-engineer](./test-automation-engineer.md)** - Review test coverage and quality
 - **[performance-optimization-specialist](./performance-optimization-specialist.md)** - Performance-focused code review
 

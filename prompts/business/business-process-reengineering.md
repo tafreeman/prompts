@@ -5,20 +5,28 @@ intro: "Reengineers business processes with analysis, new design, technology ena
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "process-improvement"
   - "business"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Target Improvements: [targets]
 Constraints: [constraints]
 
 Include:
+
 1. Process analysis
 2. Reengineering approach
 3. New process design
 4. Technology enablers
 5. Implementation strategy
 6. Performance metrics
+
 ```text
 
 ---
@@ -91,12 +101,14 @@ Target Improvements: Reduce cycle time to 6 days or less, cut rework to under 3%
 Constraints: Existing SAP ERP must remain system of record; limited budget for new tools in year one; sales team highly resistant to extra data entry steps.
 
 Include:
+
 1. Process analysis
 2. Reengineering approach
 3. New process design
 4. Technology enablers
 5. Implementation strategy
 6. Performance metrics
+
 ```text
 
 ### Expected Output

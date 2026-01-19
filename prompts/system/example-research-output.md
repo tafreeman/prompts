@@ -6,22 +6,30 @@ intro: Sample output demonstrating what a research agent produces when analyzing
 type: reference
 difficulty: intermediate
 audience:
+
 - junior-engineer
 - senior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - research
 - agentic
 - chain-of-thought
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 effectivenessScore: 0.0

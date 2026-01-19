@@ -5,23 +5,31 @@ intro: "Develop and document comprehensive brand voice guidelines that ensure co
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "branding"
   - "creative"
   - "marketing-strategy"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.0
@@ -52,6 +60,7 @@ Create comprehensive brand voice guidelines that define how your brand sounds ac
 You are a brand strategist specializing in voice and tone development. Help me create comprehensive brand voice guidelines based on the following information:
 
 **Brand Overview:**
+
 - Brand Name: [YOUR BRAND NAME]
 - Industry: [YOUR INDUSTRY/CATEGORY]
 - Brand Mission: [WHAT YOU DO AND WHY]
@@ -59,32 +68,38 @@ You are a brand strategist specializing in voice and tone development. Help me c
 
 **Brand Personality:**
 Describe your brand as if it were a person:
+
 - Personality traits (3-5): [E.G., CONFIDENT, HELPFUL, WITTY]
 - If your brand were a celebrity, who would it be? [EXAMPLE]
 - What brands do you admire for their voice? [EXAMPLES]
 
 **Current Voice Assessment:**
+
 - How would you describe your current voice? [DESCRIPTION]
 - What's working well? [STRENGTHS]
 - What needs improvement? [CHALLENGES]
 
 **Communication Context:**
+
 - Primary channels: [WEBSITE/SOCIAL/EMAIL/ADS/PRODUCT/SUPPORT]
 - Key content types: [BLOG/SOCIAL/EMAILS/PRODUCT COPY/SUPPORT]
 - Competitors' voice: [HOW DO THEY SOUND?]
 
 **Voice Aspirations:**
+
 - We want to sound more: [ATTRIBUTES]
 - We want to sound less: [ATTRIBUTES TO AVOID]
 - Words we love: [BRAND-ALIGNED VOCABULARY]
 - Words we avoid: [OFF-BRAND VOCABULARY]
 
 **Audience Insights:**
+
 - How does our audience talk? [THEIR LANGUAGE/STYLE]
 - What do they value in communication? [DIRECTNESS/WARMTH/EXPERTISE]
 - What frustrates them? [COMMUNICATION PET PEEVES]
 
 Please create comprehensive brand voice guidelines including:
+
 1. Brand Voice Summary (elevator pitch for your voice)
 2. Core Voice Attributes (3-4 pillars with descriptions)
 3. Tone Spectrum (how voice adjusts across contexts)
@@ -93,12 +108,13 @@ Please create comprehensive brand voice guidelines including:
 6. Channel-Specific Guidelines
 7. Example Rewrites (generic → on-brand)
 8. Quick Reference Card for team use
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[YOUR BRAND NAME]` | Brand/company/product name |
 | `[YOUR INDUSTRY/CATEGORY]` | Industry or category (e.g., B2B SaaS, skincare, fintech) |
 | `[WHAT YOU DO AND WHY]` | Mission statement (what you do + why it matters) |
@@ -145,10 +161,12 @@ Words we avoid: synergy, leverage, revolutionary
 
 ```text
 A structured "Nimbus Brand Voice Guidelines" doc with:
+
 - 3–4 voice pillars (with do/don’t examples)
 - channel-specific guidance (website, product UI, support)
 - a vocabulary table (use/avoid)
 - 3–5 rewrite examples (generic -> Nimbus)
+
 ```
 
 **Output:**
@@ -181,6 +199,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 **What it means:** We get to the point. We say what we mean in plain language. We assume our audience is smart but busy.
 
 *How this sounds:*
+
 - Short sentences when possible
 - Active voice over passive
 - Explanations a non-expert could follow
@@ -195,6 +214,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 **What it means:** We know what we're doing, and it shows. We're confident in our product without being boastful. We speak with authority earned through expertise.
 
 *How this sounds:*
+
 - Direct statements, not hedging
 - Specific details over vague claims
 - We show, don't just tell
@@ -209,6 +229,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 **What it means:** We're easy to talk to. We use "you" and "we." We're helpful, not condescending. We remember there's a human on the other side.
 
 *How this sounds:*
+
 - Conversational, not corporate
 - We use contractions (we're, you'll, it's)
 - We acknowledge frustrations honestly
@@ -223,6 +244,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 **What it means:** We're clever when it fits, but we never sacrifice clarity for a joke. Our humor is dry, observational, and relatable—never forced or cringe.
 
 *How this sounds:*
+
 - Occasional unexpected phrasing
 - Self-aware about industry norms
 - Smirk-worthy, not LOL-worthy
@@ -238,7 +260,7 @@ We're the project manager everyone actually likes—competent, straightforward, 
 Our voice stays consistent, but our tone adjusts based on context:
 
 | Context | Tone Adjustment | Example |
-|---------|-----------------|---------|
+| --------- | ----------------- | --------- |
 | **Marketing (awareness)** | More energetic, confident, punchy | "The project management tool that doesn't feel like project management." |
 | **Marketing (conversion)** | Confident, specific, action-oriented | "Start free. No credit card. No 30-minute sales call." |
 | **Product/UI** | Clear, helpful, minimal | "Task saved" / "Couldn't save. Try again?" |
@@ -256,26 +278,31 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### ✅ DO
 
 **Be direct.**
+
 - Get to the point fast
 - Use short paragraphs and sentences
 - Front-load the important information
 
 **Sound human.**
+
 - Use contractions (we're, you'll, it's)
 - Say "you" and "your team"
 - Write like you're talking to one person
 
 **Show confidence.**
+
 - Make statements, not hedges
 - Use active voice
 - Be specific with claims
 
 **Add personality where appropriate.**
+
 - Surprise with a clever turn of phrase
 - Acknowledge shared frustrations
 - Be a little unexpected
 
 **Respect the reader's time.**
+
 - If you can cut words, cut them
 - Use bullets and headers for scanning
 - Answer the question they're asking
@@ -285,26 +312,31 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### ❌ DON'T
 
 **Don't use jargon and buzzwords.**
+
 - No: synergy, leverage, utilize, facilitate, best-in-class
 - No: "revolutionary," "game-changing," "cutting-edge"
 - If you need a thesaurus, you're off track
 
 **Don't be vague.**
+
 - No: "Increase productivity" (how? by how much?)
 - No: "Robust solution" (what does that even mean?)
 - If it could apply to any product, rewrite it
 
 **Don't be condescending.**
+
 - No: "Simply click the button" (if it were simple, they wouldn't need help)
 - No: "As you probably know..." (then why are you saying it?)
 - Respect their intelligence
 
 **Don't try too hard to be funny.**
+
 - No: Excessive emojis or ALL CAPS
 - No: Forced puns or dad jokes in serious contexts
 - No: Humor that gets in the way of the message
 
 **Don't hide bad news.**
+
 - No: "We're making exciting changes!" (when things are being removed)
 - If there's a problem, say it plainly
 - Honesty builds trust
@@ -316,7 +348,7 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### Words We Love ♥️
 
 | Word | Why |
-|------|-----|
+| ------ | ----- |
 | Team | Emphasizes collaboration |
 | Together | Reinforces our mission |
 | Simple | What we aim for |
@@ -331,7 +363,7 @@ Our voice stays consistent, but our tone adjusts based on context:
 ### Words We Avoid 🚫
 
 | Word | Why | Alternative |
-|------|-----|-------------|
+| ------ | ----- | ------------- |
 | Utilize | Corporate speak | Use |
 | Leverage | Buzzword | Use, take advantage of |
 | Synergy | Meaningless | Collaboration, teamwork |
@@ -456,12 +488,14 @@ Our voice stays consistent, but our tone adjusts based on context:
 **We sound like:** Your capable, helpful teammate who doesn't waste your time
 
 **We are:**
+
 - Clear — Plain language, no jargon
 - Capable — Confident, specific, expert
 - Approachable — Human, conversational, helpful
 - Subtly Witty — Clever when it fits, never forced
 
 **We're NOT:**
+
 - Corporate or stiff
 - Vague or buzzwordy
 - Condescending

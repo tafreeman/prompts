@@ -11,14 +11,13 @@ The **Concepts** section provides theoretical frameworks and foundational knowle
 ## 📁 Contents
 
 | Document | Description | Difficulty | Est. Time |
-|----------|-------------|------------|-----------|
+| ---------- | ------------- | ------------ | ----------- |
 | **[About Prompt Engineering](about-prompt-engineering.md)** | Core principles, strategies, and foundations of effective prompting | Beginner | 20 min |
 | **[About Advanced Patterns](about-advanced-patterns.md)** | Chain-of-Thought, ReAct, RAG, Tree-of-Thought, and other advanced techniques | Intermediate | 30 min |
 | **[Model Capabilities](model-capabilities.md)** | Understanding strengths and limitations of different AI models (GPT, Claude, Copilot) | Beginner | 15 min |
 | **[Prompt Anatomy](prompt-anatomy.md)** | Structure and components of well-crafted prompts | Beginner | 15 min |
 
-## 🎯 Use These Documents When...
-
+## 🎯 Use These Documents When
 - ✅ You want to understand **why** certain prompting techniques work
 - ✅ You need to **choose the right pattern** for your specific task
 - ✅ You're **troubleshooting** prompts that don't work as expected
@@ -49,7 +48,7 @@ Then move on to **[Tutorials](../tutorials/)** for hands-on practice.
 ### Quick Reference
 
 | I Want To... | Read This |
-|--------------|-----------|
+| -------------- | ----------- |
 | Understand prompt basics | [About Prompt Engineering](about-prompt-engineering.md) |
 | Learn advanced techniques | [About Advanced Patterns](about-advanced-patterns.md) |
 | Choose the right AI model | [Model Capabilities](model-capabilities.md) |
@@ -58,11 +57,13 @@ Then move on to **[Tutorials](../tutorials/)** for hands-on practice.
 ## 🔗 Related Documentation
 
 ### Learn More
+
 - **[Tutorials](../tutorials/)** — Apply concepts through hands-on guides
 - **[Reference](../reference/)** — Quick lookups and cheat sheets
 - **[Research](../research/)** — Evidence-based studies and analysis
 
 ### Apply Knowledge
+
 - **[Prompts Library](../../prompts/)** — Ready-to-use prompt templates
 - **[Instructions](../instructions/)** — Team coding standards and personas
 - **[Tools](../../tools/)** — CLI utilities for prompt management
@@ -70,12 +71,14 @@ Then move on to **[Tutorials](../tutorials/)** for hands-on practice.
 ## 💡 Key Concepts Covered
 
 ### Fundamental Principles
+
 - What makes a prompt effective
 - Context, clarity, and specificity
 - Role assignment and persona design
 - Output formatting and constraints
 
 ### Advanced Techniques
+
 - **Chain-of-Thought (CoT)**: Step-by-step reasoning
 - **ReAct**: Reasoning + Acting in iterative loops
 - **Tree-of-Thoughts (ToT)**: Exploring multiple reasoning paths
@@ -84,6 +87,7 @@ Then move on to **[Tutorials](../tutorials/)** for hands-on practice.
 - **Meta-Prompting**: Prompts that generate prompts
 
 ### Model Understanding
+
 - GPT-4, GPT-3.5 capabilities and use cases
 - Claude 3 (Opus, Sonnet, Haiku) strengths
 - GitHub Copilot code generation patterns
@@ -144,6 +148,7 @@ All documentation is licensed under [MIT License](../../LICENSE).
 ---
 
 **Next Steps**:
+
 - 📖 Start reading: [About Prompt Engineering](about-prompt-engineering.md)
 - 🎓 Practice: [Tutorials](../tutorials/)
 - 💬 Discuss: [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)

@@ -6,20 +6,28 @@ intro: Develops innovation strategies with opportunity identification, innovatio
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - innovation
 - strategy
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Current Capabilities: [capabilities]
 Market Opportunities: [opportunities]
 
 Include:
+
 1. Innovation assessment
 2. Opportunity identification
 3. Innovation framework
 4. Implementation roadmap
 5. Governance model
 6. Success metrics
+
 ```text
 
 ---
@@ -79,15 +89,18 @@ Include:
 ## Innovation Strategy
 
 ### 1. Innovation Assessment
+
 *   **Gap:** "Software Defined Vehicle" trend requires capabilities we lack (Embedded C++, AI).
 *   **Asset:** Deep relationships with OEMs (Ford, GM, VW) and manufacturing scale.
 
 ### 2. Innovation Framework (Three Horizons)
+
 *   **Horizon 1 (Core):** Light-weighting existing mechanical parts for EVs.
 *   **Horizon 2 (Adjacent):** Thermal management systems (leveraging existing HVAC expertise).
 *   **Horizon 3 (Transformational):** AI-driven predictive maintenance software.
 
 ### 3. Implementation Roadmap
+
 *   **Buy vs Build:** Acquire a small BMS software startup to jumpstart Horizon 2.
 *   **Partnership:** Joint Venture with battery cell manufacturer.
 

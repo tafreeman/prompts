@@ -5,20 +5,27 @@ intro: "Specialized agent definitions for autonomous workflows and multi-turn ta
 type: "reference"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "azure-openai"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /agents/architecture-agent.agent
   - /agents/cloud-agent.agent
   - /agents/code-review-agent.agent
@@ -28,14 +35,19 @@ children:
   - /agents/refactor-agent.agent
   - /agents/security-agent.agent
   - /agents/test-agent.agent
+
 featuredLinks:
   gettingStarted:
+
     - /agents/AGENTS_GUIDE
     - /agents/agent-template
+
   popular:
+
     - /agents/code-review-agent.agent
     - /agents/docs-agent.agent
     - /agents/test-agent.agent
+
 ---
 
 # AI Agents & Personas
@@ -45,7 +57,7 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 ## In This Section
 
 | Agent | Role | Best For |
-|-------|------|----------|
+| ------- | ------ | ---------- |
 | **[Docs Agent](/agents/docs-agent.agent)** | Technical Writer | Generating READMEs, API docs, and guides |
 | **[Code Review Agent](/agents/code-review-agent.agent)** | Senior Engineer | Reviewing PRs for quality, security, and style |
 | **[Test Agent](/agents/test-agent.agent)** | QA Engineer | Writing unit and integration tests |
@@ -67,20 +79,24 @@ Deploy specialized AI personas to handle complex, multi-step development tasks. 
 ## Browse by Capability
 
 ### Development & Quality
+
 - [Code Review Agent](/agents/code-review-agent.agent)
 - [Test Agent](/agents/test-agent.agent)
 - [Refactor Agent](/agents/refactor-agent.agent)
 
 ### Design & Security
+
 - [Architecture Agent](/agents/architecture-agent.agent)
 - [Cloud Agent](/agents/cloud-agent.agent)
 - [Security Agent](/agents/security-agent.agent)
 
 ### Content & Operations
+
 - [Docs Agent](/agents/docs-agent.agent)
 - [Prompt Agent](/agents/prompt-agent.agent)
 
 ### Tooling & Automation
+
 - [DevSecOps Tooling Agent](/agents/devsecops-tooling-agent.agent)
 
 ---

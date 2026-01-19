@@ -5,23 +5,31 @@ intro: "Generate landing page copy with clear positioning, benefits, objections,
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "creative"
   - "documentation"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2026-01-03"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
   - "human-review-recommended"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -49,7 +57,7 @@ Create conversion-focused landing page copy that communicates value quickly and 
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[product]` | Product/service name | `Acme Analytics` |
 | `[audience]` | Who the page is for | `Operations managers at 3PLs` |
 | `[primary_pain]` | Main pain point | `Manual KPI reporting` |
@@ -86,23 +94,28 @@ Constraints: [constraints]
 
 ## Output format
 1) Hero section
+
    - Headline (max 10 words)
    - Subheadline (1–2 sentences)
    - Primary CTA button text + microcopy
+
 2) Benefits section (3–6 bullets)
 3) How it works (3 steps)
 4) Proof section (placeholders if needed)
 5) Objection handling / FAQ (5 Q&As)
 6) Secondary CTA section
 7) A/B variants
+
    - 3 alternative headlines
    - 2 alternative CTAs
 
 ## Writing rules
+
 - Keep sentences short and concrete.
 - Prefer benefits over features.
 - Use the audience’s language (from the inputs).
 - If constraints include a word limit, prioritize hero + benefits + CTA first.
+
 ```
 
 ---
@@ -137,6 +150,7 @@ Constraints: [constraints]
 *Microcopy:* See a sample dashboard and an implementation plan.
 
 ## Benefits
+
 - Cut weekly KPI reporting time with automated refresh
 - Spot inventory and shipment exceptions before they become customer issues
 - Align ops + finance with one source of truth
@@ -145,9 +159,11 @@ Constraints: [constraints]
 ...
 
 ## A/B headlines
+
 1. Stop waiting a week for logistics KPIs
 2. The 3PL dashboard your teams actually trust
 3. Turn WMS/TMS data into decisions—fast
+
 ```
 
 ---

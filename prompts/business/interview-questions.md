@@ -5,20 +5,28 @@ intro: "Generate structured, behavioral interview questions tailored to specific
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "recruiting"
   - "hr"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -138,7 +146,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 ## Interview Structure
 
 | Section | Time | Focus |
-|---------|------|-------|
+| --------- | ------ | ------- |
 | Opening | 5 min | Rapport, background |
 | Behavioral | 25 min | Core competencies |
 | Situational | 15 min | Judgment, approach |
@@ -169,11 +177,13 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Tell me about a time you had to make a significant product decision with incomplete or conflicting data. How did you approach it?"*
 
 **Follow-up Probes**:
+
 - "What data did you have vs. what did you wish you had?"
 - "How did you validate your assumptions?"
 - "What would you do differently now?"
 
 **STAR Expectations**:
+
 - **Situation**: Clear business context and stakes
 - **Task**: Their specific ownership
 - **Action**: Structured approach to synthesis, not just gut feel
@@ -187,11 +197,13 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Describe a situation where you needed to get alignment from engineering, design, and other stakeholders who had competing priorities. How did you navigate it?"*
 
 **Follow-up Probes**:
+
 - "How did you prioritize whose concerns to address first?"
 - "What did you do when someone still disagreed?"
 - "How did you maintain the relationship after?"
 
 **STAR Expectations**:
+
 - Shows influence without authority
 - Demonstrates empathy for other teams' constraints
 - Found creative solutions, not just escalated
@@ -204,11 +216,13 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Tell me about an experiment you ran that failed. What did you learn, and how did it influence your next steps?"*
 
 **Follow-up Probes**:
+
 - "How did you decide what to test in the first place?"
 - "How did you communicate the failure to stakeholders?"
 - "What did you do with the learnings?"
 
 **STAR Expectations**:
+
 - Embraces failure as learning (not defensive)
 - Has a rigorous experimentation framework
 - Can articulate statistical significance, sample sizes
@@ -221,11 +235,13 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Walk me through a time you discovered a customer insight that fundamentally changed your product direction. How did you uncover it?"*
 
 **Follow-up Probes**:
+
 - "What methods did you use (interviews, data, observation)?"
 - "How did you convince others the insight was valid?"
 - "How did you avoid confirmation bias?"
 
 **STAR Expectations**:
+
 - Direct customer interaction (not just reading reports)
 - Synthesized qualitative + quantitative
 - Changed their own mind, not just validated assumptions
@@ -238,11 +254,13 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Tell me about a time you identified a growth opportunity that wasn't on anyone's roadmap. How did you build the case for it?"*
 
 **Follow-up Probes**:
+
 - "How big was the opportunity vs. current priorities?"
 - "What tradeoffs did you have to make?"
 - "How did you sequence the rollout?"
 
 **STAR Expectations**:
+
 - Thinks beyond current sprint/quarter
 - Can quantify opportunity size
 - Balances vision with pragmatic execution
@@ -256,6 +274,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Imagine you're 3 weeks into a quarter. Your team is working on an activation improvement projected to lift conversion 10%. Your CEO comes to you with a request from a key enterprise customer that would require pausing this work. The customer represents 15% of ARR. How do you handle this?"*
 
 **What to assess**:
+
 - Framework for evaluating tradeoffs (not just "it depends")
 - Stakeholder management instincts
 - Ability to push back respectfully
@@ -269,6 +288,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"You're tasked with improving our onboarding flow. Activation rate is 34% (new users who complete setup within 7 days). You have 4 weeks and one engineer. Walk me through how you'd approach this."*
 
 **What to assess**:
+
 - Structured thinking (diagnose before prescribe)
 - Experimentation rigor
 - Scrappiness within constraints
@@ -282,6 +302,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 *"Your data science team's analysis shows Feature X will increase activation by 8%. Your UX researcher is convinced it will hurt long-term retention because it feels 'spammy.' You need to make a call. What do you do?"*
 
 **What to assess**:
+
 - Handles ambiguity without analysis paralysis
 - Values both quantitative and qualitative input
 - Makes decisions, doesn't just gather consensus
@@ -314,6 +335,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 ## 5. Candidate Questions (5 minutes)
 
 ### What Strong Candidates Ask
+
 - "What does the current activation funnel look like? Where are the biggest drop-offs?"
 - "How does the Growth team collaborate with Core Product?"
 - "What experiments has the team run recently? What worked vs. didn't?"
@@ -321,6 +343,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 - "What's the biggest challenge the Growth team is facing right now?"
 
 ### Red Flag Questions
+
 - Only asking about comp, title, or promotion timeline
 - No questions prepared at all
 - Questions that show they didn't read the job description
@@ -331,7 +354,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 ## 6. Scoring Rubric
 
 | Competency | Strong (4-5) | Adequate (3) | Concerning (1-2) |
-|------------|--------------|--------------|------------------|
+| ------------ | -------------- | -------------- | ------------------ |
 | **Data-Driven** | Cites specific metrics, acknowledges data limitations, makes probabilistic decisions | Uses data but can't explain methodology deeply | Relies on intuition, can't articulate how they'd measure success |
 | **Cross-Functional** | Concrete examples of building consensus, shows empathy for other teams | Has collaborated but waited for decisions to come to them | Blames other teams, sees alignment as someone else's job |
 | **Experimentation** | Can design rigorous experiments, embraces failures, iterates based on learnings | Has run experiments but didn't own the analysis | Hasn't run real experiments or sees them as "nice to have" |
@@ -346,6 +369,7 @@ The AI returns a complete interview guide that includes: an interview structure/
 - [ ] Note specific examples (not just impressions)
 - [ ] Flag any concerns for hiring committee
 - [ ] Avoid discussing with other interviewers before independent scoring
+
 ```text
 
 ---

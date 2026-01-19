@@ -8,32 +8,46 @@ description: Streamlined LATS evaluator optimized for local models (~2KB vs 16KB
 type: how_to
 difficulty: intermediate
 audience:
+
   - senior-engineer
   - solution-architect
+
 platforms:
+
   - chatgpt
   - claude
   - github-copilot
+
 topics:
+
   - evaluation
   - quality-assurance
+
 category: evaluation
 tags: [lats, evaluation, local-models]
 version: 1.0.0
 model_compatibility: [phi4, qwen2.5, deepseek, llama]
 variables:
+
   - name: PROMPT_CONTENT
+
     required: true
+
   - name: QUALITY_THRESHOLD
+
     default: "80"
+
   - name: MAX_ITERATIONS
+
     default: "3"
 complexity: intermediate
 estimated_tokens: 500-800
 date: "2026-01-12"
 reviewStatus: draft
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 effectivenessScore: 0.0
 ---
@@ -59,6 +73,7 @@ MAX_ITERATIONS: {{MAX_ITERATIONS}}
 </prompt>
 
 ## Evaluate using these criteria (weights in parentheses):
+
 - Clarity (25%): Is the goal and role clear?
 - Effectiveness (30%): Does it produce good results?
 - Specificity (20%): Are instructions precise with examples?
@@ -68,7 +83,7 @@ MAX_ITERATIONS: {{MAX_ITERATIONS}}
 
 ### SCORES
 | Criterion | Score | Issue |
-|-----------|-------|-------|
+| ----------- | ------- | ------- |
 | clarity | [0-100] | [problem if <80] |
 | effectiveness | [0-100] | [problem if <80] |
 | specificity | [0-100] | [problem if <80] |
@@ -85,7 +100,9 @@ MAX_ITERATIONS: {{MAX_ITERATIONS}}
 
 ### DECISION
 ```json
+
 {"score": [X], "threshold_met": [true/false], "continue": [true/false]}
+
 ```
 
 If threshold met or max iterations reached, output final improved prompt:
@@ -97,7 +114,7 @@ If threshold met or max iterations reached, output final improved prompt:
 
 ### SUMMARY
 | Metric | Value |
-|--------|-------|
+| -------- | ------- |
 | Initial Score | [X]% |
 | Final Score | [Y]% |
 | Improvement | +[Z]% |
@@ -128,7 +145,7 @@ print(result)
 ## Variables
 
 | Variable | Description |
-|---|---|
+| --- | --- |
 | `{{PROMPT_CONTENT}}` | The prompt text to evaluate and improve. |
 | `{{QUALITY_THRESHOLD}}` | Minimum weighted score required to stop iterating (default: 80). |
 | `{{MAX_ITERATIONS}}` | Max improvement iterations to attempt (default: 3). |
@@ -136,7 +153,7 @@ print(result)
 ## Size Comparison
 
 | Version | Size | Tokens | Local Model? |
-|---------|------|--------|--------------|
+| --------- | ------ | -------- | -------------- |
 | LATS Full | 16KB | ~4000 | ❌ Timeouts |
 | **LATS-Lite** | **2KB** | **~500** | ✅ Fast |
 

@@ -6,22 +6,30 @@ intro: An advanced prompting pattern that combines Chain-of-Thought reasoning wi
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - react
 - agents
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
 - audit-required
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -61,7 +69,7 @@ flowchart LR
     D --> E{📊 Goal<br/>Achieved?}
     E -->|No| B
     E -->|Yes| F[✅ Final Answer]
-    
+
     style A fill:#e3f2fd
     style B fill:#fff3e0
     style C fill:#f3e5f5
@@ -71,6 +79,7 @@ flowchart LR
 ```
 
 **Legend:**
+
 - 💭 **Thought**: Explicit reasoning about what to do next
 - ⚡ **Action**: Call to external tool/API with parameters
 - 👁️ **Observation**: System returns actual tool output
@@ -94,7 +103,7 @@ flowchart LR
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `[DESCRIBE_TASK_GOAL]` | Yes | The goal/problem to solve using ReAct loops. | `Investigate and fix failing CI tests` |
 | `[PROVIDE_BACKGROUND]` | No | Background that constrains tools and approach. | `Failures started after dependency upgrade` |
 | `[LIST_TOOLS_WITH_DESCRIPTIONS]` | Yes | The toolset available (names + what they do). | `read_file (inspect files), grep_search (find patterns), run_tests (execute suite)` |
@@ -151,11 +160,13 @@ Continue this cycle until you can provide:
 **Final Answer**: [Complete response to the original task]
 
 **Key Constraints**:
+
 - Always Think before you Act
 - Each Action must use a specified tool (no hallucinating tool results)
 - Observe actual tool outputs - don't assume
 - Reflect on whether you're making progress
 - Stop when you have sufficient information to answer the task
+
 ```
 
 **Output:**
@@ -248,6 +259,7 @@ Parameters: {
 }
 
 **Reflection 3**: Found it! The vulnerability was likely introduced in September (a3f9d12) when someone added "full-text search" as an urgent feature. The commit message suggests this was rushed ("URGENT"). The earlier commit in July also touched the same file. This is a recent introduction (2-3 months old), which means:
+
 1. The attack surface is relatively new
 2. It may not have been caught by code review due to urgency
 3. Fixing it should be straightforward since it's recent code
@@ -308,6 +320,7 @@ Parameters: {
 }
 
 **Reflection 5**: This confirms the issue - there are thousands of failed login attempts on common usernames (admin, root, test, administrator) in just 24 hours. This indicates:
+
 1. Brute-force attacks are actively happening
 2. No account lockout mechanism exists (only rate limiting)
 3. Attackers are rotating IPs to bypass rate limits
@@ -329,6 +342,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ### Priority 1: Critical - IMMEDIATE ACTION REQUIRED
 
 **1. SQL Injection in /api/users/search (CVSS 9.1)**
+
 - **Risk**: Public endpoint, no authentication, 12.5K requests/day
 - **Root Cause**: Recently introduced (Sept 2024, commit a3f9d12) during rushed feature development
 - **Exploitation**: Potential for data breach, data manipulation, or full database compromise
@@ -343,6 +357,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ### Priority 2: High - THIS SPRINT
 
 **2. Broken Authentication in /api/auth/login (CVSS 8.2)**
+
 - **Risk**: Actively being exploited (8,423 brute-force attempts on "admin" in 24h)
 - **Issues Identified**:
   - No account lockout mechanism (only IP-based rate limiting)
@@ -362,9 +377,11 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ### Priority 3: Medium - NEXT SPRINT
 
 **3. XSS in /api/comments/create (CVSS 6.5)**
+
 - **Effort**: 4 hours (add output escaping, CSP headers)
 
 **4. Missing Rate Limiting on /api/data/export (CVSS 5.3)**
+
 - **Effort**: 6 hours (implement rate limiting, add quota system)
 
 **Combined estimate**: 10 hours
@@ -374,6 +391,7 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ### Priority 4: Low - BACKLOG
 
 **5. Information Disclosure in /api/debug/info (CVSS 4.1)**
+
 - **Effort**: 2 hours (disable in production, add auth requirement)
 
 ---
@@ -381,23 +399,28 @@ Found 5 vulnerabilities (1 Critical, 1 High, 2 Medium, 1 Low). Two vulnerabiliti
 ### Budget Allocation (40 hours available)
 
 **Sprint 1 (This sprint)**: 38 hours
+
 - SQL Injection fix: 16 hours ✓
 - Broken Authentication fix: 22 hours ✓
 
 **Sprint 2 (Next sprint)**: 10 hours
+
 - XSS fix: 4 hours
 - Rate Limiting: 6 hours
 
 **Backlog**: 2 hours
+
 - Debug endpoint fix: 2 hours
 
 ### Recommended Immediate Actions
+
 1. **TODAY**: Deploy temporary WAF rules to block obvious SQL injection patterns on /api/users/search
 2. **TODAY**: Increase rate limiting on /api/auth/login from 5 to 3 attempts/min
 3. **THIS WEEK**: Complete Priority 1 fix and deploy (SQL Injection)
 4. **NEXT WEEK**: Complete Priority 2 fix and deploy (Broken Authentication)
 
 ### Monitoring Recommendations
+
 - Alert on SQL error rates from /api/users/search endpoint
 - Dashboard for failed login attempts per username
 - Weekly security scan to catch regression
@@ -457,17 +480,17 @@ def react_loop(task, tools, max_cycles=10):
     for cycle in range(1, max_cycles + 1):
         thought = llm.generate(f"Thought {cycle} for: {task}")
         action = llm.generate(f"Action {cycle} given thought: {thought}")
-        
+
         tool_name = extract_tool(action)
         params = extract_params(action)
         observation = tools[tool_name](**params)
-        
+
         reflection = llm.generate(
             f"Reflect on: {observation}"
         )
-        
+
         if should_stop(reflection):
             return llm.generate(f"Final answer for: {task}")
-    
+
     return "Max cycles reached without solution"
 ```json

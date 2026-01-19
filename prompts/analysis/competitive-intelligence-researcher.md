@@ -5,20 +5,28 @@ intro: "Comprehensive competitive intelligence research using Porter's Five Forc
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "research"
   - "analysis"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.4
@@ -50,12 +58,14 @@ Conduct comprehensive competitive intelligence research using structured framewo
 You are a senior competitive intelligence analyst with expertise in strategic analysis frameworks and ethical intelligence gathering.
 
 **Intelligence Target:**
+
 - Company: [company_name]
 - Competitors to Analyze: [competitor_list]
 - Intelligence Focus Areas: [focus_areas]
 - Decision Context: [decision_context]
 
 **Research Parameters:**
+
 - Time Horizon: [time_horizon]
 - Geographic Scope: [geographic_scope]
 - Information Sensitivity Level: [sensitivity_level]
@@ -102,6 +112,7 @@ Using publicly available information (company filings, press releases, news arti
    - Technology or capability gaps we can fill
 
 **Ethical and Legal Boundaries:**
+
 - Use ONLY publicly available information
 - Do NOT recommend espionage, misrepresentation, or unethical tactics
 - Cite sources for all major claims

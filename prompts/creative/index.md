@@ -5,21 +5,28 @@ intro: "Prompts for copywriting, content creation, and brand voice development."
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "functional-team"
   - "business-analyst"
+
 platforms:
+
   - "chatgpt"
   - "claude"
   - "github-copilot"
+
 author: "Prompt Library Team"
 version: "1.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "draft"
 layout: "category-landing"
 children:
+
   - /prompts/creative/ad-copy-generator
   - /prompts/creative/brand-voice-developer
   - /prompts/creative/case-study-builder
@@ -32,13 +39,18 @@ children:
   - /prompts/creative/social-media-content-generator
   - /prompts/creative/video-script-writer
   - /prompts/creative/whitepaper-outliner
+
 featuredLinks:
   gettingStarted:
+
     - /docs/prompt-authorship-guide
+
   popular:
+
     - /prompts/creative/content-marketing-blog-post
     - /prompts/creative/social-media-content-generator
     - /prompts/creative/brand-voice-developer
+
 ---
 
 # Creative & Marketing Prompts
@@ -48,7 +60,7 @@ Unlock creativity and streamline content production with prompts designed for ma
 ## In This Section
 
 | Pattern | When to Use | Representative Prompt |
-| :--- |-------------| :--- |
+| :--- | ------------- | :--- |
 | **Content Marketing** | Writing blog posts and articles | [Content Marketing Blog Post](/prompts/creative/content-marketing-blog-post) |
 | **Copywriting** | Creating ads, headlines, and product descriptions | [Ad Copy Generator](/prompts/creative/ad-copy-generator) |
 | **Social Media** | Drafting posts and campaigns | [Social Media Content Generator](/prompts/creative/social-media-content-generator) |
@@ -65,6 +77,7 @@ Unlock creativity and streamline content production with prompts designed for ma
 ## Browse by Focus
 
 ### Content Creation
+
 - [Content Marketing Blog Post](/prompts/creative/content-marketing-blog-post)
 - [Whitepaper Outliner](/prompts/creative/whitepaper-outliner)
 - [Case Study Builder](/prompts/creative/case-study-builder)
@@ -73,12 +86,14 @@ Unlock creativity and streamline content production with prompts designed for ma
 - [Press Release Generator](/prompts/creative/press-release-generator)
 
 ### Copywriting & Ads
+
 - [Ad Copy Generator](/prompts/creative/ad-copy-generator)
 - [Landing Page Copy Builder](/prompts/creative/landing-page-copy)
 - [Product Description Generator](/prompts/creative/product-description-generator)
 - [Headline Tagline Creator](/prompts/creative/headline-tagline-creator)
 
 ### Brand & Social
+
 - [Brand Voice Developer](/prompts/creative/brand-voice-developer)
 - [Social Media Content Generator](/prompts/creative/social-media-content-generator)
 

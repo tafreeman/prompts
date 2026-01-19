@@ -4,11 +4,13 @@ description: Improves reasoning accuracy by sampling multiple diverse reasoning 
   and selecting the most consistent answer via majority voting
 category: reasoning
 tags:
+
 - self-consistency
 - chain-of-thought
 - reasoning
 - accuracy
 - ensemble
+
 created: 2025-12-06
 source: Wang et al. (ICLR 2023) - Self-Consistency Improves Chain of Thought Reasoning
 model_requirements: Any LLM with temperature control
@@ -17,11 +19,17 @@ intro: Improves reasoning accuracy by sampling multiple diverse reasoning paths 
 type: reference
 difficulty: advanced
 audience:
+
 - developers
+
 platforms:
+
 - github-copilot
+
 topics:
+
 - general
+
 author: 'TODO: Author Name'
 version: 0.0.1
 date: '2025-12-13'
@@ -70,6 +78,7 @@ This achieves +17.9% accuracy on GSM8K and +12.2% on AQuA compared to single-pat
 You are a precise reasoning assistant. Solve problems step-by-step, showing your complete thought process.
 
 Instructions:
+
 1. Read the problem carefully
 2. Break it down into logical steps  
 3. Work through each step, explaining your reasoning
@@ -89,7 +98,7 @@ Let me think through this step by step:
 ## Variables
 
 | Variable | Type | Required | Default | Description |
-|----------|------|----------|---------|-------------|
+| ---------- | ------ | ---------- | --------- | ------------- |
 | `problem` | string | Yes | - | The problem or question to solve |
 | `k` | integer | No | 5 | Number of reasoning paths to sample |
 | `temperature` | float | No | 0.7 | Sampling temperature for diversity |
@@ -97,7 +106,7 @@ Let me think through this step by step:
 ## Recommended Parameters
 
 | Setting | k | Temperature | Use Case |
-|---------|---|-------------|----------|
+| --------- | --- | ------------- | ---------- |
 | **Balanced** | 5-10 | 0.7 | General use, good cost/accuracy |
 | **High Accuracy** | 20-40 | 0.7 | Critical decisions, maximum accuracy |
 | **Cost Constrained** | 3-5 | 0.7 | Limited budget, basic improvement |
@@ -116,42 +125,42 @@ def self_consistency(
 ) -> tuple[str, float]:
     """
     Apply Self-Consistency prompting to a problem.
-    
+
     Args:
         problem: The problem to solve
         llm_call: Function to call LLM with (system, user, temperature)
         k: Number of reasoning paths to sample
         temperature: Sampling temperature
-        
+
     Returns:
         Tuple of (final_answer, confidence_score)
     """
     system_msg = """You are a precise reasoning assistant. Solve problems step-by-step, 
 showing your complete thought process. Format your final answer as: "Final Answer: [answer]" """
-    
+
     user_msg = f"Problem: {problem}\n\nLet me think through this step by step:"
-    
+
     # Generate k diverse reasoning paths
     responses = [
         llm_call(system=system_msg, user=user_msg, temperature=temperature)
         for _ in range(k)
     ]
-    
+
     # Extract final answers using regex
     answers = []
     for response in responses:
         match = re.search(r"Final Answer:\s*(.+?)(?:\n|$)", response, re.IGNORECASE)
         if match:
             answers.append(match.group(1).strip())
-    
+
     if not answers:
         return None, 0.0
-    
+
     # Majority vote
     counter = Counter(answers)
     final_answer, count = counter.most_common(1)[0]
     confidence = count / len(answers)
-    
+
     return final_answer, confidence
 ```
 

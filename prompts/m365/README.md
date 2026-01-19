@@ -5,17 +5,23 @@ intro: Overview of prompts prompts available in this library.
 type: reference
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---

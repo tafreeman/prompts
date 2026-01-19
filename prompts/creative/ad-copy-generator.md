@@ -5,23 +5,31 @@ intro: "Create persuasive advertising copy for various channels including Google
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "advertising"
   - "copywriting"
   - "creative"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.2
@@ -65,24 +73,28 @@ Create high-converting advertising copy tailored to specific platforms, audience
 You are an expert advertising copywriter who creates high-converting ad copy. Write compelling ad copy based on the following campaign brief:
 
 **Campaign Overview:**
+
 - Platform: [GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]
 - Ad Format: [SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]
 - Campaign Goal: [AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]
 - Budget Level: [TESTING/SCALING/AGGRESSIVE]
 
 **Product/Service:**
+
 - Name: [YOUR PRODUCT/SERVICE]
 - Category: [INDUSTRY/TYPE]
 - Price Point: [FREE/BUDGET/MID-RANGE/PREMIUM]
 - Primary Value Prop: [MAIN BENEFIT]
 
 **Target Audience:**
+
 - Who: [AUDIENCE DESCRIPTION]
 - Awareness Level: [COLD/WARM/HOT - DO THEY KNOW YOU?]
 - Pain Points: [WHAT PROBLEMS DO THEY HAVE?]
 - Desires: [WHAT DO THEY WANT?]
 
 **Campaign Context:**
+
 - Offer: [DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]
 - Urgency Elements: [LIMITED TIME/SCARCITY/NONE]
 - Competitors: [WHO ARE YOU UP AGAINST?]
@@ -90,17 +102,20 @@ You are an expert advertising copywriter who creates high-converting ad copy. Wr
 **Brand Voice:** [PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]
 
 **Constraints:**
+
 - Character limits: [PLATFORM-SPECIFIC LIMITS]
 - Must include: [REQUIRED ELEMENTS - BRAND NAME, KEYWORDS, ETC.]
 - Avoid: [ANYTHING TO STAY AWAY FROM]
 - Compliance: [ANY INDUSTRY REGULATIONS]
 
 Please provide:
+
 1. Multiple ad variations (3-5 complete ads)
 2. A/B testing recommendations
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
+
 ```text
 
 ---
@@ -108,7 +123,7 @@ Please provide:
 ## Variables
 
 | Variable | Description |
-| :--- |-------------|
+| :--- | ------------- |
 | `[GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]` | Where the ad will run |
 | `[SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]` | The format of the ad |
 | `[AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]` | What you want to achieve |
@@ -133,24 +148,28 @@ Please provide:
 You are an expert advertising copywriter who creates high-converting ad copy. Write compelling ad copy based on the following campaign brief:
 
 **Campaign Overview:**
+
 - Platform: Google Search
 - Ad Format: Responsive Search Ad
 - Campaign Goal: Lead generation (demo requests)
 - Budget Level: Scaling (proven product, ready to grow)
 
 **Product/Service:**
+
 - Name: DataSync Pro
 - Category: B2B SaaS / Data Integration
 - Price Point: Premium ($500+/month)
 - Primary Value Prop: Connect all your data sources in minutes, not months—no engineering team required
 
 **Target Audience:**
+
 - Who: Operations managers, data analysts, and business intelligence leads at mid-market companies (100-1000 employees)
 - Awareness Level: Warm - actively searching for data integration solutions
 - Pain Points: Data silos, manual data exports, waiting on engineering resources, inaccurate reports from outdated data
 - Desires: Single source of truth, self-service data access, faster decision-making
 
 **Campaign Context:**
+
 - Offer: Free 14-day trial + personalized demo
 - Urgency Elements: None (evergreen campaign)
 - Competitors: Fivetran, Stitch, Airbyte, custom solutions
@@ -158,18 +177,22 @@ You are an expert advertising copywriter who creates high-converting ad copy. Wr
 **Brand Voice:** Professional but not corporate, confident, technically credible
 
 **Constraints:**
+
 - Character limits: Headlines max 30 chars each (need 15), Descriptions max 90 chars each (need 4)
 - Must include: "DataSync Pro" in at least 3 headlines, "demo" or "trial" in CTAs
 - Avoid: "Cheap," "basic," anything that sounds entry-level
 - Compliance: Standard B2B, no special requirements
 
 Please provide:
+
 1. Multiple ad variations (3-5 complete ads)
 2. A/B testing recommendations
 3. Audience-specific messaging angles
 4. Platform-specific optimization tips
 5. Suggested ad extensions or additional elements
+
 ```text
+
 <<<<<<< HEAD
 =======
 
@@ -182,11 +205,13 @@ Please provide:
 ## Headlines Bank (15 Headlines, max 30 characters each)
 
 ### Brand + Core Value
+
 1. "DataSync Pro® - Unify Data" (27)
 2. "DataSync Pro Data Platform" (27)
 3. "DataSync Pro® - Try Free" (25)
 
 ### Benefit-Focused
+
 4. "Connect Data in Minutes" (24)
 5. "End Data Silos Forever" (23)
 6. "No Engineering Required" (24)
@@ -194,11 +219,13 @@ Please provide:
 8. "Real-Time Data Sync" (19)
 
 ### Pain Point
+
 9. "Stop Manual Data Exports" (25)
 10. "Tired of Data Silos?" (21)
 11. "Skip the Engineering Queue" (27)
 
 ### Action/Offer
+
 12. "Get Your Free Demo" (18)
 13. "Start 14-Day Free Trial" (24)
 14. "Book a Demo - See It Live" (25)
@@ -245,21 +272,25 @@ Please provide:
 ## A/B Testing Recommendations
 
 ### Test 1: Pain vs. Gain Framing
+
 - **A:** "Stop Manual Data Exports" / "Tired of Data Silos?"
 - **B:** "Connect Data in Minutes" / "One Source of Truth"
 - **Hypothesis:** Pain points may drive higher CTR from problem-aware audiences, but gain-framing may convert better.
 
 ### Test 2: Offer Prominence
+
 - **A:** Lead with "Free Trial" in Headline 1
 - **B:** Lead with benefit, trial in Headline 3
 - **Hypothesis:** Testing whether the offer or the value prop is more compelling for this audience.
 
 ### Test 3: Technical vs. Business Language
+
 - **A:** "200+ Data Sources" / "Real-Time Sync"
 - **B:** "One Source of Truth" / "Faster Decisions"
 - **Hypothesis:** Analysts may prefer technical; managers may prefer business outcomes.
 
 ### Test 4: Demo vs. Trial CTA
+
 - **A:** "Book a Demo"
 - **B:** "Start Free Trial"
 - **Hypothesis:** Some users want hands-on evaluation; others prefer guided experience.
@@ -309,12 +340,14 @@ Please provide:
 ## Suggested Ad Extensions
 
 ### Sitelinks (4)
+
 1. **"See Pricing"** → Pricing page
 2. **"200+ Integrations"** → Integrations directory
 3. **"Customer Stories"** → Case studies page
 4. **"How It Works"** → Product tour or demo video
 
 ### Callouts (4-6)
+
 - "Free 14-Day Trial"
 - "No Credit Card Required"
 - "Setup in Minutes"
@@ -323,13 +356,16 @@ Please provide:
 - "24/7 Support"
 
 ### Structured Snippets
+
 - **Types:** CRM, ERP, Cloud Storage, Marketing Tools, Databases, APIs
 - **Features:** Real-Time Sync, No-Code Setup, Enterprise Security, Automated Scheduling
 
 ### Call Extension
+
 - Add phone number for enterprise prospects who prefer to talk to sales
 
 ### Lead Form Extension
+
 - Test direct lead form for "Request Demo" with fields: Name, Email, Company Size, Current Data Stack
 
 ---
@@ -339,7 +375,7 @@ Please provide:
 Based on B2B SaaS search campaigns in this category:
 
 | Metric | Target Range |
-| :--- |-------------|
+| :--- | ------------- |
 | CTR | 3-5% |
 | Conversion Rate | 2-4% |
 | Cost Per Lead | $50-150 |
@@ -358,6 +394,7 @@ Based on B2B SaaS search campaigns in this category:
 4. **Start with Target CPA bidding** once you have 15+ conversions, then test Maximize Conversions
 
 5. **Review search terms weekly** to add negatives and find new opportunities
+
 ```text
 
 ---

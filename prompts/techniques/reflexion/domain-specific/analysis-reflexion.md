@@ -5,16 +5,22 @@ intro: A prompt for analysis reflexion pattern tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -24,10 +30,12 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - architectural-review
 - security-audit
 - requirements-analysis
 - root-cause-analysis
+
 performance_metrics:
   depth_improvement: high
   hallucination_reduction: high
@@ -40,10 +48,12 @@ governance:
   risk_level: medium
 last_updated: '2025-11-23'
 tags:
+
 - reflexion
 - analysis
 - architecture
 - audit
+
 ---
 
 # Analysis Reflexion Pattern
@@ -74,12 +84,14 @@ You are a Principal Software Architect.
 
 **Output**: Provide an initial analysis of potential scalability issues.
 ```text
+
 ### Step 2: Reflexion (Self-Critique)
 
 ```markdown
 Review your initial analysis above.
 
 **Critique Criteria**:
+
 1.  **Depth**: Did you identify specific components or just general concepts?
 2.  **Edge Cases**: Did you consider peak load, failover, or network partitions?
 3.  **Assumptions**: What unverified assumptions are you making about the technology stack?
@@ -87,18 +99,21 @@ Review your initial analysis above.
 
 **List 3-5 specific gaps or weaknesses in your initial analysis.**
 ```sql
+
 ### Step 3: Refined Analysis
 
 ```markdown
 Based on the gaps identified, rewrite your analysis.
 
 **Requirements**:
+
 - Address all the gaps you found.
 - Be specific about technologies and patterns (e.g., "Use Redis Cluster" instead of "Use caching").
 - Provide concrete mitigation strategies for each bottleneck.
 
 **Final Analysis**:
 ```text
+
 ## Example
 
 ### Scenario: analyzing a monolithic e-commerce app
@@ -108,6 +123,7 @@ Based on the gaps identified, rewrite your analysis.
 
 **Reflexion**:
 "1. **Depth**: 'Database overloaded' is too vague. Which tables? Reads or writes?
+
 2. **Assumptions**: Assumed microservices are the only solution without considering modular monoliths.
 3. **Missing**: Didn't mention specific bottlenecks like the checkout transaction lock or inventory decrementing."
 
@@ -125,15 +141,16 @@ Based on the gaps identified, rewrite your analysis.
 async def run_analysis_reflexion(client, system_design):
     # 1. Initial Analysis
     analysis = await client.generate(f"Analyze this design: {system_design}")
-    
+
     # 2. Reflexion
     critique = await client.generate(f"Critique this analysis for depth and missing edge cases: {analysis}")
-    
+
     # 3. Refinement
     final_output = await client.generate(f"Rewrite the analysis based on this critique: {critique}. Original analysis: {analysis}")
-    
+
     return final_output
 ```text
+
 ## Best Practices
 
 1. **Persona**: Assign a strict persona (e.g., "Security Auditor", "Database Expert") to the critique step.

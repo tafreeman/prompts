@@ -5,20 +5,28 @@ intro: "Generate personalized, high-converting cold outreach emails for sales pr
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "sales"
   - "email"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.8
@@ -167,6 +175,7 @@ Alex
 - **Social proof**: Datadog = credible peer company
 - **CTA**: Low commitment (15 min) + clear value exchange
 - **P.S.**: Offers alternative if call feels too high-friction
+
 ```text
 
 ---

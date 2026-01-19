@@ -5,22 +5,30 @@ intro: "Generate an AP-style press release with quotes, boilerplate, media conta
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "functional-team"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "creative"
   - "documentation"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2026-01-03"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -48,7 +56,7 @@ Create a clean, publication-ready press release in a standard format, with optio
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[headline]` | Headline (plain, factual) | `Acme Analytics launches real-time inventory dashboards` |
 | `[subheadline]` | Optional supporting line | `New dashboards reduce reporting time for operations teams` |
 | `[date_location]` | Dateline | `SEATTLE — January 3, 2026` |
@@ -82,6 +90,7 @@ Media contact: [media_contact]
 Constraints: [constraints]
 
 ## Output requirements
+
 - 1) Headline + subheadline
 - 2) Dateline + lead paragraph (who/what/when/where/why)
 - 3) Body paragraphs (details, context, customer impact)
@@ -92,9 +101,11 @@ Constraints: [constraints]
 - 8) Optional: 3 email subject lines + 3 social posts (LinkedIn + X-style)
 
 ## Style
+
 - Clear, factual, non-hypey.
 - Keep it under ~600 words unless otherwise requested.
 - Avoid unverified claims; prefer concrete details.
+
 ```
 
 ---

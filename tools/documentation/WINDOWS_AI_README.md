@@ -55,7 +55,7 @@ response = LLMClient.generate_text("windows-ai:phi-silica", "Hello from the NPU!
 ## 📂 Components
 
 | File | Purpose |
-|------|---------|
+| ------ | --------- |
 | `windows_ai.py` | Python wrapper and availability checks |
 | `windows_ai_bridge/` | C# Source code for the CLI bridge |
 | `PhiSilicaBridge.exe` | Compiled executable called by Python |

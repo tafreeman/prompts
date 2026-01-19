@@ -6,26 +6,34 @@ intro: A ReAct prompt for researching and structuring OSINT, SOCMINT, and Cyber 
 type: how_to
 difficulty: advanced
 audience:
+
 - intelligence-analyst
 - knowledge-manager
 - security-architect
 - osint-researcher
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - osint
 - socmint
 - cyber-intelligence
 - knowledge-management
 - research
 - react
+
 author: Prompt Library Team
 version: '3.0'
 date: '2025-11-30'
 governance_tags:
+
 - public-data-only
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -59,6 +67,7 @@ You are an AI Research Assistant specializing in OSINT, SOCMINT, and Cyber Intel
 Research and evaluate tools for: [USE_CASE]
 
 Your goal is to:
+
 1. **Identify Best Tools**: Find the top-rated, actively maintained tools for the use case.
 2. **Evaluate Capabilities**: Compare features, platform coverage, and integration options.
 3. **Assess Reliability**: Check maintenance status, community support, and known limitations.
@@ -68,14 +77,14 @@ Your goal is to:
 
 ### Tier 1: Primary Knowledge Bases
 | Source | URL | Focus | Stars |
-|--------|-----|-------|-------|
+| -------- | ----- | ------- | ------- |
 | **Awesome OSINT** | `github.com/jivoi/awesome-osint` | Comprehensive OSINT taxonomy (200+ contributors) | 23.7k |
 | **Social-Media-OSINT-Tools-Collection** | `github.com/osintambition/Social-Media-OSINT-Tools-Collection` | SOCMINT for 17+ platforms | 1.5k |
 | **OSINT Framework** | `osintframework.com` | Visual tool taxonomy | - |
 
 ### Tier 2: Username & Account Enumeration
 | Tool | URL | Capability | Stars |
-|------|-----|------------|-------|
+| ------ | ----- | ------------ | ------- |
 | **Sherlock** | `github.com/sherlock-project/sherlock` | 400+ sites, industry standard | 70.6k |
 | **Maigret** | `github.com/soxoj/maigret` | 3000+ sites, recursive search, reporting | 18k |
 | **Blackbird** | `github.com/p1ngul1n0/blackbird` | AI profiling, 600+ platforms | 5k |
@@ -84,7 +93,7 @@ Your goal is to:
 
 ### Tier 3: OSINT Automation Frameworks
 | Tool | URL | Capability | Stars |
-|------|-----|------------|-------|
+| ------ | ----- | ------------ | ------- |
 | **SpiderFoot** | `github.com/smicallef/spiderfoot` | 200+ modules, web UI, TOR, correlation | 16k |
 | **theHarvester** | `github.com/laramies/theHarvester` | Email/subdomain harvesting, 30+ sources | 15.1k |
 | **Recon-ng** | `github.com/lanmaster53/recon-ng` | Metasploit-style recon framework | - |
@@ -93,27 +102,27 @@ Your goal is to:
 ### Tier 4: Social Media Specific Tools
 #### Instagram
 | Tool | URL | Status |
-|------|-----|--------|
+| ------ | ----- | -------- |
 | **Instaloader** | `github.com/instaloader/instaloader` | **Active** - Media/metadata download |
 | **Osintgram** | `github.com/Datalux/Osintgram` | ⚠️ May break - Interactive IG shell |
 | **Toutatis** | `github.com/megadose/toutatis` | **Active** - Phone/email extraction |
 
 #### Telegram
 | Tool | URL | Status |
-|------|-----|--------|
+| ------ | ----- | -------- |
 | **Telepathy** | `github.com/proseltd/Telepathy-Community` | **Active** - Chat archival |
 | **TeleTracker** | `github.com/tsale/TeleTracker` | **Active** - Channel tracking |
 | **CCTV** | `github.com/IvanGlinkin/CCTV` | **Active** - Location tracking |
 
 #### LinkedIn
 | Tool | URL | Status |
-|------|-----|--------|
+| ------ | ----- | -------- |
 | **LinkedInDumper** | `github.com/l4rm4nd/LinkedInDumper` | **Active** - Employee extraction |
 | **CrossLinked** | `github.com/m8sec/CrossLinked` | **Active** - Search engine scraping |
 
 ### Tier 5: Email & Phone Intelligence
 | Tool | URL | Capability |
-|------|-----|------------|
+| ------ | ----- | ------------ |
 | **GHunt** | `github.com/mxrch/GHunt` | Google account investigation |
 | **h8mail** | `github.com/khast3x/h8mail` | Email breach hunting |
 | **PhoneInfoga** | `github.com/sundowndev/PhoneInfoga` | Phone number OSINT |
@@ -121,7 +130,7 @@ Your goal is to:
 
 ### Tier 6: Domain, IP & Infrastructure
 | Tool | URL | Capability |
-|------|-----|------------|
+| ------ | ----- | ------------ |
 | **Shodan** | `shodan.io` | Internet-connected device search |
 | **Censys** | `censys.io` | Internet-wide scanning data |
 | **SecurityTrails** | `securitytrails.com` | Historical DNS/WHOIS |
@@ -130,7 +139,7 @@ Your goal is to:
 
 ### Tier 7: Threat Intelligence & Dark Web
 | Tool | URL | Capability |
-|------|-----|------------|
+| ------ | ----- | ------------ |
 | **Have I Been Pwned** | `haveibeenpwned.com` | Data breach search |
 | **IntelligenceX** | `intelx.io` | Dark web, paste sites, breaches |
 | **DeHashed** | `dehashed.com` | Breach database search |
@@ -138,7 +147,7 @@ Your goal is to:
 
 ### Tier 8: AI-Powered OSINT
 | Tool | URL | Capability |
-|------|-----|------------|
+| ------ | ----- | ------------ |
 | **Blackbird AI Engine** | `github.com/p1ngul1n0/blackbird` | Free AI profiling of found accounts |
 | **OSINT-Analyser** | `github.com/joestanding/OSINT-Analyser` | LLM-powered Telegram analysis |
 | **Robin** | `github.com/apurvsinghgautam/robin` | AI Dark Web OSINT |
@@ -150,6 +159,7 @@ Use the Think → Act → Observe → Reflect cycle:
 **Thought [N]**: What specific capability do I need for [USE_CASE]? Which tier of tools is most relevant?
 
 **Action [N]**: Evaluate tools from the relevant tier(s). Check:
+
 - GitHub stars and last commit date
 - Feature coverage for the use case
 - Known limitations or API breakage risks
@@ -160,6 +170,7 @@ Use the Think → Act → Observe → Reflect cycle:
 **Reflection [N]**: Does this tool fit the use case? What gaps remain? What complementary tools are needed?
 
 Continue until you have:
+
 - [ ] A **Primary Tool** recommendation for the use case
 - [ ] **Backup/Alternative Tools** in case of breakage
 - [ ] A **Complete Workflow** from data collection to reporting
@@ -169,28 +180,31 @@ Continue until you have:
 
 ### 1. Tool Evaluation Matrix
 | Tool | Use Case Fit | Reliability | Integration | Recommendation |
-|------|--------------|-------------|-------------|----------------|
+| ------ | -------------- | ------------- | ------------- | ---------------- |
 | ... | High/Med/Low | Active/Risky | CLI/API/Web | Primary/Backup/Skip |
 
 ### 2. Recommended Tool Stack
 
 ```text
+
 [USE_CASE] Workflow:
 
 <<<<<<< HEAD
+
 1. [Tool A] → Initial discovery
 2. [Tool B] → Deep dive
 3. [Tool C] → Reporting/Export
+
 ```
 =======
 | Current Element | Keep/Remove | Rationale | Industry Support |
-|-----------------|-------------|-----------|------------------|
+| ----------------- | ------------- | ----------- | ------------------ |
 | ... | ✅ Keep / ❌ Remove | ... | X of Y sources use this |
 
 ### 3. Prompt Scoring Rubric
 
 | Dimension | Weight | Criteria | Score Range |
-|-----------|--------|----------|-------------|
+| ----------- | -------- | ---------- | ------------- |
 | Clarity | ...% | ... | 1-5 |
 | Effectiveness | ...% | ... | 1-5 |
 | Reusability | ...% | ... | 1-5 |
@@ -211,7 +225,7 @@ For each recommendation:
 What to REMOVE from prompts:
 
 | Remove This | Why | Savings |
-|-------------|-----|---------|
+| ------------- | ----- | --------- |
 | ... | Not used by industry leaders | -X lines avg |
 
 ### 6. Scoring Implementation Plan
@@ -227,7 +241,7 @@ How to implement prompt scoring in the library:
 Prompts to ADD across all library categories:
 
 | Section | Current | Target | New Prompts to Add |
-|---------|---------|--------|--------------------|
+| --------- | --------- | -------- | -------------------- |
 | Creative | 2 | 15-20 | [list specific prompts] |
 | Business | 26 | 35-40 | [list specific prompts] |
 | Developers | 15+ | 25+ | [list specific prompts] |
@@ -238,6 +252,7 @@ Prompts to ADD across all library categories:
 | System | 5+ | 10+ | [list specific prompts] |
 
 For each new prompt:
+
 - Name and description
 - Difficulty level
 - Source/inspiration
@@ -250,7 +265,9 @@ Prioritized list of changes with:
 - Task description
 - Supporting evidence
 - Estimated effort
+
 ```text
+
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ### 3. Limitations & Mitigations
@@ -263,6 +280,7 @@ Prioritized list of changes with:
 - [ ] Verify tool is still maintained (check GitHub commits)
 - [ ] Test against current platform APIs
 - [ ] Update to latest version before operations
+
 ```
 
 ## Variables
@@ -272,7 +290,7 @@ Prioritized list of changes with:
 ## Quick Reference: Tool Selection by Use Case
 
 | Use Case | Recommended Stack |
-|----------|-------------------|
+| ---------- | ------------------- |
 | **Username across all platforms** | Sherlock → Maigret → Blackbird |
 | **Email to accounts** | Holehe → Epieos → GHunt |
 | **Phone number lookup** | PhoneInfoga → Truecaller |
@@ -289,19 +307,23 @@ Prioritized list of changes with:
 ### Input
 
 ```text
+
 <<<<<<< HEAD
 **Use Case**: Investigate a suspicious username found in a phishing campaign.
 **Goal**: Enumerate all accounts, find email addresses, check for breaches.
+
 ```
 
 ### Expected Output
 
 ```text
+
 **Thought 1**: I need to find all accounts associated with this username across platforms, then pivot to email discovery and breach checking. Starting with Tier 2 (Username Enumeration).
 
 **Action 1**: Evaluate Sherlock vs Maigret vs Blackbird for username search.
 
 **Observation 1**:
+
 - **Sherlock (70.6k ⭐)**: Industry standard, 400+ sites, fast, Docker support. No AI features.
 - **Maigret (18k ⭐)**: 3000+ sites, recursive search, profile parsing, HTML/PDF reports. More comprehensive.
 - **Blackbird (5k ⭐)**: 600+ sites, FREE AI profiling that generates behavioral analysis. Best for attribution.
@@ -313,6 +335,7 @@ Prioritized list of changes with:
 **Action 2**: Evaluate Holehe for email-to-accounts and h8mail for breach hunting.
 
 **Observation 2**:
+
 - **Holehe**: Uses password recovery to silently check 120+ sites. Won't alert target.
 - **h8mail**: Searches breach databases for exposed credentials.
 - **HIBP API**: Standard for breach notification.
@@ -325,7 +348,7 @@ Prioritized list of changes with:
 
 ### 1. Tool Evaluation Matrix
 | Tool | Use Case Fit | Reliability | Integration | Recommendation |
-|------|--------------|-------------|-------------|----------------|
+| ------ | -------------- | ------------- | ------------- | ---------------- |
 | Maigret | High | Active | CLI, Reports | **Primary** |
 | Sherlock | High | Active | CLI, Docker | Backup |
 | Blackbird | High | Active | CLI, AI | **Primary (AI)** |
@@ -343,6 +366,7 @@ What is the minimal effective structure for prompt documents, and what scoring s
 Project: tafreeman/prompts - A prompt library with 145+ prompts
 Problem: Current prompts may have unnecessary sections/fields
 Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
+
 ```text
 
 ---
@@ -353,14 +377,17 @@ Goal: 1) Simplify to essential content only, 2) Implement prompt scoring
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ```text
+
 Username Investigation Workflow:
 
 <<<<<<< HEAD
+
 1. Maigret → Comprehensive username search (3000+ sites, PDF report)
 2. Blackbird → AI profiling on confirmed accounts
 3. Holehe → Email discovery from found profiles
 4. h8mail + HIBP → Breach check on discovered emails
 5. SpiderFoot → Automated correlation of all findings
+
 ```
 
 ### 3. Limitations & Mitigations
@@ -375,6 +402,7 @@ Username Investigation Workflow:
 - [ ] Check Maigret GitHub for sites.json updates
 - [ ] Verify Holehe against test email before operation
 - [ ] Update breach databases in h8mail
+
 =======
 What are best practices for structuring creative writing and content generation prompts that serve multiple skill levels?
 
@@ -405,7 +433,7 @@ Target Users: Business professionals, marketing teams, content creators
 For reference when researching, our library currently has:
 
 | Category | Count | Target | Status | Expansion Ideas |
-|----------|-------|--------|--------|------------------|
+| ---------- | ------- | -------- | -------- | ------------------ |
 | Creative | 2 | 15-20 | 🔴 Critical | Writing, marketing, editing, storytelling |
 | Business | 26 | 35-40 | 🟡 Expand | Sales, HR, exec comms, operations |
 | Developers | 15+ | 25+ | 🟡 Expand | Testing, DevOps, architecture, debugging |
@@ -418,7 +446,7 @@ For reference when researching, our library currently has:
 **Expansion Priorities (All Sections):**
 
 | Priority | Section | Current → Target | Focus Areas |
-|----------|---------|------------------|-------------|
+| ---------- | --------- | ------------------ | ------------- |
 | P0 | Creative | 2 → 15-20 | Writing, marketing, editing, storytelling |
 | P0 | Business | 26 → 35-40 | Sales, HR, executive comms, operations |
 | P1 | M365 | 10+ → 20+ | Teams, SharePoint, Power Platform, Outlook |
@@ -447,4 +475,5 @@ For reference when researching, our library currently has:
 - [ReAct: Repository Analysis](prompt-library-refactor-react.md) - Analyze repository structure
 - [ReAct: Tool-Augmented](react-tool-augmented.md) - General ReAct pattern with tools
 - [Chain-of-Thought Debugging](chain-of-thought-debugging.md) - Step-by-step reasoning
+
 >>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

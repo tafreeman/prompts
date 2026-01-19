@@ -9,7 +9,7 @@
 ## 📊 Executive Summary
 
 | Metric | Value |
-|--------|-------|
+| -------- | ------- |
 | **Consensus Score** | **8.2/10** |
 | **Final Grade** | **A-** |
 | **Pass/Fail** | ✅ PASS |
@@ -23,7 +23,7 @@
 ## 🤖 Model-by-Model Results
 
 | Model | Avg Score | Min | Max | StdDev | Pass Rate | Runs |
-|-------|-----------|-----|-----|--------|-----------|------|
+| ------- | ----------- | ----- | ----- | -------- | ----------- | ------ |
 | ✅ openai/gpt-4o-mini | 8.4 | 8.4 | 8.4 | 0.00 | 100% | 1/1 |
 | ✅ openai/gpt-4.1 | 8.0 | 8.0 | 8.0 | 0.00 | 100% | 1/1 |
 
@@ -32,7 +32,7 @@
 ## 📈 Criterion Scores by Model
 
 | Criterion | gpt-4o-mini | gpt-4.1 | Avg |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Actionability | ✅ 8.0 | ✅ 8.0 | **8.0** |
 | Clarity | ✅ 8.0 | ✅ 8.0 | **8.0** |
 | Completeness | ✅ 9.0 | ✅ 7.0 | **8.0** |
@@ -96,7 +96,7 @@ This evaluation uses **Dual-Model Cross-Validation**:
 ### Evaluation Criteria
 
 | Category | Criterion | Weight |
-|----------|-----------|--------|
+| ---------- | ----------- | -------- |
 | Core | Clarity | 25% |
 | Core | Specificity | 20% |
 | Core | Actionability | 25% |

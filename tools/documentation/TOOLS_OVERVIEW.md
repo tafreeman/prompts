@@ -5,18 +5,24 @@ intro: Quick reference and navigation guide for the prompts tools ecosystem.
 type: reference
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
 - ai-agent
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '2.0'
 date: '2026-01-06'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -96,7 +102,7 @@ tools/
 ### Core Infrastructure
 
 | Tool | Purpose | Quick Command | Docs |
-|------|---------|---------------|------|
+| ------ | --------- | --------------- | ------ |
 | `llm_client.py` | Unified LLM dispatcher | `python prompt.py run <file> -p local -m phi4` | [📄](./docs/llm-client.md) |
 | `local_model.py` | Direct ONNX interface | `python tools/local_model.py --model phi4 "Hello"` | [📄](./docs/local-model.md) |
 | `model_probe.py` | Model availability | `python tools/model_probe.py --discover` | [📄](./docs/model-probe.md) |
@@ -105,7 +111,7 @@ tools/
 ### Evaluation
 
 | Tool | Purpose | Quick Command | Docs |
-|------|---------|---------------|------|
+| ------ | --------- | --------------- | ------ |
 | `prompteval/` | ⭐ Unified evaluation | `python -m prompteval prompts/` | [📄](./prompteval/README.md) |
 | `archive/enterprise-evaluator/` | (Archived) Batch eval | `cd archive/enterprise-evaluator` | [📄](./archive/enterprise-evaluator/README.md) |
 | `evaluation_agent.py` | Autonomous agent | `python tools/evaluation_agent.py --category advanced` | [📄](./docs/evaluation-agent.md) |
@@ -115,7 +121,7 @@ tools/
 ### Validation & Analysis
 
 | Tool | Purpose | Quick Command | Docs |
-|------|---------|---------------|------|
+| ------ | --------- | --------------- | ------ |
 | `frontmatter_validator.py` | YAML validation | `python tools/validators/frontmatter_validator.py --all` | [📄](./docs/validators.md) |
 | `prompt_analyzer.py` | 5-dimension scoring | `python tools/analyzers/prompt_analyzer.py prompts/` | [📄](./docs/analyzers.md) |
 | `improve_prompts.py` | AI improvements | `python tools/improve_prompts.py prompts/ --worst 10` | [📄](./docs/analyzers.md) |
@@ -124,7 +130,7 @@ tools/
 ### Media
 
 | Tool | Purpose | Quick Command | Docs |
-|------|---------|---------------|------|
+| ------ | --------- | --------------- | ------ |
 | `local_media.py` | Image/Audio/Upscale | `python tools/local_media.py image "prompt" -o out.png` | [📄](./docs/local-media.md) |
 
 ---
@@ -132,7 +138,7 @@ tools/
 ## 🏷️ Model Prefixes
 
 | Prefix | Provider | Cost | Example |
-|--------|----------|------|---------|
+| -------- | ---------- | ------ | --------- |
 | `local:*` | Local ONNX | $0 | `local:phi4` |
 | `windows-ai:*` | Windows AI (NPU) | $0 | `windows-ai:phi-silica` |
 | `gh:*` | GitHub Models | FREE tier | `gh:gpt-4o-mini` |
@@ -145,7 +151,7 @@ tools/
 ## 🎯 Evaluation Tiers
 
 | Tier | Name | Models | Cost | Use Case |
-|------|------|--------|------|----------|
+| ------ | ------ | -------- | ------ | ---------- |
 | 0 | Structural | None | $0 | Quick syntax check |
 | 1 | Local Quick | phi4 | $0 | Fast local scoring |
 | 2 | Local G-Eval | phi4 + mistral | $0 | CoT reasoning (default) |
@@ -184,7 +190,7 @@ $env:PYTHONIOENCODING = "utf-8"
 ## 🔥 Common Issues
 
 | Issue | Quick Fix |
-|-------|-----------|
+| ------- | ----------- |
 | Model not found | `python tools/model_probe.py --discover` |
 | 401 Unauthorized (GitHub) | `gh auth login` |
 | Connection refused (Ollama) | `ollama serve` |
@@ -201,7 +207,7 @@ $env:PYTHONIOENCODING = "utf-8"
 ### By Category
 
 | Category | Documentation |
-|----------|---------------|
+| ---------- | --------------- |
 | **Core LLM Integration** | [llm-client.md](./docs/llm-client.md) · [local-model.md](./docs/local-model.md) |
 | **Model Discovery** | [model-probe.md](./docs/model-probe.md) |
 | **Evaluation** | [prompteval/README.md](./prompteval/README.md) · [evaluation-agent.md](./docs/evaluation-agent.md) · [lats-improvement.md](./docs/lats-improvement.md) |
@@ -227,7 +233,7 @@ $env:PYTHONIOENCODING = "utf-8"
 ## 📂 Cache Locations
 
 | Cache | Location |
-|-------|----------|
+| ------- | ---------- |
 | AI Gallery (ONNX) | `~/.cache/aigallery/` |
 | AI Toolkit | `~/.aitk/models/` |
 | Model Probes | `~/.cache/prompts-eval/model-probes/` |

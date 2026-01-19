@@ -6,20 +6,28 @@ intro: Guides generation of a hierarchical Treemap chart to visualize the struct
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - visualization
 - analysis
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -88,6 +96,7 @@ Size the tiles equally to represent count, or color-code them by "Category" to s
 
 I want to instantly see that "Business" and "Analysis" are my largest sections compared to "Creative" or "System".
 ```text
+
 ```
 
 ## Variables
@@ -101,22 +110,26 @@ I want to instantly see that "Business" and "Analysis" are my largest sections c
 **Input:**
 
 ```text
+
 PROMPT_LIBRARY_STRUCTURE (JSON):
 {
   "Business": ["business-case-developer.md", "risk-management-analyst.md"],
   "Analysis": ["trend-analysis-specialist.md", "market-research-analyst.md"],
   "Developers": ["code-review-assistant.md"]
 }
+
 ```
 
 **Output:**
 
 ```text
+
 Provide a working example (e.g., Python with plotly.express.treemap) that:
 1) Converts the JSON into a hierarchy of categories -> files
 2) Sizes rectangles by count (each file weight=1)
 3) Colors by top-level category
 4) Includes a title and readable labels
+
 ```
 
 ## Tips

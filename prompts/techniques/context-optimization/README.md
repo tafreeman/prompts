@@ -5,17 +5,23 @@ intro: "Advanced techniques for managing long contexts, maximizing token efficie
 type: "reference"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "ai-researcher"
+
 platforms:
+
   - "claude"
   - "gpt-4"
   - "langchain"
+
 author: "AI Research Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -42,11 +48,13 @@ context-optimization/
 ## 🎯 Why Context Optimization Matters
 
 Modern LLMs have extended context windows:
+
 - **GPT-4 Turbo**: 128K tokens (~400 pages)
 - **Claude 3**: 200K tokens (~500 pages)
 - **Gemini 1.5**: 1M+ tokens (~2,800 pages)
 
 But challenges remain:
+
 - 💰 **Cost**: Longer contexts = higher costs
 - ⏱️ **Latency**: More tokens = slower responses
 - 🎯 **Attention**: Models may miss information in long contexts ("lost in the middle")
@@ -59,12 +67,14 @@ But challenges remain:
 **Reduce token count while preserving meaning.**
 
 Types:
+
 - **Extractive**: Select most important sentences
 - **Abstractive**: Rewrite in condensed form
 - **Hierarchical**: Multi-level summaries
 - **Semantic**: Preserve key concepts
 
 **When to Use:**
+
 - Document exceeds context limit
 - Cost optimization needed
 - Reduce latency
@@ -92,6 +102,7 @@ Now: [Task]
 ```
 
 **Benefits:**
+
 - Better edge case handling
 - Consistent formatting
 - Domain-specific knowledge
@@ -106,6 +117,7 @@ Query → Retrieval → Relevant Docs → LLM → Response
 ```
 
 **Advantages:**
+
 - No context limit on knowledge base
 - Up-to-date information
 - Cost-efficient
@@ -124,8 +136,10 @@ enterprise segment, which saw 45 new customers..."
 
 Compressed (50 tokens):
 "Q4 2024: $5.2M revenue (+23% QoQ)
+
 - Enterprise: 45 new customers (primary driver)
 - Key metrics: [condensed]"
+
 ```
 
 ## 🚀 Quick Start
@@ -209,22 +223,24 @@ Level 3: Document summary (100 tokens)
 ```
 
 **Use Cases:**
+
 - Large documents
 - Progressive detail retrieval
 - Multi-granularity search
 
 **Implementation:**
+
 ```python
 def hierarchical_compress(document, levels=3):
     current = document
     summaries = []
-    
+
     for level in range(levels):
         # Compress to 1/5 of current size
         summary = summarize(current, target_ratio=0.2)
         summaries.append(summary)
         current = summary
-    
+
     return summaries  # [detailed, medium, brief]
 ```
 
@@ -235,12 +251,14 @@ def hierarchical_compress(document, levels=3):
 Preserve meaning while reducing tokens:
 
 **Techniques:**
+
 1. **Entity extraction**: Keep key entities, remove fluff
 2. **Relation preservation**: Maintain relationships
 3. **Fact consolidation**: Merge redundant information
 4. **Structure retention**: Keep logical flow
 
 **Example:**
+
 ```python
 semantic_compressor = SemanticCompressor(
     preserve_entities=True,
@@ -261,6 +279,7 @@ compressed = semantic_compressor.compress(
 Leverage extended context with numerous examples:
 
 **Benefits:**
+
 - **Accuracy**: +15-35% over few-shot
 - **Edge cases**: Better handling
 - **Consistency**: More stable outputs
@@ -269,18 +288,19 @@ Leverage extended context with numerous examples:
 **Optimal Example Count:**
 
 | Model | Context | Optimal Examples | Max Practical |
-|-------|---------|------------------|---------------|
+| ------- | --------- | ------------------ | --------------- |
 | GPT-3.5 | 16K | 5-10 | 20 |
 | GPT-4 | 8K | 5-15 | 30 |
 | GPT-4 Turbo | 128K | 20-100 | 500+ |
 | Claude 3 | 200K | 30-150 | 1000+ |
 
 **Implementation:**
+
 ```python
 # Generate many-shot prompt
 def create_many_shot_prompt(task, examples, num_examples=50):
     selected_examples = examples[:num_examples]
-    
+
     prompt = f"""Task: {task}
 
 Examples:
@@ -289,9 +309,9 @@ Examples:
         prompt += f"\nExample {i}:\n"
         prompt += f"Input: {ex['input']}\n"
         prompt += f"Output: {ex['output']}\n"
-    
+
     prompt += f"\nNow solve:\nInput: {{input}}\nOutput:"
-    
+
     return prompt
 ```
 
@@ -302,6 +322,7 @@ Examples:
 Combine retrieval with generation:
 
 **Architecture:**
+
 ```text
 ┌──────────────┐
 │   Question   │
@@ -336,6 +357,7 @@ Combine retrieval with generation:
 4. **Generator**: LLM that uses retrieved docs
 
 **Implementation:**
+
 ```python
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import Chroma
@@ -379,7 +401,7 @@ result = qa_chain.invoke({
 ### 1. Choose the Right Technique
 
 | Scenario | Recommended Technique | Why |
-|----------|----------------------|-----|
+| ---------- | ---------------------- | ----- |
 | **Fixed document, many queries** | RAG | Efficient reuse of embeddings |
 | **Need full context** | Compression | Preserve all information |
 | **Pattern learning** | Many-shot | Learn from examples |
@@ -415,17 +437,17 @@ text_splitter = RecursiveCharacterTextSplitter(
 def hybrid_retrieval(query, docs, max_tokens=4000):
     # 1. Retrieve relevant docs
     relevant_docs = retrieve_top_k(query, docs, k=10)
-    
+
     # 2. Calculate total tokens
     total_tokens = sum(count_tokens(doc) for doc in relevant_docs)
-    
+
     # 3. Compress if needed
     if total_tokens > max_tokens:
         relevant_docs = [
             compress(doc, target_ratio=max_tokens/total_tokens)
             for doc in relevant_docs
         ]
-    
+
     return relevant_docs
 ```
 
@@ -436,16 +458,16 @@ import time
 
 def measure_rag_performance(query, qa_chain):
     start = time.time()
-    
+
     result = qa_chain.invoke({"query": query})
-    
+
     metrics = {
         "latency": time.time() - start,
         "tokens": count_tokens(result["result"]),
         "sources": len(result["source_documents"]),
         "relevance": calculate_relevance(query, result)
     }
-    
+
     return result, metrics
 ```
 
@@ -483,7 +505,7 @@ density = optimizer.calculate_density(text)
 ## 📊 Performance Comparison
 
 | Technique | Token Reduction | Information Retention | Latency Impact | Cost Impact |
-|-----------|----------------|----------------------|----------------|-------------|
+| ----------- | ---------------- | ---------------------- | ---------------- | ------------- |
 | **Extractive** | 50-70% | 70-80% | Low | -50% |
 | **Semantic** | 60-80% | 80-90% | Medium | -60% |
 | **Hierarchical** | 70-90% | 75-85% | High | -70% |
@@ -497,15 +519,15 @@ density = optimizer.calculate_density(text)
 ```python
 class ContextWindow:
     """Manage rolling context window."""
-    
+
     def __init__(self, max_tokens=4000):
         self.max_tokens = max_tokens
         self.messages = []
-    
+
     def add_message(self, role, content):
         """Add message, removing old ones if needed."""
         self.messages.append({"role": role, "content": content})
-        
+
         # Trim if over limit
         while self.total_tokens() > self.max_tokens:
             # Keep system message, remove oldest user/assistant
@@ -513,7 +535,7 @@ class ContextWindow:
                 self.messages.pop(1)
             else:
                 break
-    
+
     def total_tokens(self):
         return sum(count_tokens(m["content"]) for m in self.messages)
 ```
@@ -527,10 +549,10 @@ def semantic_chunking(text, max_chunk_size=1000):
     chunks = []
     current_chunk = []
     current_size = 0
-    
+
     for sentence in sentences:
         sentence_tokens = count_tokens(sentence)
-        
+
         if current_size + sentence_tokens > max_chunk_size:
             # Start new chunk
             if current_chunk:
@@ -540,10 +562,10 @@ def semantic_chunking(text, max_chunk_size=1000):
         else:
             current_chunk.append(sentence)
             current_size += sentence_tokens
-    
+
     if current_chunk:
         chunks.append(' '.join(current_chunk))
-    
+
     return chunks
 ```
 
@@ -554,40 +576,43 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def rank_by_relevance(query, documents, top_k=5):
     """Rank documents by relevance to query."""
-    
+
     # Embed query and documents
     query_embedding = embed(query)
     doc_embeddings = [embed(doc) for doc in documents]
-    
+
     # Calculate similarity
     similarities = [
         cosine_similarity([query_embedding], [doc_emb])[0][0]
         for doc_emb in doc_embeddings
     ]
-    
+
     # Sort and return top K
     ranked = sorted(
         zip(documents, similarities),
         key=lambda x: x[1],
         reverse=True
     )
-    
+
     return [doc for doc, _ in ranked[:top_k]]
 ```
 
 ## 📖 Additional Resources
 
 ### Research Papers
+
 - [Lost in the Middle](https://arxiv.org/abs/2307.03172) - Context position effects
 - [Long-Context Language Models](https://arxiv.org/abs/2307.03170)
 - [RAG: Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401)
 
 ### Tools & Libraries
+
 - [LangChain Text Splitters](https://python.langchain.com/docs/modules/data_connection/document_transformers/)
 - [LlamaIndex](https://www.llamaindex.ai/) - Data framework for LLMs
 - [Chroma](https://www.trychroma.com/) - Vector database
 
 ### Benchmarks
+
 - [RULER Benchmark](https://arxiv.org/abs/2404.06654) - Long-context evaluation
 - [LongBench](https://github.com/THUDM/LongBench) - Long-context understanding
 

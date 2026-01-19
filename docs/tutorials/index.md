@@ -5,34 +5,46 @@ intro: Step-by-step guides for learning prompt engineering techniques and workfl
 type: tutorial
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - solution-architect
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 layout: category-landing
 children:
+
   - /tutorials/first-prompt
   - /tutorials/building-effective-prompts
   - /tutorials/prompt-iteration
+
 featuredLinks:
   gettingStarted:
+
     - /get-started/quickstart-copilot
+
   popular:
+
     - /tutorials/first-prompt
+
 ---
 
 # Tutorials
@@ -48,7 +60,7 @@ Choose a path based on your experience level:
 New to AI prompts? Start here.
 
 | Order | Tutorial | Duration | What You'll Learn |
-|-------|----------|----------|-------------------|
+| ------- | ---------- | ---------- | ------------------- |
 | 1 | [Your First Prompt](/tutorials/first-prompt) | 15 min | Basic prompt structure, iteration |
 | 2 | [Building Effective Prompts](/tutorials/building-effective-prompts) | 30 min | Components, formatting, context |
 | 3 | [Prompt Iteration](/tutorials/prompt-iteration) | 20 min | Refining prompts based on results |
@@ -58,7 +70,7 @@ New to AI prompts? Start here.
 Comfortable with basics? Level up.
 
 | Order | Tutorial | Duration | What You'll Learn |
-|-------|----------|----------|-------------------|
+| ------- | ---------- | ---------- | ------------------- |
 | 1 | Few-Shot Prompting | 25 min | Using examples effectively |
 | 2 | Chain-of-Thought | 30 min | Step-by-step reasoning |
 | 3 | Structured Outputs | 25 min | JSON, tables, templates |
@@ -68,7 +80,7 @@ Comfortable with basics? Level up.
 Ready for complex patterns? Go deep.
 
 | Order | Tutorial | Duration | What You'll Learn |
-|-------|----------|----------|-------------------|
+| ------- | ---------- | ---------- | ------------------- |
 | 1 | Agentic Workflows | 45 min | Tool use, ReAct pattern |
 | 2 | System Prompts | 30 min | Configuring AI behavior |
 | 3 | Multi-Model Orchestration | 40 min | Combining model strengths |
@@ -93,7 +105,7 @@ Each tutorial follows this structure:
 ### Time-Boxed Learning
 
 | Available Time | Recommended Tutorial |
-|----------------|---------------------|
+| ---------------- | --------------------- |
 | 15 minutes | [Your First Prompt](/tutorials/first-prompt) |
 | 30 minutes | [Building Effective Prompts](/tutorials/building-effective-prompts) |
 | 1 hour | Complete Beginner Path |
@@ -102,7 +114,7 @@ Each tutorial follows this structure:
 ### By Use Case
 
 | I Want To... | Start With |
-|--------------|-----------|
+| -------------- | ----------- |
 | Write better code prompts | [GitHub Copilot Quickstart](/get-started/quickstart-copilot) |
 | Create content faster | [ChatGPT Quickstart](/get-started/quickstart-chatgpt) |
 | Analyze documents | [Claude Quickstart](/get-started/quickstart-claude) |

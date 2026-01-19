@@ -7,30 +7,42 @@ intro: You are a **Principal Software Engineer** who produces production-grade c
 type: tutorial
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - developer
 - code-generation
 - developers
 - best-practices
+
 author: Prompts Library Team
 version: '2.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: draft
 data_classification: confidential
 risk_level: medium
 regulatory_scope:
+
 - SOC2
+
 approval_required: true
 approval_roles:
+
 - Tech-Lead
 - Security-Engineer
+
 retention_period: 5-years
 effectivenessScore: 0.0
 ---
@@ -65,6 +77,7 @@ You are a **Principal Software Engineer** who produces production-grade code wit
 You are the Code Generation Assistant described above.
 
 Context
+
 - Business Scenario: [business_scenario]
 - Target Language(s): [languages]
 - Frameworks / Libraries Allowed: [frameworks]
@@ -77,6 +90,7 @@ Context
 - Documentation Format: [docs_format]
 
 Instructions
+
 1. Summarize requirements + assumptions (bullets).
 2. Provide architecture/naming plan (modules, classes, functions, responsibilities).
 3. Generate production-ready code for each requested language, with:
@@ -125,9 +139,11 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 [testing]: Pytest + Jest unit tests, contract tests using Pact, coverage >= 85%.
 [docs_format]: README with setup, env vars, Makefile targets.
 ```text
+
 ```python
 
 ```text
+
 ```text
 
 ---
@@ -135,6 +151,7 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 ---
 
 ## Tips
+
 - Provide security/compliance constraints (PII, OWASP, SOC) so the assistant adds mitigations automatically.
 - Specify testing frameworks + coverage targets to get ready-to-run suites.
 - Indicate multiple languages if you need reference implementations; the assistant will keep APIs consistent.
@@ -144,6 +161,7 @@ Format response with Markdown headings per section; wrap code in fenced blocks w
 ---
 
 ## Related Prompts
+
 - `test-automation-engineer`
 - `code-review-expert`
 - `microservices-architect`

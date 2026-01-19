@@ -5,17 +5,23 @@ intro: A prompt for openai function calling pattern tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -25,18 +31,22 @@ framework_compatibility:
   openai: '>=1.0.0'
   langchain: '>=0.1.0'
 use_cases:
+
 - structured-data-extraction
 - api-integration
 - decision-making
+
 performance_metrics:
   accuracy_improvement: 25-35%
   latency_impact: low
 last_updated: '2025-11-23'
 tags:
+
 - openai
 - function-calling
 - tools
 - json-schema
+
 ---
 
 # OpenAI Function Calling Pattern
@@ -86,6 +96,7 @@ OpenAI models (GPT-4, GPT-3.5-Turbo) are fine-tuned to detect when a function sh
   }
 }
 ```
+
 ## Prompt Template
 
 ```markdown
@@ -93,14 +104,17 @@ You are a customer support triage assistant.
 Your goal is to analyze the incoming support ticket and extract key information using the `extract_customer_info` tool.
 
 <rules>
+
 1. If the sentiment is unclear, default to "neutral".
 2. If the name is missing, use "Unknown".
 3. Be conservative with priority ratings; only assign 5 for system outages.
+
 </rules>
 
 Ticket:
 {{ticket_content}}
 ```
+
 ## Python Implementation (OpenAI SDK)
 
 ```python
@@ -145,12 +159,12 @@ def analyze_ticket(ticket_content: str) -> Dict[str, Any]:
 
     # 3. Process the response
     tool_calls = response.choices[0].message.tool_calls
-    
+
     if tool_calls:
         # Parse the arguments
         args = json.loads(tool_calls[0].function.arguments)
         return args
-    
+
     return {}
 
 # Example Usage
@@ -165,6 +179,7 @@ print(json.dumps(result, indent=2))
 #   "priority": 4
 # }
 ```
+
 ## Best Practices
 
 1. **Force Tool Choice**: Use `tool_choice={"type": "function", "function": {"name": "..."}}` when you *must* get structured output.

@@ -5,25 +5,33 @@ intro: "Learn the systematic process for improving prompts based on AI responses
 type: tutorial
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - iteration
   - refinement
   - debugging
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -68,6 +76,7 @@ By completing this tutorial, you will:
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```sql
+
 ---
 
 ## Step 1: Diagnose the Gap (5 minutes)
@@ -77,7 +86,7 @@ When output doesn't match expectations, identify the specific problem.
 ### Common Output Problems
 
 | Symptom | Likely Cause | Quick Diagnosis |
-|---------|--------------|-----------------|
+| --------- | -------------- | ----------------- |
 | Too long/verbose | No length constraint | Add word/sentence limit |
 | Too short/shallow | Insufficient detail request | Ask for elaboration |
 | Wrong format | No format specification | Specify exact structure |
@@ -105,6 +114,7 @@ Ask yourself:
 ### The Single-Variable Rule
 
 ❌ **Don't do this:**
+
 ```text
 # Version 1
 Summarize this article.
@@ -114,7 +124,9 @@ You are a professional editor. Summarize this article
 in exactly 3 bullet points, focusing on key takeaways 
 for business executives. Use formal language.
 ```text
+
 ✅ **Do this instead:**
+
 ```text
 # Version 1
 Summarize this article.
@@ -131,6 +143,7 @@ Summarize this article in exactly 3 bullet points.
 Each bullet should be one sentence focusing on 
 actionable takeaways for business executives.
 ```text
+
 ---
 
 ## Step 3: The Refinement Playbook
@@ -154,10 +167,13 @@ Explain how async/await works in JavaScript in under 50 words.
 
 # V3 - Add format if needed
 Explain async/await in JavaScript:
+
 - Definition: 1 sentence
 - How it works: 1 sentence
 - When to use: 1 sentence
+
 ```text
+
 ---
 
 ### Problem: Output Is Too Generic
@@ -184,6 +200,7 @@ remote engineering team? Give me 3 specific actions
 I can implement this week using our existing tools 
 (Jira, Slack, GitHub).
 ```text
+
 ---
 
 ### Problem: Wrong Format
@@ -208,11 +225,12 @@ Feature, React, Vue, Recommendation.
 Compare React and Vue in a markdown table:
 
 | Feature | React | Vue | Winner |
-|---------|-------|-----|--------|
+| --------- | ------- | ----- | -------- |
 
 Include rows for: Learning curve, Performance, 
 Ecosystem, Community support, Best for our use case.
 ```text
+
 ---
 
 ### Problem: Missing Key Information
@@ -231,6 +249,7 @@ Write a project proposal.
 
 # V2 - List requirements
 Write a project proposal including:
+
 - Executive summary
 - Problem statement
 - Proposed solution
@@ -249,6 +268,7 @@ Write a project proposal. You MUST include all of:
 
 Confirm each item is addressed in your response.
 ```text
+
 ---
 
 ## Step 4: Know When to Stop
@@ -265,6 +285,7 @@ Stop iterating when:
 ### Signs of Over-Engineering
 
 🚫 Stop if:
+
 - You've made 5+ iterations with minimal improvement
 - The prompt is longer than the expected output
 - You're adding complexity for edge cases that rarely occur
@@ -273,6 +294,7 @@ Stop iterating when:
 ### The 80/20 Rule
 
 Often, 80% of the value comes from:
+
 1. Clear task statement
 2. Appropriate format
 3. Relevant context
@@ -295,20 +317,27 @@ What this prompt is for
 
 ### The Prompt
 ```text
+
 [Your refined prompt here]
+
 ```text
 ### Variables
+
 - `[VARIABLE]`: What to replace it with
 
 ### Iterations Tried
+
 1. V1: Basic version - too verbose
 2. V2: Added length constraint - better
 3. V3: Added format - optimal
 
 ### Tips
+
 - Works best when...
 - Avoid using with...
+
 ```text
+
 ---
 
 ## Practice: Live Iteration Exercise
@@ -320,6 +349,7 @@ Let's iterate on a real prompt together.
 ```text
 Help me write better code.
 ```text
+
 ### Iteration 1: Add Context
 
 What's wrong: Too vague, no context
@@ -328,6 +358,7 @@ What's wrong: Too vague, no context
 Help me write better Python code. I'm a mid-level 
 developer working on a Django web application.
 ```text
+
 ### Iteration 2: Add Specific Task
 
 What's wrong: Still unclear what "better" means
@@ -339,6 +370,7 @@ developer working on a Django web application.
 
 [function code here]
 ```text
+
 ### Iteration 3: Add Format
 
 What's wrong: Output might be unstructured
@@ -349,12 +381,14 @@ Review this Python function and suggest improvements.
 Context: Mid-level developer, Django application
 
 Format your response as:
+
 1. **Current Issues** (bullet list)
 2. **Suggested Changes** (code + explanation)
 3. **Priority** (what to fix first)
 
 [function code here]
 ```text
+
 ### Iteration 4: Add Constraints
 
 Final refinement for consistency:
@@ -365,6 +399,7 @@ Review this Python function and suggest improvements.
 Context: Mid-level developer, Django application
 
 Format:
+
 1. **Issues Found** (max 5 bullets)
 2. **Improved Code** (with inline comments explaining changes)
 3. **Priority Fix** (single most important change)
@@ -374,6 +409,7 @@ Ignore: minor style issues that linters would catch
 
 [function code here]
 ```text
+
 ---
 
 ## Common Iteration Patterns
@@ -387,6 +423,7 @@ V3: "Explain how decision trees work for classification"
 V4: "Explain decision tree classification in 3 paragraphs 
      for a developer with no ML background"
 ```text
+
 ### Pattern 2: Increase Structure
 
 ```text
@@ -395,10 +432,13 @@ V2: "Analyze this data and provide insights"
 V3: "Analyze this data. Provide: summary, 3 key insights, 
      recommended actions"
 V4: "Analyze this sales data:
+
      - Summary: 2 sentences
      - Key Insights: exactly 3, with supporting numbers
      - Actions: 2 specific recommendations with expected impact"
+
 ```text
+
 ### Pattern 3: Add Expertise
 
 ```text
@@ -410,6 +450,7 @@ V4: "As a senior security engineer specializing in web
      vulnerabilities. For each issue found, provide:
      severity, location, and remediation."
 ```text
+
 ---
 
 ## What You Learned
@@ -435,7 +476,7 @@ V4: "As a senior security engineer specializing in web
 ## Quick Reference: Iteration Fixes
 
 | Problem | First Try | If Still Broken |
-|---------|-----------|-----------------|
+| --------- | ----------- | ----------------- |
 | Too long | Add word limit | "Be concise. No explanations." |
 | Too short | "Elaborate" or "Explain in detail" | Add specific sections required |
 | Wrong format | Specify format explicitly | Provide example output |

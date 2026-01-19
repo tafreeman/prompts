@@ -6,21 +6,29 @@ intro: Systematically audit a prompt library for visual consistency, readability
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - technical-writer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - documentation
 - quality
 - refactoring
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-03'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 effectivenessScore: 0.0
@@ -65,6 +73,7 @@ Perform a comprehensive visual and formatting audit of the prompt library in thi
 ### Category A: Structural Formatting
 
 Scan for and report on:
+
 - [ ] Inconsistent heading hierarchy (H1 → H2 → H3 flow)
 - [ ] Missing or inconsistent horizontal rules (`---`) between sections
 - [ ] Inconsistent blank line spacing (before/after headings, lists, code blocks)
@@ -74,6 +83,7 @@ Scan for and report on:
 ### Category B: Tables & Data Presentation
 
 Scan for and report on:
+
 - [ ] Tables without alignment specifiers (`:---`, `:---:`, `---:`)
 - [ ] Tables that could benefit from column alignment
 - [ ] Data that should be in tables but is in plain lists
@@ -84,6 +94,7 @@ Scan for and report on:
 ### Category C: Code Blocks & Examples
 
 Scan for and report on:
+
 - [ ] Code blocks missing language specifiers (```text, ```python, etc.)
 - [ ] Inconsistent code fence styles (``` vs ~~~)
 - [ ] Examples without clear Input/Output separation
@@ -94,6 +105,7 @@ Scan for and report on:
 ### Category D: Visual Enhancements
 
 Scan for and report on:
+
 - [ ] Opportunities for status badges (shields.io style)
 - [ ] Files that could benefit from mermaid diagrams
 - [ ] Places where emoji icons would improve scannability
@@ -105,6 +117,7 @@ Scan for and report on:
 ### Category E: Links & Navigation
 
 Scan for and report on:
+
 - [ ] Broken or missing internal links
 - [ ] Inconsistent relative vs absolute paths
 - [ ] Missing "Related Prompts" sections
@@ -115,6 +128,7 @@ Scan for and report on:
 ### Category F: Metadata & Frontmatter
 
 Scan for and report on:
+
 - [ ] Missing or incomplete YAML frontmatter
 - [ ] Inconsistent frontmatter field ordering
 - [ ] Fields with inconsistent value formats (dates, arrays, strings)
@@ -124,6 +138,7 @@ Scan for and report on:
 ### Category G: Generated Reports
 
 Scan for and report on:
+
 - [ ] Reports using plain text where visual formatting would help
 - [ ] Inconsistent report structures across different tools
 - [ ] Missing executive summaries or dashboards
@@ -136,6 +151,7 @@ Scan for and report on:
 Return your findings as a structured Markdown document with:
 
 ### 1. Executive Summary
+
 - Total files audited
 - Overall formatting health score (A/B/C/D/F)
 - Top 3 highest-impact improvements
@@ -143,7 +159,7 @@ Return your findings as a structured Markdown document with:
 
 ### 2. Critical Issues (Fix Immediately)
 | File | Issue | Category | Impact | Fix |
-|------|-------|----------|--------|-----|
+| ------ | ------- | ---------- | -------- | ----- |
 | path/file.md | Description | A-G | High/Med/Low | Specific fix |
 
 ### 3. High Priority Improvements
@@ -157,6 +173,7 @@ Visual polish items for future consideration.
 
 ### 6. Standardization Templates
 Provide template snippets for:
+
 - Standard section headers
 - Table formatting
 - Badge placement
@@ -165,6 +182,7 @@ Provide template snippets for:
 
 ### 7. Automation Opportunities
 List improvements that could be automated via:
+
 - Python scripts
 - VS Code find/replace patterns
 - Pre-commit hooks
@@ -181,7 +199,7 @@ List improvements that could be automated via:
 ## Quality Thresholds
 
 | Metric | Target | Current Baseline |
-|--------|--------|------------------|
+| -------- | -------- | ------------------ |
 | Files with proper heading hierarchy | 100% | Check |
 | Tables with alignment | 100% | Check |
 | Code blocks with language tags | 100% | Check |
@@ -190,11 +208,13 @@ List improvements that could be automated via:
 | Consistent frontmatter | 100% | Check |
 
 Be thorough, specific, and actionable. Every issue should include:
+
 1. Exact file path
 2. Line number or section if applicable
 3. Current state
 4. Recommended change
 5. Priority level
+
 ```text
 
 ---
@@ -234,7 +254,7 @@ Run this prompt in agent mode with access to the workspace filesystem. No additi
 ## Executive Summary
 
 | Metric | Value |
-|--------|-------|
+| -------- | ------- |
 | Total files audited | 186 |
 | Critical issues | 4 |
 | High priority items | 23 |
@@ -250,7 +270,7 @@ Run this prompt in agent mode with access to the workspace filesystem. No additi
 ### Estimated Effort
 
 | Task | Effort | Automatable |
-|------|--------|-------------|
+| ------ | -------- | ------------- |
 | Table alignment | 2 hours | Yes (regex) |
 | Code block languages | 1 hour | Yes (script) |
 | Collapsible sections | 3 hours | Partial |
@@ -261,7 +281,7 @@ Run this prompt in agent mode with access to the workspace filesystem. No additi
 ## Critical Issues (4)
 
 | File | Issue | Category | Impact | Fix |
-|------|-------|----------|--------|-----|
+| ------ | ------- | ---------- | -------- | ----- |
 | `prompts/advanced/library.md` | Missing ## Prompt section entirely | A | High | Add prompt section with template |
 | `docs/EVALUATION_REPORT.md` | 521 lines without navigation | D | High | Add TOC and collapsible categories |
 | `prompts/system/example-research-output.md` | No frontmatter | F | High | Add complete YAML frontmatter |
@@ -274,7 +294,7 @@ Run this prompt in agent mode with access to the workspace filesystem. No additi
 ### Category A: Structural Formatting (8 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| ------ | ------- | ----- |
 | `prompts/developers/code-review-expert.md` | H3 before H2 | Reorder headings |
 | `prompts/business/budget-tracker.md` | No horizontal rules | Add `---` between sections |
 | `prompts/analysis/*.md` (6 files) | Missing Tips section | Add ## Tips with 3-5 items |
@@ -282,19 +302,21 @@ Run this prompt in agent mode with access to the workspace filesystem. No additi
 ### Category B: Tables (9 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| ------ | ------- | ----- |
 | `prompts/business/*.md` (9 files) | Tables without alignment | Add `:---:` for centered columns |
 
 **Bulk Fix Pattern:**
 ```regex
+
 Find: \| --- \|
 Replace: | :--- |
+
 ```text
 
 ### Category C: Code Blocks (6 items)
 
 | File | Issue | Fix |
-|------|-------|-----|
+| ------ | ------- | ----- |
 | `prompts/developers/sql-*.md` (3 files) | Code blocks missing `sql` tag | Add language specifier |
 | `prompts/creative/*.md` (3 files) | Code blocks missing `text` tag | Add language specifier |
 
@@ -307,13 +329,16 @@ Replace: | :--- |
 Files that would benefit from shields.io-style badges:
 
 ```markdown
+
 <!-- Recommended badge set for prompt files -->
 ![Difficulty](https://img.shields.io/badge/Difficulty-Intermediate-yellow)
 ![Platform](https://img.shields.io/badge/Platform-Claude%20%7C%20GPT-blue)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
+
 ```text
 
 **Files to update:**
+
 - `prompts/governance/legal-contract-review.md`
 - `prompts/governance/security-incident-response.md`
 - [10 more files...]
@@ -323,7 +348,7 @@ Files that would benefit from shields.io-style badges:
 Files describing workflows or processes that would benefit from diagrams:
 
 | File | Diagram Type | Purpose |
-|------|--------------|---------|
+| ------ | -------------- | --------- |
 | `prompts/advanced/react-*.md` | flowchart | Show Thought→Action→Observation loop |
 | `prompts/business/project-*.md` | gantt | Show timeline/milestone structure |
 | `docs/IMPROVEMENT_PLAN.md` | timeline | Show week-by-week improvement plan |
@@ -333,14 +358,16 @@ Files describing workflows or processes that would benefit from diagrams:
 Files with large content blocks that should use `<details>`:
 
 ```markdown
+
 <details>
 <summary><b>View all 36 Business prompts</b></summary>
 
 | Prompt | Quality | Effectiveness |
-|--------|---------|---------------|
+| -------- | --------- | --------------- |
 | ... | ... | ... |
 
 </details>
+
 ```xml
 
 ---
@@ -352,7 +379,7 @@ Files with large content blocks that should use `<details>`:
 Current emoji usage is inconsistent. Recommended standard:
 
 | Context | Emoji | Usage |
-|---------|-------|-------|
+| --------- | ------- | ------- |
 | Sections | 📋 📊 💡 🎯 | Category headers |
 | Status | ✅ ⚠️ 🔧 ❌ | Quality indicators |
 | Priority | 🔴 🟠 🟡 🟢 | Urgency levels |
@@ -363,6 +390,7 @@ Current emoji usage is inconsistent. Recommended standard:
 Add consistent footer to all generated reports:
 
 ```markdown
+
 ---
 
 <div align="center">
@@ -370,6 +398,7 @@ Add consistent footer to all generated reports:
 *Generated by [Tool Name] | [Repository Name]*
 
 </div>
+
 ```xml
 
 ---
@@ -379,6 +408,7 @@ Add consistent footer to all generated reports:
 ### Standard Prompt Header
 
 ```markdown
+
 ---
 title: "[Title]"
 shortTitle: "[Short Title]"
@@ -402,17 +432,20 @@ intro: "[2-3 sentence description]"
 [2-3 paragraphs]
 
 ---
+
 ```text
 
 ### Standard Collapsible Section
 
 ```markdown
+
 <details>
 <summary><b>Section Title (X items)</b></summary>
 
 [Content here]
 
 </details>
+
 ```xml
 
 ---
@@ -422,13 +455,16 @@ intro: "[2-3 sentence description]"
 ### Python Script: `tools/format_tables.py`
 
 ```python
+
 # Auto-add alignment to markdown tables
 # Run: python tools/format_tables.py --all
+
 ```python
 
 ### VS Code Find/Replace Patterns
 
 ```text
+
 # Add language to unmarked code blocks
 Find: ```\n(?!text|python|sql|markdown|json|yaml)
 Replace: ```text\n
@@ -436,19 +472,26 @@ Replace: ```text\n
 # Standardize horizontal rules
 Find: ^-{3,}$
 Replace: ---
+
 ```text
 
 ### Pre-commit Hook
 
 ```yaml
+
 # .pre-commit-config.yaml
+
 - repo: local
+
   hooks:
+
     - id: check-markdown-tables
+
       name: Check table alignment
       entry: python tools/check_tables.py
       language: python
       files: \.md$
+
 ```python
 
 ---
@@ -468,6 +511,7 @@ Replace: ---
 
 *Audit completed: 2025-12-03*
 ```text
+
 ```markdown
 
 ### Claude
@@ -475,7 +519,9 @@ Replace: ---
 Claude excels at comprehensive analysis. Add:
 
 ```text
+
 Be exhaustive in your analysis. Check every file, not just samples. I want a complete inventory of formatting inconsistencies.
+
 ```text
 
 ---

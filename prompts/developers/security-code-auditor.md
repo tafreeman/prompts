@@ -7,20 +7,28 @@ intro: You are a **Principal Security Engineer** and **Penetration Tester** with
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - audit
 - code-review
 - developers
 - security
+
 author: Prompts Library Team
 version: 2.3.0
 date: '2025-11-28'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 subcategory: security
@@ -35,21 +43,27 @@ testing:
   framework: manual
   validation_status: passed
   test_cases:
+
   - sql-injection-audit
   - xss-audit
   - auth-bypass-audit
+
 governance:
   risk_level: critical
   data_classification: confidential
   regulatory_scope:
+
   - PCI-DSS
   - GDPR
   - HIPAA
   - NIST-800-53
+
   approval_required: true
   approval_roles:
+
   - Security-Architect
   - CISO
+
   retention_period: 7-years
 effectivenessScore: 0.0
 ---
@@ -73,12 +87,14 @@ You are a Principal Security Engineer and Penetration Tester.
 Analyze the provided code for security vulnerabilities, logic flaws, and compliance gaps.
 
 Context:
+
 - Language/Framework: [language_framework]
 - Application Type: [application_type]
 - Sensitivity Level: [sensitivity_level]
 - Compliance Standards: [compliance_standards]
 
 Input:
+
 - Paste the relevant code snippet(s) (ideally 50–300 lines) and any supporting context (auth model, data flows, dependencies).
 
 Output requirements:
@@ -108,6 +124,7 @@ Assume secrets and PII must be redacted. If a sample includes sensitive data, in
 Analyze the provided code for security vulnerabilities, logic flaws, and compliance gaps.
 
 **Context**:
+
 - Language/Framework: Python / Flask
 - Application Type: Internal Admin Dashboard
 - Sensitivity Level: Confidential (Employee Data)
@@ -115,6 +132,7 @@ Analyze the provided code for security vulnerabilities, logic flaws, and complia
 
 **Code**:
 ```python
+
 import sqlite3
 
 def login(username, password):
@@ -126,6 +144,7 @@ def login(username, password):
     if user:
         return True
     return False
+
 ```text
 
 ```text
@@ -161,24 +180,24 @@ The provided login function is **critically insecure**. It contains a textbook S
 ### Secure Rewrite
 
 ```python
+
 import sqlite3
 import hashlib
 import os
 from werkzeug.security import check_password_hash
 
 # Assumption: Passwords in DB are hashed using a secure method (e.g., pbkdf2 or argon2)
-# This example uses a parameterized query to fix the injection.
-
+# This example uses a parameterized query to fix the injection
 def login_secure(username, password):
     db_path = os.getenv('DB_PATH', 'users.db')
-    
+
     try:
         with sqlite3.connect(db_path) as conn:
             c = conn.cursor()
             # FIX: Parameterized query prevents SQL Injection
             c.execute("SELECT password_hash FROM users WHERE username = ?", (username,))
             user = c.fetchone()
-            
+
             if user:
                 stored_hash = user[0]
                 # FIX: Verify hash, never compare plain text
@@ -187,8 +206,9 @@ def login_secure(username, password):
     except sqlite3.Error as e:
         # Log error securely (omitted for brevity)
         return False
-        
+
     return False
+
 ```text
 
 ```text

@@ -5,17 +5,23 @@ intro: A prompt for problem solving reflexion pattern tasks.
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -25,10 +31,12 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - debugging
 - algorithm-design
 - incident-response
 - logic-puzzles
+
 performance_metrics:
   accuracy_improvement: high
   solution_robustness: very-high
@@ -41,10 +49,12 @@ governance:
   risk_level: low
 last_updated: '2025-11-23'
 tags:
+
 - reflexion
 - problem-solving
 - debugging
 - logic
+
 ---
 
 # Problem-Solving Reflexion Pattern
@@ -73,19 +83,23 @@ This pattern mimics the scientific method or debugging process:
 
 **Initial Solution**:
 ```text
+
 ### Step 2: Verification (The "Rubber Duck" Phase)
 
 ```markdown
 Review your solution. Simulate the execution with the following edge case input: {{edge_case_input}}.
 
 **Trace**:
+
 1. Step 1 result: ...
 2. Step 2 result: ...
+
 ...
 
 **Did the solution produce the correct expected output?**
 If NO, explain exactly where the logic failed.
 ```text
+
 ### Step 3: Corrected Solution
 
 ```markdown
@@ -93,6 +107,7 @@ Based on the failure identified in the trace, provide a corrected solution.
 
 **Corrected Solution**:
 ```text
+
 ## Example
 
 ### Scenario: Debugging a Deadlock

@@ -5,21 +5,29 @@ intro: Comprehensive analysis prompt for evaluating developer tooling ecosystems
 type: reference
 difficulty: advanced
 audience:
+
   - senior-engineer
   - solution-architect
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 author: Prompts Library Team
 version: "2.2"
 date: "2026-01-10"
 techniques:
+
   - chain-of-thought
   - structured-output
   - cross-validation
+
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -190,11 +198,13 @@ In SYNTHESIZE mode, also include:
 ## Context
 
 I will provide you with:
+
 1. The structure of a `tools/` folder or developer tooling ecosystem
 2. Key file contents (documentation, core modules, configuration)
 3. Optional: Reference ecosystems for comparison
 
 This particular ecosystem (the one you are evaluating) is expected to include:
+
 - A **model availability / discovery** layer (e.g., a “model probe” module)
 - A **central LLM dispatcher/client** layer
 - A **tiered evaluation** CLI and/or VS Code tasks for running evaluations
@@ -209,6 +219,7 @@ If any of these are missing, treat that as a potential design gap (and score acc
 ### Inputs you should request if missing
 
 If the user only provides a folder tree, request (or infer from workspace) the contents of:
+
 - The main dispatcher/client module
 - The model discovery/probe module
 - The evaluation CLI entry point(s)
@@ -222,6 +233,7 @@ If the user only provides a folder tree, request (or infer from workspace) the c
 Create a complete inventory answering:
 
 **Architecture Mapping**
+
 - What are the major subsystems/modules?
 - How do they interact (dependency graph)?
 - What is the entry point hierarchy (CLI → Core → Helpers)?
@@ -233,15 +245,17 @@ Create a complete inventory answering:
 
 **Capability Matrix**
 | Category | Tools | Maturity | Documentation |
-|----------|-------|----------|---------------|
+| ---------- | ------- | ---------- | --------------- |
 | (fill in) | | | |
 
 **Provider/Integration Support**
+
 - Which external services/APIs are supported?
 - What is the abstraction level (direct calls vs. unified interface)?
 - Are there fallback mechanisms?
 
 **Preflight Contract Checklist**
+
 - Environment variables required (and whether they are documented)
 - Model availability checks happen **before** any LLM call
 - Fail-fast behavior: missing prerequisites stop early with actionable errors
@@ -249,6 +263,7 @@ Create a complete inventory answering:
 - Long-running evals persist progress (JSONL/logging, checkpoints, resumability)
 
 **Code Hygiene Checks** (search for these patterns)
+
 - `sys.path.insert` or `sys.path.append` usage (indicates fragile imports)
 - Duplicate implementations of same functionality across modules
 - Multiple CLI entry points doing similar things
@@ -263,17 +278,20 @@ Create a complete inventory answering:
 Grade each dimension with specific evidence:
 
 **Scoring discipline**
+
 - For each dimension: list 2–4 concrete positives and 2–4 concrete negatives with evidence.
 - Call out **blockers** (issues that should cap the score) vs **nits** (non-blocking polish).
 - If tests are failing in CI/local runs, cap **Reliability & Safety** at **70/100** unless you can prove (with evidence) the failure is unrelated to the tools ecosystem.
 
 #### 2.1 Architecture Quality (Weight: 20%)
+
 - **Modularity** (0-25): Are concerns separated? Can components be used independently?
 - **Cohesion** (0-25): Do modules have single, clear responsibilities?
 - **Coupling** (0-25): How dependent are modules on each other?
 - **Extensibility** (0-25): How easy is it to add new providers/features?
 
 #### 2.2 Developer Experience (Weight: 25%)
+
 - **Onboarding** (0-20): Can a new developer start in <15 minutes?
 - **CLI Ergonomics** (0-20): Are commands intuitive and consistent?
 - **Error Messages** (0-20): Are errors actionable with clear remediation?
@@ -281,23 +299,27 @@ Grade each dimension with specific evidence:
 - **IDE Integration** (0-20): Are there tasks, snippets, or extensions?
 
 #### 2.3 Reliability & Safety (Weight: 20%)
+
 - **Fail-Fast** (0-25): Does the system detect problems early?
 - **Error Handling** (0-25): Are errors classified and handled appropriately?
 - **Idempotency** (0-25): Can operations be safely retried?
 - **Data Integrity** (0-25): Is progress saved? Can work resume after failure?
 
 #### 2.4 Performance & Efficiency (Weight: 15%)
+
 - **Caching** (0-25): Are expensive operations cached?
 - **Parallelization** (0-25): Can independent operations run concurrently?
 - **Resource Usage** (0-25): Is memory/CPU usage reasonable?
 - **Cost Optimization** (0-25): Are there free/cheap defaults?
 
 When evaluating Performance for this ecosystem specifically, check for:
+
 - Response caching in the central dispatcher (not just model discovery caching)
 - Concurrency actually wired into the main evaluation loop (not only in benchmarks)
 - Whether any `parallel`/`workers` flags exist but are unused (configuration drift)
 
 #### 2.5 Maintainability (Weight: 15%)
+
 - **Code Quality** (0-20): Is code readable, typed, and well-structured?
 - **Test Coverage** (0-20): Are there unit/integration tests? What's the coverage?
 - **Consistency** (0-20): Are patterns applied uniformly? Check for duplicate implementations.
@@ -305,6 +327,7 @@ When evaluating Performance for this ecosystem specifically, check for:
 - **Version Control** (0-20): Is there proper versioning, changelog, and migration docs?
 
 #### 2.6 Innovation & Completeness (Weight: 5%)
+
 - **Feature Coverage** (0-50): Does it solve the stated problem completely?
 - **Novel Approaches** (0-50): Are there unique/innovative techniques?
 
@@ -313,7 +336,7 @@ When evaluating Performance for this ecosystem specifically, check for:
 Compare against these reference ecosystems (if known):
 
 | Ecosystem | Strengths to Adopt | Weaknesses to Avoid |
-|-----------|-------------------|---------------------|
+| ----------- | ------------------- | --------------------- |
 | Hugging Face Transformers | Unified pipeline API, model hub | Complex tokenizer setup |
 | LangChain | Extensive integrations, chains | Over-abstraction, hard to debug |
 | LlamaIndex | Query engines, data connectors | Steep learning curve |
@@ -321,6 +344,7 @@ Compare against these reference ecosystems (if known):
 | DSPy | Programmatic prompting, optimization | Experimental, less stable |
 
 For each reference:
+
 1. What patterns does the target ecosystem already implement well?
 2. What patterns are missing that would add value?
 3. What anti-patterns should be avoided?
@@ -330,12 +354,14 @@ For each reference:
 Generate **3-5 distinct improvement paths**, each with:
 
 For this ecosystem, prefer pathways that are **PR-sized and testable**, and include:
+
 - The smallest safe “first PR” slice
 - Migration/compatibility strategy for CLI changes
 - How you will prove improvement (tests, benchmarks, reduced duplication, fewer path hacks)
 
 #### Path Template
 ```
+
 ## Path [N]: [Name]
 
 **Theme**: [One-sentence description]
@@ -344,23 +370,30 @@ For this ecosystem, prefer pathways that are **PR-sized and testable**, and incl
 **Risk**: [Low/Medium/High]
 
 ### Changes Required
+
 1. [Specific change with file paths]
 2. [Specific change with file paths]
+
 ...
 
 ### Expected Outcomes
+
 - [Measurable improvement]
 - [Measurable improvement]
 
 ### Dependencies
+
 - [What must exist first]
 
 ### Trade-offs
+
 - Pros: [Benefits]
 - Cons: [Costs/risks]
+
 ```
 
 #### Required Path Types
+
 1. **Quick Wins** (Low effort, Medium-High impact) - e.g., fix docs, enable existing params
 2. **Architecture Refactor** (High effort, High impact) - e.g., consolidate CLIs, unify dispatch
 3. **Developer Experience** (Medium effort, High impact) - e.g., doctor command, onboarding wizard
@@ -372,6 +405,7 @@ For this ecosystem, prefer pathways that are **PR-sized and testable**, and incl
 
 #### Final Scorecard
 ```
+
 ┌─────────────────────────────────────────────────────────────┐
 │                    TOOLS ECOSYSTEM SCORECARD                 │
 ├─────────────────────────────────────────────────────────────┤
@@ -388,24 +422,29 @@ For this ecosystem, prefer pathways that are **PR-sized and testable**, and incl
 └─────────────────────────────────────────────────────────────┘
 
 Grade Scale: A (90-100), B (80-89), C (70-79), D (60-69), F (<60)
+
 ```
 
 #### Top 3 Immediate Actions
+
 1. [Highest ROI action]
 2. [Second highest ROI action]
 3. [Third highest ROI action]
 
 #### Top 3 Strategic Investments
+
 1. [Long-term high-impact investment]
 2. [Second long-term investment]
 3. [Third long-term investment]
 
 #### Red Flags / Critical Issues
+
 - [Any blocking issues that need immediate attention]
 
 ## Output Format
 
 Provide your analysis in this exact structure:
+
 1. **Executive Summary** (3-5 sentences)
 2. **Phase 1 Results** (Tables and lists)
 3. **Phase 2 Results** (Scores with evidence)
@@ -418,10 +457,11 @@ In **Executive Summary**, include a short **“Delta since last evaluation”** 
 If a prior evaluation is provided, include a **Delta Table** in the Executive Summary section:
 
 | Area | Before | After | Evidence | Impact | Risk |
-|------|--------|-------|----------|--------|------|
+| ------ | -------- | ------- | ---------- | -------- | ------ |
 | (fill in) | | | | | |
 
 In **Phase 5**, include:
+
 - **Blockers (must-fix)**: items that prevent trustworthy eval results or safe CI
 - **Next two PRs**: concrete, sequenced pull requests to deliver the highest ROI
 
@@ -461,6 +501,7 @@ In **Phase 5**, include:
 {TOOLS_STRUCTURE}
 
 Key files:
+
 - tools/llm_client.py: (paste)
 - tools/model_probe.py: (paste)
 - tools/prompteval/core.py: (paste)
@@ -480,6 +521,7 @@ Compare against: LangChain, DSPy, Instructor
 {TOOLS_STRUCTURE}
 
 Key files (current):
+
 - (paste the same set of key files)
 
 ## Prior Evaluation
@@ -505,11 +547,13 @@ Focus on:
 
 ```text
 Search the codebase for these anti-patterns and quantify:
+
 1. `sys.path.insert` or `sys.path.append` usage (fragile imports)
 2. Duplicate class/function definitions across modules
 3. Multiple CLI entry points with overlapping functionality
 4. Direct API calls that bypass the unified dispatcher
 5. Inconsistent error handling patterns
+
 Provide counts and specific file locations for each.
 ```
 

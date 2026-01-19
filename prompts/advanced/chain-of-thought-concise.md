@@ -6,22 +6,30 @@ category: "advanced"
 type: "how_to"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "reasoning"
   - "problem-solving"
+
 author: "Prompts Library Team"
 version: "1.0.0"
 date: "2025-11-17"
 last_updated: "2025-12-11"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.9
@@ -92,6 +100,7 @@ Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that
 ## Usage
 
 To use this prompt:
+
 1. Copy the prompt template from the "## Prompt" section above
 2. Replace the bracketed placeholders with your specific information
 3. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
@@ -173,8 +182,10 @@ Think through this in bullet steps:
 ### Numbered Steps with Confidence
 
 ```text
+
 1. [Step] (Confidence: High/Medium/Low)
 2. [Step] (Confidence: High/Medium/Low)
+
 Final Answer: [Conclusion] (Overall Confidence: X%)
 ```
 

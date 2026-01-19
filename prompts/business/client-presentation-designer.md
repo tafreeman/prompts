@@ -5,20 +5,28 @@ intro: "Creates compelling client presentations with executive summaries, recomm
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "business-analyst"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "communication"
   - "business"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -55,12 +63,14 @@ Key Messages: [messages]
 Time Allocation: [duration]
 
 Include:
+
 1. Executive summary
 2. Situation analysis
 3. Recommendations
 4. Implementation approach
 5. Expected outcomes
 6. Next steps
+
 ```text
 
 ---
@@ -93,12 +103,14 @@ Key Messages: Current reactive maintenance model is costing $2M/year; digital tw
 Time Allocation: 30 minutes total (5 min exec summary, 10 min situation analysis, 10 min recommendations & roadmap, 5 min Q&A).
 
 Include:
+
 1. Executive summary
 2. Situation analysis
 3. Recommendations
 4. Implementation approach
 5. Expected outcomes
 6. Next steps
+
 ```text
 
 ### Expected Output

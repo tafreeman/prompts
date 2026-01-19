@@ -4,11 +4,13 @@ title: "Prompt Engineering Agent"
 category: "system"
 description: Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
 tools:
+
   - search: "Find relevant information and examples"
   - edit: "Modify existing prompts"
   - new: "Create new prompts from scratch"
   - fetch: "Retrieve files and documentation"
   - githubRepo: "Access repository content"
+
 author: "Your Name"
 version: "1.1"
 date: "2025-12-05"
@@ -57,6 +59,7 @@ You are an expert prompt engineer dedicated to designing, reviewing, and optimiz
 ## Working Directory
 
 Focus on files in:
+
 - `prompts/`
 - `templates/`
 - `docs/`
@@ -138,7 +141,9 @@ Background information the AI should assume.
 ## Prompt
 
 ```text
+
 Your actual prompt text here...
+
 ```
 
 ## Variables
@@ -150,18 +155,23 @@ Your actual prompt text here...
 
 **Input:**
 ```text
+
 Example with real values
+
 ```
 
 **Output:**
 ```text
+
 Expected AI response
+
 ```
 
 ## Tips
 
 - Tip 1 for best results
 - Tip 2 for customization
+
 ```
 
 ---
@@ -190,16 +200,19 @@ Expected AI response
 ## Prompt Validation Checklist
 
 **Metadata**
+
 - [ ] Title is descriptive and specific
 - [ ] Category is correctly assigned
 - [ ] Tags are relevant and complete
 - [ ] Author, version, and date are present
 
 **Structure**
+
 - [ ] All required sections included
 - [ ] Proper formatting and indentation
 
 **Content**
+
 - [ ] Goal is clearly stated
 - [ ] Context provides sufficient background
 - [ ] Variables are documented
@@ -240,6 +253,7 @@ Expected AI response
 ## Review Summary
 
 After reviewing a prompt, provide a summary including:
+
 - Overall score and tier
 - Strengths and areas for improvement
 - Required actions before merge

@@ -8,22 +8,30 @@ m365App: Microsoft 365 Copilot Chat
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - m365
 - business
 - meetings
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -121,25 +129,34 @@ Goal:
 Help me prepare for my upcoming meeting: [meeting_title] on [meeting_date].
 
 Context:
+
 - I use Outlook, Teams, OneDrive/SharePoint, and a calendar in Microsoft 365.
 - I want to walk into this meeting confident, with clear talking points and an
+
   understanding of any risks or sensitive topics.
 
 Scope:
+
 - Review the meeting invite (subject, attendees, agenda if available).
 - Look at relevant emails, Teams chats, and documents from [time_window] involving
+
   the meeting attendees or related to the meeting topic.
+
 - Prioritize information related to: [focus].
 
 Assumptions and constraints:
+
 - If the agenda is not explicit, infer the meeting purpose from the title, attendees,
+
   and recent context.
+
 - Highlight both opportunities (positive outcomes) and risks (sensitive or contentious topics).
 - Keep the entire brief under 600 words.
 - Use bullets and short paragraphs for easy scanning.
 - If context is incomplete, flag gaps so I can gather more information before the meeting.
 
 Process:
+
 1. Identify the meeting purpose and key attendees.
 2. Surface relevant background from recent communications and documents.
 3. Propose clear talking points I should cover.
@@ -153,18 +170,22 @@ Return the result in Markdown with these sections:
 [1–2 sentences]
 
 ## Key Context
+
 - [bullet]
 - [bullet]
 
 ## Your Talking Points
+
 - [bullet]
 - [bullet]
 
 ## Questions to Ask
+
 - [question]
 - [question]
 
 ## Risks or Sensitive Topics
+
 - [bullet, or "None identified"]
 
 Now, using the context around [meeting_title] on [meeting_date], prepare my meeting brief.
@@ -173,7 +194,7 @@ Now, using the context around [meeting_title] on [meeting_date], prepare my meet
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[meeting_title]` | Meeting title/subject from the invite |
 | `[meeting_date]` | Meeting date/time |
 | `[focus]` | Optional emphasis area (budget, risks, decisions needed, etc.) |
@@ -207,24 +228,29 @@ time_window: last 2 weeks
 This meeting is a review of the Q4 onboarding roadmap with product, engineering, and support stakeholders. The goal is to align on priorities, assess timeline feasibility, and identify risks before committing to a phased rollout.
 
 ## Key Context
+
 - Product recently proposed a phased rollout approach with two waves: internal beta (mid-November) and public GA (early December).
 - Engineering flagged potential delays due to unresolved API timeout issues that surfaced in recent incidents.
 - Support raised concerns about readiness of documentation and training materials for the public launch.
 - Last week's email thread highlighted tension between aggressive timelines and quality/stability goals.
 
 ## Your Talking Points
+
 - Summarize current status of the API timeout fix and realistic deployment timeline.
 - Advocate for a realistic buffer in the public GA date to allow for stabilization and support readiness.
 - Propose clear success criteria for the internal beta phase before advancing to public GA.
 
 ## Questions to Ask
+
 - What are the minimum requirements for declaring the internal beta phase successful?
 - Does support have a firm date by which documentation and training must be finalized?
 - Are we aligned on the acceptable level of risk for the public GA, or should we plan a more conservative rollout?
 
 ## Risks or Sensitive Topics
+
 - Tension between product's aggressive timeline and engineering/support's concerns about readiness may surface; approach diplomatically.
 - If the API fix timeline slips, the phased rollout plan may need significant revision; be prepared to propose alternatives.
+
 ```text
 
 ---

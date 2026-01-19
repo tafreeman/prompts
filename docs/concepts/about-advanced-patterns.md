@@ -6,23 +6,31 @@ intro: Understand advanced prompting techniques like Chain-of-Thought, few-shot 
 type: conceptual
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
 - azure-openai
+
 topics:
+
 - advanced-patterns
 - chain-of-thought
 - few-shot
 - agentic
+
 author: Deloitte AI & Engineering
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
 - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -85,7 +93,7 @@ Few-shot provides 2-5 examples demonstrating the desired input-output pattern be
 #### The Zero-Shot vs. Few-Shot Decision
 
 | Factor | Favor Zero-Shot | Favor Few-Shot |
-|--------|-----------------|----------------|
+| -------- | ----------------- | ---------------- |
 | Task complexity | Simple, well-defined | Nuanced, pattern-dependent |
 | Output format | Flexible or standard | Specific, custom structure |
 | Domain specificity | General knowledge | Specialized terminology |
@@ -166,7 +174,7 @@ Advanced patterns add value when the problem genuinely requires them. Consider t
 ### Match Pattern to Problem Type
 
 | Problem Type | Recommended Patterns |
-|--------------|---------------------|
+| -------------- | --------------------- |
 | Math/logic problems | Chain-of-Thought |
 | Custom output formats | Few-shot + Structured Output |
 | Domain expertise needed | Persona + Few-shot |
@@ -241,7 +249,7 @@ Every advanced pattern involves trade-offs:
 ### Token Usage
 
 | Pattern | Token Impact |
-|---------|--------------|
+| --------- | -------------- |
 | Chain-of-Thought | +50-200% (reasoning steps) |
 | Few-shot (3 examples) | +200-500 tokens per example |
 | Tree-of-Thought | +300-500% (multiple paths) |

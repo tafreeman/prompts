@@ -5,14 +5,18 @@ intro: A prompt for many shot learning pattern tasks.
 type: tutorial
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms: []
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: techniques
@@ -23,10 +27,12 @@ framework_compatibility:
   openai: '>=1.0.0'
   google-vertex: '>=1.0.0'
 use_cases:
+
 - complex-pattern-learning
 - domain-specific-tasks
 - edge-case-handling
 - consistent-formatting
+
 performance_metrics:
   accuracy_improvement: 15-35%
   latency_impact: low
@@ -41,14 +47,18 @@ testing:
   validation_status: passed
   last_tested: '2025-11-23'
 tags:
+
 - many-shot
 - few-shot
 - in-context-learning
 - long-context
+
 platform:
+
 - anthropic
 - openai
 - google-vertex
+
 ---
 
 # Many-Shot Learning Pattern
@@ -95,6 +105,7 @@ You are an expert {domain} assistant trained on extensive examples.
 
 ## Examples
 Below are {N} examples demonstrating the expected input-output pattern. Study these carefully to understand:
+
 - Expected output format
 - Level of detail required
 - Handling of edge cases
@@ -137,6 +148,7 @@ Now, apply the same approach to this new input:
 
 **Output:**
 ```yaml
+
 ## Usage Example: Code Review Comments
 
 ### Setup
@@ -149,18 +161,23 @@ Task: Generate constructive, specific code review comments following team conven
 ### Example 1
 **Input:**
 ```python
+
 def calculate_total(items):
     return sum([item.price for item in items])
+
 ```text
 **Output:**
 
 ```text
+
 ✅ **Good**: Clean use of list comprehension and sum()
 ⚠️ **Suggestion**: Consider adding type hints for better IDE support
+
 ```python
 def calculate_total(items: List[Item]) -> float:
     return sum(item.price for item in items)
 ```text
+
 📝 **Note**: Generator expression (without brackets) is slightly more memory-efficient than list comprehension for large lists.
 
 ```text
@@ -171,16 +188,20 @@ def calculate_total(items: List[Item]) -> float:
 ### Example 2
 **Input:**
 ```python
+
 def validate_email(email):
     if '@' in email and '.' in email:
         return True
     return False
+
 ```text
 **Output:**
 
 ```text
+
 ⚠️ **Issue**: Overly simplistic email validation that will accept invalid emails like "a@b.c" or "@example.com"
 🔧 **Recommendation**: Use a proper regex or validation library
+
 ```python
 import re
 
@@ -190,6 +211,7 @@ def validate_email(email: str) -> bool:
     """Validate email format using regex pattern."""
     return bool(re.match(EMAIL_PATTERN, email))
 ```text
+
 Or consider using `email-validator` library for production use:
 
 ```python
@@ -202,6 +224,7 @@ def is_valid_email(email: str) -> bool:
     except EmailNotValidError:
         return False
 ```text
+
 ```text
 **Rationale:** Demonstrates critical security/correctness issues get detailed explanations with multiple solution options.
 
@@ -210,19 +233,24 @@ def is_valid_email(email: str) -> bool:
 ### Example 3
 **Input:**
 ```python
+
 users = []
 for user_id in user_ids:
     user = db.query(User).filter(User.id == user_id).first()
     users.append(user)
+
 ```sql
 **Output:**
 
 ```sql
+
 🚨 **Performance Issue**: N+1 query problem - executes one database query per user
 🔧 **Fix**: Use single query with IN clause
+
 ```python
 users = db.query(User).filter(User.id.in_(user_ids)).all()
 ```sql
+
 📊 **Impact**: For 100 users, reduces database round-trips from 100 to 1
 ⏱️ **Performance**: ~50-100x faster depending on network latency
 
@@ -232,6 +260,7 @@ users = db.query(User).filter(User.id.in_(user_ids)).all()
 ---
 
 [... Examples 4-25 would continue here, covering:]
+
 - Missing error handling
 - Naming conventions
 - Documentation gaps
@@ -241,6 +270,7 @@ users = db.query(User).filter(User.id.in_(user_ids)).all()
 - etc.
 
 ```text
+
 ### Actual Task
 
 ```text
@@ -250,14 +280,17 @@ Now, review this code following the same conventions:
 
 **Input:**
 ```python
+
 def get_user_posts(user_id):
     posts = db.query(Post).filter(Post.user_id == user_id).all()
     return [p.title for p in posts]
+
 ```sql
 **Output:**
 [AI generates review in the learned format]
 
 ```sql
+
 ## Implementation Examples
 
 ### Python Implementation
@@ -265,11 +298,11 @@ def get_user_posts(user_id):
 ```python
 class ManyShotPromptBuilder:
     """Build many-shot prompts with example management"""
-    
+
     def __init__(self, max_context_tokens: int = 100000):
         self.max_context_tokens = max_context_tokens
         self.examples = []
-    
+
     def add_example(self, input_data: str, output_data: str, 
                     rationale: str = "", priority: int = 1):
         """Add example with priority (1=highest)"""
@@ -280,29 +313,29 @@ class ManyShotPromptBuilder:
             'priority': priority,
             'tokens': self._estimate_tokens(input_data + output_data + rationale)
         })
-    
+
     def build_prompt(self, task_input: str, 
                      task_description: str,
                      guidelines: str = "") -> str:
         """Build optimized many-shot prompt"""
         # Sort examples by priority
         sorted_examples = sorted(self.examples, key=lambda x: x['priority'])
-        
+
         # Calculate available tokens
         task_tokens = self._estimate_tokens(task_input + task_description + guidelines)
         available_tokens = self.max_context_tokens - task_tokens - 1000  # Buffer
-        
+
         # Select examples that fit
         selected_examples = []
         current_tokens = 0
-        
+
         for ex in sorted_examples:
             if current_tokens + ex['tokens'] <= available_tokens:
                 selected_examples.append(ex)
                 current_tokens += ex['tokens']
             else:
                 break
-        
+
         # Build prompt
         return self._format_prompt(
             task_description,
@@ -310,11 +343,11 @@ class ManyShotPromptBuilder:
             selected_examples,
             task_input
         )
-    
+
     def _estimate_tokens(self, text: str) -> int:
         """Rough token estimation"""
         return int(len(text.split()) * 1.3)
-    
+
     def _format_prompt(self, description, guidelines, examples, task_input):
         """Format the complete prompt"""
         prompt = f"""You are an expert assistant.
@@ -342,7 +375,7 @@ Below are {len(examples)} examples:
             if ex['rationale']:
                 prompt += f"**Rationale:** {ex['rationale']}\n"
             prompt += "\n"
-        
+
         prompt += f"""---
 
 ## Your Task
@@ -376,6 +409,7 @@ prompt = builder.build_prompt(
 # Send to LLM
 response = llm.generate(prompt)
 ```text
+
 ### Dynamic Example Selection
 
 ```python
@@ -384,29 +418,30 @@ from sentence_transformers import SentenceTransformer
 
 class SmartExampleSelector:
     """Select most relevant examples using embeddings"""
-    
+
     def __init__(self, examples: List[Dict]):
         self.examples = examples
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
         self.embeddings = self.model.encode([ex['input'] for ex in examples])
-    
+
     def select_examples(self, task_input: str, n_examples: int = 30) -> List[Dict]:
         """Select N most relevant examples"""
         # Embed the task input
         task_embedding = self.model.encode([task_input])
-        
+
         # Calculate similarity
         similarities = cosine_similarity(task_embedding, self.embeddings)[0]
-        
+
         # Get top N
         top_indices = similarities.argsort()[-n_examples:][::-1]
-        
+
         return [self.examples[i] for i in top_indices]
 
 # Usage
 selector = SmartExampleSelector(all_examples)
 relevant_examples = selector.select_examples(new_task_input, n_examples=25)
 ```text
+
 ## Optimization Strategies
 
 ### 1. Example Diversity
@@ -433,6 +468,7 @@ def build_balanced_set(categorized, total=30):
         random.sample(categorized['error'], 4)
     )
 ```sql
+
 ### 2. Progressive Complexity
 
 Order examples from simple to complex:
@@ -442,6 +478,7 @@ def order_by_complexity(examples):
     """Order examples by increasing complexity"""
     return sorted(examples, key=lambda ex: ex['complexity_score'])
 ```text
+
 ### 3. Token Budget Management
 
 ```python
@@ -449,7 +486,7 @@ def fit_examples_to_budget(examples, max_tokens):
     """Include as many examples as possible within token budget"""
     selected = []
     total_tokens = 0
-    
+
     for ex in examples:
         ex_tokens = estimate_tokens(ex)
         if total_tokens + ex_tokens <= max_tokens:
@@ -457,9 +494,10 @@ def fit_examples_to_budget(examples, max_tokens):
             total_tokens += ex_tokens
         else:
             break
-    
+
     return selected, total_tokens
 ```text
+
 ## Performance Characteristics
 
 - **Accuracy**: 15-35% improvement over few-shot on complex tasks
@@ -479,7 +517,7 @@ def fit_examples_to_budget(examples, max_tokens):
 ## Comparison: Few-Shot vs Many-Shot
 
 | Aspect | Few-Shot (3-5) | Many-Shot (25-50) |
-|--------|---------------|-------------------|
+| -------- | --------------- | ------------------- |
 | Accuracy | Baseline | +15-35% |
 | Context Used | 2K-5K tokens | 30K-80K tokens |
 | Cost | Baseline | +20-80% |

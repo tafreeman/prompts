@@ -11,15 +11,14 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ## 📁 Contents
 
 | Document | Description | Use When... |
-|----------|-------------|-------------|
+| ---------- | ------------- | ------------- |
 | **[Cheat Sheet](cheat-sheet.md)** | ⚡ Quick patterns and templates for common tasks | You need a fast pattern right now |
 | **[Glossary](glossary.md)** | Prompt engineering terminology and definitions | You encounter an unfamiliar term |
 | **[Content Types](content-types.md)** | Guide to the six documentation types in the library | You're creating or categorizing docs |
 | **[Frontmatter Schema](frontmatter-schema.md)** | Complete YAML metadata field reference | You're writing docs with frontmatter |
 | **[Tasks Quick Reference](TASKS_QUICK_REFERENCE.md)** | Common prompt patterns organized by task type | You need a prompt for a specific task |
 
-## 🎯 Use These Documents When...
-
+## 🎯 Use These Documents When
 - ✅ You need a **quick answer** without reading lengthy tutorials
 - ✅ You're **actively coding** and need a pattern fast
 - ✅ You encounter an **unfamiliar term** or acronym
@@ -32,7 +31,7 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ### By Need
 
 | I Need To... | Go To... | Time |
-|--------------|----------|------|
+| -------------- | ---------- | ------ |
 | Find a prompt pattern quickly | [Cheat Sheet](cheat-sheet.md) | 2 min |
 | Look up a term (CoT, RAG, etc.) | [Glossary](glossary.md) | 1 min |
 | Understand content types | [Content Types](content-types.md) | 5 min |
@@ -42,7 +41,7 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ### By Experience Level
 
 | Level | Start Here | Why |
-|-------|-----------|-----|
+| ------- | ----------- | ----- |
 | 🟢 Beginner | [Glossary](glossary.md) | Learn terminology first |
 | 🟡 Intermediate | [Cheat Sheet](cheat-sheet.md) | Quick patterns for common tasks |
 | 🔴 Advanced | [Tasks Quick Reference](TASKS_QUICK_REFERENCE.md) | Task-specific optimizations |
@@ -50,7 +49,7 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ### By Activity
 
 | What You're Doing | Reference Doc | What You'll Find |
-|-------------------|---------------|------------------|
+| ------------------- | --------------- | ------------------ |
 | **Writing prompts** | [Cheat Sheet](cheat-sheet.md) | Templates, patterns, examples |
 | **Reading research** | [Glossary](glossary.md) | Technical term definitions |
 | **Contributing docs** | [Frontmatter Schema](frontmatter-schema.md) | Required metadata fields |
@@ -86,16 +85,19 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ## 🔗 Related Documentation
 
 ### Learning Resources
+
 - **[Concepts](../concepts/)** — Theory and principles (read for understanding)
 - **[Tutorials](../tutorials/)** — Step-by-step guides (read for learning)
 - **[Research](../research/)** — Evidence and analysis (read for validation)
 
 ### Application
+
 - **[Prompts Library](../../prompts/)** — Ready-to-use prompt templates
 - **[Instructions](../instructions/)** — Team coding standards and personas
 - **[Tools](../../tools/)** — CLI utilities for prompt management
 
 ### Contributing
+
 - **[CONTRIBUTING.md](../../CONTRIBUTING.md)** — How to add or improve docs
 - **[Planning](../planning/)** — Roadmap and architectural decisions
 
@@ -104,6 +106,7 @@ The **Reference** section is your quick-lookup hub for terminology, schemas, tem
 ### Cheat Sheet Highlights
 
 Quick access to:
+
 - **Chain-of-Thought** (CoT) templates
 - **Few-Shot** example structures
 - **ReAct** reasoning loops
@@ -114,6 +117,7 @@ Quick access to:
 ### Glossary Coverage
 
 Definitions for:
+
 - **Prompting Techniques**: CoT, ReAct, ToT, RAG, few-shot, zero-shot
 - **AI Models**: GPT-4, Claude, Copilot, LLM concepts
 - **Technical Terms**: Context window, temperature, tokens, embeddings
@@ -123,6 +127,7 @@ Definitions for:
 ### Frontmatter Fields
 
 Complete reference for:
+
 - **Required Fields**: title, type, difficulty, author
 - **Optional Fields**: tags, platforms, audience, version
 - **Governance Fields**: dataClassification, reviewStatus, PII handling
@@ -132,6 +137,7 @@ Complete reference for:
 ### Content Types
 
 Six primary types:
+
 1. **Conceptual** — Theory and principles
 2. **Reference** — Quick lookups and schemas
 3. **Tutorial** — Step-by-step guides
@@ -144,16 +150,19 @@ Six primary types:
 ### During Development
 
 **Keep cheat sheet open** in a second monitor or tab:
+
 ```bash
 # Quick terminal access
 cat docs/reference/cheat-sheet.md | less
 ```
 
 **Bookmark glossary** for unfamiliar terms:
+
 - Add browser bookmark for quick access
 - Use Ctrl+F to search within the page
 
 **Reference schema** when writing docs:
+
 - Validate frontmatter fields before committing
 - Ensure required fields are present
 - Use consistent field formats
@@ -161,11 +170,13 @@ cat docs/reference/cheat-sheet.md | less
 ### For Teams
 
 **Share quick references** in team channels:
+
 ```markdown
 "Need a code review prompt? Check reference/cheat-sheet.md#code-review"
 ```
 
 **Create custom reference docs** for team-specific patterns:
+
 ```markdown
 # internal-reference.md
 See [main cheat sheet](docs/reference/cheat-sheet.md)
@@ -173,9 +184,12 @@ Plus our team's custom patterns...
 ```
 
 **Link to references** in PR templates:
+
 ```markdown
+
 - [ ] Frontmatter follows [schema](docs/reference/frontmatter-schema.md)
 - [ ] Content type matches [definitions](docs/reference/content-types.md)
+
 ```
 
 ## 📊 Reference Maintenance
@@ -191,6 +205,7 @@ Plus our team's custom patterns...
 ### Quality Standards
 
 All reference docs must:
+
 - ✅ Be **concise** — no lengthy explanations
 - ✅ Be **scannable** — tables, bullets, headers
 - ✅ Be **accurate** — regularly validated
@@ -200,6 +215,7 @@ All reference docs must:
 ### Contributing Updates
 
 Help keep references current:
+
 - **Add new patterns** to cheat sheet
 - **Define new terms** in glossary
 - **Document new fields** in schema
@@ -225,6 +241,7 @@ A: Absolutely! Copy existing format and add team-specific content. Consider cont
 
 **Q: How do I search across all reference docs?**  
 A: Use GitHub's repository search or clone locally and use `grep`:
+
 ```bash
 grep -r "chain-of-thought" docs/reference/
 ```
@@ -249,6 +266,7 @@ All reference documentation is licensed under [MIT License](../../LICENSE).
 ---
 
 **Quick Links**:
+
 - ⚡ [Cheat Sheet](cheat-sheet.md) — Fast patterns
 - 📖 [Glossary](glossary.md) — Term definitions
 - 📋 [Frontmatter Schema](frontmatter-schema.md) — Metadata reference
@@ -258,6 +276,7 @@ All reference documentation is licensed under [MIT License](../../LICENSE).
 ---
 
 **Next Steps**:
+
 - 🚀 Bookmark: [Cheat Sheet](cheat-sheet.md) for daily use
 - 📖 Learn: [Tutorials](../tutorials/) for deeper understanding
 - 💬 Discuss: [GitHub Discussions](https://github.com/tafreeman/prompts/discussions)

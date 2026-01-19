@@ -6,20 +6,28 @@ intro: Optimizes team performance with assessment, skill development, motivation
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - team-management
 - leadership
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Performance Goals: [goals]
 Team Dynamics: [dynamics]
 
 Include:
+
 1. Performance assessment
 2. Skill development plan
 3. Motivation strategies
 4. Communication improvement
 5. Conflict resolution
 6. Recognition programs
+
 ```text
 
 ---
@@ -79,14 +89,17 @@ Include:
 ## Team Performance Improvement Plan
 
 ### 1. Performance Assessment
+
 *   **Root Cause:** "Hero Culture" leading to bottlenecks at senior devs; juniors blocked waiting for reviews.
 *   **Metric Analysis:** Cycle time is high due to long code review wait times (avg 2 days).
 
 ### 2. Skill Development Plan
+
 *   **Pair Programming:** Mandate 2 hours/day pairing (Senior + Junior) to transfer knowledge.
 *   **Tech Talks:** Weekly rotation where juniors present a technical topic to build confidence.
 
 ### 3. Motivation Strategies
+
 *   **Autonomy:** Assign end-to-end ownership of smaller features to juniors.
 *   **Purpose:** Connect sprint tasks directly to customer impact metrics in planning meetings.
 

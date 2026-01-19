@@ -13,7 +13,7 @@ This Enterprise GenAI Prompt Evaluation Framework provides a comprehensive, rese
 ### Key Benefits
 
 | Benefit | Description |
-|---------|-------------|
+| --------- | ------------- |
 | **Consistency** | Standardized evaluation criteria ensure 90%+ inter-evaluator agreement |
 | **Quality Assurance** | Measurable improvement in prompt effectiveness over time |
 | **Risk Mitigation** | Reduced security and compliance incidents from prompt usage |
@@ -142,7 +142,7 @@ The framework evaluates prompts across six core dimensions, each weighted accord
 #### Performance Level Definitions
 
 | Level | Score Range | Description | Enterprise Classification |
-|-------|-------------|-------------|--------------------------|
+| ------- | ------------- | ------------- | -------------------------- |
 | **Exceptional** | 90-100% | Exceeds enterprise standards significantly | Production-Ready (Exemplar) |
 | **Proficient** | 80-89% | Meets all enterprise standards with excellence | Production-Ready |
 | **Competent** | 70-79% | Meets basic enterprise standards adequately | Conditional Approval |
@@ -438,33 +438,38 @@ REPRODUCIBILITY TEST PROCEDURE
 ═══════════════════════════════════════════════════════════════════
 
 1. SETUP
+
    □ Select 3 representative test inputs for the prompt
    □ Use consistent model settings (temperature, top_p, etc.)
    □ Document: model version, timestamp, parameters
 
 2. EXECUTION
+
    □ Run each test input 10 times (30 total runs)
    □ Collect all outputs without modification
    □ Record any errors or failures
 
 3. COMPARISON
+
    □ For each input, compare all 10 outputs using similarity method
    □ Score each pair: Equivalent (1.0), Substantially Similar (0.75),
      Partially Similar (0.5), Different (0.0)
    □ Calculate average similarity score per input
 
 4. CALCULATION
+
    □ Reproducibility Rate = Average of all similarity scores × 100
    □ Calculate variance in output length, structure, key content
 
 5. CLASSIFICATION
+
    □ Apply score to threshold table below
 ```
 
 #### Quantitative Thresholds
 
 | Score | Reproducibility Rate | Variance Tolerance | Behavior Description |
-|-------|---------------------|-------------------|---------------------|
+| ------- | --------------------- | ------------------- | --------------------- |
 | **90-100** | ≥95% equivalent | <5% variance | Near-identical outputs; differences limited to stylistic variations (word choice, sentence order) |
 | **80-89** | 85-94% equivalent | 5-10% variance | Core content consistent; minor variations in detail, examples, or phrasing |
 | **70-79** | 75-84% equivalent | 10-20% variance | Main points consistent; noticeable differences in depth, structure, or supporting details |
@@ -513,26 +518,31 @@ ACCURACY TEST PROCEDURE
 ═══════════════════════════════════════════════════════════════════
 
 1. ESTABLISH GROUND TRUTH
+
    □ For factual prompts: identify verifiable claims expected in output
    □ For analytical prompts: define expected conclusions/recommendations
    □ For creative prompts: define quality criteria and constraints
    □ Document 10-20 checkpoints per test case
 
 2. EXECUTE PROMPT
+
    □ Run prompt 5 times with identical inputs
    □ Collect outputs for evaluation
 
 3. VERIFY EACH CHECKPOINT
+
    □ Correct (1.0): Claim is accurate and properly contextualized
    □ Partially Correct (0.5): Claim has minor errors or lacks context
    □ Incorrect (0.0): Claim is factually wrong or a hallucination
    □ Missing (0.0): Expected claim is absent
 
 4. CALCULATE
+
    □ Accuracy Rate = (Total Points / Total Checkpoints) × 100
    □ Hallucination Rate = (False Claims / Total Claims) × 100
 
 5. APPLY PENALTIES
+
    □ Critical Error Penalty: -10 points per hallucination that could cause harm
    □ Omission Penalty: -5 points for missing critical information
 ```
@@ -540,7 +550,7 @@ ACCURACY TEST PROCEDURE
 #### Quantitative Thresholds
 
 | Score | Accuracy Rate | Hallucination Rate | Error Severity |
-|-------|--------------|-------------------|----------------|
+| ------- | -------------- | ------------------- | ---------------- |
 | **90-100** | ≥95% | <1% | No critical errors; trivial omissions only |
 | **80-89** | 85-94% | 1-3% | No critical errors; minor factual gaps acceptable |
 | **70-79** | 75-84% | 3-7% | Some errors present but self-correctable with review |
@@ -560,26 +570,33 @@ CLARITY TEST PROCEDURE
 ═══════════════════════════════════════════════════════════════════
 
 1. THIRD-PARTY INTERPRETATION TEST
+
    □ Have 3 evaluators independently read the prompt
    □ Each writes: (a) what they think it asks, (b) expected output format
    □ Compare interpretations for alignment
 
 2. AMBIGUITY IDENTIFICATION
+
    □ Count instances of:
+
      - Vague qualifiers ("good", "appropriate", "some")
      - Undefined terms (jargon without explanation)
      - Implicit assumptions (unstated context)
      - Conflicting instructions
+
    □ Document each ambiguity with location
 
 3. INSTRUCTION COMPLETENESS CHECK
+
    □ For each instruction, verify:
+
      - Subject is clear (who/what)
      - Action is specific (what to do)
      - Criteria is defined (how to evaluate success)
      - Format is specified (how to present)
 
 4. CALCULATE
+
    □ Interpretation Agreement = matches / total interpretations × 100
    □ Ambiguity Density = ambiguities / (prompt words / 100)
    □ Completeness Rate = complete instructions / total instructions × 100
@@ -588,7 +605,7 @@ CLARITY TEST PROCEDURE
 #### Quantitative Thresholds
 
 | Score | Interpretation Agreement | Ambiguity Density | Completeness |
-|-------|-------------------------|------------------|--------------|
+| ------- | ------------------------- | ------------------ | -------------- |
 | **90-100** | 100% agreement | 0-1 per 100 words | ≥95% complete |
 | **80-89** | 90-99% agreement | 2-3 per 100 words | 85-94% complete |
 | **70-79** | 75-89% agreement | 4-5 per 100 words | 75-84% complete |
@@ -601,11 +618,13 @@ CLARITY TEST PROCEDURE
 
 ```
 Generate a product description for [PRODUCT_NAME] that:
+
 - Length: Exactly 150-180 words
 - Tone: Professional but approachable (8th-grade reading level)
 - Structure: Opening hook (1 sentence) → Key features (3 bullet points) → Call-to-action (1 sentence)
 - Must include: price point, primary use case, one customer testimonial
 - Format: Plain text, no markdown
+
 ```
 
 → 100% interpretation agreement (all evaluators understand exactly what's expected)
@@ -631,7 +650,7 @@ Write a good product description. Make it engaging and cover the important featu
 #### Technique Scoring Matrix
 
 | Technique | Exceptional (90-100%) | Proficient (80-89%) | Competent (70-79%) | Developing (60-69%) |
-|-----------|----------------------|--------------------|--------------------|---------------------|
+| ----------- | ---------------------- | -------------------- | -------------------- | --------------------- |
 | **Chain-of-Thought** | ≥5 explicit reasoning steps; self-verification; handles edge cases | 3-4 reasoning steps; clear logic flow | 2-3 steps; some implicit reasoning | Steps present but unclear or illogical |
 | **Few-Shot** | 4+ diverse, edge-case-covering examples; format perfectly demonstrated | 3 relevant examples; format shown | 2 examples; basic format guidance | 1 example or examples don't match use case |
 | **Tree-of-Thought** | ≥3 paths explored; evaluation criteria explicit; backtracking shown | 2 paths with evaluation | 2 paths without clear evaluation | Single path labeled as "exploration" |
@@ -656,18 +675,22 @@ SECURITY TEST PROCEDURE
 ═══════════════════════════════════════════════════════════════════
 
 1. INJECTION RESISTANCE TEST
+
    □ Attempt 10 standard prompt injection patterns
    □ Score: injections blocked / injections attempted × 100
 
 2. JAILBREAK RESISTANCE TEST
+
    □ Attempt 5 jailbreak patterns (roleplay, hypothetical, encoded)
    □ Score: blocks / attempts × 100
 
 3. DATA LEAKAGE TEST
+
    □ Attempt to extract: system prompts, training data patterns, PII
    □ Score based on information exposure level
 
 4. OUTPUT GUARDRAIL TEST
+
    □ Test for: harmful content, bias, off-topic drift
    □ Score based on guardrail effectiveness
 ```
@@ -675,7 +698,7 @@ SECURITY TEST PROCEDURE
 #### Quantitative Thresholds
 
 | Score | Injection Resistance | Jailbreak Resistance | Data Leakage |
-|-------|---------------------|---------------------|--------------|
+| ------- | --------------------- | --------------------- | -------------- |
 | **90-100** | 100% blocked | 100% blocked | Zero exposure risk |
 | **80-89** | 90-99% blocked | 80-99% blocked | Negligible exposure |
 | **70-79** | 80-89% blocked | 60-79% blocked | Minor exposure possible |
@@ -693,25 +716,29 @@ ROI CALCULATION
 ═══════════════════════════════════════════════════════════════════
 
 1. TIME SAVINGS
+
    □ Measure: time to complete task manually vs. with prompt
    □ Calculate: (manual_time - prompt_time) / manual_time × 100
 
 2. QUALITY IMPROVEMENT
+
    □ Measure: error rate manual vs. prompt-assisted
    □ Calculate quality delta
 
 3. COST IMPACT
+
    □ Token cost per use × expected monthly volume
    □ Compare to labor cost for equivalent output
 
 4. DOCUMENTATION
+
    □ Must include: baseline metrics, expected improvement, measurement method
 ```
 
 #### Quantitative Thresholds
 
 | Score | Time Savings | Quality Delta | Documentation |
-|-------|-------------|---------------|---------------|
+| ------- | ------------- | --------------- | --------------- |
 | **90-100** | ≥70% | ≥30% improvement | Full ROI analysis with metrics |
 | **80-89** | 50-69% | 15-29% improvement | Clear justification with estimates |
 | **70-79** | 30-49% | 5-14% improvement | General efficiency claims |
@@ -725,7 +752,7 @@ ROI CALCULATION
 #### Documentation Checklist
 
 | Component | Weight | Present | Absent |
-|-----------|--------|---------|--------|
+| ----------- | -------- | --------- | -------- |
 | Purpose statement | 15% | +15 | 0 |
 | Input requirements | 15% | +15 | 0 |
 | Output format specification | 15% | +15 | 0 |
@@ -748,16 +775,19 @@ EFFICIENCY TEST
 ═══════════════════════════════════════════════════════════════════
 
 1. TOKEN ANALYSIS
+
    □ Count prompt tokens (input)
    □ Measure average response tokens (output)
    □ Compare to baseline/standard approach
 
 2. LATENCY MEASUREMENT
+
    □ Measure time-to-first-token
    □ Measure total response time
    □ Calculate across 10 runs
 
 3. OPTIMIZATION IDENTIFICATION
+
    □ Document specific optimizations applied
    □ Measure impact of each optimization
 ```
@@ -765,7 +795,7 @@ EFFICIENCY TEST
 #### Quantitative Thresholds
 
 | Score | Token Efficiency | Latency | Optimization Evidence |
-|-------|-----------------|---------|----------------------|
+| ------- | ----------------- | --------- | ---------------------- |
 | **90-100** | ≥30% reduction vs. baseline | ≥20% faster | Multiple documented optimizations with metrics |
 | **80-89** | 15-29% reduction | 10-19% faster | Clear optimizations with evidence |
 | **70-79** | 5-14% reduction | 5-9% faster | Some optimization present |
@@ -820,7 +850,7 @@ This section documents how **real-world implementations** determine scoring thre
 ### Industry Scoring Scale Comparison
 
 | Framework | Organization | Scale | Threshold Methodology |
-|-----------|-------------|-------|----------------------|
+| ----------- | ------------- | ------- | ---------------------- |
 | **G-Eval** | Microsoft/DeepEval | 1-5 → 0-1 normalized | LLM judges rate 1-5, normalize to 0-1; default threshold: 0.5 |
 | **RubricEval** | Stanford | 1-4 | 4=Excellent, 3=Good, 2=Fair, 1=Poor; avg across criteria |
 | **MT-Bench** | LMSYS/UC Berkeley | 1-10 | GPT-4 as judge; 80%+ agreement with human preferences |
@@ -872,7 +902,7 @@ Based on industry research and documentation, these are **actual thresholds used
 Academic research establishes these standards for evaluator agreement:
 
 | Cohen's Kappa (κ) | Interpretation | Use Case |
-|-------------------|----------------|----------|
+| ------------------- | ---------------- | ---------- |
 | **κ > 0.80** | Almost perfect agreement | Gold standard; production confidence |
 | **κ = 0.60-0.80** | Substantial agreement | Acceptable for production deployment |
 | **κ = 0.40-0.60** | Moderate agreement | Requires calibration; use with caution |
@@ -892,25 +922,29 @@ Based on industry best practices, follow this methodology:
 #### Step 1: Establish Ground Truth (Human Baseline)
 
 ```
+
 1. Select 50-100 representative prompts
 2. Have 3+ human evaluators score each using your rubric
 3. Calculate inter-rater reliability (target: κ > 0.6)
 4. Create "gold standard" dataset with consensus scores
+
 ```
 
 #### Step 2: Calibrate Automated Scoring
 
 ```
+
 1. Run automated evaluation (LLM-as-judge or heuristic) on gold standard
 2. Compare automated scores to human consensus
 3. Calculate correlation (target: Pearson r > 0.7 or Spearman ρ > 0.7)
 4. Adjust thresholds until agreement improves
+
 ```
 
 #### Step 3: Set Risk-Appropriate Thresholds
 
 | Risk Level | Threshold Approach | Example |
-|------------|-------------------|---------|
+| ------------ | ------------------- | --------- |
 | **Critical** (healthcare, finance) | Conservative; high thresholds | Accuracy ≥98%, Faithfulness ≥95% |
 | **High** (customer-facing) | Standard production | Accuracy ≥90%, Consistency ≥85% |
 | **Medium** (internal tools) | Balanced | Accuracy ≥80%, Consistency ≥75% |
@@ -930,6 +964,7 @@ THRESHOLD VALIDATION PROCEDURE
    - False negative rate (good prompts failing)
 5. ADJUST thresholds to minimize business-critical errors
 6. MONITOR in production; refine quarterly
+
 ```
 
 ### Mapping Our 0-100 Scale to Industry Standards
@@ -937,7 +972,7 @@ THRESHOLD VALIDATION PROCEDURE
 Our framework uses a 0-100 percentage scale. Here's how it maps to common industry scales:
 
 | Our Score | 0-1 Scale | 1-5 Scale | 1-4 Scale | Interpretation |
-|-----------|-----------|-----------|-----------|----------------|
+| ----------- | ----------- | ----------- | ----------- | ---------------- |
 | **90-100** | 0.90-1.00 | 4.5-5.0 | 4 (Excellent) | Exceptional; exemplar |
 | **80-89** | 0.80-0.89 | 4.0-4.4 | 3-4 (Good-Excellent) | Production-ready |
 | **70-79** | 0.70-0.79 | 3.5-3.9 | 3 (Good) | Acceptable with conditions |
@@ -964,14 +999,14 @@ def calculate_dimension_score(
     for criterion in criteria:
         # Step 1: Generate evaluation steps (CoT)
         eval_steps = generate_eval_steps(criterion)
-        
+
         # Step 2: LLM judges on 1-5 scale
         raw_score = llm_judge(prompt, output, eval_steps, scale="1-5")
-        
+
         # Step 3: Normalize to 0-1
         normalized = (raw_score - 1) / 4  # Maps 1-5 to 0-1
         scores.append(normalized)
-    
+
     # Average across criteria
     return sum(scores) / len(scores)
 
@@ -1237,7 +1272,7 @@ This section is based on findings from:
 #### Evaluator Training Program
 
 | Module | Duration | Content |
-|--------|----------|---------|
+| -------- | ---------- | --------- |
 | **Framework Overview** | 1 hour | Dimension definitions, scoring methodology, business context |
 | **Rubric Deep-Dive** | 2 hours | Detailed criteria review, example scoring, edge cases |
 | **Hands-On Calibration** | 3 hours | Group evaluation exercises, discussion, alignment |
@@ -1247,7 +1282,7 @@ This section is based on findings from:
 #### Prompt Creator Training
 
 | Module | Duration | Content |
-|--------|----------|---------|
+| -------- | ---------- | --------- |
 | **Quality Standards** | 1 hour | Enterprise requirements, common failure modes |
 | **Self-Assessment** | 1 hour | Pre-submission evaluation, improvement strategies |
 | **Advanced Techniques** | 2 hours | CoT, Few-Shot, ToT, ReAct implementation |
@@ -1304,7 +1339,7 @@ Track and report monthly:
 ### Chain-of-Thought (CoT)
 
 | Criterion | Exceptional | Inadequate |
-|-----------|-------------|------------|
+| ----------- | ------------- | ------------ |
 | Step clarity | Each step explicit and necessary | Steps unclear or missing |
 | Reasoning demonstration | "Let me think through this..." pattern | No reasoning shown |
 | Problem decomposition | Complex task broken into logical parts | Monolithic instruction |
@@ -1312,7 +1347,7 @@ Track and report monthly:
 ### Few-Shot Learning
 
 | Criterion | Exceptional | Inadequate |
-|-----------|-------------|------------|
+| ----------- | ------------- | ------------ |
 | Example quality | Diverse, representative, correctly formatted | Irrelevant or incorrect examples |
 | Example quantity | 3-5 well-chosen examples | None or excessive examples |
 | Format demonstration | Output format clearly shown | Format unclear |
@@ -1320,7 +1355,7 @@ Track and report monthly:
 ### Tree-of-Thought (ToT)
 
 | Criterion | Exceptional | Inadequate |
-|-----------|-------------|------------|
+| ----------- | ------------- | ------------ |
 | Path exploration | Multiple reasoning paths explicitly explored | Single linear path |
 | Evaluation | Each path assessed before selection | No path evaluation |
 | Backtracking | Incorrect paths identified and abandoned | No course correction |
@@ -1328,7 +1363,7 @@ Track and report monthly:
 ### ReAct (Reasoning + Acting)
 
 | Criterion | Exceptional | Inadequate |
-|-----------|-------------|------------|
+| ----------- | ------------- | ------------ |
 | Thought-action integration | Clear thought→action→observation cycle | No structured reasoning |
 | Tool usage | Appropriate tool selection and invocation | Random or no tool use |
 | Observation integration | Observations inform next actions | Observations ignored |
@@ -1355,7 +1390,7 @@ Track and report monthly:
 ### Model-Specific Considerations
 
 | Model | Optimization Notes |
-|-------|-------------------|
+| ------- | ------------------- |
 | **GPT-4/GPT-4o** | Excellent with complex instructions; benefits from explicit format specifications |
 | **Claude (Sonnet/Opus)** | Strong reasoning; responds well to conversational framing and ethical guidelines |
 | **Gemini Pro** | Effective with structured prompts; benefits from clear section delineation |
@@ -1373,7 +1408,7 @@ Track and report monthly:
 ## Document Control
 
 | Version | Date | Author | Changes |
-|---------|------|--------|---------|
+| --------- | ------ | -------- | --------- |
 | 2.0 | December 2025 | Enterprise AI Governance Team | Initial framework release |
 
 **Compatibility**: GPT-4, Claude (Sonnet/Opus), Gemini Pro, and compatible LLMs  

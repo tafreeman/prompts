@@ -30,6 +30,7 @@ description: Define the standard layered solution structure, responsibilities, a
 /docs                   # Project documentation
 /scripts                # Build and deployment scripts
 ```sql
+
 ## Layering and Responsibilities
 
 - Web layer
@@ -76,6 +77,7 @@ description: Define the standard layered solution structure, responsibilities, a
       /Services
         UserServiceTests.cs
 ```text
+
 ```csharp
 public class UserServiceTests
 {
@@ -95,6 +97,7 @@ public class UserServiceTests
     }
 }
 ```text
+
 ## Constraints and Fallbacks
 
 - Do NOT deviate from the three-layer structure (Web, Core, Infrastructure) without architecture review and documented justification.

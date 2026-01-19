@@ -9,6 +9,7 @@ description: >
   for iterative prompt evaluation with parallel branches that loop until quality threshold.
 category: evaluation
 tags:
+
   - lats
   - self-refine
   - tree-of-thoughts
@@ -16,54 +17,75 @@ tags:
   - cove
   - iterative-refinement
   - prompt-evaluation
+
 author: Prompts Library Team
 version: 1.0.0
 model_compatibility:
+
   - gpt-4
   - gpt-4o
   - claude-3
   - o1
   - deepseek-r1
+
 variables:
+
   - name: PROMPT_CONTENT
+
     description: The full text of the prompt to evaluate
     required: true
+
   - name: QUALITY_THRESHOLD
+
     description: Minimum acceptable score (0-100) to stop iteration
     required: false
     default: "80"
+
   - name: MAX_ITERATIONS
+
     description: Maximum refinement loops before stopping
     required: false
     default: "5"
+
   - name: GRADING_CRITERIA
+
     description: JSON object with criteria names and weights
     required: false
     default: '{"clarity": 25, "effectiveness": 30, "specificity": 20, "completeness": 25}'
 use_cases:
+
   - Automated prompt quality improvement
   - Rubric validation against research
   - Self-improving prompt libraries
   - CI/CD quality gates for prompts
+
 complexity: expert
 estimated_tokens: 2000-4000
 type: how_to
 difficulty: advanced
 audience:
+
   - senior-engineer
   - solution-architect
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 topics:
+
   - evaluation
   - quality-assurance
   - automation
+
 date: "2026-01-05"
 reviewStatus: draft
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 effectivenessScore: 0.0
 ---
@@ -73,6 +95,7 @@ effectivenessScore: 0.0
 ## Description
 
 This prompt implements a hybrid pattern combining:
+
 - **LATS** (Language Agent Tree Search) - Tree exploration with backtracking
 - **Self-Refine** - Iterative improvement loop until threshold met
 - **ToT** (Tree-of-Thoughts) - Parallel branch exploration
@@ -80,6 +103,7 @@ This prompt implements a hybrid pattern combining:
 - **CoVe** (Chain-of-Verification) - Verify claims against research
 
 The evaluator runs three parallel branches per iteration:
+
 1. **Branch A: Criteria Validation** - Verifies grading rubric against research
 2. **Branch B: Scoring & Feedback** - Scores the prompt and generates improvements
 3. **Branch C: Implementation** - Applies changes based on feedback
@@ -89,7 +113,7 @@ The outer loop continues until the score exceeds the threshold or max iterations
 ## Research Foundation
 
 | Pattern | Paper | Key Contribution |
-|---------|-------|------------------|
+| --------- | ------- | ------------------ |
 | **LATS** | Zhou et al., 2023 | Tree search + iteration + backtracking for agents |
 | **Self-Refine** | Madaan et al., 2023 | Generate → Feedback → Refine loop until termination |
 | **ToT** | Yao et al., 2023 | Multi-branch deliberate problem solving |
@@ -136,7 +160,7 @@ The outer loop continues until the score exceeds the threshold or max iterations
 ## Variables
 
 | Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
+| ---------- | ---------- | --------- | ------------- |
 | `PROMPT_CONTENT` | Yes | - | The full prompt text to evaluate |
 | `QUALITY_THRESHOLD` | No | 80 | Minimum score (0-100) to terminate |
 | `MAX_ITERATIONS` | No | 5 | Maximum refinement loops |
@@ -148,6 +172,7 @@ The outer loop continues until the score exceeds the threshold or max iterations
 You are an expert Prompt Quality Engineer using a hybrid LATS + Self-Refine + ToT + ReAct + CoVe evaluation system.
 
 ## Configuration
+
 - **Quality Threshold**: {{QUALITY_THRESHOLD}}%
 - **Max Iterations**: {{MAX_ITERATIONS}}
 - **Grading Criteria**: {{GRADING_CRITERIA}}
@@ -175,23 +200,25 @@ For each iteration, execute THREE PARALLEL BRANCHES, then synthesize and decide 
 
 ### A1. Draft Assessment
 For each criterion in `{{GRADING_CRITERIA}}`, assess:
+
 - Is this criterion supported by GenAI prompt engineering research (2023-2025)?
 - Does the weight reflect its importance in practice?
 
 ### A2. Verification Questions
 Generate one verification question per criterion:
 | Criterion | Verification Question |
-|-----------|----------------------|
+| ----------- | ---------------------- |
 | [name] | "Is [criterion] supported by [specific research]?" |
 
 ### A3. Independent Verification
 Answer EACH question independently (do not reference A1):
 | Criterion | Research Support | Citation/Source |
-|-----------|-----------------|-----------------|
+| ----------- | ----------------- | ----------------- |
 | [name] | Y/N | [e.g., "Dhuliawala et al. 2023", "DAIR.AI Guide 2024"] |
 
 ### A4. Criteria Adjustment Decision
 ```json
+
 {
   "criteria_valid": true/false,
   "adjustments_needed": [
@@ -199,6 +226,7 @@ Answer EACH question independently (do not reference A1):
   ],
   "effective_criteria": { ... } // The criteria to use for this iteration
 }
+
 ```
 
 ---
@@ -211,12 +239,14 @@ Answer EACH question independently (do not reference A1):
 Using the **effective_criteria** from Branch A, score the prompt:
 
 | Criterion | Score (0-100) | Weight | Evidence | Issue (if <80) |
-|-----------|---------------|--------|----------|----------------|
+| ----------- | --------------- | -------- | ---------- | ---------------- |
 | [name] | [score] | [weight]% | "[quote from prompt]" | "[specific problem]" |
 
 ### B2. Calculate Weighted Score
 ```
+
 Total Score = Σ(criterion_score × weight) / Σ(weights)
+
 ```
 
 **Current Score**: [X]%
@@ -226,6 +256,7 @@ Total Score = Σ(criterion_score × weight) / Σ(weights)
 ### B3. Generate Improvement Suggestions
 For each criterion scoring below 80%:
 ```json
+
 {
   "criterion": "[name]",
   "current_score": [X],
@@ -234,10 +265,12 @@ For each criterion scoring below 80%:
   "example_fix": "[Show exactly what to add/change]",
   "priority": [1-5]
 }
+
 ```
 
 ### B4. Prioritized Action List
 Rank by: (100 - score) × weight × priority
+
 1. [Highest impact fix]
 2. [Second highest]
 3. [Third highest]
@@ -257,19 +290,24 @@ From Branch B's prioritized list, select the #1 action.
 
 **Thought**: What specific change will address this issue?
 ```
+
 [Reasoning about how to implement the fix]
+
 ```
 
 **Action**: Apply the change
 ```markdown
+
 <!-- BEFORE -->
 [Original section of prompt]
 
 <!-- AFTER -->
 [Modified section with fix applied]
+
 ```
 
 **Observation**: Validate the change
+
 - Does the fix address the identified issue? [Y/N]
 - Does it introduce new problems? [Y/N]
 - Estimated score improvement: +[X]%
@@ -285,7 +323,7 @@ From Branch B's prioritized list, select the #1 action.
 
 ### Current State
 | Metric | Value |
-|--------|-------|
+| -------- | ------- |
 | Iteration | [N] |
 | Previous Score | [X]% |
 | Current Score | [Y]% |
@@ -294,12 +332,14 @@ From Branch B's prioritized list, select the #1 action.
 
 ### Termination Decision
 ```json
+
 {
   "score_meets_threshold": true/false,
   "max_iterations_reached": true/false,
   "continue_iteration": true/false,
   "reason": "[Why continuing or stopping]"
 }
+
 ```
 
 ---
@@ -307,12 +347,15 @@ From Branch B's prioritized list, select the #1 action.
 ## IF CONTINUING: REFLEXION (Learning from Iteration)
 
 ### What Worked
+
 - [Effective strategy from this iteration]
 
 ### What Didn't Work
+
 - [Ineffective approach to avoid]
 
 ### Adjusted Strategy for Next Iteration
+
 - [New approach based on learning]
 
 ### ═══════════════════════════════════════════════════════════════
@@ -325,7 +368,7 @@ From Branch B's prioritized list, select the #1 action.
 
 ### Summary
 | Metric | Value |
-|--------|-------|
+| -------- | ------- |
 | Starting Score | [X]% |
 | Final Score | [Y]% |
 | Total Improvement | +[Z]% |
@@ -334,10 +377,12 @@ From Branch B's prioritized list, select the #1 action.
 
 ### Final Grading Criteria (Validated)
 ```json
+
 {
   "criteria": { ... },
   "research_validation": { ... }
 }
+
 ```
 
 ### Final Prompt
@@ -347,20 +392,23 @@ From Branch B's prioritized list, select the #1 action.
 
 ### Improvement History
 | Iteration | Score | Change Made | Impact |
-|-----------|-------|-------------|--------|
+| ----------- | ------- | ------------- | -------- |
 | 0 | [X]% | (baseline) | - |
 | 1 | [Y]% | [fix] | +[Z]% |
 | ... | ... | ... | ... |
 
 ### Confidence Assessment
+
 - **Score Confidence**: High/Medium/Low
 - **Criteria Validity**: High/Medium/Low  
 - **Remaining Risks**: [Any issues not addressed]
+
 ```
 
 ## Example
 
 ### Input
+
 ```
 PROMPT_CONTENT: "You are a helpful assistant. Answer questions."
 QUALITY_THRESHOLD: 80
@@ -369,6 +417,7 @@ GRADING_CRITERIA: {"clarity": 25, "effectiveness": 30, "specificity": 20, "compl
 ```
 
 ### Expected Output (Iteration 1)
+
 ```
 ═══════════════════════════════════════════════════════════════
 ITERATION 1
@@ -380,7 +429,7 @@ No adjustments needed.
 
 BRANCH B: SCORING & FEEDBACK
 | Criterion | Score | Evidence |
-|-----------|-------|----------|
+| ----------- | ------- | ---------- |
 | clarity | 70% | "Generic role, no specifics" |
 | effectiveness | 45% | "No goal, constraints, or process" |
 | specificity | 30% | "No variables, examples, or structure" |
@@ -401,6 +450,7 @@ You are a [ROLE] assistant specializing in [DOMAIN].
 [SPECIFIC_OBJECTIVE]
 
 ## Constraints
+
 - [CONSTRAINT_1]
 - [CONSTRAINT_2]
 
@@ -419,7 +469,7 @@ REFLEXION: Prioritize specificity next (largest remaining gap)
 ## Comparison: This Design vs. Existing Implementations
 
 | Aspect | Self-Refine (Madaan) | Reflexion (Shinn) | LATS (Zhou) | **This Prompt** |
-|--------|---------------------|-------------------|-------------|-----------------|
+| -------- | --------------------- | ------------------- | ------------- | ----------------- |
 | **Parallel Branches** | No (sequential) | No | Yes (tree search) | **Yes (3 branches)** |
 | **Criteria Validation** | No | No | No | **Yes (CoVe in Branch A)** |
 | **Research Grounding** | No | No | No | **Yes (verifies against papers)** |

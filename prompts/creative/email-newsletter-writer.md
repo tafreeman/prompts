@@ -5,23 +5,31 @@ intro: "Generate compelling email newsletters that engage subscribers, deliver v
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "business-analyst"
   - "project-manager"
   - "functional-team"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "email-marketing"
   - "creative"
   - "content-marketing"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.1
@@ -58,6 +66,7 @@ You are an expert email marketing copywriter who creates newsletters that people
 **Newsletter Name:** [YOUR NEWSLETTER NAME, IF ANY]
 
 **Main Content:**
+
 - Topic 1: [FIRST MAIN TOPIC OR STORY]
 - Topic 2: [SECOND TOPIC - OPTIONAL]
 - Topic 3: [THIRD TOPIC - OPTIONAL]
@@ -66,17 +75,20 @@ You are an expert email marketing copywriter who creates newsletters that people
 **Call-to-Action:** [MAIN ACTION YOU WANT READERS TO TAKE]
 
 **Additional Elements:**
+
 - Include a personal note/intro: [YES/NO]
 - Add curated links/resources: [YES/NO - HOW MANY?]
 - Include a featured offer/promotion: [YES/NO - DETAILS?]
 - Add a subscriber-exclusive element: [YES/NO]
 
 **Constraints:**
+
 - Approximate word count: [SHORT (200-300)/MEDIUM (400-600)/LONG (800+)]
 - Must mention: [ANY REQUIRED ELEMENTS]
 - Avoid: [ANYTHING TO STAY AWAY FROM]
 
 Please create:
+
 1. 3 subject line options (with open rate prediction)
 2. Preview text (40-90 characters)
 3. Full newsletter content with clear sections
@@ -89,7 +101,7 @@ Format the newsletter with clear visual hierarchy using headers, short paragraph
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[WEEKLY DIGEST/PRODUCT UPDATE/EDUCATIONAL/PROMOTIONAL/ANNOUNCEMENT]` | Newsletter type |
 | `[YOUR BRAND NAME]` | Brand/company name |
 | `[SUBSCRIBER DEMOGRAPHICS AND INTERESTS]` | Audience description |
@@ -119,6 +131,7 @@ Tone: Friendly, practical
 Newsletter Name: "Signals"
 
 Main Content:
+
 - Topic 1: A 5-minute guide to reducing p95 latency
 - Topic 2: New feature: SLO dashboards
 
@@ -144,10 +157,10 @@ Avoid: hype, exaggerated claims
 
 1. "🎂 1 year of Dev Digest + AI coding tools showdown" 
    - Prediction: High (28-32%) - Anniversary + trending topic
-   
+
 2. "3 terminal tricks that saved me 2 hours (you'll want #2)"
    - Prediction: High (26-30%) - Specific value promise + curiosity gap
-   
+
 3. "Which AI coding assistant is actually worth it?"
    - Prediction: Medium-High (24-28%) - Question format + relevant topic
 
@@ -180,7 +193,7 @@ I spent last week putting GitHub Copilot, Cursor, Cody, and Amazon CodeWhisperer
 **The quick verdict:**
 
 | Tool | Best For | Watch Out For |
-|------|----------|---------------|
+| ------ | ---------- | --------------- |
 | **Copilot** | Inline completions, familiar codebases | Can be chatty, context limits |
 | **Cursor** | Refactoring, codebase-wide changes | Learning curve, resource usage |
 | **Cody** | Open source, privacy-conscious teams | Newer, smaller community |
@@ -200,25 +213,31 @@ These aren't fancy—they're practical. Try one today.
 
 **1. Fuzzy find everything with `fzf`**
 ```bash
+
 # Search command history interactively
 history | fzf
 # Find and open any file
 vim $(fzf)
+
 ```text
 *Time saved: 45 minutes of "wait, what was that command?"*
 
 **2. Quick directory bookmarks with `z`**
 ```bash
+
 # Jump to frequently used directories
 z projects  # Goes to ~/code/projects
 z api       # Goes to most-used api directory
+
 ```text
 *Time saved: 30 minutes of cd ../../../*
 
 **3. Parallel command execution**
 ```bash
+
 # Run tests across multiple directories simultaneously
 ls -d */ | parallel 'cd {} && npm test'
+
 ```bash
 *Time saved: 45 minutes on a multi-package repo*
 
@@ -231,6 +250,7 @@ ls -d */ | parallel 'cd {} && npm test'
 If you're not using a TUI for git, you're missing out. `lazygit` makes complex git operations visual and fast.
 
 Why I love it:
+
 - Interactive rebase without memorizing commands
 - Cherry-pick commits with arrow keys
 - Resolve merge conflicts visually

@@ -5,21 +5,29 @@ intro: "Designs cloud-native architectures"
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
+
 topics:
+
   - "architect"
   - "system"
   - "cloud-architecture"
   - "enterprise"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-16"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 3.0
@@ -43,31 +51,31 @@ flowchart TB
         Mobile[Mobile Users]
         API[API Consumers]
     end
-    
+
     subgraph Edge[Edge Layer]
         CDN[CDN / WAF]
         DNS[Global DNS]
     end
-    
+
     subgraph Compute[Compute Layer]
         K8s[Kubernetes Cluster]
         Serverless[Serverless Functions]
         Containers[Container Services]
     end
-    
+
     subgraph Data[Data Layer]
         SQL[(SQL Database)]
         NoSQL[(NoSQL Store)]
         Cache[(Redis Cache)]
         Lake[(Data Lake)]
     end
-    
+
     subgraph Platform[Platform Services]
         Queue[Message Queue]
         Events[Event Bus]
         Storage[Object Storage]
     end
-    
+
     Users --> DNS
     DNS --> CDN
     CDN --> K8s
@@ -88,7 +96,7 @@ flowchart TB
 ### When to Use This Pattern
 
 | Criteria | Indicators |
-|----------|------------|
+| ---------- | ------------ |
 | **Greenfield Project** | New application without legacy constraints |
 | **Scalability** | Need to handle 10x-100x traffic spikes |
 | **Global Reach** | Users in multiple geographic regions |
@@ -98,7 +106,7 @@ flowchart TB
 ### Cloud Strategy Selection
 
 | Strategy | When to Use | Trade-offs |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **Single Cloud** | Vendor commitment, simplified ops | Vendor lock-in risk |
 | **Multi-Cloud** | Best-of-breed, risk mitigation | Complexity, skill requirements |
 | **Hybrid Cloud** | Data sovereignty, gradual migration | Integration complexity |
@@ -129,12 +137,14 @@ Compliance Requirements: [compliance]
 Budget Constraints: [budget]
 
 Provide:
+
 1. Cloud service selection
 2. Architecture patterns
 3. Cost optimization
 4. Security design
 5. Disaster recovery
 6. Migration strategy
+
 ```text
 
 **Output:**
@@ -143,15 +153,18 @@ Provide:
 ## Cloud Architecture Design
 
 ### 1. Cloud Service Selection
+
 *   **Compute:** EKS (Kubernetes) for microservices, Lambda for event triggers.
 *   **Content Delivery:** CloudFront with Lambda@Edge for personalization.
 *   **Media Processing:** AWS Elemental MediaConvert for transcoding.
 
 ### 2. Architecture Patterns
+
 *   **Cell-Based Architecture:** Isolate failure domains by sharding users into "cells" (self-contained stacks).
 *   **CQRS:** Separate read paths (Catalog browsing) from write paths (Watch history).
 
 ### 3. Cost Optimization
+
 *   **Spot Fleet:** Use Spot instances for stateless transcoding workers (60-90% savings).
 *   **Intelligent Tiering:** S3 Intelligent-Tiering for video library storage.
 
@@ -173,6 +186,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Compute**: Azure Kubernetes Service (AKS), Azure Functions, Container Apps
 - **Storage**: Azure Blob Storage, Azure Data Lake Storage Gen2
 - **Database**: Azure SQL, Cosmos DB (multi-model), Azure Cache for Redis
@@ -180,6 +194,7 @@ Provide:
 - **DevOps**: Azure DevOps, GitHub Actions with Azure integration
 
 ### AWS
+
 - **Compute**: EKS, Lambda, Fargate, EC2 with Auto Scaling
 - **Storage**: S3, EFS, FSx
 - **Database**: Aurora, DynamoDB, ElastiCache
@@ -187,6 +202,7 @@ Provide:
 - **DevOps**: CodePipeline, CodeBuild, CDK
 
 ### GCP
+
 - **Compute**: GKE, Cloud Functions, Cloud Run
 - **Storage**: Cloud Storage, Filestore
 - **Database**: Cloud SQL, Spanner, Firestore, Memorystore
@@ -201,6 +217,7 @@ Provide:
 A streaming video platform needs to support 10 million concurrent viewers during live events, with content delivery to 50+ countries, while maintaining costs under $200K/month.
 
 ### Input
+
 ```text
 Application: Global Video Streaming Platform
 Cloud Provider: AWS (primary), with multi-CDN strategy

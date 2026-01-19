@@ -6,23 +6,31 @@ intro: Retrieval-Augmented Generation pattern for grounding AI responses in spec
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
 - azure-openai
+
 topics:
+
 - rag
 - retrieval
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
 - audit-required
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -109,19 +117,23 @@ Relevance Score: [DOC_2_SCORE]
 [Your grounded answer with inline citations]
 
 **Confidence Assessment**:
+
 - **High**: Answer fully supported by multiple documents
 - **Medium**: Answer supported but with some gaps
 - **Low**: Limited information, significant gaps exist
 
 **Sources Used**:
+
 - [Doc_ID]: Brief description of what information this provided
 - [Doc_ID]: Brief description...
 
 **Information Gaps** (if any):
+
 - What additional information would improve this answer
 - What questions remain unanswered
 
 **Recommended Follow-up**:
+
 - Suggested additional searches or document retrieval
 - Questions to clarify user intent
 
@@ -187,7 +199,7 @@ Based on the retrieved documentation, here's what you need to know about our API
 ### Rate Limits
 
 | Tier | Rate Limit | Reset |
-|------|-----------|-------|
+| ------ | ----------- | ------- |
 | Standard | 1,000 requests/hour | Top of each hour (UTC) |
 | Enterprise (Premium) | 10,000 requests/hour | Top of each hour (UTC) |
 
@@ -199,7 +211,9 @@ When you exceed your rate limit, the API returns **HTTP 429 (Too Many Requests)*
 
 **Example response header:**
 ```
+
 Retry-After: 3600  (retry in 1 hour)
+
 ```
 
 ### Violation Policy
@@ -207,7 +221,7 @@ Retry-After: 3600  (retry in 1 hour)
 Persistent violations are handled progressively [Doc_3]:
 
 | Violation | Consequence |
-|-----------|-------------|
+| ----------- | ------------- |
 | 1st (>5 times in 24h) | Warning email |
 | 2nd (within 7 days of 1st) | 24-hour API key suspension |
 | 3rd | Permanent suspension (subject to review) |
@@ -226,7 +240,7 @@ For your bulk data export use case, I recommend:
 ## Citations
 
 | Doc ID | Source | Relevance | Usage |
-|--------|--------|-----------|-------|
+| -------- | -------- | ----------- | ------- |
 | Doc_1 | /docs/api/rate-limiting.md | 0.95 | Rate limit thresholds and tiers |
 | Doc_2 | /docs/api/error-codes.md | 0.89 | HTTP 429 handling and Retry-After header |
 | Doc_3 | /policies/api-usage-policy.md | 0.82 | Violation escalation policy |
@@ -237,6 +251,7 @@ For your bulk data export use case, I recommend:
 **Confidence Level**: HIGH
 
 **Justification**: 
+
 - Three highly relevant documents (>0.8 relevance) directly address the question
 - All factual claims are grounded in retrieved documents
 - No contradictions between sources
@@ -245,6 +260,7 @@ For your bulk data export use case, I recommend:
 ## Information Gaps
 
 The retrieved documents do not cover:
+
 - Whether rate limits can be temporarily increased for planned bulk operations
 - Exact timing of rate limit reset (e.g., is it exactly on the hour, or rolling?)
 - Whether Enterprise tier has options beyond 10,000/hr
@@ -252,9 +268,11 @@ The retrieved documents do not cover:
 ## Recommended Follow-up
 
 If the customer needs to exceed standard limits for their bulk export, suggest:
+
 1. Contact sales about temporary limit increase
 2. Explore batch/export API endpoints (may have different limits)
 3. Request Enterprise tier upgrade for ongoing high-volume needs
+
 ```
 
 ---
@@ -276,54 +294,65 @@ If the customer needs to exceed standard limits for their bulk export, suggest:
 
 ```text
 Chunk by:
+
 - Function/method (including docstring and signature)
 - Class definition (with methods)
 - Module-level documentation
 - README sections
 
 Metadata to include:
+
 - File path
 - Language
 - Last modified date
 - Author (if relevant)
+
 ```text
 
 ### For Logs/Incident Data
 
 ```text
 Chunk by:
+
 - Time range (e.g., 5-minute windows)
 - Log level groups (errors together)
 - Service/component
 
 Metadata to include:
+
 - Timestamp range
 - Service name
 - Log level
 - Error codes (if present)
+
 ```text
+
 ```text
 
 ### Hybrid Search
 
 ```python
+
 # Combine semantic + keyword search
 semantic_results = vector_db.similarity_search(query, k=10)
 keyword_results = bm25_search(query, k=10)
 
 # Merge and rerank
 chunks = rerank(semantic_results + keyword_results, top_k=5)
+
 ```text
 
 ### Contextual Retrieval
 
 ```python
+
 # Retrieve chunk + surrounding context
 main_chunk = retrieve(query)
 previous_chunk = get_previous(main_chunk.id)
 next_chunk = get_next(main_chunk.id)
 
 context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
+
 ```json
 
 ## Output Schema (JSON)
@@ -331,6 +360,7 @@ context = f"{previous_chunk}\n{main_chunk}\n{next_chunk}"
 For automation pipelines:
 
 ```json
+
 {
   "answer": "...",
   "confidence": "high|medium|low",
@@ -352,6 +382,7 @@ For automation pipelines:
     "contradictions_found": false
   }
 }
+
 ```text
 
 ---
@@ -381,12 +412,15 @@ For automation pipelines:
 ### GitHub Copilot with Retrieval
 
 ```text
+
 @workspace search for rate limiting policy and explain with citations
+
 ```text
 
 ### Custom RAG Pipeline
 
 ```python
+
 def rag_answer(question, context=""):
     # 1. Retrieve relevant documents
     chunks = vector_db.similarity_search(
@@ -394,26 +428,27 @@ def rag_answer(question, context=""):
         k=5,
         filter={"access_level": user.access_level}
     )
-    
+
     # 2. Format prompt with retrieved context
     prompt = format_rag_prompt(
         question=question,
         context=context,
         documents=chunks
     )
-    
+
     # 3. Generate grounded answer
     response = llm.generate(prompt)
-    
+
     # 4. Validate citations
     if not validate_all_claims_cited(response, chunks):
         response = llm.generate(prompt + "\nEnsure all claims are cited.")
-    
+
     return {
         "answer": response,
         "sources": chunks,
         "confidence": assess_confidence(response, chunks)
     }
+
 ```text
 
 ---
@@ -427,6 +462,7 @@ def rag_answer(question, context=""):
 ### Insufficient Retrieved Documents
 
 ```text
+
 If fewer than 3 relevant documents (score >0.7) retrieved:
 
 "I found limited information about [topic]. Based on available documents:
@@ -434,24 +470,30 @@ If fewer than 3 relevant documents (score >0.7) retrieved:
 [Provide what you can with citations]
 
 To get a better answer, I would need:
+
 - [Specific type of document needed]
 - [Specific information missing]
 
 Would you like me to search differently, or can you provide more context?"
+
 ```text
 
 ### No Relevant Documents Found
 
 ```text
+
 "I couldn't find relevant documentation about [topic]. 
 
 Possible reasons:
+
 - Information may not be documented yet
 - Different terminology might be used (can you rephrase?)
 - Topic may be covered in restricted documents I don't have access to
 
 Would you like me to:
+
 1. Search using different keywords?
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
+
 ```text

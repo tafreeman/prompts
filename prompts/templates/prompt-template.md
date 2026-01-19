@@ -5,19 +5,27 @@ intro: One-sentence summary of what this prompt does.
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - senior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 topics:
+
 - code-generation
+
 author: Your Name
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -37,10 +45,11 @@ Provide a clear, concise description (2-3 sentences max) of what this prompt doe
 [Write your actual prompt here. Be specific, clear, and provide all necessary context.
 Use [VARIABLE_NAME] for values users should replace.]
 ```text
+
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[VARIABLE_1]` | What to put here |
 | `[VARIABLE_2]` | What this represents |
 
@@ -51,11 +60,13 @@ Use [VARIABLE_NAME] for values users should replace.]
 ```text
 Show a concrete example with real values filled in.
 ```text
+
 **Output:**
 
 ```text
 Example of what the AI would generate.
 ```text
+
 ## Tips
 
 - Tip 1: How to customize for specific needs

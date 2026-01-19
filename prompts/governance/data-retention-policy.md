@@ -7,32 +7,42 @@ intro: A ReAct+Reflection prompt for generating comprehensive data retention pol
 type: how_to
 difficulty: intermediate
 audience:
+
 - solution-architect
 - backend-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - privacy
 - compliance
 - gdpr
 - data-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - UK-GDPR
 - CCPA
 - HIPAA
 - SOX
+
 effectivenessScore: 0.0
 ---
 
@@ -49,19 +59,23 @@ A comprehensive prompt for generating data retention policies that balance regul
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - GDPR Article 5(1)(e) - Storage limitation principle ("kept no longer than necessary")
 - GDPR Article 17 - Right to erasure implications
 - GDPR Recitals 39, 65 - Retention period guidance
 
 **Industry Standards:**
+
 - ISO 15489 - Records Management
 - ARMA Generally Accepted Recordkeeping Principles
 
 **Methodology:**
+
 - ReAct reasoning pattern (Yao et al., ICLR 2023) for systematic analysis
 - Self-Refine reflection (Madaan et al., NeurIPS 2023) for policy validation
 
 **Key Legal Retention Requirements (Examples):**
+
 - Financial records: 6-7 years (tax, SOX)
 - Employment records: 3-7 years post-employment
 - Healthcare records: 6-10+ years (HIPAA, local laws)
@@ -97,9 +111,11 @@ You are an expert Data Governance Specialist creating a comprehensive data reten
 **Data Processing Activities:** [PROCESSING_SUMMARY]
 
 **Existing Policies:**
+
 - [LIST_EXISTING_POLICIES]
 
 **Key Systems:**
+
 - [LIST_KEY_SYSTEMS]
 
 ---
@@ -113,7 +129,7 @@ First, we must understand what data the organization processes to determine appr
 Catalog data categories:
 
 | Data Category | Description | Examples | Source Systems | Volume Estimate |
-|---------------|-------------|----------|----------------|-----------------|
+| --------------- | ------------- | ---------- | ---------------- | ----------------- |
 | Identity Data | Information identifying individuals | Name, DOB, ID numbers | CRM, HR | [Volume] |
 | Contact Data | Communication details | Email, phone, address | CRM, Marketing | [Volume] |
 | Financial Data | Transaction and payment info | Bank details, invoices | ERP, Payment | [Volume] |
@@ -143,7 +159,7 @@ Map legal requirements:
 **Regulatory Requirements:**
 
 | Regulation | Requirement | Data Types | Minimum Period | Maximum Period | Citation |
-|------------|-------------|------------|----------------|----------------|----------|
+| ------------ | ------------- | ------------ | ---------------- | ---------------- | ---------- |
 | GDPR | Storage limitation | All personal data | - | "No longer than necessary" | Art. 5(1)(e) |
 | GDPR | Security of processing | Breach records | 72 hours to report | Document indefinitely | Art. 33 |
 | [JURISDICTION] Tax | Financial records | Tax documents | 6 years | - | [Citation] |
@@ -156,7 +172,7 @@ Map legal requirements:
 **Contractual Obligations:**
 
 | Contract Type | Retention Clause | Duration | Notes |
-|---------------|------------------|----------|-------|
+| --------------- | ------------------ | ---------- | ------- |
 | Customer contracts | Audit provisions | Contract + [X] years | [Notes] |
 | Vendor agreements | Record keeping | [Duration] | [Notes] |
 | Insurance | Claims history | Policy + [X] years | [Notes] |
@@ -178,7 +194,7 @@ Balance legal minimums with legitimate business purposes for retention.
 Document business justifications:
 
 | Data Category | Business Purpose | Legitimate Interest | Proposed Retention | Justification |
-|---------------|------------------|---------------------|-------------------|---------------|
+| --------------- | ------------------ | --------------------- | ------------------- | --------------- |
 | Customer history | Service improvement | Performance of contract | [Period] | [Justification] |
 | Analytics data | Product development | Legitimate interest | [Period] | [Justification] |
 | Support tickets | Quality assurance | Contract performance | [Period] | [Justification] |
@@ -186,6 +202,7 @@ Document business justifications:
 | Prospect data | Sales pipeline | Legitimate interest | [Period] | [Justification] |
 
 **Data Minimization Review:**
+
 - [ ] Can purpose be achieved with less data?
 - [ ] Can retention period be shortened?
 - [ ] Can data be anonymized instead of deleted?
@@ -210,7 +227,7 @@ Create retention schedule:
 **Master Retention Schedule:**
 
 | Ref | Data Category | Subcategory | Retention Period | Trigger Event | Legal Basis | Review Cycle |
-|-----|---------------|-------------|------------------|---------------|-------------|--------------|
+| ----- | --------------- | ------------- | ------------------ | --------------- | ------------- | -------------- |
 | R001 | Identity Data | Customer identity | 7 years | Account closure | Contract + Tax | Annual |
 | R002 | Identity Data | Employee identity | Employment + 7 years | Termination | Employment law | Annual |
 | R003 | Contact Data | Customer contact | Account active + 2 years | Last activity | Legitimate interest | Annual |
@@ -245,6 +262,7 @@ Document deletion procedures:
 **Deletion Process:**
 
 ```markdown
+
 1. IDENTIFICATION
    - Run retention schedule report monthly
    - Flag records past retention period
@@ -265,12 +283,13 @@ Document deletion procedures:
    - Confirm deletion complete
    - Update data inventory
    - Generate deletion certificate
+
 ```
 
 **Deletion Methods by Data Type:**
 
 | Data Type | Primary Method | Backup Handling | Verification |
-|-----------|----------------|-----------------|--------------|
+| ----------- | ---------------- | ----------------- | -------------- |
 | Structured DB | Hard delete | Include in backup rotation | Audit query |
 | Files/Documents | Secure delete | Archive deletion | Storage audit |
 | Cloud storage | API deletion + retention policy | Automated | Provider confirmation |
@@ -278,6 +297,7 @@ Document deletion procedures:
 | Third-party | Processor notification | Contract clause | Written confirmation |
 
 **Litigation Hold Procedures:**
+
 - Hold notice distribution
 - Suspension of automated deletion
 - Legal review before release
@@ -301,7 +321,7 @@ Develop implementation plan:
 
 **Phase 1: Foundation (Month 1-2)**
 | Task | Owner | Deliverable | Timeline |
-|------|-------|-------------|----------|
+| ------ | ------- | ------------- | ---------- |
 | Policy approval | [Owner] | Signed policy | Week 2 |
 | Stakeholder training | [Owner] | Training records | Week 4 |
 | System inventory | [Owner] | System register | Week 4 |
@@ -309,7 +329,7 @@ Develop implementation plan:
 
 **Phase 2: Technical Implementation (Month 3-4)**
 | Task | Owner | Deliverable | Timeline |
-|------|-------|-------------|----------|
+| ------ | ------- | ------------- | ---------- |
 | Automated retention rules | [Owner] | Configured systems | Week 10 |
 | Deletion workflows | [Owner] | Workflow documentation | Week 12 |
 | Audit logging | [Owner] | Log configuration | Week 14 |
@@ -317,7 +337,7 @@ Develop implementation plan:
 
 **Phase 3: Operationalization (Month 5-6)**
 | Task | Owner | Deliverable | Timeline |
-|------|-------|-------------|----------|
+| ------ | ------- | ------------- | ---------- |
 | First deletion cycle | [Owner] | Deletion report | Week 18 |
 | Exception handling | [Owner] | Exception log | Week 20 |
 | Policy refinement | [Owner] | Updated policy | Week 22 |
@@ -333,18 +353,21 @@ Identify resource requirements and dependencies.
 ### Compliance Check
 
 **GDPR Alignment:**
+
 - [ ] Storage limitation principle addressed?
 - [ ] Data minimization evidenced?
 - [ ] Subject rights considered (erasure)?
 - [ ] Accountability documented?
 
 **Legal Coverage:**
+
 - [ ] All jurisdictions covered?
 - [ ] Industry requirements included?
 - [ ] Contractual obligations mapped?
 - [ ] Litigation hold procedures defined?
 
 **Operational Viability:**
+
 - [ ] Retention periods realistic?
 - [ ] Deletion procedures feasible?
 - [ ] Responsibilities assigned?
@@ -353,13 +376,13 @@ Identify resource requirements and dependencies.
 ### Gap Analysis
 
 | Gap | Risk | Remediation |
-|-----|------|-------------|
+| ----- | ------ | ------------- |
 | [Gap] | [Risk] | [Action] |
 
 ### Policy Quality Score
 
 | Criterion | Score (1-5) | Notes |
-|-----------|-------------|-------|
+| ----------- | ------------- | ------- |
 | Regulatory coverage | [X] | [Notes] |
 | Clarity | [X] | [Notes] |
 | Implementability | [X] | [Notes] |
@@ -371,6 +394,7 @@ Identify resource requirements and dependencies.
 ## Output Format
 
 ### 1. Executive Summary
+
 - Policy scope and objectives
 - Key retention periods summary
 - Implementation timeline
@@ -378,6 +402,7 @@ Identify resource requirements and dependencies.
 
 ### 2. Data Retention Policy Document
 ```markdown
+
 [ORGANIZATION_NAME] DATA RETENTION POLICY
 
 Version: 1.0
@@ -399,6 +424,7 @@ Owner: [DPO/Legal]
 Appendix A: Master Retention Schedule
 Appendix B: Deletion Request Form
 Appendix C: Litigation Hold Notice Template
+
 ```
 
 ### 3. Master Retention Schedule
@@ -408,10 +434,12 @@ Appendix C: Litigation Hold Notice Template
 [Phased roadmap]
 
 ### 5. Governance Framework
+
 - Policy owner
 - Review frequency
 - Exception process
 - Audit requirements
+
 ```
 
 ---
@@ -419,7 +447,7 @@ Appendix C: Litigation Hold Notice Template
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[ORGANIZATION_NAME]` | Organization name | "Acme Corporation" |
 | `[INDUSTRY]` | Industry sector | "Financial Services" |
 | `[JURISDICTIONS]` | Operating jurisdictions | "EU, UK, USA (CA, NY)" |
@@ -441,7 +469,7 @@ Applies to all customer financial records, employee data, and operational logs w
 ### 2. Data Categories & Retention Periods
 
 | Data Category | Retention Period | Trigger Event | Rationale |
-|---------------|------------------|---------------|-----------|
+| --------------- | ------------------ | --------------- | ----------- |
 | **Customer KYC Data** | 5 Years | Account Closure | AML Regulations (Money Laundering Regs 2017) |
 | **Transaction Logs** | 7 Years | Transaction Date | Tax Audits (HMRC requirement) |
 | **Employee Contracts** | 6 Years | Termination | Limitation Act 1980 (Contract claims) |
@@ -449,12 +477,15 @@ Applies to all customer financial records, employee data, and operational logs w
 | **Server Access Logs** | 90 Days | Creation Date | Security Incident Response (NIST recommendation) |
 
 ### 3. Deletion Procedures
+
 *   **Automated:** Transaction logs in "CoreDB" are purged by daily cron job `purge_logs.sh`.
 *   **Manual:** HR Manager reviews "Leavers Folder" quarterly for deletion.
 
 ### 4. Litigation Hold Protocol
+
 *   **Trigger:** Receipt of Legal Hold Notice from General Counsel.
 *   **Action:** Suspend automated deletion for named custodians/accounts immediately.
+
 ```
 
 ---

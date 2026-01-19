@@ -5,17 +5,23 @@ intro: A prompt for enterprise sdlc workflow blueprint tasks.
 type: troubleshooting
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -50,6 +56,7 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 │   • No infrastructure for automation (Manual Waterfall)        │
 └─────────────────────────────────────────────────────────────────┘
 ```sql
+
 ---
 
 ## SDLC Phases & Prompt Chain
@@ -97,13 +104,16 @@ This blueprint provides an end-to-end Software Development Lifecycle (SDLC) work
 **Workflow**:
 
 ```text
+
 1. Review previous sprint (velocity, completed stories, blockers)
 2. Product Owner presents prioritized backlog
 3. Team estimates stories (planning poker or t-shirt sizing)
 4. Commit to sprint goal and stories (based on team capacity)
 5. Define Definition of Done (DoD) for each story
 6. Identify dependencies and risks
+
 ```text
+
 **Deliverables**:
 
 - Sprint backlog (user stories with story points)
@@ -119,6 +129,7 @@ I want [functionality]
 So that [business value]
 
 Acceptance Criteria:
+
 - [ ] Criterion 1 with measurable outcome
 - [ ] Criterion 2 with measurable outcome
 - [ ] Non-functional requirement (e.g., response time < 2s)
@@ -127,6 +138,7 @@ Story Points: [1, 2, 3, 5, 8, 13]
 Priority: [High / Medium / Low]
 Dependencies: [List any blocking stories or external dependencies]
 ```text
+
 ---
 
 ### Phase 2: Design & Architecture (First 2 Days of Sprint)
@@ -145,12 +157,15 @@ Dependencies: [List any blocking stories or external dependencies]
 **Workflow**:
 
 ```text
+
 1. Technical lead assigns design tasks to engineers
 2. Each engineer uses prompts to generate design artifacts
 3. Peer review of designs (1-hour design review meeting)
 4. Update architecture decision records (ADRs) if needed
 5. Commit finalized designs to repository (docs/ folder)
+
 ```sql
+
 **Deliverables**:
 
 - Component diagrams (C4 model: Context → Container → Component)
@@ -184,13 +199,16 @@ Dependencies: [List any blocking stories or external dependencies]
 **Workflow**:
 
 ```text
+
 1. Create feature branch from main/develop branch (Git Flow)
 2. Implement user story following design specifications
 3. Write unit tests alongside code (TDD: Test-Driven Development)
 4. Commit frequently with descriptive messages (Conventional Commits format)
 5. Push to remote branch daily (enables CI/CD pipeline)
 6. Update story status in project management tool (In Progress → Review)
+
 ```text
+
 **DevOps Integration (CI/CD Pipeline Triggers)**:
 
 ```yaml
@@ -205,6 +223,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
+
       - Checkout code
       - Install dependencies
       - Run linters (ESLint, Pylint, etc.)
@@ -212,7 +231,9 @@ jobs:
       - Run security scans (Snyk, Dependabot)
       - Generate test coverage report
       - Build artifacts (Docker image, binaries, etc.)
+
 ```text
+
 **Prompts for CI/CD Setup**:
 
 1. **[devops-pipeline-architect](../../prompts/system/devops-pipeline-architect.md)** - Design CI/CD pipeline stages
@@ -243,6 +264,7 @@ jobs:
 **Workflow**:
 
 ```text
+
 1. Engineer opens Pull Request (PR) / Merge Request (MR)
 2. Automated checks run (CI/CD pipeline, code coverage, linting)
 3. Assign 1-2 peer reviewers (rotating to spread knowledge)
@@ -256,7 +278,9 @@ jobs:
 6. Engineer addresses feedback, pushes updates
 7. Reviewer approves PR (requires 1-2 approvals depending on policy)
 8. Engineer merges to develop branch (squash or merge commit)
+
 ```text
+
 **Quality Gates** (must pass before merge):
 
 - ✓ All automated tests passing (unit, integration, E2E)
@@ -290,6 +314,7 @@ jobs:
 **Workflow**:
 
 ```text
+
 1. QA Engineer writes/updates end-to-end (E2E) test scenarios
 2. Run automated E2E tests (Selenium, Cypress, Playwright, etc.)
 3. Perform exploratory testing (manual testing for edge cases)
@@ -297,7 +322,9 @@ jobs:
 5. Accessibility testing (WCAG 2.1 AA compliance using axe, Lighthouse)
 6. User Acceptance Testing (UAT) with Product Owner or stakeholders
 7. Log defects in backlog (prioritize for current sprint or next sprint)
+
 ```text
+
 **Testing Layers**:
 
 ```text
@@ -309,6 +336,7 @@ jobs:
 │ Unit Tests (Functions, Classes) - Fastest, Most Coverage   │
 └─────────────────────────────────────────────────────────────┘
 ```sql
+
 **Deliverables**:
 
 - E2E test suite with passing results
@@ -341,6 +369,7 @@ jobs:
 **Workflow**:
 
 ```text
+
 1. Merge develop branch to release branch (Git Flow)
 2. Tag release version (Semantic Versioning: v1.2.3)
 3. Deploy to staging environment (automated via CI/CD)
@@ -354,7 +383,9 @@ jobs:
    - User analytics (active users, error rates)
 8. If issues detected, rollback to previous version
 9. If stable, mark deployment as successful
+
 ```sql
+
 **Deployment Strategies**:
 
 - **Blue-Green**: Deploy to new environment (green), switch traffic from old (blue)
@@ -392,6 +423,7 @@ jobs:
 **Workflow**:
 
 ```text
+
 1. Configure monitoring dashboards (real-time and historical)
 2. Set up alerting rules (e.g., error rate > 1%, latency p95 > 2s)
 3. Monitor production logs for errors and warnings
@@ -401,7 +433,9 @@ jobs:
    - Discuss user feedback and feature requests
    - Prioritize bug fixes for next sprint
 6. Update backlog based on production insights
+
 ```text
+
 **Key Metrics to Monitor** (Four Golden Signals):
 
 1. **Latency**: Response time (p50, p95, p99 percentiles)
@@ -439,22 +473,28 @@ jobs:
 **Workflow - Sprint Review (1 hour)**:
 
 ```text
+
 1. Product Owner introduces sprint goal and completed stories
 2. Engineers demo new features (live in staging or production)
 3. Stakeholders provide feedback (feature requests, usability issues)
 4. Product Owner accepts or rejects user stories based on DoD
 5. Update product backlog with new insights
+
 ```text
+
 **Workflow - Retrospective (1-2 hours)**:
 
 ```text
+
 1. Facilitator sets ground rules (blameless, constructive)
 2. Team reflects on sprint using framework (e.g., Start/Stop/Continue or 4Ls)
 3. Identify 3 things that went well (celebrate wins)
 4. Identify 3 things to improve (process, tools, communication)
 5. Create 1-3 action items for next sprint (assign owners)
 6. Document retrospective outcomes in shared wiki
+
 ```powershell
+
 **Retrospective Frameworks**:
 
 - **Start/Stop/Continue**: What should we start doing? Stop doing? Continue doing?
@@ -515,6 +555,7 @@ jobs:
 
      ```text
      Acceptance Criteria:
+
      - [ ] User can select gift card amount ($25, $50, $100, $250, $500, or custom)
      - [ ] User can enter recipient email and personal message (optional)
      - [ ] Payment processed via Stripe (PCI DSS compliant)
@@ -522,6 +563,7 @@ jobs:
      - [ ] Confirmation email sent to purchaser and recipient
      - [ ] Gift card stored in database with balance and expiration (never expires per state law)
      - [ ] Response time < 3 seconds for purchase flow
+
      ```
 
 ---
@@ -691,20 +733,24 @@ jobs:
 
    ```text
    # Release v2.5.0 - Gift Card Feature
-   
+
    ## New Features
+
    - 🎁 Gift Card Purchase: Customers can now purchase gift cards ($25-$500) and send them via email
    - 💳 Stripe Integration: Secure payment processing for gift cards
-   
+
    ## Technical Changes
+
    - Added `gift_cards` table to database
    - New API endpoint: POST /api/v1/gift-cards
    - Gift card codes are 16-digit alphanumeric (cryptographically secure)
    - No expiration per state law compliance
-   
+
    ## Deployment
+
    - Database migration: 20250126_create_gift_cards_table
    - Requires STRIPE_SECRET_KEY environment variable
+
    ```
 
 ---
@@ -758,7 +804,7 @@ jobs:
 ### Quick Reference: Phase → Prompts
 
 | Phase | Primary Prompts | Secondary Prompts |
-|-------|-----------------|-------------------|
+| ------- | ----------------- | ------------------- |
 | **Phase 0: Pre-Sprint Planning** | business-case-developer, stakeholder-requirements-gatherer, requirements-analysis-expert, solution-architecture-designer | competitive-analysis-researcher, market-research-analyst |
 | **Phase 1: Sprint Planning** | agile-sprint-planner, requirements-analysis-expert, metrics-and-kpi-designer | meeting-facilitator |
 | **Phase 2: Design & Architecture** | solution-architecture-designer, api-design-consultant, database-schema-designer, security-code-auditor | cloud-architecture-consultant, microservices-design-expert |
@@ -862,7 +908,7 @@ After implementing this SDLC workflow, consider exploring:
 ## Changelog
 
 | Version | Date | Changes |
-|---------|------|---------|
+| --------- | ------ | --------- |
 | 1.0 | 2025-01-26 | Initial blueprint created (Tree-of-Thoughts evaluation: Waterfall vs Agile vs DevOps, selected Agile + DevOps hybrid) |
 
 ---

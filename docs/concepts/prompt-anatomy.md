@@ -5,26 +5,34 @@ intro: Learn the structural components that make up effective prompts and how to
 type: conceptual
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - solution-architect
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - prompt-structure
   - fundamentals
   - best-practices
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -76,6 +84,7 @@ An effective prompt can contain up to seven key components. Not every prompt nee
 │  └─────────────┘                                            │
 └─────────────────────────────────────────────────────────────┘
 ```sql
+
 ## Component Deep Dive
 
 ### 1. Context
@@ -83,6 +92,7 @@ An effective prompt can contain up to seven key components. Not every prompt nee
 Context provides the background information the AI needs to understand your situation. Without context, the AI makes assumptions that may not match your needs.
 
 **What to include:**
+
 - Relevant background information
 - Current situation or problem state
 - Domain-specific details
@@ -103,6 +113,7 @@ The context transforms a vague question into one that can receive a targeted, us
 Assigning a role tells the AI what expertise and perspective to bring to the response. Roles activate relevant knowledge and establish appropriate communication style.
 
 **Common role patterns:**
+
 - **Expert**: "You are a senior security engineer..."
 - **Audience-aware**: "You are explaining to a non-technical executive..."
 - **Character**: "You are a patient teacher..."
@@ -120,6 +131,7 @@ The role ensures the response reflects appropriate expertise and priorities.
 The task is the core of your prompt—what you actually need accomplished. Clear tasks get clear results.
 
 **Characteristics of good tasks:**
+
 - **Specific**: Name exactly what you need
 - **Actionable**: Use clear action verbs
 - **Scoped**: Define boundaries of the work
@@ -136,6 +148,7 @@ The task is the core of your prompt—what you actually need accomplished. Clear
 Format specification tells the AI how to structure its output. This saves editing time and ensures consistency.
 
 **Common format specifications:**
+
 - **List format**: "Provide as a numbered list..."
 - **Table format**: "Present in a table with columns for..."
 - **Code format**: "Return as a Python function with docstrings..."
@@ -153,6 +166,7 @@ Explicit format instructions eliminate ambiguity and reduce post-processing.
 Constraints set boundaries on the response. They specify what to include, exclude, or limit.
 
 **Types of constraints:**
+
 - **Length**: "Maximum 200 words" or "3-5 bullet points"
 - **Scope**: "Focus only on frontend concerns"
 - **Exclusions**: "Do not include deprecated methods"
@@ -172,6 +186,7 @@ Constraints set boundaries on the response. They specify what to include, exclud
 Examples demonstrate the pattern you want the AI to follow. They're particularly powerful for custom formats, classification tasks, and ensuring consistency.
 
 **When to use examples:**
+
 - Custom output formats
 - Classification or categorization tasks
 - Tone/style matching
@@ -195,6 +210,7 @@ Examples demonstrate the pattern you want the AI to follow. They're particularly
 Tone guidance shapes the voice and style of the response. It's especially important for user-facing content.
 
 **Tone dimensions:**
+
 - **Formality**: Casual ↔ Formal
 - **Technical level**: Beginner ↔ Expert
 - **Emotion**: Neutral ↔ Enthusiastic ↔ Empathetic
@@ -257,7 +273,7 @@ Complex tasks benefit from full specification:
 Use this guide to decide which components to include:
 
 | Component | Include When... | Skip When... |
-|-----------|-----------------|--------------|
+| ----------- | ----------------- | -------------- |
 | Context | Background affects the answer | Task is self-contained |
 | Role | Expertise/perspective matters | Generic response is fine |
 | Task | Always | Never skip |
@@ -351,7 +367,7 @@ Prompt anatomy isn't about getting it perfect on the first try—it's about havi
 ### Common Refinements
 
 | If Output Is... | Add This Component... |
-|-----------------|----------------------|
+| ----------------- | ---------------------- |
 | Wrong expertise level | Role specification |
 | Wrong format | Format requirements |
 | Missing key info | More context |

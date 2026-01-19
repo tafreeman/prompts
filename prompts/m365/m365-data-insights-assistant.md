@@ -8,22 +8,30 @@ m365App: Copilot in Excel
 type: how_to
 difficulty: beginner
 audience:
+
 - junior-engineer
 - business-analyst
+
 platforms:
+
 - github-copilot
 - m365-copilot
+
 topics:
+
 - excel
 - m365
 - business
 - copilot
+
 author: Your Name
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -119,16 +127,20 @@ Help me understand and analyze the data in this Excel workbook or table, and
 recommend how to visualize it for [audience].
 
 Context:
+
 - I use Excel, OneDrive/SharePoint, and Teams in Microsoft 365.
 - I want to quickly extract meaningful insights and communicate them effectively
+
   to [audience], who may not be deeply technical.
 
 Scope:
+
 - Analyze the data in the current workbook, table, or range.
 - If the data is time-based, look at trends over [time_window] if specified.
 - Focus on [focus_areas] if provided, or identify the most impactful insights overall.
 
 Assumptions and constraints:
+
 - Focus on the most important insights, not exhaustive analysis.
 - If the data contains dates, look for trends over time.
 - If the data has categories (regions, products, segments), compare them.
@@ -137,6 +149,7 @@ Assumptions and constraints:
 - Recommend 2–3 specific chart types and explain why.
 
 Process:
+
 1. Scan the data for patterns, trends, outliers, and comparisons.
 2. Identify the most important insights based on magnitude, change, or risk.
 3. Recommend chart types that best communicate each insight to [audience].
@@ -148,13 +161,16 @@ Return the result in Markdown:
 [1–2 sentences]
 
 ## Key Trends
+
 - [bullet]
 - [bullet]
 
 ## Anomalies or Outliers
+
 - [bullet, or "None detected"]
 
 ## Recommended Visualizations
+
 - [Chart type]: [Why it works for this insight]
 - [Chart type]: [Why it works for this insight]
 
@@ -165,7 +181,7 @@ if specified.
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[audience]` | Who will consume the insights (executives, product team, etc.) |
 | `[time_window]` | Optional time range for time-based data (e.g., "Q4 2025") |
 | `[focus_areas]` | Optional areas to investigate (regions, costs, churn, etc.) |
@@ -196,6 +212,7 @@ focus_areas: cost trends, budget risks
 This dataset contains revenue data across four regions (North America, EMEA, APAC, LATAM) for the last 6 months (May–October 2025), broken down by product category.
 
 ## Key Trends
+
 - Overall revenue grew 18% from May to October, with strongest growth in Q3 (July–September).
 - North America accounts for 52% of total revenue and grew steadily at ~3% per month.
 - APAC revenue surged 35% in Q3, driven by strong performance in the Enterprise product category.
@@ -203,13 +220,16 @@ This dataset contains revenue data across four regions (North America, EMEA, APA
 - Enterprise product revenue is growing faster (22% over 6 months) than SMB product revenue (11%).
 
 ## Anomalies or Outliers
+
 - LATAM revenue dropped 12% in September, which is unusual compared to consistent growth in prior months—worth investigating.
 - Enterprise revenue in APAC spiked sharply in August (40% month-over-month), then normalized in September—could indicate a large one-time deal.
 
 ## Recommended Visualizations
+
 - **Line chart**: Show revenue trends over time by region. This will clearly communicate the growth trajectory and highlight APAC's surge and EMEA's stagnation.
 - **Stacked column chart**: Compare total revenue by region and product category for the full 6-month period. This will show both regional distribution and product mix at a glance.
 - **Callout or annotation**: Highlight the LATAM September drop and APAC August spike directly on the charts so executives can quickly see these anomalies and ask follow-up questions.
+
 ```text
 
 ---

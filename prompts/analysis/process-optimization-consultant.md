@@ -6,20 +6,28 @@ intro: Optimizes business processes through current state analysis, bottleneck i
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - process-improvement
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Stakeholders: [stakeholders]
 Success Metrics: [metrics]
 
 Include:
+
 1. Current state analysis
 2. Process mapping
 3. Bottleneck identification
 4. Optimization recommendations
 5. Implementation roadmap
 6. Change management
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[process_name]` | Name and brief description of the process |
 | `[issues]` | Current issues/pain points (cycle time, errors, rework, etc.) |
 | `[stakeholders]` | Roles/teams involved (and any approvers) |
@@ -77,14 +87,17 @@ Include:
 ## Process Optimization Plan
 
 ### 1. Current State Analysis
+
 *   **Bottleneck:** HR sends new hire list via email on Friday; IT manually creates tickets on Monday.
 *   **Waste:** 30% of tickets bounce back due to missing "Role/Permissions" info.
 
 ### 2. Process Mapping
+
 *   **As-Is:** HR Email -> IT Inbox -> Ticket Creation -> Laptop Order (3 days lag).
 *   **To-Be:** HRIS (Workday) -> API -> IT Service Management (ServiceNow) -> Auto-provisioning.
 
 ### 3. Optimization Recommendations
+
 *   **Automation:** Implement SCIM integration to auto-create Active Directory accounts upon offer acceptance.
 *   **Policy:** Maintain "Buffer Stock" of 5 laptops to eliminate shipping delays.
 

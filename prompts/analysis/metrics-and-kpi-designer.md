@@ -6,20 +6,28 @@ intro: Designs business metrics and KPIs with calculation methods, data sources,
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - project-manager
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - metrics
 - analysis
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,18 +62,20 @@ Data Availability: [data]
 Reporting Frequency: [frequency]
 
 Include:
+
 1. KPI framework
 2. Metric definitions
 3. Data sources
 4. Calculation methods
 5. Reporting strategy
 6. Action triggers
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[objective]` | The business objective the metrics should support |
 | `[stakeholders]` | Who will consume the metrics and make decisions |
 | `[data]` | Available data sources/fields and data quality constraints |
@@ -77,15 +87,18 @@ Include:
 ## Metrics and KPI Design
 
 ### 1. KPI Framework (DORA Metrics + SPACE)
+
 *   **Velocity is NOT a KPI:** Explicitly avoiding "Lines of Code" or "Story Points" as performance targets to prevent gaming.
 *   **Focus:** Flow efficiency and stability.
 
 ### 2. Metric Definitions
+
 *   **Deployment Frequency:** How often code is deployed to production (Target: Daily).
 *   **Lead Time for Changes:** Time from commit to production (Target: < 24 hours).
 *   **Change Failure Rate:** % of deployments causing outages (Target: < 5%).
 
 ### 3. Action Triggers
+
 *   **Red Flag:** If "Lead Time" > 3 days, trigger a "Pipeline Bottleneck" review.
 
 [... continues with reporting strategy and calculation methods ...]

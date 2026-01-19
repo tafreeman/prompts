@@ -3,34 +3,44 @@ title: Chain-of-Verification (CoVe)
 description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle
 category: reasoning
 tags:
+
   - hallucination-reduction
   - factual-accuracy
   - self-critique
   - verification
   - qa
+
 author: Research Team
 version: 1.0.0
 model_compatibility:
+
   - gpt-4
   - gpt-4o
   - claude-3
   - llama-3
   - gemini
+
 variables:
+
   - name: user_question
+
     description: The user's original question requiring a factually accurate answer
     required: true
+
   - name: domain
+
     description: Optional domain context for specialized verification
     required: false
     default: general knowledge
 use_cases:
+
   - Factual question answering
   - Biography and profile generation
   - List generation tasks
   - Knowledge-intensive content creation
   - Report writing requiring accuracy
   - Medical/legal/technical information
+
 complexity: medium
 estimated_tokens: 800-1500
 ---
@@ -75,6 +85,7 @@ Analyze your baseline response and generate verification questions for each fact
 1. [Question for claim 1]
 2. [Question for claim 2]
 3. [Continue for all factual claims in your response]
+
 </verification_questions>
 
 ---
@@ -113,7 +124,7 @@ Do NOT copy from your baseline response. Correct any claims that were wrong. Inc
 ## VERIFICATION SUMMARY
 
 | Claim from Baseline | Verification Result | Correction (if needed) |
-|---------------------|---------------------|------------------------|
+| --------------------- | --------------------- | ------------------------ |
 | [Claim 1] | ✓ Verified / ✗ Incorrect | [Correct information] |
 | [Claim 2] | ✓ Verified / ✗ Incorrect | [Correct information] |
 
@@ -156,6 +167,7 @@ The evaluation appears accurate. The prompt scores 72/100 (Tier 2). It uses ReAc
 5. Was the prompt last updated in October 2024?
 6. Does the prompt lack few-shot examples?
 7. Based on the scoring rubric, would 72/100 be correct?
+
 </verification_questions>
 
 ---
@@ -193,7 +205,7 @@ The evaluation appears accurate. The prompt scores 72/100 (Tier 2). It uses ReAc
 The evaluation contains **5 factual errors**:
 
 | Original Claim | Verified Fact | Status |
-|----------------|---------------|--------|
+| ---------------- | --------------- | -------- |
 | Uses ReAct pattern | Uses Chain-of-Thought | ✗ |
 | Has 4 reasoning steps | Has 6 steps | ✗ |
 | Includes 5 use cases | Has 4 use cases | ✗ |

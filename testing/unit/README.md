@@ -64,6 +64,7 @@ pytest testing/unit/ -m "not slow" -v
 **Purpose:** Test score normalization and conversion functions in PromptEval.
 
 **Coverage:**
+
 - Score normalization (0-10 scale to 0-100%)
 - Boundary value handling
 - Negative score handling
@@ -73,7 +74,7 @@ pytest testing/unit/ -m "not slow" -v
 **Key Tests:**
 
 | Test | Description | Validates |
-|------|-------------|-----------|
+| ------ | ------------- | ----------- |
 | `test_normalize_score_to_pct_never_negative` | Negative scores converted to 0% | Error handling |
 | `test_normalize_score_to_pct_rubric_bounds` | Rubric 1-10 maps to 0-100% | Boundary values |
 | `test_normalize_score_to_pct_accepts_fraction_and_percent` | Handle fractions and percents | Input flexibility |
@@ -96,13 +97,15 @@ The tests validate the `_normalize_score_to_pct()` function which converts vario
 def _normalize_score_to_pct(score: float) -> float:
     """
     Normalize score to percentage (0-100).
-    
+
     Input ranges:
+
     - Rubric (1-10) → 0-100%
     - Fraction (0.0-1.0) → 0-100%
     - Percentage (0-100) → 0-100%
     - Negative → 0%
     - >100 → 100%
+
     """
     if score < 0:
         return 0.0
@@ -143,6 +146,7 @@ def test_normalize_score_to_pct_accepts_fraction_and_percent():
 **Purpose:** Test G-Eval response parsing from local models.
 
 **Coverage:**
+
 - JSON extraction from model responses
 - Score parsing from various formats
 - Error handling for malformed responses
@@ -152,7 +156,7 @@ def test_normalize_score_to_pct_accepts_fraction_and_percent():
 **Key Tests:**
 
 | Test | Description | Validates |
-|------|-------------|-----------|
+| ------ | ------------- | ----------- |
 | `test_parse_json_from_response` | Extract JSON from text | JSON extraction |
 | `test_parse_score_from_json` | Parse score field | Score extraction |
 | `test_parse_malformed_json` | Handle invalid JSON | Error recovery |
@@ -174,32 +178,34 @@ Tests validate parsing of G-Eval responses from local ONNX models which may retu
 def parse_geval_response(response: str) -> dict:
     """
     Parse G-Eval response from local model.
-    
+
     Handles:
+
     - Pure JSON response
     - JSON in markdown code block
     - JSON with surrounding text
     - Malformed JSON with fallback
+
     """
     # Try direct JSON parse
     try:
         return json.loads(response)
     except json.JSONDecodeError:
         pass
-    
+
     # Extract from markdown code block
     import re
     json_match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', 
                           response, re.DOTALL)
     if json_match:
         return json.loads(json_match.group(1))
-    
+
     # Extract first JSON object
     json_match = re.search(r'\{[^{}]*"score"[^{}]*\}', 
                           response, re.DOTALL)
     if json_match:
         return json.loads(json_match.group(0))
-    
+
     # Fallback: parse scores from text
     return parse_scores_from_text(response)
 ```
@@ -254,13 +260,15 @@ def test_parse_json_from_markdown():
     response = """
     Here's the evaluation:
     ```json
+
     {"score": 8.5, "reasoning": "Good"}
+
     ```
     """
-    
+
     # Act: Execute the function
     result = parse_json(response)
-    
+
     # Assert: Verify the result
     assert result["score"] == 8.5
     assert "reasoning" in result
@@ -275,20 +283,20 @@ def test_normalize_score_edge_cases():
     """Test boundary conditions and edge cases."""
     # Minimum value
     assert normalize_score(0) == 0
-    
+
     # Maximum value
     assert normalize_score(10) == 100
-    
+
     # Below minimum
     assert normalize_score(-1) == 0
-    
+
     # Above maximum
     assert normalize_score(11) == 100
-    
+
     # Null/None
     with pytest.raises(TypeError):
         normalize_score(None)
-    
+
     # Non-numeric
     with pytest.raises(ValueError):
         normalize_score("invalid")
@@ -319,7 +327,7 @@ def test_normalize_score_cases(input_score, expected):
 ### Current Status
 
 | File | Tests | Coverage | Speed |
-|------|-------|----------|-------|
+| ------ | ------- | ---------- | ------- |
 | test_prompteval_score_normalization.py | 3 | 100% | 0.02s |
 | test_local_model_geval_parsing.py | 8 | 95% | 0.05s |
 | **Total** | **11** | **97%** | **0.07s** |
@@ -441,30 +449,35 @@ name: Unit Tests
 on:
   pull_request:
     paths:
+
       - 'testing/unit/**'
       - 'tools/prompteval/**'
 
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         python-version: ['3.11', '3.12', '3.13']
-    
+
     steps:
+
       - uses: actions/checkout@v4
-      
+
       - name: Setup Python ${{ matrix.python-version }}
+
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      
+
       - name: Install dependencies
+
         run: |
           pip install pytest pytest-cov
-      
+
       - name: Run unit tests
+
         run: |
           pytest testing/unit/ \
             -v \
@@ -472,12 +485,14 @@ jobs:
             --cov-report=xml \
             --cov-report=term \
             --durations=10
-      
+
       - name: Check coverage threshold
+
         run: |
           coverage report --fail-under=90
-      
+
       - name: Upload coverage
+
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.xml

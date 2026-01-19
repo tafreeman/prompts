@@ -6,20 +6,28 @@ intro: Transforms raw data into meaningful insights and actionable recommendatio
 type: how_to
 difficulty: intermediate
 audience:
+
 - business-analyst
 - senior-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - data-analysis
 - insights
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-10-29'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -51,6 +59,7 @@ Transform raw data into meaningful insights and actionable recommendations. This
 You are an experienced data analyst specializing in extracting actionable insights from data. I need help analyzing a dataset and generating insights.
 
 **Dataset Description:**
+
 - Type: [WHAT KIND OF DATA - e.g., sales, customer, operational, survey]
 - Time Period: [TIME RANGE COVERED]
 - Size: [NUMBER OF RECORDS/ROWS]
@@ -58,15 +67,18 @@ You are an experienced data analyst specializing in extracting actionable insigh
 
 **Data Summary/Sample:**
 [PASTE YOUR DATA SUMMARY, SAMPLE ROWS, OR KEY STATISTICS HERE]
+
 - You can include: summary statistics, sample rows, aggregated data, or describe the data structure
 - Example: "Total sales: $500K across 1,200 transactions, 5 product categories, 3 regions"
 
 **Analysis Goals:**
+
 1. [WHAT YOU WANT TO UNDERSTAND - e.g., identify top-performing products]
 2. [ANOTHER GOAL - e.g., understand seasonal patterns]
 3. [ANOTHER GOAL - e.g., find areas for improvement]
 
 **Context:**
+
 - Business/Organization: [YOUR INDUSTRY OR CONTEXT]
 - Current Challenges: [ANY KNOWN ISSUES OR CONCERNS]
 - Decision to Make: [WHAT DECISION THIS ANALYSIS WILL INFORM]
@@ -100,12 +112,13 @@ Please provide:
 6. **Follow-Up Questions**
    - Additional data that would strengthen analysis
    - Areas needing deeper investigation
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[WHAT KIND OF DATA - e.g., sales, customer, operational, survey]` | The dataset domain/type |
 | `[TIME RANGE COVERED]` | Time period included in the data |
 | `[NUMBER OF RECORDS/ROWS]` | Approx. dataset size |
@@ -139,6 +152,7 @@ Your customer retention dropped significantly (35% → 28%) while CAC spiked 35%
 ## 2. Detailed Analysis
 
 ### Revenue Decline Breakdown
+
 - Lost orders (12% decline × previous AOV of ~$77): -$139K
 - Gained from higher AOV (4% increase × current orders): +$46K
 - **Net effect: -$93K (8% decline)**
@@ -148,20 +162,24 @@ Your customer retention dropped significantly (35% → 28%) while CAC spiked 35%
 ### Customer Behavior Trends
 
 **Returning Customer Rate Drop (35% → 28%):**
+
 - 7 percentage point decline represents roughly 1,050 fewer repeat orders
 - If CAC was $45 to acquire each customer, and they're not returning, you're not recovering acquisition costs
 - Average customer lifetime value declining
 
 **Geographic Performance:**
+
 - US market (60% of revenue): Stable but mature
 - Canada/UK (40% combined): Growth opportunity or resource drain? Needs segment-level profitability analysis
 
 **Category Analysis:**
+
 - Electronics (45%): High-value but typically low-margin and high-return rates
 - Fashion (30%): Typically seasonal, supports Q4 concentration theory
 - Home Goods (25%): Often one-time purchases, explains retention challenges
 
 ### Seasonal Concentration
+
 - Q4: 37.5% of revenue ($450K)
 - Implies Q1-Q3 average: ~$250K per quarter
 - **60% revenue difference between peak and trough** indicates dangerous seasonal dependency
@@ -198,11 +216,13 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 ### Root Cause Analysis
 
 **Primary Driver:** Customer acquisition strategy focused on volume over quality
+
 - Likely relying on discount promotions to drive sales
 - Attracting price-sensitive, one-time buyers
 - Not investing in retention/engagement
 
 **Contributing Factors:**
+
 - Product mix favoring one-time purchases (electronics, fashion)
 - Weak post-purchase experience (no data on email engagement, but retention suggests it's lacking)
 - Seasonal business model not supported by year-round engagement
@@ -212,12 +232,14 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 ### Priority 1: Stop the Bleeding (Immediate - 0-30 days)
 
 **A. Implement Retention Quick Wins**
+
 - **Action:** Launch post-purchase email sequence (Day 1, 7, 14, 30)
 - **Expected Outcome:** 3-5% lift in repeat purchase rate (420-700 additional orders)
 - **Cost:** Minimal (use existing email platform)
 - **Impact:** High value, immediate results
 
 **B. Create a First-Repeat Purchase Incentive**
+
 - **Action:** Offer 15% off second purchase (60-day expiry) to all new customers
 - **Expected Outcome:** Improve repeat rate from 28% to 35% (1,050 additional orders)
 - **Cost:** 15% margin sacrifice on ~1,000 orders = ~$12K
@@ -226,6 +248,7 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 ### Priority 2: Fix Unit Economics (30-90 days)
 
 **C. Audit and Optimize Paid Acquisition**
+
 - **Action:** 
   - Analyze customer lifetime value (LTV) by acquisition channel
   - Cut spending on channels with LTV < 2x CAC
@@ -234,6 +257,7 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 - **Implementation:** Weekly channel review, ruthless cutting of underperformers
 
 **D. Shift to Content/SEO Strategy**
+
 - **Action:** Invest $10K in SEO-optimized content (guides, comparisons, buying guides)
 - **Expected Outcome:** Reduce reliance on paid ads, acquire higher-intent customers
 - **Timeline:** 3-6 months to see results, but lower CAC long-term
@@ -241,6 +265,7 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 ### Priority 3: Build Sustainable Growth (90-365 days)
 
 **E. Develop Subscription or Membership Model**
+
 - **Action:** Create a VIP membership ($99/year) with perks (free shipping, early access, 10% off)
 - **Expected Outcome:** 
   - 500 members in year 1 = $49.5K guaranteed revenue
@@ -248,11 +273,13 @@ You're trapped in a cycle of expensive customer acquisition without retention. H
 - **Why:** Converts one-time buyers into committed customers
 
 **F. Reduce Q4 Dependency**
+
 - **Action:** Create quarterly "mini-peak" campaigns (Spring Refresh, Summer Sale, Back-to-School)
 - **Expected Outcome:** Flatten seasonality—move to 30/25/25/20 split vs. current 20/20/22/38
 - **Implementation:** Content calendar, inventory planning, promotional schedule
 
 **G. Optimize Product Mix**
+
 - **Action:** 
   - Analyze repeat purchase rates by category
   - Shift marketing focus to categories with highest retention (likely Home Goods)
@@ -339,10 +366,12 @@ To communicate these insights effectively, create:
 ---
 
 **Next Steps:**
+
 1. Gather the additional data requested above
 2. Implement Priority 1 recommendations immediately
 3. Set up weekly tracking for repeat purchase rate and CAC
 4. Schedule 30-day review to assess progress
+
 ```text
 
 ---
@@ -370,26 +399,31 @@ A marketing analyst at a D2C e-commerce company needs to analyze Q4 campaign per
 
 ```text
 Dataset Description:
+
 - Type: Marketing campaign performance data
 - Time Period: October 1 - December 31, 2024
 - Size: 2,500 campaigns across 8 channels
 - Key Metrics: Spend, impressions, clicks, conversions, revenue, ROAS
 
 Data Summary:
+
 - Total spend: $1.2M across all channels
 - Total revenue: $4.8M (blended ROAS: 4.0x)
 - Top channels by spend: Meta (40%), Google (30%), TikTok (15%), Email (10%), Other (5%)
 - Known issue: Attribution window varies by channel (1-day for Meta, 7-day for Google)
 
 Analysis Goals:
+
 1. Identify highest-performing channels by true ROI
 2. Understand campaign creative patterns that drive performance
 3. Recommend optimal budget allocation for Q1
 
 Context:
+
 - Business: D2C skincare brand, $20M annual revenue
 - Current Challenges: Rising CAC, iOS privacy changes impacting attribution
 - Decision to Make: Q1 marketing budget allocation ($500K total)
+
 ```
 
 ### Expected Output

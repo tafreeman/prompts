@@ -72,7 +72,7 @@ def process_order(order):
         total += item.price * item.quantity
         if item.quantity > 10:
             total *= 0.9  # Bulk discount
-    
+
     # Send notification
     email = compose_email(order.customer, total)
     send_email(email)
@@ -95,6 +95,7 @@ def notify_customer(customer, total):
     email = compose_email(customer, total)
     send_email(email)
 ```text
+
 ### 2. Replace Conditional with Polymorphism
 
 ```typescript
@@ -135,6 +136,7 @@ class OvernightShipping implements ShippingStrategy {
   }
 }
 ```text
+
 ### 3. Introduce Parameter Object
 
 ```python
@@ -166,12 +168,14 @@ class ProductSearchCriteria:
 def search_products(criteria: ProductSearchCriteria):
     ...
 ```text
+
 ## Output Format
 
 ```markdown
 ## Refactoring Summary
 
 ### Changes Made
+
 1. [Description of change 1]
 2. [Description of change 2]
 
@@ -179,20 +183,28 @@ def search_products(criteria: ProductSearchCriteria):
 
 **Before** (`filename.py:line`):
 ```python
+
 # Original code
+
 ```text
 **After**:
 ```python
+
 # Refactored code
+
 ```text
 ### Rationale
+
 - Why this change improves the code
 - What principle/pattern was applied
 
 ### Testing Recommendations
+
 - Existing tests that verify behavior is preserved
 - New tests recommended for refactored code
+
 ```text
+
 ## Process
 
 1. Understand the current code and its purpose
@@ -217,6 +229,7 @@ npm run format
 npx ts-prune  # TypeScript
 vulture src/  # Python
 ```text
+
 ## Code Smell Checklist
 
 - [ ] Long methods (> 20 lines)

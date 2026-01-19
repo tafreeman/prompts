@@ -10,6 +10,7 @@
 ### 1. Chain-of-Thought (CoT) Citation
 
 **Full Citation:**
+
 ```
 Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022). 
 Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. 
@@ -18,6 +19,7 @@ arXiv:2201.11903
 ```
 
 **Key Details:**
+
 - **Venue:** NeurIPS 2022 (NOT 2023)
 - **arXiv:** 2201.11903 (January 2022, revised January 2023)
 - **Authors:** Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed Chi, Quoc Le, Denny Zhou (Google Research, Brain Team)
@@ -32,6 +34,7 @@ arXiv:2201.11903
 ### 2. ReAct Citation
 
 **Full Citation:**
+
 ```
 Yao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan, K., & Cao, Y. (2023). 
 ReAct: Synergizing Reasoning and Acting in Language Models. 
@@ -40,6 +43,7 @@ arXiv:2210.03629
 ```
 
 **Key Details:**
+
 - **Venue:** ICLR 2023 (Notable Top 5%)
 - **arXiv:** 2210.03629 (October 2022, camera-ready March 2023)
 - **Authors:** Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, Yuan Cao (Princeton NLP + Google)
@@ -55,6 +59,7 @@ arXiv:2210.03629
 ### 3. Tree-of-Thoughts (ToT) Citation
 
 **Full Citation:**
+
 ```
 Yao, S., Yu, D., Zhao, J., Shafran, I., Griffiths, T.L., Cao, Y., & Narasimhan, K. (2023). 
 Tree of Thoughts: Deliberate Problem Solving with Large Language Models. 
@@ -63,6 +68,7 @@ arXiv:2305.10601
 ```
 
 **Key Details:**
+
 - **Venue:** NeurIPS 2023 (Main Conference Track)
 - **arXiv:** 2305.10601 (May 2023, camera-ready December 2023)
 - **Authors:** Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Tom Griffiths, Yuan Cao, Karthik Narasimhan (Princeton NLP + Google)
@@ -78,6 +84,7 @@ arXiv:2305.10601
 ### 4. Self-Refine / Reflection Citation
 
 **Full Citation:**
+
 ```
 Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao, L., Wiegreffe, S., Alon, U., Dziri, N., 
 Prabhumoye, S., Yang, Y., Gupta, S., Majumder, B.P., Hermann, K., Welleck, S., Yazdanbakhsh, A., & Clark, P. (2023). 
@@ -87,6 +94,7 @@ arXiv:2303.17651
 ```
 
 **Key Details:**
+
 - **Venue:** NeurIPS 2023
 - **arXiv:** 2303.17651 (March 2023, revised May 2023)
 - **Authors:** Aman Madaan et al. (Carnegie Mellon, AI2, Google, Meta)
@@ -125,6 +133,7 @@ arXiv:2303.17651
    - Secure disposal procedures
 
 **Reference Standards:**
+
 - ISO/IEC 27701 (Privacy Information Management)
 - ISO/IEC 27001 (Information Security)
 
@@ -143,6 +152,7 @@ arXiv:2303.17651
 7. **Conclude the DPIA** - Document outcomes and sign-off
 
 **When DPIA is Mandatory:**
+
 - Large-scale profiling
 - Systematic monitoring of public areas
 - Innovative technologies (including AI/ML)
@@ -175,6 +185,7 @@ arXiv:2303.17651
    - Personal information is collected, used, retained, disclosed properly
 
 **Common Criteria Categories:**
+
 - CC1: Control Environment
 - CC2: Communication and Information
 - CC3: Risk Assessment
@@ -190,21 +201,25 @@ arXiv:2303.17651
 ## Phase 3: Self-Critique Reflection
 
 ### Accuracy Check ✅
+
 - All citations verified against primary sources (arXiv, NeurIPS, ICLR proceedings)
 - Confirmed author lists from official paper pages
 - Verified venue and year against proceedings
 
 ### Completeness Check ✅
+
 - Covered all 4 required citation updates (CoT, ReAct, ToT, Self-Refine)
 - Gathered GDPR, DPIA, and SOC 2 requirements for governance prompts
 - Identified 7 distinct governance prompt opportunities
 
 ### Quality Check ✅
+
 - Citations formatted consistently for direct inclusion in prompts
 - Research foundation documented for governance prompts
 - Clear mapping between research and implementation
 
 ### Identified Gap ⚠️
+
 - Missing: Specific SOC 2 control mappings (CC1-CC9 details)
 - Missing: GDPR Article-by-Article checklist
 - Recommendation: Create separate detailed reference document
@@ -216,7 +231,7 @@ arXiv:2303.17651
 ### P0 Citation Updates (Immediate)
 
 | File | Current | Update To |
-|------|---------|-----------|
+| ------ | --------- | ----------- |
 | `chain-of-thought-detailed.md` | No citation | Wei et al., NeurIPS 2022 |
 | `chain-of-thought-concise.md` | No citation | Wei et al., NeurIPS 2022 |
 | `chain-of-thought-debugging.md` | No citation | Wei et al., NeurIPS 2022 |

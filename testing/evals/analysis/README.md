@@ -60,7 +60,7 @@ done
 Analysis prompts are evaluated with emphasis on:
 
 | Criterion | Weight | Focus for Analysis |
-|-----------|--------|-------------------|
+| ----------- | -------- | ------------------- |
 | **Clarity** | 1.0x | Clear analytical steps |
 | **Specificity** | 1.3x | Precise data requirements |
 | **Actionability** | 1.2x | Concrete analysis actions |
@@ -71,6 +71,7 @@ Analysis prompts are evaluated with emphasis on:
 | **Safety** | 1.1x | No biased analysis |
 
 **Quality Standards:**
+
 - Overall score ≥ 7.5 (higher than general prompts)
 - No dimension < 6.0
 - Variance ≤ 1.2 (consistent methodology)
@@ -82,6 +83,7 @@ Analysis prompts are evaluated with emphasis on:
 **Prompts Evaluated:** 8-10
 
 **Analysis Types Covered:**
+
 - Root Cause Analysis (RCA)
 - Data Analysis and Interpretation
 - Research Methodology
@@ -93,7 +95,7 @@ Analysis prompts are evaluated with emphasis on:
 **Expected Prompts:**
 
 | Prompt Type | Focus | Difficulty |
-|-------------|-------|------------|
+| ------------- | ------- | ------------ |
 | Root Cause Analysis | Problem diagnosis | Intermediate |
 | Data Analysis | Statistical interpretation | Intermediate |
 | Research Protocol | Systematic investigation | Advanced |
@@ -115,6 +117,7 @@ python -m prompteval testing/evals/analysis/analysis-eval-1.prompt.yml --tier 2
 **Prompts Evaluated:** 8-10
 
 **Analysis Types Covered:**
+
 - Advanced statistical analysis
 - Multi-source data synthesis
 - Predictive analysis
@@ -133,6 +136,7 @@ Score: 8.2/10 (Grade: A-)
 Pass: ✅
 
 Dimensions:
+
 - clarity: 8        # Clear analytical framework
 - specificity: 9    # Precise data requirements
 - actionability: 8  # Well-defined steps
@@ -143,40 +147,46 @@ Dimensions:
 - safety: 8         # Unbiased approach
 
 Strengths:
+
 - Systematic analytical framework
 - Clear data collection requirements
 - Well-defined output format
 - Comprehensive consideration of factors
 
 Improvements:
+
 - Add validation steps for findings
 - Include confidence level guidance
 - Provide more example analyses
+
 ```
 
 ### Common Patterns in Analysis Prompts
 
 **Structured Analysis Framework:**
+
 ```
+
 1. Problem Definition
    - What are we analyzing?
    - What questions need answering?
-   
+
 2. Data Collection
    - What data sources?
    - What collection methods?
-   
+
 3. Analysis Method
    - What analytical techniques?
    - What tools or frameworks?
-   
+
 4. Interpretation
    - What do the results mean?
    - What patterns emerge?
-   
+
 5. Conclusions & Recommendations
    - What are the findings?
    - What actions should be taken?
+
 ```
 
 ## 📈 Quality Indicators
@@ -184,26 +194,31 @@ Improvements:
 ### Strong Analysis Prompts Include
 
 ✅ **Clear Analytical Framework**
+
 - Defined methodology
 - Step-by-step process
 - Structured output format
 
 ✅ **Comprehensive Data Requirements**
+
 - Specific data points needed
 - Data quality criteria
 - Data source guidance
 
 ✅ **Multiple Perspectives**
+
 - Different analytical angles
 - Alternative hypotheses
 - Counterarguments
 
 ✅ **Validation Mechanisms**
+
 - Cross-validation steps
 - Sanity checks
 - Confidence assessment
 
 ✅ **Actionable Outputs**
+
 - Clear findings
 - Specific recommendations
 - Next steps
@@ -211,21 +226,25 @@ Improvements:
 ### Weak Analysis Prompts Have
 
 ❌ **Vague Instructions**
+
 - "Analyze the data" without specifics
 - No defined methodology
 - Unclear output format
 
 ❌ **Incomplete Coverage**
+
 - Missing critical analysis steps
 - No validation
 - Weak conclusions
 
 ❌ **No Context**
+
 - Missing background
 - No success criteria
 - Undefined scope
 
 ❌ **Bias Risk**
+
 - Leading questions
 - Predetermined conclusions
 - Cherry-picking indicators
@@ -241,15 +260,23 @@ modelParameters:
   max_tokens: 2000
 
 evaluators:
+
   - name: valid-json
+
     description: Response must be valid JSON
+
   - name: has-overall-score
+
     description: Includes overall score
+
   - name: has-methodology-evaluation
+
     description: Evaluates analytical methodology
     string:
       contains: '"methodology_quality"'
+
   - name: has-completeness-check
+
     description: Checks analysis completeness
     string:
       contains: '"completeness"'
@@ -264,15 +291,18 @@ evaluators:
 Determine root cause of production outage on 2025-01-15.
 
 ## Success Criteria
+
 - Identify primary cause with 90% confidence
 - Document contributing factors
 - Propose preventive measures
+
 ```
 
 ### 2. Specify Data Requirements
 
 ```markdown
 ## Required Data
+
 - Server logs (12:00-14:00 UTC)
 - Application metrics (CPU, memory, network)
 - Deployment timeline
@@ -280,9 +310,11 @@ Determine root cause of production outage on 2025-01-15.
 - User reports
 
 ## Data Quality
+
 - Logs must be complete (no gaps)
 - Timestamps must be synchronized
 - Metrics at 1-minute granularity
+
 ```
 
 ### 3. Provide Analytical Framework
@@ -291,24 +323,29 @@ Determine root cause of production outage on 2025-01-15.
 ## Analysis Framework
 
 ### Phase 1: Timeline Reconstruction
+
 - Map events chronologically
 - Identify trigger event
 - Note cascade effects
 
 ### Phase 2: Evidence Collection
+
 - Gather relevant log entries
 - Extract metric anomalies
 - Document error patterns
 
 ### Phase 3: Hypothesis Testing
+
 - Propose potential causes
 - Test against evidence
 - Eliminate alternatives
 
 ### Phase 4: Root Cause Identification
+
 - Select most likely cause
 - Assess confidence level
 - Document reasoning
+
 ```
 
 ### 4. Include Validation Steps
@@ -322,6 +359,7 @@ Determine root cause of production outage on 2025-01-15.
 - [ ] Hypothesis tested against all data
 - [ ] Confidence level justified
 - [ ] Recommendations are actionable
+
 ```
 
 ### 5. Define Output Format
@@ -338,23 +376,28 @@ Determine root cause of production outage on 2025-01-15.
 **Evidence:** [supporting data]
 
 ### Contributing Factors
+
 1. [Factor 1]: [description]
 2. [Factor 2]: [description]
 
 ### Timeline
 | Time | Event | Impact |
-|------|-------|--------|
+| ------ | ------- | -------- |
 | ... | ... | ... |
 
 ### Recommendations
 **Immediate:**
+
 1. [Action 1]
 
 **Short-term:**
+
 1. [Action 2]
 
 **Long-term:**
+
 1. [Action 3]
+
 ```
 
 ## 🐛 Troubleshooting
@@ -364,6 +407,7 @@ Determine root cause of production outage on 2025-01-15.
 **Issue:** Prompt missing key analytical steps
 
 **Fix:**
+
 - Add comprehensive framework
 - Include all analysis phases
 - Define validation steps
@@ -374,6 +418,7 @@ Determine root cause of production outage on 2025-01-15.
 **Issue:** Vague data requirements or methodology
 
 **Fix:**
+
 - Specify exact data points needed
 - Define precise analysis methods
 - Include concrete examples
@@ -384,6 +429,7 @@ Determine root cause of production outage on 2025-01-15.
 **Issue:** Analysis process not reproducible
 
 **Fix:**
+
 - Document step-by-step process
 - Provide decision criteria
 - Include quality checks
@@ -400,6 +446,7 @@ Determine root cause of production outage on 2025-01-15.
 [Clear description of the issue]
 
 ## Analysis Methodology
+
 1. Timeline reconstruction
 2. Evidence collection
 3. Hypothesis generation
@@ -407,8 +454,10 @@ Determine root cause of production outage on 2025-01-15.
 5. Root cause identification
 
 ## Required Information
+
 - [Data point 1]
 - [Data point 2]
+
 ...
 
 ## Analysis Framework
@@ -444,14 +493,14 @@ Determine root cause of production outage on 2025-01-15.
 ### Evaluation Performance
 
 | Batch | Prompts | Avg Score | Pass Rate | Avg Time |
-|-------|---------|-----------|-----------|----------|
+| ------- | --------- | ----------- | ----------- | ---------- |
 | Batch 1 | 10 | 8.1/10 | 85% | 6 min |
 | Batch 2 | TBD | TBD | TBD | TBD |
 
 ### Common Issues
 
 | Issue | Frequency | Fix Priority |
-|-------|-----------|--------------|
+| ------- | ----------- | -------------- |
 | Missing validation | 25% | High |
 | Vague methodology | 20% | High |
 | Incomplete output format | 15% | Medium |

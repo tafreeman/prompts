@@ -5,17 +5,23 @@ intro: A prompt for data pipeline blueprint tasks.
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -186,6 +192,7 @@ GROUP BY order_id
 HAVING COUNT(*) > 1;
 -- Fail if dup_count > 0
 ```text
+
 ---
 
 ### Stage 5: Monitoring & Alerting
@@ -322,7 +329,7 @@ Pipeline fails with "Out of Memory" error:
 ## Prompt Chaining Summary
 
 | Stage | Primary Prompts | Outputs |
-|-------|----------------|---------|
+| ------- | ---------------- | --------- |
 | 1. Data Discovery | Data Quality Assessment | Quality report, issues list, validation rules |
 | 2. Schema Design | Database Schema Designer, Tree-of-Thoughts: Architecture Evaluator | Target schema, indexing strategy, partitioning plan |
 | 3. Pipeline Design | Data Pipeline Engineer, Chain-of-Thought: Performance Analysis | Pipeline architecture, DAG, transformation logic |

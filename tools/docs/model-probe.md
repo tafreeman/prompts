@@ -20,8 +20,7 @@ python tools/model_probe.py --discover --force
 
 ---
 
-## Why Use Model Probe?
-
+## Why Use Model Probe
 **Critical before batch operations:**
 
 - Avoids wasted evaluation runs on unavailable models
@@ -123,7 +122,7 @@ print(f"By provider: {discovered['by_provider']}")
 The probe classifies errors to determine retry behavior:
 
 | Error Type | Should Retry? | Examples |
-|------------|---------------|----------|
+| ------------ | --------------- | ---------- |
 | `unavailable_model` | NO | Model not found |
 | `permission_denied` | NO | Auth failed |
 | `rate_limited` | YES (wait) | 429 Too Many Requests |
@@ -171,11 +170,11 @@ def validate_models(required_models: list[str]) -> list[str]:
             usable.append(model)
         else:
             print(f"WARNING: {model} not available")
-    
+
     if not usable:
         print("FATAL: No models available!", file=sys.stderr)
         sys.exit(1)
-    
+
     return usable
 
 # Usage
@@ -198,6 +197,7 @@ Probe results are cached at:
 ## Recent Changes
 
 ### January 14, 2026
+
 - Updated scoring logic in `prompteval` to normalize rubric scores and clamp values to the range 0-100.
 - Added regression tests to ensure robustness of the normalization logic.
 

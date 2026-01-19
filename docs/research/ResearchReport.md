@@ -21,7 +21,7 @@ Self-Consistency (Wang et al., ICLR 2023) is a decoding strategy that significan
 ### **Technique Overview Table**
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Self-Consistency |
 | **Origin** | Wang et al., "Self-Consistency Improves Chain of Thought Reasoning in Language Models," ICLR 2023 (arXiv:2203.11171v4) |
 | **Core Mechanism** | Replace greedy decoding with sampling multiple reasoning paths (k samples), then aggregate answers by selecting the most frequent result (marginalization over reasoning paths). |
@@ -53,7 +53,7 @@ Self-Consistency operates on a fundamental insight: **complex reasoning problems
 #### **Self-Consistency vs Simple Majority Voting**
 
 | Dimension | Self-Consistency | Simple Majority Voting |
-|-----------|------------------|------------------------|
+| ----------- | ------------------ | ------------------------ |
 | **Sampling strategy** | Temperature-controlled sampling (T > 0) to encourage diversity | Often uses greedy decoding or lower diversity |
 | **Reasoning path diversity** | Explicitly promotes varied reasoning approaches through higher temperature | May produce similar paths, reducing benefit |
 | **Prompt engineering** | Uses few-shot CoT exemplars to guide reasoning | Can work without CoT but less effective |
@@ -67,7 +67,7 @@ Self-Consistency operates on a fundamental insight: **complex reasoning problems
 #### **Optimal Parameters**
 
 | Parameter | Recommended Value | Rationale | Source |
-|-----------|------------------|-----------|--------|
+| ----------- | ------------------ | ----------- | -------- |
 | **k (samples)** | 5-40 depending on task complexity | Wang et al. found diminishing returns beyond 40. Most gains achieved by k=5-10. Higher k for high-stakes tasks. | Wang et al., ICLR 2023; Prompt Engineering Guide |
 | **Temperature** | 0.7-1.0 | Temperature 0 reduces to greedy decoding (defeats the purpose). Higher temp (0.7-1.0) increases diversity without introducing too much randomness. | Empirical best practices |
 | **Top-p** | 1.0 (default) | Keep nucleus sampling at default to allow full diversity during reasoning path generation. | Implementation patterns |
@@ -80,7 +80,7 @@ Self-Consistency operates on a fundamental insight: **complex reasoning problems
 #### **Comparison to Related Techniques**
 
 | Technique | Similarity | Key Difference | When to Prefer |
-|-----------|------------|----------------|----------------|
+| ----------- | ------------ | ---------------- | ---------------- |
 | **Single-path CoT** | Both use chain-of-thought reasoning | Self-Consistency samples multiple paths; single-path uses greedy decoding | Use Self-Consistency when accuracy matters more than latency/cost |
 | **Self-Refine** | Both improve answer quality iteratively | Self-Refine uses feedback loops to refine a single answer; Self-Consistency aggregates multiple independent attempts | Self-Refine for open-ended tasks; Self-Consistency for deterministic problems |
 | **Universal Self-Consistency** | Extension of Self-Consistency | Universal SC works without few-shot examples (zero-shot) | Universal SC when you lack good exemplars; standard SC when you have them |
@@ -107,11 +107,13 @@ You will solve this problem using step-by-step reasoning. Show your work clearly
 ## Implementation Notes
 
 **Sampling parameters:**
+
 - Generate k={{K_SAMPLES}} independent reasoning paths
 - Use temperature={{TEMPERATURE}} (recommended: 0.7-1.0)
 - Top-p={{TOP_P}} (recommended: 1.0)
 
 **Aggregation:**
+
 - Extract the final answer from each of the k outputs
 - Select the answer that appears most frequently (majority vote)
 - If there's a tie, you may:
@@ -120,11 +122,13 @@ You will solve this problem using step-by-step reasoning. Show your work clearly
   - Apply domain-specific heuristics
 
 **Variables:**
+
 - `{{EXEMPLARS}}`: 3-8 few-shot examples showing step-by-step reasoning
 - `{{PROBLEM}}`: The specific problem to solve
 - `{{K_SAMPLES}}`: Number of reasoning paths to generate (default: 5-10)
 - `{{TEMPERATURE}}`: Sampling temperature (default: 0.7)
 - `{{TOP_P}}`: Nucleus sampling parameter (default: 1.0)
+
 ```
 
 **Example instantiation:**
@@ -159,7 +163,7 @@ Path 5: "If I was 6 and sister was half, she was 3. The age gap is 3 years. At 7
 **From Wang et al. (ICLR 2023):**
 
 | Dataset | Task Type | Baseline CoT | Self-Consistency | Improvement |
-|---------|-----------|--------------|------------------|-------------|
+| --------- | ----------- | -------------- | ------------------ | ------------- |
 | GSM8K | Math word problems | 57.1% | 74.4% | **+17.3%** (absolute) |
 | SVAMP | Math word problems | 69.9% | 78.1% | **+8.2%** |
 | AQuA | Algebraic reasoning | 41.0% | 50.3% | **+9.3%** |
@@ -268,18 +272,22 @@ Self-Consistency is an advanced prompting technique that significantly improves 
 
 ### System Message
 ```
+
 You are an expert problem solver. When given a problem, you will:
+
 1. Read the problem carefully
 2. Break it down step-by-step
 3. Show your reasoning process clearly
 4. State your final answer explicitly
 
 Format your answer as: "The answer is [X]."
+
 ```
 
 ### Few-Shot Exemplars (provide 3-8 examples)
 
 ```
+
 Q: There are 15 trees in the grove. Grove workers will plant trees in the grove today. After they are done, there will be 21 trees. How many trees did the grove workers plant today?
 A: We start with 15 trees. Later we have 21 trees. The difference must be the number of trees they planted. So, they must have planted 21 - 15 = 6 trees. The answer is 6.
 
@@ -290,18 +298,21 @@ Q: Leah had 32 chocolates and her sister had 42. If they ate 35, how many pieces
 A: Leah had 32 chocolates and Leah's sister had 42. That means there were originally 32 + 42 = 74 chocolates. 35 have been eaten. So in total they still have 74 - 35 = 39 chocolates. The answer is 39.
 
 [Add 3-5 more exemplars relevant to your domain]
+
 ```
 
 ### User Query
 ```
+
 Q: {{PROBLEM_STATEMENT}}
 A:
+
 ```
 
 ## Implementation Parameters
 
 | Variable | Description | Recommended Value |
-|----------|-------------|-------------------|
+| ---------- | ------------- | ------------------- |
 | `k` | Number of reasoning paths to generate | 5-10 (higher for critical tasks) |
 | `temperature` | Sampling temperature for diversity | 0.7-1.0 |
 | `top_p` | Nucleus sampling parameter | 1.0 |
@@ -320,44 +331,59 @@ A:
 
 ### Input
 ```
+
 Q: When I was 6 my sister was half my age. Now I'm 70 how old is my sister?
 A:
+
 ```
 
 ### Sample Reasoning Paths (k=5, temperature=0.7)
 
 **Path 1:**
 ```
+
 When I was 6 my sister was half my age, so she was 3. Now I am 70, so she is 70 - 3 = 67. The answer is 67.
+
 ```
 
 **Path 2:**
 ```
+
 When the narrator was 6, his sister was half his age, which is 3. Now that the narrator is 70, his sister would be 70 - 3 = 67 years old. The answer is 67.
+
 ```
 
 **Path 3:**
 ```
+
 When I was 6 my sister was half my age, so she was 3. Now I am 70, so she is 70/2 = 35. The answer is 35.
+
 ```
 
 **Path 4:**
 ```
+
 The age difference is constant. When I was 6, sister was 3, so difference = 3 years. At age 70, sister is 70 - 3 = 67. The answer is 67.
+
 ```
 
 **Path 5:**
 ```
+
 Half of 6 is 3, so sister was 3 when I was 6. The gap is 3 years and never changes. Now at 70, sister is 67. The answer is 67.
+
 ```
 
 ### Aggregation
+
 - Answer "67" appears: 4 times
 - Answer "35" appears: 1 time
 
 ### Final Output
 ```
+
 The answer is 67.
+
 ```
 
 ## Performance Benchmarks
@@ -379,6 +405,7 @@ The answer is 67.
 
 - Wang et al. (2023). "Self-Consistency Improves Chain of Thought Reasoning in Language Models." ICLR 2023.
 - Prompt Engineering Guide: https://www.promptingguide.ai/techniques/consistency
+
 ```
 
 ---
@@ -394,17 +421,17 @@ graph TD
     C --> F[Path 3: Reasoning → Answer 3]
     C --> G[...]
     C --> H[Path k: Reasoning → Answer k]
-    
+
     D --> I[Extract Final Answers]
     E --> I
     F --> I
     G --> I
     H --> I
-    
+
     I --> J[Count Answer Frequencies]
     J --> K{Majority Vote}
     K --> L[Most Frequent Answer = Final Output]
-    
+
     style A fill:#e1f5ff
     style B fill:#fff4e1
     style C fill:#ffe1f5
@@ -418,30 +445,30 @@ graph TD
 flowchart LR
     Start([User Query]) --> Prepare[Prepare CoT Prompt<br/>with Few-Shot Examples]
     Prepare --> Gen[Generate k Samples<br/>temp=0.7-1.0]
-    
+
     Gen --> S1[Sample 1]
     Gen --> S2[Sample 2]
     Gen --> S3[Sample 3]
     Gen --> Sk[Sample k]
-    
+
     S1 --> R1[Reasoning Chain 1]
     S2 --> R2[Reasoning Chain 2]
     S3 --> R3[Reasoning Chain 3]
     Sk --> Rk[Reasoning Chain k]
-    
+
     R1 --> A1[Extract Answer 1]
     R2 --> A2[Extract Answer 2]
     R3 --> A3[Extract Answer 3]
     Rk --> Ak[Extract Answer k]
-    
+
     A1 --> Agg[Aggregate Answers]
     A2 --> Agg
     A3 --> Agg
     Ak --> Agg
-    
+
     Agg --> Vote[Majority Vote]
     Vote --> Final([Final Answer])
-    
+
     style Start fill:#4CAF50,color:#fff
     style Gen fill:#FF9800
     style Agg fill:#2196F3,color:#fff

@@ -5,32 +5,42 @@ intro: "A structured incident response framework for Security Operations Center 
 type: "tutorial"
 difficulty: "advanced"
 audience:
+
   - "solution-architect"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
+
 topics:
+
   - "governance-compliance"
   - "incident-response"
   - "cybersecurity"
   - "security"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-17"
 governance_tags:
+
   - "restricted-access"
   - "audit-required"
   - "CISO-approval-required"
   - "sensitive"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 data_classification: "Restricted"
 risk_level: "Critical"
 regulatory_scope:
+
   - "SOC2"
   - "ISO27001"
   - "NIST-CSF"
   - "GDPR-breach-notification"
+
 approval_required: "CISO or Security Director"
 retention_period: "7 years (incident records)"
 effectivenessScore: 4.4
@@ -79,17 +89,20 @@ Follow the NIST Incident Response lifecycle:
 ## Phase 1: DETECTION & ANALYSIS
 
 **1.1 Incident Classification**
+
 - **Type**: [Malware, Phishing, Data Breach, DDoS, Insider Threat, Compromised Credentials, Ransomware, Other]
 - **Severity**: Critical / High / Medium / Low (use criteria below)
 - **Confidence**: Confirmed / Likely / Suspected
 
 **Severity Criteria**:
+
 - **Critical**: Data breach with PII/PHI, ransomware encryption, total system compromise, ongoing active attack
 - **High**: Successful intrusion, malware infection, privilege escalation, significant data at risk
 - **Medium**: Attempted intrusion, suspicious activity, potential malware, limited scope
 - **Low**: Policy violation, failed attack attempt, no data impact
 
 **1.2 Scope Assessment**
+
 - Systems/networks affected
 - Data potentially compromised
 - User accounts involved
@@ -97,12 +110,14 @@ Follow the NIST Incident Response lifecycle:
 - Timeline of compromise
 
 **1.3 Impact Analysis**
+
 - **Business Impact**: Revenue, Operations, Reputation, Legal
 - **Data Impact**: Type and volume of data at risk (PII, Financial, PHI, IP, etc.)
 - **User Impact**: Number of users/customers affected
 - **Financial Impact**: Estimated costs (response, recovery, fines, lawsuits)
 
 **1.4 Breach Notification Determination**
+
 - Is personal data involved? (triggers GDPR Art. 33, CCPA, etc.)
 - Volume of records affected
 - Likelihood of harm to data subjects
@@ -112,6 +127,7 @@ Follow the NIST Incident Response lifecycle:
 
 **2.1 Immediate Actions (First 15 Minutes)**
 List actions to stop incident spread:
+
 - [ ] Isolate affected systems from network
 - [ ] Disable compromised accounts
 - [ ] Block malicious IPs/domains at firewall/proxy
@@ -119,12 +135,14 @@ List actions to stop incident spread:
 - [ ] Alert key stakeholders (CISO, Legal, Executive)
 
 **2.2 Short-Term Containment**
+
 - Network segmentation actions
 - System isolation decisions
 - Access control changes
 - Backup verification
 
 **2.3 Long-Term Containment**
+
 - Persistent threat removal
 - System rebuild requirements
 - Monitoring enhancements
@@ -132,18 +150,21 @@ List actions to stop incident spread:
 ## Phase 3: ERADICATION
 
 **3.1 Root Cause Analysis**
+
 - Attack vector identified
 - Vulnerability exploited
 - Initial access method
 - Persistence mechanisms
 
 **3.2 Threat Removal**
+
 - Malware removal steps
 - Backdoor elimination
 - Credential reset requirements
 - Patch deployment
 
 **3.3 Vulnerability Remediation**
+
 - Immediate patches/fixes
 - Configuration changes
 - Security control improvements
@@ -151,17 +172,20 @@ List actions to stop incident spread:
 ## Phase 4: RECOVERY
 
 **4.1 System Restoration**
+
 - Systems safe to restore to production
 - Recovery priority order
 - Data restoration from clean backups
 - Validation testing required
 
 **4.2 Monitoring Plan**
+
 - Enhanced monitoring for 30-90 days
 - Indicators of Compromise (IoCs) to watch
 - Alerting rules to add
 
 **4.3 Return to Normal Operations**
+
 - Criteria for "all clear"
 - User communication plan
 - Service restoration timeline
@@ -169,6 +193,7 @@ List actions to stop incident spread:
 ## Phase 5: POST-INCIDENT ACTIVITY
 
 **5.1 Lessons Learned**
+
 - What worked well
 - What needs improvement
 - Detection gaps
@@ -176,6 +201,7 @@ List actions to stop incident spread:
 - Prevention opportunities
 
 **5.2 Incident Report** (Required within 72 hours)
+
 - Timeline of events
 - Actions taken
 - Data impact assessment
@@ -183,6 +209,7 @@ List actions to stop incident spread:
 - Recommendations
 
 **5.3 Regulatory Notifications** (If Applicable)
+
 - GDPR breach notification (72 hours to DPA, 30 days to data subjects if high risk)
 - CCPA breach notification (California AG + affected residents)
 - State breach laws (varies by state)
@@ -191,6 +218,7 @@ List actions to stop incident spread:
 ## Communication Plan
 
 **Internal Notifications** (within 1 hour):
+
 - CISO / Security Director
 - CTO / VP Engineering
 - Legal / General Counsel
@@ -199,6 +227,7 @@ List actions to stop incident spread:
 - HR (if insider threat)
 
 **External Notifications** (as required):
+
 - Law enforcement (FBI, local police for >$100K or national security)
 - Regulatory authorities (DPA, FTC, etc.)
 - Cyber insurance provider
@@ -206,6 +235,7 @@ List actions to stop incident spread:
 - Public disclosure (if required)
 
 **Communication Templates**:
+
 - Internal: "Security Incident - [Severity] - Action Required"
 - Customer: "Important Security Notice Regarding Your Account"
 - Regulator: "Data Breach Notification - [Company] - [Date]"
@@ -213,6 +243,7 @@ List actions to stop incident spread:
 ## Escalation Triggers
 
 **Immediate CISO Escalation**:
+
 - Data breach with PII/PHI
 - Ransomware with encryption
 - Executive/VIP account compromise
@@ -221,6 +252,7 @@ List actions to stop incident spread:
 - Suspected nation-state actor
 
 **Law Enforcement Notification**:
+
 - Financial loss >$100K
 - Nation-state attribution
 - Child safety issues
@@ -232,6 +264,7 @@ List actions to stop incident spread:
 Provide structured incident report:
 
 **INCIDENT SUMMARY**
+
 - ID: [INC-YYYY-MM-DD-XXX]
 - Type: [Incident Type]
 - Severity: [Critical/High/Medium/Low]
@@ -239,6 +272,7 @@ Provide structured incident report:
 - GDPR Breach?: [Yes/No]
 
 **TIMELINE**
+
 - T+0: [Discovery time and method]
 - T+15min: [Initial containment actions]
 - T+1hr: [Stakeholder notifications]
@@ -246,23 +280,28 @@ Provide structured incident report:
 - T+72hr: [Resolution or ongoing]
 
 **IMPACT**
+
 - Systems affected: [List]
 - Data compromised: [Type, volume, sensitivity]
 - Users affected: [Count, type]
 - Est. cost: $[Amount]
 
 **ACTIONS TAKEN**
+
 - Containment: [Summary]
 - Eradication: [Summary]
 - Recovery: [Summary]
 
 **NEXT STEPS**
+
 - [ ] Action item 1
 - [ ] Action item 2
 
 **REGULATORY OBLIGATIONS**
+
 - GDPR notification due: [Timestamp if applicable]
 - Other notifications: [List]
+
 ```text
 
 ---
@@ -287,12 +326,14 @@ You are a security incident response assistant following NIST IR framework.
 **Incident Alert**: Suspicious login activity and potential data exfiltration detected
 
 **Initial Indicators**:
+
 - SIEM alert: Multiple failed SSH login attempts followed by successful login from IP 203.0.113.45 (Russia)
 - Unusual database query activity at 2:47 AM UTC
 - Outbound transfer of 15GB to external cloud storage (Mega.nz)
 - Compromised account: sysadmin@company.com (privileged account)
 
 **Systems Affected**:
+
 - Production database server (db-prod-01.company.com)
 - Customer data database (contains PII: names, emails, addresses, phone numbers)
 - Estimate: 500,000 customer records potentially accessed
@@ -310,6 +351,7 @@ You are a security incident response assistant following NIST IR framework.
 # INCIDENT REPORT
 
 ## INCIDENT SUMMARY
+
 - **ID**: INC-2024-11-17-001
 - **Type**: Data Breach / Unauthorized Access
 - **Severity**: CRITICAL (P1)
@@ -318,7 +360,7 @@ You are a security incident response assistant following NIST IR framework.
 
 ## TIMELINE
 | Time | Event | Action Taken |
-|------|-------|--------------|
+| ------ | ------- | -------------- |
 | T+0 (03:15 UTC) | Discovery via SIEM alert | SOC analyst escalated to IR team |
 | T+5min | Account sysadmin@company.com confirmed compromised | - |
 | T+10min | External IP 203.0.113.45 traced to Russian ASN | - |
@@ -328,18 +370,21 @@ You are a security incident response assistant following NIST IR framework.
 ## IMMEDIATE CONTAINMENT ACTIONS (T+0 to T+1hr)
 
 ### 1. Account Containment
+
 - [ ] **IMMEDIATE**: Disable sysadmin@company.com in Active Directory
 - [ ] Force password reset for all privileged accounts with db-prod-01 access
 - [ ] Revoke all active sessions for compromised account
 - [ ] Enable MFA enforcement for all admin accounts (if not already)
 
 ### 2. Network Containment
+
 - [ ] **IMMEDIATE**: Block IP 203.0.113.45 at firewall (inbound and outbound)
 - [ ] Block outbound connections to Mega.nz (*.mega.nz, *.mega.co.nz)
 - [ ] Isolate db-prod-01.company.com from network (keep powered on for forensics)
 - [ ] Enable enhanced logging on all database servers
 
 ### 3. Evidence Preservation
+
 - [ ] Snapshot db-prod-01 VM/disk immediately (before further changes)
 - [ ] Export SIEM logs for past 72 hours (SSH, DB queries, network flows)
 - [ ] Preserve Mega.nz transfer logs if accessible
@@ -348,7 +393,7 @@ You are a security incident response assistant following NIST IR framework.
 ## IMPACT ASSESSMENT
 
 | Category | Assessment |
-|----------|------------|
+| ---------- | ------------ |
 | **Systems Affected** | db-prod-01.company.com (production database server) |
 | **Data Type** | PII: names, emails, addresses, phone numbers |
 | **Records Potentially Accessed** | ~500,000 customer records |
@@ -359,6 +404,7 @@ You are a security incident response assistant following NIST IR framework.
 ## REGULATORY OBLIGATIONS
 
 ### GDPR (EU General Data Protection Regulation)
+
 - **Notification Required**: ✅ YES — Personal data breach affecting EU residents
 - **Deadline**: 72 hours from awareness = **2024-11-19 03:15 UTC**
 - **Notify**: Lead Supervisory Authority (Data Protection Authority)
@@ -366,7 +412,7 @@ You are a security incident response assistant following NIST IR framework.
 
 ### Additional Notifications
 | Authority/Stakeholder | Deadline | Status |
-|-----------------------|----------|--------|
+| ----------------------- | ---------- | -------- |
 | GDPR DPA | 2024-11-19 03:15 UTC | ⏳ Pending |
 | Cyber Insurance Provider | ASAP | ⏳ Pending |
 | Legal Counsel | Immediate | ⏳ Pending |
@@ -374,12 +420,14 @@ You are a security incident response assistant following NIST IR framework.
 | Affected Customers | TBD (after impact confirmed) | ⏳ Pending |
 
 ## ESCALATION TRIGGERS MET
+
 - ✅ Data breach with PII — CISO escalation required
 - ✅ Active data exfiltration detected — Immediate containment
 - ✅ Privileged account compromise — Full access review
 - ⚠️ Potential nation-state actor (Russian IP) — Consider law enforcement
 
 ## NEXT STEPS (Next 24 Hours)
+
 - [ ] Complete containment actions above
 - [ ] Engage external forensics firm (if needed)
 - [ ] Prepare GDPR breach notification draft
@@ -389,10 +437,12 @@ You are a security incident response assistant following NIST IR framework.
 - [ ] Schedule post-incident review (within 30 days)
 
 ## INCIDENT COMMANDER
+
 - **Assigned To**: [IR Lead Name]
 - **Backup**: [Backup Name]
 - **War Room**: [Slack channel / Zoom link]
 - **Next Update**: T+2hr (05:15 UTC)
+
 ```
 
 ---

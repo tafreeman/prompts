@@ -5,17 +5,23 @@ intro: "LangChain integration patterns, LCEL examples, and agent workflows for b
 type: "reference"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
+
 platforms:
+
   - "langchain"
   - "openai"
   - "anthropic"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -35,8 +41,7 @@ langchain/
     └── langchain-reflexion-example.md  # LCEL reflexion pattern
 ```
 
-## 🎯 What is LangChain?
-
+## 🎯 What is LangChain
 LangChain is a framework for developing applications powered by language models. It provides:
 
 - **Chains**: Compose LLM calls and data processing
@@ -199,6 +204,7 @@ Comprehensive guide covering:
 - **Custom Agents**: Build your own agent architectures
 
 **Example Use Cases:**
+
 - Question answering with tools
 - Code execution agents
 - Research assistants
@@ -349,7 +355,7 @@ result = chain.invoke(
 ## 📊 Integration Matrix
 
 | Integration | Package | Use Case |
-|------------|---------|----------|
+| ------------ | --------- | ---------- |
 | **OpenAI** | `langchain-openai` | GPT-4, embeddings, function calling |
 | **Anthropic** | `langchain-anthropic` | Claude models, constitutional AI |
 | **Google** | `langchain-google-genai` | Gemini models |
@@ -435,11 +441,13 @@ article = writer_agent.invoke({
 ### 1. Use LCEL for Composability
 
 ✅ **Do:**
+
 ```python
 chain = prompt | model | parser
 ```
 
 ❌ **Don't:**
+
 ```python
 # Avoid manual chaining
 output = model(prompt.format(input))
@@ -481,15 +489,18 @@ with get_openai_callback() as cb:
 ## 📖 Additional Resources
 
 ### Official Documentation
+
 - [LangChain Docs](https://python.langchain.com/)
 - [LCEL Guide](https://python.langchain.com/docs/expression_language/)
 - [API Reference](https://api.python.langchain.com/)
 
 ### Tutorials
+
 - [LangChain Academy](https://academy.langchain.com/)
 - [Cookbook](https://github.com/langchain-ai/langchain/tree/master/cookbook)
 
 ### Community
+
 - [GitHub](https://github.com/langchain-ai/langchain)
 - [Discord](https://discord.gg/langchain)
 - [Twitter](https://twitter.com/langchainai)
@@ -512,6 +523,7 @@ See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for guidelines.
 ### Issue: Import errors
 
 **Solution:** Install correct packages:
+
 ```bash
 pip install langchain-openai  # Not langchain.openai
 pip install langchain-anthropic
@@ -520,6 +532,7 @@ pip install langchain-anthropic
 ### Issue: Deprecated patterns
 
 **Solution:** Use LCEL instead of legacy chains:
+
 ```python
 # Old way (deprecated)
 from langchain.chains import LLMChain
@@ -531,6 +544,7 @@ chain = prompt | model | parser
 ### Issue: Memory not persisting
 
 **Solution:** Use proper memory implementation:
+
 ```python
 from langchain.memory import ConversationBufferMemory
 

@@ -5,18 +5,24 @@ intro: "System-level prompts for configuring AI assistants, chatbots, agents, an
 type: reference
 difficulty: advanced
 audience:
+
   - senior-engineer
   - solution-architect
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
+
 author: Prompts Library Team
 version: "1.1"
 date: "2025-12-11"
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -38,8 +44,7 @@ This directory contains system-level prompts for configuring AI assistants, chat
   - Difficulty: Advanced
   - Tags: tree-of-thoughts, tot, evaluation, repository-analysis, gpt-5.1, enterprise
 
-## What Are System Prompts?
-
+## What Are System Prompts
 System prompts define the foundational behavior, personality, and capabilities of an AI assistant. They are typically:
 
 - Set at the beginning of a conversation
@@ -110,6 +115,7 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
 ## System Prompt Structure
 
 ```text
+
 1. Core Identity
    - Role and expertise
    - Personality traits
@@ -140,7 +146,9 @@ Prompts for specific roles (tutor, coach, advisor, consultant).
    - Knowledge gaps
    - Disagreements
    - Ethical concerns
+
 ```text
+
 ## Testing Your System Prompts
 
 Test with these scenarios:

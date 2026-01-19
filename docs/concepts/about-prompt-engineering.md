@@ -6,26 +6,34 @@ intro: Understand what prompt engineering is, why it matters for AI productivity
 type: conceptual
 difficulty: beginner
 audience:
+
 - junior-engineer
 - senior-engineer
 - project-manager
 - business-analyst
 - solution-architect
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
 - azure-openai
 - m365-copilot
+
 topics:
+
 - prompt-engineering
 - best-practices
 - fundamentals
+
 author: Deloitte AI & Engineering
 version: '1.0'
 date: '2025-11-29'
 governance_tags:
+
 - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -34,8 +42,7 @@ reviewStatus: approved
 
 Prompt engineering is the practice of crafting inputs to AI systems that produce useful, accurate, and relevant outputs. As AI assistants become integral to daily workflows, understanding how to communicate effectively with them is a foundational skill for any professional.
 
-## What is Prompt Engineering?
-
+## What is Prompt Engineering
 At its core, prompt engineering is about **communicating intent clearly to an AI system**. A prompt is the text you provide to an AI—whether it's a question, instruction, or context—and prompt engineering is the discipline of structuring that text to get the best possible response.
 
 Think of it like writing a clear email to a colleague. The more context and specificity you provide, the more likely you are to get a helpful response on the first try. The same principle applies to AI.
@@ -49,8 +56,7 @@ Prompt engineering encompasses:
 
 It's not about tricks or hacks—it's about clear communication.
 
-## Why Does It Matter?
-
+## Why Does It Matter
 Effective prompt engineering directly impacts productivity, quality, and the return on investment from AI tools.
 
 ### Productivity Gains
@@ -128,7 +134,7 @@ Each iteration teaches you what works for specific use cases.
 Effective prompts typically contain several key components:
 
 | Component | Purpose | Example |
-|-----------|---------|---------|
+| ----------- | --------- | --------- |
 | **Role or persona** | Sets the perspective for the response | "As a technical writer..." |
 | **Task** | Clearly states what you need | "Create a user guide for..." |
 | **Context** | Provides relevant background | "Our users are non-technical..." |

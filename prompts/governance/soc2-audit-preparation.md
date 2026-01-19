@@ -6,29 +6,39 @@ intro: A comprehensive ReAct+Reflection prompt for preparing SOC 2 Type I/II aud
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - security-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - compliance
 - security
 - soc2
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - audit-required
+
 dataClassification: internal
 reviewStatus: draft
 regulatory_scope:
+
 - SOC-2
 - AICPA-TSC
+
 effectivenessScore: 0.0
 ---
 
@@ -45,15 +55,18 @@ A comprehensive prompt for preparing SOC 2 Type I and Type II audits using the A
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - AICPA Trust Services Criteria (TSC) 2017
 - SOC 2 Reporting Framework
 - Common Criteria (CC1-CC9)
 
 **Methodology:**
+
 - ReAct reasoning pattern (Yao et al., ICLR 2023) for systematic control assessment
 - Self-Refine reflection (Madaan et al., NeurIPS 2023) for audit readiness validation
 
 **Trust Services Categories:**
+
 1. Security (CC) - Required for all SOC 2 reports
 2. Availability (A) - Optional
 3. Processing Integrity (PI) - Optional
@@ -85,6 +98,7 @@ You are an expert SOC 2 auditor helping an organization prepare for a SOC 2 audi
 **Audit Type:** [TYPE_I_OR_TYPE_II]
 **Audit Period:** [START_DATE] to [END_DATE]
 **Trust Services Categories in Scope:**
+
 - [x] Security (Required)
 - [ ] Availability
 - [ ] Processing Integrity
@@ -107,7 +121,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC1.1 - COSO Principle 1: Integrity & Ethics | Code of conduct, ethics training records | ✅/⚠️/❌ | [Gap] |
 | CC1.2 - COSO Principle 2: Board Oversight | Board meeting minutes, oversight documentation | ✅/⚠️/❌ | [Gap] |
 | CC1.3 - COSO Principle 3: Management Structure | Org chart, job descriptions, segregation | ✅/⚠️/❌ | [Gap] |
@@ -127,7 +141,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC2.1 - COSO Principle 13: Quality Information | Data quality policies, validation procedures | ✅/⚠️/❌ | [Gap] |
 | CC2.2 - COSO Principle 14: Internal Communication | Internal comms, policy distribution, awareness | ✅/⚠️/❌ | [Gap] |
 | CC2.3 - COSO Principle 15: External Communication | External reporting, customer communication | ✅/⚠️/❌ | [Gap] |
@@ -145,7 +159,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC3.1 - COSO Principle 6: Risk Objectives | Documented objectives, risk appetite | ✅/⚠️/❌ | [Gap] |
 | CC3.2 - COSO Principle 7: Risk Identification | Risk register, threat assessments | ✅/⚠️/❌ | [Gap] |
 | CC3.3 - COSO Principle 8: Fraud Risk | Fraud risk assessment, anti-fraud controls | ✅/⚠️/❌ | [Gap] |
@@ -164,7 +178,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC4.1 - COSO Principle 16: Ongoing Evaluation | Continuous monitoring, KPIs, dashboards | ✅/⚠️/❌ | [Gap] |
 | CC4.2 - COSO Principle 17: Deficiency Communication | Issue tracking, escalation procedures | ✅/⚠️/❌ | [Gap] |
 
@@ -181,7 +195,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC5.1 - COSO Principle 10: Risk Mitigation | Control activities linked to risks | ✅/⚠️/❌ | [Gap] |
 | CC5.2 - COSO Principle 11: Technology Controls | IT general controls, application controls | ✅/⚠️/❌ | [Gap] |
 | CC5.3 - COSO Principle 12: Policies & Procedures | Documented policies, procedure manuals | ✅/⚠️/❌ | [Gap] |
@@ -199,7 +213,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC6.1 - Security Software | Firewalls, IDS/IPS, endpoint protection | ✅/⚠️/❌ | [Gap] |
 | CC6.2 - Infrastructure & Network | Network diagrams, segmentation, VPNs | ✅/⚠️/❌ | [Gap] |
 | CC6.3 - Access Registration | User provisioning, access requests | ✅/⚠️/❌ | [Gap] |
@@ -222,7 +236,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC7.1 - Configuration Management | Baseline configs, hardening standards | ✅/⚠️/❌ | [Gap] |
 | CC7.2 - Security Monitoring | SIEM, log aggregation, alerting | ✅/⚠️/❌ | [Gap] |
 | CC7.3 - Incident Response | IR plan, runbooks, tabletop exercises | ✅/⚠️/❌ | [Gap] |
@@ -242,7 +256,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC8.1 - Change Authorization | Change approval workflows, CAB records | ✅/⚠️/❌ | [Gap] |
 | CC8.2 - Change Testing | Test plans, UAT signoff, rollback procedures | ✅/⚠️/❌ | [Gap] |
 | CC8.3 - Emergency Changes | Emergency change process, post-incident review | ✅/⚠️/❌ | [Gap] |
@@ -260,7 +274,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 **Act:** Assess against criteria:
 
 | Control Point | Evidence Required | Status | Gap |
-|--------------|-------------------|--------|-----|
+| -------------- | ------------------- | -------- | ----- |
 | CC9.1 - Vendor Management | Vendor risk assessments, contracts, SLAs | ✅/⚠️/❌ | [Gap] |
 | CC9.2 - Business Continuity | BCP/DR plans, testing records | ✅/⚠️/❌ | [Gap] |
 
@@ -289,11 +303,13 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 ## Phase 3: Self-Critique Reflection
 
 ### Evidence Completeness Check
+
 - [ ] All control points have documented evidence
 - [ ] Evidence is dated within the audit period
 - [ ] Evidence demonstrates operating effectiveness (Type II)
 
 ### Gap Severity Assessment
+
 - **Critical Gaps:** [List - prevent certification]
 - **Major Gaps:** [List - require remediation before audit]
 - **Minor Gaps:** [List - acceptable with compensating controls]
@@ -301,7 +317,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 ### Audit Readiness Score
 
 | Category | Controls | Compliant | Gaps | Readiness |
-|----------|----------|-----------|------|-----------|
+| ---------- | ---------- | ----------- | ------ | ----------- |
 | CC1 | 5 | [X] | [Y] | [%] |
 | CC2 | 3 | [X] | [Y] | [%] |
 | CC3 | 4 | [X] | [Y] | [%] |
@@ -314,6 +330,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 | **Total** | 35 | [X] | [Y] | [%] |
 
 ### Confidence Level
+
 - [ ] **High** - Ready for audit with minor documentation polish
 - [ ] **Medium** - Audit feasible but some remediation recommended
 - [ ] **Low** - Significant gaps; recommend delaying audit
@@ -323,6 +340,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 ## Output Format
 
 ### 1. Executive Summary
+
 - Overall audit readiness: [High/Medium/Low]
 - Critical findings: [Count]
 - Recommended audit date: [Date or "Delay"]
@@ -332,21 +350,23 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 
 ### 3. Gap Register
 | ID | Category | Control | Gap Description | Risk | Remediation | Owner | Due Date |
-|----|----------|---------|-----------------|------|-------------|-------|----------|
+| ---- | ---------- | --------- | ----------------- | ------ | ------------- | ------- | ---------- |
 
 ### 4. Evidence Checklist
 | Control | Evidence Required | Available | Location |
-|---------|-------------------|-----------|----------|
+| --------- | ------------------- | ----------- | ---------- |
 
 ### 5. Remediation Roadmap
 | Priority | Gap | Action | Owner | Timeline | Dependencies |
-|----------|-----|--------|-------|----------|--------------|
+| ---------- | ----- | -------- | ------- | ---------- | -------------- |
 
 ### 6. Auditor Prep Package
+
 - System description narrative
 - Control matrix with evidence mapping
 - Policy document index
 - Interview schedule recommendation
+
 ```
 
 ---
@@ -354,7 +374,7 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[ORGANIZATION_NAME]` | Organization being audited | "CloudSecure Inc." |
 | `[SYSTEM_DESCRIPTION]` | Description of system in scope | "SaaS platform for document management" |
 | `[TYPE_I_OR_TYPE_II]` | Audit type | "Type II" |
@@ -371,12 +391,14 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
 ## SOC 2 Readiness Assessment: Security (CC)
 
 ### CC1. Control Environment
+
 *   **CC1.1 (Integrity & Ethics):**
     *   *Control:* Code of Conduct signed by all employees annually.
     *   *Evidence:* HR system export showing 100% completion for 2024.
     *   *Status:* Ready.
 
 ### CC6. Logical and Physical Access
+
 *   **CC6.1 (Access Registration):**
     *   *Control:* Access requests require manager approval via Jira.
     *   *Evidence:* Jira tickets for Q3 new hires.
@@ -384,16 +406,19 @@ For each Common Criteria category, follow the Think → Act → Observe → Refl
     *   *Remediation:* Revoke access immediately; enforce Terraform-only access.
 
 ### CC7. System Operations
+
 *   **CC7.1 (Vulnerability Scanning):**
     *   *Control:* Weekly automated scans of production environment.
     *   *Evidence:* AWS Inspector reports.
     *   *Status:* Ready.
 
 ### Audit Readiness Score
+
 *   **Controls Tested:** 15
 *   **Passed:** 12
 *   **Gaps:** 3 (Access Control, Incident Response Plan update, Vendor Review)
 *   **Readiness:** 80% - Needs 2 weeks remediation before audit start.
+
 ```
 
 ---

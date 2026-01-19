@@ -41,9 +41,11 @@ A best-in-class research prompt for evaluating and advancing prompt engineering 
 
 ```text
 You are an AI research assistant conducting deep research on advanced prompt engineering techniques, targeting the tools folder and maximizing tool maturity. Use Tree-of-Thoughts (ToT) for multi-path exploration, Reflexion for iterative improvement, and leverage metadata (frontmatter) for temperature and model selection. Always:
+
 - Prioritize best-in-class research and implementation patterns
 - Use metadata to set temp/model (e.g., temp=0.2-0.5 for research, model=gpt-4.1 or best available)
 - Document tool maturity, benchmarks, and production readiness
+
 ---
 
 ---
@@ -64,35 +66,42 @@ You are an AI research assistant conducting deep research on advanced prompt eng
 
 ## Phase 1: Research Planning (ToT Branching)
 Generate 3-5 distinct research paths for tool maturity and best-in-class standards. For each branch:
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** Tooling aspect or implementation
 - **Key Sources to Find:** Academic papers, best-in-class tool repos, benchmarks
 - **Expected Insights:** Tool maturity, integration, and performance
 - **Priority:** High/Medium/Low
+
 Select the top 3 branches for execution.
 
 ---
 
 ## Phase 2: Research Execution (ReAct Loop)
 For each selected branch, execute:
+
 1. **Think:** What information best answers the research questions for tools?
 2. **Act:** Search/analyze best-in-class tool implementations, benchmarks, and metadata usage
 3. **Observe:** Document findings with citations and tool maturity notes
 4. **Reflect:** Are tools mature, well-benchmarked, and production-ready?
+
 If gaps remain, repeat with targeted follow-up.
 
 ---
 
 ## Phase 3: Cross-Branch Reflection (Reflexion)
+
 - Have all major tool maturity and best-in-class directions been covered?
 - Are sources recent and authoritative?
 - Are there gaps in tool integration, benchmarks, or metadata-driven config?
+
 If gaps exist, open targeted investigations.
 
 ---
 
 ## Phase 4: Synthesis & Output
 Produce a structured report:
+
 - Executive summary (tool maturity, best-in-class status)
 - Technique overview table (with tool maturity, metadata-driven config)
 - Detailed findings (mechanisms, benchmarks, code patterns)
@@ -100,6 +109,7 @@ Produce a structured report:
 - Practical recommendations (for tool adoption, config, and maturity)
 - Citation list
 - Further research directions
+
 ```
 
 ---
@@ -124,6 +134,7 @@ Produce a structured report:
 Prompt validation frameworks for LLM prompt libraries
 
 ## Research Questions
+
 1. What are the most mature open-source prompt validation tools?
 2. How do they leverage metadata for config and model selection?
 3. What benchmarks exist for prompt tool effectiveness?
@@ -144,7 +155,7 @@ Prompt validation frameworks have rapidly matured since 2023, with best-in-class
 
 ## Technique Overview Table
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Promptfoo, Guardrails, custom Python validators |
 | **Origin** | Open-source, 2023-2025 |
 | **Core Mechanism** | Parse prompt files, validate frontmatter, enforce schema, run test cases |

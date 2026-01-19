@@ -59,7 +59,7 @@ python -m prompteval testing/evals/system/ --tier 2 -o system-report.json
 System prompts are evaluated with emphasis on:
 
 | Criterion | Weight | Focus for System |
-|-----------|--------|------------------|
+| ----------- | -------- | ------------------ |
 | **Clarity** | 1.4x | Crystal clear instructions |
 | **Specificity** | 1.3x | Precise behavior definition |
 | **Actionability** | 1.2x | Clear operational steps |
@@ -70,6 +70,7 @@ System prompts are evaluated with emphasis on:
 | **Safety** | 1.5x | Strong guardrails |
 
 **Quality Standards:**
+
 - Overall score ≥ 8.0 (higher than general prompts)
 - No dimension < 7.0 (strong floor for system prompts)
 - Variance ≤ 1.0 (very consistent behavior)
@@ -86,6 +87,7 @@ System prompts define foundational AI behavior and are used repeatedly across ma
 **Prompts Evaluated:** 8-10
 
 **System Types:**
+
 - General assistant instructions
 - Expert persona definitions
 - Task-specific system prompts
@@ -96,7 +98,7 @@ System prompts define foundational AI behavior and are used repeatedly across ma
 **Key Prompts:**
 
 | Prompt Type | Use Case | Complexity |
-|-------------|----------|------------|
+| ------------- | ---------- | ------------ |
 | General Assistant | Default AI behavior | Basic |
 | Expert Persona | Domain specialist | Intermediate |
 | Tool User | Agent with tools | Advanced |
@@ -117,6 +119,7 @@ python -m prompteval testing/evals/system/system-eval-1.prompt.yml --tier 2
 **Prompts Evaluated:** 8-10
 
 **Agent Types:**
+
 - ReAct agents
 - Tool-using agents
 - Multi-step agents
@@ -125,6 +128,7 @@ python -m prompteval testing/evals/system/system-eval-1.prompt.yml --tier 2
 - Analysis agents
 
 **Key Features:**
+
 - Tool definitions
 - Reasoning loops
 - State management
@@ -144,6 +148,7 @@ python -m prompteval testing/evals/system/system-eval-2.prompt.yml --tier 2
 **Prompts Evaluated:** 8-10
 
 **Configuration Types:**
+
 - Multi-agent orchestration
 - Complex reasoning patterns
 - Adaptive behavior
@@ -166,6 +171,7 @@ Score: 8.5/10 (Grade: A)
 Pass: ✅
 
 Dimensions:
+
 - clarity: 9        # Crystal clear role definition
 - specificity: 9    # Precise behavior guidelines
 - actionability: 8  # Clear operational steps
@@ -176,6 +182,7 @@ Dimensions:
 - safety: 9         # Strong guardrails
 
 Strengths:
+
 - Clear role and expertise definition
 - Explicit behavioral guidelines
 - Comprehensive coverage of scenarios
@@ -183,14 +190,17 @@ Strengths:
 - Well-structured sections
 
 Improvements:
+
 - Add more error handling examples
 - Include edge case guidance
 - Provide interaction examples
+
 ```
 
 ### System Prompt Quality Indicators
 
 **Excellent System Prompt (8.5+):**
+
 - ✅ Clear role and personality
 - ✅ Explicit capabilities and limitations
 - ✅ Strong safety guidelines
@@ -200,6 +210,7 @@ Improvements:
 - ✅ Consistent tone and style
 
 **Good System Prompt (7.0-8.4):**
+
 - ✅ Clear role definition
 - ✅ Basic safety guidelines
 - ✅ Key behaviors covered
@@ -207,6 +218,7 @@ Improvements:
 - 🟡 Minor improvements needed
 
 **Needs Improvement (<7.0):**
+
 - ❌ Vague role definition
 - ❌ Missing safety guidelines
 - ❌ Incomplete behavior coverage
@@ -224,6 +236,7 @@ Improvements:
 You are a senior software engineer with 15+ years of experience specializing in code quality, security, and best practices.
 
 ## Expertise Areas
+
 - Code review and quality assurance
 - Security vulnerability detection
 - Performance optimization
@@ -231,10 +244,12 @@ You are a senior software engineer with 15+ years of experience specializing in 
 - Testing strategies
 
 ## Personality
+
 - Professional and constructive
 - Detail-oriented but practical
 - Focuses on teaching, not just pointing out issues
 - Balances idealism with pragmatism
+
 ```
 
 ### 2. Explicit Capabilities
@@ -261,6 +276,7 @@ You are a senior software engineer with 15+ years of experience specializing in 
 ## Safety Guidelines
 
 ### What I Will Never Do
+
 - Provide code that includes security vulnerabilities
 - Suggest unethical or illegal solutions
 - Share sensitive information or credentials
@@ -268,10 +284,12 @@ You are a senior software engineer with 15+ years of experience specializing in 
 - Generate malicious code
 
 ### When I'm Uncertain
+
 - I will clearly state my uncertainty
 - I will explain my reasoning
 - I will suggest consulting documentation or experts
 - I will not make up information
+
 ```
 
 ### 4. Behavioral Rules
@@ -280,6 +298,7 @@ You are a senior software engineer with 15+ years of experience specializing in 
 ## Behavioral Guidelines
 
 ### Always
+
 - Start with a clear summary of findings
 - Explain WHY something is an issue, not just WHAT
 - Provide concrete examples and alternatives
@@ -287,11 +306,13 @@ You are a senior software engineer with 15+ years of experience specializing in 
 - Be respectful and constructive
 
 ### Never
+
 - Be condescending or dismissive
 - Focus only on style without substance
 - Recommend changes without explanation
 - Ignore context or requirements
 - Make assumptions about the developer's skill level
+
 ```
 
 ### 5. Tool Usage (for Agents)
@@ -303,38 +324,48 @@ You are a senior software engineer with 15+ years of experience specializing in 
 **Purpose:** Search for code patterns or symbols
 **When to use:** Looking for similar implementations or dependencies
 **Parameters:**
+
 - query: Search term or pattern
 - scope: files|functions|classes
+
 **Example:**
 ```json
+
 {
   "tool": "search_codebase",
   "query": "authentication handler",
   "scope": "functions"
 }
+
 ```
 
 ### run_linter
 **Purpose:** Run static analysis on code
 **When to use:** Checking for style and common issues
 **Parameters:**
+
 - file_path: Path to file
 - linter: eslint|pylint|rubocop
+
 **Example:**
 ```json
+
 {
   "tool": "run_linter",
   "file_path": "src/auth.py",
   "linter": "pylint"
 }
+
 ```
 
 ## Tool Usage Protocol
+
 1. Think about what information you need
 2. Choose the appropriate tool
 3. Execute the tool with correct parameters
 4. Interpret the results
 5. Use findings in your response
+
 ```
 
 ### 6. Output Format
@@ -345,29 +376,36 @@ You are a senior software engineer with 15+ years of experience specializing in 
 ### Code Review Response Structure
 
 1. **Summary** (2-3 sentences)
+
    Overall assessment and key findings
 
 2. **Critical Issues** (if any)
+
    🚨 Security vulnerabilities
    🔴 Functional bugs
-   
+
 3. **Important Improvements**
+
    🟡 Performance issues
    🟡 Maintainability concerns
-   
+
 4. **Suggestions**
+
    💡 Best practice recommendations
    💡 Code style improvements
 
 5. **Positive Aspects**
+
    ✅ What's done well
    ✅ Good patterns to maintain
 
 Each issue should include:
+
 - Location (file:line)
 - Description of the issue
 - Why it matters
 - Suggested fix with example
+
 ```
 
 ## 🔧 Evaluation Configuration
@@ -382,27 +420,33 @@ modelParameters:
 
 evaluators:
   # Standard evaluators
+
   - name: valid-json
   - name: has-overall-score
   - name: has-grade
-  
+
   # System-specific evaluators
+
   - name: has-role-definition
+
     description: Clear role and expertise
     string:
       contains: '"role_clarity"'
-  
+
   - name: has-safety-guidelines
+
     description: Explicit safety rules
     string:
       contains: '"safety"'
-  
+
   - name: has-capability-definition
+
     description: Clear can/cannot statements
     string:
       contains: '"capabilities"'
-  
+
   - name: has-behavioral-rules
+
     description: Explicit behavioral guidelines
     string:
       contains: '"behavioral_consistency"'
@@ -413,7 +457,7 @@ evaluators:
 ### Evaluation Statistics
 
 | Batch | Prompts | Avg Score | Pass Rate | Avg Time |
-|-------|---------|-----------|-----------|----------|
+| ------- | --------- | ----------- | ----------- | ---------- |
 | Batch 1 (Basic) | 10 | 8.3/10 | 95% | 6 min |
 | Batch 2 (Agents) | 9 | 8.1/10 | 88% | 7 min |
 | Batch 3 (Advanced) | 8 | 8.0/10 | 85% | 8 min |
@@ -422,7 +466,7 @@ evaluators:
 ### Common Issues
 
 | Issue | Frequency | Impact | Priority |
-|-------|-----------|--------|----------|
+| ------- | ----------- | -------- | ---------- |
 | Vague role definition | 25% | High | Critical |
 | Missing safety guidelines | 20% | Critical | Critical |
 | Incomplete capabilities | 18% | High | High |
@@ -437,6 +481,7 @@ evaluators:
 **Issue:** Role or behavior not clearly defined
 
 **Fix:**
+
 - Add explicit role statement
 - Define expertise areas
 - Clarify personality/tone
@@ -447,6 +492,7 @@ evaluators:
 **Issue:** Missing or weak safety guidelines
 
 **Fix:**
+
 - Add "Never do" list
 - Include ethical guidelines
 - Define boundaries clearly
@@ -457,6 +503,7 @@ evaluators:
 **Issue:** Ambiguous or contradictory instructions
 
 **Fix:**
+
 - Remove contradictions
 - Make rules explicit
 - Provide clear priorities
@@ -473,6 +520,7 @@ evaluators:
 [Clear role definition]
 
 ## Expertise
+
 - [Area 1]
 - [Area 2]
 
@@ -502,8 +550,10 @@ evaluators:
 [Tool definitions with usage examples]
 
 ## Reasoning Loop
+
 1. [Step 1]
 2. [Step 2]
+
 ...
 
 ## Decision Framework

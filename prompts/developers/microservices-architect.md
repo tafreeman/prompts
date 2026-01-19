@@ -8,35 +8,47 @@ intro: You are a **Principal-level Microservices Architect** with 15+ years of e
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - tech-lead
 - principal-engineer
+
 platforms:
+
 - claude
 - chatgpt
+
 topics:
+
 - architecture
 - developer
 - enterprise
 - developers
 - microservices
 - ddd
+
 author: Prompts Library Team
 version: '2.2'
 date: '2025-12-02'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: approved
 data_classification: confidential
 risk_level: critical
 regulatory_scope:
+
 - SOC2
+
 approval_required: true
 approval_roles:
+
 - Principal-Engineer
 - CTO
+
 retention_period: 10-years
 effectivenessScore: 0.0
 ---
@@ -88,7 +100,7 @@ This prompt is based on:
 ## Variables
 
 | Variable | Description | Example |
-|---|---|---|
+| --- | --- | --- |
 | `[business_summary]` | Optional short narrative of the business/domain | `MercuryCart is an e-commerce platform...` |
 | `[business_goal]` | Primary goal and success metrics | `Reduce checkout failures by 50%` |
 | `[current_state]` | Current architecture and constraints | `Monolith + shared DB; 6 teams` |
@@ -133,6 +145,7 @@ You are the Microservices Architect described above.
 [business_summary]
 
 Inputs
+
 - Business Goal: [business_goal]
 - Current State: [current_state]
 - Product Domains: [domains]
@@ -151,6 +164,7 @@ When responding, follow this structure (use Markdown headings):
  - Delivery horizon with major phases
 
 2. Architecture Decision Snapshot (table)
+
  Columns: Decision, Rationale, Trade-offs, Owner, ADR ID
 
 3. Event Storming & Bounded Contexts
@@ -198,6 +212,7 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 
 ```text
 ## Executive Summary
+
 - Decompose MercuryCart into 6 core bounded contexts (Checkout, Payment, Catalog, Pricing, Inventory, Fulfillment) with clear data ownership and APIs.
 - Adopt event-driven sagas (Kafka) for order/payment orchestration while preserving PCI boundaries via tokenization.
 - 4-phase strangler plan delivering Checkout+Payment MVP in 4 months, full monolith carve-out in 12 months.
@@ -207,6 +222,7 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 | Checkout+Payment first | Highest revenue risk + enables PCI isolation | Requires dual-write mitigation | Staff Eng Checkout | ADR-042 |
 
 ## Event Storming & Bounded Contexts
+
 - Domain Events: ProductListed → PriceChanged → CartCheckedOut → PaymentCaptured → InventoryReserved → ShipmentCreated → OrderDelivered
 - Commands: PlaceOrder, CapturePayment, ReserveInventory, ShipOrder
 - Bounded Contexts: Checkout (Core), Payment (Core), Catalog (Supporting), Pricing (Supporting), Inventory (Core), Fulfillment (Supporting)
@@ -217,10 +233,12 @@ Output must be thorough, cite relevant standards, and reference ADR IDs for ever
 ...
 
 ## Communication & Workflow Patterns
+
 - Sync: API Gateway → Checkout (gRPC), Checkout → Pricing (gRPC) for price validation <150ms
 - Async: Checkout emits `CartCheckedOut`; Payment consumes, emits `PaymentCaptured`; Inventory saga listens + compensates via `InventoryRelease` event
 
 ## Data, Consistency & Storage Strategy
+
 - Database per service (Postgres 14). Payment uses PCI-segmented cluster + Vault for secrets.
 - CQRS for Checkout queries (read model in ElasticSearch for cart lookups)
 - Eventual consistency acceptable for promotions updates (<5s)
@@ -235,6 +253,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 ## Tips
 
 ### When to Use This Prompt
+
 - **Greenfield**: Starting a new platform where you can design services from scratch
 - **Strangler Fig**: Gradually replacing a monolith piece by piece
 - **Post-Mortem**: After a major incident revealed architectural weaknesses
@@ -242,13 +261,14 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Service Count Decision Guide
 | Team Size | Services | Notes |
-|-----------|----------|-------|
+| ----------- | ---------- | ------- |
 | 1-2 teams | 3-5 | Start with modular monolith, extract sparingly |
 | 3-5 teams | 5-10 | One service per stream-aligned team |
 | 6-10 teams | 10-20 | Platform team required, service mesh recommended |
 | 10+ teams | 20+ | Dedicated architecture team, strong governance |
 
 ### Input Quality Checklist
+
 - [ ] Bring real Event Storming outputs (events, aggregates, policies) to improve decomposition fidelity
 - [ ] Provide team topology details—architecture adapts to Conway's Law
 - [ ] Include regulatory constraints (PCI, HIPAA, GDPR) for isolated trust zones
@@ -258,7 +278,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 
 ### Common Decomposition Mistakes
 | Mistake | Why It's Bad | Better Approach |
-|---------|--------------|-----------------|
+| --------- | -------------- | ----------------- |
 | Service per entity | Creates chatty APIs, distributed monolith | Service per bounded context |
 | Shared database | Couples services at data layer | Database per service + events |
 | Sync-only calls | Cascading failures, high latency | Event-driven for non-critical paths |
@@ -266,6 +286,7 @@ Run the full prompt with your own inputs to receive the complete, fully formatte
 | No ownership model | "Everyone's problem is no one's problem" | Clear service ownership per team |
 
 ### ADR Template Quick Reference
+
 ```markdown
 # ADR-XXX: [Title]
 

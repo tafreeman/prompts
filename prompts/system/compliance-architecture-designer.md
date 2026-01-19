@@ -5,21 +5,29 @@ intro: Designs compliance-focused architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - compliance
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,25 +52,25 @@ flowchart TB
         Classify[Data Classification]
         Consent[Consent Management]
     end
-    
+
     subgraph Controls[Control Layer]
         IAM[Identity & Access]
         Encrypt[Encryption Services]
         DLP[Data Loss Prevention]
     end
-    
+
     subgraph Monitoring[Monitoring Layer]
         Audit[Audit Logging]
         SIEM[SIEM Platform]
         Alerts[Alert Management]
     end
-    
+
     subgraph Data[Data Layer]
         PII[(PII Data Store)]
         Tokens[(Tokenization)]
         Archive[(Audit Archive)]
     end
-    
+
     Policy --> IAM
     Policy --> Encrypt
     Classify --> DLP
@@ -83,7 +91,7 @@ flowchart TB
 ### Compliance Requirements Matrix
 
 | Regulation | Key Requirements | Architecture Impact |
-|------------|------------------|--------------------|
+| ------------ | ------------------ | -------------------- |
 | **GDPR** | Data minimization, right to erasure, consent | Tokenization, soft delete, consent service |
 | **HIPAA** | PHI protection, access controls, audit trails | Encryption at rest/transit, RBAC, comprehensive logging |
 | **SOX** | Financial controls, segregation of duties | Approval workflows, immutable audit logs |
@@ -93,7 +101,7 @@ flowchart TB
 ### When to Engage Compliance Architecture
 
 | Criteria | Indicators |
-|----------|------------|
+| ---------- | ------------ |
 | **Regulated Industry** | Healthcare, finance, government, critical infrastructure |
 | **Personal Data** | Processing PII, PHI, or financial data |
 | **Multi-Jurisdiction** | Operating in EU, California, or multiple regions |
@@ -124,12 +132,14 @@ Data Sensitivity: [sensitivity]
 Audit Requirements: [audit]
 
 Provide:
+
 1. Compliance framework
 2. Control implementation
 3. Data governance
 4. Audit trail design
 5. Monitoring strategy
 6. Reporting mechanisms
+
 ```text
 
 **Output:**
@@ -138,14 +148,17 @@ Provide:
 ## Compliance Architecture
 
 ### 1. Compliance Framework
+
 *   **Strategy:** "Privacy by Design" and "Zero Trust".
 *   **Mapping:** Unified Control Framework (UCF) mapping ISO 27001 controls to GDPR articles.
 
 ### 2. Control Implementation
+
 *   **Data Sovereignty:** Tenant pinning to specific AWS regions (e.g., EU-West-1 for German customers) to satisfy GDPR residency.
 *   **Encryption:** Field-level encryption for SPII (SSN, Salary) using distinct KMS keys per tenant.
 
 ### 3. Data Governance
+
 *   **Classification:** Auto-tagging data at ingestion (Public, Internal, Confidential, Restricted).
 *   **Retention:** Automated S3 Lifecycle policies to delete candidate data after 6 months (GDPR minimization).
 *   **Deletion:** "Tombstoning" records for Right to be Forgotten, ensuring backups are also scrubbed (crypto-shredding).
@@ -167,6 +180,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **Compliance Tools**: Azure Policy, Azure Blueprints, Compliance Manager
 - **Data Protection**: Azure Information Protection, Customer Lockbox
 - **Key Management**: Azure Key Vault with HSM, Customer-Managed Keys
@@ -174,6 +188,7 @@ Provide:
 - **Certifications**: 90+ compliance offerings including GDPR, HIPAA, SOC 2
 
 ### AWS
+
 - **Compliance Tools**: AWS Config, AWS Audit Manager, Security Hub
 - **Data Protection**: Macie (PII detection), CloudHSM, KMS
 - **Governance**: Organizations, Control Tower, Service Control Policies
@@ -181,6 +196,7 @@ Provide:
 - **Certifications**: HIPAA BAA, PCI-DSS, SOC 1/2/3, FedRAMP
 
 ### GCP
+
 - **Compliance Tools**: Security Command Center, Policy Intelligence
 - **Data Protection**: Cloud DLP, Cloud KMS, Confidential Computing
 - **Governance**: Organization Policy, Access Transparency
@@ -195,6 +211,7 @@ Provide:
 A global HR SaaS platform processing employee data across 30 countries needs to comply with GDPR, CCPA, and prepare for ISO 27001 certification.
 
 ### Input
+
 ```text
 Regulatory Requirements: GDPR (EU), CCPA (California), ISO 27001 certification target
 Business Domain: HR SaaS platform with 500+ enterprise customers

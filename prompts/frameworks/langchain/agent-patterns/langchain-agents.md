@@ -5,17 +5,23 @@ intro: A prompt for langchain agent patterns tasks.
 type: conceptual
 difficulty: advanced
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -26,10 +32,12 @@ framework_compatibility:
   openai: '>=1.0.0'
   anthropic: '>=0.8.0'
 use_cases:
+
 - autonomous-agents
 - tool-orchestration
 - research-agents
 - data-analysis
+
 performance_metrics:
   autonomy_level: high
   task_completion_rate: 80-90%
@@ -42,14 +50,18 @@ governance:
   data_classification: internal
   risk_level: medium
   compliance_standards:
+
   - ISO27001
+
 last_updated: '2025-11-23'
 tags:
+
 - langchain
 - agents
 - tools
 - autonomous
 - python
+
 ---
 
 # LangChain Agent Patterns
@@ -95,6 +107,7 @@ Observation: the result of the action
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
 ```
+
 ## Example
 
 ### Building a Research Agent
@@ -158,6 +171,7 @@ result = agent_executor.invoke({
 
 print(result["output"])
 ```
+
 ### Expected Agent Flow
 
 ```powershell
@@ -174,6 +188,7 @@ Observation: Search results for: Apple stock analyst opinions 2025
 Thought: I now have both pieces of information.
 Final Answer: Apple's current stock price is $150.25. Analysts are generally bullish...
 ```
+
 ## Usage
 
 ### When to Use Agents
@@ -198,7 +213,7 @@ import pyodbc
 class SQLQueryTool(BaseTool):
     name = "SQLQuery"
     description = "Execute SQL queries against the company database. Input should be a valid SQL SELECT statement."
-    
+
     def _run(self, query: str) -> str:
         """Execute SQL query."""
         try:
@@ -209,7 +224,7 @@ class SQLQueryTool(BaseTool):
             return str(rows[:10])  # Return first 10 rows
         except Exception as e:
             return f"Error: {str(e)}"
-    
+
     async def _arun(self, query: str) -> str:
         """Async version."""
         raise NotImplementedError("Async not implemented")
@@ -217,6 +232,7 @@ class SQLQueryTool(BaseTool):
 # Add to tools list
 tools.append(SQLQueryTool())
 ```
+
 ## Best Practices
 
 1. **Limit Tools**: 5-7 tools max. Too many confuses the agent.

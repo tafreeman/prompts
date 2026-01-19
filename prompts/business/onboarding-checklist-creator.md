@@ -5,21 +5,29 @@ intro: "Generate comprehensive onboarding checklists that ensure new hires are s
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "project-manager"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "management"
   - "hr"
   - "onboarding"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 0.0
@@ -147,6 +155,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ## Pre-Start Checklist (Complete by Dec 6)
 
 ### IT & Access (Owner: IT/Manager)
+
 - [ ] Laptop ordered and configured (MacBook Pro 16")
 - [ ] Email account created: priya.sharma@company.com
 - [ ] Slack account provisioned + added to channels: #analytics, #data-science, #nyc-office
@@ -157,6 +166,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 - [ ] Building access badge prepared (for Tues/Thurs office days)
 
 ### Manager Prep (Owner: David Chen)
+
 - [ ] 30/60/90 day goals drafted
 - [ ] Onboarding buddy assigned (recommend: Marcus - senior DS, been here 2 years)
 - [ ] First project identified (churn model v2 handoff from Lisa)
@@ -164,6 +174,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 - [ ] Welcome message drafted for team Slack channel
 
 ### Welcome Materials (Owner: HR/Manager)
+
 - [ ] Welcome email sent with:
   - [ ] First day logistics (arrive by 9am, ask for David at reception)
   - [ ] What to bring (ID for badge, personal items for desk)
@@ -180,7 +191,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ### Morning (9:00 AM - 12:00 PM)
 
 | Time | Activity | Owner | Location |
-|------|----------|-------|----------|
+| ------ | ---------- | ------- | ---------- |
 | 9:00 | Arrive, badge pickup, desk setup | David | NYC Office - Lobby |
 | 9:30 | Welcome coffee with David | David | Coffee bar |
 | 10:00 | HR orientation (benefits, policies, systems) | HR | Conf room A |
@@ -190,7 +201,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ### Afternoon (12:00 PM - 5:00 PM)
 
 | Time | Activity | Owner | Location |
-|------|----------|-------|----------|
+| ------ | ---------- | ------- | ---------- |
 | 12:00 | Team lunch (Analytics team) | David | Local restaurant |
 | 1:30 | Meet your buddy: Marcus | Marcus | Conf room B |
 | 2:30 | Analytics team overview (mission, projects, rituals) | David | Conf room B |
@@ -198,6 +209,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 | 4:30 | End-of-day check-in with David | David | David's office |
 
 ### Day 1 Goals
+
 - [ ] Laptop fully configured and can access all systems
 - [ ] Met the entire Analytics team
 - [ ] Knows where to find help (buddy, Slack channels, wiki)
@@ -205,6 +217,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 - [ ] One small win: sent first Slack message to #analytics
 
 ### Evening Assignment (Optional)
+
 - Read: Analytics team wiki (30 min)
 - Skim: Churn model v1 documentation (15 min)
 
@@ -217,13 +230,14 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 **Theme**: Understand the data landscape
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| ------ | ---------- | --------- |
 | 10:00 | Data infrastructure overview with Carlos (Data Eng) | Understand data pipelines, Snowflake structure |
 | 11:30 | 1:1 with Lisa (current churn model owner) | Knowledge transfer kickoff |
 | 2:00 | Product team intro: Meet Sarah (PM, Growth) | Understand customer context |
 | 3:30 | Self-study: Explore Snowflake tables, run sample queries | Hands-on data familiarity |
 
 **Day 2 Goals**:
+
 - [ ] Can navigate Snowflake and find key tables
 - [ ] Understands data flow from product → warehouse
 - [ ] Has first conversation with stakeholder (Sarah)
@@ -235,13 +249,14 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 **Theme**: Deep dive on current projects
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| ------ | ---------- | --------- |
 | 10:00 | Churn model walkthrough with Lisa (Zoom) | Understand model architecture, features, limitations |
 | 11:30 | Self-study: Run churn model notebook, review code | Hands-on with existing work |
 | 2:00 | Meet Customer Success: Intro with Jordan (CS Lead) | Understand how predictions are used |
 | 3:30 | Document questions for David | Prepare for Thursday sync |
 
 **Day 3 Goals**:
+
 - [ ] Can run existing churn model end-to-end
 - [ ] Has list of questions about model/data
 - [ ] Understands downstream users of the model
@@ -253,13 +268,14 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 **Theme**: Cross-functional relationships
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| ------ | ---------- | --------- |
 | 10:00 | Meet Engineering: Intro with Platform team lead | Understand tech stack, deployment process |
 | 11:00 | Weekly Analytics team standup | Observe team rituals |
 | 2:00 | 1:1 with David (weekly sync) | Discuss Week 1 learnings, answer questions |
 | 3:00 | Skip-level: Coffee with VP of Data (optional if available) | Big picture context |
 
 **Day 4 Goals**:
+
 - [ ] Met key cross-functional partners
 - [ ] Attended first team meeting
 - [ ] Week 1 questions addressed with David
@@ -271,13 +287,14 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 **Theme**: Consolidate and plan
 
 | Time | Activity | Purpose |
-|------|----------|---------|
+| ------ | ---------- | --------- |
 | 10:00 | Self-study: Complete any pending documentation review | Fill knowledge gaps |
 | 11:00 | Write Week 1 reflection doc (share with David) | Synthesize learnings |
 | 2:00 | Buddy check-in with Marcus | Ask remaining questions |
 | 3:00 | Plan Week 2 priorities with David (async or Zoom) | Set direction |
 
 **Day 5 Goals**:
+
 - [ ] Week 1 reflection doc completed and shared
 - [ ] Comfortable with tools, systems, and team
 - [ ] Knows Week 2 focus area
@@ -287,18 +304,21 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ## 30-Day Milestones (by Jan 8)
 
 ### Understanding
+
 - [ ] Can explain company's business model and key metrics to a new hire
 - [ ] Understands Analytics team's OKRs and how churn model fits
 - [ ] Knows the top 5 data tables used by the team and their purpose
 - [ ] Can articulate why churn prediction matters to the business
 
 ### Relationships
+
 - [ ] Had 1:1s with all Analytics team members
 - [ ] Built relationship with key stakeholder (Sarah in Product)
 - [ ] Knows who to go to for: data questions (Carlos), product context (Sarah), model review (Lisa)
 - [ ] Comfortable asking questions in team Slack channel
 
 ### Contribution
+
 - [ ] Completed churn model v2 knowledge transfer from Lisa
 - [ ] Identified 2-3 potential improvements to existing model
 - [ ] Made first commit to analytics codebase (even if small)
@@ -306,6 +326,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 
 ### Check-in Meeting (30-day)
 **Agenda**:
+
 1. What's going well?
 2. What's confusing or frustrating?
 3. Review 30-day goals (what's on track, what needs adjustment)
@@ -316,23 +337,27 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ## 60-Day Milestones (by Feb 7)
 
 ### Independence
+
 - [ ] Can run end-to-end analysis without significant guidance
 - [ ] Owns churn model v2 improvements (Lisa has fully handed off)
 - [ ] Responds to ad-hoc data requests from stakeholders independently
 - [ ] Attends stakeholder meetings as Analytics representative (not shadow)
 
 ### Project Ownership
+
 - [ ] Leading churn model v2 project (scope, timeline, execution)
 - [ ] Has shipped at least one improvement to production model
 - [ ] Documented work in team wiki for future reference
 
 ### Feedback
+
 - [ ] Gave feedback to manager on onboarding experience
 - [ ] Received first formal feedback from David (60-day check-in)
 - [ ] Identified one area for personal development focus
 
 ### Check-in Meeting (60-day)
 **Agenda**:
+
 1. Review 60-day goals
 2. Discuss project progress and blockers
 3. Gather feedback on onboarding
@@ -343,24 +368,28 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ## 90-Day Success Criteria (by Mar 8)
 
 ### Full Productivity
+
 - [ ] Performing at expected level for Senior Data Scientist
 - [ ] Independently scoping and delivering projects
 - [ ] Proactively identifying opportunities, not just executing requests
 - [ ] Velocity comparable to tenured team members
 
 ### Cultural Integration
+
 - [ ] Contributing to team discussions and decisions
 - [ ] Building reputation as go-to person for churn/retention analysis
 - [ ] Comfortable pushing back respectfully on stakeholder requests
 - [ ] Has helped onboard or mentor someone else (if opportunity arises)
 
 ### Deliverables
+
 - [ ] Churn model v2 shipped and in production
 - [ ] Model performance improved by [target metric]
 - [ ] Stakeholders (Product, CS) actively using new predictions
 - [ ] Presented results to broader team or company
 
 ### Manager Evaluation Questions
+
 1. Would I hire Priya again? (Yes/No + why)
 2. Is Priya performing at the Senior level? (expectations met?)
 3. What would make Priya exceptional in the next 6 months?
@@ -371,7 +400,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 ## Key Contacts Quick Reference
 
 | Person | Role | When to Contact |
-|--------|------|-----------------|
+| -------- | ------ | ----------------- |
 | David Chen | Manager | Weekly 1:1s, blockers, feedback |
 | Marcus | Buddy | Day-to-day questions, cultural norms |
 | Lisa | Churn model owner | Technical knowledge transfer |
@@ -390,6 +419,7 @@ The AI produces a structured onboarding plan with checklists, schedules, milesto
 3. What would you change for the next new hire?
 4. Rate your onboarding experience: 1-5
 5. Additional comments?
+
 ```text
 
 ---

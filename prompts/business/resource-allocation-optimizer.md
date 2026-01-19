@@ -6,20 +6,28 @@ intro: Optimizes project resource allocation with skill gap analysis, workload b
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - resource-management
 - project-management
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Project Constraints: [constraints]
 Priority Areas: [priorities]
 
 Provide:
+
 1. Resource allocation matrix
 2. Skill gap analysis
 3. Workload balancing
 4. Timeline optimization
 5. Cost efficiency measures
 6. Contingency planning
+
 ```text
 
 ---
@@ -79,14 +89,17 @@ Provide:
 ## Resource Optimization Plan
 
 ### 1. Resource Allocation Matrix
+
 *   **Web Dev:** Allocated 100% to "Landing Page" for Weeks 1-3. No other tasks assigned.
 *   **Designers:** 1 Designer paired with Web Dev (Asset prep), 2 Designers on Social/Email.
 
 ### 2. Workload Balancing
+
 *   **Bottleneck Management:** Since Dev is limited, Copywriters must finalize text *before* Dev starts coding to prevent rework (Shift-Left).
 *   **Design:** Front-load social asset creation to free up designers for last-minute landing page QA.
 
 ### 3. Timeline Optimization
+
 *   **Critical Path:** Copy -> Design -> Web Dev -> QA -> Launch.
 *   **Crash Strategy:** If Dev falls behind, approve budget for 20 hours of external contractor support.
 

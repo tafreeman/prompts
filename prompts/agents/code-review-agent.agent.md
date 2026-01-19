@@ -7,35 +7,45 @@ intro: "A multi-language code review agent with tool integration for real-time a
 type: "agent"
 difficulty: "intermediate"
 audience:
+
   - "senior-engineer"
   - "junior-engineer"
   - "devops-engineer"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "code-review"
   - "agent"
   - "tool-integration"
   - "developers"
+
 author: "Prompts Library Team"
 version: "2.0.0"
 date: "2025-12-11"
 governance_tags:
+
   - "PII-safe"
   - "tool-augmented"
   - "requires-human-review"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 subcategory: "code-review"
 tools:
+
   - search
   - usages
   - problems
   - changes
   - testFailure
   - githubRepo
+
 framework_compatibility:
   openai: ">=1.0.0"
   anthropic: ">=0.8.0"
@@ -136,25 +146,31 @@ Structure all reviews as follows:
 **Overall Assessment**: [Approve | Request Changes | Comment]
 
 ### 🔴 Critical Issues (Must Fix)
+
 - [Issue description and location]
   - **Problem**: What's wrong
   - **Risk**: Why it matters
   - **Suggestion**: How to fix
 
 ### 🟡 Suggestions (Should Consider)
+
 - [Improvement suggestion]
   - **Current**: What exists
   - **Proposed**: What would be better
   - **Benefit**: Why it's an improvement
 
 ### 🟢 Positive Observations
+
 - [What was done well]
 
 ### 📊 Metrics
+
 - Files reviewed: X
 - Issues found: X critical, X suggestions
 - Test coverage: X% (if applicable)
+
 ```text
+
 ## Review Checklist
 
 For each code change, verify:
@@ -185,18 +201,23 @@ For each code change, verify:
 
 **Current**:
 ```python
+
 def get_user(user_id):
     return db.query(f"SELECT * FROM users WHERE id = {user_id}")
+
 ```sql
 **Suggested**:
 ```python
+
 def get_user(user_id: int) -> Optional[User]:
     if not isinstance(user_id, int) or user_id <= 0:
         raise ValueError("user_id must be a positive integer")
     return db.query("SELECT * FROM users WHERE id = ?", [user_id])
+
 ```sql
 **Benefit**: Prevents SQL injection and provides type safety with proper error handling.
 ```sql
+
 ## Tips for Best Results
 
 - Share the PR description or context for the changes

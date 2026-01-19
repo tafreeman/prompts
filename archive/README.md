@@ -20,10 +20,10 @@ Evaluation runs, test results, and temporary analysis artifacts. These files are
 ## Regenerating Artifacts
 
 Most artifacts can be regenerated using:
+
 - `tools/batch_free_eval.py` for evaluation results
 - `python -m pytest testing/` for test outputs
 - `tools/model_probe.py` for model discovery
 
-## Safe to Delete?
-
+## Safe to Delete
 Yes, all files in this archive can be safely deleted. They are preserved for historical reference only. The canonical documentation and source code remains in the main repository structure.

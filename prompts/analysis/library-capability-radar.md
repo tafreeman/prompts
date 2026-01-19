@@ -6,20 +6,28 @@ intro: Guides generation of a Radar Chart to assess the maturity and balance of 
 type: how_to
 difficulty: intermediate
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - visualization
 - analysis
+
 author: GitHub Copilot
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -85,6 +93,7 @@ The axis for each domain should represent the number of prompts available (e.g.,
 
 This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
 ```text
+
 ```
 
 ## Variables
@@ -98,7 +107,9 @@ This visualization should highlight gaps in the library—for example, showing a
 **Input:**
 
 ```text
+
 CATEGORY_COUNTS:
+
 - Advanced: 12
 - Analysis: 24
 - Business: 30
@@ -106,16 +117,19 @@ CATEGORY_COUNTS:
 - Developers: 18
 - Governance: 5
 - System: 9
+
 ```
 
 **Output:**
 
 ```text
+
 Provide Python/Matplotlib code that:
 1) Creates 7 radar axes labeled: Advanced, Analysis, Business, Creative, Developers, Governance, System
 2) Plots the provided values as a closed polygon
 3) Sets the radial limit to at least max(value) (e.g., 0..30)
 4) Adds a title "Prompt Library Coverage Radar" and a light grid
+
 ```
 
 ## Tips

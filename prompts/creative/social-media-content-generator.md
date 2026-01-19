@@ -5,23 +5,31 @@ intro: "Create engaging social media posts optimized for various platforms inclu
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "social-media"
   - "content-marketing"
   - "creative"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.2
@@ -65,12 +73,14 @@ You are an expert social media content strategist with deep knowledge of platfor
 [WHAT DO YOU WANT READERS TO DO?]
 
 **Additional Context:**
+
 - Include hashtags: [YES/NO - HOW MANY?]
 - Include emojis: [YES/NO - STYLE?]
 - Include statistics/data: [YES/NO]
 - Character limit awareness: [YES/NO]
 
 Please create a post that:
+
 1. Hooks readers in the first line
 2. Delivers value or insight
 3. Encourages engagement (likes, comments, shares)
@@ -79,15 +89,17 @@ Please create a post that:
 6. Uses appropriate hashtags and emojis if requested
 
 Also provide:
+
 - Best time to post suggestion
 - Engagement prediction (low/medium/high)
 - Alternative hook option
+
 ```text
 
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[LINKEDIN/TWITTER/INSTAGRAM/FACEBOOK]` | Target platform |
 | `[YOUR CONTENT TOPIC]` | Topic/theme |
 | `[ENGAGEMENT/AWARENESS/TRAFFIC/LEADS/COMMUNITY]` | Primary goal |

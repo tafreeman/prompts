@@ -6,32 +6,42 @@ intro: A systematic ReAct+Reflection prompt for processing GDPR/CCPA data subjec
 type: how_to
 difficulty: intermediate
 audience:
+
 - solution-architect
 - backend-engineer
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - governance
 - privacy
 - compliance
 - gdpr
 - ccpa
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-05'
 governance_tags:
+
 - requires-human-review
 - compliance-critical
 - pii-handling
+
 dataClassification: confidential
 reviewStatus: draft
 regulatory_scope:
+
 - GDPR
 - UK-GDPR
 - CCPA
 - CPRA
+
 effectivenessScore: 0.0
 ---
 
@@ -48,16 +58,19 @@ A comprehensive prompt for processing data subject requests under GDPR, UK GDPR,
 ## Research Foundation
 
 **Regulatory Basis:**
+
 - GDPR Articles 12-23 (Data Subject Rights)
 - GDPR Article 12(3) - Response timeline (1 month, extendable to 3)
 - CCPA Section 1798.100-1798.199 (Consumer Rights)
 - CPRA amendments to CCPA (effective 2023)
 
 **Methodology:**
+
 - ReAct reasoning pattern (Yao et al., ICLR 2023) for systematic request processing
 - Self-Refine reflection (Madaan et al., NeurIPS 2023) for compliance validation
 
 **Data Subject Rights Covered:**
+
 1. Right of Access (Article 15)
 2. Right to Rectification (Article 16)
 3. Right to Erasure/Right to be Forgotten (Article 17)
@@ -111,7 +124,7 @@ Analyze the request to determine the specific right(s) being exercised.
 Classify the request:
 
 | GDPR Right | Article | CCPA Equivalent | Detected? |
-|------------|---------|-----------------|-----------|
+| ------------ | --------- | ----------------- | ----------- |
 | Access | Art. 15 | Right to Know | ☐ |
 | Rectification | Art. 16 | Right to Correct | ☐ |
 | Erasure | Art. 17 | Right to Delete | ☐ |
@@ -142,7 +155,7 @@ Apply verification requirements:
 **Verification Level Required:**
 
 | Risk Level | Verification Method | Evidence Required |
-|------------|--------------------|--------------------|
+| ------------ | -------------------- | -------------------- |
 | Low | Email match | Request from registered email |
 | Medium | Knowledge-based | Account details, recent transactions |
 | High | Documentary | Government ID, utility bill |
@@ -156,6 +169,7 @@ Apply verification requirements:
 4. [ ] Document verification decision
 
 **Verification Status:**
+
 - [ ] **Verified** - Identity confirmed, proceed
 - [ ] **Pending** - Additional verification requested
 - [ ] **Unverified** - Cannot confirm identity
@@ -179,7 +193,7 @@ Execute data discovery:
 **System Inventory:**
 
 | System | Data Categories | Personal Data Found | Notes |
-|--------|-----------------|---------------------|-------|
+| -------- | ----------------- | --------------------- | ------- |
 | CRM | Contact, Transactions | ✅/❌ | [Details] |
 | Marketing DB | Email, Preferences | ✅/❌ | [Details] |
 | Support Tickets | Communications | ✅/❌ | [Details] |
@@ -192,7 +206,7 @@ Execute data discovery:
 **Data Categories Found:**
 
 | Category | Source | Lawful Basis | Retention Period |
-|----------|--------|--------------|------------------|
+| ---------- | -------- | -------------- | ------------------ |
 | Identity data | [Source] | [Basis] | [Period] |
 | Contact data | [Source] | [Basis] | [Period] |
 | Financial data | [Source] | [Basis] | [Period] |
@@ -217,12 +231,14 @@ Determine if any exemptions or limitations apply to the requested right.
 Assess exemptions:
 
 **For Right of Access (Art. 15):**
+
 - [ ] Third-party rights protection applies
 - [ ] Trade secrets/intellectual property applies
 - [ ] Legal claims exemption applies
 - [ ] No exemptions - full disclosure
 
 **For Right to Erasure (Art. 17):**
+
 - [ ] Legal obligation to retain data
 - [ ] Public interest grounds
 - [ ] Legal claims establishment/defense
@@ -230,12 +246,14 @@ Assess exemptions:
 - [ ] No exemptions - proceed with erasure
 
 **For Right to Portability (Art. 20):**
+
 - [ ] Data provided by the subject ✓
 - [ ] Automated processing ✓
 - [ ] Consent or contract basis ✓
 - [ ] Technically feasible ✓
 
 **Assessment Result:**
+
 - [ ] **Full compliance** - No exemptions apply
 - [ ] **Partial compliance** - Some exemptions apply
 - [ ] **Decline** - Valid exemption covers entire request
@@ -257,6 +275,7 @@ Execute the appropriate actions based on request type.
 
 **For Access Request:**
 ```markdown
+
 1. Compile data from all identified systems
 2. Format in clear, intelligible manner
 3. Include:
@@ -267,10 +286,12 @@ Execute the appropriate actions based on request type.
    - Source of data (if not from subject)
    - Automated decision-making details
    - Safeguards for international transfers
+
 ```
 
 **For Erasure Request:**
 ```markdown
+
 1. Delete from primary systems:
    - [ ] CRM record deleted
    - [ ] Marketing preferences removed
@@ -283,24 +304,29 @@ Execute the appropriate actions based on request type.
    - [ ] Backup deletion scheduled
    - [ ] Retention exception documented
 4. Generate deletion certificate
+
 ```
 
 **For Portability Request:**
 ```markdown
+
 1. Extract qualifying data
 2. Convert to machine-readable format (JSON/CSV)
 3. Prepare secure transmission method
 4. Document data excluded (not qualifying)
+
 ```
 
 **For Rectification Request:**
 ```markdown
+
 1. Identify incorrect data
 2. Verify correct data from subject
 3. Update in all systems:
    - [ ] System 1 updated
    - [ ] System 2 updated
 4. Notify recipients of correction
+
 ```
 
 ### Observe
@@ -331,6 +357,7 @@ Generate response:
 **Response Template:**
 
 ```
+
 Dear [REQUESTER_NAME],
 
 RE: Your [REQUEST_TYPE] Request - Reference [REF_NUMBER]
@@ -354,6 +381,7 @@ For any questions, please contact our Data Protection Officer at [DPO_CONTACT].
 
 Regards,
 [ORGANIZATION_NAME] Privacy Team
+
 ```
 
 ### Observe
@@ -366,22 +394,26 @@ Verify response completeness and compliance.
 ### Compliance Checklist
 
 **Timing:**
+
 - [ ] Response within 1 month (GDPR) / 45 days (CCPA)?
 - [ ] Extension communicated if needed?
 
 **Process:**
+
 - [ ] Identity properly verified?
 - [ ] All systems searched?
 - [ ] Exemptions properly applied?
 - [ ] Third-party processors notified?
 
 **Documentation:**
+
 - [ ] Request logged in DSR register?
 - [ ] Actions documented with timestamps?
 - [ ] Exemption justifications recorded?
 - [ ] Response copy retained?
 
 **Quality:**
+
 - [ ] Response in clear, plain language?
 - [ ] No excessive redactions?
 - [ ] Complaint rights included?
@@ -389,10 +421,11 @@ Verify response completeness and compliance.
 
 ### Gap Analysis
 | Issue | Impact | Remediation |
-|-------|--------|-------------|
+| ------- | -------- | ------------- |
 | [Issue] | [Impact] | [Action] |
 
 ### Lessons Learned
+
 - [Improvement for future requests]
 
 ---
@@ -400,6 +433,7 @@ Verify response completeness and compliance.
 ## Output Format
 
 ### 1. Request Summary
+
 - Request ID: [REF]
 - Type: [TYPE]
 - Status: [Complete/Pending/Declined]
@@ -407,7 +441,7 @@ Verify response completeness and compliance.
 
 ### 2. Action Log
 | Timestamp | Action | System | Outcome | Actor |
-|-----------|--------|--------|---------|-------|
+| ----------- | -------- | -------- | --------- | ------- |
 
 ### 3. Data Package (if applicable)
 [Attached file description]
@@ -416,13 +450,14 @@ Verify response completeness and compliance.
 [Final response text]
 
 ### 5. Internal Documentation
+
 - Verification evidence: [Reference]
 - Exemption justification: [Reference]
 - Processor notifications: [References]
 
 ### 6. Follow-up Actions
 | Action | Owner | Due Date | Status |
-|--------|-------|----------|--------|
+| -------- | ------- | ---------- | -------- |
 ```
 
 ---
@@ -430,7 +465,7 @@ Verify response completeness and compliance.
 ## Variables
 
 | Variable | Description | Example |
-|----------|-------------|---------|
+| ---------- | ------------- | --------- |
 | `[REQUEST_TYPE]` | Type of DSR | "Right of Erasure" |
 | `[REQUESTER_NAME]` | Data subject's name | "John Smith" |
 | `[EMAIL/PHONE/PORTAL]` | How request was received | "support@company.com" |
@@ -452,10 +487,12 @@ Verify response completeness and compliance.
 **Type:** Right to Erasure (GDPR Art. 17)
 
 ### 1. Identity Verification
+
 *   **Method:** Email verification link sent to registered address.
 *   **Status:** Verified on 2025-11-02.
 
 ### 2. Data Discovery & Action
+
 *   **CRM (Salesforce):** Found contact record. *Action:* Anonymized.
 *   **Database (Postgres):** Found 45 transaction records. *Action:* Retained (Legal Obligation - Tax Law).
 *   **Marketing (Mailchimp):** Found in "Newsletter" list. *Action:* Deleted.
@@ -465,8 +502,10 @@ Verify response completeness and compliance.
 "Dear John, We have processed your erasure request. Your marketing and profile data has been deleted. Note that we are legally required to retain transaction records for 7 years for tax purposes..."
 
 ### 4. Outcome
+
 *   **Status:** Closed
 *   **Completion Date:** 2025-11-05 (3 days processing)
+
 ```
 
 ---

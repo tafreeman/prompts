@@ -5,19 +5,25 @@ intro: "Comprehensive collection of AI prompts organized by use case, technique,
 type: "reference"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "senior-engineer"
   - "business-analyst"
   - "investigator"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "public"
 reviewStatus: "approved"
 ---
@@ -50,7 +56,7 @@ prompts/
 ### By Role
 
 | Role | Recommended Starting Point | Key Directories |
-|------|---------------------------|-----------------|
+| ------ | --------------------------- | ----------------- |
 | **Developers** | [developers/](./developers/) | `developers/`, `techniques/`, `frameworks/` |
 | **Business Analysts** | [business/](./business/) | `business/`, `analysis/`, `templates/` |
 | **Creative Professionals** | [creative/](./creative/) | `creative/`, `templates/` |
@@ -61,7 +67,7 @@ prompts/
 ### By Use Case
 
 | Use Case | Directory | Description |
-|----------|-----------|-------------|
+| ---------- | ----------- | ------------- |
 | **Code Generation** | [developers/](./developers/) | Write, debug, and optimize code |
 | **Strategy & Planning** | [business/](./business/) | Business analysis and decision support |
 | **Data Analysis** | [analysis/](./analysis/) | Extract insights from data |
@@ -95,6 +101,7 @@ python tools/prompt.py run --file developers/code-generation.md
 ### For Advanced Users
 
 Explore sophisticated patterns in:
+
 - [techniques/reflexion/](./techniques/reflexion/) - Self-correction and improvement
 - [techniques/agentic/](./techniques/agentic/) - Multi-agent workflows
 - [techniques/context-optimization/](./techniques/context-optimization/) - Long-context handling
@@ -149,7 +156,7 @@ Brief description of what this prompt does.
 
 ## Variables
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[VAR]`  | What to replace |
 
 ## Example
@@ -176,6 +183,7 @@ grep -r "difficulty: beginner" prompts/
 ### By Metadata
 
 All prompts include structured metadata:
+
 - **difficulty**: beginner, intermediate, advanced
 - **platforms**: github-copilot, claude, chatgpt, etc.
 - **audience**: junior-engineer, senior-engineer, business-analyst, etc.
@@ -186,7 +194,7 @@ All prompts include structured metadata:
 Based on effectiveness scoring (75+/100):
 
 | Prompt | Category | Score | Use Case |
-|--------|----------|-------|----------|
+| -------- | ---------- | ------- | ---------- |
 | [Chain-of-Thought Analysis](./techniques/chain-of-thought-analysis.md) | Advanced | 90 | Complex reasoning |
 | [ReAct Knowledge Base](./techniques/react-knowledge-base.md) | Advanced | 88 | Tool-augmented tasks |
 | [Basic Reflexion](./techniques/reflexion/basic-reflexion/) | Techniques | 87 | Self-correction |
@@ -197,6 +205,7 @@ Based on effectiveness scoring (75+/100):
 Want to add a prompt? See our [contribution guidelines](../CONTRIBUTING.md).
 
 Each new prompt should:
+
 1. Follow the standard format (use [templates/prompt-template.md](./templates/prompt-template.md))
 2. Include complete metadata
 3. Provide working examples

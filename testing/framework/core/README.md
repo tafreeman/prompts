@@ -31,7 +31,7 @@ from framework.core.test_runner import (
 async def main():
     # Initialize runner
     runner = PromptTestRunner()
-    
+
     # Create test case
     test = TestCase(
         id="test_001",
@@ -43,10 +43,10 @@ async def main():
         validators=["semantic"],
         timeout=10
     )
-    
+
     # Execute test
     result = await runner.run_single_test(test)
-    
+
     # Check result
     print(f"Status: {result.status}")
     print(f"Output: {result.actual_output}")
@@ -82,6 +82,7 @@ print(f"Pass rate: {results['pass_rate']:.2f}%")
 Main test execution engine.
 
 **Responsibilities:**
+
 - Load test suites from YAML/JSON
 - Execute tests with retry logic
 - Manage LLM provider connections
@@ -94,9 +95,9 @@ Main test execution engine.
 ```python
 class PromptTestRunner:
     def __init__(self, config_path: Optional[str] = None)
-    
+
     def load_test_suite(self, suite_path: str)
-    
+
     async def run_test_suite(
         self,
         suite_name: str,
@@ -104,7 +105,7 @@ class PromptTestRunner:
         max_workers: int = 10,
         filter_tags: Optional[List[str]] = None
     ) -> Dict[str, Any]
-    
+
     async def run_single_test(self, test_case: TestCase) -> TestResult
 ```
 
@@ -195,25 +196,26 @@ def _detect_provider(self) -> str:
     # Check for Azure Foundry
     if "AZURE_FOUNDRY_API_KEY" in os.environ:
         return "azure"
-    
+
     # Check for local ONNX model
     if Path("tools/local_model.py").exists():
         return "local"
-    
+
     # Check for GitHub CLI
     if shutil.which("gh"):
         return "gh"
-    
+
     # Check for Ollama
     if shutil.which("ollama"):
         return "ollama"
-    
+
     return "local"  # Fallback
 ```
 
 ### Provider Configuration
 
 **Azure Foundry:**
+
 ```bash
 export AZURE_FOUNDRY_API_KEY="your-key"
 export AZURE_FOUNDRY_ENDPOINT_1="https://..."
@@ -221,12 +223,14 @@ export AZURE_FOUNDRY_ENDPOINT_2="https://..."
 ```
 
 **GitHub Models:**
+
 ```bash
 gh auth login
 gh extension install github/gh-models
 ```
 
 **Ollama:**
+
 ```bash
 ollama serve  # Start server on localhost:11434
 ```
@@ -236,12 +240,15 @@ ollama serve  # Start server on localhost:11434
 ### Test Execution Flow
 
 ```
+
 1. Load Test Suite
+
    ├─> Parse YAML/JSON
    ├─> Create TestCase objects
    └─> Apply filters (tags, type)
 
 2. Execute Tests
+
    ├─> Parallel or sequential mode
    ├─> For each test:
    │   ├─> Load prompt
@@ -253,6 +260,7 @@ ollama serve  # Start server on localhost:11434
    └─> Aggregate results
 
 3. Generate Report
+
    ├─> Calculate statistics
    ├─> Analyze failures
    ├─> Format output (JSON/console)
@@ -308,14 +316,14 @@ async def _collect_metrics(self, test_case, output, token_usage, execution_time)
         "output_length": len(str(output)),
         "output_lines": str(output).count('\n') + 1
     }
-    
+
     # Custom metrics from metrics collector
     for metric_name in test_case.metrics:
         metric_value = await self.metrics_collector.calculate_metric(
             metric_name, output, test_case
         )
         metrics[metric_name] = metric_value
-    
+
     return metrics
 ```
 
@@ -324,7 +332,7 @@ async def _collect_metrics(self, test_case, output, token_usage, execution_time)
 ```python
 async def _validate_output(self, output, expected, validators):
     results = {}
-    
+
     for validator_name in validators:
         validator = self.validators.get(validator_name)
         if validator:
@@ -332,7 +340,7 @@ async def _validate_output(self, output, expected, validators):
                 output, 
                 expected
             )
-    
+
     return results
 ```
 
@@ -353,7 +361,7 @@ async def _execute_test(self, test_case: TestCase):
     cache_key = self._get_cache_key(test_case)
     if cache_key in self.cache:
         return self.cache[cache_key]
-    
+
     # Execute and cache
     result = await self._execute_prompt(...)
     self.cache[cache_key] = result
@@ -389,7 +397,7 @@ def _analyze_failures(self, failures):
     for failure in failures:
         reason = failure.get("error_message", "Unknown")
         failure_reasons[reason] = failure_reasons.get(reason, 0) + 1
-    
+
     return {
         "total_failures": len(failures),
         "failure_reasons": failure_reasons,
@@ -418,6 +426,7 @@ providers:
 ```
 
 Load with:
+
 ```python
 runner = PromptTestRunner(config_path="test_config.yaml")
 ```

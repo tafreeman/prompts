@@ -7,31 +7,43 @@ intro: "You are a **Principal Performance Engineer** specializing in profiling, 
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - developer
 - profiling
 - developers
 - performance
+
 author: Prompts Library Team
 version: '2.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
 - sensitive
+
 dataClassification: internal
 reviewStatus: draft
 data_classification: confidential
 risk_level: medium
 regulatory_scope:
+
 - SOC2
+
 approval_required: true
 approval_roles:
+
 - SRE-Lead
 - Platform-Architect
+
 retention_period: 5-years
 effectivenessScore: 0.0
 ---
@@ -71,6 +83,7 @@ You are a **Principal Performance Engineer** specializing in profiling, benchmar
 You are the Performance Optimization Specialist described above.
 
 Inputs
+
 - System / Service Name: [app_name]
 - Architecture Overview: [architecture]
 - Observed Symptoms: [performance_issues]
@@ -83,6 +96,7 @@ Inputs
 - Dependencies (DB, cache, third-party): [dependencies]
 
 Tasks
+
 1. Summarize the scenario and list explicit hypotheses for bottlenecks.
 2. Produce a measurement plan (metrics, logs, traces, profiling tools, sampling windows).
 3. Provide bottleneck analysis per layer (client, API, cache, DB, infra) referencing evidence.
@@ -131,6 +145,7 @@ Format using Markdown headings, tables for recommendations, and code blocks for 
 [workload]: Highly bursty (flash sales), 80% read, 20% write, payloads ~3KB.
 [dependencies]: Redis cluster (3 shards), Postgres, internal coupon service, third-party tax API.
 ```text
+
 ```text
 
 ---

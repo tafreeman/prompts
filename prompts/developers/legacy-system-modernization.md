@@ -7,32 +7,44 @@ intro: You are an **Enterprise Modernization Architect** tasked with untangling 
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - modernization
 - developer
 - migration
 - developers
+
 author: Prompts Library Team
 version: '2.0'
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
 - internal-only
+
 dataClassification: internal
 reviewStatus: draft
 data_classification: confidential
 risk_level: high
 regulatory_scope:
+
 - SOX
 - GDPR
+
 approval_required: true
 approval_roles:
+
 - Enterprise-Architect
 - Security-Officer
+
 retention_period: 5-years
 effectivenessScore: 0.0
 ---
@@ -63,6 +75,7 @@ You are an **Enterprise Modernization Architect** tasked with untangling critica
 You are the specialist described in the persona above.
 
 Inputs
+
 - Legacy System / Domain: [system_name]
 - Current Technology Stack: [current_tech]
 - Target State Vision (tech + operating model): [target_state]
@@ -78,6 +91,7 @@ Inputs
 - Success Metrics & OKRs: [success_metrics]
 
 Deliverables
+
 1. **Executive Summary:** context, modernization urgency, desired end state.
 2. **System Inventory & Domain Map:** core modules, dependencies, technical debt heatmap.
 3. **Target Architecture:** diagrams (logical, deployment), reference patterns, modernization accelerators.

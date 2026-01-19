@@ -5,17 +5,23 @@ intro: "Unified command center for all library improvement, validation, and test
 type: reference
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-12-18'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -33,7 +39,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Text Generation**
 
 | Use Case | Command | Best Model |
-|----------|---------|------------|
+| ---------- | --------- | ------------ |
 | Fastest Local | `python prompt.py run <file> -p local -m phi4-cpu` | `phi4-cpu` |
 | NPU (Copilot+ PC) | `python prompt.py run <file> -p windows` | `phi-silica` |
 | GPU Accelerated | `python prompt.py run <file> -p local -m phi3-dml` | `phi3-dml` |
@@ -42,7 +48,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Evaluation & Validation**
 
 | Use Case | Command | Tier/Cost |
-|----------|---------|-----------|
+| ---------- | --------- | ----------- |
 | Local Triage | `python prompt.py eval <dir> -t 0` | Tier 0 / $0 |
 | NPU Eval | `python prompt.py eval <dir> -t 7` | Tier 7 / $0 |
 | Cross-Model | `python prompt.py eval <dir> -t 3` | Tier 3 / ~$0.05 |
@@ -54,7 +60,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Improvement & Generation**
 
 | Use Case | Command | Notes |
-|----------|---------|-------|
+| ---------- | --------- | ------- |
 | Improve Prompt | `python prompt.py improve <file>` | AI-powered recommendations |
 | Generate Prompt | Use `/generate-prompt` workflow | Slash command in Copilot |
 | Refactor Library | Use `prompt-library-refactor-react.md` | ReAct pattern |
@@ -62,7 +68,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Multi-Modal (Local)**
 
 | Use Case | Command | Model |
-|----------|---------|-------|
+| ---------- | --------- | ------- |
 | Generate Image | `python tools/local_media.py image "<prompt>" -o out.png` | `stable-diffusion` |
 | Speech-to-Text | `python tools/local_media.py transcribe <audio.wav>` | `whisper-small` |
 | Upscale Image | `python tools/local_media.py upscale <image.png>` | `esrgan` |
@@ -74,14 +80,14 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Slash Commands (Workflows)**
 
 | Command | Purpose | Path |
-|---------|---------|------|
+| --------- | --------- | ------ |
 | `/generate-prompt` | AI-assisted prompt generation with review loop | `.agent/workflows/generate-prompt.md` |
 | `/improve-prompt` | Quality evaluation & automated improvement | `.agent/workflows/improve-prompt.md` |
 
 ### **GitHub Copilot Agents**
 
 | Agent | Purpose | Path |
-|-------|---------|------|
+| ------- | --------- | ------ |
 | `@prompt_agent` | Prompt engineering expert | `agents/prompt-agent.agent.md` |
 | `@docs_agent` | Documentation specialist | `agents/docs-agent.agent.md` |
 | `@test_agent` | Test generation | `agents/test-agent.agent.md` |
@@ -95,7 +101,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Quality Evaluation**
 
 | Prompt | Path | Purpose |
-|--------|------|---------|
+| -------- | ------ | --------- |
 | Prompt Quality Evaluator | `archive/clutter/toolkit_prompts/evaluation/quality-evaluator.md` | Score prompts on 5 dimensions |
 | CoVe Library Audit | `archive/clutter/toolkit_prompts/evaluation/cove-library-audit.md` | Chain-of-Verification audit |
 | Tree-of-Thoughts Evaluator | `archive/clutter/toolkit_prompts/evaluation/tree-of-thoughts-evaluator.md` | Multi-branch reasoning |
@@ -103,7 +109,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Library Analysis**
 
 | Prompt | Path | Purpose |
-|--------|------|---------|
+| -------- | ------ | --------- |
 | Library Treemap | `archive/clutter/toolkit_prompts/analysis/library-treemap.md` | Visualize structure |
 | Library Radar | `archive/clutter/toolkit_prompts/analysis/library-radar.md` | Capability radar chart |
 | Library Network | `archive/clutter/toolkit_prompts/analysis/library-network.md` | Relationship graph |
@@ -111,7 +117,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Improvement**
 
 | Prompt | Path | Purpose |
-|--------|------|---------|
+| -------- | ------ | --------- |
 | Refactor (ReAct) | `archive/clutter/toolkit_prompts/improvement/refactor-react.md` | ReAct-based refactoring |
 | Self-Critique | `archive/clutter/toolkit_prompts/improvement/self-critique.md` | Iterative self-improvement |
 
@@ -122,7 +128,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Core Execution**
 
 | Tool | Path | Purpose |
-|------|------|---------|
+| ------ | ------ | --------- |
 | `llm_client.py` | `tools/llm_client.py` | Unified LLM dispatcher (28 models) |
 | `local_model.py` | `tools/local_model.py` | ONNX model runner |
 | `windows_ai.py` | `tools/windows_ai.py` | NPU integration |
@@ -131,7 +137,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Evaluation**
 
 | Tool | Path | Purpose |
-|------|------|---------|
+| ------ | ------ | --------- |
 | `prompteval` | `tools/prompteval/` | Unified evaluation CLI (replaces `tiered_eval.py`) |
 | `cove_runner.py` | `tools/cove_runner.py` | Chain-of-Verification |
 | `batch_evaluate.py` | `tools/batch_evaluate.py` | Batch evaluation (legacy — prefer `prompteval`) |
@@ -140,7 +146,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Validation**
 
 | Tool | Path | Purpose |
-|------|------|---------|
+| ------ | ------ | --------- |
 | `frontmatter_validator.py` | `tools/validators/frontmatter_validator.py` | Schema validation |
 | `audit_prompts.py` | `tools/audit_prompts.py` | Migration audit |
 | `check_links.py` | `tools/check_links.py` | Link checker |
@@ -148,7 +154,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ### **Improvement**
 
 | Tool | Path | Purpose |
-|------|------|---------|
+| ------ | ------ | --------- |
 | `improve_prompts.py` | `tools/improve_prompts.py` | AI recommendations |
 | `normalize_frontmatter.py` | `tools/normalize_frontmatter.py` | Frontmatter cleanup |
 
@@ -157,7 +163,7 @@ Copy-paste these commands. Replace `<file>` with a prompt path (e.g., `prompts/b
 ## 🖥️ Local Models (28 Available)
 
 | Model Key | Size | Hardware | Use Case |
-|-----------|------|----------|----------|
+| ----------- | ------ | ---------- | ---------- |
 | `phi4-cpu` | 3.8B | CPU | Fast, general purpose |
 | `phi4-gpu` | 3.8B | GPU | Faster with GPU |
 | `phi3.5-cpu` | 3.8B | CPU | Good balance |
@@ -180,7 +186,7 @@ Prompts are scored using a **100-point rubric** with 5 weighted criteria.
 ### **Scoring Criteria** (`toolkit/rubrics/quality_standards.json`)
 
 | Criterion | Weight | What It Measures |
-|-----------|--------|------------------|
+| ----------- | -------- | ------------------ |
 | **Completeness** | 25% | All required sections present (frontmatter, description, examples, tips) |
 | **Example Quality** | 30% | Realistic, detailed examples with actual data (no placeholders) |
 | **Specificity** | 20% | Actionable, domain-specific content |
@@ -190,7 +196,7 @@ Prompts are scored using a **100-point rubric** with 5 weighted criteria.
 ### **Quality Tiers**
 
 | Tier | Score Range | Label |
-|------|-------------|-------|
+| ------ | ------------- | ------- |
 | Tier 1 | 90-100 | Excellent (Production-ready) |
 | Tier 2 | 75-89 | Good (Minor improvements needed) |
 | Tier 3 | 60-74 | Acceptable (Needs work) |
@@ -199,7 +205,7 @@ Prompts are scored using a **100-point rubric** with 5 weighted criteria.
 ### **Rubric Files**
 
 | File | Path | Purpose |
-|------|------|---------|
+| ------ | ------ | --------- |
 | `quality_standards.json` | `toolkit/rubrics/quality_standards.json` | Structural scoring criteria |
 | `prompt-scoring.yaml` | `toolkit/rubrics/prompt-scoring.yaml` | 5-dimension effectiveness scoring |
 
@@ -208,7 +214,7 @@ Prompts are scored using a **100-point rubric** with 5 weighted criteria.
 ## �📈 Evaluation Tiers
 
 | Tier | Name | Models | Cost | Use Case |
-|------|------|--------|------|----------|
+| ------ | ------ | -------- | ------ | ---------- |
 | 0 | Local ONNX | Phi4, Mistral | $0 | Quick local triage |
 | 1 | Quick Triage | Structure only | $0 | Syntax check |
 | 2 | Single Model | 1 cloud model | ~$0.01 | Basic eval |
@@ -225,7 +231,7 @@ Prompts are scored using a **100-point rubric** with 5 weighted criteria.
 ### **Environment Variables**
 
 | Variable | Purpose | Required For |
-|----------|---------|--------------|
+| ---------- | --------- | -------------- |
 | `GITHUB_TOKEN` | GitHub Models API | `gh:*` models |
 | `AZURE_OPENAI_ENDPOINT` | Azure Foundry | `azure-foundry:*` |
 | `AZURE_OPENAI_KEY` | Azure Foundry | `azure-foundry:*` |
@@ -247,7 +253,7 @@ Requires Copilot+ PC and unlock token from Microsoft:
 ## 📚 Additional Resources
 
 | Resource | Path |
-|----------|------|
+| ---------- | ------ |
 | Tools README | `tools/README.md` |
 | Windows AI Guide | `WINDOWS_AI_INSTALL.md` |
 | Unified Tooling Guide | `docs/UNIFIED_TOOLING_GUIDE.md` |

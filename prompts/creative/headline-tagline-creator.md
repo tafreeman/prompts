@@ -5,23 +5,31 @@ intro: "Generate attention-grabbing headlines and memorable taglines for marketi
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "functional-team"
   - "business-analyst"
   - "project-manager"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "copywriting"
   - "creative"
   - "marketing"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
   - "general-use"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.3
@@ -69,6 +77,7 @@ You are an expert copywriter specializing in headlines and taglines—the kind t
 Options: curiosity, fear of missing out, excitement, relief, aspiration, belonging, urgency
 
 **Constraints:**
+
 - Character limit: [IF ANY]
 - Must include: [ANY REQUIRED WORDS OR PHRASES]
 - Avoid: [WORDS OR APPROACHES TO SKIP]
@@ -77,6 +86,7 @@ Options: curiosity, fear of missing out, excitement, relief, aspiration, belongi
 [ANY EXAMPLES YOU LIKE OR DIRECTION TO FOLLOW]
 
 Please provide:
+
 1. 10 headline/tagline options across different approaches:
    - 2-3 benefit-focused (what the customer gains)
    - 2-3 curiosity-driven (makes them want to learn more)
@@ -85,6 +95,7 @@ Please provide:
 2. For each option, briefly explain why it works
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
+
 ```text
 
 ---
@@ -92,7 +103,7 @@ Please provide:
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[HEADLINE/TAGLINE/BOTH]` | What type of copy you need |
 | `[LANDING PAGE/AD CAMPAIGN/BRAND SLOGAN/EMAIL SUBJECT/BLOG POST/PRODUCT LAUNCH]` | Where this will be used |
 | `[NAME AND BRIEF DESCRIPTION]` | Your brand or product |
@@ -128,6 +139,7 @@ Unlike simple website blockers, FocusFlow learns your personal productivity patt
 **Emotional Hook:** Relief (from constant distraction guilt) and aspiration (being someone who does great work)
 
 **Constraints:**
+
 - Character limit: Headlines under 70 characters, tagline under 50 characters
 - Must include: Reference to focus or distraction in at least half
 - Avoid: Corporate jargon, "revolutionary," "game-changing," "utilize"
@@ -136,10 +148,12 @@ Unlike simple website blockers, FocusFlow learns your personal productivity patt
 Like the confidence of Apple's "Think Different" combined with the directness of Basecamp's marketing
 
 Please provide:
+
 1. 10 headline/tagline options across different approaches
 2. For each option, briefly explain why it works
 3. Recommend your top 3 with reasoning
 4. Suggest A/B testing pairs
+
 ```text
 
 ---

@@ -11,16 +11,19 @@
 ### Recommended Execution Method
 
 **Best Option: Claude (claude.ai or API)**
+
 1. Copy the entire prompt text from the relevant section below
 2. Paste into Claude's chat interface (or API call)
 3. Claude will execute the full research framework and return structured findings
 
 **Alternative: ChatGPT-4 / GPT-4o**
+
 1. Copy the prompt text
 2. Paste into ChatGPT interface
 3. Results may be slightly less structured but still comprehensive
 
 **API Execution (Python):**
+
 ```python
 import anthropic
 
@@ -45,6 +48,7 @@ print(message.content[0].text)
 ## R1: Self-Consistency Pattern Research
 
 ### Research Objectives
+
 - How does Self-Consistency (Wang et al., ICLR 2023) differ from simple majority voting?
 - What sampling parameters are optimal?
 - How to present multiple reasoning paths in a prompt template?
@@ -64,6 +68,7 @@ You are an AI research assistant conducting deep research on advanced prompt eng
 Self-Consistency prompting pattern for chain-of-thought reasoning
 
 ## Research Questions
+
 1. How does Self-Consistency (Wang et al., ICLR 2023) differ from simple majority voting? What makes the "marginalization over reasoning paths" approach more effective?
 2. What sampling parameters (k samples, temperature, top-p) are optimal for different task types? What does the research say about the accuracy vs. cost tradeoff?
 3. How should multiple reasoning paths be presented in a prompt template for a reusable prompt library? What structure works best?
@@ -83,6 +88,7 @@ Deep Dive
 Generate 3-5 distinct research paths to explore this topic comprehensively.
 
 For each branch:
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** What aspect this branch investigates
 - **Key Sources to Find:** Academic papers, documentation, implementations
@@ -90,6 +96,7 @@ For each branch:
 - **Priority:** High/Medium/Low based on relevance to research questions
 
 Suggested branches to consider:
+
 - Branch A: Original Self-Consistency paper deep dive (Wang et al. mechanism, benchmarks, theory)
 - Branch B: Implementation patterns (how to structure prompts, API usage, code examples)
 - Branch C: Comparison to related techniques (CoT, Self-Refine, Universal Self-Consistency)
@@ -105,18 +112,21 @@ Select the top 3 branches based on priority and potential yield.
 For each selected branch, execute:
 
 ### Round 1 - Initial Investigation
+
 1. **Think:** What specific information will best answer the research questions?
 2. **Act:** Describe what you're searching for or analyzing
 3. **Observe:** Document findings with citations
 4. **Reflect:** What's missing? Are sources authoritative and recent?
 
 ### Round 2 - Refinement (if gaps remain)
+
 1. **Think:** Based on reflection, what angle was missed?
 2. **Act:** Targeted follow-up investigation
 3. **Observe:** New findings
 4. **Reflect:** Is this branch now sufficiently explored?
 
 ### Capture for each branch:
+
 - Key concepts and mechanisms discovered
 - Source quality (academic paper / industry documentation / blog)
 - Publication dates and citation counts where available
@@ -129,6 +139,7 @@ For each selected branch, execute:
 ## Phase 3: Cross-Branch Reflection (Reflexion)
 
 ### Self-Critique Questions:
+
 1. Have I covered the major research directions for Self-Consistency?
 2. Are my sources recent (2022-2025) and authoritative (arXiv, NeurIPS, ICLR)?
 3. Did I find contradictory information requiring reconciliation?
@@ -145,6 +156,7 @@ Open 1-2 new targeted investigations to fill critical gaps.
 Produce a structured research report with these exact sections:
 
 ### Executive Summary
+
 - 3-4 sentence overview of Self-Consistency
 - Key insight that differentiates it from simple voting
 - Readiness for production use (High/Medium/Low/Experimental)
@@ -152,7 +164,7 @@ Produce a structured research report with these exact sections:
 ### Technique Overview Table
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Self-Consistency |
 | **Origin** | [Full citation] |
 | **Core Mechanism** | [How it works in 2-3 sentences] |
@@ -171,14 +183,14 @@ Produce a structured research report with these exact sections:
 
 #### Optimal Parameters
 | Parameter | Recommended Value | Rationale | Source |
-|-----------|------------------|-----------|--------|
+| ----------- | ------------------ | ----------- | -------- |
 | k (samples) | | | |
 | Temperature | | | |
 | Top-p | | | |
 
 #### Comparison to Related Techniques
 | Technique | Similarity | Key Difference | When to Prefer |
-|-----------|------------|----------------|----------------|
+| ----------- | ------------ | ---------------- | ---------------- |
 | Single-path CoT | | | |
 | Self-Refine | | | |
 | Universal Self-Consistency | | | |
@@ -188,10 +200,13 @@ Produce a structured research report with these exact sections:
 Provide a reusable prompt template structure that can be added to a prompt library. Format as:
 
 ```text
+
 [Provide the actual prompt template text that can be used in production]
+
 ```
 
 Include:
+
 - System instructions for generating diverse reasoning paths
 - Format for presenting k reasoning attempts
 - Instructions for answer extraction and aggregation
@@ -201,10 +216,12 @@ Include:
 [Performance data from papers with proper citations - GSM8K, SVAMP, AQuA, etc.]
 
 ### Contradictions & Open Questions
+
 - Areas where sources disagree
 - Unresolved questions in the research
 
 ### Practical Recommendations
+
 1. [When to use Self-Consistency]
 2. [Optimal k and temperature for cost/accuracy balance]
 3. [What to avoid]
@@ -214,6 +231,7 @@ Include:
 
 ### Artifacts for Prompt Library
 Provide ready-to-use content:
+
 1. A complete prompt template (markdown format) following this structure:
    - Title, description, use cases
    - The actual prompt text
@@ -221,6 +239,7 @@ Provide ready-to-use content:
    - Example input/output
 
 2. A Mermaid diagram showing the Self-Consistency process flow
+
 ---END---
 ```
 
@@ -229,6 +248,7 @@ Provide ready-to-use content:
 ## R2: Chain-of-Verification (CoVe) Pattern Research
 
 ### Research Objectives
+
 - What is the Generate→Verify→Revise cycle structure?
 - How does CoVe compare to Self-Refine?
 - When should each technique be used?
@@ -248,6 +268,7 @@ You are an AI research assistant conducting deep research on advanced prompt eng
 Chain-of-Verification (CoVe) prompting pattern for reducing hallucinations and improving factual accuracy
 
 ## Research Questions
+
 1. What is the exact structure of the Generate→Verify→Revise cycle in Chain-of-Verification? How does each phase work?
 2. How does CoVe compare to Self-Refine (Madaan et al., 2023)? What are the key differences in mechanism and use cases?
 3. What types of verification questions are most effective? How should they be structured?
@@ -268,6 +289,7 @@ Deep Dive
 Generate 3-5 distinct research paths to explore this topic comprehensively.
 
 For each branch:
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** What aspect this branch investigates
 - **Key Sources to Find:** Academic papers, documentation, implementations
@@ -275,6 +297,7 @@ For each branch:
 - **Priority:** High/Medium/Low based on relevance to research questions
 
 Suggested branches to consider:
+
 - Branch A: Original CoVe paper deep dive (Dhuliawala et al. mechanism, benchmarks, theory)
 - Branch B: Generate→Verify→Revise cycle implementation (step-by-step structure, verification question design)
 - Branch C: Comparison to Self-Refine and other refinement techniques
@@ -290,18 +313,21 @@ Select the top 3 branches based on priority and potential yield.
 For each selected branch, execute:
 
 ### Round 1 - Initial Investigation
+
 1. **Think:** What specific information will best answer the research questions?
 2. **Act:** Describe what you're searching for or analyzing
 3. **Observe:** Document findings with citations
 4. **Reflect:** What's missing? Are sources authoritative and recent?
 
 ### Round 2 - Refinement (if gaps remain)
+
 1. **Think:** Based on reflection, what angle was missed?
 2. **Act:** Targeted follow-up investigation
 3. **Observe:** New findings
 4. **Reflect:** Is this branch now sufficiently explored?
 
 ### Capture for each branch:
+
 - Key concepts and mechanisms discovered
 - Source quality (academic paper / industry documentation / blog)
 - Publication dates and citation counts where available
@@ -314,6 +340,7 @@ For each selected branch, execute:
 ## Phase 3: Cross-Branch Reflection (Reflexion)
 
 ### Self-Critique Questions:
+
 1. Have I covered the major research directions for Chain-of-Verification?
 2. Are my sources recent (2023-2025) and authoritative (arXiv, NeurIPS, EMNLP)?
 3. Did I find contradictory information requiring reconciliation?
@@ -330,6 +357,7 @@ Open 1-2 new targeted investigations to fill critical gaps.
 Produce a structured research report with these exact sections:
 
 ### Executive Summary
+
 - 3-4 sentence overview of Chain-of-Verification
 - Key insight about how verification reduces hallucinations
 - Readiness for production use (High/Medium/Low/Experimental)
@@ -337,7 +365,7 @@ Produce a structured research report with these exact sections:
 ### Technique Overview Table
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Chain-of-Verification (CoVe) |
 | **Origin** | [Full citation - Dhuliawala et al.] |
 | **Core Mechanism** | [How it works in 2-3 sentences] |
@@ -365,7 +393,7 @@ Produce a structured research report with these exact sections:
 
 #### CoVe vs Self-Refine Comparison
 | Aspect | Chain-of-Verification (CoVe) | Self-Refine |
-|--------|------------------------------|-------------|
+| -------- | ------------------------------ | ------------- |
 | **Core Approach** | | |
 | **Verification Method** | | |
 | **Best For** | | |
@@ -374,7 +402,7 @@ Produce a structured research report with these exact sections:
 
 #### Comparison to Other Refinement Techniques
 | Technique | Mechanism | Best Use Case | Complexity |
-|-----------|-----------|---------------|------------|
+| ----------- | ----------- | --------------- | ------------ |
 | CoVe | | | |
 | Self-Refine | | | |
 | Self-Consistency | | | |
@@ -389,10 +417,13 @@ Produce a structured research report with these exact sections:
 Provide a reusable prompt template structure that can be added to a prompt library. Format as:
 
 ```text
+
 [Provide the actual prompt template text that can be used in production]
+
 ```
 
 Include:
+
 - System instructions for the 3-phase process
 - Format for verification question generation
 - Instructions for revision based on verification
@@ -402,11 +433,13 @@ Include:
 [Performance data from papers with proper citations - hallucination reduction metrics, factual accuracy improvements]
 
 ### Contradictions & Open Questions
+
 - Areas where sources disagree
 - Unresolved questions in the research
 - When CoVe might not help
 
 ### Practical Recommendations
+
 1. [When to use CoVe]
 2. [How many verification questions are optimal]
 3. [What types of tasks benefit most]
@@ -417,6 +450,7 @@ Include:
 
 ### Artifacts for Prompt Library
 Provide ready-to-use content:
+
 1. A complete prompt template (markdown format) following this structure:
    - Title, description, use cases
    - The actual prompt text (with the full Generate→Verify→Revise structure)
@@ -424,6 +458,7 @@ Provide ready-to-use content:
    - Example input/output showing all three phases
 
 2. A Mermaid diagram showing the CoVe process flow (Generate → Plan Verification → Execute Verification → Revise)
+
 ---END---
 ```
 
@@ -434,6 +469,7 @@ Provide ready-to-use content:
 After executing each prompt, you should receive:
 
 ### For R1 (Self-Consistency):
+
 - [ ] Complete understanding of Self-Consistency mechanism
 - [ ] Optimal parameter recommendations (k, temperature)
 - [ ] Ready-to-use prompt template for the library
@@ -441,6 +477,7 @@ After executing each prompt, you should receive:
 - [ ] Clear guidance on when to use vs single-path CoT
 
 ### For R2 (Chain-of-Verification):
+
 - [ ] Complete understanding of Generate→Verify→Revise cycle
 - [ ] Comparison matrix with Self-Refine
 - [ ] Ready-to-use prompt template for the library

@@ -6,20 +6,28 @@ type: "reference"
 category: "analysis"
 difficulty: "intermediate"
 audience:
+
   - "business-analyst"
   - "senior-engineer"
+
 platforms:
+
   - "claude"
   - "chatgpt"
   - "github-copilot"
+
 topics:
+
   - "analysis"
   - "research"
+
 author: "Prompts Library Team"
 version: "1.0"
 date: "2025-11-30"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 ---

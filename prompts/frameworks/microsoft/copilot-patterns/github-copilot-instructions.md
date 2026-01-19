@@ -5,17 +5,23 @@ intro: A prompt for github copilot instruction patterns tasks.
 type: how_to
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: AI Research Team
 version: 1.0.0
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 category: frameworks
@@ -25,19 +31,23 @@ framework_compatibility:
   vscode: '>=1.80.0'
   github-copilot: '>=1.0.0'
 use_cases:
+
 - code-generation
 - code-review
 - refactoring
 - documentation
+
 performance_metrics:
   productivity_improvement: 30-50%
   accuracy_improvement: 20-30%
 last_updated: '2025-11-23'
 tags:
+
 - github-copilot
 - vscode
 - copilot-instructions
 - workspace
+
 ---
 
 # GitHub Copilot Instruction Patterns
@@ -123,7 +133,9 @@ When creating prompt templates:
 2. Follow existing patterns (see `frameworks/langchain/` for reference)
 3. Include SDK-specific code examples
 4. Document compatibility versions
+
 ```
+
 ## VS Code Workspace Settings
 
 Create `.vscode/settings.json` to enhance Copilot's understanding:
@@ -167,6 +179,7 @@ Create `.vscode/settings.json` to enhance Copilot's understanding:
 	}
 }
 ```
+
 ## Inline Instructions with Comments
 
 Use special comments to guide Copilot inline:
@@ -183,6 +196,7 @@ def validate_metadata(metadata: Dict, schema: Dict) -> ValidationResult:
     # Copilot will generate implementation here
     pass
 ```
+
 ## Chat Participants for Context
 
 When using Copilot Chat, leverage workspace context:
@@ -196,6 +210,7 @@ When using Copilot Chat, leverage workspace context:
 
 @workspace /tests Generate unit tests for the ContextOptimizer class
 ```
+
 ## Best Practices
 
 1. **Keep Instructions Updated**: Update `.github/copilot-instructions.md` as patterns evolve.
@@ -239,6 +254,7 @@ Run validation before committing:
 python tools/validators/prompt_validator.py path/to/prompt.md
 \`\`\`
 ```
+
 ## Related Patterns
 
 - [Anthropic Claude Patterns](../../anthropic/claude_patterns.py)

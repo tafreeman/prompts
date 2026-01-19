@@ -25,11 +25,13 @@ category: "[business|developers|creative|analysis|governance|m365|advanced]"
 ## Example Usage
 
 ### Input
+
 ```text
 [Prompt with variables filled in]
 ```
 
 ### Output
+
 ```text
 [Expected AI response]
 ```

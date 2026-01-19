@@ -5,21 +5,29 @@ intro: A strict ToT-ReAct prompt that enforces exhaustive folder-by-folder repos
 type: how_to
 difficulty: advanced
 audience:
+
   - senior-engineer
   - solution-architect
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 topics:
+
   - analysis
   - architecture
   - cleanup
+
 author: Prompt Library Team
 version: '2.0'
 date: '2026-01-18'
 governance_tags:
+
   - PII-safe
+
 dataClassification: internal
 reviewStatus: approved
 ---
@@ -33,7 +41,7 @@ This prompt implements a strict ToT-ReAct (Tree-of-Thoughts + ReAct) methodology
 ## Variables
 
 | Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
+| ---------- | ---------- | ------------- | --------- |
 | `[evaluation_goal]` | Yes | What you want to achieve | `Identify and archive all redundant files` |
 | `[scope]` | Yes | Folders to process | `Entire Repository` or `prompts/advanced/` |
 | `[constraints]` | No | Rules to follow | `Archive instead of delete; verify dependencies` |
@@ -82,9 +90,11 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 ### Folder Checklist (0/25 complete)
 
 #### Root Level
+
 - [ ] Root directory (d:/source/prompts/)
 
 #### Documentation
+
 - [ ] docs/
 - [ ] docs/concepts/
 - [ ] docs/planning/
@@ -92,6 +102,7 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] docs/research/
 
 #### Prompts Library (13 categories)
+
 - [ ] prompts/advanced/
 - [ ] prompts/agents/
 - [ ] prompts/analysis/
@@ -107,6 +118,7 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] prompts/templates/
 
 #### Infrastructure
+
 - [ ] tools/
 - [ ] tools/archive/
 - [ ] scripts/
@@ -114,6 +126,7 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] testing/
 - [ ] archive/
 - [ ] workflows/
+
 ```
 
 ---
@@ -128,11 +141,13 @@ For each branch, specify:
 
 ```markdown
 ### Branch [Letter]: [Name]
+
 - **Question**: What specific question are you investigating?
 - **Approach**: What tools/commands will you use?
 - **Priority**: High / Medium / Low
 - **Expected Findings**: What do you expect to find?
 - **Success Criteria**: How will you know this branch is complete?
+
 ```
 
 ### Required Branches
@@ -169,13 +184,14 @@ After planning, output: `**Phase 1 Complete**: ✅`
 **Action**: [The exact tool call - list_dir, grep_search, view_file, etc.]
 
 **Observation**: 
+
 - [Finding 1]
 - [Finding 2]
 - [Finding 3]
 
 **Classification**:
 | Item | Type | Recommendation | Priority |
-|------|------|----------------|----------|
+| ------ | ------ | ---------------- | ---------- |
 | file1.md | Clutter | Archive | Low |
 | file2.py | Legacy | Verify dependencies | Medium |
 
@@ -200,13 +216,14 @@ When you discover a subfolder with >5 files, ADD it to the checklist and process
 **Action**: list_dir("d:/source/prompts/")
 
 **Observation**:
+
 - Found 17 files and 30 subdirectories
 - Identified: prompt.py (legacy entry point?), index.md (valid), README.md (valid)
 - Found: .eval_checkpoint.json (artifact, archive)
 
 **Classification**:
 | Item | Type | Recommendation | Priority |
-|------|------|----------------|----------|
+| ------ | ------ | ---------------- | ---------- |
 | prompt.py | Legacy Entry | Verify if still used | Medium |
 | .eval_checkpoint.json | Artifact | Archive to archive/logs/ | Low |
 | prompts.sln | Build file | Keep or move to tools/ | Low |
@@ -222,6 +239,7 @@ When you discover a subfolder with >5 files, ADD it to the checklist and process
 **Action**: list_dir("d:/source/prompts/prompts/advanced/")
 
 **Observation**:
+
 - Found 23 markdown files
 - All files >5KB (no stubs)
 - Need to verify validation status
@@ -237,6 +255,7 @@ When you discover a subfolder with >5 files, ADD it to the checklist and process
 **Action**: python tools/validate_prompts.py prompts/advanced/
 
 **Observation**:
+
 - 1 file with issues: tot-react-cleanup-agent.md (now fixed)
 - 22 files pass validation
 
@@ -303,7 +322,7 @@ After completing reflexion: `**Phase 3 Complete**: ✅`
 
 ### Health Metrics
 | Metric | Value | Status |
-|--------|-------|--------|
+| -------- | ------- | -------- |
 | Total Prompts | X | ✅/⚠️ |
 | Validation Pass Rate | X% | ✅/⚠️ |
 | Clutter Files Identified | X | 🔴 |
@@ -314,7 +333,7 @@ After completing reflexion: `**Phase 3 Complete**: ✅`
 
 ```markdown
 | Category | Count | Files | Action | Risk | Priority |
-|----------|-------|-------|--------|------|----------|
+| ---------- | ------- | ------- | -------- | ------ | ---------- |
 | Root Clutter | X | [list] | Archive | Low | P1 |
 | Doc Artifacts | X | [list] | Archive | Low | P2 |
 | Prompt Stubs | X | [list] | Archive/Fix | Low | P1 |
@@ -341,17 +360,22 @@ Move-Item "[source]" "[destination]"
 
 ```markdown
 ## Immediate (This Session)
+
 1. [Specific action]
 2. [Specific action]
 
 ## Short-Term (This Week)
+
 1. [Specific action]
 
 ## Medium-Term (This Month)
+
 1. [Specific action]
 
 ## Blocked/Needs Input
+
 1. [Action that needs user decision]
+
 ```
 
 After producing all deliverables: `**Phase 4 Complete**: ✅`
@@ -384,9 +408,11 @@ After producing all deliverables: `**Phase 4 Complete**: ✅`
 **Phase 4**: ✅ Deliverables Complete
 
 ## Folder Checklist (25/25 complete)
+
 - [x] Root directory
 - [x] docs/
 - [x] docs/concepts/
+
 [... all folders marked ...]
 
 ## Phase 1: Research Branches

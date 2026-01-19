@@ -7,21 +7,29 @@ category: advanced
 type: how_to
 difficulty: advanced
 audience:
+
 - senior-engineer
 - solution-architect
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - quality
 - reasoning
+
 author: Prompts Library Team
 version: 1.0.1
 date: '2025-11-17'
 governance_tags:
+
 - PII-safe
 - requires-human-review
+
 dataClassification: internal
 reviewStatus: draft
 last_updated: '2025-11-27'
@@ -31,8 +39,10 @@ performance_metrics:
   cost_multiplier: 2.0x
 testing:
   validated_on:
+
   - Claude Sonnet 4.5
   - GPT-4
+
   pass_rate: 90%
 governance:
   data_classification: public
@@ -95,30 +105,35 @@ Format as:
 Now, critically evaluate your initial answer using this framework:
 
 **1. Accuracy Check**:
+
 - Are all facts correct?
 - Are there any logical errors?
 - Did I make unsupported assumptions?
 - Are there edge cases I missed?
 
 **2. Completeness Check**:
+
 - Did I fully answer the question?
 - Are there important aspects I overlooked?
 - Is additional context needed?
 - Are there alternative perspectives to consider?
 
 **3. Quality Check**:
+
 - Is the answer clear and well-structured?
 - Is the reasoning sound?
 - Are examples appropriate?
 - Is the level of detail appropriate for the audience?
 
 **4. Bias Check**:
+
 - Am I overly confident in any claims?
 - Did I favor familiar solutions over better alternatives?
 - Are there unstated assumptions affecting my answer?
 - Did I consider diverse viewpoints?
 
 **5. Risk Assessment**:
+
 - What could go wrong if this answer is followed?
 - What am I uncertain about?
 - What additional validation is needed?
@@ -127,6 +142,7 @@ Now, critically evaluate your initial answer using this framework:
 Based on this critique, provide:
 
 **Critique Summary**:
+
 - **Strengths**: What was good about the initial answer
 - **Weaknesses**: What needs improvement
 - **Gaps**: What's missing
@@ -166,6 +182,7 @@ You will answer a question using a two-phase reflection pattern.
 **Question**: Should we migrate our monolithic application to microservices?
 
 **Context**: 
+
 - Current: 300K LOC Java monolith, 8 years old
 - Team: 30 developers
 - Users: 10M MAU
@@ -191,12 +208,14 @@ You will answer a question using a two-phase reflection pattern.
 Yes, you should migrate to microservices. Your pain points (slow deployment, scaling issues) are classic monolith problems that microservices solve. With $2M budget and 30 developers, you have sufficient resources for a phased migration over 18-24 months.
 
 Recommended approach:
+
 1. Start with strangler fig pattern
 2. Extract the most painful services first (likely the scaling bottlenecks)
 3. Implement proper service mesh (Istio or Linkerd)
 4. Migrate gradually, service by service
 
 Expected benefits:
+
 - Deployment frequency: From 2 weeks to multiple times per day
 - Scaling: Individual service scaling instead of scaling entire monolith
 - Team autonomy: Teams can work on services independently
@@ -243,17 +262,20 @@ Timeline: 18-24 months for complete migration.
 **Critique Summary**:
 
 **Strengths**: 
+
 - Identified strangler fig pattern correctly
 - Recognized phased approach needed
 - Connected pain points to potential solutions
 
 **Weaknesses**:
+
 - Assumed YES without proper analysis
 - Didn't consider alternatives
 - Overconfident despite insufficient information
 - Ignored failure history mentioned in context
 
 **Gaps**:
+
 - No cost-benefit analysis
 - No risk assessment
 - No evaluation of alternative solutions
@@ -261,6 +283,7 @@ Timeline: 18-24 months for complete migration.
 - No investigation of root causes for current pain points
 
 **Risks**:
+
 - Failed migration could waste $2M and 18+ months
 - Microservices complexity could make things worse
 - Team may lack necessary skills
@@ -285,6 +308,7 @@ Timeline: 18-24 months for complete migration.
 3. **Alternative Solutions Analysis**:
 
   **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
+
   - Fix deployment pipeline (CI/CD improvements)
   - Add horizontal scaling (if stateless)
   - Database optimization/caching
@@ -294,6 +318,7 @@ Timeline: 18-24 months for complete migration.
   - Cons: May hit architectural limits eventually
 
   **Option B: Modular Monolith** (~$500K, 6-12 months)
+
   - Refactor into modules with clear boundaries
   - Enables future extraction if needed
   - Cost: 25% of full migration
@@ -302,10 +327,12 @@ Timeline: 18-24 months for complete migration.
   - Cons: Still a monolith, limited independent scaling
 
   **Option C: Hybrid Approach** (~$1M, 12-18 months)
+
   - Keep monolith for stable, core functionality
   - Extract only problematic services (e.g., high-scale services)
 
   **Option D: Full Microservices** (~$2M+, 24-36 months)
+
   - Complete migration as initially suggested
   - Cost: $2M+ (likely more based on failure history)
   - Risk: High
@@ -315,17 +342,20 @@ Timeline: 18-24 months for complete migration.
 **My Recommendation**:
 
 Start with **Option A** (optimize monolith) while investigating:
+
 - If deployment slowness is CI/CD pipeline issue → Fix pipeline (weeks, not years)
 - If scaling issue is database → Optimize queries, add caching, consider read replicas
 - If specific services are bottlenecks → Consider **Option C** (extract only those)
 
 **Only proceed with full microservices if**:
+
 1. Optimization doesn't solve pain points (after 3-month trial)
 2. Team has/can acquire microservices expertise
 3. You're willing to accept 2-3x longer timeline than estimated (based on previous failure)
 4. You budget $3-4M instead of $2M (more realistic for 300K LOC migration)
 
 **Decision Timeline for This Quarter**:
+
 - Week 1-2: Root cause analysis of deployment and scaling issues
 - Week 3-4: Assess team capabilities and define success criteria
 - Week 5-6: Cost/benefit analysis of Options A-D
@@ -336,6 +366,7 @@ Start with **Option A** (optimize monolith) while investigating:
 
 **Confidence Justification**: 
 I'm confident that investigating before committing is the right approach. However, I lack detailed information about:
+
 - Specific nature of scaling issues
 - Team's skill level and capacity
 - Previous migration failure details
@@ -345,12 +376,14 @@ I'm confident that investigating before committing is the right approach. Howeve
 These unknowns prevent High confidence in any specific recommendation.
 
 **Recommended Next Steps**:
+
 1. Conduct technical assessment of monolith (scaling bottlenecks, deployment pipeline)
 2. Review post-mortem from previous migration attempt
 3. Assess team's microservices readiness (training needs, hiring needs)
 4. Define measurable success criteria for any migration
 5. Create detailed cost model for each option
 6. Pilot Option A improvements for 90 days, measure impact
+
 ```
 
 ---
@@ -440,19 +473,19 @@ Use this pattern when you need to enforce quality programmatically:
 def reflection_pattern(question, context):
     # Phase 1: Initial answer
     initial = llm.generate(f"Answer this question: {question}\nContext: {context}")
-    
+
     # Phase 2: Self-critique
     critique_prompt = f"""
     Critically evaluate this answer:
     Question: {question}
     Answer: {initial}
-    
+
     Find errors, gaps, biases, and risks.
     Then provide a revised, improved answer.
     """
-    
+
     reflection = llm.generate(critique_prompt)
-    
+
     return {
         "initial_answer": initial,
         "reflection": reflection,

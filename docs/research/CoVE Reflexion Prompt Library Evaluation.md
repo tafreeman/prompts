@@ -20,7 +20,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 ## Technique Overview Table
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Chain-of-Verification (CoVe) |
 | **Origin** | Dhuliawala et al., Meta AI, arXiv:2309.11495, September 2023 |
 | **Core Mechanism** | 4-phase process: Generate baseline → Plan verification questions → Execute verification independently → Revise with verified facts |
@@ -36,18 +36,21 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 ### Selected Research Branches
 
 **Branch A: Original CoVe Paper Deep Dive (Dhuliawala et al.)**
+
 - **Focus:** Core mechanism, theoretical foundation, benchmark results
 - **Key Sources:** arXiv:2309.11495, Meta AI documentation
 - **Expected Insights:** Why independent verification outperforms simple regeneration
 - **Priority:** HIGH ✓
 
 **Branch B: Generate→Verify→Revise Cycle Implementation**
+
 - **Focus:** Step-by-step structure, verification question design, prompt templates
 - **Key Sources:** Implementation guides, existing repo templates
 - **Expected Insights:** Production-ready template structure
 - **Priority:** HIGH ✓
 
 **Branch C: Comparison to Self-Refine and Other Techniques**
+
 - **Focus:** CoVe vs Self-Refine, Self-Consistency, Constitutional AI
 - **Key Sources:** Madaan et al. (Self-Refine), Wang et al. (Self-Consistency)
 - **Expected Insights:** Decision criteria for technique selection
@@ -72,6 +75,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 4. **Generate Final Verified Response:** Using ONLY the original question and the verified answers from Step 3, the model synthesizes a corrected final response. Claims that failed verification are corrected or removed.
 
 **Why It Works:**
+
 - LLMs are better at answering specific, focused questions than generating complex responses with many claims
 - Independent verification breaks the "self-consistency" trap where models defend their original mistakes
 - Decomposition into individual verification questions enables targeted scrutiny
@@ -79,7 +83,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 **Benchmark Results:**
 
 | Task | Baseline Error Rate | CoVe Error Rate | Improvement |
-|------|---------------------|-----------------|-------------|
+| ------ | --------------------- | ----------------- | ------------- |
 | Wikidata List Questions | 37% | 14% | **62% reduction** |
 | MultiSpanQA (closed book) | 45% | 22% | **51% reduction** |
 | Longform Biography Generation | 28% | 11% | **61% reduction** |
@@ -89,13 +93,14 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 **Effective Verification Questions:**
 
 | Type | Good Example | Poor Example |
-|------|--------------|--------------|
+| ------ | -------------- | -------------- |
 | **Specific** | "What year did X happen?" | "Is the date correct?" |
 | **Independent** | "What is the capital of France?" | "Is Paris really the capital?" |
 | **Verifiable** | "How many employees does Company X have?" | "Is the company big?" |
 | **Focused** | "Who founded Tesla?" | "Is everything about Tesla correct?" |
 
 **5W Framework for Verification:**
+
 - **Who:** Verify person names, roles, relationships
 - **What:** Verify events, actions, definitions
 - **When:** Verify dates, time periods, sequences
@@ -105,7 +110,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 **Domain-Specific Considerations:**
 
 | Domain | Verification Focus |
-|--------|-------------------|
+| -------- | ------------------- |
 | Medical/Legal | Cite specific regulations, verify dosages/statutes |
 | Technical | Verify API signatures, version compatibility |
 | Historical | Cross-check dates, verify primary sources |
@@ -116,7 +121,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 **CoVe vs Self-Refine Comparison:**
 
 | Aspect | Chain-of-Verification (CoVe) | Self-Refine (Madaan et al., 2023) |
-|--------|------------------------------|-----------------------------------|
+| -------- | ------------------------------ | ----------------------------------- |
 | **Core Approach** | Verification through independent fact-checking | Iterative improvement through feedback |
 | **Verification Method** | Decomposes into specific verification questions answered independently | Generates holistic critique and revises based on feedback |
 | **Independence** | ✓ Each question answered fresh | ✗ Feedback can reinforce errors |
@@ -127,7 +132,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 **Comparison to Other Techniques:**
 
 | Technique | Mechanism | Best Use Case | Complexity | Token Cost |
-|-----------|-----------|---------------|------------|------------|
+| ----------- | ----------- | --------------- | ------------ | ------------ |
 | **CoVe** | Independent verification questions | Factual accuracy | Medium | 3-5x |
 | **Self-Refine** | Critique → Revise loop | Quality improvement | Medium | 2-3x |
 | **Self-Consistency** | Multiple samples + voting | Math/reasoning | Low | k × base |
@@ -161,12 +166,14 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 #### The Generate→Verify→Revise Cycle (Full Mechanism)
 
 **Phase 1: Generate (Baseline Response)**
+
 - Model receives the original user question
 - Generates complete initial answer without constraints
 - This response may contain hallucinations or factual errors
 - No verification happens at this stage
 
 **Phase 2: Plan Verification (Question Generation)**
+
 - Model analyzes its baseline response
 - Identifies distinct factual claims (typically 3-10 per response)
 - Generates one focused verification question per claim
@@ -177,6 +184,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
   - Using 5W framework where applicable
 
 **Phase 3: Execute Verification (Independent Answering)**
+
 - **CRITICAL:** Each question answered as a completely fresh query
 - Model must NOT reference baseline response
 - Treats each verification question as a new task
@@ -184,6 +192,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 - This independence prevents confirmation bias
 
 **Phase 4: Revise (Final Verified Response)**
+
 - Synthesizes final response using ONLY:
   - The original user question
   - Verified answers from Phase 3
@@ -208,6 +217,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 ```
 
 **Question Categories:**
+
 1. **Entity verification:** Names, titles, relationships
 2. **Temporal verification:** Dates, durations, sequences
 3. **Numerical verification:** Statistics, measurements, counts
@@ -219,7 +229,7 @@ Chain-of-Verification (CoVe) is a prompting technique introduced by Dhuliawala e
 From Dhuliawala et al. (2023):
 
 | Benchmark | Task Type | Baseline Hallucination | CoVe Hallucination | Δ Improvement |
-|-----------|-----------|------------------------|--------------------| --------------|
+| ----------- | ----------- | ------------------------ | -------------------- | --------------|
 | Wikidata | List QA | 37% | 14% | -62% |
 | MultiSpanQA | Closed-book QA | 45% | 22% | -51% |
 | Biography | Longform generation | 28% | 11% | -61% |
@@ -274,12 +284,12 @@ flowchart TD
         A["User Question"] --> B["Generate Baseline Response"]
         B --> C["Initial Answer<br/>(may contain errors)"]
     end
-    
+
     subgraph Phase2["Phase 2: Plan Verification"]
         C --> D["Analyze Factual Claims"]
         D --> E["Generate Verification Questions<br/>(one per claim)"]
     end
-    
+
     subgraph Phase3["Phase 3: Execute Verification"]
         E --> F["Answer Q1 Independently"]
         E --> G["Answer Q2 Independently"]
@@ -287,13 +297,13 @@ flowchart TD
         E --> I["Answer Qn Independently"]
         F & G & H & I --> J["Verified Answers"]
     end
-    
+
     subgraph Phase4["Phase 4: Revise"]
         A --> K["Synthesize Final Response"]
         J --> K
         K --> L["Verified Response<br/>with Corrections"]
     end
-    
+
     style Phase1 fill:#e1f5fe
     style Phase2 fill:#fff3e0
     style Phase3 fill:#e8f5e9
@@ -307,7 +317,7 @@ flowchart TD
 **Quality Assessment (Using Repository Rubrics):**
 
 | Dimension | Score | Notes |
-|-----------|-------|-------|
+| ----------- | ------- | ------- |
 | Clarity (25%) | 4.5/5 | Clear 4-step structure, well-documented |
 | Effectiveness (30%) | 4.0/5 | Demonstrated with realistic example |
 | Reusability (20%) | 4.5/5 | Generic variables, adaptable |
@@ -318,7 +328,7 @@ flowchart TD
 **Quality Standards (0-100) Assessment:**
 
 | Criterion | Score | Notes |
-|-----------|-------|-------|
+| ----------- | ------- | ------- |
 | Completeness (25pts) | 22/25 | Has all required sections |
 | Example Quality (30pts) | 28/30 | Realistic prompt evaluation example |
 | Specificity (20pts) | 18/20 | Good variable definitions |
@@ -331,6 +341,7 @@ flowchart TD
 ## Research Methodology Notes
 
 This research was executed using:
+
 - **Tree-of-Thoughts (ToT):** 3 parallel research branches explored systematically
 - **Reflexion:** Self-critique phase identified minor gaps in benchmark data
 - **Sources:** Primary academic papers (arXiv), industry documentation, repository analysis
@@ -349,6 +360,7 @@ The following prompt template was used for this research execution:
 Generate 3-5 distinct research paths to explore this topic comprehensively.
 
 For each branch:
+
 - **Branch [N]: [Research Angle]**
 - **Focus:** What aspect this branch investigates
 - **Key Sources to Find:** Academic papers, documentation, implementations
@@ -356,6 +368,7 @@ For each branch:
 - **Priority:** High/Medium/Low based on relevance to research questions
 
 Suggested branches to consider:
+
 - Branch A: Original CoVe paper deep dive (Dhuliawala et al. mechanism, benchmarks, theory)
 - Branch B: Generate→Verify→Revise cycle implementation (step-by-step structure, verification question design)
 - Branch C: Comparison to Self-Refine and other refinement techniques
@@ -371,18 +384,21 @@ Select the top 3 branches based on priority and potential yield.
 For each selected branch, execute:
 
 ### Round 1 - Initial Investigation
+
 1. **Think:** What specific information will best answer the research questions?
 2. **Act:** Describe what you're searching for or analyzing
 3. **Observe:** Document findings with citations
 4. **Reflect:** What's missing? Are sources authoritative and recent?
 
 ### Round 2 - Refinement (if gaps remain)
+
 1. **Think:** Based on reflection, what angle was missed?
 2. **Act:** Targeted follow-up investigation
 3. **Observe:** New findings
 4. **Reflect:** Is this branch now sufficiently explored?
 
 ### Capture for each branch:
+
 - Key concepts and mechanisms discovered
 - Source quality (academic paper / industry documentation / blog)
 - Publication dates and citation counts where available
@@ -395,6 +411,7 @@ For each selected branch, execute:
 ## Phase 3: Cross-Branch Reflection (Reflexion)
 
 ### Self-Critique Questions:
+
 1. Have I covered the major research directions for Chain-of-Verification?
 2. Are my sources recent (2023-2025) and authoritative (arXiv, NeurIPS, EMNLP)?
 3. Did I find contradictory information requiring reconciliation?
@@ -411,6 +428,7 @@ Open 1-2 new targeted investigations to fill critical gaps.
 Produce a structured research report with these exact sections:
 
 ### Executive Summary
+
 - 3-4 sentence overview of Chain-of-Verification
 - Key insight about how verification reduces hallucinations
 - Readiness for production use (High/Medium/Low/Experimental)
@@ -418,7 +436,7 @@ Produce a structured research report with these exact sections:
 ### Technique Overview Table
 
 | Aspect | Details |
-|--------|---------|
+| -------- | --------- |
 | **Name** | Chain-of-Verification (CoVe) |
 | **Origin** | [Full citation - Dhuliawala et al.] |
 | **Core Mechanism** | [How it works in 2-3 sentences] |
@@ -446,7 +464,7 @@ Produce a structured research report with these exact sections:
 
 #### CoVe vs Self-Refine Comparison
 | Aspect | Chain-of-Verification (CoVe) | Self-Refine |
-|--------|------------------------------|-------------|
+| -------- | ------------------------------ | ------------- |
 | **Core Approach** | | |
 | **Verification Method** | | |
 | **Best For** | | |
@@ -455,7 +473,7 @@ Produce a structured research report with these exact sections:
 
 #### Comparison to Other Refinement Techniques
 | Technique | Mechanism | Best Use Case | Complexity |
-|-----------|-----------|---------------|------------|
+| ----------- | ----------- | --------------- | ------------ |
 | CoVe | | | |
 | Self-Refine | | | |
 | Self-Consistency | | | |
@@ -474,6 +492,7 @@ Provide a reusable prompt template structure that can be added to a prompt libra
 ```
 
 Include:
+
 - System instructions for the 3-phase process
 - Format for verification question generation
 - Instructions for revision based on verification
@@ -483,11 +502,13 @@ Include:
 [Performance data from papers with proper citations - hallucination reduction metrics, factual accuracy improvements]
 
 ### Contradictions & Open Questions
+
 - Areas where sources disagree
 - Unresolved questions in the research
 - When CoVe might not help
 
 ### Practical Recommendations
+
 1. [When to use CoVe]
 2. [How many verification questions are optimal]
 3. [What types of tasks benefit most]
@@ -498,6 +519,7 @@ Include:
 
 ### Artifacts for Prompt Library
 Provide ready-to-use content:
+
 1. A complete prompt template (markdown format) following this structure:
    - Title, description, use cases
    - The actual prompt text (with the full Generate→Verify→Revise structure)
@@ -515,18 +537,21 @@ GitHub Copilot: I'll conduct a comprehensive research investigation on the Self-
 ### Selected Research Branches
 
 **Branch A: Original Self-Consistency Paper Deep Dive (Wang et al.)**
+
 - **Focus:** Core mechanism, theoretical foundation, "marginalization over reasoning paths"
 - **Key Sources:** ICLR 2023 paper, arxiv preprint, citations analysis
 - **Expected Insights:** Why this outperforms simple voting, mathematical foundation
 - **Priority:** HIGH
 
 **Branch B: Implementation Patterns & Parameters**
+
 - **Focus:** Optimal k values, temperature settings, cost/accuracy tradeoffs, API patterns
 - **Key Sources:** Implementation guides, benchmark studies, practitioner reports
 - **Expected Insights:** Production-ready parameters and template structure
 - **Priority:** HIGH
 
 **Branch C: Comparison to Related Techniques**
+
 - **Focus:** Self-Consistency vs CoT, Self-Refine, Universal Self-Consistency, majority voting
 - **Key Sources:** Comparative studies, follow-up papers, technique taxonomies
 - **Expected Insights:** Decision criteria for technique selection

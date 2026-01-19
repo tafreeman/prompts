@@ -22,7 +22,7 @@ python tools/local_model.py --info
 ## Available Models
 
 | Key | Model | Params | Hardware |
-|-----|-------|--------|----------|
+| ----- | ------- | -------- | ---------- |
 | `phi4` / `phi4-cpu` | Phi-4 Mini | 3.8B | CPU |
 | `phi4-gpu` | Phi-4 Mini | 3.8B | GPU |
 | `phi4mini` | Phi-4 Mini (alt) | 3.8B | CPU |
@@ -88,7 +88,7 @@ response = model.generate(
 Three evaluation methods are available:
 
 | Method | Description | Best For |
-|--------|-------------|----------|
+| -------- | ------------- | ---------- |
 | `evaluate_prompt()` | Direct 6-criteria scoring | Fast evaluation |
 | `evaluate_prompt_geval()` | G-Eval with Chain-of-Thought | Explainable scoring |
 | `evaluate_prompt_dual()` | Both methods combined | Most robust evaluation |
@@ -120,7 +120,7 @@ print(f"Combined Score: {result['combined_score']}")
 Local ONNX models are cached at:
 
 | Cache | Location |
-|-------|----------|
+| ------- | ---------- |
 | AI Gallery | `~/.cache/aigallery/` |
 | AI Toolkit | `~/.aitk/models/` |
 

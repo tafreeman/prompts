@@ -5,20 +5,28 @@ intro: "You are a **Senior QA Engineer** with 10+ years of experience in test au
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
+
 platforms:
+
   - "claude"
+
 topics:
+
   - "developer"
   - "testing"
   - "enterprise"
   - "developers"
+
 author: "Prompts Library Team"
 version: "2.1.0"
 date: "2025-11-25"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 subcategory: "testing"
@@ -59,6 +67,7 @@ You are a **Senior QA Engineer** with 10+ years of experience in test automation
 Design a comprehensive test automation strategy using the Test Pyramid framework:
 
 **Application Context**:
+
 - Application Name: [app_name]
 - Technology Stack: [tech_stack]
 - Testing Scope: [scope]
@@ -69,6 +78,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 **Test Pyramid Strategy** (Provide breakdown for each layer):
 
 ### Layer 1: Unit Tests (70% of tests, ~5 seconds total)
+
 - **What to Test**: Individual functions, classes, methods in isolation
 - **Frameworks**: [Specify: Jest/Vitest (JS), Pytest (Python), JUnit (Java), xUnit (.NET)]
 - **Mocking Strategy**: Mock external dependencies (databases, APIs, file system)
@@ -76,12 +86,14 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - **Example Test Cases**: List 5-10 critical unit tests
 
 ### Layer 2: Integration Tests (20% of tests, ~30 seconds total)
+
 - **What to Test**: Interactions between components (API + database, service-to-service)
 - **Frameworks**: [Specify: Supertest (Node.js), TestContainers (Java), pytest-docker (Python)]
 - **Test Data Strategy**: Use Docker containers for test databases, seed with realistic data
 - **Example Test Cases**: List 3-5 critical integration tests
 
 ### Layer 3: End-to-End (E2E) Tests (10% of tests, ~2-5 minutes total)
+
 - **What to Test**: Critical user workflows through UI or API
 - **Frameworks**: [Specify: Cypress, Playwright, Selenium WebDriver]
 - **Flakiness Prevention**: Use explicit waits, stable selectors, retry logic
@@ -90,25 +102,30 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 **Additional Testing Layers** (Optional based on requirements):
 
 ### Performance Testing
+
 - **Load Testing**: Simulate concurrent users (k6, JMeter, Gatling)
 - **Metrics**: Response time (p95 < 500ms), throughput (requests/sec), error rate (< 1%)
 - **When to Run**: Nightly builds or pre-release
 
 ### Security Testing
+
 - **SAST**: Static analysis in CI/CD (Snyk, SonarQube)
 - **DAST**: Dynamic scanning (OWASP ZAP, Burp Suite)
 - **Dependency Scanning**: Check for vulnerable libraries
 
 ### Accessibility Testing
+
 - **WCAG 2.1 AA Compliance**: Use axe-core, Lighthouse
 - **Screen Reader Testing**: Manual testing with NVDA, JAWS
 
 **Test Data Management**:
+
 - **Strategy**: [Specify: Fixtures, Factories, Faker libraries, Anonymized production data]
 - **Database State**: Reset before each test (isolation)
 - **Seed Data**: Provide realistic test data examples
 
 **CI/CD Integration**:
+
 - **Trigger**: Run on every commit (unit + integration), nightly (E2E + performance)
 - **Parallel Execution**: Split tests across multiple runners for speed
 - **Failure Handling**: Fail fast on unit test failures, retry flaky E2E tests (max 2 retries)
@@ -116,28 +133,34 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 
 **Output Format** (Test Plan Document):
 ```markdown
+
 # Test Automation Strategy: [App Name]
 
 ## Test Pyramid Breakdown
+
 - **Unit Tests**: [number] tests, [coverage]%, ~[time]s
 - **Integration Tests**: [number] tests, ~[time]s
 - **E2E Tests**: [number] tests, ~[time]m
 
 ## Test Frameworks
+
 - Unit: [framework]
 - Integration: [framework]
 - E2E: [framework]
 
 ## Critical Test Cases
 ### Unit Tests
+
 1. [Test case description]
 2. ...
 
 ### Integration Tests
+
 1. [Test case description]
 2. ...
 
 ### E2E Tests
+
 1. [Test case description]
 2. ...
 
@@ -145,9 +168,11 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 [Provide YAML snippet for GitHub Actions/GitLab CI/Jenkins]
 
 ## Success Metrics
+
 - Code coverage: [target]%
 - Test execution time: < [time]
 - Flakiness rate: < 5%
+
 ```text
 
 ```
@@ -185,6 +210,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - Test Budget: 10 minutes per pipeline run
 
 ```text
+
 ```text
 
 ## Test Data Management
@@ -195,10 +221,12 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - **Example Seed Data**:
 
   ```javascript
+
   const testProducts = [
     { id: 1, name: 'Laptop', price: 999.99, category: 'electronics', stock: 50 },
     { id: 2, name: 'Keyboard', price: 79.99, category: 'accessories', stock: 200 }
   ];
+
   ```
 
 ## Success Metrics
@@ -215,6 +243,7 @@ Design a comprehensive test automation strategy using the Test Pyramid framework
 - **Quarterly**: Performance test review (load testing with k6)
 
 ```text
+
 - **[security-code-auditor](./security-code-auditor.md)** - Add security test cases for vulnerabilities
 
 ---

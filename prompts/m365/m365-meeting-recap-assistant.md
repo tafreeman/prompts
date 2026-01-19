@@ -6,22 +6,30 @@ m365App: "Copilot in Teams"
 type: "how_to"
 difficulty: "beginner"
 audience:
+
   - "junior-engineer"
   - "business-analyst"
+
 platforms:
+
   - "github-copilot"
   - "m365-copilot"
+
 topics:
+
   - "m365"
   - "business"
   - "meetings"
   - "copilot"
+
 author: "Your Name"
 version: "1.0"
 date: "2025-11-18"
 governance_tags:
+
   - "general-use"
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "draft"
 effectivenessScore: 4.2
@@ -116,13 +124,18 @@ Help me turn this meeting into a structured summary with decisions, action items
 and follow-ups, based on the transcript, chat, and shared documents.
 
 Context:
+
 - I use Teams, Outlook, and OneDrive/SharePoint in Microsoft 365.
 - I need a clear, actionable recap that I can share with attendees and use to
+
   track follow-ups.
 
 Scope:
+
 - Use the meeting transcript (if available), meeting chat, and any documents or
+
   links shared during the meeting.
+
 - Focus on:
   - Decisions made
   - Action items and who owns them
@@ -130,6 +143,7 @@ Scope:
 - Emphasize these topics if relevant: [focus_topics].
 
 Assumptions and constraints:
+
 - If no transcript is available, work from chat messages and any notes I provide.
 - Focus on decisions and actions, not every discussion point.
 - For action items:
@@ -140,6 +154,7 @@ Assumptions and constraints:
 - Use tables and bullets for easy scanning.
 
 Process:
+
 1. Parse the transcript and chat for key themes, decisions, and commitments.
 2. Identify action items and their owners (infer if not explicitly stated).
 3. Group related actions to avoid redundancy.
@@ -152,16 +167,18 @@ Return the result in Markdown with these sections:
 [1–2 short paragraphs]
 
 ## Key Decisions
+
 - [decision with brief explanation]
 - [decision with brief explanation]
 
 ## Action Items
 | Owner | Action | Suggested Due Date | Priority |
-|-------|--------|-------------------|----------|
+| ------- | -------- | ------------------- | ---------- |
 | [name] | [action] | [date] | [priority] |
 | [name] | [action] | [date] | [priority] |
 
 ## Open Questions / Follow-ups
+
 - [unresolved question or topic]
 - [unresolved question or topic]
 
@@ -171,7 +188,7 @@ Now, using the meeting transcript, chat, and context, generate the meeting recap
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[focus_topics]` | Optional topics to emphasize (risks, budget, customer impact, etc.) |
 | `[due_date_horizon]` | Suggested timeframe for due dates (e.g., "within 2 weeks") |
 | `[priority_scheme]` | Priority labels to use (High/Medium/Low, etc.) |
@@ -202,13 +219,14 @@ priority_scheme: High/Medium/Low
 This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibility for the phased rollout. The team aligned on success criteria for the internal beta, discussed risks related to API stability, and identified several action items to de-risk the public GA launch.
 
 ## Key Decisions
+
 - Proceed with the phased rollout: internal beta starting November 18, public GA targeting December 5.
 - Internal beta success criteria: zero critical incidents, support team confirms documentation readiness, and at least 50 internal users onboarded without major issues.
 - If API timeout fix is not deployed by November 22, push public GA to December 12 to allow additional stabilization time.
 
 ## Action Items
 | Owner | Action | Suggested Due Date | Priority |
-|-------|--------|-------------------|----------|
+| ------- | -------- | ------------------- | ---------- |
 | Alex (Engineering) | Deploy API timeout fix and confirm stability in staging | Nov 22 | High |
 | Jordan (Product) | Finalize internal beta communication plan and recruit 50 beta users | Nov 18 | High |
 | Taylor (Support) | Complete onboarding FAQ and training materials review | Nov 25 | Medium |
@@ -216,9 +234,11 @@ This meeting reviewed the Q4 onboarding roadmap and assessed timeline feasibilit
 | Casey (PM) | Schedule a go/no-go decision meeting for public GA on December 2 | Nov 29 | Medium |
 
 ## Open Questions / Follow-ups
+
 - What is the fallback plan if the internal beta reveals a critical issue after November 22?
 - Should we prepare a public communication in case the GA date shifts to December 12?
 - Do we need additional QA resources to accelerate load testing?
+
 ```text
 
 ---

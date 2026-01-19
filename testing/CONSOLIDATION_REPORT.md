@@ -57,15 +57,15 @@ class PromptTestRunner:
     def _detect_provider(self) -> str:
         """Auto-detect best available LLM provider"""
         # Local ONNX > gh CLI > Ollama
-        
+
     async def _execute_local_model(self, prompt, inputs):
         """Execute using local ONNX model"""
         # Uses tools/local_model.py
-        
+
     async def _execute_gh_models(self, prompt, inputs):
         """Execute using GitHub Models CLI"""
         # Uses subprocess: gh models eval
-        
+
     async def _execute_ollama(self, prompt, inputs):
         """Execute using local Ollama server"""
         # HTTP requests to localhost:11434
@@ -90,7 +90,7 @@ class PromptTestRunner:
 ## Files Modified
 
 | File | Status | Changes |
-|------|--------|---------|
+| ------ | -------- | --------- |
 | `testing/framework/core/test_runner.py` | ✅ Complete | Multi-provider support added |
 | `docs/CLI_TOOLS.md` | ✅ Created | Documentation for CLI tools |
 | `testing/README.md` | ✅ Updated | Architecture comparison table |

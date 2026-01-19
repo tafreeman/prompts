@@ -5,20 +5,28 @@ intro: Work in progress - This prompt is currently under development.
 type: how_to
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
+
 topics:
+
   - advanced
+
 author: Prompts Library Team
 version: '0.1.0'
 date: '2025-12-15'
 governance_tags:
+
   - WIP
   - requires-review
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -46,7 +54,7 @@ Use [VARIABLE_NAME] for values users should replace.]
 ## Variables
 
 | Variable | Description |
-|----------|-------------|
+| ---------- | ------------- |
 | `[VARIABLE_1]` | What to put here |
 | `[VARIABLE_2]` | What this represents |
 

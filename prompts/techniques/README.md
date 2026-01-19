@@ -5,17 +5,23 @@ intro: Overview of prompts prompts available in this library.
 type: reference
 difficulty: beginner
 audience:
+
 - senior-engineer
 - junior-engineer
+
 platforms:
+
 - github-copilot
 - claude
 - chatgpt
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-30'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 ---
@@ -32,6 +38,7 @@ techniques/
 ├── context-optimization/   # Long-context and efficiency techniques
 └── multimodal/             # Cross-modal prompting patterns
 ```sql
+
 ## 🎯 Technique Categories
 
 ### Reflexion Patterns
@@ -108,7 +115,7 @@ Cross-modal prompting for image, text, code, and more.
 ## 📊 Performance Comparison
 
 | Technique | Accuracy Gain | Latency Impact | Cost Multiplier | Complexity |
-|-----------|---------------|----------------|-----------------|------------|
+| ----------- | --------------- | ---------------- | ----------------- | ------------ |
 | Basic Reflexion | +20-30% | Medium | 1.3-1.6x | Advanced |
 | Multi-Agent | +25-40% | Variable | 1.5-2.5x | Advanced |
 | Many-Shot | +15-35% | Low | 1.2-1.8x | Intermediate |
@@ -124,6 +131,7 @@ python tools/validators/prompt_validator.py techniques/reflexion/basic-reflexion
 # Benchmark performance
 python tools/benchmarks/performance_evaluator.py techniques/reflexion/basic-reflexion/basic-reflexion.md
 ```text
+
 ## 📚 Resources
 
 - [Reflexion Research Paper](https://arxiv.org/abs/2303.11366) - Shinn et al. (2023)

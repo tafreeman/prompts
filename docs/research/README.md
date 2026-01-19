@@ -15,7 +15,7 @@ The **Research** directory contains rigorous analysis, experimental results, and
 Advanced prompting techniques with scientific foundations:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[CoVe (Chain-of-Verification)](CoVe.md)** | Self-verification methodology to reduce hallucinations | Accuracy & Validation |
 | **[CoVE Reflexion Prompt Library Evaluation](CoVE Reflexion Prompt Library Evaluation.md)** | Evaluation of library using CoVe and reflexion patterns | Quality Assessment |
 | **[Advanced Technique Research](advanced-technique-research.md)** | Peer-reviewed prompting techniques and evidence | Comprehensive Survey |
@@ -25,7 +25,7 @@ Advanced prompting techniques with scientific foundations:
 Multi-step and multi-path reasoning research:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[ReAct Tool-Augmented](react-tool-augmented.md)** | Reasoning + Acting pattern with external tools | Agent Frameworks |
 | **[ReAct Knowledge Base Research](react-knowledge-base-research.md)** | ReAct applied to knowledge retrieval systems | Information Retrieval |
 | **[ReAct Document Search Synthesis](react-doc-search-synthesis.md)** | Synthesizing search results using ReAct | Document Analysis |
@@ -35,7 +35,7 @@ Multi-step and multi-path reasoning research:
 RAG and document retrieval research:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[RAG Document Retrieval](rag-document-retrieval.md)** | Retrieval-Augmented Generation patterns and best practices | Knowledge Integration |
 | **[OSINT Research - ReAct](osint-research-react.md)** | Open-source intelligence gathering using ReAct | Intelligence Analysis |
 
@@ -44,7 +44,7 @@ RAG and document retrieval research:
 Self-evaluation and improvement research:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[Library Analysis - ReAct](library-analysis-react.md)** | ReAct-based analysis of prompt library effectiveness | Self-Evaluation |
 | **[Research Analysis Output](research_analysis_output.md)** | Structured research findings and recommendations | Meta-Analysis |
 | **[Library Research](library.md)** | General library research and improvement studies | Continuous Improvement |
@@ -54,7 +54,7 @@ Self-evaluation and improvement research:
 Citation standards and governance frameworks:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[Citation and Governance Research](CITATION_AND_GOVERNANCE_RESEARCH.md)** | Research attribution, PII handling, compliance frameworks | Governance |
 
 ### Experimental Research
@@ -62,12 +62,11 @@ Citation standards and governance frameworks:
 Cutting-edge research execution:
 
 | Document | Description | Focus Area |
-|----------|-------------|------------|
+| ---------- | ------------- | ------------ |
 | **[R1/R2 Research Execution](R1_R2_RESEARCH_EXECUTION.md)** | OpenAI R1/R2 model research and evaluation | Model Capabilities |
 | **[Research Report](ResearchReport.md)** | Comprehensive research findings and conclusions | Summary & Synthesis |
 
-## 🎯 Use These Documents When...
-
+## 🎯 Use These Documents When
 - ✅ You need **scientific validation** for prompting techniques
 - ✅ You're **writing papers or reports** requiring citations
 - ✅ You want to **understand the "why"** behind advanced patterns
@@ -114,6 +113,7 @@ Cutting-edge research execution:
 **Purpose**: Introduce and validate new prompting techniques
 
 **Example Structure**:
+
 ```markdown
 # Technique Name
 ## Problem Statement
@@ -130,6 +130,7 @@ Cutting-edge research execution:
 **Purpose**: Compare effectiveness of different approaches
 
 **Example Structure**:
+
 ```markdown
 # [Technique] Evaluation
 ## Techniques Compared
@@ -145,6 +146,7 @@ Cutting-edge research execution:
 **Purpose**: Self-evaluation and improvement of the library
 
 **Example Structure**:
+
 ```markdown
 # Library Analysis
 ## Scope
@@ -160,6 +162,7 @@ Cutting-edge research execution:
 **Purpose**: Comprehensive overview of research in an area
 
 **Example Structure**:
+
 ```markdown
 # [Topic] Survey
 ## Scope
@@ -172,11 +175,13 @@ Cutting-edge research execution:
 ## 🔗 Related Documentation
 
 ### Implementation
+
 - **[Concepts](../concepts/)** — Theory derived from research
 - **[Prompts Library](../../prompts/)** — Research-backed templates
 - **[Tutorials](../tutorials/)** — Hands-on application of research
 
 ### Validation
+
 - **[Planning](../planning/)** — Architectural decisions based on research
 - **[Tools](../../tools/)** — Evaluation utilities for testing
 - **[Reference](../reference/)** — Quick lookups for research terms
@@ -186,21 +191,25 @@ Cutting-edge research execution:
 ### Advanced Prompting Techniques
 
 **Chain-of-Verification (CoVe)**:
+
 - Reduces hallucinations through self-verification
 - Multi-step validation process
 - Applicable to factual Q&A and reasoning tasks
 
 **ReAct (Reasoning + Acting)**:
+
 - Iterative reasoning and action loops
 - Tool use and external knowledge integration
 - Effective for complex problem-solving
 
 **Tree-of-Thoughts (ToT)**:
+
 - Multi-path exploration of reasoning chains
 - Self-evaluation and pruning
 - Best for creative and strategic tasks
 
 **Retrieval-Augmented Generation (RAG)**:
+
 - Combines retrieval with generation
 - Grounds responses in external knowledge
 - Critical for enterprise knowledge systems
@@ -208,17 +217,20 @@ Cutting-edge research execution:
 ### Evaluation Methodologies
 
 **Quality Metrics**:
+
 - Accuracy, precision, recall
 - Hallucination rates
 - Response coherence
 - Task completion success rates
 
 **Reflexion Patterns**:
+
 - Self-critique and improvement loops
 - Meta-prompting for quality assessment
 - Iterative refinement processes
 
 **Comparative Analysis**:
+
 - A/B testing different prompt patterns
 - Model capability comparisons
 - Performance benchmarking
@@ -226,16 +238,19 @@ Cutting-edge research execution:
 ### Governance & Compliance
 
 **Citation Standards**:
+
 - Proper attribution of research sources
 - Academic and industry references
 - Transparency in technique origins
 
 **Data Classification**:
+
 - PII handling guidelines
 - Security classifications
 - Compliance frameworks (GDPR, HIPAA, etc.)
 
 **Quality Assurance**:
+
 - Peer review processes
 - Validation requirements
 - Update and maintenance protocols
@@ -245,36 +260,43 @@ Cutting-edge research execution:
 ### Conducting Research
 
 **1. Problem Identification**
+
 - What gap exists in current techniques?
 - What problem needs solving?
 - What hypothesis are you testing?
 
 **2. Literature Review**
+
 - Review existing research in [this directory](./)
 - Search academic papers (arXiv, ACL, etc.)
 - Document related work
 
 **3. Experimental Design**
+
 - Define test cases and datasets
 - Establish metrics and success criteria
 - Plan control and experimental conditions
 
 **4. Implementation**
+
 - Create prompts in [prompts library](../../prompts/)
 - Build evaluation harnesses in [tools](../../tools/)
 - Document methodology
 
 **5. Evaluation**
+
 - Run experiments with defined test cases
 - Collect quantitative metrics
 - Gather qualitative observations
 
 **6. Analysis**
+
 - Statistical analysis of results
 - Comparison with baselines
 - Identify patterns and insights
 
 **7. Documentation**
+
 - Write research document following templates
 - Include code, data, and reproduction steps
 - Submit for peer review
@@ -299,43 +321,52 @@ relatedTechniques: ["CoT", "ReAct", etc.]
 Brief summary (150-250 words)
 
 ## Introduction
+
 - Background and motivation
 - Research question or hypothesis
 - Contribution of this work
 
 ## Related Work
+
 - Survey of existing research
 - Gaps this work addresses
 
 ## Methodology
+
 - Detailed description of approach
 - Experimental design
 - Data and tools used
 
 ## Results
+
 - Quantitative findings
 - Qualitative observations
 - Visualizations (tables, charts)
 
 ## Discussion
+
 - Interpretation of results
 - Comparison with related work
 - Limitations and caveats
 
 ## Conclusion
+
 - Summary of findings
 - Practical implications
 - Future work
 
 ## References
+
 - Academic papers
 - Blog posts and articles
 - Relevant repositories
 
 ## Appendix
+
 - Additional data
 - Code snippets
 - Supplementary materials
+
 ```
 
 ## 📊 Research Quality Standards
@@ -432,6 +463,7 @@ Research cited from external sources retains original copyright. See individual 
 ---
 
 **Next Steps**:
+
 - 📖 Survey: [Advanced Technique Research](advanced-technique-research.md)
 - 🔬 Deep dive: [CoVe](CoVe.md) or [ReAct](react-tool-augmented.md)
 - 🛠️ Apply: Use [Prompts Library](../../prompts/) based on research

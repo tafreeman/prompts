@@ -11,7 +11,7 @@
 ### VS Code Tools (Core - Required)
 
 | Tool | Purpose | Usage Count | Notes |
-|------|---------|-------------|-------|
+| ------ | --------- | ------------- | ------- |
 | `read_file` | Read existing code files | 25+ | Essential for understanding current implementation |
 | `replace_string_in_file` | Edit existing files | 20+ | Primary editing tool for modifications |
 | `create_file` | Create new files | 7 | conftest.py, validators, tracking file, README updates |
@@ -23,7 +23,7 @@
 ### Tools NOT Used (Can Be Excluded for Similar Tasks)
 
 | Tool | Reason Not Needed |
-|------|-------------------|
+| ------ | ------------------- |
 | `semantic_search` | Workspace small enough for direct file reading |
 | `fetch_webpage` | No external documentation needed |
 | `mcp_context7_*` | No third-party library docs needed |
@@ -34,7 +34,7 @@
 ### External Dependencies (Runtime)
 
 | Dependency | Version | Purpose |
-|------------|---------|---------|
+| ------------ | --------- | --------- |
 | Python | 3.13 | Runtime environment |
 | pytest | Latest | Test execution |
 | pyyaml | Latest | YAML frontmatter parsing |
@@ -44,7 +44,7 @@
 ### File Modifications Summary
 
 | File | Status | Changes |
-|------|--------|---------|
+| ------ | -------- | --------- |
 | `dual_eval.py` | Modified | +391 lines - batch eval, JSON, git integration, file filtering |
 | `test_dual_eval.py` | Modified | +250 lines - 66 tests total |
 | `README.md (evals)` | Modified | Updated documentation |
@@ -98,6 +98,7 @@
 ## Archived Files (2025-12-04)
 
 ### docs/archive/2025-12-04/
+
 - `COMPLEXITY_AND_ADOPTION_REPORT.md`
 - `VISUAL_AUDIT_REPORT.md`
 - `VISUAL_FORMATTING_AUDIT_REPORT.md`
@@ -109,6 +110,7 @@
 - `PROMPT_STANDARDIZATION_REPORT.md`
 
 ### testing/archive/2025-12-04/
+
 - `framework/` (13 files - entire legacy framework)
 - `developers-eval-1.prompt.yml`
 - `developers-eval-2.prompt.yml`
@@ -134,12 +136,13 @@ testing/validators/test_schema.py: 23 tests PASSED
 ----------------------------------------
 TOTAL: 116 tests PASSED
 ```text
+
 ---
 
 ## Remaining Work (from CONSOLIDATED_IMPROVEMENT_PLAN.md)
 
 | Priority | Task | Effort |
-|----------|------|--------|
+| ---------- | ------ | -------- |
 | 🔴 Critical | Fix 50 broken internal links | 2 hours |
 | 🔴 Critical | Fix README architecture mismatch | 30 min |
 | 🟠 High | Standardize prompt section order | 2 hours |

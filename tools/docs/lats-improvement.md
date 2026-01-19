@@ -22,8 +22,7 @@ python tools/run_lats_improvement.py prompts/ --lite
 
 ---
 
-## What is LATS?
-
+## What is LATS
 LATS (Language Agent Tree Search) Self-Refine is a multi-branch evaluation pattern:
 
 1. **Branch A** - Criteria validation (structure, clarity, completeness)
@@ -75,7 +74,7 @@ python tools/run_lats_improvement.py prompts/ --dry-run
 ## Recommended Models
 
 | Model | Type | Quality | Speed | Cost |
-|-------|------|---------|-------|------|
+| ------- | ------ | --------- | ------- | ------ |
 | `ollama:phi4-reasoning` | Local | Excellent | Medium | FREE |
 | `ollama:deepseek-r1:14b` | Local | Excellent | Slow | FREE |
 | `ollama:qwen2.5-coder:14b` | Local | Good (code) | Medium | FREE |
@@ -98,11 +97,11 @@ Threshold: 80.0
 Iteration 1/5:
   Score: 72.0
   Feedback: Missing examples, unclear edge cases
-  
+
 Iteration 2/5:
   Score: 78.0
   Feedback: Examples added, consider more context
-  
+
 Iteration 3/5:
   Score: 84.0 ✓
   Threshold met!
@@ -114,9 +113,11 @@ Result:
   Iterations: 3
   Duration: 45.2s
   Key Changes:
+
     - Added 3 practical examples
     - Clarified edge case handling
     - Improved variable naming section
+
 ```
 
 ---
@@ -124,7 +125,7 @@ Result:
 ## LATS vs LATS-Lite
 
 | Version | Size | Best For | Command |
-|---------|------|----------|---------|
+| --------- | ------ | ---------- | --------- |
 | **LATS Full** | ~5.5KB | Cloud models (GPT-4, etc.) | Default |
 | **LATS-Lite** | ~1.5KB | Local models (Phi4, Ollama) | `--lite` |
 

@@ -94,10 +94,10 @@ class TestUserService:
         """Given valid user data, when creating a user, then return the new user."""
         # Arrange
         mock_db.save.return_value = User(id=1, name="John")
-        
+
         # Act
         result = user_service.create_user(name="John", email="john@example.com")
-        
+
         # Assert
         assert result.id == 1
         assert result.name == "John"
@@ -108,9 +108,10 @@ class TestUserService:
         # Arrange & Act & Assert
         with pytest.raises(ValidationError) as exc_info:
             user_service.create_user(name="John", email="invalid")
-        
+
         assert "email" in str(exc_info.value).lower()
 ```text
+
 ```typescript
 // TypeScript example with Jest
 describe('UserService', () => {
@@ -148,6 +149,7 @@ describe('UserService', () => {
   });
 });
 ```text
+
 ## Test Categories
 
 ### 1. Happy Path Tests
@@ -208,6 +210,7 @@ npm run test:coverage
 # C# - Run tests
 dotnet test --collect:"XPlat Code Coverage"
 ```csharp
+
 ## Tips for Best Results
 
 - Share the source code file you want tests for

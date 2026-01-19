@@ -5,21 +5,29 @@ intro: "ReAct-based prompt for analyzing and improving prompt library repository
 type: "how_to"
 difficulty: "advanced"
 audience:
+
   - "senior-engineer"
   - "solution-architect"
+
 platforms:
+
   - "github-copilot"
   - "claude"
   - "chatgpt"
+
 topics:
+
   - "analysis"
   - "architecture"
   - "quality-assurance"
+
 author: "Prompt Library Team"
 version: "4.0"
 date: "2025-12-02"
 governance_tags:
+
   - "PII-safe"
+
 dataClassification: "internal"
 reviewStatus: "approved"
 ---
@@ -51,7 +59,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Completed Infrastructure ✅
 
 | Component | Status | Details |
-|-----------|--------|---------|
+| ----------- | -------- | --------- |
 | Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
 | Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
 | Validation tooling | ✅ Complete | `tools/validators/frontmatter_validator.py` (291/291 pass) |
@@ -64,7 +72,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Current Content Inventory
 
 | Category | Count | Status | Notes |
-|----------|-------|--------|-------|
+| ---------- | ------- | -------- | ------- |
 | **Developers** | 26 prompts | ✅ Mature | Code review, testing, architecture |
 | **Business** | 38 prompts | ✅ Mature | Strategy, analysis, communication |
 | **Analysis** | 21 prompts | ✅ Mature | Data, research, metrics |
@@ -78,7 +86,7 @@ Perform comprehensive analysis of a prompt library repository to:
 ### Infrastructure Components
 
 | Component | Count | Status |
-|-----------|-------|--------|
+| ----------- | ------- | -------- |
 | Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
 | Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
 | Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
@@ -89,18 +97,21 @@ Perform comprehensive analysis of a prompt library repository to:
 ## Maturity Assessment Framework
 
 ### Level 1: Foundation ✅ COMPLETE
+
 - [x] Consistent frontmatter schema
 - [x] Validation tooling
 - [x] Basic navigation (index.md files)
 - [x] Content type definitions
 
 ### Level 2: Discoverability ✅ COMPLETE
+
 - [x] Platform quickstarts
 - [x] Reference documentation (cheat sheet, glossary)
 - [x] Troubleshooting guides
 - [x] Tutorials for onboarding
 
 ### Level 3: Content Depth 🔄 IN PROGRESS
+
 - [x] Core categories well-covered (developers, business, analysis)
 - [ ] Creative category expansion (9 → 20 target)
 - [ ] Governance category expansion (3 → 15 target)
@@ -108,6 +119,7 @@ Perform comprehensive analysis of a prompt library repository to:
 - [ ] Industry-specific prompt packs
 
 ### Level 4: Advanced Capabilities ⏳ NEXT
+
 - [ ] Prompt chaining/orchestration patterns
 - [ ] Multi-modal prompt templates (vision, audio)
 - [ ] Evaluation and testing frameworks
@@ -115,6 +127,7 @@ Perform comprehensive analysis of a prompt library repository to:
 - [ ] Prompt versioning best practices
 
 ### Level 5: Enterprise Readiness ⏳ FUTURE
+
 - [ ] Role-based access patterns
 - [ ] Audit trail templates
 - [ ] Compliance-specific prompt packs (HIPAA, SOX, GDPR)
@@ -130,7 +143,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Enterprise customers need compliance, legal, and security prompts.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| -------- | ------ | ------------ | -------- |
 | `compliance-policy-generator.md` | how_to | intermediate | M |
 | `gdpr-data-review.md` | how_to | advanced | L |
 | `hipaa-compliance-checker.md` | how_to | advanced | L |
@@ -149,7 +162,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Marketing and content teams need more variety.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| -------- | ------ | ------------ | -------- |
 | `case-study-builder.md` | how_to | intermediate | M |
 | `whitepaper-outliner.md` | how_to | intermediate | M |
 | `press-release-generator.md` | how_to | beginner | S |
@@ -167,7 +180,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Power users need more sophisticated patterns.
 
 | Prompt | Type | Difficulty | Effort |
-|--------|------|------------|--------|
+| -------- | ------ | ------------ | -------- |
 | `prompt-chain-orchestrator.md` | tutorial | advanced | L |
 | `multi-model-router.md` | how_to | advanced | L |
 | `context-window-optimizer.md` | how_to | advanced | M |
@@ -180,7 +193,7 @@ Perform comprehensive analysis of a prompt library repository to:
 **Gap**: Vertical-specific prompt collections.
 
 | Pack | Prompts | Priority |
-|------|---------|----------|
+| ------ | --------- | ---------- |
 | Healthcare | 10-15 | Future |
 | Financial Services | 10-15 | Future |
 | Legal | 10-15 | Future |
@@ -195,6 +208,7 @@ When executing this analysis, you have access to:
 
 ### 1. `file_search`
 Search for files matching glob patterns.
+
 ```text
 file_search("**/*.md") → Find all markdown files
 file_search("prompts/**/*.md") → Find all prompts
@@ -202,15 +216,18 @@ file_search("prompts/**/*.md") → Find all prompts
 
 ### 2. `read_file`
 Read file contents to inspect frontmatter and content.
+
 ```text
 read_file("/path/to/file.md") → Get file content
 ```text
 
 ### 4. `list_dir`
 List directory contents to map structure.
+
 ```text
 list_dir("/prompts/") → Get folder structure
 ```text
+
 ```python
 
 ---
@@ -225,8 +242,10 @@ Execute analysis using iterative Thought → Action → Observation cycles:
 
 **Action**: Map the folder hierarchy
 ```text
+
 list_dir("/") → Get top-level structure
 list_dir("/prompts/") → Get prompt categories
+
 ```text
 
 **Observation**: Create inventory table showing prompts per category.
@@ -239,9 +258,11 @@ list_dir("/prompts/") → Get prompt categories
 
 **Action**: Run validation and check specific fields
 ```text
+
 run_in_terminal("python tools/validate_all.py")
 grep_search("governance_tags:") → Check governance compliance
 grep_search("dataClassification:") → Check classification coverage
+
 ```python
 
 **Observation**: Document validation results, noting any failures or warnings.
@@ -254,12 +275,15 @@ grep_search("dataClassification:") → Check classification coverage
 
 **Action**: Analyze content distribution
 ```text
+
 grep_search("type: quickstart") → Count quickstarts per platform
 grep_search("difficulty: beginner") → Count beginner-friendly content
 grep_search("audience:.*junior") → Count junior engineer content
+
 ```text
 
 **Observation**: Score prompts on:
+
 - Clear description (1-5)
 - Complete frontmatter (1-5)
 - Example quality (1-5)
@@ -273,18 +297,21 @@ grep_search("audience:.*junior") → Count junior engineer content
 
 **Action**: Cross-reference gaps with research
 ```text
+
 # Reference the Knowledge Base Research prompt for external best practices
 # Compare against industry prompt libraries
+
 ```text
 
 ### 2. Gap Analysis Matrix
 
 ```markdown
+
 ## Content Gap Analysis
 
 ### By Platform Coverage
 | Platform | Quickstart | How-To | Tutorial | Reference | Total |
-|----------|------------|--------|----------|-----------|-------|
+| ---------- | ------------ | -------- | ---------- | ----------- | ------- |
 | github-copilot | ✅ | X | X | X | X |
 | claude | ✅ | X | X | X | X |
 | chatgpt | ✅ | X | X | X | X |
@@ -293,7 +320,7 @@ grep_search("audience:.*junior") → Count junior engineer content
 
 ### By Audience
 | Audience | Beginner | Intermediate | Advanced | Total |
-|----------|----------|--------------|----------|-------|
+| ---------- | ---------- | -------------- | ---------- | ------- |
 | junior-engineer | X | X | X | X |
 | senior-engineer | X | X | X | X |
 | solution-architect | X | X | X | X |
@@ -302,15 +329,17 @@ grep_search("audience:.*junior") → Count junior engineer content
 
 ### By Industry (Future)
 | Industry | Current | Target | Gap |
-|----------|---------|--------|-----|
+| ---------- | --------- | -------- | ----- |
 | Healthcare | 0 | 15 | 15 |
 | Financial | 0 | 15 | 15 |
 | Legal | 0 | 15 | 15 |
+
 ```text
 
 ### 4. Quality Scorecard
 
 ```markdown
+
 ## Quality Assessment
 
 **Overall Maturity**: Level X/5
@@ -318,7 +347,7 @@ grep_search("audience:.*junior") → Count junior engineer content
 
 ### By Dimension
 | Dimension | Score | Notes |
-|-----------|-------|-------|
+| ----------- | ------- | ------- |
 | Frontmatter Compliance | X/5 | All required fields present |
 | Documentation Completeness | X/5 | Description, examples, tips |
 | Example Quality | X/5 | Realistic, copy-paste ready |
@@ -327,10 +356,11 @@ grep_search("audience:.*junior") → Count junior engineer content
 
 ### Content Quality Sampling
 | Category | Sample Size | Avg Score | Issues |
-|----------|-------------|-----------|--------|
+| ---------- | ------------- | ----------- | -------- |
 | Developers | X | X/5 | ... |
 | Business | X | X/5 | ... |
 | ... | ... | ... | ... |
+
 ```text
 ```text
 
@@ -345,6 +375,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Critical**: Enterprise adoption requires compliance, legal, and security coverage.
 
 **Research Focus Areas**:
+
 - Regulatory compliance (GDPR, HIPAA, SOX, CCPA)
 - Security review and incident response
 - Policy and procedure generation
@@ -352,6 +383,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Risk assessment and mitigation
 
 **Recommended Additions**:
+
 1. `compliance-policy-generator.md` - Generate compliance policies
 2. `gdpr-data-review.md` - GDPR compliance assessment
 3. `hipaa-compliance-checker.md` - Healthcare data compliance
@@ -370,6 +402,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why High**: Content and marketing teams drive significant AI adoption.
 
 **Research Focus Areas**:
+
 - Long-form content (whitepapers, case studies)
 - SEO and content optimization
 - Multimedia content (podcasts, webinars, video)
@@ -377,6 +410,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Content planning and strategy
 
 **Recommended Additions**:
+
 1. `case-study-builder.md` - Customer success stories
 2. `whitepaper-outliner.md` - Long-form technical content
 3. `press-release-generator.md` - Media announcements
@@ -394,6 +428,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Medium**: Power users and architects need advanced patterns.
 
 **Research Focus Areas**:
+
 - Multi-step prompt orchestration
 - Cross-model routing and fallback
 - Context optimization strategies
@@ -401,6 +436,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - Structured output patterns
 
 **Recommended Additions**:
+
 1. `prompt-chain-orchestrator.md` - Multi-step workflows
 2. `multi-model-router.md` - Model selection logic
 3. `context-window-optimizer.md` - Token management
@@ -413,7 +449,7 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 **Why Future**: Enterprise customers need domain expertise.
 
 | Industry | Key Use Cases | Prompt Count |
-|----------|---------------|--------------|
+| ---------- | --------------- | -------------- |
 | Healthcare | Patient communication, clinical documentation, HIPAA compliance | 10-15 |
 | Financial Services | Risk analysis, regulatory reporting, fraud detection | 10-15 |
 | Legal | Contract review, legal research, document drafting | 10-15 |
@@ -461,7 +497,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 ### Previous Analysis Outputs
 
 | Document | Date | Purpose |
-|----------|------|---------|
+| ---------- | ------ | --------- |
 | `docs/UNIFIED_REFACTOR_GUIDE_REACT.md` | Nov 2025 | Original refactor plan |
 | `docs/REFACTOR_TODO.md` | Dec 2025 | Completed task tracker |
 | `docs/REPO_ANALYSIS_REPORT_2025-11-30.md` | Nov 2025 | Initial analysis |
@@ -482,7 +518,7 @@ Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object {
 ## Changelog
 
 | Version | Date | Changes |
-|---------|------|---------|
+| --------- | ------ | --------- |
 | 4.0 | 2025-12-02 | Updated after Phase 1-6 completion; added maturity framework, new expansion priorities |
 | 3.0 | 2025-11-30 | Added governance context, expanded deliverables |
 | 2.0 | 2025-11-29 | Initial ReAct structure |

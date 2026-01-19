@@ -5,21 +5,29 @@ intro: Designs disaster recovery architectures
 type: how_to
 difficulty: advanced
 audience:
+
 - solution-architect
 - senior-engineer
+
 platforms:
+
 - claude
+
 topics:
+
 - architect
 - system
 - disaster-recovery
 - enterprise
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - general-use
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -44,19 +52,19 @@ flowchart TB
         DB1[(Primary Database)]
         Storage1[Primary Storage]
     end
-    
+
     subgraph Secondary[DR Region]
         App2[Standby Apps]
         DB2[(Replica Database)]
         Storage2[Replicated Storage]
     end
-    
+
     subgraph Orchestration[DR Orchestration]
         Health[Health Monitoring]
         DNS[DNS Failover]
         Runbook[Runbook Automation]
     end
-    
+
     App1 --> DB1
     App1 --> Storage1
     DB1 -.->|Async Replication| DB2
@@ -77,7 +85,7 @@ flowchart TB
 ### DR Strategy Selection
 
 | Strategy | RTO | RPO | Cost | Best For |
-|----------|-----|-----|------|----------|
+| ---------- | ----- | ----- | ------ | ---------- |
 | **Backup & Restore** | Hours | Hours | $ | Non-critical systems |
 | **Pilot Light** | 10-30 min | Minutes | $$ | Core business apps |
 | **Warm Standby** | Minutes | Seconds | $$$ | Mission-critical |
@@ -87,7 +95,7 @@ flowchart TB
 ### RTO/RPO Requirements Matrix
 
 | System Tier | RTO Target | RPO Target | Strategy |
-|-------------|------------|------------|----------|
+| ------------- | ------------ | ------------ | ---------- |
 | Tier 1 (Critical) | <15 min | <1 min | Active-Active or Hot |
 | Tier 2 (Important) | <1 hour | <15 min | Warm Standby |
 | Tier 3 (Standard) | <4 hours | <1 hour | Pilot Light |
@@ -118,12 +126,14 @@ Budget Constraints: [budget]
 Compliance Needs: [compliance]
 
 Provide:
+
 1. DR strategy and design
 2. Backup and replication
 3. Failover procedures
 4. Testing framework
 5. Recovery automation
 6. Communication plan
+
 ```text
 
 **Output:**
@@ -132,14 +142,17 @@ Provide:
 ## Disaster Recovery Strategy
 
 ### 1. DR Design: "Warm Standby" (Pilot Light)
+
 *   **Primary Region:** US-East (N. Virginia)
 *   **DR Region:** US-West (Oregon) - Sufficient distance for geographic redundancy.
 
 ### 2. Replication Strategy
+
 *   **Database:** SQL Server Always On Availability Groups with Async commit to DR region.
 *   **Imaging Data:** S3 Cross-Region Replication (CRR) with versioning enabled (RPO < 1 min).
 
 ### 3. Failover Procedures
+
 1.  **Detection:** CloudWatch alarm triggers if Primary Health Check fails for 3 consecutive minutes.
 2.  **Database:** Script promotes DR Read Replica to Primary Master.
 3.  **DNS:** Route53 Health Check automatically updates DNS records to point to DR Load Balancer.
@@ -161,6 +174,7 @@ Provide:
 ## Cloud Platform Notes
 
 ### Azure
+
 - **DR Services**: Azure Site Recovery, Azure Backup
 - **Database DR**: SQL Always On, Cosmos DB multi-region, Geo-redundant storage
 - **DNS Failover**: Azure Traffic Manager, Azure Front Door
@@ -168,6 +182,7 @@ Provide:
 - **Regions**: 60+ regions, Availability Zones in major regions
 
 ### AWS
+
 - **DR Services**: AWS Backup, CloudEndure Disaster Recovery
 - **Database DR**: RDS Multi-AZ, Aurora Global Database, DynamoDB Global Tables
 - **DNS Failover**: Route 53 health checks and failover routing
@@ -175,6 +190,7 @@ Provide:
 - **Regions**: 30+ regions with cross-region replication options
 
 ### GCP
+
 - **DR Services**: Backup and DR Service, Persistent Disk snapshots
 - **Database DR**: Cloud SQL HA, Spanner multi-region, Firestore multi-region
 - **DNS Failover**: Cloud DNS with health checks, Global Load Balancer
@@ -189,6 +205,7 @@ Provide:
 A healthcare organization's EHR system requires 99.99% availability with strict HIPAA compliance and must recover from regional disasters within 15 minutes.
 
 ### Input
+
 ```text
 Systems: Electronic Health Records (EHR), patient portal, imaging system
 RTO Requirements: 15 minutes for EHR, 1 hour for portal, 4 hours for imaging

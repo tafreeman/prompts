@@ -5,25 +5,33 @@ intro: Quick-reference patterns and templates for common prompting scenarios.
 type: reference
 difficulty: beginner
 audience:
+
   - junior-engineer
   - senior-engineer
   - solution-architect
   - business-analyst
   - project-manager
+
 platforms:
+
   - github-copilot
   - claude
   - chatgpt
   - azure-openai
   - m365-copilot
+
 topics:
+
   - fundamentals
   - patterns
+
 author: Prompt Library Team
 version: '1.0'
 date: '2025-12-02'
 governance_tags:
+
   - PII-safe
+
 dataClassification: public
 reviewStatus: approved
 ---
@@ -47,6 +55,7 @@ Quick-reference patterns and templates for common prompting tasks. Print this pa
 
 [CONSTRAINTS] Important: [limitations, requirements, things to avoid].
 ```text
+
 ---
 
 ## Quick Patterns
@@ -56,7 +65,9 @@ Quick-reference patterns and templates for common prompting tasks. Print this pa
 ```text
 You are an experienced [role] who specializes in [specialty].
 ```text
+
 **Examples:**
+
 - `You are an experienced software architect who specializes in microservices.`
 - `You are a technical writer who excels at making complex topics accessible.`
 - `You are a security engineer focused on web application vulnerabilities.`
@@ -65,11 +76,15 @@ You are an experienced [role] who specializes in [specialty].
 
 ```text
 Format your response as:
+
 - [format type]
 - [length constraint]
 - [structure requirements]
+
 ```text
+
 **Examples:**
+
 - `Format as a numbered list with no more than 5 items.`
 - `Return valid JSON with keys: summary, recommendations, priority.`
 - `Write in bullet points, maximum 100 words total.`
@@ -78,11 +93,15 @@ Format your response as:
 
 ```text
 Important constraints:
+
 - [must include]
 - [must avoid]
 - [scope limitation]
+
 ```text
+
 **Examples:**
+
 - `Use only Python standard library, no external packages.`
 - `Do not include any deprecated APIs.`
 - `Focus only on the authentication flow, not the full system.`
@@ -95,81 +114,108 @@ Important constraints:
 
 ```text
 Review this code for:
+
 1. Security vulnerabilities
 2. Performance issues
 3. Maintainability concerns
 
 Code:
 ```[language]
+
 [code here]
+
 ```text
 For each issue found, provide:
+
 - Location (line/section)
 - Severity (high/medium/low)
 - Explanation
 - Suggested fix
+
 ```text
+
 ### Explain Code
 
 ```text
 Explain this code as if teaching a [junior/senior] developer:
 
 ```[language]
+
 [code here]
+
 ```yaml
 Include:
+
 - What it does (high-level purpose)
 - How it works (step by step)
 - Why key decisions were made
 - Potential gotchas or edge cases
+
 ```text
+
 ### Debug Assistance
 
 ```text
 I'm experiencing this error:
 ```text
+
 [error message]
+
 ```yaml
 Context:
+
 - Language/Framework: [tech stack]
 - What I was trying to do: [action]
 - What I expected: [expected behavior]
 - What happened: [actual behavior]
 
 Help me:
+
 1. Understand why this error occurs
 2. Identify the root cause in my code
 3. Provide a fix with explanation
+
 ```text
+
 ### Generate Tests
 
 ```text
 Generate [unit/integration] tests for this code:
 
 ```[language]
+
 [code here]
+
 ```yaml
 Requirements:
+
 - Use [testing framework]
 - Cover happy path and edge cases
 - Include descriptive test names
 - Add comments explaining each test's purpose
+
 ```text
+
 ### Write Documentation
 
 ```text
 Write documentation for this [function/class/API]:
 
 ```[language]
+
 [code here]
+
 ```yaml
 Include:
+
 - Brief description
 - Parameters with types and descriptions
 - Return value
 - Example usage
 - Edge cases or limitations
+
 ```text
+
 ### Summarize Content
 
 ```text
@@ -178,11 +224,14 @@ Summarize this [document/article/meeting notes] for [audience]:
 [content here]
 
 Format:
+
 - Executive summary (2-3 sentences)
 - Key points (bullet list, max 5)
 - Action items (if any)
 - Questions or concerns raised
+
 ```text
+
 ### Draft Communication
 
 ```text
@@ -191,13 +240,17 @@ Draft a [email/message/announcement] for [audience]:
 Purpose: [what you want to communicate]
 Tone: [formal/casual/urgent]
 Key points to include:
+
 - [point 1]
 - [point 2]
 
 Constraints:
+
 - Maximum [X] sentences
 - [any specific requirements]
+
 ```text
+
 ---
 
 ## Advanced Patterns
@@ -210,12 +263,14 @@ Think through this step by step:
 [problem or question]
 
 For each step:
+
 1. State what you're considering
 2. Explain your reasoning
 3. Note any assumptions
 
 Then provide your final answer.
 ```text
+
 ### Few-Shot Learning
 
 ```text
@@ -231,14 +286,18 @@ Now process this:
 Input: [actual input]
 Output:
 ```text
+
 ### Self-Critique
 
 ```text
 After providing your response:
+
 1. List potential weaknesses or gaps
 2. Rate your confidence (high/medium/low)
 3. Suggest what additional information would improve the answer
+
 ```text
+
 ### Structured Analysis
 
 ```text
@@ -249,13 +308,15 @@ Analyze [topic/situation] using this framework:
 3. **Gap Analysis**: What's the difference?
 4. **Options**: What are possible approaches?
 5. **Recommendation**: What do you suggest and why?
+
 ```text
+
 ---
 
 ## Format Specifiers
 
 | Want This | Say This |
-|-----------|----------|
+| ----------- | ---------- |
 | Bullet list | "Format as a bullet list" |
 | Numbered steps | "Provide as numbered steps" |
 | Table | "Format as a markdown table with columns: X, Y, Z" |
@@ -270,7 +331,7 @@ Analyze [topic/situation] using this framework:
 ## Length Controls
 
 | Want | Say |
-|------|-----|
+| ------ | ----- |
 | Very short | "Maximum 1-2 sentences" |
 | Concise | "Keep it under 100 words" |
 | Moderate | "Approximately 200-300 words" |
@@ -282,7 +343,7 @@ Analyze [topic/situation] using this framework:
 ## Tone Adjustments
 
 | Tone | Phrase |
-|------|--------|
+| ------ | -------- |
 | Formal | "Use formal, professional language suitable for executive audience" |
 | Casual | "Keep it conversational and friendly" |
 | Technical | "Use technical terminology appropriate for senior engineers" |
@@ -294,7 +355,7 @@ Analyze [topic/situation] using this framework:
 ## Common Fixes
 
 | Problem | Solution |
-|---------|----------|
+| --------- | ---------- |
 | Too long | Add "Maximum X words/sentences/points" |
 | Too short | Add "Elaborate with examples and details" |
 | Too generic | Add specific context about your situation |
@@ -321,16 +382,19 @@ When a prompt isn't working:
 ## Platform Quick Tips
 
 ### GitHub Copilot
+
 - Write detailed comments before code
 - Include function signatures first
 - Use descriptive variable names
 
 ### ChatGPT/Claude
+
 - Use system prompts for consistent behavior
 - Summarize long conversations
 - Break complex tasks into steps
 
 ### M365 Copilot
+
 - Reference specific files by name
 - Be explicit about data sources
 - Use natural language queries

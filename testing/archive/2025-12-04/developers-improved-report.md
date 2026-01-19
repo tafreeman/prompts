@@ -15,7 +15,7 @@
 ### Criterion Averages
 
 | Criterion | Average | Status |
-|-----------|---------|--------|
+| ----------- | --------- | -------- |
 | Actionability | 8.0/10 | ✅ Pass |
 | Clarity | 7.8/10 | ✅ Pass |
 | Completeness | 7.9/10 | ✅ Pass |
@@ -28,7 +28,7 @@
 ## Developers Prompts Evaluation (Batch 1)
 
 | Prompt | Score | Grade | Pass | Summary |
-|--------|-------|-------|------|---------|
+| -------- | ------- | ------- | ------ | --------- |
 | API Design Consultant | 8.6/10 | A | ✅ | This prompt is highly effective for guiding advanc... |
 | Code Generation Assistant | 8.1/10 | B | ✅ | This prompt is strong in structure and completenes... |
 | Database Schema Designer | 8.1/10 | B | ✅ | Overall, the prompt is strong and provides a solid... |
@@ -43,7 +43,7 @@
 ## Developers Prompts Evaluation (Batch 2)
 
 | Prompt | Score | Grade | Pass | Summary |
-|--------|-------|-------|------|---------|
+| -------- | ------- | ------- | ------ | --------- |
 | .NET API Designer | 8.5/10 | A | ✅ | This prompt is highly effective for guiding experi... |
 | Frontend Architecture Consultant | 8.4/10 | B | ✅ | Overall, the prompt is strong and effectively guid... |
 | Mid-Level Developer Architecture Co | 8.14/10 | B | ✅ | Overall, this prompt is effective for its target a... |
@@ -58,7 +58,7 @@
 ## Developers Prompts Evaluation (Batch 3)
 
 | Prompt | Score | Grade | Pass | Summary |
-|--------|-------|-------|------|---------|
+| -------- | ------- | ------- | ------ | --------- |
 | Test Automation Engineer | 8.6/10 | A | ✅ | This prompt is highly effective for guiding advanc... |
 | SQL Security Standards Enforcer | 8.4/10 | B | ✅ | The prompt effectively outlines SQL security stand... |
 | SQL Query Analyzer | 8.1/10 | B | ✅ | The prompt is effective for its intended audience,... |
@@ -80,6 +80,7 @@
 **Failure Reason:** Model failed
 
 **Suggested Improvements:**
+
 - Include specific criteria or aspects to review (e.g., code quality, performance, security)
 - Provide examples of structured feedback to guide the review process
 
@@ -89,16 +90,19 @@
 
 ### Code Review Assistant (7.0/10)
 **Suggested improvements:**
+
 - Specify the aspects of the code to focus on (e.g., performance, readability, security)
 - Provide an example of the expected format for feedback
 
 ### Code Review Expert (7.0/10)
 **Suggested improvements:**
+
 - Add examples of expected outputs or review criteria
 - Clarify how to apply the principles in the review process
 
 ### Data Pipeline Engineer (7.0/10)
 **Suggested improvements:**
+
 - Provide examples or definitions for data sources, processing requirements, and target systems
 - Clarify the expected level of detail for each section
 
@@ -107,6 +111,7 @@
 ## Evaluation Methodology
 
 This evaluation uses industry best practices from:
+
 - **OpenAI Evals**: Chain-of-thought grading with model-graded evaluation
 - **Promptfoo**: Pass/fail assertions with thresholds
 - **Anthropic**: Structured test formats and state tracking
@@ -115,7 +120,7 @@ This evaluation uses industry best practices from:
 ### Criteria Evaluated
 
 | Category | Criterion | Description |
-|----------|-----------|-------------|
+| ---------- | ----------- | ------------- |
 | Core | Clarity | How clear and unambiguous are the instructions? |
 | Core | Specificity | Does it provide enough detail for consistent outputs? |
 | Core | Actionability | Can the AI clearly determine what actions to take? |

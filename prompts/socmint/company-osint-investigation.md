@@ -6,25 +6,33 @@ intro: Comprehensive open-source intelligence gathering on organizations, includ
 type: prompt
 difficulty: advanced
 audience:
+
 - security-professionals
 - osint-analysts
 - investigators
 - competitive-intelligence
+
 platforms:
+
 - github-copilot
 - chatgpt
 - claude
+
 topics:
+
 - osint
 - corporate-intelligence
 - threat-surface
 - due-diligence
+
 author: OSINT Library
 version: '1.0'
 date: '2024-11-30'
 governance_tags:
+
 - privacy-aware
 - ethical-osint
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: pending
@@ -43,7 +51,7 @@ Conduct comprehensive open-source intelligence gathering on an organization to u
 ## Variables
 
 | Variable | Required? | Description | Example |
-|---|---:|---|---|
+| --- |---:| --- | --- |
 | `{{COMPANY_NAME}}` | Yes | Target organization name. | `TechCorp Industries` |
 | `{{PRIMARY_DOMAIN}}` | No | Known primary domain for the organization. | `techcorp.com` |
 | `{{INDUSTRY_SECTOR}}` | No | Industry/sector for context and prioritization. | `SaaS / Technology` |
@@ -68,6 +76,7 @@ You are a corporate intelligence analyst conducting comprehensive OSINT research
 Map the organizational structure:
 
 **Business Registration:**
+
 - Legal entity name and type
 - Registration number/EIN
 - Incorporation state/country
@@ -76,6 +85,7 @@ Map the organizational structure:
 - Business status (active/inactive)
 
 **Corporate Hierarchy:**
+
 - Parent company
 - Subsidiaries and affiliates
 - Joint ventures
@@ -84,7 +94,7 @@ Map the organizational structure:
 
 **Sources:**
 | Source | Information Type | Access |
-|--------|------------------|--------|
+| -------- | ------------------ | -------- |
 | SEC EDGAR | Public filings (US) | Free |
 | Companies House | UK registrations | Free |
 | OpenCorporates | Global database | Freemium |
@@ -95,12 +105,14 @@ Map the organizational structure:
 Identify and profile key individuals:
 
 **Executive Team:**
+
 - C-suite executives
 - Board members
 - Key technical leaders
 - Security/IT leadership
 
 **For Each Individual:**
+
 - Professional history
 - Educational background
 - Public statements/interviews
@@ -109,6 +121,7 @@ Identify and profile key individuals:
 - Published works
 
 **Employee Intelligence:**
+
 - Total employee count
 - Department breakdown
 - Key technical staff (from GitHub, LinkedIn)
@@ -120,15 +133,17 @@ Comprehensive technical reconnaissance:
 
 **Domain Intelligence:**
 ```
+
 Primary domain: [domain.com]
 Additional domains: [list discovered]
 Subdomains: [enumeration results]
 Historical domains: [Wayback, DNS history]
+
 ```
 
 **DNS Analysis:**
 | Record Type | Data | Intelligence Value |
-|-------------|------|-------------------|
+| ------------- | ------ | ------------------- |
 | A/AAAA | IP addresses | Infrastructure mapping |
 | MX | Mail servers | Email provider |
 | TXT | SPF/DKIM/DMARC | Security posture |
@@ -136,6 +151,7 @@ Historical domains: [Wayback, DNS history]
 | CNAME | Aliases | Service mapping |
 
 **Infrastructure Mapping:**
+
 - IP ranges and ASN
 - Hosting providers
 - CDN usage
@@ -143,6 +159,7 @@ Historical domains: [Wayback, DNS history]
 - Geographic distribution
 
 **Web Presence:**
+
 - Main website analysis
 - Technology stack (Wappalyzer, BuiltWith)
 - CMS identification
@@ -153,12 +170,14 @@ Historical domains: [Wayback, DNS history]
 Evaluate external security indicators:
 
 **Certificate Intelligence:**
+
 - SSL/TLS certificates issued
 - Certificate Transparency logs
 - Expiration monitoring
 - CA usage patterns
 
 **Exposure Analysis:**
+
 - Shodan/Censys results
 - Open ports and services
 - Version information
@@ -166,12 +185,14 @@ Evaluate external security indicators:
 - Default credentials
 
 **Breach History:**
+
 - Historical data breaches
 - Leaked credentials (aggregate data only)
 - Dark web mentions
 - Paste site appearances
 
 **Security Controls (Observable):**
+
 - Email security (SPF/DKIM/DMARC)
 - Web security headers
 - WAF indicators
@@ -183,7 +204,7 @@ Analyze public communications:
 
 **Official Channels:**
 | Platform | Handle | Followers | Activity |
-|----------|--------|-----------|----------|
+| ---------- | -------- | ----------- | ---------- |
 | Twitter/X | ... | ... | ... |
 | LinkedIn | ... | ... | ... |
 | Facebook | ... | ... | ... |
@@ -191,6 +212,7 @@ Analyze public communications:
 | Blog | ... | ... | ... |
 
 **Press & Media:**
+
 - Recent news coverage
 - Press releases
 - Industry publications
@@ -198,6 +220,7 @@ Analyze public communications:
 - Regulatory filings
 
 **Reputation Analysis:**
+
 - Customer reviews
 - Employee reviews (Glassdoor)
 - BBB rating
@@ -208,6 +231,7 @@ Analyze public communications:
 Deeper technical analysis:
 
 **Code Repositories:**
+
 - GitHub organization
 - Public repositories
 - Contributor analysis
@@ -215,18 +239,21 @@ Deeper technical analysis:
 - Exposed secrets (historical)
 
 **Job Postings Analysis:**
+
 - Technology stack indicators
 - Security team size
 - Compliance requirements
 - Growth areas
 
 **Document Metadata:**
+
 - Public PDFs, documents
 - Author information
 - Software versions
 - Internal paths leaked
 
 **Email Pattern Discovery:**
+
 - Format identification (first.last@, firstl@)
 - Key email addresses
 - Distribution lists (if discoverable)
@@ -235,6 +262,7 @@ Deeper technical analysis:
 
 ### 1. Executive Summary
 ```
+
 Organization: [Full legal name]
 Industry: [Sector]
 Founded: [Year]
@@ -243,21 +271,24 @@ Employee Count: [Estimate]
 Revenue: [If public/estimated]
 Key Finding: [Most significant discovery]
 Risk Level: [Assessment if applicable]
+
 ```
 
 ### 2. Corporate Structure Map
 ```
+
 [Parent Company]
 ├── [Target Company]
 │   ├── [Subsidiary 1]
 │   ├── [Subsidiary 2]
 │   └── [Division/Brand]
 └── [Affiliate Company]
+
 ```
 
 ### 3. Digital Asset Inventory
 | Asset Type | Details | Risk/Notes |
-|------------|---------|------------|
+| ------------ | --------- | ------------ |
 | Domains | [count] domains discovered | ... |
 | Subdomains | [count] subdomains | ... |
 | IP Ranges | [ranges] | ... |
@@ -266,38 +297,42 @@ Risk Level: [Assessment if applicable]
 
 ### 4. Key Personnel
 | Name | Title | LinkedIn | Notes |
-|------|-------|----------|-------|
+| ------ | ------- | ---------- | ------- |
 | ... | ... | ... | ... |
 
 ### 5. Security Findings (if applicable)
 | Finding | Severity | Evidence | Recommendation |
-|---------|----------|----------|----------------|
+| --------- | ---------- | ---------- | ---------------- |
 | ... | Critical/High/Medium/Low | ... | ... |
 
 ### 6. Threat Surface Summary
+
 - **External Attack Surface**: Summary of exposed assets
 - **Information Leakage**: Sensitive data exposure
 - **Third-Party Risk**: Vendor and integration risks
 - **Human Factor**: Social engineering exposure
 
 ### 7. Intelligence Gaps
+
 - Information not discoverable
 - Areas requiring further investigation
 - Recommended additional tools/methods
 
 ## Ethical & Legal Considerations
+
 - Only use publicly available information
 - Do not attempt unauthorized access
 - Respect robots.txt and rate limits
 - No social engineering or deception
 - Document all sources for verification
 - Consider responsible disclosure for findings
+
 ```
 
 ## Tool Reference
 
 | Category | Tool | Purpose |
-|----------|------|---------|
+| ---------- | ------ | --------- |
 | Domain | Subfinder, Amass | Subdomain enumeration |
 | DNS | DNSDumpster, SecurityTrails | DNS intelligence |
 | Web | Wappalyzer, BuiltWith | Technology stack |
@@ -309,12 +344,14 @@ Risk Level: [Assessment if applicable]
 ## Example Usage
 
 **Input:**
+
 - Company: TechCorp Industries
 - Domain: techcorp.com
 - Industry: SaaS/Technology
 - Purpose: Pre-acquisition security due diligence
 
 **Expected Output:**
+
 - Complete corporate structure with 3 subsidiaries
 - Executive team profiles
 - 47 subdomains discovered

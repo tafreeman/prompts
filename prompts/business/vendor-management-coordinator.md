@@ -6,20 +6,28 @@ intro: Manages vendor relationships with evaluation criteria, contract managemen
 type: how_to
 difficulty: intermediate
 audience:
+
 - project-manager
 - business-analyst
+
 platforms:
+
 - claude
 - chatgpt
 - github-copilot
+
 topics:
+
 - vendor-management
 - procurement
+
 author: Prompts Library Team
 version: '1.0'
 date: '2025-11-16'
 governance_tags:
+
 - PII-safe
+
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
@@ -54,12 +62,14 @@ Contract Terms: [terms]
 Performance Issues: [issues]
 
 Include:
+
 1. Vendor evaluation criteria
 2. Contract management
 3. Performance monitoring
 4. Relationship management
 5. Issue resolution
 6. Payment processing
+
 ```text
 
 ---
@@ -79,16 +89,19 @@ Include:
 ## Vendor Management Plan
 
 ### 1. Vendor Evaluation Criteria
+
 *   **Technical Capability:** AWS Advanced Partner status required.
 *   **Cultural Fit:** Agile methodology alignment.
 *   **Financial Health:** D&B Score > 80.
 
 ### 2. Contract Management
+
 *   **SLA Monitoring:** Monthly review of uptime reports.
 *   **Penalty Enforcement:** Apply 5% credit for October SLA breach per contract clause 4.2.
 *   **Renewal Strategy:** Negotiate volume discounts for 3-year Reserved Instances.
 
 ### 3. Performance Monitoring (KPIs)
+
 *   **Delivery:** On-time milestone completion rate (Target: >90%).
 *   **Quality:** Defect density in delivered code (Target: <0.5 per KLOC).
 *   **Responsiveness:** Mean Time to Respond (MTTR) to support tickets.
