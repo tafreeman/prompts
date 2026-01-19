@@ -336,6 +336,7 @@ prompts/**/Untitled-*.ipynb
 #Ignore vscode AI rules
 .github\instructions\codacy.instructions.md
 docs/reports/
+.venv/
 .venv-wsl/lib64
 .venv-wsl/pyvenv.cfg
 .venv-wsl/lib/python3.8/site-packages/easy_install.py
