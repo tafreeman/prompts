@@ -56,6 +56,10 @@ platform:
 
 # Basic Reflexion Pattern for Code Analysis
 
+## Description
+
+This prompt template implements the Reflexion pattern for iterative code analysis and improvement. Based on research by Shinn et al. (2023), the Reflexion pattern enables AI systems to reflect on their outputs and iteratively improve through self-evaluation and correction.
+
 ## Purpose
 
 This prompt template implements the Reflexion pattern for iterative code analysis and improvement. Based on research by Shinn et al. (2023), the Reflexion pattern enables AI systems to reflect on their outputs and iteratively improve through self-evaluation and correction.
@@ -70,9 +74,15 @@ The Reflexion pattern consists of three main phases:
 
 This pattern is particularly effective for complex code analysis tasks where initial outputs may miss edge cases or optimization opportunities.
 
-## Prompt Template
+## Variables
 
-```sql
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `{code_snippet}` | Yes | The code to analyze | Python function, class, or module |
+
+## Prompt
+
+```text
 You are an expert code analyst tasked with performing iterative code analysis using the Reflexion pattern.
 
 ## Task
@@ -109,8 +119,9 @@ Provide your response in three clearly marked sections:
 1. INITIAL ANALYSIS
 2. SELF-EVALUATION
 3. FINAL IMPROVED ANALYSIS
-```text
-## Usage Example
+```
+
+## Example
 
 ### Input Code
 
