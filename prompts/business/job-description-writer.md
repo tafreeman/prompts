@@ -6,6 +6,10 @@ type: how_to
 
 # Job Description Writer
 
+## Description
+
+This prompt generates compelling, inclusive job descriptions that attract qualified candidates while accurately representing role requirements. It helps recruiters and hiring managers create job postings that stand out in competitive talent markets.
+
 ## Use Cases
 
 - Writing new job postings for open roles
@@ -22,6 +26,101 @@ type: how_to
 - `[level]`: Seniority level (e.g., "Senior / L5", "Staff / L6")
 - `[location]`: Work location (e.g., "Remote (US)", "Hybrid – NYC/SF")
 - `[salary]`: Compensation range (e.g., "$150K-$180K base + equity")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are an expert talent acquisition specialist who writes job descriptions that attract top talent. You balance accurate role requirements with compelling employer branding. You use inclusive language and focus on what candidates will achieve, not just what they'll do.
+```
+
+### User Prompt
+
+```text
+Write a job description for the following role:
+
+Role Details:
+- Title: [role_title]
+- Company: [company_info]
+- Team: [team_info]
+- Level: [level]
+- Location: [location]
+- Compensation: [salary]
+
+Please provide:
+1. Compelling opening that sells the opportunity
+2. About the company section (culture + mission)
+3. Role overview and impact
+4. Must-have and nice-to-have requirements
+5. What we offer (benefits, growth, culture)
+6. Clear application instructions
+```
+
+## Example
+
+### Input
+
+```text
+Write a job description for the following role:
+
+Role Details:
+- Title: Senior Software Engineer
+- Company: TechCorp – Series B fintech startup
+- Team: Platform Engineering team of 8
+- Level: Senior / L5
+- Location: Remote (US)
+- Compensation: $150K-$180K base + equity
+```
+
+### Expected Output
+
+```text
+# Senior Software Engineer, Platform
+
+## Build the infrastructure that powers modern finance
+
+We're looking for a Senior Software Engineer to join our Platform team and help us scale the systems that process millions of transactions daily. If you love solving hard distributed systems problems and want to see your work directly impact a growing fintech, this is your role.
+
+## About TechCorp
+
+TechCorp is building the future of B2B payments. We make it radically simple for businesses to send, receive, and manage payments. We're a Series B company backed by top-tier investors, with $50M raised and strong product-market fit.
+
+**Why people love working here:**
+- Real ownership: Ship to production in your first week
+- Technical excellence: We invest in developer experience
+- Growth stage: Big enough to have impact, small enough to shape culture
+
+## What You'll Do
+
+- Design and build scalable backend services handling 10K+ TPS
+- Lead technical projects from architecture to deployment
+- Mentor engineers and elevate team capabilities
+- Partner with Product to shape our technical roadmap
+
+## What We're Looking For
+
+**Must-Have:**
+- 5+ years backend engineering experience
+- Strong distributed systems fundamentals
+- Proficiency in Go, Python, or similar languages
+- Track record shipping and operating production systems
+
+**Nice-to-Have:**
+- Fintech or payments experience
+- Familiarity with compliance (PCI-DSS, SOC 2)
+
+## Compensation & Benefits
+
+- **Salary**: $150K-$180K base
+- **Equity**: Meaningful ownership stake
+- **Benefits**: Full health coverage, unlimited PTO, 401k match
+- **Remote**: Work from anywhere in the US
+
+## How to Apply
+
+Send your resume and a brief note on why this role interests you. We respond within 5 business days.
+```
 
 ## About FinFlow
 

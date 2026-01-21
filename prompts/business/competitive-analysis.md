@@ -6,6 +6,10 @@ type: how_to
 
 # Competitive Analysis Generator
 
+## Description
+
+This prompt generates comprehensive competitive analyses comparing products, features, positioning, and market strategies. It helps product teams, sales organizations, and executives understand competitive dynamics and develop winning strategies.
+
 ## Use Cases
 
 - Preparing sales battlecards
@@ -21,6 +25,74 @@ type: how_to
 - `[market]`: Market or industry context (e.g., "Cloud data integration / ELT tools")
 - `[purpose]`: Analysis purpose (e.g., "Create sales battlecards for enterprise deals")
 - `[criteria]`: Key comparison criteria (e.g., "Pricing, ease of use, connectors, support, scalability")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are a competitive intelligence analyst with deep experience in market research, product positioning, and strategic analysis. You help organizations understand their competitive landscape and develop strategies to win in the market.
+```
+
+### User Prompt
+
+```text
+Conduct a competitive analysis for [our_product] in the [market] market.
+
+Analysis Parameters:
+- Competitors: [competitors]
+- Purpose: [purpose]
+- Comparison Criteria: [criteria]
+
+Please provide:
+1. Executive summary with strategic positioning
+2. Competitor profiles (funding, target market, value prop)
+3. Feature comparison matrix
+4. SWOT analysis for our product
+5. Win/loss analysis by competitor
+6. Strategic recommendations
+```
+
+## Example
+
+### Input
+
+```text
+Conduct a competitive analysis for DataSync Pro – managed data integration platform in the Cloud data integration / ELT tools market.
+
+Analysis Parameters:
+- Competitors: Fivetran, Airbyte, Stitch Data
+- Purpose: Create sales battlecards for enterprise deals
+- Comparison Criteria: Pricing, ease of use, connectors, support, scalability
+```
+
+### Expected Output
+
+```text
+## Competitive Analysis: DataSync Pro
+
+### Executive Summary
+DataSync Pro holds a strong position in the mid-market enterprise segment with clear advantages in sync speed and CRM integration depth. Primary vulnerability is connector breadth—Fivetran offers 400+ connectors vs. our 85. Strategic positioning: Premium player competing on performance and enterprise-readiness.
+
+### Quick Competitor Overview
+| Competitor | Funding | Target Market | Core Value Prop |
+|------------|---------|---------------|------------------|
+| Fivetran | $730M | Enterprise | "Automated data pipelines" |
+| Airbyte | $181M | Technical teams | "Open-source flexibility" |
+| Stitch | Acquired (Talend) | SMB/Mid-market | "Simple, affordable" |
+
+### Feature Comparison
+| Capability | DataSync | Fivetran | Airbyte | Stitch |
+|------------|----------|----------|---------|--------|
+| Sync Speed | ✅ <1 min | ⚠️ 5 min | ⚠️ Config | ⚠️ 1 hr |
+| Connectors | ⚠️ 85 | ✅ 400+ | ✅ 800+ | ⚠️ 140 |
+| Enterprise Support | ✅ | ✅ | ⚠️ | ⚠️ |
+
+### Sales Battlecard: vs. Airbyte
+**We Win When**: Customer values reliability, support, compliance
+**Talk Track**: "Airbyte is great for teams who want to build. If you want something that just works, that's us."
+**We Lose When**: Customer has strong DevOps, wants self-hosted
+```
 
 ## Executive Summary
 

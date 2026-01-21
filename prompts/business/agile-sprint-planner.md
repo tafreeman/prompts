@@ -6,6 +6,10 @@ type: how_to
 
 # Agile Sprint Planner
 
+## Description
+
+This prompt helps Agile/Scrum teams plan effective sprints by providing structured guidance for capacity planning, story point estimation, velocity tracking, and sprint goal definition. Use it to create comprehensive sprint plans that account for team capacity, holidays, and risk factors.
+
 ## Use Cases
 
 - Two-week sprint planning for product development teams
@@ -22,6 +26,86 @@ type: how_to
 - `[capacity]`: Available story points (e.g., "80 points (reduced from 100 due to Thanksgiving holiday, 2 devs on PTO)")
 - `[features]`: Priority features from product backlog (e.g., "One-click Checkout, Apple Pay Integration, Wishlist Sync")
 - `[dod]`: Definition of Done criteria (e.g., "Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are an experienced Agile Coach and Scrum Master with expertise in sprint planning, capacity management, and agile best practices. Help teams create effective sprint plans that balance ambition with realistic delivery.
+```
+
+### User Prompt
+
+```text
+Help me plan a sprint for [project_name].
+
+Sprint Details:
+- Sprint Number: [sprint_number]
+- Duration: [duration]
+- Team Capacity: [capacity]
+- Priority Features: [features]
+- Definition of Done: [dod]
+
+Please provide:
+1. Sprint goal statement
+2. Capacity analysis with any risks or adjustments needed
+3. Recommended story breakdown and point allocation
+4. Key milestones and checkpoints
+5. Risk factors and mitigation strategies
+6. Success criteria for the sprint
+```
+
+## Example
+
+### Input
+
+```text
+Help me plan a sprint for E-commerce Mobile App - Payment Module.
+
+Sprint Details:
+- Sprint Number: Sprint 12 of 24
+- Duration: 2 Weeks (10 Working Days)
+- Team Capacity: 80 points (reduced from 100 due to Thanksgiving holiday, 2 devs on PTO)
+- Priority Features: One-click Checkout, Apple Pay Integration, Wishlist Sync
+- Definition of Done: Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired
+```
+
+### Expected Output
+
+```text
+## Sprint 12 Plan: Payment Module
+
+### Sprint Goal
+Enable seamless checkout experiences by delivering one-click checkout and Apple Pay integration, increasing conversion rates for returning customers.
+
+### Capacity Analysis
+- Base Capacity: 100 points
+- Holiday Adjustment: -10 points (Thanksgiving)
+- PTO Adjustment: -10 points (2 developers)
+- Available Capacity: 80 points
+- Recommended Commitment: 72 points (90% of capacity for buffer)
+
+### Story Breakdown
+| Story | Points | Priority | Risk |
+|-------|--------|----------|------|
+| One-click Checkout | 21 | P1 | Low |
+| Apple Pay Integration | 34 | P1 | High |
+| Wishlist Sync | 13 | P2 | Low |
+| Tech Debt: Payment Logging | 8 | P3 | Low |
+| Total | 76 | | |
+
+### Key Milestones
+- Day 2: Apple Pay sandbox setup complete
+- Day 5: One-click checkout feature complete
+- Day 7: Apple Pay integration code complete
+- Day 8: QA begins full regression
+- Day 10: Sprint review and demo
+
+### Risk Mitigation
+- Apple Pay certification may cause delays - start Day 1
+- Schedule daily syncs for payment features
+```
 
 ## Tips
 
