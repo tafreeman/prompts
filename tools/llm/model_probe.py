@@ -39,17 +39,20 @@ import sys
 import time
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
-from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 import hashlib
+
+# Add parent directory to path for imports when run as script
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parents[2]))
 
 
 # =============================================================================
 # ERROR CLASSIFICATION - Import from canonical source
 # =============================================================================
 
-from tools.core.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
+from tools.core.errors import ErrorCode, classify_error
 
 
 # =============================================================================
@@ -179,7 +182,7 @@ class ModelProbe:
         
         if error_code is None or error_code == ErrorCode.SUCCESS.value:
             ttl = self.TTL_SUCCESS
-        elif error_code in [e.value for e in PERMANENT_ERRORS]:
+        elif error_code in [ErrorCode.PERMISSION_DENIED.value, ErrorCode.UNAVAILABLE_MODEL.value]:
             ttl = self.TTL_PERMANENT_ERROR
         else:
             ttl = self.TTL_TRANSIENT_ERROR
@@ -566,7 +569,7 @@ class ModelProbe:
     def _probe_azure_openai(self, model: str) -> ProbeResult:
         """Probe an Azure OpenAI model."""
         start = time.time()
-        model_id = model.replace("azure-openai:", "")
+        _ = model.replace("azure-openai:", "")
         
         # Check for endpoint and key (check slots 0-9)
         configured = False
@@ -668,7 +671,7 @@ class ModelProbe:
     def _probe_openai(self, model: str) -> ProbeResult:
         """Probe an OpenAI model."""
         start = time.time()
-        model_id = model.replace("openai:", "")
+        _ = model.replace("openai:", "")
         
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
@@ -1123,7 +1126,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         with urllib.request.urlopen(req, timeout=3) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             ollama_models = [f"ollama:{m.get('name', '')}" for m in data.get("models", [])]
-    except Exception as e:
+    except Exception:
         ollama_error = f"Ollama not reachable at {ollama_host}"
     
     discovered["providers"]["ollama"] = {
@@ -1417,9 +1420,9 @@ def main(argv: List[str]) -> int:
             Path(args.output).write_text(json.dumps(discovered, indent=2))
             print(f"Discovery saved to: {args.output}")
         else:
-            print(f"\n{'='*60}")
+            print("\n" + "=" * 60)
             print("MODEL DISCOVERY REPORT")
-            print(f"{'='*60}")
+            print("=" * 60)
             print(f"Total available: {discovered['summary']['total_available']}")
             print(f"Providers configured: {discovered['summary']['providers_configured']}")
             print()
@@ -1433,7 +1436,7 @@ def main(argv: List[str]) -> int:
                     if len(info.get("available", [])) > 10:
                         print(f"      ... and {len(info['available']) - 10} more")
                 elif info.get("configured"):
-                    print(f"   ✅ Configured (use explicit model IDs)")
+                    print("   ✅ Configured (use explicit model IDs)")
                 else:
                     print(f"   ❌ {info.get('error', 'Not configured')}")
         
@@ -1510,9 +1513,9 @@ def main(argv: List[str]) -> int:
         Path(args.output).write_text(json.dumps(report, indent=2))
         print(f"Report saved to: {args.output}")
     else:
-        print(f"\n{'='*60}")
-        print(f"Model Probe Report")
-        print(f"{'='*60}")
+        print("\n" + "=" * 60)
+        print("Model Probe Report")
+        print("=" * 60)
         print(f"Total: {report['total']} | Usable: {report['usable_count']} | Unusable: {report['unusable_count']}")
         print()
         

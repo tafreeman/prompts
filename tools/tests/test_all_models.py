@@ -55,7 +55,7 @@ def main():
     for model, description in test_models:
         print(f"\nTesting {description}...")
         print(f"  Model: {model}")
-        result = test_model(model)
+        result = _test_model(model)
         results.append(result)
         print(f"  Status: {result['status']}")
         if result['error']:

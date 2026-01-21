@@ -28,6 +28,10 @@ reviewStatus: approved
 
 # Prompt Library Tools
 
+**The canonical tooling location for the prompt library.** All evaluation, validation, and LLM utilities live here.
+
+> **📦 Note**: `prompttools/` is deprecated - use this package instead. `toolkit/` has been archived.
+
 Unified tooling for prompt execution, evaluation, validation, and multi-modal AI integration.
 
 > **📋 Architecture**: See [ARCHITECTURE_PLAN.md](../docs/ARCHITECTURE_PLAN.md) for the complete tooling architecture.

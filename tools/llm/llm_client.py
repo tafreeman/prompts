@@ -503,6 +503,14 @@ class LLMClient:
         else:
             model_path = None
 
+        # Create a lock to indicate this local model is in use.
+        # This helps parallel evaluation scripts avoid conflicts.
+        try:
+            from tools.llm.model_locks import create_model_lock
+            create_model_lock(model_key)
+        except Exception:
+            pass
+
         try:
             lm = LocalModel(model_path=model_path, verbose=False)
             full_prompt = prompt

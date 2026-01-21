@@ -54,11 +54,13 @@ prompt-tools = "tools.cli.main:cli"
 "Repository" = "https://github.com/tafreeman/prompts"
 
 [tool.setuptools]
-packages = ["tools", "tools.cli", "tools.models", "tools.core", "tools.llm", "tools.runners", "tools.agents", "tools.scripts", "tools.analysis"]
+# Primary packages - tools/ is the canonical location
+packages = ["tools", "tools.cli", "tools.models", "tools.core", "tools.llm", "tools.runners", "tools.agents", "tools.scripts", "tools.analysis", "tools.prompteval", "tools.validators", "tools.utils", "prompttools"]
 package-dir = {"" = "."}
 
 [tool.setuptools.package-data]
 "tools" = ["rubrics/*.yaml", "rubrics/*.json"]
+"prompttools" = ["rubrics/*.yaml"]  # Deprecated, kept for backward compatibility
 
 [tool.pytest.ini_options]
 testpaths = ["testing"]
