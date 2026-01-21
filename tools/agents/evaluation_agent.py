@@ -44,6 +44,10 @@ from typing import Dict, List, Optional, Any, Tuple
 from enum import Enum
 import logging
 
+# Add parent directory to path for imports when run as script
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parents[2]))
+
 # =============================================================================
 # CONFIGURATION
 # =============================================================================

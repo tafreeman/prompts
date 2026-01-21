@@ -1,5 +1,12 @@
 # Prompttools
 
+> ⚠️ **DEPRECATED**: This package is deprecated. Use `tools/` instead:
+> - **Evaluation**: `from tools.prompteval import score_prompt`
+> - **LLM Client**: `from tools.llm import LLMClient`
+> - **Validation**: `from tools.validators import validate_frontmatter`
+>
+> See [tools/README.md](../tools/README.md) for the canonical tooling.
+
 A lightweight, practical toolkit for evaluating, validating, and managing prompts in the Enterprise AI Prompt Library. This package provides CLI utilities and Python APIs for prompt quality assessment, structural validation, and LLM interactions.
 
 ## 📁 Directory Structure

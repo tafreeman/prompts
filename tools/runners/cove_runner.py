@@ -68,6 +68,13 @@ def _load_dotenv():
 _dotenv_loaded = _load_dotenv()
 
 
+# Add parent directory to path for imports when run as script
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parents[2]))
+
+
 @dataclass
 class CoVeResult:
     """Result of a Chain-of-Verification run."""

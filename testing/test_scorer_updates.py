@@ -68,10 +68,57 @@ def test_fallback_to_choice():
     print(f"✅ Fallback to choice: {result}")
 
 
+def test_parse_with_leading_text_and_braces():
+    """Parser should ignore non-JSON braces and find the correct JSON object."""
+    response = (
+        "Thoughts: this is not JSON {just braces} and more text.\n"
+        "Here are the results:\n"
+        '{"scores": {"clarity": 6, "effectiveness": 7, "structure": 8, "specificity": 5, "completeness": 6}, '
+        '"improvements": ["Add examples"], "confidence": 0.8}\n'
+        "(end)"
+    )
+    result = _parse_standard_response(response)
+    assert result is not None
+    assert result["scores"]["structure"] == 8
+
+
+def test_parse_unlabeled_code_fence():
+    """Models sometimes return ``` ... ``` without a json language tag."""
+    response = """Here you go:
+```
+{"scores": {"clarity": 9, "effectiveness": 8, "structure": 8, "specificity": 7, "completeness": 8}, "improvements": [], "confidence": 0.9}
+```
+"""
+    result = _parse_standard_response(response)
+    assert result is not None
+    assert result["scores"]["clarity"] == 9
+
+
+def test_parse_multiple_json_objects_prefers_scores_schema():
+    """If multiple JSON objects appear, prefer the one matching the scores schema."""
+    response = (
+        "debug={\"a\":1}\n"
+        "{"  # start a non-matching object
+        "\"a\": 1"
+        "}\n"
+        "{"  # now the real one
+        "\"scores\": {\"clarity\": 8, \"effectiveness\": 7, \"structure\": 6, \"specificity\": 7, \"completeness\": 6},"
+        "\"improvements\": [\"Tighten constraints\"],"
+        "\"confidence\": 0.7"
+        "}"
+    )
+    result = _parse_standard_response(response)
+    assert result is not None
+    assert result["scores"]["clarity"] == 8
+
+
 if __name__ == "__main__":
     test_json_parse()
     test_choice_extraction()
     test_choice_extraction_markdown()
     test_new_format_with_thoughtchain()
     test_fallback_to_choice()
+    test_parse_with_leading_text_and_braces()
+    test_parse_unlabeled_code_fence()
+    test_parse_multiple_json_objects_prefers_scores_schema()
     print("\n✅ All tests passed!")

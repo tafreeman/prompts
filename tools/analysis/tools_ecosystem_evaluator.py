@@ -31,6 +31,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+# Add parent directory to path for imports when run as script
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).parents[2]))
+
 
 # NOTE: Avoid importing `tools.*` modules at import-time.
 # Many existing modules rely on unqualified imports (e.g. `from errors import ...`)

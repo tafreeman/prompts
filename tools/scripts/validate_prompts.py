@@ -60,11 +60,11 @@ def validate_file(path: Path) -> list:
         content = path.read_text(encoding='utf-8')
     except Exception as e:
         return [f"Cannot read file: {e}"]
-
+    
     # Skip example output files
     if path.name in EXAMPLE_FILES:
         return []
-
+    
     # Check frontmatter
     fm = extract_frontmatter(content)
     if isinstance(fm, list):
@@ -79,23 +79,23 @@ def validate_file(path: Path) -> list:
     # Check for description OR intro field
     if not any(field in fm for field in DESCRIPTION_FIELDS):
         issues.append("Missing frontmatter: description")
-
+    
     # Validate optional enumerated fields if present
     if 'pattern' in fm:
         pattern = fm['pattern']
         if pattern and pattern.lower() not in VALID_PATTERNS:
             issues.append(f"Invalid frontmatter: pattern '{pattern}' must be one of: {', '.join(VALID_PATTERNS)}")
-
+    
     if 'response_format' in fm:
         resp_fmt = fm['response_format']
         if resp_fmt and resp_fmt.lower() not in VALID_RESPONSE_FORMATS:
             issues.append(f"Invalid frontmatter: response_format '{resp_fmt}' must be one of: {', '.join(VALID_RESPONSE_FORMATS)}")
-
+    
     if 'difficulty' in fm:
         diff = fm['difficulty']
         if diff and diff.lower() not in VALID_DIFFICULTIES:
             issues.append(f"Invalid frontmatter: difficulty '{diff}' must be one of: {', '.join(VALID_DIFFICULTIES)}")
-
+    
     # Determine required sections based on file type
     file_type_raw = fm.get('type')
     if file_type_raw is None:
@@ -108,16 +108,16 @@ def validate_file(path: Path) -> list:
         issues.append("Invalid frontmatter: type must be a string")
         file_type = 'how_to'
     is_reference = isinstance(file_type, str) and file_type in REFERENCE_TYPES
-
+    
     # Reference guides don't need Prompt/Variables sections
     required_sections = ['Description']
     if not is_reference:
         required_sections.extend(['Prompt', 'Variables'])
-
+    
     # Check sections
     sections = extract_sections(content)
     sections_lower = [s.lower() for s in sections]
-
+    
     # Accept various example section names
     example_variants = [
         'example',
@@ -128,15 +128,15 @@ def validate_file(path: Path) -> list:
         'comparative examples',
         'quick reference',
     ]
-
+    
     for section in required_sections:
         if section not in sections and section.lower() not in sections_lower:
             issues.append(f"Missing section: {section}")
-
+    
     # Check for example section (accept many variants)
     if not any(variant in sections_lower for variant in example_variants):
         issues.append("Missing section: Example")
-
+    
     return issues
 
 
