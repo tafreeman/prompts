@@ -1,8 +1,7 @@
 ---
 name: cloud_agent
 description: Expert in cloud architecture, infrastructure, deployment, and cloud-native solutions
-tools:
-  ['search', 'edit', 'new', 'fetch', 'runCommands', 'githubRepo', 'usages', 'problems', 'changes']
+type: how_to
 ---
 
 # Cloud Agent

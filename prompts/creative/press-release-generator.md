@@ -1,48 +1,10 @@
 ---
-title: "Press Release Generator"
-shortTitle: "Press Release"
-intro: "Generate an AP-style press release with quotes, boilerplate, media contact details, and channel-ready variants."
-type: "how_to"
-difficulty: "beginner"
-audience:
-
-  - "functional-team"
-  - "project-manager"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "creative"
-  - "documentation"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2026-01-03"
-governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-  - "requires-human-review"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Press Release Generator
+description: Generate an AP-style press release with quotes, boilerplate, media contact details, and channel-ready variants.
+type: template
 ---
 
 # Press Release Generator
-
----
-
-## Description
-
-Create a clean, publication-ready press release in a standard format, with optional subject lines and social snippets for distribution. This prompt avoids invented claims by forcing placeholders for missing approvals, numbers, or quotes.
-
----
 
 ## Use Cases
 
@@ -50,25 +12,6 @@ Create a clean, publication-ready press release in a standard format, with optio
 - Partnerships and integration announcements
 - Funding, awards, and milestone updates
 - Event announcements (webinars, conferences)
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[headline]` | Headline (plain, factual) | `Acme Analytics launches real-time inventory dashboards` |
-| `[subheadline]` | Optional supporting line | `New dashboards reduce reporting time for operations teams` |
-| `[date_location]` | Dateline | `SEATTLE — January 3, 2026` |
-| `[announcement]` | What happened, in plain language | `Released dashboards for WMS/TMS inventory visibility` |
-| `[who_it_helps]` | Intended audience/customer | `Operations leaders at 3PLs` |
-| `[proof_points]` | Approved metrics/claims only | `Early adopters cut reporting time by 50%` |
-| `[quotes]` | Approved quotes (or "None") | `CEO quote + customer quote` |
-| `[boilerplate]` | Company boilerplate paragraph | `Acme Analytics is...` |
-| `[media_contact]` | Name/email/phone (or placeholder) | `Press: press@acme.com` |
-| `[constraints]` | Embargo, compliance, do-not-say list | `No competitor comparisons; no revenue numbers` |
-
----
 
 ## Prompt
 
@@ -107,46 +50,6 @@ Constraints: [constraints]
 - Avoid unverified claims; prefer concrete details.
 
 ```
-
----
-
-## Example
-
-**Input:**
-
-```text
-[headline]=Acme Analytics introduces real-time inventory dashboards for 3PL operations
-[subheadline]=Dashboards connect WMS and TMS data to reduce manual reporting
-[date_location]=SEATTLE — January 3, 2026
-[announcement]=Acme Analytics released a new dashboard suite that consolidates inventory and shipment KPIs into one view
-[who_it_helps]=Operations and finance leaders at mid-market logistics companies
-[proof_points]=Pilot customers reduced weekly KPI reporting effort from ~10 hours to ~3 hours within 30 days
-[quotes]=“This release makes it easier to act on inventory signals the same day.” — Jane Doe, CEO, Acme Analytics
-[boilerplate]=Acme Analytics builds operational intelligence tools for logistics teams.
-[media_contact]=Press: press@acme.com | +1 (555) 010-1234
-[constraints]=Do not mention pricing; avoid naming competitors
-```
-
-**Output (excerpt):**
-
-```text
-# Acme Analytics introduces real-time inventory dashboards for 3PL operations
-## Dashboards connect WMS and TMS data to reduce manual reporting
-
-SEATTLE — January 3, 2026 — Acme Analytics today announced the availability of a new suite of real-time inventory dashboards designed to help mid-market logistics teams consolidate WMS and TMS signals into a single operational view.
-
-...
-
-### Quote
-“​​This release makes it easier to act on inventory signals the same day,” said Jane Doe, CEO of Acme Analytics.
-
-...
-
-### Media Contact
-Press: press@acme.com | +1 (555) 010-1234
-```
-
----
 
 ## Tips
 

@@ -1,29 +1,6 @@
 ---
-title: "LangChain Framework Prompts"
-shortTitle: "LangChain"
-intro: "LangChain integration patterns, LCEL examples, and agent workflows for building LLM applications."
-type: "reference"
-difficulty: "intermediate"
-audience:
-
-  - "senior-engineer"
-  - "junior-engineer"
-
-platforms:
-
-  - "langchain"
-  - "openai"
-  - "anthropic"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: LangChain Framework Prompts
+description: LangChain integration patterns, LCEL examples, and agent workflows for building LLM applications.
 ---
 
 # LangChain Framework Prompts

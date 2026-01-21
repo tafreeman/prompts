@@ -1,8 +1,7 @@
 ---
 name: docs_agent
 description: Expert technical writer for documentation, READMEs, API docs, and guides
-tools:
-  ['search', 'edit', 'new', 'fetch', 'usages', 'openSimpleBrowser']
+type: how_to
 ---
 
 # Documentation Agent

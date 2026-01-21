@@ -1,0 +1,88 @@
+# RAG (Retrieval-Augmented Generation) Pattern Definition
+# Reference: Lewis et al. "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+
+id: rag
+name: RAG
+description: |
+  Retrieval-augmented pattern that decomposes queries, retrieves relevant evidence,
+  integrates it into reasoning, and provides grounded answers with citations.
+
+required_phases:
+  - name: Query Analysis
+    required: true
+    repeatable: false
+    description: Decompose and understand the information need
+  - name: Retrieval
+    required: true
+    repeatable: true
+    description: Fetch relevant documents/evidence
+  - name: Evidence Integration
+    required: true
+    repeatable: false
+    description: Synthesize retrieved information
+  - name: Grounded Answer
+    required: true
+    repeatable: false
+    description: Answer with citations to sources
+
+ordering_constraints:
+  type: strict_sequence
+  sequence:
+    - Query Analysis
+    - Retrieval
+    - Evidence Integration
+    - Grounded Answer
+  loop: false
+  rules:
+    - Query Analysis identifies what to retrieve
+    - Retrieval returns actual sources
+    - Evidence Integration synthesizes sources
+    - Answer cites specific sources
+
+phase_markers:
+  Query Analysis:
+    - "^\\*{0,2}Query [Aa]nalysis\\*{0,2}:"
+    - "^\\*{0,2}Understanding the [Qq]uestion\\*{0,2}:"
+    - "^\\*{0,2}Information [Nn]eed\\*{0,2}:"
+    - "Query Analysis:"
+  Retrieval:
+    - "^\\*{0,2}Retrieval\\*{0,2}:"
+    - "^\\*{0,2}Sources?\\*{0,2}:"
+    - "^\\*{0,2}Documents?\\*{0,2}:"
+    - "^\\*{0,2}Evidence\\*{0,2}:"
+    - "Retrieval:"
+  Evidence Integration:
+    - "^\\*{0,2}Evidence [Ii]ntegration\\*{0,2}:"
+    - "^\\*{0,2}Synthesis\\*{0,2}:"
+    - "^\\*{0,2}Combining [Ss]ources\\*{0,2}:"
+    - "Evidence Integration:"
+  Grounded Answer:
+    - "^\\*{0,2}Grounded [Aa]nswer\\*{0,2}:"
+    - "^\\*{0,2}Answer \\(with citations\\)\\*{0,2}:"
+    - "^\\*{0,2}Final [Aa]nswer\\*{0,2}:"
+    - "Grounded Answer:"
+
+constraints:
+  forbid:
+    - Claims without citation
+    - Hallucinated sources
+    - Retrieval without actual source content
+    - Ignoring contradictory evidence
+  require:
+    - At least one retrieval call
+    - Citation for each major claim
+    - Source attribution in final answer
+
+pattern_specific_dimensions:
+  retrieval_trigger_accuracy:
+    description: Does it retrieve only when needed?
+    scale: [0, 5]
+  evidence_grounding:
+    description: Do claims trace to sources?
+    scale: [0, 5]
+  citation_discipline:
+    description: Are all claims properly cited?
+    scale: [0, 5]
+
+minimum_sources: 1
+max_sources: 5

@@ -1,79 +1,16 @@
 ---
-title: Management Consulting Expert
-shortTitle: Management Consulting
-intro: Provides management consulting solutions with problem diagnosis, root cause
-  analysis, and implementation plans.
+name: Management Consulting Expert
+description: Provides management consulting solutions with problem diagnosis, root cause analysis, and implementation plans.
 type: how_to
-difficulty: advanced
-audience:
-
-- solution-architect
-- business-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- consulting
-- business
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Management Consulting Expert
-
----
-
-## Description
-
-Provides management consulting solutions
-
----
 
 ## Use Cases
 
 - Management for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
-
----
-
-## Prompt
-
-```text
-Provide consulting for:
-
-Client: [client]
-Business Challenge: [challenge]
-Industry Context: [industry]
-Stakeholders: [stakeholders]
-Success Criteria: [criteria]
-
-Deliver:
-
-1. Problem diagnosis
-2. Root cause analysis
-3. Solution alternatives
-4. Recommendation
-5. Implementation plan
-6. Change management
-
-```text
-
----
 
 ## Variables
 
@@ -82,34 +19,6 @@ Deliver:
 - `[industry]`: Industry context (e.g., "Packaged food, health-conscious consumer segment")
 - `[stakeholders]`: Key stakeholders (e.g., "CEO, CMO, Head of R&D, Board of Directors")
 - `[criteria]`: Success criteria (e.g., "Regain 5% market share in 18 months, improve brand perception scores")
-
----
-
-## Example
-
-```text
-## Management Consulting Report
-
-### 1. Problem Diagnosis
-
-*   **Issue:** SnackCo's "Healthy" line is perceived as "processed" by Gen Z consumers.
-*   **Data:** Competitors with "Clean Label" (5 ingredients or less) grew 20%.
-
-### 2. Root Cause Analysis
-
-*   **R&D:** Innovation cycle (2 years) is too slow to catch micro-trends (e.g., Keto, Paleo).
-*   **Marketing:** Brand messaging focuses on "Low Calorie" (outdated) vs "High Protein" (trending).
-
-### 3. Recommendation
-
-*   **Strategy:** "Acquire & Scale". Don't build internally.
-*   **Target:** Acquire a high-growth indie brand ($20M-$50M revenue) with authentic "Clean Label" credentials.
-
-[... continues with implementation plan and change management ...]
-```text
-
----
-
 
 ## Tips
 

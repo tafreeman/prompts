@@ -1,45 +1,10 @@
 ---
-title: "Sales Objection Handler"
-shortTitle: "Objection Handler"
-intro: "Generate effective responses to common sales objections with persuasive rebuttals and conversation frameworks."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "business-analyst"
-  - "project-manager"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-topics:
-
-  - "sales"
-  - "negotiation"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Sales Objection Handler
+description: Generate effective responses to common sales objections with persuasive rebuttals and conversation frameworks.
+type: how_to
 ---
+
 # Sales Objection Handler
-
----
-
-## Description
-
-Transform common sales objections into opportunities with structured rebuttals, empathy-driven responses, and proven conversation frameworks. Helps sales teams prepare for and overcome buyer resistance.
-
----
 
 ## Use Cases
 
@@ -49,52 +14,6 @@ Transform common sales objections into opportunities with structured rebuttals, 
 - Developing scripts for pricing negotiations
 - Building confidence for high-stakes enterprise deals
 
----
-
-## Prompt
-
-```text
-You are an expert sales coach who has trained top-performing enterprise sales teams.
-
-Help me handle this sales objection:
-
-**Objection**: [objection]
-**Context**: [context]
-**Product/Service**: [product]
-**Buyer Persona**: [buyer]
-**Deal Stage**: [stage]
-
-Provide:
-
-1. **Objection Analysis**
-   - Root cause (what they're really saying)
-   - Emotional driver (fear, uncertainty, budget pressure)
-   - Objection type (price, timing, competition, authority, need)
-
-2. **Response Framework** (LAER Method)
-   - **Listen**: Acknowledge their concern (exact words to use)
-   - **Acknowledge**: Show empathy without agreeing
-   - **Explore**: Probing questions to understand deeper
-   - **Respond**: Value-based rebuttal
-
-3. **Three Response Options**
-   - **Direct Response**: Confident, fact-based rebuttal
-   - **Soft Response**: Empathy-first, relationship-building approach
-   - **Redirect Response**: Pivot to value/ROI discussion
-
-4. **Follow-Up Questions**
-   - 3 questions to keep the conversation moving forward
-   - Questions that uncover the real blocker
-
-5. **If They Push Back Again**
-   - Escalation response if initial rebuttal fails
-   - When to walk away vs. when to persist
-
-Format responses as ready-to-use scripts with natural conversational language.
-```text
-
----
-
 ## Variables
 
 - `[objection]`: The objection raised (e.g., "Your pricing is 30% higher than Competitor X")
@@ -102,41 +21,6 @@ Format responses as ready-to-use scripts with natural conversational language.
 - `[product]`: Your product/service (e.g., "DataSync Pro – enterprise data integration platform")
 - `[buyer]`: Buyer persona (e.g., "VP of Engineering, technical buyer with budget authority")
 - `[stage]`: Deal stage (e.g., "Negotiation / Final Decision")
-
----
-
-## Example
-
-### Context
-
-An enterprise security vendor has completed a successful proof‑of‑concept, but the CISO objects that the price is too high compared with competitors who claim to be 40% cheaper.
-
-### Input
-
-```text
-You are an expert sales coach who has trained top-performing enterprise sales teams.
-
-Help me handle this sales objection:
-
-**Objection**: "Your price is too expensive. Competitors are 40% less."
-**Context**: CISO at a fintech company who recently had a major breach; successful 30‑day POC completed with strong technical results.
-**Product/Service**: CloudSecure – managed threat detection and response platform
-**Buyer Persona**: CISO with CFO and procurement heavily involved in final decision
-**Deal Stage**: Post‑POC commercial negotiation
-
-Provide the full analysis and responses as outlined in the prompt.
-```text
-
-### Expected Output
-
-The AI returns an objection‑handling playbook that includes: objection analysis, a LAER‑based framework, three response scripts (direct, soft, and redirect), follow‑up questions, and recommended escalation or walk‑away guidance—similar to the detailed example that follows.
-
-**Output:**
-
-```markdown
-# Objection Handler: "Your price is too expensive"
-
----
 
 ## 1. Objection Analysis
 
@@ -148,42 +32,6 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 - **Pressure**: Procurement is doing their job - testing whether you'll discount. This is expected behavior, not a red flag.
 
 **Objection Type**: Price objection with competitive leverage. The "40% less" is likely a bluff or comparison to a less comprehensive solution.
-
----
-
-## 2. LAER Response Framework
-
-### Listen (Acknowledge the concern)
-
-*"I hear you - $180K is a significant investment, and I appreciate you being direct about pricing. You're right to push on this."*
-
-### Acknowledge (Empathy without agreeing)
-
-*"Honestly, if I were in your seat - especially after what happened 18 months ago - I'd be scrutinizing every dollar too. This is exactly the kind of rigor I'd expect from a CISO who takes security seriously."*
-
-### Explore (Probing questions)
-
-*"Help me understand - when you say competitors are 40% less, are you comparing apples to apples? Specifically:*
-
-- *Does that include 24/7 SOC coverage, or is that an add-on?*
-- *What's their SLA for threat detection response time?*
-- *Are they SOC 2 Type II and PCI-DSS compliant out of the box?*
-
-*I'm asking because I want to make sure we're solving for the same problem - not just checking a box."*
-
-### Respond (Value-based rebuttal)
-
-*"Here's my honest take: You could go with a cheaper solution. But after a breach, the question isn't 'how do I save 40%?' - it's 'how do I make sure this never happens again?'*
-
-*Our customers pay a premium because:*
-
-- *Average breach cost in fintech is $5.9M. We've prevented 147 breaches for customers like [Similar Company] last year.*
-- *Your IT team already validated the POC. They're not going to get that same experience with [Competitor].*
-- *You're in a regulated industry. Our compliance automation will save your team 200+ hours per audit cycle.*
-
-*The real question is: what's the cost of choosing the cheaper option if it fails?"*
-
----
 
 ## 3. Three Response Options
 
@@ -206,21 +54,6 @@ The AI returns an objection‑handling playbook that includes: objection analysi
 *At $180K/year, you're paying less than 10% of what a single incident costs. The question isn't whether we're expensive - it's whether your current risk exposure is acceptable.*
 
 *What would it mean for your board renewal next year if you could show zero breaches and 100% audit compliance?"*
-
----
-
-## 4. Follow-Up Questions
-
-1. *"If price weren't a factor, would you choose CloudSecure based on the POC results?"*
-   - (Confirms the objection is price-only, not a deeper issue)
-
-2. *"What does your procurement process look like from here? Is there a specific budget threshold that would make approval easier?"*
-   - (Uncovers if there's a magic number that triggers faster approval)
-
-3. *"Who else needs to sign off on this? I want to make sure we're addressing everyone's concerns, not just yours."*
-   - (Identifies hidden stakeholders who may be the real blocker)
-
----
 
 ## 5. If They Push Back Again
 
@@ -250,19 +83,6 @@ Persist if:
 
 *"Here's where I'm at: I believe CloudSecure is the right choice for [Company], and I think you do too based on the POC. I can hold this pricing through end of quarter. After that, I can't guarantee the same terms because we're adjusting pricing in Q1. Can we get this across the finish line this week?"*
 ```text
-
----
-
-
-## Tips
-
-- Never immediately discount - it signals your initial price wasn't fair
-- Use silence strategically - after your rebuttal, let them respond first
-- Validate the objection first - "You're right to push on this" disarms defensiveness
-- Always tie back to value, not features - buyers care about outcomes
-- Have a walk-away point - desperation kills deals
-
----
 
 ## Related Prompts
 

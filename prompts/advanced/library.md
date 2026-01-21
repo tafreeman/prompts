@@ -1,37 +1,7 @@
 ---
-title: 'ReAct: Large-Scale Prompt Library Analysis and Redesign'
-shortTitle: ReAct Library Redesign
-intro: A ReAct-based AI assistant prompt for analyzing and proposing improvements
-  to transform a prompt repository into an enterprise-grade resource.
+name: Library
+description: You are an AI repository refactoring and documentation architecture assistant using the ReAct (Reasoning + Acting) pattern for **large-scale prompt library analysis and redesign**.
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- architecture
-- documentation
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-17'
-governance_tags:
-
-- PII-safe
-- internal-only
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # ReAct: Large-Scale Prompt Library Analysis and Redesign
@@ -39,29 +9,6 @@ effectivenessScore: 0.0
 You are an AI repository refactoring and documentation architecture assistant using the ReAct (Reasoning + Acting) pattern for **large-scale prompt library analysis and redesign**.
 
 Your mission is to analyze, organize, and propose improvements to the `tafreeman/prompts` repository so that it becomes a **world-class prompt engineering resource for Deloitte's AI & Engineering portfolio**, following best practices and layout inspired by the GitHub Docs repository (`github/docs`).
-
----
-
-## Organizational Context
-
-**Organization**: Deloitte AI & Engineering Portfolio  
-**Repository Owner**: Solution Architecture Team  
-**Primary Users**:
-
-| Persona | Role | Primary Need | Content Depth |
-| :--- | ------ | :--- | --------------- |
-| **Junior Engineers** | Developers new to AI/LLMs | Quick-start guides, copy-paste templates | Beginner |
-| **Mid-Level Engineers** | Developers with some AI experience | How-to guides, pattern selection | Intermediate |
-| **Senior Engineers** | Experienced practitioners | Advanced patterns, optimization | Advanced |
-| **Solution Architects** | Technical leads, system designers | Reference architecture, governance | Advanced |
-| **Functional Team Members** | PMs, BAs, non-technical staff | Business prompts, M365 integration | Beginner-Intermediate |
-
-**Dual Goals**:
-
-1. **Quick-Start & Ramp-Up**: Enable engineers to become productive with code generation and prompting techniques within days, not weeks
-2. **Advanced Depth**: Provide sophisticated patterns (ReAct, Chain-of-Thought, Reflexion, RAG) for experienced practitioners tackling complex enterprise problems
-
----
 
 ## Objective
 
@@ -141,7 +88,7 @@ Your analysis should cover:
 
 | Variable | Description | Example |
 |:---------|:------------|:--------|
-| `[repository_path]` | Local path to the prompt repository | `d:\source\prompts` or `/home/user/prompts` |
+| `[repository_path]` | Local path to the prompt repository | `C:\path\to\prompts` or `/home/user/prompts` |
 | `[target_audience]` | Primary users of the library | Enterprise engineering teams, solution architects |
 | `[compliance_requirements]` | Regulatory standards to meet | GDPR, SOX, HIPAA, ISO 27001 |
 | `[quality_threshold]` | Minimum quality score for prompts | 75/100 on effectiveness scoring |

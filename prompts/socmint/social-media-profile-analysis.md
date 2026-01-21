@@ -1,41 +1,7 @@
 ---
-title: Social Media Profile Deep Analysis
-shortTitle: Profile Analysis
-intro: Comprehensive social media profile analysis for behavioral patterns, network
-  mapping, and identity verification
-type: prompt
-difficulty: intermediate
-audience:
-
-- security-professionals
-- osint-analysts
-- investigators
-- hr-professionals
-
-platforms:
-
-- github-copilot
-- chatgpt
-- claude
-
-topics:
-
-- osint
-- socmint
-- profile-analysis
-- behavioral-analysis
-
-author: OSINT Library
-version: '1.0'
-date: '2024-11-30'
-governance_tags:
-
-- privacy-aware
-- ethical-osint
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: pending
+name: Social Media Profile Deep Analysis
+description: Comprehensive social media profile analysis for behavioral patterns, network mapping, and identity verification
+type: how_to
 ---
 
 # Social Media Profile Deep Analysis

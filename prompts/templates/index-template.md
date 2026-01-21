@@ -1,49 +1,7 @@
 ---
-title: "Index Page Template"
-shortTitle: "Folder Name"
-intro: "One-sentence description of what this section contains."
-type: "reference"
-difficulty: "beginner"
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-  - "solution-architect"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-  - "azure-openai"
-  - "m365-copilot"
-
-author: "Prompt Library Team"
-version: "1.0"
-date: "2025-11-29"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "draft"
-layout: "category-landing"
-children:
-
-  - /path/to/first-child
-  - /path/to/second-child
-  - /path/to/third-child
-
-featuredLinks:
-  gettingStarted:
-
-    - /get-started/quickstart-copilot
-
-  popular:
-
-    - /prompts/advanced/chain-of-thought-detailed
-    - /prompts/developers/code-review-assistant
-
+name: Index Page Template
+description: One-sentence description of what this section contains.
+type: template
 ---
 
 # Section Title

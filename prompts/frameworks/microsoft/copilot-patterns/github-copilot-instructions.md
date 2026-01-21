@@ -1,64 +1,71 @@
 ---
-title: GitHub Copilot Instruction Patterns
-shortTitle: GitHub Copilot Instructi...
-intro: A prompt for github copilot instruction patterns tasks.
+name: GitHub Copilot Instruction Patterns
+description: A prompt for github copilot instruction patterns tasks.
 type: how_to
-difficulty: beginner
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: frameworks
-subcategory: microsoft
-technique_type: copilot-instructions
-framework_compatibility:
-  vscode: '>=1.80.0'
-  github-copilot: '>=1.0.0'
-use_cases:
-
-- code-generation
-- code-review
-- refactoring
-- documentation
-
-performance_metrics:
-  productivity_improvement: 30-50%
-  accuracy_improvement: 20-30%
-last_updated: '2025-11-23'
-tags:
-
-- github-copilot
-- vscode
-- copilot-instructions
-- workspace
-
 ---
 
 # GitHub Copilot Instruction Patterns
 
+## Description
+
+This pattern shows how to use GitHub Copilot's workspace instructions feature (`.github/copilot-instructions.md`) to provide persistent project context, coding standards, and patterns. Ensures consistent, high-quality AI suggestions aligned with your codebase conventions.
+
+## Prompt
+
+```text
+# Copilot Instructions for [PROJECT_NAME]
+
+## Project Context
+- **Language**: [PRIMARY_LANGUAGE]
+- **Framework**: [FRAMEWORK]
+- **Purpose**: [PROJECT_DESCRIPTION]
+
+## Coding Standards
+[CODING_STANDARDS_LIST]
+
+## Project-Specific Patterns
+[PATTERN_DEFINITIONS]
+
+## Avoid These Patterns
+[ANTI_PATTERNS_LIST]
+```
+
+## Variables
+
+| Variable                  | Description                       | Example                           |
+| ------------------------- | --------------------------------- | --------------------------------- |
+| `[PROJECT_NAME]`          | Name of your project              | "Prompt Engineering Toolkit"      |
+| `[PRIMARY_LANGUAGE]`      | Main programming language         | "Python 3.11+"                    |
+| `[FRAMEWORK]`             | Primary framework used            | "FastAPI"                         |
+| `[CODING_STANDARDS_LIST]` | Bullet list of coding conventions | "Use type hints, Follow PEP 8..." |
+| `[ANTI_PATTERNS_LIST]`    | Patterns to avoid                 | "❌ Hardcoded API keys"           |
+
+## Example
+
+**File**: `.github/copilot-instructions.md`
+
+```markdown
+# Copilot Instructions for API Service
+
+## Project Context
+
+- **Language**: TypeScript 5.0
+- **Framework**: Express.js
+- **Purpose**: REST API for user management
+
+## Coding Standards
+
+- Use async/await, not callbacks
+- All endpoints must have OpenAPI documentation
+- Validate inputs with Zod schemas
+
+## Avoid These Patterns
+
+- ❌ Using `any` type
+- ❌ Synchronous file operations
+```
+
 ## Purpose
-
-Leverage GitHub Copilot's workspace instructions feature (`.github/copilot-instructions.md`) to provide persistent context and coding standards to Copilot across your entire project.
-
-## Overview
-
-GitHub Copilot reads a special file (`.github/copilot-instructions.md`) in your repository root to understand project-specific context, coding standards, and patterns. This ensures consistent, high-quality suggestions aligned with your codebase.
 
 ## Instruction File Structure
 
@@ -133,7 +140,6 @@ When creating prompt templates:
 2. Follow existing patterns (see `frameworks/langchain/` for reference)
 3. Include SDK-specific code examples
 4. Document compatibility versions
-
 ```
 
 ## VS Code Workspace Settings

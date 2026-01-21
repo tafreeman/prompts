@@ -1,46 +1,44 @@
 ---
-title: "Content Marketing Blog Post Generator"
-shortTitle: "Content Marketing Blog P..."
-intro: "Generate engaging, SEO-optimized blog posts for content marketing. This prompt helps content creators, marketers, and business owners produce high-quality blog content that attracts readers and ran..."
-type: "how_to"
-difficulty: "beginner"
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-
-platforms:
-
-  - "claude"
-
-topics:
-
-  - "content-marketing"
-  - "creative"
-  - "blogging"
-  - "seo"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-10-29"
-governance_tags:
-
-  - "general-use"
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 4.3
+type: generator
+name: Content Marketing Blog Post Generator
+description: Generate engaging, SEO-optimized blog posts for content marketing. This prompt helps content creators, marketers, and business owners produce high-quality blog content that attracts readers and ran...
 ---
+
 # Content Marketing Blog Post Generator
-
----
 
 ## Description
 
-Generate engaging, SEO-optimized blog posts for content marketing. This prompt helps content creators, marketers, and business owners produce high-quality blog content that attracts readers and ranks well in search engines.
+Generate engaging, SEO-optimized blog posts for content marketing. Useful for marketers, business owners, and content creators seeking to attract and educate audiences.
 
----
+## Prompt
+
+Write a blog post for the following:
+- Topic: [TOPIC]
+- Target Audience: [AUDIENCE]
+- Keywords: [KEYWORDS]
+- Tone: [TONE]
+- Length: [LENGTH]
+- Call to Action: [CTA]
+
+## Variables
+
+| Variable | Description |
+| :--- | ------------- |
+| `[TOPIC]` | The main subject of the blog post |
+| `[AUDIENCE]` | Intended readers |
+| `[KEYWORDS]` | SEO keywords to include |
+| `[TONE]` | Desired writing style (e.g., friendly, authoritative) |
+| `[LENGTH]` | Target word count or range |
+| `[CTA]` | Call to action for readers |
+
+## Example
+
+**Topic:** Project management tools for small teams
+**Audience:** Small business owners
+**Keywords:** project management, small teams, productivity
+**Tone:** Friendly
+**Length:** 1200 words
+**CTA:** Try our free project management tool
 
 ## Use Cases
 
@@ -49,109 +47,6 @@ Generate engaging, SEO-optimized blog posts for content marketing. This prompt h
 - Develop thought leadership articles
 - Write educational content for target audiences
 - Produce SEO-optimized articles for organic traffic
-
----
-
-## Prompt
-
-```text
-You are an expert content marketing writer specializing in creating engaging, SEO-optimized blog posts. Please write a comprehensive blog post based on the following details:
-
-**Topic:** [YOUR BLOG TOPIC]
-**Target Audience:** [WHO YOU'RE WRITING FOR]
-**Tone:** [PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]
-**Word Count:** [DESIRED LENGTH, e.g., 800-1200 words]
-**Primary Keyword:** [MAIN SEO KEYWORD]
-**Secondary Keywords:** [2-3 RELATED KEYWORDS]
-
-**Key Points to Cover:**
-
-1. [KEY POINT 1]
-2. [KEY POINT 2]
-3. [KEY POINT 3]
-4. [KEY POINT 4 - OPTIONAL]
-
-**Goals:**
-
-- [GOAL 1, e.g., educate readers about X]
-- [GOAL 2, e.g., drive traffic to product page]
-- [GOAL 3, e.g., establish thought leadership]
-
-Please structure the blog post with:
-
-- Attention-grabbing headline (include primary keyword)
-- Compelling introduction with a hook
-- Clear subheadings (H2, H3) for readability
-- Practical examples or case studies
-- Actionable takeaways
-- Strong conclusion with call-to-action
-- Meta description (150-160 characters, include primary keyword)
-
-Make it engaging, valuable, and optimized for both readers and search engines.
-```text
-
-## Variables
-
-| Variable | Description |
-| ---------- | ------------- |
-| `[YOUR BLOG TOPIC]` | Topic/title concept for the post |
-| `[WHO YOU'RE WRITING FOR]` | Target audience/persona |
-| `[PROFESSIONAL/CASUAL/FRIENDLY/AUTHORITATIVE/CONVERSATIONAL]` | Desired tone |
-| `[DESIRED LENGTH, e.g., 800-1200 words]` | Target length |
-| `[MAIN SEO KEYWORD]` | Primary keyword to target |
-| `[2-3 RELATED KEYWORDS]` | Secondary keywords |
-| `[KEY POINT 1]` | Key point to cover |
-| `[KEY POINT 2]` | Key point to cover |
-| `[KEY POINT 3]` | Key point to cover |
-| `[KEY POINT 4 - OPTIONAL]` | Optional key point |
-| `[GOAL 1, e.g., educate readers about X]` | Primary goal |
-| `[GOAL 2, e.g., drive traffic to product page]` | Secondary goal |
-| `[GOAL 3, e.g., establish thought leadership]` | Additional goal |
-
-## Example
-
-**Input:**
-
-```text
-Topic: How to build a weekly team status update (without more meetings)
-Target Audience: Engineering managers at small startups
-Tone: Conversational, practical
-Word Count: 900–1200 words
-Primary Keyword: weekly status update
-Secondary Keywords: async updates, team communication
-
-Key Points:
-1) What makes a status update useful
-2) A simple template
-3) How to keep it short
-
-Goals:
-
-- Educate readers
-- Drive signups for our project tracker
-
-```
-
-**Output:**
-
-```text
-A complete blog post with:
-
-- SEO headline containing "weekly status update"
-- H2/H3 structure
-- a concrete template section
-- a 150–160 char meta description
-
-```
-
-**Output:**
-
-```text
-# The Complete Guide to Choosing Project Management Tools for Small Teams in 2025
-
-**Meta Description:** Find the perfect project management tools for small teams. Compare features, pricing, and get practical tips to boost your team's productivity today.
-
----
 
 ## Introduction
 
@@ -350,14 +245,6 @@ Choosing project management tools for small teams doesn't have to be overwhelmin
 The right project management tool won't just organize your tasks—it will free up hours every week, reduce stress, and help your team focus on what they do best. And for a small team, that time and energy can make all the difference.
 
 **Ready to transform your team's productivity?** Pick your top 3 candidates from this guide, sign up for trials today, and see which one clicks for your team. Your more organized, less stressed future self will thank you.
-
----
-
-*What project management challenges is your small team facing? Share in the comments below, and let's help each other find solutions!*
-```text
-
----
-
 
 ## Tips
 

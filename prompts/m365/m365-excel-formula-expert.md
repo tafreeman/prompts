@@ -1,121 +1,60 @@
 ---
-title: "M365 Excel Formula Expert"
-shortTitle: "M365 Excel Formula Expert"
-intro: "This prompt acts as an expert Excel consultant. It helps users who know what they want to calculate but don't know the specific function syntax. It generates the correct formula (e.g., XLOOKUP, IND..."
-m365App: "Copilot in Excel"
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "junior-engineer"
-  - "business-analyst"
-
-platforms:
-
-  - "github-copilot"
-  - "m365-copilot"
-
-topics:
-
-  - "excel"
-  - "m365"
-  - "analysis"
-  - "data-analysis"
-
-author: "GitHub Copilot"
-version: "1.0"
-date: "2025-11-18"
-governance_tags:
-
-  - "general-use"
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-description: "Translates plain English descriptions of data problems into complex Excel formulas, explaining the logic and syntax."
-effectivenessScore: 3.9
+name: M365 Excel Formula Expert
+description: Translates plain English descriptions into complex Excel formulas with explanations.
+type: how_to
 ---
+
+# M365 Excel Formula Expert
+
 ## Description
 
-This prompt acts as an expert Excel consultant. It helps users who know what they want to calculate but don't know the specific function syntax. It generates the correct formula (e.g., XLOOKUP, INDEX/MATCH, nested IFs) and explains how it works so the user can learn.
-
-## Goal
-
-To generate accurate, efficient Excel formulas from natural language descriptions and provide a clear explanation of the logic.
-
-## Inputs
-
-- **Data Description**: [data_description]
-- **Desired Outcome**: [desired_outcome]
-- **Column/Cell References**: [cell_references]
-- **Excel Version**: [excel_version]
-
----
+Generate accurate Excel formulas from natural language descriptions. Get formulas for lookups, conditional sums, data manipulation, and more—with explanations of how they work.
 
 ## Prompt
 
-You are an expert Excel Data Analyst. I need a formula to solve a specific problem in my spreadsheet.
+You are an Excel Formula Expert using Microsoft 365 Copilot.
 
-Here is the scenario:
+Generate an Excel formula based on my requirements.
 
-- **Data Structure**: [data_description]
-- **What I want to calculate**: [desired_outcome]
-- **Relevant Cells/Columns**: [cell_references]
-- **My Excel Version**: [excel_version]
+### Requirements
+**Data Description**: [data_description]
+**Desired Outcome**: [desired_outcome]
+**Cell References**: [cell_references]
+**Excel Version**: [excel_version]
 
-Please provide:
-
-1. The **exact formula** I can copy and paste.
-2. A **breakdown** of how the formula works, step-by-step.
-3. An **alternative approach** if a more efficient function exists (e.g., XLOOKUP vs VLOOKUP).
-4. **Error handling**: How to modify the formula to handle missing data or errors (e.g., IFERROR).
-
----
+### Output Format
+1. **Formula**: The complete formula.
+2. **Explanation**: Step-by-step breakdown.
+3. **Example**: Sample input/output.
+4. **Alternatives**: Other approaches if applicable.
 
 ## Variables
 
-- `[data_description]`: Description of the dataset (e.g., "Sales data with dates in Col A and amounts in Col B").
-- `[desired_outcome]`: What you are trying to find (e.g., "Sum of sales for 'North' region in January").
-- `[cell_references]`: Specific ranges (e.g., "A2:A100", "Sheet1!B:B").
-- `[excel_version]`: e.g., "Excel 365", "Excel 2019" (important for function availability).
+- `[data_description]`: E.g., "Sales data with dates in Col A, regions in Col B, amounts in Col C".
+- `[desired_outcome]`: E.g., "Sum sales for North region in January".
+- `[cell_references]`: E.g., "A2:C100".
+- `[excel_version]`: E.g., "Excel 365", "Excel 2019".
 
----
+## Example
 
-## Example Usage
+**Input**:
+Data: Product names in A, prices in B, categories in C
+Outcome: Find price of "Widget" in the table
+Cell References: A2:C50
+Excel Version: Excel 365
 
-**Input:**
-
-- `[data_description]`: "Employee list with IDs in Col A and Names in Col B. Another sheet has IDs in Col A and I need Names."
-- `[desired_outcome]`: "Match the ID in the second sheet to the Name in the first sheet."
-- `[cell_references]`: "Sheet1!A:B, Sheet2!A2"
-- `[excel_version]`: "Excel 365"
-
-**Output:**
-
-### Recommended Formula
-
+**Response**:
+### Formula
 ```excel
-=XLOOKUP(A2, Sheet1!A:A, Sheet1!B:B, "Not Found")
-```text
-
+=XLOOKUP("Widget", A2:A50, B2:B50, "Not Found")
+```
 
 ### Explanation
+- `XLOOKUP` searches for "Widget" in column A
+- Returns the corresponding value from column B
+- "Not Found" displays if no match
 
-- **Lookup_value (A2)**: The ID you are searching for in the current sheet.
-- **Lookup_array (Sheet1!A:A)**: The column in the source sheet containing the IDs.
-- **Return_array (Sheet1!B:B)**: The column in the source sheet containing the Names you want to retrieve.
-- **"Not Found"**: A custom message if the ID doesn't exist (built-in error handling).
-
----
-
-## Tips
-
-- Always specify your Excel version, as newer functions like `XLOOKUP` or `FILTER` are not available in older versions.
-- If your data is in an Excel Table, mention the Table Name for cleaner structured references (e.g., `Table1[Amount]`).
-
----
-
-## Related Prompts
-
-- `m365-data-insights-assistant`
-- `data-analysis-specialist`
+### Alternative (for older Excel)
+```excel
+=INDEX(B2:B50, MATCH("Widget", A2:A50, 0))
+```

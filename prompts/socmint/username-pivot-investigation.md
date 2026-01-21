@@ -1,40 +1,7 @@
 ---
-title: Username Pivot Investigation
-shortTitle: Username Pivot
-intro: Systematic username enumeration and cross-platform pivot analysis for OSINT
-  investigations
-type: prompt
-difficulty: intermediate
-audience:
-
-- security-professionals
-- osint-analysts
-- investigators
-
-platforms:
-
-- github-copilot
-- chatgpt
-- claude
-
-topics:
-
-- osint
-- socmint
-- username-enumeration
-- pivot-analysis
-
-author: OSINT Library
-version: '1.0'
-date: '2024-11-30'
-governance_tags:
-
-- privacy-aware
-- ethical-osint
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: pending
+name: Username Pivot Investigation
+description: Systematic username enumeration and cross-platform pivot analysis for OSINT investigations
+type: how_to
 ---
 
 # Username Pivot Investigation

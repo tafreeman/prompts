@@ -1,77 +1,11 @@
 ---
-title: SQL Security Standards Enforcer
-shortTitle: SQL Security Standards E...
-intro: You are a **Senior Database Security Engineer** and **SQL Server Expert**.
-  Your mission is to enforce strict security standards on T-SQL code, ensuring every
-  query, stored procedure, and view is harden
+name: SQL Security Standards Enforcer
+description: You are a **Senior Database Security Engineer** and **SQL Server Expert**. Your mission is to enforce strict security standards on T-SQL code, ensuring every query, stored procedure, and view is harde
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- sql
-- sql-server
-- developers
-- security
-
-author: Prompts Library Team
-version: 1.1.0
-date: '2025-11-27'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-subcategory: security
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: medium
-  token_usage_estimate: 1500-2500
-  quality_score: '98'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-
-  - sql-injection-check
-  - permission-audit
-
-governance:
-  risk_level: high
-  data_classification: internal
-  regulatory_scope:
-
-  - SOC2
-  - GDPR
-  - PCI-DSS
-  - HIPAA
-
-  approval_required: false
-  retention_period: permanent
-effectivenessScore: 0.0
 ---
 
 # SQL Security Standards Enforcer
 
-
----
-
-## Description
-
-Security-focused SQL review and refactoring prompt for enforcing safe T-SQL patterns (parameterization, least privilege, whitelisting, and data minimization). Intended to harden queries, stored procedures, and views against injection and excessive data exposure.
-
----
 
 ## Prompt
 
@@ -190,17 +124,6 @@ GO
 - **Assumption**: `EmployeeId`, `FirstName`, `LastName`, `Department`, `Email` are the only non-sensitive columns needed for search. Excluded `Salary` and `SSN` if they exist.
 
 ```text
-
----
-
-## Tips
-
-- **Dynamic SQL**: Always use `sp_executesql` instead of `EXEC()`. It allows parameterization.
-- **Whitelisting**: For things that can't be parameterized (table names, column names in `ORDER BY`), map user input to a hardcoded list of safe strings.
-- **Least Privilege**: If a procedure only reads data, ensure the service account executing it doesn't have `db_owner` or `db_datawriter`.
-- **QUOTENAME**: Use `QUOTENAME()` around object names to prevent identifier injection, but whitelisting is safer.
-
----
 
 ## Related Prompts
 

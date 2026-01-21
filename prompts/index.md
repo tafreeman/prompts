@@ -1,59 +1,6 @@
 ---
-title: "Prompt Library"
-shortTitle: "All Prompts"
-intro: "Browse the complete collection of AI prompts organized by category and use case."
-type: "reference"
-difficulty: "beginner"
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-  - "solution-architect"
-  - "qa-engineer"
-  - "business-analyst"
-  - "project-manager"
-  - "functional-team"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-  - "azure-openai"
-  - "m365-copilot"
-
-author: "Prompt Library Team"
-version: "1.0"
-date: "2025-11-29"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
-layout: "category-landing"
-children:
-
-  - /prompts/developers
-  - /prompts/advanced
-  - /prompts/business
-  - /prompts/analysis
-  - /prompts/m365
-  - /prompts/system
-  - /prompts/governance
-  - /prompts/creative
-
-featuredLinks:
-  gettingStarted:
-
-    - /get-started/quickstart-copilot
-    - /concepts/about-prompt-engineering
-
-  popular:
-
-    - /prompts/advanced/chain-of-thought
-    - /prompts/developers
-
+name: Prompt Library
+description: Browse the complete collection of AI prompts organized by category and use case.
 ---
 
 # Prompt Library
@@ -73,35 +20,6 @@ Browse our complete collection of AI prompts, organized by category and use case
 | [**Governance**](/prompts/governance) | Compliance, risk assessment, audit | 3 |
 | [**Creative**](/prompts/creative) | Writing, brainstorming, ideation | 2 |
 
----
-
-## By Difficulty
-
-### 🟢 Beginner
-
-Copy-paste templates with clear instructions. Perfect for getting started.
-
-- [Basic Code Generation](/prompts/developers/code-generation)
-- [Meeting Summary](/prompts/business/meeting-summary)
-- [Data Analysis](/prompts/analysis)
-
-### 🟡 Intermediate
-
-Requires pattern selection and customization for your specific context.
-
-- [Code Review Assistant](/prompts/developers/code-review)
-- [Chain-of-Thought Prompts](/prompts/advanced/chain-of-thought)
-
-### 🔴 Advanced
-
-Complex multi-step patterns requiring deep understanding of prompting techniques.
-
-- [Tree-of-Thought Architecture](/prompts/advanced/tree-of-thought)
-- [ReAct Pattern](/prompts/advanced/react)
-- [RAG Implementation](/prompts/advanced/rag)
-
----
-
 ## By Platform
 
 | Platform | Best Categories |
@@ -110,16 +28,6 @@ Complex multi-step patterns requiring deep understanding of prompting techniques
 | **Claude** | [Analysis](/prompts/analysis), [Advanced](/prompts/advanced) |
 | **ChatGPT** | [Business](/prompts/business), [Creative](/prompts/creative) |
 | **M365 Copilot** | [M365](/prompts/m365), [Business](/prompts/business) |
-
----
-
-## Quick Links
-
-- [New to prompting? Start here →](/get-started/quickstart-copilot)
-- [Understanding advanced patterns →](/concepts/about-advanced-patterns)
-- [Frontmatter schema reference →](/reference/frontmatter-schema)
-
----
 
 ## Contributing
 

@@ -18,3 +18,14 @@ Usage:
 """
 
 __version__ = "1.0.0"
+
+# -----------------------------------------------------------------------------
+# Backwards-compatible module aliases
+# -----------------------------------------------------------------------------
+# Some tooling/tests reference `tools.evaluation_agent.*`.
+# The implementation lives in `tools.agents.evaluation_agent`.
+try:
+    from tools.agents import evaluation_agent as evaluation_agent  # type: ignore
+except Exception:
+    # Avoid import-time failures if optional deps are missing.
+    evaluation_agent = None  # type: ignore

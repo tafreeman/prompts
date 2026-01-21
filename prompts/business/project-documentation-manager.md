@@ -1,47 +1,10 @@
 ---
-title: Project Documentation Manager
-shortTitle: Project Documentation
-intro: Manages project documentation with strategy, template libraries, version control,
-  and archive procedures.
+name: Project Documentation Manager
+description: Manages project documentation with strategy, template libraries, version control, and archive procedures.
 type: how_to
-difficulty: intermediate
-audience:
-
-- project-manager
-- business-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- documentation
-- project-management
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Project Documentation Manager
-
----
-
-## Description
-
-Manages project documentation
-
----
 
 ## Use Cases
 
@@ -49,67 +12,12 @@ Manages project documentation
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
----
-
-## Prompt
-
-```text
-Organize documentation for:
-
-Project: [project_name]
-Document Types: [doc_types]
-Audience: [audience]
-Compliance Requirements: [compliance]
-
-Provide:
-
-1. Documentation strategy
-2. Template library
-3. Version control
-4. Access management
-5. Review processes
-6. Archive procedures
-
-```text
-
----
-
 ## Variables
 
 - `[project_name]`: Project name (e.g., "ISO 9001 Certification – Manufacturing Division")
 - `[doc_types]`: Document types (e.g., "Policies, Procedures, Work Instructions, Records, Forms")
 - `[audience]`: Target audience (e.g., "Internal staff, External auditors, Regulatory bodies")
 - `[compliance]`: Compliance requirements (e.g., "ISO 9001:2015, FDA 21 CFR Part 11")
-
----
-
-## Example
-
-```text
-## Documentation Strategy
-
-### 1. Strategy & Hierarchy
-
-*   **Level 1:** Quality Manual (Policy).
-*   **Level 2:** Procedures (Who, What, When).
-*   **Level 3:** Work Instructions (How-to steps).
-*   **Level 4:** Records (Evidence).
-
-### 2. Template Library
-
-*   **SOP Header:** Must include Doc ID, Version, Owner, Approver, Effective Date.
-*   **Format:** Standardized MS Word styles for auto-generated Table of Contents.
-
-### 3. Version Control
-
-*   **Naming Convention:** `ISO-PROC-[Dept]-[ID]-v[Major].[Minor]` (e.g., `ISO-PROC-HR-001-v2.0`).
-*   **Change Log:** Mandatory table at start of every document tracking "Reason for Change".
-
-[... continues with access management and archive procedures ...]
-```text
-
----
-
 
 ## Tips
 

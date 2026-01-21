@@ -11,7 +11,7 @@ from pathlib import Path
 # WINDOWS CONSOLE ENCODING FIX - Use shared module
 # =============================================================================
 try:
-    from _encoding import setup_encoding
+    from tools.core._encoding import setup_encoding
     setup_encoding()
 except ImportError:
     # Fallback if running as standalone script
@@ -272,13 +272,11 @@ class LLMClient:
         try:
             result = None
             if model_name.lower().startswith("local:"):
-                result = LLMClient._call_local(model_name, prompt, system_instruction,
-                                             temperature, max_tokens)
+                result = LLMClient._call_local(model_name, prompt, system_instruction, temperature, max_tokens)
             elif model_name.lower().startswith("ollama:"):
                 result = LLMClient._call_ollama(model_name, prompt, system_instruction)
             elif model_name.lower().startswith("windows-ai:"):
-                result = LLMClient._call_windows_ai(model_name, prompt, system_instruction,
-                                                  temperature, max_tokens)
+                result = LLMClient._call_windows_ai(model_name, prompt, system_instruction, temperature, max_tokens)
             elif model_name.lower().startswith("azure-foundry:"):
                 result = LLMClient._call_azure_foundry(
                     model_name, prompt, system_instruction, temperature, max_tokens)

@@ -1,47 +1,14 @@
 ---
-title: Enterprise Integration Architect
-shortTitle: Enterprise Integration A...
-intro: Designs enterprise integration solutions
+name: Enterprise Integration Architect
+description: Designs enterprise integration solutions
 type: how_to
-difficulty: advanced
-audience:
-
-- solution-architect
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- architect
-- system
-- enterprise
-- integration
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Enterprise Integration Architect
 
----
-
 ## Description
 
-Designs enterprise integration solutions connecting disparate systems, applications, and data sources. This prompt guides architects through integration patterns (EAI, ESB, iPaaS), API strategies, event-driven architectures, and data transformation pipelines for complex enterprise ecosystems.
-
----
+Designs enterprise integration solutions including API-led connectivity, event-driven architectures, and B2B integration hubs. Provides strategies for connecting ERP, CRM, SaaS platforms, and partner systems while addressing performance, security, and hybrid cloud integration requirements.
 
 ## Architecture Diagram
 
@@ -88,32 +55,6 @@ flowchart TB
     Route --> Partners
 ```
 
----
-
-## Decision Framework
-
-### Integration Pattern Selection
-
-| Pattern | When to Use | Trade-offs |
-| --------- | ------------- | ------------ |
-| **Point-to-Point** | Simple, few integrations | Spaghetti at scale |
-| **Hub-and-Spoke (ESB)** | Centralized control, legacy | Single point of failure |
-| **Event-Driven** | Real-time, loose coupling | Eventual consistency |
-| **API-Led** | Self-service, composable | API management overhead |
-| **Hybrid iPaaS** | SaaS-heavy, cloud-first | Vendor dependency |
-
-### Integration Style Decision Matrix
-
-| Requirement | Sync API | Async Message | Event Stream | Batch |
-| ------------- | ---------- | --------------- | -------------- | ------- |
-| Real-time response | ✅ | ❌ | ❌ | ❌ |
-| Fire-and-forget | ❌ | ✅ | ✅ | ❌ |
-| High volume | ⚠️ | ✅ | ✅ | ✅ |
-| Guaranteed delivery | ⚠️ | ✅ | ✅ | ✅ |
-| Complex transformation | ✅ | ✅ | ⚠️ | ✅ |
-
----
-
 ## Use Cases
 
 - Integrating ERP, CRM, and marketing automation platforms
@@ -123,96 +64,12 @@ flowchart TB
 - Implementing master data management (MDM) synchronization
 - Designing hybrid integration platforms (on-prem + cloud)
 
----
-
-## Prompt
-
-```text
-Design integration architecture for:
-
-Systems to Integrate: [systems]
-Data Flow Requirements: [data_flow]
-Performance Requirements: [performance]
-Security Requirements: [security]
-
-Include:
-
-1. Integration patterns
-2. API design strategy
-3. Data transformation
-4. Error handling
-5. Monitoring and logging
-6. Governance framework
-
-```text
-
-```xml
-
-**Output:**
-
-```text
-
-## Integration Architecture
-
-### 1. Integration Patterns
-
-*   **Orchestration:** MuleSoft/Camel for complex Order-to-Cash workflow state management.
-*   **Event-Driven:** "Order Created" event published to Kafka topic to trigger parallel downstream processes (Billing, Fulfillment).
-
-### 2. Data Flow Design
-
-1.  **Order Entry:** Salesforce triggers webhook to Integration Layer.
-2.  **Validation:** Integration Layer calls SAP synchronously to check Inventory (Real-time).
-3.  **Payment:** If stock exists, call Stripe to capture funds.
-4.  **Fulfillment:** Publish `OrderConfirmed` event. Logistics App consumes event to schedule shipment.
-
-### 3. Error Handling (Reliability)
-
-*   **Dead Letter Queues (DLQ):** For failed messages (e.g., SAP downtime) to allow manual replay.
-*   **Circuit Breaker:** Stop calling SAP if error rate > 10% to prevent cascading failure.
-
-[... continues with monitoring and governance ...]
-
-```text
-
----
-
 ## Variables
 
 - `[systems]`: Systems to integrate (e.g., "Salesforce CRM, SAP ERP, Stripe payments, Logistics WMS")
 - `[data_flow]`: Data flow requirements (e.g., "Real-time order sync, batch inventory updates nightly")
 - `[performance]`: Performance requirements (e.g., "< 200ms API latency, 10K orders/hour peak")
 - `[security]`: Security requirements (e.g., "PCI-DSS for payments, field-level encryption for PII")
-
----
-
-## Cloud Platform Notes
-
-### Azure
-
-- **Integration**: Azure Integration Services (Logic Apps, Service Bus, API Management, Event Grid)
-- **iPaaS**: Azure Integration Account for B2B/EDI
-- **Messaging**: Service Bus (queues/topics), Event Hubs (streaming)
-- **Hybrid**: Azure Arc, On-premises data gateway
-- **B2B**: EDI, AS2, X12 support in Integration Account
-
-### AWS
-
-- **Integration**: Amazon EventBridge, Step Functions, AppFlow
-- **Messaging**: SQS (queues), SNS (pub/sub), Kinesis (streaming)
-- **API**: API Gateway, AppSync (GraphQL)
-- **Hybrid**: AWS Outposts, Direct Connect
-- **B2B**: AWS B2B Data Interchange (EDI)
-
-### GCP
-
-- **Integration**: Application Integration, Pub/Sub
-- **Messaging**: Pub/Sub (streaming), Cloud Tasks (queues)
-- **API**: Apigee for API management
-- **Hybrid**: Anthos for hybrid/multi-cloud
-- **Workflows**: Cloud Workflows for orchestration
-
----
 
 ## Example
 
@@ -235,18 +92,6 @@ Security Requirements: OAuth 2.0 for partners, field-level encryption for PII
 - **Platform**: MuleSoft Anypoint for orchestration, Kafka for events
 - **Error Handling**: Dead letter queues, circuit breakers for resilience
 - **Monitoring**: Centralized logging, distributed tracing, business KPIs
-
----
-
-## Tips
-
-- Start with a canonical data model for common entities
-- Implement circuit breakers for all external integrations
-- Use event sourcing for audit and replay capabilities
-- Plan for partner onboarding with self-service portals
-- Monitor business metrics, not just technical metrics
-
----
 
 ## Related Prompts
 

@@ -1,27 +1,6 @@
 ---
-title: "Anthropic Claude Prompts"
-shortTitle: "Anthropic"
-intro: "Claude-specific prompt patterns and optimization techniques for Anthropic's AI models."
-type: "reference"
-difficulty: "intermediate"
-audience:
-
-  - "senior-engineer"
-  - "junior-engineer"
-
-platforms:
-
-  - "claude"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Anthropic Claude Prompts
+description: Claude-specific prompt patterns and optimization techniques for Anthropic's AI models.
 ---
 
 # Anthropic Claude Prompts

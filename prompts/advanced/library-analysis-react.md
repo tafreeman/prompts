@@ -1,48 +1,10 @@
 ---
-title: 'ReAct: Library Structure & Content Analysis'
-shortTitle: ReAct Library Analysis
-intro: A specialized ReAct pattern for analyzing the structure, quality, and completeness
-  of a prompt library or code repository.
+name: Library Analysis React
+description: ---
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- analysis
-- documentation
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-25'
-governance_tags:
-
-- PII-safe
-- internal-only
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # ReAct: Library Structure & Content Analysis
-
----
-
-## Description
-
-A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the structure, quality, and completeness of a prompt library or code repository. This prompt guides the AI to act as a "Library Analyst," systematically exploring directories, reading files, checking metadata, and identifying gaps or inconsistencies. It combines file system exploration with content evaluation logic.
-
----
 
 ## Use Cases
 
@@ -51,93 +13,6 @@ A specialized ReAct (Reasoning + Acting) pattern designed for analyzing the stru
 - **Content Quality Checks**: Verifying that prompts follow the standard template (Description, Goal, Variables, etc.).
 - **Gap Analysis**: Finding missing topics or categories based on existing content.
 - **Maintenance**: Generating reports on "to-do" items for library improvement.
-
----
-
-## Variables
-
-| Variable | Required? | Description | Example |
-| --- |---:| --- | --- |
-| `[ANALYSIS_TASK]` | Yes | The specific audit question or goal for the library analysis. | `Identify prompts missing required sections and propose fixes` |
-
-## Example
-
-**Input**
-
-- `[ANALYSIS_TASK]`: `Audit prompts/advanced for missing sections and inconsistent headings`
-
-**Expected output (high level)**
-
-- A list of files reviewed
-- A table of issues (missing sections, metadata gaps)
-- Prioritized recommendations (quick wins first)
-
-## Prompt
-
-```text
-You are an expert Library Analyst AI using the ReAct (Reasoning + Acting) pattern to audit and analyze a prompt library.
-
-**Task**: [ANALYSIS_TASK]
-
-**Context**: 
-
-- You have access to the file system of the prompt library.
-- The library root is typically `d:\source\osi\prompts` (or similar).
-- Prompts are Markdown (`.md`) files.
-- Standard prompts should have YAML frontmatter and specific sections (Description, Prompt, Variables, etc.).
-
-**Available Tools**:
-
-1.  **list_directory**: List files and subdirectories in a given path.
-    -   Parameters: {path: string}
-    -   Returns: List of names, types (file/dir), and sizes.
-
-2.  **read_file**: Read the contents of a specific file.
-    -   Parameters: {path: string}
-    -   Returns: Full file content.
-
-3.  **search_files**: Search for files containing specific text or matching a pattern.
-    -   Parameters: {pattern: string, path: string}
-    -   Returns: List of matching files.
-
-4.  **check_metadata**: (Virtual Tool) Analyze the YAML frontmatter of a file content.
-    -   Parameters: {content: string}
-    -   Returns: Extracted metadata (title, version, tags, etc.) or "MISSING".
-
-**Instructions**:
-Use the Thought → Action → Observation → Synthesis cycle to perform the analysis.
-
-For each cycle:
-
-**Thought [N]**:
-
--   What part of the library do I need to inspect next?
--   Do I need to list a directory to see what's there?
--   Do I need to read a file to check its content?
--   What criteria am I evaluating against (e.g., "is it a stub?")?
-
-**Action [N]**:
-Tool: [TOOL_NAME]
-Parameters: {
-  "param": "value"
-}
-
-[SYSTEM PROVIDES RESULTS]
-
-**Observation [N]**:
-
--   What did the tool return?
--   Are there empty files?
--   Do files have the correct structure?
--   Are there unexpected files?
-
-**Synthesis [N]**:
-
--   What does this tell me about the library's state?
--   Have I found the answer to the user's question?
--   Do I need to dig deeper into a specific folder?
-
----
 
 Continue until you can provide:
 
@@ -170,7 +45,7 @@ Continue until you can provide:
 **Action 1**:
 Tool: list_directory
 Parameters: {
-  "path": "d:\\source\\osi\\prompts\\prompts\\analysis"
+  "path": "[repository_root]/prompts/analysis"
 }
 
 **Observation 1**:
@@ -187,44 +62,6 @@ Parameters: {
 ... (total 15 files)
 
 **Synthesis 1**: I see a mix of file sizes. `data-analysis-insights.md` is large (24.6 KB) and likely complete. `data-quality-assessment.md` is also substantial (12.1 KB). However, there are several files around 1.8 KB (e.g., `competitive-analysis-researcher.md`, `gap-analysis-expert.md`). These are likely stubs or templates. I need to read one of the small files and one of the large files to confirm my hypothesis and check for metadata.
-
----
-
-**Thought 2**: I'll read `competitive-analysis-researcher.md` (small) and `data-analysis-insights.md` (large) to compare their structure and verify if the small ones are indeed stubs.
-
-**Action 2**:
-Tool: read_file
-Parameters: {
-  "path": "d:\\source\\osi\\prompts\\prompts\\analysis\\competitive-analysis-researcher.md"
-}
-
-**Observation 2**:
-[System returns content of competitive-analysis-researcher.md]
-
-- Frontmatter: Present (title, category, tags...)
-- Description: "Conducts competitive market analysis" (Very brief)
-- Prompt: Brief placeholder text.
-- Variables: Listed but minimal.
-- Example Usage: Generic placeholder.
-
-**Action 3**:
-Tool: read_file
-Parameters: {
-  "path": "d:\\source\\osi\\prompts\\prompts\\analysis\\data-analysis-insights.md"
-}
-
-**Observation 3**:
-[System returns content of data-analysis-insights.md]
-
-- Frontmatter: Present and detailed.
-- Description: Detailed paragraph.
-- Prompt: Comprehensive, multi-section prompt.
-- Variables: Fully documented.
-- Example Usage: Real-world example with data.
-
-**Synthesis 2**: My hypothesis is confirmed. The ~1.8KB files are "stubs" - they have the structure but lack deep content (generic descriptions, placeholder examples). The larger files are fully developed. I can now categorize the rest based on size without reading every single one, but to be thorough, I should check if any *missing* metadata exists in the stubs. The read of `competitive-analysis-researcher.md` showed it *had* metadata, just weak content.
-
----
 
 **Thought 3**: I have enough information to form a conclusion about the state of this folder. Most files appear to be stubs based on the file size pattern observed.
 
@@ -270,17 +107,6 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 
 **Confidence Assessment**: **High** - File size correlation with content quality was verified by sampling.
 ```text
-
----
-
-## Tips
-
-- **Size Heuristics**: File size is often a good initial proxy for completeness (e.g., < 2KB is usually a stub).
-- **Sampling**: You don't need to read every file if a pattern emerges. Read a representative sample.
-- **Structure Checks**: Always verify that "Example Usage" contains *actual* examples, not just "Insert example here" text.
-- **Metadata**: Check for `title`, `category`, `tags`, and `version` in the frontmatter.
-
----
 
 ## Output Schema (JSON)
 

@@ -1,89 +1,19 @@
 ---
-title: Library Structure Treemap Generator
-shortTitle: Treemap Generator
-intro: Guides generation of a hierarchical Treemap chart to visualize the structure
-  and distribution of prompts across categories.
+name: Library Structure Treemap Generator
+description: Guides generation of a hierarchical Treemap chart to visualize the structure and distribution of prompts across categories.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- visualization
-- analysis
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 <!-- markdownlint-disable MD025 -->
 # Library Structure Treemap Generator
 
----
-
 ## Description
 
-This prompt guides the generation of a hierarchical Treemap chart to visualize the structure of the prompt library. It helps in understanding the distribution of prompts across different categories.
-
-## Goal
-
-To create a visual representation that allows users to instantly see the relative sizes of different prompt categories.
-
-## Context
-
-The user has a library of prompts organized into folders (Business, Analysis, Developers, etc.) and wants to visualize this structure.
-
-## Inputs
-
-- `[PROMPT_LIBRARY_STRUCTURE]`: The file structure or list of files in the prompt library.
-
-## Assumptions
-
-- The library is organized hierarchically.
-- File counts are a good proxy for "size" or "importance" in this context.
-
-## Constraints
-
-- The output should be a description or code to generate a Treemap.
-- Tiles should be sized by count.
-- Color-coding should be used for categories.
-
-## Process / Reasoning Style
-
-Direct instruction for visualization generation.
-
----
+Produces hierarchical treemap charts visualizing prompt library structure and distribution across categories. Enables quick identification of largest sections and category coverage imbalances through proportional tile sizing.
 
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/Matplotlib, Mermaid, or Vega-Lite) to generate the chart.
-
----
-
-## Use Cases
-
-- Visualizing the current state of the prompt library.
-- Identifying which categories are well-populated and which are sparse.
-- Presenting the library structure to stakeholders.
-
----
 
 ## Prompt
 

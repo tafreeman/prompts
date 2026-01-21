@@ -1,77 +1,10 @@
 ---
-title: "Data Quality Assessment"
-shortTitle: "Data Quality"
-intro: "Systematically evaluates dataset quality across six dimensions and generates structured reports with recommended actions."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "senior-engineer"
-  - "business-analyst"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "data-quality"
-  - "analysis"
-
-author: "Prompt Engineering Team"
-version: "1.0"
-date: "2025-11-18"
-governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 4.6
+name: Data Quality Assessment
+description: Systematically evaluates dataset quality across six dimensions and generates structured reports with recommended actions.
+type: how_to
 ---
+
 # Data Quality Assessment
-
----
-
-## Description
-
-Systematically evaluates dataset quality across six dimensions (completeness, accuracy, consistency, timeliness, validity, uniqueness) and generates structured reports with recommended actions conforming to the schema in `docs/domain-schemas.md`.
-
-## Goal
-
-Identify data quality issues before they impact analytics, ML models, or business decisions, and provide actionable recommendations to improve data quality.
-
-## Context
-
-Use this prompt when onboarding new datasets, auditing existing data pipelines, preparing data for ML training, or investigating data-related issues (unexpected model behavior, incorrect reports).
-
-## Inputs
-
-- Dataset description (name, source, schema)
-- Sample data or summary statistics
-- Context (how the data will be used)
-- Known issues or concerns (optional)
-
-## Assumptions
-
-- User has access to the dataset or representative sample
-- Basic data profiling has been done (row/column counts, types)
-- User can implement validation rules or fixes
-
-## Constraints
-
-- Assessment must be quantitative (scores, percentages)
-- Recommendations must be actionable and prioritized
-- Output must conform to Data Quality Assessment Schema (see `docs/domain-schemas.md`)
-
-## Process / Reasoning Style
-
-Systematic evaluation across six data quality dimensions with quantified scores and evidence-based recommendations.
-
----
 
 ## Output Requirements
 
@@ -84,18 +17,6 @@ Structured Markdown or JSON conforming to the Data Quality Assessment Schema in 
 3. Issue Details (per dimension)
 4. Recommended Actions (prioritized by impact)
 5. Validation Rules (proposed checks)
-
----
-
-## Use Cases
-
-- Onboarding new data sources into a data warehouse
-- Auditing data pipelines for quality issues
-- Preparing datasets for ML model training
-- Investigating anomalies in reports or dashboards
-- Compliance checks for data governance initiatives
-
----
 
 ## Prompt
 
@@ -121,33 +42,6 @@ You are a data quality expert assessing a dataset across six quality dimensions.
 
 **Known Issues (optional):** [ANY_KNOWN_PROBLEMS]
 
----
-
-## Task
-
-Conduct a comprehensive data quality assessment across six dimensions:
-
-1. **Completeness**: Missing values, nulls, gaps
-2. **Accuracy**: Validation rules violated, incorrect values
-3. **Consistency**: Duplicates, conflicting data, format mismatches
-4. **Timeliness**: Data freshness, staleness issues
-5. **Validity**: Schema drift, type mismatches, invalid ranges
-6. **Uniqueness**: Duplicate records
-
-For each dimension, provide:
-
-- **Score (0–100%)**
-- **Issues Identified** (with examples and impact)
-- **Severity** (High/Medium/Low)
-
-Then provide:
-
-- **Overall Score** (weighted average across dimensions)
-- **Recommended Actions** (prioritized by impact and effort)
-- **Validation Rules** (to prevent future issues)
-
----
-
 ## Output Format
 
 Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
@@ -159,12 +53,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 **Time Period:** [date range]  
 **Rows:** [N] | **Columns:** [M]  
 **Assessment Date:** [YYYY-MM-DD]
-
----
-
-## Overall Score: [N]%
-
----
 
 ## Dimensions
 
@@ -181,21 +69,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 **Impact:** [How missing data affects downstream use]
 
----
-
-### Accuracy: [N]%
-
-**Validation Rules Failed:**
-
-#### Rule 1: [rule name]
-
-- **Column:** [column_name]
-- **Failure Rate:** [N]%
-- **Examples:** [invalid value 1], [invalid value 2]
-- **Impact:** [How this affects data consumers]
-
----
-
 ### Consistency: [N]%
 
 **Inconsistencies:**
@@ -206,17 +79,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 - **Affected Rows:** [N] ([N]% of dataset)
 - **Severity:** [HIGH|MEDIUM|LOW]
 - **Example:** [specific inconsistency]
-
----
-
-### Timeliness: [N]%
-
-- **Freshness:** [description, e.g., "data is 2 days old"]
-- **Expected Refresh Frequency:** [e.g., "daily"]
-- **Actual Refresh:** [e.g., "every 3 days"]
-- **Staleness Issues:** [list any delays or gaps]
-
----
 
 ### Validity: [N]%
 
@@ -229,16 +91,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 - **Out-of-Range Values:**
   - [Column X]: [N] values outside expected range [min, max]
-
----
-
-### Uniqueness: [N]%
-
-- **Duplicate Records:** [N] ([N]% of dataset)
-- **Duplicate Rate by Key:** [if composite key, show breakdown]
-- **Example Duplicates:** [show a few duplicate row IDs]
-
----
 
 ## Recommended Actions
 
@@ -253,22 +105,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 [Same structure]
 
----
-
-## Validation Rules
-
-### Rule 1: [rule_name]
-
-- **Definition:** [logic or SQL]
-- **Applies To:** [columns]
-- **Failure Action:** [alert|block|log]
-
-### Rule 2: [rule_name]
-
-[Same structure]
-
----
-
 ## Next Steps
 
 1. [Step 1: e.g., "Implement validation rules in ETL pipeline"]
@@ -276,21 +112,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 3. [Step 3: e.g., "Set up automated quality monitoring"]
 
 ```text
-
----
-
-## Variables
-
-- `[DATASET_NAME]`: Name of the dataset
-- `[SOURCE_SYSTEM_OR_FILE]`: Where the data comes from
-- `[TIME_RANGE]`: Date range of the data
-- `[TABLE_SCHEMA_OR_COLUMN_DEFINITIONS]`: Column names and types
-- `[N]`, `[M]`: Row and column counts
-- `[SAMPLE_DATA_OR_SUMMARY_STATS]`: Sample rows or profiling output
-- `[HOW_DATA_WILL_BE_USED]`: Context (analytics, ML, reporting)
-- `[ANY_KNOWN_PROBLEMS]`: Pre-existing issues or concerns
-
----
 
 ## Example Usage
 
@@ -326,18 +147,6 @@ Follow the Data Quality Assessment Schema from `docs/domain-schemas.md`:
 
 **Known Issues:** Some orders missing customer_id, status field has inconsistent casing
 ```text
-
----
-
-## Tips
-
-- **Quantify everything:** Use percentages and counts, not vague terms like "some" or "many"
-- **Prioritize by impact:** Focus on issues that affect critical use cases first
-- **Provide examples:** Show actual invalid values, not just descriptions
-- **Propose automation:** Validation rules should be implementable in ETL/database
-- **Track over time:** Re-run assessment periodically to measure improvement
-
----
 
 ## Related Prompts
 

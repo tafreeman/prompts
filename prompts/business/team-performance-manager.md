@@ -1,47 +1,10 @@
 ---
-title: Team Performance Manager
-shortTitle: Team Performance
-intro: Optimizes team performance with assessment, skill development, motivation strategies,
-  and recognition programs.
+name: Team Performance Manager
+description: Optimizes team performance with assessment, skill development, motivation strategies, and recognition programs.
 type: how_to
-difficulty: intermediate
-audience:
-
-- project-manager
-- business-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- team-management
-- leadership
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Team Performance Manager
-
----
-
-## Description
-
-Optimizes team performance
-
----
 
 ## Use Cases
 
@@ -49,65 +12,12 @@ Optimizes team performance
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
----
-
-## Prompt
-
-```text
-Improve team performance for:
-
-Team: [team_name]
-Current Challenges: [challenges]
-Performance Goals: [goals]
-Team Dynamics: [dynamics]
-
-Include:
-
-1. Performance assessment
-2. Skill development plan
-3. Motivation strategies
-4. Communication improvement
-5. Conflict resolution
-6. Recognition programs
-
-```text
-
----
-
 ## Variables
 
 - `[team_name]`: Team name (e.g., "Platform Engineering Team – 8 engineers")
 - `[challenges]`: Current challenges (e.g., "Hero culture, slow code reviews, junior devs blocked")
 - `[goals]`: Performance goals (e.g., "Reduce cycle time by 40%, improve team velocity 20%")
 - `[dynamics]`: Team dynamics (e.g., "2 seniors, 4 mid-level, 2 juniors; remote-first")
-
----
-
-## Example
-
-```text
-## Team Performance Improvement Plan
-
-### 1. Performance Assessment
-
-*   **Root Cause:** "Hero Culture" leading to bottlenecks at senior devs; juniors blocked waiting for reviews.
-*   **Metric Analysis:** Cycle time is high due to long code review wait times (avg 2 days).
-
-### 2. Skill Development Plan
-
-*   **Pair Programming:** Mandate 2 hours/day pairing (Senior + Junior) to transfer knowledge.
-*   **Tech Talks:** Weekly rotation where juniors present a technical topic to build confidence.
-
-### 3. Motivation Strategies
-
-*   **Autonomy:** Assign end-to-end ownership of smaller features to juniors.
-*   **Purpose:** Connect sprint tasks directly to customer impact metrics in planning meetings.
-
-[... continues with communication and conflict resolution ...]
-```text
-
----
-
 
 ## Tips
 

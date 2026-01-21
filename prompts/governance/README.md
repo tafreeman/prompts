@@ -1,32 +1,8 @@
 ---
-title: "Governance & Compliance Prompts"
-shortTitle: "Governance"
-intro: "Prompts for governance, compliance, legal, security operations, privacy, and audit teams with enterprise controls and regulatory guidance."
-type: reference
-difficulty: intermediate
-audience:
-
-  - security-engineer
-  - compliance-officer
-  - solution-architect
-
-platforms:
-
-  - github-copilot
-  - claude
-  - chatgpt
-
-author: Prompts Library Team
-version: "1.1"
-date: "2025-12-11"
-governance_tags:
-
-  - requires-human-review
-  - compliance-critical
-
-dataClassification: internal
-reviewStatus: draft
+name: Governance & Compliance Prompts
+description: Prompts for governance, compliance, legal, security operations, privacy, and audit teams with enterprise controls and regulatory guidance.
 ---
+
 # Governance & Compliance Prompts
 
 This directory contains prompts tailored for governance, compliance, legal, security operations, and customer support teams. These prompts include governance metadata, risk assessments, and enterprise controls.

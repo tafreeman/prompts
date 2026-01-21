@@ -1,36 +1,7 @@
 ---
-title: "Advanced Prompt Engineering Technique Researcher"
-shortTitle: "Technique Research"
-intro: "Research an advanced prompt engineering technique using Tree-of-Thoughts exploration plus Reflexion self-critique, producing an evidence-backed report with citations."
-type: "how_to"
-difficulty: "advanced"
-audience:
-
-  - "senior-engineer"
-  - "solution-architect"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-topics:
-
-  - "analysis"
-  - "architecture"
-
-technique: "tree-of-thought"
-author: "Prompts Library Team"
-version: "1.1"
-date: "2026-01-12"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Advanced Technique Research
+description: # Advanced Prompt Engineering Technique Researcher
+type: how_to
 ---
 
 # Advanced Prompt Engineering Technique Researcher
@@ -61,17 +32,6 @@ You are an AI research assistant conducting deep research on advanced prompt eng
 
 Your goal is to produce a high-quality, evidence-backed research report.
 
----
-
-## Research Parameters
-
-- **Topic:** [RESEARCH_TOPIC]
-- **Core Questions:** [RESEARCH_QUESTIONS]
-- **Depth:** [RESEARCH_DEPTH]
-- **Time Range:** [TIME_RANGE]
-
----
-
 ## Phase 1: Research Planning (ToT Branching)
 
 Generate 3-5 distinct research paths (branches) to explore this topic comprehensively.
@@ -93,28 +53,6 @@ Before selecting resources, establish these criteria:
 
 *Select the top 3 branches based on their potential to answer the Core Questions.*
 
----
-
-## Phase 2: Research Execution (ReAct Loop)
-
-For each selected branch, execute the investigation loop:
-
-### Round 1 - Initial Investigation
-
-1.  **Think:** (Reasoning) What specific query or analysis will yield high-authority data?
-2.  **Act:** (Search/Analyze) Execute the search for information.
-3.  **Observe:** (Data Collection) Record findings. **Explicitly evaluate each key source against the defined Criteria.**
-4.  **Reflect:** (Critique) Do these findings answer the specific aspect of this branch? Are the sources weak?
-
-### Round 2 - Refinement (if evaluation failed or gaps remain)
-
-1.  **Think:** (Reasoning) How to find better sources or fill the gap?
-2.  **Act:** (Search/Analyze) Targeted investigation.
-3.  **Observe:** (Data Collection) New findings.
-4.  **Reflect:** (Critique) Is the branch complete?
-
----
-
 ## Phase 3: Cross-Branch Reflection (Reflexion)
 
 Pause and critique the collective findings.
@@ -127,18 +65,6 @@ Pause and critique the collective findings.
 4.  **Synthesis:** Can I construct a coherent narrative from these separate branches?
 
 *If critical gaps exist, execute one final targeted "Gap Fill" investigation step.*
-
----
-
-## Phase 4: Synthesis & Conclusion
-
-Synthesize the raw data into intelligent conclusions.
-
-1.  **Integrate:** Combine technical mechanisms with practical results.
-2.  **Reconcile:** Address identified contradictions.
-3.  **Conclude:** Form a final judgment on the technique's maturity and utility.
-
----
 
 ## Phase 5: Final Output
 

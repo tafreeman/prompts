@@ -130,12 +130,17 @@ class PromptAssessment:
     line_count: int = 0
 
 
-# =============================================================================
-# HELPER FUNCTIONS
-# =============================================================================
+# Load registry.yaml for metadata
+REGISTRY_PATH = Path('prompts/registry.yaml')
+try:
+    with REGISTRY_PATH.open('r', encoding='utf-8') as f:
+        REGISTRY = yaml.safe_load(f)
+except Exception:
+    REGISTRY = None
+
 
 def extract_frontmatter(content: str) -> Optional[Dict[str, Any]]:
-    """Extract YAML frontmatter from markdown content."""
+    """Extract YAML frontmatter from markdown content (minimal: name, description)."""
     if not content.strip().startswith('---'):
         return None
     parts = content.split('---', 2)
@@ -187,14 +192,24 @@ def assess_prompt(file_path: Path) -> Optional[PromptAssessment]:
     
     frontmatter = extract_frontmatter(content) or {}
     body = extract_body(content)
-    
-    title = frontmatter.get('title', file_path.stem.replace('-', ' ').title())
-    category = file_path.parent.name
+
+    # Use registry.yaml for all metadata except minimal frontmatter
+    rel_path = str(file_path).replace('\\', '/').split('prompts/', 1)[-1]
+    registry_entry = None
+    if REGISTRY:
+        for entry in REGISTRY:
+            if entry.get('path', '').replace('\\', '/') == rel_path:
+                registry_entry = entry
+                break
+
+    # Use registry metadata if available
+    title = registry_entry.get('title', file_path.stem.replace('-', ' ').title()) if registry_entry else frontmatter.get('name', file_path.stem.replace('-', ' ').title())
+    category = registry_entry.get('categories', [file_path.parent.name])[0] if registry_entry and 'categories' in registry_entry else file_path.parent.name
     
     # Content analysis
     line_count = len([l for l in content.split('\n') if l.strip()])
     word_count = len(body.split())
-    
+
     # Check for key sections
     body_lower = body.lower()
     has_description = '## description' in body_lower or '## purpose' in body_lower
@@ -235,28 +250,29 @@ def assess_prompt(file_path: Path) -> Optional[PromptAssessment]:
     )
     
     # === QUALITY STANDARDS SCORING (0-100) ===
-    
+
     # Completeness (25 points)
     completeness = 0
-    required_fm = ['title', 'difficulty', 'version', 'date', 'audience', 'platforms']
-    fm_present = sum(1 for f in required_fm if f in frontmatter)
-    completeness += (fm_present / len(required_fm)) * 8
-    
+    # Only require minimal frontmatter (name, description)
+    minimal_fm = ['name', 'description']
+    fm_present = sum(1 for f in minimal_fm if f in frontmatter)
+    completeness += (fm_present / len(minimal_fm)) * 8
+
     if has_description: completeness += 3
     else: assessment.issues.append(IssueItem("P1", "structure", "Missing Description section", "Add ## Description with 2-3 sentences explaining the prompt", "Low", 3))
-    
+
     if has_prompt_section: completeness += 5
     else: assessment.issues.append(IssueItem("P0", "structure", "Missing Prompt section", "Add ## Prompt with the actual prompt template", "Low", 5))
-    
+
     if has_variables: completeness += 3
     else: assessment.issues.append(IssueItem("P1", "structure", "Missing Variables section", "Add ## Variables documenting all placeholders", "Low", 3))
-    
+
     if has_example: completeness += 4
     else: assessment.issues.append(IssueItem("P1", "structure", "Missing Example section", "Add ## Example Usage with realistic input/output", "Medium", 4))
-    
+
     if has_tips: completeness += 2
     else: assessment.issues.append(IssueItem("P2", "structure", "Missing Tips section", "Add ## Tips with 3-5 actionable recommendations", "Low", 2))
-    
+
     assessment.completeness = min(25, completeness)
     
     # Example Quality (30 points)

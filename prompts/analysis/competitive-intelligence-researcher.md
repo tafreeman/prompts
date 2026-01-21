@@ -1,45 +1,10 @@
 ---
-title: "Competitive Intelligence Researcher"
-shortTitle: "Competitive Intelligence"
-intro: "Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "business-analyst"
-  - "senior-engineer"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "research"
-  - "analysis"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-16"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 4.4
+name: Competitive Intelligence Researcher
+description: Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
+type: how_to
 ---
+
 # Competitive Intelligence Researcher
-
----
-
-## Description
-
-Conduct comprehensive competitive intelligence research using structured frameworks (Porter's Five Forces, SWOT analysis) to gather actionable insights about competitors' strategies, products, market positioning, and vulnerabilities. This prompt helps researchers, strategists, and business analysts build data-driven competitive intelligence reports while maintaining ethical and legal boundaries.
-
----
 
 ## Use Cases
 
@@ -50,80 +15,6 @@ Conduct comprehensive competitive intelligence research using structured framewo
 - Building competitive landscapes for investor presentations
 - Supporting sales teams with battle cards and competitive differentiators
 
----
-
-## Prompt
-
-```text
-You are a senior competitive intelligence analyst with expertise in strategic analysis frameworks and ethical intelligence gathering.
-
-**Intelligence Target:**
-
-- Company: [company_name]
-- Competitors to Analyze: [competitor_list]
-- Intelligence Focus Areas: [focus_areas]
-- Decision Context: [decision_context]
-
-**Research Parameters:**
-
-- Time Horizon: [time_horizon]
-- Geographic Scope: [geographic_scope]
-- Information Sensitivity Level: [sensitivity_level]
-
-**Analysis Framework:**
-
-Using publicly available information (company filings, press releases, news articles, job postings, patent databases, social media, customer reviews, analyst reports), provide:
-
-1. **Intelligence Gathering Framework**
-   - Primary data sources to prioritize
-   - Secondary data sources for validation
-   - Data collection methodology
-   - Verification approach for claims
-
-2. **Data Collection Strategy**
-   - Key information to gather (product features, pricing, partnerships, hiring patterns, technology stack)
-   - Monitoring cadence and triggers
-   - Tools and platforms to leverage
-   - Red flags for early warning signals
-
-3. **Competitive Analysis**
-   - Strengths and weaknesses assessment (SWOT)
-   - Competitive positioning map
-   - Product/feature comparison matrix
-   - Pricing and go-to-market strategy analysis
-   - Customer sentiment analysis
-
-4. **Strategic Insights**
-   - What are competitors doing well that we should learn from?
-   - What vulnerabilities can we exploit?
-   - What market gaps exist that neither we nor competitors address?
-   - How are competitive dynamics shifting?
-
-5. **Threat Assessment**
-   - Immediate threats (0-6 months)
-   - Medium-term concerns (6-18 months)
-   - Long-term strategic risks (18+ months)
-   - Likelihood and impact scoring (High/Medium/Low)
-
-6. **Opportunity Identification**
-   - Market opportunities competitors are missing
-   - Potential partnership or acquisition targets
-   - Underserved customer segments
-   - Technology or capability gaps we can fill
-
-**Ethical and Legal Boundaries:**
-
-- Use ONLY publicly available information
-- Do NOT recommend espionage, misrepresentation, or unethical tactics
-- Cite sources for all major claims
-- Flag any information that seems proprietary or confidential
-
-**Output Format:**
-Provide results as a structured Markdown report with executive summary, detailed findings by competitor, and actionable recommendations ranked by impact and feasibility.
-```markdown
-
----
-
 ## Variables
 
 - `[company_name]`: Your company name (e.g., "Acme SaaS Inc.", "TechCorp Analytics")
@@ -133,24 +24,6 @@ Provide results as a structured Markdown report with executive summary, detailed
 - `[time_horizon]`: Research time scope (e.g., "Last 12 months", "Q1-Q3 2024", "Past 5 years for trend analysis")
 - `[geographic_scope]`: Market focus (e.g., "North America", "Global", "APAC region")
 - `[sensitivity_level]`: Information handling (e.g., "Internal use only", "Board-level confidential", "Public-facing")
-
----
-
-## Example Usage
-
-**Input:**
-
-```text
-[company_name]: Acme SaaS (mid-market CRM platform)
-[competitor_list]: Salesforce, HubSpot, Zoho CRM
-[focus_areas]: Product roadmap intelligence (specifically AI/automation features), pricing model changes, partnership strategies
-[decision_context]: Planning 2025 product roadmap and feature prioritization to maintain competitive differentiation
-[time_horizon]: Last 18 months (Jan 2023 - Jun 2024)
-[geographic_scope]: North America and Western Europe
-[sensitivity_level]: Internal strategy team only, not for external distribution
-```text
-
----
 
 ## Tips
 

@@ -1,150 +1,53 @@
 ---
-title: M365 Designer Image Prompt Generator
-shortTitle: M365 Designer Image Prom...
-intro: Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions
-  to create high-quality images. This prompt takes your rough ideas or document context
-  and expands them into a prompt-engineering format that specifies style, lighting,
-  composition, and mood.
-m365App: Microsoft Designer
+name: M365 Designer Image Prompt Generator
+description: Converts concepts into detailed prompts for Microsoft Designer image generation.
 type: how_to
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- designer
-- m365
-- creative
-- image-generation
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Converts abstract concepts or document themes into highly detailed, artistic
-  prompts for Microsoft Designer to generate professional imagery.
-effectivenessScore: 0.0
 ---
+
+# M365 Designer Image Prompt Generator
 
 ## Description
 
-Microsoft Designer (powered by DALL-E) requires specific, descriptive instructions to create high-quality images. This prompt takes your rough ideas or document context and expands them into a "prompt engineering" format that specifies style, lighting, composition, and mood, ensuring you get the perfect visual asset.
-
-## Goal
-
-To generate a sophisticated image description that can be pasted directly into Microsoft Designer to create professional, on-brand visuals.
-
-## Inputs
-
-- **Subject/Topic**: [subject]
-- **Mood/Vibe**: [mood]
-- **Art Style**: [art_style]
-- **Brand Colors**: [brand_colors]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+Generate sophisticated image descriptions for Microsoft Designer (DALL-E powered). Convert rough ideas into detailed prompts specifying style, lighting, composition, and mood for professional visuals.
 
 ## Prompt
 
-You are an expert AI Art Director. I need you to write a detailed image generation prompt that I can use in Microsoft Designer.
+You are a Visual Design Consultant helping create prompts for Microsoft Designer.
 
-**Context:**
+Generate a detailed image prompt based on my requirements.
 
-- **Subject**: [subject]
-- **Desired Mood**: [mood]
-- **Art Style**: [art_style]
-- **Brand/Color Palette**: [brand_colors]
+### Requirements
+**Subject/Topic**: [subject]
+**Mood/Vibe**: [mood]
+**Art Style**: [art_style]
+**Brand Colors**: [brand_colors]
+**Usage**: [usage]
 
-Please write **3 distinct prompt options** for Microsoft Designer. Each option should include details on:
-
-1. **Subject**: What is happening in the scene?
-2. **Environment**: Background and setting.
-3. **Lighting**: (e.g., cinematic, soft, studio, natural).
-4. **Style**: (e.g., 3D render, flat illustration, photorealistic, oil painting).
-5. **Composition**: (e.g., wide angle, macro, isometric).
-
-**Format the output as:**
-
-- **Option 1 (Literal)**: A direct representation.
-- **Option 2 (Abstract)**: A metaphorical or creative interpretation.
-- **Option 3 (Minimalist)**: A clean, simple version suitable for backgrounds.
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+### Output Format
+Generate a single, detailed prompt (100-150 words) that includes:
+- Subject description
+- Composition and framing
+- Lighting and atmosphere
+- Color palette
+- Style references
 
 ## Variables
 
-- `[subject]`: The core concept (e.g., "Team collaboration", "Cybersecurity shield", "Future of AI").
-- `[mood]`: The feeling (e.g., "Professional", "Energetic", "Calm", "Futuristic").
-- `[art_style]`: The visual technique (e.g., "Photorealistic", "Isometric 3D", "Watercolor", "Tech Line Art").
-- `[brand_colors]`: Specific colors to include (e.g., "Blue and White", "Neon Green accents").
+- `[subject]`: E.g., "Team collaboration", "Cybersecurity concept".
+- `[mood]`: E.g., "Professional", "Futuristic", "Warm".
+- `[art_style]`: E.g., "Photorealistic", "Isometric 3D", "Minimalist".
+- `[brand_colors]`: E.g., "Blue and white", "Neon green accents".
+- `[usage]`: E.g., "Blog header", "Presentation slide".
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
----
+**Input**:
+Subject: AI and human collaboration
+Mood: Optimistic, forward-looking
+Style: Modern tech illustration
+Colors: Blue, white, subtle gold accents
+Usage: LinkedIn post header
 
-## Example Usage
-
-**Input:**
-
-- `[subject]`: "Sustainable Energy in a Smart City"
-- `[mood]`: "Optimistic and Clean"
-- `[art_style]`: "Isometric 3D Render"
-- `[brand_colors]`: "Green, White, and Soft Blue"
-
-**Output:**
-
-### Designer Prompts
-
-**Option 1 (Literal)**
-"A high-quality isometric 3D render of a futuristic smart city block, featuring solar panels on rooftops and wind turbines integrated into skyscrapers. The streets are clean with electric vehicles. Lighting is bright and sunny, casting soft shadows. Color palette focuses on fresh greens, crisp whites, and soft blues to convey sustainability."
-
-**Option 2 (Abstract)**
-"An artistic 3D composition showing a glowing green leaf transforming into a digital city grid. The leaf veins become roads and data streams. Floating particles of white and blue light surround the structure. Cinematic lighting with a shallow depth of field. Optimistic and futuristic atmosphere."
-
-**Option 3 (Minimalist)**
-"A simple, clean isometric icon of a single eco-friendly building with a small tree on top. White background with soft ambient occlusion. Minimal details, using only shades of green and blue. Perfect for a presentation icon."
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
-## Tips
-
-- Paste the output text directly into the "Describe the image you'd like to create" box in Microsoft Designer.
-- If the result isn't right, try adding "no text" or "high resolution" to the generated prompt.
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
-## Related Prompts
-
-- `m365-designer-infographic-brief`
-- `m365-slide-content-refiner`
+**Response**:
+### Designer Prompt
+"A modern tech illustration showing a human hand and a robotic hand reaching toward each other, meeting in the center where a glowing orb of light represents shared ideas. Clean, minimalist composition with a gradient background from deep blue to white. Soft, diffused lighting creates an optimistic, welcoming atmosphere. Blue and white color scheme with subtle gold accent lines suggesting innovation. Professional corporate style suitable for business communications. No text, high resolution, 16:9 aspect ratio."

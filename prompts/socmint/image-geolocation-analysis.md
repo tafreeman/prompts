@@ -1,41 +1,7 @@
 ---
-title: Image Geolocation Analysis
-shortTitle: Image Geolocation
-intro: Systematic approach to geolocating images using visual indicators, metadata,
-  and environmental clues
-type: prompt
-difficulty: advanced
-audience:
-
-- security-professionals
-- osint-analysts
-- investigators
-- journalists
-
-platforms:
-
-- github-copilot
-- chatgpt
-- claude
-
-topics:
-
-- osint
-- geolocation
-- image-analysis
-- geoint
-
-author: OSINT Library
-version: '1.0'
-date: '2024-11-30'
-governance_tags:
-
-- privacy-aware
-- ethical-osint
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: pending
+name: Image Geolocation Analysis
+description: Systematic approach to geolocating images using visual indicators, metadata, and environmental clues
+type: how_to
 ---
 
 # Image Geolocation Analysis

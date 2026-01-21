@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Prompt Library Registry Schema",
+  "description": "Schema for registry.yaml - central metadata for all prompts",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "Display title of the prompt",
+        "maxLength": 60
+      },
+      "description": {
+        "type": "string",
+        "description": "Brief description (1-2 sentences)",
+        "maxLength": 200
+      },
+      "path": {
+        "type": "string",
+        "description": "Relative path to the prompt file from prompts/",
+        "pattern": "^[a-z0-9-\\./]+\\.md$"
+      },
+      "categories": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "Agents",
+            "Analysis",
+            "Architecture",
+            "Business",
+            "Code Quality",
+            "Code Review",
+            "Compliance",
+            "Creative",
+            "Data",
+            "Developers",
+            "Documentation",
+            "Frameworks",
+            "Governance",
+            "M365",
+            "Marketing",
+            "Meta",
+            "Performance",
+            "Reasoning",
+            "Risk",
+            "Security",
+            "SOCMINT",
+            "Strategy",
+            "System",
+            "Technical",
+            "Techniques",
+            "Templates",
+            "Testing"
+          ]
+        },
+        "minItems": 1,
+        "description": "Categories for filtering and navigation"
+      },
+      "platforms": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "github-copilot",
+            "claude",
+            "chatgpt",
+            "azure-openai",
+            "m365-copilot",
+            "gemini",
+            "local-llm"
+          ]
+        },
+        "description": "AI platforms where this prompt works"
+      },
+      "audience": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "junior-engineer",
+            "senior-engineer",
+            "solution-architect",
+            "qa-engineer",
+            "business-analyst",
+            "project-manager",
+            "functional-team",
+            "devops-engineer"
+          ]
+        },
+        "description": "Target user roles"
+      },
+      "difficulty": {
+        "type": "string",
+        "enum": ["beginner", "intermediate", "advanced"],
+        "description": "Difficulty level"
+      },
+      "technique": {
+        "type": "string",
+        "enum": [
+          "chain-of-thought",
+          "react",
+          "tree-of-thought",
+          "few-shot",
+          "zero-shot",
+          "reflection",
+          "rag",
+          "cove",
+          "reflexion"
+        ],
+        "description": "Advanced prompting technique used"
+      },
+      "pattern": {
+        "type": "string",
+        "enum": ["react", "cove", "reflexion", "rag"],
+        "description": "Reasoning pattern for pattern-specific scoring"
+      },
+      "response_format": {
+        "type": "string",
+        "enum": ["text", "json_object", "json_schema"],
+        "description": "Expected output format"
+      },
+      "model": {
+        "type": "string",
+        "description": "Recommended model for execution (e.g., openai/gpt-4o)"
+      },
+      "model_parameters": {
+        "type": "object",
+        "properties": {
+          "temperature": { "type": "number", "minimum": 0, "maximum": 2 },
+          "max_tokens": { "type": "integer", "minimum": 1 },
+          "top_p": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "description": "Model execution parameters"
+      },
+      "author": {
+        "type": "string",
+        "description": "Content owner or team"
+      },
+      "date": {
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "description": "Last updated date in YYYY-MM-DD format"
+      },
+      "governance": {
+        "type": "object",
+        "properties": {
+          "classification": {
+            "type": "string",
+            "enum": ["public", "internal", "confidential"],
+            "description": "Data classification level"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "reviewed", "approved"],
+            "description": "Review status"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PII-safe",
+                "client-approved",
+                "internal-only",
+                "requires-human-review",
+                "audit-required",
+                "tool-augmented"
+              ]
+            },
+            "description": "Governance and compliance tags"
+          }
+        },
+        "description": "Governance metadata"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Additional free-form tags for search"
+      },
+      "archived": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether the prompt is archived"
+      }
+    },
+    "required": ["title", "path", "categories", "author", "date"],
+    "additionalProperties": false
+  }
+}

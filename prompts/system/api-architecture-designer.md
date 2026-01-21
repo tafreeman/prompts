@@ -1,47 +1,14 @@
 ---
-title: API Architecture Designer
-shortTitle: API Architecture Designer
-intro: Designs comprehensive API architectures
+name: Api Architecture Designer
+description: # API Architecture Designer
 type: how_to
-difficulty: advanced
-audience:
-
-- solution-architect
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- api-design
-- architect
-- system
-- enterprise
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # API Architecture Designer
 
----
-
 ## Description
 
-Designs comprehensive API architectures for enterprise systems, including RESTful, GraphQL, and gRPC patterns. This prompt helps architects define authentication strategies, rate limiting policies, versioning approaches, and API governance frameworks that scale with organizational needs.
-
----
+Designs comprehensive API architectures including gateway patterns, authentication strategies, rate limiting, versioning, and documentation frameworks. Provides detailed technical specifications for REST, GraphQL, and gRPC APIs with security, scalability, and compliance considerations.
 
 ## Architecture Diagram
 
@@ -86,29 +53,6 @@ flowchart TB
     Core --> Cache
 ```
 
----
-
-## Decision Framework
-
-### When to Use This Pattern
-
-| Criteria | Indicators |
-| ---------- | ------------ |
-| **Multiple Consumers** | 3+ different client types (web, mobile, partners) |
-| **Security Requirements** | OAuth 2.0/OIDC, API key management, or mTLS needed |
-| **Scale** | >1000 requests/second or expecting 10x growth |
-| **Governance** | Regulatory compliance, audit requirements |
-| **Team Structure** | Multiple teams building/consuming APIs |
-
-### When NOT to Use
-
-- Single internal application with one consumer
-- Simple CRUD operations with <100 concurrent users
-- Prototype or MVP with uncertain requirements
-- Monolithic applications without external integrations
-
----
-
 ## Use Cases
 
 - Designing API gateway architectures for microservices ecosystems
@@ -117,60 +61,6 @@ flowchart TB
 - Establishing API versioning strategies for long-lived public APIs
 - Implementing BFF (Backend for Frontend) patterns for mobile apps
 
----
-
-## Prompt
-
-```text
-Design API architecture for:
-
-Business Domain: [domain]
-API Consumers: [consumers]
-Integration Requirements: [integrations]
-Security Needs: [security]
-Scalability Goals: [scalability]
-
-Include:
-
-1. API design patterns
-2. Authentication strategy
-3. Rate limiting and throttling
-4. Versioning strategy
-5. Documentation framework
-6. Monitoring and analytics
-
-```text
-
-**Output:**
-
-```text
-## API Architecture Design
-
-### 1. API Design Patterns
-
-*   **Style:** REST Level 3 (HATEOAS) for discoverability.
-*   **Gateway:** API Gateway pattern for cross-cutting concerns (Auth, Rate Limiting).
-*   **BFF:** Backend for Frontend pattern for the Internal Mobile App to aggregate calls.
-
-### 2. Authentication Strategy
-
-*   **Protocol:** OAuth 2.0 with OpenID Connect (OIDC).
-*   **Security Profile:** FAPI Read/Write profile (requires mTLS for token endpoint, signed JWTs).
-*   **Consent Management:** Granular scopes (`accounts:read`, `payments:write`) with explicit user consent UI.
-
-### 3. Rate Limiting and Throttling
-
-*   **Strategy:** Token Bucket algorithm.
-*   **Tiers:**
-    *   **Free:** 10 req/sec (Public data).
-    *   **Partner:** 100 req/sec (Account access).
-    *   **Internal:** Unlimited.
-
-[... continues with versioning and documentation ...]
-```text
-
----
-
 ## Variables
 
 - `[domain]`: Business domain (e.g., "Open Banking / Financial Services")
@@ -178,33 +68,6 @@ Include:
 - `[integrations]`: Integration requirements (e.g., "Core banking system, Payment gateway, Identity provider")
 - `[security]`: Security needs (e.g., "PSD2 compliance, Strong Customer Authentication (SCA), Audit logging")
 - `[scalability]`: Scalability goals (e.g., "10K concurrent users, 50K API calls/minute at peak")
-
----
-
-## Cloud Platform Notes
-
-### Azure
-
-- **API Management**: Azure API Management for gateway, policies, and developer portal
-- **Authentication**: Azure AD B2C for consumer identity, Azure AD for enterprise
-- **Rate Limiting**: Built-in APIM policies with Redis Cache backend
-- **Monitoring**: Application Insights + Azure Monitor
-
-### AWS
-
-- **API Gateway**: Amazon API Gateway (REST/HTTP APIs) or AppSync (GraphQL)
-- **Authentication**: Amazon Cognito User Pools + API Gateway authorizers
-- **Rate Limiting**: API Gateway throttling + WAF rate-based rules
-- **Monitoring**: CloudWatch + X-Ray for distributed tracing
-
-### GCP
-
-- **API Gateway**: Apigee API Management or Cloud Endpoints
-- **Authentication**: Identity Platform + Firebase Auth
-- **Rate Limiting**: Apigee Spike Arrest and Quota policies
-- **Monitoring**: Cloud Monitoring + Cloud Trace
-
----
 
 ## Example
 
@@ -267,18 +130,6 @@ Scalability Goals: 10,000 TPS peak, 99.99% availability, <200ms p99 latency
 - **Business Analytics:** API usage by partner, revenue per API call
 
 ```
-
----
-
-## Tips
-
-- Be specific when filling in placeholder values for better results
-- Review and adjust the output to match your organization's standards
-- Consider API-first design approach with OpenAPI specification
-- Plan for backward compatibility from day one
-- Implement comprehensive API versioning strategy early
-
----
 
 ## Related Prompts
 

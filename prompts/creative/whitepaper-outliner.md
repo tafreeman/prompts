@@ -1,50 +1,42 @@
 ---
-title: "Whitepaper Outliner"
-shortTitle: "Whitepaper"
-intro: "Create a defensible whitepaper outline with claims mapped to evidence, visuals, and a drafting plan."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "functional-team"
-  - "business-analyst"
-  - "project-manager"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "creative"
-  - "documentation"
-  - "analysis"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2026-01-03"
-governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-  - "requires-review"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+type: template
+name: Whitepaper Outliner
+description: Create a defensible whitepaper outline with claims mapped to evidence, visuals, and a drafting plan.
 ---
 
 # Whitepaper Outliner
 
----
-
 ## Description
 
-Generate a whitepaper outline that is structured, persuasive, and evidence-driven. This prompt produces a section-by-section plan, key claims, required sources, and recommended visuals so drafting is fast and consistent.
+Create a defensible whitepaper outline with claims mapped to evidence, visuals, and a drafting plan. Useful for research, thought leadership, and stakeholder alignment.
 
----
+## Variables
+
+| Variable | Description |
+| :--- | ------------- |
+| `[topic]` | The main subject of the whitepaper |
+| `[audience]` | Intended readers |
+| `[goal]` | Objective of the whitepaper |
+| `[thesis]` | Central argument or claim |
+| `[key_points]` | Main points to cover |
+| `[evidence_sources]` | Allowed sources for evidence |
+| `[length]` | Target length or word count |
+| `[tone]` | Desired writing style |
+| `[citation_style]` | Citation format (e.g., APA, MLA) |
+| `[cta]` | Call to action |
+
+## Example
+
+**Topic:** AI in Healthcare
+**Audience:** Hospital administrators
+**Goal:** Advocate for AI adoption in patient care
+**Thesis:** AI improves outcomes and efficiency
+**Key points:** Diagnostic accuracy, workflow automation, patient engagement
+**Evidence sources:** Peer-reviewed journals, case studies
+**Length:** 8 pages
+**Tone:** Authoritative
+**Citation style:** APA
+**CTA:** Schedule a demo with our AI team
 
 ## Use Cases
 
@@ -52,25 +44,6 @@ Generate a whitepaper outline that is structured, persuasive, and evidence-drive
 - Aligning stakeholders on narrative and claims before drafting
 - Producing a research checklist and citation plan
 - Creating an executive summary and CTA structure
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[topic]` | Whitepaper topic | `Modernizing data governance for mid-market orgs` |
-| `[audience]` | Primary reader persona | `CIOs and data leaders` |
-| `[goal]` | What the whitepaper should achieve | `Drive demo requests and position expertise` |
-| `[thesis]` | One-sentence main argument | `Governance must be automated to scale` |
-| `[key_points]` | Bulleted supporting points | `Risk reduction, faster access, auditability` |
-| `[evidence_sources]` | Allowed sources or links | `Internal survey + industry reports` |
-| `[length]` | Target length | `8–12 pages` |
-| `[tone]` | Style constraints | `Authoritative, practical, not salesy` |
-| `[citation_style]` | Citation expectations | `Footnotes + reference list` |
-| `[cta]` | Desired call to action | `Book a 30-min assessment` |
-
----
 
 ## Prompt
 
@@ -109,59 +82,6 @@ Call to action: [cta]
 - Missing inputs (questions to answer before writing)
 
 ```
-
----
-
-## Example
-
-**Input:**
-
-```text
-[topic]=Reducing SaaS sprawl without slowing teams down
-[audience]=IT leaders and procurement
-[goal]=Provide a practical framework and promote our assessment offering
-[thesis]=You can reduce sprawl by standardizing intake, measuring usage, and enforcing lightweight governance
-[key_points]=Usage visibility; security review gates; renewal calendar; owner accountability
-[evidence_sources]=Internal license audit data + reputable industry reports (no paywalled quotes)
-[length]=10 pages
-[tone]=Practical, structured, neutral
-[citation_style]=Inline citations + reference list
-[cta]=Request a SaaS governance assessment
-```
-
-**Output (excerpt):**
-
-```text
-## Working title options
-
-1. "SaaS Governance That Doesn’t Slow Teams"
-2. "A Practical Playbook to Reduce SaaS Sprawl"
-
-...
-
-## Detailed outline
-## 1. The real cost of SaaS sprawl
-
-- Purpose: Establish urgency for IT/procurement
-- Key claims:
-  - Sprawl increases security and compliance risk
-  - Redundant tools increase spend
-- Evidence needed:
-  - Industry estimate of redundant spend (cite)
-  - Example: anonymized internal audit counts [ADD DATA]
-- Suggested visuals:
-  - Table: "Symptoms of sprawl" vs "Business impact"
-
-...
-
-## Missing inputs
-
-- What assessment deliverable do we offer (scope, timeline)?
-- Which internal audit metrics are publishable?
-
-```
-
----
 
 ## Tips
 

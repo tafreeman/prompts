@@ -1,40 +1,7 @@
 ---
-title: Email OSINT Investigation
-shortTitle: Email OSINT
-intro: Comprehensive email address investigation for breach exposure, account enumeration,
-  and identity correlation
-type: prompt
-difficulty: intermediate
-audience:
-
-- security-professionals
-- osint-analysts
-- investigators
-
-platforms:
-
-- github-copilot
-- chatgpt
-- claude
-
-topics:
-
-- osint
-- email-investigation
-- breach-analysis
-- identity-correlation
-
-author: OSINT Library
-version: '1.0'
-date: '2024-11-30'
-governance_tags:
-
-- privacy-aware
-- ethical-osint
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: pending
+name: Email OSINT Investigation
+description: Comprehensive email address investigation for breach exposure, account enumeration, and identity correlation
+type: how_to
 ---
 
 # Email OSINT Investigation

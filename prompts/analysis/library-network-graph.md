@@ -1,89 +1,19 @@
 ---
-title: Library Network Graph Generator
-shortTitle: Network Graph Generator
-intro: Guides generation of a Network Graph to visualize relationships and workflows
-  between different prompts in the library.
+name: Library Network Graph Generator
+description: Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library.
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- visualization
-- analysis
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
 
----
-
 ## Description
 
-This prompt guides the generation of a Network Graph visualization to show relationships and workflows between different prompts in the library.
-
-## Goal
-
-To visualize how prompts connect to each other, revealing clusters of related capabilities and potential workflows.
-
-## Context
-
-The prompt library contains many individual files that can be used together in workflows (e.g., SDLC, Business Planning).
-
-## Inputs
-
-- `[PROMPT_LIST]`: List of prompts in the library.
-- `[WORKFLOW_DEFINITIONS]`: Optional definitions of workflows connecting prompts.
-
-## Assumptions
-
-- Prompts in the same category are related.
-- Prompts can be linked in sequence to form workflows.
-
-## Constraints
-
-- Treat each prompt file as a node.
-- Draw edges between related prompts.
-
-## Process / Reasoning Style
-
-Analytical and creative visualization.
-
----
+Creates network graph visualizations showing relationships and workflows between prompts. Identifies clusters of related capabilities, workflow connections, and disconnected prompts that need better integration across the library.
 
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/NetworkX, Mermaid, or Graphviz) to generate the graph.
-
----
-
-## Use Cases
-
-- Understanding dependencies between prompts.
-- Designing new workflows by seeing connected capabilities.
-- Visualizing the complexity and interconnectedness of the library.
-
----
 
 ## Prompt
 

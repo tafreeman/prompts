@@ -1,64 +1,7 @@
 ---
-title: Many-Shot Learning Pattern
-shortTitle: Many-Shot Learning Pattern
-intro: A prompt for many shot learning pattern tasks.
-type: tutorial
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms: []
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: techniques
-subcategory: context-optimization
-technique_type: many-shot-learning
-framework_compatibility:
-  anthropic: '>=0.8.0'
-  openai: '>=1.0.0'
-  google-vertex: '>=1.0.0'
-use_cases:
-
-- complex-pattern-learning
-- domain-specific-tasks
-- edge-case-handling
-- consistent-formatting
-
-performance_metrics:
-  accuracy_improvement: 15-35%
-  latency_impact: low
-  cost_multiplier: 1.2-1.8x
-last_updated: '2025-11-23'
-governance:
-  data_classification: internal
-  risk_level: low
-  approval_required: false
-testing:
-  benchmark_score: 88
-  validation_status: passed
-  last_tested: '2025-11-23'
-tags:
-
-- many-shot
-- few-shot
-- in-context-learning
-- long-context
-
-platform:
-
-- anthropic
-- openai
-- google-vertex
-
+name: Many-Shot Learning Pattern
+description: A prompt for many shot learning pattern tasks.
+type: how_to
 ---
 
 # Many-Shot Learning Pattern
@@ -111,19 +54,6 @@ Below are {N} examples demonstrating the expected input-output pattern. Study th
 - Handling of edge cases
 - Domain-specific conventions
 
----
-
-### Example 1
-**Input:**
-{example_1_input}
-
-**Output:**
-{example_1_output}
-
-**Rationale:** {why_this_example_matters}
-
----
-
 ### Example 2
 **Input:**
 {example_2_input}
@@ -132,12 +62,6 @@ Below are {N} examples demonstrating the expected input-output pattern. Study th
 {example_2_output}
 
 **Rationale:** {why_this_example_matters}
-
----
-
-[Continue with examples 3-N...]
-
----
 
 ## Your Task
 
@@ -183,53 +107,6 @@ def calculate_total(items: List[Item]) -> float:
 ```text
 **Rationale:** Shows our team's convention of using emoji status indicators, providing code snippets for suggestions, and including educational notes.
 
----
-
-### Example 2
-**Input:**
-```python
-
-def validate_email(email):
-    if '@' in email and '.' in email:
-        return True
-    return False
-
-```text
-**Output:**
-
-```text
-
-⚠️ **Issue**: Overly simplistic email validation that will accept invalid emails like "a@b.c" or "@example.com"
-🔧 **Recommendation**: Use a proper regex or validation library
-
-```python
-import re
-
-EMAIL_PATTERN = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-
-def validate_email(email: str) -> bool:
-    """Validate email format using regex pattern."""
-    return bool(re.match(EMAIL_PATTERN, email))
-```text
-
-Or consider using `email-validator` library for production use:
-
-```python
-from email_validator import validate_email, EmailNotValidError
-
-def is_valid_email(email: str) -> bool:
-    try:
-        validate_email(email)
-        return True
-    except EmailNotValidError:
-        return False
-```text
-
-```text
-**Rationale:** Demonstrates critical security/correctness issues get detailed explanations with multiple solution options.
-
----
-
 ### Example 3
 **Input:**
 ```python
@@ -257,113 +134,6 @@ users = db.query(User).filter(User.id.in_(user_ids)).all()
 ```sql
 **Rationale:** Shows how to flag performance issues with quantified impact measurement.
 
----
-
-[... Examples 4-25 would continue here, covering:]
-
-- Missing error handling
-- Naming conventions
-- Documentation gaps
-- Testing considerations
-- Security vulnerabilities
-- Accessibility issues
-- etc.
-
-```text
-
-### Actual Task
-
-```text
-## Your Task
-
-Now, review this code following the same conventions:
-
-**Input:**
-```python
-
-def get_user_posts(user_id):
-    posts = db.query(Post).filter(Post.user_id == user_id).all()
-    return [p.title for p in posts]
-
-```sql
-**Output:**
-[AI generates review in the learned format]
-
-```sql
-
-## Implementation Examples
-
-### Python Implementation
-
-```python
-class ManyShotPromptBuilder:
-    """Build many-shot prompts with example management"""
-
-    def __init__(self, max_context_tokens: int = 100000):
-        self.max_context_tokens = max_context_tokens
-        self.examples = []
-
-    def add_example(self, input_data: str, output_data: str, 
-                    rationale: str = "", priority: int = 1):
-        """Add example with priority (1=highest)"""
-        self.examples.append({
-            'input': input_data,
-            'output': output_data,
-            'rationale': rationale,
-            'priority': priority,
-            'tokens': self._estimate_tokens(input_data + output_data + rationale)
-        })
-
-    def build_prompt(self, task_input: str, 
-                     task_description: str,
-                     guidelines: str = "") -> str:
-        """Build optimized many-shot prompt"""
-        # Sort examples by priority
-        sorted_examples = sorted(self.examples, key=lambda x: x['priority'])
-
-        # Calculate available tokens
-        task_tokens = self._estimate_tokens(task_input + task_description + guidelines)
-        available_tokens = self.max_context_tokens - task_tokens - 1000  # Buffer
-
-        # Select examples that fit
-        selected_examples = []
-        current_tokens = 0
-
-        for ex in sorted_examples:
-            if current_tokens + ex['tokens'] <= available_tokens:
-                selected_examples.append(ex)
-                current_tokens += ex['tokens']
-            else:
-                break
-
-        # Build prompt
-        return self._format_prompt(
-            task_description,
-            guidelines,
-            selected_examples,
-            task_input
-        )
-
-    def _estimate_tokens(self, text: str) -> int:
-        """Rough token estimation"""
-        return int(len(text.split()) * 1.3)
-
-    def _format_prompt(self, description, guidelines, examples, task_input):
-        """Format the complete prompt"""
-        prompt = f"""You are an expert assistant.
-
-## Task
-{description}
-
-## Guidelines
-{guidelines}
-
-## Examples
-Below are {len(examples)} examples:
-
-"""
-        for i, ex in enumerate(examples, 1):
-            prompt += f"""---
 ### Example {i}
 **Input:**
 {ex['input']}

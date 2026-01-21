@@ -1,0 +1,91 @@
+# Reflexion Pattern Definition
+# Reference: Shinn et al. "Reflexion: Language Agents with Verbal Reinforcement Learning"
+
+id: reflexion
+name: Reflexion
+description: |
+  Self-improvement pattern where the model attempts a task, critiques its own
+  output, stores reflections in memory, and uses them to improve subsequent attempts.
+
+required_phases:
+  - name: Attempt
+    required: true
+    repeatable: true
+    description: Task execution attempt
+  - name: Self-Critique
+    required: true
+    repeatable: true
+    description: Critical analysis of own attempt
+  - name: Reflection Memory
+    required: true
+    repeatable: true
+    description: Lessons learned stored for future attempts
+  - name: Improved Attempt
+    required: true
+    repeatable: true
+    description: New attempt incorporating reflections
+
+ordering_constraints:
+  type: strict_sequence
+  sequence:
+    - Attempt
+    - Self-Critique
+    - Reflection Memory
+    - Improved Attempt
+  loop: true
+  rules:
+    - Critique must reference specific issues in Attempt
+    - Reflection must be actionable
+    - Improved Attempt must address reflection points
+
+phase_markers:
+  Attempt:
+    - "^\\*{0,2}Attempt\\*{0,2}\\s*[:\\d]*"
+    - "^\\*{0,2}Try\\*{0,2}\\s*[:\\d]*"
+    - "^\\*{0,2}Solution\\*{0,2}:"
+    - "^\\*{0,2}Initial Attempt\\*{0,2}:"
+    - "Initial Attempt:"
+    - "Attempt:"
+  Self-Critique:
+    - "^\\*{0,2}Self-[Cc]ritique\\*{0,2}:"
+    - "^\\*{0,2}Critique\\*{0,2}:"
+    - "^\\*{0,2}Analysis of [Aa]ttempt\\*{0,2}:"
+    - "^\\*{0,2}What went wrong\\*{0,2}:"
+    - "Self-Critique:"
+  Reflection Memory:
+    - "^\\*{0,2}Reflection\\*{0,2}:"
+    - "^\\*{0,2}Lessons [Ll]earned\\*{0,2}:"
+    - "^\\*{0,2}Memory\\*{0,2}:"
+    - "^\\*{0,2}Key [Ii]nsights\\*{0,2}:"
+    - "^\\*{0,2}Reflection Memory\\*{0,2}:"
+    - "Reflection Memory:"
+  Improved Attempt:
+    - "^\\*{0,2}Improved [Aa]ttempt\\*{0,2}:"
+    - "^\\*{0,2}Revised [Ss]olution\\*{0,2}:"
+    - "^\\*{0,2}Better [Aa]pproach\\*{0,2}:"
+    - "Improved Attempt:"
+
+constraints:
+  forbid:
+    - Generic critique without specific references
+    - Reflection that doesn't inform improvement
+    - Improved attempt identical to original
+    - Skipping self-critique phase
+  require:
+    - Specific failure identification
+    - Actionable reflection points
+    - Measurable improvement in subsequent attempts
+
+pattern_specific_dimensions:
+  critique_specificity:
+    description: Does critique reference concrete failures?
+    scale: [0, 5]
+  memory_utilization:
+    description: Is reflection memory actually used?
+    scale: [0, 5]
+  improvement_signal:
+    description: Is there measurable change between attempts?
+    scale: [0, 5]
+
+minimum_iterations: 1
+max_iterations: 3

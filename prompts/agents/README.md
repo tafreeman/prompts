@@ -1,27 +1,6 @@
 ---
-title: GitHub Copilot Custom Agents
-shortTitle: Agents Overview
-intro: Overview of specialized GitHub Copilot custom agents for development tasks.
-type: conceptual
-difficulty: intermediate
-author: Prompt Library Team
-version: "1.0"
-date: "2025-12-02"
-governance_tags:
-
-  - PII-safe
-
-dataClassification: public
-reviewStatus: approved
-audience:
-
-  - senior-engineer
-  - solution-architect
-
-platforms:
-
-  - github-copilot
-
+name: GitHub Copilot Custom Agents
+description: Overview of specialized GitHub Copilot custom agents for development tasks.
 ---
 
 # GitHub Copilot Custom Agents
@@ -84,12 +63,8 @@ Create agents with narrow, specific responsibilities rather than general-purpose
 
 ```yaml
 # ❌ Too broad
-name: helper
-description: Helps with coding tasks
 
 # ✅ Specific and focused
-name: test_agent
-description: Expert in test generation for Python applications using pytest
 ```text
 
 ### 2. Be Explicit About Tech Stack
@@ -142,11 +117,6 @@ def test_user_creation():
 Use the `tools` property to limit agent capabilities:
 
 ```yaml
----
-name: docs_agent
-description: Documentation specialist
-tools: ["read", "write", "search"]
----
 ```text
 
 ## 🔧 Configuration Reference

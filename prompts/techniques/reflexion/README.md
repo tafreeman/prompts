@@ -1,29 +1,6 @@
 ---
-title: "Reflexion Patterns"
-shortTitle: "Reflexion"
-intro: "Self-correction and iterative improvement patterns enabling AI systems to reflect on and enhance their outputs."
-type: "reference"
-difficulty: "advanced"
-audience:
-
-  - "senior-engineer"
-  - "ai-researcher"
-
-platforms:
-
-  - "openai"
-  - "anthropic"
-  - "langchain"
-
-author: "AI Research Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Reflexion Patterns
+description: Self-correction and iterative improvement patterns enabling AI systems to reflect on and enhance their outputs.
 ---
 
 # Reflexion Patterns

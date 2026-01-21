@@ -1,48 +1,7 @@
 ---
-title: C# Prompt Engineering Utilities
-shortTitle: C# Prompt Engineering Ut...
-intro: A prompt for c# prompt engineering utilities tasks.
+name: C# Prompt Engineering Utilities
+description: A prompt for c# prompt engineering utilities tasks.
 type: how_to
-difficulty: intermediate
-audience:
-
-- solution-architect
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: frameworks
-subcategory: microsoft
-technique_type: dotnet-integration
-framework_compatibility:
-  dotnet: '>=6.0'
-  csharp: '>=10.0'
-use_cases:
-
-- multi-model-integration
-- prompt-templating
-- enterprise-integration
-
-last_updated: '2025-11-23'
-tags:
-
-- csharp
-- dotnet
-- multi-model
-- enterprise
-
 ---
 
 # C# Prompt Engineering Utilities

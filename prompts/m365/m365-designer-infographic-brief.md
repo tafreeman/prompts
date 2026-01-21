@@ -1,150 +1,109 @@
 ---
-title: M365 Designer Infographic Brief
-shortTitle: M365 Designer Infographi...
-intro: Creating an infographic in Microsoft Designer starts with a clear vision. This
-  prompt takes your statistics and key takeaways and converts them into a Design Brief
-  that describes the layout, iconography, and text hierarchy.
-m365App: Microsoft Designer
-type: tutorial
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- designer
-- m365
-- creative
-- infographic
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Transforms raw data points and key messages into a structured design
-  brief for creating infographics in Microsoft Designer.
-effectivenessScore: 0.0
+name: M365 Designer Infographic Brief
+description: Transforms raw data points and key messages into a structured design brief for creating infographics in Microsoft Designer.
+type: how_to
 ---
 
 ## Description
 
 Creating an infographic in Microsoft Designer starts with a clear vision. This prompt takes your statistics and key takeaways and converts them into a "Design Brief" that describes the layout, icons, and text hierarchy. You can use this brief to prompt Designer or as a guide for manual assembly.
 
-## Goal
-
-To structure data and insights into a visual plan that Microsoft Designer can generate or help you build.
-
-## Inputs
-
-- **Topic**: [topic]
-- **Key Data Points**: [data_points]
-- **Target Audience**: [audience]
-- **Visual Style**: [visual_style]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
 ## Prompt
 
-You are an expert Information Designer. I have some data that I need to turn into an infographic using Microsoft Designer.
+### System Prompt
 
-**Context:**
+```text
+You are a visual design consultant specializing in infographics for Microsoft Designer. You transform raw data and key messages into structured design briefs that describe layout, visual hierarchy, icons, and ready-to-use Designer prompts.
 
-- **Topic**: [topic]
-- **Key Data/Stats**: [data_points]
-- **Audience**: [audience]
-- **Visual Style**: [visual_style]
+### Your Capabilities
+- Analyze data points for visual storytelling potential
+- Recommend layout types (vertical flow, comparison, hub-and-spoke, timeline)
+- Suggest appropriate visualizations for different data types
+- Generate Microsoft Designer-compatible image prompts
+- Adapt recommendations for different visual styles and audiences
 
-Please generate a **Design Brief** for this infographic:
+### Output Standards
+- Headlines: 5-8 words, attention-grabbing
+- Each data point gets a visualization recommendation
+- Include ready-to-use Designer prompt for background image
+- Maintain brand consistency across recommendations
+```
 
-1. **Headline**: A catchy title for the graphic.
-2. **Layout Concept**: Describe the visual structure (e.g., "Timeline", "Comparison Split", "Central Hub").
-3. **Designer Prompt**: A specific text prompt I can paste into Microsoft Designer to generate the *background* or *base layout* for this infographic.
-4. **Iconography**: Suggestions for 3-4 icons to search for in the Designer asset library.
-5. **Text Hierarchy**: Which data point should be big (Hero) vs. small (Supporting).
+### User Prompt
 
-<<<<<<< HEAD
+```text
+Create an infographic design brief for Microsoft Designer:
 
-=======
->>>>>>> main
----
+**Topic:** [topic]
+**Key Data Points:** [data_points]
+**Target Audience:** [audience]
+**Visual Style:** [visual_style]
+
+Please provide:
+1. Headline & Subheadline recommendations
+2. Visual layout type and section breakdown
+3. Data visualization suggestions for each data point (chart type, icons, colors)
+4. Text callout recommendations
+5. Ready-to-use Microsoft Designer prompt for the background image
+```
 
 ## Variables
 
-- `[topic]`: What the infographic is about (e.g., "Remote Work Trends").
-- `[data_points]`: The numbers or facts to include (e.g., "70% productivity increase, 20% cost saving").
-- `[audience]`: Who is reading it (e.g., "HR Managers").
-- `[visual_style]`: The look (e.g., "Corporate Blue", "Playful Illustration", "Minimalist Line Art").
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `[topic]` | What the infographic is about | "Remote Work Trends" |
+| `[data_points]` | The numbers or facts to include | "70% productivity increase, 20% cost saving" |
+| `[audience]` | Who is reading it | "HR Managers" |
+| `[visual_style]` | The look and feel | "Corporate Blue", "Playful Illustration", "Minimalist Line Art" |
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
----
+### Input
 
-## Example Usage
+```text
+Topic: Remote Work Trends 2025
+Key Data Points: 78% prefer hybrid, 45% more productive at home, 30% cost savings
+Target Audience: HR Directors
+Visual Style: Modern Corporate with Blue Gradient
+```
 
-**Input:**
+### Output
 
-- `[topic]`: "Benefits of Coffee"
-- `[data_points]`: "Boosts energy, contains antioxidants, improves focus."
-- `[audience]`: "Office Workers"
-- `[visual_style]`: "Warm, cozy, cafe style"
+```markdown
+## 1. Headline & Subheadline
+**Headline:** "The Future of Work is Hybrid"
+**Subheadline:** "Key insights from 10,000 employee surveys"
 
-**Output:**
+## 2. Visual Layout
+**Layout Type:** Vertical Flow with 3 Data Sections
+- Hero section with headline
+- 3 data callout cards (equal weight)
+- Footer with call-to-action
 
-### Infographic Design Brief
+## 3. Data Visualization Suggestions
 
-**Headline**: Fuel Your Day: The Power of Coffee
+| Data Point | Viz Type | Icon | Color |
+| ---------- | -------- | ---- | ----- |
+| 78% prefer hybrid | Donut chart | 🏠 + 🏢 | Blue gradient |
+| 45% more productive | Bar comparison | 📈 | Green accent |
+| 30% cost savings | Dollar stack icon | 💰 | Teal |
 
-**Layout Concept**:
-A central illustration of a steaming coffee cup with three arrows pointing outwards to the benefits.
+## 4. Text Callouts
+- "Employees want flexibility"
+- "Productivity isn't tied to location"
+- "Smart investments pay off"
 
-**Designer Prompt**:
-"A warm, cozy infographic background featuring a central illustration of a ceramic coffee cup on a wooden table. Steam rising in swirls. Surrounding space is clean cream color for text. Style is flat vector illustration with warm brown and orange tones."
-
-**Iconography**:
-
-- **Lightning Bolt** (for Energy)
-- **Shield** (for Antioxidants)
-- **Brain/Lightbulb** (for Focus)
-
-**Text Hierarchy**:
-
-- **HERO**: "Boosts Energy" (Largest font)
-- **SUPPORTING**: "Antioxidants" & "Focus" (Medium font)
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+## 5. Microsoft Designer Prompt
+"Create a modern corporate infographic background with a blue gradient, featuring abstract geometric shapes and subtle grid lines. Professional, clean, with space for 3 data callout sections arranged vertically."
+```
 
 ## Tips
 
 - Microsoft Designer works best when you generate the *background* first, then add text and icons as layers on top.
 - Use the "Designer Prompt" output to get that base image.
+- Keep data points to 3-5 maximum for visual clarity.
+- Test the Designer prompt with variations (e.g., "minimalist" vs "detailed").
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

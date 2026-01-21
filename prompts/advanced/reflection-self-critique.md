@@ -1,73 +1,12 @@
 ---
-title: 'Reflection: Initial Answer + Self-Critique'
-shortTitle: Reflection Self-Critique
-intro: A two-phase reflection pattern that generates an initial answer and systematically
-  critiques it to improve quality and accuracy.
-category: advanced
+name: Reflection Self Critique
+description: ## Description
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- quality
-- reasoning
-
-author: Prompts Library Team
-version: 1.0.1
-date: '2025-11-17'
-governance_tags:
-
-- PII-safe
-- requires-human-review
-
-dataClassification: internal
-reviewStatus: draft
-last_updated: '2025-11-27'
-performance_metrics:
-  accuracy_improvement: High (reduces hallucination rate)
-  latency_impact: High (2x token generation)
-  cost_multiplier: 2.0x
-testing:
-  validated_on:
-
-  - Claude Sonnet 4.5
-  - GPT-4
-
-  pass_rate: 90%
-governance:
-  data_classification: public
-  risk_level: low
-effectivenessScore: 0.0
----
-
-# Reflection: Initial Answer + Self-Critique Pattern
-
 ---
 
 ## Description
 
 The Reflection pattern involves generating an initial answer and then systematically critiquing it to identify weaknesses, gaps, or errors. This two-phase approach improves answer quality by catching mistakes, considering alternatives, and refining reasoning. Essential for high-stakes decisions, complex problems, or when accuracy is paramount.
-
----
-
-## Research Foundation
-
-This technique builds upon iterative refinement research:
-**Madaan, A., Tandon, N., Gupta, P., Hallinan, S., Gao, L., Wiegreffe, S., Alon, U., et al. (2023).** "Self-Refine: Iterative Refinement with Self-Feedback." *Advances in Neural Information Processing Systems (NeurIPS) 36*. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651)
-
-Madaan et al. demonstrated that a single LLM can serve as generator, refiner, and feedback provider, achieving ~20% absolute improvement across diverse tasks through iterative self-feedback—without requiring supervised training data or reinforcement learning.
-
----
 
 ## Use Cases
 
@@ -78,27 +17,6 @@ Madaan et al. demonstrated that a single LLM can serve as generator, refiner, an
 - Compliance and legal document review
 - Research and analysis requiring accuracy
 - Teaching and explanation where correctness matters
-
----
-
-## Prompt
-
-```
-You will answer a question using a two-phase reflection pattern.
-
-**Question**: [USER_QUESTION]
-
-**Context**: [BACKGROUND_AND_CONSTRAINTS]
-
-**Phase 1: Initial Answer**
-
-Provide your best answer to the question. Think through it carefully, but don't over-analyze yet.
-
-Format as:
-**Initial Answer**:
-[Your answer here]
-
----
 
 **Phase 2: Self-Critique and Reflection**
 
@@ -157,21 +75,6 @@ Based on this critique, provide:
 **Recommended Next Steps**: [If applicable]
 ```
 
----
-
-## Variables
-
-- `[USER_QUESTION]`: The question or problem to solve
-- `[BACKGROUND_AND_CONSTRAINTS]`: Context, requirements, constraints, success criteria
-
-## Usage
-
-1. **Copy the prompt** into your LLM interface.
-2. **Replace placeholders** (`[USER_QUESTION]`, `[BACKGROUND_AND_CONSTRAINTS]`) with your specific details.
-3. **Run the prompt**. The model will generate an initial answer, critique it, and then provide a revised answer.
-
----
-
 ## Example
 
 **Input:**
@@ -223,171 +126,6 @@ Expected benefits:
 
 Timeline: 18-24 months for complete migration.
 
----
-
-**Phase 2: Self-Critique and Reflection**
-
-**1. Accuracy Check**:
-❌ **Error**: I stated benefits as certainties without acknowledging microservices introduce complexity
-❌ **Oversimplification**: "$2M and 30 developers is sufficient" - didn't calculate actual costs or capacity
-✓ **Correct**: Strangler fig pattern is appropriate for this scenario
-❌ **Missing**: Didn't mention the previous migration attempt mentioned in the original problem statement (which failed)
-
-**2. Completeness Check**:
-❌ **Incomplete**: Didn't assess whether current pain points could be solved without microservices
-❌ **Missing alternative**: What about modular monolith as intermediate step?
-❌ **Didn't address**: Team's microservices experience level
-❌ **Overlooked**: Operational overhead increase (monitoring, tracing, etc.)
-❌ **Ignored**: The "must decide this quarter" constraint - my answer assumed YES without exploring NO
-
-**3. Quality Check**:
-✓ **Clear structure**: Answer was well-organized
-❌ **Insufficient evidence**: Claims about benefits lack supporting data or conditions
-❌ **Over-confident**: Presented one solution as obvious without trade-off analysis
-✓ **Appropriate level**: Technical detail matches audience
-
-**4. Bias Check**:
-❌ **Recency bias**: Microservices are popular, so I defaulted to YES
-❌ **Confirmation bias**: Looked for reasons to support migration, not reasons against
-❌ **Ignored context**: "8 years old" doesn't necessarily mean bad - might be stable and profitable
-❌ **Assumption**: Assumed scaling issues = need microservices (could be database, caching, or algorithmic)
-
-**5. Risk Assessment**:
-⚠️ **High risk**: Microservices could fail (complexity, coordination overhead, distributed system challenges)
-⚠️ **Cost risk**: $2M may be insufficient if major infrastructure needed
-⚠️ **Timeline risk**: 18-24 months is aggressive; previous attempt failed suggests underestimation
-⚠️ **Organizational risk**: May not have DevOps/SRE capability to support microservices
-⚠️ **Confidence**: Actually LOW - initial answer was overconfident
-
-**Critique Summary**:
-
-**Strengths**: 
-
-- Identified strangler fig pattern correctly
-- Recognized phased approach needed
-- Connected pain points to potential solutions
-
-**Weaknesses**:
-
-- Assumed YES without proper analysis
-- Didn't consider alternatives
-- Overconfident despite insufficient information
-- Ignored failure history mentioned in context
-
-**Gaps**:
-
-- No cost-benefit analysis
-- No risk assessment
-- No evaluation of alternative solutions
-- No consideration of team capabilities
-- No investigation of root causes for current pain points
-
-**Risks**:
-
-- Failed migration could waste $2M and 18+ months
-- Microservices complexity could make things worse
-- Team may lack necessary skills
-- Deployment frequency claims unvalidated
-
-**Revised Answer**:
-
-**I need to challenge the premise: Should you migrate, or should you first diagnose and fix?**
-
-**Before deciding, investigate:**
-
-1. **Root Cause Analysis** (2-4 weeks):
-  - Why is deployment slow? (Process vs. technical?)
-  - What specifically doesn't scale? (App logic, database, I/O?)
-  - Can these be fixed without microservices?
-
-2. **Team Assessment** (1-2 weeks):
-  - Microservices experience level?
-  - DevOps/SRE capability?
-  - Appetite for operational complexity?
-
-3. **Alternative Solutions Analysis**:
-
-  **Option A: Optimize Current Monolith** (~$200K, 3-6 months)
-
-  - Fix deployment pipeline (CI/CD improvements)
-  - Add horizontal scaling (if stateless)
-  - Database optimization/caching
-  - Cost: 10% of migration cost
-  - Risk: Lower
-  - Pros: Fast, low risk, leverages existing knowledge
-  - Cons: May hit architectural limits eventually
-
-  **Option B: Modular Monolith** (~$500K, 6-12 months)
-
-  - Refactor into modules with clear boundaries
-  - Enables future extraction if needed
-  - Cost: 25% of full migration
-  - Risk: Medium
-  - Pros: Gets many microservices benefits, easier to reverse
-  - Cons: Still a monolith, limited independent scaling
-
-  **Option C: Hybrid Approach** (~$1M, 12-18 months)
-
-  - Keep monolith for stable, core functionality
-  - Extract only problematic services (e.g., high-scale services)
-
-  **Option D: Full Microservices** (~$2M+, 24-36 months)
-
-  - Complete migration as initially suggested
-  - Cost: $2M+ (likely more based on failure history)
-  - Risk: High
-  - Pros: Full benefits (if successful)
-  - Cons: High risk, high cost, operational complexity
-
-**My Recommendation**:
-
-Start with **Option A** (optimize monolith) while investigating:
-
-- If deployment slowness is CI/CD pipeline issue → Fix pipeline (weeks, not years)
-- If scaling issue is database → Optimize queries, add caching, consider read replicas
-- If specific services are bottlenecks → Consider **Option C** (extract only those)
-
-**Only proceed with full microservices if**:
-
-1. Optimization doesn't solve pain points (after 3-month trial)
-2. Team has/can acquire microservices expertise
-3. You're willing to accept 2-3x longer timeline than estimated (based on previous failure)
-4. You budget $3-4M instead of $2M (more realistic for 300K LOC migration)
-
-**Decision Timeline for This Quarter**:
-
-- Week 1-2: Root cause analysis of deployment and scaling issues
-- Week 3-4: Assess team capabilities and define success criteria
-- Week 5-6: Cost/benefit analysis of Options A-D
-- Week 7-8: Build business case, present to stakeholders
-- Week 9-12: Begin Option A (quick wins) while refining long-term strategy
-
-**Confidence Level**: **Medium**
-
-**Confidence Justification**: 
-I'm confident that investigating before committing is the right approach. However, I lack detailed information about:
-
-- Specific nature of scaling issues
-- Team's skill level and capacity
-- Previous migration failure details
-- Current system's technical debt level
-- Organizational appetite for change
-
-These unknowns prevent High confidence in any specific recommendation.
-
-**Recommended Next Steps**:
-
-1. Conduct technical assessment of monolith (scaling bottlenecks, deployment pipeline)
-2. Review post-mortem from previous migration attempt
-3. Assess team's microservices readiness (training needs, hiring needs)
-4. Define measurable success criteria for any migration
-5. Create detailed cost model for each option
-6. Pilot Option A improvements for 90 days, measure impact
-
-```
-
----
-
 ## Tips
 
 - **Be harsh in critique**: The goal is to find problems, not justify the initial answer
@@ -397,27 +135,6 @@ These unknowns prevent High confidence in any specific recommendation.
 - **Check your confidence calibration**: Are you overconfident? Under-confident?
 - **Time investment**: Reflection adds 50-100% to response time; use for high-stakes questions
 - **Iterate if needed**: If critique reveals major flaws, revise and critique again
-
----
-
-## When to Use Reflection
-
-### Use When
-
-- **High stakes**: >$10K impact, affects >5 people, irreversible decisions
-- **Novel problems**: Unfamiliar territory where assumptions are risky
-- **Complex analysis**: Multiple factors, trade-offs, or interdependencies
-- **Compliance/legal**: Correctness is critical
-- **Teaching**: Modeling good thinking for others
-
-### Don't Use When
-
-- Simple, factual questions
-- Time-critical situations requiring fast response
-- Low-stakes, easily reversible decisions
-- Well-understood, routine problems
-
----
 
 ## Output Schema (JSON)
 
@@ -446,15 +163,6 @@ These unknowns prevent High confidence in any specific recommendation.
   "next_steps": ["...", "..."]
 }
 ```
-
----
-
-## Related Prompts
-
-- [Chain-of-Thought: Detailed](chain-of-thought-detailed.md) - Thorough reasoning
-- [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - Explore multiple approaches
-
----
 
 ## Governance Notes
 

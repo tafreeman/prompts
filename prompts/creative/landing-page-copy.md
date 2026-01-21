@@ -1,49 +1,10 @@
 ---
-title: "Landing Page Copy Builder"
-shortTitle: "Landing Page"
-intro: "Generate landing page copy with clear positioning, benefits, objections, CTAs, and A/B variants."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "functional-team"
-  - "business-analyst"
-  - "project-manager"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "creative"
-  - "documentation"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2026-01-03"
-governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-  - "human-review-recommended"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Landing Page Copy Builder
+description: Generate landing page copy with clear positioning, benefits, objections, CTAs, and A/B variants.
+type: template
 ---
 
 # Landing Page Copy Builder
-
----
-
-## Description
-
-Create conversion-focused landing page copy that communicates value quickly and answers common objections. This prompt outputs a full page structure plus A/B variants you can test.
-
----
 
 ## Use Cases
 
@@ -51,26 +12,6 @@ Create conversion-focused landing page copy that communicates value quickly and 
 - Webinar or event registration pages
 - Lead magnet and download pages
 - Paid campaign landing pages
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[product]` | Product/service name | `Acme Analytics` |
-| `[audience]` | Who the page is for | `Operations managers at 3PLs` |
-| `[primary_pain]` | Main pain point | `Manual KPI reporting` |
-| `[value_prop]` | 1–2 sentence value proposition | `Real-time dashboards in weeks, not months` |
-| `[key_benefits]` | 3–6 benefits (bullets) | `Faster decisions; fewer errors; less toil` |
-| `[proof]` | Social proof (approved only) | `Case study metrics, logos (if approved)` |
-| `[objections]` | Common concerns | `Implementation time, security, cost` |
-| `[cta]` | Primary call to action | `Book a demo` |
-| `[keywords]` | Optional SEO keywords | `inventory dashboard, 3PL analytics` |
-| `[tone]` | Brand voice | `Direct, helpful, confident` |
-| `[constraints]` | Word count, compliance, do-not-say list | `No competitor claims; under 400 words` |
-
----
 
 ## Prompt
 
@@ -117,56 +58,6 @@ Constraints: [constraints]
 - If constraints include a word limit, prioritize hero + benefits + CTA first.
 
 ```
-
----
-
-## Example
-
-**Input:**
-
-```text
-[product]=Acme Analytics
-[audience]=Operations managers at mid-market logistics companies (3PL)
-[primary_pain]=Weekly KPI reporting is manual and delayed
-[value_prop]=Get real-time inventory and shipment dashboards in weeks—without a dedicated engineering team.
-[key_benefits]=Reduce reporting toil; spot exceptions same-day; align ops + finance; role-based access
-[proof]=Pilot customers reduced weekly reporting from ~10 hours to ~3 hours within 30 days
-[objections]=“Will this work with our WMS/TMS?”; “Is it secure?”; “How long to implement?”
-[cta]=Book a demo
-[keywords]=3PL dashboards, logistics analytics
-[tone]=Confident, plainspoken, not hypey
-[constraints]=Under ~420 words; do not mention pricing; no competitor comparisons
-```
-
-**Output (excerpt):**
-
-```text
-## Hero
-**Headline:** Real-time 3PL dashboards—without the spreadsheet grind
-
-**Subheadline:** Acme Analytics consolidates WMS and TMS signals into a single view so ops and finance can act the same day.
-
-**CTA:** Book a demo
-*Microcopy:* See a sample dashboard and an implementation plan.
-
-## Benefits
-
-- Cut weekly KPI reporting time with automated refresh
-- Spot inventory and shipment exceptions before they become customer issues
-- Align ops + finance with one source of truth
-- Control access with role-based permissions
-
-...
-
-## A/B headlines
-
-1. Stop waiting a week for logistics KPIs
-2. The 3PL dashboard your teams actually trust
-3. Turn WMS/TMS data into decisions—fast
-
-```
-
----
 
 ## Tips
 

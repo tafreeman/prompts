@@ -1,99 +1,29 @@
 ---
-title: Chain-of-Verification (CoVe)
-description:
-  "Reduce hallucinations through structured fact-checking using the Generate\u2192\
-  Verify\u2192Revise cycle"                          
-category: reasoning
-tags:
-
-  - hallucination-reduction
-  - factual-accuracy
-  - self-critique
-  - verification
-  - qa
-
-author: Research Team
-version: 1.0.0
-model_compatibility:
-
-  - gpt-4
-  - gpt-4o
-  - claude-3
-  - llama-3
-  - gemini
-
-variables:
-
-  - name: user_question
-
-    description: The user's original question requiring a factually accurate answer
-    required: true
-
-  - name: domain
-
-    description: Optional domain context for specialized verification
-    required: false
-    default: general knowledge
-use_cases:
-
-  - Factual question answering
-  - Biography and profile generation
-  - List generation tasks
-  - Knowledge-intensive content creation
-  - Report writing requiring accuracy
-  - Medical/legal/technical information
-
-complexity: medium
-estimated_tokens: 800-1500
-shortTitle: CoVe Verification
-intro: Chain-of-Verification pattern for self-verifying LLM outputs through structured decomposition.
-type: reference
+name: Chain-of-Verification (CoVe)
+description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle - claude-3 - llama-3 - gemini
+type: how_to
+pattern: cove
 difficulty: advanced
-audience:
-
-  - developers
-
-platforms:
-
-  - github-copilot
-
-topics:
-
-  - general
-
-date: "2025-12-13"
-reviewStatus: draft
-governance_tags: []
-dataClassification: []
-effectivenessScore: 0.0
+model: openai/gpt-4o
+response_format: text
 ---
 
 # Chain-of-Verification (CoVe) Prompting Pattern
-
-You are a factual accuracy assistant that reduces hallucinations through systematic verification. You will answer questions using a 4-step Chain-of-Verification process.
 
 ## Description
 
 Use the **Generate → Verify → Revise** loop to reduce hallucinations by decomposing an answer into verifiable claims, independently checking each claim, and then producing a corrected final response.
 
-## Your Task
+## Prompt
 
+You are a factual accuracy assistant that reduces hallucinations through systematic verification. You will answer questions using a 4-step Chain-of-Verification process.
+
+### Step 1: Baseline Generation
 Answer the following question with verified accuracy:
 **Question:** {{user_question}}
 **Domain:** {{domain}}
 
----
-
-## STEP 1: BASELINE RESPONSE
-
-Generate your initial answer to the question. Do not verify yet—provide your best complete answer.
-<baseline_response>
-[Your initial answer here]
-</baseline_response>
-
----
-
-## STEP 2: VERIFICATION PLANNING
+### Step 2: Verification Planning
 
 Analyze your baseline response and generate verification questions for each factual claim.
 **Guidelines for verification questions:**
@@ -112,74 +42,41 @@ Analyze your baseline response and generate verification questions for each fact
 
    </verification_questions>
 
----
+### Step 3: Verification Execution
 
-## STEP 3: VERIFICATION EXECUTION
+Answer each verification question independently.
 
-**CRITICAL:** Answer each question INDEPENDENTLY. Do NOT reference your baseline response. Treat each as a completely fresh query.
+### Step 4: Final Revision
 
-<verified_answers>
+Produce a final, corrected response based on the verification results.
 
-**Q1:** [Question]
+## Variables
 
-**A1:** [Your independent answer—ignore what you said in the baseline]
+- `{{user_question}}`: The question to answer.
+- `{{domain}}`: The domain of the question (e.g. History, Science).
 
-**Q2:** [Question]
+## Example
 
-**A2:** [Your independent answer]
+**Question**: Who is the CEO of Twitter?
+**Domain**: Logic
 
-[Continue for all questions...]
+### Step 1: Baseline Generation
+Elon Musk is the CEO of Twitter.
 
-## </verified_answers>
+### Step 2: Verification Planning
+1. Is Elon Musk the current CEO of Twitter?
 
-## STEP 4: FINAL VERIFIED RESPONSE
+### Step 3: Verification Execution
+1. No, Linda Yaccarino is the current CEO of Twitter.
 
-Synthesize a final response using ONLY:
-
-- The original question
-- Your verified answers from Step 3
-
-  Do NOT copy from your baseline response. Correct any claims that were wrong. Incorporate all verified facts.
-  <final_response>
-  [Your corrected, verified answer]
-  </final_response>
-
----
-
-## VERIFICATION SUMMARY
-
+### Step 4: Final Revision
+Linda Yaccarino is the CEO of Twitter.
 | Claim from Baseline | Verification Result      | Correction (if needed) |
 | ------------------- | ------------------------ | ---------------------- |
 | [Claim 1]           | ✓ Verified / ✗ Incorrect | [Correct information]  |
 | [Claim 2]           | ✓ Verified / ✗ Incorrect | [Correct information]  |
 
 **Confidence Level:** [High/Medium/Low based on verification results]
-
----
-
-## Example
-
-### Verifying Prompt Evaluation Claims
-
-This example demonstrates CoVe applied to a real prompt library task: **verifying the accuracy of claims made during a prompt quality evaluation**.
-
-### Scenario
-
-You've used the `prompt-quality-evaluator.md` to assess a prompt and received this evaluation:
-
-> "The `api-documentation-generator.md` prompt scores 72/100 (Tier 2). It uses the ReAct pattern with 4 reasoning steps, includes 5 use cases, has complete YAML frontmatter, and was last updated in October 2024. The main weakness is that it lacks few-shot examples."
-
-## Before acting on this evaluation, you want to verify its claims
-
-### STEP 1: BASELINE RESPONSE
-
-**Question:** "Is this evaluation of `api-documentation-generator.md` accurate?"
-
-<baseline_response>
-The evaluation appears accurate. The prompt scores 72/100 (Tier 2). It uses ReAct for structured reasoning, includes 5 use cases, has complete YAML frontmatter, and was updated October 2024. The criticism about lacking few-shot examples is valid.
-</baseline_response>
-
----
 
 ### STEP 2: VERIFICATION PLANNING
 
@@ -194,30 +91,6 @@ The evaluation appears accurate. The prompt scores 72/100 (Tier 2). It uses ReAc
 7. Based on the scoring rubric, would 72/100 be correct?
 
    </verification_questions>
-
----
-
-### STEP 3: VERIFICATION EXECUTION
-
-<verified_answers>
-
-**Q1:** Does it use the ReAct pattern?
-**A1:** The prompt uses **Chain-of-Thought (CoT)**, not ReAct. ReAct requires Thought→Action→Observation cycles with tool calls. This prompt has sequential steps but no action/observation structure. **INCORRECT.**
-**Q2:** Does it have 4 reasoning steps?
-**A2:** The prompt has 6 steps: (1) Analyze code, (2) Extract endpoints, (3) Document parameters, (4) Generate examples, (5) Format output, (6) Validate. **INCORRECT—6 steps, not 4.**
-**Q3:** Are there 5 use cases?
-**A3:** Counting: (1) REST API docs, (2) GraphQL docs, (3) SDK docs, (4) Internal API reference. **INCORRECT—4 use cases, not 5.**
-**Q4:** Is YAML frontmatter complete?
-**A4:** Checking: title ✓, category ✓, tags ✓, author ✓, version ✓, date ✓, difficulty ✓, platform ✓. **CORRECT.**
-**Q5:** Was it last updated October 2024?
-**A5:** The `date` field shows `2024-09-15`. **INCORRECT—September 2024, not October.**
-**Q6:** Does it lack few-shot examples?
-**A6:** The "Example Usage" section has placeholder text only. **CORRECT—lacks real examples.**
-**Q7:** Would 72/100 be accurate?
-**A7:** Recalculating: Clarity 16/20, Structure 14/20, Usefulness 14/20, Technical 12/20, Ease of Use 12/20. **Revised: 68/100 (Tier 3), not 72 (Tier 2).**
-</verified_answers>
-
----
 
 ### STEP 4: FINAL VERIFIED RESPONSE
 

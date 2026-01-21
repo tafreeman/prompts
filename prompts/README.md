@@ -1,31 +1,6 @@
 ---
-title: "Prompts Library"
-shortTitle: "Prompts"
-intro: "Comprehensive collection of AI prompts organized by use case, technique, and framework."
-type: "reference"
-difficulty: "beginner"
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-  - "business-analyst"
-  - "investigator"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Prompts Library
+description: Comprehensive collection of AI prompts organized by use case, technique, and framework.
 ---
 
 # Prompts Library
@@ -136,14 +111,6 @@ Explore sophisticated patterns in:
 All prompts follow a consistent structure with YAML frontmatter:
 
 ```markdown
----
-title: "Prompt Title"
-difficulty: "beginner|intermediate|advanced"
-platforms: ["github-copilot", "claude", "chatgpt"]
-tags: ["tag1", "tag2"]
-version: "1.0"
----
-
 # Prompt Title
 
 ## Description

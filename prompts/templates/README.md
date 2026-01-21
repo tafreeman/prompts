@@ -1,30 +1,6 @@
 ---
-title: "Prompt Templates"
-shortTitle: "Templates"
-intro: "Reusable templates for creating high-quality prompts following best practices and established patterns."
-type: "reference"
-difficulty: "beginner"
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-  - "business-analyst"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Prompt Templates
+description: Reusable templates for creating high-quality prompts following best practices and established patterns.
 ---
 
 # Prompt Templates
@@ -94,37 +70,6 @@ cp templates/advanced_research_prompt.md prompts/your-category/your-prompt.md
 ### 2. Fill in Metadata
 
 ```yaml
----
-title: "Your Prompt Title"
-shortTitle: "Short Title"
-intro: "One-sentence description"
-type: "how_to"              # how_to, reference, tutorial
-difficulty: "beginner"       # beginner, intermediate, advanced
-audience:
-
-  - "junior-engineer"
-  - "senior-engineer"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-topics:
-
-  - "code-generation"
-
-author: "Your Name"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "draft"
----
 ```
 
 ### 3. Write Your Content
@@ -427,12 +372,6 @@ For specialized domains, create derived templates:
 **Example: Code Review Template**
 
 ```markdown
----
-title: "Code Review: [Component Name]"
-category: "code-review"
-review_type: "security|performance|maintainability"
----
-
 # Code Review: [Component Name]
 
 ## Code to Review

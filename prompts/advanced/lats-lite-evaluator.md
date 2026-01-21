@@ -1,55 +1,7 @@
 ---
-title: "LATS-Lite: Compact Prompt Evaluator"
-shortTitle: LATS-Lite
-intro: >
-  Streamlined LATS evaluator optimized for local models. Reduces 16KB prompt to ~2KB
-  while preserving core evaluation logic including scoring, threshold checks, and iteration.
-description: Streamlined LATS evaluator optimized for local models (~2KB vs 16KB)
+name: Lats Lite Evaluator
+description: Streamlined version of LATS Self-Refine, optimized for local models. Reduces 16KB prompt to ~2KB while preserving core evaluation logic.
 type: how_to
-difficulty: intermediate
-audience:
-
-  - senior-engineer
-  - solution-architect
-
-platforms:
-
-  - chatgpt
-  - claude
-  - github-copilot
-
-topics:
-
-  - evaluation
-  - quality-assurance
-
-category: evaluation
-tags: [lats, evaluation, local-models]
-version: 1.0.0
-model_compatibility: [phi4, qwen2.5, deepseek, llama]
-variables:
-
-  - name: PROMPT_CONTENT
-
-    required: true
-
-  - name: QUALITY_THRESHOLD
-
-    default: "80"
-
-  - name: MAX_ITERATIONS
-
-    default: "3"
-complexity: intermediate
-estimated_tokens: 500-800
-date: "2026-01-12"
-reviewStatus: draft
-governance_tags:
-
-  - PII-safe
-
-dataClassification: internal
-effectivenessScore: 0.0
 ---
 
 # LATS-Lite: Compact Prompt Evaluator
@@ -108,17 +60,20 @@ MAX_ITERATIONS: {{MAX_ITERATIONS}}
 If threshold met or max iterations reached, output final improved prompt:
 
 ### FINAL PROMPT
+
 <final>
 [improved prompt text]
 </final>
 
 ### SUMMARY
+
 | Metric | Value |
 | -------- | ------- |
 | Initial Score | [X]% |
 | Final Score | [Y]% |
 | Improvement | +[Z]% |
 | Iterations | [N] |
+
 ```
 
 ## Usage
@@ -149,6 +104,43 @@ print(result)
 | `{{PROMPT_CONTENT}}` | The prompt text to evaluate and improve. |
 | `{{QUALITY_THRESHOLD}}` | Minimum weighted score required to stop iterating (default: 80). |
 | `{{MAX_ITERATIONS}}` | Max improvement iterations to attempt (default: 3). |
+
+## Example
+
+**Input:**
+
+```text
+THRESHOLD: 80%
+MAX_ITERATIONS: 3
+
+<prompt>
+Write a poem about cats.
+</prompt>
+```
+
+**Output:**
+
+```markdown
+### SCORES
+| Criterion | Score | Issue |
+| ----------- | ------- | ------- |
+| clarity | 40 | No specified style, length, or tone |
+| effectiveness | 50 | Too vague to produce consistent results |
+| specificity | 20 | No examples or constraints provided |
+| completeness | 30 | Missing output format, edge cases |
+
+**Weighted Score**: 35%
+**Threshold Met**: NO
+
+### TOP FIX
+**Problem**: Lacks specificity on poem style, length, and desired outcome
+**Fix**: Add concrete parameters for style, tone, length, and output format
+**Before**: Write a poem about cats.
+**After**: Write a 4-stanza poem about cats in the style of Emily Dickinson. Each stanza should have 4 lines with an ABAB rhyme scheme. Focus on themes of independence and mystery. Output only the poem, no explanations.
+
+### DECISION
+{"score": 35, "threshold_met": false, "continue": true}
+```
 
 ## Size Comparison
 

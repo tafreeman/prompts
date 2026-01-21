@@ -1,155 +1,60 @@
 ---
-title: M365 Customer Feedback Analyzer
-shortTitle: M365 Customer Feedback A...
-intro: This prompt is designed for Product Managers, Support Leads, and Sales teams
-  who receive scattered feedback from customers. It uses the LLM's summarization capabilities
-  to aggregate multiple feedba...
-m365App: Microsoft 365 Copilot Chat
+name: M365 Customer Feedback Analyzer
+description: Analyzes unstructured customer feedback to identify themes, sentiment, and actionable insights.
 type: how_to
-difficulty: intermediate
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- feedback
-- customer-success
-- m365
-- analysis
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Analyzes unstructured customer feedback (emails, notes, surveys) to identify
-  key themes, sentiment, and actionable insights.
-effectivenessScore: 0.0
 ---
+
+# M365 Customer Feedback Analyzer
 
 ## Description
 
-This prompt is designed for Product Managers, Support Leads, and Sales teams who receive scattered feedback from customers. It uses the LLM's summarization capabilities to aggregate multiple feedback points into a coherent report with identified trends and recommended actions.
-
-## Goal
-
-To turn raw, unstructured customer feedback into a structured analysis of sentiment, recurring themes, and necessary actions.
-
-## Inputs
-
-- **Feedback Source**: [feedback_source]
-- **Raw Feedback Text**: [raw_feedback]
-- **Focus Area**: [focus_area]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+Transform raw, unstructured customer feedback (emails, surveys, reviews) into structured analysis. Identify sentiment, recurring themes, and recommended actions for product and support teams.
 
 ## Prompt
 
-You are an expert Customer Experience Analyst. I have collected feedback from [feedback_source] and I need you to analyze it.
+You are a Customer Insights Analyst using Microsoft 365 Copilot.
 
-**Raw Feedback:**
-"""
+Analyze the customer feedback below and produce a structured report.
+
+### Feedback Context
+**Source**: [feedback_source]
+**Focus Area**: [focus_area]
+
+**Raw Feedback**:
 [raw_feedback]
-"""
 
-**Analysis Focus**: Please focus specifically on [focus_area].
-
-Based on the text above, please generate a **Feedback Analysis Report**:
-
-1. **Overall Sentiment**: (Positive/Neutral/Negative) with a brief summary.
-2. **Top 3 Themes**: The most frequent topics or issues mentioned.
-3. **Specific Pain Points**: Direct quotes or details about what is frustrating customers.
-4. **Feature Requests**: Any specific suggestions for improvement.
-5. **Recommended Actions**: 3 bullet points on what we should do next.
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+### Required Analysis
+1. **Sentiment Overview**: Overall positive/negative/neutral breakdown.
+2. **Key Themes**: Top 5 recurring topics with frequency.
+3. **Critical Issues**: Urgent items requiring immediate attention.
+4. **Positive Highlights**: What customers appreciate.
+5. **Recommended Actions**: Prioritized next steps.
 
 ## Variables
 
-- `[feedback_source]`: Where the data came from (e.g., "Q3 Survey", "Support Emails", "App Store Reviews").
-- `[raw_feedback]`: The pasted text of the feedback (can be long).
-- `[focus_area]`: What you care about most (e.g., "UI/UX", "Pricing", "Bugs", "General Satisfaction").
+- `[feedback_source]`: E.g., "Q3 NPS Survey", "Support Emails", "App Store Reviews".
+- `[focus_area]`: E.g., "UI/UX", "Pricing", "Reliability".
+- `[raw_feedback]`: The pasted feedback text.
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
----
+**Input**:
+Source: App Store Reviews (Jan 2026)
+Focus: Mobile experience
+Feedback: "Love the app but crashes on iOS 17..." "Great features, slow sync..." "Best tool but needs dark mode"
 
-## Example Usage
+**Response**:
+### Sentiment: Mixed (60% positive, 40% negative)
 
-**Input:**
+### Key Themes
+| Theme | Count | Sentiment |
+|-------|-------|-----------|
+| App crashes | 12 | Negative |
+| Feature praise | 8 | Positive |
+| Sync speed | 6 | Negative |
+| Dark mode request | 5 | Neutral |
 
-- `[feedback_source]`: "Beta User Emails"
-- `[raw_feedback]`: "User A: I love the new design but the login is slow. User B: The app crashed twice when I tried to upload a photo. User C: Great features, but I can't find the settings menu. User D: Uploading is broken for me too."
-- `[focus_area]`: "Bugs and Usability"
-
-**Output:**
-
-### Feedback Analysis Report: Beta User Emails
-
-**1. Overall Sentiment**
-**Mixed**. Users appreciate the new design/features but are frustrated by technical stability.
-
-**2. Top 3 Themes**
-
-- Photo Upload Failures
-- Slow Login Performance
-- Navigation/UI Confusion
-
-**3. Specific Pain Points**
-
-- "App crashed twice when I tried to upload a photo."
-- "Can't find the settings menu."
-
-**4. Feature Requests**
-
-- Clearer navigation to Settings.
-
-**5. Recommended Actions**
-
-- **Urgent**: Investigate and fix the photo upload crash.
-- **High**: Optimize login API response time.
-- **Medium**: A/B test a more visible Settings icon.
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
-## Tips
-
-- You can paste up to ~2000 words of feedback at once. For larger datasets, analyze in batches and then ask Copilot to summarize the batch results.
-- Be careful not to include PII (Personally Identifiable Information) like customer phone numbers or addresses in the `[raw_feedback]`.
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
-## Related Prompts
-
-- `m365-data-insights-assistant`
-- `consumer-behavior-researcher`
+### Recommended Actions
+1. **P0**: Investigate iOS 17 crash reports
+2. **P1**: Optimize sync performance
+3. **P2**: Add dark mode to roadmap

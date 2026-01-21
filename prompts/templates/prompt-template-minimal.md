@@ -1,7 +1,7 @@
 ---
-title: "[Prompt Title]"
-description: "[One-line description]"
-category: "[business|developers|creative|analysis|governance|m365|advanced]"
+name: ['Prompt Title']
+description: One-line description
+type: template
 ---
 
 # [Prompt Title]

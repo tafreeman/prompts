@@ -1,30 +1,9 @@
 ---
-title: Prompt Improvement Template & Workflow
-shortTitle: Prompt Improvement Templ...
-intro: A prompt for prompt improvement template & workflow tasks.
-type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
+name: Prompt Improvement Template & Workflow
+description: A prompt for prompt improvement template & workflow tasks.
+type: template
 ---
+
 # Prompt Improvement Template & Workflow
 
 ## Purpose
@@ -118,17 +97,6 @@ Provide your analysis in the following format:
 If **missing YAML frontmatter**:
 
 ```yaml
----
-title: "[Descriptive Title]"
-category: "[Category]"  # developers, business, analysis, etc.
-tags: ["tag1", "tag2", "tag3"]
-author: "Prompts Library Team"
-version: "1.0"
-date: "YYYY-MM-DD"
-difficulty: "beginner|intermediate|advanced"
-platform: "Claude Sonnet 4.5"
-governance_tags: ["PII-safe", "requires-human-review", etc.]  # optional
----
 ```text
 
 ### Step 3: Address High Priority Issues (P1)
@@ -338,11 +306,6 @@ After making changes, re-run the [Prompt Quality Evaluator](../prompts/system/pr
 **Before (Score: 48/100 - Tier 4)**
 
 ```markdown
----
-title: "Budget Planner"
-category: "business"
----
-
 # Budget Planner
 
 ## Prompt
@@ -353,17 +316,6 @@ Create a budget for [project].
 **After (Score: 75/100 - Tier 2)**
 
 ```markdown
----
-title: "Project Budget Planner"
-category: "business"
-tags: ["budgeting", "project-management", "planning", "finance"]
-author: "Prompts Library Team"
-version: "2.0"
-date: "2025-11-25"
-difficulty: "intermediate"
-platform: "Claude Sonnet 4.5, GPT-4"
----
-
 # Project Budget Planner
 
 ## Description

@@ -1,67 +1,7 @@
 ---
-title: Multi-Agent Workflow Orchestration Pattern
-shortTitle: Multi-Agent Workflow Orc...
-intro: A prompt for multi agent workflow orchestration pattern tasks.
+name: Multi-Agent Workflow Orchestration Pattern
+description: A prompt for multi agent workflow orchestration pattern tasks.
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms: []
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: techniques
-subcategory: agentic
-technique_type: multi-agent
-framework_compatibility:
-  langchain: '>=0.1.0'
-  anthropic: '>=0.8.0'
-  openai: '>=1.0.0'
-use_cases:
-
-- complex-problem-solving
-- task-decomposition
-- parallel-processing
-- distributed-analysis
-
-performance_metrics:
-  accuracy_improvement: 25-40%
-  latency_impact: variable
-  cost_multiplier: 1.5-2.5x
-dependencies:
-
-- base-agent-template
-
-last_updated: '2025-11-23'
-governance:
-  data_classification: internal
-  risk_level: medium
-  approval_required: false
-testing:
-  benchmark_score: 82
-  validation_status: passed
-  last_tested: '2025-11-23'
-tags:
-
-- multi-agent
-- orchestration
-- workflow
-- task-decomposition
-
-platform:
-
-- openai
-- anthropic
-
 ---
 
 # Multi-Agent Workflow Orchestration Pattern
@@ -286,13 +226,6 @@ TASK: Research modern e-commerce microservices architectures
 INPUTS: Industry standards, case studies, best practices
 EXPECTED OUTPUT: Summary of patterns, technologies, and proven approaches
 PRIORITY: High
----
-DELEGATE TO: Analyst Agent
-TASK: Analyze scalability requirements for 1M daily users
-INPUTS: Traffic patterns, data volume estimates, peak load scenarios
-EXPECTED OUTPUT: Bottleneck analysis, scaling requirements, performance targets
-PRIORITY: High
----
 [... additional delegations ...]
 ```text
 

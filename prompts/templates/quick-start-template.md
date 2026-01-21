@@ -1,33 +1,7 @@
 ---
-title: Prompt Title
-shortTitle: Short Title
-intro: One-sentence summary.
-type: how_to
-difficulty: beginner
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-
-topics:
-
-- topic1
-
-author: Your Name
-version: '1.0'
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
+name: Prompt Title
+description: One-sentence summary.
+type: template
 ---
 
 # Prompt Title

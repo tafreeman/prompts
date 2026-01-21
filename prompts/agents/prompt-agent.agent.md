@@ -1,8 +1,7 @@
 ---
 name: prompt_agent
 description: Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
-tools:
-  ['search', 'edit', 'new', 'fetch', 'githubRepo']
+type: how_to
 ---
 
 # Prompt Engineering Agent
@@ -90,16 +89,6 @@ Focus on files in:
 All prompts should follow this structure:
 
 ````markdown
----
-title: "Prompt Title"
-category: "developers|business|creative|analysis|system"
-tags: ["tag1", "tag2", "tag3"]
-author: "Author Name"
-version: "1.0"
-date: "YYYY-MM-DD"
-difficulty: "beginner|intermediate|advanced"
----
-
 # Prompt Title
 
 ## Description

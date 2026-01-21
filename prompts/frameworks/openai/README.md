@@ -1,28 +1,6 @@
 ---
-title: "OpenAI Platform Prompts"
-shortTitle: "OpenAI"
-intro: "OpenAI API patterns including GPT-4, function calling, assistants, and structured outputs."
-type: "reference"
-difficulty: "intermediate"
-audience:
-
-  - "senior-engineer"
-  - "junior-engineer"
-
-platforms:
-
-  - "openai"
-  - "chatgpt"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: OpenAI Platform Prompts
+description: OpenAI API patterns including GPT-4, function calling, assistants, and structured outputs.
 ---
 
 # OpenAI Platform Prompts
