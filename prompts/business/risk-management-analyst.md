@@ -6,6 +6,10 @@ type: how_to
 
 # Risk Management Analyst
 
+## Description
+
+This prompt serves as an enterprise-grade risk analyst using ISO 31000 and PMI PMBOK frameworks for risk identification, quantification, and mitigation. It helps project managers and risk professionals systematically manage project risks.
+
 ## Use Cases
 
 - Capital projects risk assessment (data centers, manufacturing facilities, infrastructure)
@@ -20,6 +24,104 @@ type: how_to
 - `[phase]`: Current project phase (e.g., "Construction/Fit-Out Month 8 of 18", "Go-Live Preparation", "Post-Production Support")
 - `[concerns]`: Specific risk areas identified (e.g., "Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention")
 - `[impact]`: Business consequences if risks materialize (e.g., "Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are a certified risk management professional (PMI-RMP, ISO 31000) with deep experience in capital projects, technology implementations, and complex program risk management. You help organizations identify, quantify, and mitigate risks using industry-standard frameworks.
+```
+
+### User Prompt
+
+```text
+Conduct a risk assessment for [project_name].
+
+Risk Context:
+- Current Phase: [phase]
+- Key Concerns: [concerns]
+- Business Impact: [impact]
+
+Please provide:
+1. Risk identification using structured analysis
+2. Risk register with probability, impact, and scores
+3. Mitigation strategies by risk priority
+4. Contingency plans with trigger conditions
+5. Key Risk Indicators (KRIs) for monitoring
+6. Escalation protocols
+7. FMEA analysis for critical risks (optional)
+```
+
+## Example
+
+### Input
+
+```text
+Conduct a risk assessment for Data Center DC-04 Build - 50MW Hyperscale Facility.
+
+Risk Context:
+- Current Phase: Construction/Fit-Out Month 8 of 18
+- Key Concerns: Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention
+- Business Impact: Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract
+```
+
+### Expected Output
+
+```text
+## Risk Assessment: DC-04 Data Center Build
+
+### Risk Register
+| ID | Risk | Probability | Impact | Score | Priority |
+|----|------|-------------|--------|-------|----------|
+| R-01 | CRAC unit supply chain delay | 70% | Critical | 28 | 🔴 P1 |
+| R-02 | Union labor strike | 40% | Critical | 20 | 🔴 P1 |
+| R-03 | Power utility permit delay | 30% | High | 12 | 🟡 P2 |
+| R-04 | Anchor tenant cancellation | 20% | Critical | 16 | 🔴 P1 |
+| R-05 | Generator testing failure | 25% | High | 10 | 🟡 P2 |
+
+### Mitigation Strategies
+
+**R-01: CRAC Unit Supply Chain (Priority 1)**
+- **Strategy**: AVOID + TRANSFER
+- **Actions**:
+  1. Dual-source procurement: Pre-order from Carrier as backup ($200K)
+  2. Negotiate late delivery penalty with Vertiv ($50K/week)
+  3. Charter cargo flight if sea freight misses window ($40K)
+- **Cost**: $240K | **Risk Reduction**: 70% → 20%
+
+**R-02: Union Labor Strike (Priority 1)**
+- **Strategy**: TRANSFER + MITIGATE
+- **Actions**:
+  1. Pre-negotiate wage increase before contract expiry ($120K)
+  2. Contract non-union backup team (standby)
+  3. Accelerate HVAC work to complete before contract date
+- **Trigger**: Union rejects offer by Nov 5
+
+### Key Risk Indicators (KRIs)
+| KRI | Green | Yellow | Red | Current |
+|-----|-------|--------|-----|----------|
+| Vendor lead time | <8 weeks | 8-10 weeks | >10 weeks | 🟡 9 weeks |
+| Labor relations | Agreement reached | Negotiations ongoing | Impasse | 🟢 Ongoing |
+| Permit status | Approved | In review | Rejected/delayed | 🟢 In review |
+| Tenant communications | Positive | Neutral | Concerns raised | 🟡 Concerns |
+
+### Contingency Budget
+| Risk | Trigger | Contingency | Budget |
+|------|---------|-------------|--------|
+| R-01 | Vertiv >8 week delay | Activate Carrier | $240K |
+| R-02 | Strike vote passes | Deploy non-union | $300K |
+| R-04 | Cancellation notice | Tenant pipeline | $2M |
+| **Total Reserve** | | | **$2.69M** |
+
+### Escalation Protocol
+| Level | Trigger | Action | Timeline |
+|-------|---------|--------|----------|
+| 1 | KRI turns Red | PM investigates | 4 hours |
+| 2 | Risk score +5 | Steering Committee | 24 hours |
+| 3 | Contingency exceeded | CEO/CFO | Immediate |
+| 4 | Contract at risk | Board notification | 12 hours |
+```
 
 ## 3. Risk Mitigation Strategies
 

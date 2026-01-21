@@ -6,6 +6,10 @@ type: how_to
 
 # Interview Questions Generator
 
+## Description
+
+This prompt generates structured, behavioral interview questions tailored to specific roles, levels, and competencies. It helps hiring managers create consistent, effective interview guides that assess candidates fairly and thoroughly.
+
 ## Use Cases
 
 - Preparing for candidate interviews
@@ -21,6 +25,97 @@ type: how_to
 - `[competencies]`: Key competencies to assess (e.g., "Strategic thinking, stakeholder management, data-driven decision making, technical acumen")
 - `[stage]`: Interview stage (e.g., "Hiring manager round", "Final panel")
 - `[time]`: Available time (e.g., "45 minutes")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are an expert interviewer and talent assessment specialist. You create structured behavioral interview guides that help organizations identify top talent while ensuring fair, consistent evaluation. You understand STAR methodology and competency-based interviewing.
+```
+
+### User Prompt
+
+```text
+Create an interview guide for the following role:
+
+Role Details:
+- Position: [role]
+- Level: [level]
+- Key Competencies: [competencies]
+- Interview Stage: [stage]
+- Available Time: [time]
+
+Please provide:
+1. Interview structure with time allocation
+2. Behavioral questions for each competency with follow-up probes
+3. STAR expectations for strong answers
+4. Situational/case questions relevant to the role
+5. Scoring rubric with examples of strong/weak answers
+6. Red flags to watch for
+```
+
+## Example
+
+### Input
+
+```text
+Create an interview guide for the following role:
+
+Role Details:
+- Position: Senior Product Manager
+- Level: Senior / IC5
+- Key Competencies: Strategic thinking, stakeholder management, data-driven decision making, technical acumen
+- Interview Stage: Hiring manager round
+- Available Time: 45 minutes
+```
+
+### Expected Output
+
+```text
+## Interview Guide: Senior Product Manager (IC5)
+
+### Interview Structure (45 minutes)
+| Section | Time | Focus |
+|---------|------|-------|
+| Opening | 5 min | Rapport, role overview |
+| Behavioral | 25 min | Core competencies (3 questions) |
+| Situational | 10 min | Case scenario |
+| Q&A | 5 min | Candidate questions |
+
+### Behavioral Question 1: Strategic Thinking
+**Question**: "Tell me about a time you identified a product opportunity that wasn't on anyone's roadmap. How did you build the case for it?"
+
+**Follow-up Probes**:
+- "How big was the opportunity vs. current priorities?"
+- "What data did you use to size the opportunity?"
+- "How did you get stakeholder buy-in?"
+
+**Strong Answer (STAR)**:
+- **Situation**: Clear business context with quantified stakes
+- **Task**: Specific ownership and initiative taken
+- **Action**: Data-driven approach, stakeholder management
+- **Result**: Measurable outcome (revenue, adoption, etc.)
+
+### Situational Question: Prioritization
+**Scenario**: "You have 3 features requested by: (1) your largest customer threatening to churn, (2) sales team for competitive deals, (3) engineering to pay down tech debt. You can only do one this quarter. Walk me through your decision."
+
+**What to Assess**:
+- Framework for prioritization (impact vs. effort, strategic alignment)
+- How they balance stakeholder needs
+- Willingness to make hard trade-offs
+
+### Scoring Rubric
+| Competency | Strong (4-5) | Concerning (1-2) |
+|------------|--------------|------------------|
+| Strategic Thinking | Quantifies opportunities, thinks in quarters not sprints | Focuses only on immediate tasks |
+| Data-Driven | Cites specific metrics, acknowledges limitations | Relies on intuition |
+
+### Red Flags
+- Can't give specific examples (only hypotheticals)
+- Blames others for failures
+- No questions about the product or team
+```
 
 ## Interview Structure
 

@@ -6,6 +6,10 @@ type: how_to
 
 # Follow-Up Email Generator
 
+## Description
+
+This prompt generates effective follow-up email sequences that re-engage prospects without being pushy or annoying. It helps sales professionals and business developers maintain momentum with unresponsive contacts through value-added touchpoints.
+
 ## Use Cases
 
 - Following up after no response to cold outreach
@@ -21,6 +25,74 @@ type: how_to
 - `[last_touch]`: Last interaction (e.g., "Cold email sent, no response")
 - `[days]`: Days since last contact (e.g., "5 days")
 - `[goal]`: Desired outcome (e.g., "Schedule 15-minute intro call")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are a sales communication expert who specializes in follow-up sequences that convert. You understand that effective follow-ups add value, not just repeat asks. You know how to maintain persistence without being annoying.
+```
+
+### User Prompt
+
+```text
+Create a follow-up email for the following situation:
+
+Context:
+- Original Outreach: [context]
+- Prospect: [prospect]
+- Last Touch: [last_touch]
+- Days Since Contact: [days]
+- Goal: [goal]
+
+Please provide:
+1. Subject line (avoid "following up" or "checking in")
+2. Email body with new value (under 100 words)
+3. Clear but low-pressure call-to-action
+4. Explanation of the psychological principle being used
+```
+
+## Example
+
+### Input
+
+```text
+Create a follow-up email for the following situation:
+
+Context:
+- Original Outreach: Sent cold email about OnCallAI after LinkedIn post
+- Prospect: Marcus Thompson, VP Engineering at Fintech Co
+- Last Touch: Cold email sent, no response
+- Days Since Contact: 5 days
+- Goal: Schedule 15-minute intro call
+```
+
+### Expected Output
+
+```text
+**Subject**: forgot to mention this, Marcus
+
+**Body**:
+Hey Marcus,
+
+Quick follow-up on my note about turnover analytics.
+
+Realized I didn't mention - we just published data showing retail turnover spiked 23% in Q3. Happy to share the full report + how companies like Nordstrom are using predictive signals to get ahead of flight risks.
+
+Worth a quick chat?
+
+Alex
+
+**Psychological Principle**: Reciprocity – offering something valuable (the report) creates a sense of obligation to respond. The email adds new information rather than repeating the original ask, demonstrating respect for their time.
+
+**Why This Works**:
+- Subject feels personal, not templated
+- Leads with value (free report) before any ask
+- Short and scannable
+- Low-pressure CTA ("worth a quick chat?")
+- No guilt-tripping about lack of response
+```
 
 ## Follow-Up #1: The Value Add
 **Send**: Day 4 (today)

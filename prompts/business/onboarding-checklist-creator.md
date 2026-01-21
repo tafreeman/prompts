@@ -6,6 +6,10 @@ type: how_to
 
 # Onboarding Checklist Creator
 
+## Description
+
+This prompt generates comprehensive onboarding checklists that ensure new hires are set up for success from day one. It creates structured plans covering pre-start preparation, first week activities, and 30/60/90 day milestones.
+
 ## Use Cases
 
 - Preparing for a new hire's first week
@@ -22,6 +26,105 @@ type: how_to
 - `[start_date]`: Start date (e.g., "Monday, January 15")
 - `[setup]`: Work setup (e.g., "Remote with quarterly offsites", "Hybrid 3 days/week")
 - `[manager]`: Manager name (e.g., "John Smith, Director of Product")
+
+## Prompt
+
+### System Prompt
+
+```text
+You are an HR and onboarding specialist who creates comprehensive onboarding plans that set new hires up for success. You understand that great onboarding combines logistics, relationship-building, and clear milestone expectations.
+```
+
+### User Prompt
+
+```text
+Create an onboarding checklist for the following new hire:
+
+New Hire Details:
+- Name/Background: [hire_info]
+- Role: [role]
+- Team: [team]
+- Start Date: [start_date]
+- Work Setup: [setup]
+- Manager: [manager]
+
+Please provide:
+1. Pre-start checklist (IT, access, welcome materials)
+2. Day 1 agenda
+3. Week 1 schedule with key meetings
+4. 30-day milestones and check-in agenda
+5. 60-day expectations
+6. 90-day success criteria
+```
+
+## Example
+
+### Input
+
+```text
+Create an onboarding checklist for the following new hire:
+
+New Hire Details:
+- Name/Background: Jane Doe, joining from Google
+- Role: Senior Product Manager
+- Team: Growth Product Team
+- Start Date: Monday, January 15
+- Work Setup: Remote with quarterly offsites
+- Manager: John Smith, Director of Product
+```
+
+### Expected Output
+
+```text
+## Onboarding Plan: Jane Doe, Senior PM
+
+### Pre-Start Checklist (Complete by Jan 12)
+
+**IT & Access** (Owner: IT)
+- [ ] Laptop ordered and shipped
+- [ ] Email account: jane.doe@company.com
+- [ ] Slack added to #growth-team, #product, #all-hands
+- [ ] Figma, Jira, Amplitude access provisioned
+- [ ] 1Password vault access
+
+**Manager Prep** (Owner: John Smith)
+- [ ] 30/60/90 day goals drafted
+- [ ] Onboarding buddy assigned (recommend: Senior PM who's been here 1+ year)
+- [ ] First project identified
+- [ ] Week 1 calendar blocked for key intros
+
+### Day 1: Monday, Jan 15
+| Time | Activity | Purpose |
+|------|----------|----------|
+| 9:00 | Welcome call with John | Expectations, logistics |
+| 10:00 | IT setup support | Get systems working |
+| 11:00 | Meet onboarding buddy | Informal culture intro |
+| 1:00 | Product overview with John | Strategy, roadmap context |
+| 3:00 | Self-study: Internal wiki, docs | Absorb context |
+
+### Week 1 Key Meetings
+- **Day 2**: Meet Engineering counterpart
+- **Day 3**: Growth team standup (observe)
+- **Day 4**: 1:1s with 3 cross-functional partners
+- **Day 5**: End-of-week check-in with John
+
+### 30-Day Milestones (by Feb 14)
+- [ ] Completed all team 1:1s
+- [ ] Understands Growth team OKRs and how role contributes
+- [ ] Shadowed 3 customer calls
+- [ ] Presented initial observations at team meeting
+- [ ] First small project shipped or in progress
+
+### 60-Day Expectations (by Mar 15)
+- [ ] Owns one significant workstream independently
+- [ ] Has built relationships with key stakeholders
+- [ ] Contributing to roadmap discussions
+
+### 90-Day Success Criteria (by Apr 15)
+- [ ] Performing at expected Senior PM level
+- [ ] One major initiative shipped or clearly on track
+- [ ] Manager confident in independent execution
+```
 
 ## Pre-Start Checklist (Complete by Dec 6)
 
