@@ -1,144 +1,65 @@
 ---
-title: Regulatory Change Analyzer
-shortTitle: Reg Change Analyzer
-intro: A prompt to analyze new regulations or updates and assess their impact on organization
-  policies and systems.
+name: Regulatory Change Analyzer
+description: Prompt to analyze new regulations and assess their impact on organizational policies and systems.
 type: how_to
-difficulty: advanced
-audience:
-
-- legal-counsel
-- compliance-officer
-- policy-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- governance
-- legal
-- compliance
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-12-11'
-governance_tags:
-
-- requires-human-review
-- legal-advice-disclaimer
-
-dataClassification: internal
-reviewStatus: draft
-regulatory_scope:
-
-- Global
-
-effectivenessScore: 0.0
 ---
 
 # Regulatory Change Analyzer
 
----
-
 ## Description
 
-Helps compliance and legal teams digest complex regulatory texts (e.g., EU AI Act, new GDPR guidance) and determine the operational impact. It extracts key requirements, deadlines, and applicability criteria to aid in gap analysis.
-
----
-
-## Use Cases
-
-- Analyzing a new privacy law in a specific US state
-- Reviewing updates to PCI-DSS standards
-- Assessing the impact of the EU AI Act on product roadmap
-- Summarizing regulatory enforcement actions for executive briefing
-- Updating internal policies to match new legal requirements
-
----
+Analyze new or updated regulations to determine applicability, impact on existing policies, and required actions. Generate compliance roadmaps and policy update recommendations.
 
 ## Prompt
 
-```text
-You are a Legal Compliance Analyst. Analyze the provided regulatory text or summary and assess its impact.
+You are a Regulatory Affairs Specialist analyzing a new regulation.
 
-## Regulation / Update
-[REGULATION_TEXT]
+### Regulation Details
+**Regulation:** [regulation_text]
 
-## Organization Context
-[ORG_CONTEXT] (e.g., "Global SaaS company with customers in EU and US, processing HR data")
+### Organization Context
+[org_context]
 
-## Instructions
+### Analysis Framework
+1. **Applicability**: Does this regulation apply to us?
+2. **Key Requirements**: What does it mandate?
+3. **Gap Analysis**: Where do we fall short?
+4. **Impact Assessment**: Systems, processes, costs affected.
+5. **Implementation Roadmap**: Timeline and actions.
 
-1.  Summarize the key requirements of the regulation.
-2.  Identify the specific impacts on the organization based on the context.
-3.  Highlight critical deadlines and penalties.
-4.  Suggest immediate next steps for compliance.
-
-## Output Format
-
-- **Executive Summary**
-- **Key Requirements Checklist**
-- **Impact Assessment**
-- **Action Plan**
-
-```
-
----
+### Output Format
+- Executive summary (1 paragraph)
+- Applicability determination
+- Requirements matrix
+- Gap analysis table
+- Recommended action plan
 
 ## Variables
 
-- `[REGULATION_TEXT]`: The text of the law or a detailed summary (e.g., "EU AI Act - High Risk Systems requirements").
-- `[ORG_CONTEXT]`: Details about the company to tailor the impact analysis.
-
----
+- `[regulation_text]`: Text or summary of the regulation.
+- `[org_context]`: Details about the organization (industry, size, geography, current practices).
 
 ## Example
 
-```text
-## Impact Analysis: EU AI Act (High-Risk Systems)
+**Input**:
+Regulation: EU AI Act - High-Risk AI Systems requirements
+Org Context: SaaS company using AI for credit scoring, operates in EU, 500 employees
 
+**Response**:
 ### Executive Summary
-The EU AI Act introduces strict obligations for "High-Risk" AI systems. Given your company provides "AI-based recruitment software," your product likely falls under the High-Risk classification (Annex III), requiring immediate attention to conformity assessments.
+The EU AI Act classifies credit scoring AI as high-risk, requiring conformity assessments, human oversight, and transparency measures. Implementation deadline is August 2025.
 
-### Key Requirements Checklist
+### Applicability
+**Yes** - Credit scoring is listed in Annex III as high-risk.
 
-*   [ ] Risk Management System (Art. 9)
-*   [ ] Data Governance & Training Data Quality (Art. 10)
-*   [ ] Technical Documentation (Art. 11)
-*   [ ] Human Oversight measures (Art. 14)
-*   [ ] Registration in EU Database (Art. 51)
-
-### Impact Assessment
-
-*   **Product:** Need to implement logging and transparency features to explain ranking decisions to candidates.
-*   **Data:** Must audit training data for gender/racial bias to meet Art. 10.
-*   **Legal:** Need to appoint an Authorized Representative in the EU.
+### Key Requirements
+| Requirement | Article | Current State | Gap |
+|-------------|---------|---------------|-----|
+| Risk management system | Art. 9 | Partial | Need formal documentation |
+| Human oversight | Art. 14 | No | Implement review process |
+| Transparency | Art. 13 | Partial | Add user-facing explanations |
 
 ### Action Plan
-
-1.  **Q1:** Conduct a gap analysis against Annex III requirements.
-2.  **Q2:** Update technical documentation to include detailed model cards.
-3.  **Q3:** Establish a "Human Oversight" workflow for the recruitment tool.
-
-```
-
----
-
-## Tips
-
-- **Disclaimer:** This prompt provides analysis, not legal advice. Always consult with qualified counsel.
-- **Applicability:** The first step is always determining "Does this apply to us?" Focus on jurisdiction and scope.
-- **Deadlines:** Look for "entry into force" vs "date of application" – they are often different.
-
----
-
-## Related Prompts
-
-- [GDPR Compliance Assessment](/prompts/governance/gdpr-compliance-assessment) — Assess GDPR compliance for regulatory changes in privacy
-- [AI/ML Privacy Risk Assessment](/prompts/governance/ai-ml-privacy-risk-assessment) — Analyze EU AI Act and AI regulation impacts
-- [Compliance Policy Generator](/prompts/governance/compliance-policy-generator) — Draft updated policies based on new regulations
-- [Legal Contract Review](/prompts/governance/legal-contract-review) — Review contracts for regulatory compliance clauses
+1. Q1 2025: Document risk management system
+2. Q2 2025: Implement human-in-the-loop review
+3. Q3 2025: Add explainability features

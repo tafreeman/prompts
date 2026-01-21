@@ -1,8 +1,7 @@
 ---
 name: security_agent
 description: Expert in security analysis, vulnerability detection, and secure coding practices
-tools:
-  ['search', 'usages', 'problems', 'changes', 'fetch', 'githubRepo', 'runCommands']
+type: how_to
 ---
 
 # Security Agent

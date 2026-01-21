@@ -1,8 +1,7 @@
 ---
 name: test_agent
 description: Expert in test generation for comprehensive code coverage using modern testing frameworks
-tools:
-  ['search', 'edit', 'new', 'runCommands', 'runTests', 'runTasks', 'usages', 'problems', 'testFailure']
+type: how_to
 ---
 
 # Testing Agent

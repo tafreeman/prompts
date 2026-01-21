@@ -1,144 +1,125 @@
 ---
-title: M365 Designer Social Media Kit
-shortTitle: M365 Designer Social Med...
-intro: Marketing teams often need to promote a single blog post or announcement across
-  multiple channels with different visual requirements. This prompt takes your core
-  content and generates specific Micr...
-m365App: Microsoft Designer
+name: M365 Designer Social Media Kit
+description: Generates a cohesive set of image prompts for Microsoft Designer to create matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
 type: how_to
-difficulty: intermediate
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- designer
-- m365
-- creative
-- social-media
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Generates a cohesive set of image prompts for Microsoft Designer to create
-  matching assets for Instagram, LinkedIn, and Twitter/X from a single content piece.
-effectivenessScore: 0.0
 ---
 
 ## Description
 
 Marketing teams often need to promote a single blog post or announcement across multiple channels with different visual requirements. This prompt takes your core content and generates specific Microsoft Designer prompts for a "Square" (Instagram), "Landscape" (LinkedIn/Twitter), and "Story" (Vertical) format, ensuring visual consistency across the campaign.
 
-## Goal
-
-To create a suite of matching social media visual prompts that can be generated in Microsoft Designer for a multi-channel campaign.
-
-## Inputs
-
-- **Content Topic**: [topic]
-- **Key Headline**: [headline]
-- **Brand Style**: [brand_style]
-- **Visual Elements**: [visual_elements]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
 ## Prompt
 
-You are a Social Media Design Lead. I have a new piece of content to promote, and I need to generate a "Social Media Kit" using Microsoft Designer.
+### System Prompt
 
-**Campaign Details:**
+```text
+You are a social media visual strategist specializing in multi-platform campaign design for Microsoft Designer. You ensure visual consistency across different social media format requirements while optimizing composition for each platform.
 
-- **Topic**: [topic]
-- **Headline**: [headline]
-- **Brand Style**: [brand_style]
-- **Key Visual Elements**: [visual_elements]
+### Your Capabilities
+- Generate Microsoft Designer prompts for multiple aspect ratios
+- Ensure brand consistency across Instagram, LinkedIn, Twitter/X, and Stories
+- Recommend optimal composition for each platform's viewing context
+- Adapt visual elements to work across square, landscape, and portrait formats
 
-Please write **3 specific prompts** to paste into Microsoft Designer. All three must share the same aesthetic but be optimized for different aspect ratios and layouts:
+### Format Specifications
+- Instagram Square: 1:1 (1080x1080)
+- LinkedIn/Twitter Landscape: 16:9 (1200x675)
+- Instagram/Facebook Story: 9:16 (1080x1920)
 
-1. **The "Feed Post" (Square 1:1)**: Focus on a central visual with space for the headline.
-2. **The "Link Card" (Landscape 16:9)**: Optimized for LinkedIn/Twitter previews. Wide layout.
-3. **The "Story" (Vertical 9:16)**: Tall layout with negative space at the top/bottom for stickers/text.
+### Output Standards
+- Each format gets a specific Designer prompt with aspect ratio keywords
+- Include composition guidance for each format
+- Provide text overlay placement suggestions
+- Maintain consistent visual motifs across all formats
+```
 
-**For each prompt, include:**
+### User Prompt
 
-- **Aspect Ratio keyword**: (e.g., "Square image", "Wide image").
-- **Subject Description**: How to arrange the [visual_elements].
-- **Style Instructions**: Ensuring the [brand_style] is consistent.
+```text
+Create a multi-platform social media visual kit for Microsoft Designer:
 
-<<<<<<< HEAD
+**Content Topic:** [topic]
+**Key Headline:** [headline]
+**Brand Style:** [brand_style]
+**Visual Elements:** [visual_elements]
 
-=======
->>>>>>> main
----
+Please provide Designer prompts and guidance for:
+1. Instagram Square (1:1)
+2. LinkedIn/Twitter Landscape (16:9)
+3. Instagram/Facebook Story (9:16)
+4. Consistency checklist to ensure brand cohesion
+```
 
 ## Variables
 
-- `[topic]`: e.g., "New Product Launch: Eco-Bottle".
-- `[headline]`: e.g., "Hydration Reimagined".
-- `[brand_style]`: e.g., "Minimalist, Matte finish, Pastel colors".
-- `[visual_elements]`: e.g., "Water bottle, water splash, leaves".
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `[topic]` | The content topic | "New Product Launch: Eco-Bottle" |
+| `[headline]` | The key message | "Hydration Reimagined" |
+| `[brand_style]` | Visual style guide | "Minimalist, Matte finish, Pastel colors" |
+| `[visual_elements]` | Key imagery to include | "Water bottle, water splash, leaves" |
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
+### Input
+
+```text
+Content Topic: New Product Launch: Eco-Bottle
+Key Headline: Hydration Reimagined
+Brand Style: Minimalist, Matte finish, Pastel mint and white
+Visual Elements: Eco-friendly water bottle, water droplets, leaves
+```
+
+### Output
+
+```markdown
+## 1. Instagram Square (1:1)
+
+**Composition:** Product centered, negative space for text overlay at top
+
+**Designer Prompt:**
+"A minimalist product photo of a matte pastel mint water bottle on a clean white background, with soft water droplets and a single eucalyptus leaf, studio lighting, centered composition, square format"
+
+**Text Overlay:** "Hydration Reimagined" in thin sans-serif, top-center
+
 ---
 
-## Example Usage
+## 2. LinkedIn/Twitter Landscape (16:9)
 
-**Input:**
+**Composition:** Product left-third, text space right-side
 
-- `[topic]`: "Remote Work Tips Blog Post"
-- `[headline]`: "Mastering the Home Office"
-- `[brand_style]`: "Modern, Tech, Blue and Orange gradients"
-- `[visual_elements]`: "Laptop, coffee cup, abstract connectivity lines"
+**Designer Prompt:**
+"A wide minimalist product scene with a pastel mint eco-bottle on the left, soft gradient pastel background fading to white, water splash effect, leaves scattered, professional product photography, 16:9 aspect ratio"
 
-**Output:**
+**Text Overlay:** Headline right-aligned, company logo bottom-right
 
-### Designer Prompts
-
-**1. Square Feed Post (Instagram)**
-"A square 3D render of a modern home office desk setup with a laptop and coffee cup. Abstract blue and orange connectivity lines glowing in the background. Minimalist style, matte finish. Central composition with empty space in the center for text overlay."
-
-**2. Landscape Link Card (LinkedIn)**
-"A wide 16:9 image featuring a sleek laptop on the left side and abstract tech lines flowing to the right. Blue and orange gradient background. Professional and clean look suitable for a blog header. High resolution, 3D style."
-
-**3. Vertical Story (TikTok/Reels)**
-"A tall 9:16 vertical background image. At the bottom, a small 3D laptop and coffee cup. The top 70% is a clean, soft blue gradient with subtle orange abstract lines, leaving ample negative space for text and stickers. Modern tech aesthetic."
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
+
+## 3. Instagram Story (9:16)
+
+**Composition:** Vertical flow, product at center, text zones top and bottom
+
+**Designer Prompt:**
+"A vertical mobile-optimized product image of a mint green water bottle with water droplets, pastel gradient background, space at top and bottom for text overlays, minimalist aesthetic, tall portrait format"
+
+**Text Overlay:** Headline at top, CTA button zone at bottom
+
+---
+
+## 4. Consistency Checklist
+- [x] Pastel mint + white palette
+- [x] Water bottle + droplets + leaves motif
+- [x] Minimalist aesthetic throughout
+- [x] Consistent text style (thin sans-serif)
+```
 
 ## Tips
 
-- In Microsoft Designer, you can often select the aspect ratio *before* or *after* generation, but including keywords like "wide" or "tall" in the prompt helps the AI compose the scene correctly.
-- Use the "Brand Kit" feature in Designer to apply your exact hex codes after the image is generated.
+- In Microsoft Designer, you can select the aspect ratio before or after generation, but including keywords like "wide" or "tall" helps the AI compose the scene correctly.
+- Use the "Brand Kit" feature in Designer to apply your exact hex codes after generation.
+- Generate all 3 formats in one Designer session to maintain color consistency.
+- Save your prompts as templates for future campaigns.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

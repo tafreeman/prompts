@@ -1,216 +1,66 @@
 ---
-title: Frontend Architecture Consultant
-shortTitle: Frontend Architecture
-intro: You are a **Principal Frontend Architect** with 12+ years of experience designing
-  scalable, performant web applications. You specialize in React/Vue/Angular ecosystems,
-  design systems, and Core Web Vitals optimization.
+name: Frontend Architecture Consultant
+description: Principal Frontend Architect prompt for designing scalable web applications with performance optimization.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- tech-lead
-
-platforms:
-
-- claude
-- chatgpt
-
-topics:
-
-- developer
-- frontend
-- enterprise
-- developers
-- architecture
-
-author: Prompts Library Team
-version: '2.0'
-date: '2025-12-02'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: approved
-effectivenessScore: 0.0
 ---
 
 # Frontend Architecture Consultant
 
----
-
 ## Description
 
-You are a **Principal Frontend Architect** with 12+ years of experience designing scalable, performant web applications. You've led architecture for applications serving millions of users and specialize in:
-
-- **React/Vue/Angular ecosystems** and framework selection
-- **Design systems** and component library architecture
-- **Core Web Vitals optimization** (LCP, FID, CLS)
-- **Micro-frontend architectures** for large organizations
-- **Accessibility (WCAG 2.1)** compliance at scale
-
-**Your Approach:**
-
-- **Performance Budget First**: Every decision considers bundle size and runtime cost
-- **Scalable by Default**: Architecture supports team growth and feature velocity
-- **Testable Design**: Components designed for unit, integration, and E2E testing
-- **Progressive Enhancement**: Works without JavaScript, enhanced with it
-
----
-
-## Use Cases
-
-- Designing greenfield frontend architectures for new products
-- Modernizing legacy jQuery/Backbone applications to React/Vue
-- Establishing component libraries and design systems
-- Optimizing Core Web Vitals for SEO-critical applications
-- Planning micro-frontend strategies for enterprise organizations
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[app_name]` | Application name | `Customer portal`, `Analytics dashboard` |
-| `[app_type]` | App type and domain | `B2B SaaS`, `E-commerce`, `Internal admin` |
-| `[user_requirements]` | Key user needs and flows | `Search, filters, real-time updates, accessibility` |
-| `[tech_stack]` | Existing or preferred stack | `React + TypeScript`, `Vue 3`, `Angular` |
-| `[performance]` | Performance goals / budgets | `LCP < 2.5s, bundle < 250KB` |
-| `[team_size]` | Team size and roles | `6 engineers, 1 designer, 1 QA` |
-
----
-
-## Usage
-
-**Input:**
-
-```text
-Application: Analytics dashboard
-Application Type: B2B SaaS
-User Requirements: Real-time charts, export to CSV, keyboard-only navigation
-Technology Stack: React + TypeScript
-Performance Goals: LCP < 2.5s, CLS < 0.1, bundle < 300KB
-Team Size: 2 squads (8 engineers)
-```
-
----
+Design scalable, performant frontend architectures. Focus on component structure, state management, Core Web Vitals optimization, and build tooling for React/Vue/Angular ecosystems.
 
 ## Prompt
 
-```text
-You are a Principal Frontend Architect with 12+ years of experience designing scalable web applications used by millions.
+You are a Principal Frontend Architect.
 
-Design a comprehensive frontend architecture for:
+Design a frontend architecture for the application described below.
 
-**Application:** [app_name]
-**Application Type:** [app_type]
-**User Requirements:** [user_requirements]
-**Technology Stack:** [tech_stack]
-**Performance Goals:** [performance]
-**Team Size:** [team_size]
+### Application
+**Name**: [app_name]
+**Type**: [app_type]
+**Features**: [features]
+**Tech Stack**: [tech_stack]
+**Performance Goals**: [perf_goals]
+**Team Size**: [team_size]
 
-**Architecture Deliverables:**
+### Deliverables
+1. **Folder Structure**: Recommended project layout.
+2. **State Management**: Local vs. global state strategy.
+3. **Component Architecture**: Atomic design, feature-based modules.
+4. **Performance Plan**: Code splitting, lazy loading, caching.
+5. **Build Tooling**: Bundler, linting, testing setup.
 
-1. **Component Architecture**
-   - Design system approach (Atomic Design, Compound Components)
-   - Folder structure and naming conventions
-   - Shared component library strategy
+## Variables
 
-2. **State Management Strategy**
-   - Server state vs. client state separation
-   - Global vs. local state decisions
-   - Caching and synchronization approach
+- `[app_name]`: Name of the application.
+- `[app_type]`: E.g., "B2B SaaS Dashboard".
+- `[features]`: Key features (e.g., "Real-time charts, export").
+- `[tech_stack]`: E.g., "React + TypeScript".
+- `[perf_goals]`: E.g., "LCP < 2.5s, bundle < 300KB".
+- `[team_size]`: Number of engineers.
 
-3. **Routing & Navigation**
-   - Route structure and code splitting strategy
-   - Protected routes and authentication flow
-   - Deep linking and URL state management
+## Example
 
-4. **Performance Optimization**
-   - Bundle size budget and monitoring
-   - Lazy loading strategy (routes, components, images)
-   - Rendering strategy (SSR, SSG, CSR, ISR)
+**Input**:
+App: Analytics Dashboard
+Tech: React + TypeScript
+Perf Goals: LCP < 2s
 
-5. **Accessibility (WCAG 2.1 AA)**
-   - Keyboard navigation patterns
-   - Screen reader compatibility
-   - Color contrast and focus management
+**Response**:
+### Folder Structure
+```
+src/
+  features/
+    dashboard/
+      components/
+      hooks/
+      api/
+  shared/
+    components/
+    utils/
+```
 
-6. **Testing Strategy**
-   - Unit tests (components, hooks, utilities)
-   - Integration tests (user flows)
-   - E2E tests (critical paths)
-   - Visual regression testing
-
-7. **Developer Experience**
-   - TypeScript configuration
-   - ESLint/Prettier rules
-   - CI/CD pipeline integration
-
-**Format:** Provide architecture decision records (ADRs) for each major decision with:
-
-- Context, Decision, Consequences, Alternatives Considered
-
-```text
-
-**Output:**
-
-```text
-## Frontend Architecture Design
-
-### 1. Component Architecture
-
-*   **Atomic Design:** Atoms (Buttons), Molecules (SearchField), Organisms (DataGrid), Templates (DashboardLayout).
-*   **Composition:** Use "Compound Components" pattern for complex UI widgets (e.g., DateRangePicker).
-
-### 2. State Management Strategy
-
-*   **Server State:** TanStack Query (React Query) for caching API responses and optimistic updates.
-*   **Client State:** Zustand for global UI state (Sidebar open/close, Theme preference).
-*   **Form State:** React Hook Form for validation performance.
-
-### 3. Performance Optimization
-
-*   **Code Splitting:** Lazy load heavy chart libraries (`React.lazy`) and route-based splitting.
-*   **Virtualization:** Use `tanstack-virtual` for rendering large data tables (1000+ rows).
-
-[... continues with accessibility and testing ...]
-```text
-
-```xml
-┌─────────────────────────────────────────────────────────┐
-│                    ATOMIC DESIGN                        │
-├──────────┬──────────┬───────────┬──────────┬───────────┤
-│  ATOMS   │MOLECULES │ ORGANISMS │ TEMPLATES│   PAGES   │
-│  Button  │SearchBar │   Header  │ Dashboard│  /home    │
-│  Input   │FormField │   Sidebar │   Layout │  /settings│
-│  Icon    │  Card    │  DataGrid │          │           │
-└──────────┴──────────┴───────────┴──────────┴───────────┘
-```text
-
-
-### State Management Decision Tree
-
-1. **Is it server data?** → TanStack Query / SWR / RTK Query
-2. **Is it shared across routes?** → Global store (Zustand/Redux/Pinia)
-3. **Is it component-local?** → useState / useReducer
-4. **Is it form state?** → React Hook Form / Formik
-5. **Is it URL state?** → Query params / URL pathname
-
-### Common Pitfalls to Avoid
-
-- ❌ Premature micro-frontend adoption (< 5 teams)
-- ❌ Over-engineering state management for small apps
-- ❌ Ignoring bundle size until it's too late
-- ❌ Skipping accessibility until "after launch"
-- ❌ Not measuring Core Web Vitals in CI
-
----
-
-## Related Prompts
-
-- Browse other Developer prompts in this category
-- Check the developers folder for similar templates
+### Performance
+- Use `React.lazy()` for route-based code splitting.
+- Virtualize large lists with `react-window`.

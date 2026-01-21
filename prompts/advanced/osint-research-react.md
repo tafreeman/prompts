@@ -1,56 +1,12 @@
 ---
-title: 'ReAct: OSINT Research & Development'
-shortTitle: OSINT Research
-intro: A specialized ReAct prompt for researching and developing advanced OSINT (Open
-  Source Intelligence) capabilities, tools, and methodologies.
+name: Osint Research React
+description: Uses ReAct reasoning pattern to research OSINT tools, techniques, and methodologies for creating high-quality investigative prompts. Synthesizes findings from Bellingcat, SANS, and OSINT frameworks into structured research reports.
 type: how_to
-difficulty: advanced
-audience:
-
-- security-researcher
-- intelligence-analyst
-- investigator
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-topics:
-
-- osint
-- research
-- security
-
-author: OSINT Library Team
-version: '1.1'
-date: '2026-01-12'
-governance_tags:
-
-- PII-safe
-- ethical-use-only
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 33.3
 ---
-
-# ReAct: OSINT Research & Development
 
 ## Description
 
-Use this prompt to research advanced OSINT techniques, tools, and methodologies, then synthesize findings into actionable prompts and guides. This is designed to facilitate a "deep dive" into specific intelligence domains (SOCMINT, GEOINT, IMINT, Cyber) by leveraging community expertise and expert resources.
-
-## When to Use
-
-- **Developing new OSINT prompts** for specific investigations
-- **Researching novel tools** and techniques (e.g., new social media scrapers)
-- **Validating methodologies** against industry best practices (Bellingcat, SANS)
-- **Mapping the OSINT landscape** for specific threats or targets
-- **Creating training materials** for intelligence analysts
-
----
+Employs ReAct (Reasoning + Acting) pattern to systematically research OSINT domains, validate methodologies against professional standards, and create executable investigative prompts. Provides structured research reports with tool assessments, methodology outlines, and OpSec considerations.
 
 ## Prompt
 

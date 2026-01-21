@@ -1,129 +1,57 @@
 ---
-title: Data Classification Helper
-shortTitle: Data Classifier
-intro: A prompt to help categorize data assets based on sensitivity and regulatory
-  requirements.
+name: Data Classification Helper
+description: Prompt to categorize data assets based on sensitivity and regulatory requirements.
 type: how_to
-difficulty: beginner
-audience:
-
-- data-steward
-- compliance-officer
-- developer
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- governance
-- data-management
-- security
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-12-11'
-governance_tags:
-
-- requires-human-review
-- data-privacy
-
-dataClassification: internal
-reviewStatus: draft
-regulatory_scope:
-
-- GDPR
-- CCPA
-- Internal-Policy
-
-effectivenessScore: 0.0
 ---
 
 # Data Classification Helper
 
----
-
 ## Description
 
-Assists in classifying data fields or datasets into standard sensitivity levels (e.g., Public, Internal, Confidential, Restricted). It analyzes the nature of the data and maps it to common regulatory and security handling requirements.
-
----
-
-## Use Cases
-
-- Creating a data dictionary for a new application
-- Tagging data in a catalog (e.g., Collibra, Alation)
-- Determining encryption requirements for a database schema
-- Assessing the impact of a potential data breach
-- Configuring DLP (Data Loss Prevention) rules
-
----
+Classify data assets by sensitivity level (Public, Internal, Confidential, Restricted). Consider regulatory requirements (GDPR, HIPAA, PCI) and business impact of unauthorized disclosure.
 
 ## Prompt
 
-```text
-You are a Data Governance Specialist. Classify the following data elements based on a standard 4-tier classification scheme (Public, Internal, Confidential, Restricted).
+You are a Data Governance Specialist classifying data assets.
 
-## Classification Scheme Definition
+### Data to Classify
+[data_list]
 
-- **Public:** Freely shareable (e.g., marketing info).
-- **Internal:** Business data, low risk if leaked (e.g., org charts).
-- **Confidential:** Sensitive business data or PII (e.g., salaries, customer emails).
-- **Restricted:** Highly sensitive, regulatory impact (e.g., SSNs, Credit Cards, Health Data).
+### Classification Levels
+- **Public**: No harm if disclosed (marketing materials).
+- **Internal**: Minor harm if disclosed (org charts).
+- **Confidential**: Significant harm (customer data, financials).
+- **Restricted**: Severe harm (PII, PHI, credentials).
 
-## Data Elements to Classify
-[DATA_LIST]
+### Output Format
+| Data Field | Classification | Rationale | Regulations |
+|------------|----------------|-----------|-------------|
+| ... | ... | ... | ... |
 
-## Instructions
-
-1.  Assign a classification level to each element.
-2.  Cite the reasoning (e.g., "Contains PII", "PCI-DSS requirement").
-3.  Recommend handling controls (e.g., "Encrypt at rest").
-
-## Output Format
-| Data Element | Classification | Reasoning | Handling Controls |
-| -------------- | ---------------- | ----------- | ------------------- |
-```
-
----
+### Additional Analysis
+- Encryption requirements
+- Access control recommendations
+- Retention considerations
 
 ## Variables
 
-- `[DATA_LIST]`: List of fields or data types (e.g., "User ID, Email, Password Hash, Date of Birth, Last 4 of SSN, Public Profile URL").
-
----
+- `[data_list]`: List of fields or data types to classify.
 
 ## Example
 
-```text
-## Data Classification Report
+**Input**:
+Data List: User ID, Email, Password Hash, Date of Birth, Credit Card Last 4, Public Profile URL
 
-| Data Element | Classification | Reasoning | Handling Controls |
-| -------------- | ---------------- | ----------- | ------------------- |
-| Public Profile URL | **Public** | Intended for public consumption. | None specific. |
-| User ID | **Internal** | System identifier, low risk alone. | Access control. |
-| Email Address | **Confidential** | PII (GDPR/CCPA). | Encrypt in transit, access logging. |
-| Password Hash | **Restricted** | Critical security credential. | Strong hashing (Argon2/bcrypt), salt. |
-| Last 4 of SSN | **Confidential** | Partial PII, used for verification. | Encrypt at rest, mask on display. |
-| Date of Birth | **Confidential** | PII, identity theft risk. | Encrypt at rest. |
-```
+**Response**:
+| Data Field | Classification | Rationale | Regulations |
+|------------|----------------|-----------|-------------|
+| User ID | Internal | System identifier, no PII | None |
+| Email | Confidential | Personal identifier | GDPR, CCPA |
+| Password Hash | Restricted | Authentication credential | SOC 2 |
+| Date of Birth | Confidential | PII, age discrimination risk | GDPR |
+| Credit Card Last 4 | Confidential | Partial payment data | PCI-DSS |
+| Public Profile URL | Public | Intentionally shared | None |
 
----
-
-## Tips
-
-- **Context Matters:** "Name" might be Public for a CEO but Confidential for a covert operative.
-- **Aggregation:** A collection of "Internal" data might become "Confidential" when aggregated (mosaic effect).
-- **Regulations:** Always check if specific laws (HIPAA, PCI) mandate a higher classification.
-
----
-
-## Related Prompts
-
-- [Data Retention Policy](/prompts/governance/data-retention-policy) — Define lifecycle and retention schedules for classified data
-- [Privacy Impact Assessment](/prompts/governance/privacy-impact-assessment) — Assess privacy risks for data processing activities
-- [GDPR Compliance Assessment](/prompts/governance/gdpr-compliance-assessment) — Evaluate compliance for personal data handling
-- [Access Control Reviewer](/prompts/governance/access-control-reviewer) — Review who has access to classified data
+### Recommendations
+- Encrypt at rest: Password Hash, Email, DOB
+- Access control: Restrict Credit Card data to finance team

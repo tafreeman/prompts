@@ -1,13 +1,8 @@
 from typing import Dict, Any
 from dataclasses import dataclass
 
-# Support both relative imports (when used as package) and absolute imports (when run directly)
-try:
-    from .models import Generator, Reviewer, Refiner
-    from .config import default_config, Config
-except ImportError:
-    from models import Generator, Reviewer, Refiner
-    from config import default_config, Config
+from tools.models import Generator, Reviewer, Refiner
+from tools.core.config import default_config, Config
 
 
 @dataclass

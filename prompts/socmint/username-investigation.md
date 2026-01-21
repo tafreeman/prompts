@@ -1,35 +1,7 @@
 ---
-title: Username Investigation
-shortTitle: Username OSINT
-intro: Work in progress - This prompt is currently under development.
+name: Username Investigation
+description: Work in progress - This prompt is currently under development.
 type: how_to
-difficulty: beginner
-audience:
-
-  - general
-
-platforms:
-
-  - claude
-  - chatgpt
-  - github-copilot
-
-topics:
-
-  - socmint
-
-author: Prompts Library Team
-version: '0.1.0'
-date: '2025-12-15'
-governance_tags:
-
-  - WIP
-  - requires-review
-
-dataClassification: internal
-reviewStatus: work-in-progress
-effectivenessScore: 0.0
-subcategory: "socmint"
 ---
 
 # Username Investigation

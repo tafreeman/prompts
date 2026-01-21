@@ -1,46 +1,10 @@
 ---
-title: 'Chain-of-Thought: Debugging & Root Cause Analysis'
-shortTitle: CoT Debugging
-intro: A specialized Chain-of-Thought prompt for systematic debugging and root cause
-  analysis using explicit step-by-step reasoning.
+name: Chain Of Thought Debugging
+description: # Chain-of-Thought: Debugging & Root Cause Analysis
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- claude
-- github-copilot
-
-topics:
-
-- debugging
-- development
-
-author: Prompt Engineering Team
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Chain-of-Thought: Debugging & Root Cause Analysis
-
----
-
-## Description
-
-A specialized Chain-of-Thought prompt for systematic debugging and root cause analysis. Guides developers through reproducing bugs, generating hypotheses, designing experiments, and proposing validated fixes with regression tests.
-
----
 
 ## Research Foundation
 
@@ -90,24 +54,6 @@ Use this prompt when debugging production issues, investigating test failures, a
 
 All reasoning steps must be visible in the output.
 
----
-
-## Output Requirements
-
-Structured Markdown with the following sections:
-
-1. **Symptom Summary**
-2. **Initial Hypotheses** (ranked)
-3. **Experiment Design** (for top hypotheses)
-4. **Root Cause** (evidence-based conclusion)
-5. **Proposed Fix** (code snippet + rationale)
-6. **Regression Tests** (test cases to prevent recurrence)
-7. **Verification Steps** (how to confirm the fix works)
-
-See `docs/domain-schemas.md` for additional schema options.
-
----
-
 ## Use Cases
 
 - Debugging intermittent production issues with limited reproduction steps
@@ -115,41 +61,6 @@ See `docs/domain-schemas.md` for additional schema options.
 - Investigating performance regressions (memory leaks, slowdowns)
 - Analyzing security vulnerabilities or unexpected behaviors
 - Postmortem analysis for incidents with unclear causes
-
----
-
-## Prompt
-
-```text
-You are an expert software debugger using Chain-of-Thought reasoning to systematically identify and fix bugs.
-
-## Bug Report
-
-**Description:** [BUG_DESCRIPTION]
-
-**Error Message:**
-[ERROR_MESSAGE_OR_STACK_TRACE]
-
-**Reproduction Steps:**
-[REPRODUCTION_STEPS]
-
-**Expected Behavior:** [EXPECTED_BEHAVIOR]
-
-**Actual Behavior:** [ACTUAL_BEHAVIOR]
-
-**Environment:**
-
-- OS: [OPERATING_SYSTEM]
-- Runtime: [RUNTIME_VERSION]
-- Dependencies: [KEY_DEPENDENCIES]
-
-**Relevant Code:**
-[CODE_SNIPPET]
-
-**Additional Context:**
-[LOGS_TELEMETRY_OR_OTHER_INFO]
-
----
 
 ## Instructions
 
@@ -188,24 +99,6 @@ Provide:
 ### Step 7: Regression Test
 Provide test cases that would catch this bug if it recurs.
 ```
-
----
-
-## Variables
-
-- `[BUG_DESCRIPTION]`: High-level description of the bug (e.g., "User login fails intermittently")
-- `[ERROR_MESSAGE_OR_STACK_TRACE]`: Full error message or stack trace
-- `[REPRODUCTION_STEPS]`: Steps to reproduce the bug (or "unknown" if not reproducible)
-- `[EXPECTED_BEHAVIOR]`: What should happen
-- `[ACTUAL_BEHAVIOR]`: What actually happens
-- `[OPERATING_SYSTEM]`: OS and version (e.g., "Ubuntu 22.04", "Windows 11")
-- `[RUNTIME_VERSION]`: Runtime environment (e.g., "Node.js 20.10", "Python 3.11")
-- `[KEY_DEPENDENCIES]`: Relevant libraries and versions
-- `[LANGUAGE]`: Programming language
-- `[CODE_SNIPPET]`: Relevant code (function, class, or module)
-- `[LOGS_TELEMETRY_OR_OTHER_INFO]`: Additional diagnostic information
-
----
 
 ## Example Usage
 
@@ -284,22 +177,6 @@ async function authenticate(req, res, next) {
 
 **Key Insight:** The intermittent nature (~5%) combined with the timing (after multi-server deployment) strongly suggests an environment inconsistency across servers.
 
----
-
-### Step 2: Hypothesis Generation
-
-| # | Hypothesis | Likelihood | Evidence |
-| --- | ----------- | ----------- | ---------- |
-| H1 | JWT_SECRET differs between servers | HIGH | Started after multi-server deploy; "invalid signature" error; staging works |
-| H2 | Clock skew between servers causes token timing issues | MEDIUM | Intermittent failures; multi-server environment |
-| H3 | Token parsing issue (header format) | LOW | Would fail consistently, not 5% |
-| H4 | Load balancer modifying Authorization header | LOW | Would affect all requests from certain paths |
-| H5 | Race condition in token verification | LOW | jwt.verify is synchronous |
-
-**Prioritization:** H1 > H2 > H4 > H3 > H5
-
----
-
 ### Step 3: Evidence Analysis (H1 - JWT_SECRET Mismatch)
 
 **Why H1 is most likely:**
@@ -327,23 +204,6 @@ done
 ```
 
 If the hashes differ, H1 is confirmed.
-
----
-
-### Step 4: Root Cause
-
-**ROOT CAUSE: JWT_SECRET environment variable mismatch across production servers**
-
-When new servers were deployed, the JWT_SECRET was not synchronized. Tokens signed by Server A cannot be verified by Server B if they have different secrets.
-
-**Evidence chain:**
-
-1. "Invalid signature" error → secret mismatch
-2. ~5% failure → only some servers affected
-3. Started after multi-server deploy → new servers have different config
-4. Staging works → single server, no mismatch possible
-
----
 
 ### Step 5: Recommended Fix
 
@@ -389,37 +249,6 @@ env:
 
 ```
 
----
-
-### Step 6: Regression Test
-
-```javascript
-
-// test/auth.integration.test.js
-describe('JWT Authentication (multi-server simulation)', () => {
-  const SECRET_A = 'secret-server-a';
-  const SECRET_B = 'secret-server-b';  // Different secret
-
-  it('should fail verification if secrets mismatch', () => {
-    const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
-
-    expect(() => {
-      jwt.verify(token, SECRET_B, { algorithms: ['HS256'] });
-    }).toThrow('invalid signature');
-  });
-
-  it('should succeed verification if secrets match', () => {
-    const token = jwt.sign({ userId: '123' }, SECRET_A, { algorithm: 'HS256' });
-    const decoded = jwt.verify(token, SECRET_A, { algorithms: ['HS256'] });
-
-    expect(decoded.userId).toBe('123');
-  });
-});
-
-```
-
----
-
 ### Summary
 
 | Attribute | Value |
@@ -431,20 +260,6 @@ describe('JWT Authentication (multi-server simulation)', () => {
 | **Fix Complexity** | LOW (environment sync) |
 | **Recommended Action** | 1) Sync secrets immediately, 2) Add startup validation, 3) Use centralized secrets management |
 ```
-
----
-
-## Tips
-
-- **Start broad, narrow down:** Generate multiple hypotheses, then prioritize and test systematically
-- **Use evidence, not intuition:** Every hypothesis and conclusion should be backed by observable evidence
-- **Test one variable at a time:** Design experiments that isolate specific causes
-- **Consider the environment:** Many bugs are environment-specific (multi-server, race conditions, resource limits)
-- **Propose minimal fixes:** Avoid over-engineering; fix the root cause with minimal code changes
-- **Always include regression tests:** Prevent the bug from recurring
-- **Document reasoning:** Visible CoT reasoning helps others learn and validates your logic
-
----
 
 ## Related Prompts
 

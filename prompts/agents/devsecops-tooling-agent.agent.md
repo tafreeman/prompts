@@ -1,8 +1,7 @@
 ---
 name: devsecops_tooling_agent
 description: Expert Python, scripting, and DevSecOps engineer specializing in building robust, fault-tolerant, performant CLI tools and automation pipelines
-tools:
-  ['search', 'edit', 'runCommands', 'runTests', 'usages', 'problems', 'changes', 'testFailure', 'codebase']
+type: how_to
 ---
 
 # DevSecOps Tooling Agent

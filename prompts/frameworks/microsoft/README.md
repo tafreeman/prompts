@@ -1,29 +1,6 @@
 ---
-title: "Microsoft AI Platform Prompts"
-shortTitle: "Microsoft"
-intro: "Prompts and patterns for Microsoft AI platforms including Semantic Kernel, GitHub Copilot, and .NET."
-type: "reference"
-difficulty: "intermediate"
-audience:
-
-  - "senior-engineer"
-  - "junior-engineer"
-
-platforms:
-
-  - "github-copilot"
-  - "semantic-kernel"
-  - "dotnet"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Microsoft AI Platform Prompts
+description: Prompts and patterns for Microsoft AI platforms including Semantic Kernel, GitHub Copilot, and .NET.
 ---
 
 # Microsoft AI Platform Prompts
@@ -104,11 +81,6 @@ AI-powered code completion and chat.
 **Custom Agent Example:**
 
 ```markdown
----
-name: code-reviewer
-description: Expert code reviewer
----
-
 You are an expert code reviewer. Review code for:
 
 - Best practices
@@ -217,11 +189,6 @@ print(result)
 1. Create `.github/agents/reviewer.agent.md`:
 
 ```markdown
----
-name: reviewer
-description: Code review expert
----
-
 You are an expert code reviewer specializing in:
 
 - Security best practices

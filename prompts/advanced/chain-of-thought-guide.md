@@ -1,49 +1,10 @@
 ---
-title: 'Chain-of-Thought: Decision Guide'
-shortTitle: CoT Decision Guide
-intro: A practical decision framework for choosing when and how to use Chain-of-Thought
-  prompting, including mode selection and best practices.
+name: Chain Of Thought Guide
+description: # Chain-of-Thought: Decision Guide
 type: reference
-difficulty: beginner
-audience:
-
-- junior-engineer
-- senior-engineer
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-- azure-openai
-
-topics:
-
-- reasoning
-- best-practices
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-17'
-governance_tags:
-
-- PII-safe
-- general-use
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Chain-of-Thought: Decision Guide
-
----
-
-## Description
-
-A practical decision framework for choosing when and how to use Chain-of-Thought (CoT) prompting. This guide helps you select the right CoT mode (none, concise, or detailed) based on your situation, and provides best practices for maximizing reasoning quality while managing token costs.
-
----
 
 ## Research Foundation
 
@@ -51,52 +12,6 @@ This technique is based on the paper:
 **Wei, J., Wang, X., Schuurmans, D., Bosma, M., Ichter, B., Xia, F., Chi, E., Le, Q., & Zhou, D. (2022).** "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." *Advances in Neural Information Processing Systems (NeurIPS) 35*. [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
 
 Wei et al. demonstrated that prompting large language models to generate intermediate reasoning steps (a "chain of thought") significantly improves performance on complex reasoning tasks including arithmetic, commonsense, and symbolic reasoning. The paper showed accuracy improvements from 17.7% to 58.1% on GSM8K math problems when using Chain-of-Thought prompting.
-
----
-
-## Use Cases
-
-- Deciding whether to use CoT for a specific task
-- Choosing between concise and detailed CoT modes
-- Understanding the cost-benefit trade-offs of CoT
-- Training teams on when to apply advanced prompting techniques
-- Optimizing prompt engineering for production systems
-
-## The CoT Decision Tree
-
-```mermaid
-flowchart TD
-    A[🎯 Start: AI Task] --> B{Simple lookup<br/>or direct task?}
-    B -->|Yes| C[✅ No CoT Needed<br/>Use direct prompt]
-    B -->|No| D{Requires logical<br/>reasoning?}
-
-    D -->|No| C
-    D -->|Yes| E{High stakes<br/>or novel?}
-
-    E -->|Yes| F[📋 USE DETAILED CoT<br/>Full justification]
-    E -->|No| G{Need audit<br/>trail?}
-
-    G -->|Yes| H[📝 USE CONCISE CoT<br/>Step-by-step visible]
-    G -->|No| I{Multiple<br/>approaches?}
-
-    I -->|Yes| J[🌳 USE TREE-OF-THOUGHTS<br/>Explore branches]
-    I -->|No| H
-
-    style C fill:#c8e6c9
-    style F fill:#81c784
-    style H fill:#aed581
-    style J fill:#9575cd,color:#fff
-    style A fill:#e3f2fd
-```
-
-**Decision Criteria:**
-
-- **Simple Task**: Direct lookup, formatting, translation → No CoT
-- **High Stakes**: >$10K impact, compliance, novel domain → Detailed CoT
-- **Audit Trail**: Debugging, learning, transparency → Concise CoT  
-- **Multiple Paths**: Architecture, strategy, exploration → Tree-of-Thoughts
-
----
 
 ## Text-Based Decision Tree
 
@@ -123,72 +38,6 @@ START: Do you have a task that needs AI reasoning?
 │       └─→ Need to explore multiple approaches?
 │           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
 ```
-
----
-
-## When to Use Each Mode
-
-### No CoT (Direct Prompting)
-
-**Use for:**
-
-- Simple lookups (facts, definitions, syntax)
-- Straightforward formatting tasks
-- Well-defined, routine operations
-- Very token-sensitive applications
-
-**Example tasks:**
-
-- "Translate this to Spanish"
-- "Extract email addresses from this text"
-- "Convert CSV to JSON"
-- "What's the syntax for Python list comprehension?"
-
-**Tokens saved:** Baseline (no overhead)
-
-### Concise CoT
-
-**Use for:**
-
-- Moderate complexity problems
-- Debugging and troubleshooting
-- Quick technical decisions
-- When you need reasoning audit trail
-- Time-sensitive situations
-
-**Example tasks:**
-
-- "Debug why this API call is failing"
-- "Recommend database indexes for this query"
-- "Review this code for security issues"
-- "Estimate project completion time"
-
-**Token overhead:** ~30-50 extra tokens
-**Accuracy gain:** ~15-25% on reasoning tasks
-**Time to completion:** +20-30%
-
-### Detailed CoT
-
-**Use for:**
-
-- Complex, novel problems
-- High-stakes decisions (>$10K impact)
-- Architecture and strategic choices
-- Teaching and knowledge transfer
-- Compliance documentation needs
-
-**Example tasks:**
-
-- "Design migration strategy for legacy system"
-- "Evaluate build vs. buy for core platform"
-- "Create incident postmortem with root cause analysis"
-- "Recommend enterprise security architecture"
-
-**Token overhead:** ~200-400 extra tokens
-**Accuracy gain:** ~30-50% on complex problems
-**Time to completion:** +100-200%
-
----
 
 ## Comparative Examples
 
@@ -356,17 +205,6 @@ Cost = 100 × $0.00003 = $0.003
 
 ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 ```
-
----
-
-## Related Prompts
-
-- [Chain-of-Thought: Detailed Mode](chain-of-thought-detailed.md) - For complex problems
-- [Chain-of-Thought: Concise Mode](chain-of-thought-concise.md) - For quick reasoning
-- [Tree-of-Thoughts Template](tree-of-thoughts-template.md) - For multi-path exploration
-- [ReAct Tool-Augmented](react-tool-augmented.md) - For tasks with external tools
-
----
 
 ## Governance Notes
 

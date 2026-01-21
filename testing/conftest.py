@@ -83,12 +83,11 @@ def temp_dir() -> Generator[Path, None, None]:
 
 @pytest.fixture
 def temp_prompt_file(temp_dir: Path) -> Generator[Path, None, None]:
-    """Create a temporary prompt file with valid frontmatter."""
+    """Create a temporary prompt file with valid frontmatter (minimal schema)."""
     prompt_path = temp_dir / "test-prompt.md"
     content = """---
-title: Test Prompt
-shortTitle: Test
-intro: A test prompt for unit testing.
+name: Test Prompt
+description: A test prompt for unit testing.
 type: template
 difficulty: beginner
 audience:

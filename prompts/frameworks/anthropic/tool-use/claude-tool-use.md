@@ -1,58 +1,62 @@
 ---
-title: Claude Tool Use Pattern
-shortTitle: Claude Tool Use Pattern
-intro: A prompt for claude tool use pattern tasks.
-type: conceptual
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: frameworks
-subcategory: anthropic
-technique_type: tool-use
-framework_compatibility:
-  anthropic: '>=0.8.0'
-use_cases:
-
-- data-extraction
-- api-integration
-- complex-workflows
-
-performance_metrics:
-  accuracy_improvement: 20-30%
-  latency_impact: medium
-last_updated: '2025-11-23'
-tags:
-
-- anthropic
-- claude
-- tool-use
-- function-calling
-
+name: Claude Tool Use Pattern
+description: A prompt for claude tool use pattern tasks.
+type: how_to
 ---
 
 # Claude Tool Use Pattern
 
-## Purpose
+## Description
 
-Demonstrates how to effectively define and use tools (functions) with Anthropic's Claude models. Claude 3 models are highly optimized for tool use, allowing for reliable structured data extraction and API integration.
+This pattern demonstrates how to effectively define and use tools (functions) with Anthropic's Claude models. Claude 3 models are optimized for tool use, enabling reliable structured data extraction and API integration through the Thought → Action → Observation cycle.
+
+## Prompt
+
+```text
+You are a helpful assistant with access to the following tools:
+{{tool_definitions}}
+
+Your goal is to assist the user by using these tools when necessary.
+
+<instructions>
+1. **Think before you act**: Analyze the user's request. Determine if a tool is needed.
+2. **Chain of Thought**: If a tool is needed, output your reasoning in <thinking> tags before calling the tool.
+3. **Tool Call**: Use the provided tool format to execute the action.
+4. **Response**: Once you have the tool result, formulate a natural language response to the user.
+</instructions>
+
+<user_request>
+{{user_input}}
+</user_request>
+```
+
+## Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{tool_definitions}}` | JSON schema definitions for available tools | See Tool Definition Example below |
+| `{{user_input}}` | The user's request that may require tool use | "What's the weather in San Francisco?" |
+
+## Example
+
+**Input:**
+
+- `{{tool_definitions}}`: `[{"name": "get_weather", "description": "Get current weather", "input_schema": {...}}]`
+- `{{user_input}}`: "What's the weather in San Francisco?"
+
+**Output:**
+
+```
+<thinking>
+The user wants to know the weather in San Francisco. I should use the get_weather tool with "San Francisco, CA" as the location.
+</thinking>
+
+[Tool call: get_weather(location="San Francisco, CA")]
+
+Based on the current weather data, San Francisco is currently 62°F with partly cloudy skies.
+```
+
+## Purpose
 
 ## Overview
 

@@ -57,17 +57,36 @@ DEFAULT_MODELS = [
     "gh:gpt-4o-mini",
 ]
 
-# Required frontmatter fields
-REQUIRED_FRONTMATTER = ["title"]
+# Required frontmatter fields (at least one of these must be present)
+REQUIRED_FRONTMATTER = ["name"]  # 'name' is our standard; 'title' also accepted
 
 # Preferred frontmatter fields (warning if missing)
-PREFERRED_FRONTMATTER = ["description", "type", "category"]
+PREFERRED_FRONTMATTER = ["description", "type"]
+
+# Optional execution/evaluation frontmatter fields
+OPTIONAL_FRONTMATTER = [
+    "pattern",           # react | cove | reflexion | rag
+    "model",             # Recommended model (e.g., openai/gpt-4o)
+    "model_parameters",  # {temperature, max_tokens, top_p}
+    "response_format",   # text | json_object | json_schema
+    "difficulty",        # beginner | intermediate | advanced
+    "test_data",         # List of input/expected pairs for evaluation
+]
+
+# Valid values for enumerated frontmatter fields
+VALID_PATTERNS = ["react", "cove", "reflexion", "rag"]
+VALID_RESPONSE_FORMATS = ["text", "json_object", "json_schema"]
+VALID_DIFFICULTIES = ["beginner", "intermediate", "advanced"]
+VALID_TYPES = ["how_to", "reference", "template", "guide"]
 
 # Required sections in prompt files
 REQUIRED_SECTIONS = ["Description", "Prompt"]
 
 # Preferred sections (warning if missing)
 PREFERRED_SECTIONS = ["Variables", "Example"]
+
+# Optional sections
+OPTIONAL_SECTIONS = ["Test Data"]
 
 # Files/patterns to skip during validation
 SKIP_PATTERNS = [

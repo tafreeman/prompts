@@ -20,8 +20,17 @@ from conftest import parse_frontmatter, load_prompt_file
 # =============================================================================
 # SCHEMA DEFINITION
 # =============================================================================
+# NOTE: The prompt library uses a centralized registry.yaml for full metadata.
+# Individual prompt files only require minimal frontmatter: name, description.
+# Full schema fields are validated against registry.yaml, not per-file.
 
 REQUIRED_FIELDS = [
+    "name",
+    "description",
+]
+
+# Legacy full-schema fields (now in registry.yaml, not per-file)
+FULL_SCHEMA_FIELDS = [
     "title",
     "shortTitle",
     "intro",

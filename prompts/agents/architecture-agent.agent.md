@@ -1,8 +1,7 @@
 ---
 name: architecture_agent
 description: Expert in system design, architectural patterns, and technical decision-making
-tools:
-  ['search', 'edit', 'new', 'fetch', 'githubRepo', 'usages', 'problems', 'changes']
+type: how_to
 ---
 
 # Architecture Agent

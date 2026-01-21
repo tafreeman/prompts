@@ -1,156 +1,147 @@
 ---
-title: M365 Sway Document to Story
-shortTitle: Sway Document Story
-intro: Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat
-  Word document into it often looks boring. This prompt restructures text into Sway's
-  native Card format.
-m365App: Microsoft Sway
+name: M365 Sway Document to Story
+description: Converts a standard Word document or report into an engaging Microsoft Sway storyline structure with visual suggestions.
 type: how_to
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- storytelling
-- m365
-- creative
-- sway
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Converts a standard Word document or report into an engaging Microsoft
-  Sway storyline structure with visual suggestions.
-effectivenessScore: 0.0
 ---
 
 ## Description
 
 Microsoft Sway is a powerful tool for digital storytelling, but pasting a flat Word document into it often looks boring. This prompt takes your text content and restructures it into Sway's native "Card" format—suggesting where to use Headings, Text Cards, Image Stacks, and Comparisons to make the content interactive and visually appealing.
 
-## Goal
-
-To transform linear text into a dynamic, interactive Sway storyline structure.
-
-## Inputs
-
-- **Document Content**: [document_content]
-- **Target Audience**: [audience]
-- **Key Message**: [key_message]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
 ## Prompt
 
-You are a Digital Storyteller expert in Microsoft Sway. I have a document that I want to turn into an engaging Sway presentation.
+### System Prompt
 
-**Context:**
+```text
+You are a digital storytelling expert specializing in Microsoft Sway presentations. You transform linear documents into dynamic, interactive storylines using Sway's native card types.
 
-- **Source Text**: [document_content]
-- **Audience**: [audience]
-- **Key Takeaway**: [key_message]
+### Your Capabilities
+- Analyze document structure for storytelling potential
+- Map content sections to appropriate Sway card types
+- Recommend visual treatments and image search terms
+- Suggest interactivity options (stacks, comparisons, embeds)
+- Optimize for both desktop and mobile viewing
 
-Please restructure this content into a **Sway Storyline Plan**. For each section, specify:
+### Sway Card Types You Can Recommend
+- Title Card: Hero introductions with full-screen images
+- Heading Card: Section breaks
+- Text Card: Body content with optional accents
+- Image Stack: Swipeable galleries/timelines
+- Comparison Card: Before/after or side-by-side content
+- Grid Group: Equal-weight items (3-4 cells)
+- Embed Card: Videos, maps, other interactive content
 
-1. **Card Type**: (e.g., Heading 1, Text, Image, Stack Group, Comparison, Grid).
-2. **Content**: The specific text to put in that card (summarized/punchy).
-3. **Visual Instruction**: What kind of image or media should go here?
-4. **Emphasis**: (e.g., Subtle, Moderate, Intense).
+### Output Standards
+- Each major section gets a card type recommendation
+- Include image search suggestions for visuals
+- Note animation preferences where appropriate
+- Provide Sway Style/Design recommendations
+```
 
-**Structure the output like this:**
+### User Prompt
 
-- **Section 1: Title & Intro**
-- **Section 2: [Topic Name]**
+```text
+Convert the following document content into a Microsoft Sway storyline structure:
 
-<<<<<<< HEAD
+**Document Content:** [document_content]
+**Target Audience:** [audience]
+**Key Message:** [key_message]
 
-=======
->>>>>>> main
----
+Please provide:
+1. A card-by-card storyline structure
+2. Card type recommendations for each section
+3. Image search suggestions for visuals
+4. Interactivity recommendations (stacks, comparisons, embeds)
+5. Sway design/style recommendations
+```
 
 ## Variables
 
-- `[document_content]`: The text from your Word doc or PDF (paste up to ~2000 words).
-- `[audience]`: Who is viewing this Sway (e.g., "Students", "Clients", "Internal Team").
-- `[key_message]`: The one thing they should remember.
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `[document_content]` | The text from your Word doc or PDF | Up to ~2000 words |
+| `[audience]` | Who is viewing this Sway | "Students", "Clients", "Internal Team" |
+| `[key_message]` | The one thing they should remember | "Our product saves 40% of time" |
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
----
+### Input
 
-## Example Usage
+```text
+Document Content:
+Company History: Founded in 2010, we started as a small consulting firm.
+By 2015, we expanded to 50 employees. In 2020, we went digital-first and
+launched our SaaS platform. Today, we serve 500+ clients globally.
 
-**Input:**
+Our Mission: To simplify complex business processes through intuitive software.
 
-- `[document_content]`: "Our Q3 marketing results show a 20% increase in leads. The new Instagram campaign was the main driver. However, email open rates dropped by 5%. We recommend shifting budget to social media."
-- `[audience]`: "Marketing Team"
-- `[key_message]`: "Social is winning; Email needs a rethink."
+Key Achievements: Industry Award 2022, 10M users milestone, Carbon neutral since 2023.
 
-**Output:**
+Audience: New employee onboarding
+Key Message: We're a fast-growing, purpose-driven company
+```
 
-### Sway Storyline Plan
+### Output
 
-**Section 1: Title & Intro**
+```markdown
+# Sway Storyline: Welcome to Our Story
 
-- **Heading 1 (Background)**: "Q3 Marketing Review: The Shift to Social"
-  - *Visual*: High-quality background image of people using smartphones.
-- **Text Card**: "We saw a massive 20% jump in leads this quarter. Let's dive into what worked."
-  - *Emphasis*: Moderate
+## Card 1: Hero Introduction
+- **Card Type:** Title Card with Full-Screen Image
+- **Heading:** "From Startup to Global Impact"
+- **Subheading:** "Welcome to the team"
+- **Background:** Search "modern office team collaboration"
+- **Animation:** Zoom in
 
-**Section 2: The Wins (Social Media)**
+## Card 2: Our Journey
+- **Card Type:** Image Stack (Timeline)
+- **Content:**
+  - Image 1: "2010 - The Beginning" + small consulting office image
+  - Image 2: "2015 - Growing Fast" + team of 50 image
+  - Image 3: "2020 - Digital First" + laptop/cloud image
+  - Image 4: "Today - Global Reach" + world map image
+- **Visual:** Use Sway's automatic "Stack Group" for swipeable timeline
 
-- **Heading 2**: "Instagram Campaign Success"
-- **Stack Group (Images)**: Screenshots of the top 3 performing posts.
-- **Text Card**: "The new campaign was our primary driver for growth."
+## Card 3: Our Mission
+- **Card Type:** Text Card with Accent
+- **Heading:** "Why We Exist"
+- **Content:** "To simplify complex business processes through intuitive software."
+- **Visual:** Large, centered quote text
+- **Background:** Subtle gradient or abstract pattern
 
-**Section 3: The Challenge (Email)**
+## Card 4: Our Achievements
+- **Card Type:** Grid Group (3 cells)
 
-- **Comparison Group**:
-  - *Image A*: Graph showing Q2 Email Open Rates (High).
-  - *Image B*: Graph showing Q3 Email Open Rates (Low).
-- **Text Card**: "Email engagement dropped by 5%. It's time to pivot."
+| Cell | Icon | Text |
+| ---- | ---- | ---- |
+| 1 | 🏆 | Industry Award 2022 |
+| 2 | 👥 | 10M+ Users |
+| 3 | 🌱 | Carbon Neutral |
 
-**Section 4: Conclusion**
+## Card 5: Your Part in Our Story
+- **Card Type:** Call-to-Action
+- **Heading:** "Welcome Aboard"
+- **Content:** "You're now part of a fast-growing, purpose-driven team."
+- **Button:** Link to onboarding portal
 
-- **Heading 1**: "Recommendation: Double Down on Social"
-  - *Visual*: bold, inspiring abstract graphic.
+## Interactivity Recommendations
+- Use **Stack Group** for the timeline (Card 2) - swipeable on mobile
+- Add a **Video Card** if you have a company intro video
+- Consider **Embed** for interactive org chart
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+## Design Notes
+- **Recommended Style:** "Modern" or "Bold" in Sway
+- **Color Accent:** Match company brand colors
+- **Scroll Direction:** Vertical (better for mobile onboarding)
+```
 
 ## Tips
 
 - Use "Stack Groups" for photo galleries (e.g., event photos).
 - Use "Comparison" cards for Before/After scenarios.
 - Copy the text from the "Content" fields directly into your Sway cards.
+- Keep each card focused on ONE idea for better flow.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

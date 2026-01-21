@@ -1,29 +1,6 @@
 ---
-title: "Context Optimization Techniques"
-shortTitle: "Context Optimization"
-intro: "Advanced techniques for managing long contexts, maximizing token efficiency, and optimizing information retrieval."
-type: "reference"
-difficulty: "advanced"
-audience:
-
-  - "senior-engineer"
-  - "ai-researcher"
-
-platforms:
-
-  - "claude"
-  - "gpt-4"
-  - "langchain"
-
-author: "AI Research Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Context Optimization Techniques
+description: Advanced techniques for managing long contexts, maximizing token efficiency, and optimizing information retrieval.
 ---
 
 # Context Optimization Techniques

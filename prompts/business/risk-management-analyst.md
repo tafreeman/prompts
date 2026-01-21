@@ -1,46 +1,10 @@
 ---
-title: "Risk Management Analyst"
-shortTitle: "Risk Management"
-intro: "Enterprise-grade risk analyst using ISO 31000 and PMI PMBOK frameworks for risk identification, quantification, and mitigation."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "project-manager"
-  - "solution-architect"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "risk-management"
-  - "compliance"
-
-author: "Prompts Library Team"
-version: "1.2"
-date: "2025-11-26"
-governance_tags:
-
-  - "PII-safe"
-  - "audit-required"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Risk Management Analyst
+description: Enterprise-grade risk analyst using ISO 31000 and PMI PMBOK frameworks for risk identification, quantification, and mitigation.
+type: how_to
 ---
+
 # Risk Management Analyst
-
----
-
-## Description
-
-Enterprise-grade risk analyst specializing in project risk identification, quantification, and mitigation using ISO 31000 and PMI PMBOK frameworks. Focuses on probability-impact assessment, risk response planning, and continuous monitoring for complex technical and infrastructure projects.
-
----
 
 ## Use Cases
 
@@ -50,89 +14,12 @@ Enterprise-grade risk analyst specializing in project risk identification, quant
 - Regulatory compliance risk analysis (SOC2, ISO27001, GDPR)
 - Supply chain and vendor risk evaluation
 
----
-
-## Prompt
-
-```text
-You are an enterprise Risk Management Analyst using ISO 31000 and PMI standards.
-
-Analyze risks for:
-
-**Project**: [project_name]
-**Project Phase**: [phase]
-**Key Concerns**: [concerns]
-**Stakeholder Impact**: [impact]
-
-Provide:
-
-1. **Risk Identification Matrix** (Risk ID, Category, Description, Owner)
-2. **Probability and Impact Assessment** (Quantitative scoring: P×I = Risk Score)
-3. **Risk Register** (Top 10 risks with heat map)
-4. **Risk Mitigation Strategies** (Avoid, Transfer, Mitigate, Accept with RACI)
-5. **Contingency Plans** (Trigger conditions and fallback options)
-6. **Monitoring Procedures** (KRIs - Key Risk Indicators with thresholds)
-7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
-
-Use tables for risk matrices and include expected monetary value (EMV) calculations where applicable.
-```text
-
----
-
 ## Variables
 
 - `[project_name]`: Project name and scope (e.g., "Data Center DC-04 Build - 50MW Hyperscale Facility")
 - `[phase]`: Current project phase (e.g., "Construction/Fit-Out Month 8 of 18", "Go-Live Preparation", "Post-Production Support")
 - `[concerns]`: Specific risk areas identified (e.g., "Supply chain delays for cooling units, labor strikes, permit delays, anchor tenant retention")
 - `[impact]`: Business consequences if risks materialize (e.g., "Critical path delay costs $500K/month in liquidated damages, potential loss of $50M anchor tenant contract")
-
----
-
-## Example
-
-### Context
-
-You are assessing risks for a hyperscale data centre build where supply chain issues, labour uncertainty, and permit delays threaten go‑live dates and anchor tenant contracts.
-
-### Input
-
-```text
-You are an enterprise Risk Management Analyst using ISO 31000 and PMI standards.
-
-Analyze risks for:
-
-**Project**: New Data Center Build (DC-04) - 50MW Hyperscale Facility
-**Project Phase**: Construction / Fit-Out (Month 8 of 18-month timeline)
-**Key Concerns**:
-
-- Supply chain delays for 120 CRAC (Computer Room Air Conditioning) units from primary vendor (Vertiv)
-- Potential labor strike by Local 793 (HVAC fitters union) — contract expires in 45 days
-- Power grid connection permit stuck at municipal planning office for 6 weeks (should take 2 weeks)
-- Anchor tenant (AWS) threatening to walk if go-live slips past Oct 1 deadline
-
-**Stakeholder Impact**:
-
-- Critical path delay incurs $500K/month in liquidated damages to anchor tenant
-- Loss of anchor tenant = $50M contract voided + reputational damage
-- Every month of delay = $800K in lost revenue from colocation customers
-
-Provide:
-
-1. **Risk Identification Matrix** (Risk ID, Category, Description, Owner)
-2. **Probability and Impact Assessment** (Quantitative scoring: P×I = Risk Score)
-3. **Risk Register** (Top 10 risks with heat map)
-4. **Risk Mitigation Strategies** (Avoid, Transfer, Mitigate, Accept with RACI)
-5. **Contingency Plans** (Trigger conditions and fallback options)
-6. **Monitoring Procedures** (KRIs - Key Risk Indicators with thresholds)
-7. **Escalation Protocols** (When to alert steering committee or exec sponsor)
-
-```text
-
-### Expected Output
-
-The AI generates a risk register and analysis pack including: identified risks with scores, a heat map, mitigation strategies with RACI, contingency actions, monitoring KRIs, and escalation protocols suitable for inclusion in a steering committee pack.
-
----
 
 ## 3. Risk Mitigation Strategies
 
@@ -157,34 +44,6 @@ The AI generates a risk register and analysis pack including: identified risks w
 
 **Success Metric**: Confirm secondary vendor PO by Nov 1, 2025.
 
----
-
-### R-04: Anchor Tenant Cancellation (Priority 1)
-
-**Response Strategy**: **MITIGATE** + **ACCEPT** (with negotiation)
-
-**Primary Mitigation** (Cost: $150K legal + relationship management):
-
-1. **Contract Amendment Negotiation**:
-   - Propose 30-day extension (Oct 1 → Nov 1) in exchange for 3-month rent discount ($500K concession).
-   - **Rationale**: AWS has no alternative DC capacity in region for Q4 workloads (leverage their dependency).
-2. **Interim Capacity Offer**: Provide temporary space in adjacent DC-03 (10MW) at no cost for 60 days to bridge gap.
-3. **Executive Escalation**: CEO-to-CEO call (our CEO + AWS VP Infrastructure) to reinforce partnership.
-
-**Contingency Plan (If AWS walks)**:
-
-- **Backup Tenant Pipeline**: 3 Tier-2 cloud providers (Oracle Cloud, Alibaba Cloud, IBM) pre-qualified and ready to sign.
-- **Revenue Impact**: $50M AWS contract → $35M from 3 smaller tenants (30% revenue reduction vs. catastrophic loss).
-
-**RACI**:
-
-- **Responsible**: VP Sales
-- **Accountable**: CEO
-- **Consulted**: Legal, Project Manager
-- **Informed**: Board of Directors
-
----
-
 ### R-02: Union Labor Strike (Priority 2)
 
 **Response Strategy**: **TRANSFER** + **MITIGATE**
@@ -199,23 +58,6 @@ The AI generates a risk register and analysis pack including: identified risks w
 
 **Trigger Condition for Escalation**: If union rejects offer by Nov 5, activate non-union contractor immediately.
 
----
-
-### R-03: Permit Delay (Priority 2)
-
-**Response Strategy**: **MITIGATE**
-
-**Primary Mitigation**:
-
-1. **Expeditor Hire**: Retain specialized municipal permit consultant ($25K/month) to navigate planning office bureaucracy.
-   - **Track Record**: Consultant has 90% success rate unblocking permits within 2 weeks.
-2. **Political Escalation**: Engage city council member (via Chamber of Commerce relationship) to flag delay (estimated 1-week resolution).
-3. **Alternative Grid Connection**: Explore backup connection via adjacent industrial park substation (adds $150K but bypasses planning office).
-
-**Monitoring**: Daily check-ins with planning office + weekly escalation to city manager if no progress.
-
----
-
 ## 4. Contingency Plans
 
 ### Contingency Budget Allocation
@@ -228,28 +70,6 @@ The AI generates a risk register and analysis pack including: identified risks w
 | R-03 | Permit not issued by Nov 15 | Build alternative grid connection | $150K | PM |
 
 **Total Contingency Reserve**: $2.69M (already allocated in project budget as 8% contingency fund).
-
----
-
-## 5. Monitoring Procedures (Key Risk Indicators)
-
-### KRI Dashboard (Weekly Review)
-
-| Risk | Key Risk Indicator (KRI) | Green Threshold | Yellow Threshold | Red Threshold | Current Status |
-| ------ | -------------------------- | ----------------- | ------------------ | --------------- | ---------------- |
-| R-01 | Vertiv production status | On-schedule | 1-week delay | \u003e2-week delay | 🟡 (Monitoring) |
-| R-04 | AWS satisfaction score | \u003e8/10 (survey) | 6-8/10 | \u003c6/10 | 🟢 (Score: 7.5) |
-| R-02 | Union negotiation progress | Agreement signed | Talks ongoing | Breakdown | 🟡 (In negotiation) |
-| R-03 | Permit office response time | \u003c5 days | 5-10 days | \u003e10 days | 🔴 (14 days) |
-| R-05 | Generator test results | All pass | 1 failure | \u003e1 failure | 🟢 (Scheduled Oct 30) |
-
-**Review Cadence**: 
-
-- **Daily**: PM reviews R-01, R-04 (critical risks)
-- **Weekly**: Steering Committee reviews all KRIs
-- **Monthly**: Board briefing on top 3 risks
-
----
 
 ## 6. Escalation Protocols
 
@@ -295,22 +115,6 @@ NEXT UPDATE: Tomorrow 9am (or sooner if status changes).
 [Project Manager Name]
 
 ```text
-
----
-
-## Success Metrics
-
-### Risk Management Effectiveness KPIs
-
-| Metric | Target | Current (Month 8) | Trend |
-| -------- | -------- | ------------------- | ------- |
-| **% Risks Identified Before Impact** | \u003e90% | 85% | 🟡 (Improved from 70% in Month 5) |
-| **Average Risk Response Time** | \u003c48 hours | 36 hours | 🟢 (Exceeding target) |
-| **Contingency Budget Utilization** | \u003c50% | 12% ($324K of $2.69M) | 🟢 (Healthy reserve) |
-| **Critical Risks (Score \u003e12) Mitigated** | 100% | 50% (1 of 2 mitigated) | 🔴 (R-04 remains critical) |
-| **Steering Committee Satisfaction** | \u003e4/5 | 4.2/5 | 🟢 (Good visibility) |
-
----
 
 ## FMEA (Failure Mode and Effects Analysis) - Optional Deep Dive
 

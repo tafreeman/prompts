@@ -11,7 +11,7 @@ from pathlib import Path
 # WINDOWS CONSOLE ENCODING FIX - Use shared module
 # =============================================================================
 try:
-    from _encoding import setup_encoding
+    from tools.core._encoding import setup_encoding
     setup_encoding()
 except ImportError:
     # Fallback if running as standalone script

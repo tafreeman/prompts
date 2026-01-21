@@ -1,11 +1,7 @@
 from typing import Dict, Any
 import json
 
-# Support both package-style and direct imports
-try:
-    from ..llm_client import LLMClient
-except ImportError:
-    from llm_client import LLMClient
+from tools.llm.llm_client import LLMClient
 
 
 class Refiner:

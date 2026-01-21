@@ -1,45 +1,10 @@
 ---
-title: "Agile Sprint Planner"
-shortTitle: "Sprint Planner"
-intro: "Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "project-manager"
-  - "senior-engineer"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "agile"
-  - "project-management"
-
-author: "Prompts Library Team"
-version: "1.1"
-date: "2025-11-26"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 4.5
+name: Agile Sprint Planner
+description: Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition.
+type: how_to
 ---
+
 # Agile Sprint Planner
-
----
-
-## Description
-
-Agile/Scrum sprint planner for software development teams. Focuses on capacity planning, story point estimation, velocity tracking, and sprint goal definition using Scrum framework best practices.
-
----
 
 ## Use Cases
 
@@ -49,36 +14,6 @@ Agile/Scrum sprint planner for software development teams. Focuses on capacity p
 - Sprint retrospective preparation
 - Release planning and roadmap alignment
 
----
-
-## Prompt
-
-```text
-You are a certified Scrum Master planning Sprint [sprint_number].
-
-Plan sprint for:
-
-**Project**: [project_name]
-**Sprint Duration**: [duration]
-**Team Capacity**: [capacity]
-**Priority Features**: [features]
-**Definition of Done**: [dod]
-
-Provide:
-
-1. **Sprint Goal** (One-sentence SMART goal)
-2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
-3. **Task Estimation** (Story points + hourly breakdown)
-4. **Capacity Planning** (Velocity analysis + buffer allocation)
-5. **Risk Mitigation** (Dependencies, blockers, technical unknowns)
-6. **Success Metrics** (Burndown targets, completion criteria)
-7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
-
-Format output with Markdown tables for story breakdown and capacity allocation.
-```markdown
-
----
-
 ## Variables
 
 - `[project_name]`: Product or feature name (e.g., "E-commerce Mobile App - Payment Module")
@@ -87,57 +22,6 @@ Format output with Markdown tables for story breakdown and capacity allocation.
 - `[capacity]`: Available story points (e.g., "80 points (reduced from 100 due to Thanksgiving holiday, 2 devs on PTO)")
 - `[features]`: Priority features from product backlog (e.g., "One-click Checkout, Apple Pay Integration, Wishlist Sync")
 - `[dod]`: Definition of Done criteria (e.g., "Unit tests passed, UI automated tests green, PO sign-off, Analytics events fired")
-
----
-
-## Example
-
-### Context
-
-An e‑commerce team is planning a two‑week sprint focused on improving checkout performance ahead of Black Friday. Capacity is reduced due to holidays, so they need clear goals, story breakdown, and realistic capacity planning.
-
-### Input
-
-```text
-You are a certified Scrum Master planning Sprint 12.
-
-Plan sprint for:
-
-**Project**: E-commerce Mobile App - Payment Module
-**Sprint Duration**: 2 Weeks (Nov 20 - Dec 1)
-**Team Capacity**: 80 Story Points (Reduced from 100 due to Thanksgiving holiday - 2 devs on PTO for 3 days)
-**Priority Features**:
-
-- "One-click Checkout" (Epic: Checkout Optimization)
-- "Apple Pay Integration" (Epic: Payment Methods)
-- "Wishlist Sync Across Devices" (Epic: Social Commerce)
-
-**Definition of Done**:
-
-- Unit tests passed (>90% coverage)
-- UI automated tests green (Appium suite)
-- Product Owner sign-off on acceptance criteria
-- Analytics events fired correctly (Google Analytics 4)
-- API documentation updated in Swagger
-
-Provide:
-
-1. **Sprint Goal** (One-sentence SMART goal)
-2. **User Story Breakdown** (Epics → Stories → Tasks with acceptance criteria)
-3. **Task Estimation** (Story points + hourly breakdown)
-4. **Capacity Planning** (Velocity analysis + buffer allocation)
-5. **Risk Mitigation** (Dependencies, blockers, technical unknowns)
-6. **Success Metrics** (Burndown targets, completion criteria)
-7. **Sprint Ceremonies** (Daily standup, review, retro schedules)
-
-Format output with Markdown tables for story breakdown and capacity allocation.
-```text
-
-### Expected Output
-
-The AI generates a sprint planning document that includes: a concise sprint goal, tables of epics/stories/tasks with estimates, a capacity and velocity breakdown, identified risks with mitigation actions, success metrics, and a schedule of ceremonies ready to paste into your planning doc or backlog tool.
-
----
 
 ## Tips
 

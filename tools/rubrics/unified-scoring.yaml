@@ -1,0 +1,602 @@
+# Unified Prompt Scoring Rubric
+# Version: 3.0.0
+# Updated: 2026-01-19
+#
+# Two-tier system based on rr.txt specification:
+# - Standard scoring: All prompts (5 dimensions × 10 points = 100)
+# - Pattern scoring: Advanced patterns (7 universal + pattern-specific dimensions)
+#
+# Philosophy: Prompts are programs. Models are stochastic interpreters.
+# We evaluate execution traces, not vibes.
+
+version: "3.0.0"
+updated: "2026-01-19"
+
+# =============================================================================
+# STANDARD SCORING (ALL PROMPTS)
+# =============================================================================
+# For regular prompts without specific reasoning patterns.
+# Uses 5 dimensions with 0-10 scale, weighted to 100 points.
+# This is the SIMPLE scoring - no pattern enforcement needed.
+# Scoring note: 10 = absolute perfection (rare), 9 = excellent with trivial issues
+
+standard:
+  description: Basic prompt quality scoring for all prompts
+  max_score: 100
+  pass_threshold: 70
+
+  dimensions:
+    clarity:
+      weight: 0.25
+      scale: [0, 10]
+      description: Is the prompt unambiguous and easy to understand?
+      rubric:
+        10: Absolute perfection - zero ambiguity, flawless instruction flow, self-explanatory
+        9: Excellent - crystal clear purpose, negligible ambiguity
+        8: Very good - clear purpose, 1-2 minor ambiguities
+        7: Good - clear intent, some terms could be clearer
+        6: Adequate - understandable but requires interpretation
+        5: Fair - main idea clear but multiple unclear parts
+        4: Below average - confusing in several places
+        3: Poor - significant confusion, unclear variables
+        2: Very poor - major rewrites needed
+        1: Extremely poor - barely comprehensible
+        0: Incomprehensible
+
+    effectiveness:
+      weight: 0.30
+      scale: [0, 10]
+      description: Does it consistently produce quality output?
+      rubric:
+        10: Excellent results 99%+ of time, handles all edge cases
+        9: Excellent results 95%+ of time, handles most edge cases
+        8: Good results 90%+ of time, decent edge case handling
+        7: Good results 85%+ of time
+        6: Acceptable results 75%+ of time
+        5: Acceptable results 65%+ of time, some inconsistency
+        4: Mixed results 50-65%, often unpredictable
+        3: Poor results, fails 50%+ of time
+        2: Frequently fails, rarely produces usable output
+        1: Almost always fails
+        0: Never produces usable output
+
+    structure:
+      weight: 0.20
+      scale: [0, 10]
+      description: How well organized and formatted is the prompt?
+      rubric:
+        10: Perfect professional formatting, optimal hierarchy, publication-ready
+        9: Excellent formatting, clear sections, minor cosmetic improvements possible
+        8: Very good formatting, well-organized, 1-2 small issues
+        7: Good structure, mostly well-organized
+        6: Adequate structure but could be better organized
+        5: Fair structure, inconsistent formatting
+        4: Below average, poorly organized sections
+        3: Poor structure, hard to follow
+        2: Very poor, wall of text with minimal breaks
+        1: No discernible structure
+        0: Completely unformatted/unreadable
+
+    specificity:
+      weight: 0.15
+      scale: [0, 10]
+      description: How specific and actionable are the instructions?
+      rubric:
+        10: Perfectly specific, unambiguous constraints, measurable success criteria
+        9: Highly specific with clear constraints, one trivial gap
+        8: Very specific, good constraints, minor improvements possible
+        7: Good specificity, reasonable constraints
+        6: Adequate specificity, some vague areas
+        5: Somewhat vague, several unclear expectations
+        4: Too vague in multiple areas
+        3: Significantly vague, unclear expectations
+        2: Extremely vague, almost no constraints
+        1: No actionable specificity
+        0: Completely vague/unusable
+
+    completeness:
+      weight: 0.10
+      scale: [0, 10]
+      description: Does the prompt have all necessary components?
+      rubric:
+        10: Everything present - context, instructions, examples, output format, error handling, edge cases
+        9: Complete with all key elements, one minor addition possible
+        8: Has most components, small gaps
+        7: Good coverage, missing 1-2 non-critical elements
+        6: Adequate, missing some helpful components
+        5: Fair, missing several components (e.g., no examples)
+        4: Below average, missing key components
+        3: Poor, has only basic instructions
+        2: Very incomplete, bare minimum
+        1: Almost nothing present
+        0: Empty or no useful content
+
+  grade_scale:
+    A: [90, 100]
+    B: [80, 89]
+    C: [70, 79]
+    D: [60, 69]
+    F: [0, 59]
+
+# =============================================================================
+# PATTERN SCORING (ADVANCED PROMPTS ONLY)
+# =============================================================================
+# For prompts that implement specific reasoning patterns:
+# CoVe, ReAct, Reflexion, RAG, and hybrids.
+#
+# Scoring is STRUCTURAL, not semantic.
+# We evaluate whether the prompt reliably induces the pattern.
+#
+# Based on rr.txt specification:
+# - 7 universal dimensions (0-5 scale each)
+# - Pattern-specific dimensions per pattern type
+# - Hard gates that must pass regardless of total score
+
+pattern:
+  description: Pattern conformance evaluation for advanced prompts
+
+  # =========================================================================
+  # UNIVERSAL DIMENSIONS (All Patterns)
+  # =========================================================================
+  # These 7 dimensions apply to ALL pattern prompts.
+  # Total: 35 points (7 × 5)
+
+  universal_dimensions:
+    # A. Pattern Invocation Fidelity (PIF) ⭐⭐⭐⭐⭐
+    pattern_invocation_fidelity:
+      id: PIF
+      scale: [0, 5]
+      weight: 0.15
+      description: Did the model even attempt the intended pattern?
+      signals:
+        - Named phases appear?
+        - Phase markers respected?
+        - Explicit role separation?
+      rubric:
+        0: Pattern not invoked
+        1: Implicit / accidental
+        2: Partial invocation
+        3: Explicit but flawed
+        4: Explicit & mostly correct
+        5: Explicit & clean
+
+    # B. Phase Ordering Integrity (POI)
+    phase_ordering_integrity:
+      id: POI
+      scale: [0, 5]
+      weight: 0.15
+      hard_gate: 4
+      description: Were the steps executed in the correct order?
+      note: Binary-critical for ReAct / CoVe
+      rubric:
+        0: Random order
+        1: Severe ordering violations
+        2: Some ordering
+        3: Mostly correct with drift
+        4: Correct with minor drift
+        5: Strictly ordered
+
+    # C. Phase Completeness (PC)
+    phase_completeness:
+      id: PC
+      scale: [0, 5]
+      weight: 0.15
+      hard_gate: 4
+      description: Were all required phases present?
+      note: Missing any required phase = cap score at 3
+      rubric:
+        0: No required phases
+        1: Only 1 required phase
+        2: Some phases missing
+        3: Most phases present
+        4: All required phases present
+        5: All phases with proper content
+
+    # D. Constraint Adherence (CA)
+    constraint_adherence:
+      id: CA
+      scale: [0, 5]
+      weight: 0.15
+      hard_gate: 4
+      description: Did the prompt enforce non-leakage, separation, or suppression constraints?
+      examples:
+        - Do not reveal chain-of-thought
+        - Use tools only when instructed
+        - Citations required
+      note: Where many prompts look good but fail in practice
+      rubric:
+        0: No constraints followed
+        1: Major constraint violations
+        2: Some constraints followed
+        3: Most constraints followed
+        4: All constraints followed with minor issues
+        5: Perfect constraint adherence
+
+    # E. Self-Reference Correctness (SRC)
+    self_reference_correctness:
+      id: SRC
+      scale: [0, 5]
+      weight: 0.10
+      description: Is self-reference about its own output? (Critical for Reflexion, CoVe)
+      checks:
+        - Is critique about its own output?
+        - Or generic commentary?
+      rubric:
+        0: No self-reference when required
+        1: Generic commentary instead
+        2: Partial self-reference
+        3: Self-reference with errors
+        4: Correct self-reference
+        5: Precise, accurate self-reference
+
+    # F. Pattern Robustness (PR)
+    pattern_robustness:
+      id: PR
+      scale: [0.0, 1.0]
+      weight: 0.15
+      hard_gate: 0.75
+      description: Across iterations, does the pattern still execute?
+      measured_as:
+        - Percent of runs where pattern fully executes
+        - Std deviation of PIF
+      rubric:
+        0.0-0.25: Pattern rarely executes
+        0.26-0.50: Pattern sometimes executes
+        0.51-0.75: Pattern usually executes
+        0.76-0.90: Pattern reliably executes
+        0.91-1.0: Pattern always executes
+
+    # G. Interference Resistance (IR)
+    interference_resistance:
+      id: IR
+      scale: [0, 5]
+      weight: 0.15
+      description: Does the prompt prevent collapse into simpler patterns?
+      common_failures:
+        - ReAct → Chain-of-Thought
+        - Reflexion → Polite apology
+        - RAG → Hallucinated sources
+      rubric:
+        0: Always collapses
+        1: Usually collapses
+        2: Sometimes maintains pattern
+        3: Usually maintains pattern
+        4: Rarely collapses
+        5: Never collapses
+
+  # =========================================================================
+  # PATTERN-SPECIFIC DIMENSIONS
+  # =========================================================================
+
+  pattern_specific:
+    # -----------------------------------------------------------------------
+    # ReAct-Specific Dimensions
+    # -----------------------------------------------------------------------
+    react:
+      description: Tool-augmented reasoning pattern
+      phases:
+        - Thought
+        - Action
+        - Observation
+        - Final Answer
+      state_machine: "Thought → Action → Observation → (repeat) → Answer"
+
+      dimensions:
+        # R1. Thought/Action Separation
+        thought_action_separation:
+          id: R1
+          scale: [0, 5]
+          description: Are actions tool-like? No analysis inside action?
+          rubric:
+            0: Actions contain reasoning
+            3: Mostly separated
+            5: Perfect separation
+
+        # R2. Observation Binding
+        observation_binding:
+          id: R2
+          scale: [0, 5]
+          description: Are observations used in the next thought?
+          rubric:
+            0: Observations ignored
+            3: Sometimes referenced
+            5: Always integrated
+
+        # R3. Termination Discipline
+        termination_discipline:
+          id: R3
+          scale: [0, 5]
+          description: Does it stop looping appropriately?
+          rubric:
+            0: Loops forever or stops randomly
+            3: Usually stops correctly
+            5: Perfect termination
+
+    # -----------------------------------------------------------------------
+    # CoVe-Specific Dimensions
+    # -----------------------------------------------------------------------
+    cove:
+      description: Chain-of-Verification pattern
+      phases:
+        - Draft Answer
+        - Verification Questions
+        - Independent Checks
+        - Revised Answer
+      state_machine: "Draft → Verification → Independent → Revised"
+
+      dimensions:
+        # C1. Verification Question Quality
+        verification_question_quality:
+          id: C1
+          scale: [0, 5]
+          description: Are questions independent and non-leading?
+          rubric:
+            0: No verification questions
+            3: Some independent questions
+            5: All questions independent and probing
+
+        # C2. Evidence Independence
+        evidence_independence:
+          id: C2
+          scale: [0, 5]
+          description: Verification isn't just rephrasing the draft
+          rubric:
+            0: Just rephrases draft
+            3: Some independent verification
+            5: Fully independent checks
+
+        # C3. Revision Delta
+        revision_delta:
+          id: C3
+          scale: [0, 5]
+          description: Final answer changes when verification fails
+          rubric:
+            0: Never revises
+            3: Sometimes revises
+            5: Always revises when needed
+
+    # -----------------------------------------------------------------------
+    # Reflexion-Specific Dimensions
+    # -----------------------------------------------------------------------
+    reflexion:
+      description: Self-improvement through critique pattern
+      phases:
+        - Attempt
+        - Self-Critique
+        - Reflection Memory
+        - Improved Attempt
+      state_machine: "Attempt → Critique → Memory → Improved"
+
+      dimensions:
+        # F1. Critique Specificity
+        critique_specificity:
+          id: F1
+          scale: [0, 5]
+          description: References concrete failures
+          rubric:
+            0: Generic or no critique
+            3: Some specific critique
+            5: Precise failure identification
+
+        # F2. Memory Utilization
+        memory_utilization:
+          id: F2
+          scale: [0, 5]
+          description: Reflection is actually used in next attempt
+          rubric:
+            0: Memory ignored
+            3: Sometimes used
+            5: Always integrated
+
+        # F3. Improvement Signal
+        improvement_signal:
+          id: F3
+          scale: [0, 5]
+          description: Measurable change between attempts
+          rubric:
+            0: No change
+            3: Some improvement
+            5: Clear measurable improvement
+
+    # -----------------------------------------------------------------------
+    # RAG-Specific Dimensions
+    # -----------------------------------------------------------------------
+    rag:
+      description: Retrieval-Augmented Generation pattern
+      phases:
+        - Query Decomposition
+        - Retrieval Call
+        - Evidence Integration
+        - Answer with Citations
+      state_machine: "Query → Retrieve → Integrate → Cite"
+
+      dimensions:
+        # G1. Retrieval Trigger Accuracy
+        retrieval_trigger_accuracy:
+          id: G1
+          scale: [0, 5]
+          description: Calls retrieval only when needed
+          rubric:
+            0: Never or always retrieves
+            3: Usually appropriate
+            5: Perfect trigger discipline
+
+        # G2. Evidence Grounding
+        evidence_grounding:
+          id: G2
+          scale: [0, 5]
+          description: Claims trace to sources
+          rubric:
+            0: No grounding
+            3: Some claims grounded
+            5: All claims grounded
+
+        # G3. Citation Discipline
+        citation_discipline:
+          id: G3
+          scale: [0, 5]
+          description: No uncited claims
+          rubric:
+            0: No citations
+            3: Some citations
+            5: Every claim cited
+
+  # =========================================================================
+  # HYBRID PATTERN SCORING
+  # =========================================================================
+  # Scored as conjunctions - all base pattern requirements must pass.
+  # Failure in one pattern caps total score.
+
+  hybrid_rules:
+    scoring_method: conjunction
+    description: All base pattern requirements must pass
+    failure_behavior: Failure in one pattern caps total score
+    examples:
+      - pattern: ReAct+RAG
+        requires: [react, rag]
+      - pattern: CoVe+Reflexion
+        requires: [cove, reflexion]
+
+  # =========================================================================
+  # HARD GATES (MUST PASS)
+  # =========================================================================
+  # Some dimensions are hard gates, not averages.
+  # Fail any → prompt is invalid, regardless of total score.
+
+  hard_gates:
+    - dimension: PC
+      minimum: 4
+      reason: Phase completeness is required
+    - dimension: POI
+      minimum: 4
+      reason: Phase ordering is critical
+    - dimension: CA
+      minimum: 4
+      reason: Constraint adherence prevents leakage
+    - dimension: PR
+      minimum: 0.75
+      reason: Pattern must execute reliably
+
+  # =========================================================================
+  # ITERATION STRATEGY
+  # =========================================================================
+  # From rr.txt: 20-50 runs per prompt
+
+  iteration_config:
+    minimum_runs: 20
+    recommended_runs: 30
+    maximum_runs: 50
+    temperature: 0.1
+    outlier_handling:
+      method: trim
+      trim_percent: 10  # Reject top/bottom 10%
+    aggregation: median  # Use median, not mean
+
+# =============================================================================
+# SCORING OUTPUT SCHEMA (STRICT JSON)
+# =============================================================================
+# You must not allow free-text judging.
+
+output_schema:
+  # Standard prompt result (simple)
+  standard_result:
+    type: object
+    required: [prompt_file, scores, overall_score, grade, passed]
+    properties:
+      prompt_file: string
+      scores:
+        clarity: [0-10]
+        effectiveness: [0-10]
+        structure: [0-10]
+        specificity: [0-10]
+        completeness: [0-10]
+      overall_score: [0-100]
+      grade: [A, B, C, D, F]
+      passed: boolean
+      improvements: array
+
+  # Pattern prompt result (complex)
+  pattern_result:
+    type: object
+    required: [prompt_file, pattern, universal_scores, pattern_scores, hard_gates_passed]
+    properties:
+      prompt_file: string
+      pattern: string  # e.g., "ReAct", "CoVe+RAG"
+
+      # Universal dimension scores
+      universal_scores:
+        PIF: [0-5]
+        POI: [0-5]
+        PC: [0-5]
+        CA: [0-5]
+        SRC: [0-5]
+        PR: [0.0-1.0]
+        IR: [0-5]
+
+      # Pattern-specific scores
+      pattern_specific:
+        type: object
+        # Contains pattern-specific dimensions (R1-R3, C1-C3, F1-F3, G1-G3)
+
+      # Aggregated scores
+      overall_universal: [0-35]
+      overall_pattern_specific: number
+      combined_score: number
+
+      # Pass/fail
+      hard_gates_passed: boolean
+      hard_gate_failures: array
+      failures: array  # Failure mode strings
+
+# =============================================================================
+# FAILURE MODE TAXONOMY
+# =============================================================================
+# From rr.txt - standardized failure categories
+
+failure_modes:
+  # Standard prompt failures
+  standard:
+    - unclear_intent
+    - vague_instructions
+    - poor_structure
+    - missing_components
+    - inconsistent_format
+
+  # Pattern-specific failures
+  pattern:
+    - missing_phase
+    - phase_order_violation
+    - implicit_reasoning
+    - leakage_outside_phase
+    - premature_termination
+    - reflection_without_revision
+    - rag_without_grounding
+    - tool_call_without_action
+    - self_consistency_violation
+    - pattern_collapse
+
+# =============================================================================
+# JUDGE CONFIGURATION
+# =============================================================================
+# Recommended multi-model setup from rr.txt
+
+judge_config:
+  # Primary scoring (bulk)
+  primary:
+    model: gh:gpt-5-mini  # or local:phi4mini
+    runs: 20
+    purpose: Main signal
+
+  # Variance check
+  variance:
+    model: local:qwen2.5-coder
+    runs: 10
+    purpose: Determinism check
+
+  # Gold standard (disputes only)
+  arbiter:
+    model: gh:gpt-4.1
+    runs: 1
+    purpose: Final disputes
+
+  # Combined gives: mean, variance, cross-model disagreement, confidence intervals

@@ -1,5 +1,9 @@
 ---
-title: Business Case Developer
+name: Business Case Developer
+description: shortTitle: Business Case intro: Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans. type: how_to difficulty: intermediate a
+type: how_to
+---
+
 shortTitle: Business Case
 intro: Develops compelling business cases with executive summaries, cost-benefit analysis,
   ROI calculations, and implementation plans.
@@ -31,25 +35,9 @@ governance_tags:
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
----
-
-# Business Case Developer
-
----
-
 ## Description
 
 Develops compelling business cases
-
----
-
-## Use Cases
-
-- Business Case for Business Analyst persona
-- Enterprise-grade prompt optimized for production use
-- Suitable for teams requiring structured, repeatable workflows
-
----
 
 ## Prompt
 
@@ -104,18 +92,6 @@ Implementing an AI Chatbot will automate 30% of routine queries, saving $400k/ye
 
 [... continues with implementation plan and success metrics ...]
 ```text
-
----
-
-
-## Tips
-
-- Be specific when filling in placeholder values for better results
-- Review and adjust the output to match your organization's standards
-- Use this as a starting template and refine based on feedback
-- For best results, provide relevant context and constraints
-
----
 
 ## Example Usage
 

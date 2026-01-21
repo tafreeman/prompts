@@ -4,13 +4,8 @@ import sys
 from pathlib import Path
 import click
 
-# Ensure tools directory is importable
-_TOOLS_DIR = Path(__file__).parent.parent
-if str(_TOOLS_DIR) not in sys.path:
-    sys.path.insert(0, str(_TOOLS_DIR))
-
-from code_generator import UniversalCodeGenerator
-from config import default_config
+from tools.agents.code_generator import UniversalCodeGenerator
+from tools.core.config import default_config
 from .interactive import interactive_wizard
 
 

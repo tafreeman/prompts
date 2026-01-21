@@ -1,8 +1,7 @@
 ---
 name: refactor_agent
 description: Expert in code refactoring, optimization, and improving code quality without changing behavior
-tools:
-  ['search', 'edit', 'runCommands', 'runTests', 'usages', 'problems', 'changes', 'testFailure']
+type: how_to
 ---
 
 # Refactoring Agent

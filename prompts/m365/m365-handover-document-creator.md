@@ -1,158 +1,149 @@
 ---
-title: M365 Handover Document Creator
-shortTitle: M365 Handover Document C...
-intro: This prompt is essential for employees leaving a role, going on extended leave,
-  or transferring a project. It interviews the user (via the prompt inputs) to extract
-  key responsibilities, contacts, ...
-m365App: Copilot in Word or Microsoft 365 Copilot Chat
-type: tutorial
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- m365
-- business
-- handover
-- documentation
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Generates a comprehensive handover document for role transitions or project
-  transfers, ensuring no critical knowledge is lost.
-effectivenessScore: 0.0
+name: M365 Handover Document Creator
+description: Generates a comprehensive handover document for role transitions or project transfers, ensuring no critical knowledge is lost.
+type: how_to
 ---
 
 ## Description
 
 This prompt is essential for employees leaving a role, going on extended leave, or transferring a project. It interviews the user (via the prompt inputs) to extract key responsibilities, contacts, and outstanding tasks, then formats them into a professional handover guide.
 
-## Goal
-
-To create a structured, easy-to-read handover document that allows a successor to pick up work immediately with minimal friction.
-
-## Inputs
-
-- **Role/Project Name**: [role_name]
-- **Key Responsibilities**: [key_responsibilities]
-- **Outstanding Tasks**: [outstanding_tasks]
-- **Key Contacts**: [key_contacts]
-- **File Locations**: [file_locations]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
 ## Prompt
 
-You are an expert in Knowledge Management and Business Continuity. I am preparing a handover document for my successor.
+### System Prompt
 
-Here are the details:
+```text
+You are a professional knowledge transfer specialist who creates comprehensive handover documentation. You ensure no critical information is lost during role transitions, extended leaves, or project transfers.
 
-- **Role/Project**: [role_name]
-- **My Key Responsibilities**: [key_responsibilities]
-- **Pending/Outstanding Tasks**: [outstanding_tasks]
-- **Key Stakeholders/Contacts**: [key_contacts]
-- **Where files are stored**: [file_locations]
+### Your Capabilities
+- Extract and organize key responsibilities into structured formats
+- Identify and prioritize outstanding tasks with clear next steps
+- Document critical contacts and relationship context
+- Map file locations and system access requirements
+- Highlight tribal knowledge and "gotchas" that aren't documented elsewhere
 
-Please generate a formal **Handover Document** that includes:
+### Output Standards
+- Use tables for scannable information (tasks, contacts, systems)
+- Include priority levels for outstanding items
+- Provide clear "first week" actions for the successor
+- Separate "must know" from "nice to know" information
+- Never include actual passwords or sensitive credentials in the document
+```
 
-1. **Executive Summary**: A high-level overview of the role/project scope.
-2. **Daily/Weekly Routine**: A checklist of recurring duties.
-3. **Action Plan**: A prioritized list of the "Outstanding Tasks" with clear next steps.
-4. **Stakeholder Map**: Who to contact for what (based on [key_contacts]).
-5. **Resource Library**: Links to the [file_locations] and other critical tools.
+### User Prompt
 
-<<<<<<< HEAD
+```text
+Create a comprehensive handover document for the following role/project:
 
-=======
->>>>>>> main
----
+**Role/Project Name:** [role_name]
+**Key Responsibilities:** [key_responsibilities]
+**Outstanding Tasks:** [outstanding_tasks]
+**Key Contacts:** [key_contacts]
+**File Locations:** [file_locations]
+
+Please generate:
+1. Role overview and importance
+2. Key responsibilities table with frequency and priority
+3. Outstanding tasks with deadlines and next steps
+4. Key contacts with relationship context
+5. Systems and access requirements
+6. File locations and their purposes
+7. Known issues and "gotchas"
+8. Recommended first week actions for the successor
+```
 
 ## Variables
 
-- `[role_name]`: The job title or project being handed over.
-- `[key_responsibilities]`: Bullet points of main duties.
-- `[outstanding_tasks]`: Things that are currently in flight or need immediate attention.
-- `[key_contacts]`: Names and roles of people the successor needs to know.
-- `[file_locations]`: Paths to SharePoint sites, Teams channels, or shared drives.
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `[role_name]` | The job title or project being handed over | "Senior Marketing Analyst" |
+| `[key_responsibilities]` | Bullet points of main duties | "Weekly reporting, campaign tracking, vendor management" |
+| `[outstanding_tasks]` | Things currently in flight or needing attention | "Q4 report due Dec 15, pending vendor contract renewal" |
+| `[key_contacts]` | Names and roles of people the successor needs | "Sarah (Finance), Mike (IT), Vendor: Acme Corp" |
+| `[file_locations]` | Paths to SharePoint sites, Teams channels, drives | "Marketing Team > Reports, SharePoint: /projects/q4" |
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
----
+### Input
 
-## Example Usage
+```text
+Role/Project Name: Marketing Analytics Lead
+Key Responsibilities:
+- Weekly performance dashboards
+- Monthly executive reports
+- Campaign ROI analysis
+- Vendor relationship with DataCorp
 
-**Input:**
+Outstanding Tasks:
+- Q4 dashboard redesign (due Dec 20)
+- Annual report data collection (in progress)
+- DataCorp contract renewal (pending legal review)
 
-- `[role_name]`: "Q3 Marketing Campaign Lead"
-- `[key_responsibilities]`: "Manage agency relationship, approve social copy, track budget."
-- `[outstanding_tasks]`: "Approve final video edits by Friday, Pay invoice #1234."
-- `[key_contacts]`: "Sarah (Agency Lead), Mike (Finance)."
-- `[file_locations]`: "Teams Channel 'Marketing Q3', SharePoint/Budget/Invoices."
+Key Contacts:
+- Sarah Chen (CMO) - weekly 1:1s
+- Mike Torres (IT) - dashboard access
+- Lisa Park (DataCorp rep) - vendor contact
 
-**Output:**
+File Locations:
+- SharePoint: Marketing > Analytics > Reports
+- Teams: Marketing Analytics channel
+- Power BI: Marketing Workspace
+```
 
-### Handover Document: Q3 Marketing Campaign Lead
+### Output
 
-**1. Executive Summary**
-Lead responsibility for the Q3 campaign, focusing on agency management, content approval, and budget tracking.
+```markdown
+# Handover Document: Marketing Analytics Lead
+**Prepared by:** [Outgoing Employee]
+**Date:** December 1, 2025
+**Effective Handover Date:** December 15, 2025
 
-**2. Recurring Duties**
+## 1. Role Overview
+The Marketing Analytics Lead is responsible for transforming campaign data into actionable insights for the marketing leadership team. This role bridges the gap between raw data and strategic decision-making.
 
-- **Weekly**: Review social copy with Sarah (Agency).
-- **Monthly**: Reconcile budget with Mike (Finance).
+## 2. Key Responsibilities
 
-**3. Action Plan (Immediate Priorities)**
+| Responsibility | Frequency | Priority | Notes |
+| -------------- | --------- | -------- | ----- |
+| Performance Dashboards | Weekly (Mondays) | High | CMO reviews every Tuesday |
+| Executive Reports | Monthly (1st week) | High | Board meeting input |
+| Campaign ROI Analysis | Per campaign | Medium | Template in SharePoint |
+| DataCorp Relationship | Quarterly reviews | Medium | Contract renews March 2026 |
 
-- **High Priority**: Approve final video edits. *Deadline: This Friday.*
-- **Medium Priority**: Process Invoice #1234. *Location: SharePoint/Budget/Invoices.*
+## 3. Outstanding Tasks
 
-**4. Stakeholder Map**
+| Task | Deadline | Status | Next Steps |
+| ---- | -------- | ------ | ---------- |
+| Q4 Dashboard Redesign | Dec 20 | In Progress | Mockups approved, needs implementation |
+| Annual Report Data | Dec 31 | 60% Complete | Waiting on Sales data (follow up with Jim) |
+| DataCorp Contract | Jan 15 | Pending Legal | Review draft in SharePoint > Contracts |
 
-- **Sarah (Agency Lead)**: Contact for creative assets and timelines.
-- **Mike (Finance)**: Contact for budget approvals and invoices.
+## 4. Key Contacts
 
-**5. Resource Library**
+| Name | Role | Relationship | Contact |
+| ---- | ---- | ------------ | ------- |
+| Sarah Chen | CMO | Direct report, weekly 1:1 | Teams/Email |
+| Mike Torres | IT Analytics | Dashboard access, Power BI help | Teams |
+| Lisa Park | DataCorp Rep | Vendor primary contact | lisa@datacorp.com |
 
-- **Project Files**: Teams Channel 'Marketing Q3'
-- **Financials**: SharePoint/Budget/Invoices
+## 7. Known Issues & Gotchas
+- Power BI refresh fails on Sundays due to server maintenance - run manually Monday AM
+- Sarah prefers bullet summaries over detailed tables in exec reports
+- DataCorp invoices sometimes go to wrong cost center - always verify
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
+## 8. Recommended First Week Actions
+1. Schedule intro call with Sarah Chen (CMO)
+2. Get Power BI workspace access (IT ticket #template in Teams)
+3. Review Q4 dashboard mockups in SharePoint
+```
 
 ## Tips
 
 - Use this output as the body of a OneNote page or a Word document.
-- Add a "Passwords/Access" section manually if relevant (but never put actual passwords in the prompt!).
+- Add a "Passwords/Access" section manually if relevant (never put actual passwords in the prompt).
+- Schedule a live walkthrough meeting in addition to this document.
+- Update this document as you transfer knowledge over multiple sessions.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

@@ -1,30 +1,6 @@
 ---
-title: "Agentic AI Patterns"
-shortTitle: "Agentic"
-intro: "Advanced patterns for autonomous agents, multi-agent systems, and tool-augmented AI workflows."
-type: "reference"
-difficulty: "advanced"
-audience:
-
-  - "senior-engineer"
-  - "ai-researcher"
-
-platforms:
-
-  - "langchain"
-  - "semantic-kernel"
-  - "anthropic"
-  - "openai"
-
-author: "AI Research Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "public"
-reviewStatus: "approved"
+name: Agentic AI Patterns
+description: Advanced patterns for autonomous agents, multi-agent systems, and tool-augmented AI workflows.
 ---
 
 # Agentic AI Patterns

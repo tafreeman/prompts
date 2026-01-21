@@ -1,47 +1,10 @@
 ---
-title: Project Closure Specialist
-shortTitle: Project Closure
-intro: Manages project closure activities with checklists, deliverable review, stakeholder
-  sign-off, and post-project evaluation.
+name: Project Closure Specialist
+description: Manages project closure activities with checklists, deliverable review, stakeholder sign-off, and post-project evaluation.
 type: how_to
-difficulty: intermediate
-audience:
-
-- project-manager
-- business-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- project-management
-- closure
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Project Closure Specialist
-
----
-
-## Description
-
-Manages project closure activities
-
----
 
 ## Use Cases
 
@@ -49,71 +12,12 @@ Manages project closure activities
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
 
----
-
-## Prompt
-
-```text
-Plan project closure for:
-
-Project: [project_name]
-Deliverables Status: [deliverables]
-Stakeholder Satisfaction: [satisfaction]
-Lessons Learned: [lessons]
-
-Provide:
-
-1. Closure checklist
-2. Final deliverable review
-3. Stakeholder sign-off
-4. Documentation handover
-5. Team transition plan
-6. Post-project evaluation
-
-```text
-
----
-
 ## Variables
 
 - `[project_name]`: Project name (e.g., "Website Redesign for Acme Corp")
 - `[deliverables]`: Deliverables status (e.g., "All SOW items delivered, SEO audit delayed 1 week")
 - `[satisfaction]`: Stakeholder satisfaction (e.g., "Client NPS 9/10, internal team satisfaction 8/10")
 - `[lessons]`: Key lessons learned (e.g., "Tool API outage caused delays, need backup tools for critical path")
-
----
-
-## Example
-
-```text
-## Project Closure Plan
-
-### 1. Closure Checklist
-
-*   [x] **Financial:** Final invoice sent and paid.
-*   [x] **Technical:** Admin credentials transferred to client IT.
-*   [ ] **Marketing:** Case study draft approved by client.
-
-### 2. Final Deliverable Review
-
-*   **Scope Verification:** All SOW items delivered.
-*   **Quality:** SEO Audit delay noted; root cause was tool API outage (force majeure).
-
-### 3. Stakeholder Sign-off
-
-*   **Action:** Schedule "Final Walkthrough & Sign-off" meeting for Friday.
-*   **Document:** "Project Acceptance Form" ready for digital signature.
-
-### 4. Lessons Learned (Retrospective)
-
-*   **Issue:** Content Migration delay.
-*   **Action:** Update estimation template to include "Content Audit" phase *before* quoting migration hours.
-
-[... continues with handover and team transition ...]
-```text
-
----
-
 
 ## Tips
 

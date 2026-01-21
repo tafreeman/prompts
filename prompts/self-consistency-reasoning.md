@@ -1,42 +1,7 @@
 ---
-title: Self-Consistency Chain-of-Thought Reasoning
-description: Improves reasoning accuracy by sampling multiple diverse reasoning paths
-  and selecting the most consistent answer via majority voting
-category: reasoning
-tags:
-
-- self-consistency
-- chain-of-thought
-- reasoning
-- accuracy
-- ensemble
-
-created: 2025-12-06
-source: Wang et al. (ICLR 2023) - Self-Consistency Improves Chain of Thought Reasoning
-model_requirements: Any LLM with temperature control
-shortTitle: Self-Consistency CoT
-intro: Improves reasoning accuracy by sampling multiple diverse reasoning paths and selecting the most consistent answer via majority voting.
-type: reference
-difficulty: advanced
-audience:
-
-- developers
-
-platforms:
-
-- github-copilot
-
-topics:
-
-- general
-
-author: 'TODO: Author Name'
-version: 0.0.1
-date: '2025-12-13'
-reviewStatus: draft
-governance_tags: []
-dataClassification: []
-effectivenessScore: 0.0
+name: Self Consistency Reasoning
+description: # Self-Consistency CoT Prompt
+type: how_to
 ---
 
 # Self-Consistency CoT Prompt

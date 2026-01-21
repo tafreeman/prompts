@@ -1,293 +1,56 @@
 ---
-title: M365 Email Triage Helper
-shortTitle: M365 Email Triage Helper
-intro: This prompt helps an individual quickly triage their inbox in Outlook using
-  Copilot. It groups important emails into action-oriented categories and drafts short
-  replies where appropriate.
-m365App: Copilot in Outlook
+name: M365 Email Triage Helper
+description: Triages inbox emails into action categories and drafts quick replies.
 type: how_to
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- m365
-- business
-- email
-- copilot
-
-author: Your Name
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # M365 Email Triage Helper
 
----
-
 ## Description
 
-This prompt helps an individual quickly triage their inbox in Outlook using Copilot. It groups important emails into action-oriented categories and drafts short replies where appropriate.
-
-## Goal
-
-Reduce inbox overwhelm by organizing recent emails into clear categories and providing ready-to-send response drafts for high-priority messages.
-
-## Context
-
-Assume the user primarily works in Outlook as part of Microsoft 365. They receive many emails of mixed importance and need help deciding what to respond to now, what can wait, and what is informational only.
-
-The AI can:
-
-- Look at emails received within a specified `[time_window]`.
-- Prioritize emails based on flags, sender importance, subject, and content.
-- Draft replies that match the user's desired tone.
-
-## Inputs
-
-The user provides:
-
-- `[time_window]`: Period to consider (e.g., "today", "last 24 hours", "since Monday").
-- `[max_urgent]`: Maximum number of "respond today" emails to highlight.
-- `[tone]`: Desired tone for replies (e.g., "professional and concise", "friendly but direct").
-- Optional: `[exclude_senders]`: List of senders or domains to ignore.
-
-## Assumptions
-
-- Flagged or replied-to emails may already have partial attention; the AI should treat them appropriately (e.g., deprioritize already-resolved threads).
-- Not every email needs a drafted response; drafts are most useful for high-impact or time-sensitive messages.
-- The user prefers short, to-the-point replies that can be easily edited before sending.
-
-## Constraints
-
-- For each email that needs a response, draft a reply no longer than 150 words.
-- Group emails into three categories:
-  - "Need response today"
-  - "Need response this week"
-  - "FYI / no response needed"
-- Limit "Need response today" to `[max_urgent]` items.
-- Do not include confidential details not already in the email content.
-
-## Process / Reasoning Style
-
-- Internally:
-  - Evaluate importance based on sender, subject, and context.
-  - Detect time-sensitive or action-requesting emails.
-  - Group similar threads where helpful.
-- Externally (visible to the user):
-  - Present a simple inbox summary with categories.
-  - Provide reply drafts only for "Need response today" items.
-  - Avoid showing chain-of-thought; present final groupings and drafts.
-
-## Output Requirements
-
-Return the output in Markdown with:
-
-- `## Inbox Summary`
-  - Short paragraph summarizing volume and overall theme.
-- `## Need Response Today`
-  - For each email: subject, sender (role only if appropriate), and a short explanation.
-  - A draft reply block.
-- `## Need Response This Week`
-  - Bulleted list with subject and what is needed.
-- `## FYI / No Response Needed`
-  - Bulleted list of informational emails.
-
----
-
-## Use Cases
-
-- Use case 1: Start of the day triage for a busy manager.
-- Use case 2: After returning from time off with a large backlog of emails.
-- Use case 3: Afternoon "clean-up" session to stay on top of communications.
-- Use case 4: End-of-week sweep to ensure no important emails are left unattended.
-- Use case 5: Triage a specific project-related inbox folder.
-
----
+Quickly triage your Outlook inbox using Copilot. Group emails into action-oriented categories (urgent, respond, read, delegate) and generate draft replies for common responses.
 
 ## Prompt
 
-```text
-You are my Email Triage Helper working in Microsoft 365 Outlook.
+You are an Email Productivity Assistant using Microsoft 365 Copilot in Outlook.
 
-Goal:
-Help me quickly triage my inbox for the last [time_window], grouping emails
-by urgency and drafting short replies for the most critical ones.
+Triage my emails from [time_period] and organize by priority.
 
-Context:
+### Triage Context
+**Time Period**: [time_period]
+**Max Urgent Items**: [max_urgent]
+**Focus**: [focus]
 
-- I receive a mix of high-priority and low-priority emails.
-- I want to focus on what needs my attention today versus later this week.
-- I prefer short, clear emails that get to the point.
+### Output Format
+Categorize emails into:
+1. **🔴 Urgent - Respond Today**: Requires immediate reply.
+2. **🟡 This Week**: Important but not urgent.
+3. **🟢 FYI - Read When Free**: Informational only.
+4. **➡️ Delegate**: Should be handled by someone else.
 
-Scope:
-Look at emails in my inbox from [time_window].
-
-- Prioritize messages that:
-  - Come from key stakeholders or my direct manager.
-  - Contain clear requests, deadlines, or escalations.
-- Exclude senders or domains listed in [exclude_senders], if any.
-
-Assumptions and constraints:
-
-- Group emails into:
-  - "Need response today"
-  - "Need response this week"
-  - "FYI / no response needed"
-- Limit the "Need response today" group to at most [max_urgent] emails.
-- Draft replies only for the "Need response today" emails.
-- Use a [tone] tone for replies.
-- Keep each drafted reply under 150 words.
-
-Process:
-
-1. Analyze emails from [time_window] and assess urgency and importance.
-2. Group emails into the three categories.
-3. For each "Need response today" email:
-   - Summarize what is needed.
-   - Draft a concise reply.
-4. Summarize the overall state of my inbox.
-
-Output format:
-Return the result in Markdown:
-
-## Inbox Summary
-[short paragraph]
-
-## Need Response Today
-
-1. **Subject:** [subject]
-   - Why it matters: [one-line explanation]
-   - Draft reply:
-
-   ```
-
-   [reply text]
-
-   ```text
-
-## Need Response This Week
-
-- **Subject:** [subject] — [what is needed]
-- **Subject:** [subject] — [what is needed]
-
-## FYI / No Response Needed
-
-- **Subject:** [subject]
-- **Subject:** [subject]
-
-Now, using emails from [time_window], triage my inbox, group the emails, and
-provide reply drafts as specified.
-```text
+For each urgent email, draft a brief reply.
 
 ## Variables
 
-| Variable | Description |
-| ---------- | ------------- |
-| `[time_window]` | Period to consider (e.g., "today", "last 24 hours") |
-| `[max_urgent]` | Max number of emails to include in "Need Response Today" |
-| `[tone]` | Tone for reply drafts (professional, friendly, direct, etc.) |
-| `[exclude_senders]` | Optional list of senders/domains to ignore |
+- `[time_period]`: E.g., "Today", "This week", "Since Monday".
+- `[max_urgent]`: Maximum urgent items to flag (prevents overwhelm).
+- `[focus]`: E.g., "Project Alpha", "Customer issues".
 
 ## Example
 
-**Input:**
+**Input**:
+Time Period: Today
+Max Urgent: 5
+Focus: Customer-related emails
 
-```text
-time_window: since Monday
-max_urgent: 5
-tone: professional and concise
-exclude_senders: noreply@, newsletters@
-```
+**Response**:
+### 🔴 Urgent - Respond Today
+1. **From: Sarah (Acme Corp)** - "Contract renewal question"
+   - *Draft reply*: "Hi Sarah, I'll have the renewal terms to you by EOD tomorrow. Let me know if you need anything sooner."
 
-**Output:**
+2. **From: Mike (Support)** - "Escalation: Customer data issue"
+   - *Draft reply*: "Thanks Mike, I'm looping in the data team now. Will update by 3pm."
 
-```text
-## Inbox Summary
-## Need Response Today (with draft replies)
-## Need Response This Week
-## FYI / No Response Needed
-```
-
-**Output:**
-
-```text
-## Inbox Summary
-You received 32 emails in the last 24 hours. Five require same-day attention,
-seven can be handled later this week, and the rest are informational.
-
-## Need Response Today
-
-1. **Subject:** Customer escalation: onboarding delay
-   - Why it matters: High-priority customer escalation with a requested update today.
-   - Draft reply:
-
-   ```
-
-   Hi [Name],
-
-   Thanks for raising this. I'm reviewing the onboarding delay with the
-   engineering team and will share a concrete update by [time].
-
-   In the meantime, please let the customer know we're actively investigating
-   and treating this as a priority.
-
-   Best regards,
-   [Your Name]
-
-   ```text
-
-## Need Response This Week
-
-- **Subject:** Q4 planning deck review — Provide feedback on slides by Thursday.
-- **Subject:** Team offsite dates — Confirm your availability for the proposed dates.
-
-## FYI / No Response Needed
-
-- **Subject:** Weekly engineering newsletter
-- **Subject:** System maintenance notification for Saturday night
-
-```text
-
----
-
-
-## Tips
-
-- Tip 1: Run this at the start and end of your day to keep your inbox manageable.
-- Tip 2: Adjust `[max_urgent]` when your schedule is packed so you don't overcommit.
-- Tip 3: Ask Copilot to "shorten the reply further" for busy recipients.
-- Tip 4: Use folder or search filters in Outlook along with this prompt for project-specific triage.
-
----
-
-## M365 Copilot Best Practices
-
-- **Use in Outlook**: Open Copilot in Outlook and ask "Summarize my unread emails from today" or "What emails need my attention?"
-- **Draft with Copilot**: Click "Draft with Copilot" when composing replies for AI-assisted response generation.
-- **Catch up feature**: Use Outlook's "Catch up" feature (right-click on a thread) to summarize long email chains.
-- **Prioritize by sender**: Ask Copilot "Show me emails from my manager this week" for focused triage.
-- **Quick actions**: Use Copilot to schedule follow-ups or create tasks directly from emails.
-
----
-
-## Related Prompts
-
-- `m365-daily-standup-assistant.md`
-- `m365-weekly-review-coach.md`
+### 🟡 This Week
+- Newsletter from Marketing (read Friday)
+- Team meeting notes from yesterday

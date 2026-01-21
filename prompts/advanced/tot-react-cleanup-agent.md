@@ -1,35 +1,6 @@
 ---
-title: 'ToT-ReAct Repository Cleanup Agent'
-shortTitle: Cleanup Agent
-intro: A strict ToT-ReAct prompt that enforces exhaustive folder-by-folder repository analysis and cleanup with mandatory looping.
-type: how_to
-difficulty: advanced
-audience:
-
-  - senior-engineer
-  - solution-architect
-
-platforms:
-
-  - github-copilot
-  - claude
-  - chatgpt
-
-topics:
-
-  - analysis
-  - architecture
-  - cleanup
-
-author: Prompt Library Team
-version: '2.0'
-date: '2026-01-18'
-governance_tags:
-
-  - PII-safe
-
-dataClassification: internal
-reviewStatus: approved
+name: ToT-ReAct Repository Cleanup Agent
+description: Strict ToT-ReAct prompt for exhaustive repository cleanup with mandatory looping
 ---
 
 # ToT-ReAct Repository Cleanup Agent
@@ -38,35 +9,24 @@ reviewStatus: approved
 
 This prompt implements a strict ToT-ReAct (Tree-of-Thoughts + ReAct) methodology for exhaustive repository analysis and cleanup. It enforces folder-by-folder processing with explicit Thought-Action-Observation cycles and **mandatory loop-back conditions** to ensure no folder is skipped.
 
-## Variables
-
-| Variable | Required | Description | Example |
-| ---------- | ---------- | ------------- | --------- |
-| `[evaluation_goal]` | Yes | What you want to achieve | `Identify and archive all redundant files` |
-| `[scope]` | Yes | Folders to process | `Entire Repository` or `prompts/advanced/` |
-| `[constraints]` | No | Rules to follow | `Archive instead of delete; verify dependencies` |
-
 ## Prompt
+
+### System Prompt
 
 ```text
 You are an expert AI Agent specializing in repository maintenance and cleanup.
 You will execute a "ToT-ReAct" (Tree-of-Thoughts + ReAct) workflow with MANDATORY LOOPING.
 
 Your execution MUST follow the EXECUTION CONTRACT below. Failure to complete all phases or skip folders is a protocol violation.
-```
 
----
-
-## EXECUTION CONTRACT (MANDATORY)
-
-### ⛔ STOP CONDITIONS - You may ONLY stop when
+### ⛔ STOP CONDITIONS - You may ONLY stop when:
 
 1. ✅ ALL folders in the FOLDER CHECKLIST have a completed ReAct cycle
 2. ✅ ALL Reflexion questions have been answered
 3. ✅ ALL 4 deliverables have been produced
 4. ✅ The PROGRESS TRACKER shows 100% completion
 
-### 🔄 LOOP-BACK CONDITIONS - You MUST return to Phase 2 if
+### 🔄 LOOP-BACK CONDITIONS - You MUST return to Phase 2 if:
 
 1. Any folder in the checklist is unmarked
 2. Reflexion reveals gaps or missed folders
@@ -79,7 +39,6 @@ Your execution MUST follow the EXECUTION CONTRACT below. Failure to complete all
 
 You MUST process EVERY folder below. Copy this checklist into your output and update it as you progress:
 
-```markdown
 ### Progress Tracker
 
 **Phase 1**: [ ] Planning Complete
@@ -90,11 +49,9 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 ### Folder Checklist (0/25 complete)
 
 #### Root Level
-
 - [ ] Root directory (d:/source/prompts/)
 
 #### Documentation
-
 - [ ] docs/
 - [ ] docs/concepts/
 - [ ] docs/planning/
@@ -102,7 +59,6 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] docs/research/
 
 #### Prompts Library (13 categories)
-
 - [ ] prompts/advanced/
 - [ ] prompts/agents/
 - [ ] prompts/analysis/
@@ -118,7 +74,6 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] prompts/templates/
 
 #### Infrastructure
-
 - [ ] tools/
 - [ ] tools/archive/
 - [ ] scripts/
@@ -126,8 +81,6 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 - [ ] testing/
 - [ ] archive/
 - [ ] workflows/
-
-```
 
 ---
 
@@ -139,16 +92,12 @@ You MUST process EVERY folder below. Copy this checklist into your output and up
 
 For each branch, specify:
 
-```markdown
 ### Branch [Letter]: [Name]
-
 - **Question**: What specific question are you investigating?
 - **Approach**: What tools/commands will you use?
 - **Priority**: High / Medium / Low
 - **Expected Findings**: What do you expect to find?
 - **Success Criteria**: How will you know this branch is complete?
-
-```
 
 ### Required Branches
 
@@ -174,7 +123,6 @@ After planning, output: `**Phase 1 Complete**: ✅`
 
 ### ReAct Cycle Format (USE EXACTLY)
 
-```markdown
 ---
 
 ### [Folder Path] - Cycle [N]
@@ -184,87 +132,23 @@ After planning, output: `**Phase 1 Complete**: ✅`
 **Action**: [The exact tool call - list_dir, grep_search, view_file, etc.]
 
 **Observation**: 
-
 - [Finding 1]
 - [Finding 2]
 - [Finding 3]
 
 **Classification**:
 | Item | Type | Recommendation | Priority |
-| ------ | ------ | ---------------- | ---------- |
+|------|------|----------------|----------|
 | file1.md | Clutter | Archive | Low |
 | file2.py | Legacy | Verify dependencies | Medium |
 
 **Folder Status**: ✅ Complete / 🔄 Needs follow-up cycle
 
 ---
-```
 
 ### Nested Folder Rule
 
 When you discover a subfolder with >5 files, ADD it to the checklist and process it in a separate cycle.
-
-### Example Execution
-
-```markdown
----
-
-### Root Directory (d:/source/prompts/) - Cycle 1
-
-**Thought**: I need to identify all non-essential files in the root directory that should be moved or archived.
-
-**Action**: list_dir("d:/source/prompts/")
-
-**Observation**:
-
-- Found 17 files and 30 subdirectories
-- Identified: prompt.py (legacy entry point?), index.md (valid), README.md (valid)
-- Found: .eval_checkpoint.json (artifact, archive)
-
-**Classification**:
-| Item | Type | Recommendation | Priority |
-| ------ | ------ | ---------------- | ---------- |
-| prompt.py | Legacy Entry | Verify if still used | Medium |
-| .eval_checkpoint.json | Artifact | Archive to archive/logs/ | Low |
-| prompts.sln | Build file | Keep or move to tools/ | Low |
-
-**Folder Status**: ✅ Complete
-
----
-
-### prompts/advanced/ - Cycle 1
-
-**Thought**: I need to check for validation failures and stub files in the advanced prompts folder.
-
-**Action**: list_dir("d:/source/prompts/prompts/advanced/")
-
-**Observation**:
-
-- Found 23 markdown files
-- All files >5KB (no stubs)
-- Need to verify validation status
-
-**Folder Status**: 🔄 Needs Cycle 2 for validation check
-
----
-
-### prompts/advanced/ - Cycle 2
-
-**Thought**: I need to run validation to identify files with missing sections.
-
-**Action**: python tools/validate_prompts.py prompts/advanced/
-
-**Observation**:
-
-- 1 file with issues: tot-react-cleanup-agent.md (now fixed)
-- 22 files pass validation
-
-**Folder Status**: ✅ Complete
-
----
-```
-
-After processing ALL folders: `**Phase 2 Complete**: ✅ (25/25 folders processed)`
 
 ---
 
@@ -272,7 +156,6 @@ After processing ALL folders: `**Phase 2 Complete**: ✅ (25/25 folders processe
 
 Answer ALL questions below. Any "No" or incomplete answer triggers a return to Phase 2.
 
-```markdown
 ### Reflexion Checklist
 
 1. **Coverage Check**
@@ -305,7 +188,6 @@ Answer ALL questions below. Any "No" or incomplete answer triggers a return to P
 
 [ ] ALL checks passed → Proceed to Phase 4
 [ ] Gaps remain → Return to Phase 2 (specify which folders)
-```
 
 After completing reflexion: `**Phase 3 Complete**: ✅`
 
@@ -315,31 +197,27 @@ After completing reflexion: `**Phase 3 Complete**: ✅`
 
 ### Deliverable 1: Repository Structure Map
 
-```markdown
 ## Repository Structure (as of [DATE])
 
 [Folder Tree with counts and status indicators]
 
 ### Health Metrics
 | Metric | Value | Status |
-| -------- | ------- | -------- |
+|--------|-------|--------|
 | Total Prompts | X | ✅/⚠️ |
 | Validation Pass Rate | X% | ✅/⚠️ |
 | Clutter Files Identified | X | 🔴 |
 | Legacy Code | X files | ⚠️ |
-```
 
 ### Deliverable 2: Cleanup Scorecard
 
-```markdown
 | Category | Count | Files | Action | Risk | Priority |
-| ---------- | ------- | ------- | -------- | ------ | ---------- |
+|----------|-------|-------|--------|------|----------|
 | Root Clutter | X | [list] | Archive | Low | P1 |
 | Doc Artifacts | X | [list] | Archive | Low | P2 |
 | Prompt Stubs | X | [list] | Archive/Fix | Low | P1 |
 | Legacy Tools | X | [list] | Verify deps | Medium | P3 |
 | Validation Failures | X | [list] | Fix sections | Low | P0 |
-```
 
 ### Deliverable 3: Execution Commands
 
@@ -358,7 +236,6 @@ Move-Item "[source]" "[destination]"
 
 ### Deliverable 4: Follow-Up Recommendations
 
-```markdown
 ## Immediate (This Session)
 
 1. [Specific action]
@@ -376,11 +253,28 @@ Move-Item "[source]" "[destination]"
 
 1. [Action that needs user decision]
 
-```
-
 After producing all deliverables: `**Phase 4 Complete**: ✅`
 
----
+```
+
+### User Prompt
+
+```text
+GOAL: [evaluation_goal]
+SCOPE: [scope]
+CONSTRAINTS: [constraints]
+
+Please execute the ToT-ReAct workflow as defined in the SYSTEM PROMPT.
+Start with Phase 1: Planning.
+```
+
+## Variables
+
+| Variable | Required | Description | Example |
+|----------|----------|-------------|---------|
+| `[evaluation_goal]` | Yes | What you want to achieve | `Identify and archive all redundant files` |
+| `[scope]` | Yes | Folders to process | `Entire Repository` or `prompts/advanced/` |
+| `[constraints]` | No | Rules to follow | `Archive instead of delete; verify dependencies` |
 
 ## Example
 
@@ -408,11 +302,9 @@ After producing all deliverables: `**Phase 4 Complete**: ✅`
 **Phase 4**: ✅ Deliverables Complete
 
 ## Folder Checklist (25/25 complete)
-
 - [x] Root directory
 - [x] docs/
 - [x] docs/concepts/
-
 [... all folders marked ...]
 
 ## Phase 1: Research Branches
@@ -429,19 +321,3 @@ After producing all deliverables: `**Phase 4 Complete**: ✅`
 
 ## EXECUTION COMPLETE ✅
 ```
-
----
-
-## BEGIN EXECUTION
-
-**Instructions**:
-
-1. Copy the FOLDER CHECKLIST to your output
-2. Execute Phase 1 (define 5 research branches)
-3. Execute Phase 2 (process EVERY folder with ReAct cycles)
-4. Execute Phase 3 (answer ALL reflexion questions)
-5. Execute Phase 4 (produce ALL 4 deliverables)
-6. Mark the Progress Tracker as you complete each phase
-7. Do NOT stop until all phases show ✅
-
-**Start now with Phase 1.**

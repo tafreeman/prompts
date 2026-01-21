@@ -1,48 +1,10 @@
 ---
-title: "Video Script Writer"
-shortTitle: "Video Script"
-intro: "Create compelling video scripts for YouTube, TikTok, explainer videos, tutorials, and promotional content."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "functional-team"
-  - "business-analyst"
-  - "project-manager"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "video-production"
-  - "creative"
-  - "content-marketing"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 4.0
+name: Video Script Writer
+description: Create compelling video scripts for YouTube, TikTok, explainer videos, tutorials, and promotional content.
+type: template
 ---
+
 # Video Script Writer
-
----
-
-## Description
-
-Generate professional video scripts tailored to different platforms and formats. This prompt helps content creators, marketers, and video producers create structured scripts with hooks, transitions, and calls-to-action that keep viewers engaged from start to finish.
-
----
 
 ## Use Cases
 
@@ -51,128 +13,6 @@ Generate professional video scripts tailored to different platforms and formats.
 - Explainer and product demo videos
 - Corporate training and onboarding videos
 - Promotional and advertisement videos
-
----
-
-## Prompt
-
-```text
-You are an expert video scriptwriter who understands viewer psychology, platform algorithms, and storytelling techniques. Create a compelling video script based on the following details:
-
-**Video Type:** [YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]
-**Video Length:** [TARGET DURATION, e.g., 60 seconds, 5 minutes, 10 minutes]
-**Topic:** [MAIN SUBJECT OF THE VIDEO]
-**Target Audience:** [WHO WILL WATCH THIS]
-**Tone:** [CASUAL/PROFESSIONAL/ENERGETIC/EDUCATIONAL/ENTERTAINING]
-**Speaker Style:** [ON-CAMERA/VOICEOVER/MULTIPLE SPEAKERS]
-
-**Video Goals:**
-
-- Primary: [EDUCATE/ENTERTAIN/PERSUADE/INFORM/CONVERT]
-- Secondary: [SUBSCRIBE/SHARE/CLICK/PURCHASE/LEARN]
-
-**Key Points to Cover:**
-
-1. [MAIN POINT 1]
-2. [MAIN POINT 2]
-3. [MAIN POINT 3]
-4. [MAIN POINT 4 - OPTIONAL]
-
-**Must Include:**
-
-- Hook style: [QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]
-- Call-to-action: [WHAT SHOULD VIEWERS DO?]
-- Brand/Channel mention: [YES/NO - NAME?]
-
-**Technical Requirements:**
-
-- B-roll suggestions: [YES/NO]
-- On-screen text suggestions: [YES/NO]
-- Music/sound cues: [YES/NO]
-- Timestamp markers: [YES/NO]
-
-Please create a script that includes:
-
-1. Attention-grabbing hook (first 3-5 seconds)
-2. Context/intro that builds curiosity
-3. Clear content structure with transitions
-4. Engagement prompts throughout
-5. Strong conclusion with CTA
-6. Visual and audio cues where relevant
-
-Format the script with:
-
-- Timecodes for each section
-- [VISUAL] cues for B-roll or graphics
-- [AUDIO] cues for music or sound effects
-- (Actions) for speaker movements or expressions
-
-```text
-
-## Variables
-
-| Variable | Description |
-| ---------- | ------------- |
-| `[YOUTUBE/TIKTOK/EXPLAINER/TUTORIAL/PROMOTIONAL/CORPORATE]` | Video type/platform |
-| `[TARGET DURATION, e.g., 60 seconds, 5 minutes, 10 minutes]` | Target duration |
-| `[MAIN SUBJECT OF THE VIDEO]` | Topic |
-| `[WHO WILL WATCH THIS]` | Target audience |
-| `[CASUAL/PROFESSIONAL/ENERGETIC/EDUCATIONAL/ENTERTAINING]` | Tone |
-| `[ON-CAMERA/VOICEOVER/MULTIPLE SPEAKERS]` | Speaker style |
-| `[EDUCATE/ENTERTAIN/PERSUADE/INFORM/CONVERT]` | Primary goal |
-| `[SUBSCRIBE/SHARE/CLICK/PURCHASE/LEARN]` | Secondary goal |
-| `[MAIN POINT 1]` | Key point #1 |
-| `[MAIN POINT 2]` | Key point #2 |
-| `[MAIN POINT 3]` | Key point #3 |
-| `[MAIN POINT 4 - OPTIONAL]` | Optional key point |
-| `[QUESTION/BOLD STATEMENT/STORY/STATISTIC/CONTROVERSY]` | Hook style |
-| `[WHAT SHOULD VIEWERS DO?]` | Call-to-action |
-| `[YES/NO - NAME?]` | Brand/channel mention |
-| `[YES/NO]` | B-roll suggestions |
-| `[YES/NO]` | On-screen text suggestions |
-| `[YES/NO]` | Music/sound cues |
-| `[YES/NO]` | Timestamp markers |
-
-## Example
-
-**Input:**
-
-```text
-Video Type: YouTube tutorial
-Video Length: ~6 minutes
-Topic: Writing better PR descriptions
-Target Audience: Mid-level developers
-Tone: Professional, upbeat
-Speaker Style: On-camera
-
-Primary goal: Educate
-Secondary goal: Subscribe
-
-Key points:
-1) What to include (context, change, test, risk)
-2) A reusable template
-3) Common mistakes
-
-Hook style: Bold statement
-Call-to-action: Download the template
-B-roll suggestions: Yes
-On-screen text suggestions: Yes
-Timestamp markers: Yes
-```
-
-**Output:**
-
-```text
-A script with timecodes, transitions, [VISUAL]/[AUDIO] cues, and a closing CTA.
-```
-
-**Output:**
-
-```text
-# Git Branches for Beginners - Complete Tutorial
-## DevPath Academy | ~9 minutes
-
----
 
 ### [0:00-0:15] HOOK
 
@@ -188,34 +28,6 @@ A script with timecodes, transitions, [VISUAL]/[AUDIO] cues, and a closing CTA.
 [VISUAL: On-screen text: "Sound familiar?"]
 
 "Git branches solve this. And by the end of this video, you'll never fear experimenting with your code again."
-
----
-
-### [0:15-0:45] INTRO
-
-[VISUAL: Animated DevPath Academy logo]
-[AUDIO: Quick logo sound effect]
-
-"Hey, I'm Sarah from DevPath Academy, where we make developer skills actually make sense."
-
-(Warm smile, conversational)
-
-"Today, we're demystifying Git branches. I'm going to show you exactly what they are, how to use them, and the real-world strategies that professional teams use every single day."
-
-[VISUAL: On-screen chapter list appearing]
-
-"Here's what we'll cover:
-
-- First, what branches actually are—with a simple visual
-- Then, creating and switching branches in seconds
-- Next, merging your work and handling those scary conflicts
-- And finally, a branching strategy you can start using today"
-
-[VISUAL: On-screen text: "Timestamps in description 👇"]
-
-"Timestamps are in the description. Let's dive in."
-
----
 
 ### [0:45-2:30] SECTION 1: What Are Branches
 [VISUAL: Switch to animated diagram of a tree with branches]
@@ -252,57 +64,6 @@ Three—experimentation. Try crazy ideas. If they don't work, just delete the br
 [VISUAL: Game controller icon with "Save Point" text]
 
 "Quick knowledge check—drop a comment: Have you used branches before, or is this totally new? I read every comment."
-
----
-
-### [2:30-4:30] SECTION 2: Creating and Switching Branches
-
-[VISUAL: Transition to screen recording of terminal/VS Code]
-[AUDIO: Keyboard typing sound effect]
-
-"Alright, let's get practical. I'll show you the commands, then we'll do it together."
-
-(Energetic, but clear pace)
-
-[VISUAL: Terminal window, commands appearing as spoken]
-
-"To create a new branch, it's just:
-
-`git branch feature-login`
-
-That's it. You've created a branch called 'feature-login'."
-
-[VISUAL: Highlight the command, show branch visualization]
-
-"But here's the catch—you've created it, but you're not ON it yet. You're still on main."
-
-"To switch to your new branch:
-
-`git checkout feature-login`"
-
-[VISUAL: Show the branch switch in visualization]
-
-"Or—and this is my preferred method—do both in one command:
-
-`git checkout -b feature-login`"
-
-[VISUAL: On-screen text: "git checkout -b = create AND switch"]
-
-"The `-b` flag creates the branch and switches to it instantly. I use this probably ten times a day."
-
-[VISUAL: Show demo - create branch, make a small change, show git status]
-
-"Let me show you what this looks like in practice..."
-
-(Walk through demo: create branch, edit a file, git status showing changes only on branch)
-
-"Notice how the main branch is completely unaffected. I could switch back to main right now, and none of these changes would exist there."
-
-[VISUAL: Switch to main, show the file unchanged]
-
-"Mind-blowing when you first see it, right?"
-
----
 
 ### [4:30-6:45] SECTION 3: Merging Branches
 
@@ -369,51 +130,6 @@ And you're done."
 (Encouraging expression)
 
 "Conflicts sound scary, but they're actually Git being helpful. It's saying, 'Hey, I'm not sure what you want here. You're the human—you decide.'"
-
----
-
-### [6:45-8:15] SECTION 4: Real-World Branching Strategy
-
-[VISUAL: Professional workflow diagram]
-[AUDIO: Subtle background music]
-
-"Now let's talk strategy. How do professional teams actually use branches?"
-
-(Confident, slightly faster pace)
-
-"The most common approach is called Git Flow, or some variation of it. Here's the simplified version you can start using today:"
-
-[VISUAL: Diagram building as points are made]
-
-"**Main branch**: This is production. What users see. Only stable, tested code goes here.
-
-**Develop branch**: This is where active development happens. Features get merged here first.
-
-**Feature branches**: Created from develop, named descriptively—like `feature/user-authentication` or `feature/dark-mode`.
-
-**Hotfix branches**: Emergency fixes that need to go directly to main."
-
-[VISUAL: Show complete flow diagram]
-
-"The workflow looks like:
-
-One—Create a feature branch from develop
-Two—Work on your feature, commit often
-Three—Open a pull request to merge back to develop
-Four—Team reviews, approves, merges
-Five—When develop is stable, merge to main for release"
-
-[VISUAL: On-screen text summarizing the 5 steps]
-
-"For solo projects or small teams, you can simplify:
-
-Just main and feature branches. Create a branch for each thing you're working on, merge when it's ready."
-
-[VISUAL: Simplified diagram]
-
-"The principle is the same: never work directly on main. Always branch."
-
----
 
 ### [8:15-9:00] CONCLUSION & CTA
 

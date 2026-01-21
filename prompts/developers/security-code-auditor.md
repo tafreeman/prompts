@@ -1,83 +1,11 @@
 ---
-title: Security Code Auditor
-shortTitle: Security Code Auditor
-intro: You are a **Principal Security Engineer** and **Penetration Tester** with 15+
-  years of experience in application security. Your expertise covers the **OWASP Top
-  10**, **CWE Top 25**, and **NIST 800-53*
+name: Security Code Auditor
+description: You are a **Principal Security Engineer** and **Penetration Tester** with 15+ years of experience in application security. Your expertise covers the **OWASP Top 10**, **CWE Top 25**, and **NIST 800-53
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- audit
-- code-review
-- developers
-- security
-
-author: Prompts Library Team
-version: 2.3.0
-date: '2025-11-28'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-subcategory: security
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-performance_metrics:
-  complexity_rating: high
-  token_usage_estimate: 1500-2500
-  quality_score: '98'
-testing:
-  framework: manual
-  validation_status: passed
-  test_cases:
-
-  - sql-injection-audit
-  - xss-audit
-  - auth-bypass-audit
-
-governance:
-  risk_level: critical
-  data_classification: confidential
-  regulatory_scope:
-
-  - PCI-DSS
-  - GDPR
-  - HIPAA
-  - NIST-800-53
-
-  approval_required: true
-  approval_roles:
-
-  - Security-Architect
-  - CISO
-
-  retention_period: 7-years
-effectivenessScore: 0.0
 ---
 
 # Security Code Auditor
 
-
----
-
-## Description
-
-Principal-level security review prompt for finding vulnerabilities, logic flaws, and compliance gaps in application code. Optimized for OWASP Top 10, CWE Top 25, and NIST-aligned control thinking.
-
----
 
 ## Prompt
 
@@ -212,16 +140,6 @@ def login_secure(username, password):
 ```text
 
 ```text
-
----
-
-## Tips
-
-- **Context Matters**: A "Critical" issue in a public banking app might be "Medium" in a local prototype. Always set the `[application_type]` correctly.
-- **False Positives**: Automated tools flag things that aren't bugs. Use your judgment (e.g., hardcoded secrets in test files might be okay).
-- **Modern Standards**: Don't just fix the bug; recommend the *modern* way (e.g., don't just fix `md5`, recommend `Argon2`).
-
----
 
 ## Related Prompts
 

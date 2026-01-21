@@ -1,176 +1,62 @@
 ---
-title: SQL Query Analyzer
-shortTitle: SQL Query Analyzer
-intro: A database expert that analyzes SQL queries for performance bottlenecks, security
-  risks (SQL injection), and readability issues. Provides optimization suggestions
-  and index recommendations.
+name: SQL Query Analyzer
+description: Database expert prompt for analyzing SQL queries for performance, security, and readability.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- sql
-- developers
-- security
-- performance
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-26'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-subcategory: database
-framework_compatibility:
-
-- sql-server
-- postgresql
-- mysql
-
-effectivenessScore: 0.0
 ---
 
 # SQL Query Analyzer
 
----
-
 ## Description
 
-A database expert that analyzes SQL queries for performance bottlenecks, security risks (SQL injection), and readability issues. Provides optimization suggestions and index recommendations.
-
----
-
-## Use Cases
-
-- Optimizing slow-running queries
-- Reviewing database migrations
-- Identifying missing indexes
-- Detecting SQL injection vulnerabilities in dynamic SQL
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[sql_query]` | SQL query to analyze | `SELECT ... FROM orders ...` |
-| `[schema_context]` | Optional schema info (tables, indexes, row counts) | `Orders(10M rows), idx_orders_date` |
-| `[engine]` | SQL engine / dialect | `SQL Server`, `PostgreSQL`, `MySQL` |
-
----
-
-## Usage
-
-**Input:**
-
-```text
-Database Engine: PostgreSQL
-
-Schema Context:
-
-- orders(order_id, order_date, customer_name, total_amount)
-- Indexes: idx_orders_order_date
-
-Query:
-SELECT * FROM orders WHERE DATE(order_date) = '2024-01-01';
-```
-
----
+Analyze SQL queries for performance bottlenecks, security risks (SQL injection), and readability. Provide optimization suggestions, index recommendations, and rewritten queries.
 
 ## Prompt
 
-```text
-You are a Senior Database Administrator (DBA) and SQL Performance Expert. Analyze the following SQL query.
+You are a Senior Database Engineer.
 
+Analyze the SQL query below for performance, security, and best practices.
+
+### Context
+**Database Engine**: [engine]
+**Schema**: [schema]
+**Query**:
+[query]
+
+### Analysis Required
+1. **Performance**: Identify slow operations (full table scans, missing indexes).
+2. **Security**: Check for SQL injection risks in dynamic SQL.
+3. **Readability**: Suggest formatting and naming improvements.
+4. **Optimized Query**: Provide a rewritten, optimized version.
+5. **Index Recommendations**: Suggest indexes to create.
+
+## Variables
+
+- `[engine]`: E.g., "PostgreSQL", "MySQL", "SQL Server".
+- `[schema]`: Table definitions and existing indexes.
+- `[query]`: The SQL query to analyze.
+
+## Example
+
+**Input**:
+Engine: PostgreSQL
+Schema: orders(order_id, order_date, customer_id, total)
+Indexes: idx_orders_customer_id
 Query:
-[sql_query]
-
-Schema Context (Optional):
-[schema_context]
-
-Database Engine: [engine] (Default: SQL Server)
-
-Analyze for:
-
-1. **Performance**: SARGability, Index usage, expensive operations (scans, sorts).
-2. **Security**: SQL Injection risks, permission issues.
-3. **Correctness**: Logic errors, potential NULL handling issues.
-4. **Readability**: Formatting, aliasing, CTE usage.
-
-Output Format:
-
-- **Analysis Summary**: Brief overview.
-- **Findings**: Bulleted list of issues (Critical/Major/Minor).
-- **Optimized Query**: Rewritten SQL.
-- **Index Recommendations**: Suggested indexes to support the query.
-
 ```sql
-
-**Output:**
-
-```markdown
-# SQL Analysis
-
-**Summary**: ⚠️ **Performance Risk** - The query contains non-SARGable predicates that will force a full table scan.
-
-## Findings
-
-### Critical (Performance)
-
-1.  **Non-SARGable Predicate**: `YEAR(OrderDate) = 2024` wraps the column in a function. This prevents the database from using an index on `OrderDate`.
-    - *Fix*: Use a range search: `OrderDate >= '2024-01-01' AND OrderDate < '2025-01-01'`.
-2.  **Leading Wildcard**: `LIKE '%Corp%'` prevents index seek. It forces a scan of the entire index/table.
-    - *Fix*: If possible, remove leading wildcard (`'Corp%'`). If full-text search is needed, use Full-Text Indexing (`CONTAINS`).
-
-### Minor (Best Practices)
-
-1.  **SELECT ***: Selecting all columns is inefficient. Specify only needed columns to reduce I/O and network payload.
-
-## Optimized Query
-
-```sql
-
-SELECT OrderId, OrderDate, CustomerName, TotalAmount
-FROM Orders
-WHERE OrderDate >= '2024-01-01' 
-  AND OrderDate < '2025-01-01'
-  AND CustomerName LIKE '%Corp%' -- Still a scan, but range filter on Date reduces rows first
-
-```xml
-
-## Index Recommendations
-
-```sql
-
--- Supports the Date range filter and includes the other columns
-CREATE NONCLUSTERED INDEX IX_Orders_OrderDate_Includes 
-ON Orders (OrderDate) 
-INCLUDE (CustomerName, TotalAmount);
-
-```text
-
+SELECT * FROM orders WHERE DATE(order_date) = '2024-01-01';
 ```
 
-## Tips
+**Response**:
+### Performance Issue
+- `DATE(order_date)` prevents index usage (function on column).
 
-- Always specify the **Database Engine** as syntax and optimization rules vary (e.g., `LIMIT` vs `TOP`).
-- Provide **Row Counts** if possible (e.g., "Orders table has 10M rows")—this changes the advice significantly.
-- If using ORMs (EF Core), paste the *generated* SQL here for analysis.
+### Optimized Query
+```sql
+SELECT * FROM orders
+WHERE order_date >= '2024-01-01' AND order_date < '2024-01-02';
+```
 
----
-
-## Related Prompts
-
-- [csharp-enterprise-standards-enforcer](./csharp-enterprise-standards-enforcer.md)
-
+### Index Recommendation
+```sql
+CREATE INDEX idx_orders_order_date ON orders(order_date);
+```

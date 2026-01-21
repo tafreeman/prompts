@@ -1,55 +1,7 @@
 ---
-title: Retrieval-Augmented Code Documentation
-shortTitle: Retrieval-Augmented Code...
-intro: A prompt for retrieval augmented code documentation tasks.
+name: Retrieval-Augmented Code Documentation
+description: A prompt for retrieval augmented code documentation tasks.
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: techniques
-subcategory: context-optimization
-technique_type: retrieval-augmented
-framework_compatibility:
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-use_cases:
-
-- code-documentation
-- api-documentation
-- knowledge-retrieval
-- codebase-qa
-
-performance_metrics:
-  accuracy_improvement: 35-50%
-  latency_impact: medium
-  cost_multiplier: 1.3-1.8x
-last_updated: '2025-11-23'
-tags:
-
-- rag
-- retrieval
-- documentation
-- csharp
-- vector-search
-
 ---
 
 # Retrieval-Augmented Code Documentation

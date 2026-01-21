@@ -1,35 +1,6 @@
 ---
-title: "Analysis Prompts"
-shortTitle: "Analysis"
-intro: "Prompts for data analysts, researchers, and anyone working with data and insights including market research and visualization."
-type: "reference"
-category: "analysis"
-difficulty: "intermediate"
-audience:
-
-  - "business-analyst"
-  - "senior-engineer"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-topics:
-
-  - "analysis"
-  - "research"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
+name: Analysis Prompts
+description: Prompts for data analysts, researchers, and anyone working with data and insights including market research and visualization.
 ---
 
 # Analysis Prompts

@@ -1,136 +1,65 @@
 ---
-title: Tree-of-Thoughts Repository Evaluator for GPT-5.1
-shortTitle: Tree-of-Thoughts Reposit...
-intro: A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class
-  reasoning models to rigorously analyze GitHub repositories, specifically prompt
-  engineering libraries. This pr...
-category: system
+name: Tree-of-Thoughts Repository Evaluator for GPT-5.1
+description: A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr...
 type: how_to
-difficulty: advanced
-audience:
-
-- solution-architect
-- senior-engineer
-
-platforms:
-
-- claude
-
-topics:
-
-- tot
-- system
-- evaluation
-- tree-of-thoughts
-
-author: Prompts Library Team
-version: 1.0.0
-date: '2025-11-17'
-last_updated: '2025-12-11'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1
 
----
-
 ## Description
 
-A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for frontier reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This prompt uses multi-branch reasoning to assess quality, coverage, and enterprise-readiness through structured evaluation of structural integrity, advanced technique depth, and enterprise applicability.
-
----
-
-## Use Cases
-
-- Evaluate prompt engineering repositories for enterprise adoption
-- Assess the quality and completeness of prompt libraries
-- Generate structured, evidence-based repository analysis reports
-- Identify gaps and improvement opportunities in prompt collections
-- Provide actionable recommendations for repository enhancement
-- Support decision-making for adopting or extending prompt libraries
-
----
+A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models. Uses multi-branch exploration to rigorously analyze GitHub repositories, particularly prompt engineering libraries. The evaluator generates structured scores across three dimensions: Structural Integrity (30%), Advanced Technique Depth (50%), and Enterprise Applicability (20%).
 
 ## Prompt
 
-### System Message (for GPT-5.1)
-
 ```text
-You are the **GitHub Copilot Chat Assistant** running on a **GPT-5.1-class reasoning model**.
+You are a Repository Evaluation Expert using Tree-of-Thoughts methodology.
 
-You are an expert AI evaluator using **Tree-of-Thoughts (ToT)** to rigorously analyze the GitHub repository **`[REPOSITORY_NAME]`**. Your job is to explore multiple reasoning branches, compare them, and converge on a well-justified conclusion about the **quality, coverage, and enterprise-readiness** of this prompt library.
+### Evaluation Target
+Repository: [REPOSITORY_NAME]
 
-Assume the repository is intended as a **prompt engineering resource for enterprise AI** (e.g., Microsoft 365 Copilot, GitHub Copilot, Azure/OpenAI), unless explicit evidence in the content contradicts this.
+### Evaluation Protocol
 
-You must:
+**Branch A: Structural & Foundational Integrity (30% weight)**
+Generate 5 candidate evaluation approaches, select the best, then assess:
+- Role separation (System/Developer/User)
+- Context scaffolding (Goal → Context → Constraints → Examples)
+- Output structuring (schemas, delimiters)
 
-- Use **Tree-of-Thoughts**:
-  - Think in **multiple branches** (at least **3 options** per major decision).
-  - Explicitly **evaluate and prune** weaker branches.
-  - **Backtrack** when a branch leads to shallow, biased, or unsupported conclusions.
-- Be **evidence-based**:
-  - When you refer to aspects of the repo, ground your reasoning in **observable content**.
-  - If information is missing, clearly label your inference as an **assumption**.
-- Produce **structured, actionable feedback** for an **enterprise audience** (security, compliance, scalability, maintainability in mind).
-- Follow the **final Markdown output format exactly** as specified in the user message.
+**Branch B: Advanced Technique Depth (50% weight)**
+Generate 5 candidate approaches, select the best, then assess:
+- Coverage of modern techniques (CoT, ToT, ReAct, Reflexion, RAG)
+- Alignment with academic research
+- Implementation accuracy
 
-If at any point instructions seem ambiguous or conflicting, prioritize:
+**Branch C: Enterprise Applicability (20% weight)**
+Generate 3 candidate approaches, select the best, then assess:
+- Persona coverage (developer, security, PM, exec)
+- Workflow integration (code review, docs, testing)
+- Governance and compliance alignment
 
-1. The explicit **Markdown output format**.
-2. The **step-by-step structure** in the user message.
-3. These system instructions.
-
-Do **not** omit any required sections. Always fill every section; if data is missing, reason about the likely situation and explicitly mark it as an **assumption**.
+### Output Format
+For each branch: Score (0-100), Analysis, Improvements
+Final: Weighted score (0-1000), Key Strengths, Key Gaps, Executive Summary
 ```
 
-### User Message (for GPT-5.1)
+## Variables
 
-```text
-You are evaluating the GitHub repository `[REPOSITORY_NAME]`, a prompt engineering resource.  
-Use **Tree-of-Thoughts (ToT)** to perform a **multi-branch, evidence-based evaluation**, inspired by industry leaders (OpenAI, Google, Microsoft, Anthropic, and academic research).
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `[REPOSITORY_NAME]` | The GitHub repository to evaluate | "tafreeman/prompts" |
 
-Follow the steps and structure exactly.
-
----
+## Use Cases
 
 #### 1. Repository Understanding (Single-Branch Overview)
 
 1.1 Briefly summarize, in **3–5 sentences**:
 
-- What this repository appears to contain.  
-- Its intended audience.  
+- What this repository appears to contain.
+- Its intended audience.
 - Its likely usage scenarios (e.g., Copilot prompts, teaching, internal playbooks).
 
 1.2 List the **main content categories** you see (e.g., personas, patterns, frameworks, examples, tutorials).
-
----
-
-#### 2. Tree-of-Thoughts Reasoning Setup
-
-For each of the three core branches below, you MUST:
-
-- Generate **5 distinct candidate thoughts** (sub-approaches).
-- For each thought, provide:
-  - `Thought`: the reasoning path or hypothesis.
-  - `Pros`: strengths of this path.
-  - `Cons`: weaknesses/risks.
-  - `Score`: 1–100 (how promising this path is).
-- Then choose **1 winning thought per branch** and clearly label it as `Selected Thought`.
-
-Branches:
-
-- **Branch A: Structural & Foundational Integrity**  
-- **Branch B: Advanced Technique Depth & Accuracy**  
-- **Branch C: Enterprise Applicability & Breadth**
-
----
 
 #### 3. Branch A – Structural & Foundational Integrity (ToT)
 
@@ -138,8 +67,8 @@ Branches:
 
 3.1 Generate 5 candidate evaluation approaches (Thoughts) that focus on different aspects, for example:
 
-- Thought A1: Role separation & instruction hierarchy (System / Developer / User).  
-- Thought A2: Context scaffolding (Goal → Context → Constraints → Examples).  
+- Thought A1: Role separation & instruction hierarchy (System / Developer / User).
+- Thought A2: Context scaffolding (Goal → Context → Constraints → Examples).
 - Thought A3: Output structuring (Markdown/JSON/XML schemas, explicit fields, delimiters).
 
 For each Thought A1–A5, provide `Thought`, `Pros`, `Cons`, `Score`, then label one as `Selected Thought`.
@@ -160,47 +89,8 @@ For each Thought A1–A5, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 3.3 Output:
 
-- A **score from 0–100** for Structural & Foundational Integrity.  
+- A **score from 0–100** for Structural & Foundational Integrity.
 - **5–7 concrete improvement suggestions**.
-
----
-
-#### 4. Branch B – Advanced Technique Depth & Accuracy (ToT)
-
-**Goal:** Evaluate how accurately and usefully the repo covers **advanced prompting techniques**.
-
-4.1 Generate 3 candidate evaluation approaches (Thoughts), e.g.:
-
-- Thought B1: Focus on reasoning techniques (CoT, ToT, ReAct).  
-- Thought B2: Focus on retrieval & tools (RAG, tool use, API calling).  
-- Thought B3: Focus on optimization cycles (self-critique, reflection, iterative refinement).
-
-For each Thought B1–B3, provide `Thought`, `Pros`, `Cons`, `Score`, then label one as `Selected Thought`.
-
-4.2 Using the **Selected Thought**, evaluate whether and how the repo covers:
-
-- **Chain-of-Thought (CoT)**:
-  - Are there prompts that explicitly instruct step-by-step reasoning?
-  - Are there guidelines on when to use CoT vs. concise answers?
-
-- **Tree-of-Thoughts (ToT)**:
-  - Are multi-branch reasoning or multiple-solution exploration patterns included?
-  - Are there evaluation/comparison steps across branches?
-
-- **ReAct / Tool-Use Patterns**:
-  - Are there prompts that describe "Think → Act → Observe → Reflect" loops?
-  - Any patterns for interacting with tools, APIs, or external knowledge?
-
-- **RAG (Retrieval-Augmented Generation) & Context Management**:
-  - Does the repo describe how to ground the model in documents, code, or systems?
-  - Are there instructions for chunking, summarizing, and referencing retrieved context?
-
-4.3 Output:
-
-- A **score from 0–100** for Advanced Technique Depth & Accuracy.  
-- **4–5 concrete suggestions** to increase research alignment and depth.
-
----
 
 #### 5. Branch C – Enterprise Applicability & Breadth (ToT)
 
@@ -208,8 +98,8 @@ For each Thought B1–B3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 5.1 Generate 3 candidate evaluation approaches (Thoughts), e.g.:
 
-- Thought C1: Persona & role coverage (developer, security, product, exec, support, data).  
-- Thought C2: Workflow integration (code review, incident response, PRDs, test writing, roadmap).  
+- Thought C1: Persona & role coverage (developer, security, product, exec, support, data).
+- Thought C2: Workflow integration (code review, incident response, PRDs, test writing, roadmap).
 - Thought C3: Risk & governance alignment (compliance, safety, red-teaming, data boundaries).
 
 For each Thought C1–C3, provide `Thought`, `Pros`, `Cons`, `Score`, then label one as `Selected Thought`.
@@ -233,33 +123,8 @@ For each Thought C1–C3, provide `Thought`, `Pros`, `Cons`, `Score`, then label
 
 5.3 Output:
 
-- A **score from 0–100** for Enterprise Applicability & Breadth.  
+- A **score from 0–100** for Enterprise Applicability & Breadth.
 - **3–7 concrete recommendations** to make this repo more "plug-and-play" for enterprises.
-
----
-
-#### 6. Cross-Branch Synthesis & ToT Backtracking
-
-6.1 Reflect across Branch A, B, and C:
-
-- Identify **contradictions or tensions** between branches (e.g., strong structure but weak advanced techniques).  
-- If contradictions are found, briefly **re-open 1–2 losing thoughts** from earlier and explain whether they would materially change the conclusion. This is your **backtracking step**.
-
-6.2 Provide a **final weighted score (0–1000)** where:
-
-- Structural & Foundational Integrity: **35%**  
-- Advanced Technique Depth & Accuracy: **30%**  
-- Enterprise Applicability & Breadth: **35%**
-
-Show the calculation explicitly.
-
-6.3 Provide:
-
-- **5 key strengths** of the repo.  
-- **5 key risks / gaps**.  
-- A **1–2 paragraph executive summary** suitable for an enterprise stakeholder deciding whether to adopt or extend this repository.
-
----
 
 #### 7. Final Output Format (Required)
 
@@ -341,15 +206,6 @@ Always fill every section. If information is missing from the repository, reason
 
 ```
 
----
-
-## Variables
-
-- `[REPOSITORY_NAME]`: The full GitHub repository name (e.g., `tafreeman/prompts`, `owner/repo-name`)
-- Replace this in both the System and User messages to target the specific repository being evaluated
-
----
-
 ## Usage
 
 To use this Tree-of-Thoughts evaluator:
@@ -360,59 +216,6 @@ To use this Tree-of-Thoughts evaluator:
 4. Submit to a GPT-5.1-class reasoning model (Claude, GPT-4, or similar)
 5. Allow adequate time for multi-branch reasoning (this is a comprehensive evaluation)
 6. Review the evaluation scores, strengths, gaps, and actionable recommendations
-
----
-
-## Example Usage
-
-**Input (System + User Messages):**
-
-```text
-
-System Message:
-You are the GitHub Copilot Chat Assistant running on a GPT-5.1-class reasoning model.
-
-You are an expert AI evaluator using Tree-of-Thoughts (ToT) to rigorously analyze the GitHub repository **`tafreeman/prompts`**. Your job is to explore multiple reasoning branches, compare them, and converge on a well-justified conclusion about the quality, coverage, and enterprise-readiness of this prompt library.
-
-[... rest of system message as specified above ...]
-
-User Message:
-You are evaluating the GitHub repository `tafreeman/prompts`, a prompt engineering resource.  
-Use Tree-of-Thoughts (ToT) to perform a multi-branch, evidence-based evaluation, inspired by industry leaders (OpenAI, Google, Microsoft, Anthropic, and academic research).
-
-[... rest of user message as specified above ...]
-
-```
-
-**Output (Example excerpt):**
-
-```markdown
-## 1. Repository Overview
-
-The `tafreeman/prompts` repository is a community-driven prompt engineering library containing well-organized, reusable prompts for AI/LLM interactions. It targets diverse users from developers to business professionals, providing prompts across categories including developers, business, creative, analysis, and system.
-
-Main content categories:
-
-- Technical/coding prompts (developers)
-- Business analysis and strategy (business)
-- Content creation and marketing (creative)
-- Data analysis and research (analysis)
-- System-level AI configurations (system)
-
-## 2. ToT Setup
-
-### Branch A – Candidate Thoughts
-
-- **Thought A1**: Role separation & instruction hierarchy
-  - `Thought`: Evaluate whether prompts clearly distinguish between system-level instructions, developer context, and user inputs
-  - `Pros`: Directly addresses best practices from OpenAI and Anthropic; critical for consistent AI behavior
-  - `Cons`: May not apply to all prompt types; some prompts are intentionally simple
-  - `Score`: 8/100
-
-[... continues with full evaluation ...]
-```
-
----
 
 ## Tips
 
@@ -426,6 +229,40 @@ Main content categories:
 - **Assumptions**: When data is missing, the AI should explicitly mark inferences as assumptions
 - **Scoring calibration**: Use the weighted final score (0-1000) for comparative analysis across repositories
 - **Action focus**: The evaluation should produce actionable recommendations, not just observations
+
+## Example
+
+**Input:**
+
+```text
+Repository: my-company/prompt-library
+```
+
+**Output (Summary):**
+
+```markdown
+## 6. Cross-Branch Synthesis & Final Score
+
+- Structural Score: 78/100
+- Advanced Technique Score: 65/100
+- Enterprise Score: 82/100
+- Final Weighted Score: 720/1000
+
+### Key Strengths
+1. Excellent persona coverage across developer, PM, and security roles
+2. Consistent use of YAML frontmatter and variable documentation
+3. Strong integration with GitHub Copilot workflows
+
+### Key Risks / Gaps
+1. Limited coverage of advanced techniques (ToT, Reflexion, RAG)
+2. Missing governance metadata for compliance-sensitive prompts
+3. No versioning strategy for prompt iterations
+
+### Executive Summary
+This repository demonstrates solid foundational practices with a score of 720/1000.
+Primary improvement opportunities lie in expanding advanced technique coverage
+(+15-20% potential) and adding governance metadata for enterprise compliance.
+```
 
 ---
 

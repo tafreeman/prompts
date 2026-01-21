@@ -56,13 +56,11 @@ To produce a **Decision-Grade Verdict** on whether a specific OSINT resource sho
 
 2. **Phase 2 – Reflection & Self-Critique**
 
-<<<<<<< HEAD
 
    - **Safety Check**: Did we miss any red flags? (e.g., "install.sh" piping to bash)
    - **Legal/Ethical Check**: Does this tool violate platform ToS (e.g., scraping)?
    - **Verdict Refinement**: Adjust the final score based on these risks.
 
-=======
 
    - Re-read Phase 1 output and apply the checklist:
      - Accuracy, Completeness, Quality, Bias, Risk.
@@ -96,7 +94,6 @@ Deliver a single Markdown document:
 - Regression testing after repository updates.
 - Training AI evaluators on self-checking workflows.
 
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ---
 
@@ -161,7 +158,6 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - **Risks**: ...
 - **OPSEC Warnings**: ...
 
-<<<<<<< HEAD
 #### Reflection Notes
 
 - "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
@@ -174,7 +170,6 @@ Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
 - `[URL]`: Link to the resource.
 - `[USE_CASE]`: How you intend to use it (e.g., "Automated daily scraping of Twitter").
 
-=======
 Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust what the critique proves necessary.
 
 ```text
@@ -192,22 +187,18 @@ Remember: Do not regenerate Phase 1 from scratch during Phase 2. Only adjust wha
 | `[ENTERPRISE_CONCERNS]` | Specific organizational requirements to validate | "Compliance workflows, governance metadata, security review status" |
 
 ---
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 ## Example Usage
 
 ### Input
 
-<<<<<<< HEAD
 
 - **Resource**: `Twint` (Twitter Intelligence Tool)
 - **Use Case**: Historical tweet retrieval for sentiment analysis.
 
-=======
 ```text
 
 You will evaluate the local workspace copy of tafreeman/prompts using ToT + Reflection.
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18
 
 **Context Summary**: Advanced prompt library for enterprise developers and architects.
 **Observed Strengths**: Robust template, governance metadata, analytics dashboard.
@@ -217,7 +208,6 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 ```text
 ```text
 
-<<<<<<< HEAD
 
 ```text
 ...
@@ -237,7 +227,6 @@ You will evaluate the local workspace copy of tafreeman/prompts using ToT + Refl
 
 ```
 
-=======
 ---
 
 ## Tips
@@ -285,5 +274,3 @@ During Phase 2, be genuinely critical. I want you to find real flaws in your Pha
 - [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
 - [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)
 - [Chain-of-Thought Guide](chain-of-thought-guide.md)
-
->>>>>>> 7dc5218e3127cfdaacb10749fd0b592524b03b18

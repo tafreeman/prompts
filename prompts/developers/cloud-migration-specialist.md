@@ -1,53 +1,10 @@
 ---
-title: Cloud Migration Specialist
-shortTitle: Cloud Migration
-intro: You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift,
-  re-platform, and modernization strategies. You use AWS Cloud Adoption Framework
-  (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization,
-  security hardening, and performance validation.
+name: Cloud Migration Specialist
+description: You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Fra
 type: how_to
-difficulty: advanced
-audience:
-
-- senior-engineer
-- cloud-architect
-
-platforms:
-
-- claude
-- chatgpt
-
-topics:
-
-- cloud-migration
-- developer
-- enterprise
-- developers
-- azure
-- aws
-
-author: Prompts Library Team
-version: '1.2'
-date: '2025-12-02'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: approved
-effectivenessScore: 0.0
 ---
 
 # Cloud Migration Specialist
-
----
-
-## Description
-
-Enterprise cloud migration architect specializing in lift-and-shift, re-platform, and modernization strategies. Uses AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Framework to plan migrations with cost optimization, security hardening, and performance validation.
-
----
 
 ## Use Cases
 
@@ -56,19 +13,6 @@ Enterprise cloud migration architect specializing in lift-and-shift, re-platform
 - Legacy application modernization (monolith → microservices)
 - Disaster recovery and business continuity planning
 - Multi-cloud and hybrid cloud architectures
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[app_name]` | Application name / short description | `Legacy CRM`, `Billing API` |
-| `[current_infra]` | Current infrastructure summary | `VMware + Oracle + F5`, `On-prem Kubernetes` |
-| `[target_cloud]` | Target cloud provider / landing zone | `Azure`, `AWS`, `GCP`, `Hybrid` |
-| `[requirements]` | Business and non-functional requirements | `99.9% uptime, EU data residency, cost -30%` |
-
----
 
 ## Usage
 
@@ -80,42 +24,6 @@ Current Infrastructure: VMware + Oracle 11g + F5
 Target Cloud: Azure
 Business Requirements: 99.9% uptime, EU data residency, reduce cost by 30%
 ```
-
----
-
-## Prompt
-
-```text
-You are a Cloud Migration Architect with expertise in Azure, AWS, and GCP.
-
-Create a cloud migration plan for:
-
-**Application**: [app_name]
-**Current Infrastructure**: [current_infra]
-**Target Cloud**: [target_cloud]
-**Business Requirements**: [requirements]
-
-Provide:
-
-1. **Migration Assessment** (6 Rs: Rehost, Replatform, Repurchase, Refactor, Retire, Retain)
-2. **Cloud Architecture Design** (Compute, storage, networking, database with Well-Architected principles)
-3. **Migration Phases** (Proof-of-concept, pilot, production cutover with rollback plans)4. **Cost Optimization** (TCO analysis, Reserved Instances, rightsizing recommendations)
-5. **Security Considerations** (Identity, network segmentation, encryption, compliance mapping)
-6. **Performance Validation** (Load testing, disaster recovery, SLA targets)
-
-Use tables for architecture comparisons and include Azure Calculator or AWS Pricing estimates.
-```text
-
-**Output:**
-
-```markdown
-# Cloud Migration Plan: Legacy CRM to Azure
-
-**Migration Strategy**: Re-platform (Lift, Tinker, and Shift)  
-**Target Go-Live**: September 2026 (9-month timeline)  
-**Estimated Cost**: $420K/year (vs. $650K current on-prem = 35% savings)
-
----
 
 ## 1. Migration Assessment (6 Rs Framework)
 
@@ -138,33 +46,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 
 - ❌ **Rehost (Lift-and-Shift IaaS)**: Keeps Oracle 11g licensing costs; no cost savings achieved
 - ❌ **Refactor (Microservices Rewrite)**: 18-month timeline exceeds 9-month constraint; high risk
-
----
-
-## 2. Cloud Architecture Design (Azure Well-Architected)
-
-### Conceptual Architecture
-
-```text
-
-```text
-
-### Detailed Component Specifications
-
-| Layer | Azure Service | SKU/Configuration | Monthly Cost | Notes |
-| ------- | --------------- | ------------------- | -------------- | ------- |
-| **CDN/WAF** | Azure Front Door Premium | Standard tier | $280 | DDoS Protection Standard included |
-| **Compute** | App Service Plan (Premium v3) | P2v3 (2 cores, 8GB) × 6 instances | $1,200 | Linux containers; auto-scale to 12 |
-| **Database** | SQL Managed Instance - Business Critical | 8 vCores, 32GB RAM | $2,400 | 99.99% SLA; zone-redundant |
-| **Storage** | Azure Files Premium | 2TB provisioned | $410 | SMB 3.0; 100K IOPS |
-| **Networking** | VNet, App Gateway, VPN | Standard tier | $180 | Site-to-site VPN to on-prem (cutover) |
-| **Monitoring** | Azure Monitor + App Insights | Standard tier | $150 | Custom metrics + APM |
-| **Backup/DR** | Geo-replication + Azure Backup | West US 2 standby | $400 | RPO: 1 hour, RTO: 4 hours |
-| **Total** | | | **$5,020/month** | **$60K/year** (vs. $650K on-prem) |
-
-**Cost Savings**: $590K/year (91% reduction) — exceeds 30% target
-
----
 
 ## 3. Migration Phases (9-Month Timeline)
 
@@ -194,34 +75,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 
 **Go/No-Go Decision**: Feb 28, 2026
 
----
-
-### Phase 2: Pilot Migration (Months 3-5)
-
-**Goal**: Migrate non-production environments + 10% of user base
-
-**Tasks**:
-
-1. **Full Data Migration** (Month 3):
-   - Use Azure DMS for continuous replication (on-prem Oracle → Azure SQL MI)
-   - Initial full load: 2TB (estimated 48 hours over 1Gbps link)
-   - Incremental sync: Real-time CDC (Change Data Capture)
-2. **Application Code Modernization** (Month 4):
-   - Upgrade Java 8 → Java 17 (LTS)
-   - Replace WebLogic-specific APIs with Spring Boot 3.x
-   - Containerize app (Docker image → Azure Container Registry)
-3. **Pilot Rollout** (Month 5):
-   - Select 500 users (10% of total) from Sales Dept
-   - Route pilot traffic via Azure Traffic Manager (weighted routing)
-   - Run in parallel with on-prem for 4 weeks (shadowing mode)
-
-**Rollback Plan**:
-
-- DNS TTL = 5 minutes (fast failback to on-prem)
-- Keep Oracle 11g in sync via bidirectional replication during pilot
-
----
-
 ### Phase 3: Production Cutover (Months 6-7)
 
 **Goal**: Migrate 100% of users with \u003c4-hour downtime
@@ -239,30 +92,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 | **Sat 10am** | Monitor dashboards (Azure Monitor alerts) | On-call SRE | SLA breach (response time \u003e 1s) |
 
 **Rollback Decision Point**: Saturday 10am (if \u003e 5% of users report issues)
-
----
-
-### Phase 4: Stabilization & Optimization (Months 8-9)
-
-**Goal**: Decommission on-prem; optimize Azure costs
-
-**Tasks**:
-
-1. **Decommission On-Prem** (Month 8):
-   - Shut down Oracle 11g RAC (August 15, 2026)
-   - Reclaim VMware licenses ($200K/year savings)
-   - Archive final Oracle backup to Azure Blob (compliance: 7-year retention)
-2. **Cost Optimization** (Month 9):
-   - Purchase Azure Reserved Instances (3-year term = 40% discount)
-   - Rightsizing: Reduce App Service from P2v3 → P1v3 if CPU \u003c 50%
-   - Enable auto-shutdown for dev/test environments (weekends)
-
-**Final Cost**:
-
-- Current estimate: $60K/year
-- Post-optimization: $420K/year with 3-year RI commitment
-
----
 
 ## 4. Cost Optimization (TCO Analysis)
 
@@ -288,49 +117,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 2. **Auto-Scaling**: Scale down App Service to 3 instances during off-peak hours (10pm-6am) = 25% compute savings
 3. **Azure Hybrid Benefit**: If you have existing Windows Server licenses, apply them to Azure VMs (not applicable here, using Linux)
 4. **Dev/Test Pricing**: Use separate Azure subscription for non-prod (15% discount)
-
----
-
-## 5. Security Considerations
-
-### Identity & Access Management
-
-| Security Control | On-Prem | Azure Implementation | Benefit |
-| ------------------ | --------- | ---------------------- | --------- |
-| **Authentication** | LDAP (cleartext passwords) | Azure AD (Entra ID) with MFA | Phishing-resistant; conditional access policies |
-| **Authorization** | Hard-coded roles in app | Azure RBAC + App Registrations | Least-privilege; audit logs in Azure AD |
-| **Secrets Management** | Hardcoded in `web.xml` | Azure Key Vault | Rotate secrets without app redeployment |
-
-### Network Segmentation
-
-```text
-
-```text
-
-**Security Hardening**:
-
-- ✅ No public IPs on App Service or SQL MI (private endpoints only)
-- ✅ NSG (Network Security Group) rules: Deny all inbound except from App Gateway
-- ✅ TLS 1.3 enforced; HTTP → HTTPS redirect
-- ✅ Azure DDoS Protection Standard (automatic mitigation)
-
-### Encryption
-
-| Data State | On-Prem | Azure |
-| ------------ | --------- | ------- |
-| **At Rest** | Oracle TDE (Basic) | SQL MI TDE with customer-managed keys (Azure Key Vault) |
-| **In Transit** | TLS 1.2 (app ↔ Oracle) | TLS 1.3 (end-to-end: client ↔ Azure) |
-| **In Use** (SQL queries) | None | Always Encrypted (column-level encryption for PII) |
-
-### Compliance Mapping
-
-| Requirement | Current Compliance | Azure Service | Attestation |
-| ------------- | ------------------- | --------------- | ------------- |
-| **SOC 2 Type II** | Self-attested | Azure inherits Microsoft SOC 2 | Azure Trust Center |
-| **ISO 27001** | Not certified | Azure SQL MI is ISO 27001 certified | Shared responsibility model |
-| **GDPR** (EU users) | Manual DPO processes | Azure Policy + Data Residency (EU regions) | GDPR compliance toolkit |
-
----
 
 ## 6. Performance Validation
 
@@ -367,22 +153,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 - **RTO** (Recovery Time Objective): 45 minutes (exceeds 4-hour target)
 - **Data Loss**: 0 rows (continuous geo-replication)
 
----
-
-## Success Metrics
-
-### Migration KPIs (Track Monthly)
-
-| Metric | Baseline | Target | Actual (Post-Migration) |
-| -------- | ---------- | -------- | ------------------------ |
-| **Cost Savings** | $650K/year | -30% ($455K/year) | **-84% ($102K/year)** 🟢 |
-| **Availability SLA** | 99.5% (43.8 hrs down/year) | 99.9% (8.76 hrs/year) | **99.95% (4.4 hrs/year)** 🟢 |
-| **Avg Response Time** | 800ms | \u003c 600ms | **520ms** 🟢 |
-| **Migration Timeline** | N/A | 9 months | **8.5 months** 🟢 |
-| **Data Loss (Cutover)** | N/A | 0 rows | **0 rows** 🟢 |
-
----
-
 ## Rollback & Contingency Plans
 
 ### Scenario 1: SQL Migration Fails (\u003e 5% Data Loss)
@@ -408,20 +178,6 @@ Use tables for architecture comparisons and include Azure Calculator or AWS Pric
 - Notify users: "Migration postponed to next maintenance window (August 1)"
 
 ```text
-
----
-
-
-## Tips
-
-- **Start with Database Assessment First**: 80% of migration failures are database-related (schema incompatibility, performance regression). Run SSMA early (Month 1).
-- **Use Native Cloud DB When Possible**: Migrating Oracle → Azure SQL MI saves 80% on licensing vs. running Oracle on Azure VMs (IaaS).
-- **Pilot with Real Users, Not Just QA**: Synthetic load tests miss edge cases. Run pilot with 10% of production traffic for 30 days.
-- **Negotiate Reserved Instances Early**: 3-year Azure RIs offer 40% discount but require upfront budget approval. Factor into TCO before migration kickoff.
-- **Automate Rollback**: DNS-based rollback is fastest (5-min TTL). Never rely on manual steps during 2am cutover windows.
-- **Monitor Cloud Costs Weekly**: Azure spending can spike unexpectedly (e.g., forgotten dev VMs). Set up budget alerts in Azure Cost Management.
-
----
 
 ## Related Prompts
 

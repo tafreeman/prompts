@@ -1,74 +1,24 @@
 ---
-title: LangChain Agent Patterns
-shortTitle: LangChain Agent Patterns
-intro: A prompt for langchain agent patterns tasks.
-type: conceptual
-difficulty: advanced
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: frameworks
-subcategory: langchain
-technique_type: agent-patterns
-framework_compatibility:
-  langchain: '>=0.1.0'
-  openai: '>=1.0.0'
-  anthropic: '>=0.8.0'
-use_cases:
-
-- autonomous-agents
-- tool-orchestration
-- research-agents
-- data-analysis
-
-performance_metrics:
-  autonomy_level: high
-  task_completion_rate: 80-90%
-  cost_multiplier: 2.0-3.0x
-testing:
-  framework: pytest
-  coverage: 80%
-  validation_status: passed
-governance:
-  data_classification: internal
-  risk_level: medium
-  compliance_standards:
-
-  - ISO27001
-
-last_updated: '2025-11-23'
-tags:
-
-- langchain
-- agents
-- tools
-- autonomous
-- python
-
+name: LangChain Agent Patterns
+description: A prompt for langchain agent patterns tasks.
+type: how_to
 ---
 
 # LangChain Agent Patterns
 
-## Purpose
+## Description
 
-Build autonomous AI agents using LangChain that can use tools, make decisions, and complete multi-step tasks without human intervention.
+This pattern demonstrates how to build autonomous AI agents using LangChain that can use tools, make decisions, and complete multi-step tasks. Covers ReAct agents, function calling agents, and custom tool creation for research, data analysis, and automation workflows.
+
+## Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{tools}}` | Tool definitions with name, function, and description | `[Tool(name="WebSearch", func=search_web, ...)]` |
+| `{{tool_names}}` | Comma-separated list of available tool names | "WebSearch, StockPrice, SQLQuery" |
+| `{input}` | The user's task or question for the agent | "What is Apple's stock price?" |
+
+## Purpose
 
 ## Overview
 

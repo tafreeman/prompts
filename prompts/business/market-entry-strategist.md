@@ -1,79 +1,16 @@
 ---
-title: Market Entry Strategist
-shortTitle: Market Entry Strategy
-intro: Develops market entry strategies with market analysis, go-to-market plans,
-  and risk assessment.
+name: Market Entry Strategist
+description: Develops market entry strategies with market analysis, go-to-market plans, and risk assessment.
 type: how_to
-difficulty: advanced
-audience:
-
-- solution-architect
-- business-analyst
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- strategy
-- business
-
-author: Prompts Library Team
-version: '1.0'
-date: '2025-11-16'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 # Market Entry Strategist
-
----
-
-## Description
-
-Develops market entry strategies
-
----
 
 ## Use Cases
 
 - Market Entry for Consultant persona
 - Enterprise-grade prompt optimized for production use
 - Suitable for teams requiring structured, repeatable workflows
-
----
-
-## Prompt
-
-```text
-Develop market entry strategy for:
-
-Company: [company]
-Target Market: [market]
-Product/Service: [offering]
-Competitive Landscape: [competition]
-Resources: [resources]
-
-Provide:
-
-1. Market analysis
-2. Entry strategy options
-3. Go-to-market plan
-4. Resource requirements
-5. Risk assessment
-6. Success metrics
-
-```text
-
----
 
 ## Variables
 
@@ -82,34 +19,6 @@ Provide:
 - `[offering]`: Product or service (e.g., "Cloud HR management platform with payroll integration")
 - `[competition]`: Competitive landscape (e.g., "SAP SuccessFactors, Personio, local players")
 - `[resources]`: Available resources (e.g., "$5M budget, 2-year timeline, existing UK team")
-
----
-
-## Example
-
-```text
-## Market Entry Strategy: Germany
-
-### 1. Market Analysis
-
-*   **Regulatory:** GDPR compliance is non-negotiable; Local data residency (Frankfurt region) required.
-*   **Culture:** Preference for "Trust" and "Certifications" over "Innovation" marketing.
-
-### 2. Entry Strategy Options
-
-*   **Option A:** Direct Sales (Hire local team). High control, slow scale.
-*   **Option B:** Channel Partners (Resellers). Lower margin, faster reach. (Recommended)
-
-### 3. Go-to-Market Plan
-
-*   **Positioning:** " The GDPR-compliant alternative for modern SMEs."
-*   **Channel:** Partner with local HR consultancies who implement software.
-
-[... continues with resource requirements and risk assessment ...]
-```text
-
----
-
 
 ## Tips
 

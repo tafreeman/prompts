@@ -1,165 +1,177 @@
 ---
-title: M365 Sway Visual Newsletter
-shortTitle: M365 Sway Visual Newsletter
-intro: Internal newsletters often get ignored in email inboxes. This prompt helps
-  you aggregate various updates (from Teams, email, or notes) and format them into
-  a visually engaging Sway newsletter. It o...
-m365App: Microsoft Sway
+name: M365 Sway Visual Newsletter
+description: Compiles team updates, news, and announcements into a modern, mobile-friendly newsletter format for Microsoft Sway.
 type: how_to
-difficulty: beginner
-audience:
-
-- junior-engineer
-- business-analyst
-
-platforms:
-
-- github-copilot
-- m365-copilot
-
-topics:
-
-- communication
-- m365
-- sway
-- newsletter
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-description: Compiles team updates, news, and announcements into a modern, mobile-friendly
-  newsletter format for Microsoft Sway.
-effectivenessScore: 0.0
 ---
 
 ## Description
 
 Internal newsletters often get ignored in email inboxes. This prompt helps you aggregate various updates (from Teams, email, or notes) and format them into a visually engaging Sway newsletter. It organizes content into "Hero" sections for big news and "Grid" layouts for quick updates, ensuring high engagement.
 
-## Goal
-
-To create a visually rich, easy-to-read newsletter structure that looks great on both desktop and mobile.
-
-## Inputs
-
-- **Newsletter Title**: [newsletter_title]
-- **Main Feature Story**: [main_story]
-- **Quick Updates**: [quick_updates]
-- **Upcoming Events**: [events]
-- **Team Shoutouts**: [shoutouts]
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
----
-
 ## Prompt
 
-You are an Internal Communications Specialist. I need to create this week's team newsletter in Microsoft Sway.
+### System Prompt
 
-**Content:**
+```text
+You are an internal communications specialist who creates engaging visual newsletters using Microsoft Sway. You transform scattered team updates into compelling, mobile-friendly content.
 
-- **Title**: [newsletter_title]
-- **Main Feature**: [main_story]
-- **Quick Updates**: [quick_updates]
-- **Events**: [events]
-- **Shoutouts**: [shoutouts]
+### Your Capabilities
+- Organize content into visual hierarchy (hero stories vs quick updates)
+- Recommend appropriate Sway card types for different content
+- Create engagement through varied content presentation
+- Optimize for both desktop and mobile consumption
+- Suggest visual search terms and design treatments
 
-Please design the **Sway Structure** for this newsletter:
+### Newsletter Section Types
+- Hero Section: Feature story with full-width image
+- Grid Group: 3-4 quick updates of equal importance
+- Stack Group: Team shoutouts with swipeable cards
+- Text Card: Event listings and callouts
+- Embed: Calendar widgets, videos, surveys
 
-1. **Hero Section**: A high-impact Heading 1 + Background Image + Intro Text for the [main_story].
-2. **The "Quick Hits" Grid**: A Grid Group layout for the [quick_updates] (short text + icon/image).
-3. **Calendar Section**: A text card listing [events].
-4. **Kudos Corner**: A Stack Group or Slideshow for [shoutouts].
+### Output Standards
+- 6 sections maximum for quick consumption
+- Feature story gets prominent placement
+- Quick updates in scannable grid format
+- Shoutouts feel personal and celebratory
+- Footer includes feedback mechanism
+```
 
-For each section, provide the **exact text** to paste and a **visual description** for the images I should find.
+### User Prompt
 
-<<<<<<< HEAD
+```text
+Create a Microsoft Sway newsletter structure from the following content:
 
-=======
->>>>>>> main
----
+**Newsletter Title:** [newsletter_title]
+**Main Feature Story:** [main_story]
+**Quick Updates:** [quick_updates]
+**Upcoming Events:** [events]
+**Team Shoutouts:** [shoutouts]
+
+Please provide:
+1. Header card with title and tagline
+2. Feature story section with visual recommendations
+3. Quick updates in grid format
+4. Events section with dates and details
+5. Team shoutouts with celebration elements
+6. Footer with contact and next edition info
+7. Overall design recommendations
+```
 
 ## Variables
 
-- `[newsletter_title]`: e.g., "The Weekly Pulse - Nov 18".
-- `[main_story]`: The biggest news item (e.g., "Q4 Goals Achieved").
-- `[quick_updates]`: Bullet points of smaller news items.
-- `[events]`: Dates and times of upcoming meetings/socials.
-- `[shoutouts]`: Recognition for specific team members.
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `[newsletter_title]` | The newsletter name and date | "The Weekly Pulse - Nov 18" |
+| `[main_story]` | The biggest news item | "Q4 Goals Achieved" |
+| `[quick_updates]` | Bullet points of smaller news items | "New hire, office closure, tool update" |
+| `[events]` | Dates and times of upcoming meetings/socials | "Holiday party Dec 15, All-hands Dec 20" |
+| `[shoutouts]` | Recognition for specific team members | "Sarah closed biggest deal, Mike's 5-year anniversary" |
 
-<<<<<<< HEAD
+## Example
 
-=======
->>>>>>> main
+### Input
+
+```text
+Newsletter Title: Engineering Weekly - January 20
+Main Feature Story: We shipped v2.0! After 6 months of development, our new platform is live with 50+ new features.
+Quick Updates:
+- New engineer joining: Welcome Alex to the backend team
+- Office closed Jan 21 for holiday
+- Jira upgraded to new version - check your boards
+- Snacks restocked in break room
+
+Upcoming Events:
+- Jan 22: Sprint planning (10am, Room A)
+- Jan 25: Tech talk: "Scaling with Kubernetes" (2pm)
+- Jan 31: Team happy hour (5pm, rooftop)
+
+Team Shoutouts:
+- Sarah: Closed our biggest enterprise deal ever
+- Mike: Celebrating 5 years with the company
+- DevOps team: Zero downtime during v2.0 launch
+```
+
+### Output
+
+```markdown
+# Sway Newsletter: Engineering Weekly - January 20
+
+## Section 1: Header
+- **Card Type:** Title Card with Background Image
+- **Heading:** "Engineering Weekly"
+- **Subheading:** "v2.0 Launch Edition 🚀"
+- **Background:** Search "rocket launch celebration"
+- **Date Badge:** January 20, 2025
+
 ---
 
-## Example Usage
+## Section 2: Feature Story - v2.0 Launch
+- **Card Type:** Heading + Full-Width Image + Text
+- **Headline:** "We Did It! v2.0 is LIVE 🎉"
+- **Body:**
+  "After 6 months of hard work, our new platform is officially live!
+  With 50+ new features, this is our biggest release ever."
+- **Image:** Team celebration photo or product screenshot
+- **CTA:** "Explore What's New →" (link to release notes)
 
-**Input:**
-
-- `[newsletter_title]`: "Engineering Weekly"
-- `[main_story]`: "We successfully migrated to the new cloud server with zero downtime!"
-- `[quick_updates]`: "New hire John starts Monday. Security training due Friday. Cafeteria menu changed."
-- `[events]`: "Town Hall: Wed 2pm. Hackathon: Friday all day."
-- `[shoutouts]`: "Thanks to Sarah for working late on the migration."
-
-**Output:**
-
-### Sway Newsletter Structure
-
-**1. Hero Section (The Big Win)**
-
-- **Heading 1**: "Zero Downtime: Cloud Migration Complete!"
-  - *Visual*: High-res photo of servers or a "Success" concept.
-- **Text Card**: "Huge milestone achieved! The team successfully migrated to the new cloud server without a single minute of downtime. This sets us up for a faster, more scalable future."
-  - *Emphasis*: Intense
-
-**2. Quick Hits (Grid Group)**
-
-- **Card A**: "Welcome John!" (New Hire)
-  - *Visual*: Icon of a handshake or team.
-- **Card B**: "Security Training Due" (Reminder)
-  - *Visual*: Shield icon.
-- **Card C**: "New Cafeteria Menu" (FYI)
-  - *Visual*: Food/Burger icon.
-
-**3. Calendar (Text Card)**
-
-- **Heading 2**: "Mark Your Calendars"
-- **Text**:
-  - 📅 **Wed @ 2pm**: Town Hall
-  - 🚀 **Fri (All Day)**: Hackathon
-
-**4. Kudos Corner (Stack Group)**
-
-- **Heading 2**: "Team Shoutouts"
-- **Image Card**: Photo of Sarah (or a "Thank You" graphic).
-  - **Caption**: "Big thanks to **Sarah** for the late-night effort on the migration!"
-
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
+
+## Section 3: Quick Updates
+- **Card Type:** Grid Group (4 cells, 2x2)
+
+| Icon | Update |
+| ---- | ------ |
+| 👋 | Welcome Alex to Backend! |
+| 🏢 | Office closed Jan 21 |
+| 📋 | Jira upgraded - check boards |
+| 🍿 | Snacks restocked! |
+
+---
+
+## Section 4: Upcoming Events
+- **Card Type:** Text Card with Calendar Icon
+
+| Date | Event | Time |
+| ---- | ----- | ---- |
+| Jan 22 | Sprint Planning | 10am, Room A |
+| Jan 25 | Tech Talk: Kubernetes | 2pm |
+| Jan 31 | Team Happy Hour 🍻 | 5pm, Rooftop |
+
+---
+
+## Section 5: Team Shoutouts ⭐
+- **Card Type:** Image Stack (swipeable)
+
+**Card 1:** Sarah - "Closed our biggest enterprise deal EVER" 🏆
+**Card 2:** Mike - "Celebrating 5 years with us!" 🎂
+**Card 3:** DevOps Team - "Zero downtime during v2.0 launch" 💪
+
+---
+
+## Section 6: Footer
+- **Card Type:** Simple Text
+- **Content:**
+  "Questions? Reach out in #engineering-general
+  Next edition: January 27
+  📧 Feedback: newsletter@company.com"
+
+---
+
+## Design Recommendations
+- **Sway Style:** "Modern" or "Bold"
+- **Color Theme:** Company blue + accent green for celebrations
+- **Layout:** Vertical scroll (mobile-friendly)
+- **Tip:** Add "Read Time: 2 min" badge in header
+```
 
 ## Tips
 
-- In Sway, use the "Design" tab to apply a "Style" that matches your company brand (e.g., specific fonts/colors).
+- In Sway, use the "Design" tab to apply a "Style" that matches your company brand.
 - The "Grid Group" is perfect for 3-4 small items of equal importance.
+- For shoutouts, ask people to submit photos for a more personal touch.
+- Keep the newsletter under 6 sections for quick consumption.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 ---
 
 ## Related Prompts

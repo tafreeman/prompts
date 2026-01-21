@@ -1,35 +1,7 @@
 ---
-title: Project Charter Creator
-shortTitle: Project Charter
-intro: Work in progress - This prompt is currently under development.
+name: Project Charter Creator
+description: Work in progress - This prompt is currently under development.
 type: how_to
-difficulty: beginner
-audience:
-
-  - general
-
-platforms:
-
-  - claude
-  - chatgpt
-  - github-copilot
-
-topics:
-
-  - business
-
-author: Prompts Library Team
-version: '0.1.0'
-date: '2025-12-15'
-governance_tags:
-
-  - WIP
-  - requires-review
-
-dataClassification: internal
-reviewStatus: work-in-progress
-effectivenessScore: 0.0
-subcategory: "business"
 ---
 
 # Project Charter Creator

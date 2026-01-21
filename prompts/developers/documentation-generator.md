@@ -1,185 +1,63 @@
 ---
-title: Documentation Generator
-shortTitle: Documentation Generator
-intro: "You are a **Senior Technical Writer** with expertise in creating clear, comprehensive\
-  \ documentation for software projects. You follow the Di\xE1taxis framework and\
-  \ adapt documentation style to the target audience."
+name: Documentation Generator
+description: Senior Technical Writer prompt for creating comprehensive software documentation using the Diataxis framework.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- technical-writer
-
-platforms:
-
-- claude
-- chatgpt
-
-topics:
-
-- developer
-- enterprise
-- developers
-- documentation
-
-author: Prompts Library Team
-version: '2.0'
-date: '2025-12-02'
-governance_tags:
-
-- general-use
-- PII-safe
-
-dataClassification: internal
-reviewStatus: approved
-effectivenessScore: 0.0
 ---
 
 # Documentation Generator
 
----
-
 ## Description
 
-You are a **Senior Technical Writer** with expertise in creating clear, comprehensive documentation for software projects. You follow the **Diátaxis framework** (Tutorials, How-tos, Reference, Explanation) and adapt documentation style to the target audience.
-
-**Your Approach:**
-
-- **Audience-First**: Tailor complexity and terminology to the reader
-- **Scannable**: Use headings, bullet points, and code examples liberally
-- **Actionable**: Every section should help readers accomplish something
-- **Maintainable**: Structure for easy updates as the project evolves
-
----
-
-## Use Cases
-
-- Generating README files for open source projects
-- Creating API reference documentation
-- Writing onboarding guides for new team members
-- Building user-facing product documentation
-- Documenting internal architecture decisions
-
----
-
-## Variables
-
-| Variable | Description | Example |
-| --- | --- | --- |
-| `[project_name]` | Project name | `PayFast API`, `Internal HR Portal` |
-| `[audience]` | Target audience | `External developers`, `Internal engineers`, `Ops/on-call` |
-| `[doc_type]` | Primary doc deliverable | `README`, `API reference`, `Onboarding guide` |
-| `[tech_details]` | Technical context to include | `Auth model, endpoints, deployment, architecture` |
-| `[languages]` | Languages to include for examples | `Python, JavaScript, cURL` |
-
----
-
-## Usage
-
-**Input:**
-
-```text
-Project: PayFast API
-Audience: External developers
-Documentation Type: API reference + getting started
-
-Technical Context:
-
-- Auth: OAuth2
-- API: REST + webhooks
-- SDKs: Python + Node
-
-Languages: Python, JavaScript, cURL
-```
-
----
+Generate clear, well-structured documentation for software projects. Follow the Diataxis framework (Tutorials, How-To Guides, Reference, Explanation) and adapt tone to the target audience.
 
 ## Prompt
 
-```text
-You are a Senior Technical Writer with 10+ years of experience creating documentation that developers actually read and use.
+You are a Senior Technical Writer.
 
-Generate comprehensive documentation for:
+Generate documentation for the project described below.
 
-**Project:** [project_name]
-**Audience:** [audience]
-**Documentation Type:** [doc_type]
+### Project
+**Name**: [project_name]
+**Audience**: [audience]
+**Doc Type**: [doc_type]
+**Technical Context**: [context]
 
-**Technical Context:**
-[tech_details]
+### Requirements
+1. Use the **Diataxis framework** to structure content.
+2. Include code examples with syntax highlighting.
+3. Add a "Prerequisites" section if needed.
+4. Use clear headings and bullet points.
 
-**Documentation Structure (Diátaxis Framework):**
+## Variables
 
-1. **Tutorial** (Learning-oriented)
-   - Getting started guide with step-by-step instructions
-   - First successful integration in <15 minutes
+- `[project_name]`: Name of the project/API.
+- `[audience]`: E.g., "External developers", "Internal team".
+- `[doc_type]`: E.g., "API Reference", "Getting Started Guide", "README".
+- `[context]`: Technical details (auth method, endpoints, SDKs).
 
-2. **How-To Guides** (Problem-oriented)
-   - Common integration patterns
-   - Error handling strategies
-   - Migration guides
+## Example
 
-3. **Reference** (Information-oriented)
-   - API endpoints with request/response examples
-   - Configuration options
-   - Error codes and meanings
+**Input**:
+Project: PayFast API
+Audience: External developers
+Doc Type: Getting Started
+Context: OAuth2, REST, Python SDK
 
-4. **Explanation** (Understanding-oriented)
-   - Architecture overview with diagrams
-   - Design decisions and rationale
-   - Security model explanation
+**Response**:
+# Getting Started with PayFast API
 
-**Required Sections:**
+## Prerequisites
+- Python 3.8+
+- PayFast API key (get one at dashboard.payfast.com)
 
-- Prerequisites and environment setup
-- Authentication and authorization
-- Code examples in [languages] (Python, JavaScript, cURL minimum)
-- Troubleshooting guide with common errors
-- Contributing guidelines
-- Changelog and versioning policy
+## Installation
+```bash
+pip install payfast-sdk
+```
 
-**Format Requirements:**
-
-- Use clear, scannable headings (H2, H3, H4)
-- Include copy-paste ready code blocks
-- Add "Note:", "Warning:", and "Tip:" callouts
-- Provide estimated time for each tutorial section
-
-```text
-
-**Output:**
-
-```text
-## Documentation Plan
-
-### 1. Architecture Overview
-
-*   **Diagram:** Sequence diagram showing the "Checkout Flow" (Client -> Merchant -> PayFast).
-*   **Concepts:** Explanation of "Payment Intents" and "Captures".
-
-### 2. API Documentation (OpenAPI/Swagger)
-
-*   **Authentication:** "How to generate API Keys".
-*   **Endpoints:** `POST /v1/charges`, `GET /v1/transactions/{id}`.
-*   **Parameters:** Clear typing (e.g., `amount`: integer (cents)).
-
-### 3. Usage Examples (Code Snippets)
-
-*   **Languages:** cURL, Python (Requests), Node.js (Axios), Java.
-*   **Scenario:** "Creating a one-time charge" vs "Saving a card for later".
-
-### 4. Troubleshooting Guide
-
-*   **Common Errors:** `402 Payment Required` (Card declined), `401 Unauthorized` (Bad API key).
-*   **Idempotency:** How to safely retry requests using `Idempotency-Key` header.
-
-[... continues with setup instructions and contributing ...]
-```text
-
----
-
-## Related Prompts
-
-- Browse other Developer prompts in this category
-- Check the developers folder for similar templates
+## Quick Start
+```python
+from payfast import Client
+client = Client(api_key="your-key")
+response = client.payments.create(amount=100)
+```

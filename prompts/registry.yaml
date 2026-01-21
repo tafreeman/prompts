@@ -1,0 +1,1389 @@
+# yaml-language-server: $schema=.github/registry-schema.json
+# =============================================================================
+# Prompt Library Registry
+# =============================================================================
+# Central metadata registry for all prompts. Individual prompt files contain
+# only minimal frontmatter (name, description). All discovery, categorization,
+# governance, and platform metadata lives here.
+#
+# Benefits:
+#   - Single source of truth for library metadata
+#   - Easier bulk updates (platforms, governance, etc.)
+#   - Simpler prompt files (2-3 fields vs 15+)
+#   - Matches industry standard (Anthropic, OpenAI cookbooks)
+#
+# Required fields: title, path, categories, author, date
+# Optional fields: description, platforms, audience, difficulty, technique,
+#                  governance, tags, archived
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Agents
+# -----------------------------------------------------------------------------
+- title: Code Review Agent
+  description: Expert code reviewer focused on quality, best practices, and maintainability
+  path: agents/code-review-agent.agent.md
+  categories:
+    - Agents
+    - Code Review
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - junior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - tool-augmented
+
+- title: Prompt Engineering Agent
+  description: Expert in AI prompt engineering, creating effective prompts for LLMs
+  path: agents/prompt-agent.agent.md
+  categories:
+    - Agents
+    - Meta
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Security Agent
+  description: Expert in security analysis, vulnerability detection, and secure coding
+  path: agents/security-agent.agent.md
+  categories:
+    - Agents
+    - Security
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - requires-human-review
+
+- title: Test Agent
+  description: Expert in test generation for comprehensive code coverage
+  path: agents/test-agent.agent.md
+  categories:
+    - Agents
+    - Testing
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - qa-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Docs Agent
+  description: Expert technical writer for documentation, READMEs, and API docs
+  path: agents/docs-agent.agent.md
+  categories:
+    - Agents
+    - Documentation
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - junior-engineer
+  difficulty: beginner
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Refactor Agent
+  description: Expert in code refactoring, optimization, and improving code quality
+  path: agents/refactor-agent.agent.md
+  categories:
+    - Agents
+    - Code Quality
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+# -----------------------------------------------------------------------------
+# Analysis
+# -----------------------------------------------------------------------------
+- title: Data Analysis Specialist
+  description: Comprehensive data analysis including exploration, statistics, and visualization
+  path: analysis/data-analysis-specialist.md
+  categories:
+    - Analysis
+    - Data
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - business-analyst
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+- title: Market Research Analyst
+  description: Conducts market research and competitive analysis
+  path: analysis/market-research-analyst.md
+  categories:
+    - Analysis
+    - Business
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - business-analyst
+    - project-manager
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+- title: Tools Ecosystem Evaluator
+  description: Evaluates and compares tools, frameworks, and libraries
+  path: analysis/tools-ecosystem-evaluator.md
+  categories:
+    - Analysis
+    - Technical
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: advanced
+  technique: chain-of-thought
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+# -----------------------------------------------------------------------------
+# Developers
+# -----------------------------------------------------------------------------
+- title: Code Review Assistant
+  description: Performs thorough code reviews with constructive feedback
+  path: developers/code-review-assistant.md
+  categories:
+    - Developers
+    - Code Review
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+    - junior-engineer
+  difficulty: beginner
+  author: Prompts Library Team
+  date: "2025-12-11"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - requires-human-review
+
+- title: API Design Consultant
+  description: Designs RESTful and GraphQL APIs following best practices
+  path: developers/api-design-consultant.md
+  categories:
+    - Developers
+    - Architecture
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+- title: Database Schema Designer
+  description: Designs optimized database schemas with proper normalization
+  path: developers/database-schema-designer.md
+  categories:
+    - Developers
+    - Data
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+- title: Performance Optimization Specialist
+  description: Identifies and resolves performance bottlenecks
+  path: developers/performance-optimization-specialist.md
+  categories:
+    - Developers
+    - Performance
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+- title: Security Code Auditor
+  description: Audits code for security vulnerabilities and compliance
+  path: developers/security-code-auditor.md
+  categories:
+    - Developers
+    - Security
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - requires-human-review
+      - audit-required
+
+# -----------------------------------------------------------------------------
+# Governance
+# -----------------------------------------------------------------------------
+- title: Data Classification Helper
+  description: Assists with data classification and handling requirements
+  path: governance/data-classification-helper.md
+  categories:
+    - Governance
+    - Compliance
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - solution-architect
+    - project-manager
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Risk Assessment
+  description: Conducts risk assessments for projects and initiatives
+  path: governance/risk-assessment.md
+  categories:
+    - Governance
+    - Risk
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - solution-architect
+    - project-manager
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - requires-human-review
+
+- title: SOC2 Audit Preparation
+  description: Helps prepare for SOC2 compliance audits
+  path: governance/soc2-audit-preparation.md
+  categories:
+    - Governance
+    - Compliance
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - solution-architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - requires-human-review
+      - audit-required
+
+# -----------------------------------------------------------------------------
+# Business
+# -----------------------------------------------------------------------------
+- title: Business Case Developer
+  description: Develops comprehensive business cases and ROI analyses
+  path: business/business-case-developer.md
+  categories:
+    - Business
+    - Strategy
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - business-analyst
+    - project-manager
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: internal
+    status: draft
+    tags:
+      - PII-safe
+
+# -----------------------------------------------------------------------------
+# Creative
+# -----------------------------------------------------------------------------
+- title: Content Strategy Planner
+  description: Plans content strategies for marketing and communications
+  path: creative/content-strategy-planner.md
+  categories:
+    - Creative
+    - Marketing
+  platforms:
+    - claude
+    - chatgpt
+  audience:
+    - functional-team
+    - project-manager
+  difficulty: beginner
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: public
+    status: approved
+    tags:
+      - PII-safe
+
+# -----------------------------------------------------------------------------
+# System Prompts
+# -----------------------------------------------------------------------------
+- title: Code Assistant System Prompt
+  description: System prompt for general code assistance
+  path: system/code-assistant.md
+  categories:
+    - System
+    - Developers
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - senior-engineer
+    - junior-engineer
+  difficulty: beginner
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: public
+    status: approved
+    tags:
+      - PII-safe
+
+# -----------------------------------------------------------------------------
+# Techniques
+# -----------------------------------------------------------------------------
+- title: Chain of Thought Guide
+  description: Guide for implementing chain-of-thought reasoning
+  path: techniques/chain-of-thought.md
+  categories:
+    - Techniques
+    - Reasoning
+  platforms:
+    - claude
+    - chatgpt
+    - github-copilot
+  audience:
+    - senior-engineer
+    - solution-architect
+  difficulty: intermediate
+  technique: chain-of-thought
+  author: Prompts Library Team
+  date: "2025-11-16"
+  governance:
+    classification: public
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Chain-of-Verification (CoVe)
+  description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle
+  path: prompts/advanced/CoVe.md
+  categories:
+    - Advanced
+    - Technique
+  platforms:
+    - github-copilot
+    - claude
+    - openai
+  audience:
+    - senior-engineer
+    - data-scientist
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - fact-checking
+
+- title: Prompt Library Refactor React
+  description: Executable prompt combining ToT and ReAct for library evaluation
+  path: prompts/advanced/prompt-library-refactor-react.md
+  categories:
+    - Advanced
+    - Maintenance
+    - Meta
+  platforms:
+    - github-copilot
+  audience:
+    - maintainer
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - meta-prompt
+
+- title: ToT-ReAct Repository Cleanup Agent
+  description: Strict ToT-ReAct prompt for exhaustive repository cleanup with mandatory looping
+  path: prompts/advanced/tot-react-cleanup-agent.md
+  categories:
+    - Advanced
+    - Maintenance
+    - Meta
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - maintainer
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - meta-prompt
+
+- title: Access Control Reviewer
+  description: Conduct User Access Reviews (UAR) and analyze role-based access control (RBAC) policies
+  path: prompts/governance/access-control-reviewer.md
+  categories:
+    - Governance
+    - Security
+    - Audit
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - security-engineer
+    - auditor
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - security-audit
+
+- title: API Design Consultant
+  description: Staff-level API Architect prompt for designing RESTful APIs and OpenAPI specs
+  path: prompts/developers/api-design-consultant.md
+  categories:
+    - Developers
+    - Architecture
+    - API
+  platforms:
+    - github-copilot
+    - claude
+    - openai
+  audience:
+    - senior-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - design-pattern
+
+- title: Cloud Migration Specialist
+  description: Enterprise Cloud Migration Architect focusing on lift-and-shift, re-platform, and modernization strategies (6 Rs)
+  path: prompts/developers/cloud-migration-specialist.md
+  categories:
+    - Developers
+    - Cloud
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+    - azure-openai
+  audience:
+    - architect
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - cloud-adoption-framework
+
+- title: Code Generation Assistant
+  description: Principal Software Engineer prompt for producing production-grade, idiomatic, and secure code
+  path: prompts/developers/code-generation-assistant.md
+  categories:
+    - Developers
+    - Coding
+    - Productivity
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - junior-engineer
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - code-quality
+
+- title: Code Review Assistant
+  description: Comprehensive code review assistant focusing on quality, security, performance, and maintainability
+  path: prompts/developers/code-review-assistant.md
+  categories:
+    - Developers
+    - Quality Assurance
+    - Best Practices
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - team-lead
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - code-review
+
+- title: Database Schema Designer
+  description: Staff-level Database Architect prompt for designing scalable relational schemas
+  path: prompts/developers/database-schema-designer.md
+  categories:
+    - Developers
+    - Database
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - backend-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - database-design
+
+- title: Test Automation Engineer
+  description: Senior QA Engineer prompt for designing test automation strategies and writing comprehensive test suites
+  path: prompts/developers/test-automation-engineer.md
+  categories:
+    - Developers
+    - Testing
+    - QA
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - qa-engineer
+    - sdet
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - testing-strategy
+
+- title: Code Review Expert Structured
+  description: Structured code review prompt producing JSON or Markdown output for automation and CI pipelines
+  path: prompts/developers/code-review-expert-structured.md
+  categories:
+    - Developers
+    - Code Review
+    - Automation
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - devops-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - ci-integration
+
+- title: Code Review Expert
+  description: Senior software engineer code review prompt with severity-labeled findings and actionable recommendations
+  path: prompts/developers/code-review-expert.md
+  categories:
+    - Developers
+    - Code Review
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - team-lead
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: C# Enterprise Standards Enforcer
+  description: Strict code reviewer enforcing enterprise-grade C# standards and patterns
+  path: prompts/developers/csharp-enterprise-standards-enforcer.md
+  categories:
+    - Developers
+    - .NET
+    - Code Review
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - enterprise
+
+- title: C# Refactoring Assistant
+  description: Expert C# refactoring specialist for improving code quality while preserving behavior
+  path: prompts/developers/csharp-refactoring-assistant.md
+  categories:
+    - Developers
+    - .NET
+    - Refactoring
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Data Pipeline Engineer
+  description: Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures
+  path: prompts/developers/data-pipeline-engineer.md
+  categories:
+    - Developers
+    - Data
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - data-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - data-engineering
+
+
+- title: DevOps Pipeline Architect
+  description: Staff-level DevOps architect prompt for designing CI/CD pipelines optimized for DORA metrics
+  path: prompts/developers/devops-pipeline-architect.md
+  categories:
+    - Developers
+    - DevOps
+    - CI/CD
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - devops-engineer
+    - sre
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - dora-metrics
+
+- title: Documentation Generator
+  description: Senior Technical Writer prompt for creating comprehensive software documentation
+  path: prompts/developers/documentation-generator.md
+  categories:
+    - Developers
+    - Documentation
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - senior-engineer
+    - technical-writer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: .NET API Designer
+  description: Expert architect prompt for designing RESTful APIs using ASP.NET Core
+  path: prompts/developers/dotnet-api-designer.md
+  categories:
+    - Developers
+    - .NET
+    - API
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Frontend Architecture Consultant
+  description: Principal Frontend Architect prompt for designing scalable web applications
+  path: prompts/developers/frontend-architecture-consultant.md
+  categories:
+    - Developers
+    - Frontend
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - senior-engineer
+    - architect
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Legacy System Modernization
+  description: Enterprise Modernization Architect prompt for migrating legacy systems
+  path: prompts/developers/legacy-system-modernization.md
+  categories:
+    - Developers
+    - Architecture
+    - Migration
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - architect
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Mid-Level Developer Architecture Coach
+  description: Mentor prompt to help mid-level developers understand architectural decisions
+  path: prompts/developers/mid-level-developer-architecture-coach.md
+  categories:
+    - Developers
+    - Mentoring
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - mid-level-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - learning
+
+- title: Mobile App Developer
+  description: Senior Mobile Engineer prompt for planning iOS and Android applications
+  path: prompts/developers/mobile-app-developer.md
+  categories:
+    - Developers
+    - Mobile
+    - Architecture
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - mobile-engineer
+    - senior-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Performance Optimization Specialist
+  description: Performance engineer prompt for diagnosing latency issues and optimizing throughput
+  path: prompts/developers/performance-optimization-specialist.md
+  categories:
+    - Developers
+    - Performance
+    - SRE
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - sre
+    - senior-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: SQL Query Analyzer
+  description: Database expert prompt for analyzing SQL queries for performance and security
+  path: prompts/developers/sql-query-analyzer.md
+  categories:
+    - Developers
+    - Database
+    - Performance
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - backend-engineer
+    - dba
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: AI/ML Privacy Risk Assessment
+  description: ReAct+Reflection prompt for assessing privacy risks in AI/ML systems
+  path: prompts/governance/ai-ml-privacy-risk-assessment.md
+  categories:
+    - Governance
+    - Privacy
+    - AI/ML
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - privacy-officer
+    - data-scientist
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - requires-human-review
+      - gdpr
+      - eu-ai-act
+
+- title: Compliance Policy Generator
+  description: Prompt for drafting corporate policies aligned with industry standards
+  path: prompts/governance/compliance-policy-generator.md
+  categories:
+    - Governance
+    - Compliance
+    - Policy
+  platforms:
+    - github-copilot
+    - claude
+    - chatgpt
+  audience:
+    - compliance-officer
+    - legal
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - soc2
+      - iso27001
+
+- title: Data Classification Helper
+  description: Prompt to categorize data assets based on sensitivity and regulatory requirements
+  path: prompts/governance/data-classification-helper.md
+  categories:
+    - Governance
+    - Data Management
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - data-steward
+    - security-engineer
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - data-governance
+
+- title: Data Retention Policy Generator
+  description: ReAct+Reflection prompt for generating data retention policies
+  path: prompts/governance/data-retention-policy.md
+  categories:
+    - Governance
+    - Data Management
+    - Compliance
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - privacy-officer
+    - legal
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - gdpr
+
+- title: Data Subject Request Handler
+  description: Systematic prompt for processing GDPR/CCPA data subject requests
+  path: prompts/governance/data-subject-request-handler.md
+  categories:
+    - Governance
+    - Privacy
+    - Operations
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - privacy-officer
+    - support
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: confidential
+    status: approved
+    tags:
+      - requires-human-review
+      - gdpr
+      - ccpa
+
+- title: GDPR Compliance Assessment
+  description: ReAct+Reflection prompt for assessing GDPR compliance
+  path: prompts/governance/gdpr-compliance-assessment.md
+  categories:
+    - Governance
+    - Privacy
+    - Compliance
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - privacy-officer
+    - dpo
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - requires-human-review
+      - gdpr
+
+- title: HIPAA Compliance Checker
+  description: Prompt for assessing healthcare systems against HIPAA rules
+  path: prompts/governance/hipaa-compliance-checker.md
+  categories:
+    - Governance
+    - Healthcare
+    - Compliance
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - compliance-officer
+    - security-engineer
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: confidential
+    status: approved
+    tags:
+      - requires-human-review
+      - hipaa
+
+- title: Legal Contract Review
+  description: Prompt for initial contract review and risk identification
+  path: prompts/governance/legal-contract-review.md
+  categories:
+    - Governance
+    - Legal
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - legal
+    - procurement
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: confidential
+    status: approved
+    tags:
+      - requires-attorney-review
+
+- title: Privacy Impact Assessment Generator
+  description: DPIA prompt following ICO UK guidance and GDPR Article 35
+  path: prompts/governance/privacy-impact-assessment.md
+  categories:
+    - Governance
+    - Privacy
+    - Risk
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - privacy-officer
+    - dpo
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - requires-human-review
+      - gdpr
+
+- title: Regulatory Change Analyzer
+  description: Prompt to analyze regulations and assess organizational impact
+  path: prompts/governance/regulatory-change-analyzer.md
+  categories:
+    - Governance
+    - Compliance
+    - Legal
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - compliance-officer
+    - legal
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+
+- title: Security Incident Response
+  description: Framework prompt for security incident triage and response
+  path: prompts/governance/security-incident-response.md
+  categories:
+    - Governance
+    - Security
+    - Operations
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - security-engineer
+    - soc-analyst
+  difficulty: advanced
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: confidential
+    status: approved
+    tags:
+      - soc-team-only
+      - incident-response
+
+- title: Vendor Security Reviewer
+  description: Prompt to analyze vendor security posture and third-party risk
+  path: prompts/governance/vendor-security-review.md
+  categories:
+    - Governance
+    - Security
+    - Procurement
+  platforms:
+    - github-copilot
+    - claude
+  audience:
+    - security-engineer
+    - procurement
+  difficulty: intermediate
+  author: Prompts Library Team
+  date: "2026-01-20"
+  governance:
+    classification: internal
+    status: approved
+    tags:
+      - PII-safe
+      - third-party-risk
+
+  - title: M365 Data Insights Assistant
+    description: Helps users analyze data across Microsoft 365 applications including Excel, SharePoint lists, and Power BI to provide actionable insights.
+    path: prompts/m365/m365-data-insights-assistant.md
+    categories: [m365, productivity, data-analysis]
+    platforms: [microsoft-365-copilot, excel, power-bi]
+    audience: [analysts, business-users, data-professionals]
+    difficulty: intermediate
+    author: Prompts Library Team
+    date: "2026-01-20"
+    governance:
+      classification: internal
+      status: approved
+      tags: [m365, data, analytics, insights]
+
+  - title: M365 Designer Image Prompt Generator
+    description: Generates optimized image generation prompts for Microsoft Designer based on your creative brief.
+    path: prompts/m365/m365-designer-image-prompt-generator.md
+    categories: [m365, creative, design]
+    platforms: [microsoft-365-copilot, microsoft-designer]
+    audience: [marketers, designers, content-creators]
+    difficulty: beginner
+    author: Prompts Library Team
+    date: "2026-01-20"
+    governance:
+      classification: internal
+      status: approved
+      tags: [m365, designer, images, creative]
+
+  - title: M365 Email Triage Helper
+    description: Analyzes and prioritizes incoming emails, suggesting responses and flagging urgent items requiring immediate attention.
+    path: prompts/m365/m365-email-triage-helper.md
+    categories: [m365, productivity, email]
+    platforms: [microsoft-365-copilot, outlook]
+    audience: [professionals, executives, busy-teams]
+    difficulty: beginner
+    author: Prompts Library Team
+    date: "2026-01-20"
+    governance:
+      classification: internal
+      status: approved
+      tags: [m365, outlook, email, triage]
+
+  - title: M365 Meeting Recap Assistant
+    description: Summarizes meeting transcripts from Teams into key decisions, action items, and follow-ups with assigned owners.
+    path: prompts/m365/m365-meeting-recap-assistant.md
+    categories: [m365, productivity, meetings]
+    platforms: [microsoft-365-copilot, teams]
+    audience: [project-managers, team-leads, meeting-organizers]
+    difficulty: beginner
+    author: Prompts Library Team
+    date: "2026-01-20"
+    governance:
+      classification: internal
+      status: approved
+      tags: [m365, teams, meetings, recaps]
+
+  - title: M365 Presentation Outline Generator
+    description: Creates a structured outline for PowerPoint presentations based on your topic, audience, and key messages.
+    path: prompts/m365/m365-presentation-outline-generator.md
+    categories: [m365, productivity, presentations]
+    platforms: [microsoft-365-copilot, powerpoint]
+    audience: [presenters, sales, executives]
+    difficulty: intermediate
+    author: Prompts Library Team
+    date: "2026-01-20"
+    governance:
+      classification: internal
+      status: approved
+      tags: [m365, powerpoint, presentations, outlines]

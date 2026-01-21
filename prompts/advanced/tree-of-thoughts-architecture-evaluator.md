@@ -1,6 +1,9 @@
-
-
 ---
+name: Tree Of Thoughts Architecture Evaluator
+description: title: 'Tree-of-Thoughts: Architecture Evaluator' shortTitle: ToT Architecture Evaluator intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic mult
+type: how_to
+---
+
 title: 'Tree-of-Thoughts: Architecture Evaluator'
 shortTitle: ToT Architecture Evaluator
 intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture
@@ -9,42 +12,23 @@ type: how_to
 difficulty: advanced
 audience:
 
-- senior-engineer
-- solution-architect
 
 platforms:
 
-- claude
-- chatgpt
-- github-copilot
 
 topics:
 
-- architecture
-- decision-making
 
 author: Prompt Engineering Team
 version: '1.0'
 date: '2025-11-18'
 governance_tags:
 
-- PII-safe
-- requires-human-review
 
 dataClassification: internal
 reviewStatus: draft
 effectivenessScore: 0.0
----
-
 # Tree-of-Thoughts: Architecture Evaluator
-
----
-
-## Description
-
-A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic multi-branch reasoning. Explores alternatives (e.g., monolith vs microservices, SQL vs NoSQL, sync vs async), compares them across key dimensions, and converges on a justified recommendation with documented trade-offs.
-
----
 
 ## Research Foundation
 
@@ -110,25 +94,6 @@ Use this prompt when facing architectural crossroads: choosing between patterns 
 
 All branches and reasoning must be visible in the output.
 
----
-
-## Output Requirements
-
-Structured Markdown with the following sections:
-
-1. **Problem & Context**
-2. **Architecture Options (Branches)**
-3. **Evaluation Criteria**
-4. **Branch Analysis** (for each option)
-5. **Trade-off Matrix** (comparison table)
-6. **Pruned Options** (with justification)
-7. **Deep Dive** (top 2–3 options)
-8. **Recommendation** (final choice with rationale)
-9. **Risks & Mitigations**
-10. **Decision Record** (ADR-style summary)
-
----
-
 ## Use Cases
 
 - Choosing between monolithic and microservices architectures
@@ -137,63 +102,6 @@ Structured Markdown with the following sections:
 - Deciding on deployment models (serverless, containers, VMs, hybrid)
 - Assessing frontend frameworks or state management approaches
 - Migrating legacy systems (rewrite vs refactor vs strangle fig)
-
----
-
-## Example
-
-**Inputs**
-
-- `[PROBLEM_DESCRIPTION]`: `Migrate a monolith to support rapid feature delivery and 10× traffic growth`
-- `[EXISTING_ARCHITECTURE_OR_GREENFIELD]`: `Node.js monolith + PostgreSQL`
-- `[SECURITY_COMPLIANCE_NEEDS]`: `SOC2`
-- `[TEAM_SIZE_EXPERIENCE_SKILLS]`: `8 engineers; limited SRE support`
-- `[DELIVERY_DEADLINE]`: `9 months`
-
-**Expected output (high level)**
-
-- 3–5 distinct architecture branches
-- A trade-off matrix + pruned options
-- A recommendation with risks and mitigations
-
-## Prompt
-
-```text
-You are an expert software architect using Tree-of-Thoughts (ToT) reasoning to evaluate architecture options systematically.
-
-## Architectural Challenge
-
-**Problem Statement:** [PROBLEM_DESCRIPTION]
-
-**Current System Context:** [EXISTING_ARCHITECTURE_OR_GREENFIELD]
-
-**Requirements:**
-
-**Functional:**
-
-- [FUNCTIONAL_REQUIREMENT_1]
-- [FUNCTIONAL_REQUIREMENT_2]
-- [FUNCTIONAL_REQUIREMENT_3]
-
-**Non-Functional:**
-
-- Scalability: [SCALABILITY_REQUIREMENTS]
-- Performance: [LATENCY_THROUGHPUT_TARGETS]
-- Availability: [UPTIME_REQUIREMENTS]
-- Security: [SECURITY_COMPLIANCE_NEEDS]
-- Maintainability: [TEAM_SIZE_SKILL_LEVEL]
-- Cost: [BUDGET_CONSTRAINTS]
-
-**Constraints:**
-
-- Team: [TEAM_SIZE_EXPERIENCE_SKILLS]
-- Timeline: [DELIVERY_DEADLINE]
-- Compliance: [REGULATORY_REQUIREMENTS]
-- Technical: [EXISTING_TECH_STACK_INTEGRATIONS]
-
-**Additional Context:** [ANY_OTHER_RELEVANT_INFO]
-
----
 
 ## Task
 
@@ -370,99 +278,6 @@ Based on the analysis, select the best option:
 
 **Stakeholders**: [Who should review/approve this decision]
 
----
-
-## Output Format
-
-[Follow the structure above, filling in all sections with detailed analysis and reasoning]
-```
-
-**Output:** (abbreviated)
-
-```markdown
-### Step 1: Problem & Context
-We need to scale an e-commerce platform from 10K to 1M users in 12 months. Current monolith (Rails + PostgreSQL) is experiencing:
-
-- Database bottlenecks (long queries, connection pool saturation)
-- Deployment risks (downtime during deploys)
-- Team coordination issues (10 developers committing to same codebase)
-
-Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and web clients.
-
-### Step 2: Architecture Options (Branches)
-**Option A**: Microservices with Event-Driven Communication (Kafka)
-**Option B**: Modular Monolith with Read Replicas and Async Workers
-**Option C**: Serverless (API Gateway + Lambda + DynamoDB)
-
-### Step 4: Branch Analysis (Option B example)
-
-**Option B: Modular Monolith with Read Replicas and Async Workers**
-
-**Description:**
-
-- Single deployable Rails app, but modularized internally (bounded contexts)
-- PostgreSQL primary + 2 read replicas
-- Sidekiq workers for async tasks (emails, analytics)
-- Redis for caching and session storage
-- Vertical scaling (larger DB instances) + horizontal scaling (app servers behind load balancer)
-
-**Evaluation:**
-
-- **Scalability**: 7/10 - Handles 1M users with read replicas and caching, but eventual limit
-- **Performance**: 8/10 - Read replicas reduce DB load, caching improves latency
-- **Development Complexity**: 9/10 - Team already knows Rails, modularization is incremental
-- **Operational Complexity**: 8/10 - Simpler than microservices (single deploy, shared DB)
-- **Cost**: 9/10 - Lower infrastructure cost than microservices
-- **Team Fit**: 10/10 - Perfect match for current Rails team
-- **Flexibility**: 6/10 - Can extract services later, but monolith limits independent deploys
-- **Risk**: 8/10 - Lower risk (incremental change), but may need future migration
-
-**Overall Score**: 65/80
-
-**Key Strengths**: Low risk, team fit, cost-effective, incremental path
-**Key Weaknesses**: Eventually hits scaling ceiling, tighter coupling than microservices
-
-### Step 8: Recommendation
-
-**Recommended Architecture**: Modular Monolith with Read Replicas and Async Workers (Option B)
-
-**Rationale:**
-
-- **Best fit for current team** (Rails expertise, no need to learn distributed systems)
-- **Lowest risk** (incremental improvements to existing system)
-- **Cost-effective** (avoids microservices overhead)
-- **Sufficient for 1M users** (with read replicas and caching)
-- **Future-proof** (modularization enables service extraction if needed beyond 1M users)
-
-**Key Trade-offs Accepted:**
-
-- **Accepting**: Tighter coupling and single deployment unit
-- **Gaining**: Faster delivery, lower operational complexity, better team productivity
-
-**When This Recommendation Might Change:**
-
-- If traffic grows beyond 5M users, revisit microservices (Option A)
-- If team grows beyond 30 developers, independent deployments become critical
-- If compliance requires data isolation, consider service boundaries
-
-### Step 9: Risks & Mitigations
-
-**Risk 1**: Database becomes bottleneck even with read replicas
-
-- **Likelihood**: Medium
-- **Impact**: High
-- **Mitigation**: Implement query optimization, add more read replicas, consider sharding hot tables
-
-**Risk 2**: Modularization discipline erodes over time
-
-- **Likelihood**: Medium
-- **Impact**: Medium
-- **Mitigation**: Enforce module boundaries with linting (packwerk), regular architecture reviews
-
-```
-
----
-
 ## Tips
 
 - **Generate diverse options:** Avoid subtle variations; ensure each branch represents a meaningfully different approach
@@ -472,15 +287,6 @@ Key requirements: maintain < 200ms p99 latency, 99.9% uptime, support mobile and
 - **Plan for evolution:** Choose architectures that can adapt as requirements change
 - **Validate with data:** Use benchmarks, case studies, or prototypes to support scores
 - **Involve stakeholders:** Share this analysis with engineering, product, and leadership for alignment
-
----
-
-## Related Prompts
-
-- [Chain-of-Thought: Performance Analysis](chain-of-thought-performance-analysis.md) - For performance optimization
-- [Refactoring Plan Designer](../developers/refactoring-plan-designer.md) - For incremental architecture changes
-
----
 
 ## Governance Notes
 

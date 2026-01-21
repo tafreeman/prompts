@@ -1,41 +1,7 @@
 ---
-title: Company OSINT Investigation
-shortTitle: Company OSINT
-intro: Comprehensive open-source intelligence gathering on organizations, including
-  corporate structure, digital footprint, and threat surface analysis
-type: prompt
-difficulty: advanced
-audience:
-
-- security-professionals
-- osint-analysts
-- investigators
-- competitive-intelligence
-
-platforms:
-
-- github-copilot
-- chatgpt
-- claude
-
-topics:
-
-- osint
-- corporate-intelligence
-- threat-surface
-- due-diligence
-
-author: OSINT Library
-version: '1.0'
-date: '2024-11-30'
-governance_tags:
-
-- privacy-aware
-- ethical-osint
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: pending
+name: Company OSINT Investigation
+description: Comprehensive open-source intelligence gathering on organizations, including corporate structure, digital footprint, and threat surface analysis
+type: how_to
 ---
 
 # Company OSINT Investigation

@@ -1,45 +1,10 @@
 ---
-title: "Interview Questions Generator"
-shortTitle: "Interview Questions"
-intro: "Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "project-manager"
-  - "business-analyst"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-topics:
-
-  - "recruiting"
-  - "hr"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Interview Questions Generator
+description: Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies.
+type: how_to
 ---
+
 # Interview Questions Generator
-
----
-
-## Description
-
-Create structured interview questions that assess candidates fairly and effectively. Generates behavioral, situational, and technical questions with scoring rubrics and follow-up probes.
-
----
 
 ## Use Cases
 
@@ -49,53 +14,6 @@ Create structured interview questions that assess candidates fairly and effectiv
 - Ensuring consistent evaluation across candidates
 - Creating competency-based assessment frameworks
 
----
-
-## Prompt
-
-```text
-You are an expert interviewer trained in behavioral and structured interviewing techniques.
-
-Create interview questions for:
-
-**Role**: [role]
-**Level**: [level]
-**Key Competencies**: [competencies]
-**Interview Stage**: [stage]
-**Time Available**: [time]
-
-Generate:
-
-1. **Opening Questions** (2 questions)
-   - Rapport building
-   - Background/motivation
-
-2. **Behavioral Questions** (4-5 questions)
-   - One per key competency
-   - STAR format prompts
-   - Follow-up probes for each
-
-3. **Situational Questions** (2-3 questions)
-   - Hypothetical scenarios relevant to the role
-   - Tests judgment and approach
-
-4. **Role-Specific Questions** (2-3 questions)
-   - Technical or domain knowledge
-   - Practical application
-
-5. **Candidate Questions** (suggested topics)
-   - What strong candidates typically ask
-   - Red flags to watch for
-
-6. **Scoring Rubric**
-   - What "great" looks like for each competency
-   - What "concerning" looks like
-
-Format as an interview guide with timing suggestions.
-```text
-
----
-
 ## Variables
 
 - `[role]`: Job title (e.g., "Senior Product Manager")
@@ -103,45 +21,6 @@ Format as an interview guide with timing suggestions.
 - `[competencies]`: Key competencies to assess (e.g., "Strategic thinking, stakeholder management, data-driven decision making, technical acumen")
 - `[stage]`: Interview stage (e.g., "Hiring manager round", "Final panel")
 - `[time]`: Available time (e.g., "45 minutes")
-
----
-
-## Example
-
-### Context
-
-You are hiring a Senior Product Manager for a growth team and want a structured interview guide that covers behavioral, situational, and role‑specific questions plus a scoring rubric.
-
-### Input
-
-```text
-You are an expert interviewer trained in behavioral and structured interviewing techniques.
-
-Create interview questions for:
-
-**Role**: Senior Product Manager, Growth
-**Level**: Senior IC
-**Key Competencies**: Data‑driven decision making; experimentation mindset; cross‑functional leadership; customer empathy; strategic thinking
-**Interview Stage**: Round 2 (hiring manager interview)
-**Time Available**: 60 minutes
-
-Generate the full interview guide as described in the prompt, including questions, follow‑up probes, and a scoring rubric.
-```text
-
-### Expected Output
-
-The AI returns a complete interview guide that includes: an interview structure/time‑box, opening questions, behavioral and situational questions with probes, role‑specific questions, suggested candidate questions, and a scoring rubric—similar to the example guide that follows.
-
-**Output:**
-
-```markdown
-# Interview Guide: Senior Product Manager, Growth
-
-**Duration**: 60 minutes  
-**Interviewer**: Hiring Manager  
-**Stage**: Round 2 of 4
-
----
 
 ## Interview Structure
 
@@ -152,22 +31,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 | Situational | 15 min | Judgment, approach |
 | Role-Specific | 10 min | Growth PM skills |
 | Candidate Q&A | 5 min | Their questions |
-
----
-
-## 1. Opening Questions (5 minutes)
-
-### Q1: Rapport Builder
-*"Thanks for joining today. Before we dive in, I'd love to hear - what's got you excited about this role specifically?"*
-
-**Listen for**: Genuine enthusiasm, research they've done, alignment with growth focus
-
-### Q2: Background Context
-*"Walk me through your PM journey - how did you get into product, and what's drawn you toward growth specifically?"*
-
-**Listen for**: Intentional career progression, passion for growth/experimentation, not just "fell into PM"
-
----
 
 ## 2. Behavioral Questions (25 minutes)
 
@@ -189,27 +52,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 - **Action**: Structured approach to synthesis, not just gut feel
 - **Result**: Measurable outcome + learnings
 
----
-
-### Competency 2: Cross-Functional Leadership
-
-**Main Question**:
-*"Describe a situation where you needed to get alignment from engineering, design, and other stakeholders who had competing priorities. How did you navigate it?"*
-
-**Follow-up Probes**:
-
-- "How did you prioritize whose concerns to address first?"
-- "What did you do when someone still disagreed?"
-- "How did you maintain the relationship after?"
-
-**STAR Expectations**:
-
-- Shows influence without authority
-- Demonstrates empathy for other teams' constraints
-- Found creative solutions, not just escalated
-
----
-
 ### Competency 3: Experimentation Mindset
 
 **Main Question**:
@@ -226,27 +68,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 - Embraces failure as learning (not defensive)
 - Has a rigorous experimentation framework
 - Can articulate statistical significance, sample sizes
-
----
-
-### Competency 4: Customer Empathy
-
-**Main Question**:
-*"Walk me through a time you discovered a customer insight that fundamentally changed your product direction. How did you uncover it?"*
-
-**Follow-up Probes**:
-
-- "What methods did you use (interviews, data, observation)?"
-- "How did you convince others the insight was valid?"
-- "How did you avoid confirmation bias?"
-
-**STAR Expectations**:
-
-- Direct customer interaction (not just reading reports)
-- Synthesized qualitative + quantitative
-- Changed their own mind, not just validated assumptions
-
----
 
 ### Competency 5: Strategic Thinking
 
@@ -265,24 +86,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 - Can quantify opportunity size
 - Balances vision with pragmatic execution
 
----
-
-## 3. Situational Questions (15 minutes)
-
-### Scenario 1: Prioritization Under Pressure
-
-*"Imagine you're 3 weeks into a quarter. Your team is working on an activation improvement projected to lift conversion 10%. Your CEO comes to you with a request from a key enterprise customer that would require pausing this work. The customer represents 15% of ARR. How do you handle this?"*
-
-**What to assess**:
-
-- Framework for evaluating tradeoffs (not just "it depends")
-- Stakeholder management instincts
-- Ability to push back respectfully
-
-**Great answer includes**: Quantifies both opportunities, proposes alternatives (parallel path, timeline negotiation), aligns on decision criteria before deciding
-
----
-
 ### Scenario 2: Experiment Design
 
 *"You're tasked with improving our onboarding flow. Activation rate is 34% (new users who complete setup within 7 days). You have 4 weeks and one engineer. Walk me through how you'd approach this."*
@@ -294,22 +97,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 - Scrappiness within constraints
 
 **Great answer includes**: Starts with data/funnel analysis, talks to churned users, prioritizes highest-leverage tests, acknowledges what they'd do with more resources
-
----
-
-### Scenario 3: Stakeholder Conflict
-
-*"Your data science team's analysis shows Feature X will increase activation by 8%. Your UX researcher is convinced it will hurt long-term retention because it feels 'spammy.' You need to make a call. What do you do?"*
-
-**What to assess**:
-
-- Handles ambiguity without analysis paralysis
-- Values both quantitative and qualitative input
-- Makes decisions, doesn't just gather consensus
-
-**Great answer includes**: Proposes ways to test both hypotheses, weighs short-term vs. long-term tradeoffs, makes a clear recommendation with rationale
-
----
 
 ## 4. Role-Specific Questions (10 minutes)
 
@@ -330,27 +117,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 
 **Listen for**: Asks smart questions (not generic), prioritizes understanding before acting, shows genuine curiosity
 
----
-
-## 5. Candidate Questions (5 minutes)
-
-### What Strong Candidates Ask
-
-- "What does the current activation funnel look like? Where are the biggest drop-offs?"
-- "How does the Growth team collaborate with Core Product?"
-- "What experiments has the team run recently? What worked vs. didn't?"
-- "What does success in this role look like at 90 days? 1 year?"
-- "What's the biggest challenge the Growth team is facing right now?"
-
-### Red Flag Questions
-
-- Only asking about comp, title, or promotion timeline
-- No questions prepared at all
-- Questions that show they didn't read the job description
-- "What does this company do again?"
-
----
-
 ## 6. Scoring Rubric
 
 | Competency | Strong (4-5) | Adequate (3) | Concerning (1-2) |
@@ -360,20 +126,6 @@ The AI returns a complete interview guide that includes: an interview structure/
 | **Experimentation** | Can design rigorous experiments, embraces failures, iterates based on learnings | Has run experiments but didn't own the analysis | Hasn't run real experiments or sees them as "nice to have" |
 | **Customer Empathy** | Direct customer contact, synthesizes qual + quant, changed their own mind | Reads user research but doesn't conduct it | Views customers as abstract personas, not real people |
 | **Strategic** | Identifies opportunities independently, can size and sequence, thinks in quarters not sprints | Executes strategy given to them well | Focuses only on immediate tasks, no long-term view |
-
----
-
-## Post-Interview Checklist
-
-- [ ] Complete scorecard within 24 hours
-- [ ] Note specific examples (not just impressions)
-- [ ] Flag any concerns for hiring committee
-- [ ] Avoid discussing with other interviewers before independent scoring
-
-```text
-
----
-
 
 ## Tips
 

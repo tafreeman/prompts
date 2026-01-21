@@ -1,46 +1,10 @@
 ---
-title: "Competitive Analysis Generator"
-shortTitle: "Competitive Analysis"
-intro: "Generate comprehensive competitive analyses comparing products, features, positioning, and market strategies."
-type: "how_to"
-difficulty: "intermediate"
-audience:
-
-  - "business-analyst"
-  - "project-manager"
-
-platforms:
-
-  - "github-copilot"
-  - "claude"
-  - "chatgpt"
-
-topics:
-
-  - "strategy"
-  - "market-research"
-  - "product"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-safe"
-
-dataClassification: "internal"
-reviewStatus: "draft"
-effectivenessScore: 0.0
+name: Competitive Analysis Generator
+description: Generate comprehensive competitive analyses comparing products, features, positioning, and market strategies.
+type: how_to
 ---
+
 # Competitive Analysis Generator
-
----
-
-## Description
-
-Create structured competitive analyses that inform product strategy, sales positioning, and market differentiation. Generates side-by-side comparisons, SWOT analyses, and actionable recommendations.
-
----
 
 ## Use Cases
 
@@ -50,65 +14,6 @@ Create structured competitive analyses that inform product strategy, sales posit
 - Evaluating acquisition targets
 - Developing go-to-market positioning
 
----
-
-## Prompt
-
-```text
-You are a strategic analyst experienced in competitive intelligence and market positioning.
-
-Create a competitive analysis for:
-
-**Our Company/Product**: [our_product]
-**Competitors to Analyze**: [competitors]
-**Market/Industry**: [market]
-**Analysis Purpose**: [purpose]
-**Key Criteria**: [criteria]
-
-Generate:
-
-1. **Executive Summary**
-   - Our competitive position in 2-3 sentences
-   - Key advantages and vulnerabilities
-   - Strategic recommendation
-
-2. **Company Overviews** (for each competitor)
-   - Company snapshot (funding, size, founding)
-   - Target market and ICP
-   - Core value proposition
-   - Recent news/momentum
-
-3. **Feature Comparison Matrix**
-   - Side-by-side capability comparison
-   - Rating scale (✅ Full / ⚠️ Partial / ❌ None)
-   - Our advantage areas highlighted
-
-4. **Pricing Comparison**
-   - Pricing models and tiers
-   - TCO analysis if applicable
-   - Value positioning
-
-5. **SWOT Analysis** (for us vs. field)
-   - Strengths
-   - Weaknesses
-   - Opportunities
-   - Threats
-
-6. **Win/Loss Analysis**
-   - Why we win against each competitor
-   - Why we lose against each competitor
-   - Common objections and responses
-
-7. **Strategic Recommendations**
-   - Product gaps to address
-   - Positioning opportunities
-   - Go-to-market tactics
-
-Keep analysis objective and evidence-based. Flag assumptions clearly.
-```text
-
----
-
 ## Variables
 
 - `[our_product]`: Your company/product name and description (e.g., "DataSync Pro – managed data integration platform")
@@ -117,45 +22,6 @@ Keep analysis objective and evidence-based. Flag assumptions clearly.
 - `[purpose]`: Analysis purpose (e.g., "Create sales battlecards for enterprise deals")
 - `[criteria]`: Key comparison criteria (e.g., "Pricing, ease of use, connectors, support, scalability")
 
----
-
-## Example
-
-### Context
-
-A data integration startup wants to equip its sales team with battlecards comparing its product to major competitors. They need a competitive analysis focused on positioning, features, pricing, and strategic recommendations.
-
-### Input
-
-```text
-You are a strategic analyst experienced in competitive intelligence and market positioning.
-
-Create a competitive analysis for:
-
-**Our Company/Product**: DataSync Pro – managed data integration platform focused on real‑time CRM and analytics sync
-**Competitors to Analyze**: Fivetran, Airbyte, Stitch Data
-**Market/Industry**: Cloud data integration / ELT tools
-**Analysis Purpose**: Create sales battlecards for enterprise deals and inform product roadmap priorities
-**Key Criteria**: Connector breadth and quality, sync speed, pricing model, security/compliance, ease of use, and support
-
-Generate the full competitive analysis as described in the prompt.
-```text
-
-### Expected Output
-
-The AI generates a competitive analysis document containing: an executive summary, competitor overviews, a feature and pricing comparison matrix, SWOT for our product, win/loss analysis, and strategic recommendations—similar in depth and structure to the sample that follows.
-
-**Output:**
-
-```markdown
-# Competitive Analysis: DataSync Pro vs. Market
-
-**Prepared**: November 30, 2024  
-**Purpose**: Sales Battlecards for Enterprise Deals  
-**Competitors**: Fivetran, Airbyte, Stitch Data
-
----
-
 ## Executive Summary
 
 DataSync Pro holds a **strong position** in the mid-market enterprise segment, with clear advantages in sync speed and Salesforce/HubSpot integration depth. Our primary vulnerability is **connector breadth**—Fivetran and Airbyte offer 300+ connectors vs. our 85.
@@ -163,33 +29,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 **Strategic Position**: Premium player competing on performance and enterprise-readiness, not connector count.
 
 **Key Recommendation**: Lead with speed and native CRM integrations in sales conversations. Avoid head-to-head connector count battles with Fivetran—reframe around "quality over quantity" and depth of integrations we do support.
-
----
-
-## Competitor Overviews
-
-### Fivetran
-
-| Attribute | Details |
-| ----------- | --------- |
-| **Founded** | 2012 |
-| **Funding** | $730M raised, $5.6B valuation (Oct 2021) |
-| **Employees** | ~1,000 |
-| **HQ** | Oakland, CA |
-
-**Target Market**: Mid-market to enterprise data teams, especially analytics-heavy organizations
-
-**Core Value Prop**: "Automated data movement" - fully managed connectors that "just work" with minimal configuration
-
-**Positioning**: The safe, established choice for data teams who want reliability over customization
-
-**Recent Momentum**:
-
-- Acquired HVR ($700M) for change data capture
-- Launched Fivetran Lite for SMB market
-- Strong momentum with analytics platforms (Snowflake, Databricks partnerships)
-
----
 
 ### Airbyte
 
@@ -211,31 +50,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - Airbyte Cloud launched (managed version of open-source)
 - 800+ community connectors (variable quality)
 - Strong DevRel and community growth
-
----
-
-### Stitch Data (Talend)
-
-| Attribute | Details |
-| ----------- | --------- |
-| **Founded** | 2016 (acquired by Talend 2018, Talend acquired by Qlik 2023) |
-| **Funding** | Part of Qlik (private, ~$3B valuation) |
-| **Employees** | Unknown (part of larger org) |
-| **HQ** | Philadelphia, PA |
-
-**Target Market**: SMB and mid-market, often bundled with Talend/Qlik analytics
-
-**Core Value Prop**: "Simple, affordable data replication" - easy setup, predictable pricing
-
-**Positioning**: Entry-level option for teams starting their data journey; often a stepping stone to larger platforms
-
-**Recent Momentum**:
-
-- Limited recent product investment (focus on Talend integration)
-- Pricing remains competitive
-- Customer base somewhat stagnant
-
----
 
 ## Feature Comparison Matrix
 
@@ -259,33 +73,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - ⚡ **Speed**: Real-time sync (<1 min) vs. competitors' 5-60 min minimums
 - 🔗 **CRM Depth**: Native Salesforce/HubSpot integrations with deep field mapping
 - 🔒 **Enterprise Security**: SOC 2 + HIPAA ready out of the box
-
----
-
-## Pricing Comparison
-
-| Tier | DataSync Pro | Fivetran | Airbyte | Stitch |
-| ------ | -------------- | ---------- | --------- | -------- |
-| **Entry** | $500/mo | $500/mo | Free (OSS) | $100/mo |
-| **Growth** | $1,500/mo | $2,000/mo | $350/mo (Cloud) | $500/mo |
-| **Enterprise** | $5,000+/mo | $10,000+/mo | Custom | $1,000/mo |
-
-**Pricing Model Comparison**:
-
-| Vendor | Model | Notes |
-| -------- | ------- | ------- |
-| **DataSync Pro** | Per-connector + data volume | Predictable, scales with usage |
-| **Fivetran** | MAR (Monthly Active Rows) | Can get expensive at scale |
-| **Airbyte** | Per-connector (Cloud), free (OSS) | OSS requires self-management |
-| **Stitch** | Per-row pricing | Cheap but limited features |
-
-**Our Pricing Advantage**: 
-
-- 20-40% lower than Fivetran at enterprise scale
-- More predictable billing than MAR-based models
-- "No surprise bills" positioning resonates with finance buyers
-
----
 
 ## SWOT Analysis: DataSync Pro
 
@@ -318,32 +105,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 - **Platform bundling** (Snowflake, Databricks building native connectors)
 - **Economic pressure** (buyers consolidating vendors, choosing established players)
 
----
-
-## Win/Loss Analysis
-
-### Why We Win vs. Fivetran
-
-| Win Factor | Evidence |
-| ------------ | ---------- |
-| **Speed** | "Your sync completes in 45 seconds vs. their 6-minute minimum" |
-| **Pricing** | "We're 30% less expensive at your data volume" |
-| **CRM depth** | "Our Salesforce connector handles custom objects natively" |
-| **Support** | "You get a dedicated CSM, not tier-1 ticket support" |
-
-**Winning Talk Track**:
-> "Fivetran is a great product, but you're paying a premium for 400 connectors when you only need 15. Our customers choose us when CRM data speed is critical and they don't want MAR billing surprises."
-
-### Why We Lose vs. Fivetran
-
-| Loss Factor | Mitigation |
-| ------------- | ------------ |
-| **Connector count** | Reframe: "Quality over quantity - which connectors do you actually need?" |
-| **Brand/safe choice** | Customer references: "Here are 3 similar companies using us" |
-| **dbt integration** | Acknowledge gap, share roadmap (Q2 2025) |
-
----
-
 ### Why We Win vs. Airbyte
 
 | Win Factor | Evidence |
@@ -363,28 +124,6 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 | **Price (OSS is free)** | "Free requires 1-2 engineers to maintain - what's that cost?" |
 | **Customization** | "Our SDK allows custom connectors; most teams don't need this" |
 | **Self-hosted** | Acknowledge gap if required; we don't compete here |
-
----
-
-### Why We Win vs. Stitch
-
-| Win Factor | Evidence |
-| ------------ | ---------- |
-| **Features** | "Real-time sync, better monitoring, enterprise security" |
-| **Speed** | "1-hour minimum sync vs. our sub-minute" |
-| **Support** | "Stitch is de-prioritized within Qlik—our roadmap is active" |
-
-**Winning Talk Track**:
-> "Stitch is fine for getting started, but teams outgrow it quickly. We see a lot of customers migrate to us when they need real-time data or enterprise compliance."
-
-### Why We Lose vs. Stitch
-
-| Loss Factor | Mitigation |
-| ------------- | ------------ |
-| **Price** | "You get what you pay for - their SLA is 99.5%, ours is 99.9%" |
-| **Simplicity** | Acknowledge if customer truly needs basic; Stitch may be right fit |
-
----
 
 ## Strategic Recommendations
 
@@ -426,32 +165,8 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 3. **Speed-focused content marketing** (benchmark reports, demo videos)
 4. **Sales enablement**: Battlecards for each competitor, objection handling training
 
----
-
-## Appendices
-
-- **Appendix A**: Detailed feature-by-feature comparison (20 dimensions)
-- **Appendix B**: Customer win/loss interview summaries
-- **Appendix C**: Competitor pricing teardown with scenarios
-- **Appendix D**: Messaging framework for each competitor
-
----
-
 *This analysis should be refreshed quarterly. For competitive intel updates, contact [Product Marketing].*
 ```text
-
----
-
-
-## Tips
-
-- Use objective criteria - subjective "better" claims don't hold up in sales
-- Include evidence - customer quotes, benchmark data, pricing screenshots
-- Update regularly - competitive landscapes change fast
-- Focus on what matters to buyers, not comprehensive feature lists
-- Be honest about weaknesses - sales teams need to handle objections
-
----
 
 ## Related Prompts
 

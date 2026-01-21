@@ -1,52 +1,7 @@
 ---
-title: OpenAI Function Calling Pattern
-shortTitle: OpenAI Function Calling ...
-intro: A prompt for openai function calling pattern tasks.
+name: OpenAI Function Calling Pattern
+description: A prompt for openai function calling pattern tasks.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- junior-engineer
-
-platforms:
-
-- github-copilot
-- claude
-- chatgpt
-
-author: AI Research Team
-version: 1.0.0
-date: '2025-11-30'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-category: frameworks
-subcategory: openai
-technique_type: function-calling
-framework_compatibility:
-  openai: '>=1.0.0'
-  langchain: '>=0.1.0'
-use_cases:
-
-- structured-data-extraction
-- api-integration
-- decision-making
-
-performance_metrics:
-  accuracy_improvement: 25-35%
-  latency_impact: low
-last_updated: '2025-11-23'
-tags:
-
-- openai
-- function-calling
-- tools
-- json-schema
-
 ---
 
 # OpenAI Function Calling Pattern

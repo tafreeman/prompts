@@ -1,51 +1,66 @@
 ---
-title: 'Prompt Quality Evaluator: Meta-Evaluation with Reflection'
-shortTitle: Prompt Quality Evaluator
-intro: A comprehensive meta-prompt that evaluates other prompts using a research-backed,
-  5-dimensional scoring framework combined with reflection and self-critique.
-category: system
-type: reference
-difficulty: advanced
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- evaluation
-- quality-assessment
-- meta-prompt
-
-author: Prompts Library Team
-version: 1.0.0
-date: '2025-11-25'
-last_updated: '2025-12-11'
-governance_tags:
-
-- PII-safe
-- general-use
-
-dataClassification: internal
-reviewStatus: approved
-effectivenessScore: 0.0
+name: Prompt Quality Evaluator
+description: A comprehensive evaluation framework for assessing prompt quality using research-backed scoring criteria across clarity, structure, usefulness, technical quality, and ease of use dimensions with self-reflection.
+type: how_to
 ---
 
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
----
-
 ## Description
 
-A comprehensive meta-prompt that evaluates other prompts using a research-backed, 5-dimensional scoring framework combined with reflection and self-critique. This evaluator identifies prompts with insufficient content (e.g., <30 words), missing metadata, incomplete documentation, or lack of examples, and provides actionable, prioritized improvement recommendations.
+This prompt implements a two-phase evaluation methodology for assessing prompt quality. Phase 1 applies rigorous scoring criteria across 5 dimensions (Clarity, Structure, Usefulness, Technical Quality, Ease of Use) for a total of 100 points. Phase 2 performs self-critique using a reflection framework to catch bias, verify accuracy, and calibrate scores. Based on academic research from Wei et al., Yao et al., and industry best practices.
 
----
+## Prompt
+
+```text
+You are a Prompt Quality Evaluator using a research-backed scoring framework.
+
+### Evaluation Task
+Evaluate the following prompt using the 5-dimension scoring framework.
+
+**Prompt to evaluate:**
+[PROMPT_CONTENT]
+
+### Phase 1: Scoring (0-100 points)
+
+**1. Clarity & Specificity (0-20 points)**
+- Clear goal statement (5 pts)
+- Specific instructions without ambiguity (5 pts)
+- Defined success criteria (5 pts)
+- Explicit constraints and boundaries (5 pts)
+
+**2. Structure & Completeness (0-20 points)**
+- Required sections present: Description, Variables, Example, Tips (2 pts each)
+- YAML frontmatter complete (4 pts)
+- Research citations or governance metadata (4 pts bonus)
+
+**3. Usefulness & Reusability (0-20 points)**
+- Addresses common, high-value problem (5 pts)
+- Multiple applicable scenarios (5 pts)
+- Parameterized with placeholders (5 pts)
+- Domain-agnostic where appropriate (5 pts)
+
+**4. Technical Quality (0-20 points)**
+- Appropriate reasoning style (CoT/ToT/ReAct) (5 pts)
+- Provides context and background (5 pts)
+- Specifies output format (5 pts)
+- Uses delimiters for sections (5 pts)
+
+**5. Ease of Use (0-20 points)**
+- Straightforward to customize (5 pts)
+- Minimal prerequisites (5 pts)
+- Clear examples provided (5 pts)
+- Actionable tips included (5 pts)
+
+### Phase 2: Self-Critique
+After scoring, reflect on accuracy, completeness, bias, and usefulness of your evaluation. Revise if needed.
+
+### Output Format
+- Score breakdown by dimension
+- Total score and tier (1-4)
+- Top 3 improvement recommendations
+- Confidence level (High/Medium/Low)
+```
 
 ## Use Cases
 
@@ -55,28 +70,6 @@ A comprehensive meta-prompt that evaluates other prompts using a research-backed
 - Generating actionable improvement roadmaps
 - Ensuring consistency with industry best practices
 - Compliance verification for enterprise prompt repositories
-
----
-
-## Prompt
-
-### Phase 1: Initial Evaluation
-
-```text
-You are an expert prompt evaluation specialist using a research-backed methodology to assess prompt quality.
-
-**Prompt to Evaluate:**
-[PASTE_PROMPT_CONTENT_HERE]
-
-**Evaluation Context:**
-
-- Repository: [REPOSITORY_NAME]
-- Target Platforms: [PLATFORMS] (e.g., GitHub Copilot, M365 Copilot, Claude, GPT)
-- Intended Audience: [AUDIENCE] (e.g., developers, business users, enterprise)
-
-**Your Task:** Evaluate this prompt using the 5-dimensional scoring framework below.
-
----
 
 ## Scoring Framework (Based on Research-Backed Criteria)
 
@@ -174,107 +167,6 @@ You are an expert prompt evaluation specialist using a research-backed methodolo
 - Tips section is actionable (2 points)
 - Related prompts linked (1 point)
 
----
-
-## Output Format
-
-Provide your evaluation in this structure:
-
-### Evaluation Summary
-
-**Prompt Being Evaluated:** [prompt title/filename]
-
-**Total Score:** X/100
-
-**Quality Tier:**
-
-- Tier 1 (Exceptional): 85-100 points - Best-in-class, production-ready
-- Tier 2 (Strong): 70-84 points - High quality, minor improvements possible
-- Tier 3 (Good): 55-69 points - Solid foundation, some gaps to address
-- Tier 4 (Needs Improvement): <55 points - Requires significant enhancement
-
-### Dimension Scores
-
-1. **Clarity & Specificity:** X/20
-   - Word count: X words [FLAG if <30]
-   - Strengths:
-   - Weaknesses:
-
-2. **Structure & Completeness:** X/20
-   - Missing sections:
-   - Metadata completeness: [Complete/Partial/Missing]
-
-3. **Usefulness & Reusability:** X/20
-   - Use case coverage:
-   - Reusability assessment:
-
-4. **Technical Quality:** X/20
-   - Reasoning style used:
-   - Advanced techniques present:
-
-5. **Ease of Use:** X/20
-   - User experience notes:
-   - Documentation quality:
-
-### Critical Issues (P0)
-
-- [ ] Prompt has <30 words of instructions
-- [ ] Missing YAML frontmatter metadata
-- [ ] No description or goal stated
-- [ ] Broken structure or formatting
-- [ ] No example usage provided
-
-### High Priority Issues (P1)
-
-- [ ] Incomplete use cases (<3 examples)
-- [ ] Missing variable/placeholder documentation
-- [ ] No tips or guidance section
-- [ ] Missing related prompts section
-
-### Medium Priority Opportunities (P2)
-
-- [ ] Could benefit from Chain-of-Thought reasoning
-- [ ] Could benefit from structured output (JSON/XML schema)
-- [ ] Missing research citations or best practices
-- [ ] Could add governance/compliance metadata
-
-### Low Priority Enhancements (P3)
-
-- [ ] Minor formatting improvements
-- [ ] Additional examples would be helpful
-- [ ] Could link to more related prompts
-
-### Actionable Recommendations (Ranked by Impact)
-
-1. **[Priority Level]** [Specific recommendation]
-   - **Current state:** [What's wrong/missing]
-   - **Improvement:** [What to do]
-   - **Expected impact:** [Score increase, user benefit]
-   - **Effort:** [Low/Medium/High]
-
-2. [Continue for top 5-7 recommendations]
-
-### Example Improvements
-
-If applicable, provide before/after snippets showing how to fix the most critical issues.
-
-**Before:**
-```text
-
-[Current problematic section]
-
-```
-
-**After:**
-
-```text
-
-[Improved version]
-
-```
-
----
-
 ### Phase 2: Self-Critique and Reflection
 
 ```text
@@ -325,93 +217,6 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 ```text
 
----
-
-## Variables
-
-- `[attendees]`: Attendees
-- `[decisions]`: Decisions
-- `[duration]`: Duration
-- `[purpose]`: Purpose
-
-[... rest of prompt ...]
-
-**Evaluation Context:**
-
-- Repository: tafreeman/prompts
-- Target Platforms: Microsoft 365 Copilot, Claude Sonnet 4.5
-- Intended Audience: Business users, project managers, enterprise
-
-```
-
-**Output (Excerpt):**
-
-```text
-### Evaluation Summary
-
-**Prompt Being Evaluated:** meeting-facilitator.md
-
-**Total Score:** 62/100
-
-**Quality Tier:** Tier 3 (Good) - Solid foundation, some gaps to address
-
-### Dimension Scores
-
-1. **Clarity & Specificity:** 14/20
-   - Word count: 38 words in main prompt ✓
-   - Strengths: Clear structure with numbered list, specific sections requested
-   - Weaknesses: No explicit success criteria, constraints not defined
-
-2. **Structure & Completeness:** 12/20
-   - Missing sections: Example Usage (only placeholder), Tips (generic), no research citations
-   - Metadata completeness: Complete ✓
-
-3. **Usefulness & Reusability:** 15/20
-   - Use case coverage: Generic use cases, not specific scenarios
-   - Reusability assessment: Well parameterized with placeholders
-
-4. **Technical Quality:** 11/20
-   - Reasoning style used: Direct (appropriate for task)
-   - Advanced techniques present: None (not necessary for this prompt type)
-   - **ISSUE:** Missing structured output format specification
-
-5. **Ease of Use:** 10/20
-   - User experience notes: Variables explained but examples are placeholders
-   - Documentation quality: Tips are generic, not actionable
-
-### Critical Issues (P0)
-
-✓ None - Prompt meets minimum quality standards
-
-### High Priority Issues (P1)
-
-- [x] Example usage is placeholder only - needs realistic example
-- [x] Tips section is generic - needs actionable, specific guidance
-- [x] Missing output format specification (should it be Markdown table? Structured doc?)
-
-### Actionable Recommendations (Ranked by Impact)
-
-1. **[P1 - High Priority]** Add realistic example usage
-   - **Current state:** "Replace the bracketed placeholders..." - not helpful
-   - **Improvement:** Show complete example: "Meeting Purpose: Q4 Planning Review, Attendees: VP Product, 3 PM's, 2 Engineers, Duration: 90 minutes, Decisions: Q4 roadmap priorities" → Show AI's output
-   - **Expected impact:** +5 points (Ease of Use +3, Structure +2), makes prompt immediately usable
-   - **Effort:** Low (15 minutes)
-
-2. **[P1 - High Priority]** Specify structured output format
-   - **Current state:** Prompt says "Include:" but doesn't specify format
-   - **Improvement:** Add: "Output as a structured meeting plan with sections: 1. Executive Summary (3 sentences), 2. Detailed Agenda (time-boxed), 3. Preparation Checklist, 4. Facilitation Script, 5. Decision Framework (RACI), 6. Action Items Template"
-   - **Expected impact:** +4 points (Clarity +2, Technical +2)
-   - **Effort:** Low (10 minutes)
-
-[... continue with remaining recommendations ...]
-
-### Example Improvements
-
-**Before (Variables section):**
-```text
-
----
-
 ## Variables
 
 - `[attendees]`: Attendees
@@ -422,19 +227,6 @@ If no changes needed, state: "No revisions necessary after reflection."
 **After:**
 
 ```text
-
----
-
-## Variables
-
-- `[purpose]`: Meeting purpose/objective (e.g., "Q4 Planning Review", "Project Kickoff", "Retrospective")
-- `[attendees]`: Participant roles and names (e.g., "VP Product, 3 Product Managers, 2 Senior Engineers")
-- `[duration]`: Meeting length (e.g., "90 minutes", "2 hours")
-- `[decisions]`: Key decisions needed (e.g., "Q4 roadmap priorities", "Budget allocation", "Team structure")
-
-```
-
----
 
 ### Phase 2: Self-Critique
 
@@ -470,21 +262,6 @@ If no changes needed, state: "No revisions necessary after reflection."
 
 ```
 
----
-
-## Usage
-
-To use this prompt evaluator:
-
-1. Copy the Phase 1 and Phase 2 prompts from the "## Prompt" section above
-2. Replace `[PASTE_PROMPT_CONTENT_HERE]` with the complete content of the prompt you want to evaluate
-3. Replace `[REPOSITORY_NAME]`, `[PLATFORMS]`, and `[AUDIENCE]` with relevant context
-4. Submit to your preferred AI platform (Claude, ChatGPT, or GitHub Copilot)
-5. Review the evaluation scores and recommendations
-6. Use the reflection phase to validate the evaluation quality
-
----
-
 ## Tips
 
 - **Word count matters**: Prompts with <30 words of instruction are almost always insufficient
@@ -496,15 +273,59 @@ To use this prompt evaluator:
 - **Calibrate regularly**: Evaluate known high-quality prompts periodically to check consistency
 - **Batch evaluation**: When evaluating multiple prompts, re-read the criteria between each evaluation
 
+## Example
+
+**Input:**
+
+```text
+Evaluate the following prompt:
+
+---
+name: Meeting Summary Generator
+description: Creates meeting summaries from notes
+type: how_to
 ---
 
-## Related Prompts
+# Meeting Summary Generator
 
-- [Tree-of-Thoughts Repository Evaluator](tree-of-thoughts-repository-evaluator.md) - For repository-wide assessment
-- [Reflection: Self-Critique Pattern](../advanced/reflection-self-critique.md) - For the reflection framework
-- [Code Review Expert](../developers/code-review-expert-structured.md) - Similar evaluation pattern for code
+## Description
+This prompt creates meeting summaries.
 
----
+## Prompt
+Summarize the meeting notes: [NOTES]
+
+## Variables
+- [NOTES]: The meeting notes to summarize
+```
+
+**Output:**
+
+```markdown
+## Phase 1: Scoring
+
+| Dimension | Score | Notes |
+| --------- | ----- | ----- |
+| Clarity & Specificity | 8/20 | Goal unclear, no success criteria |
+| Structure & Completeness | 10/20 | Missing Example, Tips, Use Cases |
+| Usefulness & Reusability | 12/20 | Generic, not parameterized well |
+| Technical Quality | 6/20 | No output format, no reasoning style |
+| Ease of Use | 10/20 | Minimal documentation |
+
+**Total Score**: 46/100 (Tier 4 - Needs Work)
+
+## Phase 2: Self-Critique
+
+✓ Scores calibrated correctly
+⚠️ May be harsh on Technical Quality - added +2 for simplicity
+
+**Revised Score**: 48/100
+
+## Top 3 Improvements
+
+1. Add output format specification (e.g., markdown template)
+2. Include 2-3 use case examples with realistic data
+3. Add tips for handling long vs. short meetings
+```
 
 ## Research Foundation
 

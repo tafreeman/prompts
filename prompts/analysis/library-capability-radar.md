@@ -1,87 +1,19 @@
 ---
-title: Library Capability Radar Chart Generator
-shortTitle: Capability Radar
-intro: Guides generation of a Radar Chart to assess the maturity and balance of the
-  prompt library across key domains.
+name: Library Capability Radar Chart Generator
+description: Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains.
 type: how_to
-difficulty: intermediate
-audience:
-
-- senior-engineer
-- solution-architect
-
-platforms:
-
-- claude
-- chatgpt
-- github-copilot
-
-topics:
-
-- visualization
-- analysis
-
-author: GitHub Copilot
-version: '1.0'
-date: '2025-11-18'
-governance_tags:
-
-- PII-safe
-
-dataClassification: internal
-reviewStatus: draft
-effectivenessScore: 0.0
 ---
 
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
 
----
-
 ## Description
 
-This prompt guides the generation of a Radar Chart (Spider Plot) to assess the maturity and balance of the prompt library across key domains.
-
-## Goal
-
-To highlight strengths and weaknesses in the library's coverage across different categories.
-
-## Context
-
-The library covers 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.
-
-## Inputs
-
-- `[CATEGORY_COUNTS]`: The number of prompts in each category.
-
-## Assumptions
-
-- A higher count indicates higher maturity or coverage in that domain.
-
-## Constraints
-
-- The chart must include axes for all 7 key domains.
-- The scale should be appropriate for the file counts.
-
-## Process / Reasoning Style
-
-Comparative analysis.
-
----
+Generates radar chart visualizations to assess prompt library maturity and balance across key domains. Identifies coverage gaps and strengths by plotting category counts on a spider plot for strategic library expansion planning.
 
 ## Output Requirements
 
 - A detailed description or code (e.g., Python/Matplotlib, Excel instructions) to generate the chart.
-
----
-
-## Use Cases
-
-- Strategic planning for library expansion.
-- Identifying under-served domains (gaps).
-- Reporting on library growth and balance.
-
----
 
 ## Prompt
 

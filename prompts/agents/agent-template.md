@@ -1,12 +1,7 @@
 ---
 name: agent_name
 description: Brief description of what this agent does
-tools:
-
-  - read
-  - write
-  - search
-
+type: template
 ---
 
 # Agent Name

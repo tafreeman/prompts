@@ -1,32 +1,6 @@
 ---
-title: "SOCMINT - Social Media Intelligence"
-shortTitle: "SOCMINT"
-intro: "Professional-grade prompts for social media intelligence (SOCMINT) and open-source intelligence (OSINT) investigations."
-type: "reference"
-difficulty: "advanced"
-audience:
-
-  - "investigator"
-  - "intelligence-analyst"
-  - "security-professional"
-
-platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
-author: "OSINT Library Team"
-version: "1.0"
-date: "2025-11-30"
-governance_tags:
-
-  - "PII-sensitive"
-  - "ethical-use-only"
-  - "legal-compliance-required"
-
-dataClassification: "internal"
-reviewStatus: "approved"
+name: SOCMINT - Social Media Intelligence
+description: Professional-grade prompts for social media intelligence (SOCMINT) and open-source intelligence (OSINT) investigations.
 ---
 
 # SOCMINT - Social Media Intelligence
