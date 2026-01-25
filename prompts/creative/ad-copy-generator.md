@@ -1,39 +1,137 @@
 ---
-title: "Ad Copy Generator"
-shortTitle: "Ad Copy"
-intro: "Create persuasive advertising copy for various channels including Google Ads, Facebook, LinkedIn, display ads, and more."
-type: "how_to"
-difficulty: "beginner"
-audience:
-
-  - "functional-team"
-  - "business-analyst"
-  - "project-manager"
-
+name: ad-copy-generator
+description: 'AUTO-GENERATED: Generate short, high-conversion ad copy variations for multiple channels. Please refine.'
+type: how_to
+difficulty: beginner
 platforms:
-
-  - "claude"
-  - "chatgpt"
-  - "github-copilot"
-
+  - claude
+  - chatgpt
+  - github-copilot
 topics:
-
-  - "advertising"
-  - "copywriting"
-  - "creative"
-
-author: "Prompts Library Team"
-version: "1.0"
-date: "2025-11-30"
+  - advertising
+  - copywriting
+  - creative
+author: Prompts Library Team
+version: '1.0'
+date: '2025-11-30'
 governance_tags:
-
-  - "PII-safe"
-  - "general-use"
-
-dataClassification: "internal"
-reviewStatus: "draft"
+  - PII-safe
+  - general-use
+dataClassification: internal
+reviewStatus: draft
 effectivenessScore: 4.2
 ---
+
+## Description
+
+## Prompt
+
+```text
+You are an expert advertising copywriter who creates high-converting ad copy. Write compelling ad copy based on the following campaign brief:
+
+**Campaign Overview:**
+
+- Platform: [GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]
+- Ad Format: [SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]
+- Campaign Goal: [AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]
+- Budget Level: [TESTING/SCALING/AGGRESSIVE]
+
+**Product/Service:**
+
+- Name: [YOUR PRODUCT/SERVICE]
+- Category: [INDUSTRY/TYPE]
+- Price Point: [FREE/BUDGET/MID-RANGE/PREMIUM]
+- Primary Value Prop: [MAIN BENEFIT]
+
+**Target Audience:**
+
+- Who: [AUDIENCE DESCRIPTION]
+- Awareness Level: [COLD/WARM/HOT - DO THEY KNOW YOU?]
+- Pain Points: [WHAT PROBLEMS DO THEY HAVE?]
+- Desires: [WHAT DO THEY WANT?]
+
+**Campaign Context:**
+
+- Offer: [DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]
+- Urgency Elements: [LIMITED TIME/SCARCITY/NONE]
+- Competitors: [WHO ARE YOU UP AGAINST?]
+
+**Brand Voice:** [PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]
+
+**Constraints:**
+
+- Character limits: [PLATFORM-SPECIFIC LIMITS]
+- Must include: [REQUIRED ELEMENTS - BRAND NAME, KEYWORDS, ETC.]
+- Avoid: [ANYTHING TO STAY AWAY FROM]
+- Compliance: [ANY INDUSTRY REGULATIONS]
+
+Please provide:
+
+1. Multiple ad variations (3-5 complete ads)
+2. A/B testing recommendations
+3. Audience-specific messaging angles
+4. Platform-specific optimization tips
+5. Suggested ad extensions or additional elements
+
+```
+
+AUTO-GENERATED: Short description of this prompt. Please refine.
+
+## Description
+
+## Prompt
+
+```text
+You are an expert advertising copywriter who creates high-converting ad copy. Write compelling ad copy based on the following campaign brief:
+
+**Campaign Overview:**
+
+- Platform: [GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]
+- Ad Format: [SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]
+- Campaign Goal: [AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]
+- Budget Level: [TESTING/SCALING/AGGRESSIVE]
+
+**Product/Service:**
+
+- Name: [YOUR PRODUCT/SERVICE]
+- Category: [INDUSTRY/TYPE]
+- Price Point: [FREE/BUDGET/MID-RANGE/PREMIUM]
+- Primary Value Prop: [MAIN BENEFIT]
+
+**Target Audience:**
+
+- Who: [AUDIENCE DESCRIPTION]
+- Awareness Level: [COLD/WARM/HOT - DO THEY KNOW YOU?]
+- Pain Points: [WHAT PROBLEMS DO THEY HAVE?]
+- Desires: [WHAT DO THEY WANT?]
+
+**Campaign Context:**
+
+- Offer: [DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]
+- Urgency Elements: [LIMITED TIME/SCARCITY/NONE]
+- Competitors: [WHO ARE YOU UP AGAINST?]
+
+**Brand Voice:** [PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]
+
+**Constraints:**
+
+- Character limits: [PLATFORM-SPECIFIC LIMITS]
+- Must include: [REQUIRED ELEMENTS - BRAND NAME, KEYWORDS, ETC.]
+- Avoid: [ANYTHING TO STAY AWAY FROM]
+- Compliance: [ANY INDUSTRY REGULATIONS]
+
+Please provide:
+
+1. Multiple ad variations (3-5 complete ads)
+2. A/B testing recommendations
+3. Audience-specific messaging angles
+4. Platform-specific optimization tips
+5. Suggested ad extensions or additional elements
+
+```
+
+AUTO-GENERATED: Short description of this prompt. Please refine.
+
 # Ad Copy Generator
 
 
@@ -401,4 +499,71 @@ Based on B2B SaaS search campaigns in this category:
 - [Headline and Tagline Creator](headline-tagline-creator.md)
 - [Social Media Content Generator](social-media-content-generator.md)
 - [Product Description Generator](product-description-generator.md)
-- [Email Newsletter Writer](email-newsletter-writer.md)
+- [Email Newsletter Writer](email-newsletter-writer.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANY INDUSTRY REGULATIONS]` | AUTO-GENERATED: describe `ANY INDUSTRY REGULATIONS` |
+| `[ANYTHING TO STAY AWAY FROM]` | AUTO-GENERATED: describe `ANYTHING TO STAY AWAY FROM` |
+| `[AUDIENCE DESCRIPTION]` | AUTO-GENERATED: describe `AUDIENCE DESCRIPTION` |
+| `[MAIN BENEFIT]` | AUTO-GENERATED: describe `MAIN BENEFIT` |
+| `[PLATFORM-SPECIFIC LIMITS]` | AUTO-GENERATED: describe `PLATFORM-SPECIFIC LIMITS` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANY INDUSTRY REGULATIONS]` | AUTO-GENERATED: describe `ANY INDUSTRY REGULATIONS` |
+| `[ANYTHING TO STAY AWAY FROM]` | AUTO-GENERATED: describe `ANYTHING TO STAY AWAY FROM` |
+| `[AUDIENCE DESCRIPTION]` | AUTO-GENERATED: describe `AUDIENCE DESCRIPTION` |
+| `[AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT]` | AUTO-GENERATED: describe `AWARENESS/TRAFFIC/LEADS/CONVERSIONS/APP INSTALLS/ENGAGEMENT` |
+| `[COLD/WARM/HOT - DO THEY KNOW YOU?]` | AUTO-GENERATED: describe `COLD/WARM/HOT - DO THEY KNOW YOU?` |
+| `[DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE]` | AUTO-GENERATED: describe `DISCOUNT/FREE TRIAL/DEMO/DOWNLOAD/NONE` |
+| `[Email Newsletter Writer]` | AUTO-GENERATED: describe `Email Newsletter Writer` |
+| `[FREE/BUDGET/MID-RANGE/PREMIUM]` | AUTO-GENERATED: describe `FREE/BUDGET/MID-RANGE/PREMIUM` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER]` | AUTO-GENERATED: describe `GOOGLE SEARCH/FACEBOOK/INSTAGRAM/LINKEDIN/DISPLAY/YOUTUBE/OTHER` |
+| `[Headline and Tagline Creator]` | AUTO-GENERATED: describe `Headline and Tagline Creator` |
+| `[INDUSTRY/TYPE]` | AUTO-GENERATED: describe `INDUSTRY/TYPE` |
+| `[LIMITED TIME/SCARCITY/NONE]` | AUTO-GENERATED: describe `LIMITED TIME/SCARCITY/NONE` |
+| `[MAIN BENEFIT]` | AUTO-GENERATED: describe `MAIN BENEFIT` |
+| `[PLATFORM-SPECIFIC LIMITS]` | AUTO-GENERATED: describe `PLATFORM-SPECIFIC LIMITS` |
+| `[PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT]` | AUTO-GENERATED: describe `PROFESSIONAL/FRIENDLY/BOLD/LUXURY/PLAYFUL/URGENT` |
+| `[Product Description Generator]` | AUTO-GENERATED: describe `Product Description Generator` |
+| `[REQUIRED ELEMENTS - BRAND NAME, KEYWORDS, ETC.]` | AUTO-GENERATED: describe `REQUIRED ELEMENTS - BRAND NAME, KEYWORDS, ETC.` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT]` | AUTO-GENERATED: describe `SEARCH AD/IMAGE AD/VIDEO AD/CAROUSEL/STORY/SPONSORED CONTENT` |
+| `[Social Media Content Generator]` | AUTO-GENERATED: describe `Social Media Content Generator` |
+| `[TESTING/SCALING/AGGRESSIVE]` | AUTO-GENERATED: describe `TESTING/SCALING/AGGRESSIVE` |
+| `[WHAT DO THEY WANT?]` | AUTO-GENERATED: describe `WHAT DO THEY WANT?` |
+| `[WHAT PROBLEMS DO THEY HAVE?]` | AUTO-GENERATED: describe `WHAT PROBLEMS DO THEY HAVE?` |
+| `[WHO ARE YOU UP AGAINST?]` | AUTO-GENERATED: describe `WHO ARE YOU UP AGAINST?` |
+| `[YOUR PRODUCT/SERVICE]` | AUTO-GENERATED: describe `YOUR PRODUCT/SERVICE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

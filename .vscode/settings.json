@@ -18,5 +18,6 @@
 		}
 	},
 	"diffEditor.codeLens": true,
-	"gemini-cli.debug.logging.enabled": true
+	"gemini-cli.debug.logging.enabled": true,
+	"livePreview.defaultPreviewPath": "/multiagent-workflows/ui/index.html"
 }

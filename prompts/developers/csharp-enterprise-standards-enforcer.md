@@ -3,6 +3,30 @@ name: C# Enterprise Standards Enforcer
 description: Strict code reviewer enforcing enterprise-grade C# standards, patterns, and best practices.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```csharp
+public void Login(string user, string pass) {
+    var result = authService.AuthenticateAsync(user, pass).Result;
+}
+```
+
+Strict code reviewer enforcing enterprise-grade C# standards, patterns, and best practices.
+
+## Description
+
+## Prompt
+
+```csharp
+public void Login(string user, string pass) {
+    var result = authService.AuthenticateAsync(user, pass).Result;
+}
+```
+
+Strict code reviewer enforcing enterprise-grade C# standards, patterns, and best practices.
+
 
 # C# Enterprise Standards Enforcer
 
@@ -59,4 +83,43 @@ public void Login(string user, string pass) {
 public async Task LoginAsync(string user, string pass) {
     var result = await authService.AuthenticateAsync(user, pass);
 }
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[code_snippet]` | AUTO-GENERATED: describe `code_snippet` |
+| `[context]` | AUTO-GENERATED: describe `context` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

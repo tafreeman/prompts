@@ -3,6 +3,200 @@ name: Refactoring Plan Designer
 description: Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a senior software architect creating a phased refactoring plan.
+
+## Refactoring Request
+
+**System/Code:** [SYSTEM_OR_CODE_DESCRIPTION]
+
+**Current State:**
+[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]
+
+**Pain Points:**
+
+- [PAIN_POINT_1]
+- [PAIN_POINT_2]
+- [PAIN_POINT_3]
+
+**Refactoring Goal:** [WHAT_YOU_WANT_TO_ACHIEVE]
+
+**Success Criteria:**
+
+- [SUCCESS_CRITERION_1]
+- [SUCCESS_CRITERION_2]
+
+**Constraints:**
+
+- Team Size: [N developers]
+- Timeline: [X weeks/months]
+- Uptime Requirement: [e.g., 99.9%]
+- Test Coverage: [current %]
+- Deployment Frequency: [e.g., daily, weekly]
+
+**Additional Context:** [ANY_OTHER_INFO]
+
+## Output Format
+
+### 1. Refactoring Overview
+
+**Goal:** [One-sentence summary]
+
+**Scope:**
+
+- [What's included]
+- [What's excluded]
+
+**Success Criteria:**
+
+1. [Measurable criterion 1]
+2. [Measurable criterion 2]
+
+**Estimated Effort:** [X person-weeks]
+
+### 3. Pre-Refactoring Checklist
+
+Before starting, ensure:
+
+- [ ] [Pre-check 1, e.g., "Test coverage >70%"]
+- [ ] [Pre-check 2, e.g., "Feature flag system in place"]
+- [ ] [Pre-check 3, e.g., "Monitoring/alerting configured"]
+- [ ] [Pre-check 4, e.g., "Stakeholder approval"]
+
+#### Phase 2: [Phase Name]
+
+[Same structure as Phase 1]
+
+### 5. Validation & Monitoring
+
+**During Refactoring:**
+
+- Monitor: [Metrics to track, e.g., "error rate, latency, CPU usage"]
+- Alerts: [When to stop and rollback]
+
+**After Completion:**
+
+- [ ] [Final validation 1]
+- [ ] [Final validation 2]
+- [ ] [Documentation updated]
+- [ ] [Team trained on new code]
+
+### 7. Timeline Estimate
+
+| Phase | Duration | Start | End |
+| ------- | ---------- | ------- | ----- |
+| Phase 1 | [X weeks] | [Date] | [Date] |
+| Phase 2 | [X weeks] | [Date] | [Date] |
+| ... | ... | ... | ... |
+
+**Total:** [X weeks/months]
+
+**Buffer:** [+Y weeks for unknowns]
+```
+
+Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
+
+## Description
+
+## Prompt
+
+```text
+You are a senior software architect creating a phased refactoring plan.
+
+## Refactoring Request
+
+**System/Code:** [SYSTEM_OR_CODE_DESCRIPTION]
+
+**Current State:**
+[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]
+
+**Pain Points:**
+
+- [PAIN_POINT_1]
+- [PAIN_POINT_2]
+- [PAIN_POINT_3]
+
+**Refactoring Goal:** [WHAT_YOU_WANT_TO_ACHIEVE]
+
+**Success Criteria:**
+
+- [SUCCESS_CRITERION_1]
+- [SUCCESS_CRITERION_2]
+
+**Constraints:**
+
+- Team Size: [N developers]
+- Timeline: [X weeks/months]
+- Uptime Requirement: [e.g., 99.9%]
+- Test Coverage: [current %]
+- Deployment Frequency: [e.g., daily, weekly]
+
+**Additional Context:** [ANY_OTHER_INFO]
+
+## Output Format
+
+### 1. Refactoring Overview
+
+**Goal:** [One-sentence summary]
+
+**Scope:**
+
+- [What's included]
+- [What's excluded]
+
+**Success Criteria:**
+
+1. [Measurable criterion 1]
+2. [Measurable criterion 2]
+
+**Estimated Effort:** [X person-weeks]
+
+### 3. Pre-Refactoring Checklist
+
+Before starting, ensure:
+
+- [ ] [Pre-check 1, e.g., "Test coverage >70%"]
+- [ ] [Pre-check 2, e.g., "Feature flag system in place"]
+- [ ] [Pre-check 3, e.g., "Monitoring/alerting configured"]
+- [ ] [Pre-check 4, e.g., "Stakeholder approval"]
+
+#### Phase 2: [Phase Name]
+
+[Same structure as Phase 1]
+
+### 5. Validation & Monitoring
+
+**During Refactoring:**
+
+- Monitor: [Metrics to track, e.g., "error rate, latency, CPU usage"]
+- Alerts: [When to stop and rollback]
+
+**After Completion:**
+
+- [ ] [Final validation 1]
+- [ ] [Final validation 2]
+- [ ] [Documentation updated]
+- [ ] [Team trained on new code]
+
+### 7. Timeline Estimate
+
+| Phase | Duration | Start | End |
+| ------- | ---------- | ------- | ----- |
+| Phase 1 | [X weeks] | [Date] | [Date] |
+| Phase 2 | [X weeks] | [Date] | [Date] |
+| ... | ... | ... | ... |
+
+**Total:** [X weeks/months]
+
+**Buffer:** [+Y weeks for unknowns]
+```
+
+Creates phased, risk-managed refactoring plans for large-scale code improvements. Breaks down complex refactorings into incremental steps with pre-checks, rollback strategies, and validation gates.
+
 
 # Refactoring Plan Designer
 
@@ -184,4 +378,91 @@ Before starting, ensure:
 - **Architecture Review:** Large refactorings should be reviewed by senior engineers
 - **Stakeholder Approval:** Get buy-in from product/leadership on timeline and resource allocation
 - **Documentation:** Document the plan and share with team
-- **Post-Mortem:** After completion, document what worked and what didn't for future refactorings
+- **Post-Mortem:** After completion, document what worked and what didn't for future refactorings## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[ANY_OTHER_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_INFO` |
+| `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]` | AUTO-GENERATED: describe `DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE` |
+| `[PAIN_POINT_1]` | AUTO-GENERATED: describe `PAIN_POINT_1` |
+| `[PAIN_POINT_2]` | AUTO-GENERATED: describe `PAIN_POINT_2` |
+| `[PAIN_POINT_3]` | AUTO-GENERATED: describe `PAIN_POINT_3` |
+| `[SUCCESS_CRITERION_1]` | AUTO-GENERATED: describe `SUCCESS_CRITERION_1` |
+| `[SUCCESS_CRITERION_2]` | AUTO-GENERATED: describe `SUCCESS_CRITERION_2` |
+| `[SYSTEM_OR_CODE_DESCRIPTION]` | AUTO-GENERATED: describe `SYSTEM_OR_CODE_DESCRIPTION` |
+| `[WHAT_YOU_WANT_TO_ACHIEVE]` | AUTO-GENERATED: describe `WHAT_YOU_WANT_TO_ACHIEVE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[+Y weeks for unknowns]` | AUTO-GENERATED: describe `+Y weeks for unknowns` |
+| `[ANY_OTHER_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_INFO` |
+| `[DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE]` | AUTO-GENERATED: describe `DESCRIBE_CURRENT_CODE_OR_ARCHITECTURE` |
+| `[Date]` | AUTO-GENERATED: describe `Date` |
+| `[Documentation updated]` | AUTO-GENERATED: describe `Documentation updated` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Final validation 1]` | AUTO-GENERATED: describe `Final validation 1` |
+| `[Final validation 2]` | AUTO-GENERATED: describe `Final validation 2` |
+| `[Measurable criterion 1]` | AUTO-GENERATED: describe `Measurable criterion 1` |
+| `[Measurable criterion 2]` | AUTO-GENERATED: describe `Measurable criterion 2` |
+| `[Metrics to track, e.g., "error rate, latency, CPU usage"]` | AUTO-GENERATED: describe `Metrics to track, e.g., "error rate, latency, CPU usage"` |
+| `[N developers]` | AUTO-GENERATED: describe `N developers` |
+| `[One-sentence summary]` | AUTO-GENERATED: describe `One-sentence summary` |
+| `[PAIN_POINT_*]` | AUTO-GENERATED: describe `PAIN_POINT_*` |
+| `[PAIN_POINT_1]` | AUTO-GENERATED: describe `PAIN_POINT_1` |
+| `[PAIN_POINT_2]` | AUTO-GENERATED: describe `PAIN_POINT_2` |
+| `[PAIN_POINT_3]` | AUTO-GENERATED: describe `PAIN_POINT_3` |
+| `[Phase Name]` | AUTO-GENERATED: describe `Phase Name` |
+| `[Pre-check 1, e.g., "Test coverage >70%"]` | AUTO-GENERATED: describe `Pre-check 1, e.g., "Test coverage >70%"` |
+| `[Pre-check 2, e.g., "Feature flag system in place"]` | AUTO-GENERATED: describe `Pre-check 2, e.g., "Feature flag system in place"` |
+| `[Pre-check 3, e.g., "Monitoring/alerting configured"]` | AUTO-GENERATED: describe `Pre-check 3, e.g., "Monitoring/alerting configured"` |
+| `[Pre-check 4, e.g., "Stakeholder approval"]` | AUTO-GENERATED: describe `Pre-check 4, e.g., "Stakeholder approval"` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[SUCCESS_CRITERION_*]` | AUTO-GENERATED: describe `SUCCESS_CRITERION_*` |
+| `[SUCCESS_CRITERION_1]` | AUTO-GENERATED: describe `SUCCESS_CRITERION_1` |
+| `[SUCCESS_CRITERION_2]` | AUTO-GENERATED: describe `SUCCESS_CRITERION_2` |
+| `[SYSTEM_OR_CODE_DESCRIPTION]` | AUTO-GENERATED: describe `SYSTEM_OR_CODE_DESCRIPTION` |
+| `[Same structure as Phase 1]` | AUTO-GENERATED: describe `Same structure as Phase 1` |
+| `[Same structure: migrate reads to user service, validate, rollback plan]` | AUTO-GENERATED: describe `Same structure: migrate reads to user service, validate, rollback plan` |
+| `[Team trained on new code]` | AUTO-GENERATED: describe `Team trained on new code` |
+| `[WHAT_YOU_WANT_TO_ACHIEVE]` | AUTO-GENERATED: describe `WHAT_YOU_WANT_TO_ACHIEVE` |
+| `[What's excluded]` | AUTO-GENERATED: describe `What's excluded` |
+| `[What's included]` | AUTO-GENERATED: describe `What's included` |
+| `[When to stop and rollback]` | AUTO-GENERATED: describe `When to stop and rollback` |
+| `[X person-weeks]` | AUTO-GENERATED: describe `X person-weeks` |
+| `[X weeks]` | AUTO-GENERATED: describe `X weeks` |
+| `[X weeks/months]` | AUTO-GENERATED: describe `X weeks/months` |
+| `[current %]` | AUTO-GENERATED: describe `current %` |
+| `[e.g., 99.9%]` | AUTO-GENERATED: describe `e.g., 99.9%` |
+| `[e.g., daily, weekly]` | AUTO-GENERATED: describe `e.g., daily, weekly` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

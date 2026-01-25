@@ -3,6 +3,116 @@ name: Solution Architecture Designer
 description: Designs comprehensive solution architectures
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Presentation[Presentation Layer]
+        Web[Web App]
+        Mobile[Mobile App]
+        Portal[Partner Portal]
+    end
+
+    subgraph Application[Application Layer]
+        BFF[BFF Services]
+        API[API Gateway]
+        Workflow[Workflow Engine]
+    end
+
+    subgraph Domain[Domain Layer]
+        Svc1[Domain Service 1]
+        Svc2[Domain Service 2]
+        Svc3[Domain Service 3]
+    end
+
+    subgraph Integration[Integration Layer]
+        Events[Event Bus]
+        Queue[Message Queue]
+        External[External APIs]
+    end
+
+    subgraph Data[Data Layer]
+        Operational[(Operational DB)]
+        Analytics[(Analytics DB)]
+        Cache[(Cache)]
+        Files[(File Storage)]
+    end
+
+    Web --> BFF
+    Mobile --> BFF
+    Portal --> API
+    BFF --> API
+    API --> Svc1
+    API --> Svc2
+    Workflow --> Svc3
+    Svc1 --> Operational
+    Svc2 --> Events
+    Svc3 --> Queue
+    Events --> Analytics
+    Queue --> External
+    Svc1 --> Cache
+    Svc3 --> Files
+```
+
+Designs comprehensive solution architectures
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Presentation[Presentation Layer]
+        Web[Web App]
+        Mobile[Mobile App]
+        Portal[Partner Portal]
+    end
+
+    subgraph Application[Application Layer]
+        BFF[BFF Services]
+        API[API Gateway]
+        Workflow[Workflow Engine]
+    end
+
+    subgraph Domain[Domain Layer]
+        Svc1[Domain Service 1]
+        Svc2[Domain Service 2]
+        Svc3[Domain Service 3]
+    end
+
+    subgraph Integration[Integration Layer]
+        Events[Event Bus]
+        Queue[Message Queue]
+        External[External APIs]
+    end
+
+    subgraph Data[Data Layer]
+        Operational[(Operational DB)]
+        Analytics[(Analytics DB)]
+        Cache[(Cache)]
+        Files[(File Storage)]
+    end
+
+    Web --> BFF
+    Mobile --> BFF
+    Portal --> API
+    BFF --> API
+    API --> Svc1
+    API --> Svc2
+    Workflow --> Svc3
+    Svc1 --> Operational
+    Svc2 --> Events
+    Svc3 --> Queue
+    Events --> Analytics
+    Queue --> External
+    Svc1 --> Cache
+    Svc3 --> Files
+```
+
+Designs comprehensive solution architectures
+
 
 # Solution Architecture Designer
 
@@ -108,4 +218,72 @@ Integration Needs: POS systems, mobile app, marketing automation (Braze), CRM (S
 - [API Architecture Designer](api-architecture-designer.md) - For API layer design
 - [Data Architecture Designer](data-architecture-designer.md) - For data layer design
 - [Security Architecture Specialist](security-architecture-specialist.md) - For security controls
-- [Enterprise Integration Architect](enterprise-integration-architect.md) - For integration patterns
+- [Enterprise Integration Architect](enterprise-integration-architect.md) - For integration patterns## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Analytics DB)]` | AUTO-GENERATED: describe `(Analytics DB)` |
+| `[(Cache)]` | AUTO-GENERATED: describe `(Cache)` |
+| `[(File Storage)]` | AUTO-GENERATED: describe `(File Storage)` |
+| `[(Operational DB)]` | AUTO-GENERATED: describe `(Operational DB)` |
+| `[API Architecture Designer]` | AUTO-GENERATED: describe `API Architecture Designer` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[Application Layer]` | AUTO-GENERATED: describe `Application Layer` |
+| `[BFF Services]` | AUTO-GENERATED: describe `BFF Services` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[Data Layer]` | AUTO-GENERATED: describe `Data Layer` |
+| `[Domain Layer]` | AUTO-GENERATED: describe `Domain Layer` |
+| `[Domain Service 1]` | AUTO-GENERATED: describe `Domain Service 1` |
+| `[Domain Service 2]` | AUTO-GENERATED: describe `Domain Service 2` |
+| `[Domain Service 3]` | AUTO-GENERATED: describe `Domain Service 3` |
+| `[Enterprise Integration Architect]` | AUTO-GENERATED: describe `Enterprise Integration Architect` |
+| `[Event Bus]` | AUTO-GENERATED: describe `Event Bus` |
+| `[External APIs]` | AUTO-GENERATED: describe `External APIs` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Integration Layer]` | AUTO-GENERATED: describe `Integration Layer` |
+| `[Message Queue]` | AUTO-GENERATED: describe `Message Queue` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Mobile App]` | AUTO-GENERATED: describe `Mobile App` |
+| `[Partner Portal]` | AUTO-GENERATED: describe `Partner Portal` |
+| `[Presentation Layer]` | AUTO-GENERATED: describe `Presentation Layer` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Web App]` | AUTO-GENERATED: describe `Web App` |
+| `[Workflow Engine]` | AUTO-GENERATED: describe `Workflow Engine` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[requirements]` | AUTO-GENERATED: describe `requirements` |
+| `[stakeholders]` | AUTO-GENERATED: describe `stakeholders` |
+| `[timeline]` | AUTO-GENERATED: describe `timeline` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,48 @@ name: SOCMINT Investigator
 description: A comprehensive guide and toolset for Social Media Intelligence (SOCMINT) investigations, focusing on cross-platform correlation and digital footprint analysis.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+
+## Variables
+
+| Variable | Description | Example |
+| ---------- | ------------- | --------- |
+| `[TARGET_IDENTIFIER]` | The starting point for the investigation | "jdoe1990" or "john.doe@example.com" |
+| `[INVESTIGATION_GOAL]` | What you are trying to find | "Verify employment history and identify public leaks" |
+
+## Example Usage
+
+### Input
+
+```
+
+A comprehensive guide and toolset for Social Media Intelligence (SOCMINT) investigations, focusing on cross-platform correlation and digital footprint analysis.
+
+## Description
+
+## Prompt
+
+```
+
+## Variables
+
+| Variable | Description | Example |
+| ---------- | ------------- | --------- |
+| `[TARGET_IDENTIFIER]` | The starting point for the investigation | "jdoe1990" or "john.doe@example.com" |
+| `[INVESTIGATION_GOAL]` | What you are trying to find | "Verify employment history and identify public leaks" |
+
+## Example Usage
+
+### Input
+
+```
+
+A comprehensive guide and toolset for Social Media Intelligence (SOCMINT) investigations, focusing on cross-platform correlation and digital footprint analysis.
+
 
 # SOCMINT Investigator
 
@@ -67,4 +109,46 @@ This prompt guides you through a professional Social Media Intelligence (SOCMINT
 - **Location**: Both are in Miami.
 - **Conclusion**: High confidence that "cryptoking_99" is Alex Smith.
 
-```
+```## Variables
+
+| Variable | Description |
+|---|---|
+| `[INVESTIGATION_GOAL]` | AUTO-GENERATED: describe `INVESTIGATION_GOAL` |
+| `[TARGET_IDENTIFIER]` | AUTO-GENERATED: describe `TARGET_IDENTIFIER` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[INVESTIGATION_GOAL]` | AUTO-GENERATED: describe `INVESTIGATION_GOAL` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[TARGET_IDENTIFIER]` | AUTO-GENERATED: describe `TARGET_IDENTIFIER` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

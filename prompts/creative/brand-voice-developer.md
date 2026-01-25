@@ -1,9 +1,10 @@
-type: guide
-name: Brand Voice Developer
-description: Develop and document comprehensive brand voice guidelines that ensure consistent, authentic communication across all channels.
 ---
-
-# Brand Voice Developer
+name: brand-voice-developer
+description: 'Develop and document a brand voice to ensure consistent, authentic communication across channels.'
+type: how_to
+difficulty: intermediate
+author: Prompt Library Team
+---
 
 ## Description
 
@@ -12,6 +13,7 @@ Develop and document a brand's voice, tone, and personality for consistent commu
 ## Prompt
 
 Create a brand voice guide for the following:
+
 - Brand/Product: [BRAND NAME]
 - Industry: [INDUSTRY]
 - Audience: [TARGET AUDIENCE]
@@ -45,31 +47,6 @@ Capable, clear, and just clever enough to be interesting. Catalyst sounds like y
 - Refreshing brand voice during rebrands or pivots
 - Creating voice guidelines for content teams and agencies
 - Ensuring consistency across global or distributed teams
-
-## 1. Brand Voice Summary
-
-**The Elevator Pitch:**
-
-Catalyst sounds like your smartest, most helpful teammate—the one who actually explains things clearly, never wastes your time, and occasionally makes you laugh. We're confident without being arrogant, clear without being boring, and friendly without being fake.
-
-**The One-Liner:**
-
-*Capable, clear, and just clever enough to be interesting.*
-
-**If Catalyst Were a Person:**
-
-We're the project manager everyone actually likes—competent, straightforward, good at our job, but not a robot about it. Think Ryan Reynolds doing a product demo: professional when it counts, human the rest of the time.
-
-### Attribute 2: Capable
-**What it means:** We know what we're doing, and it shows. We're confident in our product without being boastful. We speak with authority earned through expertise.
-
-*How this sounds:*
-
-- Direct statements, not hedging
-- Specific details over vague claims
-- We show, don't just tell
-- Technical accuracy matters
-
 ❌ "Catalyst might help you improve team productivity somewhat."
 ✅ "Teams using Catalyst ship 40% faster. Here's how."
 
@@ -216,4 +193,57 @@ We're the project manager everyone actually likes—competent, straightforward, 
 ```text
 
 - [Social Media Content Generator](social-media-content-generator.md)
-- [Content Marketing Blog Post Generator](content-marketing-blog-post.md)
+- [Content Marketing Blog Post Generator](content-marketing-blog-post.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[BRAND NAME]` | AUTO-GENERATED: describe `BRAND NAME` |
+| `[EXAMPLE PHRASES]` | AUTO-GENERATED: describe `EXAMPLE PHRASES` |
+| `[INDUSTRY]` | AUTO-GENERATED: describe `INDUSTRY` |
+| `[KEY ATTRIBUTES]` | AUTO-GENERATED: describe `KEY ATTRIBUTES` |
+| `[OPTIONAL]` | AUTO-GENERATED: describe `OPTIONAL` |
+| `[TARGET AUDIENCE]` | AUTO-GENERATED: describe `TARGET AUDIENCE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[BRAND NAME]` | AUTO-GENERATED: describe `BRAND NAME` |
+| `[CONFIDENT/CLEAR/FRIENDLY/ETC.]` | AUTO-GENERATED: describe `CONFIDENT/CLEAR/FRIENDLY/ETC.` |
+| `[Content Marketing Blog Post Generator]` | AUTO-GENERATED: describe `Content Marketing Blog Post Generator` |
+| `[EXAMPLE PHRASES]` | AUTO-GENERATED: describe `EXAMPLE PHRASES` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[INDUSTRY]` | AUTO-GENERATED: describe `INDUSTRY` |
+| `[KEY ATTRIBUTES]` | AUTO-GENERATED: describe `KEY ATTRIBUTES` |
+| `[OPTIONAL]` | AUTO-GENERATED: describe `OPTIONAL` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Social Media Content Generator]` | AUTO-GENERATED: describe `Social Media Content Generator` |
+| `[TARGET AUDIENCE]` | AUTO-GENERATED: describe `TARGET AUDIENCE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

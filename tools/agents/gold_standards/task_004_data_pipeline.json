@@ -1,0 +1,53 @@
+{
+  "task_id": 4,
+  "name": "Data Validation Pipeline",
+  "version": "1.0",
+  "last_updated": "2026-01-23",
+  "source_references": [
+    {
+      "type": "library",
+      "url": "https://docs.pydantic.dev/",
+      "description": "Pydantic data validation"
+    },
+    {
+      "type": "library",
+      "url": "https://great-expectations.readthedocs.io/",
+      "description": "Great Expectations data validation"
+    },
+    {
+      "type": "pattern",
+      "url": "https://www.databricks.com/glossary/data-pipeline",
+      "description": "Data pipeline patterns"
+    }
+  ],
+  "required_components": [
+    "DataValidator",
+    "Pipeline",
+    "validate",
+    "transform",
+    "schema"
+  ],
+  "required_patterns": [
+    "(pipeline|stage|step|transform)",
+    "(validate|check|assert|expect)",
+    "(schema|model|contract)",
+    "(error|exception|invalid|reject)",
+    "(report|summary|metric)"
+  ],
+  "key_decisions": [
+    "Validation framework choice",
+    "Pipeline orchestration approach",
+    "Error aggregation vs fail-fast",
+    "Schema versioning strategy",
+    "Performance considerations"
+  ],
+  "prompt": "Design a data validation pipeline for processing CSV uploads.\n\nRequirements:\n- Validate file format (encoding, delimiters, headers)\n- Schema validation (column types, required fields)\n- Business rule validation (ranges, patterns, relationships)\n- Generate detailed validation reports\n- Support for custom validation rules\n- Handle files up to 100MB efficiently\n\nProvide the pipeline architecture, validation stages, and error handling approach.",
+  "instruction": "Staged validation approach",
+  "difficulty": "medium",
+  "tags": [
+    "data",
+    "validation",
+    "pipeline",
+    "csv"
+  ]
+}

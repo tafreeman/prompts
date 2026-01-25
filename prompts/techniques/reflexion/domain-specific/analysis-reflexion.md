@@ -3,6 +3,40 @@ name: Analysis Reflexion Pattern
 description: A prompt for analysis reflexion pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+You are a Principal Software Architect.
+
+**Task**: Analyze the following system design for scalability bottlenecks.
+
+**System Design**:
+{{system_design}}
+
+**Output**: Provide an initial analysis of potential scalability issues.
+```
+
+A prompt for analysis reflexion pattern tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+You are a Principal Software Architect.
+
+**Task**: Analyze the following system design for scalability bottlenecks.
+
+**System Design**:
+{{system_design}}
+
+**Output**: Provide an initial analysis of potential scalability issues.
+```
+
+A prompt for analysis reflexion pattern tasks.
+
 
 # Analysis Reflexion Pattern
 
@@ -103,4 +137,41 @@ async def run_analysis_reflexion(client, system_design):
 
 1. **Persona**: Assign a strict persona (e.g., "Security Auditor", "Database Expert") to the critique step.
 2. **Specific Criteria**: Don't just ask "Is this good?". Ask "Did I miss OWASP Top 10 vulnerability #3?".
-3. **Separation**: Ideally, use a different model instance or temperature (0.7) for the critique to avoid "echo chamber" effects.
+3. **Separation**: Ideally, use a different model instance or temperature (0.7) for the critique to avoid "echo chamber" effects.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

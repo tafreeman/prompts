@@ -3,6 +3,76 @@ name: Tree Of Thoughts Template
 description: # Tree-of-Thoughts: Multi-Branch Reasoning Template
 type: template
 ---
+## Description
+
+## Prompt
+
+```mermaid
+graph TD
+    A[🎯 Problem] --> B1[💡 Approach 1]
+    A --> B2[💡 Approach 2]
+    A --> B3[💡 Approach 3]
+
+    B1 --> C1[📊 Evaluate: 7/10]
+    B2 --> C2[📊 Evaluate: 9/10]
+    B3 --> C3[📊 Evaluate: 5/10]
+
+    C2 --> D1[🔍 Explore Further]
+    D1 --> E1[💡 Sub-option 2a]
+    D1 --> E2[💡 Sub-option 2b]
+
+    E1 --> F1[📊 Evaluate: 8/10]
+    E2 --> F2[📊 Evaluate: 10/10]
+
+    F2 --> G[✅ Selected Solution]
+
+    C3 -.->|Backtrack| A
+
+    style A fill:#e3f2fd
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style F2 fill:#81c784
+    style G fill:#4caf50,color:#fff
+    style C3 fill:#ffcdd2
+```
+
+# Tree-of-Thoughts: Multi-Branch Reasoning Template
+
+## Description
+
+## Prompt
+
+```mermaid
+graph TD
+    A[🎯 Problem] --> B1[💡 Approach 1]
+    A --> B2[💡 Approach 2]
+    A --> B3[💡 Approach 3]
+
+    B1 --> C1[📊 Evaluate: 7/10]
+    B2 --> C2[📊 Evaluate: 9/10]
+    B3 --> C3[📊 Evaluate: 5/10]
+
+    C2 --> D1[🔍 Explore Further]
+    D1 --> E1[💡 Sub-option 2a]
+    D1 --> E2[💡 Sub-option 2b]
+
+    E1 --> F1[📊 Evaluate: 8/10]
+    E2 --> F2[📊 Evaluate: 10/10]
+
+    F2 --> G[✅ Selected Solution]
+
+    C3 -.->|Backtrack| A
+
+    style A fill:#e3f2fd
+    style B2 fill:#c8e6c9
+    style C2 fill:#c8e6c9
+    style F2 fill:#81c784
+    style G fill:#4caf50,color:#fff
+    style C3 fill:#ffcdd2
+```
+
+# Tree-of-Thoughts: Multi-Branch Reasoning Template
+
 
 # Tree-of-Thoughts: Multi-Branch Reasoning Template
 
@@ -265,4 +335,64 @@ Let's revisit Branch A (CDN-heavy) now that we know inventory accuracy can be ha
 - **PII Safety**: No inherent PII processing; ensure problem/context don't contain sensitive data
 - **Human Review Required**: For decisions with >$100K impact, affecting >50 people, or strategic choices
 - **Audit Trail**: Save complete ToT exploration (all branches) for accountability and learning
-- **Stakeholder Communication**: ToT output can be overwhelming - create executive summary
+- **Stakeholder Communication**: ToT output can be overwhelming - create executive summary## Variables
+
+| Variable | Description |
+|---|---|
+| `[BACKGROUND_AND_CONSTRAINTS]` | AUTO-GENERATED: describe `BACKGROUND_AND_CONSTRAINTS` |
+| `[PROBLEM_STATEMENT]` | AUTO-GENERATED: describe `PROBLEM_STATEMENT` |
+| `[WHAT_SUCCESS_LOOKS_LIKE]` | AUTO-GENERATED: describe `WHAT_SUCCESS_LOOKS_LIKE` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[BACKGROUND_AND_CONSTRAINTS]` | AUTO-GENERATED: describe `BACKGROUND_AND_CONSTRAINTS` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[For each selected branch, explore it deeply with substeps]` | AUTO-GENERATED: describe `For each selected branch, explore it deeply with substeps` |
+| `[PROBLEM_STATEMENT]` | AUTO-GENERATED: describe `PROBLEM_STATEMENT` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[WHAT_SUCCESS_LOOKS_LIKE]` | AUTO-GENERATED: describe `WHAT_SUCCESS_LOOKS_LIKE` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[✅ Selected Solution]` | AUTO-GENERATED: describe `✅ Selected Solution` |
+| `[🎯 Problem]` | AUTO-GENERATED: describe `🎯 Problem` |
+| `[💡 Approach 1]` | AUTO-GENERATED: describe `💡 Approach 1` |
+| `[💡 Approach 2]` | AUTO-GENERATED: describe `💡 Approach 2` |
+| `[💡 Approach 3]` | AUTO-GENERATED: describe `💡 Approach 3` |
+| `[💡 Sub-option 2a]` | AUTO-GENERATED: describe `💡 Sub-option 2a` |
+| `[💡 Sub-option 2b]` | AUTO-GENERATED: describe `💡 Sub-option 2b` |
+| `[📊 Evaluate: 10/10]` | AUTO-GENERATED: describe `📊 Evaluate: 10/10` |
+| `[📊 Evaluate: 5/10]` | AUTO-GENERATED: describe `📊 Evaluate: 5/10` |
+| `[📊 Evaluate: 7/10]` | AUTO-GENERATED: describe `📊 Evaluate: 7/10` |
+| `[📊 Evaluate: 8/10]` | AUTO-GENERATED: describe `📊 Evaluate: 8/10` |
+| `[📊 Evaluate: 9/10]` | AUTO-GENERATED: describe `📊 Evaluate: 9/10` |
+| `[🔍 Explore Further]` | AUTO-GENERATED: describe `🔍 Explore Further` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

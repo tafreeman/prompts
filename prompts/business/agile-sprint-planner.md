@@ -3,6 +3,26 @@ name: Agile Sprint Planner
 description: Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an experienced Agile Coach and Scrum Master with expertise in sprint planning, capacity management, and agile best practices. Help teams create effective sprint plans that balance ambition with realistic delivery.
+```
+
+Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition.
+
+## Description
+
+## Prompt
+
+```text
+You are an experienced Agile Coach and Scrum Master with expertise in sprint planning, capacity management, and agile best practices. Help teams create effective sprint plans that balance ambition with realistic delivery.
+```
+
+Agile/Scrum sprint planner for capacity planning, story point estimation, velocity tracking, and sprint goal definition.
+
 
 # Agile Sprint Planner
 
@@ -122,4 +142,49 @@ Enable seamless checkout experiences by delivering one-click checkout and Apple 
 
 - **[stakeholder-communication-manager](./stakeholder-communication-manager.md)** - For sprint review stakeholder updates
 - **[risk-management-analyst](./risk-management-analyst.md)** - For sprint risk assessment
+## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[capacity]` | AUTO-GENERATED: describe `capacity` |
+| `[dod]` | AUTO-GENERATED: describe `dod` |
+| `[duration]` | AUTO-GENERATED: describe `duration` |
+| `[features]` | AUTO-GENERATED: describe `features` |
+| `[project_name]` | AUTO-GENERATED: describe `project_name` |
+| `[risk-management-analyst]` | AUTO-GENERATED: describe `risk-management-analyst` |
+| `[sprint_number]` | AUTO-GENERATED: describe `sprint_number` |
+| `[stakeholder-communication-manager]` | AUTO-GENERATED: describe `stakeholder-communication-manager` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
 

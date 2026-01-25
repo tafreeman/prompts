@@ -563,7 +563,7 @@ class LLMClient:
     @staticmethod
     def _call_github_models(model_name: str, prompt: str, system_instruction: Optional[str]) -> str:
         """
-        Call GitHub Models API.
+        Call GitHub Models API with retry logic for rate limiting.
 
         Model name format: gh:<model_name>
         Examples:
@@ -573,6 +573,8 @@ class LLMClient:
           - gh:mistral-small-2503
         """
         import subprocess
+        import re
+        import time
 
         # Parse model name (remove gh: prefix)
         model = model_name.split(":", 1)[1] if ":" in model_name else "gpt-4o-mini"
@@ -593,19 +595,50 @@ class LLMClient:
         else:
             full_prompt = prompt
 
-        try:
-            result = subprocess.run(
-                ["gh", "models", "run", full_model, "--", full_prompt],
-                capture_output=True, text=True, timeout=120, encoding='utf-8', errors='replace'
-            )
-            if result.returncode == 0:
-                return result.stdout
-            else:
-                return f"gh models error: {result.stderr}"
-        except FileNotFoundError:
-            return "Error: gh CLI not found. Install GitHub CLI with gh-models extension."
-        except subprocess.TimeoutExpired:
-            return "Error: GitHub Models request timed out"
+        # Retry configuration
+        max_retries = 5
+        base_delay = 5  # seconds
+        
+        for attempt in range(max_retries):
+            try:
+                result = subprocess.run(
+                    ["gh", "models", "run", full_model, "--", full_prompt],
+                    capture_output=True, text=True, timeout=180, encoding='utf-8', errors='replace'
+                )
+                if result.returncode == 0:
+                    return result.stdout
+                else:
+                    error_msg = result.stderr
+                    
+                    # Check for rate limiting
+                    if "rate limit" in error_msg.lower() or "too many requests" in error_msg.lower():
+                        # Try to extract retry delay from error message
+                        retry_match = re.search(r'retry after (\d+)([sm])', error_msg.lower())
+                        if retry_match:
+                            delay_val = int(retry_match.group(1))
+                            delay_unit = retry_match.group(2)
+                            wait_time = delay_val if delay_unit == 's' else delay_val * 60
+                        else:
+                            # Exponential backoff
+                            wait_time = base_delay * (2 ** attempt)
+                        
+                        if attempt < max_retries - 1:
+                            print(f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})...")
+                            time.sleep(wait_time)
+                            continue
+                    
+                    return f"gh models error: {error_msg}"
+                    
+            except FileNotFoundError:
+                return "Error: gh CLI not found. Install GitHub CLI with gh-models extension."
+            except subprocess.TimeoutExpired:
+                if attempt < max_retries - 1:
+                    print(f"  [gh] Request timed out, retrying (attempt {attempt + 1}/{max_retries})...")
+                    time.sleep(base_delay)
+                    continue
+                return "Error: GitHub Models request timed out after retries"
+        
+        return "Error: GitHub Models max retries exceeded"
 
     @staticmethod
     def _call_azure_foundry(model_name: str, prompt: str, system_instruction: Optional[str],

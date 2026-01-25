@@ -3,6 +3,128 @@ name: Chain Of Thought Detailed
 description: # Chain-of-Thought: Detailed Mode
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an expert problem solver using detailed chain-of-thought reasoning.
+
+**Task**: [DESCRIBE_YOUR_TASK]
+
+**Context**: [PROVIDE_COMPREHENSIVE_CONTEXT]
+
+**Success Criteria**: [DEFINE_WHAT_SUCCESS_LOOKS_LIKE]
+
+**Constraints**: [LIST_CONSTRAINTS_AND_REQUIREMENTS]
+
+**Instructions**:
+Think through this problem systematically and thoroughly. For each step:
+
+1. Explain your reasoning in detail
+2. Consider alternatives and explain why you chose this approach
+3. Acknowledge assumptions explicitly
+4. Note any uncertainties or risks
+
+Format your response as:
+
+**Understanding the Problem**
+
+- Restate the problem in your own words
+- Identify key challenges and unknowns
+- List critical assumptions
+
+**Step 1: [Title of Step]**
+
+- **What**: [What you're doing in this step]
+- **Why**: [Reasoning and justification]
+- **Alternatives Considered**: [What else you thought about]
+- **Risks/Assumptions**: [What could go wrong or what you're assuming]
+- **Outcome**: [Result of this step]
+
+**Step 2: [Title of Step]**
+[Continue the same detailed format]
+
+...
+
+**Synthesis and Validation**
+
+- How the steps fit together
+- Validation that this addresses the original problem
+- Edge cases or scenarios not fully addressed
+
+**Final Answer**
+
+- Clear, actionable conclusion
+- Confidence level (High/Medium/Low) with justification
+- Recommended next steps
+- Potential refinements or follow-up questions
+
+```
+
+# Chain-of-Thought: Detailed Mode
+
+## Description
+
+## Prompt
+
+```text
+You are an expert problem solver using detailed chain-of-thought reasoning.
+
+**Task**: [DESCRIBE_YOUR_TASK]
+
+**Context**: [PROVIDE_COMPREHENSIVE_CONTEXT]
+
+**Success Criteria**: [DEFINE_WHAT_SUCCESS_LOOKS_LIKE]
+
+**Constraints**: [LIST_CONSTRAINTS_AND_REQUIREMENTS]
+
+**Instructions**:
+Think through this problem systematically and thoroughly. For each step:
+
+1. Explain your reasoning in detail
+2. Consider alternatives and explain why you chose this approach
+3. Acknowledge assumptions explicitly
+4. Note any uncertainties or risks
+
+Format your response as:
+
+**Understanding the Problem**
+
+- Restate the problem in your own words
+- Identify key challenges and unknowns
+- List critical assumptions
+
+**Step 1: [Title of Step]**
+
+- **What**: [What you're doing in this step]
+- **Why**: [Reasoning and justification]
+- **Alternatives Considered**: [What else you thought about]
+- **Risks/Assumptions**: [What could go wrong or what you're assuming]
+- **Outcome**: [Result of this step]
+
+**Step 2: [Title of Step]**
+[Continue the same detailed format]
+
+...
+
+**Synthesis and Validation**
+
+- How the steps fit together
+- Validation that this addresses the original problem
+- Edge cases or scenarios not fully addressed
+
+**Final Answer**
+
+- Clear, actionable conclusion
+- Confidence level (High/Medium/Low) with justification
+- Recommended next steps
+- Potential refinements or follow-up questions
+
+```
+
+# Chain-of-Thought: Detailed Mode
+
 
 # Chain-of-Thought: Detailed Mode
 
@@ -117,4 +239,62 @@ response = client.chat.completions.create(
     temperature=0.7,  # Slightly higher for exploration
     max_tokens=4000   # Detailed mode needs more tokens
 )
-```
+```## Variables
+
+| Variable | Description |
+|---|---|
+| `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]` | AUTO-GENERATED: describe `DEFINE_WHAT_SUCCESS_LOOKS_LIKE` |
+| `[DESCRIBE_YOUR_TASK]` | AUTO-GENERATED: describe `DESCRIBE_YOUR_TASK` |
+| `[LIST_CONSTRAINTS_AND_REQUIREMENTS]` | AUTO-GENERATED: describe `LIST_CONSTRAINTS_AND_REQUIREMENTS` |
+| `[PROVIDE_COMPREHENSIVE_CONTEXT]` | AUTO-GENERATED: describe `PROVIDE_COMPREHENSIVE_CONTEXT` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Chain-of-Thought Guide]` | AUTO-GENERATED: describe `Chain-of-Thought Guide` |
+| `[Chain-of-Thought: Concise Mode]` | AUTO-GENERATED: describe `Chain-of-Thought: Concise Mode` |
+| `[Continue the same detailed format]` | AUTO-GENERATED: describe `Continue the same detailed format` |
+| `[DEFINE_WHAT_SUCCESS_LOOKS_LIKE]` | AUTO-GENERATED: describe `DEFINE_WHAT_SUCCESS_LOOKS_LIKE` |
+| `[DESCRIBE_YOUR_TASK]` | AUTO-GENERATED: describe `DESCRIBE_YOUR_TASK` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[LIST_CONSTRAINTS_AND_REQUIREMENTS]` | AUTO-GENERATED: describe `LIST_CONSTRAINTS_AND_REQUIREMENTS` |
+| `[PROVIDE_COMPREHENSIVE_CONTEXT]` | AUTO-GENERATED: describe `PROVIDE_COMPREHENSIVE_CONTEXT` |
+| `[Reasoning and justification]` | AUTO-GENERATED: describe `Reasoning and justification` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Result of this step]` | AUTO-GENERATED: describe `Result of this step` |
+| `[Title of Step]` | AUTO-GENERATED: describe `Title of Step` |
+| `[Tree-of-Thoughts Template]` | AUTO-GENERATED: describe `Tree-of-Thoughts Template` |
+| `[What could go wrong or what you're assuming]` | AUTO-GENERATED: describe `What could go wrong or what you're assuming` |
+| `[What else you thought about]` | AUTO-GENERATED: describe `What else you thought about` |
+| `[What you're doing in this step]` | AUTO-GENERATED: describe `What you're doing in this step` |
+| `[arXiv:2201.11903]` | AUTO-GENERATED: describe `arXiv:2201.11903` |
+| `[complex-issue]` | AUTO-GENERATED: describe `complex-issue` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

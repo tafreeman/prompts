@@ -1,8 +1,9 @@
 ---
-title: "ToT Evaluator: OSINT Resource Assessment"
-shortTitle: "OSINT Resource Evaluator"
-intro: "A rigorous Tree-of-Thoughts evaluation pattern for assessing the safety, quality, and operational utility of OSINT and Cyber resources."
-type: "how_to"
+name: tree-of-thoughts-evaluator-reflection
+description: 'AUTO-GENERATED: Reflection and evaluator steps for Tree-of-Thoughts. Please refine.'
+type: how_to
+date: '2025-11-18'
+---
 difficulty: "advanced"
 audience:
 
@@ -33,7 +34,152 @@ governance_tags:
 dataClassification: "internal"
 reviewStatus: "approved"
 effectivenessScore: 4.7
+name: tree-of-thoughts-evaluator-reflection
+
+description: AUTO-GENERATED: brief description required
 ---
+## Description
+
+## Prompt
+
+```text
+You are a Senior Security Engineer evaluating a new OSINT resource for inclusion in our secure library. Use a **Two-Phase Tree-of-Thoughts + Reflection** pattern.
+
+**Resource to Evaluate**: [RESOURCE_NAME] ([URL])
+**Context/Use Case**: [USE_CASE]
+
+### Phase 1 – Tree-of-Thoughts Evaluation
+
+Explore three reasoning branches to assess the resource:
+
+**Branch A: Functionality & Utility**
+
+- Thoughts: Does this solve a unique problem? Is it better than existing standard tools?
+- Evidence: Features, documentation quality, ease of use.
+
+**Branch B: Security & Integrity**
+
+- Thoughts: Is the code visible? Are there binary blobs? Does it require excessive permissions?
+- Evidence: Code review (simulated), dependency analysis, author reputation.
+
+**Branch C: Maintenance & Viability**
+
+- Thoughts: When was the last commit? How many open issues? Is the author responsive?
+- Evidence: Commit history, issue tracker health.
+
+**Synthesis & Initial Score (0-100)**:
+Combine findings into an initial assessment.
+
+### Phase 2 – Reflection & Self-Critique
+
+Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
+
+1. **Malware/Supply Chain Risk**:
+   - Did I check for "curled-to-bash" scripts?
+   - Are there suspicious dependencies?
+
+2. **Legal & OPSEC Risk**:
+   - Does this tool aggressively scrape in a way that triggers IP bans?
+   - Does it leak analyst data (e.g., "phone home" telemetry)?
+
+3. **Final Verdict**:
+   - **Approved**: Safe and useful.
+   - **Provisional**: Useful but requires sandboxing/code audit.
+   - **Rejected**: Too risky or broken.
+
+**Output Format**:
+
+#### Executive Summary
+
+- **Verdict**: [Approved/Provisional/Rejected]
+- **Risk Level**: [High/Medium/Low]
+- **Score**: [0-100]
+
+#### Detailed Analysis
+
+- **Strengths**: ...
+- **Risks**: ...
+- **OPSEC Warnings**: ...
+
+#### Reflection Notes
+
+- "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
+
+```
+
+AUTO-GENERATED: Short description of this prompt. Please refine.
+
+## Description
+
+## Prompt
+
+```text
+You are a Senior Security Engineer evaluating a new OSINT resource for inclusion in our secure library. Use a **Two-Phase Tree-of-Thoughts + Reflection** pattern.
+
+**Resource to Evaluate**: [RESOURCE_NAME] ([URL])
+**Context/Use Case**: [USE_CASE]
+
+### Phase 1 – Tree-of-Thoughts Evaluation
+
+Explore three reasoning branches to assess the resource:
+
+**Branch A: Functionality & Utility**
+
+- Thoughts: Does this solve a unique problem? Is it better than existing standard tools?
+- Evidence: Features, documentation quality, ease of use.
+
+**Branch B: Security & Integrity**
+
+- Thoughts: Is the code visible? Are there binary blobs? Does it require excessive permissions?
+- Evidence: Code review (simulated), dependency analysis, author reputation.
+
+**Branch C: Maintenance & Viability**
+
+- Thoughts: When was the last commit? How many open issues? Is the author responsive?
+- Evidence: Commit history, issue tracker health.
+
+**Synthesis & Initial Score (0-100)**:
+Combine findings into an initial assessment.
+
+### Phase 2 – Reflection & Self-Critique
+
+Critically review your Phase 1 assessment with a "Paranoid Security Mindset":
+
+1. **Malware/Supply Chain Risk**:
+   - Did I check for "curled-to-bash" scripts?
+   - Are there suspicious dependencies?
+
+2. **Legal & OPSEC Risk**:
+   - Does this tool aggressively scrape in a way that triggers IP bans?
+   - Does it leak analyst data (e.g., "phone home" telemetry)?
+
+3. **Final Verdict**:
+   - **Approved**: Safe and useful.
+   - **Provisional**: Useful but requires sandboxing/code audit.
+   - **Rejected**: Too risky or broken.
+
+**Output Format**:
+
+#### Executive Summary
+
+- **Verdict**: [Approved/Provisional/Rejected]
+- **Risk Level**: [High/Medium/Low]
+- **Score**: [0-100]
+
+#### Detailed Analysis
+
+- **Strengths**: ...
+- **Risks**: ...
+- **OPSEC Warnings**: ...
+
+#### Reflection Notes
+
+- "I initially rated this high on utility, but the Reflection phase highlighted that it hasn't been updated in 2 years, which is a critical risk for OSINT tools relying on APIs. Downgraded score by 20 points."
+
+```
+
+AUTO-GENERATED: Short description of this prompt. Please refine.
+
 ## Description
 
 This prompt applies the **Tree-of-Thoughts (ToT)** reasoning framework to evaluate OSINT tools, repositories, and datasets. It is designed to prevent the inclusion of malicious, abandoned, or legally risky tools in your intelligence library. Phase 1 performs a deep technical and functional assessment, while Phase 2 reflects on safety, ethics, and long-term viability.
@@ -273,4 +419,66 @@ During Phase 2, be genuinely critical. I want you to find real flaws in your Pha
 
 - [Tree-of-Thoughts Repository Evaluator for GPT-5.1](../system/tree-of-thoughts-repository-evaluator.md)
 - [Reflection: Initial Answer + Self-Critique Pattern](reflection-self-critique.md)
-- [Chain-of-Thought Guide](chain-of-thought-guide.md)
+- [Chain-of-Thought Guide](chain-of-thought-guide.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-100]` | AUTO-GENERATED: describe `0-100` |
+| `[ENTERPRISE_CONCERNS]` | AUTO-GENERATED: describe `ENTERPRISE_CONCERNS` |
+| `[OBSERVED_GAPS]` | AUTO-GENERATED: describe `OBSERVED_GAPS` |
+| `[OBSERVED_STRENGTHS]` | AUTO-GENERATED: describe `OBSERVED_STRENGTHS` |
+| `[REPOSITORY_NAME]` | AUTO-GENERATED: describe `REPOSITORY_NAME` |
+| `[REPO_CONTEXT_SUMMARY]` | AUTO-GENERATED: describe `REPO_CONTEXT_SUMMARY` |
+| `[RESOURCE_NAME]` | AUTO-GENERATED: describe `RESOURCE_NAME` |
+| `[URL]` | AUTO-GENERATED: describe `URL` |
+| `[USE_CASE]` | AUTO-GENERATED: describe `USE_CASE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-100]` | AUTO-GENERATED: describe `0-100` |
+| `[Approved/Provisional/Rejected]` | AUTO-GENERATED: describe `Approved/Provisional/Rejected` |
+| `[Assumption]` | AUTO-GENERATED: describe `Assumption` |
+| `[Chain-of-Thought Guide]` | AUTO-GENERATED: describe `Chain-of-Thought Guide` |
+| `[ENTERPRISE_CONCERNS]` | AUTO-GENERATED: describe `ENTERPRISE_CONCERNS` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High/Medium/Low]` | AUTO-GENERATED: describe `High/Medium/Low` |
+| `[OBSERVED_GAPS]` | AUTO-GENERATED: describe `OBSERVED_GAPS` |
+| `[OBSERVED_STRENGTHS]` | AUTO-GENERATED: describe `OBSERVED_STRENGTHS` |
+| `[REPOSITORY_NAME]` | AUTO-GENERATED: describe `REPOSITORY_NAME` |
+| `[REPO_CONTEXT_SUMMARY]` | AUTO-GENERATED: describe `REPO_CONTEXT_SUMMARY` |
+| `[RESOURCE_NAME]` | AUTO-GENERATED: describe `RESOURCE_NAME` |
+| `[Reflection: Initial Answer + Self-Critique Pattern]` | AUTO-GENERATED: describe `Reflection: Initial Answer + Self-Critique Pattern` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Tree-of-Thoughts Repository Evaluator for GPT-5.1]` | AUTO-GENERATED: describe `Tree-of-Thoughts Repository Evaluator for GPT-5.1` |
+| `[URL]` | AUTO-GENERATED: describe `URL` |
+| `[USE_CASE]` | AUTO-GENERATED: describe `USE_CASE` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

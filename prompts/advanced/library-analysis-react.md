@@ -3,6 +3,30 @@ name: Library Analysis React
 description: ---
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+
+**Output:**
+
+```
+
+---
+
+## Description
+
+## Prompt
+
+```text
+
+**Output:**
+
+```
+
+---
+
 
 # ReAct: Library Structure & Content Analysis
 
@@ -142,4 +166,51 @@ The directory contains a mix of fully developed prompts and initial "stub" templ
 ## Related Prompts
 
 - [ReAct: Document Search and Synthesis](react-doc-search-synthesis.md) - General document research.
-- [Data Quality Assessment](../analysis/data-quality-assessment.md) - For analyzing data quality (conceptually similar).
+- [Data Quality Assessment](../analysis/data-quality-assessment.md) - For analyzing data quality (conceptually similar).## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["..."]` | AUTO-GENERATED: describe `"..."` |
+| `["Generic example", "Brief description"]` | AUTO-GENERATED: describe `"Generic example", "Brief description"` |
+| `[Comprehensive analysis of the target area]` | AUTO-GENERATED: describe `Comprehensive analysis of the target area` |
+| `[Data Quality Assessment]` | AUTO-GENERATED: describe `Data Quality Assessment` |
+| `[Description of any misplaced files]` | AUTO-GENERATED: describe `Description of any misplaced files` |
+| `[Files missing frontmatter]` | AUTO-GENERATED: describe `Files missing frontmatter` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Number]` | AUTO-GENERATED: describe `Number` |
+| `[ReAct: Document Search and Synthesis]` | AUTO-GENERATED: describe `ReAct: Document Search and Synthesis` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[System returns:]` | AUTO-GENERATED: describe `System returns:` |
+| `[repository_root]` | AUTO-GENERATED: describe `repository_root` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

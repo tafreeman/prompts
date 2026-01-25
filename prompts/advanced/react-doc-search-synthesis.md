@@ -3,6 +3,30 @@ name: React Doc Search Synthesis
 description: ## Description
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+
+**Output:**
+
+```
+
+## Description
+
+## Description
+
+## Prompt
+
+```text
+
+**Output:**
+
+```
+
+## Description
+
 
 ## Description
 
@@ -417,4 +441,78 @@ I need to:
 3. Note the contradiction in my final answer
 
 ```text
-```sql
+```sql## Variables
+
+| Variable | Description |
+|---|---|
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["data residency", "compliance", "GDPR", "SOC 2"]` | AUTO-GENERATED: describe `"data residency", "compliance", "GDPR", "SOC 2"` |
+| `["parameters"]` | AUTO-GENERATED: describe `"parameters"` |
+| `["ready_to_answer"]` | AUTO-GENERATED: describe `"ready_to_answer"` |
+| `["relevant_docs"]` | AUTO-GENERATED: describe `"relevant_docs"` |
+| `["tool"]` | AUTO-GENERATED: describe `"tool"` |
+| `[Chain-of-Thought: Detailed]` | AUTO-GENERATED: describe `Chain-of-Thought: Detailed` |
+| `[Comprehensive answer synthesized from all retrieved documents]` | AUTO-GENERATED: describe `Comprehensive answer synthesized from all retrieved documents` |
+| `[Doc_C019]` | AUTO-GENERATED: describe `Doc_C019` |
+| `[Doc_D004]` | AUTO-GENERATED: describe `Doc_D004` |
+| `[Doc_E001]` | AUTO-GENERATED: describe `Doc_E001` |
+| `[Doc_E012]` | AUTO-GENERATED: describe `Doc_E012` |
+| `[Doc_E012, Doc_I002]` | AUTO-GENERATED: describe `Doc_E012, Doc_I002` |
+| `[Doc_I002]` | AUTO-GENERATED: describe `Doc_I002` |
+| `[Doc_ID]` | AUTO-GENERATED: describe `Doc_ID` |
+| `[Doc_L008]` | AUTO-GENERATED: describe `Doc_L008` |
+| `[Doc_M003]` | AUTO-GENERATED: describe `Doc_M003` |
+| `[Doc_S015]` | AUTO-GENERATED: describe `Doc_S015` |
+| `[Doc_S015, Doc_C019]` | AUTO-GENERATED: describe `Doc_S015, Doc_C019` |
+| `[Doc_T005]` | AUTO-GENERATED: describe `Doc_T005` |
+| `[Doc_T005, Doc_T006]` | AUTO-GENERATED: describe `Doc_T005, Doc_T006` |
+| `[Doc_T006]` | AUTO-GENERATED: describe `Doc_T006` |
+| `[Doc_T011]` | AUTO-GENERATED: describe `Doc_T011` |
+| `[Doc_T015]` | AUTO-GENERATED: describe `Doc_T015` |
+| `[Doc_T022]` | AUTO-GENERATED: describe `Doc_T022` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[RAG: Document Retrieval and Citation]` | AUTO-GENERATED: describe `RAG: Document Retrieval and Citation` |
+| `[ReAct: Tool-Augmented Reasoning]` | AUTO-GENERATED: describe `ReAct: Tool-Augmented Reasoning` |
+| `[Reflection: Self-Critique]` | AUTO-GENERATED: describe `Reflection: Self-Critique` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[System returns:]` | AUTO-GENERATED: describe `System returns:` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+| `[doc["id"]` | AUTO-GENERATED: describe `doc["id"` |
+| `[question]` | AUTO-GENERATED: describe `question` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

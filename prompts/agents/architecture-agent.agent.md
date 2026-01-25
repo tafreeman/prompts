@@ -3,6 +3,42 @@ name: architecture_agent
 description: Expert in system design, architectural patterns, and technical decision-making
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+┌─────────────────────────────────────────────┐
+│              Presentation Layer              │
+├─────────────────────────────────────────────┤
+│              Application Layer               │
+├─────────────────────────────────────────────┤
+│               Domain Layer                   │
+├─────────────────────────────────────────────┤
+│            Infrastructure Layer              │
+└─────────────────────────────────────────────┘
+```
+
+Expert in system design, architectural patterns, and technical decision-making
+
+## Description
+
+## Prompt
+
+```text
+┌─────────────────────────────────────────────┐
+│              Presentation Layer              │
+├─────────────────────────────────────────────┤
+│              Application Layer               │
+├─────────────────────────────────────────────┤
+│               Domain Layer                   │
+├─────────────────────────────────────────────┤
+│            Infrastructure Layer              │
+└─────────────────────────────────────────────┘
+```
+
+Expert in system design, architectural patterns, and technical decision-making
+
 
 # Architecture Agent
 
@@ -282,4 +318,83 @@ flowchart TB
 - Mention budget and team constraints
 - Share existing system architecture
 - Indicate compliance requirements
-- Specify cloud platform preferences
+- Specify cloud platform preferences## Variables
+
+| Variable | Description |
+|---|---|
+| `[SLA]` | AUTO-GENERATED: describe `SLA` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Order DB)]` | AUTO-GENERATED: describe `(Order DB)` |
+| `[(Redis Cache)]` | AUTO-GENERATED: describe `(Redis Cache)` |
+| `[(User DB)]` | AUTO-GENERATED: describe `(User DB)` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[Auth Service]` | AUTO-GENERATED: describe `Auth Service` |
+| `[Benefit 1]` | AUTO-GENERATED: describe `Benefit 1` |
+| `[Benefit 2]` | AUTO-GENERATED: describe `Benefit 2` |
+| `[Describe how data moves through the system]` | AUTO-GENERATED: describe `Describe how data moves through the system` |
+| `[Describe the decision made]` | AUTO-GENERATED: describe `Describe the decision made` |
+| `[Describe the situation and problem to solve]` | AUTO-GENERATED: describe `Describe the situation and problem to solve` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High-level description and goals]` | AUTO-GENERATED: describe `High-level description and goals` |
+| `[How the system is deployed and updated]` | AUTO-GENERATED: describe `How the system is deployed and updated` |
+| `[How the system scales]` | AUTO-GENERATED: describe `How the system scales` |
+| `[Logging, metrics, alerting strategy]` | AUTO-GENERATED: describe `Logging, metrics, alerting strategy` |
+| `[Mermaid or ASCII diagram]` | AUTO-GENERATED: describe `Mermaid or ASCII diagram` |
+| `[Mobile App]` | AUTO-GENERATED: describe `Mobile App` |
+| `[Name]` | AUTO-GENERATED: describe `Name` |
+| `[Notification Service]` | AUTO-GENERATED: describe `Notification Service` |
+| `[Order Service]` | AUTO-GENERATED: describe `Order Service` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Requirement 1]` | AUTO-GENERATED: describe `Requirement 1` |
+| `[Requirement 2]` | AUTO-GENERATED: describe `Requirement 2` |
+| `[Risk 1 and mitigation]` | AUTO-GENERATED: describe `Risk 1 and mitigation` |
+| `[Risk 2 and mitigation]` | AUTO-GENERATED: describe `Risk 2 and mitigation` |
+| `[SLA]` | AUTO-GENERATED: describe `SLA` |
+| `[Security measures and compliance]` | AUTO-GENERATED: describe `Security measures and compliance` |
+| `[System Name]` | AUTO-GENERATED: describe `System Name` |
+| `[Title]` | AUTO-GENERATED: describe `Title` |
+| `[Tradeoff 1]` | AUTO-GENERATED: describe `Tradeoff 1` |
+| `[Tradeoff 2]` | AUTO-GENERATED: describe `Tradeoff 2` |
+| `[User Service]` | AUTO-GENERATED: describe `User Service` |
+| `[Web App]` | AUTO-GENERATED: describe `Web App` |
+| `[description and responsibility]` | AUTO-GENERATED: describe `description and responsibility` |
+| `[latency, throughput]` | AUTO-GENERATED: describe `latency, throughput` |
+| `[list]` | AUTO-GENERATED: describe `list` |
+| `[name]` | AUTO-GENERATED: describe `name` |
+| `[reason]` | AUTO-GENERATED: describe `reason` |
+| `[requirements]` | AUTO-GENERATED: describe `requirements` |
+| `[targets]` | AUTO-GENERATED: describe `targets` |
+| `[tech]` | AUTO-GENERATED: describe `tech` |
+| `[why]` | AUTO-GENERATED: describe `why` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

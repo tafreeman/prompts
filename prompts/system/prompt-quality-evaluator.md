@@ -3,6 +3,118 @@ name: Prompt Quality Evaluator
 description: A comprehensive evaluation framework for assessing prompt quality using research-backed scoring criteria across clarity, structure, usefulness, technical quality, and ease of use dimensions with self-reflection.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a Prompt Quality Evaluator using a research-backed scoring framework.
+
+### Evaluation Task
+Evaluate the following prompt using the 5-dimension scoring framework.
+
+**Prompt to evaluate:**
+[PROMPT_CONTENT]
+
+### Phase 1: Scoring (0-100 points)
+
+**1. Clarity & Specificity (0-20 points)**
+- Clear goal statement (5 pts)
+- Specific instructions without ambiguity (5 pts)
+- Defined success criteria (5 pts)
+- Explicit constraints and boundaries (5 pts)
+
+**2. Structure & Completeness (0-20 points)**
+- Required sections present: Description, Variables, Example, Tips (2 pts each)
+- YAML frontmatter complete (4 pts)
+- Research citations or governance metadata (4 pts bonus)
+
+**3. Usefulness & Reusability (0-20 points)**
+- Addresses common, high-value problem (5 pts)
+- Multiple applicable scenarios (5 pts)
+- Parameterized with placeholders (5 pts)
+- Domain-agnostic where appropriate (5 pts)
+
+**4. Technical Quality (0-20 points)**
+- Appropriate reasoning style (CoT/ToT/ReAct) (5 pts)
+- Provides context and background (5 pts)
+- Specifies output format (5 pts)
+- Uses delimiters for sections (5 pts)
+
+**5. Ease of Use (0-20 points)**
+- Straightforward to customize (5 pts)
+- Minimal prerequisites (5 pts)
+- Clear examples provided (5 pts)
+- Actionable tips included (5 pts)
+
+### Phase 2: Self-Critique
+After scoring, reflect on accuracy, completeness, bias, and usefulness of your evaluation. Revise if needed.
+
+### Output Format
+- Score breakdown by dimension
+- Total score and tier (1-4)
+- Top 3 improvement recommendations
+- Confidence level (High/Medium/Low)
+```
+
+A comprehensive evaluation framework for assessing prompt quality using research-backed scoring criteria across clarity, structure, usefulness, technical quality, and ease of use dimensions with self-reflection.
+
+## Description
+
+## Prompt
+
+```text
+You are a Prompt Quality Evaluator using a research-backed scoring framework.
+
+### Evaluation Task
+Evaluate the following prompt using the 5-dimension scoring framework.
+
+**Prompt to evaluate:**
+[PROMPT_CONTENT]
+
+### Phase 1: Scoring (0-100 points)
+
+**1. Clarity & Specificity (0-20 points)**
+- Clear goal statement (5 pts)
+- Specific instructions without ambiguity (5 pts)
+- Defined success criteria (5 pts)
+- Explicit constraints and boundaries (5 pts)
+
+**2. Structure & Completeness (0-20 points)**
+- Required sections present: Description, Variables, Example, Tips (2 pts each)
+- YAML frontmatter complete (4 pts)
+- Research citations or governance metadata (4 pts bonus)
+
+**3. Usefulness & Reusability (0-20 points)**
+- Addresses common, high-value problem (5 pts)
+- Multiple applicable scenarios (5 pts)
+- Parameterized with placeholders (5 pts)
+- Domain-agnostic where appropriate (5 pts)
+
+**4. Technical Quality (0-20 points)**
+- Appropriate reasoning style (CoT/ToT/ReAct) (5 pts)
+- Provides context and background (5 pts)
+- Specifies output format (5 pts)
+- Uses delimiters for sections (5 pts)
+
+**5. Ease of Use (0-20 points)**
+- Straightforward to customize (5 pts)
+- Minimal prerequisites (5 pts)
+- Clear examples provided (5 pts)
+- Actionable tips included (5 pts)
+
+### Phase 2: Self-Critique
+After scoring, reflect on accuracy, completeness, bias, and usefulness of your evaluation. Revise if needed.
+
+### Output Format
+- Score breakdown by dimension
+- Total score and tier (1-4)
+- Top 3 improvement recommendations
+- Confidence level (High/Medium/Low)
+```
+
+A comprehensive evaluation framework for assessing prompt quality using research-backed scoring criteria across clarity, structure, usefulness, technical quality, and ease of use dimensions with self-reflection.
+
 
 # Prompt Quality Evaluator: Meta-Evaluation with Reflection
 
@@ -334,4 +446,54 @@ This evaluation methodology is based on:
 - **Scoring Framework:** [Prompt Effectiveness Scoring Methodology](../../docs/prompt-effectiveness-scoring-methodology.md)
 - **Academic Research:** Wei et al. (NeurIPS 2022), Yao et al. (NeurIPS 2023), The Prompt Report (arXiv:2406.06608)
 - **Industry Standards:** Anthropic, OpenAI, Microsoft, GitHub best practices
-- **Reflection Pattern:** Shinn et al. "Reflexion: Language Agents with Verbal Reinforcement Learning" (2023)
+- **Reflection Pattern:** Shinn et al. "Reflexion: Language Agents with Verbal Reinforcement Learning" (2023)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[NOTES]` | AUTO-GENERATED: describe `NOTES` |
+| `[PROMPT_CONTENT]` | AUTO-GENERATED: describe `PROMPT_CONTENT` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Explain your confidence in this evaluation]` | AUTO-GENERATED: describe `Explain your confidence in this evaluation` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[NOTES]` | AUTO-GENERATED: describe `NOTES` |
+| `[PROMPT_CONTENT]` | AUTO-GENERATED: describe `PROMPT_CONTENT` |
+| `[Prompt Effectiveness Scoring Methodology]` | AUTO-GENERATED: describe `Prompt Effectiveness Scoring Methodology` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Updated list]` | AUTO-GENERATED: describe `Updated list` |
+| `[What changed and why]` | AUTO-GENERATED: describe `What changed and why` |
+| `[attendees]` | AUTO-GENERATED: describe `attendees` |
+| `[decisions]` | AUTO-GENERATED: describe `decisions` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

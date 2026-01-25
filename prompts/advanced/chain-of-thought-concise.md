@@ -3,6 +3,64 @@ name: Chain Of Thought Concise
 description: # Chain-of-Thought: Concise Mode
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an expert problem solver using concise chain-of-thought reasoning.
+
+**Task**: [DESCRIBE_YOUR_TASK]
+
+**Context**: [PROVIDE_RELEVANT_CONTEXT]
+
+**Constraints**: [LIST_ANY_CONSTRAINTS]
+
+**Instructions**:
+Think through this step-by-step, but keep each step brief (1-2 sentences max).
+
+Format your response as:
+
+**Step 1**: [First logical step - what needs to be understood or done first]
+**Step 2**: [Second logical step - what follows from step 1]
+**Step 3**: [Continue as needed]
+...
+**Final Answer**: [Concise conclusion based on the steps above]
+
+Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
+```
+
+# Chain-of-Thought: Concise Mode
+
+## Description
+
+## Prompt
+
+```text
+You are an expert problem solver using concise chain-of-thought reasoning.
+
+**Task**: [DESCRIBE_YOUR_TASK]
+
+**Context**: [PROVIDE_RELEVANT_CONTEXT]
+
+**Constraints**: [LIST_ANY_CONSTRAINTS]
+
+**Instructions**:
+Think through this step-by-step, but keep each step brief (1-2 sentences max).
+
+Format your response as:
+
+**Step 1**: [First logical step - what needs to be understood or done first]
+**Step 2**: [Second logical step - what follows from step 1]
+**Step 3**: [Continue as needed]
+...
+**Final Answer**: [Concise conclusion based on the steps above]
+
+Keep reasoning tight and focused. Skip obvious steps. Focus on key insights that drive the solution.
+```
+
+# Chain-of-Thought: Concise Mode
+
 
 # Chain-of-Thought: Concise Mode
 
@@ -128,4 +186,61 @@ response = client.chat.completions.create(
         {"role": "user", "content": f"Task: {task}\nThink step-by-step (concise mode)"}
     ]
 )
-```
+```## Variables
+
+| Variable | Description |
+|---|---|
+| `[DESCRIBE_YOUR_TASK]` | AUTO-GENERATED: describe `DESCRIBE_YOUR_TASK` |
+| `[LIST_ANY_CONSTRAINTS]` | AUTO-GENERATED: describe `LIST_ANY_CONSTRAINTS` |
+| `[PROVIDE_RELEVANT_CONTEXT]` | AUTO-GENERATED: describe `PROVIDE_RELEVANT_CONTEXT` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["...", "..."]` | AUTO-GENERATED: describe `"...", "..."` |
+| `[Concise conclusion based on the steps above]` | AUTO-GENERATED: describe `Concise conclusion based on the steps above` |
+| `[Conclusion]` | AUTO-GENERATED: describe `Conclusion` |
+| `[Continue as needed]` | AUTO-GENERATED: describe `Continue as needed` |
+| `[DESCRIBE_YOUR_TASK]` | AUTO-GENERATED: describe `DESCRIBE_YOUR_TASK` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Final answer]` | AUTO-GENERATED: describe `Final answer` |
+| `[First logical step - what needs to be understood or done first]` | AUTO-GENERATED: describe `First logical step - what needs to be understood or done first` |
+| `[Key insight 1]` | AUTO-GENERATED: describe `Key insight 1` |
+| `[Key insight 2]` | AUTO-GENERATED: describe `Key insight 2` |
+| `[Key insight 3]` | AUTO-GENERATED: describe `Key insight 3` |
+| `[LIST_ANY_CONSTRAINTS]` | AUTO-GENERATED: describe `LIST_ANY_CONSTRAINTS` |
+| `[PROVIDE_RELEVANT_CONTEXT]` | AUTO-GENERATED: describe `PROVIDE_RELEVANT_CONTEXT` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Second logical step - what follows from step 1]` | AUTO-GENERATED: describe `Second logical step - what follows from step 1` |
+| `[Step]` | AUTO-GENERATED: describe `Step` |
+| `[arXiv:2201.11903]` | AUTO-GENERATED: describe `arXiv:2201.11903` |
+| `[your-code-or-issue]` | AUTO-GENERATED: describe `your-code-or-issue` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

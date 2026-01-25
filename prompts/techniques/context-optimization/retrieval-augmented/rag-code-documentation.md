@@ -3,6 +3,42 @@ name: Retrieval-Augmented Code Documentation
 description: A prompt for retrieval augmented code documentation tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```yaml
+User Input: "Document UserService.GetUserAsync"
+        ↓
+Vector Search: Find similar methods + existing docs
+        ↓
+Context Assembly: Code + XML comments + patterns
+        ↓
+LLM Generation: Create documentation
+        ↓
+Output: XML comments + README section
+```
+
+A prompt for retrieval augmented code documentation tasks.
+
+## Description
+
+## Prompt
+
+```yaml
+User Input: "Document UserService.GetUserAsync"
+        ↓
+Vector Search: Find similar methods + existing docs
+        ↓
+Context Assembly: Code + XML comments + patterns
+        ↓
+LLM Generation: Create documentation
+        ↓
+Output: XML comments + README section
+```
+
+A prompt for retrieval augmented code documentation tasks.
+
 
 # Retrieval-Augmented Code Documentation
 
@@ -426,4 +462,54 @@ Console.WriteLine(generatedDocs);
 ## Related Patterns
 
 - [Many-Shot Learning](../many-shot-learning/many-shot-learning.md)
-- [Context Optimization](../context_optimizer.py)
+- [Context Optimization](../context_optimizer.py)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["code"]` | AUTO-GENERATED: describe `"code"` |
+| `["documentation"]` | AUTO-GENERATED: describe `"documentation"` |
+| `["methodName"]` | AUTO-GENERATED: describe `"methodName"` |
+| `[Code example]` | AUTO-GENERATED: describe `Code example` |
+| `[Context Optimization]` | AUTO-GENERATED: describe `Context Optimization` |
+| `[Description]` | AUTO-GENERATED: describe `Description` |
+| `[Detailed summary]` | AUTO-GENERATED: describe `Detailed summary` |
+| `[ExceptionType]` | AUTO-GENERATED: describe `ExceptionType` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Many-Shot Learning]` | AUTO-GENERATED: describe `Many-Shot Learning` |
+| `[Other tags]` | AUTO-GENERATED: describe `Other tags` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[When thrown]` | AUTO-GENERATED: describe `When thrown` |
+| `[Your summary]` | AUTO-GENERATED: describe `Your summary` |
+| `[param]` | AUTO-GENERATED: describe `param` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

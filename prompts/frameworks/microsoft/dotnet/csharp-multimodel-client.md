@@ -3,6 +3,536 @@ name: C# Prompt Engineering Utilities
 description: A prompt for c# prompt engineering utilities tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace PromptEngineering.Core
+{
+    /// <summary>
+    /// Unified client for multiple AI model providers (OpenAI, Anthropic, Azure OpenAI).
+    /// </summary>
+    public class MultiModelClient : IDisposable
+    {
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<MultiModelClient> _logger;
+
+        public MultiModelClient(
+            HttpClient httpClient,
+            IConfiguration configuration,
+            ILogger<MultiModelClient> logger)
+        {
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <summary>
+        /// Calls the specified AI model with the given prompt.
+        /// </summary>
+        public async Task<ModelResponse> CallAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("Calling {Provider} model {Model}", request.Provider, request.Model);
+
+            return request.Provider switch
+            {
+                ModelProvider.OpenAI => await CallOpenAIAsync(request, cancellationToken),
+                ModelProvider.Anthropic => await CallAnthropicAsync(request, cancellationToken),
+                ModelProvider.AzureOpenAI => await CallAzureOpenAIAsync(request, cancellationToken),
+                _ => throw new NotSupportedException($"Provider {request.Provider} is not supported")
+            };
+        }
+
+        private async Task<ModelResponse> CallOpenAIAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["OpenAI:ApiKey"] 
+                ?? throw new InvalidOperationException("OpenAI API key not configured");
+
+            _httpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Bearer", apiKey);
+
+            var payload = new
+            {
+                model = request.Model,
+                messages = new[]
+                {
+                    new { role = "system", content = request.SystemPrompt ?? "You are a helpful assistant." },
+                    new { role = "user", content = request.Prompt }
+                },
+                temperature = request.Temperature,
+                max_tokens = request.MaxTokens
+            };
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(
+                "https://api.openai.com/v1/chat/completions",
+                content,
+                cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var openAIResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = openAIResponse.Choices[0].Message.Content,
+                Provider = ModelProvider.OpenAI,
+                Model = request.Model,
+                TokensUsed = openAIResponse.Usage.TotalTokens
+            };
+        }
+
+        private async Task<ModelResponse> CallAnthropicAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["Anthropic:ApiKey"] 
+                ?? throw new InvalidOperationException("Anthropic API key not configured");
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
+            _httpClient.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
+
+            var payload = new
+            {
+                model = request.Model,
+                max_tokens = request.MaxTokens,
+                messages = new[]
+                {
+                    new { role = "user", content = request.Prompt }
+                },
+                system = request.SystemPrompt
+            };
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(
+                "https://api.anthropic.com/v1/messages",
+                content,
+                cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var anthropicResponse = JsonSerializer.Deserialize<AnthropicResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = anthropicResponse.Content[0].Text,
+                Provider = ModelProvider.Anthropic,
+                Model = request.Model,
+                TokensUsed = anthropicResponse.Usage.InputTokens + anthropicResponse.Usage.OutputTokens
+            };
+        }
+
+        private async Task<ModelResponse> CallAzureOpenAIAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["AzureOpenAI:ApiKey"];
+            var endpoint = _configuration["AzureOpenAI:Endpoint"];
+            var deploymentName = _configuration["AzureOpenAI:DeploymentName"];
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
+
+            var payload = new
+            {
+                messages = new[]
+                {
+                    new { role = "system", content = request.SystemPrompt ?? "You are a helpful assistant." },
+                    new { role = "user", content = request.Prompt }
+                },
+                temperature = request.Temperature,
+                max_tokens = request.MaxTokens
+            };
+
+            var url = $"{endpoint}/openai/deployments/{deploymentName}/chat/completions?api-version=2023-05-15";
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(url, content, cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var azureResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = azureResponse.Choices[0].Message.Content,
+                Provider = ModelProvider.AzureOpenAI,
+                Model = deploymentName,
+                TokensUsed = azureResponse.Usage.TotalTokens
+            };
+        }
+
+        public void Dispose()
+        {
+            _httpClient?.Dispose();
+        }
+    }
+
+    // DTOs
+    public enum ModelProvider
+    {
+        OpenAI,
+        Anthropic,
+        AzureOpenAI,
+        Google
+    }
+
+    public class ModelRequest
+    {
+        public ModelProvider Provider { get; set; }
+        public string Model { get; set; }
+        public string Prompt { get; set; }
+        public string? SystemPrompt { get; set; }
+        public double Temperature { get; set; } = 0.7;
+        public int MaxTokens { get; set; } = 1000;
+    }
+
+    public class ModelResponse
+    {
+        public string Content { get; set; }
+        public ModelProvider Provider { get; set; }
+        public string Model { get; set; }
+        public int TokensUsed { get; set; }
+    }
+
+    // API Response DTOs
+    internal class OpenAIResponse
+    {
+        public Choice[] Choices { get; set; }
+        public Usage Usage { get; set; }
+
+        public class Choice
+        {
+            public Message Message { get; set; }
+        }
+
+        public class Message
+        {
+            public string Content { get; set; }
+        }
+    }
+
+    internal class AnthropicResponse
+    {
+        public ContentBlock[] Content { get; set; }
+        public AnthropicUsage Usage { get; set; }
+
+        public class ContentBlock
+        {
+            public string Text { get; set; }
+        }
+
+        public class AnthropicUsage
+        {
+            public int InputTokens { get; set; }
+            public int OutputTokens { get; set; }
+        }
+    }
+
+    internal class Usage
+    {
+        public int TotalTokens { get; set; }
+    }
+}
+```
+
+A prompt for c# prompt engineering utilities tasks.
+
+## Description
+
+## Prompt
+
+```csharp
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+
+namespace PromptEngineering.Core
+{
+    /// <summary>
+    /// Unified client for multiple AI model providers (OpenAI, Anthropic, Azure OpenAI).
+    /// </summary>
+    public class MultiModelClient : IDisposable
+    {
+        private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<MultiModelClient> _logger;
+
+        public MultiModelClient(
+            HttpClient httpClient,
+            IConfiguration configuration,
+            ILogger<MultiModelClient> logger)
+        {
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <summary>
+        /// Calls the specified AI model with the given prompt.
+        /// </summary>
+        public async Task<ModelResponse> CallAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("Calling {Provider} model {Model}", request.Provider, request.Model);
+
+            return request.Provider switch
+            {
+                ModelProvider.OpenAI => await CallOpenAIAsync(request, cancellationToken),
+                ModelProvider.Anthropic => await CallAnthropicAsync(request, cancellationToken),
+                ModelProvider.AzureOpenAI => await CallAzureOpenAIAsync(request, cancellationToken),
+                _ => throw new NotSupportedException($"Provider {request.Provider} is not supported")
+            };
+        }
+
+        private async Task<ModelResponse> CallOpenAIAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["OpenAI:ApiKey"] 
+                ?? throw new InvalidOperationException("OpenAI API key not configured");
+
+            _httpClient.DefaultRequestHeaders.Authorization = 
+                new AuthenticationHeaderValue("Bearer", apiKey);
+
+            var payload = new
+            {
+                model = request.Model,
+                messages = new[]
+                {
+                    new { role = "system", content = request.SystemPrompt ?? "You are a helpful assistant." },
+                    new { role = "user", content = request.Prompt }
+                },
+                temperature = request.Temperature,
+                max_tokens = request.MaxTokens
+            };
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(
+                "https://api.openai.com/v1/chat/completions",
+                content,
+                cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var openAIResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = openAIResponse.Choices[0].Message.Content,
+                Provider = ModelProvider.OpenAI,
+                Model = request.Model,
+                TokensUsed = openAIResponse.Usage.TotalTokens
+            };
+        }
+
+        private async Task<ModelResponse> CallAnthropicAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["Anthropic:ApiKey"] 
+                ?? throw new InvalidOperationException("Anthropic API key not configured");
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
+            _httpClient.DefaultRequestHeaders.Add("anthropic-version", "2023-06-01");
+
+            var payload = new
+            {
+                model = request.Model,
+                max_tokens = request.MaxTokens,
+                messages = new[]
+                {
+                    new { role = "user", content = request.Prompt }
+                },
+                system = request.SystemPrompt
+            };
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(
+                "https://api.anthropic.com/v1/messages",
+                content,
+                cancellationToken);
+
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var anthropicResponse = JsonSerializer.Deserialize<AnthropicResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = anthropicResponse.Content[0].Text,
+                Provider = ModelProvider.Anthropic,
+                Model = request.Model,
+                TokensUsed = anthropicResponse.Usage.InputTokens + anthropicResponse.Usage.OutputTokens
+            };
+        }
+
+        private async Task<ModelResponse> CallAzureOpenAIAsync(
+            ModelRequest request,
+            CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["AzureOpenAI:ApiKey"];
+            var endpoint = _configuration["AzureOpenAI:Endpoint"];
+            var deploymentName = _configuration["AzureOpenAI:DeploymentName"];
+
+            _httpClient.DefaultRequestHeaders.Clear();
+            _httpClient.DefaultRequestHeaders.Add("api-key", apiKey);
+
+            var payload = new
+            {
+                messages = new[]
+                {
+                    new { role = "system", content = request.SystemPrompt ?? "You are a helpful assistant." },
+                    new { role = "user", content = request.Prompt }
+                },
+                temperature = request.Temperature,
+                max_tokens = request.MaxTokens
+            };
+
+            var url = $"{endpoint}/openai/deployments/{deploymentName}/chat/completions?api-version=2023-05-15";
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(payload),
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(url, content, cancellationToken);
+            response.EnsureSuccessStatusCode();
+
+            var jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+            var azureResponse = JsonSerializer.Deserialize<OpenAIResponse>(jsonResponse);
+
+            return new ModelResponse
+            {
+                Content = azureResponse.Choices[0].Message.Content,
+                Provider = ModelProvider.AzureOpenAI,
+                Model = deploymentName,
+                TokensUsed = azureResponse.Usage.TotalTokens
+            };
+        }
+
+        public void Dispose()
+        {
+            _httpClient?.Dispose();
+        }
+    }
+
+    // DTOs
+    public enum ModelProvider
+    {
+        OpenAI,
+        Anthropic,
+        AzureOpenAI,
+        Google
+    }
+
+    public class ModelRequest
+    {
+        public ModelProvider Provider { get; set; }
+        public string Model { get; set; }
+        public string Prompt { get; set; }
+        public string? SystemPrompt { get; set; }
+        public double Temperature { get; set; } = 0.7;
+        public int MaxTokens { get; set; } = 1000;
+    }
+
+    public class ModelResponse
+    {
+        public string Content { get; set; }
+        public ModelProvider Provider { get; set; }
+        public string Model { get; set; }
+        public int TokensUsed { get; set; }
+    }
+
+    // API Response DTOs
+    internal class OpenAIResponse
+    {
+        public Choice[] Choices { get; set; }
+        public Usage Usage { get; set; }
+
+        public class Choice
+        {
+            public Message Message { get; set; }
+        }
+
+        public class Message
+        {
+            public string Content { get; set; }
+        }
+    }
+
+    internal class AnthropicResponse
+    {
+        public ContentBlock[] Content { get; set; }
+        public AnthropicUsage Usage { get; set; }
+
+        public class ContentBlock
+        {
+            public string Text { get; set; }
+        }
+
+        public class AnthropicUsage
+        {
+            public int InputTokens { get; set; }
+            public int OutputTokens { get; set; }
+        }
+    }
+
+    internal class Usage
+    {
+        public int TotalTokens { get; set; }
+    }
+}
+```
+
+A prompt for c# prompt engineering utilities tasks.
+
 
 # C# Prompt Engineering Utilities
 
@@ -362,4 +892,51 @@ public class PromptService
 ## Related Patterns
 
 - [OpenAI Function Calling](../../openai/function-calling/openai-function-calling.md)
-- [Anthropic Claude Patterns](../../anthropic/claude_patterns.py)
+- [Anthropic Claude Patterns](../../anthropic/claude_patterns.py)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["Anthropic:ApiKey"]` | AUTO-GENERATED: describe `"Anthropic:ApiKey"` |
+| `["AzureOpenAI:ApiKey"]` | AUTO-GENERATED: describe `"AzureOpenAI:ApiKey"` |
+| `["AzureOpenAI:DeploymentName"]` | AUTO-GENERATED: describe `"AzureOpenAI:DeploymentName"` |
+| `["AzureOpenAI:Endpoint"]` | AUTO-GENERATED: describe `"AzureOpenAI:Endpoint"` |
+| `["OpenAI:ApiKey"]` | AUTO-GENERATED: describe `"OpenAI:ApiKey"` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Anthropic Claude Patterns]` | AUTO-GENERATED: describe `Anthropic Claude Patterns` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[OpenAI Function Calling]` | AUTO-GENERATED: describe `OpenAI Function Calling` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

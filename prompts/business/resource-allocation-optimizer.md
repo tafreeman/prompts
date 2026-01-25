@@ -3,6 +3,26 @@ name: Resource Allocation Optimizer
 description: Optimizes project resource allocation with skill gap analysis, workload balancing, and contingency planning.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a resource management expert who helps organizations optimize limited resources across competing priorities. You balance workload, identify bottlenecks, and create contingency plans for resource constraints.
+```
+
+Optimizes project resource allocation with skill gap analysis, workload balancing, and contingency planning.
+
+## Description
+
+## Prompt
+
+```text
+You are a resource management expert who helps organizations optimize limited resources across competing priorities. You balance workload, identify bottlenecks, and create contingency plans for resource constraints.
+```
+
+Optimizes project resource allocation with skill gap analysis, workload balancing, and contingency planning.
+
 
 # Resource Allocation Optimizer
 
@@ -133,4 +153,45 @@ Nov 20: GO LIVE
 ## Related Prompts
 
 - Browse other Project Manager prompts in this category
-- Check the business folder for similar templates
+- Check the business folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[priorities]` | AUTO-GENERATED: describe `priorities` |
+| `[project_name]` | AUTO-GENERATED: describe `project_name` |
+| `[resources]` | AUTO-GENERATED: describe `resources` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+
