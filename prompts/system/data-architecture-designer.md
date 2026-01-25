@@ -3,6 +3,118 @@ name: Data Architecture Designer
 description: Designs enterprise data architectures
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart LR
+    subgraph Sources[Data Sources]
+        Apps[Applications]
+        IoT[IoT Devices]
+        SaaS[SaaS APIs]
+        DB[(Databases)]
+    end
+
+    subgraph Ingestion[Ingestion Layer]
+        Batch[Batch ETL]
+        Stream[Stream Processing]
+        CDC[CDC Connectors]
+    end
+
+    subgraph Storage[Storage Layer]
+        Bronze[Bronze/Raw]
+        Silver[Silver/Cleansed]
+        Gold[Gold/Curated]
+    end
+
+    subgraph Processing[Processing Layer]
+        Transform[Transformation]
+        Quality[Data Quality]
+        Catalog[Data Catalog]
+    end
+
+    subgraph Consumption[Consumption Layer]
+        BI[BI Dashboards]
+        ML[ML Platform]
+        API[Data APIs]
+    end
+
+    Apps --> Batch
+    IoT --> Stream
+    SaaS --> CDC
+    DB --> CDC
+    Batch --> Bronze
+    Stream --> Bronze
+    CDC --> Bronze
+    Bronze --> Transform
+    Transform --> Silver
+    Quality --> Silver
+    Silver --> Gold
+    Catalog --> Gold
+    Gold --> BI
+    Gold --> ML
+    Gold --> API
+```
+
+Designs enterprise data architectures
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart LR
+    subgraph Sources[Data Sources]
+        Apps[Applications]
+        IoT[IoT Devices]
+        SaaS[SaaS APIs]
+        DB[(Databases)]
+    end
+
+    subgraph Ingestion[Ingestion Layer]
+        Batch[Batch ETL]
+        Stream[Stream Processing]
+        CDC[CDC Connectors]
+    end
+
+    subgraph Storage[Storage Layer]
+        Bronze[Bronze/Raw]
+        Silver[Silver/Cleansed]
+        Gold[Gold/Curated]
+    end
+
+    subgraph Processing[Processing Layer]
+        Transform[Transformation]
+        Quality[Data Quality]
+        Catalog[Data Catalog]
+    end
+
+    subgraph Consumption[Consumption Layer]
+        BI[BI Dashboards]
+        ML[ML Platform]
+        API[Data APIs]
+    end
+
+    Apps --> Batch
+    IoT --> Stream
+    SaaS --> CDC
+    DB --> CDC
+    Batch --> Bronze
+    Stream --> Bronze
+    CDC --> Bronze
+    Bronze --> Transform
+    Transform --> Silver
+    Quality --> Silver
+    Silver --> Gold
+    Catalog --> Gold
+    Gold --> BI
+    Gold --> ML
+    Gold --> API
+```
+
+Designs enterprise data architectures
+
 
 # Data Architecture Designer
 
@@ -107,4 +219,71 @@ Governance Requirements: GDPR compliance, data lineage, PII masking
 - [Compliance Architecture Designer](compliance-architecture-designer.md) - For data governance requirements
 - [Enterprise Integration Architect](enterprise-integration-architect.md) - For data source integration
 - [Performance Architecture Optimizer](performance-architecture-optimizer.md) - For query optimization
-- [Microservices Architecture Expert](microservices-architecture-expert.md) - For data APIs and services
+- [Microservices Architecture Expert](microservices-architecture-expert.md) - For data APIs and services## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Databases)]` | AUTO-GENERATED: describe `(Databases)` |
+| `[Applications]` | AUTO-GENERATED: describe `Applications` |
+| `[BI Dashboards]` | AUTO-GENERATED: describe `BI Dashboards` |
+| `[Batch ETL]` | AUTO-GENERATED: describe `Batch ETL` |
+| `[Bronze/Raw]` | AUTO-GENERATED: describe `Bronze/Raw` |
+| `[CDC Connectors]` | AUTO-GENERATED: describe `CDC Connectors` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Compliance Architecture Designer]` | AUTO-GENERATED: describe `Compliance Architecture Designer` |
+| `[Consumption Layer]` | AUTO-GENERATED: describe `Consumption Layer` |
+| `[Data APIs]` | AUTO-GENERATED: describe `Data APIs` |
+| `[Data Catalog]` | AUTO-GENERATED: describe `Data Catalog` |
+| `[Data Quality]` | AUTO-GENERATED: describe `Data Quality` |
+| `[Data Sources]` | AUTO-GENERATED: describe `Data Sources` |
+| `[Enterprise Integration Architect]` | AUTO-GENERATED: describe `Enterprise Integration Architect` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Gold/Curated]` | AUTO-GENERATED: describe `Gold/Curated` |
+| `[Ingestion Layer]` | AUTO-GENERATED: describe `Ingestion Layer` |
+| `[IoT Devices]` | AUTO-GENERATED: describe `IoT Devices` |
+| `[ML Platform]` | AUTO-GENERATED: describe `ML Platform` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Performance Architecture Optimizer]` | AUTO-GENERATED: describe `Performance Architecture Optimizer` |
+| `[Processing Layer]` | AUTO-GENERATED: describe `Processing Layer` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[SaaS APIs]` | AUTO-GENERATED: describe `SaaS APIs` |
+| `[Silver/Cleansed]` | AUTO-GENERATED: describe `Silver/Cleansed` |
+| `[Storage Layer]` | AUTO-GENERATED: describe `Storage Layer` |
+| `[Stream Processing]` | AUTO-GENERATED: describe `Stream Processing` |
+| `[Transformation]` | AUTO-GENERATED: describe `Transformation` |
+| `[analytics_needs]` | AUTO-GENERATED: describe `analytics_needs` |
+| `[data_sources]` | AUTO-GENERATED: describe `data_sources` |
+| `[domain]` | AUTO-GENERATED: describe `domain` |
+| `[scale]` | AUTO-GENERATED: describe `scale` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

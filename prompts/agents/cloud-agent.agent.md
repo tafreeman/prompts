@@ -3,6 +3,48 @@ name: cloud_agent
 description: Expert in cloud architecture, infrastructure, deployment, and cloud-native solutions
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────┐
+│              Load Balancer / CDN             │
+├─────────────────────────────────────────────┤
+│            Application Tier                  │
+│     (Auto-scaling, Containerized)            │
+├─────────────────────────────────────────────┤
+│              Caching Layer                   │
+│        (Redis, Memcached, CDN)               │
+├─────────────────────────────────────────────┤
+│            Data Persistence                  │
+│    (Managed DB, Object Storage, NoSQL)       │
+└─────────────────────────────────────────────┘
+```
+
+Expert in cloud architecture, infrastructure, deployment, and cloud-native solutions
+
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────┐
+│              Load Balancer / CDN             │
+├─────────────────────────────────────────────┤
+│            Application Tier                  │
+│     (Auto-scaling, Containerized)            │
+├─────────────────────────────────────────────┤
+│              Caching Layer                   │
+│        (Redis, Memcached, CDN)               │
+├─────────────────────────────────────────────┤
+│            Data Persistence                  │
+│    (Managed DB, Object Storage, NoSQL)       │
+└─────────────────────────────────────────────┘
+```
+
+Expert in cloud architecture, infrastructure, deployment, and cloud-native solutions
+
 
 # Cloud Agent
 
@@ -521,4 +563,56 @@ Before deploying this agent, verify:
 - [ ] Cost constraints and budget are defined
 - [ ] Disaster recovery requirements are clear
 - [ ] Team skills and capabilities are assessed
-- [ ] Integration points with existing systems are identified
+- [ ] Integration points with existing systems are identified## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `["dev", "staging", "prod"]` | AUTO-GENERATED: describe `"dev", "staging", "prod"` |
+| `[Description of desired cloud architecture]` | AUTO-GENERATED: describe `Description of desired cloud architecture` |
+| `[Description of existing infrastructure]` | AUTO-GENERATED: describe `Description of existing infrastructure` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Include diagram using Mermaid or ASCII art]` | AUTO-GENERATED: describe `Include diagram using Mermaid or ASCII art` |
+| `[Measurable KPIs]` | AUTO-GENERATED: describe `Measurable KPIs` |
+| `[Project Name]` | AUTO-GENERATED: describe `Project Name` |
+| `[Rehost/Replatform/Refactor/etc.]` | AUTO-GENERATED: describe `Rehost/Replatform/Refactor/etc.` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Rollback plans, contingencies]` | AUTO-GENERATED: describe `Rollback plans, contingencies` |
+| `[VPC setup]` | AUTO-GENERATED: describe `VPC setup` |
+| `[at rest and in transit]` | AUTO-GENERATED: describe `at rest and in transit` |
+| `[details]` | AUTO-GENERATED: describe `details` |
+| `[method]` | AUTO-GENERATED: describe `method` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

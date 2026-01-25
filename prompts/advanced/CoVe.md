@@ -7,6 +7,34 @@ difficulty: advanced
 model: openai/gpt-4o
 response_format: text
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Chain-of-Verification (CoVe)
+description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle - claude-3 - llama-3 - gemini
+type: how_to
+pattern: cove
+```
+
+Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle - claude-3 - llama-3 - gemini
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Chain-of-Verification (CoVe)
+description: Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle - claude-3 - llama-3 - gemini
+type: how_to
+pattern: cove
+```
+
+Reduce hallucinations through structured fact-checking using the Generate→Verify→Revise cycle - claude-3 - llama-3 - gemini
+
 
 # Chain-of-Verification (CoVe) Prompting Pattern
 
@@ -122,4 +150,48 @@ CoVe is valuable when:
 2. **Auditing the repository** - Fact-check batch evaluation reports
 3. **Reviewing PRs** - Verify claims about new or modified prompts
 4. **Comparing techniques** - Ensure descriptions are accurate ("uses ToT" - does it?)
-5. **Documentation accuracy** - Verify descriptions match actual behavior
+5. **Documentation accuracy** - Verify descriptions match actual behavior## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Claim 1]` | AUTO-GENERATED: describe `Claim 1` |
+| `[Claim 2]` | AUTO-GENERATED: describe `Claim 2` |
+| `[Continue for all factual claims in your response]` | AUTO-GENERATED: describe `Continue for all factual claims in your response` |
+| `[Correct information]` | AUTO-GENERATED: describe `Correct information` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High/Medium/Low based on verification results]` | AUTO-GENERATED: describe `High/Medium/Low based on verification results` |
+| `[Question for claim 1]` | AUTO-GENERATED: describe `Question for claim 1` |
+| `[Question for claim 2]` | AUTO-GENERATED: describe `Question for claim 2` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

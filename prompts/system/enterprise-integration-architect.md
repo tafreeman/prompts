@@ -3,6 +3,104 @@ name: Enterprise Integration Architect
 description: Designs enterprise integration solutions
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Sources[Source Systems]
+        ERP[ERP System]
+        CRM[CRM Platform]
+        Legacy[Legacy Apps]
+        SaaS[SaaS Apps]
+    end
+
+    subgraph Integration[Integration Layer]
+        Gateway[API Gateway]
+        ESB[Integration Platform]
+        Queue[Message Queue]
+        Events[Event Bus]
+    end
+
+    subgraph Processing[Processing Layer]
+        Transform[Transformation]
+        Orchestrate[Orchestration]
+        Route[Routing Engine]
+    end
+
+    subgraph Targets[Target Systems]
+        DataLake[(Data Lake)]
+        Analytics[Analytics]
+        Mobile[Mobile Apps]
+        Partners[Partner APIs]
+    end
+
+    ERP --> Gateway
+    CRM --> ESB
+    Legacy --> ESB
+    SaaS --> Queue
+    Gateway --> Transform
+    ESB --> Orchestrate
+    Queue --> Events
+    Events --> Route
+    Transform --> DataLake
+    Orchestrate --> Analytics
+    Route --> Mobile
+    Route --> Partners
+```
+
+Designs enterprise integration solutions
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Sources[Source Systems]
+        ERP[ERP System]
+        CRM[CRM Platform]
+        Legacy[Legacy Apps]
+        SaaS[SaaS Apps]
+    end
+
+    subgraph Integration[Integration Layer]
+        Gateway[API Gateway]
+        ESB[Integration Platform]
+        Queue[Message Queue]
+        Events[Event Bus]
+    end
+
+    subgraph Processing[Processing Layer]
+        Transform[Transformation]
+        Orchestrate[Orchestration]
+        Route[Routing Engine]
+    end
+
+    subgraph Targets[Target Systems]
+        DataLake[(Data Lake)]
+        Analytics[Analytics]
+        Mobile[Mobile Apps]
+        Partners[Partner APIs]
+    end
+
+    ERP --> Gateway
+    CRM --> ESB
+    Legacy --> ESB
+    SaaS --> Queue
+    Gateway --> Transform
+    ESB --> Orchestrate
+    Queue --> Events
+    Events --> Route
+    Transform --> DataLake
+    Orchestrate --> Analytics
+    Route --> Mobile
+    Route --> Partners
+```
+
+Designs enterprise integration solutions
+
 
 # Enterprise Integration Architect
 
@@ -99,4 +197,69 @@ Security Requirements: OAuth 2.0 for partners, field-level encryption for PII
 - [Data Architecture Designer](data-architecture-designer.md) - For data transformation
 - [Microservices Architecture Expert](microservices-architecture-expert.md) - For service decomposition
 - [Security Architecture Specialist](security-architecture-specialist.md) - For integration security
-- [Cloud Architecture Consultant](cloud-architecture-consultant.md) - For cloud integration services
+- [Cloud Architecture Consultant](cloud-architecture-consultant.md) - For cloud integration services## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Data Lake)]` | AUTO-GENERATED: describe `(Data Lake)` |
+| `[API Architecture Designer]` | AUTO-GENERATED: describe `API Architecture Designer` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[Analytics]` | AUTO-GENERATED: describe `Analytics` |
+| `[CRM Platform]` | AUTO-GENERATED: describe `CRM Platform` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[ERP System]` | AUTO-GENERATED: describe `ERP System` |
+| `[Event Bus]` | AUTO-GENERATED: describe `Event Bus` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Integration Layer]` | AUTO-GENERATED: describe `Integration Layer` |
+| `[Integration Platform]` | AUTO-GENERATED: describe `Integration Platform` |
+| `[Legacy Apps]` | AUTO-GENERATED: describe `Legacy Apps` |
+| `[Message Queue]` | AUTO-GENERATED: describe `Message Queue` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Mobile Apps]` | AUTO-GENERATED: describe `Mobile Apps` |
+| `[Orchestration]` | AUTO-GENERATED: describe `Orchestration` |
+| `[Partner APIs]` | AUTO-GENERATED: describe `Partner APIs` |
+| `[Processing Layer]` | AUTO-GENERATED: describe `Processing Layer` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Routing Engine]` | AUTO-GENERATED: describe `Routing Engine` |
+| `[SaaS Apps]` | AUTO-GENERATED: describe `SaaS Apps` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Source Systems]` | AUTO-GENERATED: describe `Source Systems` |
+| `[Target Systems]` | AUTO-GENERATED: describe `Target Systems` |
+| `[Transformation]` | AUTO-GENERATED: describe `Transformation` |
+| `[data_flow]` | AUTO-GENERATED: describe `data_flow` |
+| `[performance]` | AUTO-GENERATED: describe `performance` |
+| `[security]` | AUTO-GENERATED: describe `security` |
+| `[systems]` | AUTO-GENERATED: describe `systems` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

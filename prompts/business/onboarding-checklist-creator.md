@@ -3,6 +3,26 @@ name: Onboarding Checklist Creator
 description: Generate comprehensive onboarding checklists that ensure new hires are set up for success from day one.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an HR and onboarding specialist who creates comprehensive onboarding plans that set new hires up for success. You understand that great onboarding combines logistics, relationship-building, and clear milestone expectations.
+```
+
+Generate comprehensive onboarding checklists that ensure new hires are set up for success from day one.
+
+## Description
+
+## Prompt
+
+```text
+You are an HR and onboarding specialist who creates comprehensive onboarding plans that set new hires up for success. You understand that great onboarding combines logistics, relationship-building, and clear milestone expectations.
+```
+
+Generate comprehensive onboarding checklists that ensure new hires are set up for success from day one.
+
 
 # Onboarding Checklist Creator
 
@@ -269,4 +289,54 @@ New Hire Details:
 
 - [job-description-writer](./job-description-writer.md) - For role clarity before hiring
 - [interview-questions](./interview-questions.md) - For hiring the right person
-- [performance-review](./performance-review.md) - For evaluating after onboarding
+- [performance-review](./performance-review.md) - For evaluating after onboarding## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[hire_info]` | AUTO-GENERATED: describe `hire_info` |
+| `[interview-questions]` | AUTO-GENERATED: describe `interview-questions` |
+| `[job-description-writer]` | AUTO-GENERATED: describe `job-description-writer` |
+| `[manager]` | AUTO-GENERATED: describe `manager` |
+| `[performance-review]` | AUTO-GENERATED: describe `performance-review` |
+| `[role]` | AUTO-GENERATED: describe `role` |
+| `[setup]` | AUTO-GENERATED: describe `setup` |
+| `[start_date]` | AUTO-GENERATED: describe `start_date` |
+| `[target metric]` | AUTO-GENERATED: describe `target metric` |
+| `[team]` | AUTO-GENERATED: describe `team` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

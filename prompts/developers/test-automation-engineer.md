@@ -3,6 +3,48 @@ name: Test Automation Engineer
 description: You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, ...
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+
+Design a comprehensive test automation strategy using the Test Pyramid framework:
+
+**Application Context**:
+
+- Application Name: E-Commerce Checkout
+- Technology Stack: React (frontend) + Node.js Express (backend) + PostgreSQL (database)
+- Testing Scope: User authentication, product search, shopping cart, payment processing
+- Quality Goals: 80% code coverage, tests complete in < 10 minutes, < 5% flaky test rate
+- CI/CD Pipeline: GitHub Actions
+- Test Budget: 10 minutes per pipeline run
+
+```
+
+You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, ...
+
+## Description
+
+## Prompt
+
+```text
+
+Design a comprehensive test automation strategy using the Test Pyramid framework:
+
+**Application Context**:
+
+- Application Name: E-Commerce Checkout
+- Technology Stack: React (frontend) + Node.js Express (backend) + PostgreSQL (database)
+- Testing Scope: User authentication, product search, shopping cart, payment processing
+- Quality Goals: 80% code coverage, tests complete in < 10 minutes, < 5% flaky test rate
+- CI/CD Pipeline: GitHub Actions
+- Test Budget: 10 minutes per pipeline run
+
+```
+
+You are a **Senior QA Engineer** with 10+ years of experience in test automation, TDD (Test-Driven Development), and quality engineering. You specialize in the **Test Pyramid** strategy (70% unit, ...
+
 
 # Test Automation Engineer
 
@@ -72,4 +114,42 @@ Based on:
 
 - **Test Pyramid** - Mike Cohn, Succeeding with Agile (2009)
 - **Google Testing Blog** - Just Say No to More End-to-End Tests (2015)
-- **Martin Fowler** - TestPyramid (2012), Practical Test Pyramid (2018)
+- **Martin Fowler** - TestPyramid (2012), Practical Test Pyramid (2018)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[security-code-auditor]` | AUTO-GENERATED: describe `security-code-auditor` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -1,8 +1,61 @@
 ---
-name: Business Case Developer
-description: shortTitle: Business Case intro: Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans. type: how_to difficulty: intermediate a
+name: business-case-developer
+description: 'AUTO-GENERATED: Help create structured business cases for investment or project approval. Please refine.'
 type: how_to
+difficulty: intermediate
 ---
+## Description
+
+## Prompt
+
+```text
+Develop business case for:
+
+Initiative: [initiative]
+Investment Required: [investment]
+Expected Benefits: [benefits]
+Risks: [risks]
+Timeline: [timeline]
+
+Provide:
+
+1. Executive summary
+2. Cost-benefit analysis
+3. ROI calculations
+4. Risk assessment
+5. Implementation plan
+6. Success metrics
+
+```
+
+shortTitle: Business Case intro: Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans. type: how_to difficulty: intermediate a
+
+## Description
+
+## Prompt
+
+```text
+Develop business case for:
+
+Initiative: [initiative]
+Investment Required: [investment]
+Expected Benefits: [benefits]
+Risks: [risks]
+Timeline: [timeline]
+
+Provide:
+
+1. Executive summary
+2. Cost-benefit analysis
+3. ROI calculations
+4. Risk assessment
+5. Implementation plan
+6. Success metrics
+
+```
+
+shortTitle: Business Case intro: Develops compelling business cases with executive summaries, cost-benefit analysis, ROI calculations, and implementation plans. type: how_to difficulty: intermediate a
+
 
 shortTitle: Business Case
 intro: Develops compelling business cases with executive summaries, cost-benefit analysis,
@@ -127,4 +180,51 @@ A complete business case document with:
 - [Gap Analysis Expert](./gap-analysis-expert.md) - For current/desired state comparison
 - [Requirements Analysis Expert](./requirements-analysis-expert.md) - For gathering detailed requirements
 - [Business Strategy Analysis](../business/business-strategy-analysis.md) - For strategic alignment
-- [Risk Management Analyst](../business/risk-management-analyst.md) - For deeper risk assessment
+- [Risk Management Analyst](../business/risk-management-analyst.md) - For deeper risk assessment## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[... continues with implementation plan and success metrics ...]` | AUTO-GENERATED: describe `... continues with implementation plan and success metrics ...` |
+| `[Business Strategy Analysis]` | AUTO-GENERATED: describe `Business Strategy Analysis` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Gap Analysis Expert]` | AUTO-GENERATED: describe `Gap Analysis Expert` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Requirements Analysis Expert]` | AUTO-GENERATED: describe `Requirements Analysis Expert` |
+| `[Risk Management Analyst]` | AUTO-GENERATED: describe `Risk Management Analyst` |
+| `[benefits]` | AUTO-GENERATED: describe `benefits` |
+| `[initiative]` | AUTO-GENERATED: describe `initiative` |
+| `[investment]` | AUTO-GENERATED: describe `investment` |
+| `[risks]` | AUTO-GENERATED: describe `risks` |
+| `[timeline]` | AUTO-GENERATED: describe `timeline` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

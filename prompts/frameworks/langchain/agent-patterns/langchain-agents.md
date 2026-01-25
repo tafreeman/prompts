@@ -3,6 +3,52 @@ name: LangChain Agent Patterns
 description: A prompt for langchain agent patterns tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+Answer the following questions as best you can. You have access to the following tools:
+
+{{tools}}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{{tool_names}}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+```
+
+A prompt for langchain agent patterns tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+Answer the following questions as best you can. You have access to the following tools:
+
+{{tools}}
+
+Use the following format:
+
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{{tool_names}}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
+```
+
+A prompt for langchain agent patterns tasks.
+
 
 # LangChain Agent Patterns
 
@@ -197,4 +243,47 @@ tools.append(SQLQueryTool())
 ## Related Patterns
 
 - [Multi-Agent Workflow](../../../techniques/agentic/multi-agent/multi-agent-workflow.md)
-- [OpenAI Function Calling](../../openai/function-calling/openai-function-calling.md)
+- [OpenAI Function Calling](../../openai/function-calling/openai-function-calling.md)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["output"]` | AUTO-GENERATED: describe `"output"` |
+| `[:10]` | AUTO-GENERATED: describe `:10` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Multi-Agent Workflow]` | AUTO-GENERATED: describe `Multi-Agent Workflow` |
+| `[OpenAI Function Calling]` | AUTO-GENERATED: describe `OpenAI Function Calling` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Tool(name="WebSearch", func=search_web, ...)]` | AUTO-GENERATED: describe `Tool(name="WebSearch", func=search_web, ...)` |
+| `[{{tool_names}}]` | AUTO-GENERATED: describe `{{tool_names}}` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,48 @@ name: Semantic Kernel Integration Patterns
 description: A prompt for semantic kernel integration patterns tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+Summarize the following conversation into a concise project status update.
+
+Context:
+{{$input}}
+
+Requirements:
+
+- Identify key risks
+- List completed milestones
+- Estimate remaining timeline
+
+Status Update:
+```
+
+A prompt for semantic kernel integration patterns tasks.
+
+## Description
+
+## Prompt
+
+```text
+Summarize the following conversation into a concise project status update.
+
+Context:
+{{$input}}
+
+Requirements:
+
+- Identify key risks
+- List completed milestones
+- Estimate remaining timeline
+
+Status Update:
+```
+
+A prompt for semantic kernel integration patterns tasks.
+
 
 # Semantic Kernel Integration Patterns
 
@@ -207,4 +249,48 @@ await foreach (var result in results)
 ## Related Patterns
 
 - [OpenAI Function Calling](../../openai/function-calling/openai-function-calling.md)
-- [Agentic Workflows](../../../techniques/agentic/multi-agent/multi-agent-workflow.md)
+- [Agentic Workflows](../../../techniques/agentic/multi-agent/multi-agent-workflow.md)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Agentic Workflows]` | AUTO-GENERATED: describe `Agentic Workflows` |
+| `[Description]` | AUTO-GENERATED: describe `Description` |
+| `[Description("Gets data")]` | AUTO-GENERATED: describe `Description("Gets data")` |
+| `[Description("Retrieves the latest order status and shipping details for a given customer ID")]` | AUTO-GENERATED: describe `Description("Retrieves the latest order status and shipping details for a given customer ID")` |
+| `[Description("The customer ID")]` | AUTO-GENERATED: describe `Description("The customer ID")` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[KernelFunction, Description("Retrieves the latest order status for a customer")]` | AUTO-GENERATED: describe `KernelFunction, Description("Retrieves the latest order status for a customer")` |
+| `[OpenAI Function Calling]` | AUTO-GENERATED: describe `OpenAI Function Calling` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

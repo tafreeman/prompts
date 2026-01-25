@@ -3,6 +3,26 @@ name: Documentation Generator
 description: Senior Technical Writer prompt for creating comprehensive software documentation using the Diataxis framework.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```bash
+pip install payfast-sdk
+```
+
+Senior Technical Writer prompt for creating comprehensive software documentation using the Diataxis framework.
+
+## Description
+
+## Prompt
+
+```bash
+pip install payfast-sdk
+```
+
+Senior Technical Writer prompt for creating comprehensive software documentation using the Diataxis framework.
+
 
 # Documentation Generator
 
@@ -60,4 +80,45 @@ pip install payfast-sdk
 from payfast import Client
 client = Client(api_key="your-key")
 response = client.payments.create(amount=100)
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[audience]` | AUTO-GENERATED: describe `audience` |
+| `[context]` | AUTO-GENERATED: describe `context` |
+| `[doc_type]` | AUTO-GENERATED: describe `doc_type` |
+| `[project_name]` | AUTO-GENERATED: describe `project_name` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

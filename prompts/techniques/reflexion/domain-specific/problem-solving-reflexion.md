@@ -3,6 +3,36 @@ name: Problem-Solving Reflexion Pattern
 description: A prompt for problem solving reflexion pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+**Problem**:
+{{problem_description}}
+
+**Task**: Propose a step-by-step solution.
+
+**Initial Solution**:
+```
+
+A prompt for problem solving reflexion pattern tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+**Problem**:
+{{problem_description}}
+
+**Task**: Propose a step-by-step solution.
+
+**Initial Solution**:
+```
+
+A prompt for problem solving reflexion pattern tasks.
+
 
 # Problem-Solving Reflexion Pattern
 
@@ -87,4 +117,42 @@ Based on the failure identified in the trace, provide a corrected solution.
 
 1. **Concrete Inputs**: Always verify with specific data (e.g., `input = [1, 5, -2]`), not abstract reasoning.
 2. **Fatal Flaw Check**: Explicitly ask the model to "Find the fatal flaw" in its plan.
-3. **Iterate**: For very hard problems, you may need 3-4 cycles of hypothesis/verification.
+3. **Iterate**: For very hard problems, you may need 3-4 cycles of hypothesis/verification.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[1, 5, -2]` | AUTO-GENERATED: describe `1, 5, -2` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

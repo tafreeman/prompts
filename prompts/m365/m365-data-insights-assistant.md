@@ -3,6 +3,34 @@ name: M365 Data Insights Assistant
 description: Analyzes Excel data to identify trends, anomalies, and recommend visualizations.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: M365 Data Insights Assistant
+description: Analyzes Excel data to identify trends, anomalies, and recommend visualizations.
+type: how_to
+---
+```
+
+Analyzes Excel data to identify trends, anomalies, and recommend visualizations.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: M365 Data Insights Assistant
+description: Analyzes Excel data to identify trends, anomalies, and recommend visualizations.
+type: how_to
+---
+```
+
+Analyzes Excel data to identify trends, anomalies, and recommend visualizations.
+
 
 # M365 Data Insights Assistant
 
@@ -57,4 +85,44 @@ Focus: Why did Q3 revenue decline?
 
 ### Action Items
 1. Investigate Acme Corp relationship
-2. Review West region sales team capacity
+2. Review West region sales team capacity## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[data_description]` | AUTO-GENERATED: describe `data_description` |
+| `[focus_areas]` | AUTO-GENERATED: describe `focus_areas` |
+| `[time_period]` | AUTO-GENERATED: describe `time_period` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,54 @@ name: GitHub Copilot Instruction Patterns
 description: A prompt for github copilot instruction patterns tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+# Copilot Instructions for [PROJECT_NAME]
+
+## Project Context
+- **Language**: [PRIMARY_LANGUAGE]
+- **Framework**: [FRAMEWORK]
+- **Purpose**: [PROJECT_DESCRIPTION]
+
+## Coding Standards
+[CODING_STANDARDS_LIST]
+
+## Project-Specific Patterns
+[PATTERN_DEFINITIONS]
+
+## Avoid These Patterns
+[ANTI_PATTERNS_LIST]
+```
+
+A prompt for github copilot instruction patterns tasks.
+
+## Description
+
+## Prompt
+
+```text
+# Copilot Instructions for [PROJECT_NAME]
+
+## Project Context
+- **Language**: [PRIMARY_LANGUAGE]
+- **Framework**: [FRAMEWORK]
+- **Purpose**: [PROJECT_DESCRIPTION]
+
+## Coding Standards
+[CODING_STANDARDS_LIST]
+
+## Project-Specific Patterns
+[PATTERN_DEFINITIONS]
+
+## Avoid These Patterns
+[ANTI_PATTERNS_LIST]
+```
+
+A prompt for github copilot instruction patterns tasks.
+
 
 # GitHub Copilot Instruction Patterns
 
@@ -264,4 +312,68 @@ python tools/validators/prompt_validator.py path/to/prompt.md
 ## Related Patterns
 
 - [Anthropic Claude Patterns](../../anthropic/claude_patterns.py)
-- [OpenAI Integration](../../openai/openai_utilities.py)
+- [OpenAI Integration](../../openai/openai_utilities.py)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANTI_PATTERNS_LIST]` | AUTO-GENERATED: describe `ANTI_PATTERNS_LIST` |
+| `[CODING_STANDARDS_LIST]` | AUTO-GENERATED: describe `CODING_STANDARDS_LIST` |
+| `[FRAMEWORK]` | AUTO-GENERATED: describe `FRAMEWORK` |
+| `[PATTERN_DEFINITIONS]` | AUTO-GENERATED: describe `PATTERN_DEFINITIONS` |
+| `[PRIMARY_LANGUAGE]` | AUTO-GENERATED: describe `PRIMARY_LANGUAGE` |
+| `[PROJECT_DESCRIPTION]` | AUTO-GENERATED: describe `PROJECT_DESCRIPTION` |
+| `[PROJECT_NAME]` | AUTO-GENERATED: describe `PROJECT_NAME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANTI_PATTERNS_LIST]` | AUTO-GENERATED: describe `ANTI_PATTERNS_LIST` |
+| `[Anthropic Claude Patterns]` | AUTO-GENERATED: describe `Anthropic Claude Patterns` |
+| `[CODING_STANDARDS_LIST]` | AUTO-GENERATED: describe `CODING_STANDARDS_LIST` |
+| `[FRAMEWORK]` | AUTO-GENERATED: describe `FRAMEWORK` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[OpenAI Integration]` | AUTO-GENERATED: describe `OpenAI Integration` |
+| `[PATTERN_DEFINITIONS]` | AUTO-GENERATED: describe `PATTERN_DEFINITIONS` |
+| `[PRIMARY_LANGUAGE]` | AUTO-GENERATED: describe `PRIMARY_LANGUAGE` |
+| `[PROJECT_DESCRIPTION]` | AUTO-GENERATED: describe `PROJECT_DESCRIPTION` |
+| `[PROJECT_NAME]` | AUTO-GENERATED: describe `PROJECT_NAME` |
+| `[Project Name]` | AUTO-GENERATED: describe `Project Name` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[category]` | AUTO-GENERATED: describe `category` |
+| `[file]` | AUTO-GENERATED: describe `file` |
+| `[framework-name]` | AUTO-GENERATED: describe `framework-name` |
+| `[markdown]` | AUTO-GENERATED: describe `markdown` |
+| `[notebooks|case-studies]` | AUTO-GENERATED: describe `notebooks|case-studies` |
+| `[pattern]` | AUTO-GENERATED: describe `pattern` |
+| `[pattern-name]` | AUTO-GENERATED: describe `pattern-name` |
+| `[python]` | AUTO-GENERATED: describe `python` |
+| `[validators|generators|benchmarks]` | AUTO-GENERATED: describe `validators|generators|benchmarks` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

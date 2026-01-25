@@ -3,6 +3,26 @@ name: Competitive Analysis Generator
 description: Generate comprehensive competitive analyses comparing products, features, positioning, and market strategies.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a competitive intelligence analyst with deep experience in market research, product positioning, and strategic analysis. You help organizations understand their competitive landscape and develop strategies to win in the market.
+```
+
+Generate comprehensive competitive analyses comparing products, features, positioning, and market strategies.
+
+## Description
+
+## Prompt
+
+```text
+You are a competitive intelligence analyst with deep experience in market research, product positioning, and strategic analysis. You help organizations understand their competitive landscape and develop strategies to win in the market.
+```
+
+Generate comprehensive competitive analyses comparing products, features, positioning, and market strategies.
+
 
 # Competitive Analysis Generator
 
@@ -244,4 +264,50 @@ DataSync Pro holds a **strong position** in the mid-market enterprise segment, w
 
 - [pitch-deck-generator](./pitch-deck-generator.md) - For incorporating competitive positioning into presentations
 - [sales-objection-handler](./sales-objection-handler.md) - For handling competitive objections
-- [business-strategy-analysis](./business-strategy-analysis.md) - For broader strategic planning
+- [business-strategy-analysis](./business-strategy-analysis.md) - For broader strategic planning## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Product Marketing]` | AUTO-GENERATED: describe `Product Marketing` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[business-strategy-analysis]` | AUTO-GENERATED: describe `business-strategy-analysis` |
+| `[competitors]` | AUTO-GENERATED: describe `competitors` |
+| `[criteria]` | AUTO-GENERATED: describe `criteria` |
+| `[market]` | AUTO-GENERATED: describe `market` |
+| `[our_product]` | AUTO-GENERATED: describe `our_product` |
+| `[pitch-deck-generator]` | AUTO-GENERATED: describe `pitch-deck-generator` |
+| `[purpose]` | AUTO-GENERATED: describe `purpose` |
+| `[sales-objection-handler]` | AUTO-GENERATED: describe `sales-objection-handler` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

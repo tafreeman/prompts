@@ -3,6 +3,82 @@ name: devsecops_tooling_agent
 description: Expert Python, scripting, and DevSecOps engineer specializing in building robust, fault-tolerant, performant CLI tools and automation pipelines
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+# Type hints for all function signatures
+def process_files(
+    paths: list[Path],
+    *,
+    recursive: bool = False,
+    pattern: str = "*.md"
+) -> list[ProcessResult]:
+    """Process files with comprehensive docstrings."""
+    ...
+
+# Dataclasses for structured data
+@dataclass
+class EvalConfig:
+    models: list[str] = field(default_factory=list)
+    runs_per_model: int = 4
+    timeout_seconds: int = 120
+
+# Context managers for resource handling
+with TemporaryDirectory() as tmpdir:
+    ...
+
+# Explicit error handling with custom exceptions
+class EvalError(Exception):
+    """Base exception for evaluation errors."""
+    pass
+
+class ModelUnavailableError(EvalError):
+    """Raised when a model is not available."""
+    pass
+```
+
+Expert Python, scripting, and DevSecOps engineer specializing in building robust, fault-tolerant, performant CLI tools and automation pipelines
+
+## Description
+
+## Prompt
+
+```python
+# Type hints for all function signatures
+def process_files(
+    paths: list[Path],
+    *,
+    recursive: bool = False,
+    pattern: str = "*.md"
+) -> list[ProcessResult]:
+    """Process files with comprehensive docstrings."""
+    ...
+
+# Dataclasses for structured data
+@dataclass
+class EvalConfig:
+    models: list[str] = field(default_factory=list)
+    runs_per_model: int = 4
+    timeout_seconds: int = 120
+
+# Context managers for resource handling
+with TemporaryDirectory() as tmpdir:
+    ...
+
+# Explicit error handling with custom exceptions
+class EvalError(Exception):
+    """Base exception for evaluation errors."""
+    pass
+
+class ModelUnavailableError(EvalError):
+    """Raised when a model is not available."""
+    pass
+```
+
+Expert Python, scripting, and DevSecOps engineer specializing in building robust, fault-tolerant, performant CLI tools and automation pipelines
+
 
 # DevSecOps Tooling Agent
 
@@ -492,4 +568,59 @@ Shall I proceed with implementation?
 
 | Version | Date | Changes |
 | --------- | ------ | --------- |
-| 1.0.0 | 2025-12-04 | Initial agent definition |
+| 1.0.0 | 2025-12-04 | Initial agent definition |## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `["markdown", "json"]` | AUTO-GENERATED: describe `"markdown", "json"` |
+| `[Any concerns or edge cases identified]` | AUTO-GENERATED: describe `Any concerns or edge cases identified` |
+| `[Deferred work for future iterations]` | AUTO-GENERATED: describe `Deferred work for future iterations` |
+| `[Description]` | AUTO-GENERATED: describe `Description` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Limitation and potential future fix]` | AUTO-GENERATED: describe `Limitation and potential future fix` |
+| `[Name]` | AUTO-GENERATED: describe `Name` |
+| `[Path]` | AUTO-GENERATED: describe `Path` |
+| `[ProcessResult]` | AUTO-GENERATED: describe `ProcessResult` |
+| `[Question about requirement or approach]` | AUTO-GENERATED: describe `Question about requirement or approach` |
+| `[Related files that may need updates]` | AUTO-GENERATED: describe `Related files that may need updates` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[dict]` | AUTO-GENERATED: describe `dict` |
+| `[list[str]` | AUTO-GENERATED: describe `list[str` |
+| `[purpose and key findings]` | AUTO-GENERATED: describe `purpose and key findings` |
+| `[str]` | AUTO-GENERATED: describe `str` |
+| `[str, str]` | AUTO-GENERATED: describe `str, str` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

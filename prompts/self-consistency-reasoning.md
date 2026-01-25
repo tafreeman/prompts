@@ -3,6 +3,44 @@ name: Self Consistency Reasoning
 description: # Self-Consistency CoT Prompt
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a precise reasoning assistant. Solve problems step-by-step, showing your complete thought process.
+
+Instructions:
+
+1. Read the problem carefully
+2. Break it down into logical steps  
+3. Work through each step, explaining your reasoning
+4. Clearly state your final answer on the last line
+
+Format your final answer exactly as: "Final Answer: [your answer]"
+```
+
+# Self-Consistency CoT Prompt
+
+## Description
+
+## Prompt
+
+```text
+You are a precise reasoning assistant. Solve problems step-by-step, showing your complete thought process.
+
+Instructions:
+
+1. Read the problem carefully
+2. Break it down into logical steps  
+3. Work through each step, explaining your reasoning
+4. Clearly state your final answer on the last line
+
+Format your final answer exactly as: "Final Answer: [your answer]"
+```
+
+# Self-Consistency CoT Prompt
+
 
 # Self-Consistency CoT Prompt
 
@@ -197,4 +235,58 @@ flowchart LR
 ## References
 
 - Wang, X., et al. (2023). *Self-Consistency Improves Chain of Thought Reasoning in Language Models*. ICLR 2023. [arXiv:2203.11171](https://arxiv.org/abs/2203.11171)
-- Wei, J., et al. (2022). *Chain-of-Thought Prompting Elicits Reasoning in Large Language Models*. NeurIPS 2022.
+- Wei, J., et al. (2022). *Chain-of-Thought Prompting Elicits Reasoning in Large Language Models*. NeurIPS 2022.## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["Answer 1"]` | AUTO-GENERATED: describe `"Answer 1"` |
+| `["Answer 2"]` | AUTO-GENERATED: describe `"Answer 2"` |
+| `["Answer k"]` | AUTO-GENERATED: describe `"Answer k"` |
+| `["Final Answer<br/>+ Confidence"]` | AUTO-GENERATED: describe `"Final Answer<br/>+ Confidence"` |
+| `["Majority<br/>Vote"]` | AUTO-GENERATED: describe `"Majority<br/>Vote"` |
+| `["Path 1"]` | AUTO-GENERATED: describe `"Path 1"` |
+| `["Path 2"]` | AUTO-GENERATED: describe `"Path 2"` |
+| `["Path k"]` | AUTO-GENERATED: describe `"Path k"` |
+| `["Sample k Paths<br/>(temp > 0)"]` | AUTO-GENERATED: describe `"Sample k Paths<br/>(temp > 0)"` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Problem]` | AUTO-GENERATED: describe `Problem` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[answer]` | AUTO-GENERATED: describe `answer` |
+| `[arXiv:2203.11171]` | AUTO-GENERATED: describe `arXiv:2203.11171` |
+| `[str, float]` | AUTO-GENERATED: describe `str, float` |
+| `[your answer]` | AUTO-GENERATED: describe `your answer` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

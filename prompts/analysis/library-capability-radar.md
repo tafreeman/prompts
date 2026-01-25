@@ -3,6 +3,36 @@ name: Library Capability Radar Chart Generator
 description: Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+Design a Radar Chart (Spider Plot) to score the maturity of my prompt library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.
+
+Use the provided [CATEGORY_COUNTS] for the axes.
+The axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).
+
+This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
+```
+
+Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains.
+
+## Description
+
+## Prompt
+
+```text
+Design a Radar Chart (Spider Plot) to score the maturity of my prompt library across its 7 key domains: Advanced, Analysis, Business, Creative, Developers, Governance, and System.
+
+Use the provided [CATEGORY_COUNTS] for the axes.
+The axis for each domain should represent the number of prompts available (e.g., Business might score 25, while Creative scores 2).
+
+This visualization should highlight gaps in the library—for example, showing a strong spike in "Business" analysis but a potential deficiency in "Creative" or "Governance" tools.
+```
+
+Guides generation of a Radar Chart to assess the maturity and balance of the prompt library across key domains.
+
 
 <!-- markdownlint-disable MD025 -->
 # Library Capability Radar Chart Generator
@@ -68,4 +98,44 @@ Provide Python/Matplotlib code that:
 
 - **Use appropriate scale**: Ensure the radar chart scale accommodates the highest category count
 - **Visualize gaps**: Look for categories with significantly lower counts to prioritize expansion
-- **Track over time**: Generate periodic radar charts to monitor library growth and balance
+- **Track over time**: Generate periodic radar charts to monitor library growth and balance## Variables
+
+| Variable | Description |
+|---|---|
+| `[CATEGORY_COUNTS]` | AUTO-GENERATED: describe `CATEGORY_COUNTS` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[CATEGORY_COUNTS]` | AUTO-GENERATED: describe `CATEGORY_COUNTS` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

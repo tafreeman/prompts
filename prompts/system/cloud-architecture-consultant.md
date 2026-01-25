@@ -3,6 +3,108 @@ name: Cloud Architecture Consultant
 description: Designs cloud-native architectures
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Users
+        Web[Web Users]
+        Mobile[Mobile Users]
+        API[API Consumers]
+    end
+
+    subgraph Edge[Edge Layer]
+        CDN[CDN / WAF]
+        DNS[Global DNS]
+    end
+
+    subgraph Compute[Compute Layer]
+        K8s[Kubernetes Cluster]
+        Serverless[Serverless Functions]
+        Containers[Container Services]
+    end
+
+    subgraph Data[Data Layer]
+        SQL[(SQL Database)]
+        NoSQL[(NoSQL Store)]
+        Cache[(Redis Cache)]
+        Lake[(Data Lake)]
+    end
+
+    subgraph Platform[Platform Services]
+        Queue[Message Queue]
+        Events[Event Bus]
+        Storage[Object Storage]
+    end
+
+    Users --> DNS
+    DNS --> CDN
+    CDN --> K8s
+    CDN --> Serverless
+    K8s --> SQL
+    K8s --> Cache
+    Serverless --> NoSQL
+    K8s --> Queue
+    Queue --> Events
+    Events --> Lake
+    Containers --> Storage
+```
+
+Designs cloud-native architectures
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Users
+        Web[Web Users]
+        Mobile[Mobile Users]
+        API[API Consumers]
+    end
+
+    subgraph Edge[Edge Layer]
+        CDN[CDN / WAF]
+        DNS[Global DNS]
+    end
+
+    subgraph Compute[Compute Layer]
+        K8s[Kubernetes Cluster]
+        Serverless[Serverless Functions]
+        Containers[Container Services]
+    end
+
+    subgraph Data[Data Layer]
+        SQL[(SQL Database)]
+        NoSQL[(NoSQL Store)]
+        Cache[(Redis Cache)]
+        Lake[(Data Lake)]
+    end
+
+    subgraph Platform[Platform Services]
+        Queue[Message Queue]
+        Events[Event Bus]
+        Storage[Object Storage]
+    end
+
+    Users --> DNS
+    DNS --> CDN
+    CDN --> K8s
+    CDN --> Serverless
+    K8s --> SQL
+    K8s --> Cache
+    Serverless --> NoSQL
+    K8s --> Queue
+    Queue --> Events
+    Events --> Lake
+    Containers --> Storage
+```
+
+Designs cloud-native architectures
+
 
 # Cloud Architecture Consultant
 
@@ -104,4 +206,70 @@ Budget Constraints: $200k/month target, optimize for variable workloads
 - [Security Architecture Specialist](security-architecture-specialist.md) - For cloud security controls
 - [DevOps Architecture Planner](devops-architecture-planner.md) - For CI/CD in cloud
 - [Microservices Architecture Expert](microservices-architecture-expert.md) - For container orchestration
-- Check the system folder for similar templates
+- Check the system folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Data Lake)]` | AUTO-GENERATED: describe `(Data Lake)` |
+| `[(NoSQL Store)]` | AUTO-GENERATED: describe `(NoSQL Store)` |
+| `[(Redis Cache)]` | AUTO-GENERATED: describe `(Redis Cache)` |
+| `[(SQL Database)]` | AUTO-GENERATED: describe `(SQL Database)` |
+| `[API Consumers]` | AUTO-GENERATED: describe `API Consumers` |
+| `[CDN / WAF]` | AUTO-GENERATED: describe `CDN / WAF` |
+| `[Compute Layer]` | AUTO-GENERATED: describe `Compute Layer` |
+| `[Container Services]` | AUTO-GENERATED: describe `Container Services` |
+| `[Data Layer]` | AUTO-GENERATED: describe `Data Layer` |
+| `[DevOps Architecture Planner]` | AUTO-GENERATED: describe `DevOps Architecture Planner` |
+| `[Disaster Recovery Architect]` | AUTO-GENERATED: describe `Disaster Recovery Architect` |
+| `[Edge Layer]` | AUTO-GENERATED: describe `Edge Layer` |
+| `[Event Bus]` | AUTO-GENERATED: describe `Event Bus` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Global DNS]` | AUTO-GENERATED: describe `Global DNS` |
+| `[Kubernetes Cluster]` | AUTO-GENERATED: describe `Kubernetes Cluster` |
+| `[Message Queue]` | AUTO-GENERATED: describe `Message Queue` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Mobile Users]` | AUTO-GENERATED: describe `Mobile Users` |
+| `[Object Storage]` | AUTO-GENERATED: describe `Object Storage` |
+| `[Performance Architecture Optimizer]` | AUTO-GENERATED: describe `Performance Architecture Optimizer` |
+| `[Platform Services]` | AUTO-GENERATED: describe `Platform Services` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Serverless Functions]` | AUTO-GENERATED: describe `Serverless Functions` |
+| `[Web Users]` | AUTO-GENERATED: describe `Web Users` |
+| `[application]` | AUTO-GENERATED: describe `application` |
+| `[budget]` | AUTO-GENERATED: describe `budget` |
+| `[compliance]` | AUTO-GENERATED: describe `compliance` |
+| `[provider]` | AUTO-GENERATED: describe `provider` |
+| `[scalability]` | AUTO-GENERATED: describe `scalability` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

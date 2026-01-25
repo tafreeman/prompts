@@ -3,6 +3,28 @@ name: Prompt Improvement Template & Workflow
 description: A prompt for prompt improvement template & workflow tasks.
 type: template
 ---
+## Description
+
+## Prompt
+
+```text
+## Prompt
+
+```
+
+A prompt for prompt improvement template & workflow tasks.
+
+## Description
+
+## Prompt
+
+```text
+## Prompt
+
+```
+
+A prompt for prompt improvement template & workflow tasks.
+
 
 # Prompt Improvement Template & Workflow
 
@@ -490,4 +512,79 @@ Before considering a prompt "upgraded," ensure:
 - **Track metrics:** Monitor average repository score over time
 - **Learn from top performers:** Study Tier 1 prompts and adopt their patterns
 - **Gather user feedback:** Track which prompts users report as most/least helpful
-- **Update based on research:** Incorporate new techniques from academic papers and industry updates
+- **Update based on research:** Incorporate new techniques from academic papers and industry updates## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `["Action 1", "Action 2"]` | AUTO-GENERATED: describe `"Action 1", "Action 2"` |
+| `["Assumption 1", "Assumption 2"]` | AUTO-GENERATED: describe `"Assumption 1", "Assumption 2"` |
+| `[... full detailed budget breakdown ...]` | AUTO-GENERATED: describe `... full detailed budget breakdown ...` |
+| `[Actionable recommendation with expected impact]` | AUTO-GENERATED: describe `Actionable recommendation with expected impact` |
+| `[Existing prompt intro...]` | AUTO-GENERATED: describe `Existing prompt intro...` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Finding 1 with supporting data]` | AUTO-GENERATED: describe `Finding 1 with supporting data` |
+| `[Finding 2 with supporting data]` | AUTO-GENERATED: describe `Finding 2 with supporting data` |
+| `[Immediate actions]` | AUTO-GENERATED: describe `Immediate actions` |
+| `[Prompt Quality Evaluator]` | AUTO-GENERATED: describe `Prompt Quality Evaluator` |
+| `[ROI Calculator]` | AUTO-GENERATED: describe `ROI Calculator` |
+| `[Relevant Paper/Framework]` | AUTO-GENERATED: describe `Relevant Paper/Framework` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Resource Planning Assistant]` | AUTO-GENERATED: describe `Resource Planning Assistant` |
+| `[Risk Assessment Framework]` | AUTO-GENERATED: describe `Risk Assessment Framework` |
+| `[Show expected AI response formatted as specified]` | AUTO-GENERATED: describe `Show expected AI response formatted as specified` |
+| `[Show the prompt with placeholders filled in with realistic values]` | AUTO-GENERATED: describe `Show the prompt with placeholders filled in with realistic values` |
+| `[approver]` | AUTO-GENERATED: describe `approver` |
+| `[budget_cap]` | AUTO-GENERATED: describe `budget_cap` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[contingency_pct]` | AUTO-GENERATED: describe `contingency_pct` |
+| `[data]` | AUTO-GENERATED: describe `data` |
+| `[data_description]` | AUTO-GENERATED: describe `data_description` |
+| `[decision]` | AUTO-GENERATED: describe `decision` |
+| `[deliverables]` | AUTO-GENERATED: describe `deliverables` |
+| `[domain]` | AUTO-GENERATED: describe `domain` |
+| `[duration]` | AUTO-GENERATED: describe `duration` |
+| `[goal]` | AUTO-GENERATED: describe `goal` |
+| `[organization_type]` | AUTO-GENERATED: describe `organization_type` |
+| `[period]` | AUTO-GENERATED: describe `period` |
+| `[primary_goal]` | AUTO-GENERATED: describe `primary_goal` |
+| `[project]` | AUTO-GENERATED: describe `project` |
+| `[project_name]` | AUTO-GENERATED: describe `project_name` |
+| `[required_categories]` | AUTO-GENERATED: describe `required_categories` |
+| `[secondary_goal]` | AUTO-GENERATED: describe `secondary_goal` |
+| `[team_size]` | AUTO-GENERATED: describe `team_size` |
+| `[tertiary_goal]` | AUTO-GENERATED: describe `tertiary_goal` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

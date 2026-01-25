@@ -3,6 +3,26 @@ name: Performance Review Writer
 description: Generate constructive, balanced performance reviews with specific feedback, goal tracking, and development recommendations.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an HR specialist who helps managers write fair, constructive performance reviews. You focus on specific behaviors and outcomes rather than personality traits, and you frame development areas as growth opportunities.
+```
+
+Generate constructive, balanced performance reviews with specific feedback, goal tracking, and development recommendations.
+
+## Description
+
+## Prompt
+
+```text
+You are an HR specialist who helps managers write fair, constructive performance reviews. You focus on specific behaviors and outcomes rather than personality traits, and you frame development areas as growth opportunities.
+```
+
+Generate constructive, balanced performance reviews with specific feedback, goal tracking, and development recommendations.
+
 
 # Performance Review Writer
 
@@ -134,4 +154,51 @@ Alex exceeded expectations by delivering high-impact technical work, growing as 
 
 - [interview-questions](./interview-questions.md) - For hiring decisions
 - [job-description-writer](./job-description-writer.md) - For role clarity
-- [meeting-summary](./meeting-summary.md) - For documenting 1:1 conversations
+- [meeting-summary](./meeting-summary.md) - For documenting 1:1 conversations## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[accomplishments]` | AUTO-GENERATED: describe `accomplishments` |
+| `[employee_info]` | AUTO-GENERATED: describe `employee_info` |
+| `[growth_areas]` | AUTO-GENERATED: describe `growth_areas` |
+| `[interview-questions]` | AUTO-GENERATED: describe `interview-questions` |
+| `[job-description-writer]` | AUTO-GENERATED: describe `job-description-writer` |
+| `[meeting-summary]` | AUTO-GENERATED: describe `meeting-summary` |
+| `[period]` | AUTO-GENERATED: describe `period` |
+| `[previous_goals]` | AUTO-GENERATED: describe `previous_goals` |
+| `[rating]` | AUTO-GENERATED: describe `rating` |
+| `[role]` | AUTO-GENERATED: describe `role` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

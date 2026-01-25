@@ -3,6 +3,118 @@ name: Microservices Architecture Expert
 description: Designs microservices ecosystems
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Gateway[API Gateway Layer]
+        APIGW[API Gateway]
+        BFF[BFF Services]
+    end
+
+    subgraph Services[Service Layer]
+        Svc1[Order Service]
+        Svc2[Inventory Service]
+        Svc3[Payment Service]
+        Svc4[Notification Service]
+    end
+
+    subgraph Mesh[Service Mesh]
+        Sidecar1[Sidecar]
+        Sidecar2[Sidecar]
+        Sidecar3[Sidecar]
+    end
+
+    subgraph Data[Data Layer]
+        DB1[(Order DB)]
+        DB2[(Inventory DB)]
+        DB3[(Payment DB)]
+        Events[Event Bus]
+    end
+
+    subgraph Observability[Observability]
+        Metrics[Metrics]
+        Traces[Traces]
+        Logs[Logs]
+    end
+
+    APIGW --> BFF
+    BFF --> Svc1
+    Svc1 --> Sidecar1
+    Svc2 --> Sidecar2
+    Svc3 --> Sidecar3
+    Sidecar1 --> Sidecar2
+    Sidecar2 --> Sidecar3
+    Svc1 --> DB1
+    Svc2 --> DB2
+    Svc3 --> DB3
+    Svc1 --> Events
+    Events --> Svc4
+    Sidecar1 --> Metrics
+    Sidecar1 --> Traces
+    Sidecar1 --> Logs
+```
+
+Designs microservices ecosystems
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Gateway[API Gateway Layer]
+        APIGW[API Gateway]
+        BFF[BFF Services]
+    end
+
+    subgraph Services[Service Layer]
+        Svc1[Order Service]
+        Svc2[Inventory Service]
+        Svc3[Payment Service]
+        Svc4[Notification Service]
+    end
+
+    subgraph Mesh[Service Mesh]
+        Sidecar1[Sidecar]
+        Sidecar2[Sidecar]
+        Sidecar3[Sidecar]
+    end
+
+    subgraph Data[Data Layer]
+        DB1[(Order DB)]
+        DB2[(Inventory DB)]
+        DB3[(Payment DB)]
+        Events[Event Bus]
+    end
+
+    subgraph Observability[Observability]
+        Metrics[Metrics]
+        Traces[Traces]
+        Logs[Logs]
+    end
+
+    APIGW --> BFF
+    BFF --> Svc1
+    Svc1 --> Sidecar1
+    Svc2 --> Sidecar2
+    Svc3 --> Sidecar3
+    Sidecar1 --> Sidecar2
+    Sidecar2 --> Sidecar3
+    Svc1 --> DB1
+    Svc2 --> DB2
+    Svc3 --> DB3
+    Svc1 --> Events
+    Events --> Svc4
+    Sidecar1 --> Metrics
+    Sidecar1 --> Traces
+    Sidecar1 --> Logs
+```
+
+Designs microservices ecosystems
+
 
 # Microservices Architecture Expert
 
@@ -106,4 +218,69 @@ Team Structure: 6 squads, each owns 2-3 services
 - [DevOps Architecture Planner](devops-architecture-planner.md) - For microservices CI/CD
 - [Data Architecture Designer](data-architecture-designer.md) - For polyglot persistence
 - [Performance Architecture Optimizer](performance-architecture-optimizer.md) - For service performance
-- [Cloud Architecture Consultant](cloud-architecture-consultant.md) - For container platform selection
+- [Cloud Architecture Consultant](cloud-architecture-consultant.md) - For container platform selection## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Inventory DB)]` | AUTO-GENERATED: describe `(Inventory DB)` |
+| `[(Order DB)]` | AUTO-GENERATED: describe `(Order DB)` |
+| `[(Payment DB)]` | AUTO-GENERATED: describe `(Payment DB)` |
+| `[API Architecture Designer]` | AUTO-GENERATED: describe `API Architecture Designer` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[API Gateway Layer]` | AUTO-GENERATED: describe `API Gateway Layer` |
+| `[BFF Services]` | AUTO-GENERATED: describe `BFF Services` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[Data Layer]` | AUTO-GENERATED: describe `Data Layer` |
+| `[DevOps Architecture Planner]` | AUTO-GENERATED: describe `DevOps Architecture Planner` |
+| `[Event Bus]` | AUTO-GENERATED: describe `Event Bus` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Inventory Service]` | AUTO-GENERATED: describe `Inventory Service` |
+| `[Logs]` | AUTO-GENERATED: describe `Logs` |
+| `[Metrics]` | AUTO-GENERATED: describe `Metrics` |
+| `[Notification Service]` | AUTO-GENERATED: describe `Notification Service` |
+| `[Observability]` | AUTO-GENERATED: describe `Observability` |
+| `[Order Service]` | AUTO-GENERATED: describe `Order Service` |
+| `[Payment Service]` | AUTO-GENERATED: describe `Payment Service` |
+| `[Performance Architecture Optimizer]` | AUTO-GENERATED: describe `Performance Architecture Optimizer` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Service Layer]` | AUTO-GENERATED: describe `Service Layer` |
+| `[Service Mesh]` | AUTO-GENERATED: describe `Service Mesh` |
+| `[Sidecar]` | AUTO-GENERATED: describe `Sidecar` |
+| `[Traces]` | AUTO-GENERATED: describe `Traces` |
+| `[domain]` | AUTO-GENERATED: describe `domain` |
+| `[scale]` | AUTO-GENERATED: describe `scale` |
+| `[services]` | AUTO-GENERATED: describe `services` |
+| `[team_structure]` | AUTO-GENERATED: describe `team_structure` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

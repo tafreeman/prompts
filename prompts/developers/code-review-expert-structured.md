@@ -3,6 +3,60 @@ name: Code Review Expert Structured
 description: Structured code review prompt producing JSON or Markdown output for automation and CI pipelines.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```json
+{
+  "summary": {
+    "total_issues": 0,
+    "critical": 0,
+    "major": 0,
+    "minor": 0,
+    "recommendation": "APPROVE | REQUEST_CHANGES"
+  },
+  "findings": [
+    {
+      "severity": "critical",
+      "location": "file:line",
+      "issue": "Description",
+      "fix": "Suggested code"
+    }
+  ],
+  "positive_highlights": []
+}
+```
+
+Structured code review prompt producing JSON or Markdown output for automation and CI pipelines.
+
+## Description
+
+## Prompt
+
+```json
+{
+  "summary": {
+    "total_issues": 0,
+    "critical": 0,
+    "major": 0,
+    "minor": 0,
+    "recommendation": "APPROVE | REQUEST_CHANGES"
+  },
+  "findings": [
+    {
+      "severity": "critical",
+      "location": "file:line",
+      "issue": "Description",
+      "fix": "Suggested code"
+    }
+  ],
+  "positive_highlights": []
+}
+```
+
+Structured code review prompt producing JSON or Markdown output for automation and CI pipelines.
+
 
 # Code Review Expert Structured
 
@@ -72,4 +126,46 @@ def get_user(id):
     { "severity": "critical", "location": "line 2", "issue": "SQL Injection", "fix": "Use parameterized query" }
   ]
 }
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[code_snippet]` | AUTO-GENERATED: describe `code_snippet` |
+| `[focus_areas]` | AUTO-GENERATED: describe `focus_areas` |
+| `[language]` | AUTO-GENERATED: describe `language` |
+| `[output_format]` | AUTO-GENERATED: describe `output_format` |
+| `[pr_goal]` | AUTO-GENERATED: describe `pr_goal` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

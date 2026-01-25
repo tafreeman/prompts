@@ -3,6 +3,26 @@ name: .NET API Designer
 description: Expert architect prompt for designing RESTful APIs using ASP.NET Core with OpenAPI documentation.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```csharp
+public record ProductDto(int Id, string Name, decimal Price);
+```
+
+Expert architect prompt for designing RESTful APIs using ASP.NET Core with OpenAPI documentation.
+
+## Description
+
+## Prompt
+
+```csharp
+public record ProductDto(int Id, string Name, decimal Price);
+```
+
+Expert architect prompt for designing RESTful APIs using ASP.NET Core with OpenAPI documentation.
+
 
 # .NET API Designer
 
@@ -51,4 +71,43 @@ Constraints: Use Controllers, .NET 8
 ### DTO
 ```csharp
 public record ProductDto(int Id, string Name, decimal Price);
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[requirements]` | AUTO-GENERATED: describe `requirements` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

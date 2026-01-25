@@ -3,6 +3,76 @@ name: GitHub Copilot Custom Agents Guide
 description: Comprehensive guide to creating and using GitHub Copilot custom agents.
 type: reference
 ---
+## Description
+
+## Prompt
+
+```markdown
+# Agent Title
+
+## Role
+[Persona definition and expertise]
+
+## Responsibilities
+
+- [What this agent does]
+
+## Tech Stack
+
+- [Technologies the agent knows]
+
+## Boundaries
+
+- [What the agent should NOT do]
+
+## Output Format
+[Expected response structure]
+
+## Process
+
+1. [Step-by-step workflow]
+
+## Examples
+[Concrete examples of expected output]
+```
+
+Comprehensive guide to creating and using GitHub Copilot custom agents.
+
+## Description
+
+## Prompt
+
+```markdown
+# Agent Title
+
+## Role
+[Persona definition and expertise]
+
+## Responsibilities
+
+- [What this agent does]
+
+## Tech Stack
+
+- [Technologies the agent knows]
+
+## Boundaries
+
+- [What the agent should NOT do]
+
+## Output Format
+[Expected response structure]
+
+## Process
+
+1. [Step-by-step workflow]
+
+## Examples
+[Concrete examples of expected output]
+```
+
+Comprehensive guide to creating and using GitHub Copilot custom agents.
+
 
 # GitHub Copilot Custom Agents Guide
 
@@ -180,4 +250,54 @@ Before deploying an agent, verify:
 
 ---
 
-**Happy coding with custom agents! 🚀**
+**Happy coding with custom agents! 🚀**## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `["read", "search"]` | AUTO-GENERATED: describe `"read", "search"` |
+| `["read", "write", "search"]` | AUTO-GENERATED: describe `"read", "write", "search"` |
+| `["read", "write", "search", "execute"]` | AUTO-GENERATED: describe `"read", "write", "search", "execute"` |
+| `[Concrete examples of expected output]` | AUTO-GENERATED: describe `Concrete examples of expected output` |
+| `[Expected response structure]` | AUTO-GENERATED: describe `Expected response structure` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Persona definition and expertise]` | AUTO-GENERATED: describe `Persona definition and expertise` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Step-by-step workflow]` | AUTO-GENERATED: describe `Step-by-step workflow` |
+| `[Technologies the agent knows]` | AUTO-GENERATED: describe `Technologies the agent knows` |
+| `[What the agent should NOT do]` | AUTO-GENERATED: describe `What the agent should NOT do` |
+| `[What this agent does]` | AUTO-GENERATED: describe `What this agent does` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

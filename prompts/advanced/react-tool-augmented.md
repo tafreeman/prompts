@@ -3,6 +3,52 @@ name: React Tool Augmented
 description: ## Description
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart LR
+    A[🎯 Task/Question] --> B[💭 Thought]
+    B --> C[⚡ Action]
+    C --> D[👁️ Observation]
+    D --> E{📊 Goal<br/>Achieved?}
+    E -->|No| B
+    E -->|Yes| F[✅ Final Answer]
+
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#ffebee
+    style F fill:#c8e6c9
+```
+
+## Description
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart LR
+    A[🎯 Task/Question] --> B[💭 Thought]
+    B --> C[⚡ Action]
+    C --> D[👁️ Observation]
+    D --> E{📊 Goal<br/>Achieved?}
+    E -->|No| B
+    E -->|Yes| F[✅ Final Answer]
+
+    style A fill:#e3f2fd
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+    style E fill:#ffebee
+    style F fill:#c8e6c9
+```
+
+## Description
+
 
 ## Description
 
@@ -275,4 +321,67 @@ def react_loop(task, tools, max_cycles=10):
             return llm.generate(f"Final answer for: {task}")
 
     return "Max cycles reached without solution"
-```json
+```json## Variables
+
+| Variable | Description |
+|---|---|
+| `[DESCRIBE_TASK_GOAL]` | AUTO-GENERATED: describe `DESCRIBE_TASK_GOAL` |
+| `[LIST_TOOLS_WITH_DESCRIPTIONS]` | AUTO-GENERATED: describe `LIST_TOOLS_WITH_DESCRIPTIONS` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[PROVIDE_BACKGROUND]` | AUTO-GENERATED: describe `PROVIDE_BACKGROUND` |
+| `[SYSTEM WILL PROVIDE OBSERVATION]` | AUTO-GENERATED: describe `SYSTEM WILL PROVIDE OBSERVATION` |
+| `[TOOL_NAME]` | AUTO-GENERATED: describe `TOOL_NAME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["tool1", "tool2"]` | AUTO-GENERATED: describe `"tool1", "tool2"` |
+| `[Assess if you're closer to the goal, what you learned, what's next]` | AUTO-GENERATED: describe `Assess if you're closer to the goal, what you learned, what's next` |
+| `[DESCRIBE_TASK_GOAL]` | AUTO-GENERATED: describe `DESCRIBE_TASK_GOAL` |
+| `[Explain what you're thinking, what you need to know next, why this action makes sense]` | AUTO-GENERATED: describe `Explain what you're thinking, what you need to know next, why this action makes sense` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[LIST_TOOLS_WITH_DESCRIPTIONS]` | AUTO-GENERATED: describe `LIST_TOOLS_WITH_DESCRIPTIONS` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[PROVIDE_BACKGROUND]` | AUTO-GENERATED: describe `PROVIDE_BACKGROUND` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[SYSTEM WILL PROVIDE OBSERVATION]` | AUTO-GENERATED: describe `SYSTEM WILL PROVIDE OBSERVATION` |
+| `[Specify the tool and parameters]` | AUTO-GENERATED: describe `Specify the tool and parameters` |
+| `[System returns tool output - you analyze it here]` | AUTO-GENERATED: describe `System returns tool output - you analyze it here` |
+| `[System returns:]` | AUTO-GENERATED: describe `System returns:` |
+| `[TOOL_NAME]` | AUTO-GENERATED: describe `TOOL_NAME` |
+| `[task]` | AUTO-GENERATED: describe `task` |
+| `[tool_name]` | AUTO-GENERATED: describe `tool_name` |
+| `[⚡ Action]` | AUTO-GENERATED: describe `⚡ Action` |
+| `[✅ Final Answer]` | AUTO-GENERATED: describe `✅ Final Answer` |
+| `[🎯 Task/Question]` | AUTO-GENERATED: describe `🎯 Task/Question` |
+| `[👁️ Observation]` | AUTO-GENERATED: describe `👁️ Observation` |
+| `[💭 Thought]` | AUTO-GENERATED: describe `💭 Thought` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

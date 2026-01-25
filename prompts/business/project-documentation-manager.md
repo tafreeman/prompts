@@ -3,6 +3,26 @@ name: Project Documentation Manager
 description: Manages project documentation with strategy, template libraries, version control, and archive procedures.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a documentation management specialist with expertise in quality systems, compliance requirements, and document control. You help organizations create and maintain documentation that meets regulatory standards while remaining practical and usable.
+```
+
+Manages project documentation with strategy, template libraries, version control, and archive procedures.
+
+## Description
+
+## Prompt
+
+```text
+You are a documentation management specialist with expertise in quality systems, compliance requirements, and document control. You help organizations create and maintain documentation that meets regulatory standards while remaining practical and usable.
+```
+
+Manages project documentation with strategy, template libraries, version control, and archive procedures.
+
 
 # Project Documentation Manager
 
@@ -132,4 +152,50 @@ Draft → Review (SME) → Approve (Manager) → QA Final → Publish
 ## Related Prompts
 
 - Browse other Project Manager prompts in this category
-- Check the business folder for similar templates
+- Check the business folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Dept]` | AUTO-GENERATED: describe `Dept` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Number]` | AUTO-GENERATED: describe `Number` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Title]` | AUTO-GENERATED: describe `Title` |
+| `[Type]` | AUTO-GENERATED: describe `Type` |
+| `[Version]` | AUTO-GENERATED: describe `Version` |
+| `[audience]` | AUTO-GENERATED: describe `audience` |
+| `[compliance]` | AUTO-GENERATED: describe `compliance` |
+| `[doc_types]` | AUTO-GENERATED: describe `doc_types` |
+| `[project_name]` | AUTO-GENERATED: describe `project_name` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

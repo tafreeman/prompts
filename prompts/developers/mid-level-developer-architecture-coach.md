@@ -3,6 +3,34 @@ name: Mid-Level Developer Architecture Coach
 description: Mentor prompt to help mid-level developers understand architectural decisions and trade-offs.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Mid-Level Developer Architecture Coach
+description: Mentor prompt to help mid-level developers understand architectural decisions and trade-offs.
+type: how_to
+---
+```
+
+Mentor prompt to help mid-level developers understand architectural decisions and trade-offs.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Mid-Level Developer Architecture Coach
+description: Mentor prompt to help mid-level developers understand architectural decisions and trade-offs.
+type: how_to
+---
+```
+
+Mentor prompt to help mid-level developers understand architectural decisions and trade-offs.
+
 
 # Mid-Level Developer Architecture Coach
 
@@ -50,4 +78,42 @@ Scenario: We have an Order Service that needs to send confirmation emails. Shoul
 2. What happens if Email Service is down for 1 hour?
 
 ### Resources
-- "Designing Data-Intensive Applications" (Kleppmann)
+- "Designing Data-Intensive Applications" (Kleppmann)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[scenario]` | AUTO-GENERATED: describe `scenario` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,92 @@ name: test_agent
 description: Expert in test generation for comprehensive code coverage using modern testing frameworks
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+# Python example with pytest
+class TestUserService:
+    """Tests for the UserService class."""
+
+    @pytest.fixture
+    def user_service(self, mock_db):
+        """Create a UserService instance with mocked dependencies."""
+        return UserService(db=mock_db)
+
+    @pytest.fixture
+    def mock_db(self):
+        """Create a mock database connection."""
+        return Mock(spec=Database)
+
+    def test_create_user_with_valid_data_returns_user(self, user_service, mock_db):
+        """Given valid user data, when creating a user, then return the new user."""
+        # Arrange
+        mock_db.save.return_value = User(id=1, name="John")
+
+        # Act
+        result = user_service.create_user(name="John", email="john@example.com")
+
+        # Assert
+        assert result.id == 1
+        assert result.name == "John"
+        mock_db.save.assert_called_once()
+
+    def test_create_user_with_invalid_email_raises_validation_error(self, user_service):
+        """Given invalid email, when creating a user, then raise ValidationError."""
+        # Arrange & Act & Assert
+        with pytest.raises(ValidationError) as exc_info:
+            user_service.create_user(name="John", email="invalid")
+
+        assert "email" in str(exc_info.value).lower()
+```
+
+Expert in test generation for comprehensive code coverage using modern testing frameworks
+
+## Description
+
+## Prompt
+
+```python
+# Python example with pytest
+class TestUserService:
+    """Tests for the UserService class."""
+
+    @pytest.fixture
+    def user_service(self, mock_db):
+        """Create a UserService instance with mocked dependencies."""
+        return UserService(db=mock_db)
+
+    @pytest.fixture
+    def mock_db(self):
+        """Create a mock database connection."""
+        return Mock(spec=Database)
+
+    def test_create_user_with_valid_data_returns_user(self, user_service, mock_db):
+        """Given valid user data, when creating a user, then return the new user."""
+        # Arrange
+        mock_db.save.return_value = User(id=1, name="John")
+
+        # Act
+        result = user_service.create_user(name="John", email="john@example.com")
+
+        # Assert
+        assert result.id == 1
+        assert result.name == "John"
+        mock_db.save.assert_called_once()
+
+    def test_create_user_with_invalid_email_raises_validation_error(self, user_service):
+        """Given invalid email, when creating a user, then raise ValidationError."""
+        # Arrange & Act & Assert
+        with pytest.raises(ValidationError) as exc_info:
+            user_service.create_user(name="John", email="invalid")
+
+        assert "email" in str(exc_info.value).lower()
+```
+
+Expert in test generation for comprehensive code coverage using modern testing frameworks
+
 
 # Testing Agent
 
@@ -216,4 +302,41 @@ dotnet test --collect:"XPlat Code Coverage"
 - Mention any existing test patterns in your project
 - Specify the testing framework preference
 - Indicate minimum coverage target
-- Note any external dependencies that need mocking
+- Note any external dependencies that need mocking## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

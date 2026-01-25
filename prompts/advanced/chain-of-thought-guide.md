@@ -3,6 +3,62 @@ name: Chain Of Thought Guide
 description: # Chain-of-Thought: Decision Guide
 type: reference
 ---
+## Description
+
+## Prompt
+
+```text
+START: Do you have a task that needs AI reasoning?
+│
+├─→ Is it a simple lookup or straightforward task?
+│   (e.g., "What's the capital of France?", "Format this JSON")
+│   └─→ NO COT NEEDED - Use direct prompt
+│
+├─→ Does it require logical steps or problem-solving?
+│   └─→ YES
+│       │
+│       ├─→ Is it high-stakes or novel?
+│       │   (>$10K impact, compliance, untested domain)
+│       │   └─→ USE DETAILED COT
+│       │
+│       ├─→ Do you need transparency but not full justification?
+│       │   (audit trail, debugging, team learning)
+│       │   └─→ USE CONCISE COT
+│       │
+│       └─→ Need to explore multiple approaches?
+│           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
+```
+
+# Chain-of-Thought: Decision Guide
+
+## Description
+
+## Prompt
+
+```text
+START: Do you have a task that needs AI reasoning?
+│
+├─→ Is it a simple lookup or straightforward task?
+│   (e.g., "What's the capital of France?", "Format this JSON")
+│   └─→ NO COT NEEDED - Use direct prompt
+│
+├─→ Does it require logical steps or problem-solving?
+│   └─→ YES
+│       │
+│       ├─→ Is it high-stakes or novel?
+│       │   (>$10K impact, compliance, untested domain)
+│       │   └─→ USE DETAILED COT
+│       │
+│       ├─→ Do you need transparency but not full justification?
+│       │   (audit trail, debugging, team learning)
+│       │   └─→ USE CONCISE COT
+│       │
+│       └─→ Need to explore multiple approaches?
+│           └─→ USE TREE-OF-THOUGHTS (see ToT guide)
+```
+
+# Chain-of-Thought: Decision Guide
+
 
 # Chain-of-Thought: Decision Guide
 
@@ -211,4 +267,42 @@ ROI = $250 / $0.003 = 83,333x ✓ Definitely worth it!
 - **PII Safety**: No PII handling in this guide
 - **Human Review**: Detailed CoT outputs for >$10K decisions should be reviewed by domain experts
 - **Audit Requirements**: Save CoT reasoning for compliance-critical decisions (7-year retention recommended)
-- **Cost Management**: Monitor CoT usage in production; implement automatic fallback if token budgets exceeded
+- **Cost Management**: Monitor CoT usage in production; implement automatic fallback if token budgets exceeded## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[arXiv:2201.11903]` | AUTO-GENERATED: describe `arXiv:2201.11903` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

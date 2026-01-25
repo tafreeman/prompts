@@ -3,6 +3,90 @@ name: OpenAI Function Calling Pattern
 description: A prompt for openai function calling pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "extract_customer_info",
+    "description": "Extract customer details from a support ticket",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Customer's full name"
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": ["positive", "neutral", "negative"],
+          "description": "Sentiment of the message"
+        },
+        "issue_type": {
+          "type": "string",
+          "enum": ["billing", "technical", "feature_request"],
+          "description": "Category of the issue"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Priority level (1=low, 5=high)"
+        }
+      },
+      "required": ["name", "sentiment", "issue_type"]
+    }
+  }
+}
+```
+
+A prompt for openai function calling pattern tasks.
+
+## Description
+
+## Prompt
+
+```json
+{
+  "type": "function",
+  "function": {
+    "name": "extract_customer_info",
+    "description": "Extract customer details from a support ticket",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Customer's full name"
+        },
+        "sentiment": {
+          "type": "string",
+          "enum": ["positive", "neutral", "negative"],
+          "description": "Sentiment of the message"
+        },
+        "issue_type": {
+          "type": "string",
+          "enum": ["billing", "technical", "feature_request"],
+          "description": "Category of the issue"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Priority level (1=low, 5=high)"
+        }
+      },
+      "required": ["name", "sentiment", "issue_type"]
+    }
+  }
+}
+```
+
+A prompt for openai function calling pattern tasks.
+
 
 # OpenAI Function Calling Pattern
 
@@ -145,4 +229,49 @@ print(json.dumps(result, indent=2))
 ## Related Patterns
 
 - [Claude Tool Use](../../anthropic/tool-use/claude-tool-use.md)
-- Structured Outputs (planned)
+- Structured Outputs (planned)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["billing", "technical", "feature_request"]` | AUTO-GENERATED: describe `"billing", "technical", "feature_request"` |
+| `["name", "sentiment", "issue_type"]` | AUTO-GENERATED: describe `"name", "sentiment", "issue_type"` |
+| `["positive", "neutral", "negative"]` | AUTO-GENERATED: describe `"positive", "neutral", "negative"` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Claude Tool Use]` | AUTO-GENERATED: describe `Claude Tool Use` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[str, Any]` | AUTO-GENERATED: describe `str, Any` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

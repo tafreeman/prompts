@@ -3,6 +3,28 @@ name: Code Review Expert
 description: Senior software engineer code review prompt with severity-labeled findings and actionable recommendations.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+def register(email, password):
+    db.execute("INSERT INTO users VALUES (" + email + ")")
+```
+
+Senior software engineer code review prompt with severity-labeled findings and actionable recommendations.
+
+## Description
+
+## Prompt
+
+```python
+def register(email, password):
+    db.execute("INSERT INTO users VALUES (" + email + ")")
+```
+
+Senior software engineer code review prompt with severity-labeled findings and actionable recommendations.
+
 
 # Code Review Expert
 
@@ -56,4 +78,46 @@ def register(email, password):
 ### 🟢 SUGGESTIONS
 1. Add input validation for email format.
 
-**ASSESSMENT**: REQUEST CHANGES
+**ASSESSMENT**: REQUEST CHANGES## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[code_snippet]` | AUTO-GENERATED: describe `code_snippet` |
+| `[context]` | AUTO-GENERATED: describe `context` |
+| `[focus_areas]` | AUTO-GENERATED: describe `focus_areas` |
+| `[language]` | AUTO-GENERATED: describe `language` |
+| `[pr_goal]` | AUTO-GENERATED: describe `pr_goal` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

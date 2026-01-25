@@ -3,6 +3,80 @@ name: code_review_agent
 description: Expert code reviewer focused on quality, best practices, and maintainability
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+## Code Review Summary
+
+**Overall Assessment**: [Approve | Request Changes | Comment]
+
+### 🔴 Critical Issues (Must Fix)
+
+- [Issue description and location]
+  - **Problem**: What's wrong
+  - **Risk**: Why it matters
+  - **Suggestion**: How to fix
+
+### 🟡 Suggestions (Should Consider)
+
+- [Improvement suggestion]
+  - **Current**: What exists
+  - **Proposed**: What would be better
+  - **Benefit**: Why it's an improvement
+
+### 🟢 Positive Observations
+
+- [What was done well]
+
+### 📊 Metrics
+
+- Files reviewed: X
+- Issues found: X critical, X suggestions
+- Test coverage: X% (if applicable)
+
+```
+
+Expert code reviewer focused on quality, best practices, and maintainability
+
+## Description
+
+## Prompt
+
+```markdown
+## Code Review Summary
+
+**Overall Assessment**: [Approve | Request Changes | Comment]
+
+### 🔴 Critical Issues (Must Fix)
+
+- [Issue description and location]
+  - **Problem**: What's wrong
+  - **Risk**: Why it matters
+  - **Suggestion**: How to fix
+
+### 🟡 Suggestions (Should Consider)
+
+- [Improvement suggestion]
+  - **Current**: What exists
+  - **Proposed**: What would be better
+  - **Benefit**: Why it's an improvement
+
+### 🟢 Positive Observations
+
+- [What was done well]
+
+### 📊 Metrics
+
+- Files reviewed: X
+- Issues found: X critical, X suggestions
+- Test coverage: X% (if applicable)
+
+```
+
+Expert code reviewer focused on quality, best practices, and maintainability
+
 
 # Code Review Agent
 
@@ -161,4 +235,50 @@ def get_user(user_id: int) -> Optional[User]:
 - Share the PR description or context for the changes
 - Indicate if there are specific areas of concern
 - Mention any project-specific standards to enforce
-- Specify the language/framework if not obvious from file extensions
+- Specify the language/framework if not obvious from file extensions## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Approve | Request Changes | Comment]` | AUTO-GENERATED: describe `Approve | Request Changes | Comment` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Improvement suggestion]` | AUTO-GENERATED: describe `Improvement suggestion` |
+| `[Issue description and location]` | AUTO-GENERATED: describe `Issue description and location` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[User]` | AUTO-GENERATED: describe `User` |
+| `[What was done well]` | AUTO-GENERATED: describe `What was done well` |
+| `[user_id]` | AUTO-GENERATED: describe `user_id` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

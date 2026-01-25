@@ -3,6 +3,34 @@ name: M365 Daily Standup Assistant
 description: Generates concise daily standup talking points from Microsoft 365 activity.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: M365 Daily Standup Assistant
+description: Generates concise daily standup talking points from Microsoft 365 activity.
+type: how_to
+---
+```
+
+Generates concise daily standup talking points from Microsoft 365 activity.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: M365 Daily Standup Assistant
+description: Generates concise daily standup talking points from Microsoft 365 activity.
+type: how_to
+---
+```
+
+Generates concise daily standup talking points from Microsoft 365 activity.
+
 
 # M365 Daily Standup Assistant
 
@@ -53,4 +81,44 @@ Focus: Sprint 23 deliverables
 - Update sprint board with estimates
 
 ### Blockers
-- Waiting on API documentation from backend team
+- Waiting on API documentation from backend team## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[focus_topics]` | AUTO-GENERATED: describe `focus_topics` |
+| `[team_or_project_name]` | AUTO-GENERATED: describe `team_or_project_name` |
+| `[time_window]` | AUTO-GENERATED: describe `time_window` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

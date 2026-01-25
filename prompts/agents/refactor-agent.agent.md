@@ -3,6 +3,84 @@ name: refactor_agent
 description: Expert in code refactoring, optimization, and improving code quality without changing behavior
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+# Before
+def process_order(order):
+    # Calculate total
+    total = 0
+    for item in order.items:
+        total += item.price * item.quantity
+        if item.quantity > 10:
+            total *= 0.9  # Bulk discount
+
+    # Send notification
+    email = compose_email(order.customer, total)
+    send_email(email)
+
+# After
+def process_order(order):
+    total = calculate_order_total(order)
+    notify_customer(order.customer, total)
+
+def calculate_order_total(order):
+    total = sum(item.price * item.quantity for item in order.items)
+    return apply_bulk_discount(total, order.items)
+
+def apply_bulk_discount(total, items):
+    if any(item.quantity > 10 for item in items):
+        return total * 0.9
+    return total
+
+def notify_customer(customer, total):
+    email = compose_email(customer, total)
+    send_email(email)
+```
+
+Expert in code refactoring, optimization, and improving code quality without changing behavior
+
+## Description
+
+## Prompt
+
+```python
+# Before
+def process_order(order):
+    # Calculate total
+    total = 0
+    for item in order.items:
+        total += item.price * item.quantity
+        if item.quantity > 10:
+            total *= 0.9  # Bulk discount
+
+    # Send notification
+    email = compose_email(order.customer, total)
+    send_email(email)
+
+# After
+def process_order(order):
+    total = calculate_order_total(order)
+    notify_customer(order.customer, total)
+
+def calculate_order_total(order):
+    total = sum(item.price * item.quantity for item in order.items)
+    return apply_bulk_discount(total, order.items)
+
+def apply_bulk_discount(total, items):
+    if any(item.quantity > 10 for item in items):
+        return total * 0.9
+    return total
+
+def notify_customer(customer, total):
+    email = compose_email(customer, total)
+    send_email(email)
+```
+
+Expert in code refactoring, optimization, and improving code quality without changing behavior
+
 
 # Refactoring Agent
 
@@ -248,4 +326,46 @@ vulture src/  # Python
 - Share the code you want refactored
 - Specify any constraints (e.g., maintain backwards compatibility)
 - Mention performance concerns if applicable
-- Indicate the primary goal (readability, performance, testability)
+- Indicate the primary goal (readability, performance, testability)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Description of change 1]` | AUTO-GENERATED: describe `Description of change 1` |
+| `[Description of change 2]` | AUTO-GENERATED: describe `Description of change 2` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+
