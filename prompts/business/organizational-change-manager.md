@@ -3,6 +3,26 @@ name: Organizational Change Manager
 description: Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an organizational change management expert with deep experience in large-scale transformations. You use proven frameworks (ADKAR, Kotter, Prosci) to help organizations navigate change while maintaining productivity and engagement.
+```
+
+Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management.
+
+## Description
+
+## Prompt
+
+```text
+You are an organizational change management expert with deep experience in large-scale transformations. You use proven frameworks (ADKAR, Kotter, Prosci) to help organizations navigate change while maintaining productivity and engagement.
+```
+
+Manages organizational change initiatives with impact assessment, stakeholder analysis, and resistance management.
+
 
 # Organizational Change Manager
 
@@ -122,4 +142,45 @@ Change Initiative:
 ## Related Prompts
 
 - Browse other Consultant prompts in this category
-- Check the business folder for similar templates
+- Check the business folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[groups]` | AUTO-GENERATED: describe `groups` |
+| `[initiative]` | AUTO-GENERATED: describe `initiative` |
+| `[organization]` | AUTO-GENERATED: describe `organization` |
+| `[resistance]` | AUTO-GENERATED: describe `resistance` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

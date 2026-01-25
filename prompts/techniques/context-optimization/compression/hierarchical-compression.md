@@ -3,6 +3,36 @@ name: Hierarchical Compression
 description: A prompt for hierarchical compression tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+Summarize the following section of a larger document. Focus on the main arguments and key details.
+
+**Section**:
+{{chunk_text}}
+
+**Summary**:
+```
+
+A prompt for hierarchical compression tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+Summarize the following section of a larger document. Focus on the main arguments and key details.
+
+**Section**:
+{{chunk_text}}
+
+**Summary**:
+```
+
+A prompt for hierarchical compression tasks.
+
 
 # Hierarchical Compression
 
@@ -105,4 +135,53 @@ graph TD
 1. **Overlap**: Ensure chunks overlap by 10-20% to prevent context loss at boundaries.
 2. **Metadata**: Pass metadata (chapter titles, file names) into the chunk summaries to maintain structure.
 3. **Parallelization**: Level 1 summaries can be generated in parallel, significantly speeding up the process.
-4. **Traceability**: Keep links back to the original chunks so users can "drill down" from the summary.
+4. **Traceability**: Keep links back to the original chunks so users can "drill down" from the summary.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Chunk 1]` | AUTO-GENERATED: describe `Chunk 1` |
+| `[Chunk 2]` | AUTO-GENERATED: describe `Chunk 2` |
+| `[Chunk 3]` | AUTO-GENERATED: describe `Chunk 3` |
+| `[Chunk 4]` | AUTO-GENERATED: describe `Chunk 4` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Final Overview]` | AUTO-GENERATED: describe `Final Overview` |
+| `[Full Document]` | AUTO-GENERATED: describe `Full Document` |
+| `[Meta Summary A]` | AUTO-GENERATED: describe `Meta Summary A` |
+| `[Meta Summary B]` | AUTO-GENERATED: describe `Meta Summary B` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Summary 1]` | AUTO-GENERATED: describe `Summary 1` |
+| `[Summary 2]` | AUTO-GENERATED: describe `Summary 2` |
+| `[Summary 3]` | AUTO-GENERATED: describe `Summary 3` |
+| `[Summary 4]` | AUTO-GENERATED: describe `Summary 4` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

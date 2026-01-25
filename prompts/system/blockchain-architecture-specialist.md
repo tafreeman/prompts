@@ -3,6 +3,100 @@ name: Blockchain Architecture Specialist
 description: Designs blockchain-based architectures
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Applications
+        WebApp[Web Application]
+        Mobile[Mobile App]
+        IoT[IoT Devices]
+    end
+
+    subgraph Integration[Integration Layer]
+        API[REST/GraphQL API]
+        Oracle[Blockchain Oracle]
+        Events[Event Listener]
+    end
+
+    subgraph Blockchain[Blockchain Network]
+        Node1[Peer Node 1]
+        Node2[Peer Node 2]
+        Node3[Peer Node 3]
+        Smart[Smart Contracts]
+        Ledger[(Distributed Ledger)]
+    end
+
+    subgraph OffChain[Off-Chain Storage]
+        IPFS[IPFS/Filecoin]
+        DB[(Traditional DB)]
+    end
+
+    WebApp --> API
+    Mobile --> API
+    IoT --> Oracle
+    API --> Node1
+    Oracle --> Smart
+    Events --> Node2
+    Node1 --> Smart
+    Node2 --> Smart
+    Node3 --> Smart
+    Smart --> Ledger
+    Smart --> IPFS
+    API --> DB
+```
+
+Designs blockchain-based architectures
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Applications
+        WebApp[Web Application]
+        Mobile[Mobile App]
+        IoT[IoT Devices]
+    end
+
+    subgraph Integration[Integration Layer]
+        API[REST/GraphQL API]
+        Oracle[Blockchain Oracle]
+        Events[Event Listener]
+    end
+
+    subgraph Blockchain[Blockchain Network]
+        Node1[Peer Node 1]
+        Node2[Peer Node 2]
+        Node3[Peer Node 3]
+        Smart[Smart Contracts]
+        Ledger[(Distributed Ledger)]
+    end
+
+    subgraph OffChain[Off-Chain Storage]
+        IPFS[IPFS/Filecoin]
+        DB[(Traditional DB)]
+    end
+
+    WebApp --> API
+    Mobile --> API
+    IoT --> Oracle
+    API --> Node1
+    Oracle --> Smart
+    Events --> Node2
+    Node1 --> Smart
+    Node2 --> Smart
+    Node3 --> Smart
+    Smart --> Ledger
+    Smart --> IPFS
+    API --> DB
+```
+
+Designs blockchain-based architectures
+
 
 # Blockchain Architecture Specialist
 
@@ -97,4 +191,66 @@ Integration Needs: SAP ERP, IoT sensors, mobile consumer verification app
 - [Enterprise Integration Architect](enterprise-integration-architect.md) - For legacy system integration
 - [Data Architecture Designer](data-architecture-designer.md) - For on-chain vs off-chain data strategy
 - [Compliance Architecture Designer](compliance-architecture-designer.md) - For regulatory considerations
-- [IoT Architecture Designer](iot-architecture-designer.md) - For IoT-blockchain integration
+- [IoT Architecture Designer](iot-architecture-designer.md) - For IoT-blockchain integration## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Distributed Ledger)]` | AUTO-GENERATED: describe `(Distributed Ledger)` |
+| `[(Traditional DB)]` | AUTO-GENERATED: describe `(Traditional DB)` |
+| `[Blockchain Network]` | AUTO-GENERATED: describe `Blockchain Network` |
+| `[Blockchain Oracle]` | AUTO-GENERATED: describe `Blockchain Oracle` |
+| `[Compliance Architecture Designer]` | AUTO-GENERATED: describe `Compliance Architecture Designer` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[Enterprise Integration Architect]` | AUTO-GENERATED: describe `Enterprise Integration Architect` |
+| `[Event Listener]` | AUTO-GENERATED: describe `Event Listener` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[IPFS/Filecoin]` | AUTO-GENERATED: describe `IPFS/Filecoin` |
+| `[Integration Layer]` | AUTO-GENERATED: describe `Integration Layer` |
+| `[IoT Architecture Designer]` | AUTO-GENERATED: describe `IoT Architecture Designer` |
+| `[IoT Devices]` | AUTO-GENERATED: describe `IoT Devices` |
+| `[Mobile App]` | AUTO-GENERATED: describe `Mobile App` |
+| `[Off-Chain Storage]` | AUTO-GENERATED: describe `Off-Chain Storage` |
+| `[Peer Node 1]` | AUTO-GENERATED: describe `Peer Node 1` |
+| `[Peer Node 2]` | AUTO-GENERATED: describe `Peer Node 2` |
+| `[Peer Node 3]` | AUTO-GENERATED: describe `Peer Node 3` |
+| `[REST/GraphQL API]` | AUTO-GENERATED: describe `REST/GraphQL API` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Smart Contracts]` | AUTO-GENERATED: describe `Smart Contracts` |
+| `[Web Application]` | AUTO-GENERATED: describe `Web Application` |
+| `[blockchain_type]` | AUTO-GENERATED: describe `blockchain_type` |
+| `[consensus]` | AUTO-GENERATED: describe `consensus` |
+| `[integrations]` | AUTO-GENERATED: describe `integrations` |
+| `[use_case]` | AUTO-GENERATED: describe `use_case` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

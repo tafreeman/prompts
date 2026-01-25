@@ -3,6 +3,38 @@ name: security_agent
 description: Expert in security analysis, vulnerability detection, and secure coding practices
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+# ❌ Vulnerable
+query = f"SELECT * FROM users WHERE id = {user_id}"
+cursor.execute(query)
+
+# ✅ Safe - Parameterized query
+query = "SELECT * FROM users WHERE id = ?"
+cursor.execute(query, [user_id])
+```
+
+Expert in security analysis, vulnerability detection, and secure coding practices
+
+## Description
+
+## Prompt
+
+```python
+# ❌ Vulnerable
+query = f"SELECT * FROM users WHERE id = {user_id}"
+cursor.execute(query)
+
+# ✅ Safe - Parameterized query
+query = "SELECT * FROM users WHERE id = ?"
+cursor.execute(query, [user_id])
+```
+
+Expert in security analysis, vulnerability detection, and secure coding practices
+
 
 # Security Agent
 
@@ -211,4 +243,54 @@ gitleaks detect
 - Indicate the deployment environment (cloud, on-prem)
 - Specify compliance requirements (PCI-DSS, HIPAA, SOC2)
 - Mention any existing security controls
-- Provide access to configuration files for review
+- Provide access to configuration files for review## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-9A-Z]` | AUTO-GENERATED: describe `0-9A-Z` |
+| `[_-]` | AUTO-GENERATED: describe `_-` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-9A-Z]` | AUTO-GENERATED: describe `0-9A-Z` |
+| `[Additional recommendation]` | AUTO-GENERATED: describe `Additional recommendation` |
+| `[Description]` | AUTO-GENERATED: describe `Description` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[How to fix]` | AUTO-GENERATED: describe `How to fix` |
+| `[Impact description]` | AUTO-GENERATED: describe `Impact description` |
+| `[Issue description and remediation]` | AUTO-GENERATED: describe `Issue description and remediation` |
+| `[Priority recommendation]` | AUTO-GENERATED: describe `Priority recommendation` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[What was done well]` | AUTO-GENERATED: describe `What was done well` |
+| `[_-]` | AUTO-GENERATED: describe `_-` |
+| `[user_id]` | AUTO-GENERATED: describe `user_id` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

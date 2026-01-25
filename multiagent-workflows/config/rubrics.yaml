@@ -1,0 +1,843 @@
+# Scoring Rubrics for Multi-Agent Workflow Evaluation
+# Each workflow has specific grading criteria with 1-10 numeric scores
+
+version: "1.0.0"
+
+# Score level descriptions (used across all rubrics)
+# Each criterion is scored 1-10 with the following standard interpretation:
+score_scale:
+  10: "Exceptional - Exceeds all expectations, could serve as reference example"
+  9: "Excellent - Meets all requirements with high quality, minor polish only"
+  8: "Very Good - Fully meets requirements with good quality"
+  7: "Good - Meets most requirements satisfactorily"
+  6: "Satisfactory - Meets minimum requirements"
+  5: "Adequate - Barely acceptable, notable gaps"
+  4: "Below Average - Missing important elements"
+  3: "Poor - Significant deficiencies"
+  2: "Very Poor - Major failures, mostly non-functional"
+  1: "Unacceptable - Does not meet any requirements"
+
+rubrics:
+  # ==========================================================================
+  # Full-Stack Generation Rubric
+  # ==========================================================================
+  fullstack_generation:
+    name: Full-Stack Application Generation Rubric
+    total_points: 100
+    pass_threshold: 70
+    
+    categories:
+      functional_correctness:
+        weight: 40
+        description: Application meets requirements and works correctly
+        criteria:
+          - name: Requirements Coverage
+            max_points: 15
+            description: All functional requirements implemented
+            score_levels:
+              10: "100% of requirements implemented with edge cases and error handling"
+              9: "100% of requirements implemented"
+              8: "95%+ requirements implemented"
+              7: "90%+ requirements implemented"
+              6: "85%+ requirements implemented"
+              5: "80%+ requirements implemented"
+              4: "75%+ requirements implemented"
+              3: "60-74% requirements implemented"
+              2: "40-59% requirements implemented"
+              1: "<40% requirements implemented"
+              
+          - name: Working Application
+            max_points: 15
+            description: Application runs without errors
+            score_levels:
+              10: "Runs perfectly, all features work, production-ready"
+              9: "Runs perfectly, all features work"
+              8: "Runs with cosmetic issues only"
+              7: "Runs with minor non-blocking issues"
+              6: "Runs but some features have issues"
+              5: "Runs but multiple features broken"
+              4: "Runs with significant bugs"
+              3: "Starts but crashes under normal use"
+              2: "Crashes on startup with workaround available"
+              1: "Does not start or immediately crashes"
+              
+          - name: Test Pass Rate
+            max_points: 10
+            description: Generated tests pass successfully
+            score_levels:
+              10: "100% tests pass with good coverage (>90%)"
+              9: "100% tests pass with decent coverage (80-90%)"
+              8: "95%+ tests pass"
+              7: "90%+ tests pass"
+              6: "85%+ tests pass"
+              5: "80%+ tests pass"
+              4: "70-79% tests pass"
+              3: "50-69% tests pass"
+              2: "25-49% tests pass"
+              1: "<25% tests pass or no tests generated"
+              
+      code_quality:
+        weight: 25
+        description: Code follows best practices
+        criteria:
+          - name: Architecture Quality
+            max_points: 8
+            description: Clean architecture and separation of concerns
+            score_levels:
+              10: "Exemplary architecture, clear layers, excellent patterns"
+              9: "Excellent separation of concerns, good patterns"
+              8: "Clear architecture with minor improvements possible"
+              7: "Good structure, some coupling issues"
+              6: "Reasonable structure, notable coupling"
+              5: "Basic structure present but inconsistent"
+              4: "Weak separation, mixed concerns"
+              3: "Poor structure, significant coupling"
+              2: "No clear architecture, spaghetti code"
+              1: "Completely unstructured, unmaintainable"
+              
+          - name: Code Standards
+            max_points: 7
+            description: Follows language best practices and conventions
+            score_levels:
+              10: "Perfect adherence to language idioms and standards"
+              9: "Excellent standards with consistent style"
+              8: "Good standards with minor deviations"
+              7: "Mostly follows standards"
+              6: "Follows basic standards"
+              5: "Inconsistent adherence to standards"
+              4: "Many deviations from standards"
+              3: "Poor adherence, anti-patterns present"
+              2: "Ignores most standards"
+              1: "No adherence to any standards"
+              
+          - name: Error Handling
+            max_points: 5
+            description: Proper error handling and validation
+            score_levels:
+              10: "Comprehensive error handling with recovery and logging"
+              9: "Excellent error handling throughout"
+              8: "Good error handling in most places"
+              7: "Reasonable error handling"
+              6: "Basic error handling present"
+              5: "Minimal error handling"
+              4: "Error handling only in obvious places"
+              3: "Very limited error handling"
+              2: "Almost no error handling"
+              1: "No error handling, crashes on any error"
+              
+          - name: Security
+            max_points: 5
+            description: No critical security vulnerabilities
+            score_levels:
+              10: "Security-first design, follows all OWASP guidelines"
+              9: "Excellent security, no known vulnerabilities"
+              8: "Good security, only minor issues"
+              7: "Reasonable security practices"
+              6: "Basic security measures in place"
+              5: "Some security measures but gaps exist"
+              4: "Notable security gaps"
+              3: "Multiple security issues"
+              2: "Critical security vulnerabilities present"
+              1: "No security considerations, highly vulnerable"
+              
+      completeness:
+        weight: 20
+        description: All required components present
+        criteria:
+          - name: Frontend Complete
+            max_points: 7
+            description: All UI components generated and styled
+            score_levels:
+              10: "Complete, polished UI with responsive design and accessibility"
+              9: "Complete UI with good styling and responsiveness"
+              8: "All components present with good styling"
+              7: "All core components present, styling complete"
+              6: "Most components present, basic styling"
+              5: "Core components present, minimal styling"
+              4: "Missing some components"
+              3: "Several components missing"
+              2: "Most components missing"
+              1: "No frontend or completely broken"
+              
+          - name: Backend Complete
+            max_points: 7
+            description: All API endpoints and business logic
+            score_levels:
+              10: "Complete API with validation, pagination, filtering"
+              9: "All endpoints with proper error responses"
+              8: "All required endpoints implemented"
+              7: "Core endpoints work properly"
+              6: "Most endpoints present"
+              5: "Basic endpoints only"
+              4: "Missing important endpoints"
+              3: "Several endpoints missing"
+              2: "Only placeholder endpoints"
+              1: "No backend or completely broken"
+              
+          - name: Database Complete
+            max_points: 6
+            description: Schema, migrations, and models
+            score_levels:
+              10: "Complete schema with indexes, constraints, migrations, seeds"
+              9: "Complete schema with migrations"
+              8: "Good schema design with relationships"
+              7: "Working schema with proper types"
+              6: "Basic schema present"
+              5: "Minimal schema"
+              4: "Incomplete schema"
+              3: "Schema with major issues"
+              2: "Barely functional schema"
+              1: "No database or completely broken"
+              
+      documentation:
+        weight: 10
+        description: Comprehensive documentation
+        criteria:
+          - name: API Documentation
+            max_points: 4
+            description: Complete API documentation
+            score_levels:
+              10: "Full OpenAPI spec with examples and error codes"
+              9: "Complete API docs with examples"
+              8: "Good API documentation"
+              7: "All endpoints documented"
+              6: "Most endpoints documented"
+              5: "Basic endpoint list"
+              4: "Partial documentation"
+              3: "Minimal documentation"
+              2: "Almost no documentation"
+              1: "No API documentation"
+              
+          - name: Setup Guide
+            max_points: 3
+            description: Clear setup and deployment instructions
+            score_levels:
+              10: "Complete guide with troubleshooting and deployment"
+              9: "Clear step-by-step with prerequisites"
+              8: "Good setup instructions"
+              7: "Working setup guide"
+              6: "Basic setup steps"
+              5: "Minimal setup info"
+              4: "Incomplete instructions"
+              3: "Confusing instructions"
+              2: "Barely helpful"
+              1: "No setup guide"
+              
+          - name: Code Comments
+            max_points: 3
+            description: Appropriate inline documentation
+            score_levels:
+              10: "Excellent docstrings and helpful inline comments"
+              9: "Good docstrings throughout"
+              8: "Most functions documented"
+              7: "Key functions have docstrings"
+              6: "Some documentation present"
+              5: "Minimal comments"
+              4: "Few comments"
+              3: "Rare comments"
+              2: "Almost no comments"
+              1: "No comments at all"
+              
+      efficiency:
+        weight: 5
+        description: Time and resource efficiency
+        criteria:
+          - name: Generation Time
+            max_points: 3
+            description: Time to generate application
+            score_levels:
+              10: "<5 minutes for complete generation"
+              9: "5-10 minutes"
+              8: "10-15 minutes"
+              7: "15-20 minutes"
+              6: "20-30 minutes"
+              5: "30-45 minutes"
+              4: "45-60 minutes"
+              3: "60-90 minutes"
+              2: "90-120 minutes"
+              1: ">120 minutes or timeout"
+              
+          - name: Resource Usage
+            max_points: 2
+            description: Tokens and cost efficiency
+            score_levels:
+              10: "Minimal token usage, highly efficient"
+              9: "Very efficient token usage"
+              8: "Good efficiency"
+              7: "Reasonable efficiency"
+              6: "Acceptable efficiency"
+              5: "Somewhat wasteful"
+              4: "Inefficient"
+              3: "Very inefficient"
+              2: "Extremely wasteful"
+              1: "Unreasonably expensive"
+
+  # ==========================================================================
+  # Legacy Refactoring Rubric
+  # ==========================================================================
+  legacy_refactoring:
+    name: Legacy Code Refactoring Rubric
+    total_points: 100
+    pass_threshold: 70
+    
+    categories:
+      correctness:
+        weight: 50
+        description: Refactored code maintains behavior
+        criteria:
+          - name: Behavioral Equivalence
+            max_points: 25
+            description: Refactored code maintains exact same behavior
+            score_levels:
+              10: "100% behavioral equivalence verified with comprehensive tests"
+              9: "100% behavioral equivalence, edge cases verified"
+              8: "100% behavioral equivalence for all tested scenarios"
+              7: "99%+ behavioral match, trivial differences documented"
+              6: "Minor documented differences, functionally equivalent"
+              5: "Some behavioral changes, all intentional and documented"
+              4: "Notable behavioral changes, partially documented"
+              3: "Significant behavioral changes"
+              2: "Major behavioral differences, undocumented"
+              1: "Completely different behavior"
+              
+          - name: Test Coverage
+            max_points: 15
+            description: Comprehensive test coverage maintained/added
+            score_levels:
+              10: ">95% coverage with integration and unit tests"
+              9: "90-95% coverage"
+              8: "85-90% coverage"
+              7: "80-85% coverage"
+              6: "75-80% coverage"
+              5: "70-75% coverage"
+              4: "60-70% coverage"
+              3: "50-60% coverage"
+              2: "30-50% coverage"
+              1: "<30% coverage"
+              
+          - name: No Regressions
+            max_points: 10
+            description: All existing tests still pass
+            score_levels:
+              10: "All tests pass, new tests added for refactored code"
+              9: "All tests pass"
+              8: "99%+ tests pass, failures are test issues"
+              7: "98%+ tests pass"
+              6: "95%+ tests pass"
+              5: "90%+ tests pass"
+              4: "80-90% tests pass"
+              3: "60-80% tests pass"
+              2: "40-60% tests pass"
+              1: "<40% tests pass"
+              
+      improvement_quality:
+        weight: 30
+        description: Quality of improvements made
+        criteria:
+          - name: Code Complexity Reduction
+            max_points: 10
+            description: Measurable reduction in cyclomatic complexity
+            score_levels:
+              10: ">50% complexity reduction"
+              9: "40-50% reduction"
+              8: "30-40% reduction"
+              7: "20-30% reduction"
+              6: "15-20% reduction"
+              5: "10-15% reduction"
+              4: "5-10% reduction"
+              3: "1-5% reduction"
+              2: "No change"
+              1: "Complexity increased"
+              
+          - name: Maintainability Improvement
+            max_points: 10
+            description: Better structure, naming, organization
+            score_levels:
+              10: "Dramatically improved, exemplary structure"
+              9: "Major improvements throughout"
+              8: "Good improvements in most areas"
+              7: "Notable improvements"
+              6: "Some improvements"
+              5: "Minor improvements"
+              4: "Minimal improvements"
+              3: "No notable improvement"
+              2: "Slightly worse"
+              1: "Significantly worse"
+              
+          - name: Modern Patterns
+            max_points: 10
+            description: Updated to modern frameworks and patterns
+            score_levels:
+              10: "Fully modern, uses latest stable patterns"
+              9: "Very modern, current best practices"
+              8: "Good modernization"
+              7: "Reasonable modernization"
+              6: "Some modern patterns adopted"
+              5: "Minimal modernization"
+              4: "Mostly legacy patterns remain"
+              3: "Little modernization"
+              2: "Almost no modernization"
+              1: "No modernization or regressed"
+              
+      safety:
+        weight: 15
+        description: Safe refactoring practices
+        criteria:
+          - name: Incremental Changes
+            max_points: 8
+            description: Small, safe, testable changes
+            score_levels:
+              10: "Perfect incremental approach, each step verified"
+              9: "Excellent incremental approach"
+              8: "Good incremental changes"
+              7: "Reasonable step sizes"
+              6: "Mostly incremental"
+              5: "Some large changes"
+              4: "Several large, risky changes"
+              3: "Many large changes"
+              2: "Mostly big-bang changes"
+              1: "Complete rewrite without safety net"
+              
+          - name: Rollback Plan
+            max_points: 7
+            description: Clear migration and rollback strategy
+            score_levels:
+              10: "Comprehensive rollback plan with automation"
+              9: "Detailed rollback plan"
+              8: "Good rollback strategy"
+              7: "Reasonable rollback plan"
+              6: "Basic rollback documented"
+              5: "Mentions rollback"
+              4: "Vague rollback approach"
+              3: "Minimal rollback consideration"
+              2: "No real rollback plan"
+              1: "No rollback possible"
+              
+      documentation:
+        weight: 5
+        description: Updated documentation
+        criteria:
+          - name: Migration Guide
+            max_points: 3
+            description: Clear before/after documentation
+            score_levels:
+              10: "Comprehensive migration guide with examples"
+              9: "Detailed migration documentation"
+              8: "Good migration guide"
+              7: "Clear migration steps"
+              6: "Basic migration info"
+              5: "Minimal migration notes"
+              4: "Incomplete migration info"
+              3: "Poor migration documentation"
+              2: "Almost no migration info"
+              1: "No migration documentation"
+              
+          - name: Architecture Updates
+            max_points: 2
+            description: Updated architecture documentation
+            score_levels:
+              10: "Complete updated architecture docs"
+              9: "Well-updated documentation"
+              8: "Good updates"
+              7: "Key changes documented"
+              6: "Basic updates"
+              5: "Minimal updates"
+              4: "Incomplete updates"
+              3: "Poor updates"
+              2: "Almost no updates"
+              1: "No documentation updates"
+
+  # ==========================================================================
+  # Bug Fixing Rubric
+  # ==========================================================================
+  bug_fixing:
+    name: Bug Triage and Fixing Rubric
+    total_points: 100
+    pass_threshold: 70
+    
+    categories:
+      correctness:
+        weight: 50
+        description: Bug is fixed correctly
+        criteria:
+          - name: Bug Fixed
+            max_points: 25
+            description: Original bug is completely resolved
+            score_levels:
+              10: "Bug completely fixed, verified in multiple scenarios, edge cases handled"
+              9: "Bug completely fixed, verified in multiple scenarios"
+              8: "Bug fixed, verified with reproduction case"
+              7: "Bug fixed, basic verification passed"
+              6: "Bug mostly fixed, minor edge cases remain"
+              5: "Bug partially fixed"
+              4: "Bug somewhat addressed but issues remain"
+              3: "Bug minimally addressed"
+              2: "Bug not meaningfully addressed"
+              1: "Bug not fixed at all"
+              
+          - name: Regression Tests
+            max_points: 15
+            description: Tests added to prevent regression
+            score_levels:
+              10: "Comprehensive regression tests covering all scenarios"
+              9: "Excellent regression tests"
+              8: "Good regression tests"
+              7: "Adequate regression tests"
+              6: "Basic regression test present"
+              5: "Minimal regression test"
+              4: "Weak regression test"
+              3: "Very limited test"
+              2: "Token test only"
+              1: "No regression tests"
+              
+          - name: No New Bugs
+            max_points: 10
+            description: Fix doesn't introduce new issues
+            score_levels:
+              10: "No new issues, improved overall stability"
+              9: "No new issues introduced"
+              8: "No functional issues, cosmetic only"
+              7: "No significant new issues"
+              6: "Minor new issues"
+              5: "Some new issues introduced"
+              4: "Notable new issues"
+              3: "Several new issues"
+              2: "Many new issues"
+              1: "Fix causes more problems than it solves"
+              
+      analysis_quality:
+        weight: 25
+        description: Quality of bug analysis
+        criteria:
+          - name: Root Cause Identification
+            max_points: 12
+            description: Correct identification of underlying issue
+            score_levels:
+              10: "Deep root cause with full causal chain documented"
+              9: "Root cause with causal chain"
+              8: "Correct root cause identified and explained"
+              7: "Root cause correctly identified"
+              6: "Root cause mostly correct"
+              5: "Partially correct root cause"
+              4: "Root cause partially understood"
+              3: "Superficial understanding"
+              2: "Incorrect root cause"
+              1: "No root cause analysis"
+              
+          - name: Impact Analysis
+            max_points: 8
+            description: Understanding of fix impact on codebase
+            score_levels:
+              10: "Comprehensive impact analysis with all affected areas"
+              9: "Thorough impact analysis"
+              8: "Good impact understanding"
+              7: "Reasonable impact analysis"
+              6: "Basic impact considered"
+              5: "Minimal impact analysis"
+              4: "Limited impact understanding"
+              3: "Poor impact analysis"
+              2: "Almost no impact analysis"
+              1: "No impact consideration"
+              
+          - name: Reproduction
+            max_points: 5
+            description: Created minimal reproduction case
+            score_levels:
+              10: "Perfect minimal reproduction with setup script"
+              9: "Excellent minimal reproduction"
+              8: "Good reproduction case"
+              7: "Working reproduction"
+              6: "Basic reproduction"
+              5: "Partial reproduction"
+              4: "Incomplete reproduction"
+              3: "Poor reproduction"
+              2: "Barely functional reproduction"
+              1: "No reproduction case"
+              
+      solution_quality:
+        weight: 15
+        description: Quality of the fix
+        criteria:
+          - name: Minimal Change
+            max_points: 8
+            description: Fix is minimal and targeted
+            score_levels:
+              10: "Smallest possible fix, surgically precise"
+              9: "Very minimal, focused fix"
+              8: "Small, well-targeted fix"
+              7: "Reasonably targeted fix"
+              6: "Acceptable scope"
+              5: "Somewhat broad fix"
+              4: "Broader than necessary"
+              3: "Significantly oversized fix"
+              2: "Major unnecessary changes"
+              1: "Complete rewrite when patch would suffice"
+              
+          - name: Code Quality
+            max_points: 7
+            description: Fix follows best practices
+            score_levels:
+              10: "Exemplary code quality in fix"
+              9: "Excellent code quality"
+              8: "Good code quality"
+              7: "Reasonable code quality"
+              6: "Acceptable code quality"
+              5: "Passable code quality"
+              4: "Below average quality"
+              3: "Poor code quality"
+              2: "Very poor quality"
+              1: "Unacceptable code quality"
+              
+      documentation:
+        weight: 10
+        description: Fix documentation
+        criteria:
+          - name: PR Description
+            max_points: 5
+            description: Clear description of bug and fix
+            score_levels:
+              10: "Comprehensive PR with context, solution, testing, screenshots"
+              9: "Excellent PR description"
+              8: "Good PR description"
+              7: "Clear PR description"
+              6: "Adequate PR description"
+              5: "Basic PR description"
+              4: "Minimal PR description"
+              3: "Poor PR description"
+              2: "Barely descriptive"
+              1: "No meaningful description"
+              
+          - name: Code Comments
+            max_points: 5
+            description: Comments explain the fix
+            score_levels:
+              10: "Excellent comments explaining why fix works"
+              9: "Very good explanatory comments"
+              8: "Good comments"
+              7: "Helpful comments"
+              6: "Some explanatory comments"
+              5: "Minimal comments"
+              4: "Few comments"
+              3: "Unhelpful comments"
+              2: "Almost no comments"
+              1: "No comments"
+
+  # ==========================================================================
+  # Architecture Evolution Rubric
+  # ==========================================================================
+  architecture_evolution:
+    name: Architecture Evolution Rubric
+    total_points: 100
+    pass_threshold: 70
+    
+    categories:
+      analysis_depth:
+        weight: 35
+        description: Depth of analysis
+        criteria:
+          - name: Current State Assessment
+            max_points: 12
+            description: Comprehensive analysis of existing architecture
+            score_levels:
+              10: "Complete architecture map with all components, dependencies, data flows"
+              9: "Comprehensive architecture analysis"
+              8: "Thorough analysis of major components"
+              7: "Good understanding documented"
+              6: "Reasonable analysis"
+              5: "Basic analysis"
+              4: "Incomplete analysis"
+              3: "Superficial analysis"
+              2: "Minimal analysis"
+              1: "No meaningful analysis"
+              
+          - name: Technical Debt Identification
+            max_points: 12
+            description: All major debt items identified and prioritized
+            score_levels:
+              10: "Comprehensive debt inventory with severity, effort, and priority"
+              9: "Thorough debt identification with prioritization"
+              8: "Good debt identification"
+              7: "Major debt items identified"
+              6: "Reasonable debt identification"
+              5: "Some debt identified"
+              4: "Limited debt identification"
+              3: "Few items identified"
+              2: "Minimal identification"
+              1: "No debt identification"
+              
+          - name: Scalability Analysis
+            max_points: 11
+            description: Bottlenecks and scaling limits identified
+            score_levels:
+              10: "Complete scalability analysis with metrics and limits"
+              9: "Thorough scalability analysis"
+              8: "Good bottleneck identification"
+              7: "Key bottlenecks identified"
+              6: "Some scalability issues noted"
+              5: "Basic scalability consideration"
+              4: "Limited scalability analysis"
+              3: "Superficial analysis"
+              2: "Minimal analysis"
+              1: "No scalability analysis"
+              
+      strategy_quality:
+        weight: 35
+        description: Quality of evolution strategy
+        criteria:
+          - name: Evolution Plan
+            max_points: 15
+            description: Clear, phased migration strategy
+            score_levels:
+              10: "Detailed phased plan with dependencies, rollback, success criteria"
+              9: "Comprehensive phased plan"
+              8: "Good phased plan with milestones"
+              7: "Clear phases defined"
+              6: "Basic plan with phases"
+              5: "Rough plan outline"
+              4: "Vague plan"
+              3: "Incomplete plan"
+              2: "Minimal plan"
+              1: "No plan"
+              
+          - name: Risk Assessment
+            max_points: 10
+            description: Risks identified with mitigation plans
+            score_levels:
+              10: "Comprehensive risk matrix with mitigations"
+              9: "Thorough risk assessment"
+              8: "Good risk identification"
+              7: "Key risks identified"
+              6: "Some risks noted"
+              5: "Basic risks mentioned"
+              4: "Limited risk consideration"
+              3: "Few risks noted"
+              2: "Minimal risk assessment"
+              1: "No risk assessment"
+              
+          - name: Cost-Benefit Analysis
+            max_points: 10
+            description: Realistic effort estimates and ROI
+            score_levels:
+              10: "Detailed cost-benefit with ROI projections"
+              9: "Thorough cost analysis"
+              8: "Good effort estimates"
+              7: "Reasonable estimates"
+              6: "Basic cost consideration"
+              5: "Rough estimates only"
+              4: "Vague cost ideas"
+              3: "Minimal cost thinking"
+              2: "Almost no cost analysis"
+              1: "No cost consideration"
+              
+      documentation:
+        weight: 20
+        description: Documentation quality
+        criteria:
+          - name: Architecture Diagrams
+            max_points: 8
+            description: Clear current and future state diagrams
+            score_levels:
+              10: "Professional diagrams for current, transition, and target states"
+              9: "Excellent current and future state diagrams"
+              8: "Good architecture diagrams"
+              7: "Clear diagrams"
+              6: "Basic diagrams"
+              5: "Simple diagrams"
+              4: "Incomplete diagrams"
+              3: "Poor diagrams"
+              2: "Barely useful diagrams"
+              1: "No diagrams"
+              
+          - name: ADRs
+            max_points: 7
+            description: Architecture Decision Records for key decisions
+            score_levels:
+              10: "Complete ADRs for all key decisions with alternatives"
+              9: "Thorough ADRs"
+              8: "Good ADRs for major decisions"
+              7: "ADRs for key decisions"
+              6: "Basic ADRs"
+              5: "Some ADRs"
+              4: "Limited ADRs"
+              3: "Few ADRs"
+              2: "Minimal ADRs"
+              1: "No ADRs"
+              
+          - name: Stakeholder Summary
+            max_points: 5
+            description: Executive-level summary and recommendations
+            score_levels:
+              10: "Polished executive summary with clear recommendations"
+              9: "Excellent stakeholder communication"
+              8: "Good executive summary"
+              7: "Clear summary"
+              6: "Basic summary"
+              5: "Rough summary"
+              4: "Incomplete summary"
+              3: "Poor summary"
+              2: "Minimal summary"
+              1: "No summary"
+              
+      actionability:
+        weight: 10
+        description: Plan is actionable
+        criteria:
+          - name: Concrete Steps
+            max_points: 6
+            description: Specific, actionable next steps
+            score_levels:
+              10: "Detailed action items with owners and timelines"
+              9: "Clear actionable steps"
+              8: "Good concrete steps"
+              7: "Reasonable action items"
+              6: "Basic next steps"
+              5: "General direction"
+              4: "Vague steps"
+              3: "Unclear actions"
+              2: "Minimal guidance"
+              1: "No actionable steps"
+              
+          - name: Timeline
+            max_points: 4
+            description: Realistic timeline with milestones
+            score_levels:
+              10: "Detailed timeline with milestones and dependencies"
+              9: "Thorough timeline"
+              8: "Good timeline with milestones"
+              7: "Reasonable timeline"
+              6: "Basic timeline"
+              5: "Rough timeline"
+              4: "Vague timeline"
+              3: "Incomplete timeline"
+              2: "Minimal timeline"
+              1: "No timeline"
+
+# Scoring methodology
+scoring:
+  aggregation: weighted_average
+  normalize_to_100: true
+  
+  # How to convert 1-10 scores to percentage
+  score_to_percentage:
+    method: linear  # (score / 10) * 100
+    
+  grade_scale:
+    A+: [97, 100]
+    A: [93, 96]
+    A-: [90, 92]
+    B+: [87, 89]
+    B: [83, 86]
+    B-: [80, 82]
+    C+: [77, 79]
+    C: [73, 76]
+    C-: [70, 72]
+    D+: [67, 69]
+    D: [63, 66]
+    D-: [60, 62]
+    F: [0, 59]
+
+# Evaluation settings
+evaluation:
+  runs_per_workflow: 1
+  comparison_method: fuzzy_match
+  golden_output_path: "./evaluation/golden"

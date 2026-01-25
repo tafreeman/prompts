@@ -659,6 +659,121 @@
 				"showReuseMessage": false
 			},
 			"group": "test"
+		},
+		{
+			"label": "🆓 Free Tier Eval: Quick (Local + Ollama)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"scripts/run_free_tier_evals.py",
+				"--path",
+				"${input:evalFolder}",
+				"--quick",
+				"--verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🆓 Free Tier Eval: Full Matrix (All Free Models)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"scripts/run_free_tier_evals.py",
+				"--path",
+				"${input:evalFolder}",
+				"--tiers",
+				"1",
+				"2",
+				"--verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🆓 Free Tier Eval: Discovery Mode (All Available)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"scripts/run_free_tier_evals.py",
+				"--path",
+				"${input:evalFolder}",
+				"--discovery",
+				"--max-per-provider",
+				"3",
+				"--verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🆓 Free Tier Eval: Local Only (No Cloud)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"scripts/run_free_tier_evals.py",
+				"--path",
+				"${input:evalFolder}",
+				"--local-only",
+				"--verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
+		},
+		{
+			"label": "🆓 Free Tier Eval: Parallel (2 workers)",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"scripts/run_free_tier_evals.py",
+				"--path",
+				"${input:evalFolder}",
+				"--parallel",
+				"2",
+				"--verbose"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"showReuseMessage": false
+			},
+			"group": "test"
 		}
 	]
 }

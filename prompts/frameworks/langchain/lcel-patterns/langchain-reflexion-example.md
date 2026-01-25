@@ -3,6 +3,58 @@ name: LangChain LCEL Pattern with Reflexion
 description: A prompt for langchain lcel pattern with reflexion tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+### Initial Analysis Prompt
+Analyze the following code for potential issues:
+Code: {code}
+Provide your initial analysis:
+
+### Reflection Prompt
+You provided this initial analysis: {initial_analysis}
+Now critically evaluate your analysis:
+- What did you miss?
+- Were there assumptions you made?
+- What edge cases did you not consider?
+
+### Improvement Prompt
+Original code: {code}
+Your initial analysis: {initial_analysis}
+Your self-evaluation: {reflection}
+Now provide an improved, comprehensive analysis addressing the gaps you identified:
+```
+
+A prompt for langchain lcel pattern with reflexion tasks.
+
+## Description
+
+## Prompt
+
+```text
+### Initial Analysis Prompt
+Analyze the following code for potential issues:
+Code: {code}
+Provide your initial analysis:
+
+### Reflection Prompt
+You provided this initial analysis: {initial_analysis}
+Now critically evaluate your analysis:
+- What did you miss?
+- Were there assumptions you made?
+- What edge cases did you not consider?
+
+### Improvement Prompt
+Original code: {code}
+Your initial analysis: {initial_analysis}
+Your self-evaluation: {reflection}
+Now provide an improved, comprehensive analysis addressing the gaps you identified:
+```
+
+A prompt for langchain lcel pattern with reflexion tasks.
+
 
 # LangChain LCEL Pattern with Reflexion
 
@@ -238,4 +290,49 @@ print(f"Found {len(result.issues)} issues with {result.severity} severity")
 
 ## Related Examples
 
-- [LangChain Agent Patterns](../agent-patterns/langchain-agents.md)
+- [LangChain Agent Patterns](../agent-patterns/langchain-agents.md)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["analysis"]` | AUTO-GENERATED: describe `"analysis"` |
+| `["code"]` | AUTO-GENERATED: describe `"code"` |
+| `["final_analysis"]` | AUTO-GENERATED: describe `"final_analysis"` |
+| `["initial_analysis"]` | AUTO-GENERATED: describe `"initial_analysis"` |
+| `["reflection"]` | AUTO-GENERATED: describe `"reflection"` |
+| `[:\s]` | AUTO-GENERATED: describe `:\s` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[LangChain Agent Patterns]` | AUTO-GENERATED: describe `LangChain Agent Patterns` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[str]` | AUTO-GENERATED: describe `str` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

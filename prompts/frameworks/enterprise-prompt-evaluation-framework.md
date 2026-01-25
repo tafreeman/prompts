@@ -3,6 +3,46 @@ name: Enterprise Prompt Evaluation Framework
 description: A comprehensive, multi-model compatible evaluation framework for assessing enterprise AI prompts across six dimensions - Technical Quality, Business Alignment, Security, Performance, Maintainability, and Innovation.
 type: reference
 ---
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EVALUATION DIMENSION WEIGHTS                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│  Technical Quality          ████████████████████████████████  25%       │
+│  Business Alignment         █████████████████████████         20%       │
+│  Security & Compliance      █████████████████████████         20%       │
+│  Performance & Reliability  ███████████████████               15%       │
+│  Maintainability            █████████████                     10%       │
+│  Innovation & Optimization  █████████████                     10%       │
+└─────────────────────────────────────────────────────────────────────────┘
+                                                          TOTAL: 100%
+```
+
+A comprehensive, multi-model compatible evaluation framework for assessing enterprise AI prompts across six dimensions - Technical Quality, Business Alignment, Security, Performance, Maintainability, and Innovation.
+
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EVALUATION DIMENSION WEIGHTS                          │
+├─────────────────────────────────────────────────────────────────────────┤
+│  Technical Quality          ████████████████████████████████  25%       │
+│  Business Alignment         █████████████████████████         20%       │
+│  Security & Compliance      █████████████████████████         20%       │
+│  Performance & Reliability  ███████████████████               15%       │
+│  Maintainability            █████████████                     10%       │
+│  Innovation & Optimization  █████████████                     10%       │
+└─────────────────────────────────────────────────────────────────────────┘
+                                                          TOTAL: 100%
+```
+
+A comprehensive, multi-model compatible evaluation framework for assessing enterprise AI prompts across six dimensions - Technical Quality, Business Alignment, Security, Performance, Maintainability, and Innovation.
+
 
 # Enterprise GenAI Prompt Evaluation Framework
 
@@ -740,4 +780,69 @@ SECURITY TEST PROCEDURE
 3. **Use model-agnostic language** where possible
 4. **Maintain separate versions** when optimization requires divergence
 
-*This framework is designed to evolve with organizational needs and advancing AI capabilities. Feedback and improvement suggestions should be directed to the AI Governance team.*
+*This framework is designed to evolve with organizational needs and advancing AI capabilities. Feedback and improvement suggestions should be directed to the AI Governance team.*## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[PRODUCT_NAME]` | AUTO-GENERATED: describe `PRODUCT_NAME` |
+| `[____]` | AUTO-GENERATED: describe `____` |
+| `[_______]` | AUTO-GENERATED: describe `_______` |
+| `[__________]` | AUTO-GENERATED: describe `__________` |
+| `[____________]` | AUTO-GENERATED: describe `____________` |
+| `[________________]` | AUTO-GENERATED: describe `________________` |
+| `[________________________________________]` | AUTO-GENERATED: describe `________________________________________` |
+| `[___________________________________________]` | AUTO-GENERATED: describe `___________________________________________` |
+| `[______________________________________________]` | AUTO-GENERATED: describe `______________________________________________` |
+| `[____________________________________________________]` | AUTO-GENERATED: describe `____________________________________________________` |
+| `[_____________________________________________________________]` | AUTO-GENERATED: describe `_____________________________________________________________` |
+| `[_______________________________________________________________]` | AUTO-GENERATED: describe `_______________________________________________________________` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Customer]` | AUTO-GENERATED: describe `Customer` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[PRODUCT_NAME]` | AUTO-GENERATED: describe `PRODUCT_NAME` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[____]` | AUTO-GENERATED: describe `____` |
+| `[_______]` | AUTO-GENERATED: describe `_______` |
+| `[__________]` | AUTO-GENERATED: describe `__________` |
+| `[____________]` | AUTO-GENERATED: describe `____________` |
+| `[________________]` | AUTO-GENERATED: describe `________________` |
+| `[________________________________________]` | AUTO-GENERATED: describe `________________________________________` |
+| `[___________________________________________]` | AUTO-GENERATED: describe `___________________________________________` |
+| `[______________________________________________]` | AUTO-GENERATED: describe `______________________________________________` |
+| `[____________________________________________________]` | AUTO-GENERATED: describe `____________________________________________________` |
+| `[_____________________________________________________________]` | AUTO-GENERATED: describe `_____________________________________________________________` |
+| `[_______________________________________________________________]` | AUTO-GENERATED: describe `_______________________________________________________________` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

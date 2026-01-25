@@ -1,0 +1,212 @@
+# Model Configurations for Multi-Agent Workflows
+# This file defines available models, routing rules, and fallback strategies
+
+version: "1.0.0"
+
+providers:
+  local_onnx:
+    description: Local ONNX models via onnxruntime-genai
+    base_path: "${AIGALLERY_CACHE:-C:\\Users\\tandf\\.cache\\aigallery}"
+    available:
+      - id: "local:phi4"
+        name: Phi-4
+        capabilities: ["text", "reasoning"]
+        device: "npu"
+        context_length: 4096
+        cost_tier: "free"
+
+      - id: "local:phi4mini"
+        name: Phi-4 Mini
+        capabilities: ["text", "fast"]
+        device: "npu"
+        context_length: 4096
+        cost_tier: "free"
+
+      - id: "local:phi3.5"
+        name: Phi-3.5 Mini
+        capabilities: ["text", "reasoning"]
+        device: "npu"
+        context_length: 4096
+        cost_tier: "free"
+
+      - id: "local:phi3.5-vision"
+        name: Phi-3.5 Vision
+        capabilities: ["vision", "text"]
+        device: "npu"
+        context_length: 4096
+        cost_tier: "free"
+
+      - id: "local:mistral-7b"
+        name: Mistral 7B Instruct
+        capabilities: ["text", "code"]
+        device: "cpu"
+        context_length: 8192
+        cost_tier: "free"
+
+  windows_ai:
+    description: Windows AI NPU access (Copilot+ PCs)
+    available:
+      - id: "windows-ai:phi-silica"
+        name: Phi Silica
+        capabilities: ["text"]
+        device: "npu"
+        context_length: 4096
+        cost_tier: "free"
+        requirements: ["Windows 11", "NPU", "Windows App SDK 1.7+"]
+
+  ollama:
+    description: Local Ollama server
+    host: "${OLLAMA_HOST:-http://localhost:11434}"
+    available:
+      - id: "ollama:qwen2.5-coder:14b"
+        name: Qwen 2.5 Coder 14B
+        capabilities: ["code", "text"]
+        context_length: 32768
+        cost_tier: "free"
+
+      - id: "ollama:qwen3-coder:30b"
+        name: Qwen 3 Coder 30B
+        capabilities: ["code", "text"]
+        context_length: 32768
+        cost_tier: "free"
+
+      - id: "ollama:deepseek-r1:8b"
+        name: DeepSeek R1 8B
+        capabilities: ["reasoning", "code"]
+        context_length: 16384
+        cost_tier: "free"
+
+      - id: "ollama:deepseek-r1:14b"
+        name: DeepSeek R1 14B
+        capabilities: ["reasoning", "code"]
+        context_length: 16384
+        cost_tier: "free"
+
+      - id: "ollama:phi4-reasoning"
+        name: Phi-4 Reasoning
+        capabilities: ["reasoning"]
+        context_length: 16384
+        cost_tier: "free"
+
+  github_models:
+    description: GitHub Models API
+    endpoint: "https://models.github.com/v1"
+    api_key_env: "GITHUB_TOKEN"
+    available:
+      - id: "gh:gpt-4o"
+        name: GPT-4o
+        capabilities: ["text", "reasoning", "code"]
+        cost_tier: "premium"
+
+      - id: "gh:gpt-4o-mini"
+        name: GPT-4o Mini
+        capabilities: ["text", "code"]
+        cost_tier: "standard"
+
+      - id: "gh:o3-mini"
+        name: o3-mini
+        capabilities: ["reasoning", "math"]
+        cost_tier: "premium"
+
+      - id: "gh:o4-mini"
+        name: o4-mini
+        capabilities: ["reasoning", "review"]
+        cost_tier: "premium"
+
+      - id: "gh:deepseek-r1"
+        name: DeepSeek R1
+        capabilities: ["reasoning", "code"]
+        cost_tier: "premium"
+
+      - id: "gh:codestral-2501"
+        name: Codestral 2501
+        capabilities: ["code"]
+        cost_tier: "standard"
+
+      - id: "gh:llama-4-scout"
+        name: Llama 4 Scout
+        capabilities: ["text", "code"]
+        cost_tier: "standard"
+
+      - id: "gh:llama-4-maverick"
+        name: Llama 4 Maverick
+        capabilities: ["text", "reasoning"]
+        cost_tier: "standard"
+
+  azure_foundry:
+    description: Azure Foundry API
+    api_key_env: "AZURE_FOUNDRY_API_KEY"
+    available:
+      - id: "azure-foundry:phi4mini"
+        name: Phi-4 Mini (Azure)
+        capabilities: ["text"]
+        cost_tier: "standard"
+
+  openai:
+    description: OpenAI Direct API
+    api_key_env: "OPENAI_API_KEY"
+    available:
+      - id: "gpt-4o"
+        name: GPT-4o
+        capabilities: ["text", "reasoning", "code"]
+        cost_tier: "premium"
+
+      - id: "gpt-4.1"
+        name: GPT-4.1
+        capabilities: ["text", "reasoning", "code"]
+        cost_tier: "premium"
+
+# Task-based routing rules
+routing:
+  # Vision tasks require vision-capable models
+  vision:
+    preferred: ["local:phi3.5-vision"]
+    fallback: ["gh:gpt-4o"]
+
+  # Complex reasoning tasks
+  reasoning_complex:
+    preferred: ["gh:o3-mini", "gh:deepseek-r1"]
+    fallback: ["ollama:deepseek-r1:14b", "local:phi4"]
+
+  # Premium code generation
+  code_gen_premium:
+    preferred: ["gh:gpt-4o", "gh:gpt-4o-mini"]
+    fallback: ["ollama:qwen2.5-coder:14b", "local:phi4"]
+
+  # Fast code generation
+  code_gen_fast:
+    preferred: ["ollama:qwen2.5-coder:14b", "gh:gpt-4o-mini"]
+    fallback: ["local:phi4mini"]
+
+  # Code review
+  code_review:
+    preferred: ["gh:o4-mini", "gh:gpt-4o"]
+    fallback: ["ollama:deepseek-r1:14b"]
+
+  # Coordination/orchestration (fast, cheap)
+  coordination:
+    preferred: ["local:phi4mini"]
+    fallback: ["ollama:qwen2.5-coder:14b"]
+
+  # Documentation generation
+  documentation:
+    preferred: ["gh:gpt-4o-mini", "local:phi4"]
+    fallback: ["ollama:qwen2.5-coder:14b"]
+
+# Fallback strategy
+fallback:
+  strategy: "cascade" # Try each in order until one works
+  max_retries: 3
+  retry_delay_ms: 1000
+
+  # Global fallback chain (when task-specific routing fails)
+  chain:
+    - "local:phi4mini"
+    - "ollama:qwen2.5-coder:14b"
+    - "gh:gpt-4o-mini"
+
+# Default parameters
+defaults:
+  temperature: 0.7
+  max_tokens: 4096
+  timeout_seconds: 120

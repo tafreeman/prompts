@@ -3,6 +3,86 @@ name: Lats Self Refine Evaluator
 description: # LATS Self-Refine: Iterative Multi-Branch Prompt Evaluator
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│              LATS OUTER LOOP (iterate until threshold)              │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  ITERATION N                                                   │  │
+│  │  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐  │  │
+│  │  │ Branch A: CoVe  │ │ Branch B: Score │ │ Branch C: ReAct │  │  │
+│  │  │ Criteria Valid. │ │ G-Eval Scoring  │ │ Implement Fixes │  │  │
+│  │  │                 │ │                 │ │                 │  │  │
+│  │  │ • Verify rubric │ │ • Score prompt  │ │ • Apply changes │  │  │
+│  │  │ • Check research│ │ • Gen feedback  │ │ • Validate edit │  │  │
+│  │  │ • Adjust if bad │ │ • Prioritize    │ │ • Test result   │  │  │
+│  │  └────────┬────────┘ └────────┬────────┘ └────────┬────────┘  │  │
+│  │           │                   │                   │           │  │
+│  │           └───────────────────┼───────────────────┘           │  │
+│  │                               ▼                               │  │
+│  │                    ┌─────────────────────┐                    │  │
+│  │                    │ SYNTHESIS & CHECK   │                    │  │
+│  │                    │ Score >= Threshold? │                    │  │
+│  │                    └──────────┬──────────┘                    │  │
+│  └───────────────────────────────┼───────────────────────────────┘  │
+│                                  │                                  │
+│              ┌───────────────────┴───────────────────┐              │
+│              │                                       │              │
+│              ▼ NO                                YES ▼              │
+│     ┌────────────────┐                    ┌────────────────┐        │
+│     │ REFLEXION      │                    │ RETURN RESULT  │        │
+│     │ Learn from     │                    │ Score, Prompt, │        │
+│     │ iteration,     │                    │ Criteria Used  │        │
+│     │ loop back      │                    └────────────────┘        │
+│     └────────────────┘                                              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+# LATS Self-Refine: Iterative Multi-Branch Prompt Evaluator
+
+## Description
+
+## Prompt
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│              LATS OUTER LOOP (iterate until threshold)              │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │  ITERATION N                                                   │  │
+│  │  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐  │  │
+│  │  │ Branch A: CoVe  │ │ Branch B: Score │ │ Branch C: ReAct │  │  │
+│  │  │ Criteria Valid. │ │ G-Eval Scoring  │ │ Implement Fixes │  │  │
+│  │  │                 │ │                 │ │                 │  │  │
+│  │  │ • Verify rubric │ │ • Score prompt  │ │ • Apply changes │  │  │
+│  │  │ • Check research│ │ • Gen feedback  │ │ • Validate edit │  │  │
+│  │  │ • Adjust if bad │ │ • Prioritize    │ │ • Test result   │  │  │
+│  │  └────────┬────────┘ └────────┬────────┘ └────────┬────────┘  │  │
+│  │           │                   │                   │           │  │
+│  │           └───────────────────┼───────────────────┘           │  │
+│  │                               ▼                               │  │
+│  │                    ┌─────────────────────┐                    │  │
+│  │                    │ SYNTHESIS & CHECK   │                    │  │
+│  │                    │ Score >= Threshold? │                    │  │
+│  │                    └──────────┬──────────┘                    │  │
+│  └───────────────────────────────┼───────────────────────────────┘  │
+│                                  │                                  │
+│              ┌───────────────────┴───────────────────┐              │
+│              │                                       │              │
+│              ▼ NO                                YES ▼              │
+│     ┌────────────────┐                    ┌────────────────┐        │
+│     │ REFLEXION      │                    │ RETURN RESULT  │        │
+│     │ Learn from     │                    │ Score, Prompt, │        │
+│     │ iteration,     │                    │ Criteria Used  │        │
+│     │ loop back      │                    └────────────────┘        │
+│     └────────────────┘                                              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+# LATS Self-Refine: Iterative Multi-Branch Prompt Evaluator
+
 
 # LATS Self-Refine: Iterative Multi-Branch Prompt Evaluator
 
@@ -268,4 +348,60 @@ Summarize the following text into exactly 3 bullet points:
 [TEXT]
 
 **Observation**: Fix addresses clarity and specificity. Estimated improvement: +25%
-```
+```## Variables
+
+| Variable | Description |
+|---|---|
+| `[TEXT]` | AUTO-GENERATED: describe `TEXT` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Effective strategy from this iteration]` | AUTO-GENERATED: describe `Effective strategy from this iteration` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Full prompt with the fix applied]` | AUTO-GENERATED: describe `Full prompt with the fix applied` |
+| `[Ineffective approach to avoid]` | AUTO-GENERATED: describe `Ineffective approach to avoid` |
+| `[Modified section with fix applied]` | AUTO-GENERATED: describe `Modified section with fix applied` |
+| `[N+1]` | AUTO-GENERATED: describe `N+1` |
+| `[New approach based on learning]` | AUTO-GENERATED: describe `New approach based on learning` |
+| `[Original section of prompt]` | AUTO-GENERATED: describe `Original section of prompt` |
+| `[Reasoning about how to implement the fix]` | AUTO-GENERATED: describe `Reasoning about how to implement the fix` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[TEXT]` | AUTO-GENERATED: describe `TEXT` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y/N]` | AUTO-GENERATED: describe `Y/N` |
+| `[criterion]` | AUTO-GENERATED: describe `criterion` |
+| `[description]` | AUTO-GENERATED: describe `description` |
+| `[e.g., "Dhuliawala et al. 2023", "DAIR.AI Guide 2024"]` | AUTO-GENERATED: describe `e.g., "Dhuliawala et al. 2023", "DAIR.AI Guide 2024"` |
+| `[name]` | AUTO-GENERATED: describe `name` |
+| `[specific research]` | AUTO-GENERATED: describe `specific research` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

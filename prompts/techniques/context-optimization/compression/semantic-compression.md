@@ -3,6 +3,36 @@ name: Semantic Compression
 description: A prompt for semantic compression tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+Compress the following text to retain all key information, facts, and entities, but remove redundancy and filler words. The output should be roughly {{target_ratio}}% of the original length.
+
+**Original Text**:
+{{text}}
+
+**Compressed Version**:
+```
+
+A prompt for semantic compression tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+Compress the following text to retain all key information, facts, and entities, but remove redundancy and filler words. The output should be roughly {{target_ratio}}% of the original length.
+
+**Original Text**:
+{{text}}
+
+**Compressed Version**:
+```
+
+A prompt for semantic compression tasks.
+
 
 # Semantic Compression
 
@@ -91,4 +121,41 @@ Action: Eng to review/propose solution by Friday.
 1. **Preserve Entities**: Ensure names, dates, and IDs are never removed.
 2. **Use Cheap Models**: The compressor model should be 10x cheaper than the main model to justify the extra latency.
 3. **Ratio Tuning**: Aim for 50% compression. Going below 30% often results in hallucination or loss of critical context.
-4. **Fallback**: If compression fails or returns empty text, fallback to the original text (truncated if necessary).
+4. **Fallback**: If compression fails or returns empty text, fallback to the original text (truncated if necessary).## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

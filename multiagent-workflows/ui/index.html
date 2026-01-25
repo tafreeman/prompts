@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Workflow Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d0d12;
+            --bg-secondary: #16161d;
+            --bg-tertiary: #1e1e28;
+            --bg-card: #1a1a24;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent: #8b5cf6;
+            --accent-hover: #a78bfa;
+            --accent-dim: rgba(139, 92, 246, 0.2);
+            --green: #22c55e;
+            --green-dim: rgba(34, 197, 94, 0.2);
+            --blue: #3b82f6;
+            --border: #2d2d3a;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; }
+        
+        .app { display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .sidebar { width: 220px; background: var(--bg-secondary); border-right: 1px solid var(--border); padding: 20px 12px; display: flex; flex-direction: column; }
+        .logo { display: flex; align-items: center; gap: 10px; padding: 8px 12px 20px; }
+        .logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), #06b6d4); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .logo-text { font-weight: 700; font-size: 14px; }
+        
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); color: var(--text-secondary); text-decoration: none; margin-bottom: 4px; font-size: 14px; transition: all 0.2s; }
+        .nav-item:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .nav-item.active { background: var(--accent); color: white; }
+        .nav-item svg { width: 18px; height: 18px; }
+        
+        .sidebar-footer { margin-top: auto; padding: 12px; background: var(--bg-tertiary); border-radius: var(--radius-sm); text-align: center; }
+        .selection-count { font-size: 20px; font-weight: 700; color: var(--accent); }
+        .selection-label { display: block; font-size: 11px; color: var(--text-muted); }
+        
+        /* Main Content */
+        .main-content { flex: 1; padding: 24px 32px; overflow-y: auto; background: radial-gradient(ellipse at top right, rgba(139,92,246,0.05) 0%, transparent 50%); }
+        
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+        .page-title { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .page-subtitle { color: var(--text-secondary); font-size: 14px; }
+        .header-right { display: flex; gap: 10px; }
+
+        .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--bg-tertiary); font-size: 12px; color: var(--text-secondary); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #6b7280; }
+        .status-dot.ok { background: var(--green); }
+        .status-dot.bad { background: #ef4444; }
+        
+        .btn { padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; font-size: 13px; }
+        .btn svg { width: 16px; height: 16px; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-green { background: var(--green); color: white; }
+        .btn-green:hover { background: #16a34a; }
+        .btn-large { padding: 12px 24px; font-size: 14px; }
+        
+        /* Toolbar */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+        .search-filter { display: flex; gap: 8px; flex: 1; max-width: 400px; }
+        .search-box { display: flex; align-items: center; gap: 8px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; flex: 1; }
+        .search-box svg { width: 16px; height: 16px; color: var(--text-muted); }
+        .search-box input { background: none; border: none; color: var(--text-primary); outline: none; width: 100%; font-size: 13px; }
+        .filter-btn { background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 12px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
+        .filter-btn svg { width: 14px; height: 14px; }
+        
+        .toolbar-right { display: flex; align-items: center; gap: 16px; }
+        .sort-select { background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; }
+        .toggle-switch { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .toggle { width: 40px; height: 22px; background: var(--bg-tertiary); border-radius: 11px; cursor: pointer; position: relative; transition: background 0.2s; }
+        .toggle.active { background: var(--accent); }
+        .toggle::after { content: ''; position: absolute; width: 18px; height: 18px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: left 0.2s; }
+        .toggle.active::after { left: 20px; }
+        
+        /* Dataset Cards */
+        .dataset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .dataset-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; transition: all 0.2s; position: relative; }
+        .dataset-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .dataset-card.selected { border-color: var(--green); background: rgba(34, 197, 94, 0.05); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .card-title { font-weight: 600; font-size: 15px; }
+        .card-icon { width: 40px; height: 40px; background: var(--bg-tertiary); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 18px; }
+        .card-tags { display: flex; gap: 6px; margin-bottom: 10px; }
+        .tag { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+        .tag-easy { background: var(--green-dim); color: var(--green); }
+        .tag-medium { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .tag-hard { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .tag-python { background: var(--accent-dim); color: var(--accent); }
+        .card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .view-details-btn { width: 100%; padding: 8px; background: var(--accent); color: white; border: none; border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; transition: background 0.2s; }
+        .view-details-btn:hover { background: var(--accent-hover); }
+        
+        /* Config Page */
+        .config-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+        .config-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+        
+        /* Workflow Pipeline */
+        .pipeline { padding: 20px 0; }
+        .pipeline-flow { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+        .pipeline-agent { flex: 1; min-width: 120px; max-width: 160px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; transition: all 0.2s; }
+        .pipeline-agent:hover { border-color: var(--accent); }
+        .agent-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .agent-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; }
+        .agent-name { font-size: 11px; font-weight: 600; }
+        .agent-select { width: 100%; background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary); padding: 6px; border-radius: var(--radius-sm); font-size: 11px; }
+        .pipeline-arrow { color: var(--accent); font-size: 18px; flex-shrink: 0; }
+        
+        .feedback-loops { margin-top: 16px; padding: 12px; background: rgba(139, 92, 246, 0.1); border: 1px dashed var(--accent); border-radius: var(--radius-sm); }
+        .feedback-loop { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+        .feedback-loop:not(:last-child) { border-bottom: 1px solid var(--border); }
+        .feedback-arrow { color: var(--accent); font-size: 16px; }
+        .feedback-label { font-size: 12px; color: var(--text-secondary); }
+        
+        /* Evaluation Settings */
+        .eval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .eval-left, .eval-right { display: flex; flex-direction: column; gap: 16px; }
+        
+        .slider-group { }
+        .slider-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; }
+        .slider-value { background: var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .slider { width: 100%; height: 6px; -webkit-appearance: none; background: var(--bg-tertiary); border-radius: 3px; outline: none; }
+        .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; }
+        
+        .number-input { display: flex; align-items: center; gap: 0; }
+        .num-btn { width: 32px; height: 32px; background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .num-btn:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+        .num-btn:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+        .number-input input { width: 40px; height: 32px; text-align: center; background: var(--bg-tertiary); border: 1px solid var(--border); border-left: none; border-right: none; color: var(--text-primary); font-size: 13px; }
+        
+        /* Scoring Options */
+        .scoring-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .total-score { font-size: 18px; font-weight: 700; }
+        .score-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .score-checkbox { width: 16px; height: 16px; accent-color: var(--accent); }
+        .score-label { flex: 1; font-size: 13px; }
+        .score-slider { flex: 2; height: 4px; -webkit-appearance: none; background: linear-gradient(to right, var(--accent) 0%, var(--bg-tertiary) 0%); border-radius: 2px; }
+        .score-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; cursor: pointer; }
+        .score-value { width: 40px; text-align: right; font-size: 13px; color: var(--text-secondary); }
+        
+        /* Output Settings */
+        .output-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; }
+        .output-field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .output-field input { width: 100%; background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-primary); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; }
+        .format-btns { display: flex; gap: 8px; }
+        .format-btn { padding: 8px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); color: var(--text-secondary); border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; transition: all 0.2s; }
+        .format-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+        
+        /* Workflow Selector */
+        .workflow-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .workflow-option input { display: none; }
+        .workflow-card { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--bg-tertiary); border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.2s; }
+        .workflow-option input:checked + .workflow-card { border-color: var(--accent); background: var(--accent-dim); }
+        .workflow-card:hover { border-color: var(--accent); }
+        .workflow-icon { font-size: 28px; }
+        .workflow-info { flex: 1; }
+        .workflow-name { display: block; font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .workflow-desc { display: block; font-size: 12px; color: var(--text-muted); }
+        
+        /* Run Page */
+        .run-layout { display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+        .selected-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; height: fit-content; max-height: 500px; overflow-y: auto; }
+        .selected-list h3 { font-size: 14px; margin-bottom: 12px; }
+        .selected-item { background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; position: relative; }
+        .selected-item:hover { background: var(--bg-primary); }
+        .selected-item:hover .item-tooltip { display: block; }
+        .item-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+        .item-tags { display: flex; gap: 4px; }
+        .item-tooltip { display: none; position: absolute; left: 100%; top: 0; margin-left: 12px; width: 280px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .tooltip-title { font-weight: 600; margin-bottom: 8px; }
+        .tooltip-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+        
+        .run-details { display: flex; flex-direction: column; gap: 16px; }
+        .config-summary { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+        .config-summary h3 { margin-bottom: 16px; }
+        .config-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .config-row:last-child { border-bottom: none; }
+        .config-label { color: var(--text-secondary); }
+        .config-value { font-weight: 500; }
+        
+        .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+        .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+        .metric-value { font-size: 32px; font-weight: 700; color: var(--accent); }
+        .metric-icon { font-size: 24px; margin-bottom: 8px; }
+        
+        .run-actions { display: flex; gap: 12px; }
+        .run-actions .btn { flex: 1; justify-content: center; }
+        
+        /* Pagination */
+        .pagination { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .pagination-info { font-size: 13px; color: var(--text-secondary); }
+        .page-btns { display: flex; gap: 4px; }
+        .page-btn { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; font-size: 13px; }
+        .page-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
+        .page-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        
+        @media (max-width: 1000px) {
+            .run-layout { grid-template-columns: 1fr; }
+            .pipeline { flex-wrap: wrap; }
+            .eval-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) { .sidebar { display: none; } }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; animation: modalIn 0.2s ease; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border); }
+        .modal-title { font-size: 18px; font-weight: 600; }
+        .modal-close { width: 32px; height: 32px; background: var(--bg-tertiary); border: none; border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+        .modal-close:hover { background: var(--accent); color: white; }
+        .modal-body { padding: 20px; }
+        .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: var(--text-muted); font-size: 13px; }
+        .detail-value { font-size: 13px; font-weight: 500; text-align: right; max-width: 60%; }
+        .detail-section { margin-top: 16px; }
+        .detail-section-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
+        .example-block { background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; }
+        .example-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <!-- Details Modal -->
+    <div class="modal-overlay" id="detailsModal" onclick="if(event.target===this)closeModal()">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Dataset Details</span>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="app">
+        <aside class="sidebar">
+            <div class="logo"><div class="logo-icon">⚡</div><span class="logo-text">Workflow Runner</span></div>
+            <nav>
+                <a href="#" class="nav-item active" data-section="datasets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Datasets</span></a>
+                <a href="#" class="nav-item" data-section="configuration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>Configuration</span></a>
+                <a href="#" class="nav-item" data-section="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Run Workflow</span></a>
+            </nav>
+            <div class="sidebar-footer"><span class="selection-count" id="selCount">0</span><span class="selection-label">items selected</span></div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div><h1 class="page-title" id="pageTitle">Select Datasets</h1><p class="page-subtitle" id="pageSub">Choose evaluation datasets</p></div>
+                <div class="header-right">
+                    <div class="status-pill" title="Local API server status">
+                        <span class="status-dot" id="apiDot"></span>
+                        <span id="apiText">API: checking…</span>
+                        <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="copyServerCommand()">Copy start cmd</button>
+                        <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="checkApiNow(true)">Reconnect</button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="clearSelection()">Clear</button>
+                    <button class="btn btn-primary" id="nextBtn">Next →</button>
+                </div>
+            </header>
+
+            <!-- DATASETS -->
+            <section id="datasets-section" class="content-section active">
+                <div class="toolbar">
+                    <div class="search-filter">
+                        <div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" id="searchInput" placeholder="Search datasets..." oninput="state.page=1;render()"></div>
+                        <select class="sort-select" id="filterSource" onchange="state.page=1;render()">
+                            <option value="">All Sources</option>
+                            <option value="HumanEval">🐍 HumanEval</option>
+                            <option value="MBPP">📘 MBPP</option>
+                            <option value="SWE-bench">🔧 SWE-bench</option>
+                            <option value="Custom">📁 Custom</option>
+                        </select>
+                        <select class="sort-select" id="filterDifficulty" onchange="state.page=1;render()">
+                            <option value="">All Difficulties</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <select class="sort-select" id="sortBy" onchange="render()">
+                            <option value="default">Sort: Default</option>
+                            <option value="name">Sort: Name A-Z</option>
+                            <option value="name-desc">Sort: Name Z-A</option>
+                            <option value="difficulty">Sort: Difficulty</option>
+                            <option value="source">Sort: Source</option>
+                        </select>
+                        <div class="toggle-switch"><span>Select All</span><div class="toggle" id="selectAllToggle" onclick="toggleSelectAll()"></div></div>
+                    </div>
+                </div>
+                <div id="datasetContainer" class="dataset-grid"></div>
+                <div class="pagination">
+                    <div class="pagination-info">Showing <span id="showStart">1</span>-<span id="showEnd">8</span> of <span id="totalItems">0</span></div>
+                    <div class="page-btns" id="pageButtons"></div>
+                </div>
+            </section>
+
+            <!-- CONFIGURATION -->
+            <section id="configuration-section" class="content-section">
+                <div class="config-section">
+                    <div class="config-title">Select Workflow</div>
+                    <div class="workflow-selector">
+                        <label class="workflow-option">
+                            <input type="radio" name="workflow" value="fullstack" checked onchange="updatePipeline()">
+                            <div class="workflow-card">
+                                <span class="workflow-icon">🚀</span>
+                                <div class="workflow-info">
+                                    <span class="workflow-name">Full-Stack Generation</span>
+                                    <span class="workflow-desc">Generate complete applications from requirements</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="workflow-option">
+                            <input type="radio" name="workflow" value="refactoring" onchange="updatePipeline()">
+                            <div class="workflow-card">
+                                <span class="workflow-icon">🔄</span>
+                                <div class="workflow-info">
+                                    <span class="workflow-name">Legacy Refactoring</span>
+                                    <span class="workflow-desc">Modernize and refactor legacy codebases</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="workflow-option">
+                            <input type="radio" name="workflow" value="bugfix" onchange="updatePipeline()">
+                            <div class="workflow-card">
+                                <span class="workflow-icon">🐛</span>
+                                <div class="workflow-info">
+                                    <span class="workflow-name">Bug Triage & Fix</span>
+                                    <span class="workflow-desc">Analyze, prioritize and fix bugs automatically</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="workflow-option">
+                            <input type="radio" name="workflow" value="architecture" onchange="updatePipeline()">
+                            <div class="workflow-card">
+                                <span class="workflow-icon">🏗️</span>
+                                <div class="workflow-info">
+                                    <span class="workflow-name">Architecture Evolution</span>
+                                    <span class="workflow-desc">Assess technical debt and evolve architecture</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <div class="config-title">Agent Pipeline</div>
+                    <div class="pipeline" id="pipelineContainer">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="eval-grid">
+                    <div class="config-section">
+                        <div class="config-title">Evaluation Settings</div>
+                        <div class="slider-group">
+                            <div class="slider-label"><span>Pass Threshold ⓘ</span><span class="slider-value" id="threshVal">70%</span></div>
+                            <input type="range" class="slider" id="threshold" min="50" max="100" value="70" oninput="document.getElementById('threshVal').textContent=this.value+'%'">
+                        </div>
+                        <div style="margin-top:16px">
+                            <div class="slider-label"><span>Number of Runs</span></div>
+                            <div class="number-input"><button class="num-btn" onclick="adjustRuns(-1)">−</button><input type="number" id="numRuns" value="1" min="1" max="10"><button class="num-btn" onclick="adjustRuns(1)">+</button></div>
+                        </div>
+                        <div style="margin-top:16px">
+                            <div class="slider-label"><span>Entry Match ⓘ</span></div>
+                            <select class="agent-select" id="matchType"><option>Fuzzy Match</option><option>Exact Match</option><option>Semantic</option></select>
+                        </div>
+                    </div>
+                    <div class="config-section">
+                        <div class="scoring-header"><div class="config-title" style="margin:0">Scoring Options</div><span class="total-score">Total Score: <span id="totalScore">70%</span></span></div>
+                        <div id="scoringOptions"></div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <div class="config-title">Logging & Response Verbosity</div>
+                    <div class="output-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="output-field">
+                            <label>Log Level</label>
+                            <select class="agent-select" id="logLevel">
+                                <option value="ERROR">Error Only</option>
+                                <option value="WARNING">Warning</option>
+                                <option value="INFO" selected>Info (Standard)</option>
+                                <option value="DEBUG">Debug (Verbose)</option>
+                                <option value="TRACE">Trace (All)</option>
+                            </select>
+                        </div>
+                        <div class="output-field">
+                            <label>Response Detail</label>
+                            <select class="agent-select" id="responseDetail">
+                                <option value="minimal">Minimal (Pass/Fail)</option>
+                                <option value="summary" selected>Summary</option>
+                                <option value="detailed">Detailed</option>
+                                <option value="full">Full (Raw Output)</option>
+                            </select>
+                        </div>
+                        <div class="output-field">
+                            <label>Include in Output</label>
+                            <div class="format-btns" style="flex-wrap:wrap;">
+                                <button class="format-btn active" onclick="toggleFormat(this)">Scores</button>
+                                <button class="format-btn active" onclick="toggleFormat(this)">Traces</button>
+                                <button class="format-btn" onclick="toggleFormat(this)">Tokens</button>
+                                <button class="format-btn" onclick="toggleFormat(this)">Timing</button>
+                            </div>
+                        </div>
+                        <div class="output-field">
+                            <label>Agent Verbosity</label>
+                            <select class="agent-select" id="agentVerbosity">
+                                <option value="silent">Silent</option>
+                                <option value="results">Results Only</option>
+                                <option value="steps" selected>Step-by-Step</option>
+                                <option value="reasoning">Show Reasoning</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <div class="config-title">Output Settings</div>
+                    <div class="output-grid">
+                        <div class="output-field"><label>Output Directory</label><input type="text" id="outputDir" value="./evaluations/results"></div>
+                        <div class="output-field"><label>Report Formats</label><div class="format-btns"><button class="format-btn active" onclick="toggleFormat(this)">JSON</button><button class="format-btn active" onclick="toggleFormat(this)">Markdown</button><button class="format-btn" onclick="toggleFormat(this)">HTML</button><button class="format-btn" onclick="toggleFormat(this)">CSV</button></div></div>
+                        <div class="output-field"><label>Save Raw Responses</label><select class="agent-select" id="saveRaw"><option value="none">None</option><option value="failed">Failed Only</option><option value="all" selected>All Responses</option></select></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RUN -->
+            <section id="run-section" class="content-section">
+                <div class="run-layout">
+                    <div class="selected-list">
+                        <h3>Selected Items</h3>
+                        <div id="selectedItemsList"></div>
+                    </div>
+                    <div class="run-details">
+                        <div class="config-summary">
+                            <h3>Configuration</h3>
+                            <div class="config-row"><span class="config-label">Workflow</span><span class="config-value" id="sumWorkflow">Full-Stack Generation</span></div>
+                            <div class="config-row"><span class="config-label">Agent Models</span><span class="config-value" id="sumModels">GPT-4, Claude 3 Opus</span></div>
+                            <div class="config-row"><span class="config-label">Pass Threshold</span><span class="config-value" id="sumThresh">70%</span></div>
+                            <div class="config-row"><span class="config-label">Scoring Weights</span><span class="config-value">Correctness (31%), Quality (25%), ...</span></div>
+                            <div class="config-row"><span class="config-label">Log Level</span><span class="config-value" id="sumLogLevel">Info (Standard)</span></div>
+                            <div class="config-row"><span class="config-label">Response Detail</span><span class="config-value" id="sumVerbosity">Summary</span></div>
+                            <div class="config-row"><span class="config-label">Output Path</span><span class="config-value" id="sumOutput">./evaluations/results</span></div>
+                        </div>
+                        <div class="metrics-row">
+                            <div class="metric-card"><div class="metric-icon">⏱️</div><div class="metric-label">Estimated Time</div><div class="metric-value" id="estTime">~15 min</div></div>
+                            <div class="metric-card"><div class="metric-icon">💰</div><div class="metric-label">Estimated Cost</div><div class="metric-value" id="estCost">~$0.50</div></div>
+                        </div>
+                        <div class="run-actions">
+                            <button class="btn btn-large btn-green" id="startRunBtn" onclick="startRun()">▶ Start Workflow Run</button>
+                            <button class="btn btn-large btn-secondary" onclick="exportConfig()">Export Config</button>
+                        </div>
+                        <div class="config-section" style="margin-top: 16px;">
+                            <div class="config-title">Run Status</div>
+                            <div style="display:flex; justify-content: space-between; gap: 12px; align-items: center;">
+                                <div id="runStatusText" style="color: var(--text-secondary); font-size: 13px;">Idle</div>
+                                <div id="runStatusMeta" style="color: var(--text-muted); font-size: 12px;"></div>
+                            </div>
+                            <div id="runResults" style="margin-top: 12px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+// Production-level dataset definitions with full benchmark data
+const humanEvalTasks = [
+    'has_close_elements', 'separate_paren_groups', 'truncate_number', 'below_zero', 'mean_absolute_deviation',
+    'intersperse', 'parse_nested_parens', 'filter_by_substring', 'sum_product', 'rolling_max',
+    'make_palindrome', 'string_xor', 'longest', 'greatest_common_divisor', 'all_prefixes',
+    'string_sequence', 'count_distinct_characters', 'parse_music', 'how_many_times', 'sort_numbers',
+    'find_closest_elements', 'rescale_to_unit', 'filter_integers', 'strlen', 'largest_divisor',
+    'factorize', 'remove_duplicates', 'flip_case', 'concatenate', 'filter_by_prefix',
+    'get_positive', 'is_prime', 'find_zero', 'sort_third', 'unique', 'max_element',
+    'fizz_buzz', 'encode_shift', 'decode_shift', 'remove_vowels', 'below_threshold',
+    'add', 'same_chars', 'fib', 'correct_bracketing', 'monotonic', 'common',
+    'largest_prime_factor', 'sum_to_n', 'brackets_balanced', 'derivative', 'fibfib',
+    'vowels_count', 'circular_shift', 'digitSum', 'fruit_distribution', 'pluck',
+    'search', 'strange_sort_list', 'triangle_area', 'will_it_fly', 'smallest_change',
+    'total_match', 'is_multiply_prime', 'is_simple_power', 'iscube', 'hex_key',
+    'decimal_to_binary', 'is_happy', 'numerical_letter_grade', 'prime_length', 'starts_one_ends',
+    'solve', 'add_elements', 'get_odd_collatz', 'valid_date', 'split_words',
+    'is_sorted', 'intersection', 'prod_signs', 'minPath', 'tri', 'digits',
+    'is_nested', 'sum_squares', 'check_if_last_char_is_letter', 'can_arrange', 'largest_smallest_integers',
+    'compare_one', 'is_equal_to_sum_even', 'special_factorial', 'fix_spaces', 'file_name_check',
+    'sum_squares_2', 'words_in_sentence', 'simplify', 'order_by_points', 'count_nums',
+    'move_one_ball', 'exchange', 'histogram', 'reverse_delete', 'odd_count',
+    'minSubArraySum', 'max_fill', 'sort_array', 'select_words', 'get_closest_vowel',
+    'match_parens', 'maximum', 'solution', 'add_elements_2', 'get_max_triples',
+    'bf', 'sorted_list_sum', 'x_or_y', 'double_the_difference', 'compare',
+    'Strongest_Extension', 'cycpattern_check', 'even_odd_count', 'count_upper', 'closest_integer',
+    'make_a_pile', 'words_string', 'choose_num', 'rounded_avg', 'unique_digits',
+    'by_length', 'f', 'even_odd_palindrome', 'count_nums_2', 'move_one_ball_2',
+    'split_words_2', 'is_sorted_2', 'encrypt', 'next_smallest', 'is_bored',
+    'any_int', 'encode', 'skjkasdkd', 'check_dict_case', 'count_up_to',
+    'multiply', 'count_upper_2', 'closest_integer_2', 'make_a_pile_2', 'words_string_2',
+    'choose_num_2', 'rounded_avg_2', 'unique_digits_2', 'by_length_2', 'even_odd_palindrome_2'
+];
+
+const mbppTasks = [
+    'find_max', 'factorial', 'fibonacci', 'is_palindrome', 'count_vowels', 'reverse_string', 'sum_list', 'find_min',
+    'is_prime', 'gcd', 'lcm', 'binary_search', 'bubble_sort', 'insertion_sort', 'merge_sort', 'quick_sort',
+    'linear_search', 'count_words', 'remove_duplicates', 'flatten_list', 'transpose_matrix', 'matrix_multiply',
+    'power', 'sqrt_newton', 'is_armstrong', 'digit_sum', 'count_digits', 'is_perfect', 'sum_of_divisors',
+    'prime_factors', 'nth_prime', 'sieve_of_eratosthenes', 'is_leap_year', 'days_in_month', 'day_of_week',
+    'roman_to_int', 'int_to_roman', 'is_anagram', 'longest_substring', 'valid_parentheses', 'generate_parentheses',
+    'merge_intervals', 'insert_interval', 'two_sum', 'three_sum', 'four_sum', 'container_with_most_water',
+    'trapping_rain_water', 'longest_common_subsequence', 'edit_distance', 'coin_change', 'knapsack_01',
+    'climbing_stairs', 'house_robber', 'decode_ways', 'word_break', 'longest_increasing_subsequence',
+    'maximum_subarray', 'product_except_self', 'find_duplicate', 'missing_number', 'single_number',
+    'majority_element', 'rotate_array', 'move_zeroes', 'contains_duplicate', 'intersection_arrays',
+    'plus_one', 'sqrt_int', 'valid_perfect_square', 'happy_number', 'ugly_number', 'count_primes',
+    'power_of_two', 'power_of_three', 'power_of_four', 'add_digits', 'is_ugly', 'nth_ugly_number',
+    'missing_ranges', 'summary_ranges', 'minimum_size_subarray', 'kth_largest', 'merge_k_sorted',
+    'reverse_linked_list', 'detect_cycle', 'merge_two_sorted', 'remove_nth_from_end', 'swap_pairs',
+    'rotate_list', 'partition_list', 'reverse_between', 'copy_random_list', 'word_ladder',
+    'surrounded_regions', 'palindrome_partitioning', 'clone_graph', 'gas_station', 'candy',
+    'single_number_ii', 'single_number_iii', 'word_break_ii', 'linked_list_cycle_ii', 'reorder_list',
+    'insertion_sort_list', 'sort_list', 'max_points_on_line', 'evaluate_rpn', 'reverse_words',
+    'max_product_subarray', 'find_minimum_rotated', 'find_peak_element', 'compare_version', 'fraction_to_decimal'
+];
+
+const sweRepos = ['django/django', 'flask/flask', 'requests/requests', 'pandas-dev/pandas', 'scikit-learn/scikit-learn', 
+    'pytorch/pytorch', 'tensorflow/tensorflow', 'numpy/numpy', 'matplotlib/matplotlib', 'sympy/sympy'];
+const sweIssueTypes = [
+    'Fix regression in', 'Resolve memory leak in', 'Address performance issue in', 'Fix incorrect behavior in',
+    'Handle edge case in', 'Fix type error in', 'Resolve deprecation warning in', 'Fix documentation for',
+    'Add missing validation in', 'Fix security vulnerability in', 'Resolve race condition in', 'Fix serialization bug in'
+];
+const sweComponents = ['QuerySet', 'ORM', 'Template Engine', 'Form Validation', 'URL Routing', 'Middleware', 
+    'Cache Backend', 'Admin Interface', 'Auth System', 'Migration System', 'Signal Handler', 'Database Connection'];
+
+const datasetDefinitions = {
+    humaneval: {
+        source: 'HumanEval',
+        icon: '🐍',
+        items: humanEvalTasks.map((task, i) => ({
+            id: `HE${i}`,
+            name: `HumanEval/${i}`,
+            source: 'HumanEval',
+            desc: `Implement ${task.replace(/_/g, ' ')}`,
+            difficulty: ['Easy', 'Easy', 'Medium', 'Medium', 'Hard'][i % 5],
+            category: 'Python',
+            signature: `def ${task}(...):`,
+            testCase: `assert ${task}(...) == expected`,
+            constraints: ['Handle edge cases', 'O(n) time complexity', 'No external libraries', 'Type hints required'][i % 4]
+        }))
+    },
+    mbpp: {
+        source: 'MBPP',
+        icon: '📘',
+        items: mbppTasks.map((task, i) => ({
+            id: `MB${i+1}`,
+            name: `MBPP/${i+1}`,
+            source: 'MBPP',
+            desc: `Write a function for ${task.replace(/_/g, ' ')}`,
+            difficulty: ['Easy', 'Easy', 'Medium', 'Medium', 'Hard'][i % 5],
+            category: 'Python',
+            signature: `def ${task}(...):`,
+            testCase: `assert ${task}(...) == expected`,
+            constraints: ['Include docstring', 'Handle empty input', 'Return type specified', 'Unit tests pass'][i % 4]
+        }))
+    },
+    swebench: {
+        source: 'SWE-bench',
+        icon: '🔧',
+        items: Array.from({length: 300}, (_, i) => {
+            const repo = sweRepos[i % sweRepos.length];
+            const issueType = sweIssueTypes[i % sweIssueTypes.length];
+            const component = sweComponents[i % sweComponents.length];
+            return {
+                id: `SW${i+1}`,
+                name: `${repo.split('/')[0]}/${repo.split('/')[1]}#${10000+i}`,
+                source: 'SWE-bench',
+                desc: `${issueType} ${component}`,
+                difficulty: ['Medium', 'Hard', 'Hard', 'Hard', 'Medium'][i % 5],
+                category: repo.split('/')[1].charAt(0).toUpperCase() + repo.split('/')[1].slice(1),
+                repo: repo,
+                issueUrl: `https://github.com/${repo}/issues/${10000+i}`,
+                patchSize: [`${(i % 15) + 1} files`, `${(i % 8) + 1} files`, `${(i % 20) + 3} files`][i % 3],
+                constraints: ['Must pass CI', 'Backward compatible', 'No new dependencies', 'Documentation update'][i % 4]
+            };
+        })
+    },
+    custom: {
+        source: 'Custom',
+        icon: '📁',
+        items: Array.from({length: 50}, (_, i) => ({
+            id: `CU${i+1}`,
+            name: `Custom/${i+1}`,
+            source: 'Custom',
+            desc: ['API integration test', 'Legacy migration', 'Performance optimization', 'Security audit', 'Code review'][i % 5],
+            difficulty: ['Easy', 'Medium', 'Hard', 'Medium', 'Easy'][i % 5],
+            category: ['Backend', 'Frontend', 'DevOps', 'Security', 'QA'][i % 5],
+            owner: ['Team Alpha', 'Platform', 'DevOps', 'Security', 'QA'][i % 5],
+            constraints: ['Custom validation', 'VPN access', 'GPU required', 'Staging env', 'Manual review'][i % 5]
+        }))
+    }
+};
+
+// Flatten all datasets - will be populated by loadDatasets()
+let datasets = [];
+
+let apiOnline = false;
+
+function _escapeHtml(s) {
+    return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// Populated from the local API server's model probe (/api/models).
+// Always keep a baseline option so the UI remains usable even without API access.
+let availableModels = [
+    { id: '', label: '(Gold baseline — no model call)', selectable: true }
+];
+
+async function loadModels() {
+    if (!apiOnline) return;
+    try {
+        const resp = await fetch('/api/models', { cache: 'no-store' });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        const models = Array.isArray(data.models) ? data.models : [];
+        const selectable = models.filter(m => m && m.selectable && m.id);
+
+        // Sort for a nicer dropdown (local first, then everything else).
+        selectable.sort((a, b) => {
+            const ap = String(a.id || '').startsWith('local:') ? 0 : 1;
+            const bp = String(b.id || '').startsWith('local:') ? 0 : 1;
+            if (ap !== bp) return ap - bp;
+            return String(a.id).localeCompare(String(b.id));
+        });
+
+        availableModels = [
+            { id: '', label: '(Gold baseline — no model call)', selectable: true },
+            ...selectable.map(m => ({ id: String(m.id), label: String(m.id), selectable: true }))
+        ];
+
+        // Re-render pipeline to update dropdowns.
+        updatePipeline();
+        updateRunSection();
+    } catch (_) {
+        // Leave fallback model list.
+    }
+}
+
+function copyServerCommand() {
+    // Browsers can't start a local Python process. This copies a command that works
+    // even when the package isn't installed (by setting PYTHONPATH to ./src).
+    const cmd = [
+        'Push-Location .\\multiagent-workflows',
+        '$env:PYTHONPATH = "$PWD\\src"',
+        '& "..\\.venv\\Scripts\\python.exe" -m multiagent_workflows.server --port 8010',
+        'Pop-Location'
+    ].join('\n');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cmd).then(() => {
+            const el = document.getElementById('apiText');
+            const old = el.textContent;
+            el.textContent = 'Copied start cmd';
+            setTimeout(() => el.textContent = old, 1200);
+        }).catch(() => alert(cmd));
+    } else {
+        alert(cmd);
+    }
+}
+
+function _setApiStatus(isOnline, detail) {
+    apiOnline = !!isOnline;
+    const dot = document.getElementById('apiDot');
+    const text = document.getElementById('apiText');
+    dot.classList.remove('ok', 'bad');
+    dot.classList.add(apiOnline ? 'ok' : 'bad');
+    text.textContent = apiOnline ? 'API: online' : ('API: offline' + (detail ? ` (${detail})` : ''));
+}
+
+async function checkApiNow(shouldReload) {
+    try {
+        const r = await fetch('/api/health', { cache: 'no-store' });
+        if (r.ok) {
+            const data = await r.json();
+            _setApiStatus(!!data.ok);
+            if (shouldReload) {
+                await loadDatasets();
+                await loadModels();
+            }
+            return;
+        }
+        _setApiStatus(false, String(r.status));
+    } catch (_) {
+        _setApiStatus(false, 'not running');
+    }
+}
+
+// Load datasets from JSON files
+async function loadDatasets() {
+    const sources = [
+        // Prefer online datasets via the local API server.
+        { api: '/api/tasks?benchmark_id=humaneval&limit=200', file: 'data/humaneval.json', source: 'HumanEval', icon: '🐍' },
+        { api: '/api/tasks?benchmark_id=mbpp&limit=300', file: 'data/mbpp.json', source: 'MBPP', icon: '📘' },
+        { api: '/api/tasks?benchmark_id=swe-bench-lite&limit=300', file: 'data/swebench.json', source: 'SWE-bench', icon: '🔧' }
+    ];
+
+    const allTasks = [];
+
+    for (const src of sources) {
+        try {
+            // Try API first (same-origin when served via the included Python server).
+            let response = null;
+            try {
+                response = await fetch(src.api);
+            } catch (_) {
+                response = null;
+            }
+
+            // Fallback to local bundled JSON.
+            if (!response || !response.ok) {
+                response = await fetch(src.file);
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                const rawTasks = data.tasks || [];
+                const tasks = rawTasks.map((task, i) => {
+                    // Handle variable test case formats
+                    let testContent = task.test || task.testCase;
+                    if (!testContent && task.test_list) {
+                        testContent = Array.isArray(task.test_list) ? task.test_list.join('\n') : task.test_list;
+                    }
+                    if (!testContent && task.test_patch) {
+                        testContent = task.test_patch;
+                    }
+
+                    // Handle variable difficulty
+                    let difficulty = task.difficulty;
+                    if (!difficulty && src.source === 'MBPP') difficulty = 'Easy';
+                    if (!difficulty) difficulty = 'Medium';
+
+                    return {
+                        id: task.task_id || task.instance_id || `${src.source.substring(0,2).toUpperCase()}${i}`,
+                        name: task.task_id || task.instance_id || `${src.source}/${i}`,
+                        source: src.source,
+                        desc: task.prompt || task.problem_statement || task.name || task.description,
+                        difficulty: difficulty,
+                        category: task.repo ? task.repo.split('/')[1] : (task.language || 'Python'),
+                        signature: task.entry_point ? `def ${task.entry_point}(...):` : undefined,
+                        testCase: testContent ? (testContent.length > 300 ? testContent.substring(0, 300) + '...' : testContent) : undefined,
+                        constraints: task.canonical_solution ? 'Reference solution available' : 'No reference',
+                        repo: task.repo,
+                        issueUrl: (task.repo && (task.instance_id || task.task_id)) ? `https://github.com/${task.repo}/issues/${String(task.instance_id || task.task_id).split('-').pop()}` : undefined,
+                        patchSize: task.patch ? `${task.patch.split('\n').length} lines` : undefined
+                    };
+                });
+                allTasks.push(...tasks);
+                console.log(`✓ Loaded ${tasks.length} tasks from ${src.source}`);
+            }
+        } catch (e) {
+            console.warn(`Could not load ${src.file}:`, e.message);
+        }
+    }
+    
+    // Add custom tasks
+    const customTasks = Array.from({length: 50}, (_, i) => ({
+        id: `CU${i+1}`,
+        name: `Custom/${i+1}`,
+        source: 'Custom',
+        desc: ['API integration test', 'Legacy migration', 'Performance optimization', 'Security audit', 'Code review'][i % 5],
+        difficulty: ['Easy', 'Medium', 'Hard', 'Medium', 'Easy'][i % 5],
+        category: ['Backend', 'Frontend', 'DevOps', 'Security', 'QA'][i % 5],
+        owner: ['Team Alpha', 'Platform', 'DevOps', 'Security', 'QA'][i % 5],
+        constraints: ['Custom validation', 'VPN access', 'GPU required', 'Staging env', 'Manual review'][i % 5]
+    }));
+    allTasks.push(...customTasks);
+    
+    // If no external data loaded, use fallback static data
+    if (allTasks.length <= 50) {
+        console.log('Using fallback static data...');
+        allTasks.push(...generateFallbackData());
+    }
+    
+    datasets = allTasks;
+    console.log(`Total datasets loaded: ${datasets.length}`);
+    render();
+}
+
+// Fallback static data generator
+function generateFallbackData() {
+    const fallbackData = [];
+    
+    // HumanEval fallback
+    const heTasks = ['has_close_elements', 'separate_paren_groups', 'truncate_number', 'below_zero', 
+        'mean_absolute_deviation', 'intersperse', 'parse_nested_parens', 'filter_by_substring'];
+    heTasks.forEach((task, i) => {
+        for (let j = 0; j < 20; j++) {
+            fallbackData.push({
+                id: `HE${i*20+j}`, name: `HumanEval/${i*20+j}`, source: 'HumanEval',
+                desc: `Implement ${task.replace(/_/g, ' ')}`, difficulty: ['Easy', 'Medium', 'Hard'][j % 3],
+                category: 'Python', signature: `def ${task}(...):`, constraints: 'Handle edge cases'
+            });
+        }
+    });
+    
+    // MBPP fallback
+    const mbTasks = ['find_max', 'factorial', 'fibonacci', 'is_palindrome', 'binary_search'];
+    mbTasks.forEach((task, i) => {
+        for (let j = 0; j < 20; j++) {
+            fallbackData.push({
+                id: `MB${i*20+j}`, name: `MBPP/${i*20+j+1}`, source: 'MBPP',
+                desc: `Write function for ${task.replace(/_/g, ' ')}`, difficulty: ['Easy', 'Medium', 'Hard'][j % 3],
+                category: 'Python', signature: `def ${task}(...):`, constraints: 'Include docstring'
+            });
+        }
+    });
+    
+    // SWE-bench fallback
+    const repos = ['django/django', 'flask/flask', 'requests/requests', 'pandas-dev/pandas', 'sympy/sympy'];
+    repos.forEach((repo, i) => {
+        for (let j = 0; j < 60; j++) {
+            fallbackData.push({
+                id: `SW${i*60+j}`, name: `${repo}#${10000+j}`, source: 'SWE-bench',
+                desc: `Fix issue in ${repo.split('/')[1]}`, difficulty: ['Medium', 'Hard'][j % 2],
+                category: repo.split('/')[1], repo: repo, 
+                issueUrl: `https://github.com/${repo}/issues/${10000+j}`, patchSize: `${j % 15 + 1} files`
+            });
+        }
+    });
+    
+    return fallbackData;
+}
+
+
+const scores = [
+    {name: 'Correctness', weight: 81, value: 70, checked: true},
+    {name: 'Quality', weight: 25, value: 20, checked: true},
+    {name: 'Documents', weight: 25, value: 40, checked: true},
+    {name: 'Dock', weight: 15, value: 55, checked: true},
+    {name: 'PFSence', weight: 0, value: 20, checked: true},
+    {name: 'PSfence', weight: 9, value: 38, checked: true}
+];
+
+// Workflow definitions with agents and feedback loops
+const workflows = {
+    fullstack: {
+        name: 'Full-Stack Generation',
+        agents: [
+            {id: 'vision', name: 'Vision Agent', icon: '👁️', color: '#3b82f6'},
+            {id: 'requirements', name: 'Requirements', icon: '📋', color: '#22c55e'},
+            {id: 'architect', name: 'Architect', icon: '🏗️', color: '#8b5cf6'},
+            {id: 'coder', name: 'Coder', icon: '💻', color: '#f59e0b'},
+            {id: 'reviewer', name: 'Reviewer', icon: '✅', color: '#22c55e'},
+            {id: 'tester', name: 'Tester', icon: '🧪', color: '#ec4899'}
+        ],
+        flow: ['vision', 'requirements', 'architect', 'coder', 'reviewer', 'tester'],
+        feedback: [{from: 'reviewer', to: 'coder', label: 'Fix Issues'}]
+    },
+    refactoring: {
+        name: 'Legacy Refactoring',
+        agents: [
+            {id: 'archaeologist', name: 'Archaeologist', icon: '🔍', color: '#f59e0b'},
+            {id: 'analyst', name: 'Code Analyst', icon: '📊', color: '#3b82f6'},
+            {id: 'strategist', name: 'Strategist', icon: '🎯', color: '#8b5cf6'},
+            {id: 'refactorer', name: 'Refactorer', icon: '🔄', color: '#22c55e'},
+            {id: 'validator', name: 'Validator', icon: '✓', color: '#ec4899'}
+        ],
+        flow: ['archaeologist', 'analyst', 'strategist', 'refactorer', 'validator'],
+        feedback: [{from: 'validator', to: 'refactorer', label: 'Iterate'}]
+    },
+    bugfix: {
+        name: 'Bug Triage & Fix',
+        agents: [
+            {id: 'triager', name: 'Triager', icon: '📥', color: '#ef4444'},
+            {id: 'reproducer', name: 'Reproducer', icon: '🔁', color: '#f59e0b'},
+            {id: 'rootcause', name: 'Root Cause', icon: '🔬', color: '#3b82f6'},
+            {id: 'fixer', name: 'Fixer', icon: '🔧', color: '#22c55e'},
+            {id: 'verifier', name: 'Verifier', icon: '✅', color: '#8b5cf6'}
+        ],
+        flow: ['triager', 'reproducer', 'rootcause', 'fixer', 'verifier'],
+        feedback: [{from: 'verifier', to: 'fixer', label: 'Retry Fix'}, {from: 'reproducer', to: 'triager', label: 'Re-triage'}]
+    },
+    architecture: {
+        name: 'Architecture Evolution',
+        agents: [
+            {id: 'scanner', name: 'Scanner', icon: '📡', color: '#3b82f6'},
+            {id: 'assessor', name: 'Debt Assessor', icon: '💳', color: '#ef4444'},
+            {id: 'planner', name: 'Planner', icon: '📐', color: '#8b5cf6'},
+            {id: 'simulator', name: 'Simulator', icon: '🎮', color: '#f59e0b'},
+            {id: 'documenter', name: 'Documenter', icon: '📝', color: '#22c55e'}
+        ],
+        flow: ['scanner', 'assessor', 'planner', 'simulator', 'documenter'],
+        feedback: [{from: 'simulator', to: 'planner', label: 'Revise Plan'}]
+    }
+};
+
+function updatePipeline() {
+    const selected = document.querySelector('input[name="workflow"]:checked').value;
+    const wf = workflows[selected];
+    const container = document.getElementById('pipelineContainer');
+    
+    let html = '<div class="pipeline-flow">';
+    
+    // Render agents in flow order
+    wf.flow.forEach((agentId, i) => {
+        const agent = wf.agents.find(a => a.id === agentId);
+        html += `
+            <div class="pipeline-agent" data-agent="${agent.id}">
+                <div class="agent-header">
+                    <div class="agent-icon" style="background:${agent.color}">${agent.icon}</div>
+                    <span class="agent-name">${agent.name}</span>
+                </div>
+                <select class="agent-select" id="model_${agent.id}">
+                    ${availableModels.map(m => `<option value="${_escapeHtml(m.id)}">${_escapeHtml(m.label)}</option>`).join('')}
+                </select>
+            </div>
+        `;
+        if (i < wf.flow.length - 1) {
+            html += '<span class="pipeline-arrow">→</span>';
+        }
+    });
+    
+    html += '</div>';
+    
+    // Render feedback loops
+    if (wf.feedback && wf.feedback.length > 0) {
+        html += '<div class="feedback-loops">';
+        wf.feedback.forEach(fb => {
+            const fromAgent = wf.agents.find(a => a.id === fb.from);
+            const toAgent = wf.agents.find(a => a.id === fb.to);
+            html += `
+                <div class="feedback-loop">
+                    <span class="feedback-arrow">↩</span>
+                    <span class="feedback-label">${fb.label}: ${fromAgent.name} → ${toAgent.name}</span>
+                </div>
+            `;
+        });
+        html += '</div>';
+    }
+    
+    container.innerHTML = html;
+}
+
+let state = {selected: new Set(), page: 1, perPage: 8};
+
+function getFilteredData() {
+    const searchTerm = (document.getElementById('searchInput')?.value || '').toLowerCase();
+    const sourceFilter = document.getElementById('filterSource')?.value || '';
+    const difficultyFilter = document.getElementById('filterDifficulty')?.value || '';
+    const sortBy = document.getElementById('sortBy')?.value || 'default';
+    
+    // Filter
+    let filtered = datasets.filter(d => {
+        const matchesSearch = d.name.toLowerCase().includes(searchTerm) || d.desc.toLowerCase().includes(searchTerm);
+        const matchesSource = !sourceFilter || d.source === sourceFilter;
+        const matchesDifficulty = !difficultyFilter || d.difficulty === difficultyFilter;
+        return matchesSearch && matchesSource && matchesDifficulty;
+    });
+    
+    // Sort
+    const difficultyOrder = {'Easy': 1, 'Medium': 2, 'Hard': 3};
+    if (sortBy === 'name') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'name-desc') {
+        filtered.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortBy === 'difficulty') {
+        filtered.sort((a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]);
+    } else if (sortBy === 'source') {
+        filtered.sort((a, b) => a.source.localeCompare(b.source));
+    }
+    
+    return filtered;
+}
+
+function render() {
+    const filtered = getFilteredData();
+    const start = (state.page - 1) * state.perPage;
+    const pageData = filtered.slice(start, start + state.perPage);
+    
+    document.getElementById('totalItems').textContent = filtered.length;
+    document.getElementById('showStart').textContent = filtered.length ? start + 1 : 0;
+    document.getElementById('showEnd').textContent = Math.min(start + state.perPage, filtered.length);
+    
+    document.getElementById('datasetContainer').innerHTML = pageData.map(d => {
+        const sourceIcons = {'HumanEval': '🐍', 'MBPP': '📘', 'SWE-bench': '🔧', 'Custom': '📁'};
+        return `
+        <div class="dataset-card ${state.selected.has(d.id) ? 'selected' : ''}" onclick="toggleSelect('${d.id}')">
+            <div class="card-header">
+                <div class="card-title">${d.name}</div>
+                <div class="card-icon">${sourceIcons[d.source] || '📄'}</div>
+            </div>
+            <div class="card-tags">
+                <span class="tag tag-${d.difficulty.toLowerCase()}">${d.difficulty}</span>
+                <span class="tag tag-python">${d.category}</span>
+            </div>
+            <div class="card-desc">${d.desc}</div>
+            <button class="view-details-btn" onclick="event.stopPropagation();showDetails('${d.id}')">⊕ View Details</button>
+        </div>
+    `}).join('');
+    
+    const totalPages = Math.ceil(filtered.length / state.perPage);
+    document.getElementById('pageButtons').innerHTML = Array.from({length: Math.min(5, totalPages)}, (_, i) => 
+        `<button class="page-btn ${i+1 === state.page ? 'active' : ''}" onclick="goPage(${i+1})">${i+1}</button>`
+    ).join('') + (totalPages > 5 ? `<button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>` : '');
+    
+    document.getElementById('selCount').textContent = state.selected.size;
+    updateSelectAllToggle();
+}
+
+function renderScoring() {
+    document.getElementById('scoringOptions').innerHTML = scores.map((s, i) => `
+        <div class="score-item">
+            <input type="checkbox" class="score-checkbox" ${s.checked ? 'checked' : ''} onchange="scores[${i}].checked=this.checked;updateTotal()">
+            <span class="score-label">${s.name} (${s.weight}%)</span>
+            <input type="range" class="score-slider" value="${s.value}" min="0" max="100" oninput="scores[${i}].value=this.value;updateTotal();this.nextElementSibling.textContent=this.value+'%'" style="background:linear-gradient(to right, var(--accent) ${s.value}%, var(--bg-tertiary) ${s.value}%)">
+            <span class="score-value">${s.value}%</span>
+        </div>
+    `).join('');
+    updateTotal();
+}
+
+function updateTotal() {
+    const total = scores.filter(s => s.checked).reduce((sum, s) => sum + parseInt(s.value) * s.weight / 100, 0);
+    document.getElementById('totalScore').textContent = Math.round(total) + '%';
+}
+
+function toggleSelect(id) {
+    state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
+    render();
+}
+
+function showDetails(id) {
+    const d = datasets.find(ds => ds.id === id);
+    if (!d) return;
+    
+    // Build source-specific content
+    let sourceContent = '';
+    
+    if (d.source === 'HumanEval' || d.source === 'MBPP') {
+        sourceContent = `
+            <div class="detail-section">
+                <div class="detail-section-title">📥 Function Signature</div>
+                <div class="example-block">${d.signature || 'def example():'}</div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title">📤 Test Case</div>
+                <div class="example-block">${d.testCase || 'No test case'}</div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title">📋 Constraints</div>
+                <div class="example-block">• ${d.constraints || 'None specified'}</div>
+            </div>
+        `;
+    } else if (d.source === 'SWE-bench') {
+        sourceContent = `
+            <div class="detail-row">
+                <span class="detail-label">Repository</span>
+                <span class="detail-value">${d.repo}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Patch Size</span>
+                <span class="detail-value">${d.patchSize}</span>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title">� Issue Link</div>
+                <div class="example-block">${d.issueUrl}</div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title">📋 Requirements</div>
+                <div class="example-block">• ${d.constraints}</div>
+            </div>
+        `;
+    } else if (d.source === 'Custom') {
+        sourceContent = `
+            <div class="detail-row">
+                <span class="detail-label">Owner</span>
+                <span class="detail-value">${d.owner}</span>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title">� Requirements</div>
+                <div class="example-block">• ${d.constraints}</div>
+            </div>
+        `;
+    }
+    
+    document.getElementById('modalTitle').textContent = d.name + ' Details';
+    document.getElementById('modalBody').innerHTML = `
+        <div class="detail-row">
+            <span class="detail-label">Source</span>
+            <span class="detail-value"><span class="tag tag-python">${d.source}</span></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Task ID</span>
+            <span class="detail-value">${d.id}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Difficulty</span>
+            <span class="detail-value"><span class="tag tag-${d.difficulty.toLowerCase()}">${d.difficulty}</span></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Category</span>
+            <span class="detail-value">${d.category}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Description</span>
+            <span class="detail-value">${d.desc}</span>
+        </div>
+        
+        ${sourceContent}
+        
+        <div style="margin-top:20px;display:flex;gap:10px;">
+            <button class="btn btn-primary" onclick="toggleSelect('${d.id}');closeModal()">${state.selected.has(d.id) ? '✓ Selected' : '+ Add to Selection'}</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+    `;
+    document.getElementById('detailsModal').classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('detailsModal').classList.remove('active');
+}
+
+function toggleSelectAll() {
+    const toggle = document.getElementById('selectAllToggle');
+    toggle.classList.toggle('active');
+    if (toggle.classList.contains('active')) {
+        datasets.forEach(d => state.selected.add(d.id));
+    } else {
+        state.selected.clear();
+    }
+    render();
+}
+
+function updateSelectAllToggle() {
+    const toggle = document.getElementById('selectAllToggle');
+    if (state.selected.size === datasets.length) toggle.classList.add('active');
+    else toggle.classList.remove('active');
+}
+
+function clearSelection() { state.selected.clear(); render(); }
+function goPage(p) { state.page = p; render(); }
+function adjustRuns(d) { const el = document.getElementById('numRuns'); el.value = Math.max(1, Math.min(10, parseInt(el.value) + d)); }
+function toggleFormat(btn) { btn.classList.toggle('active'); }
+
+function updateRunSection() {
+    const items = Array.from(state.selected).map(id => datasets.find(d => d.id === id)).filter(Boolean);
+    document.getElementById('selectedItemsList').innerHTML = items.map(d => `
+        <div class="selected-item">
+            <div class="item-name">${d.name}</div>
+            <div class="item-tags"><span class="tag tag-${d.difficulty.toLowerCase()}">${d.difficulty}</span><span class="tag tag-python">${d.category}</span></div>
+            <div class="item-tooltip">
+                <div class="tooltip-title">${d.name} Details</div>
+                <div class="tooltip-desc">Task: ${d.desc}<br><br>Tags: ${d.difficulty}, ${d.category}, String Manipulation</div>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('sumThresh').textContent = document.getElementById('threshold').value + '%';
+    document.getElementById('sumOutput').textContent = document.getElementById('outputDir').value;
+    document.getElementById('sumLogLevel').textContent = document.getElementById('logLevel').options[document.getElementById('logLevel').selectedIndex].text;
+    document.getElementById('sumVerbosity').textContent = document.getElementById('responseDetail').options[document.getElementById('responseDetail').selectedIndex].text;
+    
+    // Update workflow name and agents
+    const selectedWf = document.querySelector('input[name="workflow"]:checked').value;
+    const wf = workflows[selectedWf];
+    document.getElementById('sumWorkflow').textContent = wf.name;
+    const picked = _pickModelForRun();
+    document.getElementById('sumModels').textContent = picked ? picked : '(Gold baseline)';
+    
+    const time = items.length * wf.agents.length * parseInt(document.getElementById('numRuns').value);
+    const cost = (items.length * 0.05 * wf.agents.length * parseInt(document.getElementById('numRuns').value)).toFixed(2);
+    document.getElementById('estTime').textContent = `~${time} min`;
+    document.getElementById('estCost').textContent = `~$${cost}`;
+}
+
+function _benchmarkIdForSource(source) {
+    if (source === 'HumanEval') return 'humaneval';
+    if (source === 'MBPP') return 'mbpp';
+    if (source === 'SWE-bench') return 'swe-bench-lite';
+    return null;
+}
+
+function _pickModelForRun() {
+    // Take a reasonable default from the pipeline dropdowns.
+    // Prefer the coder model if available.
+    const coder = document.getElementById('model_coder');
+    if (coder && coder.value) return coder.value;
+    const first = document.querySelector('select[id^="model_"]');
+    return first ? first.value : null;
+}
+
+function _renderRunResults(runs) {
+    const container = document.getElementById('runResults');
+    const blocks = [];
+
+    runs.forEach(r => {
+        const pct = r.total ? Math.round((r.completed / r.total) * 100) : 0;
+        const header = `<div style="display:flex; justify-content: space-between; align-items:center; padding: 8px 0; border-bottom: 1px solid var(--border);">
+            <div style="font-weight:600;">${r.benchmark_id}</div>
+            <div style="color: var(--text-muted); font-size: 12px;">${r.status} • ${r.completed}/${r.total} • ${pct}%</div>
+        </div>`;
+
+        const items = (r.items || []).map((it, idx) => {
+            const badgeColor = it.status === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)';
+            const badgeText = it.status === 'error' ? '#ef4444' : '#22c55e';
+            return `<div style="padding: 10px 0; border-bottom: 1px solid var(--border); display:flex; justify-content: space-between; gap: 12px; align-items: center;">
+                <div style="min-width: 0;">
+                    <div style="font-size: 13px; font-weight: 500;">${it.task_id}</div>
+                    <div style="font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow:hidden; text-overflow: ellipsis; max-width: 520px;">${(it.before || '').replace(/\s+/g,' ').trim()}</div>
+                </div>
+                <div style="display:flex; gap: 8px; align-items:center;">
+                    <span style="padding: 3px 8px; border-radius: 6px; font-size: 11px; background: ${badgeColor}; color: ${badgeText};">${it.status}</span>
+                    <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="showRunItem('${r.run_id}', ${idx})">View</button>
+                </div>
+            </div>`;
+        }).join('');
+
+        blocks.push(`<div style="margin-bottom: 12px;">${header}${items}</div>`);
+    });
+
+    container.innerHTML = blocks.join('') || '<div style="color: var(--text-muted); font-size: 13px;">No results yet.</div>';
+}
+
+let _activeRuns = []; // [{run_id, benchmark_id, status, ...}]
+let _activeRunMap = {}; // run_id -> run object
+
+async function showRunItem(runId, itemIndex) {
+    const run = _activeRunMap[runId];
+    if (!run) return;
+    const it = (run.items || [])[itemIndex];
+    if (!it) return;
+
+    document.getElementById('modalTitle').textContent = `${run.benchmark_id} • ${it.task_id}`;
+    document.getElementById('modalBody').innerHTML = `
+        <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${it.status}</span></div>
+        ${it.error ? `<div class="detail-section"><div class="detail-section-title">Error</div><div class="example-block">${it.error}</div></div>` : ''}
+        <div class="detail-section"><div class="detail-section-title">Code Before / Input</div><div class="example-block">${it.before || ''}</div></div>
+        <div class="detail-section"><div class="detail-section-title">Code After / Model Output</div><div class="example-block">${it.after || ''}</div></div>
+        <div class="detail-section"><div class="detail-section-title">Gold Standard</div><div class="example-block">${it.gold || ''}</div></div>
+        <div style="margin-top:20px;display:flex;gap:10px;">
+            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+    `;
+    document.getElementById('detailsModal').classList.add('active');
+}
+
+async function startRun() {
+    if (state.selected.size === 0) {
+        alert('Select at least one dataset item first.');
+        return;
+    }
+
+    // Starting runs requires the local API server. If the user opened index.html directly (file://),
+    // we can't start Python from the browser, so provide a clear path.
+    if (!apiOnline) {
+        await checkApiNow(false);
+        if (!apiOnline) {
+            alert('The local API server is not running.\n\nUse the "Copy start cmd" button in the header to copy a working PowerShell snippet, then open the URL (default: http://127.0.0.1:8010/).\n\nOnce running, this UI will auto-detect it and start pulling live records + model list.');
+            return;
+        }
+    }
+
+    const btn = document.getElementById('startRunBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Running...';
+    document.getElementById('runStatusText').textContent = 'Starting run(s)...';
+    document.getElementById('runStatusMeta').textContent = '';
+    document.getElementById('runResults').innerHTML = '';
+
+    const selectedWf = document.querySelector('input[name="workflow"]:checked').value;
+    const model = _pickModelForRun();
+
+    // Group selections by dataset source
+    const selectedItems = Array.from(state.selected)
+        .map(id => datasets.find(d => d.id === id))
+        .filter(Boolean);
+
+    const groups = {};
+    selectedItems.forEach(it => {
+        const bid = _benchmarkIdForSource(it.source);
+        if (!bid) return;
+        if (!groups[bid]) groups[bid] = [];
+        groups[bid].push(it.id);
+    });
+
+    const runIds = [];
+    try {
+        for (const [benchmark_id, task_ids] of Object.entries(groups)) {
+            const resp = await fetch('/api/runs', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({benchmark_id, task_ids, workflow: selectedWf, model: model || null, use_cache: true})
+            });
+            const data = await resp.json();
+            if (!resp.ok) {
+                throw new Error(data.error || 'Failed to create run');
+            }
+            runIds.push(data.run_id);
+        }
+
+        document.getElementById('runStatusText').textContent = `Running ${runIds.length} job(s)...`;
+        document.getElementById('runStatusMeta').textContent = runIds.join(', ');
+
+        // Poll runs until all complete
+        _activeRuns = [];
+        _activeRunMap = {};
+
+        let done = false;
+        while (!done) {
+            const runs = [];
+            for (const rid of runIds) {
+                const rresp = await fetch(`/api/runs/${rid}`);
+                const r = await rresp.json();
+                if (rresp.ok) {
+                    runs.push(r);
+                    _activeRunMap[rid] = r;
+                }
+            }
+
+            _activeRuns = runs;
+            _renderRunResults(runs);
+
+            const statuses = runs.map(r => r.status);
+            done = statuses.every(s => ['completed', 'completed_with_errors', 'failed', 'cancelled'].includes(s));
+
+            const total = runs.reduce((sum, r) => sum + (r.total || 0), 0);
+            const completed = runs.reduce((sum, r) => sum + (r.completed || 0), 0);
+            document.getElementById('runStatusText').textContent = done ? 'Done' : `Running... (${completed}/${total})`;
+
+            if (!done) await new Promise(res => setTimeout(res, 500));
+        }
+
+    } catch (e) {
+        document.getElementById('runStatusText').textContent = 'Failed to start/run.';
+        document.getElementById('runStatusMeta').textContent = e.message || String(e);
+        alert(`Run failed: ${e.message || e}`);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '▶ Start Workflow Run';
+    }
+}
+function exportConfig() {
+    const config = {
+        datasets: Array.from(state.selected), 
+        threshold: document.getElementById('threshold').value, 
+        runs: document.getElementById('numRuns').value,
+        logLevel: document.getElementById('logLevel').value,
+        responseDetail: document.getElementById('responseDetail').value,
+        agentVerbosity: document.getElementById('agentVerbosity').value,
+        saveRawResponses: document.getElementById('saveRaw').value,
+        outputDir: document.getElementById('outputDir').value
+    };
+    const blob = new Blob([JSON.stringify(config, null, 2)], {type: 'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'config.json'; a.click();
+}
+
+// Navigation
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(item.dataset.section + '-section').classList.add('active');
+        const titles = {datasets: ['Select Datasets', 'Choose evaluation datasets'], configuration: ['Configuration', 'Set models, algorithms, and options'], run: ['Run Workflow', 'Review, configure, and run pipeline']};
+        document.getElementById('pageTitle').textContent = titles[item.dataset.section][0];
+        document.getElementById('pageSub').textContent = titles[item.dataset.section][1];
+        if (item.dataset.section === 'run') updateRunSection();
+    });
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+    const next = document.querySelector('.nav-item.active').nextElementSibling;
+    if (next) next.click();
+});
+
+loadDatasets();
+renderScoring();
+updatePipeline();
+
+checkApiNow(false).then(() => loadModels());
+setInterval(() => checkApiNow(false), 3000);
+</script>
+</body>
+</html>

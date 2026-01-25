@@ -3,6 +3,34 @@ name: Chain Of Thought Performance Analysis
 description: # Chain-of-Thought: Performance Analysis & Profiling
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Chain Of Thought Performance Analysis
+description: # Chain-of-Thought: Performance Analysis & Profiling
+type: how_to
+---
+```
+
+# Chain-of-Thought: Performance Analysis & Profiling
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Chain Of Thought Performance Analysis
+description: # Chain-of-Thought: Performance Analysis & Profiling
+type: how_to
+---
+```
+
+# Chain-of-Thought: Performance Analysis & Profiling
+
 
 # Chain-of-Thought: Performance Analysis & Profiling
 
@@ -146,4 +174,66 @@ How will you validate that the optimization works?
 - **Security:** Ensure profiling data doesn't expose secrets, API keys, or internal system details
 - **Cost Awareness:** Some optimizations (e.g., caching, read replicas) have infrastructure costs; document trade-offs
 - **Human Review:** Major optimizations (query rewrites, architecture changes) should be reviewed by senior engineers
-- **Production Safety:** Test optimizations in staging before production; use feature flags for gradual rollout
+- **Production Safety:** Test optimizations in staging before production; use feature flags for gradual rollout## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANY_OTHER_RELEVANT_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_RELEVANT_INFO` |
+| `[BRIEF_SYSTEM_DESCRIPTION]` | AUTO-GENERATED: describe `BRIEF_SYSTEM_DESCRIPTION` |
+| `[CONCURRENCY]` | AUTO-GENERATED: describe `CONCURRENCY` |
+| `[CURRENT_METRIC]` | AUTO-GENERATED: describe `CURRENT_METRIC` |
+| `[PATTERN]` | AUTO-GENERATED: describe `PATTERN` |
+| `[PROFILE_DATA_OR_SUMMARY]` | AUTO-GENERATED: describe `PROFILE_DATA_OR_SUMMARY` |
+| `[SYSTEM_NAME]` | AUTO-GENERATED: describe `SYSTEM_NAME` |
+| `[TARGET_METRIC]` | AUTO-GENERATED: describe `TARGET_METRIC` |
+| `[THROUGHPUT]` | AUTO-GENERATED: describe `THROUGHPUT` |
+| `[UTILIZATION]` | AUTO-GENERATED: describe `UTILIZATION` |
+| `[VOLUME]` | AUTO-GENERATED: describe `VOLUME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANY_OTHER_RELEVANT_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_RELEVANT_INFO` |
+| `[BRIEF_SYSTEM_DESCRIPTION]` | AUTO-GENERATED: describe `BRIEF_SYSTEM_DESCRIPTION` |
+| `[CONCURRENCY]` | AUTO-GENERATED: describe `CONCURRENCY` |
+| `[CURRENT_METRIC]` | AUTO-GENERATED: describe `CURRENT_METRIC` |
+| `[Data Quality Assessment]` | AUTO-GENERATED: describe `Data Quality Assessment` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[PATTERN]` | AUTO-GENERATED: describe `PATTERN` |
+| `[PROFILE_DATA_OR_SUMMARY]` | AUTO-GENERATED: describe `PROFILE_DATA_OR_SUMMARY` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[SYSTEM_NAME]` | AUTO-GENERATED: describe `SYSTEM_NAME` |
+| `[TARGET_METRIC]` | AUTO-GENERATED: describe `TARGET_METRIC` |
+| `[THROUGHPUT]` | AUTO-GENERATED: describe `THROUGHPUT` |
+| `[Tree-of-Thoughts: Architecture Evaluator]` | AUTO-GENERATED: describe `Tree-of-Thoughts: Architecture Evaluator` |
+| `[UTILIZATION]` | AUTO-GENERATED: describe `UTILIZATION` |
+| `[VOLUME]` | AUTO-GENERATED: describe `VOLUME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,52 @@ name: Example Research Output
 description: # Example Research Output: Modern Prompting Techniques (2025)
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```python
+# Reflexion Loop Example
+def reflexion_loop(task, max_iterations=3):
+    draft = generate_initial_response(task)
+
+    for i in range(max_iterations):
+        critique = critique_response(draft, task)
+        if critique.is_satisfactory():
+            return draft
+        draft = refine_response(draft, critique)
+
+    return draft
+
+# Usage
+final_answer = reflexion_loop("Explain quantum entanglement")
+```
+
+# Example Research Output: Modern Prompting Techniques (2025)
+
+## Description
+
+## Prompt
+
+```python
+# Reflexion Loop Example
+def reflexion_loop(task, max_iterations=3):
+    draft = generate_initial_response(task)
+
+    for i in range(max_iterations):
+        critique = critique_response(draft, task)
+        if critique.is_satisfactory():
+            return draft
+        draft = refine_response(draft, critique)
+
+    return draft
+
+# Usage
+final_answer = reflexion_loop("Explain quantum entanglement")
+```
+
+# Example Research Output: Modern Prompting Techniques (2025)
+
 
 # Example Research Output: Modern Prompting Techniques (2025)
 
@@ -111,4 +157,41 @@ final_answer = reflexion_loop("Explain quantum entanglement")
 
 - Files Downloaded: 5 PDFs, 3 GitHub repositories cloned
 - Execution Time: 12 minutes (3 min search, 4 min download, 5 min synthesis)
-- Tools Used: `wget`, `pdftotext`, `requests`, `grep`
+- Tools Used: `wget`, `pdftotext`, `requests`, `grep`## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

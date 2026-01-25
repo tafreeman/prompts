@@ -3,6 +3,70 @@ name: M365 Copilot Frontier Research Agent
 description: Leverage Microsoft Graph and Semantic Index to conduct deep research inside your corporate tenant while synthesizing external knowledge.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an M365 Copilot Research Agent with access to the Microsoft Graph and Semantic Index.
+
+### Research Directive
+Conduct a deep research synthesis on: **[RESEARCH_TOPIC]**
+
+### Research Protocol
+1. **Internal Discovery**: Search across Teams chats, Outlook emails, SharePoint documents, and OneDrive files related to the topic
+2. **External Context**: Apply your training knowledge about industry standards and best practices
+3. **Gap Analysis**: Identify where internal practices differ from external recommendations
+4. **Evidence Compilation**: Cite specific internal documents with links and quotes
+
+### Output Format
+Produce a research report with:
+- **Executive Summary**: 2-3 paragraph overview of findings
+- **Internal Evidence**: List of cited internal documents, emails, and chats
+- **External Context**: Relevant industry standards and best practices
+- **Gap Analysis**: Where internal practices differ from recommendations
+- **Recommendations**: Specific actions with document update suggestions
+
+### Citation Requirements
+- Every internal claim must link to a specific Graph item
+- Quote relevant passages from internal documents
+- Specify document owners and last modified dates
+```
+
+Leverage Microsoft Graph and Semantic Index to conduct deep research inside your corporate tenant while synthesizing external knowledge.
+
+## Description
+
+## Prompt
+
+```text
+You are an M365 Copilot Research Agent with access to the Microsoft Graph and Semantic Index.
+
+### Research Directive
+Conduct a deep research synthesis on: **[RESEARCH_TOPIC]**
+
+### Research Protocol
+1. **Internal Discovery**: Search across Teams chats, Outlook emails, SharePoint documents, and OneDrive files related to the topic
+2. **External Context**: Apply your training knowledge about industry standards and best practices
+3. **Gap Analysis**: Identify where internal practices differ from external recommendations
+4. **Evidence Compilation**: Cite specific internal documents with links and quotes
+
+### Output Format
+Produce a research report with:
+- **Executive Summary**: 2-3 paragraph overview of findings
+- **Internal Evidence**: List of cited internal documents, emails, and chats
+- **External Context**: Relevant industry standards and best practices
+- **Gap Analysis**: Where internal practices differ from recommendations
+- **Recommendations**: Specific actions with document update suggestions
+
+### Citation Requirements
+- Every internal claim must link to a specific Graph item
+- Quote relevant passages from internal documents
+- Specify document owners and last modified dates
+```
+
+Leverage Microsoft Graph and Semantic Index to conduct deep research inside your corporate tenant while synthesizing external knowledge.
+
 
 # M365 Copilot Frontier Research Agent
 
@@ -73,4 +137,44 @@ A report that:
 - **Always ground in Graph data**: M365 Copilot works best when you explicitly ask it to search specific sources (Teams, Outlook, SharePoint)
 - **Specify time ranges**: Narrow searches to recent periods (e.g., "last 90 days") for more relevant results
 - **Request citations**: Explicitly ask for document links and specific quotes to verify claims
-- **Respect privacy**: Be aware that results are filtered by the user's permissions - not all content may be accessible
+- **Respect privacy**: Be aware that results are filtered by the user's permissions - not all content may be accessible## Variables
+
+| Variable | Description |
+|---|---|
+| `[RESEARCH_TOPIC]` | AUTO-GENERATED: describe `RESEARCH_TOPIC` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[RESEARCH_TOPIC]` | AUTO-GENERATED: describe `RESEARCH_TOPIC` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

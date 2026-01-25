@@ -33,6 +33,44 @@ TIERS: dict[int, dict[str, object]] = {
 PASS_THRESHOLD = 7.0
 
 
+# Default filtering: PromptEval should evaluate *prompt content* files.
+# Navigation/docs files like README.md and index.md live alongside prompts in this repo
+# and should not be scored the same way by default.
+_EXCLUDED_FILENAMES = {
+    "readme.md",
+    "index.md",
+    "changelog.md",
+}
+_EXCLUDED_SUFFIXES = (
+    ".agent.md",
+    ".instructions.md",
+)
+_EXCLUDED_DIR_PARTS = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".pytest_cache",
+    "archive",
+    "_archive",
+    "bin",
+    "obj",
+    ".venv",
+    "venv",
+}
+
+
+def _is_excluded_from_batch(path: Path) -> bool:
+    name_lower = path.name.lower()
+    if name_lower in _EXCLUDED_FILENAMES:
+        return True
+    if name_lower.endswith(_EXCLUDED_SUFFIXES):
+        return True
+    parts_lower = {p.lower() for p in path.parts}
+    if parts_lower & _EXCLUDED_DIR_PARTS:
+        return True
+    return False
+
+
 def evaluate(
     path: Union[str, Path],
     model: Optional[str] = None,
@@ -41,6 +79,7 @@ def evaluate(
     threshold: float = PASS_THRESHOLD,
     recursive: bool = True,
     verbose: bool = False,
+    include_all: bool = False,
 ) -> Union[EvalResult, BatchResult]:
     """Evaluate a prompt file or directory.
 
@@ -64,7 +103,16 @@ def evaluate(
     if p.is_file():
         return _evaluate_single(p, model=model, method=method, tier=int(tier), threshold=threshold, verbose=verbose)
     if p.is_dir():
-        return _evaluate_batch(p, model=model, method=method, tier=int(tier), threshold=threshold, recursive=recursive, verbose=verbose)
+        return _evaluate_batch(
+            p,
+            model=model,
+            method=method,
+            tier=int(tier),
+            threshold=threshold,
+            recursive=recursive,
+            verbose=verbose,
+            include_all=include_all,
+        )
 
     return EvalResult(
         file=str(p),
@@ -121,12 +169,13 @@ def _evaluate_structural(path: Path, content: str, *, threshold: float, started:
     criteria: dict[str, float] = {}
     improvements: list[str] = []
 
-    if fm.get("title"):
+    # Repo convention uses `name` for prompt title; tolerate `title` for legacy.
+    if fm.get("title") or fm.get("name"):
         score += 1.0
         criteria["title"] = 10
     else:
         criteria["title"] = 0
-        improvements.append("Add title in frontmatter")
+        improvements.append("Add name/title in frontmatter")
 
     if fm.get("description") or fm.get("intro"):
         score += 1.0
@@ -237,10 +286,14 @@ def _evaluate_batch(
     threshold: float,
     recursive: bool,
     verbose: bool,
+    include_all: bool,
 ) -> BatchResult:
     started = time.time()
     pattern = "**/*.md" if recursive else "*.md"
     files = list(path.glob(pattern))
+
+    if not include_all:
+        files = [f for f in files if not _is_excluded_from_batch(f)]
 
     results: list[EvalResult] = []
     for i, f in enumerate(files):

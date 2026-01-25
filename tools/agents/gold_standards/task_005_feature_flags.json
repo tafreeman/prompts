@@ -1,0 +1,53 @@
+{
+  "task_id": 5,
+  "name": "Feature Flag System",
+  "version": "1.0",
+  "last_updated": "2026-01-23",
+  "source_references": [
+    {
+      "type": "service",
+      "url": "https://docs.launchdarkly.com/",
+      "description": "LaunchDarkly feature flags documentation"
+    },
+    {
+      "type": "library",
+      "url": "https://github.com/Unleash/unleash",
+      "description": "Unleash open-source feature flags"
+    },
+    {
+      "type": "pattern",
+      "url": "https://martinfowler.com/articles/feature-toggles.html",
+      "description": "Martin Fowler's feature toggles article"
+    }
+  ],
+  "required_components": [
+    "FeatureFlag",
+    "FlagService",
+    "evaluate",
+    "toggle",
+    "rollout"
+  ],
+  "required_patterns": [
+    "(feature|flag|toggle).?(service|manager|client)",
+    "(evaluate|check|is.?enabled)",
+    "(percentage|rollout|gradual)",
+    "(user|context|segment|target)",
+    "(cache|refresh|sync)"
+  ],
+  "key_decisions": [
+    "Flag evaluation architecture",
+    "Targeting and segmentation",
+    "Percentage rollout implementation",
+    "Cache and consistency strategy",
+    "SDK vs server-side evaluation"
+  ],
+  "prompt": "Design a feature flag system for controlled feature rollouts.\n\nRequirements:\n- Toggle features on/off per environment\n- Percentage-based rollouts\n- User targeting (by ID, attributes, segments)\n- A/B testing support\n- Real-time updates without deployment\n- SDK for Python and JavaScript\n- Admin dashboard for flag management\n\nProvide the system architecture, SDK design, and evaluation logic.",
+  "instruction": "Flag evaluation logic",
+  "difficulty": "medium",
+  "tags": [
+    "feature-flags",
+    "devops",
+    "a-b-testing",
+    "sdk"
+  ]
+}

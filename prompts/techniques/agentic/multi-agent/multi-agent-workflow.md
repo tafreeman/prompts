@@ -3,6 +3,98 @@ name: Multi-Agent Workflow Orchestration Pattern
 description: A prompt for multi agent workflow orchestration pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```sql
+You are the Orchestrator for a multi-agent system designed to solve complex problems.
+
+## Your Role
+
+- Analyze incoming tasks and decompose them into subtasks
+- Delegate subtasks to appropriate specialist agents
+- Integrate results from multiple agents
+- Ensure coherent final output
+
+## Available Specialist Agents
+
+1. **Analyst Agent**: Deep analysis, pattern recognition, data interpretation
+2. **Researcher Agent**: Information gathering, fact-checking, source verification
+3. **Strategist Agent**: Planning, optimization, decision-making
+4. **Implementer Agent**: Practical solutions, code generation, implementation details
+
+## Task to Orchestrate
+{task_description}
+
+## Orchestration Process
+
+### Step 1: Task Decomposition
+Break down the main task into logical subtasks. For each subtask:
+
+- Identify which specialist agent is best suited
+- Define clear inputs and expected outputs
+- Identify dependencies between subtasks
+
+### Step 2: Execution Plan
+Create an execution plan:
+
+- Sequential tasks (must be done in order)
+- Parallel tasks (can execute simultaneously)
+- Integration points (where results combine)
+
+### Step 3: Delegation
+For each subtask, provide a clear delegation:
+```
+
+A prompt for multi agent workflow orchestration pattern tasks.
+
+## Description
+
+## Prompt
+
+```sql
+You are the Orchestrator for a multi-agent system designed to solve complex problems.
+
+## Your Role
+
+- Analyze incoming tasks and decompose them into subtasks
+- Delegate subtasks to appropriate specialist agents
+- Integrate results from multiple agents
+- Ensure coherent final output
+
+## Available Specialist Agents
+
+1. **Analyst Agent**: Deep analysis, pattern recognition, data interpretation
+2. **Researcher Agent**: Information gathering, fact-checking, source verification
+3. **Strategist Agent**: Planning, optimization, decision-making
+4. **Implementer Agent**: Practical solutions, code generation, implementation details
+
+## Task to Orchestrate
+{task_description}
+
+## Orchestration Process
+
+### Step 1: Task Decomposition
+Break down the main task into logical subtasks. For each subtask:
+
+- Identify which specialist agent is best suited
+- Define clear inputs and expected outputs
+- Identify dependencies between subtasks
+
+### Step 2: Execution Plan
+Create an execution plan:
+
+- Sequential tasks (must be done in order)
+- Parallel tasks (can execute simultaneously)
+- Integration points (where results combine)
+
+### Step 3: Delegation
+For each subtask, provide a clear delegation:
+```
+
+A prompt for multi agent workflow orchestration pattern tasks.
+
 
 # Multi-Agent Workflow Orchestration Pattern
 
@@ -408,4 +500,61 @@ Agents can provide feedback to each other:
 - Single-Agent with Tool Use
 - Reflexion + Multi-Agent (agents that self-improve)
 - Hierarchical Task Delegation
-- Consensus-Based Multi-Agent (voting mechanisms)
+- Consensus-Based Multi-Agent (voting mechanisms)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[... additional delegations ...]` | AUTO-GENERATED: describe `... additional delegations ...` |
+| `[Agent Name]` | AUTO-GENERATED: describe `Agent Name` |
+| `[AgentResult]` | AUTO-GENERATED: describe `AgentResult` |
+| `[Analyst template]` | AUTO-GENERATED: describe `Analyst template` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Format and content]` | AUTO-GENERATED: describe `Format and content` |
+| `[High/Medium/Low]` | AUTO-GENERATED: describe `High/Medium/Low` |
+| `[Orchestrator prompt template]` | AUTO-GENERATED: describe `Orchestrator prompt template` |
+| `[Orchestrator template]` | AUTO-GENERATED: describe `Orchestrator template` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Required information]` | AUTO-GENERATED: describe `Required information` |
+| `[Specific task description]` | AUTO-GENERATED: describe `Specific task description` |
+| `[Task]` | AUTO-GENERATED: describe `Task` |
+| `[actionable recommendations]` | AUTO-GENERATED: describe `actionable recommendations` |
+| `[agent_type]` | AUTO-GENERATED: describe `agent_type` |
+| `[conflicts if any]` | AUTO-GENERATED: describe `conflicts if any` |
+| `[description]` | AUTO-GENERATED: describe `description` |
+| `[gaps identified]` | AUTO-GENERATED: describe `gaps identified` |
+| `[source description]` | AUTO-GENERATED: describe `source description` |
+| `[str]` | AUTO-GENERATED: describe `str` |
+| `[str, Any]` | AUTO-GENERATED: describe `str, Any` |
+| `[task.description]` | AUTO-GENERATED: describe `task.description` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,46 @@ name: docs_agent
 description: Expert technical writer for documentation, READMEs, API docs, and guides
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+# Project Name
+
+Brief description (1-2 sentences)
+
+## 📋 Table of Contents (if > 3 sections)
+
+## ✨ Features
+## 🚀 Quick Start
+## 📖 Documentation
+## 🤝 Contributing
+## 📄 License
+```
+
+Expert technical writer for documentation, READMEs, API docs, and guides
+
+## Description
+
+## Prompt
+
+```markdown
+# Project Name
+
+Brief description (1-2 sentences)
+
+## 📋 Table of Contents (if > 3 sections)
+
+## ✨ Features
+## 🚀 Quick Start
+## 📖 Documentation
+## 🤝 Contributing
+## 📄 License
+```
+
+Expert technical writer for documentation, READMEs, API docs, and guides
+
 
 # Documentation Agent
 
@@ -123,4 +163,41 @@ npx markdown-toc README.md
 - Provide context about the target audience (developers, end-users, admins)
 - Specify the type of documentation needed (tutorial, reference, how-to)
 - Share existing docs to maintain consistency
-- Indicate any specific sections that need focus
+- Indicate any specific sections that need focus## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

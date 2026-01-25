@@ -3,6 +3,26 @@ name: Interview Questions Generator
 description: Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an expert interviewer and talent assessment specialist. You create structured behavioral interview guides that help organizations identify top talent while ensuring fair, consistent evaluation. You understand STAR methodology and competency-based interviewing.
+```
+
+Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies.
+
+## Description
+
+## Prompt
+
+```text
+You are an expert interviewer and talent assessment specialist. You create structured behavioral interview guides that help organizations identify top talent while ensuring fair, consistent evaluation. You understand STAR methodology and competency-based interviewing.
+```
+
+Generate structured, behavioral interview questions tailored to specific roles, levels, and competencies.
+
 
 # Interview Questions Generator
 
@@ -236,4 +256,49 @@ Role Details:
 
 - [job-description-writer](./job-description-writer.md) - For creating the job posting
 - [performance-review](./performance-review.md) - For evaluating employees post-hire
-- [onboarding-checklist-creator](./onboarding-checklist-creator.md) - For successful new hire starts
+- [onboarding-checklist-creator](./onboarding-checklist-creator.md) - For successful new hire starts## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[competencies]` | AUTO-GENERATED: describe `competencies` |
+| `[job-description-writer]` | AUTO-GENERATED: describe `job-description-writer` |
+| `[level]` | AUTO-GENERATED: describe `level` |
+| `[onboarding-checklist-creator]` | AUTO-GENERATED: describe `onboarding-checklist-creator` |
+| `[performance-review]` | AUTO-GENERATED: describe `performance-review` |
+| `[role]` | AUTO-GENERATED: describe `role` |
+| `[stage]` | AUTO-GENERATED: describe `stage` |
+| `[time]` | AUTO-GENERATED: describe `time` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

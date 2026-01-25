@@ -1,8 +1,121 @@
 ---
-name: Multi Step Reflexion
-description: performance_metrics: accuracy_improvement: 25-40% latency_impact: high cost_multiplier: 2.0-3.0x last_updated: '2025-11-23' tags:
+name: multi-step-reflexion
+description: 'AUTO-GENERATED: Multi-step reflexion technique prompt. Please refine.'
 type: how_to
+difficulty: advanced
 ---
+## Description
+
+## Prompt
+
+```markdown
+You are an advanced AI assistant capable of complex reasoning and self-correction.
+Your goal is to complete the following task with the highest possible quality.
+
+Task: {{task_description}}
+
+You will proceed through the following steps. Do not stop until you have completed all steps.
+
+### Step 1: Analysis & Planning
+
+- Break down the task into components.
+- Identify potential challenges and edge cases.
+- Outline your approach.
+
+### Step 2: Initial Draft
+
+- Execute your plan to create a first version of the solution.
+- Focus on completeness rather than perfection.
+
+### Step 3: Critical Reflection
+
+- Review your Initial Draft.
+- Identify at least 3 specific areas for improvement.
+- Check against these criteria: {{evaluation_criteria}}
+- Be harsh in your critique.
+
+### Step 4: Refined Solution
+
+- Rewrite the solution incorporating your reflections.
+- Address every issue identified in Step 3.
+
+### Step 5: Final Verification
+
+- Does the Refined Solution meet all original requirements?
+- If yes, present the Final Output.
+- If no, list remaining issues and repeat Step 4.
+
+Output Format:
+[Step 1: Analysis]
+...
+[Step 2: Draft]
+...
+[Step 3: Critique]
+...
+[Step 4: Refinement]
+...
+[Final Output]
+...
+```
+
+performance_metrics: accuracy_improvement: 25-40% latency_impact: high cost_multiplier: 2.0-3.0x last_updated: '2025-11-23' tags:
+
+## Description
+
+## Prompt
+
+```markdown
+You are an advanced AI assistant capable of complex reasoning and self-correction.
+Your goal is to complete the following task with the highest possible quality.
+
+Task: {{task_description}}
+
+You will proceed through the following steps. Do not stop until you have completed all steps.
+
+### Step 1: Analysis & Planning
+
+- Break down the task into components.
+- Identify potential challenges and edge cases.
+- Outline your approach.
+
+### Step 2: Initial Draft
+
+- Execute your plan to create a first version of the solution.
+- Focus on completeness rather than perfection.
+
+### Step 3: Critical Reflection
+
+- Review your Initial Draft.
+- Identify at least 3 specific areas for improvement.
+- Check against these criteria: {{evaluation_criteria}}
+- Be harsh in your critique.
+
+### Step 4: Refined Solution
+
+- Rewrite the solution incorporating your reflections.
+- Address every issue identified in Step 3.
+
+### Step 5: Final Verification
+
+- Does the Refined Solution meet all original requirements?
+- If yes, present the Final Output.
+- If no, list remaining issues and repeat Step 4.
+
+Output Format:
+[Step 1: Analysis]
+...
+[Step 2: Draft]
+...
+[Step 3: Critique]
+...
+[Step 4: Refinement]
+...
+[Final Output]
+...
+```
+
+performance_metrics: accuracy_improvement: 25-40% latency_impact: high cost_multiplier: 2.0-3.0x last_updated: '2025-11-23' tags:
+
 
 performance_metrics:
   accuracy_improvement: 25-40%
@@ -209,4 +322,60 @@ class MultiStepReflexionChain:
 
 - [Basic Reflexion](../basic-reflexion/basic-reflexion.md)
 - [Chain of Thought](https://arxiv.org/abs/2201.11903)
-- [Tree of Thoughts](https://arxiv.org/abs/2305.10601)
+- [Tree of Thoughts](https://arxiv.org/abs/2305.10601)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Basic Reflexion]` | AUTO-GENERATED: describe `Basic Reflexion` |
+| `[Chain of Thought]` | AUTO-GENERATED: describe `Chain of Thought` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Final Output]` | AUTO-GENERATED: describe `Final Output` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Step 1]` | AUTO-GENERATED: describe `Step 1` |
+| `[Step 1: Analysis]` | AUTO-GENERATED: describe `Step 1: Analysis` |
+| `[Step 2: Draft]` | AUTO-GENERATED: describe `Step 2: Draft` |
+| `[Step 3: Critique]` | AUTO-GENERATED: describe `Step 3: Critique` |
+| `[Step 4: Refinement]` | AUTO-GENERATED: describe `Step 4: Refinement` |
+| `[Tree of Thoughts]` | AUTO-GENERATED: describe `Tree of Thoughts` |
+| `[h]` | AUTO-GENERATED: describe `h` |
+| `[path]` | AUTO-GENERATED: describe `path` |
+| `[step.name]` | AUTO-GENERATED: describe `step.name` |
+| `[str]` | AUTO-GENERATED: describe `str` |
+| `[str, str]` | AUTO-GENERATED: describe `str, str` |
+| `[{"role": "user", "content": prompt}]` | AUTO-GENERATED: describe `{"role": "user", "content": prompt}` |
+| `[{step.name} Output]` | AUTO-GENERATED: describe `{step.name} Output` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

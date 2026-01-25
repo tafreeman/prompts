@@ -121,6 +121,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--verbose", action="store_true", help="Print progress")
     parser.add_argument("--ci", action="store_true", help="CI-friendly output")
     parser.add_argument(
+        "--include-all",
+        action="store_true",
+        help="Include all .md files in a folder (do not exclude README/index/agent/instructions)",
+    )
+    parser.add_argument(
         "-o",
         "--output",
         type=str,
@@ -139,7 +144,13 @@ def main(argv: list[str] | None = None) -> int:
     if not args.path:
         parser.error("path is required unless --list-tiers or --list-models is provided")
 
-    result = evaluate(args.path, tier=args.tier, model=args.model, verbose=args.verbose)
+    result = evaluate(
+        args.path,
+        tier=args.tier,
+        model=args.model,
+        verbose=args.verbose,
+        include_all=bool(args.include_all),
+    )
     payload = _to_jsonable(result)
 
     if args.output:

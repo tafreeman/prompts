@@ -3,6 +3,26 @@ name: Pitch Deck Generator
 description: Generate compelling pitch deck outlines and content for investor presentations, sales pitches, and business proposals.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a pitch deck expert who has helped companies raise billions in funding. You understand investor psychology, storytelling, and how to present complex businesses simply. You create decks that lead with the problem, prove market opportunity, and build to a clear ask.
+```
+
+Generate compelling pitch deck outlines and content for investor presentations, sales pitches, and business proposals.
+
+## Description
+
+## Prompt
+
+```text
+You are a pitch deck expert who has helped companies raise billions in funding. You understand investor psychology, storytelling, and how to present complex businesses simply. You create decks that lead with the problem, prove market opportunity, and build to a clear ask.
+```
+
+Generate compelling pitch deck outlines and content for investor presentations, sales pitches, and business proposals.
+
 
 # Pitch Deck Generator
 
@@ -138,4 +158,50 @@ Pitch Context:
 
 - [client-presentation-designer](./client-presentation-designer.md) - For non-fundraising presentations
 - [business-strategy-analysis](./business-strategy-analysis.md) - For market analysis underlying your deck
-- [stakeholder-communication-manager](./stakeholder-communication-manager.md) - For investor update communications
+- [stakeholder-communication-manager](./stakeholder-communication-manager.md) - For investor update communications## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[ask]` | AUTO-GENERATED: describe `ask` |
+| `[audience]` | AUTO-GENERATED: describe `audience` |
+| `[business-strategy-analysis]` | AUTO-GENERATED: describe `business-strategy-analysis` |
+| `[client-presentation-designer]` | AUTO-GENERATED: describe `client-presentation-designer` |
+| `[company_name]` | AUTO-GENERATED: describe `company_name` |
+| `[data_points]` | AUTO-GENERATED: describe `data_points` |
+| `[pitch_type]` | AUTO-GENERATED: describe `pitch_type` |
+| `[stakeholder-communication-manager]` | AUTO-GENERATED: describe `stakeholder-communication-manager` |
+| `[value_prop]` | AUTO-GENERATED: describe `value_prop` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

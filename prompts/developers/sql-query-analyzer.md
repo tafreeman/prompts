@@ -3,6 +3,26 @@ name: SQL Query Analyzer
 description: Database expert prompt for analyzing SQL queries for performance, security, and readability.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```sql
+SELECT * FROM orders WHERE DATE(order_date) = '2024-01-01';
+```
+
+Database expert prompt for analyzing SQL queries for performance, security, and readability.
+
+## Description
+
+## Prompt
+
+```sql
+SELECT * FROM orders WHERE DATE(order_date) = '2024-01-01';
+```
+
+Database expert prompt for analyzing SQL queries for performance, security, and readability.
+
 
 # SQL Query Analyzer
 
@@ -59,4 +79,44 @@ WHERE order_date >= '2024-01-01' AND order_date < '2024-01-02';
 ### Index Recommendation
 ```sql
 CREATE INDEX idx_orders_order_date ON orders(order_date);
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[engine]` | AUTO-GENERATED: describe `engine` |
+| `[query]` | AUTO-GENERATED: describe `query` |
+| `[schema]` | AUTO-GENERATED: describe `schema` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

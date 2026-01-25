@@ -3,6 +3,34 @@ name: Performance Optimization Specialist
 description: Performance engineer prompt for diagnosing latency issues and optimizing system throughput.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Performance Optimization Specialist
+description: Performance engineer prompt for diagnosing latency issues and optimizing system throughput.
+type: how_to
+---
+```
+
+Performance engineer prompt for diagnosing latency issues and optimizing system throughput.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Performance Optimization Specialist
+description: Performance engineer prompt for diagnosing latency issues and optimizing system throughput.
+type: how_to
+---
+```
+
+Performance engineer prompt for diagnosing latency issues and optimizing system throughput.
+
 
 # Performance Optimization Specialist
 
@@ -61,4 +89,47 @@ Target: p99 < 500ms
 
 ### Quick Wins
 - Add database index on `search_terms.keyword`.
-- Increase connection pool size from 10 to 50.
+- Increase connection pool size from 10 to 50.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[app_name]` | AUTO-GENERATED: describe `app_name` |
+| `[architecture]` | AUTO-GENERATED: describe `architecture` |
+| `[current_metrics]` | AUTO-GENERATED: describe `current_metrics` |
+| `[observability]` | AUTO-GENERATED: describe `observability` |
+| `[performance_issues]` | AUTO-GENERATED: describe `performance_issues` |
+| `[target_metrics]` | AUTO-GENERATED: describe `target_metrics` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

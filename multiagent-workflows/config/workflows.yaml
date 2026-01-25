@@ -1,0 +1,429 @@
+# Workflow Definitions for Multi-Agent System
+# Each workflow defines a sequence of steps with agent assignments
+
+version: "1.0.0"
+
+workflows:
+  # ==========================================================================
+  # Workflow 1: Full-Stack Application Generation
+  # ==========================================================================
+  fullstack_generation:
+    name: Full-Stack Application Generation
+    description: Convert business requirements and UI mockups into a complete full-stack application
+    
+    inputs:
+      - name: requirements
+        type: text
+        required: true
+        description: Business requirements document
+      - name: mockup_path
+        type: file
+        required: false
+        description: Path to UI mockup image(s)
+      - name: tech_stack
+        type: object
+        required: false
+        description: Optional tech stack preferences
+        
+    outputs:
+      - name: application
+        type: directory
+        description: Complete application codebase
+      - name: documentation
+        type: directory
+        description: Generated documentation
+      - name: tests
+        type: directory
+        description: Test suites
+        
+    steps:
+      - id: vision_analysis
+        name: Analyze UI Mockups
+        agent: vision_agent
+        model_preference: vision
+        condition: "inputs.mockup_path is not None"
+        outputs: ["ui_components", "layout_structure", "color_palette"]
+        
+      - id: requirements_parsing
+        name: Parse Business Requirements
+        agent: requirements_agent
+        model_preference: code_gen_premium
+        inputs: ["inputs.requirements"]
+        outputs: ["user_stories", "acceptance_criteria", "data_entities"]
+        
+      - id: architecture_design
+        name: Design System Architecture
+        agent: architect_agent
+        model_preference: reasoning_complex
+        inputs: ["requirements_parsing.user_stories", "vision_analysis.ui_components"]
+        outputs: ["tech_stack", "component_diagram", "api_strategy"]
+        
+      - id: database_design
+        name: Design Database Schema
+        agent: database_agent
+        model_preference: code_gen_premium
+        inputs: ["requirements_parsing.data_entities", "architecture_design.tech_stack"]
+        outputs: ["schema_sql", "migrations", "er_diagram"]
+        
+      - id: api_design
+        name: Design API Contracts
+        agent: api_agent
+        model_preference: code_gen_fast
+        inputs: ["requirements_parsing.user_stories", "architecture_design.api_strategy"]
+        outputs: ["openapi_spec", "endpoint_definitions"]
+        
+      - id: frontend_generation
+        name: Generate Frontend
+        agent: coder_agent
+        model_preference: code_gen_premium
+        inputs: ["vision_analysis.ui_components", "api_design.openapi_spec"]
+        outputs: ["frontend_code", "component_hierarchy"]
+        config:
+          language: typescript
+          framework: react
+          
+      - id: backend_generation
+        name: Generate Backend
+        agent: coder_agent
+        model_preference: code_gen_premium
+        inputs: ["api_design.openapi_spec", "database_design.schema_sql"]
+        outputs: ["backend_code", "middleware", "validators"]
+        config:
+          language: python
+          framework: fastapi
+          
+      - id: integration
+        name: Create Integration Code
+        agent: integration_agent
+        model_preference: coordination
+        inputs: ["frontend_generation.frontend_code", "backend_generation.backend_code"]
+        outputs: ["docker_compose", "env_files", "scripts"]
+        
+      - id: code_review
+        name: Review Generated Code
+        agent: reviewer_agent
+        model_preference: code_review
+        inputs: ["frontend_generation.frontend_code", "backend_generation.backend_code"]
+        outputs: ["security_findings", "quality_issues", "recommendations"]
+        
+      - id: test_generation
+        name: Generate Tests
+        agent: test_agent
+        model_preference: code_gen_premium
+        inputs: ["frontend_generation.frontend_code", "backend_generation.backend_code"]
+        outputs: ["unit_tests", "integration_tests", "e2e_tests"]
+        
+      - id: documentation
+        name: Generate Documentation
+        agent: documentation_agent
+        model_preference: documentation
+        inputs: ["api_design.openapi_spec", "architecture_design.component_diagram"]
+        outputs: ["readme", "api_docs", "setup_guide"]
+
+  # ==========================================================================
+  # Workflow 2: Legacy Code Refactoring
+  # ==========================================================================
+  legacy_refactoring:
+    name: Legacy Code Refactoring & Modernization
+    description: Analyze legacy codebases and systematically refactor to modern patterns
+    
+    inputs:
+      - name: codebase_path
+        type: directory
+        required: true
+        description: Path to legacy codebase
+      - name: target_framework
+        type: string
+        required: false
+        description: Target modern framework
+        
+    outputs:
+      - name: refactored_code
+        type: directory
+        description: Modernized codebase
+      - name: migration_plan
+        type: file
+        description: Step-by-step migration guide
+      - name: test_suite
+        type: directory
+        description: Characterization and regression tests
+        
+    steps:
+      - id: code_archaeology
+        name: Analyze Legacy Structure
+        agent: archaeologist_agent
+        model_preference: reasoning_complex
+        inputs: ["inputs.codebase_path"]
+        outputs: ["structure_analysis", "component_inventory"]
+        
+      - id: dependency_mapping
+        name: Map Dependencies
+        agent: dependency_agent
+        model_preference: code_gen_fast
+        inputs: ["code_archaeology.structure_analysis"]
+        outputs: ["dependency_graph", "coupling_report"]
+        
+      - id: pattern_detection
+        name: Detect Anti-Patterns
+        agent: pattern_agent
+        model_preference: reasoning_complex
+        inputs: ["code_archaeology.structure_analysis"]
+        outputs: ["anti_patterns", "code_smells", "prioritized_issues"]
+        
+      - id: test_coverage_analysis
+        name: Analyze Test Coverage
+        agent: test_analyst_agent
+        model_preference: code_gen_fast
+        inputs: ["inputs.codebase_path"]
+        outputs: ["coverage_report", "coverage_gaps"]
+        
+      - id: safety_net_generation
+        name: Generate Characterization Tests
+        agent: test_agent
+        model_preference: code_gen_premium
+        inputs: ["coverage_analysis.coverage_gaps"]
+        outputs: ["characterization_tests"]
+        
+      - id: refactoring_planning
+        name: Create Refactoring Plan
+        agent: planner_agent
+        model_preference: code_gen_premium
+        inputs: ["pattern_detection.prioritized_issues", "dependency_mapping.coupling_report"]
+        outputs: ["refactoring_roadmap", "risk_assessment"]
+        
+      - id: code_transformation
+        name: Apply Transformations
+        agent: transformer_agent
+        model_preference: code_gen_premium
+        inputs: ["refactoring_planning.refactoring_roadmap"]
+        outputs: ["transformed_code", "change_log"]
+        iterative: true
+        max_iterations: 5
+        
+      - id: migration
+        name: Migrate to Modern Framework
+        agent: migration_agent
+        model_preference: code_gen_premium
+        inputs: ["code_transformation.transformed_code", "inputs.target_framework"]
+        outputs: ["migrated_code", "dependency_updates"]
+        
+      - id: validation
+        name: Validate Behavioral Equivalence
+        agent: validator_agent
+        model_preference: code_review
+        inputs: ["safety_net_generation.characterization_tests", "migration.migrated_code"]
+        outputs: ["validation_report", "test_results"]
+        
+      - id: documentation_update
+        name: Update Documentation
+        agent: documentation_agent
+        model_preference: documentation
+        inputs: ["migration.migrated_code", "refactoring_planning.refactoring_roadmap"]
+        outputs: ["updated_docs", "migration_guide"]
+
+  # ==========================================================================
+  # Workflow 3: Bug Triage & Automated Fixing
+  # ==========================================================================
+  bug_fixing:
+    name: Intelligent Bug Triage & Automated Fixing
+    description: Analyze bug reports, reproduce issues, identify root causes, and generate fixes
+    
+    inputs:
+      - name: bug_report
+        type: text
+        required: true
+        description: Bug report content (GitHub issue, Jira ticket, etc.)
+      - name: codebase_path
+        type: directory
+        required: true
+        description: Path to affected codebase
+        
+    outputs:
+      - name: fix_patch
+        type: file
+        description: Generated fix as a patch file
+      - name: regression_tests
+        type: directory
+        description: Tests to prevent regression
+      - name: pull_request
+        type: object
+        description: Formatted PR content
+        
+    steps:
+      - id: bug_analysis
+        name: Parse Bug Report
+        agent: bug_analyst_agent
+        model_preference: code_gen_fast
+        inputs: ["inputs.bug_report"]
+        outputs: ["structured_bug", "affected_areas", "severity"]
+        
+      - id: reproduction
+        name: Create Reproduction Case
+        agent: reproduction_agent
+        model_preference: code_gen_fast
+        inputs: ["bug_analysis.structured_bug", "inputs.codebase_path"]
+        outputs: ["repro_test", "failure_trace"]
+        
+      - id: code_tracing
+        name: Trace Execution
+        agent: tracer_agent
+        model_preference: reasoning_complex
+        inputs: ["reproduction.failure_trace", "inputs.codebase_path"]
+        outputs: ["execution_trace", "failure_point"]
+        
+      - id: root_cause_analysis
+        name: Identify Root Cause
+        agent: root_cause_agent
+        model_preference: reasoning_complex
+        inputs: ["code_tracing.execution_trace", "code_tracing.failure_point"]
+        outputs: ["root_cause", "causal_chain"]
+        
+      - id: fix_generation
+        name: Generate Candidate Fixes
+        agent: fix_generator_agent
+        model_preference: code_gen_premium
+        inputs: ["root_cause_analysis.root_cause", "inputs.codebase_path"]
+        outputs: ["candidate_fixes"]
+        config:
+          num_candidates: 3
+          
+      - id: test_generation
+        name: Create Regression Tests
+        agent: test_agent
+        model_preference: code_gen_premium
+        inputs: ["reproduction.repro_test", "fix_generation.candidate_fixes"]
+        outputs: ["regression_tests"]
+        
+      - id: fix_validation
+        name: Validate Fixes
+        agent: validator_agent
+        model_preference: code_gen_fast
+        inputs: ["fix_generation.candidate_fixes", "test_generation.regression_tests"]
+        outputs: ["validated_fix", "test_results"]
+        
+      - id: side_effect_check
+        name: Analyze Side Effects
+        agent: side_effect_agent
+        model_preference: code_review
+        inputs: ["fix_validation.validated_fix", "inputs.codebase_path"]
+        outputs: ["impact_analysis", "affected_modules"]
+        
+      - id: documentation
+        name: Document Fix
+        agent: documentation_agent
+        model_preference: documentation
+        inputs: ["root_cause_analysis.root_cause", "fix_validation.validated_fix"]
+        outputs: ["fix_documentation", "code_comments"]
+        
+      - id: pr_creation
+        name: Create Pull Request
+        agent: pr_agent
+        model_preference: coordination
+        inputs: ["fix_validation.validated_fix", "documentation.fix_documentation"]
+        outputs: ["pr_title", "pr_body", "pr_labels"]
+
+  # ==========================================================================
+  # Workflow 4: Architecture Evolution
+  # ==========================================================================
+  architecture_evolution:
+    name: Architecture Evolution & Technical Debt Assessment
+    description: Analyze existing architecture, identify technical debt, and create evolution roadmap
+    
+    inputs:
+      - name: codebase_path
+        type: directory
+        required: true
+        description: Path to codebase
+      - name: business_context
+        type: text
+        required: false
+        description: Business goals and constraints
+        
+    outputs:
+      - name: assessment_report
+        type: file
+        description: Comprehensive architecture assessment
+      - name: evolution_roadmap
+        type: file
+        description: Phased migration plan
+      - name: adrs
+        type: directory
+        description: Architecture Decision Records
+        
+    steps:
+      - id: architecture_scan
+        name: Scan Current Architecture
+        agent: architecture_scanner_agent
+        model_preference: reasoning_complex
+        inputs: ["inputs.codebase_path"]
+        outputs: ["component_inventory", "current_architecture"]
+        
+      - id: debt_assessment
+        name: Identify Technical Debt
+        agent: debt_assessor_agent
+        model_preference: reasoning_complex
+        inputs: ["architecture_scan.current_architecture"]
+        outputs: ["debt_items", "debt_prioritization"]
+        
+      - id: pattern_matching
+        name: Compare to Best Practices
+        agent: pattern_matcher_agent
+        model_preference: code_gen_fast
+        inputs: ["architecture_scan.current_architecture"]
+        outputs: ["gap_analysis", "pattern_recommendations"]
+        
+      - id: scalability_analysis
+        name: Analyze Scalability
+        agent: scalability_agent
+        model_preference: code_gen_premium
+        inputs: ["architecture_scan.component_inventory"]
+        outputs: ["bottlenecks", "scaling_limits"]
+        
+      - id: security_audit
+        name: Security Architecture Review
+        agent: security_auditor_agent
+        model_preference: code_review
+        inputs: ["architecture_scan.current_architecture"]
+        outputs: ["security_findings", "vulnerability_assessment"]
+        
+      - id: modernization_planning
+        name: Create Evolution Strategy
+        agent: modernization_planner_agent
+        model_preference: code_gen_premium
+        inputs: ["debt_assessment.debt_prioritization", "pattern_matching.pattern_recommendations"]
+        outputs: ["evolution_strategy", "target_architecture"]
+        
+      - id: cost_estimation
+        name: Estimate Migration Effort
+        agent: cost_estimator_agent
+        model_preference: code_gen_fast
+        inputs: ["modernization_planning.evolution_strategy"]
+        outputs: ["effort_estimate", "resource_requirements"]
+        
+      - id: adr_generation
+        name: Generate Architecture Decisions
+        agent: adr_agent
+        model_preference: documentation
+        inputs: ["modernization_planning.target_architecture"]
+        outputs: ["adrs", "decision_rationale"]
+        
+      - id: roadmap_building
+        name: Build Migration Roadmap
+        agent: roadmap_agent
+        model_preference: coordination
+        inputs: ["cost_estimation.effort_estimate", "modernization_planning.evolution_strategy"]
+        outputs: ["phased_roadmap", "milestones"]
+        
+      - id: stakeholder_report
+        name: Create Executive Summary
+        agent: reporter_agent
+        model_preference: documentation
+        inputs: ["debt_assessment.debt_items", "roadmap_building.phased_roadmap"]
+        outputs: ["executive_summary", "recommendations"]
+
+# Global workflow settings
+settings:
+  parallel_steps: true  # Allow parallel execution where dependencies permit
+  checkpoint_enabled: true  # Save state after each step for recovery
+  logging_level: DEBUG
+  artifact_retention_days: 30

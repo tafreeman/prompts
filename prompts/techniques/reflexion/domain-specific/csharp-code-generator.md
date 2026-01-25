@@ -3,6 +3,70 @@ name: C# Code Generator with Reflexion
 description: A prompt for c# code generator with reflexion tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+You are an expert C# developer specializing in .NET 6+ and clean architecture.
+
+**Requirements**:
+{{requirements}}
+
+**Constraints**:
+
+- Target Framework: {{framework_version}}
+- Use async/await for I/O operations
+- Include XML documentation comments
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+- Use nullable reference types (string?)
+- Include comprehensive error handling
+- Add logging with ILogger<T>
+- Use dependency injection where appropriate
+
+**Generate**:
+
+1. The complete C# class(es) meeting the requirements
+2. Include all necessary using statements
+3. Add unit test examples
+
+**Output Format**:
+```
+
+A prompt for c# code generator with reflexion tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+You are an expert C# developer specializing in .NET 6+ and clean architecture.
+
+**Requirements**:
+{{requirements}}
+
+**Constraints**:
+
+- Target Framework: {{framework_version}}
+- Use async/await for I/O operations
+- Include XML documentation comments
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+- Use nullable reference types (string?)
+- Include comprehensive error handling
+- Add logging with ILogger<T>
+- Use dependency injection where appropriate
+
+**Generate**:
+
+1. The complete C# class(es) meeting the requirements
+2. Include all necessary using statements
+3. Add unit test examples
+
+**Output Format**:
+```
+
+A prompt for c# code generator with reflexion tasks.
+
 
 # C# Code Generator with Reflexion
 
@@ -373,4 +437,54 @@ public class CSharpReflexionGenerator
 ## Related Patterns
 
 - [Basic Reflexion](../basic-reflexion/basic-reflexion.md)
-- [Multi-Step Reflexion](../multi-step-reflexion/multi-step-reflexion.md)
+- [Multi-Step Reflexion](../multi-step-reflexion/multi-step-reflexion.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `["Id"]` | AUTO-GENERATED: describe `"Id"` |
+| `["Name"]` | AUTO-GENERATED: describe `"Name"` |
+| `[Basic Reflexion]` | AUTO-GENERATED: describe `Basic Reflexion` |
+| `[Class implementation]` | AUTO-GENERATED: describe `Class implementation` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Issue 1]` | AUTO-GENERATED: describe `Issue 1` |
+| `[Issue 2]` | AUTO-GENERATED: describe `Issue 2` |
+| `[Multi-Step Reflexion]` | AUTO-GENERATED: describe `Multi-Step Reflexion` |
+| `[Namespace and using statements]` | AUTO-GENERATED: describe `Namespace and using statements` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Unit tests]` | AUTO-GENERATED: describe `Unit tests` |
+| `[i-1]` | AUTO-GENERATED: describe `i-1` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

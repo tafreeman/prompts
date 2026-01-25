@@ -3,6 +3,34 @@ name: Advanced Research Prompt
 description: # Advanced Prompt Engineering Research Framework ## System Instructions
 type: template
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Advanced Research Prompt
+description: # Advanced Prompt Engineering Research Framework ## System Instructions
+type: template
+---
+```
+
+# Advanced Prompt Engineering Research Framework ## System Instructions
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Advanced Research Prompt
+description: # Advanced Prompt Engineering Research Framework ## System Instructions
+type: template
+---
+```
+
+# Advanced Prompt Engineering Research Framework ## System Instructions
+
 
 # Advanced Prompt Engineering Research Framework
 ## System Instructions
@@ -90,4 +118,59 @@ Generate **3-5 distinct research paths** to explore this topic:
 1. **Be specific in your research topic** - "Latest CoT variants for mathematical reasoning" > "Prompting techniques"
 2. **Specify your use case** if relevant - "For production chatbots" vs "For research benchmarks"
 3. **Request comparisons** when evaluating multiple approaches - "Compare ToT vs ReAct for multi-step planning"
-4. **Ask for implementation details** if you want practical guidance - "Include code examples where available"
+4. **Ask for implementation details** if you want practical guidance - "Include code examples where available"## Variables
+
+| Variable | Description |
+|---|---|
+| `[DEPTH]` | AUTO-GENERATED: describe `DEPTH` |
+| `[FOCUS_AREAS]` | AUTO-GENERATED: describe `FOCUS_AREAS` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[TIME_RANGE]` | AUTO-GENERATED: describe `TIME_RANGE` |
+| `[TOPIC]` | AUTO-GENERATED: describe `TOPIC` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[2-3 specific queries to try]` | AUTO-GENERATED: describe `2-3 specific queries to try` |
+| `[Author/Organization]` | AUTO-GENERATED: describe `Author/Organization` |
+| `[DEPTH]` | AUTO-GENERATED: describe `DEPTH` |
+| `[FOCUS_AREAS]` | AUTO-GENERATED: describe `FOCUS_AREAS` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High/Medium/Low based on likely yield]` | AUTO-GENERATED: describe `High/Medium/Low based on likely yield` |
+| `[Month Year]` | AUTO-GENERATED: describe `Month Year` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Research angle/approach]` | AUTO-GENERATED: describe `Research angle/approach` |
+| `[TIME_RANGE]` | AUTO-GENERATED: describe `TIME_RANGE` |
+| `[TOPIC]` | AUTO-GENERATED: describe `TOPIC` |
+| `[Technique Name]` | AUTO-GENERATED: describe `Technique Name` |
+| `[What this path should reveal]` | AUTO-GENERATED: describe `What this path should reveal` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

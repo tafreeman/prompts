@@ -3,6 +3,34 @@ name: C# Refactoring Assistant
 description: Expert C# refactoring specialist for improving code quality while preserving behavior.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```csharp
+public List<string> GetNames(List<User> users) {
+    var names = new List<string>();
+    foreach (var u in users) names.Add(u.Name);
+    return names;
+}
+```
+
+Expert C# refactoring specialist for improving code quality while preserving behavior.
+
+## Description
+
+## Prompt
+
+```csharp
+public List<string> GetNames(List<User> users) {
+    var names = new List<string>();
+    foreach (var u in users) names.Add(u.Name);
+    return names;
+}
+```
+
+Expert C# refactoring specialist for improving code quality while preserving behavior.
+
 
 # C# Refactoring Assistant
 
@@ -59,4 +87,44 @@ public List<string> GetNames(List<User>? users) {
 
 ### Changes Made
 - Replaced `foreach` with LINQ `.Select()`.
-- Added null check for `users` parameter.
+- Added null check for `users` parameter.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[code_snippet]` | AUTO-GENERATED: describe `code_snippet` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[goals]` | AUTO-GENERATED: describe `goals` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

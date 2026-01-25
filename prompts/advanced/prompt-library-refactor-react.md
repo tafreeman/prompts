@@ -3,6 +3,308 @@ name: Prompt Library Refactor React
 description: ## Description
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+
+## Current Repository Context
+
+> **Repository**: `tafreeman/prompts`  
+> **Last Evaluation**: January 2, 2026 (run new baseline)  
+> **Prompt Count**: 190 prompts across 9 categories  
+> **Validation Status**: 18 files with issues (missing Example sections)
+
+### Completed Infrastructure ✅
+
+| Component | Status | Details |
+| ----------- | -------- | --------- |
+| Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
+| Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
+| Validation tooling | ✅ Complete | `tools/validate_prompts.py` |
+| Evaluation tooling | ✅ Complete | `tools/evaluation_agent.py`, `python -m prompteval` |
+| Navigation structure | ✅ Complete | All `index.md` files created with proper frontmatter |
+| Advanced techniques | ✅ Complete | CoT, ToT, ReAct, RAG, CoVe, Reflexion |
+
+### Current Content Inventory (January 2026)
+
+| Category | Count | Status | Notes |
+| ---------- | ------- | -------- | ------- |
+| **Business** | 39 prompts | ✅ Mature | Largest category |
+| **Developers** | 27 prompts | ✅ Mature | Core dev workflows |
+| **System** | 23 prompts | ✅ Mature | Agent/system prompts |
+| **Advanced** | 21 prompts | ✅ Mature | Complex patterns |
+| **Analysis** | 20 prompts | ✅ Mature | Data/research |
+| **M365** | 20 prompts | ✅ Mature | Microsoft 365 |
+| **Governance** | 16 prompts | ✅ **COMPLETE** | Target exceeded! |
+| **SOCMINT** | 15 prompts | ✅ New | OSINT/investigation |
+| **Creative** | 9 prompts | ⚠️ **GAP** | Need +11 prompts |
+| **Total** | **190 prompts** | | +25 since Dec 2025 |
+
+### Evaluation Tools Available
+
+| Tool | Command | Purpose |
+| ------ | --------- | --------- |
+| Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase evaluation |
+| Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
+| Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
+| Validation | `python tools/validate_prompts.py` | Frontmatter compliance |
+| Audit | `python tools/audit_prompts.py` | Content audit CSV |
+
+### Infrastructure Components
+
+| Component | Count | Status |
+| ----------- | ------- | -------- |
+| Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
+| Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
+| Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
+| Frameworks | 8 integrations | ✅ Anthropic, OpenAI, LangChain, Semantic Kernel |
+
+## Priority Expansion Areas (January 2026)
+
+### ~~P0 - Critical: Governance Category~~ ✅ COMPLETE (16 prompts)
+
+**Status**: Target exceeded! 16 governance prompts now available.
+
+<details>
+<summary>Current Governance Prompts (click to expand)</summary>
+
+| Prompt | Status |
+| -------- | -------- |
+| `access-control-reviewer.md` | ✅ |
+| `ai-ml-privacy-risk-assessment.md` | ✅ |
+| `compliance-policy-generator.md` | ✅ |
+| `data-classification-helper.md` | ✅ |
+| `data-retention-policy.md` | ✅ |
+| `data-subject-request-handler.md` | ✅ |
+| `gdpr-compliance-assessment.md` | ✅ |
+| `hipaa-compliance-checker.md` | ✅ |
+| `legal-contract-review.md` | ✅ |
+| `privacy-impact-assessment.md` | ✅ |
+| `regulatory-change-analyzer.md` | ✅ |
+| `risk-assessment.md` | ✅ |
+| `security-incident-response.md` | ✅ |
+| `soc2-audit-preparation.md` | ✅ |
+| `sox-audit-preparer.md` | ✅ |
+| `vendor-security-review.md` | ✅ |
+
+</details>
+
+### P0 - Critical: Creative Category (9 → 20 prompts)
+
+**Gap**: Marketing and content teams need more variety. **11 prompts needed.**
+
+**Current Creative Prompts (9)**:
+
+- `ad-copy-generator.md`, `brand-voice-developer.md`, `content-marketing-blog-post.md`
+- `email-newsletter-writer.md`, `headline-tagline-creator.md`, `marketing-campaign-strategist.md`
+- `product-description-generator.md`, `social-media-content-generator.md`, `video-script-writer.md`
+
+**Recommended Additions (11)**:
+
+| Prompt | Type | Difficulty | Effort | Priority |
+| -------- | ------ | ------------ | -------- | ---------- |
+| `case-study-builder.md` | how_to | intermediate | M | High |
+| `whitepaper-outliner.md` | how_to | intermediate | M | High |
+| `press-release-generator.md` | how_to | beginner | S | High |
+| `landing-page-copy.md` | how_to | intermediate | M | High |
+| `seo-content-optimizer.md` | how_to | intermediate | M | Medium |
+| `podcast-script-writer.md` | how_to | intermediate | M | Medium |
+| `webinar-content-creator.md` | how_to | intermediate | M | Medium |
+| `customer-testimonial-formatter.md` | how_to | beginner | S | Low |
+| `infographic-content-planner.md` | how_to | beginner | S | Low |
+| `content-calendar-generator.md` | how_to | beginner | S | Low |
+| `ab-test-copy-variants.md` | how_to | intermediate | M | Medium |
+
+### P1 - High: Advanced Patterns
+
+**Gap**: Power users need more sophisticated patterns.
+
+| Prompt | Type | Difficulty | Effort |
+| -------- | ------ | ------------ | -------- |
+| `prompt-chain-orchestrator.md` | tutorial | advanced | L |
+| `multi-model-router.md` | how_to | advanced | L |
+| `context-window-optimizer.md` | how_to | advanced | M |
+| `prompt-ab-testing-framework.md` | tutorial | advanced | L |
+| `vision-prompt-templates.md` | reference | intermediate | M |
+| `structured-output-patterns.md` | reference | intermediate | M |
+
+### P2 - Medium: Industry Packs
+
+**Gap**: Vertical-specific prompt collections.
+
+| Pack | Prompts | Priority |
+| ------ | --------- | ---------- |
+| Healthcare | 10-15 | Future |
+| Financial Services | 10-15 | Future |
+| Legal | 10-15 | Future |
+| Education | 10-15 | Future |
+| Retail/E-commerce | 10-15 | Future |
+
+## ToT-ReAct Execution Protocol
+
+Execute using the 4-phase methodology shown above. Each phase builds on the previous.
+
+### Phase 1: ToT Research Planning
+
+**Generate 3-5 Research Branches** for the evaluation goal:
+
+```
+
+## Description
+
+## Description
+
+## Prompt
+
+```
+
+## Current Repository Context
+
+> **Repository**: `tafreeman/prompts`  
+> **Last Evaluation**: January 2, 2026 (run new baseline)  
+> **Prompt Count**: 190 prompts across 9 categories  
+> **Validation Status**: 18 files with issues (missing Example sections)
+
+### Completed Infrastructure ✅
+
+| Component | Status | Details |
+| ----------- | -------- | --------- |
+| Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
+| Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
+| Validation tooling | ✅ Complete | `tools/validate_prompts.py` |
+| Evaluation tooling | ✅ Complete | `tools/evaluation_agent.py`, `python -m prompteval` |
+| Navigation structure | ✅ Complete | All `index.md` files created with proper frontmatter |
+| Advanced techniques | ✅ Complete | CoT, ToT, ReAct, RAG, CoVe, Reflexion |
+
+### Current Content Inventory (January 2026)
+
+| Category | Count | Status | Notes |
+| ---------- | ------- | -------- | ------- |
+| **Business** | 39 prompts | ✅ Mature | Largest category |
+| **Developers** | 27 prompts | ✅ Mature | Core dev workflows |
+| **System** | 23 prompts | ✅ Mature | Agent/system prompts |
+| **Advanced** | 21 prompts | ✅ Mature | Complex patterns |
+| **Analysis** | 20 prompts | ✅ Mature | Data/research |
+| **M365** | 20 prompts | ✅ Mature | Microsoft 365 |
+| **Governance** | 16 prompts | ✅ **COMPLETE** | Target exceeded! |
+| **SOCMINT** | 15 prompts | ✅ New | OSINT/investigation |
+| **Creative** | 9 prompts | ⚠️ **GAP** | Need +11 prompts |
+| **Total** | **190 prompts** | | +25 since Dec 2025 |
+
+### Evaluation Tools Available
+
+| Tool | Command | Purpose |
+| ------ | --------- | --------- |
+| Full Evaluation | `python tools/evaluation_agent.py --full` | Autonomous multi-phase evaluation |
+| Dry Run | `python tools/evaluation_agent.py --full --dry-run` | Preview evaluation plan |
+| Library Scorer | `python tools/evaluate_library.py --all` | Dual-rubric scoring |
+| Validation | `python tools/validate_prompts.py` | Frontmatter compliance |
+| Audit | `python tools/audit_prompts.py` | Content audit CSV |
+
+### Infrastructure Components
+
+| Component | Count | Status |
+| ----------- | ------- | -------- |
+| Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
+| Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
+| Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
+| Frameworks | 8 integrations | ✅ Anthropic, OpenAI, LangChain, Semantic Kernel |
+
+## Priority Expansion Areas (January 2026)
+
+### ~~P0 - Critical: Governance Category~~ ✅ COMPLETE (16 prompts)
+
+**Status**: Target exceeded! 16 governance prompts now available.
+
+<details>
+<summary>Current Governance Prompts (click to expand)</summary>
+
+| Prompt | Status |
+| -------- | -------- |
+| `access-control-reviewer.md` | ✅ |
+| `ai-ml-privacy-risk-assessment.md` | ✅ |
+| `compliance-policy-generator.md` | ✅ |
+| `data-classification-helper.md` | ✅ |
+| `data-retention-policy.md` | ✅ |
+| `data-subject-request-handler.md` | ✅ |
+| `gdpr-compliance-assessment.md` | ✅ |
+| `hipaa-compliance-checker.md` | ✅ |
+| `legal-contract-review.md` | ✅ |
+| `privacy-impact-assessment.md` | ✅ |
+| `regulatory-change-analyzer.md` | ✅ |
+| `risk-assessment.md` | ✅ |
+| `security-incident-response.md` | ✅ |
+| `soc2-audit-preparation.md` | ✅ |
+| `sox-audit-preparer.md` | ✅ |
+| `vendor-security-review.md` | ✅ |
+
+</details>
+
+### P0 - Critical: Creative Category (9 → 20 prompts)
+
+**Gap**: Marketing and content teams need more variety. **11 prompts needed.**
+
+**Current Creative Prompts (9)**:
+
+- `ad-copy-generator.md`, `brand-voice-developer.md`, `content-marketing-blog-post.md`
+- `email-newsletter-writer.md`, `headline-tagline-creator.md`, `marketing-campaign-strategist.md`
+- `product-description-generator.md`, `social-media-content-generator.md`, `video-script-writer.md`
+
+**Recommended Additions (11)**:
+
+| Prompt | Type | Difficulty | Effort | Priority |
+| -------- | ------ | ------------ | -------- | ---------- |
+| `case-study-builder.md` | how_to | intermediate | M | High |
+| `whitepaper-outliner.md` | how_to | intermediate | M | High |
+| `press-release-generator.md` | how_to | beginner | S | High |
+| `landing-page-copy.md` | how_to | intermediate | M | High |
+| `seo-content-optimizer.md` | how_to | intermediate | M | Medium |
+| `podcast-script-writer.md` | how_to | intermediate | M | Medium |
+| `webinar-content-creator.md` | how_to | intermediate | M | Medium |
+| `customer-testimonial-formatter.md` | how_to | beginner | S | Low |
+| `infographic-content-planner.md` | how_to | beginner | S | Low |
+| `content-calendar-generator.md` | how_to | beginner | S | Low |
+| `ab-test-copy-variants.md` | how_to | intermediate | M | Medium |
+
+### P1 - High: Advanced Patterns
+
+**Gap**: Power users need more sophisticated patterns.
+
+| Prompt | Type | Difficulty | Effort |
+| -------- | ------ | ------------ | -------- |
+| `prompt-chain-orchestrator.md` | tutorial | advanced | L |
+| `multi-model-router.md` | how_to | advanced | L |
+| `context-window-optimizer.md` | how_to | advanced | M |
+| `prompt-ab-testing-framework.md` | tutorial | advanced | L |
+| `vision-prompt-templates.md` | reference | intermediate | M |
+| `structured-output-patterns.md` | reference | intermediate | M |
+
+### P2 - Medium: Industry Packs
+
+**Gap**: Vertical-specific prompt collections.
+
+| Pack | Prompts | Priority |
+| ------ | --------- | ---------- |
+| Healthcare | 10-15 | Future |
+| Financial Services | 10-15 | Future |
+| Legal | 10-15 | Future |
+| Education | 10-15 | Future |
+| Retail/E-commerce | 10-15 | Future |
+
+## ToT-ReAct Execution Protocol
+
+Execute using the 4-phase methodology shown above. Each phase builds on the previous.
+
+### Phase 1: ToT Research Planning
+
+**Generate 3-5 Research Branches** for the evaluation goal:
+
+```
+
+## Description
+
 
 ## Description
 
@@ -382,4 +684,54 @@ Based on December 2025 repository state, focus analysis on these maturity areas:
 - [Evaluate Library](../../tools/evaluate_library.py) - Dual-rubric scoring
 - [Frontmatter Schema](../../reference/frontmatter-schema.md) - Field definitions
 - [Content Types](../../reference/content-types.md) - Type selection guide
-- [Advanced Techniques](../../techniques/index.md) - CoT, ToT, Reflexion patterns
+- [Advanced Techniques](../../techniques/index.md) - CoT, ToT, Reflexion patterns## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Advanced Techniques]` | AUTO-GENERATED: describe `Advanced Techniques` |
+| `[Content Types]` | AUTO-GENERATED: describe `Content Types` |
+| `[Evaluate Library]` | AUTO-GENERATED: describe `Evaluate Library` |
+| `[Evaluation Agent Guide]` | AUTO-GENERATED: describe `Evaluation Agent Guide` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Frontmatter Schema]` | AUTO-GENERATED: describe `Frontmatter Schema` |
+| `[If failures, list specific files]` | AUTO-GENERATED: describe `If failures, list specific files` |
+| `[List with current/target]` | AUTO-GENERATED: describe `List with current/target` |
+| `[Re-verify with file_search if uncertain]` | AUTO-GENERATED: describe `Re-verify with file_search if uncertain` |
+| `[Reflexion, Agentic, etc.]` | AUTO-GENERATED: describe `Reflexion, Agentic, etc.` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Validate Prompts]` | AUTO-GENERATED: describe `Validate Prompts` |
+| `[Yes/No - list any missed]` | AUTO-GENERATED: describe `Yes/No - list any missed` |
+| `[junior, senior, architect, etc.]` | AUTO-GENERATED: describe `junior, senior, architect, etc.` |
+| `[quickstart, tutorial, etc.]` | AUTO-GENERATED: describe `quickstart, tutorial, etc.` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

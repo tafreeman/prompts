@@ -3,6 +3,38 @@ name: Library Network Graph Generator
 description: Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+Generate a Network Graph visualization for this prompt library using the provided [PROMPT_LIST].
+
+Treat each prompt file (e.g., "agile-sprint-planner.md", "code-review-assistant.md") as a node.
+Draw edges (lines) between prompts that belong to the same category (e.g., all "Business" prompts connected).
+Additionally, link prompts that are part of the same workflow (e.g., connect "requirements-analysis-expert.md" to "api-design-consultant.md" and "quality-assurance-planner.md" to represent an SDLC flow).
+
+This should look like a constellation showing clusters of related capabilities.
+```
+
+Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library.
+
+## Description
+
+## Prompt
+
+```text
+Generate a Network Graph visualization for this prompt library using the provided [PROMPT_LIST].
+
+Treat each prompt file (e.g., "agile-sprint-planner.md", "code-review-assistant.md") as a node.
+Draw edges (lines) between prompts that belong to the same category (e.g., all "Business" prompts connected).
+Additionally, link prompts that are part of the same workflow (e.g., connect "requirements-analysis-expert.md" to "api-design-consultant.md" and "quality-assurance-planner.md" to represent an SDLC flow).
+
+This should look like a constellation showing clusters of related capabilities.
+```
+
+Guides generation of a Network Graph to visualize relationships and workflows between different prompts in the library.
+
 
 <!-- markdownlint-disable MD025 -->
 # Library Network Graph Generator
@@ -73,4 +105,47 @@ Return either:
 
 - **Identify clusters**: Look for tightly connected groups of prompts that form natural workflows
 - **Find gaps**: Disconnected nodes may indicate prompts that need better integration
-- **Use color coding**: Assign different colors to different categories for easier visual parsing
+- **Use color coding**: Assign different colors to different categories for easier visual parsing## Variables
+
+| Variable | Description |
+|---|---|
+| `[PROMPT_LIST]` | AUTO-GENERATED: describe `PROMPT_LIST` |
+| `[WORKFLOW_DEFINITIONS]` | AUTO-GENERATED: describe `WORKFLOW_DEFINITIONS` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"]` | AUTO-GENERATED: describe `"agile-sprint-planner.md", "code-review-assistant.md", "api-design-consultant.md"` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[PROMPT_LIST]` | AUTO-GENERATED: describe `PROMPT_LIST` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[WORKFLOW_DEFINITIONS]` | AUTO-GENERATED: describe `WORKFLOW_DEFINITIONS` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

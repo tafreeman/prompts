@@ -3,15 +3,38 @@
 Chain-of-Verification (CoVe) Runner
 ====================================
 
-Executes the CoVe technique to reduce hallucinations through independent verification.
+This module implements the Chain-of-Verification (CoVe) technique, a prompt engineering
+strategy designed to reduce hallucinations in Large Language Model (LLM) outputs through
+independent verification of generated claims.
 
-Supports:
-  - Local ONNX models (free, no API key)
-  - GitHub Models API (free tier available)
-  - OpenAI API
-  - Ollama (local)
+Overview
+--------
+CoVe works by breaking down the verification process into four distinct phases:
 
-Usage:
+1. **Draft Generation**: Generate an initial response to the user's question
+2. **Verification Planning**: Create fact-checking questions based on claims in the draft
+3. **Independent Verification**: Answer each verification question independently (without
+   referencing the original draft) to avoid bias
+4. **Final Synthesis**: Combine verified facts into a final, more accurate response
+
+This approach helps catch and correct factual errors that might appear in the initial
+draft by cross-checking claims through independent verification queries.
+
+Supported Providers
+-------------------
+- **local**: Local ONNX models via onnxruntime-genai (free, no API key required)
+- **windows**: Windows AI / Copilot Runtime with Phi Silica on NPU (Windows 11)
+- **ollama**: Local Ollama server (free, requires Ollama installation)
+- **github**: GitHub Models API (free tier available with GITHUB_TOKEN)
+- **openai**: OpenAI API (requires OPENAI_API_KEY)
+- **azure_foundry**: Azure Foundry endpoints (pay-per-use)
+- **claude**: Anthropic Claude API (requires API key)
+- **gemini**: Google Gemini API (requires API key)
+
+Usage Examples
+--------------
+.. code-block:: bash
+
     # With local ONNX model (default, free)
     python tools/cove_runner.py "What year was Python created and by whom?"
 
@@ -26,6 +49,24 @@ Usage:
 
     # Interactive mode
     python tools/cove_runner.py --interactive
+
+    # Output as JSON
+    python tools/cove_runner.py --json "Your question here"
+
+Environment Variables
+---------------------
+- ``GITHUB_TOKEN`` or ``GH_TOKEN``: Required for GitHub Models provider
+- ``OPENAI_API_KEY``: Required for OpenAI provider
+- ``OLLAMA_HOST``: Ollama server URL (default: http://localhost:11434)
+- ``COVE_LOCAL_MAX_TOKENS``: Max tokens for local model (default: 512)
+- ``COVE_LOCAL_TEMPERATURE``: Temperature for local model (default: 0.3)
+- ``AZURE_FOUNDRY_API_KEY``: Required for Azure Foundry provider
+- ``AZURE_FOUNDRY_ENDPOINT_1``, ``AZURE_FOUNDRY_ENDPOINT_2``: Azure Foundry endpoints
+
+References
+----------
+- CoVe Paper: "Chain-of-Verification Reduces Hallucination in Large Language Models"
+  https://arxiv.org/abs/2309.11495
 
 Author: Prompts Library Team
 """
@@ -127,6 +168,8 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
             raise ValueError(f"Windows AI NPU provider not available: {e}")
 
     if provider == "local":
+        # Local ONNX model provider - uses onnxruntime-genai for inference.
+        # Falls back to Ollama if local model initialization fails.
         try:
             from tools.llm.local_model import LocalModel
             lm = LocalModel(model_path=model_path, verbose=verbose)
@@ -148,6 +191,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
             local_call.model_name = model_name
             return local_call
         except Exception as e:
+            # Local model not available - log warning and fall back to Ollama provider
             print(f"⚠️  Local model not available: {e}")
             print("Falling back to Ollama...")
             provider = "ollama"

@@ -3,6 +3,66 @@ name: OpenAI Assistants API Patterns
 description: A prompt for openai assistants api patterns tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+You are a Senior C# Developer Assistant specializing in .NET 6+ and SQL Server.
+
+**Your Capabilities**:
+
+- Analyze C# code for bugs and suggest improvements
+- Generate SQL queries and optimize database performance
+- Explain architectural patterns (SOLID, DI, async/await)
+- Use Code Interpreter to test algorithms
+
+**Your Personality**:
+
+- Be concise and technical
+- Provide code examples when helpful
+- Ask clarifying questions when requirements are ambiguous
+
+**Constraints**:
+
+- Always use parameterized queries for SQL
+- Prefer async/await for I/O operations
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+
+```
+
+A prompt for openai assistants api patterns tasks.
+
+## Description
+
+## Prompt
+
+```markdown
+You are a Senior C# Developer Assistant specializing in .NET 6+ and SQL Server.
+
+**Your Capabilities**:
+
+- Analyze C# code for bugs and suggest improvements
+- Generate SQL queries and optimize database performance
+- Explain architectural patterns (SOLID, DI, async/await)
+- Use Code Interpreter to test algorithms
+
+**Your Personality**:
+
+- Be concise and technical
+- Provide code examples when helpful
+- Ask clarifying questions when requirements are ambiguous
+
+**Constraints**:
+
+- Always use parameterized queries for SQL
+- Prefer async/await for I/O operations
+- Follow C# naming conventions (PascalCase for public, camelCase for private)
+
+```
+
+A prompt for openai assistants api patterns tasks.
+
 
 # OpenAI Assistants API Patterns
 
@@ -269,4 +329,52 @@ if run.status == "requires_action":
 ## Related Patterns
 
 - [Function Calling](../function-calling/openai-function-calling.md)
-- [LangChain Agents](../../langchain/agent-patterns/langchain-agents.md)
+- [LangChain Agents](../../langchain/agent-patterns/langchain-agents.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["Id"]` | AUTO-GENERATED: describe `"Id"` |
+| `["order_id"]` | AUTO-GENERATED: describe `"order_id"` |
+| `["queued", "in_progress"]` | AUTO-GENERATED: describe `"queued", "in_progress"` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Function Calling]` | AUTO-GENERATED: describe `Function Calling` |
+| `[LangChain Agents]` | AUTO-GENERATED: describe `LangChain Agents` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[file.id]` | AUTO-GENERATED: describe `file.id` |
+| `[{"type": "code_interpreter"}]` | AUTO-GENERATED: describe `{"type": "code_interpreter"}` |
+| `[{"type": "file_search"}]` | AUTO-GENERATED: describe `{"type": "file_search"}` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

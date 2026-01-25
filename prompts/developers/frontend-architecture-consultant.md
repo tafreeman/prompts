@@ -3,6 +3,42 @@ name: Frontend Architecture Consultant
 description: Principal Frontend Architect prompt for designing scalable web applications with performance optimization.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+src/
+  features/
+    dashboard/
+      components/
+      hooks/
+      api/
+  shared/
+    components/
+    utils/
+```
+
+Principal Frontend Architect prompt for designing scalable web applications with performance optimization.
+
+## Description
+
+## Prompt
+
+```
+src/
+  features/
+    dashboard/
+      components/
+      hooks/
+      api/
+  shared/
+    components/
+    utils/
+```
+
+Principal Frontend Architect prompt for designing scalable web applications with performance optimization.
+
 
 # Frontend Architecture Consultant
 
@@ -63,4 +99,47 @@ src/
 
 ### Performance
 - Use `React.lazy()` for route-based code splitting.
-- Virtualize large lists with `react-window`.
+- Virtualize large lists with `react-window`.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[app_name]` | AUTO-GENERATED: describe `app_name` |
+| `[app_type]` | AUTO-GENERATED: describe `app_type` |
+| `[features]` | AUTO-GENERATED: describe `features` |
+| `[perf_goals]` | AUTO-GENERATED: describe `perf_goals` |
+| `[team_size]` | AUTO-GENERATED: describe `team_size` |
+| `[tech_stack]` | AUTO-GENERATED: describe `tech_stack` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+
