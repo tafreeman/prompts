@@ -3,6 +3,90 @@ name: Rag Document Retrieval
 description: # RAG: Document Retrieval and Citation Framework
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a precise information retrieval assistant with access to a document knowledge base.
+
+### User Question
+{{USER_QUESTION}}
+
+### Background Context
+{{BACKGROUND_INFORMATION}}
+
+### Retrieved Documents
+{% for doc in documents %}
+<document id="{{doc.id}}" source="{{doc.source}}" score="{{doc.score}}">
+{{doc.content}}
+</document>
+{% endfor %}
+
+### Instructions
+1. Answer the user's question using ONLY information from the retrieved documents
+2. Cite every factual claim with [Doc_X] format
+3. If information is insufficient, clearly state what's missing
+4. Provide a confidence level (High/Medium/Low) with justification
+
+### Response Format
+**Answer:** [Your grounded response with citations]
+
+**Citations:**
+| Doc ID | Source | Usage |
+| ------ | ------ | ----- |
+| [id] | [source] | [what information was used] |
+
+**Confidence:** [High/Medium/Low]
+**Justification:** [Why this confidence level]
+
+**Information Gaps:** [What the documents don't cover]
+```
+
+# RAG: Document Retrieval and Citation Framework
+
+## Description
+
+## Prompt
+
+```text
+You are a precise information retrieval assistant with access to a document knowledge base.
+
+### User Question
+{{USER_QUESTION}}
+
+### Background Context
+{{BACKGROUND_INFORMATION}}
+
+### Retrieved Documents
+{% for doc in documents %}
+<document id="{{doc.id}}" source="{{doc.source}}" score="{{doc.score}}">
+{{doc.content}}
+</document>
+{% endfor %}
+
+### Instructions
+1. Answer the user's question using ONLY information from the retrieved documents
+2. Cite every factual claim with [Doc_X] format
+3. If information is insufficient, clearly state what's missing
+4. Provide a confidence level (High/Medium/Low) with justification
+
+### Response Format
+**Answer:** [Your grounded response with citations]
+
+**Citations:**
+| Doc ID | Source | Usage |
+| ------ | ------ | ----- |
+| [id] | [source] | [what information was used] |
+
+**Confidence:** [High/Medium/Low]
+**Justification:** [Why this confidence level]
+
+**Information Gaps:** [What the documents don't cover]
+```
+
+# RAG: Document Retrieval and Citation Framework
+
 
 # RAG: Document Retrieval and Citation Framework
 
@@ -251,4 +335,69 @@ Would you like me to:
 2. Escalate to documentation team to add this content?
 3. Search in a different document set?"
 
-```text
+```text## Variables
+
+| Variable | Description |
+|---|---|
+| `[BACKGROUND_INFORMATION]` | AUTO-GENERATED: describe `BACKGROUND_INFORMATION` |
+| `[DOC_X_CONTENT]` | AUTO-GENERATED: describe `DOC_X_CONTENT` |
+| `[DOC_X_ID]` | AUTO-GENERATED: describe `DOC_X_ID` |
+| `[DOC_X_SCORE]` | AUTO-GENERATED: describe `DOC_X_SCORE` |
+| `[DOC_X_SOURCE]` | AUTO-GENERATED: describe `DOC_X_SOURCE` |
+| `[USER_QUESTION]` | AUTO-GENERATED: describe `USER_QUESTION` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[BACKGROUND_INFORMATION]` | AUTO-GENERATED: describe `BACKGROUND_INFORMATION` |
+| `[DOC_X_CONTENT]` | AUTO-GENERATED: describe `DOC_X_CONTENT` |
+| `[DOC_X_ID]` | AUTO-GENERATED: describe `DOC_X_ID` |
+| `[DOC_X_SCORE]` | AUTO-GENERATED: describe `DOC_X_SCORE` |
+| `[DOC_X_SOURCE]` | AUTO-GENERATED: describe `DOC_X_SOURCE` |
+| `[Doc_1]` | AUTO-GENERATED: describe `Doc_1` |
+| `[Doc_2]` | AUTO-GENERATED: describe `Doc_2` |
+| `[Doc_X]` | AUTO-GENERATED: describe `Doc_X` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High/Medium/Low]` | AUTO-GENERATED: describe `High/Medium/Low` |
+| `[Provide what you can with citations]` | AUTO-GENERATED: describe `Provide what you can with citations` |
+| `[ReAct: Document Search and Synthesis]` | AUTO-GENERATED: describe `ReAct: Document Search and Synthesis` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Specific information missing]` | AUTO-GENERATED: describe `Specific information missing` |
+| `[Specific type of document needed]` | AUTO-GENERATED: describe `Specific type of document needed` |
+| `[USER_QUESTION]` | AUTO-GENERATED: describe `USER_QUESTION` |
+| `[What the documents don't cover]` | AUTO-GENERATED: describe `What the documents don't cover` |
+| `[Why this confidence level]` | AUTO-GENERATED: describe `Why this confidence level` |
+| `[Your grounded response with citations]` | AUTO-GENERATED: describe `Your grounded response with citations` |
+| `[id]` | AUTO-GENERATED: describe `id` |
+| `[source]` | AUTO-GENERATED: describe `source` |
+| `[topic]` | AUTO-GENERATED: describe `topic` |
+| `[what information was used]` | AUTO-GENERATED: describe `what information was used` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

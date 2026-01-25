@@ -3,6 +3,106 @@ name: Basic Reflexion Pattern for Code Analysis
 description: A prompt for basic reflexion pattern for code analysis tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an expert code analyst tasked with performing iterative code analysis using the Reflexion pattern.
+
+## Task
+Analyze the following code for:
+
+- Potential bugs and errors
+- Performance optimization opportunities
+- Code quality and maintainability issues
+- Security vulnerabilities
+
+## Code to Analyze
+{code_snippet}
+
+## Reflexion Process
+
+### Phase 1: Initial Analysis
+Perform your initial code analysis. Be thorough but recognize this is your first pass.
+
+### Phase 2: Self-Evaluation
+Now, critically evaluate your initial analysis:
+
+- What did you potentially miss?
+- Were there any assumptions you made that might be incorrect?
+- Are there edge cases you didn't consider?
+- How confident are you in each finding (rate 1-10)?
+
+### Phase 3: Reflection and Improved Analysis
+Based on your self-evaluation, provide an improved, more comprehensive analysis:
+
+- Address the gaps you identified
+- Refine conclusions based on deeper thinking
+- Add any additional insights from reflection
+- Prioritize findings by severity and confidence
+
+## Output Format
+Provide your response in three clearly marked sections:
+
+1. INITIAL ANALYSIS
+2. SELF-EVALUATION
+3. FINAL IMPROVED ANALYSIS
+
+```
+
+A prompt for basic reflexion pattern for code analysis tasks.
+
+## Description
+
+## Prompt
+
+```text
+You are an expert code analyst tasked with performing iterative code analysis using the Reflexion pattern.
+
+## Task
+Analyze the following code for:
+
+- Potential bugs and errors
+- Performance optimization opportunities
+- Code quality and maintainability issues
+- Security vulnerabilities
+
+## Code to Analyze
+{code_snippet}
+
+## Reflexion Process
+
+### Phase 1: Initial Analysis
+Perform your initial code analysis. Be thorough but recognize this is your first pass.
+
+### Phase 2: Self-Evaluation
+Now, critically evaluate your initial analysis:
+
+- What did you potentially miss?
+- Were there any assumptions you made that might be incorrect?
+- Are there edge cases you didn't consider?
+- How confident are you in each finding (rate 1-10)?
+
+### Phase 3: Reflection and Improved Analysis
+Based on your self-evaluation, provide an improved, more comprehensive analysis:
+
+- Address the gaps you identified
+- Refine conclusions based on deeper thinking
+- Add any additional insights from reflection
+- Prioritize findings by severity and confidence
+
+## Output Format
+Provide your response in three clearly marked sections:
+
+1. INITIAL ANALYSIS
+2. SELF-EVALUATION
+3. FINAL IMPROVED ANALYSIS
+
+```
+
+A prompt for basic reflexion pattern for code analysis tasks.
+
 
 # Basic Reflexion Pattern for Code Analysis
 
@@ -266,4 +366,51 @@ Customize the evaluation criteria for specific domains:
 
 - Multi-Step Reflexion (for longer iterative processes)
 - Constitutional AI (for value-aligned reflection)
-- Chain-of-Thought + Reflexion (combining reasoning with reflection)
+- Chain-of-Thought + Reflexion (combining reasoning with reflection)## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["code_snippet"]` | AUTO-GENERATED: describe `"code_snippet"` |
+| `['evaluation']` | AUTO-GENERATED: describe `'evaluation'` |
+| `['final']` | AUTO-GENERATED: describe `'final'` |
+| `['initial']` | AUTO-GENERATED: describe `'initial'` |
+| `[1, 2, 3, 4, 5]` | AUTO-GENERATED: describe `1, 2, 3, 4, 5` |
+| `[Anthropic Cookbook: Reflexion Patterns]` | AUTO-GENERATED: describe `Anthropic Cookbook: Reflexion Patterns` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Insert prompt template above]` | AUTO-GENERATED: describe `Insert prompt template above` |
+| `[LangChain Documentation: Self-Critique Chains]` | AUTO-GENERATED: describe `LangChain Documentation: Self-Critique Chains` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[current_section]` | AUTO-GENERATED: describe `current_section` |
+| `[float]` | AUTO-GENERATED: describe `float` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

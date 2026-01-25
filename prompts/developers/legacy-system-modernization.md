@@ -3,6 +3,34 @@ name: Legacy System Modernization
 description: Enterprise Modernization Architect prompt for migrating legacy systems to cloud-native architectures.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Legacy System Modernization
+description: Enterprise Modernization Architect prompt for migrating legacy systems to cloud-native architectures.
+type: how_to
+---
+```
+
+Enterprise Modernization Architect prompt for migrating legacy systems to cloud-native architectures.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Legacy System Modernization
+description: Enterprise Modernization Architect prompt for migrating legacy systems to cloud-native architectures.
+type: how_to
+---
+```
+
+Enterprise Modernization Architect prompt for migrating legacy systems to cloud-native architectures.
+
 
 # Legacy System Modernization
 
@@ -53,4 +81,46 @@ Drivers: Improve release velocity
 3. **Phase 3**: Decommission monolith (3 months).
 
 ### Coexistence
-- API Gateway routes traffic to old or new based on feature flag.
+- API Gateway routes traffic to old or new based on feature flag.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[business_drivers]` | AUTO-GENERATED: describe `business_drivers` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[current_tech]` | AUTO-GENERATED: describe `current_tech` |
+| `[system_name]` | AUTO-GENERATED: describe `system_name` |
+| `[target_state]` | AUTO-GENERATED: describe `target_state` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

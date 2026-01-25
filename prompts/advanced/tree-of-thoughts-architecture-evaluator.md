@@ -1,8 +1,39 @@
 ---
+name: tree-of-thoughts-architecture-evaluator
+description: 'AUTO-GENERATED: Tree-of-Thoughts architecture evaluator prompt. Please refine.'
+type: how_to
+difficulty: advanced
+author: Prompt Engineering Team
+date: '2025-11-18'
+---
+## Description
+
+## Prompt
+
+```text
+---
 name: Tree Of Thoughts Architecture Evaluator
 description: title: 'Tree-of-Thoughts: Architecture Evaluator' shortTitle: ToT Architecture Evaluator intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic mult
 type: how_to
 ---
+```
+
+title: 'Tree-of-Thoughts: Architecture Evaluator' shortTitle: ToT Architecture Evaluator intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic mult
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Tree Of Thoughts Architecture Evaluator
+description: title: 'Tree-of-Thoughts: Architecture Evaluator' shortTitle: ToT Architecture Evaluator intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic mult
+type: how_to
+---
+```
+
+title: 'Tree-of-Thoughts: Architecture Evaluator' shortTitle: ToT Architecture Evaluator intro: A specialized Tree-of-Thoughts prompt for evaluating multiple architecture options using systematic mult
+
 
 title: 'Tree-of-Thoughts: Architecture Evaluator'
 shortTitle: ToT Architecture Evaluator
@@ -294,4 +325,117 @@ Based on the analysis, select the best option:
 - **Human Review Required:** All architecture decisions should be reviewed by senior engineers and stakeholders
 - **Cost Approval:** Ensure budget stakeholders approve cost estimates
 - **Security Review:** Involve security team if architecture handles sensitive data
-- **Compliance Check:** Ensure architecture meets regulatory requirements (GDPR, HIPAA, etc.)
+- **Compliance Check:** Ensure architecture meets regulatory requirements (GDPR, HIPAA, etc.)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ANY_OTHER_RELEVANT_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_RELEVANT_INFO` |
+| `[BUDGET_CONSTRAINTS]` | AUTO-GENERATED: describe `BUDGET_CONSTRAINTS` |
+| `[DELIVERY_DEADLINE]` | AUTO-GENERATED: describe `DELIVERY_DEADLINE` |
+| `[EXISTING_ARCHITECTURE_OR_GREENFIELD]` | AUTO-GENERATED: describe `EXISTING_ARCHITECTURE_OR_GREENFIELD` |
+| `[FUNCTIONAL_REQUIREMENT_1]` | AUTO-GENERATED: describe `FUNCTIONAL_REQUIREMENT_1` |
+| `[LATENCY_THROUGHPUT_TARGETS]` | AUTO-GENERATED: describe `LATENCY_THROUGHPUT_TARGETS` |
+| `[PROBLEM_DESCRIPTION]` | AUTO-GENERATED: describe `PROBLEM_DESCRIPTION` |
+| `[SCALABILITY_REQUIREMENTS]` | AUTO-GENERATED: describe `SCALABILITY_REQUIREMENTS` |
+| `[SECURITY_COMPLIANCE_NEEDS]` | AUTO-GENERATED: describe `SECURITY_COMPLIANCE_NEEDS` |
+| `[TEAM_SIZE_EXPERIENCE_SKILLS]` | AUTO-GENERATED: describe `TEAM_SIZE_EXPERIENCE_SKILLS` |
+| `[UPTIME_REQUIREMENTS]` | AUTO-GENERATED: describe `UPTIME_REQUIREMENTS` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+| `[YYYY-MM-DD]` | AUTO-GENERATED: describe `YYYY-MM-DD` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[$X/month]` | AUTO-GENERATED: describe `$X/month` |
+| `[$Z]` | AUTO-GENERATED: describe `$Z` |
+| `[ANY_OTHER_RELEVANT_INFO]` | AUTO-GENERATED: describe `ANY_OTHER_RELEVANT_INFO` |
+| `[Additional risks]` | AUTO-GENERATED: describe `Additional risks` |
+| `[BUDGET_CONSTRAINTS]` | AUTO-GENERATED: describe `BUDGET_CONSTRAINTS` |
+| `[Benchmarks or performance data]` | AUTO-GENERATED: describe `Benchmarks or performance data` |
+| `[Benefits of this choice]` | AUTO-GENERATED: describe `Benefits of this choice` |
+| `[Conditions under which a different option would be better, e.g., "If team grows to 50+, reconsider microservices"]` | AUTO-GENERATED: describe `Conditions under which a different option would be better, e.g., "If team grows to 50+, reconsider microservices"` |
+| `[DELIVERY_DEADLINE]` | AUTO-GENERATED: describe `DELIVERY_DEADLINE` |
+| `[Describe components, data flow, technologies, deployment model]` | AUTO-GENERATED: describe `Describe components, data flow, technologies, deployment model` |
+| `[Description]` | AUTO-GENERATED: describe `Description` |
+| `[Detailed description: components, data flow, communication patterns, technologies]` | AUTO-GENERATED: describe `Detailed description: components, data flow, communication patterns, technologies` |
+| `[Downsides or costs]` | AUTO-GENERATED: describe `Downsides or costs` |
+| `[EXISTING_ARCHITECTURE_OR_GREENFIELD]` | AUTO-GENERATED: describe `EXISTING_ARCHITECTURE_OR_GREENFIELD` |
+| `[Example of similar architecture in production]` | AUTO-GENERATED: describe `Example of similar architecture in production` |
+| `[FUNCTIONAL_REQUIREMENT_1]` | AUTO-GENERATED: describe `FUNCTIONAL_REQUIREMENT_1` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[High|Medium|Low]` | AUTO-GENERATED: describe `High|Medium|Low` |
+| `[How does it handle X failure?]` | AUTO-GENERATED: describe `How does it handle X failure?` |
+| `[How to address]` | AUTO-GENERATED: describe `How to address` |
+| `[LATENCY_THROUGHPUT_TARGETS]` | AUTO-GENERATED: describe `LATENCY_THROUGHPUT_TARGETS` |
+| `[List other options and why they were rejected]` | AUTO-GENERATED: describe `List other options and why they were rejected` |
+| `[List the top 2–3 options to explore deeply]` | AUTO-GENERATED: describe `List the top 2–3 options to explore deeply` |
+| `[Name]` | AUTO-GENERATED: describe `Name` |
+| `[Name, e.g., "Microservices with Event-Driven Communication"]` | AUTO-GENERATED: describe `Name, e.g., "Microservices with Event-Driven Communication"` |
+| `[Name, e.g., "Modular Monolith with Async Workers"]` | AUTO-GENERATED: describe `Name, e.g., "Modular Monolith with Async Workers"` |
+| `[Name, e.g., "Serverless with API Gateway + Lambda"]` | AUTO-GENERATED: describe `Name, e.g., "Serverless with API Gateway + Lambda"` |
+| `[One-sentence summary of the chosen architecture]` | AUTO-GENERATED: describe `One-sentence summary of the chosen architecture` |
+| `[Option Name]` | AUTO-GENERATED: describe `Option Name` |
+| `[PROBLEM_DESCRIPTION]` | AUTO-GENERATED: describe `PROBLEM_DESCRIPTION` |
+| `[Phase 1: Initial setup]` | AUTO-GENERATED: describe `Phase 1: Initial setup` |
+| `[Phase 2: Core features]` | AUTO-GENERATED: describe `Phase 2: Core features` |
+| `[Phase 3: Optimization and scale]` | AUTO-GENERATED: describe `Phase 3: Optimization and scale` |
+| `[Proposed | Accepted | Deprecated]` | AUTO-GENERATED: describe `Proposed | Accepted | Deprecated` |
+| `[Rationale]` | AUTO-GENERATED: describe `Rationale` |
+| `[Repeat for each option]` | AUTO-GENERATED: describe `Repeat for each option` |
+| `[Repeat for each remaining option]` | AUTO-GENERATED: describe `Repeat for each remaining option` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Risk 1: description + mitigation]` | AUTO-GENERATED: describe `Risk 1: description + mitigation` |
+| `[Risk 2: description + mitigation]` | AUTO-GENERATED: describe `Risk 2: description + mitigation` |
+| `[SCALABILITY_REQUIREMENTS]` | AUTO-GENERATED: describe `SCALABILITY_REQUIREMENTS` |
+| `[SECURITY_COMPLIANCE_NEEDS]` | AUTO-GENERATED: describe `SECURITY_COMPLIANCE_NEEDS` |
+| `[Score 1-10]` | AUTO-GENERATED: describe `Score 1-10` |
+| `[Sum or weighted average]` | AUTO-GENERATED: describe `Sum or weighted average` |
+| `[TEAM_SIZE_EXPERIENCE_SKILLS]` | AUTO-GENERATED: describe `TEAM_SIZE_EXPERIENCE_SKILLS` |
+| `[Top 2-3 advantages]` | AUTO-GENERATED: describe `Top 2-3 advantages` |
+| `[Top 2-3 disadvantages]` | AUTO-GENERATED: describe `Top 2-3 disadvantages` |
+| `[Trade-off 1: e.g., "Higher operational complexity for better scalability"]` | AUTO-GENERATED: describe `Trade-off 1: e.g., "Higher operational complexity for better scalability"` |
+| `[Trade-off 2: e.g., "Steeper learning curve for long-term flexibility"]` | AUTO-GENERATED: describe `Trade-off 2: e.g., "Steeper learning curve for long-term flexibility"` |
+| `[UPTIME_REQUIREMENTS]` | AUTO-GENERATED: describe `UPTIME_REQUIREMENTS` |
+| `[Unknowns or concerns]` | AUTO-GENERATED: describe `Unknowns or concerns` |
+| `[What happens under extreme load?]` | AUTO-GENERATED: describe `What happens under extreme load?` |
+| `[Who should review/approve this decision]` | AUTO-GENERATED: describe `Who should review/approve this decision` |
+| `[Why this decision was needed]` | AUTO-GENERATED: describe `Why this decision was needed` |
+| `[Why this option doesn't meet requirements or constraints]` | AUTO-GENERATED: describe `Why this option doesn't meet requirements or constraints` |
+| `[Why this option is clearly inferior or infeasible]` | AUTO-GENERATED: describe `Why this option is clearly inferior or infeasible` |
+| `[Why this option is the best fit for the requirements, constraints, and team]` | AUTO-GENERATED: describe `Why this option is the best fit for the requirements, constraints, and team` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+| `[Y person-months]` | AUTO-GENERATED: describe `Y person-months` |
+| `[YYYY-MM-DD]` | AUTO-GENERATED: describe `YYYY-MM-DD` |
+| `[score]` | AUTO-GENERATED: describe `score` |
+| `[sum]` | AUTO-GENERATED: describe `sum` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,100 @@ name: Api Architecture Designer
 description: # API Architecture Designer
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Clients
+        Web[Web App]
+        Mobile[Mobile App]
+        Partner[Partner Systems]
+    end
+
+    subgraph API_Gateway[API Gateway Layer]
+        Gateway[API Gateway]
+        Auth[Auth Service]
+        RateLimit[Rate Limiter]
+    end
+
+    subgraph API_Layer[API Services]
+        REST[REST APIs]
+        GraphQL[GraphQL API]
+        gRPC[gRPC Services]
+    end
+
+    subgraph Backend[Backend Services]
+        BFF[Backend for Frontend]
+        Core[Core Services]
+        Cache[(Cache Layer)]
+    end
+
+    Web --> Gateway
+    Mobile --> Gateway
+    Partner --> Gateway
+    Gateway --> Auth
+    Gateway --> RateLimit
+    RateLimit --> REST
+    RateLimit --> GraphQL
+    RateLimit --> gRPC
+    REST --> BFF
+    GraphQL --> BFF
+    gRPC --> Core
+    BFF --> Core
+    Core --> Cache
+```
+
+# API Architecture Designer
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Clients
+        Web[Web App]
+        Mobile[Mobile App]
+        Partner[Partner Systems]
+    end
+
+    subgraph API_Gateway[API Gateway Layer]
+        Gateway[API Gateway]
+        Auth[Auth Service]
+        RateLimit[Rate Limiter]
+    end
+
+    subgraph API_Layer[API Services]
+        REST[REST APIs]
+        GraphQL[GraphQL API]
+        gRPC[gRPC Services]
+    end
+
+    subgraph Backend[Backend Services]
+        BFF[Backend for Frontend]
+        Core[Core Services]
+        Cache[(Cache Layer)]
+    end
+
+    Web --> Gateway
+    Mobile --> Gateway
+    Partner --> Gateway
+    Gateway --> Auth
+    Gateway --> RateLimit
+    RateLimit --> REST
+    RateLimit --> GraphQL
+    RateLimit --> gRPC
+    REST --> BFF
+    GraphQL --> BFF
+    gRPC --> Core
+    BFF --> Core
+    Core --> Cache
+```
+
+# API Architecture Designer
+
 
 # API Architecture Designer
 
@@ -144,4 +238,66 @@ Scalability Goals: 10,000 TPS peak, 99.99% availability, <200ms p99 latency
 ## Related Prompts
 
 - Browse other Architect prompts in this category
-- Check the system folder for similar templates
+- Check the system folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Cache Layer)]` | AUTO-GENERATED: describe `(Cache Layer)` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[API Gateway Layer]` | AUTO-GENERATED: describe `API Gateway Layer` |
+| `[API Services]` | AUTO-GENERATED: describe `API Services` |
+| `[Auth Service]` | AUTO-GENERATED: describe `Auth Service` |
+| `[Backend Services]` | AUTO-GENERATED: describe `Backend Services` |
+| `[Backend for Frontend]` | AUTO-GENERATED: describe `Backend for Frontend` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Core Services]` | AUTO-GENERATED: describe `Core Services` |
+| `[Enterprise Integration Architect]` | AUTO-GENERATED: describe `Enterprise Integration Architect` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[GraphQL API]` | AUTO-GENERATED: describe `GraphQL API` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Mobile App]` | AUTO-GENERATED: describe `Mobile App` |
+| `[Partner Systems]` | AUTO-GENERATED: describe `Partner Systems` |
+| `[Performance Architecture Optimizer]` | AUTO-GENERATED: describe `Performance Architecture Optimizer` |
+| `[REST APIs]` | AUTO-GENERATED: describe `REST APIs` |
+| `[Rate Limiter]` | AUTO-GENERATED: describe `Rate Limiter` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Web App]` | AUTO-GENERATED: describe `Web App` |
+| `[consumers]` | AUTO-GENERATED: describe `consumers` |
+| `[domain]` | AUTO-GENERATED: describe `domain` |
+| `[gRPC Services]` | AUTO-GENERATED: describe `gRPC Services` |
+| `[integrations]` | AUTO-GENERATED: describe `integrations` |
+| `[scalability]` | AUTO-GENERATED: describe `scalability` |
+| `[security]` | AUTO-GENERATED: describe `security` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

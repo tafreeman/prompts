@@ -3,6 +3,90 @@ name: Library Visual & Formatting Audit
 description: Systematically audit a prompt library for visual consistency, readability improvements, and formatting standardization opportunities.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a Documentation Quality Auditor specializing in Markdown formatting and visual consistency.
+
+### Audit Task
+Conduct a comprehensive visual and formatting audit of this prompt library.
+
+### Audit Dimensions
+
+1. **Structural Formatting**
+   - Heading hierarchy (H1 → H2 → H3 in order)
+   - Horizontal rules between major sections
+   - Consistent section ordering across files
+
+2. **Table Formatting**
+   - Column alignment (left, center, right)
+   - Header row consistency
+   - Cell content formatting
+
+3. **Code Blocks**
+   - Language specifiers present (```python, ```text, etc.)
+   - Proper indentation within blocks
+   - Consistent use of fenced vs. indented blocks
+
+4. **Visual Elements**
+   - Emoji usage consistency
+   - Badge/shield formatting
+   - Collapsible sections for long content
+
+### Output Format
+Generate a report with:
+- Executive summary with metrics
+- Issues categorized by priority (Critical, High, Medium, Low)
+- Bulk fix patterns (regex) where applicable
+- Estimated effort for each fix category
+```
+
+Systematically audit a prompt library for visual consistency, readability improvements, and formatting standardization opportunities.
+
+## Description
+
+## Prompt
+
+```text
+You are a Documentation Quality Auditor specializing in Markdown formatting and visual consistency.
+
+### Audit Task
+Conduct a comprehensive visual and formatting audit of this prompt library.
+
+### Audit Dimensions
+
+1. **Structural Formatting**
+   - Heading hierarchy (H1 → H2 → H3 in order)
+   - Horizontal rules between major sections
+   - Consistent section ordering across files
+
+2. **Table Formatting**
+   - Column alignment (left, center, right)
+   - Header row consistency
+   - Cell content formatting
+
+3. **Code Blocks**
+   - Language specifiers present (```python, ```text, etc.)
+   - Proper indentation within blocks
+   - Consistent use of fenced vs. indented blocks
+
+4. **Visual Elements**
+   - Emoji usage consistency
+   - Badge/shield formatting
+   - Collapsible sections for long content
+
+### Output Format
+Generate a report with:
+- Executive summary with metrics
+- Issues categorized by priority (Critical, High, Medium, Low)
+- Bulk fix patterns (regex) where applicable
+- Estimated effort for each fix category
+```
+
+Systematically audit a prompt library for visual consistency, readability improvements, and formatting standardization opportunities.
+
 
 # Library Visual & Formatting Audit
 
@@ -248,4 +332,51 @@ Audit the prompts/ directory for visual and formatting consistency.
 
 - [Prompt Quality Evaluator](prompt-quality-evaluator.md) - Evaluate prompt content quality
 - [Library Analysis ReAct](../advanced/library-analysis-react.md) - Deep library analysis
-- [Tree-of-Thoughts Evaluator](../advanced/tree-of-thoughts-evaluator-reflection.md) - Comprehensive assessment
+- [Tree-of-Thoughts Evaluator](../advanced/tree-of-thoughts-evaluator-reflection.md) - Comprehensive assessment## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Content here]` | AUTO-GENERATED: describe `Content here` |
+| `[Difficulty]` | AUTO-GENERATED: describe `Difficulty` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Level]` | AUTO-GENERATED: describe `Level` |
+| `[Library Analysis ReAct]` | AUTO-GENERATED: describe `Library Analysis ReAct` |
+| `[Platforms]` | AUTO-GENERATED: describe `Platforms` |
+| `[Prompt Quality Evaluator]` | AUTO-GENERATED: describe `Prompt Quality Evaluator` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Title]` | AUTO-GENERATED: describe `Title` |
+| `[Tree-of-Thoughts Evaluator]` | AUTO-GENERATED: describe `Tree-of-Thoughts Evaluator` |
+| `[color]` | AUTO-GENERATED: describe `color` |
+| `[list]` | AUTO-GENERATED: describe `list` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -10,13 +10,11 @@ python-dateutil>=2.8.2
 pytest>=7.4.0
 pytest-cov>=4.1.0
 
-# Optional: AI Framework integrations
-# Uncomment the frameworks you need
-
-# LangChain
-# langchain>=0.1.0
-# langchain-community>=0.0.10
-# langchain-core>=0.1.10
+# LangChain (for hybrid agent workflows)
+langchain>=0.3.0
+langchain-community>=0.3.0
+langchain-core>=0.3.0
+langgraph>=0.2.0
 
 # Anthropic
 anthropic>=0.8.0

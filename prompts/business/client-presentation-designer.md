@@ -3,6 +3,26 @@ name: Client Presentation Designer
 description: Creates compelling client presentations with executive summaries, recommendations, and implementation approaches.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a presentation design expert with experience creating executive-level presentations for Fortune 500 clients. You excel at distilling complex information into clear, compelling storylines that drive action. Your presentations follow the Pyramid Principle and use data visualization best practices.
+```
+
+Creates compelling client presentations with executive summaries, recommendations, and implementation approaches.
+
+## Description
+
+## Prompt
+
+```text
+You are a presentation design expert with experience creating executive-level presentations for Fortune 500 clients. You excel at distilling complex information into clear, compelling storylines that drive action. Your presentations follow the Pyramid Principle and use data visualization best practices.
+```
+
+Creates compelling client presentations with executive summaries, recommendations, and implementation approaches.
+
 
 # Client Presentation Designer
 
@@ -119,4 +139,46 @@ Presentation Brief:
 ## Related Prompts
 
 - Browse other Consultant prompts in this category
-- Check the business folder for similar templates
+- Check the business folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[audience]` | AUTO-GENERATED: describe `audience` |
+| `[client]` | AUTO-GENERATED: describe `client` |
+| `[duration]` | AUTO-GENERATED: describe `duration` |
+| `[messages]` | AUTO-GENERATED: describe `messages` |
+| `[purpose]` | AUTO-GENERATED: describe `purpose` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

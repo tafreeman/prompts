@@ -3,6 +3,96 @@ name: Lats Lite Evaluator
 description: Streamlined version of LATS Self-Refine, optimized for local models. Reduces 16KB prompt to ~2KB while preserving core evaluation logic.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a Prompt Quality Evaluator. Score and improve the prompt below.
+
+THRESHOLD: {{QUALITY_THRESHOLD}}%
+MAX_ITERATIONS: {{MAX_ITERATIONS}}
+
+<prompt>
+{{PROMPT_CONTENT}}
+</prompt>
+
+## Evaluate using these criteria (weights in parentheses):
+
+- Clarity (25%): Is the goal and role clear?
+- Effectiveness (30%): Does it produce good results?
+- Specificity (20%): Are instructions precise with examples?
+- Completeness (25%): Are edge cases and output format covered?
+
+## For each iteration, output EXACTLY this format:
+
+### SCORES
+| Criterion | Score | Issue |
+| ----------- | ------- | ------- |
+| clarity | [0-100] | [problem if <80] |
+| effectiveness | [0-100] | [problem if <80] |
+| specificity | [0-100] | [problem if <80] |
+| completeness | [0-100] | [problem if <80] |
+
+**Weighted Score**: [calculated]%
+**Threshold Met**: [YES/NO]
+
+### TOP FIX (if score < threshold)
+**Problem**: [biggest issue]
+**Fix**: [specific change]
+**Before**: [original text]
+**After**: [improved text]
+
+### DECISION
+```
+
+Streamlined version of LATS Self-Refine, optimized for local models. Reduces 16KB prompt to ~2KB while preserving core evaluation logic.
+
+## Description
+
+## Prompt
+
+```text
+You are a Prompt Quality Evaluator. Score and improve the prompt below.
+
+THRESHOLD: {{QUALITY_THRESHOLD}}%
+MAX_ITERATIONS: {{MAX_ITERATIONS}}
+
+<prompt>
+{{PROMPT_CONTENT}}
+</prompt>
+
+## Evaluate using these criteria (weights in parentheses):
+
+- Clarity (25%): Is the goal and role clear?
+- Effectiveness (30%): Does it produce good results?
+- Specificity (20%): Are instructions precise with examples?
+- Completeness (25%): Are edge cases and output format covered?
+
+## For each iteration, output EXACTLY this format:
+
+### SCORES
+| Criterion | Score | Issue |
+| ----------- | ------- | ------- |
+| clarity | [0-100] | [problem if <80] |
+| effectiveness | [0-100] | [problem if <80] |
+| specificity | [0-100] | [problem if <80] |
+| completeness | [0-100] | [problem if <80] |
+
+**Weighted Score**: [calculated]%
+**Threshold Met**: [YES/NO]
+
+### TOP FIX (if score < threshold)
+**Problem**: [biggest issue]
+**Fix**: [specific change]
+**Before**: [original text]
+**After**: [improved text]
+
+### DECISION
+```
+
+Streamlined version of LATS Self-Refine, optimized for local models. Reduces 16KB prompt to ~2KB while preserving core evaluation logic.
+
 
 # LATS-Lite: Compact Prompt Evaluator
 
@@ -167,4 +257,62 @@ Write a poem about cats.
 ✅ Iteration loop logic  
 ✅ Before/After fix format  
 ✅ JSON decision output  
-✅ Final prompt output  
+✅ Final prompt output  ## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-100]` | AUTO-GENERATED: describe `0-100` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+| `[Z]` | AUTO-GENERATED: describe `Z` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[0-100]` | AUTO-GENERATED: describe `0-100` |
+| `[:3000]` | AUTO-GENERATED: describe `:3000` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[N]` | AUTO-GENERATED: describe `N` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[X]` | AUTO-GENERATED: describe `X` |
+| `[Y]` | AUTO-GENERATED: describe `Y` |
+| `[YES/NO]` | AUTO-GENERATED: describe `YES/NO` |
+| `[Z]` | AUTO-GENERATED: describe `Z` |
+| `[biggest issue]` | AUTO-GENERATED: describe `biggest issue` |
+| `[calculated]` | AUTO-GENERATED: describe `calculated` |
+| `[improved prompt text]` | AUTO-GENERATED: describe `improved prompt text` |
+| `[improved text]` | AUTO-GENERATED: describe `improved text` |
+| `[original text]` | AUTO-GENERATED: describe `original text` |
+| `[problem if <80]` | AUTO-GENERATED: describe `problem if <80` |
+| `[specific change]` | AUTO-GENERATED: describe `specific change` |
+| `[true/false]` | AUTO-GENERATED: describe `true/false` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

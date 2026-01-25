@@ -1,0 +1,46 @@
+{
+  "task_id": 2,
+  "name": "Configuration File Parser",
+  "version": "1.0",
+  "last_updated": "2026-01-23",
+  "source_references": [
+    {
+      "type": "library",
+      "url": "https://github.com/toml-lang/toml",
+      "description": "TOML specification"
+    },
+    {
+      "type": "library",
+      "url": "https://pyyaml.org/",
+      "description": "PyYAML documentation"
+    }
+  ],
+  "required_components": [
+    "ConfigParser",
+    "parse",
+    "validate",
+    "JSON",
+    "YAML"
+  ],
+  "required_patterns": [
+    "(class|def)\\s+\\w*(Config|Parser)",
+    "(JSON|YAML|TOML|INI)",
+    "(validate|schema|type.?check)",
+    "(environment|env|ENV).*variable"
+  ],
+  "key_decisions": [
+    "Parser architecture (unified vs format-specific)",
+    "Validation approach (schema vs runtime)",
+    "Error handling strategy",
+    "Environment variable interpolation"
+  ],
+  "prompt": "Create a Python library for parsing configuration files.\n\nRequirements:\n- Support YAML, JSON, and TOML formats\n- Provide a unified API regardless of format\n- Support environment variable substitution (e.g., ${VAR_NAME})\n- Support default values\n- Type validation (optional)\n\nProvide the class design, key methods, and usage examples.",
+  "instruction": "Unified interface for all formats",
+  "difficulty": "easy",
+  "tags": [
+    "python",
+    "config",
+    "parsing",
+    "library"
+  ]
+}

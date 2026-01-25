@@ -3,6 +3,54 @@ name: Claude Tool Use Pattern
 description: A prompt for claude tool use pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a helpful assistant with access to the following tools:
+{{tool_definitions}}
+
+Your goal is to assist the user by using these tools when necessary.
+
+<instructions>
+1. **Think before you act**: Analyze the user's request. Determine if a tool is needed.
+2. **Chain of Thought**: If a tool is needed, output your reasoning in <thinking> tags before calling the tool.
+3. **Tool Call**: Use the provided tool format to execute the action.
+4. **Response**: Once you have the tool result, formulate a natural language response to the user.
+</instructions>
+
+<user_request>
+{{user_input}}
+</user_request>
+```
+
+A prompt for claude tool use pattern tasks.
+
+## Description
+
+## Prompt
+
+```text
+You are a helpful assistant with access to the following tools:
+{{tool_definitions}}
+
+Your goal is to assist the user by using these tools when necessary.
+
+<instructions>
+1. **Think before you act**: Analyze the user's request. Determine if a tool is needed.
+2. **Chain of Thought**: If a tool is needed, output your reasoning in <thinking> tags before calling the tool.
+3. **Tool Call**: Use the provided tool format to execute the action.
+4. **Response**: Once you have the tool result, formulate a natural language response to the user.
+</instructions>
+
+<user_request>
+{{user_input}}
+</user_request>
+```
+
+A prompt for claude tool use pattern tasks.
+
 
 # Claude Tool Use Pattern
 
@@ -204,4 +252,52 @@ def run_conversation(user_input):
 ## Related Patterns
 
 - [OpenAI Function Calling](../../openai/function-calling/openai-function-calling.md)
-- [Agentic Workflows](../../../techniques/agentic/multi-agent/multi-agent-workflow.md)
+- [Agentic Workflows](../../../techniques/agentic/multi-agent/multi-agent-workflow.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["celsius", "fahrenheit"]` | AUTO-GENERATED: describe `"celsius", "fahrenheit"` |
+| `["location"]` | AUTO-GENERATED: describe `"location"` |
+| `["ticker"]` | AUTO-GENERATED: describe `"ticker"` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[Agentic Workflows]` | AUTO-GENERATED: describe `Agentic Workflows` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[OpenAI Function Calling]` | AUTO-GENERATED: describe `OpenAI Function Calling` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Tool call: get_weather(location="San Francisco, CA")]` | AUTO-GENERATED: describe `Tool call: get_weather(location="San Francisco, CA")` |
+| `[{"name": "get_weather", "description": "Get current weather", "input_schema": {...}}]` | AUTO-GENERATED: describe `{"name": "get_weather", "description": "Get current weather", "input_schema": {...}}` |
+| `[{"role": "user", "content": user_input}]` | AUTO-GENERATED: describe `{"role": "user", "content": user_input}` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

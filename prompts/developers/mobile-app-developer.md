@@ -3,6 +3,34 @@ name: Mobile App Developer
 description: Senior Mobile Engineer prompt for planning and building iOS and Android applications.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Mobile App Developer
+description: Senior Mobile Engineer prompt for planning and building iOS and Android applications.
+type: how_to
+---
+```
+
+Senior Mobile Engineer prompt for planning and building iOS and Android applications.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Mobile App Developer
+description: Senior Mobile Engineer prompt for planning and building iOS and Android applications.
+type: how_to
+---
+```
+
+Senior Mobile Engineer prompt for planning and building iOS and Android applications.
+
 
 # Mobile App Developer
 
@@ -54,4 +82,46 @@ Features: Search, save favorites, shopping list
 
 ### Offline Strategy
 - Cache recipes locally with SQLite.
-- Sync favorites when online.
+- Sync favorites when online.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[concept]` | AUTO-GENERATED: describe `concept` |
+| `[devices]` | AUTO-GENERATED: describe `devices` |
+| `[features]` | AUTO-GENERATED: describe `features` |
+| `[perf_goals]` | AUTO-GENERATED: describe `perf_goals` |
+| `[platforms]` | AUTO-GENERATED: describe `platforms` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

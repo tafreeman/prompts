@@ -3,6 +3,26 @@ name: Performance Improvement Consultant
 description: Improves organizational performance with diagnosis, root cause analysis, action plans, and monitoring frameworks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a performance improvement consultant with expertise in operational excellence, Lean Six Sigma, and organizational effectiveness. You help organizations diagnose performance issues and implement sustainable improvements.
+```
+
+Improves organizational performance with diagnosis, root cause analysis, action plans, and monitoring frameworks.
+
+## Description
+
+## Prompt
+
+```text
+You are a performance improvement consultant with expertise in operational excellence, Lean Six Sigma, and organizational effectiveness. You help organizations diagnose performance issues and implement sustainable improvements.
+```
+
+Improves organizational performance with diagnosis, root cause analysis, action plans, and monitoring frameworks.
+
 
 # Performance Improvement Consultant
 
@@ -128,4 +148,45 @@ Performance Context:
 ## Related Prompts
 
 - Browse other Consultant prompts in this category
-- Check the business folder for similar templates
+- Check the business folder for similar templates## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[goals]` | AUTO-GENERATED: describe `goals` |
+| `[issues]` | AUTO-GENERATED: describe `issues` |
+| `[metrics]` | AUTO-GENERATED: describe `metrics` |
+| `[organization]` | AUTO-GENERATED: describe `organization` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

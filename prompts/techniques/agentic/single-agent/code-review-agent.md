@@ -3,6 +3,46 @@ name: Single-Agent Code Review Workflow
 description: An autonomous single-agent pattern for comprehensive C#/.NET code review that handles the entire review lifecycle from initial analysis through generating actionable feedback.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+You are an expert C# code reviewer with deep knowledge of:
+
+- .NET best practices and patterns
+- SOLID principles and clean architecture
+- Security vulnerabilities (OWASP Top 10)
+- Performance optimization
+- SQL injection and data access patterns
+
+**Your Task**: Review the following C# code and provide comprehensive feedback.
+
+**Code to Review**:
+```
+
+An autonomous single-agent pattern for comprehensive C#/.NET code review that handles the entire review lifecycle from initial analysis through generating actionable feedback.
+
+## Description
+
+## Prompt
+
+```markdown
+You are an expert C# code reviewer with deep knowledge of:
+
+- .NET best practices and patterns
+- SOLID principles and clean architecture
+- Security vulnerabilities (OWASP Top 10)
+- Performance optimization
+- SQL injection and data access patterns
+
+**Your Task**: Review the following C# code and provide comprehensive feedback.
+
+**Code to Review**:
+```
+
+An autonomous single-agent pattern for comprehensive C#/.NET code review that handles the entire review lifecycle from initial analysis through generating actionable feedback.
+
 
 # Single-Agent Code Review Workflow
 
@@ -377,4 +417,55 @@ You are an expert C# code reviewer with deep knowledge of .NET best practices, s
 ## Related Patterns
 
 - [Multi-Agent Workflow](../multi-agent/multi-agent-workflow.md)
-- [Reflexion Pattern](../../reflexion/basic-reflexion/basic-reflexion.md)
+- [Reflexion Pattern](../../reflexion/basic-reflexion/basic-reflexion.md)## Variables
+
+| Variable | Description |
+|---|---|
+| `[1]` | AUTO-GENERATED: describe `1` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["Email"]` | AUTO-GENERATED: describe `"Email"` |
+| `["Id"]` | AUTO-GENERATED: describe `"Id"` |
+| `["Name"]` | AUTO-GENERATED: describe `"Name"` |
+| `[... rest of template ...]` | AUTO-GENERATED: describe `... rest of template ...` |
+| `[1]` | AUTO-GENERATED: describe `1` |
+| `[2-3 sentence overview of code quality and major concerns]` | AUTO-GENERATED: describe `2-3 sentence overview of code quality and major concerns` |
+| `[Brief justification]` | AUTO-GENERATED: describe `Brief justification` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[If any, list with code examples and fixes]` | AUTO-GENERATED: describe `If any, list with code examples and fixes` |
+| `[List with examples and fixes]` | AUTO-GENERATED: describe `List with examples and fixes` |
+| `[Multi-Agent Workflow]` | AUTO-GENERATED: describe `Multi-Agent Workflow` |
+| `[Reflexion Pattern]` | AUTO-GENERATED: describe `Reflexion Pattern` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[What the code does well]` | AUTO-GENERATED: describe `What the code does well` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

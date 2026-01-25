@@ -3,6 +3,84 @@ name: Disaster Recovery Architect
 description: Designs disaster recovery architectures
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Primary[Primary Region]
+        App1[Application Tier]
+        DB1[(Primary Database)]
+        Storage1[Primary Storage]
+    end
+
+    subgraph Secondary[DR Region]
+        App2[Standby Apps]
+        DB2[(Replica Database)]
+        Storage2[Replicated Storage]
+    end
+
+    subgraph Orchestration[DR Orchestration]
+        Health[Health Monitoring]
+        DNS[DNS Failover]
+        Runbook[Runbook Automation]
+    end
+
+    App1 --> DB1
+    App1 --> Storage1
+    DB1 -.->|Async Replication| DB2
+    Storage1 -.->|Cross-Region Sync| Storage2
+    Health --> DNS
+    Health --> Runbook
+    DNS --> App1
+    DNS -.->|Failover| App2
+    Runbook --> App2
+    App2 --> DB2
+    App2 --> Storage2
+```
+
+Designs disaster recovery architectures
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Primary[Primary Region]
+        App1[Application Tier]
+        DB1[(Primary Database)]
+        Storage1[Primary Storage]
+    end
+
+    subgraph Secondary[DR Region]
+        App2[Standby Apps]
+        DB2[(Replica Database)]
+        Storage2[Replicated Storage]
+    end
+
+    subgraph Orchestration[DR Orchestration]
+        Health[Health Monitoring]
+        DNS[DNS Failover]
+        Runbook[Runbook Automation]
+    end
+
+    App1 --> DB1
+    App1 --> Storage1
+    DB1 -.->|Async Replication| DB2
+    Storage1 -.->|Cross-Region Sync| Storage2
+    Health --> DNS
+    Health --> Runbook
+    DNS --> App1
+    DNS -.->|Failover| App2
+    Runbook --> App2
+    App2 --> DB2
+    App2 --> Storage2
+```
+
+Designs disaster recovery architectures
+
 
 # Disaster Recovery Architect
 
@@ -90,4 +168,62 @@ Compliance Needs: HIPAA BAA, audit trail preservation, encrypted backups
 - [Security Architecture Specialist](security-architecture-specialist.md) - For DR security controls
 - [Compliance Architecture Designer](compliance-architecture-designer.md) - For regulated DR requirements
 - [Data Architecture Designer](data-architecture-designer.md) - For data replication strategies
-- [DevOps Architecture Planner](devops-architecture-planner.md) - For DR automation
+- [DevOps Architecture Planner](devops-architecture-planner.md) - For DR automation## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Primary Database)]` | AUTO-GENERATED: describe `(Primary Database)` |
+| `[(Replica Database)]` | AUTO-GENERATED: describe `(Replica Database)` |
+| `[Application Tier]` | AUTO-GENERATED: describe `Application Tier` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Compliance Architecture Designer]` | AUTO-GENERATED: describe `Compliance Architecture Designer` |
+| `[DNS Failover]` | AUTO-GENERATED: describe `DNS Failover` |
+| `[DR Orchestration]` | AUTO-GENERATED: describe `DR Orchestration` |
+| `[DR Region]` | AUTO-GENERATED: describe `DR Region` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[DevOps Architecture Planner]` | AUTO-GENERATED: describe `DevOps Architecture Planner` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Health Monitoring]` | AUTO-GENERATED: describe `Health Monitoring` |
+| `[Primary Region]` | AUTO-GENERATED: describe `Primary Region` |
+| `[Primary Storage]` | AUTO-GENERATED: describe `Primary Storage` |
+| `[Replicated Storage]` | AUTO-GENERATED: describe `Replicated Storage` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Runbook Automation]` | AUTO-GENERATED: describe `Runbook Automation` |
+| `[Security Architecture Specialist]` | AUTO-GENERATED: describe `Security Architecture Specialist` |
+| `[Standby Apps]` | AUTO-GENERATED: describe `Standby Apps` |
+| `[budget]` | AUTO-GENERATED: describe `budget` |
+| `[rpo]` | AUTO-GENERATED: describe `rpo` |
+| `[rto]` | AUTO-GENERATED: describe `rto` |
+| `[systems]` | AUTO-GENERATED: describe `systems` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

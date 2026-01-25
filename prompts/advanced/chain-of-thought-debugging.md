@@ -3,6 +3,34 @@ name: Chain Of Thought Debugging
 description: # Chain-of-Thought: Debugging & Root Cause Analysis
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+
+## Example Usage
+
+**Input:**
+
+```
+
+# Chain-of-Thought: Debugging & Root Cause Analysis
+
+## Description
+
+## Prompt
+
+```
+
+## Example Usage
+
+**Input:**
+
+```
+
+# Chain-of-Thought: Debugging & Root Cause Analysis
+
 
 # Chain-of-Thought: Debugging & Root Cause Analysis
 
@@ -274,4 +302,47 @@ env:
 - **Security:** Redact secrets, API keys, and credentials from error messages and code snippets
 - **Human Review:** Critical production bugs should be reviewed by senior engineers before deployment
 - **Audit Trail:** Save complete CoT reasoning for postmortems and knowledge sharing
-- **Cost:** CoT debugging can be token-intensive; use for non-trivial bugs where systematic analysis adds value
+- **Cost:** CoT debugging can be token-intensive; use for non-trivial bugs where systematic analysis adds value## Variables
+
+| Variable | Description |
+|---|---|
+| `[1]` | AUTO-GENERATED: describe `1` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `['HS256']` | AUTO-GENERATED: describe `'HS256'` |
+| `[1]` | AUTO-GENERATED: describe `1` |
+| `[Chain-of-Thought: Performance Analysis]` | AUTO-GENERATED: describe `Chain-of-Thought: Performance Analysis` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Tree-of-Thoughts: Architecture Evaluator]` | AUTO-GENERATED: describe `Tree-of-Thoughts: Architecture Evaluator` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

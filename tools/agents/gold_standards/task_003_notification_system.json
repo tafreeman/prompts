@@ -1,0 +1,50 @@
+{
+  "task_id": 3,
+  "name": "Event-Driven Notification System",
+  "version": "1.0",
+  "last_updated": "2026-01-23",
+  "source_references": [
+    {
+      "type": "pattern",
+      "url": "https://docs.microsoft.com/en-us/azure/architecture/patterns/event-driven",
+      "description": "Event-driven architecture pattern"
+    },
+    {
+      "type": "example",
+      "url": "https://github.com/aws-samples/aws-serverless-workshops",
+      "description": "AWS serverless event patterns"
+    }
+  ],
+  "required_components": [
+    "EventBus",
+    "NotificationService",
+    "EmailChannel",
+    "SMSChannel",
+    "PushChannel",
+    "subscribe",
+    "publish"
+  ],
+  "required_patterns": [
+    "(event|message).?(bus|queue|broker)",
+    "(subscribe|publish|emit|dispatch)",
+    "(email|sms|push|slack|webhook)",
+    "(async|await|callback|handler)",
+    "(retry|backoff|dead.?letter)"
+  ],
+  "key_decisions": [
+    "Message broker selection",
+    "Event schema design",
+    "Retry and failure handling",
+    "Channel abstraction pattern",
+    "Rate limiting approach"
+  ],
+  "prompt": "Design an event-driven notification system for a SaaS application.\n\nRequirements:\n- Support multiple channels: email, SMS, push notifications, Slack\n- Event types: user_signup, password_reset, payment_success, payment_failed\n- User preferences for notification channels\n- Template system for message formatting\n- Rate limiting and retry logic\n- Audit logging\n\nProvide the architecture, key components, and implementation strategy.",
+  "instruction": "Event-driven architecture",
+  "difficulty": "medium",
+  "tags": [
+    "events",
+    "notifications",
+    "microservices",
+    "architecture"
+  ]
+}

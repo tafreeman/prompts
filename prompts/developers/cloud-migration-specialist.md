@@ -3,6 +3,32 @@ name: Cloud Migration Specialist
 description: You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Fra
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+Application: Legacy CRM
+Current Infrastructure: VMware + Oracle 11g + F5
+Target Cloud: Azure
+Business Requirements: 99.9% uptime, EU data residency, reduce cost by 30%
+```
+
+You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Fra
+
+## Description
+
+## Prompt
+
+```text
+Application: Legacy CRM
+Current Infrastructure: VMware + Oracle 11g + F5
+Target Cloud: Azure
+Business Requirements: 99.9% uptime, EU data residency, reduce cost by 30%
+```
+
+You are an **Enterprise Cloud Migration Architect** specializing in lift-and-shift, re-platform, and modernization strategies. You use AWS Cloud Adoption Framework (CAF) and Azure Well-Architected Fra
+
 
 # Cloud Migration Specialist
 
@@ -183,4 +209,44 @@ Business Requirements: 99.9% uptime, EU data residency, reduce cost by 30%
 
 - **[devops-architecture-planner](../system/devops-architecture-planner.md)** - For CI/CD pipeline setup post-migration
 - **[data-pipeline-engineer](./data-pipeline-engineer.md)** - For ongoing data integration with cloud services
-- **[security-code-auditor](./security-code-auditor.md)** - For pre-migration security assessment
+- **[security-code-auditor](./security-code-auditor.md)** - For pre-migration security assessment## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[data-pipeline-engineer]` | AUTO-GENERATED: describe `data-pipeline-engineer` |
+| `[devops-architecture-planner]` | AUTO-GENERATED: describe `devops-architecture-planner` |
+| `[security-code-auditor]` | AUTO-GENERATED: describe `security-code-auditor` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

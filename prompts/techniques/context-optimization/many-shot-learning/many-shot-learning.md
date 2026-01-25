@@ -3,6 +3,90 @@ name: Many-Shot Learning Pattern
 description: A prompt for many shot learning pattern tasks.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are an expert {domain} assistant trained on extensive examples.
+
+## Task
+{task_description}
+
+## Guidelines
+{guidelines_and_constraints}
+
+## Examples
+Below are {N} examples demonstrating the expected input-output pattern. Study these carefully to understand:
+
+- Expected output format
+- Level of detail required
+- Handling of edge cases
+- Domain-specific conventions
+
+### Example 2
+**Input:**
+{example_2_input}
+
+**Output:**
+{example_2_output}
+
+**Rationale:** {why_this_example_matters}
+
+## Your Task
+
+Now, apply the same approach to this new input:
+
+**Input:**
+{actual_task_input}
+
+**Output:**
+```
+
+A prompt for many shot learning pattern tasks.
+
+## Description
+
+## Prompt
+
+```text
+You are an expert {domain} assistant trained on extensive examples.
+
+## Task
+{task_description}
+
+## Guidelines
+{guidelines_and_constraints}
+
+## Examples
+Below are {N} examples demonstrating the expected input-output pattern. Study these carefully to understand:
+
+- Expected output format
+- Level of detail required
+- Handling of edge cases
+- Domain-specific conventions
+
+### Example 2
+**Input:**
+{example_2_input}
+
+**Output:**
+{example_2_output}
+
+**Rationale:** {why_this_example_matters}
+
+## Your Task
+
+Now, apply the same approach to this new input:
+
+**Input:**
+{actual_task_input}
+
+**Output:**
+```
+
+A prompt for many shot learning pattern tasks.
+
 
 # Many-Shot Learning Pattern
 
@@ -305,4 +389,61 @@ def fit_examples_to_budget(examples, max_tokens):
 
 - "Many-Shot In-Context Learning" (Anthropic Research, 2024)
 - Claude 3 Long Context Capabilities
-- OpenAI GPT-4 Turbo Context Optimization Guide
+- OpenAI GPT-4 Turbo Context Optimization Guide## Variables
+
+| Variable | Description |
+|---|---|
+| `[0]` | AUTO-GENERATED: describe `0` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `['common']` | AUTO-GENERATED: describe `'common'` |
+| `['complexity_score']` | AUTO-GENERATED: describe `'complexity_score'` |
+| `['edge']` | AUTO-GENERATED: describe `'edge'` |
+| `['error']` | AUTO-GENERATED: describe `'error'` |
+| `['input']` | AUTO-GENERATED: describe `'input'` |
+| `['output']` | AUTO-GENERATED: describe `'output'` |
+| `['priority']` | AUTO-GENERATED: describe `'priority'` |
+| `['rationale']` | AUTO-GENERATED: describe `'rationale'` |
+| `[-n_examples:]` | AUTO-GENERATED: describe `-n_examples:` |
+| `[0]` | AUTO-GENERATED: describe `0` |
+| `[::-1]` | AUTO-GENERATED: describe `::-1` |
+| `[Dict]` | AUTO-GENERATED: describe `Dict` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Item]` | AUTO-GENERATED: describe `Item` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[ex for ex in examples if ex['category']` | AUTO-GENERATED: describe `ex for ex in examples if ex['category'` |
+| `[ex['input']` | AUTO-GENERATED: describe `ex['input'` |
+| `[item.price for item in items]` | AUTO-GENERATED: describe `item.price for item in items` |
+| `[self.examples[i]` | AUTO-GENERATED: describe `self.examples[i` |
+| `[task_input]` | AUTO-GENERATED: describe `task_input` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,34 @@ name: Data Pipeline Engineer
 description: Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Data Pipeline Engineer
+description: Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures.
+type: how_to
+---
+```
+
+Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Data Pipeline Engineer
+description: Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures.
+type: how_to
+---
+```
+
+Senior Data Pipeline Engineer prompt for designing scalable ETL/ELT and streaming architectures.
+
 
 # Data Pipeline Engineer
 
@@ -51,4 +79,45 @@ Volume: 10K msg/sec
 
 ### Data Quality
 - Schema Registry (Avro) for contract enforcement.
-- Dead-letter queue for malformed messages.
+- Dead-letter queue for malformed messages.## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[processing]` | AUTO-GENERATED: describe `processing` |
+| `[sources]` | AUTO-GENERATED: describe `sources` |
+| `[targets]` | AUTO-GENERATED: describe `targets` |
+| `[volume]` | AUTO-GENERATED: describe `volume` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

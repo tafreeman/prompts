@@ -3,6 +3,34 @@ name: Competitive Intelligence Researcher
 description: Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Competitive Intelligence Researcher
+description: Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
+type: how_to
+---
+```
+
+Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Competitive Intelligence Researcher
+description: Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
+type: how_to
+---
+```
+
+Comprehensive competitive intelligence research using Porter's Five Forces and SWOT analysis to gather actionable insights about competitors.
+
 
 # Competitive Intelligence Researcher
 
@@ -40,4 +68,50 @@ type: how_to
 
 - [Market Research Analyst](market-research-analyst.md) - For broader market trend analysis
 
-- [Business Case Developer](business-case-developer.md) - For turning intelligence into investment proposals
+- [Business Case Developer](business-case-developer.md) - For turning intelligence into investment proposals## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Business Case Developer]` | AUTO-GENERATED: describe `Business Case Developer` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Market Research Analyst]` | AUTO-GENERATED: describe `Market Research Analyst` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[company_name]` | AUTO-GENERATED: describe `company_name` |
+| `[competitor_list]` | AUTO-GENERATED: describe `competitor_list` |
+| `[decision_context]` | AUTO-GENERATED: describe `decision_context` |
+| `[focus_areas]` | AUTO-GENERATED: describe `focus_areas` |
+| `[geographic_scope]` | AUTO-GENERATED: describe `geographic_scope` |
+| `[sensitivity_level]` | AUTO-GENERATED: describe `sensitivity_level` |
+| `[time_horizon]` | AUTO-GENERATED: describe `time_horizon` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,54 @@ name: Tools Ecosystem Evaluator
 description: Comprehensive analysis prompt for evaluating developer tooling ecosystems with structured grading and improvement pathways.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+[Paste the prompt above]
+
+## Input
+
+{TOOLS_STRUCTURE}
+
+Key files:
+
+- tools/llm_client.py: (paste)
+- tools/model_probe.py: (paste)
+- tools/prompteval/core.py: (paste)
+
+## Comparison Targets
+
+Compare against: LangChain, DSPy, Instructor
+```
+
+Comprehensive analysis prompt for evaluating developer tooling ecosystems with structured grading and improvement pathways.
+
+## Description
+
+## Prompt
+
+```text
+[Paste the prompt above]
+
+## Input
+
+{TOOLS_STRUCTURE}
+
+Key files:
+
+- tools/llm_client.py: (paste)
+- tools/model_probe.py: (paste)
+- tools/prompteval/core.py: (paste)
+
+## Comparison Targets
+
+Compare against: LangChain, DSPy, Instructor
+```
+
+Comprehensive analysis prompt for evaluating developer tooling ecosystems with structured grading and improvement pathways.
+
 
 # Tools Ecosystem Evaluator
 
@@ -98,4 +146,42 @@ Convert the top 2 improvement paths into:
 2) File-by-file change list
 3) Acceptance criteria for each PR
 4) Test plan (unit/integration) and rollback notes
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Paste the prompt above]` | AUTO-GENERATED: describe `Paste the prompt above` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

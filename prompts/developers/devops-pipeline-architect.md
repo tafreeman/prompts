@@ -3,6 +3,36 @@ name: DevOps Pipeline Architect
 description: Staff-level DevOps architect prompt for designing CI/CD pipelines optimized for DORA metrics.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t app .
+```
+
+Staff-level DevOps architect prompt for designing CI/CD pipelines optimized for DORA metrics.
+
+## Description
+
+## Prompt
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t app .
+```
+
+Staff-level DevOps architect prompt for designing CI/CD pipelines optimized for DORA metrics.
+
 
 # DevOps Pipeline Architect
 
@@ -65,4 +95,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t app .
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[dora_targets]` | AUTO-GENERATED: describe `dora_targets` |
+| `[environments]` | AUTO-GENERATED: describe `environments` |
+| `[languages]` | AUTO-GENERATED: describe `languages` |
+| `[repo_structure]` | AUTO-GENERATED: describe `repo_structure` |
+| `[security]` | AUTO-GENERATED: describe `security` |
+| `[targets]` | AUTO-GENERATED: describe `targets` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

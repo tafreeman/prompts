@@ -3,6 +3,80 @@ name: Tree-of-Thoughts Repository Evaluator for GPT-5.1
 description: A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr...
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+You are a Repository Evaluation Expert using Tree-of-Thoughts methodology.
+
+### Evaluation Target
+Repository: [REPOSITORY_NAME]
+
+### Evaluation Protocol
+
+**Branch A: Structural & Foundational Integrity (30% weight)**
+Generate 5 candidate evaluation approaches, select the best, then assess:
+- Role separation (System/Developer/User)
+- Context scaffolding (Goal → Context → Constraints → Examples)
+- Output structuring (schemas, delimiters)
+
+**Branch B: Advanced Technique Depth (50% weight)**
+Generate 5 candidate approaches, select the best, then assess:
+- Coverage of modern techniques (CoT, ToT, ReAct, Reflexion, RAG)
+- Alignment with academic research
+- Implementation accuracy
+
+**Branch C: Enterprise Applicability (20% weight)**
+Generate 3 candidate approaches, select the best, then assess:
+- Persona coverage (developer, security, PM, exec)
+- Workflow integration (code review, docs, testing)
+- Governance and compliance alignment
+
+### Output Format
+For each branch: Score (0-100), Analysis, Improvements
+Final: Weighted score (0-1000), Key Strengths, Key Gaps, Executive Summary
+```
+
+A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr...
+
+## Description
+
+## Prompt
+
+```text
+You are a Repository Evaluation Expert using Tree-of-Thoughts methodology.
+
+### Evaluation Target
+Repository: [REPOSITORY_NAME]
+
+### Evaluation Protocol
+
+**Branch A: Structural & Foundational Integrity (30% weight)**
+Generate 5 candidate evaluation approaches, select the best, then assess:
+- Role separation (System/Developer/User)
+- Context scaffolding (Goal → Context → Constraints → Examples)
+- Output structuring (schemas, delimiters)
+
+**Branch B: Advanced Technique Depth (50% weight)**
+Generate 5 candidate approaches, select the best, then assess:
+- Coverage of modern techniques (CoT, ToT, ReAct, Reflexion, RAG)
+- Alignment with academic research
+- Implementation accuracy
+
+**Branch C: Enterprise Applicability (20% weight)**
+Generate 3 candidate approaches, select the best, then assess:
+- Persona coverage (developer, security, PM, exec)
+- Workflow integration (code review, docs, testing)
+- Governance and compliance alignment
+
+### Output Format
+For each branch: Score (0-100), Analysis, Improvements
+Final: Weighted score (0-1000), Key Strengths, Key Gaps, Executive Summary
+```
+
+A comprehensive Tree-of-Thoughts (ToT) evaluation framework designed for GPT-5.1-class reasoning models to rigorously analyze GitHub repositories, specifically prompt engineering libraries. This pr...
+
 
 # Tree-of-Thoughts Repository Evaluator for GPT-5.1
 
@@ -300,4 +374,46 @@ Tree-of-Thoughts is an advanced prompting technique that:
 
 - Focuses on real-world utility
 - Assesses persona and workflow coverage
-- Evaluates enterprise-readiness and compliance considerations
+- Evaluates enterprise-readiness and compliance considerations## Variables
+
+| Variable | Description |
+|---|---|
+| `[REPOSITORY_NAME]` | AUTO-GENERATED: describe `REPOSITORY_NAME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[AI Assistant System Prompt]` | AUTO-GENERATED: describe `AI Assistant System Prompt` |
+| `[Code Review Assistant]` | AUTO-GENERATED: describe `Code Review Assistant` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[REPOSITORY_NAME]` | AUTO-GENERATED: describe `REPOSITORY_NAME` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

@@ -3,6 +3,94 @@ name: Legacy Modernization Architect
 description: Architects legacy system modernization
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Legacy[Legacy System]
+        Mono[Monolith]
+        MainDB[(Legacy DB)]
+    end
+
+    subgraph Facade[Anti-Corruption Layer]
+        Gateway[API Gateway]
+        Adapter[Data Adapter]
+    end
+
+    subgraph Modern[Modern Architecture]
+        Svc1[Service 1]
+        Svc2[Service 2]
+        Svc3[Service 3]
+        NewDB[(Modern DB)]
+        Events[Event Bus]
+    end
+
+    subgraph Sync[Data Sync]
+        CDC[CDC Pipeline]
+        Transform[Transform]
+    end
+
+    Mono --> Gateway
+    MainDB --> CDC
+    Gateway --> Svc1
+    Gateway --> Mono
+    CDC --> Transform
+    Transform --> NewDB
+    Svc1 --> NewDB
+    Svc2 --> Events
+    Svc3 --> Events
+    Events --> Adapter
+    Adapter --> Mono
+```
+
+Architects legacy system modernization
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Legacy[Legacy System]
+        Mono[Monolith]
+        MainDB[(Legacy DB)]
+    end
+
+    subgraph Facade[Anti-Corruption Layer]
+        Gateway[API Gateway]
+        Adapter[Data Adapter]
+    end
+
+    subgraph Modern[Modern Architecture]
+        Svc1[Service 1]
+        Svc2[Service 2]
+        Svc3[Service 3]
+        NewDB[(Modern DB)]
+        Events[Event Bus]
+    end
+
+    subgraph Sync[Data Sync]
+        CDC[CDC Pipeline]
+        Transform[Transform]
+    end
+
+    Mono --> Gateway
+    MainDB --> CDC
+    Gateway --> Svc1
+    Gateway --> Mono
+    CDC --> Transform
+    Transform --> NewDB
+    Svc1 --> NewDB
+    Svc2 --> Events
+    Svc3 --> Events
+    Events --> Adapter
+    Adapter --> Mono
+```
+
+Architects legacy system modernization
+
 
 # Legacy Modernization Architect
 
@@ -95,4 +183,65 @@ Timeline: Phase 1 (year 1), Phase 2 (year 2), Phase 3 (year 3)
 - [Microservices Architecture Expert](microservices-architecture-expert.md) - For service decomposition
 - [Data Architecture Designer](data-architecture-designer.md) - For database migration
 - [Enterprise Integration Architect](enterprise-integration-architect.md) - For legacy integration
-- [DevOps Architecture Planner](devops-architecture-planner.md) - For CI/CD modernization
+- [DevOps Architecture Planner](devops-architecture-planner.md) - For CI/CD modernization## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Legacy DB)]` | AUTO-GENERATED: describe `(Legacy DB)` |
+| `[(Modern DB)]` | AUTO-GENERATED: describe `(Modern DB)` |
+| `[API Gateway]` | AUTO-GENERATED: describe `API Gateway` |
+| `[Anti-Corruption Layer]` | AUTO-GENERATED: describe `Anti-Corruption Layer` |
+| `[CDC Pipeline]` | AUTO-GENERATED: describe `CDC Pipeline` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Data Adapter]` | AUTO-GENERATED: describe `Data Adapter` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[Data Sync]` | AUTO-GENERATED: describe `Data Sync` |
+| `[DevOps Architecture Planner]` | AUTO-GENERATED: describe `DevOps Architecture Planner` |
+| `[Enterprise Integration Architect]` | AUTO-GENERATED: describe `Enterprise Integration Architect` |
+| `[Event Bus]` | AUTO-GENERATED: describe `Event Bus` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Legacy System]` | AUTO-GENERATED: describe `Legacy System` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Modern Architecture]` | AUTO-GENERATED: describe `Modern Architecture` |
+| `[Monolith]` | AUTO-GENERATED: describe `Monolith` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Service 1]` | AUTO-GENERATED: describe `Service 1` |
+| `[Service 2]` | AUTO-GENERATED: describe `Service 2` |
+| `[Service 3]` | AUTO-GENERATED: describe `Service 3` |
+| `[Transform]` | AUTO-GENERATED: describe `Transform` |
+| `[constraints]` | AUTO-GENERATED: describe `constraints` |
+| `[legacy_systems]` | AUTO-GENERATED: describe `legacy_systems` |
+| `[modernization_goals]` | AUTO-GENERATED: describe `modernization_goals` |
+| `[timeline]` | AUTO-GENERATED: describe `timeline` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

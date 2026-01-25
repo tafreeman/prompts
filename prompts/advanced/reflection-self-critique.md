@@ -3,6 +3,34 @@ name: Reflection Self Critique
 description: ## Description
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```
+
+## Example
+
+**Input:**
+
+```
+
+## Description
+
+## Description
+
+## Prompt
+
+```
+
+## Example
+
+**Input:**
+
+```
+
+## Description
+
 
 ## Description
 
@@ -199,4 +227,47 @@ def reflection_pattern(question, context):
         "reflection": reflection,
         "final_answer": extract_revised_answer(reflection)
     }
-```
+```## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `["...", "..."]` | AUTO-GENERATED: describe `"...", "..."` |
+| `[Apply critical evaluation framework]` | AUTO-GENERATED: describe `Apply critical evaluation framework` |
+| `[Explain your confidence level]` | AUTO-GENERATED: describe `Explain your confidence level` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Generate initial answer]` | AUTO-GENERATED: describe `Generate initial answer` |
+| `[If applicable]` | AUTO-GENERATED: describe `If applicable` |
+| `[Improved answer incorporating the critique]` | AUTO-GENERATED: describe `Improved answer incorporating the critique` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

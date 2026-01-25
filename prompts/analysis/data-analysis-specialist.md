@@ -3,6 +3,34 @@ name: Data Analysis Specialist
 description: Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy.
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```text
+---
+name: Data Analysis Specialist
+description: Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy.
+type: how_to
+---
+```
+
+Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy.
+
+## Description
+
+## Prompt
+
+```text
+---
+name: Data Analysis Specialist
+description: Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy.
+type: how_to
+---
+```
+
+Performs comprehensive data analysis including exploration, statistical analysis, and visualization strategy.
+
 
 # Data Analysis Specialist
 
@@ -29,4 +57,46 @@ type: how_to
 - [Data Analysis and Insights Generator](./data-analysis-insights.md) - For executive-ready insights
 - [Data Quality Assessment](/prompts/analysis/data-quality-assessment) — Validate data quality before analysis
 - [Business Case Developer](/prompts/analysis/business-case-developer) — Build ROI cases from your analysis findings
-- [Trend Analysis Specialist](/prompts/analysis/trend-analysis-specialist) — Deep-dive into time series trends
+- [Trend Analysis Specialist](/prompts/analysis/trend-analysis-specialist) — Deep-dive into time series trends## Variables
+
+_No bracketed variables detected._
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[Business Case Developer]` | AUTO-GENERATED: describe `Business Case Developer` |
+| `[Data Analysis and Insights Generator]` | AUTO-GENERATED: describe `Data Analysis and Insights Generator` |
+| `[Data Quality Assessment]` | AUTO-GENERATED: describe `Data Quality Assessment` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Metrics and KPI Designer]` | AUTO-GENERATED: describe `Metrics and KPI Designer` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[Trend Analysis Specialist]` | AUTO-GENERATED: describe `Trend Analysis Specialist` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

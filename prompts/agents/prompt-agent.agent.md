@@ -3,6 +3,66 @@ name: prompt_agent
 description: Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```markdown
+# Prompt Title
+
+## Description
+
+Brief description of what this prompt does.
+
+## Goal
+
+Primary objective in 1-2 sentences.
+
+## Context
+
+Background information the AI should assume.
+
+## Inputs
+
+- `[VARIABLE_1]`: Description
+- `[VARIABLE_2]`: Description
+
+## Prompt
+
+```
+
+Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
+
+## Description
+
+## Prompt
+
+```markdown
+# Prompt Title
+
+## Description
+
+Brief description of what this prompt does.
+
+## Goal
+
+Primary objective in 1-2 sentences.
+
+## Context
+
+Background information the AI should assume.
+
+## Inputs
+
+- `[VARIABLE_1]`: Description
+- `[VARIABLE_2]`: Description
+
+## Prompt
+
+```
+
+Expert in AI prompt engineering, creating effective prompts for LLMs and AI assistants
+
 
 # Prompt Engineering Agent
 
@@ -221,4 +281,57 @@ Format: [How to structure the output]
 - Describe the end user of the prompt
 - Share existing prompts for style consistency
 - Indicate if advanced techniques should be used
-- Provide sample outputs you want to achieve
+- Provide sample outputs you want to achieve## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[VARIABLE_1]` | AUTO-GENERATED: describe `VARIABLE_1` |
+| `[VARIABLE_2]` | AUTO-GENERATED: describe `VARIABLE_2` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[How to structure the output]` | AUTO-GENERATED: describe `How to structure the output` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[VARIABLE_1]` | AUTO-GENERATED: describe `VARIABLE_1` |
+| `[VARIABLE_2]` | AUTO-GENERATED: describe `VARIABLE_2` |
+| `[What action to take]` | AUTO-GENERATED: describe `What action to take` |
+| `[What you learned]` | AUTO-GENERATED: describe `What you learned` |
+| `[What you need to do]` | AUTO-GENERATED: describe `What you need to do` |
+| `[Your reasoning]` | AUTO-GENERATED: describe `Your reasoning` |
+| `[actual input]` | AUTO-GENERATED: describe `actual input` |
+| `[example input]` | AUTO-GENERATED: describe `example input` |
+| `[example output]` | AUTO-GENERATED: describe `example output` |
+| `[specific role]` | AUTO-GENERATED: describe `specific role` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

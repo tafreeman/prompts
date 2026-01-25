@@ -14,6 +14,28 @@ type: template
 #   - input: { VAR1: "example" }
 #     expected_contains: "success"
 ---
+## Description
+
+## Prompt
+
+```text
+[Configure the AI's role, capabilities, and constraints here.
+Define output format requirements and behavioral guidelines.]
+```
+
+One-sentence summary of what this prompt does.
+
+## Description
+
+## Prompt
+
+```text
+[Configure the AI's role, capabilities, and constraints here.
+Define output format requirements and behavioral guidelines.]
+```
+
+One-sentence summary of what this prompt does.
+
 
 # Prompt Title Here
 
@@ -96,4 +118,54 @@ Before submitting, verify:
 - [ ] Variables documented in table format
 - [ ] Example has realistic input/output
 - [ ] Tips are actionable (max 5)
-- [ ] Related prompts are relevant (max 3)
+- [ ] Related prompts are relevant (max 3)## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[VARIABLE_1]` | AUTO-GENERATED: describe `VARIABLE_1` |
+| `[VARIABLE_2]` | AUTO-GENERATED: describe `VARIABLE_2` |
+| `[VARIABLE_NAME]` | AUTO-GENERATED: describe `VARIABLE_NAME` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[ ]` | AUTO-GENERATED: describe ` ` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Related Prompt 1]` | AUTO-GENERATED: describe `Related Prompt 1` |
+| `[Related Prompt 2]` | AUTO-GENERATED: describe `Related Prompt 2` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[VARIABLE_1]` | AUTO-GENERATED: describe `VARIABLE_1` |
+| `[VARIABLE_2]` | AUTO-GENERATED: describe `VARIABLE_2` |
+| `[VARIABLE_NAME]` | AUTO-GENERATED: describe `VARIABLE_NAME` |
+| `[related-prompt-1.md]` | AUTO-GENERATED: describe `related-prompt-1.md` |
+| `[related-prompt-2.md]` | AUTO-GENERATED: describe `related-prompt-2.md` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+

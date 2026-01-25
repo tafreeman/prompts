@@ -3,6 +3,102 @@ name: Performance Architecture Optimizer
 description: Optimizes system performance architecture
 type: how_to
 ---
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Edge[Edge Layer]
+        CDN[CDN]
+        WAF[WAF/DDoS]
+    end
+
+    subgraph LoadBalance[Load Balancing]
+        GLB[Global LB]
+        RLB[Regional LB]
+    end
+
+    subgraph Compute[Compute Layer]
+        App1[App Server 1]
+        App2[App Server 2]
+        App3[App Server N]
+    end
+
+    subgraph Cache[Caching Layer]
+        L1[L1 App Cache]
+        L2[L2 Redis]
+        L3[L3 CDN Cache]
+    end
+
+    subgraph Data[Data Layer]
+        Primary[(Primary DB)]
+        Read1[(Read Replica 1)]
+        Read2[(Read Replica N)]
+    end
+
+    CDN --> GLB
+    GLB --> RLB
+    RLB --> App1
+    RLB --> App2
+    RLB --> App3
+    App1 --> L1
+    L1 --> L2
+    App1 --> Primary
+    App2 --> Read1
+    App3 --> Read2
+```
+
+Optimizes system performance architecture
+
+## Description
+
+## Prompt
+
+```mermaid
+flowchart TB
+    subgraph Edge[Edge Layer]
+        CDN[CDN]
+        WAF[WAF/DDoS]
+    end
+
+    subgraph LoadBalance[Load Balancing]
+        GLB[Global LB]
+        RLB[Regional LB]
+    end
+
+    subgraph Compute[Compute Layer]
+        App1[App Server 1]
+        App2[App Server 2]
+        App3[App Server N]
+    end
+
+    subgraph Cache[Caching Layer]
+        L1[L1 App Cache]
+        L2[L2 Redis]
+        L3[L3 CDN Cache]
+    end
+
+    subgraph Data[Data Layer]
+        Primary[(Primary DB)]
+        Read1[(Read Replica 1)]
+        Read2[(Read Replica N)]
+    end
+
+    CDN --> GLB
+    GLB --> RLB
+    RLB --> App1
+    RLB --> App2
+    RLB --> App3
+    App1 --> L1
+    L1 --> L2
+    App1 --> Primary
+    App2 --> Read1
+    App3 --> Read2
+```
+
+Optimizes system performance architecture
+
 
 # Performance Architecture Optimizer
 
@@ -100,4 +196,71 @@ Budget Constraints: $200k/month cloud spend limit
 - [Data Architecture Designer](data-architecture-designer.md) - For database optimization
 - [Microservices Architecture Expert](microservices-architecture-expert.md) - For service performance
 - [DevOps Architecture Planner](devops-architecture-planner.md) - For performance testing in CI/CD
-- [Disaster Recovery Architect](disaster-recovery-architect.md) - For high availability design
+- [Disaster Recovery Architect](disaster-recovery-architect.md) - For high availability design## Variables
+
+| Variable | Description |
+|---|---|
+| `[CDN]` | AUTO-GENERATED: describe `CDN` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+## Variables
+
+| Variable | Description |
+|---|---|
+| `[(Primary DB)]` | AUTO-GENERATED: describe `(Primary DB)` |
+| `[(Read Replica 1)]` | AUTO-GENERATED: describe `(Read Replica 1)` |
+| `[(Read Replica N)]` | AUTO-GENERATED: describe `(Read Replica N)` |
+| `[App Server 1]` | AUTO-GENERATED: describe `App Server 1` |
+| `[App Server 2]` | AUTO-GENERATED: describe `App Server 2` |
+| `[App Server N]` | AUTO-GENERATED: describe `App Server N` |
+| `[CDN]` | AUTO-GENERATED: describe `CDN` |
+| `[Caching Layer]` | AUTO-GENERATED: describe `Caching Layer` |
+| `[Cloud Architecture Consultant]` | AUTO-GENERATED: describe `Cloud Architecture Consultant` |
+| `[Compute Layer]` | AUTO-GENERATED: describe `Compute Layer` |
+| `[Data Architecture Designer]` | AUTO-GENERATED: describe `Data Architecture Designer` |
+| `[Data Layer]` | AUTO-GENERATED: describe `Data Layer` |
+| `[DevOps Architecture Planner]` | AUTO-GENERATED: describe `DevOps Architecture Planner` |
+| `[Disaster Recovery Architect]` | AUTO-GENERATED: describe `Disaster Recovery Architect` |
+| `[Edge Layer]` | AUTO-GENERATED: describe `Edge Layer` |
+| `[Fill in a realistic input for the prompt]` | AUTO-GENERATED: describe `Fill in a realistic input for the prompt` |
+| `[Global LB]` | AUTO-GENERATED: describe `Global LB` |
+| `[L1 App Cache]` | AUTO-GENERATED: describe `L1 App Cache` |
+| `[L2 Redis]` | AUTO-GENERATED: describe `L2 Redis` |
+| `[L3 CDN Cache]` | AUTO-GENERATED: describe `L3 CDN Cache` |
+| `[Load Balancing]` | AUTO-GENERATED: describe `Load Balancing` |
+| `[Microservices Architecture Expert]` | AUTO-GENERATED: describe `Microservices Architecture Expert` |
+| `[Regional LB]` | AUTO-GENERATED: describe `Regional LB` |
+| `[Representative AI response]` | AUTO-GENERATED: describe `Representative AI response` |
+| `[WAF/DDoS]` | AUTO-GENERATED: describe `WAF/DDoS` |
+| `[budget]` | AUTO-GENERATED: describe `budget` |
+| `[issues]` | AUTO-GENERATED: describe `issues` |
+| `[load]` | AUTO-GENERATED: describe `load` |
+| `[system_name]` | AUTO-GENERATED: describe `system_name` |
+| `[targets]` | AUTO-GENERATED: describe `targets` |
+
+## Example
+
+### Input
+
+````text
+[Fill in a realistic input for the prompt]
+````
+
+### Expected Output
+
+````text
+[Representative AI response]
+````
+
