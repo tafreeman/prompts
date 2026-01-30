@@ -1,0 +1,201 @@
+{
+	"version": "2.0",
+	"description": "Workflow: Enterprise Defect Resolution Pipeline",
+	"metadata": {
+		"complexity": "high",
+		"team_size": 11,
+		"phases": ["Intake", "Analysis", "Resolution", "Verification", "Closure"]
+	},
+	"agents": [
+		{
+			"id": "log_analyst",
+			"name": "Log Analyst",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"local:mistral",
+				"gh:openai/gpt-4o-mini",
+				"aitk:phi-4-mini-instruct"
+			],
+			"role": "Parse and structure raw logs/error reports",
+			"output_format": "Structured Log Summary (JSON)",
+			"phase": "intake",
+			"tier": "local_efficient",
+			"why": "High-volume log processing needs speed and efficiency.",
+			"system_prompt": "You are a Log Analysis Specialist. Parse the incoming error logs, stack traces, and observability data.\n- Extract key error messages and codes.\n- Identify timestamps and affected components.\n- Detect patterns or recurring issues.\n- Output a structured summary ready for triage.",
+			"temperature": 0.0,
+			"max_tokens": 4096
+		},
+		{
+			"id": "triage_agent",
+			"name": "Triage Agent",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:meta/llama-3.1-8b-instruct",
+				"local:mistral",
+				"aitk:phi-4-mini-instruct"
+			],
+			"role": "Classify severity and route to appropriate track",
+			"output_format": "Triage Report (Severity, Priority, Assignment)",
+			"phase": "intake",
+			"tier": "cloud_fast",
+			"why": "Fast classification for high-volume initial analysis.",
+			"system_prompt": "You are a Triage Specialist. Analyze the structured log summary.\n- Classify severity: Blocker / Critical / Major / Minor / Trivial.\n- Determine priority based on user impact and business rules.\n- Identify the likely component or service affected.\n- Route to appropriate resolution track (Hotfix vs Standard).",
+			"temperature": 0.1,
+			"max_tokens": 2048
+		},
+		{
+			"id": "context_gatherer",
+			"name": "Context Gatherer",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:deepseek/deepseek-v3",
+				"gh:meta/llama-3.3-70b-instruct"
+			],
+			"role": "Collect relevant code context and history",
+			"output_format": "Context Package (Related Files, Git History, Dependencies)",
+			"phase": "analysis",
+			"tier": "cloud_std",
+			"why": "Needs broad codebase understanding to gather relevant context.",
+			"system_prompt": "You are a Code Context Specialist. Given the triage report:\n- Identify the affected files and modules.\n- Retrieve recent git commit history for those files.\n- Map dependencies and upstream/downstream services.\n- Collect any related issues or past incidents.\n- Package all context for the reproduction specialist.",
+			"temperature": 0.2,
+			"max_tokens": 8192
+		},
+		{
+			"id": "reproduction_specialist",
+			"name": "Reproduction Specialist",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:openai/gpt-4o",
+				"ollama:qwen2.5-coder:14b",
+				"gh:mistral-ai/codestral-2501"
+			],
+			"role": "Create minimal reproduction case",
+			"output_format": "Reproduction Script + Setup Instructions",
+			"phase": "analysis",
+			"tier": "cloud_coding",
+			"why": "Strong coding ability needed to create reliable failing test cases.",
+			"system_prompt": "You are a Reproduction Engineer. Your goal is to reliably reproduce the bug.\n- Analyze the error context and affected code.\n- Write a minimal, standalone script or test that fails with the reported error.\n- Include setup instructions (dependencies, environment variables).\n- Verify the reproduction actually triggers the bug.\n- Document edge cases discovered during reproduction.",
+			"temperature": 0.2,
+			"max_tokens": 4096
+		},
+		{
+			"id": "root_cause_analyst",
+			"name": "Root Cause Analyst",
+			"model": "gh:openai/o1",
+			"compatible_models": [
+				"gh:deepseek/deepseek-r1",
+				"gh:openai/gpt-5",
+				"ollama:deepseek-r1:14b"
+			],
+			"role": "Deep investigation of underlying cause",
+			"output_format": "Root Cause Analysis Document",
+			"phase": "analysis",
+			"tier": "cloud_reasoning",
+			"why": "Complex reasoning needed to trace logical errors through large codebases.",
+			"system_prompt": "You are a Principal Debugging Engineer. Perform deep root cause analysis.\n- Trace execution flow from input to failure.\n- Identify the exact point of failure and WHY it fails.\n- Distinguish between symptoms and root causes.\n- Investigate if this is part of a larger systemic issue.\n- Propose 2-3 potential solutions with trade-offs.",
+			"temperature": 0.5,
+			"max_tokens": 8192
+		},
+		{
+			"id": "impact_assessor",
+			"name": "Impact Assessor",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:deepseek/deepseek-r1",
+				"ollama:phi4-reasoning:latest"
+			],
+			"role": "Assess blast radius of bug and proposed fix",
+			"output_format": "Impact Assessment Report",
+			"phase": "analysis",
+			"tier": "cloud_reasoning_fast",
+			"why": "Needs to reason about system-wide implications quickly.",
+			"system_prompt": "You are a Risk Assessment Specialist. Evaluate the impact.\n- Analyze the blast radius of the current bug.\n- Identify all affected users, features, and downstream systems.\n- Evaluate the risk of each proposed fix.\n- Consider potential regressions or side effects.\n- Recommend the safest approach.",
+			"temperature": 0.3,
+			"max_tokens": 4096
+		},
+		{
+			"id": "patch_engineer",
+			"name": "Patch Engineer",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:mistral-ai/codestral-2501",
+				"ollama:qwen3-coder:480b-cloud",
+				"code-5.2"
+			],
+			"role": "Implement the selected fix",
+			"output_format": "Git Patch / Pull Request",
+			"phase": "resolution",
+			"tier": "cloud_coding",
+			"why": "Excellent coding model to implement precise, minimal fixes.",
+			"system_prompt": "You are a Patch Engineer. Implement the agreed-upon fix.\n- Apply the minimal change necessary to resolve the bug.\n- Ensure backward compatibility.\n- Add inline comments explaining the fix rationale.\n- Include migration or rollback instructions if needed.\n- Follow the project's coding standards strictly.",
+			"temperature": 0.1,
+			"max_tokens": 4096
+		},
+		{
+			"id": "code_reviewer",
+			"name": "Code Reviewer",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:deepseek/deepseek-r1",
+				"gh:meta/llama-3.3-70b-instruct"
+			],
+			"role": "Review the patch for quality and correctness",
+			"output_format": "Code Review Feedback",
+			"phase": "resolution",
+			"tier": "cloud_std",
+			"why": "Needs broad knowledge to catch subtle issues in patches.",
+			"system_prompt": "You are a Senior Code Reviewer. Review the proposed patch.\n- Verify the fix addresses the root cause, not just symptoms.\n- Check for new vulnerabilities or regressions introduced.\n- Ensure code style and documentation standards are met.\n- Validate test coverage is adequate.\n- Approve, Request Changes, or Reject with clear reasoning.",
+			"temperature": 0.2,
+			"max_tokens": 4096
+		},
+		{
+			"id": "regression_tester",
+			"name": "Regression Tester",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": [
+				"gh:meta/llama-3.3-70b-instruct",
+				"ollama:qwen2.5-coder:14b"
+			],
+			"role": "Run regression suite and validate fix",
+			"output_format": "Test Execution Report",
+			"phase": "verification",
+			"tier": "cloud_std",
+			"why": "Reliable at generating and interpreting comprehensive test results.",
+			"system_prompt": "You are a QA Automation Engineer. Verify the fix.\n- Run the reproduction script against the patched code (should pass now).\n- Execute the full regression test suite.\n- Check for any new failing tests.\n- Verify no performance degradation.\n- Output PASS/FAIL with detailed results.",
+			"temperature": 0.1,
+			"max_tokens": 4096
+		},
+		{
+			"id": "documentation_updater",
+			"name": "Documentation Updater",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": ["local:phi4", "gh:meta/llama-3.1-8b-instruct"],
+			"role": "Update changelog and documentation",
+			"output_format": "Updated CHANGELOG, Release Notes",
+			"phase": "closure",
+			"tier": "cloud_fast",
+			"why": "Fast and good at structured documentation generation.",
+			"system_prompt": "You are a Technical Writer. Update project documentation.\n- Add entry to CHANGELOG with bug ID and fix summary.\n- Update any affected API or user documentation.\n- Write release notes if this is a hotfix release.\n- Ensure knowledge base is updated for support teams.",
+			"temperature": 0.3,
+			"max_tokens": 2048
+		},
+		{
+			"id": "resolution_judge",
+			"name": "Resolution Judge",
+			"model": "gh:openai/gpt-4o",
+			"compatible_models": [
+				"gh:openai/gpt-4o",
+				"gh:meta/meta-llama-3.1-405b-instruct",
+				"opus-4.5"
+			],
+			"role": "Final verification and closure decision",
+			"output_format": "Resolution Verdict (CLOSED / REOPEN)",
+			"phase": "closure",
+			"tier": "cloud_premium",
+			"why": "High-level synthesis to make final judgment on resolution quality.",
+			"system_prompt": "You are the Resolution Judge. Make the final determination.\n- Review all agent outputs: Root Cause, Impact, Patch, Review, Tests.\n- Verify the fix addresses the original issue completely.\n- Confirm all quality gates passed.\n- Check that documentation was updated.\n- Issue final verdict: CLOSE (resolved) or REOPEN (needs more work).",
+			"temperature": 0.0,
+			"max_tokens": 2048
+		}
+	]
+}

@@ -60,7 +60,7 @@ class TestModelManager:
         assert cost == 0.0
         
         # Cloud models should have cost
-        cost = manager._estimate_cost("gh:gpt-4o", 1000000)
+        cost = manager._estimate_cost("gh:openai/gpt-4o", 1000000)
         assert cost > 0
 
 

@@ -1,0 +1,39 @@
+run_id: lats-selfrefine-2026-01-28
+prompt_source: prompts/advanced/lats-self-refine-evaluator-agentic-workflow.md
+system_prompt: |
+  You are an expert prompt engineering verifier. Provide concise, auditable JSON outputs only.
+model_version: "gpt-4o-mini@2026-01-28"
+seeds: [42, 99, 123]
+temperature: 0.0
+decoding_method: greedy
+quality_threshold: 85
+max_iterations: 3
+batch_size: 8
+grading_criteria:
+  clarity: 20
+  specificity: 15
+  robustness: 15
+  actionability: 10
+  testability: 10
+  alignment_safety: 10
+  efficiency: 5
+  reproducibility: 5
+  business_impact: 10
+tools:
+  citation_db: v1.2
+  model_endpoint: local:thot-1
+  evaluator: g-eval-local
+compliance:
+  regulated: true
+  regulations: ["GDPR"]
+  mandatory_human_gate: false
+notify_on_complete: team-prompteng@org
+iteration_plan: iteration-plan.yaml
+validator_tests:
+  functional_tests: data/validator/functional_samples.jsonl
+  adversarial_tests: data/validator/adversarial_samples.jsonl
+  safety_tests: data/validator/safety_samples.jsonl
+  required_pass_rates:
+    functional: 0.9
+    adversarial: 0.7
+    safety: 1.0

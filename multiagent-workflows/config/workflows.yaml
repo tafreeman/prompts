@@ -421,6 +421,115 @@ workflows:
         inputs: ["debt_assessment.debt_items", "roadmap_building.phased_roadmap"]
         outputs: ["executive_summary", "recommendations"]
 
+  # ==========================================================================
+  # Workflow 5: Code Quality Grading (NEW - Multi-Agent Assessment)
+  # ==========================================================================
+  code_grading:
+    name: Comprehensive Code Quality Assessment
+    description: Multi-agent code review pipeline for thorough quality assessment
+    
+    inputs:
+      - name: code_submission
+        type: text
+        required: true
+        description: Code to be graded
+      - name: language
+        type: string
+        required: false
+        description: Programming language
+      - name: context
+        type: text
+        required: false
+        description: Additional context about the code
+        
+    outputs:
+      - name: grade_report
+        type: file
+        description: Detailed grading report
+      - name: overall_score
+        type: number
+        description: Weighted overall score (0-100)
+      - name: improvement_plan
+        type: file
+        description: Prioritized improvements
+        
+    steps:
+      - id: static_analysis
+        name: Static Code Analysis
+        agent: static_analyst_agent
+        model_preference: local_efficient
+        inputs: ["inputs.code_submission", "inputs.language"]
+        outputs: ["lint_results", "complexity_metrics", "duplication_report"]
+        
+      - id: test_analysis
+        name: Test Coverage Analysis
+        agent: test_analyst_agent
+        model_preference: code_gen_fast
+        inputs: ["inputs.code_submission"]
+        outputs: ["coverage_metrics", "test_quality_assessment"]
+        
+      - id: documentation_review
+        name: Documentation Quality Review
+        agent: documentation_reviewer_agent
+        model_preference: documentation
+        inputs: ["inputs.code_submission"]
+        outputs: ["docstring_coverage", "comment_quality", "readme_assessment"]
+        
+      - id: security_audit
+        name: Security Vulnerability Audit
+        agent: security_auditor_agent
+        model_preference: code_review
+        inputs: ["inputs.code_submission"]
+        outputs: ["owasp_findings", "vulnerability_list", "severity_assessment"]
+        
+      - id: dependency_audit
+        name: Dependency Audit
+        agent: dependency_auditor_agent
+        model_preference: code_gen_fast
+        inputs: ["inputs.code_submission"]
+        outputs: ["cve_report", "license_compliance", "outdated_deps"]
+        
+      - id: performance_review
+        name: Performance Analysis
+        agent: performance_reviewer_agent
+        model_preference: code_gen_premium
+        inputs: ["inputs.code_submission"]
+        outputs: ["complexity_analysis", "optimization_suggestions", "resource_usage"]
+        
+      - id: architecture_check
+        name: Architecture Compliance Check
+        agent: architecture_compliance_agent
+        model_preference: code_gen_premium
+        inputs: ["inputs.code_submission", "inputs.context"]
+        outputs: ["pattern_adherence", "separation_score", "architecture_issues"]
+        
+      - id: maintainability_score
+        name: Maintainability Assessment
+        agent: maintainability_agent
+        model_preference: reasoning_complex
+        inputs: ["inputs.code_submission", "static_analysis.complexity_metrics"]
+        outputs: ["maintainability_index", "tech_debt_estimate", "refactoring_suggestions"]
+        
+      - id: best_practices_check
+        name: Framework Best Practices Validation
+        agent: best_practices_agent
+        model_preference: code_gen_fast
+        inputs: ["inputs.code_submission", "inputs.language"]
+        outputs: ["framework_compliance", "idiom_violations", "style_recommendations"]
+        
+      - id: final_grading
+        name: Final Grade Assignment
+        agent: head_judge_agent
+        model_preference: reasoning_complex
+        inputs: [
+          "static_analysis.lint_results",
+          "test_analysis.coverage_metrics",
+          "security_audit.severity_assessment",
+          "performance_review.complexity_analysis",
+          "maintainability_score.maintainability_index"
+        ]
+        outputs: ["overall_grade", "category_scores", "final_report", "improvement_priorities"]
+
 # Global workflow settings
 settings:
   parallel_steps: true  # Allow parallel execution where dependencies permit

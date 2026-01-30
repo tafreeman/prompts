@@ -1,0 +1,178 @@
+{
+	"version": "2.0",
+	"description": "Workflow: Iterative System Design (Requirements to Architecture)",
+	"metadata": {
+		"complexity": "high",
+		"team_size": 10,
+		"phases": ["Discovery", "Design", "Review", "Refinement", "Documentation"],
+		"type": "iterative_loop",
+		"max_iterations": 5,
+		"convergence_threshold": 0.85
+	},
+	"agents": [
+		{
+			"id": "requirements_clarifier",
+			"name": "Requirements Clarifier",
+			"model": "gh:openai/gpt-4o",
+			"compatible_models": [
+				"gh:deepseek/deepseek-v3",
+				"gh:meta/llama-3.3-70b-instruct"
+			],
+			"role": "Elicit and clarify ambiguous requirements",
+			"output_format": "Clarified Requirements Document",
+			"phase": "discovery",
+			"tier": "cloud_std",
+			"why": "Needs strong conversational ability to probe for missing details.",
+			"system_prompt": "You are a Requirements Engineer. Analyze the high-level requirements.\n- Identify ambiguities, gaps, and contradictions.\n- Generate clarifying questions for stakeholders.\n- Expand vague requirements into specific, testable statements.\n- Document assumptions when answers are unavailable.\n- Produce a refined requirements specification.",
+			"temperature": 0.5,
+			"max_tokens": 8192
+		},
+		{
+			"id": "domain_expert",
+			"name": "Domain Expert",
+			"model": "gh:openai/gpt-5",
+			"compatible_models": [
+				"gh:meta/meta-llama-3.1-405b-instruct",
+				"gh:deepseek/deepseek-r1"
+			],
+			"role": "Provide domain-specific knowledge and constraints",
+			"output_format": "Domain Constraints & Best Practices Document",
+			"phase": "discovery",
+			"tier": "cloud_premium",
+			"why": "Needs broad knowledge base for domain-specific expertise.",
+			"system_prompt": "You are a Domain Expert. Analyze the requirements within its industry context.\n- Identify domain-specific regulations and compliance requirements.\n- Highlight industry best practices and patterns.\n- Note domain-specific terminology and concepts.\n- Identify potential domain pitfalls and anti-patterns.\n- Provide examples from similar successful systems.",
+			"temperature": 0.6,
+			"max_tokens": 8192
+		},
+		{
+			"id": "system_architect",
+			"name": "System Architect",
+			"model": "gh:openai/o1",
+			"compatible_models": [
+				"gh:deepseek/deepseek-r1",
+				"gh:openai/gpt-5",
+				"opus-4.5"
+			],
+			"role": "Design high-level system architecture",
+			"output_format": "Architecture Decision Record (ADR) + System Diagrams",
+			"phase": "design",
+			"tier": "cloud_reasoning",
+			"why": "Requires best-in-class reasoning to handle architectural trade-offs.",
+			"system_prompt": "You are a Chief Architect. Design the system architecture.\n- Decompose the system into bounded contexts and services.\n- Select appropriate architectural patterns (Microservices, Event Sourcing, CQRS).\n- Define service boundaries and communication patterns.\n- Specify technology stack with justification.\n- Create Architecture Decision Records for key choices.\n- Output Mermaid diagrams for visualization.",
+			"temperature": 0.7,
+			"max_tokens": 16384
+		},
+		{
+			"id": "infrastructure_advisor",
+			"name": "Infrastructure Advisor",
+			"model": "gh:deepseek/deepseek-r1",
+			"compatible_models": ["ollama:deepseek-r1:14b", "gh:openai/o3-mini"],
+			"role": "Design cloud infrastructure and deployment topology",
+			"output_format": "Infrastructure Design Document",
+			"phase": "design",
+			"tier": "cloud_reasoning",
+			"why": "Needs reasoning about infrastructure trade-offs and optimization.",
+			"system_prompt": "You are a Cloud Infrastructure Architect. Design the infrastructure.\n- Select cloud provider and services based on requirements.\n- Design for high availability and disaster recovery.\n- Define auto-scaling policies and resource sizing.\n- Specify networking, security groups, and IAM policies.\n- Consider multi-region and edge deployment if needed.\n- Estimate infrastructure costs.",
+			"temperature": 0.5,
+			"max_tokens": 8192
+		},
+		{
+			"id": "security_advisor",
+			"name": "Security Advisor",
+			"model": "gh:openai/o3-mini",
+			"compatible_models": [
+				"gh:deepseek/deepseek-r1",
+				"ollama:phi4-reasoning:latest"
+			],
+			"role": "Design security architecture and threat model",
+			"output_format": "Security Architecture + STRIDE Analysis",
+			"phase": "design",
+			"tier": "cloud_reasoning_fast",
+			"why": "Fast reasoning about security implications and attack vectors.",
+			"system_prompt": "You are a Security Architect. Design the security model.\n- Perform STRIDE threat modeling.\n- Define authentication and authorization strategy.\n- Specify encryption requirements (at rest, in transit).\n- Design audit logging and monitoring strategy.\n- Identify compliance requirements (GDPR, SOC2, HIPAA).\n- Create security controls matrix.",
+			"temperature": 0.3,
+			"max_tokens": 8192
+		},
+		{
+			"id": "design_critic",
+			"name": "Design Critic",
+			"model": "gh:openai/gpt-4o",
+			"compatible_models": [
+				"gh:meta/meta-llama-3.1-405b-instruct",
+				"gh:deepseek/deepseek-v3"
+			],
+			"role": "Critically evaluate the design against requirements",
+			"output_format": "Critique Report with Scores (0-10)",
+			"phase": "review",
+			"tier": "cloud_std",
+			"why": "Good at identifying inconsistencies and playing devil's advocate.",
+			"system_prompt": "You are a Design Review Board Member. Critique the architecture.\n- Check for scalability bottlenecks and single points of failure.\n- Verify alignment with functional and non-functional requirements.\n- Identify over-engineering or unnecessary complexity.\n- Evaluate security design against threat model.\n- Score the design (0-10) on: Feasibility, Scalability, Maintainability, Security.\n- Provide specific, actionable feedback for improvement.",
+			"temperature": 0.5,
+			"max_tokens": 8192
+		},
+		{
+			"id": "design_refiner",
+			"name": "Design Refiner",
+			"model": "gh:deepseek/deepseek-r1",
+			"compatible_models": [
+				"gh:openai/o1",
+				"gh:openai/gpt-5",
+				"ollama:deepseek-r1:14b"
+			],
+			"role": "Iterate on design based on critic feedback",
+			"output_format": "Revised Architecture (Version N+1)",
+			"phase": "refinement",
+			"tier": "cloud_reasoning",
+			"why": "Excellent at synthesizing feedback and complex restructuring.",
+			"system_prompt": "You are the System Architect iterating on feedback. Process the critique.\n- Address each point of feedback systematically.\n- Modify the architecture to resolve identified issues.\n- Justify each change with reasoning.\n- Ensure changes don't introduce new problems.\n- Produce version N+1 of the design.\n- Loop until all scores exceed the convergence threshold.",
+			"temperature": 0.6,
+			"max_tokens": 16384
+		},
+		{
+			"id": "cost_estimator",
+			"name": "Cost Estimator",
+			"model": "gh:openai/gpt-4o",
+			"compatible_models": ["gh:meta/llama-3.3-70b-instruct", "local:phi4"],
+			"role": "Estimate development and operational costs",
+			"output_format": "Cost Breakdown and TCO Analysis",
+			"phase": "refinement",
+			"tier": "cloud_std",
+			"why": "Needs broad knowledge of cloud pricing and development effort.",
+			"system_prompt": "You are a Technical Program Manager. Estimate costs.\n- Calculate development effort (person-months) per component.\n- Estimate cloud infrastructure monthly costs.\n- Project Total Cost of Ownership (TCO) for 1, 3, 5 years.\n- Identify cost optimization opportunities.\n- Compare costs across different architectural alternatives.\n- Flag any budget risks or concerns.",
+			"temperature": 0.3,
+			"max_tokens": 4096
+		},
+		{
+			"id": "spec_writer",
+			"name": "Specification Writer",
+			"model": "gh:openai/gpt-4o-mini",
+			"compatible_models": ["local:phi4", "gh:meta/llama-3.1-8b-instruct"],
+			"role": "Compile final technical specification",
+			"output_format": "Complete System Specification Document",
+			"phase": "documentation",
+			"tier": "cloud_fast",
+			"why": "Fast and efficient at structured documentation generation.",
+			"system_prompt": "You are a Technical Writer. Compile the final specification.\n- Create Executive Summary and introduction.\n- Document all architectural decisions and rationale.\n- Include all diagrams (System, Sequence, ER).\n- Add glossary of domain terms.\n- Create implementation roadmap and milestones.\n- Format as professional, publication-ready document.",
+			"temperature": 0.2,
+			"max_tokens": 16384
+		},
+		{
+			"id": "architecture_judge",
+			"name": "Architecture Judge",
+			"model": "gh:openai/gpt-5",
+			"compatible_models": [
+				"gh:meta/meta-llama-3.1-405b-instruct",
+				"gh:openai/o1",
+				"opus-4.5"
+			],
+			"role": "Final approval of architecture design",
+			"output_format": "Architecture Approval Verdict",
+			"phase": "documentation",
+			"tier": "cloud_premium",
+			"why": "High-level synthesis to make final judgment on design quality.",
+			"system_prompt": "You are the Architecture Review Board Chair. Make final determination.\n- Verify all critic feedback was adequately addressed.\n- Confirm design meets all requirements.\n- Validate security architecture is robust.\n- Check cost estimates are reasonable.\n- Verify specification is complete and clear.\n- Issue verdict: APPROVED / REVISE / REJECTED with reasoning.",
+			"temperature": 0.0,
+			"max_tokens": 2048
+		}
+	]
+}

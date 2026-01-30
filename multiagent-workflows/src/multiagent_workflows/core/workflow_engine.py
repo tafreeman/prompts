@@ -116,7 +116,9 @@ class WorkflowEngine:
     
     def _load_default_config(self) -> Dict[str, Any]:
         """Load default configuration."""
-        config_path = Path(__file__).parent.parent.parent / "config" / "workflows.yaml"
+        # Path: src/multiagent_workflows/core/workflow_engine.py
+        # Need to go up 4 levels: core -> multiagent_workflows -> src -> multiagent-workflows
+        config_path = Path(__file__).parent.parent.parent.parent / "config" / "workflows.yaml"
         if config_path.exists():
             with open(config_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
@@ -338,19 +340,57 @@ class WorkflowEngine:
         context: Dict[str, Any],
         logger: VerboseLogger,
     ) -> AgentResult:
-        """Execute a single workflow step."""
+        """Execute a single workflow step with potential quality retries."""
+        # Get configuration from step config
+        quality_threshold = float(step.config.get("quality_threshold", 0.0))
+        max_retries = int(step.config.get("quality_retries", 1))
+        
         # Get or create agent
         agent = self._create_agent(step, context, logger)
         
-        # Gather inputs from context
-        task = self._gather_inputs(step.inputs, context)
-        task.update(step.config)
+        last_result = None
         
-        # Handle iterative steps
-        if step.iterative:
-            return await self._execute_iterative(agent, task, context, step.max_iterations)
-        
-        return await agent.execute(task, context)
+        for attempt in range(max_retries):
+            # Gather inputs from context
+            task = self._gather_inputs(step.inputs, context)
+            task.update(step.config)
+            
+            # Add context for retries
+            if attempt > 0:
+                task["is_retry"] = True
+                task["retry_attempt"] = attempt
+                if last_result and last_result.output:
+                    task["previous_score"] = last_result.output.get("score")
+                    task["previous_feedback"] = last_result.output.get("feedback", "Quality threshold not met")
+            
+            # Execute step (iterative or standard)
+            if step.iterative:
+                last_result = await self._execute_iterative(agent, task, context, step.max_iterations)
+            else:
+                last_result = await agent.execute(task, context)
+            
+            # Return immediately on hard failure (exception/crash)
+            if not last_result.success:
+                return last_result
+            
+            # If no threshold set, we are done
+            if quality_threshold <= 0:
+                return last_result
+
+            # Check quality score
+            output_score = last_result.output.get("score")
+            
+            # logic: if score is missing but we succeeded, assume pass unless strictly required
+            current_score = float(output_score) if output_score is not None else 100.0
+            
+            if current_score >= quality_threshold:
+                return last_result
+                
+            # If we are here, we are looping again. 
+            # Ideally we log this, but the verbose logger tracks agent execution events independently.
+            
+        # If we exhausted retries, return the last result (even if score is low)
+        return last_result
     
     async def _execute_iterative(
         self,

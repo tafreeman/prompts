@@ -70,7 +70,11 @@ class WorkflowEvaluator:
     
     def _load_rubrics(self) -> Dict[str, Any]:
         """Load scoring rubrics."""
-        rubrics_path = Path(__file__).parent.parent.parent / "config" / "rubrics.yaml"
+        # Look for rubrics.yaml in the config directory relative to the project root
+        rubrics_path = Path(__file__).parent.parent.parent.parent / "config" / "rubrics.yaml"
+        if not rubrics_path.exists():
+            # Fallback to config directory relative to current file
+            rubrics_path = Path(__file__).parent.parent.parent / "config" / "rubrics.yaml"
         if rubrics_path.exists():
             with open(rubrics_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
@@ -243,6 +247,10 @@ class WorkflowEvaluator:
         # Completeness: check for required elements
         if "complete" in criterion_name:
             return self._score_completeness(output, golden)
+            
+        # Code similarity to golden standard
+        if "similarity" in criterion_name and "golden" in criterion_name:
+            return self._score_correctness(output, golden)
         
         # Default: similarity-based scoring
         return self._basic_similarity(output, golden) * 100
