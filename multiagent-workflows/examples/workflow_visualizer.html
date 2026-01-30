@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Dashboard - Live Monitor</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #888;
+            --accent-blue: #3a7bd5;
+            --accent-gold: #f5af19;
+            --accent-green: #38ef7d;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-section {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .sidebar-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Launch Panel */
+        .launch-panel {
+            padding: 0 16px 16px;
+        }
+        
+        .workflow-selector {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .workflow-option {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .workflow-option:hover {
+            border-color: var(--accent-blue);
+            transform: translateX(4px);
+        }
+        
+        .workflow-option.selected {
+            border-color: var(--accent-blue);
+            background: rgba(58, 123, 213, 0.1);
+        }
+        
+        .workflow-option .name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        
+        .workflow-option .desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .workflow-option .time {
+            font-size: 0.7rem;
+            color: var(--accent-blue);
+            margin-top: 6px;
+        }
+        
+        .launch-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .launch-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(58, 123, 213, 0.4);
+        }
+        
+        .launch-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Run List */
+        .run-list {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+        
+        .run-item {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .run-item:hover, .run-item.active {
+            background: var(--bg-tertiary);
+        }
+        
+        .run-item.active {
+            border-left: 3px solid var(--accent-blue);
+        }
+        
+        .run-name { font-weight: 600; margin-bottom: 4px; font-size: 0.85rem; }
+        .run-time { font-size: 0.75rem; color: var(--text-secondary); }
+        
+        .run-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        
+        .run-status.running { background: rgba(58, 123, 213, 0.2); color: var(--accent-blue); }
+        .run-status.starting { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .run-status.complete { background: rgba(56, 239, 125, 0.2); color: var(--accent-green); }
+        .run-status.error { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.3rem;
+            background: linear-gradient(90deg, var(--accent-blue), #00d2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        
+        /* Workflow View */
+        .workflow-view {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .steps-panel {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .run-info {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+        }
+        
+        .info-item label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-item .value {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
+        .steps-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .step-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .step-card:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
+        }
+        
+        .step-card.active {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(58, 123, 213, 0.2);
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        
+        .step-card.pending .step-number { background: var(--bg-tertiary); color: var(--text-secondary); }
+        .step-card.running .step-number { background: var(--accent-blue); animation: pulse 1s infinite; }
+        .step-card.complete .step-number { background: var(--accent-green); }
+        .step-card.error .step-number { background: var(--accent-red); }
+        
+        .step-info { flex: 1; }
+        .step-name { font-weight: 600; margin-bottom: 3px; font-size: 0.9rem; }
+        .step-meta { font-size: 0.75rem; color: var(--text-secondary); display: flex; gap: 12px; }
+        .step-duration { margin-left: auto; font-size: 0.8rem; color: var(--text-secondary); }
+        
+        /* Detail Panel */
+        .detail-panel {
+            width: 380px;
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .detail-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-header h3 { font-size: 0.95rem; margin-bottom: 4px; }
+        .detail-header .agent { font-size: 0.8rem; color: var(--text-secondary); }
+        
+        .detail-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .detail-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .detail-tab:hover { color: var(--text-primary); }
+        .detail-tab.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+        
+        .detail-content {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+        
+        .output-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.75rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .stat-box {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .stat-box label { font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase; }
+        .stat-box .value { font-size: 1.1rem; font-weight: 700; margin-top: 4px; }
+        
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+        
+        /* Model Badge */
+        .model-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        
+        .model-badge.speed { background: rgba(58, 123, 213, 0.2); color: var(--accent-blue); }
+        .model-badge.power { background: rgba(245, 175, 25, 0.2); color: var(--accent-gold); }
+        .model-badge.balanced { background: rgba(56, 239, 125, 0.2); color: var(--accent-green); }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.success { border-color: var(--accent-green); }
+        .toast.error { border-color: var(--accent-red); }
+        
+        @keyframes slideIn {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <!-- Launch Panel -->
+        <div class="sidebar-section">
+            <div class="sidebar-header">
+                <h2>🚀 Launch Workflow</h2>
+            </div>
+            <div class="launch-panel">
+                <div class="workflow-selector" id="workflowSelector">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="launch-btn" id="launchBtn" disabled onclick="launchWorkflow()">
+                    <span>▶</span> Start Workflow
+                </button>
+            </div>
+        </div>
+        
+        <!-- Run History -->
+        <div class="sidebar-section" style="flex: 1; display: flex; flex-direction: column;">
+            <div class="sidebar-header">
+                <h2>📋 Run History</h2>
+            </div>
+            <div class="run-list" id="runList">
+                <div class="empty-state">
+                    <div class="icon">📭</div>
+                    <p>No runs yet</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <h1>🔧 Workflow Dashboard</h1>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Live • Polling every 2s</span>
+            </div>
+        </header>
+        
+        <div class="workflow-view">
+            <section class="steps-panel" id="stepsPanel">
+                <div class="empty-state">
+                    <div class="icon">👈</div>
+                    <p>Select a workflow to launch<br>or pick a run from history</p>
+                </div>
+            </section>
+            
+            <aside class="detail-panel" id="detailPanel">
+                <div class="empty-state">
+                    <div class="icon">🔍</div>
+                    <p>Click a step to view details</p>
+                </div>
+            </aside>
+        </div>
+    </main>
+    
+    <script>
+        // Config
+        const API_BASE = 'http://localhost:5050/api';
+        const POLL_INTERVAL = 2000;
+        
+        // State
+        let workflows = [];
+        let runs = [];
+        let selectedWorkflowId = null;
+        let selectedRunId = null;
+        let selectedStepId = null;
+        let currentRunData = null;
+        let activeTab = 'output';
+        
+        // Utils
+        function formatDuration(ms) {
+            if (!ms) return '--';
+            if (ms < 1000) return `${Math.round(ms)}ms`;
+            if (ms < 60000) return `${(ms / 1000).toFixed(1)}s`;
+            return `${(ms / 60000).toFixed(1)}m`;
+        }
+        
+        function formatTime(iso) {
+            if (!iso) return '--';
+            return new Date(iso).toLocaleTimeString();
+        }
+        
+        function getModelTier(modelId) {
+            if (!modelId) return 'balanced';
+            if (modelId.includes('deepseek-v3') || modelId.includes('671')) return 'power';
+            if (modelId.includes('mini') || modelId.includes('fast')) return 'speed';
+            return 'balanced';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+        
+        // Load workflows
+        async function loadWorkflows() {
+            try {
+                const res = await fetch(`${API_BASE}/workflows`);
+                if (res.ok) {
+                    const data = await res.json();
+                    workflows = data.workflows || [];
+                    renderWorkflowSelector();
+                }
+            } catch (e) {
+                console.log('Server not running, using static data');
+                workflows = [
+                    { id: 'bug_fixing', name: '🔧 Defect Resolution', description: 'Find and fix bugs', estimated_time: '3-5 min' },
+                    { id: 'fullstack_generation', name: '🏗️ Fullstack Gen', description: 'Generate apps', estimated_time: '5-10 min' },
+                    { id: 'code_grading', name: '📊 Code Grading', description: 'Grade code quality', estimated_time: '2-4 min' },
+                ];
+                renderWorkflowSelector();
+            }
+        }
+        
+        // Render workflow selector
+        function renderWorkflowSelector() {
+            const container = document.getElementById('workflowSelector');
+            container.innerHTML = workflows.map(w => `
+                <div class="workflow-option ${w.id === selectedWorkflowId ? 'selected' : ''}" 
+                     onclick="selectWorkflow('${w.id}')">
+                    <div class="name">${w.name}</div>
+                    <div class="desc">${w.description}</div>
+                    <div class="time">⏱️ ${w.estimated_time}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Select workflow
+        function selectWorkflow(id) {
+            selectedWorkflowId = id;
+            document.getElementById('launchBtn').disabled = false;
+            renderWorkflowSelector();
+        }
+        
+        // Launch workflow
+        async function launchWorkflow() {
+            if (!selectedWorkflowId) return;
+            
+            const btn = document.getElementById('launchBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span> Starting...';
+            
+            try {
+                const res = await fetch(`${API_BASE}/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        workflow_id: selectedWorkflowId,
+                        inputs: {}
+                    })
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    showToast(`Started ${selectedWorkflowId}`);
+                    await loadRunsList();
+                    selectRun(data.run_id);
+                } else {
+                    showToast('Failed to start workflow', 'error');
+                }
+            } catch (e) {
+                showToast('Server not available', 'error');
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '<span>▶</span> Start Workflow';
+        }
+        
+        // Load runs
+        async function loadRunsList() {
+            try {
+                const res = await fetch(`${API_BASE}/runs?t=${Date.now()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    runs = data.runs || [];
+                    renderRunList();
+                }
+            } catch (e) {
+                // Try local file fallback
+                try {
+                    const res = await fetch(`../dashboard_data/runs.json?t=${Date.now()}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        runs = data.runs || [];
+                        renderRunList();
+                    }
+                } catch (e2) {}
+            }
+        }
+        
+        // Render run list
+        function renderRunList() {
+            const container = document.getElementById('runList');
+            if (runs.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>No runs yet</p></div>';
+                return;
+            }
+            
+            container.innerHTML = runs.map(run => `
+                <div class="run-item ${run.run_id === selectedRunId ? 'active' : ''}" 
+                     onclick="selectRun('${run.run_id}')">
+                    <div class="run-name">${run.workflow_name}</div>
+                    <div class="run-time">${formatTime(run.started_at)}</div>
+                    <span class="run-status ${run.status}">${run.status.toUpperCase()}</span>
+                </div>
+            `).join('');
+        }
+        
+        // Select run
+        async function selectRun(runId) {
+            selectedRunId = runId;
+            selectedStepId = null;
+            await loadRunDetail(runId);
+            renderRunList();
+            renderStepsPanel();
+            renderDetailPanel();
+        }
+        
+        // Load run detail
+        async function loadRunDetail(runId) {
+            try {
+                const res = await fetch(`${API_BASE}/runs/${runId}?t=${Date.now()}`);
+                if (res.ok) {
+                    currentRunData = await res.json();
+                    return;
+                }
+            } catch (e) {}
+            
+            // Fallback to file
+            try {
+                const res = await fetch(`../dashboard_data/run_${runId}.json?t=${Date.now()}`);
+                if (res.ok) {
+                    currentRunData = await res.json();
+                }
+            } catch (e) {}
+        }
+        
+        // Render steps panel
+        function renderStepsPanel() {
+            const container = document.getElementById('stepsPanel');
+            
+            if (!currentRunData) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">👈</div><p>Select a workflow or run</p></div>';
+                return;
+            }
+            
+            const r = currentRunData;
+            const totalTokens = (r.steps || []).reduce((sum, s) => sum + (s.tokens_used || 0), 0);
+            
+            container.innerHTML = `
+                <div class="run-info">
+                    <div class="info-item">
+                        <label>Workflow</label>
+                        <div class="value">${r.workflow_name}</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Started</label>
+                        <div class="value">${formatTime(r.started_at)}</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Duration</label>
+                        <div class="value">${formatDuration(r.total_duration_ms)}</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Status</label>
+                        <div class="value"><span class="run-status ${r.status}">${r.status.toUpperCase()}</span></div>
+                    </div>
+                </div>
+                
+                <h3 class="steps-title">Pipeline Steps</h3>
+                <div class="steps-list">
+                    ${(r.steps || []).map((step, i) => `
+                        <div class="step-card ${step.status} ${step.step_id === selectedStepId ? 'active' : ''}"
+                             onclick="selectStep('${step.step_id}')">
+                            <div class="step-number">${i + 1}</div>
+                            <div class="step-info">
+                                <div class="step-name">${step.step_name}</div>
+                                <div class="step-meta">
+                                    <span>🤖 ${step.agent_name}</span>
+                                    <span class="model-badge ${getModelTier(step.model_id)}">${(step.model_id || '').split(':').pop() || '--'}</span>
+                                </div>
+                            </div>
+                            <div class="step-duration">${formatDuration(step.duration_ms)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        // Select step
+        function selectStep(stepId) {
+            selectedStepId = stepId;
+            activeTab = 'output';
+            renderStepsPanel();
+            renderDetailPanel();
+        }
+        
+        // Set tab
+        function setTab(tab) {
+            activeTab = tab;
+            renderDetailPanel();
+        }
+        
+        // Render detail panel
+        function renderDetailPanel() {
+            const container = document.getElementById('detailPanel');
+            
+            if (!currentRunData || !selectedStepId) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><p>Click a step to view details</p></div>';
+                return;
+            }
+            
+            const step = (currentRunData.steps || []).find(s => s.step_id === selectedStepId);
+            if (!step) return;
+            
+            const content = activeTab === 'output' 
+                ? (step.full_output || step.output_preview || 'Waiting for output...') 
+                : (step.input_preview || 'No input data...');
+            
+            container.innerHTML = `
+                <div class="detail-header">
+                    <h3>${step.step_name}</h3>
+                    <div class="agent">Agent: ${step.agent_name} • Model: ${step.model_id || '--'}</div>
+                </div>
+                
+                <div class="detail-tabs">
+                    <div class="detail-tab ${activeTab === 'output' ? 'active' : ''}" onclick="setTab('output')">Output</div>
+                    <div class="detail-tab ${activeTab === 'input' ? 'active' : ''}" onclick="setTab('input')">Input</div>
+                    <div class="detail-tab ${activeTab === 'stats' ? 'active' : ''}" onclick="setTab('stats')">Stats</div>
+                </div>
+                
+                <div class="detail-content">
+                    ${activeTab === 'stats' ? `
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <label>Duration</label>
+                                <div class="value">${formatDuration(step.duration_ms)}</div>
+                            </div>
+                            <div class="stat-box">
+                                <label>Tokens</label>
+                                <div class="value">${step.tokens_used || 0}</div>
+                            </div>
+                            <div class="stat-box">
+                                <label>Model</label>
+                                <div class="value" style="font-size: 0.7rem">${step.model_id || '--'}</div>
+                            </div>
+                            <div class="stat-box">
+                                <label>Cost</label>
+                                <div class="value">$${(step.cost_estimate || 0).toFixed(4)}</div>
+                            </div>
+                        </div>
+                        ${step.error_message ? `
+                            <div style="margin-top: 14px; padding: 12px; background: rgba(239,68,68,0.1); border-radius: 8px; color: var(--accent-red); font-size: 0.8rem;">
+                                <strong>Error:</strong> ${step.error_message}
+                            </div>
+                        ` : ''}
+                    ` : `
+                        <div class="output-block">${escapeHtml(content)}</div>
+                    `}
+                </div>
+            `;
+        }
+        
+        // Polling
+        async function poll() {
+            await loadRunsList();
+            
+            if (selectedRunId) {
+                await loadRunDetail(selectedRunId);
+                renderStepsPanel();
+                if (selectedStepId) renderDetailPanel();
+            }
+        }
+        
+        // Init
+        loadWorkflows();
+        poll();
+        setInterval(poll, POLL_INTERVAL);
+    </script>
+</body>
+</html>

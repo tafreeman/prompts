@@ -44,6 +44,8 @@ class AgentConfig:
     system_prompt: str = ""
     temperature: float = 0.7
     max_tokens: int = 4096
+    tools: List[Dict[str, Any]] = field(default_factory=list)
+    env_vars: Dict[str, str] = field(default_factory=dict)
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -57,6 +59,11 @@ class AgentConfig:
             "why": self.why,
             "fallback_model": self.fallback_model,
             "supplement_model": self.supplement_model,
+            "system_prompt": self.system_prompt,
+            "temperature": self.temperature,
+            "max_tokens": self.max_tokens,
+            "tools": self.tools,
+            "env_vars": self.env_vars,
         }
 
 
@@ -445,6 +452,256 @@ AGENT_REGISTRY: Dict[str, AgentConfig] = {
     "documentation_writer": DOCUMENTATION_WRITER,
     "performance_auditor": PERFORMANCE_AUDITOR,
 }
+
+
+# Improved agent configurations with enhanced prompts, schemas, and fallback models
+
+UPDATED_AGENT_CONFIGS = [
+    {
+        "id": "vision_agent",
+        "name": "Vision Agent",
+        "role": "Extract UI elements from mockups",
+        "model": "local:phi3.5-vision",
+        "recommended_temperature": 0.5,
+        "max_tokens": 2048,
+        "tier": "local_npu",
+        "notes": "Optimized for local image processing tasks.",
+        "system_prompt": """
+        You are a UI analysis expert. Extract all UI elements from the provided mockup.
+        Output a structured JSON with:
+        - components: list of UI components (buttons, inputs, cards, etc.)
+        - layout: page structure and hierarchy
+        - interactions: clickable elements and their expected behaviors
+        - styling: colors, fonts, spacing patterns detected
+        """,
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "mockup_image": {"type": "string", "description": "Base64-encoded image of the mockup."}
+            },
+            "required": ["mockup_image"]
+        },
+        "output_schema": {
+            "type": "object",
+            "properties": {
+                "components": {"type": "array", "items": {"type": "string"}},
+                "layout": {"type": "string"},
+                "interactions": {"type": "array", "items": {"type": "string"}},
+                "styling": {"type": "object"}
+            },
+            "required": ["components", "layout"]
+        }
+    },
+    # Additional agents can be added here following the same structure
+]
+
+
+# Orchestration plan for multi-agent workflows
+ORCHESTRATION_PLAN = {
+    "task_order": ["vision_agent", "requirements_analyzer", "technical_planner", "domain_modeler"],
+    "dependency_graph": {
+        "edges": [
+            {"from": "vision_agent", "to": "requirements_analyzer"},
+            {"from": "requirements_analyzer", "to": "technical_planner"},
+            {"from": "technical_planner", "to": "domain_modeler"}
+        ]
+    },
+    "retry_policy": {
+        "max_retries": 3,
+        "backoff_strategy": "exponential",
+        "retryable_errors": ["TimeoutError", "ConnectionError"]
+    },
+    "rollback_plan": {
+        "steps": [
+            "Revert database changes",
+            "Clear temporary files",
+            "Notify stakeholders"
+        ]
+    },
+    "validation_checks": [
+        {"name": "Schema Validation", "type": "schema", "pass_criteria": "All fields match schema"},
+        {"name": "Checksum Validation", "type": "checksum", "pass_criteria": "Checksum matches expected value"},
+        {"name": "Unit Tests", "type": "tests", "pass_criteria": "All tests pass"},
+        {"name": "Static Lint", "type": "lint", "pass_criteria": "No linting errors"},
+        {"name": "Security Scan", "type": "security", "pass_criteria": "No vulnerabilities detected"}
+    ]
+}
+
+
+# Validation checks for agents
+VALIDATION_CHECKS = [
+    {
+        "name": "Schema Validation",
+        "type": "schema",
+        "pass_criteria": "All fields match the defined schema."
+    },
+    {
+        "name": "Checksum Validation",
+        "type": "checksum",
+        "pass_criteria": "Generated artifacts match the expected checksum."
+    },
+    {
+        "name": "Unit Tests",
+        "type": "tests",
+        "pass_criteria": "All unit tests pass successfully."
+    },
+    {
+        "name": "Static Lint",
+        "type": "lint",
+        "pass_criteria": "No linting errors detected in the code."
+    },
+    {
+        "name": "Security Scan",
+        "type": "security",
+        "pass_criteria": "No vulnerabilities found during the security scan."
+    }
+]
+
+
+# Artifacts section with templates, code snippets, and expected files
+ARTIFACTS = {
+    "templates": {
+        "prompt_templates": [
+            "vision_agent_prompt_template.md",
+            "requirements_analyzer_prompt_template.md",
+            "technical_planner_prompt_template.md"
+        ],
+        "code_snippets": [
+            "vision_agent_code_snippet.py",
+            "requirements_analyzer_code_snippet.py",
+            "technical_planner_code_snippet.py"
+        ]
+    },
+    "expected_files": [
+        "outputs/vision_agent_output.json",
+        "outputs/requirements_analyzer_output.json",
+        "outputs/technical_planner_output.json"
+    ]
+}
+
+
+# Test cases for generator agents
+TEST_CASES = {
+    "vision_agent": [
+        {
+            "input": {"mockup_image": "base64-encoded-string"},
+            "expected_output": {
+                "components": ["button", "input"],
+                "layout": "grid",
+                "interactions": ["click", "hover"],
+                "styling": {"color": "#FFFFFF"}
+            }
+        },
+        {
+            "input": {"mockup_image": "base64-encoded-string-2"},
+            "expected_output": {
+                "components": ["card", "dropdown"],
+                "layout": "flex",
+                "interactions": ["drag", "drop"],
+                "styling": {"font": "Arial"}
+            }
+        }
+    ],
+    "requirements_analyzer": [
+        {
+            "input": {"requirements": "User should be able to log in."},
+            "expected_output": {
+                "user_stories": ["As a user, I want to log in so that I can access my account."],
+                "acceptance_criteria": ["Login succeeds with valid credentials."],
+                "edge_cases": ["Invalid password."],
+                "business_rules": ["Password must be at least 8 characters."],
+                "assumptions": ["User has an account."],
+                "questions": ["What happens after 3 failed attempts?"]
+            }
+        }
+    ]
+}
+
+
+# Monitoring setup with metrics, alerts, and dashboards
+MONITORING_SETUP = {
+    "metrics": [
+        {"name": "Agent Execution Time", "target": "<500ms", "collection_method": "traces"},
+        {"name": "Error Rate", "target": "<1%", "collection_method": "logs"},
+        {"name": "Throughput", "target": ">100 requests/sec", "collection_method": "synthetic tests"}
+    ],
+    "alerts": [
+        {"name": "High Error Rate", "threshold": "1%", "action": "Send email to on-call engineer"},
+        {"name": "Slow Execution", "threshold": "500ms", "action": "Trigger scaling policy"}
+    ],
+    "dashboards": [
+        {"name": "Agent Performance Dashboard", "widgets": [
+            {"type": "line_chart", "metric": "Agent Execution Time"},
+            {"type": "bar_chart", "metric": "Error Rate"},
+            {"type": "gauge", "metric": "Throughput"}
+        ]}
+    ]
+}
+
+
+# Rollout strategy with canary steps, validation gates, and rollback criteria
+ROLLOUT_STRATEGY = {
+    "canary_steps": ["10%", "50%", "100%"],
+    "validation_gate": "All validation checks must pass at each step.",
+    "rollback_criteria": "If error rate exceeds 1% or execution time exceeds 500ms, rollback to previous stable version.",
+    "recovery_playbook": {
+        "steps": [
+            "Identify the root cause of the failure.",
+            "Revert to the last stable version.",
+            "Notify stakeholders about the rollback.",
+            "Run post-mortem analysis to prevent recurrence."
+        ]
+    }
+}
+
+
+# Risks, their severity, mitigation strategies, and residual risks
+RISKS = [
+    {
+        "id": "risk_1",
+        "description": "High error rate during peak traffic.",
+        "severity": "High",
+        "mitigation": "Implement auto-scaling and load testing.",
+        "residual_risk": "Moderate"
+    },
+    {
+        "id": "risk_2",
+        "description": "Data inconsistency due to partial failures.",
+        "severity": "Medium",
+        "mitigation": "Use distributed transactions and retries.",
+        "residual_risk": "Low"
+    },
+    {
+        "id": "risk_3",
+        "description": "Security vulnerabilities in third-party dependencies.",
+        "severity": "High",
+        "mitigation": "Perform regular security scans and updates.",
+        "residual_risk": "Low"
+    }
+]
+
+
+# Branch evaluations with scores, rationale, and trade-offs
+BRANCH_EVALUATIONS = [
+    {
+        "branch_id": "branch_1",
+        "score": 85,
+        "rationale": "Balances performance and cost effectively. Uses local models where possible.",
+        "chosen": true
+    },
+    {
+        "branch_id": "branch_2",
+        "score": 70,
+        "rationale": "High accuracy but expensive due to reliance on premium cloud models.",
+        "chosen": false
+    },
+    {
+        "branch_id": "branch_3",
+        "score": 60,
+        "rationale": "Low cost but compromises on accuracy and scalability.",
+        "chosen": false
+    }
+]
 
 
 def get_agent_config(agent_id: str) -> Optional[AgentConfig]:

@@ -93,42 +93,42 @@ providers:
     endpoint: "https://models.github.com/v1"
     api_key_env: "GITHUB_TOKEN"
     available:
-      - id: "gh:gpt-4o"
+      - id: "gh:openai/gpt-4o"
         name: GPT-4o
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gh:gpt-4o-mini"
+      - id: "gh:openai/gpt-4o-mini"
         name: GPT-4o Mini
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
-      - id: "gh:o3-mini"
+      - id: "gh:openai/o3-mini"
         name: o3-mini
         capabilities: ["reasoning", "math"]
         cost_tier: "premium"
 
-      - id: "gh:o4-mini"
+      - id: "gh:openai/o4-mini"
         name: o4-mini
         capabilities: ["reasoning", "review"]
         cost_tier: "premium"
 
-      - id: "gh:deepseek-r1"
+      - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gh:codestral-2501"
+      - id: "gh:mistralai/codestral-2501"
         name: Codestral 2501
         capabilities: ["code"]
         cost_tier: "standard"
 
-      - id: "gh:llama-4-scout"
+      - id: "gh:meta/llama-4-scout"
         name: Llama 4 Scout
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
-      - id: "gh:llama-4-maverick"
+      - id: "gh:meta/llama-4-maverick"
         name: Llama 4 Maverick
         capabilities: ["text", "reasoning"]
         cost_tier: "standard"
@@ -161,37 +161,37 @@ routing:
   # Vision tasks require vision-capable models
   vision:
     preferred: ["local:phi3.5-vision"]
-    fallback: ["gh:gpt-4o"]
+    fallback: ["gh:openai/gpt-4o"]
 
   # Complex reasoning tasks
   reasoning_complex:
-    preferred: ["gh:o3-mini", "gh:deepseek-r1"]
+    preferred: ["gh:openai/gpt-4o", "gh:deepseek/deepseek-r1", "ollama:deepseek-v3.2:cloud", "gh:openai/o3-mini"]
     fallback: ["ollama:deepseek-r1:14b", "local:phi4"]
 
   # Premium code generation
   code_gen_premium:
-    preferred: ["gh:gpt-4o", "gh:gpt-4o-mini"]
+    preferred: ["gh:openai/gpt-4o", "ollama:deepseek-v3.2:cloud", "gh:openai/gpt-4o-mini"]
     fallback: ["ollama:qwen2.5-coder:14b", "local:phi4"]
 
   # Fast code generation
   code_gen_fast:
-    preferred: ["ollama:qwen2.5-coder:14b", "gh:gpt-4o-mini"]
-    fallback: ["local:phi4mini"]
+    preferred: ["gh:openai/gpt-4o-mini", "ollama:deepseek-v3.2:cloud", "local:phi4"]
+    fallback: ["local:qwen2.5-coder:7b"]
 
-  # Code review
+  # Code Review
   code_review:
-    preferred: ["gh:o4-mini", "gh:gpt-4o"]
-    fallback: ["ollama:deepseek-r1:14b"]
+    preferred: ["gh:openai/gpt-4o", "gh:openai/o4-mini", "ollama:deepseek-v3.2:cloud"]
+    fallback: ["local:phi4"]
 
-  # Coordination/orchestration (fast, cheap)
+  # Chat/Coordination
   coordination:
-    preferred: ["local:phi4mini"]
-    fallback: ["ollama:qwen2.5-coder:14b"]
-
-  # Documentation generation
+    preferred: ["gh:openai/gpt-4o-mini", "ollama:qwen2.5-coder:14b"]
+    fallback: ["local:phi4mini"]
+    
+  # Documentation
   documentation:
-    preferred: ["gh:gpt-4o-mini", "local:phi4"]
-    fallback: ["ollama:qwen2.5-coder:14b"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o"]
+    fallback: ["ollama:qwen2.5-coder:14b", "local:phi4"]
 
 # Fallback strategy
 fallback:
@@ -203,7 +203,8 @@ fallback:
   chain:
     - "local:phi4mini"
     - "ollama:qwen2.5-coder:14b"
-    - "gh:gpt-4o-mini"
+    - "gh:openai/gpt-4o-mini"
+
 
 # Default parameters
 defaults:

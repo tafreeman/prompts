@@ -1,4 +1,4 @@
----
+s---
 name: Lats Self Refine Evaluator
 description: # LATS Self-Refine: Iterative Multi-Branch Prompt Evaluator
 type: how_to

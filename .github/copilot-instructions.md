@@ -16,6 +16,24 @@ This repo is a **prompt-library + Python tooling** project. Treat it as a docs/c
 - `testing/` — pytest suite + evaluation fixtures
 - `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
 
+```instructions
+# GitHub Copilot instructions for `prompts`
+
+This repo is a **prompt-library + Python tooling** project. Treat it as a docs/content repo.
+
+- Do **not** add app/service scaffolding unless explicitly requested.
+- For change checklists and guardrails, follow: `.github/instructions/prompts-repo.instructions.md`.
+
+## Key areas
+
+- `prompts/` — prompt files (Markdown + YAML frontmatter)
+- `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
+- `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
+- `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
+- `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
+- `testing/` — pytest suite + evaluation fixtures
+- `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
+
 ## Developer workflows
 
 - Use **VS Code Tasks** (see `docs/reference/TASKS_QUICK_REFERENCE.md`):
@@ -50,4 +68,6 @@ This repo is a **prompt-library + Python tooling** project. Treat it as a docs/c
 
 ## Windows setup
 
-- On Windows, activate the virtual environment with `.venv\Scripts\Activate.ps1` before running Python scripts.
+- On Windows, activate the virtual environment with `.venv\\Scripts\\Activate.ps1` before running Python scripts.
+
+``` 

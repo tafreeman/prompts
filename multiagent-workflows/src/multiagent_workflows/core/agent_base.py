@@ -190,23 +190,38 @@ class AgentBase(ABC):
         
         raise last_error or RuntimeError(f"Agent {self.name} failed after all retries")
     
-    @abstractmethod
     async def _process(
         self,
         task: Dict[str, Any],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
         """
-        Core processing logic - must be implemented by subclasses.
-        
-        Args:
-            task: Task specification
-            context: Execution context
-            
-        Returns:
-            Dict with output artifacts
+        Fallback core processing logic for agents without a custom implementation.
+        Calls the model and tries to parse JSON from the response, returning structured output or a raw_response field.
         """
-        pass
+        prompt = task.get("prompt") or task.get("requirements") or task.get("input") or str(task)
+        result = await self.call_model(prompt=prompt)
+        response = result.text if hasattr(result, "text") else str(result)
+        import json
+        # Try to extract JSON from response
+        try:
+            if "```json" in response:
+                start = response.index("```json") + 7
+                end = response.index("```", start)
+                json_str = response[start:end].strip()
+            elif "```" in response:
+                start = response.index("```") + 3
+                end = response.index("```", start)
+                json_str = response[start:end].strip()
+            elif "{" in response:
+                start = response.index("{")
+                end = response.rindex("}") + 1
+                json_str = response[start:end]
+            else:
+                json_str = response
+            return json.loads(json_str)
+        except Exception:
+            return {"raw_response": response}
     
     async def call_model(
         self,

@@ -1,8 +1,29 @@
 {
-  "servers": {
-    "openaiDeveloperDocs": {
-      "type": "http",
-      "url": "https://developers.openai.com/mcp"
-    }
-  }
+	"servers": {
+		"openaiDeveloperDocs": {
+			"type": "http",
+			"url": "https://developers.openai.com/mcp"
+		},
+		"firecrawl/firecrawl-mcp-server": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"firecrawl-mcp@latest"
+			],
+			"env": {
+				"FIRECRAWL_API_KEY": "${input:api_key}"
+			},
+			"gallery": "https://api.mcp.github.com",
+			"version": "1.0.0"
+		}
+	},
+	"inputs": [
+		{
+			"id": "api_key",
+			"type": "promptString",
+			"description": "your API key",
+			"password": true
+		}
+	]
 }

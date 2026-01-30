@@ -88,21 +88,21 @@ class ModelManager:
     
     # Default routing for task types
     TASK_ROUTING = {
-        "vision": ["local:phi3.5-vision", "gh:gpt-4o"],
-        "reasoning": ["gh:o3-mini", "gh:deepseek-r1", "ollama:deepseek-r1:14b"],
-        "code_gen": ["gh:gpt-4o", "ollama:qwen2.5-coder:14b", "local:phi4"],
-        "code_review": ["gh:o4-mini", "gh:gpt-4o", "ollama:deepseek-r1:14b"],
-        "coordination": ["local:phi4mini", "ollama:qwen2.5-coder:14b"],
-        "documentation": ["gh:gpt-4o-mini", "local:phi4"],
+        "vision": ["gh:openai/gpt-4o", "local:phi3.5-vision"],
+        "reasoning": ["gh:openai/gpt-4o", "gh:openai/o3-mini", "gh:openai/gpt-4o-mini"],
+        "code_gen": ["gh:openai/gpt-4o", "gh:openai/gpt-4o-mini", "local:phi4"],
+        "code_review": ["gh:openai/gpt-4o", "gh:openai/gpt-4o-mini", "local:phi4"],
+        "coordination": ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"],
+        "documentation": ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"],
     }
     
     # Cost estimates per 1M tokens (input + output average)
     COST_PER_MILLION = {
-        "gh:gpt-4o": 15.0,
-        "gh:gpt-4o-mini": 0.6,
-        "gh:o3-mini": 25.0,
-        "gh:o4-mini": 25.0,
-        "gh:deepseek-r1": 5.0,
+        "gh:openai/gpt-4o": 15.0,
+        "gh:openai/gpt-4o-mini": 0.6,
+        "gh:openai/o3-mini": 25.0,
+        "gh:openai/o4-mini": 25.0,
+        "gh:deepseek/deepseek-r1": 5.0,
         "local:phi4": 0.0,
         "local:phi4mini": 0.0,
         "local:phi3.5-vision": 0.0,
@@ -323,6 +323,15 @@ class ModelManager:
         import httpx
         
         host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+    
+        headers = {
+            "Content-Type": "application/json",
+        }
+        
+        # Add auth if available
+        api_key = os.environ.get("OLLAMA_API_KEY")
+        if api_key:
+            headers["Authorization"] = f"Bearer {api_key}"
         
         messages = []
         if system_instruction:
@@ -337,6 +346,7 @@ class ModelManager:
                     "messages": messages,
                     "stream": False,
                 },
+                headers=headers,
             )
             response.raise_for_status()
             data = response.json()
@@ -422,9 +432,15 @@ class ModelManager:
         import httpx
         
         host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
+        
+        headers = {}
+        api_key = os.environ.get("OLLAMA_API_KEY")
+        if api_key:
+            headers["Authorization"] = f"Bearer {api_key}"
+            
         try:
             async with httpx.AsyncClient(timeout=5.0) as client:
-                response = await client.get(f"{host}/api/tags")
+                response = await client.get(f"{host}/api/tags", headers=headers)
                 return response.status_code == 200
         except Exception:
             return False
@@ -507,7 +523,7 @@ class ModelManager:
         routing = self.config.get("routing", {}).get(task_type) or self.TASK_ROUTING.get(task_type)
         
         if not routing:
-            routing = self.TASK_ROUTING.get("code_gen", ["local:phi4mini"])
+            routing = self.TASK_ROUTING.get("code_gen", ["gh:openai/gpt-4o-mini"])
         
         candidates = routing.get("preferred", routing) if isinstance(routing, dict) else routing
         
@@ -527,14 +543,14 @@ class ModelManager:
                 return model
         
         # Return first candidate if no cache
-        return candidates[0] if candidates else "local:phi4mini"
+        return candidates[0] if candidates else "gh:openai/gpt-4o-mini"
     
     async def _get_fallback(self, failed_model: str) -> Optional[str]:
         """Get fallback model when one fails."""
         fallback_chain = self.config.get("fallback", {}).get("chain", [])
         
         if not fallback_chain:
-            fallback_chain = ["local:phi4mini", "ollama:qwen2.5-coder:14b", "gh:gpt-4o-mini"]
+            fallback_chain = ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"]
         
         for model in fallback_chain:
             if model != failed_model and await self.check_availability(model):

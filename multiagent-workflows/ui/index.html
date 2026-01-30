@@ -234,6 +234,155 @@
         .detail-section-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--accent); }
         .example-block { background: var(--bg-tertiary); border-radius: var(--radius-sm); padding: 12px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; }
         .example-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+        
+        /* Dashboard Styles */
+        .dashboard-layout { display: grid; grid-template-columns: 240px 1fr 320px; gap: 0; height: calc(100vh - 120px); }
+        .dash-sidebar { background: var(--bg-secondary); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+        .dash-sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .dash-sidebar-header h3 { font-size: 13px; color: var(--text-secondary); }
+        .dash-run-list { flex: 1; overflow-y: auto; }
+        .dash-run-item { padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+        .dash-run-item:hover { background: var(--bg-tertiary); }
+        .dash-run-item.active { background: var(--accent-dim); border-left: 3px solid var(--accent); }
+        .dash-run-item .name { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+        .dash-run-item .time { font-size: 11px; color: var(--text-muted); }
+        .dash-run-item .status { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-top: 4px; }
+        .dash-run-item .status.running { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+        .dash-run-item .status.complete { background: var(--green-dim); color: var(--green); }
+        .dash-run-item .status.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        .dash-main { padding: 20px; overflow-y: auto; }
+        .dash-run-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+        .dash-run-info h2 { font-size: 20px; margin-bottom: 8px; }
+        .dash-meta { display: flex; gap: 16px; font-size: 12px; color: var(--text-secondary); }
+        .dash-status-badge { padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+        .dash-status-badge.running { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+        .dash-status-badge.complete { background: var(--green-dim); color: var(--green); }
+        .dash-status-badge.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        .dash-live-indicator { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+        .live-pulse { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); } 50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); } }
+        
+        .dash-pipeline { display: flex; flex-direction: column; gap: 12px; }
+        .dash-step { display: flex; align-items: center; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; cursor: pointer; transition: all 0.2s; }
+        .dash-step:hover { border-color: var(--accent); transform: translateX(4px); }
+        .dash-step.active { border-color: var(--accent); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+        .dash-step-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .dash-step.pending .dash-step-num { background: var(--bg-tertiary); color: var(--text-muted); }
+        .dash-step.running .dash-step-num { background: var(--blue); color: white; animation: pulse 1s infinite; }
+        .dash-step.complete .dash-step-num { background: var(--green); color: white; }
+        .dash-step.error .dash-step-num { background: #ef4444; color: white; }
+        .dash-step-info { flex: 1; }
+        .dash-step-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .dash-step-meta { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .dash-model-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .dash-model-badge.speed { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+        .dash-model-badge.power { background: rgba(245, 175, 25, 0.2); color: #f5af19; }
+        .dash-model-badge.balanced { background: var(--green-dim); color: var(--green); }
+        .dash-step-duration { font-size: 13px; color: var(--text-muted); }
+        
+        .dash-detail { background: var(--bg-secondary); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+        .dash-detail-header { padding: 16px; border-bottom: 1px solid var(--border); }
+        .dash-detail-header h3 { font-size: 14px; margin-bottom: 4px; }
+        .dash-agent-name { font-size: 12px; color: var(--text-muted); }
+        .dash-tabs { display: flex; border-bottom: 1px solid var(--border); }
+        .dash-tab { flex: 1; padding: 10px; text-align: center; font-size: 12px; color: var(--text-secondary); background: none; border: none; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+        .dash-tab:hover { color: var(--text-primary); }
+        .dash-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+        .dash-content { flex: 1; padding: 16px; overflow-y: auto; }
+        .dash-output { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-family: 'Consolas', monospace; font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; }
+        .dash-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dash-stat { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
+        .dash-stat label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; display: block; }
+        .dash-stat .value { font-size: 18px; font-weight: 700; margin-top: 4px; color: var(--accent); }
+        .dash-empty { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 13px; text-align: center; padding: 40px; }
+        
+        /* Multi-Workflow Grid View */
+        .dash-view-toggle { display: flex; gap: 8px; margin-bottom: 20px; align-items: center; }
+        .dash-view-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+        .dash-view-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
+        .dash-view-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+        .dash-view-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .dash-live-badge { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted); }
+        
+        .dash-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .dash-section-header h3 { font-size: 14px; color: var(--text-secondary); }
+        .dash-count { background: var(--accent-dim); color: var(--accent); padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+        
+        .dash-workflow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .dash-workflow-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+        .dash-workflow-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); }
+        .dash-workflow-card.running { border-left: 3px solid var(--blue); }
+        .dash-workflow-card.running::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue), var(--accent)); animation: progress-shimmer 1.5s ease-in-out infinite; }
+        @keyframes progress-shimmer { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        .dash-workflow-card.complete { border-left: 3px solid var(--green); }
+        .dash-workflow-card.error { border-left: 3px solid #ef4444; }
+        
+        .dash-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .dash-card-title { font-weight: 600; font-size: 15px; }
+        .dash-card-time { font-size: 11px; color: var(--text-muted); }
+        .dash-card-status { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+        .dash-card-status.running { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+        .dash-card-status.complete { background: var(--green-dim); color: var(--green); }
+        .dash-card-status.error { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        
+        .dash-card-progress { margin-bottom: 12px; }
+        .dash-progress-bar { height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
+        .dash-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--blue)); border-radius: 2px; transition: width 0.3s ease; }
+        .dash-progress-text { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--text-muted); }
+        
+        .dash-card-steps { display: flex; gap: 4px; flex-wrap: wrap; }
+        .dash-mini-step { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+        .dash-mini-step.pending { background: var(--bg-tertiary); color: var(--text-muted); }
+        .dash-mini-step.running { background: var(--blue); color: white; animation: pulse 1s infinite; }
+        .dash-mini-step.complete { background: var(--green); color: white; }
+        .dash-mini-step.error { background: #ef4444; color: white; }
+        
+        .dash-back-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 13px; cursor: pointer; margin-bottom: 16px; transition: all 0.2s; }
+        .dash-back-btn:hover { background: var(--accent); border-color: var(--accent); }
+        
+        /* Agent Roster Styles */
+        .agents-header { margin-bottom: 24px; }
+        .agents-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .agents-title-row h2 { font-size: 22px; }
+        .agents-actions { display: flex; gap: 12px; }
+        .agents-actions .btn { display: flex; align-items: center; gap: 6px; }
+        .agents-subtitle { color: var(--text-muted); font-size: 14px; }
+        
+        .model-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 0; }
+        .model-chip { padding: 6px 12px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; color: var(--text-secondary); transition: all 0.2s; }
+        .model-chip.online { border-color: var(--green); color: var(--green); }
+        .model-chip.offline { border-color: #ef4444; color: #ef4444; opacity: 0.6; }
+        .model-chip.loading { animation: pulse 1s infinite; }
+        .model-count { font-size: 12px; color: var(--accent); font-weight: 600; }
+        
+        .agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+        .agent-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; transition: all 0.2s; }
+        .agent-card:hover { border-color: var(--accent); }
+        .agent-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+        .agent-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .agent-icon.coordinator { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .agent-icon.analyst { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .agent-icon.developer { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .agent-icon.reviewer { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .agent-icon.default { background: linear-gradient(135deg, var(--accent), var(--blue)); }
+        .agent-name { font-weight: 600; font-size: 15px; margin-top: 4px; }
+        .agent-role { font-size: 12px; color: var(--text-muted); }
+        .agent-status { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+        .agent-status-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .agent-status-dot.ready { background: var(--green); }
+        .agent-status-dot.busy { background: var(--blue); animation: pulse 1s infinite; }
+        
+        .agent-config { margin-top: 12px; }
+        .agent-config-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .agent-config-row:last-child { border-bottom: none; }
+        .agent-config-label { font-size: 12px; color: var(--text-muted); }
+        .agent-config-value { font-size: 12px; font-weight: 500; }
+        .agent-model-select { background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12px; color: var(--text-primary); min-width: 180px; cursor: pointer; }
+        .agent-model-select:focus { border-color: var(--accent); outline: none; }
+        
+        @media (max-width: 1200px) { .dashboard-layout { grid-template-columns: 200px 1fr; } .dash-detail { display: none; } }
     </style>
 </head>
 <body>
@@ -257,6 +406,8 @@
                 <a href="#" class="nav-item active" data-section="datasets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Datasets</span></a>
                 <a href="#" class="nav-item" data-section="configuration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>Configuration</span></a>
                 <a href="#" class="nav-item" data-section="run"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Run Workflow</span></a>
+                <a href="#" class="nav-item" data-section="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><span>Live Dashboard</span></a>
+                <a href="#" class="nav-item" data-section="agents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg><span>Agents</span></a>
             </nav>
             <div class="sidebar-footer"><span class="selection-count" id="selCount">0</span><span class="selection-label">items selected</span></div>
         </aside>
@@ -478,6 +629,132 @@
                             <div id="runResults" style="margin-top: 12px;"></div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <!-- LIVE DASHBOARD -->
+            <section id="dashboard-section" class="content-section">
+                <!-- View Toggle -->
+                <div class="dash-view-toggle">
+                    <button class="dash-view-btn active" data-view="grid" onclick="setDashView('grid')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        All Workflows
+                    </button>
+                    <button class="dash-view-btn" data-view="detail" onclick="setDashView('detail')" id="detailViewBtn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+                        <span id="detailViewLabel">Workflow Details</span>
+                    </button>
+                    <div class="dash-live-badge">
+                        <div class="live-pulse"></div>
+                        <span>Live • Auto-refresh 2s</span>
+                    </div>
+                </div>
+                
+                <!-- GRID VIEW: All Workflows -->
+                <div class="dash-grid-view" id="dashGridView">
+                    <div class="dash-section-header">
+                        <h3>🔄 Running Workflows</h3>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="refreshDashboard()">↻ Refresh</button>
+                    </div>
+                    <div class="dash-workflow-grid" id="dashRunningGrid">
+                        <div class="dash-empty">No running workflows. Start one from the Run Workflow tab.</div>
+                    </div>
+                    
+                    <div class="dash-section-header" style="margin-top: 24px;">
+                        <h3>✅ Completed Workflows</h3>
+                        <span class="dash-count" id="completedCount">0</span>
+                    </div>
+                    <div class="dash-workflow-grid" id="dashCompletedGrid">
+                        <div class="dash-empty">No completed workflows yet.</div>
+                    </div>
+                </div>
+                
+                <!-- DETAIL VIEW: Single Workflow Drill-down -->
+                <div class="dash-detail-view" id="dashDetailView" style="display: none;">
+                    <button class="dash-back-btn" onclick="setDashView('grid')">← Back to All Workflows</button>
+                    
+                    <div class="dashboard-layout">
+                        <!-- Run History Sidebar -->
+                        <div class="dash-sidebar">
+                            <div class="dash-sidebar-header">
+                                <h3>📋 Run History</h3>
+                            </div>
+                            <div class="dash-run-list" id="dashRunList">
+                                <div class="dash-empty">No runs yet.</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Pipeline View -->
+                        <div class="dash-main">
+                            <div class="dash-run-header" id="dashRunHeader">
+                                <div class="dash-run-info">
+                                    <h2 id="dashWorkflowName">Select a Run</h2>
+                                    <div class="dash-meta">
+                                        <span id="dashStartTime">--</span>
+                                        <span id="dashDuration">--</span>
+                                        <span class="dash-status-badge" id="dashStatus">--</span>
+                                    </div>
+                                </div>
+                                <div class="dash-live-indicator">
+                                    <div class="live-pulse"></div>
+                                    <span>Live Updates</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dash-pipeline" id="dashPipeline">
+                                <div class="dash-empty">Select a run from the sidebar to view the pipeline</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step Detail Panel -->
+                        <div class="dash-detail" id="dashDetail">
+                            <div class="dash-detail-header">
+                                <h3 id="dashStepName">Step Details</h3>
+                                <span class="dash-agent-name" id="dashAgentName">--</span>
+                            </div>
+                            <div class="dash-tabs">
+                                <button class="dash-tab active" data-tab="output" onclick="setDashTab('output')">Output</button>
+                                <button class="dash-tab" data-tab="input" onclick="setDashTab('input')">Input</button>
+                                <button class="dash-tab" data-tab="stats" onclick="setDashTab('stats')">Stats</button>
+                            </div>
+                            <div class="dash-content" id="dashContent">
+                                <div class="dash-empty">Click a step to view details</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AGENTS ROSTER -->
+            <section id="agents-section" class="content-section">
+                <div class="agents-header">
+                    <div class="agents-title-row">
+                        <h2>🤖 Agent Roster</h2>
+                        <div class="agents-actions">
+                            <button class="btn btn-secondary" onclick="probeModels()" id="probeBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                                Probe Available Models
+                            </button>
+                            <button class="btn btn-primary" onclick="saveAgentConfig()">💾 Save Configuration</button>
+                        </div>
+                    </div>
+                    <p class="agents-subtitle">Configure model assignments for each agent in your workflows</p>
+                </div>
+                
+                <!-- Available Models -->
+                <div class="config-section" style="margin-bottom: 24px;">
+                    <div class="config-title" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>📡 Available Models</span>
+                        <span class="model-count" id="modelCount">0 models</span>
+                    </div>
+                    <div class="model-chips" id="modelChips">
+                        <span class="model-chip loading">Probing models...</span>
+                    </div>
+                </div>
+                
+                <!-- Agent Grid -->
+                <div class="agent-grid" id="agentGrid">
+                    <!-- Populated by JavaScript -->
                 </div>
             </section>
         </main>
@@ -1384,10 +1661,18 @@ document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.add('active');
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.getElementById(item.dataset.section + '-section').classList.add('active');
-        const titles = {datasets: ['Select Datasets', 'Choose evaluation datasets'], configuration: ['Configuration', 'Set models, algorithms, and options'], run: ['Run Workflow', 'Review, configure, and run pipeline']};
-        document.getElementById('pageTitle').textContent = titles[item.dataset.section][0];
-        document.getElementById('pageSub').textContent = titles[item.dataset.section][1];
+        const titles = {
+            datasets: ['Select Datasets', 'Choose evaluation datasets'],
+            configuration: ['Configuration', 'Set models, algorithms, and options'],
+            run: ['Run Workflow', 'Review, configure, and run pipeline'],
+            dashboard: ['Live Dashboard', 'Monitor running workflows in real-time'],
+            agents: ['Agent Roster', 'Configure agents and their model assignments']
+        };
+        document.getElementById('pageTitle').textContent = titles[item.dataset.section]?.[0] || 'Dashboard';
+        document.getElementById('pageSub').textContent = titles[item.dataset.section]?.[1] || '';
         if (item.dataset.section === 'run') updateRunSection();
+        if (item.dataset.section === 'dashboard') refreshDashboard();
+        if (item.dataset.section === 'agents') initAgentsSection();
     });
 });
 
@@ -1395,6 +1680,447 @@ document.getElementById('nextBtn').addEventListener('click', () => {
     const next = document.querySelector('.nav-item.active').nextElementSibling;
     if (next) next.click();
 });
+
+// ============= DASHBOARD FUNCTIONS =============
+let dashRuns = [];
+let dashSelectedRunId = null;
+let dashSelectedStepId = null;
+let dashCurrentRun = null;
+let dashActiveTab = 'output';
+let dashPollInterval = null;
+
+function formatDashDuration(ms) {
+    if (!ms) return '--';
+    if (ms < 1000) return Math.round(ms) + 'ms';
+    if (ms < 60000) return (ms / 1000).toFixed(1) + 's';
+    return (ms / 60000).toFixed(1) + 'm';
+}
+
+function formatDashTime(iso) {
+    if (!iso) return '--';
+    return new Date(iso).toLocaleTimeString();
+}
+
+function getDashModelTier(modelId) {
+    if (!modelId) return 'balanced';
+    if (modelId.includes('deepseek-v3') || modelId.includes('671')) return 'power';
+    if (modelId.includes('mini') || modelId.includes('fast')) return 'speed';
+    return 'balanced';
+}
+
+async function refreshDashboard() {
+    await loadDashRuns();
+    renderDashGrids();
+    if (dashSelectedRunId) {
+        await loadDashRunDetail(dashSelectedRunId);
+        renderDashPipeline();
+        if (dashSelectedStepId) renderDashDetail();
+    }
+}
+
+let dashCurrentView = 'grid';
+
+function setDashView(view) {
+    dashCurrentView = view;
+    document.querySelectorAll('.dash-view-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.dash-view-btn[data-view="${view}"]`).classList.add('active');
+    
+    document.getElementById('dashGridView').style.display = view === 'grid' ? 'block' : 'none';
+    document.getElementById('dashDetailView').style.display = view === 'detail' ? 'block' : 'none';
+    
+    if (view === 'detail' && dashSelectedRunId) {
+        loadDashRunDetail(dashSelectedRunId).then(() => {
+            renderDashRunList();
+            renderDashPipeline();
+        });
+    }
+}
+
+function drillDownToRun(runId) {
+    dashSelectedRunId = runId;
+    dashSelectedStepId = null;
+    
+    // Update detail view button
+    const run = dashRuns.find(r => r.run_id === runId);
+    if (run) {
+        document.getElementById('detailViewLabel').textContent = run.workflow_name;
+        document.getElementById('detailViewBtn').disabled = false;
+    }
+    
+    setDashView('detail');
+}
+
+async function loadDashRuns() {
+    try {
+        const res = await fetch('/api/runs?t=' + Date.now());
+        if (res.ok) {
+            const data = await res.json();
+            dashRuns = data.runs || [];
+        }
+    } catch (e) {
+        // Try file fallback
+        try {
+            const res = await fetch('../dashboard_data/runs.json?t=' + Date.now());
+            if (res.ok) {
+                const data = await res.json();
+                dashRuns = data.runs || [];
+            }
+        } catch (_) {}
+    }
+}
+
+function renderDashGrids() {
+    const running = dashRuns.filter(r => r.status === 'running');
+    const completed = dashRuns.filter(r => r.status !== 'running');
+    
+    // Running workflows
+    const runningContainer = document.getElementById('dashRunningGrid');
+    if (!running.length) {
+        runningContainer.innerHTML = '<div class="dash-empty">No running workflows. Start one from the Run Workflow tab.</div>';
+    } else {
+        runningContainer.innerHTML = running.map(run => renderWorkflowCard(run)).join('');
+    }
+    
+    // Completed workflows
+    const completedContainer = document.getElementById('dashCompletedGrid');
+    document.getElementById('completedCount').textContent = completed.length;
+    if (!completed.length) {
+        completedContainer.innerHTML = '<div class="dash-empty">No completed workflows yet.</div>';
+    } else {
+        completedContainer.innerHTML = completed.slice(0, 12).map(run => renderWorkflowCard(run)).join('');
+    }
+}
+
+function renderWorkflowCard(run) {
+    const steps = run.steps || [];
+    const completedSteps = steps.filter(s => s.status === 'complete').length;
+    const totalSteps = steps.length || 1;
+    const progress = Math.round((completedSteps / totalSteps) * 100);
+    
+    return `
+        <div class="dash-workflow-card ${run.status}" onclick="drillDownToRun('${run.run_id}')">
+            <div class="dash-card-header">
+                <div>
+                    <div class="dash-card-title">${_escapeHtml(run.workflow_name)}</div>
+                    <div class="dash-card-time">${formatDashTime(run.started_at)}</div>
+                </div>
+                <span class="dash-card-status ${run.status}">${run.status.toUpperCase()}</span>
+            </div>
+            <div class="dash-card-progress">
+                <div class="dash-progress-bar">
+                    <div class="dash-progress-fill" style="width: ${progress}%"></div>
+                </div>
+                <div class="dash-progress-text">
+                    <span>${completedSteps}/${totalSteps} steps</span>
+                    <span>${formatDashDuration(run.total_duration_ms || 0)}</span>
+                </div>
+            </div>
+            <div class="dash-card-steps">
+                ${steps.slice(0, 8).map((s, i) => `<div class="dash-mini-step ${s.status}" title="${_escapeHtml(s.step_name)}">${i + 1}</div>`).join('')}
+                ${steps.length > 8 ? `<div class="dash-mini-step pending">+${steps.length - 8}</div>` : ''}
+            </div>
+        </div>
+    `;
+}
+
+function renderDashRunList() {
+    const container = document.getElementById('dashRunList');
+    if (!dashRuns.length) {
+        container.innerHTML = '<div class="dash-empty">No runs yet. Start a workflow to see it here.</div>';
+        return;
+    }
+    container.innerHTML = dashRuns.map(run => `
+        <div class="dash-run-item ${run.run_id === dashSelectedRunId ? 'active' : ''}" onclick="selectDashRun('${run.run_id}')">
+            <div class="name">${_escapeHtml(run.workflow_name)}</div>
+            <div class="time">${formatDashTime(run.started_at)}</div>
+            <span class="status ${run.status}">${run.status.toUpperCase()}</span>
+        </div>
+    `).join('');
+}
+
+async function selectDashRun(runId) {
+    dashSelectedRunId = runId;
+    dashSelectedStepId = null;
+    await loadDashRunDetail(runId);
+    renderDashRunList();
+    renderDashPipeline();
+    renderDashDetail();
+}
+
+async function loadDashRunDetail(runId) {
+    try {
+        const res = await fetch('/api/runs/' + runId + '?t=' + Date.now());
+        if (res.ok) {
+            dashCurrentRun = await res.json();
+            return;
+        }
+    } catch (_) {}
+    try {
+        const res = await fetch('../dashboard_data/run_' + runId + '.json?t=' + Date.now());
+        if (res.ok) {
+            dashCurrentRun = await res.json();
+        }
+    } catch (_) {}
+}
+
+function renderDashPipeline() {
+    const container = document.getElementById('dashPipeline');
+    const header = document.getElementById('dashRunHeader');
+    
+    if (!dashCurrentRun) {
+        container.innerHTML = '<div class="dash-empty">Select a run from the sidebar</div>';
+        return;
+    }
+    
+    const r = dashCurrentRun;
+    document.getElementById('dashWorkflowName').textContent = r.workflow_name;
+    document.getElementById('dashStartTime').textContent = 'Started: ' + formatDashTime(r.started_at);
+    document.getElementById('dashDuration').textContent = 'Duration: ' + formatDashDuration(r.total_duration_ms);
+    const statusEl = document.getElementById('dashStatus');
+    statusEl.textContent = r.status.toUpperCase();
+    statusEl.className = 'dash-status-badge ' + r.status;
+    
+    const steps = r.steps || [];
+    if (!steps.length) {
+        container.innerHTML = '<div class="dash-empty">No steps yet</div>';
+        return;
+    }
+    
+    container.innerHTML = steps.map((step, i) => `
+        <div class="dash-step ${step.status} ${step.step_id === dashSelectedStepId ? 'active' : ''}" onclick="selectDashStep('${step.step_id}')">
+            <div class="dash-step-num">${i + 1}</div>
+            <div class="dash-step-info">
+                <div class="dash-step-name">${_escapeHtml(step.step_name)}</div>
+                <div class="dash-step-meta">
+                    <span>🤖 ${_escapeHtml(step.agent_name)}</span>
+                    <span class="dash-model-badge ${getDashModelTier(step.model_id)}">${(step.model_id || '--').split(':').pop()}</span>
+                </div>
+            </div>
+            <div class="dash-step-duration">${formatDashDuration(step.duration_ms)}</div>
+        </div>
+    `).join('');
+}
+
+function selectDashStep(stepId) {
+    dashSelectedStepId = stepId;
+    dashActiveTab = 'output';
+    renderDashPipeline();
+    renderDashDetail();
+}
+
+function setDashTab(tab) {
+    dashActiveTab = tab;
+    document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.dash-tab[data-tab="${tab}"]`).classList.add('active');
+    renderDashDetail();
+}
+
+function renderDashDetail() {
+    const container = document.getElementById('dashContent');
+    
+    if (!dashCurrentRun || !dashSelectedStepId) {
+        container.innerHTML = '<div class="dash-empty">Click a step to view details</div>';
+        return;
+    }
+    
+    const step = (dashCurrentRun.steps || []).find(s => s.step_id === dashSelectedStepId);
+    if (!step) return;
+    
+    document.getElementById('dashStepName').textContent = step.step_name;
+    document.getElementById('dashAgentName').textContent = 'Agent: ' + step.agent_name + ' • Model: ' + (step.model_id || '--');
+    
+    if (dashActiveTab === 'stats') {
+        container.innerHTML = `
+            <div class="dash-stats">
+                <div class="dash-stat"><label>Duration</label><div class="value">${formatDashDuration(step.duration_ms)}</div></div>
+                <div class="dash-stat"><label>Tokens</label><div class="value">${step.tokens_used || 0}</div></div>
+                <div class="dash-stat"><label>Cost</label><div class="value">$${(step.cost_estimate || 0).toFixed(4)}</div></div>
+                <div class="dash-stat"><label>Status</label><div class="value">${step.status}</div></div>
+            </div>
+            ${step.error_message ? `<div style="margin-top:12px;padding:12px;background:rgba(239,68,68,0.1);border-radius:8px;color:#ef4444;font-size:12px;"><strong>Error:</strong> ${_escapeHtml(step.error_message)}</div>` : ''}
+        `;
+    } else {
+        const content = dashActiveTab === 'output' 
+            ? (step.full_output || step.output_preview || 'Waiting for output...') 
+            : (step.input_preview || 'No input data...');
+        container.innerHTML = `<div class="dash-output">${_escapeHtml(content)}</div>`;
+    }
+}
+
+// Start polling when on dashboard
+function startDashPolling() {
+    if (dashPollInterval) return;
+    dashPollInterval = setInterval(refreshDashboard, 2000);
+}
+
+function stopDashPolling() {
+    if (dashPollInterval) {
+        clearInterval(dashPollInterval);
+        dashPollInterval = null;
+    }
+}
+
+// Auto-start polling when dashboard is active
+const dashObserver = new MutationObserver(() => {
+    const dashSection = document.getElementById('dashboard-section');
+    if (dashSection && dashSection.classList.contains('active')) {
+        startDashPolling();
+        refreshDashboard();
+    } else {
+        stopDashPolling();
+    }
+});
+dashObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+
+// ============= AGENT ROSTER FUNCTIONS =============
+let agentAvailableModels = [];
+let agentRoster = [
+    { id: 'coordinator', name: 'Coordinator Agent', role: 'Orchestration', icon: '🎯', model_preference: 'coordination', current_model: 'gpt-4o-mini', status: 'ready' },
+    { id: 'analyst', name: 'Analyst Agent', role: 'Bug Analysis', icon: '🔍', model_preference: 'reasoning', current_model: 'deepseek-v3.2:cloud', status: 'ready' },
+    { id: 'developer', name: 'Developer Agent', role: 'Code Generation', icon: '💻', model_preference: 'code_gen', current_model: 'deepseek-v3.2:cloud', status: 'ready' },
+    { id: 'reviewer', name: 'Reviewer Agent', role: 'Code Review', icon: '✅', model_preference: 'code_review', current_model: 'gpt-4o', status: 'ready' },
+    { id: 'tester', name: 'Tester Agent', role: 'Test Generation', icon: '🧪', model_preference: 'code_gen', current_model: 'gpt-4o-mini', status: 'ready' },
+    { id: 'documenter', name: 'Documentation Agent', role: 'Documentation', icon: '📝', model_preference: 'documentation', current_model: 'gpt-4o-mini', status: 'ready' }
+];
+
+async function probeModels() {
+    const btn = document.getElementById('probeBtn');
+    const chips = document.getElementById('modelChips');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading">⏳</span> Probing...';
+    chips.innerHTML = '<span class="model-chip loading">Discovering models...</span>';
+    
+    try {
+        const res = await fetch('/api/models/probe', { method: 'POST' });
+        if (res.ok) {
+            const data = await res.json();
+            agentAvailableModels = data.models || [];
+        } else {
+            // Fallback to static list
+            agentAvailableModels = [
+                { id: 'gpt-4o', name: 'GPT-4o', provider: 'github', available: true },
+                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'github', available: true },
+                { id: 'o3-mini', name: 'o3-mini', provider: 'github', available: true },
+                { id: 'deepseek-v3.2:cloud', name: 'DeepSeek V3.2', provider: 'ollama', available: true },
+                { id: 'deepseek-r1:14b', name: 'DeepSeek R1 14B', provider: 'ollama', available: true },
+                { id: 'qwen2.5-coder:14b', name: 'Qwen 2.5 Coder', provider: 'local', available: false },
+                { id: 'phi4', name: 'Phi-4', provider: 'local', available: false }
+            ];
+        }
+    } catch (e) {
+        // Use fallback
+        agentAvailableModels = [
+            { id: 'gpt-4o', name: 'GPT-4o', provider: 'github', available: true },
+            { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'github', available: true },
+            { id: 'deepseek-v3.2:cloud', name: 'DeepSeek V3.2', provider: 'ollama', available: true }
+        ];
+    }
+    
+    renderModelChips();
+    renderAgentGrid();
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Probe Available Models';
+}
+
+function renderModelChips() {
+    const container = document.getElementById('modelChips');
+    const online = agentAvailableModels.filter(m => m.available).length;
+    document.getElementById('modelCount').textContent = `${online}/${agentAvailableModels.length} models online`;
+    
+    container.innerHTML = agentAvailableModels.map(m => `
+        <span class="model-chip ${m.available ? 'online' : 'offline'}" title="${m.provider}">
+            ${m.available ? '✓' : '✗'} ${m.name || m.id}
+        </span>
+    `).join('');
+}
+
+function renderAgentGrid() {
+    const container = document.getElementById('agentGrid');
+    const modelOptions = agentAvailableModels.map(m => 
+        `<option value="${m.id}" ${!m.available ? 'disabled' : ''}>${m.name || m.id} ${!m.available ? '(offline)' : ''}</option>`
+    ).join('');
+    
+    container.innerHTML = agentRoster.map(agent => {
+        const iconClass = agent.role.toLowerCase().includes('coord') ? 'coordinator' :
+                          agent.role.toLowerCase().includes('analy') ? 'analyst' :
+                          agent.role.toLowerCase().includes('code') || agent.role.toLowerCase().includes('gen') ? 'developer' :
+                          agent.role.toLowerCase().includes('review') ? 'reviewer' : 'default';
+        
+        return `
+            <div class="agent-card" data-agent-id="${agent.id}">
+                <div class="agent-card-header">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="agent-icon ${iconClass}">${agent.icon}</div>
+                        <div>
+                            <div class="agent-name">${_escapeHtml(agent.name)}</div>
+                            <div class="agent-role">${_escapeHtml(agent.role)}</div>
+                        </div>
+                    </div>
+                    <div class="agent-status">
+                        <span class="agent-status-dot ${agent.status}"></span>
+                        ${agent.status}
+                    </div>
+                </div>
+                <div class="agent-config">
+                    <div class="agent-config-row">
+                        <span class="agent-config-label">Model Preference</span>
+                        <span class="agent-config-value">${agent.model_preference}</span>
+                    </div>
+                    <div class="agent-config-row">
+                        <span class="agent-config-label">Current Model</span>
+                        <select class="agent-model-select" onchange="updateAgentModel('${agent.id}', this.value)">
+                            ${modelOptions.replace(`value="${agent.current_model}"`, `value="${agent.current_model}" selected`)}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateAgentModel(agentId, modelId) {
+    const agent = agentRoster.find(a => a.id === agentId);
+    if (agent) {
+        agent.current_model = modelId;
+        console.log(`Updated ${agent.name} to use model: ${modelId}`);
+    }
+}
+
+async function saveAgentConfig() {
+    const config = agentRoster.map(a => ({ id: a.id, model: a.current_model }));
+    try {
+        const res = await fetch('/api/agents/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ agents: config })
+        });
+        if (res.ok) {
+            alert('✅ Agent configuration saved successfully!');
+        } else {
+            alert('⚠️ Server not available. Config stored locally.');
+            localStorage.setItem('agentConfig', JSON.stringify(config));
+        }
+    } catch (e) {
+        localStorage.setItem('agentConfig', JSON.stringify(config));
+        alert('⚠️ Saved to local storage (server not available)');
+    }
+}
+
+// Initialize agents section when visible
+function initAgentsSection() {
+    // Load any saved config
+    const saved = localStorage.getItem('agentConfig');
+    if (saved) {
+        try {
+            const config = JSON.parse(saved);
+            config.forEach(c => {
+                const agent = agentRoster.find(a => a.id === c.id);
+                if (agent) agent.current_model = c.model;
+            });
+        } catch (e) {}
+    }
+    probeModels();
+}
 
 loadDatasets();
 renderScoring();

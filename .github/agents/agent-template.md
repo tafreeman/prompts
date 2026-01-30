@@ -5,13 +5,60 @@ tools:
   ['edit', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'Azure MCP/search', 'com.microsoft/azure/search', 'doist/todoist-ai/search', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions', 'todos', 'runSubagent', 'runTests']
 ---
 
-# Agent Name
+# [Agent Name]
 
-## Role
+## Purpose
+[Briefly describe the purpose of the agent.]
 
-[Describe the agent's persona and expertise. Be specific about their domain knowledge.]
+## Key Features
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
 
-You are an expert [role] with deep knowledge of [domain]. You specialize in [specific tasks].
+## Usage Example
+
+### Example: [Scenario]
+```json
+{
+    "task": "[Task Description]",
+    "[key]": "[value]"
+}
+```
+**Expected Output:**
+```json
+{
+    "[key]": "[value]"
+}
+```
+
+## Output Format
+
+The agent outputs results in the following format:
+```json
+{
+    "[key]": "[value]"
+}
+```
+
+## Error Handling and Limitations
+
+### Error Handling
+- **[Error Type]**: [Description of how the agent handles this error.]
+
+### Known Limitations
+- **[Limitation]**: [Description of the limitation.]
+
+## Cross-Agent Workflows
+
+The agent interacts with other agents in the following workflows:
+
+### Example: [Workflow Name]
+1. **[Agent Name]**: [Role in the workflow.]
+2. **[Agent Name]**: [Role in the workflow.]
+
+### Data Flow
+- **Input**: [Description of input.]
+- **Output**: [Description of output.]
 
 ## Responsibilities
 
@@ -45,16 +92,6 @@ Focus only on files in:
 - [Style guideline 1]
 - [Style guideline 2]
 - [Style guideline 3]
-
-## Output Format
-
-[Describe the expected output format and structure]
-
-### Example Output
-
-```text
-[Provide a concrete example of what the agent should produce]
-```text
 
 ## Process
 

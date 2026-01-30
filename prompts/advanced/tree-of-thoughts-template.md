@@ -148,11 +148,11 @@ graph TD
 ```text
 You are an AI using Tree-of-Thoughts (ToT) reasoning to solve a complex problem.
 
-**Problem**: [PROBLEM_STATEMENT]
+**Problem**: to ensure that all the agentic ai workflows are functioning correctly and efficiently.using the best prompts, settings and patterm s available. to achieve repeateble high-quality results.
 
-**Context**: [BACKGROUND_AND_CONSTRAINTS]
+**Context**: want to the project to end updating and improving the multi-agent workflows in the repository, ensuring they are optimized for performance, accuracy, and reliability. The workflows should be able to handle complex tasks by leveraging multiple agents working together seamlessly. The ui should be user-friendly, allowing easy configuration and monitoring of the workflows. Additionally, the system should be scalable to accommodate increasing workloads and adaptable to incorporate new agents or tools as they become available. dashboard for monitoring workflow performance and agent interactions is also required.with detailed output for each step of the reasoning process and graDED evaluations of each thought branch.
 
-**Success Criteria**: [WHAT_SUCCESS_LOOKS_LIKE]
+**Success Criteria**: Achieve high accuracy and efficiency in workflow execution, with clear documentation and user-friendly interfaces. The system should demonstrate scalability and adaptability, with a robust monitoring dashboard.  additionally, the workflows should be tested and validated to ensure they meet the defined performance benchmarks. the ui should allow all interactions to be easily managed and monitored. AND A SCORING SYSTEM FOR EVALUATING THE PERFORMANCE OF EACH WORKFLOW AND AGENT THAT DOES NOT FAIL SILENTLY and has over 90% accuracy in its evaluations. using some local models where possible to reduce costs.
 
 **Instructions**:
 
@@ -179,7 +179,7 @@ If this branch hits a dead-end or reveals unexpected complexity:
 
 **Branch Generation at Decision Point 1: Overall Architecture**
 
-**Thought Branch A: CDN-Heavy Approach**
+**Thought Branch A: make miminaL UAW ODA**
 
 - **Description**: Use CDN (CloudFront, Cloudflare) edge caching for static content, regional Redis clusters for dynamic data
 - **Pros**: 

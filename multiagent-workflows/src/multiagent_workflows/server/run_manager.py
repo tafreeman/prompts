@@ -3,14 +3,30 @@ from __future__ import annotations
 import asyncio
 import time
 import uuid
+import asyncio
+import time
+import uuid
+import re
+import json
+import yaml
+from pathlib import Path
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from typing import Any, Dict, List, Optional
 
 from multiagent_workflows.evaluation.scorer import ExecutionScorer
+from tools.agents.workflow_runner import WorkflowExecutor
 
 from .benchmarks import FALLBACK_BENCHMARKS, try_get_repo_benchmarks
 from .dataset_loader import load_tasks
+
+# Map UI workflow IDs to their configuration names
+UI_WORKFLOW_MAP = {
+    "fullstack": "end_to_end",
+    "bugfix": "defect_resolution",
+    "architecture": "system_design",
+    "refactoring": "end_to_end",  # Placeholder
+}
 
 
 @dataclass
@@ -23,6 +39,7 @@ class ItemScore:
     grade: str = "F"
     passed: bool = False
     feedback: str = ""
+    breakdown: Dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -33,6 +50,7 @@ class ItemScore:
             "grade": self.grade,
             "passed": self.passed,
             "feedback": self.feedback,
+            "breakdown": self.breakdown,
         }
 
 
@@ -58,6 +76,22 @@ def _task_before(task: Dict[str, Any]) -> str:
         or task.get("issue_text")
         or ""
     )
+
+
+def _extract_code_block(text: str) -> str:
+    """Extract the last code block from text, or return text if none found."""
+    # Try to find python blocks first
+    matches = re.findall(r"```python\s*(.*?)```", text, re.DOTALL | re.IGNORECASE)
+    if matches:
+        return matches[-1].strip()
+    
+    # Fallback to any code block
+    matches = re.findall(r"```\s*(.*?)```", text, re.DOTALL)
+    if matches:
+        return matches[-1].strip()
+        
+    return text.strip()
+
 
 
 def _task_gold(task: Dict[str, Any]) -> str:
@@ -105,6 +139,140 @@ def _try_generate_with_llm(model: str, prompt: str) -> str:
     from tools.llm.llm_client import LLMClient  # type: ignore
 
     return LLMClient.generate_text(model_name=model, prompt=prompt)
+
+
+_RUBRICS_CACHE = None
+
+def _load_rubrics() -> Dict[str, Any]:
+    global _RUBRICS_CACHE
+    if _RUBRICS_CACHE is not None:
+        return _RUBRICS_CACHE
+    
+    try:
+        # parent of server -> multiagent_workflows -> src -> root
+        rubrics_path = Path(__file__).resolve().parents[3] / "config" / "rubrics.yaml"
+        if rubrics_path.exists():
+            with open(rubrics_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+                _RUBRICS_CACHE = data.get("rubrics", {})
+        else:
+            print(f"[RunStore] Warning: Rubrics file not found at {rubrics_path}")
+            _RUBRICS_CACHE = {}
+    except Exception as e:
+        print(f"[RunStore] Failed to load rubrics: {e}")
+        _RUBRICS_CACHE = {}
+    
+    return _RUBRICS_CACHE
+
+def _get_rubric_text(workflow_id: str) -> str:
+    rubrics = _load_rubrics()
+    
+    # Map workflow ID to rubric key
+    key_map = {
+        "fullstack": "fullstack_generation",
+        "bugfix": "bug_fixing",
+        "architecture": "architecture_evolution",
+        "refactoring": "legacy_refactoring"
+    }
+    
+    rubric_key = key_map.get(workflow_id, "fullstack_generation") # Default
+    rubric_data = rubrics.get(rubric_key)
+    
+    if rubric_data:
+        return yaml.dump(rubric_data, sort_keys=False)
+    return ""
+
+
+def _judge_with_llm(model: str, task_desc: str, gold: str, actual: str, workflow_id: str = "fullstack") -> ItemScore:
+    """Use an LLM to judge the correctness of the generated code."""
+    from tools.llm.llm_client import LLMClient
+    
+    rubric_text = _get_rubric_text(workflow_id)
+    
+    prompt = f"""You are an expert Senior Technical Lead and Grader.
+
+Task Description:
+{task_desc}
+
+Reference Solution (For FUNCTIONAL comparison only):
+{gold}
+
+Candidate Solution (Generated):
+{actual}
+
+RUBRIC CONFIGURATION:
+{rubric_text}
+
+INSTRUCTIONS:
+1. Ignore implementation differences between Candidate and Reference. Focus on FUNCTIONAL CORRECTNESS and QUALITY.
+2. Evaluate the Candidate Solution strictly against the provided RUBRIC categories.
+3. For each category in the rubric (e.g., 'Correctness', 'Code Quality', etc.), assign a score from 1-10.
+4. Calculate a weighted total score (0-100) based on the rubric weights.
+
+Respond with a JSON object ONLY in this format:
+{{
+    "breakdown": {{
+        "category_name_1": score_int,
+        "category_name_2": score_int
+        ...
+    }},
+    "total_score": float (0-100),
+    "passed": boolean (Total >= Pass Threshold defined in rubric),
+    "feedback": "Detailed justification for scores..."
+}}
+"""
+
+    try:
+        # Determine strictness/model. Default to a strong model for judging if possible.
+        judge_model = model or "gh:openai/gpt-4o"
+        
+        # Call LLM
+        response = LLMClient.generate_text(model_name=judge_model, prompt=prompt)
+        
+        # Parse JSON
+        code = _extract_code_block(response) # In case it's wrapped in markdown
+        if not code.startswith("{"):
+             # Try to find { ... }
+             m = re.search(r"\{.*\}", response, re.DOTALL)
+             if m:
+                 code = m.group(0)
+             else:
+                 code = response
+
+        data = json.loads(code)
+        
+        breakdown = data.get("breakdown", {})
+        score_val = float(data.get("total_score", 0))
+        passed = bool(data.get("passed", False))
+        reasoning = data.get("feedback") or data.get("reasoning", "No reasoning provided.")
+        
+        # Calculate grade based on 0-100 rubric scale
+        if score_val >= 90: grade = "A"
+        elif score_val >= 80: grade = "B"
+        elif score_val >= 70: grade = "C"
+        elif score_val >= 60: grade = "D"
+        else: grade = "F"
+        
+        return ItemScore(
+            exact_match=False,
+            similarity=score_val / 100.0, 
+            normalized_similarity=score_val,
+            total_score=score_val,
+            grade=grade,
+            passed=passed,
+            feedback=reasoning,
+            breakdown=breakdown
+        )
+        
+    except Exception as e:
+        print(f"[RunStore] LLM Judge failed: {e}")
+        # Fallback to string matching
+        return _score_item(actual, gold)
+        
+    except Exception as e:
+        print(f"[RunStore] LLM Judge failed: {e}")
+        # Fallback to string matching
+        return _score_item(actual, gold)
 
 
 def _score_item(after: str, gold: str, pass_threshold: float = 70.0) -> ItemScore:
@@ -301,16 +469,32 @@ class RunStore:
                 gold = _task_gold(t)
 
                 try:
-                    if model:
-                        prompt = _default_prompt_for_model(benchmark_id, t)
+                    prompt = _default_prompt_for_model(benchmark_id, t)
+                    
+                    if workflow and workflow != "baseline":
+                        # Use multi-agent workflow
+                        wf_name = UI_WORKFLOW_MAP.get(workflow, workflow)
+                        executor = WorkflowExecutor(model_override=model, verbose=True)
+                        
+                        print(f"[RunStore] [{run_id}] Running workflow '{wf_name}' for task {tid}")
+                        
+                        # WorkflowExecutor.run is synchronous, run in thread
+                        wf_result = await asyncio.to_thread(executor.run, wf_name, prompt)
+                        after = wf_result.final_output
+                        # Extract code for scoring
+                        code_to_score = _extract_code_block(after)
+                        status = f"workflow:{wf_name}"
+                    elif model:
                         after = _try_generate_with_llm(model, prompt)
+                        code_to_score = after
                         status = "generated"
                     else:
                         after = gold
+                        code_to_score = gold
                         status = "baseline_gold"
 
                     if evaluation_method == "execution" and execution_scorer:
-                        exec_result = execution_scorer.score_task(t, after)
+                        exec_result = execution_scorer.score_task(t, code_to_score)
                         item_score = {
                             "resolved": exec_result.resolved,
                             "return_code": exec_result.return_code,
@@ -324,8 +508,10 @@ class RunStore:
                         if exec_result.error:
                             run["errors"].append({"task_id": tid, "error": exec_result.error})
                     else:
-                        # Score the output against gold
-                        item_score = _score_item(after, gold, pass_threshold=run["scoring"]["pass_threshold"]).to_dict()
+                        # Use LLM Judge for more semantic evaluation
+                        judge_input_model = model or "gh:openai/gpt-4o" # Default to strong model
+                        item_score = await asyncio.to_thread(_judge_with_llm, judge_input_model, before, gold, code_to_score, workflow)
+                        item_score = item_score.to_dict()
 
                     item = RunItemResult(
                         task_id=tid,

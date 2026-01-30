@@ -1,0 +1,6 @@
+iteration_plan:
+  seeds: [42, 99, 123]
+  model_tiers: ["gpt-4o-mini@2026-01-28","local:thot-1@2026-01-28"]
+  runs_per_variant: 1
+  max_iterations: 3
+  stop_on_threshold: true
