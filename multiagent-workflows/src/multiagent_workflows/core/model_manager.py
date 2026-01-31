@@ -506,7 +506,7 @@ class ModelManager:
         self,
         task_type: str,
         complexity: int = 5,
-        prefer_local: bool = True,
+        prefer_local: bool = False,
     ) -> str:
         """
         Get optimal model for a task based on availability and requirements.
