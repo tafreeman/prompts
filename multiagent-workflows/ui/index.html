@@ -1413,6 +1413,11 @@ function showDetails(id) {
         </div>
     `;
     document.getElementById('detailsModal').classList.add('active');
+    document.getElementById('detailsModal').classList.add('active');
+}
+
+function closeAgentEditModal() {
+    document.getElementById('agentEditModal').classList.remove('active');
 }
 
 function closeModal() {
@@ -1502,12 +1507,21 @@ function _renderRunResults(runs) {
         const items = (r.items || []).map((it, idx) => {
             const badgeColor = it.status === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)';
             const badgeText = it.status === 'error' ? '#ef4444' : '#22c55e';
+            
+            let scoreBadge = '';
+            if (it.evaluation && (it.evaluation.score !== undefined || it.evaluation.correctness !== undefined)) {
+                 const s = it.evaluation.score ?? it.evaluation.correctness;
+                 const sColor = s >= 70 ? 'var(--green)' : (s >= 40 ? '#f59e0b' : '#ef4444');
+                 scoreBadge = `<span style="font-weight:600; font-size:11px; color:${sColor}; margin-right:8px;">${s}%</span>`;
+            }
+
             return `<div style="padding: 10px 0; border-bottom: 1px solid var(--border); display:flex; justify-content: space-between; gap: 12px; align-items: center;">
                 <div style="min-width: 0;">
                     <div style="font-size: 13px; font-weight: 500;">${it.task_id}</div>
                     <div style="font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow:hidden; text-overflow: ellipsis; max-width: 520px;">${(it.before || '').replace(/\s+/g,' ').trim()}</div>
                 </div>
                 <div style="display:flex; gap: 8px; align-items:center;">
+                    ${scoreBadge}
                     <span style="padding: 3px 8px; border-radius: 6px; font-size: 11px; background: ${badgeColor}; color: ${badgeText};">${it.status}</span>
                     <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="showRunItem('${r.run_id}', ${idx})">View</button>
                 </div>
@@ -1533,6 +1547,7 @@ async function showRunItem(runId, itemIndex) {
     document.getElementById('modalBody').innerHTML = `
         <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${it.status}</span></div>
         ${it.error ? `<div class="detail-section"><div class="detail-section-title">Error</div><div class="example-block">${it.error}</div></div>` : ''}
+        ${it.evaluation ? `<div class="detail-section"><div class="detail-section-title">📊 Evaluation ${it.evaluation.score !== undefined ? '(' + it.evaluation.score + '%)' : ''}</div><div class="example-block">${it.evaluation.reasoning || JSON.stringify(it.evaluation, null, 2)}</div></div>` : ''}
         <div class="detail-section"><div class="detail-section-title">Code Before / Input</div><div class="example-block">${it.before || ''}</div></div>
         <div class="detail-section"><div class="detail-section-title">Code After / Model Output</div><div class="example-block">${it.after || ''}</div></div>
         <div class="detail-section"><div class="detail-section-title">Gold Standard</div><div class="example-block">${it.gold || ''}</div></div>
@@ -1974,52 +1989,62 @@ dashObserver.observe(document.body, { attributes: true, subtree: true, attribute
 
 // ============= AGENT ROSTER FUNCTIONS =============
 let agentAvailableModels = [];
-let agentRoster = [
-    { id: 'coordinator', name: 'Coordinator Agent', role: 'Orchestration', icon: '🎯', model_preference: 'coordination', current_model: 'gpt-4o-mini', status: 'ready' },
-    { id: 'analyst', name: 'Analyst Agent', role: 'Bug Analysis', icon: '🔍', model_preference: 'reasoning', current_model: 'deepseek-v3.2:cloud', status: 'ready' },
-    { id: 'developer', name: 'Developer Agent', role: 'Code Generation', icon: '💻', model_preference: 'code_gen', current_model: 'deepseek-v3.2:cloud', status: 'ready' },
-    { id: 'reviewer', name: 'Reviewer Agent', role: 'Code Review', icon: '✅', model_preference: 'code_review', current_model: 'gpt-4o', status: 'ready' },
-    { id: 'tester', name: 'Tester Agent', role: 'Test Generation', icon: '🧪', model_preference: 'code_gen', current_model: 'gpt-4o-mini', status: 'ready' },
-    { id: 'documenter', name: 'Documentation Agent', role: 'Documentation', icon: '📝', model_preference: 'documentation', current_model: 'gpt-4o-mini', status: 'ready' }
-];
+let agentRoster = [];
+let editingAgentId = null;
+
+async function loadAgentsFromBackend() {
+    try {
+        const res = await fetch('/api/agents');
+        if (res.ok) {
+            const data = await res.json();
+            // Sort by workflow
+            agentRoster = data.agents || [];
+            agentRoster.sort((a,b) => (a._source_workflow || '').localeCompare(b._source_workflow || ''));
+        }
+    } catch (e) {
+        console.error("Failed to load agents", e);
+    }
+}
 
 async function probeModels() {
     const btn = document.getElementById('probeBtn');
     const chips = document.getElementById('modelChips');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="loading">⏳</span> Probing...';
-    chips.innerHTML = '<span class="model-chip loading">Discovering models...</span>';
+    if(btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading">⏳</span> Probing...';
+    }
+    if(chips) chips.innerHTML = '<span class="model-chip loading">Discovering models...</span>';
     
     try {
-        const res = await fetch('/api/models/probe', { method: 'POST' });
-        if (res.ok) {
-            const data = await res.json();
-            agentAvailableModels = data.models || [];
-        } else {
-            // Fallback to static list
-            agentAvailableModels = [
-                { id: 'gpt-4o', name: 'GPT-4o', provider: 'github', available: true },
-                { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'github', available: true },
-                { id: 'o3-mini', name: 'o3-mini', provider: 'github', available: true },
-                { id: 'deepseek-v3.2:cloud', name: 'DeepSeek V3.2', provider: 'ollama', available: true },
-                { id: 'deepseek-r1:14b', name: 'DeepSeek R1 14B', provider: 'ollama', available: true },
-                { id: 'qwen2.5-coder:14b', name: 'Qwen 2.5 Coder', provider: 'local', available: false },
-                { id: 'phi4', name: 'Phi-4', provider: 'local', available: false }
-            ];
+        // Trigger probe
+        await fetch('/api/models/refresh', { method: 'POST' });
+        
+        // Poll for results
+        for(let i=0; i<5; i++) {
+             await new Promise(r => setTimeout(r, 1500));
+             const res = await fetch('/api/models');
+             if(res.ok) {
+                 const data = await res.json();
+                 agentAvailableModels = data.models || [];
+                 renderModelChips();
+                 renderAgentGrid(); 
+                 
+                 // Sync with Run section models
+                 availableModels = [
+                    { id: '', label: '(Gold baseline — no model call)', selectable: true },
+                    ...(agentAvailableModels.map(m => ({ id: String(m.id), label: String(m.id || m.name), selectable: true })))
+                 ];
+                 if(typeof updatePipeline === 'function') updatePipeline();
+             }
         }
     } catch (e) {
-        // Use fallback
-        agentAvailableModels = [
-            { id: 'gpt-4o', name: 'GPT-4o', provider: 'github', available: true },
-            { id: 'gpt-4o-mini', name: 'GPT-4o Mini', provider: 'github', available: true },
-            { id: 'deepseek-v3.2:cloud', name: 'DeepSeek V3.2', provider: 'ollama', available: true }
-        ];
+        console.error("Probe failed", e);
+    } finally {
+        if(btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Probe Available Models';
+        }
     }
-    
-    renderModelChips();
-    renderAgentGrid();
-    btn.disabled = false;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Probe Available Models';
 }
 
 function renderModelChips() {
@@ -2036,46 +2061,112 @@ function renderModelChips() {
 
 function renderAgentGrid() {
     const container = document.getElementById('agentGrid');
+    if(!container) return;
+    
     const modelOptions = agentAvailableModels.map(m => 
         `<option value="${m.id}" ${!m.available ? 'disabled' : ''}>${m.name || m.id} ${!m.available ? '(offline)' : ''}</option>`
     ).join('');
     
-    container.innerHTML = agentRoster.map(agent => {
-        const iconClass = agent.role.toLowerCase().includes('coord') ? 'coordinator' :
-                          agent.role.toLowerCase().includes('analy') ? 'analyst' :
-                          agent.role.toLowerCase().includes('code') || agent.role.toLowerCase().includes('gen') ? 'developer' :
-                          agent.role.toLowerCase().includes('review') ? 'reviewer' : 'default';
-        
-        return `
-            <div class="agent-card" data-agent-id="${agent.id}">
-                <div class="agent-card-header">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="agent-icon ${iconClass}">${agent.icon}</div>
-                        <div>
-                            <div class="agent-name">${_escapeHtml(agent.name)}</div>
-                            <div class="agent-role">${_escapeHtml(agent.role)}</div>
+    if (agentRoster.length === 0) {
+        container.innerHTML = '<div class="dash-empty">No agents found. API might be offline.</div>';
+        return;
+    }
+
+    // Group by Workflow
+    const grouped = {};
+    agentRoster.forEach(a => {
+        const wf = a._source_workflow || 'General';
+        if (!grouped[wf]) grouped[wf] = [];
+        grouped[wf].push(a);
+    });
+
+    let html = '';
+    for (const [wf, agents] of Object.entries(grouped)) {
+        html += `<div style="grid-column: 1/-1; font-weight:600; margin-top:16px; border-bottom:1px solid #333; padding-bottom:4px; color:var(--text-muted);">${wf}</div>`;
+        html += agents.map(agent => {
+            const role = agent.role || 'Agent';
+            const icon = role.toLowerCase().includes('bug') ? '🐞' : 
+                         role.toLowerCase().includes('code') ? '💻' : 
+                         role.toLowerCase().includes('data') ? '💾' : '🤖';
+            
+            return `
+                <div class="agent-card" data-agent-id="${agent.id}">
+                    <div class="agent-card-header">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div class="agent-icon default">${icon}</div>
+                            <div>
+                                <div class="agent-name">${_escapeHtml(agent.name)}</div>
+                                <div class="agent-role">${_escapeHtml(role)}</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" style="padding:4px 8px; font-size:11px;" onclick="editAgent('${agent.id}')">Edit</button>
+                    </div>
+                    <div class="agent-config">
+                        <div class="agent-config-row">
+                            <span class="agent-config-label">Model</span>
+                            <span class="agent-config-value">${agent.model}</span>
+                        </div>
+                         <div class="agent-config-row">
+                            <span class="agent-config-label" title="Tools enabled for this agent">Tools</span>
+                            <span class="agent-config-value">${(agent.tools || []).length} tools</span>
                         </div>
                     </div>
-                    <div class="agent-status">
-                        <span class="agent-status-dot ${agent.status}"></span>
-                        ${agent.status}
-                    </div>
                 </div>
-                <div class="agent-config">
-                    <div class="agent-config-row">
-                        <span class="agent-config-label">Model Preference</span>
-                        <span class="agent-config-value">${agent.model_preference}</span>
-                    </div>
-                    <div class="agent-config-row">
-                        <span class="agent-config-label">Current Model</span>
-                        <select class="agent-model-select" onchange="updateAgentModel('${agent.id}', this.value)">
-                            ${modelOptions.replace(`value="${agent.current_model}"`, `value="${agent.current_model}" selected`)}
-                        </select>
-                    </div>
-                </div>
+            `;
+        }).join('');
+    }
+    container.innerHTML = html;
+}
+
+function editAgent(agentId) {
+    const agent = agentRoster.find(a => a.id === agentId);
+    if (!agent) return;
+    editingAgentId = agentId;
+    
+    const body = document.getElementById('agentEditBody');
+    body.innerHTML = `
+        <div class="detail-row">
+            <span class="detail-label">Name</span>
+            <input type="text" id="editAgentName" class="form-input" value="${_escapeHtml(agent.name)}" disabled style="background:var(--bg-card);">
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Model</span>
+             <select id="editAgentModel" class="form-input">
+                <option value="${agent.model}">${agent.model} (Current)</option>
+                ${agentAvailableModels.map(m => `<option value="${m.id}">${m.name} (${m.provider})</option>`).join('')}
+             </select>
+        </div>
+        <div class="detail-section">
+            <div class="detail-section-title">System Prompt</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Instructions defining the agent's behavior and persona.</div>
+            <textarea id="editAgentPrompt" class="form-input" style="height:200px; font-family:monospace;">${agent.system_prompt || ''}</textarea>
+        </div>
+        
+        <div class="detail-section">
+            <div class="detail-section-title">Tools</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Comma-separated list of tools (e.g. read_file, search_web).</div>
+            <input type="text" id="editAgentTools" class="form-input" value="${(agent.tools || []).join(', ')}">
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">MCP Servers</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">Comma-separated list of MCP servers (e.g. github, filesystem).</div>
+            <input type="text" id="editAgentMCP" class="form-input" value="${(agent.mcp_servers || []).join(', ')}">
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; gap:20px; margin-top:10px;">
+            <div style="flex:1">
+                 <label style="font-size:12px;display:block;margin-bottom:4px;">Temperature</label>
+                 <input type="number" id="editAgentTemp" class="form-input" value="${agent.temperature !== undefined ? agent.temperature : 0.7}" step="0.1" min="0" max="2">
             </div>
-        `;
-    }).join('');
+             <div style="flex:1">
+                 <label style="font-size:12px;display:block;margin-bottom:4px;">Max Tokens</label>
+                 <input type="number" id="editAgentTokens" class="form-input" value="${agent.max_tokens || 4096}" step="128">
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('agentEditModal').classList.add('active');
 }
 
 function updateAgentModel(agentId, modelId) {
@@ -2086,40 +2177,47 @@ function updateAgentModel(agentId, modelId) {
     }
 }
 
-async function saveAgentConfig() {
-    const config = agentRoster.map(a => ({ id: a.id, model: a.current_model }));
+async function saveAgentEdit() {
+    if (!editingAgentId) return;
+    
+    // Gather data
+    const payload = {
+        id: editingAgentId,
+        model: document.getElementById('editAgentModel').value,
+        system_prompt: document.getElementById('editAgentPrompt').value,
+        temperature: parseFloat(document.getElementById('editAgentTemp').value),
+        max_tokens: parseInt(document.getElementById('editAgentTokens').value),
+        tools: document.getElementById('editAgentTools').value.split(',').map(s=>s.trim()).filter(s=>s),
+        mcp_servers: document.getElementById('editAgentMCP').value.split(',').map(s=>s.trim()).filter(s=>s)
+    };
+    
     try {
-        const res = await fetch('/api/agents/config', {
+        const res = await fetch('/api/agents/update', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ agents: config })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
         });
+        
         if (res.ok) {
-            alert('✅ Agent configuration saved successfully!');
+            closeAgentEditModal();
+            // Refetch to see changes
+            await loadAgentsFromBackend();
+            renderAgentGrid();
+            alert("Agent updated successfully!");
         } else {
-            alert('⚠️ Server not available. Config stored locally.');
-            localStorage.setItem('agentConfig', JSON.stringify(config));
+            const err = await res.json();
+            alert("Update failed: " + (err.error || "Unknown"));
         }
     } catch (e) {
-        localStorage.setItem('agentConfig', JSON.stringify(config));
-        alert('⚠️ Saved to local storage (server not available)');
+        alert("Error saving: " + e.message);
     }
 }
 
 // Initialize agents section when visible
 function initAgentsSection() {
-    // Load any saved config
-    const saved = localStorage.getItem('agentConfig');
-    if (saved) {
-        try {
-            const config = JSON.parse(saved);
-            config.forEach(c => {
-                const agent = agentRoster.find(a => a.id === c.id);
-                if (agent) agent.current_model = c.model;
-            });
-        } catch (e) {}
-    }
-    probeModels();
+    loadAgentsFromBackend().then(() => {
+        probeModels();
+    });
 }
 
 loadDatasets();
@@ -2129,5 +2227,20 @@ updatePipeline();
 checkApiNow(false).then(() => loadModels());
 setInterval(() => checkApiNow(false), 3000);
 </script>
+</script>
+<div class="modal" id="agentEditModal">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+        <div class="modal-header">
+            <h3>Edit Agent Configuration</h3>
+            <button class="close-btn" onclick="closeAgentEditModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="agentEditBody">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeAgentEditModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveAgentEdit()">Save Changes</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

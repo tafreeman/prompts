@@ -148,6 +148,73 @@ def _monorepo_root_from_here() -> Path:
     return Path(__file__).resolve().parents[4]
 
 
+async def handle_list_agents(request: web.Request) -> web.Response:
+    try:
+        agents_map = {}
+        config_dir = _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        if not config_dir.exists():
+             return _json_response({"error": f"Config dir not found: {config_dir}"}, status=404)
+
+        for p in config_dir.glob("workflow_*.json"):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for a in data.get("agents", []):
+                        # Ensure we capture tool/mcp fields if missing
+                        if "tools" not in a: a["tools"] = []
+                        if "mcp_servers" not in a: a["mcp_servers"] = []
+                        
+                        a["_source_workflow"] = data.get("description", p.name)
+                        a["_source_file"] = p.name
+                        agents_map[a["id"]] = a
+            except Exception as e:
+                print(f"Error reading {p}: {e}")
+
+        return _json_response({"agents": list(agents_map.values())})
+    except Exception as e:
+        return _json_response({"error": str(e)}, status=500)
+
+
+async def handle_update_agent(request: web.Request) -> web.Response:
+    try:
+        payload = await request.json()
+        agent_id = payload.get("id")
+        if not agent_id:
+            return _json_response({"error": "id is required"}, status=400)
+
+        config_dir = _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        updated = False
+        
+        for p in config_dir.glob("workflow_*.json"):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                
+                found = False
+                for a in data.get("agents", []):
+                    if a["id"] == agent_id:
+                        # Update fields
+                        for k in ["system_prompt", "model", "temperature", "max_tokens", "tools", "mcp_servers"]:
+                            if k in payload:
+                                a[k] = payload[k]
+                        found = True
+                        updated = True
+                
+                if found:
+                    with open(p, "w", encoding="utf-8") as f:
+                        json.dump(data, f, indent="\t") # Use tab/4 spaces to match style
+                    return _json_response({"ok": True, "agent_id": agent_id})
+                    
+            except Exception as e:
+                print(f"Error updating {p}: {e}")
+                
+        if not updated:
+            return _json_response({"error": "Agent not found"}, status=404)
+            
+    except Exception as e:
+        return _json_response({"error": str(e)}, status=500)
+
+
 def create_app() -> web.Application:
     app = web.Application()
 
@@ -182,6 +249,8 @@ def create_app() -> web.Application:
     app.router.add_get("/api/models/{model_id}/probe", handle_probe_model)
     app.router.add_post("/api/runs", handle_create_run)
     app.router.add_get("/api/runs/{run_id}", handle_get_run)
+    app.router.add_get("/api/agents", handle_list_agents)
+    app.router.add_post("/api/agents/update", handle_update_agent)
 
     # UI (served from same origin to avoid CORS issues)
     ui_dir = _repo_root_from_here() / "ui"
