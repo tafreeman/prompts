@@ -63,6 +63,7 @@ class RunItemResult:
     after: str
     error: Optional[str] = None
     score: Optional[Dict[str, Any]] = None
+    steps: Optional[List[Dict[str, Any]]] = None  # Agent execution steps
 
 
 def _now_ms() -> int:
@@ -359,6 +360,22 @@ class RunStore:
         from pathlib import Path
         self._results_dir = Path(__file__).resolve().parents[3] / "evaluations" / "results"
         self._results_dir.mkdir(parents=True, exist_ok=True)
+        self._load_existing_runs()
+
+    def _load_existing_runs(self) -> None:
+        """Load persisted runs from the results directory."""
+        try:
+            for run_file in self._results_dir.glob("run_*.json"):
+                try:
+                    with open(run_file, "r", encoding="utf-8") as f:
+                        run_data = json.load(f)
+                        if "run_id" in run_data:
+                            self._runs[run_data["run_id"]] = run_data
+                except Exception as e:
+                    print(f"[RunStore] Failed to load run {run_file}: {e}")
+            print(f"[RunStore] Loaded {len(self._runs)} existing runs.")
+        except Exception as e:
+            print(f"[RunStore] Failed to scan results dir: {e}")
 
     def create_run(
         self,
@@ -481,6 +498,23 @@ class RunStore:
                         # WorkflowExecutor.run is synchronous, run in thread
                         wf_result = await asyncio.to_thread(executor.run, wf_name, prompt)
                         after = wf_result.final_output
+                        
+                        # Extract agent results as steps
+                        steps = []
+                        if wf_result.agent_results:
+                            for agent_id, res in wf_result.agent_results.items():
+                                steps.append({
+                                    "step_id": agent_id,
+                                    "name": res.agent_name,
+                                    "role": getattr(res, "role", "Agent"), # Check if agent result has role, else separate
+                                    "status": res.status.value,
+                                    "model": res.model_used,
+                                    "input": res.input_context,
+                                    "output": res.output,
+                                    "duration": res.duration_seconds,
+                                    "timestamp": res.timestamp
+                                })
+                        
                         # Extract code for scoring
                         code_to_score = _extract_code_block(after)
                         status = f"workflow:{wf_name}"
@@ -520,6 +554,7 @@ class RunStore:
                         gold=gold,
                         after=after,
                         score=item_score,
+                        steps=steps if status.startswith("workflow") else None,
                     )
                     run["items"].append(item.__dict__)
                     if evaluation_method == "execution":

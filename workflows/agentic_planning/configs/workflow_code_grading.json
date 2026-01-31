@@ -4,7 +4,13 @@
 	"metadata": {
 		"complexity": "high",
 		"team_size": 10,
-		"phases": ["Analysis", "Security", "Quality", "Evaluation", "Verdict"],
+		"phases": [
+			"Analysis",
+			"Security",
+			"Quality",
+			"Evaluation",
+			"Verdict"
+		],
 		"grading_scale": "A-F (0-100)"
 	},
 	"agents": [
@@ -23,8 +29,10 @@
 			"tier": "local_efficient",
 			"why": "Fast and efficient for processing large codebases.",
 			"system_prompt": "You are a Static Analysis Engine. Scan the codebase.\n- Check for style guide violations (PEP8, ESLint rules, etc.).\n- Calculate Cyclomatic Complexity for each function.\n- Identify code smells (long functions, deep nesting, duplication).\n- Check for hardcoded values and magic numbers.\n- Output structured JSON report with severity levels.",
-			"temperature": 0.0,
-			"max_tokens": 8192
+			"temperature": 0,
+			"max_tokens": 8192,
+			"tools": [],
+			"mcp_servers": []
 		},
 		{
 			"id": "test_coverage_analyst",
@@ -47,7 +55,10 @@
 			"id": "documentation_reviewer",
 			"name": "Documentation Reviewer",
 			"model": "gh:openai/gpt-4o-mini",
-			"compatible_models": ["local:phi4", "gh:meta/llama-3.1-8b-instruct"],
+			"compatible_models": [
+				"local:phi4",
+				"gh:meta/llama-3.1-8b-instruct"
+			],
 			"role": "Assess code comments and documentation",
 			"output_format": "Documentation Quality Report",
 			"phase": "analysis",
@@ -79,7 +90,10 @@
 			"id": "dependency_auditor",
 			"name": "Dependency Auditor",
 			"model": "gh:openai/gpt-4o-mini",
-			"compatible_models": ["local:mistral", "gh:meta/llama-3.1-8b-instruct"],
+			"compatible_models": [
+				"local:mistral",
+				"gh:meta/llama-3.1-8b-instruct"
+			],
 			"role": "Audit dependencies for vulnerabilities and licensing",
 			"output_format": "Dependency Audit Report",
 			"phase": "security",
@@ -103,7 +117,7 @@
 			"phase": "quality",
 			"tier": "cloud_coding",
 			"why": "Deep code understanding needed to analyze algorithms.",
-			"system_prompt": "You are a Performance Engineer. Analyze code efficiency.\n- Identify O(n²) or worse algorithms.\n- Check for N+1 query patterns in database access.\n- Analyze memory usage patterns and potential leaks.\n- Evaluate caching strategy effectiveness.\n- Identify unnecessary computations or redundant operations.\n- Suggest specific optimizations with code examples.\n- Score performance quality (0-100).",
+			"system_prompt": "You are a Performance Engineer. Analyze code efficiency.\n- Identify O(n\u00b2) or worse algorithms.\n- Check for N+1 query patterns in database access.\n- Analyze memory usage patterns and potential leaks.\n- Evaluate caching strategy effectiveness.\n- Identify unnecessary computations or redundant operations.\n- Suggest specific optimizations with code examples.\n- Score performance quality (0-100).",
 			"temperature": 0.1,
 			"max_tokens": 8192
 		},
@@ -128,7 +142,10 @@
 			"id": "maintainability_scorer",
 			"name": "Maintainability Scorer",
 			"model": "gh:openai/gpt-4o-mini",
-			"compatible_models": ["gh:openai/o1", "gh:openai/gpt-5"],
+			"compatible_models": [
+				"gh:openai/o1",
+				"gh:openai/gpt-5"
+			],
 			"role": "Assess long-term maintainability",
 			"output_format": "Maintainability Assessment",
 			"phase": "evaluation",

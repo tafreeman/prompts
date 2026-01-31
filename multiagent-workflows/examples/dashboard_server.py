@@ -75,6 +75,47 @@ def list_workflows():
     })
 
 
+@app.route('/api/health')
+def handle_health():
+    """Simple health check used by the UI to mark API online/offline."""
+    return jsonify({"ok": True, "time": datetime.now().isoformat()})
+
+
+@app.route('/api/models')
+def handle_models():
+    """Return a minimal model inventory so the UI has something to show.
+
+    The real project uses a richer model probe; this endpoint provides a
+    baseline for the static UI and example server.
+    """
+    models = [
+        {"id": "", "label": "(Gold baseline — no model call)", "selectable": True}
+    ]
+    return jsonify({"models": models})
+
+
+@app.route('/api/tasks')
+def handle_tasks():
+    """Return lightweight task lists for requested benchmark_id.
+
+    The real server loads full datasets; for the dashboard example we return
+    a small fallback set so the UI can render items.
+    """
+    benchmark = request.args.get('benchmark_id', 'custom')
+    limit = int(request.args.get('limit', '50'))
+
+    fallback = []
+    for i in range(min(limit, 20)):
+        fallback.append({
+            "id": f"{benchmark}_task_{i+1}",
+            "name": f"{benchmark} task {i+1}",
+            "source": benchmark,
+            "difficulty": ["Easy", "Medium", "Hard"][i % 3]
+        })
+
+    return jsonify({"tasks": fallback, "benchmark_id": benchmark})
+
+
 @app.route('/api/runs')
 def list_runs():
     """List all workflow runs."""
@@ -294,4 +335,6 @@ if __name__ == '__main__':
     print("   Open http://localhost:5050 in your browser")
     print("   Press Ctrl+C to stop")
     print()
-    app.run(host='0.0.0.0', port=5050, debug=False)
+    # Allow overriding the port via environment for parallel instances/tests
+    port = int(os.environ.get("DASHBOARD_PORT", "5050"))
+    app.run(host='0.0.0.0', port=port, debug=False)
