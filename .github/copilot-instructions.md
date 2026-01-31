@@ -1,25 +1,6 @@
-
 # GitHub Copilot instructions for `prompts`
 
-This repo is a **prompt-library + Python tooling** project. Treat it as a docs/content repo.
-
-- Do **not** add app/service scaffolding unless explicitly requested.
-- For change checklists and guardrails, also follow: `.github/instructions/prompts-repo.instructions.md`.
-
-## Key areas
-
-- `prompts/` — prompt files (Markdown + YAML frontmatter)
-- `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
-- `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
-- `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
-- `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
-- `testing/` — pytest suite + evaluation fixtures
-- `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
-
-```instructions
-# GitHub Copilot instructions for `prompts`
-
-This repo is a **prompt-library + Python tooling** project. Treat it as a docs/content repo.
+This repo is a **prompt library + agentic workflow toolkit + Python tooling** project. Treat it as a docs/content repo with workflow configs and evaluation tooling.
 
 - Do **not** add app/service scaffolding unless explicitly requested.
 - For change checklists and guardrails, follow: `.github/instructions/prompts-repo.instructions.md`.
@@ -28,8 +9,32 @@ This repo is a **prompt-library + Python tooling** project. Treat it as a docs/c
 
 - `prompts/` — prompt files (Markdown + YAML frontmatter)
 - `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
+- `prompts/agents/` — Copilot custom agents and agent templates
 - `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
 - `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
+- `workflows/` — agentic planning + LangChain-style orchestrators
+- `multiagent-workflows/` — full multi-agent workflow engine (configs, agents, evaluation)
+- `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
+- `testing/` — pytest suite + evaluation fixtures
+- `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
+
+```instructions
+# GitHub Copilot instructions for `prompts`
+
+This repo is a **prompt library + agentic workflow toolkit + Python tooling** project. Treat it as a docs/content repo with workflow configs and evaluation tooling.
+
+- Do **not** add app/service scaffolding unless explicitly requested.
+- For change checklists and guardrails, follow: `.github/instructions/prompts-repo.instructions.md`.
+
+## Key areas
+
+- `prompts/` — prompt files (Markdown + YAML frontmatter)
+- `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
+- `prompts/agents/` — Copilot custom agents and agent templates
+- `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
+- `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
+- `workflows/` — agentic planning + LangChain-style orchestrators
+- `multiagent-workflows/` — full multi-agent workflow engine (configs, agents, evaluation)
 - `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
 - `testing/` — pytest suite + evaluation fixtures
 - `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
@@ -60,6 +65,14 @@ This repo is a **prompt-library + Python tooling** project. Treat it as a docs/c
 
 - Prompt files: Markdown with YAML frontmatter; filenames **lowercase-hyphenated** under the correct `prompts/<category>/`.
 - Use `[BRACKETED_VALUES]` for placeholders and document each under a “Variables” section.
+- Keep prompt metadata aligned with `docs/reference/frontmatter-schema.md`.
+- Prefer concrete examples and explicit input/output formats.
+
+## Agentic workflow conventions
+
+- Workflow configs live in `workflows/` and `multiagent-workflows/config/`.
+- Preserve workflow IDs, step IDs, and input/output names unless you update all call sites and docs.
+- Keep agent roles, model preferences, and tool assignments consistent with existing naming patterns.
 
 ## Python tools
 
@@ -70,4 +83,4 @@ This repo is a **prompt-library + Python tooling** project. Treat it as a docs/c
 
 - On Windows, activate the virtual environment with `.venv\\Scripts\\Activate.ps1` before running Python scripts.
 
-``` 
+```
