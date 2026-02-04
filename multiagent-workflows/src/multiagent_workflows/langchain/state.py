@@ -1,13 +1,15 @@
-"""LangGraph State Management.
+"""
+LangGraph State Management
 
-Defines state schemas for different workflow types. Provides typed state
-classes for LangGraph StateGraph usage.
+Defines state schemas for different workflow types.
+Provides typed state classes for LangGraph StateGraph usage.
 """
 
 from __future__ import annotations
 
 import operator
-from typing import Any, Dict, List, Optional, TypedDict
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, TypedDict, Sequence
 
 try:
     from typing import Annotated
@@ -19,22 +21,20 @@ except ImportError:
 # Base State Types
 # =============================================================================
 
-
 class BaseWorkflowState(TypedDict, total=False):
     """Base state shared across all workflows."""
-
     # Workflow metadata
     workflow_id: str
     workflow_name: str
     current_step: str
-
+    
     # Execution tracking
     messages: Annotated[List[Dict[str, Any]], operator.add]
     errors: Annotated[List[str], operator.add]
-
+    
     # Artifacts storage
     artifacts: Dict[str, Any]
-
+    
     # Evaluation data
     scores: Dict[str, float]
     evaluation_notes: Annotated[List[str], operator.add]
@@ -44,15 +44,13 @@ class BaseWorkflowState(TypedDict, total=False):
 # Full-Stack Generation State
 # =============================================================================
 
-
 class FullStackState(BaseWorkflowState):
     """State for full-stack application generation workflow."""
-
     # Inputs
     requirements: str
     mockup_path: Optional[str]
     tech_preferences: Optional[Dict[str, Any]]
-
+    
     # Step outputs
     user_stories: Annotated[List[str], operator.add]
     data_entities: List[Dict[str, Any]]
@@ -74,14 +72,12 @@ class FullStackState(BaseWorkflowState):
 # Legacy Refactoring State
 # =============================================================================
 
-
 class RefactoringState(BaseWorkflowState):
     """State for legacy code refactoring workflow."""
-
     # Inputs
     codebase_path: str
     target_framework: Optional[str]
-
+    
     # Step outputs
     structure_analysis: Dict[str, Any]
     component_inventory: List[Dict[str, Any]]
@@ -107,14 +103,12 @@ class RefactoringState(BaseWorkflowState):
 # Bug Fixing State
 # =============================================================================
 
-
 class BugFixingState(BaseWorkflowState):
     """State for bug triage and fixing workflow."""
-
     # Inputs
     bug_report: str
     codebase_path: str
-
+    
     # Step outputs
     structured_bug: Dict[str, Any]
     affected_areas: List[str]
@@ -141,14 +135,12 @@ class BugFixingState(BaseWorkflowState):
 # Architecture Evolution State
 # =============================================================================
 
-
 class ArchitectureEvolutionState(BaseWorkflowState):
     """State for architecture evolution workflow."""
-
     # Inputs
     codebase_path: str
     business_context: Optional[str]
-
+    
     # Step outputs
     component_inventory: List[Dict[str, Any]]
     current_architecture: Dict[str, Any]
@@ -176,15 +168,13 @@ class ArchitectureEvolutionState(BaseWorkflowState):
 # Code Grading State
 # =============================================================================
 
-
 class CodeGradingState(BaseWorkflowState):
     """State for code quality grading workflow."""
-
     # Inputs
     code_submission: str
     language: Optional[str]
     context: Optional[str]
-
+    
     # Step outputs
     lint_results: Dict[str, Any]
     complexity_metrics: Dict[str, Any]
@@ -241,18 +231,19 @@ def create_initial_state(
     inputs: Dict[str, Any],
     workflow_id: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """Create initial state for a workflow.
-
+    """
+    Create initial state for a workflow.
+    
     Args:
         workflow_name: Name of the workflow
         inputs: Initial inputs
         workflow_id: Optional workflow ID
-
+        
     Returns:
         Initial state dict
     """
     import uuid
-
+    
     state = {
         "workflow_id": workflow_id or str(uuid.uuid4()),
         "workflow_name": workflow_name,
@@ -263,8 +254,8 @@ def create_initial_state(
         "scores": {},
         "evaluation_notes": [],
     }
-
+    
     # Merge inputs
     state.update(inputs)
-
+    
     return state

@@ -85,19 +85,7 @@ Production AI requires governance, risk management, and compliance controls:
 
 📋 **[Explore Governance & Compliance →](prompts/governance/)**
 
-### Agentic Workflows V2 (State-of-the-Art) 🚀
-
-**The new standard for high-performance AI orchestration.**
-
-- **DAG Engine**: Parallel execution of complex dependency graphs
-- **Smart Router**: Intelligent model selection (Tier 0-3) based on task complexity
-- **CLI-First**: Powerful `agentic` command line interface
-- **Strict Typing**: Built on Pydantic v2 for robustness
-
-📦 **[Explore Agentic V2 →](agentic-workflows-v2/)**
-💻 **CLI**: `python -m agentic_v2.cli.main`
-
-### Multi-Agent Workflow System
+### Multi-Agent Workflow System 🆕
 
 A complete multi-agent development system for orchestrated AI workflows:
 

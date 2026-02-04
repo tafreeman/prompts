@@ -9,8 +9,8 @@ Note: The repo-level pytest config (`pytest.ini`) only collects tests under
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
+import sys
 
 
 def _ensure_agentic_v2_on_path() -> None:

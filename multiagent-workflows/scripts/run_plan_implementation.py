@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""Agentic-Workflows-V2 Implementation Runner.
+"""
+Agentic-Workflows-V2 Implementation Runner
 
 Orchestrates the implementation of agentic-workflows-v2 using:
 - Requirements Analyst: Processes architecture docs into engineering specs
@@ -14,10 +15,8 @@ Uses SmartModelRouter for rate limit handling and provider fallback.
 
 from __future__ import annotations
 
-import argparse
 import asyncio
 import json
-import logging
 import os
 import sys
 import time
@@ -25,30 +24,28 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
+import logging
+import argparse
 
 # Add parent paths for imports
 _script_path = Path(__file__).resolve()
 sys.path.insert(0, str(_script_path.parents[2]))  # d:\source\prompts
-sys.path.insert(
-    0, str(_script_path.parents[1] / "src")
-)  # d:\source\prompts\multiagent-workflows\src
+sys.path.insert(0, str(_script_path.parents[1] / "src"))  # d:\source\prompts\multiagent-workflows\src
 
 from dotenv import load_dotenv  # noqa: E402
-
 load_dotenv(_script_path.parents[2] / ".env")  # Load from repo root
 
 # Enable remote providers
 os.environ.setdefault("PROMPTEVAL_ALLOW_REMOTE", "1")
 
 from tools.llm.llm_client import LLMClient  # noqa: E402
-
 from multiagent_workflows.core.smart_model_router import SmartModelRouter  # noqa: E402
 from multiagent_workflows.mcp import setup_default_mcp_servers  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    datefmt="%H:%M:%S",
+    datefmt="%H:%M:%S"
 )
 logger = logging.getLogger("implementation_runner")
 
@@ -57,11 +54,9 @@ logger = logging.getLogger("implementation_runner")
 # DATA STRUCTURES
 # =============================================================================
 
-
 @dataclass
 class Task:
     """A discrete implementation task."""
-
     id: str
     title: str
     description: str
@@ -78,7 +73,6 @@ class Task:
 @dataclass
 class IterationState:
     """State for one iteration of the implementation loop."""
-
     iteration: int
     tasks: List[Task]
     completed_tasks: List[str] = field(default_factory=list)
@@ -412,10 +406,11 @@ EVALUATE NOW:"""
 # IMPLEMENTATION RUNNER
 # =============================================================================
 
-
 class ImplementationRunner:
-    """Runs the agentic-workflows-v2 implementation workflow."""
-
+    """
+    Runs the agentic-workflows-v2 implementation workflow.
+    """
+    
     def __init__(
         self,
         plan_path: str,
@@ -445,9 +440,7 @@ class ImplementationRunner:
 
         # Prompt/document sizing: Ollama set to 256k context, use full docs.
         self.max_doc_chars = max_doc_chars if max_doc_chars is not None else 200_000
-        self.max_prompt_chars = (
-            max_prompt_chars if max_prompt_chars is not None else 200_000
-        )
+        self.max_prompt_chars = max_prompt_chars if max_prompt_chars is not None else 200_000
 
         # Cloud models: large-context cloud-hosted Ollama models.
         self.cloud_models: List[str] = cloud_models or [
@@ -463,17 +456,18 @@ class ImplementationRunner:
 
         # Token budget: 256k context means ~60k tokens safe.
         self.cloud_prompt_token_budget = 60_000
-
+        
         # Initialize router (no rate limiting).
         self.router = SmartModelRouter(
-            prefer_local=not use_cloud, rate_limit_strategy="none"
+            prefer_local=not use_cloud,
+            rate_limit_strategy="none"
         )
-
+        
         # State
         self.requirements: Optional[Dict] = None
         self.tasks: List[Task] = []
         self.iteration_history: List[IterationState] = []
-
+        
         logger.info(f"Initialized runner for {self.plan_path}")
         logger.info(f"Target directory: {self.target_dir}")
         logger.info(f"Dry run: {self.dry_run}")
@@ -482,108 +476,104 @@ class ImplementationRunner:
 
     def _extract_and_write_files(self, response: str, task_id: str) -> List[str]:
         """Extract code blocks from LLM response and write them to files.
-
+        
         Supports multiple formats and languages:
         - # File: path/to/file.ext followed by code
         - ```language filename="path/to/file.ext"
         - Explicit file markers in the response
-
+        
         Handles: .py, .cs, .java, .yaml, .yml, .json, .md, .toml, .txt, .html, .css, .js, .ts, .tsx, .jsx, etc.
-
+        
         Returns:
             List of file paths that were written.
         """
         import re
-
+        
         written_files: List[str] = []
-
+        
         if self.dry_run:
             logger.info(f"[DRY RUN] Would extract and write files for {task_id}")
             return written_files
-
+        
         # Common file extensions we support
-        file_ext_pattern = r"\.(py|cs|java|yaml|yml|json|md|toml|txt|html|css|js|ts|tsx|jsx|xml|ini|cfg|sh|bat|ps1|sql)"
-
+        file_ext_pattern = r'\.(py|cs|java|yaml|yml|json|md|toml|txt|html|css|js|ts|tsx|jsx|xml|ini|cfg|sh|bat|ps1|sql)'
+        
         # Pattern 1: # File: path/to/file.ext followed by code block (any language)
         file_pattern = re.compile(
-            r"#\s*(?:File|file|FILE):\s*([^\n]+" + file_ext_pattern + r")\s*\n"
-            r"(?:```(?:\w*)?\s*)?\n?"
-            r"(.*?)"
-            r"(?:```|\Z|(?=\n#\s*(?:File|file|FILE):))",
-            re.DOTALL,
+            r'#\s*(?:File|file|FILE):\s*([^\n]+' + file_ext_pattern + r')\s*\n'
+            r'(?:```(?:\w*)?\s*)?\n?'
+            r'(.*?)'
+            r'(?:```|\Z|(?=\n#\s*(?:File|file|FILE):))',
+            re.DOTALL
         )
-
+        
         # Pattern 2: ```language with filename attribute (any language)
         attr_pattern = re.compile(
-            r'```(\w*)\s+(?:filename|file|path)=["\']?([^"\'`\n]+'
-            + file_ext_pattern
-            + r')["\']?\s*\n'
-            r"(.*?)"
-            r"```",
-            re.DOTALL,
+            r'```(\w*)\s+(?:filename|file|path)=["\']?([^"\'`\n]+' + file_ext_pattern + r')["\']?\s*\n'
+            r'(.*?)'
+            r'```',
+            re.DOTALL
         )
-
+        
         # Pattern 3: Standard code blocks with preceding path comment (any extension)
         block_pattern = re.compile(
-            r"(?:^|\n)([a-zA-Z0-9_/\\.-]+" + file_ext_pattern + r")\s*[:\-]?\s*\n"
-            r"```(?:\w*)?\s*\n"
-            r"(.*?)"
-            r"```",
-            re.DOTALL,
+            r'(?:^|\n)([a-zA-Z0-9_/\\.-]+' + file_ext_pattern + r')\s*[:\-]?\s*\n'
+            r'```(?:\w*)?\s*\n'
+            r'(.*?)'
+            r'```',
+            re.DOTALL
         )
-
+        
         # Pattern 4: YAML/JSON/TOML/Markup blocks with file header
         config_pattern = re.compile(
-            r"(?:^|\n)(?:#|//|<!--)?\s*(?:File|file|FILE):\s*([^\n]+"
-            + file_ext_pattern
-            + r")\s*(?:-->)?\s*\n"
-            r"```(?:yaml|yml|json|toml|xml|html|css|javascript|typescript|markdown|md)?\s*\n"
-            r"(.*?)"
-            r"```",
-            re.DOTALL,
+            r'(?:^|\n)(?:#|//|<!--)?\s*(?:File|file|FILE):\s*([^\n]+' + file_ext_pattern + r')\s*(?:-->)?\s*\n'
+            r'```(?:yaml|yml|json|toml|xml|html|css|javascript|typescript|markdown|md)?\s*\n'
+            r'(.*?)'
+            r'```',
+            re.DOTALL
         )
-
+        
         # Collect all matches
         matches: List[tuple[str, str]] = []
         seen_paths: set[str] = set()  # Avoid duplicates
-
+        
         for match in file_pattern.finditer(response):
             path, content = match.groups()
             path = path.strip()
             if content.strip() and path not in seen_paths:
                 matches.append((path, content))
                 seen_paths.add(path)
-
+        
         for match in attr_pattern.finditer(response):
             lang, path, ext, content = match.groups()
             path = path.strip()
             if content.strip() and path not in seen_paths:
                 matches.append((path, content))
                 seen_paths.add(path)
-
+        
         for match in block_pattern.finditer(response):
             path, ext, content = match.groups()
             path = path.strip()
             if content.strip() and path not in seen_paths:
-                if "/" in path or "\\" in path:  # Must look like a path
+                if '/' in path or '\\' in path:  # Must look like a path
                     matches.append((path, content))
                     seen_paths.add(path)
-
+        
         for match in config_pattern.finditer(response):
             path, ext, content = match.groups()
             path = path.strip()
             if content.strip() and path not in seen_paths:
                 matches.append((path, content))
                 seen_paths.add(path)
-
+        
         # If no structured matches, try to extract code blocks and infer type
         if not matches:
             # Try Python blocks first
-            code_blocks = re.findall(r"```python\s*\n(.*?)\n```", response, re.DOTALL)
+            code_blocks = re.findall(r'```python\s*\n(.*?)\n```', response, re.DOTALL)
             for i, code in enumerate(code_blocks):
                 if code.strip():
-                    class_match = re.search(r"class\s+(\w+)", code)
-                    func_match = re.search(r"def\s+(\w+)", code)
+                    class_match = re.search(r'class\s+(\w+)', code)
+                    func_match = re.search(r'def\s+(\w+)', code)
                     if class_match:
                         name = class_match.group(1).lower()
                     elif func_match:
@@ -591,93 +581,72 @@ class ImplementationRunner:
                     else:
                         name = f"{task_id.lower().replace('-', '_')}_{i}"
                     matches.append((f"src/agentic_v2/{name}.py", code))
-
+            
             # Try YAML blocks
-            yaml_blocks = re.findall(
-                r"```(?:yaml|yml)\s*\n(.*?)\n```", response, re.DOTALL
-            )
+            yaml_blocks = re.findall(r'```(?:yaml|yml)\s*\n(.*?)\n```', response, re.DOTALL)
             for i, content in enumerate(yaml_blocks):
                 if content.strip():
-                    matches.append(
-                        (
-                            f"config/{task_id.lower().replace('-', '_')}_{i}.yaml",
-                            content,
-                        )
-                    )
-
+                    matches.append((f"config/{task_id.lower().replace('-', '_')}_{i}.yaml", content))
+            
             # Try JSON blocks
-            json_blocks = re.findall(r"```json\s*\n(.*?)\n```", response, re.DOTALL)
+            json_blocks = re.findall(r'```json\s*\n(.*?)\n```', response, re.DOTALL)
             for i, content in enumerate(json_blocks):
                 if content.strip():
-                    matches.append(
-                        (
-                            f"config/{task_id.lower().replace('-', '_')}_{i}.json",
-                            content,
-                        )
-                    )
+                    matches.append((f"config/{task_id.lower().replace('-', '_')}_{i}.json", content))
 
             # Try C# blocks
-            csharp_blocks = re.findall(
-                r"```(?:csharp|cs)\s*\n(.*?)\n```", response, re.DOTALL
-            )
+            csharp_blocks = re.findall(r'```(?:csharp|cs)\s*\n(.*?)\n```', response, re.DOTALL)
             for i, code in enumerate(csharp_blocks):
                 if code.strip():
-                    matches.append(
-                        (f"dotnet/{task_id.lower().replace('-', '_')}_{i}.cs", code)
-                    )
+                    matches.append((f"dotnet/{task_id.lower().replace('-', '_')}_{i}.cs", code))
 
             # Try Java blocks
-            java_blocks = re.findall(r"```java\s*\n(.*?)\n```", response, re.DOTALL)
+            java_blocks = re.findall(r'```java\s*\n(.*?)\n```', response, re.DOTALL)
             for i, code in enumerate(java_blocks):
                 if code.strip():
-                    matches.append(
-                        (f"java/{task_id.lower().replace('-', '_')}_{i}.java", code)
-                    )
-
+                    matches.append((f"java/{task_id.lower().replace('-', '_')}_{i}.java", code))
+        
         # Write files
         for rel_path, content in matches:
             # Normalize path
-            rel_path = rel_path.replace("\\", "/").lstrip("./")
-
+            rel_path = rel_path.replace('\\', '/').lstrip('./')
+            
             # Determine default location based on file type
             ext = Path(rel_path).suffix.lower()
-            if not any(
-                rel_path.startswith(prefix)
-                for prefix in ["src/", "config/", "tests/", "docs/", "ui/", "schemas/"]
-            ):
-                if ext == ".py":
+            if not any(rel_path.startswith(prefix) for prefix in ['src/', 'config/', 'tests/', 'docs/', 'ui/', 'schemas/']):
+                if ext == '.py':
                     rel_path = f"src/agentic_v2/{rel_path}"
-                elif ext == ".cs":
+                elif ext == '.cs':
                     rel_path = f"dotnet/{rel_path}"
-                elif ext == ".java":
+                elif ext == '.java':
                     rel_path = f"java/{rel_path}"
-                elif ext in (".yaml", ".yml", ".json", ".toml"):
+                elif ext in ('.yaml', '.yml', '.json', '.toml'):
                     rel_path = f"config/{rel_path}"
-                elif ext in (".md", ".txt", ".rst"):
+                elif ext in ('.md', '.txt', '.rst'):
                     rel_path = f"docs/{rel_path}"
-                elif ext in (".html", ".css", ".js", ".ts", ".tsx", ".jsx"):
+                elif ext in ('.html', '.css', '.js', '.ts', '.tsx', '.jsx'):
                     rel_path = f"ui/src/{rel_path}"
-                elif ext == ".schema.json":
+                elif ext == '.schema.json':
                     rel_path = f"schemas/{rel_path}"
                 # else: keep path as-is
-
+            
             file_path = self.target_dir / rel_path
-
+            
             try:
                 # Create directories
                 file_path.parent.mkdir(parents=True, exist_ok=True)
-
+                
                 # Clean content (remove leading/trailing whitespace, ensure newline at end)
-                clean_content = content.strip() + "\n"
-
+                clean_content = content.strip() + '\n'
+                
                 # Write file
-                file_path.write_text(clean_content, encoding="utf-8")
+                file_path.write_text(clean_content, encoding='utf-8')
                 written_files.append(str(rel_path))
                 logger.info(f"  ✓ Wrote: {rel_path}")
-
+                
             except Exception as e:
                 logger.error(f"  ✗ Failed to write {rel_path}: {e}")
-
+        
         return written_files
 
     async def _setup_mcp(self) -> None:
@@ -700,15 +669,11 @@ class ImplementationRunner:
             memory_path=memory_path,
         )
 
-    async def _memory_upsert(
-        self, key: str, value: object, tags: Optional[List[str]] = None
-    ) -> None:
+    async def _memory_upsert(self, key: str, value: object, tags: Optional[List[str]] = None) -> None:
         if not self.enable_mcp or not self._mcp_registry:
             return
         try:
-            await self._mcp_registry.invoke_tool(
-                "memory", "upsert", {"key": key, "value": value, "tags": tags or []}
-            )
+            await self._mcp_registry.invoke_tool("memory", "upsert", {"key": key, "value": value, "tags": tags or []})
         except Exception as e:
             logger.debug(f"Memory upsert failed for {key}: {e}")
 
@@ -728,9 +693,7 @@ class ImplementationRunner:
         if not self.enable_mcp or not self._mcp_registry:
             return ""
         try:
-            resp = await self._mcp_registry.invoke_tool(
-                "memory", "list", {"prefix": prefix, "limit": limit}
-            )
+            resp = await self._mcp_registry.invoke_tool("memory", "list", {"prefix": prefix, "limit": limit})
             if not resp.success:
                 return ""
             keys = resp.result.get("keys", [])
@@ -739,35 +702,28 @@ class ImplementationRunner:
             return "MCP Memory Keys:\n" + "\n".join(f"- {k}" for k in keys)
         except Exception:
             return ""
-
+    
     def _read_documents(self) -> str:
         """Read all input documents."""
         docs = []
-
+        
         # Read plan
         if self.plan_path.exists():
-            docs.append(
-                f"=== IMPLEMENTATION PLAN ===\n{self.plan_path.read_text(encoding='utf-8')}"
-            )
-
+            docs.append(f"=== IMPLEMENTATION PLAN ===\n{self.plan_path.read_text(encoding='utf-8')}")
+        
         # Read architecture docs
         for doc_path in self.architecture_docs:
             if doc_path.exists():
-                docs.append(
-                    f"=== {doc_path.name} ===\n{doc_path.read_text(encoding='utf-8')}"
-                )
-
+                docs.append(f"=== {doc_path.name} ===\n{doc_path.read_text(encoding='utf-8')}")
+        
         return "\n\n".join(docs)
 
     def _read_document_parts(self) -> List[tuple[str, str]]:
-        """Read input documents as (title, text) pairs for per-doc
-        summarization."""
+        """Read input documents as (title, text) pairs for per-doc summarization."""
         parts: List[tuple[str, str]] = []
 
         if self.plan_path.exists():
-            parts.append(
-                ("IMPLEMENTATION PLAN", self.plan_path.read_text(encoding="utf-8"))
-            )
+            parts.append(("IMPLEMENTATION PLAN", self.plan_path.read_text(encoding="utf-8")))
 
         for doc_path in self.architecture_docs:
             if doc_path.exists():
@@ -784,7 +740,7 @@ class ImplementationRunner:
         if not text:
             return 0
         return max(1, len(text) // 4)
-
+    
     async def _call_agent(
         self,
         prompt: str,
@@ -793,10 +749,10 @@ class ImplementationRunner:
     ) -> str:
         """Call an agent with the smart router."""
         logger.info(f"Calling {agent_name} (tier {tier})...")
-
+        
         if self.dry_run:
             return f"[DRY RUN] {agent_name} would process with tier {tier} model"
-
+        
         try:
             # If use_cloud is set and tier >= 2, use GitHub Models (CLI-based)
             if self.use_cloud and tier >= 2:
@@ -814,25 +770,15 @@ class ImplementationRunner:
                     # Keep the tail trimmed as well; models usually need the instructions + a slice of context.
                     target_chars = self.cloud_prompt_token_budget * 4
                     if len(prompt) > target_chars:
-                        prompt = (
-                            prompt[:target_chars]
-                            + "\n\n[... truncated to fit token budget ...]"
-                        )
+                        prompt = prompt[:target_chars] + "\n\n[... truncated to fit token budget ...]"
 
                 if self.max_prompt_chars and len(prompt) > self.max_prompt_chars:
                     logger.warning(
                         f"Prompt too long ({len(prompt)} chars), truncating to {self.max_prompt_chars} chars"
                     )
-                    prompt = (
-                        prompt[: self.max_prompt_chars]
-                        + "\n\n[... truncated for length ...]"
-                    )
+                    prompt = prompt[: self.max_prompt_chars] + "\n\n[... truncated for length ...]"
                 # Lower temperature for agents that must emit strict structured output
-                temperature = (
-                    0.2
-                    if agent_name in {"Requirements Analyst", "Orchestrator", "Judge"}
-                    else 0.7
-                )
+                temperature = 0.2 if agent_name in {"Requirements Analyst", "Orchestrator", "Judge"} else 0.7
 
                 # GitHub Models endpoint often enforces small total token budgets; keep max_tokens modest.
                 if agent_name in {"Requirements Analyst", "Orchestrator", "Judge"}:
@@ -843,27 +789,16 @@ class ImplementationRunner:
                 for model in self.cloud_models:
                     try:
                         logger.info(f"Using model: {model}")
-                        result = LLMClient.generate_text(
-                            model,
-                            prompt,
-                            max_tokens=max_tokens,
-                            temperature=temperature,
-                        )
-                        if (
-                            result
-                            and not result.startswith("Error")
-                            and not result.startswith("gh models error")
-                        ):
+                        result = LLMClient.generate_text(model, prompt, max_tokens=max_tokens, temperature=temperature)
+                        if result and not result.startswith("Error") and not result.startswith("gh models error"):
                             logger.info(f"{agent_name} completed using {model}")
                             return result
-                        logger.warning(
-                            f"Model {model} returned error: {result[:200] if result else 'empty'}"
-                        )
+                        logger.warning(f"Model {model} returned error: {result[:200] if result else 'empty'}")
                     except Exception as e:
                         logger.warning(f"Model {model} failed: {e}, trying next...")
                         continue
                 raise RuntimeError("All models failed")
-
+            
             # Otherwise use the smart router
             result, model_used = await self.router.call_with_fallback(
                 tier=tier,
@@ -893,7 +828,7 @@ class ImplementationRunner:
             return f"[DRY RUN] Summary for {title} (original {len(text)} chars)"
 
         def chunks(s: str, size: int) -> List[str]:
-            return [s[i : i + size] for i in range(0, len(s), size)]
+            return [s[i:i + size] for i in range(0, len(s), size)]
 
         summarizer_prompt_tpl = (
             "You are summarizing an architecture/planning document for engineering implementation.\n\n"
@@ -911,21 +846,13 @@ class ImplementationRunner:
         chunk_summaries: List[str] = []
         parts = chunks(text, chunk_chars)
         for i, part in enumerate(parts, start=1):
-            prompt = summarizer_prompt_tpl.format(
-                title=title, idx=i, total=len(parts), text=part
-            )
+            prompt = summarizer_prompt_tpl.format(title=title, idx=i, total=len(parts), text=part)
             if self.use_cloud:
                 # Use the most lightweight cloud model first; keep output small.
                 for model in self.cloud_summarizer_models:
                     try:
-                        out = LLMClient.generate_text(
-                            model, prompt, max_tokens=1024, temperature=0.2
-                        )
-                        if (
-                            out
-                            and not out.startswith("Error")
-                            and not out.startswith("gh models error")
-                        ):
+                        out = LLMClient.generate_text(model, prompt, max_tokens=1024, temperature=0.2)
+                        if out and not out.startswith("Error") and not out.startswith("gh models error"):
                             chunk_summaries.append(out.strip())
                             break
                     except Exception:
@@ -956,14 +883,8 @@ class ImplementationRunner:
         )
         for model in self.cloud_summarizer_models:
             try:
-                out = LLMClient.generate_text(
-                    model, final_prompt, max_tokens=1536, temperature=0.2
-                )
-                if (
-                    out
-                    and not out.startswith("Error")
-                    and not out.startswith("gh models error")
-                ):
+                out = LLMClient.generate_text(model, final_prompt, max_tokens=1536, temperature=0.2)
+                if out and not out.startswith("Error") and not out.startswith("gh models error"):
                     return out.strip()
             except Exception:
                 continue
@@ -979,15 +900,14 @@ class ImplementationRunner:
             return out.strip()
 
         return combined[:chunk_chars]
-
+    
     def _parse_json_response(self, response: str) -> Dict:
         """Extract JSON from response."""
         import re
-
         decoder = json.JSONDecoder()
-
+        
         # Try to find JSON in code block
-        json_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", response)
+        json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', response)
         if json_match:
             try:
                 return json.loads(json_match.group(1))
@@ -1010,7 +930,7 @@ class ImplementationRunner:
                 return {"raw_json": parsed}
             except json.JSONDecodeError:
                 pass
-
+        
         # Try raw JSON (response might include leading/trailing whitespace)
         try:
             return json.loads(response.strip())
@@ -1031,16 +951,16 @@ class ImplementationRunner:
             if isinstance(parsed, dict):
                 return parsed
             return {"raw_json": parsed}
-
+        
         # Return as text
         return {"raw": response}
-
+    
     async def analyze_requirements(self) -> Dict:
         """Phase 1: Requirements Analyst processes documents."""
         logger.info("=" * 60)
         logger.info("PHASE 1: Requirements Analysis")
         logger.info("=" * 60)
-
+        
         # Build a compact per-document brief first. This is the most effective way to stay under
         # GitHub Models request-size limits.
         raw_parts = self._read_document_parts()
@@ -1062,11 +982,7 @@ class ImplementationRunner:
         documents = "\n\n".join(doc_briefs)
         await self._memory_upsert(
             key="agentic-workflows-v2/documents_brief",
-            value={
-                "brief": documents,
-                "original_total_chars": raw_total_chars,
-                "sources": [t for t, _ in raw_parts],
-            },
+            value={"brief": documents, "original_total_chars": raw_total_chars, "sources": [t for t, _ in raw_parts]},
             tags=["summary"],
         )
 
@@ -1085,10 +1001,8 @@ class ImplementationRunner:
             )
         else:
             prompt = REQUIREMENTS_ANALYST_PROMPT.format(documents=documents)
-
-        response = await self._call_agent(
-            prompt, tier=3, agent_name="Requirements Analyst"
-        )
+        
+        response = await self._call_agent(prompt, tier=3, agent_name="Requirements Analyst")
         self.requirements = self._parse_json_response(response)
 
         await self._memory_upsert(
@@ -1101,28 +1015,26 @@ class ImplementationRunner:
         raw_path = self.target_dir / "requirements_analysis.raw.txt"
         raw_path.parent.mkdir(parents=True, exist_ok=True)
         raw_path.write_text(response, encoding="utf-8")
-
+        
         # Save requirements
         req_path = self.target_dir / "requirements_analysis.json"
         req_path.parent.mkdir(parents=True, exist_ok=True)
-        req_path.write_text(json.dumps(self.requirements, indent=2), encoding="utf-8")
+        req_path.write_text(json.dumps(self.requirements, indent=2), encoding='utf-8')
         logger.info(f"Saved requirements to {req_path}")
-
+        
         return self.requirements
-
+    
     async def create_tasks(self, iteration: int) -> List[Task]:
         """Orchestrator breaks requirements into tasks."""
         logger.info("=" * 60)
         logger.info(f"PHASE 2: Task Planning (Iteration {iteration})")
         logger.info("=" * 60)
-
+        
         completed = [t.id for t in self.tasks if t.status == "completed"]
         failed = [t.id for t in self.tasks if t.status == "failed"]
-
+        
         # Use compact JSON to reduce prompt size without losing content.
-        requirements_json = json.dumps(
-            self.requirements, ensure_ascii=False, separators=(",", ":")
-        )
+        requirements_json = json.dumps(self.requirements, ensure_ascii=False, separators=(",", ":"))
 
         memory_snapshot = await self._memory_snapshot(prefix="agentic-workflows-v2/")
         if memory_snapshot:
@@ -1135,7 +1047,7 @@ class ImplementationRunner:
             completed=completed,
             failed=failed,
         )
-
+        
         response = await self._call_agent(prompt, tier=3, agent_name="Orchestrator")
         task_data = self._parse_json_response(response)
 
@@ -1148,13 +1060,11 @@ class ImplementationRunner:
         # Save orchestrator output for debugging/repro
         out_dir = self.target_dir
         out_dir.mkdir(parents=True, exist_ok=True)
-        (out_dir / f"orchestrator_iter_{iteration}.raw.txt").write_text(
-            response, encoding="utf-8"
-        )
+        (out_dir / f"orchestrator_iter_{iteration}.raw.txt").write_text(response, encoding="utf-8")
         (out_dir / f"orchestrator_iter_{iteration}.parsed.json").write_text(
             json.dumps(task_data, indent=2), encoding="utf-8"
         )
-
+        
         new_tasks = []
         for t in task_data.get("tasks", []):
             task = Task(
@@ -1172,23 +1082,23 @@ class ImplementationRunner:
             logger.warning(
                 "Orchestrator produced 0 tasks. Saved raw/parsed outputs to target directory for inspection."
             )
-
+        
         self.tasks.extend(new_tasks)
         logger.info(f"Created {len(new_tasks)} new tasks")
-
+        
         return new_tasks
-
+    
     def _ensure_package_scaffold(self) -> List[str]:
         """Create the basic package scaffold if it doesn't exist.
-
+        
         Returns list of files created.
         """
         files_created = []
-
+        
         # pyproject.toml
         pyproject_path = self.target_dir / "pyproject.toml"
         if not pyproject_path.exists():
-            pyproject_content = """[build-system]
+            pyproject_content = '''[build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
@@ -1225,16 +1135,16 @@ packages = ["src/agentic_v2"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
-"""
+'''
             pyproject_path.parent.mkdir(parents=True, exist_ok=True)
-            pyproject_path.write_text(pyproject_content, encoding="utf-8")
+            pyproject_path.write_text(pyproject_content, encoding='utf-8')
             files_created.append("pyproject.toml")
             logger.info("  ✓ Created pyproject.toml")
-
+        
         # README.md
         readme_path = self.target_dir / "README.md"
         if not readme_path.exists():
-            readme_content = """# agentic-workflows-v2
+            readme_content = '''# agentic-workflows-v2
 
 Tier-based multi-model AI workflow orchestration.
 
@@ -1269,11 +1179,11 @@ result = await orch.run(task)
 - **Smart fallback**: Automatic retry with different models
 - **Pydantic contracts**: Type-safe inputs/outputs
 - **Async-first**: Built for concurrent execution
-"""
-            readme_path.write_text(readme_content, encoding="utf-8")
+'''
+            readme_path.write_text(readme_content, encoding='utf-8')
             files_created.append("README.md")
             logger.info("  ✓ Created README.md")
-
+        
         # src/agentic_v2/__init__.py
         init_path = self.target_dir / "src" / "agentic_v2" / "__init__.py"
         if not init_path.exists():
@@ -1284,120 +1194,99 @@ __version__ = "0.1.0"
 __all__ = ["__version__"]
 '''
             init_path.parent.mkdir(parents=True, exist_ok=True)
-            init_path.write_text(init_content, encoding="utf-8")
+            init_path.write_text(init_content, encoding='utf-8')
             files_created.append("src/agentic_v2/__init__.py")
             logger.info("  ✓ Created src/agentic_v2/__init__.py")
-
+        
         # tests/__init__.py
         tests_init = self.target_dir / "tests" / "__init__.py"
         if not tests_init.exists():
             tests_init.parent.mkdir(parents=True, exist_ok=True)
-            tests_init.write_text(
-                '"""Test suite for agentic-workflows-v2."""\n', encoding="utf-8"
-            )
+            tests_init.write_text('"""Test suite for agentic-workflows-v2."""\n', encoding='utf-8')
             files_created.append("tests/__init__.py")
             logger.info("  ✓ Created tests/__init__.py")
-
+        
         return files_created
 
     def _detect_language_from_task(self, task: Task) -> str:
-        """Detect the primary language for a task based on its description and
-        output files.
-
+        """Detect the primary language for a task based on its description and output files.
+        
         Following GitHub Copilot best practices: detect context, then inject relevant rules.
         """
         description_lower = (task.title + " " + task.description).lower()
-
+        
         # Check for explicit language mentions
-        if any(
-            word in description_lower
-            for word in ["python", "pydantic", ".py", "pytest"]
-        ):
+        if any(word in description_lower for word in ["python", "pydantic", ".py", "pytest"]):
             return "python"
         if any(word in description_lower for word in ["c#", "csharp", ".cs", "dotnet"]):
             return "csharp"
         if any(word in description_lower for word in ["java", ".java", "spring"]):
             return "java"
-        if any(
-            word in description_lower for word in ["typescript", ".ts", ".tsx", "react"]
-        ):
+        if any(word in description_lower for word in ["typescript", ".ts", ".tsx", "react"]):
             return "typescript"
-        if any(
-            word in description_lower for word in ["javascript", ".js", ".jsx", "node"]
-        ):
+        if any(word in description_lower for word in ["javascript", ".js", ".jsx", "node"]):
             return "javascript"
-        if any(
-            word in description_lower for word in ["yaml", ".yaml", ".yml", "config"]
-        ):
+        if any(word in description_lower for word in ["yaml", ".yaml", ".yml", "config"]):
             return "yaml"
         if any(word in description_lower for word in ["json", ".json", "package.json"]):
             return "json"
-
+        
         # Default to Python for this project (agentic-workflows-v2 is Python-based)
         return "python"
-
+    
     def _build_language_specific_rules(self, language: str) -> str:
         """Build language-specific rules section for DEVELOPER_PROMPT.
-
+        
         Industry best practice: inject ONLY relevant rules, avoid language bias.
         """
         if language not in LANGUAGE_STANDARDS:
             return ""
-
+        
         std = LANGUAGE_STANDARDS[language]
         rules_section = f"""LANGUAGE: {language.upper()} {std['version']}
 
 STANDARDS:
 """
-        for rule in std["rules"]:
+        for rule in std['rules']:
             rules_section += f"- {rule}\n"
-
-        if std["imports_example"]:
+        
+        if std['imports_example']:
             rules_section += f"\nTYPICAL IMPORTS:\n{std['imports_example']}\n"
-
+        
         return rules_section
 
     async def execute_task(self, task: Task) -> Task:
         """Execute a single task."""
         logger.info(f"Executing task: {task.id} - {task.title}")
         task.status = "in_progress"
-
+        
         # Build context from dependencies
         context_parts = []
         for dep_id in task.dependencies:
             dep_task = next((t for t in self.tasks if t.id == dep_id), None)
             if dep_task and dep_task.output:
-                context_parts.append(
-                    f"=== {dep_id} output ===\n{dep_task.output[:5000]}"
-                )
-
+                context_parts.append(f"=== {dep_id} output ===\n{dep_task.output[:5000]}")
+        
         # Code-producing agent types use DEVELOPER_PROMPT
         code_agents = {
-            "developer",
-            "PackageArchitect",
-            "APIDesigner",
-            "ToolBuilder",
-            "AgentBuilder",
-            "RouterDeveloper",
-            "TestWriter",
+            "developer", "PackageArchitect", "APIDesigner", "ToolBuilder",
+            "AgentBuilder", "RouterDeveloper", "TestWriter"
         }
-
+        
         memory_snapshot = await self._memory_snapshot(prefix="agentic-workflows-v2/")
         if memory_snapshot:
             context_parts.append("=== MCP MEMORY SNAPSHOT ===\n" + memory_snapshot)
-
+        
         if task.assigned_to in code_agents:
             # Detect language and inject ONLY relevant rules (industry best practice)
             detected_language = self._detect_language_from_task(task)
             language_rules = self._build_language_specific_rules(detected_language)
-
+            
             prompt = DEVELOPER_PROMPT.format(
                 language_specific_rules=language_rules,
                 task_title=task.title,
                 task_description=task.description,
-                context=(
-                    "\n".join(context_parts) if context_parts else "No prior context"
-                ),
+                context="\n".join(context_parts) if context_parts else "No prior context",
             )
         else:
             # Generic prompt for non-code agents
@@ -1406,11 +1295,9 @@ Description: {task.description}
 Context: {context_parts}
 
 Complete this task and provide the output."""
-
+        
         try:
-            response = await self._call_agent(
-                prompt, tier=task.tier, agent_name=task.assigned_to
-            )
+            response = await self._call_agent(prompt, tier=task.tier, agent_name=task.assigned_to)
             task.output = response
             task.status = "completed"
 
@@ -1426,14 +1313,12 @@ Complete this task and provide the output."""
                 },
                 tags=["task", task.status, f"assigned:{task.assigned_to}"],
             )
-
+            
             # Extract and WRITE files if code was generated
             task.files_created = self._extract_and_write_files(response, task.id)
-
-            logger.info(
-                f"Task {task.id} completed - wrote {len(task.files_created)} files"
-            )
-
+            
+            logger.info(f"Task {task.id} completed - wrote {len(task.files_created)} files")
+            
         except Exception as e:
             task.status = "failed"
             task.error = str(e)
@@ -1450,103 +1335,91 @@ Complete this task and provide the output."""
                 },
                 tags=["task", "failed", f"assigned:{task.assigned_to}"],
             )
-
+        
         return task
-
+    
     async def execute_tasks_chunked(self, tasks: List[Task], chunk_size: int = 3):
         """Execute tasks in chunks, respecting dependencies."""
         # Group by dependencies
-        ready = [
-            t
-            for t in tasks
-            if all(
-                any(d.id == dep and d.status == "completed" for d in self.tasks)
-                for dep in t.dependencies
-            )
-            or not t.dependencies
-        ]
-
+        ready = [t for t in tasks if all(
+            any(d.id == dep and d.status == "completed" for d in self.tasks)
+            for dep in t.dependencies
+        ) or not t.dependencies]
+        
         while ready:
             chunk = ready[:chunk_size]
             logger.info(f"Executing chunk of {len(chunk)} tasks...")
-
+            
             # Execute chunk (could be parallel with asyncio.gather if desired)
             for task in chunk:
                 await self.execute_task(task)
-
+            
             # Update ready list
             completed_ids = {t.id for t in self.tasks if t.status == "completed"}
-            ready = [
-                t
-                for t in tasks
-                if t.status == "pending"
-                and all(dep in completed_ids for dep in t.dependencies)
-            ]
-
+            ready = [t for t in tasks if t.status == "pending" and all(
+                dep in completed_ids for dep in t.dependencies
+            )]
+    
     async def judge_iteration(self, iteration: int) -> Dict:
         """Judge evaluates the iteration."""
         logger.info("=" * 60)
         logger.info(f"PHASE 5: Judge Evaluation (Iteration {iteration})")
         logger.info("=" * 60)
-
+        
         completed = [t for t in self.tasks if t.status == "completed"]
         failed = [t for t in self.tasks if t.status == "failed"]
-
+        
         prompt = JUDGE_PROMPT.format(
             iteration=iteration,
             max_iterations=self.max_iterations,
             plan_summary="Implementing agentic-workflows-v2 module",
-            completed_tasks=json.dumps(
-                [{"id": t.id, "title": t.title} for t in completed]
-            ),
+            completed_tasks=json.dumps([{"id": t.id, "title": t.title} for t in completed]),
             failed_tasks=json.dumps([{"id": t.id, "error": t.error} for t in failed]),
             test_results="[Tests not yet implemented]",
             containment_report="[Containment check pending]",
         )
-
+        
         response = await self._call_agent(prompt, tier=3, agent_name="Judge")
         decision = self._parse_json_response(response)
-
+        
         logger.info(f"Judge decision: {decision.get('decision', 'unknown')}")
         logger.info(f"Score: {decision.get('score', 0)}")
-
+        
         return decision
-
+    
     async def run(self):
         """Run the complete implementation workflow."""
         logger.info("=" * 60)
         logger.info("STARTING IMPLEMENTATION WORKFLOW")
         logger.info("=" * 60)
-
+        
         start_time = time.time()
-
+        
         try:
             # Ensure target directory exists
             self.target_dir.mkdir(parents=True, exist_ok=True)
-
+            
             # Create package scaffold (pyproject.toml, README, __init__.py)
             if not self.dry_run:
                 scaffold_files = self._ensure_package_scaffold()
                 if scaffold_files:
-                    logger.info(
-                        f"Created package scaffold: {len(scaffold_files)} files"
-                    )
-
+                    logger.info(f"Created package scaffold: {len(scaffold_files)} files")
+            
             # Optional: MCP setup (memory + filesystem)
             await self._setup_mcp()
 
             # Phase 1: Analyze requirements
             await self.analyze_requirements()
-
+            
             # Iteration loop
             for iteration in range(1, self.max_iterations + 1):
                 logger.info(f"\n{'='*60}")
                 logger.info(f"ITERATION {iteration}/{self.max_iterations}")
                 logger.info(f"{'='*60}\n")
-
+                
                 # Phase 2: Create/update tasks
                 new_tasks = await self.create_tasks(iteration)
-
+                
                 if not new_tasks:
                     logger.info("No new tasks created, checking completion...")
                     if not self.tasks:
@@ -1554,12 +1427,12 @@ Complete this task and provide the output."""
                         logger.warning(
                             "No tasks were produced and no tasks exist yet. Running judge for evaluation and exiting early."
                         )
-
+                
                 # Phase 3: Execute tasks in chunks
                 pending_tasks = [t for t in self.tasks if t.status == "pending"]
                 if pending_tasks:
                     await self.execute_tasks_chunked(pending_tasks)
-
+                
                 # Phase 4: Judge
                 decision = await self.judge_iteration(iteration)
 
@@ -1572,21 +1445,19 @@ Complete this task and provide the output."""
                     decision = dict(decision)
                     decision.setdefault("decision", "NO_TASKS_EXIT")
                     break
-
+                
                 # Record iteration
                 state = IterationState(
                     iteration=iteration,
                     tasks=self.tasks.copy(),
-                    completed_tasks=[
-                        t.id for t in self.tasks if t.status == "completed"
-                    ],
+                    completed_tasks=[t.id for t in self.tasks if t.status == "completed"],
                     failed_tasks=[t.id for t in self.tasks if t.status == "failed"],
                     score=decision.get("score", 0),
                     judge_decision=decision.get("decision", "unknown"),
                     feedback=decision.get("iteration_feedback", ""),
                 )
                 self.iteration_history.append(state)
-
+                
                 # Check exit condition
                 if decision.get("decision") == "PASS":
                     logger.info("🎉 IMPLEMENTATION COMPLETE!")
@@ -1596,7 +1467,7 @@ Complete this task and provide the output."""
                     break
                 else:
                     logger.info(f"Continuing to iteration {iteration + 1}...")
-
+            
             # Final report
             elapsed = time.time() - start_time
             logger.info(f"\n{'='*60}")
@@ -1604,13 +1475,9 @@ Complete this task and provide the output."""
             logger.info(f"{'='*60}")
             logger.info(f"Total time: {elapsed:.1f}s")
             logger.info(f"Iterations: {len(self.iteration_history)}")
-            logger.info(
-                f"Tasks completed: {len([t for t in self.tasks if t.status == 'completed'])}"
-            )
-            logger.info(
-                f"Tasks failed: {len([t for t in self.tasks if t.status == 'failed'])}"
-            )
-
+            logger.info(f"Tasks completed: {len([t for t in self.tasks if t.status == 'completed'])}")
+            logger.info(f"Tasks failed: {len([t for t in self.tasks if t.status == 'failed'])}")
+            
             # Save final state
             final_state = {
                 "timestamp": datetime.now().isoformat(),
@@ -1625,72 +1492,48 @@ Complete this task and provide the output."""
                     }
                     for t in self.tasks
                 ],
-                "final_decision": (
-                    self.iteration_history[-1].judge_decision
-                    if self.iteration_history
-                    else "none"
-                ),
+                "final_decision": self.iteration_history[-1].judge_decision if self.iteration_history else "none",
             }
-
+            
             state_path = self.target_dir / "implementation_state.json"
-            state_path.write_text(json.dumps(final_state, indent=2), encoding="utf-8")
+            state_path.write_text(json.dumps(final_state, indent=2), encoding='utf-8')
             logger.info(f"Saved state to {state_path}")
-
+            
         except Exception as e:
             logger.exception(f"Workflow failed: {e}")
             raise
 
 
 async def main():
-    parser = argparse.ArgumentParser(
-        description="Run agentic-workflows-v2 implementation"
-    )
-    parser.add_argument(
-        "--plan", default="docs/planning/agentic-workflows-v2-phased-implementation.md"
-    )
-    parser.add_argument(
-        "--arch",
-        nargs="+",
-        default=[
-            "docs/planning/agentic-workflows-v2-architecture.md",
-            "docs/planning/agentic-workflows-v2-implementation-patterns.md",
-        ],
-    )
+    parser = argparse.ArgumentParser(description="Run agentic-workflows-v2 implementation")
+    parser.add_argument("--plan", default="docs/planning/agentic-workflows-v2-phased-implementation.md")
+    parser.add_argument("--arch", nargs="+", default=[
+        "docs/planning/agentic-workflows-v2-architecture.md",
+        "docs/planning/agentic-workflows-v2-implementation-patterns.md",
+    ])
     parser.add_argument("--target", default="agentic-workflows-v2")
     parser.add_argument("--max-iterations", type=int, default=5)
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Don't make actual LLM calls"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Don't make actual LLM calls")
     parser.add_argument("--verbose", "-v", action="store_true")
-    parser.add_argument(
-        "--use-cloud",
-        action="store_true",
-        help="Prefer cloud models for planning tasks",
-    )
+    parser.add_argument("--use-cloud", action="store_true", help="Prefer cloud models for planning tasks")
     parser.add_argument(
         "--scaffold-only",
         action="store_true",
         help="Only create the package scaffold (pyproject/README/src/agentic_v2/tests) and exit.",
     )
-    parser.add_argument(
-        "--enable-mcp",
-        action="store_true",
-        help="Enable MCP memory/filesystem integration",
-    )
-    parser.add_argument(
-        "--mcp-memory-path", default=None, help="Optional path for MCP memory JSON file"
-    )
-
+    parser.add_argument("--enable-mcp", action="store_true", help="Enable MCP memory/filesystem integration")
+    parser.add_argument("--mcp-memory-path", default=None, help="Optional path for MCP memory JSON file")
+    
     args = parser.parse_args()
-
+    
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
-
+    
     # Change to repo root (multiagent-workflows/scripts -> prompts repo root)
     repo_root = Path(__file__).parents[2]  # scripts -> multiagent-workflows -> prompts
     os.chdir(repo_root)
     logger.info(f"Working directory: {os.getcwd()}")
-
+    
     runner = ImplementationRunner(
         plan_path=args.plan,
         architecture_docs=args.arch,

@@ -1,0 +1,3350 @@
+{
+  "exploration": {
+    "repo_inventory": {
+      "directories": [
+        "archive",
+        "archive\\audit-files",
+        "archive\\outputs",
+        "archive\\prompttools-deprecated",
+        "archive\\prompttools-deprecated\\rubrics",
+        "archive\\toolkit-backup",
+        "archive\\toolkit-backup\\rubrics",
+        "bin",
+        "bin\\Debug",
+        "docs",
+        "docs\\analysis",
+        "docs\\concepts",
+        "docs\\instructions",
+        "docs\\planning",
+        "docs\\reference",
+        "docs\\research",
+        "docs\\tutorials",
+        "evaluation",
+        "evaluation\\results",
+        "evaluation\\results\\logs",
+        "examples",
+        "logs",
+        "multiagent-dev-system",
+        "multiagent-dev-system\\src",
+        "multiagent-dev-system\\src\\multiagent_dev_system",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\utils",
+        "multiagent-workflows",
+        "multiagent-workflows\\config",
+        "multiagent-workflows\\config\\agentic_planning",
+        "multiagent-workflows\\config\\prompts",
+        "multiagent-workflows\\consolidated",
+        "multiagent-workflows\\consolidated\\agents",
+        "multiagent-workflows\\dashboard_data",
+        "multiagent-workflows\\docs",
+        "multiagent-workflows\\evaluation",
+        "multiagent-workflows\\evaluation\\datasets",
+        "multiagent-workflows\\evaluation\\golden",
+        "multiagent-workflows\\evaluation\\results",
+        "multiagent-workflows\\evaluation\\results\\code_grading",
+        "multiagent-workflows\\evaluation\\results\\defect_resolution",
+        "multiagent-workflows\\evaluation\\results\\logs",
+        "multiagent-workflows\\evaluations",
+        "multiagent-workflows\\evaluations\\results",
+        "multiagent-workflows\\examples",
+        "multiagent-workflows\\examples\\buggy_app",
+        "multiagent-workflows\\examples\\evaluation",
+        "multiagent-workflows\\examples\\evaluation\\results",
+        "multiagent-workflows\\examples\\evaluation\\results\\code_grading",
+        "multiagent-workflows\\examples\\evaluation\\results\\defect_resolution",
+        "multiagent-workflows\\examples\\evaluation\\results\\fullstack",
+        "multiagent-workflows\\examples\\evaluation\\results\\logs",
+        "multiagent-workflows\\inputs",
+        "multiagent-workflows\\prompts",
+        "multiagent-workflows\\scripts",
+        "multiagent-workflows\\src",
+        "multiagent-workflows\\src\\multiagent_workflows",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents",
+        "multiagent-workflows\\src\\multiagent_workflows\\core",
+        "multiagent-workflows\\src\\multiagent_workflows\\dashboard_data",
+        "multiagent-workflows\\src\\multiagent_workflows\\evaluation",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp",
+        "multiagent-workflows\\src\\multiagent_workflows\\models",
+        "multiagent-workflows\\src\\multiagent_workflows\\server",
+        "multiagent-workflows\\src\\multiagent_workflows\\tools",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows",
+        "multiagent-workflows\\src\\multiagent_workflows.egg-info",
+        "multiagent-workflows\\tests",
+        "multiagent-workflows\\ui",
+        "multiagent-workflows\\ui\\data",
+        "multiagent-workflows\\workflows",
+        "prompts",
+        "prompts\\advanced",
+        "prompts\\agents",
+        "prompts\\analysis",
+        "prompts\\business",
+        "prompts\\creative",
+        "prompts\\developers",
+        "prompts\\frameworks",
+        "prompts\\frameworks\\anthropic",
+        "prompts\\frameworks\\anthropic\\tool-use",
+        "prompts\\frameworks\\langchain",
+        "prompts\\frameworks\\langchain\\agent-patterns",
+        "prompts\\frameworks\\langchain\\lcel-patterns",
+        "prompts\\frameworks\\microsoft",
+        "prompts\\frameworks\\microsoft\\copilot-patterns",
+        "prompts\\frameworks\\microsoft\\dotnet",
+        "prompts\\frameworks\\microsoft\\semantic-kernel",
+        "prompts\\frameworks\\openai",
+        "prompts\\frameworks\\openai\\assistants-api",
+        "prompts\\frameworks\\openai\\function-calling",
+        "prompts\\m365",
+        "prompts\\socmint",
+        "prompts\\system",
+        "prompts\\techniques",
+        "prompts\\techniques\\agentic",
+        "prompts\\techniques\\agentic\\multi-agent",
+        "prompts\\techniques\\agentic\\single-agent",
+        "prompts\\techniques\\context-optimization",
+        "prompts\\techniques\\context-optimization\\compression",
+        "prompts\\techniques\\context-optimization\\many-shot-learning",
+        "prompts\\techniques\\context-optimization\\retrieval-augmented",
+        "prompts\\techniques\\reflexion",
+        "prompts\\techniques\\reflexion\\basic-reflexion",
+        "prompts\\techniques\\reflexion\\domain-specific",
+        "prompts\\techniques\\reflexion\\multi-step-reflexion",
+        "prompts\\templates",
+        "results",
+        "results\\benchmark_runs",
+        "results\\benchmark_runs\\custom-local_20260123_075036",
+        "results\\benchmark_runs\\custom-local_20260123_075857",
+        "results\\benchmark_runs\\custom-local_20260123_080229",
+        "results\\benchmark_runs\\custom-local_20260123_084530",
+        "results\\benchmark_runs\\custom-local_20260123_112957",
+        "results\\benchmark_runs\\custom-local_20260123_181301",
+        "results\\benchmark_runs\\custom-local_20260123_181344",
+        "results\\benchmark_runs\\custom-local_20260123_181500",
+        "results\\free-tier-evals",
+        "results\\free-tier-evals\\20260121-184641",
+        "results\\free-tier-evals\\20260121-185205",
+        "results\\free-tier-evals\\20260121-185357",
+        "results\\lats-selfrefine-2026-01-28",
+        "results\\model-matrix",
+        "scripts",
+        "testing",
+        "testing\\archive",
+        "testing\\archive\\2025-12-04",
+        "testing\\archive\\2025-12-04\\framework",
+        "testing\\archive\\2025-12-04\\framework\\core",
+        "testing\\archive\\2025-12-04\\framework\\validators",
+        "testing\\evals",
+        "testing\\evals\\advanced",
+        "testing\\evals\\analysis",
+        "testing\\evals\\business",
+        "testing\\evals\\results",
+        "testing\\evals\\results\\openai",
+        "testing\\evals\\results\\openai\\gpt-4.1-mini",
+        "testing\\evals\\results\\openai\\gpt-4.1-mini\\system",
+        "testing\\evals\\results\\openai\\gpt-5-mini",
+        "testing\\evals\\results\\openai\\gpt-5-mini\\analysis",
+        "testing\\evals\\results\\openai\\o3-mini",
+        "testing\\evals\\results\\openai\\o3-mini\\advanced",
+        "testing\\evals\\results\\quick_run",
+        "testing\\evals\\system",
+        "testing\\framework",
+        "testing\\framework\\core",
+        "testing\\framework\\validators",
+        "testing\\integration",
+        "testing\\tool_tests",
+        "testing\\unit",
+        "testing\\validators",
+        "testing\\_recovery",
+        "testing\\_recovery\\orch_test_checkpoints",
+        "tools",
+        "tools\\agents",
+        "tools\\agents\\benchmarks",
+        "tools\\agents\\fullstack_generator",
+        "tools\\agents\\gold_standards",
+        "tools\\analysis",
+        "tools\\archive",
+        "tools\\archive\\enterprise_evaluator",
+        "tools\\archive\\enterprise_evaluator\\framework",
+        "tools\\benchmarks",
+        "tools\\cli",
+        "tools\\core",
+        "tools\\docs",
+        "tools\\documentation",
+        "tools\\llm",
+        "tools\\llm\\windows_ai_bridge",
+        "tools\\llm\\windows_ai_bridge\\bin",
+        "tools\\llm\\windows_ai_bridge\\bin\\Debug",
+        "tools\\llm\\windows_ai_bridge\\bin\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\bin\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\bin\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\NpuDetect",
+        "tools\\llm\\windows_ai_bridge\\bin\\Release",
+        "tools\\llm\\windows_ai_bridge\\bin\\Release\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\bin\\Release\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Debug",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\NpuDetect",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\NpuDetect",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\publish",
+        "tools\\llm\\windows_ai_bridge\\bin\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\publish\\NpuDetect",
+        "tools\\llm\\windows_ai_bridge\\obj",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\embed",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\af-ZA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\am-ET",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\AppxMetadata",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ar-SA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\as-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\az-Latn-AZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bg-BG",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bn-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bs-Latn-BA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ca-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ca-Es-VALENCIA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\cs-CZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\cy-GB",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\da-DK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\de-DE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\el-GR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\en-GB",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\en-us",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\es-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\es-MX",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\et-EE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\eu-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fa-IR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fi-FI",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fil-PH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fr-CA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fr-FR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ga-IE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gd-gb",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gl-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gu-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\he-IL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hi-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hr-HR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hu-HU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hy-AM",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\id-ID",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\is-IS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\it-IT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ja-JP",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ka-GE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kk-KZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\km-KH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kn-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ko-KR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kok-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lb-LU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lo-LA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lt-LT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lv-LV",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mi-NZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\Microsoft.UI.Xaml",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\Microsoft.UI.Xaml\\Assets",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mk-MK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ml-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mr-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ms-MY",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\MSIX",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mt-MT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nb-NO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ne-NP",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nl-NL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nn-NO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\or-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pa-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pl-PL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pt-BR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pt-PT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\quz-PE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ro-RO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ru-RU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sk-SK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sl-SI",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sq-AL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Cyrl-BA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Cyrl-RS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Latn-RS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sv-SE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ta-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\te-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\th-TH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\tr-TR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\tt-RU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ug-CN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\uk-UA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ur-PK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\uz-Latn-UZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\vi-VN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\zh-CN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\zh-TW",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\llm\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\af-ZA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\am-ET",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\AppxMetadata",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ar-SA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\as-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\az-Latn-AZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bg-BG",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bn-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\bs-Latn-BA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ca-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ca-Es-VALENCIA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\cs-CZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\cy-GB",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\da-DK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\de-DE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\el-GR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\en-GB",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\en-us",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\es-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\es-MX",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\et-EE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\eu-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fa-IR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fi-FI",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fil-PH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fr-CA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\fr-FR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ga-IE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gd-gb",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gl-ES",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\gu-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\he-IL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hi-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hr-HR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hu-HU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\hy-AM",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\id-ID",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\is-IS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\it-IT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ja-JP",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ka-GE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kk-KZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\km-KH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kn-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ko-KR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\kok-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lb-LU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lo-LA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lt-LT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\lv-LV",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mi-NZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\Microsoft.UI.Xaml",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\Microsoft.UI.Xaml\\Assets",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mk-MK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ml-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mr-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ms-MY",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\MSIX",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\mt-MT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nb-NO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ne-NP",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nl-NL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\nn-NO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\or-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pa-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pl-PL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pt-BR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\pt-PT",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\quz-PE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ro-RO",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ru-RU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sk-SK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sl-SI",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sq-AL",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Cyrl-BA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Cyrl-RS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sr-Latn-RS",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\sv-SE",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ta-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\te-IN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\th-TH",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\tr-TR",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\tt-RU",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ug-CN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\uk-UA",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\ur-PK",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\uz-Latn-UZ",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\vi-VN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\zh-CN",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\MsixContent\\zh-TW",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\llm\\windows_ai_bridge\\obj\\Release\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\embed",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\embed",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\llm\\windows_ai_bridge\\obj\\x64\\Release\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "tools\\logs",
+        "tools\\models",
+        "tools\\prompteval",
+        "tools\\results",
+        "tools\\results\\model-matrix",
+        "tools\\rubrics",
+        "tools\\rubrics\\judges",
+        "tools\\rubrics\\patterns",
+        "tools\\runners",
+        "tools\\scripts",
+        "tools\\tests",
+        "tools\\utils",
+        "tools\\validation",
+        "tools\\validators",
+        "tools\\windows_ai_bridge",
+        "tools\\windows_ai_bridge\\bin",
+        "tools\\windows_ai_bridge\\bin\\Debug",
+        "tools\\windows_ai_bridge\\bin\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\windows_ai_bridge\\bin\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\windows_ai_bridge\\bin\\x64",
+        "tools\\windows_ai_bridge\\bin\\x64\\Debug",
+        "tools\\windows_ai_bridge\\bin\\x64\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\windows_ai_bridge\\bin\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\windows_ai_bridge\\obj",
+        "tools\\windows_ai_bridge\\obj\\Debug",
+        "tools\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\windows_ai_bridge\\obj\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "tools\\windows_ai_bridge\\obj\\x64",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\Manifests",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\ref",
+        "tools\\windows_ai_bridge\\obj\\x64\\Debug\\net8.0-windows10.0.22621.0\\win-x64\\refint",
+        "validator",
+        "validator\\tests",
+        "workflows",
+        "workflows\\agentic_planning",
+        "workflows\\agentic_planning\\configs",
+        "_recovery",
+        "_recovery\\orch_test_checkpoints"
+      ],
+      "python_files": [
+        "analyze_missing.py",
+        "conftest.py",
+        "langchain_bootstrap.py",
+        "prompt.py",
+        "update_progress_report.py",
+        "archive\\prompttools-deprecated\\cache.py",
+        "archive\\prompttools-deprecated\\cli.py",
+        "archive\\prompttools-deprecated\\config.py",
+        "archive\\prompttools-deprecated\\evaluate.py",
+        "archive\\prompttools-deprecated\\llm.py",
+        "archive\\prompttools-deprecated\\parse.py",
+        "archive\\prompttools-deprecated\\validate.py",
+        "archive\\prompttools-deprecated\\__init__.py",
+        "archive\\prompttools-deprecated\\__main__.py",
+        "examples\\langchain_llmclient_wrapper.py",
+        "examples\\lats_self_refine_workflow_minimal.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\datasets.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\logger.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\model_manager.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\scorer.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\io.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\timing.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\tokens.py",
+        "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\__init__.py",
+        "multiagent-workflows\\run_real_benchmarks.py",
+        "multiagent-workflows\\run_workflow_cloud.py",
+        "multiagent-workflows\\run_workflow_test.py",
+        "multiagent-workflows\\config\\agentic_planning\\aggregate.py",
+        "multiagent-workflows\\config\\agentic_planning\\line_process.py",
+        "multiagent-workflows\\consolidated\\agents\\architect_agent.py",
+        "multiagent-workflows\\consolidated\\agents\\coder_agent.py",
+        "multiagent-workflows\\consolidated\\agents\\reviewer_agent.py",
+        "multiagent-workflows\\examples\\dashboard_server.py",
+        "multiagent-workflows\\examples\\fullstack_example.py",
+        "multiagent-workflows\\examples\\run_code_grading.py",
+        "multiagent-workflows\\examples\\run_defect_resolution.py",
+        "multiagent-workflows\\examples\\run_fullstack.py",
+        "multiagent-workflows\\examples\\run_system_design.py",
+        "multiagent-workflows\\examples\\test_cloud.py",
+        "multiagent-workflows\\examples\\test_ollama_auth.py",
+        "multiagent-workflows\\examples\\buggy_app\\app.py",
+        "multiagent-workflows\\scripts\\fetch_datasets.py",
+        "multiagent-workflows\\scripts\\generate_graph.py",
+        "multiagent-workflows\\scripts\\run_benchmarks_direct.py",
+        "multiagent-workflows\\scripts\\run_repo_maintenance.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\architect_agent.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\base.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\coder_agent.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\reviewer_agent.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\test_agent.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\agents\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\agent_base.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\contracts.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\evaluator.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\logger.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\model_manager.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\progress_writer.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\tool_registry.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\workflow_engine.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\core\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\scorer.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\callbacks.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\chains.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\orchestrator.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\state.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\tools.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\langchain\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp\\base.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp\\filesystem.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp\\github.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp\\registry.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\mcp\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\models\\base.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\models\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\app.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\benchmarks.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\dataset_loader.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\models.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\run_manager.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\architecture_workflow.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\base.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\debugging_workflow.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\fullstack_workflow.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\refactoring_workflow.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\ui_repair_workflow.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\workflows\\__init__.py",
+        "multiagent-workflows\\tests\\conftest.py",
+        "multiagent-workflows\\tests\\test_agentic_workflows.py",
+        "multiagent-workflows\\tests\\test_agents.py",
+        "multiagent-workflows\\tests\\test_code_grading_eval.py",
+        "multiagent-workflows\\tests\\test_contracts.py",
+        "multiagent-workflows\\tests\\test_dataset_integration.py",
+        "multiagent-workflows\\tests\\test_langchain_integration.py",
+        "multiagent-workflows\\tests\\test_logger.py",
+        "multiagent-workflows\\tests\\test_mcp_integration.py",
+        "multiagent-workflows\\tests\\test_model_manager.py",
+        "multiagent-workflows\\tests\\test_server_dataset_loader.py",
+        "multiagent-workflows\\tests\\test_server_models.py",
+        "multiagent-workflows\\tests\\test_server_runs.py",
+        "multiagent-workflows\\tests\\test_workflow_integration.py",
+        "prompts\\frameworks\\anthropic\\claude_patterns.py",
+        "prompts\\frameworks\\openai\\openai_utilities.py",
+        "prompts\\techniques\\context-optimization\\context_optimizer.py",
+        "results\\benchmark_runs\\custom-local_20260123_181500\\Untitled-3.py",
+        "scripts\\analyze_missing.py",
+        "scripts\\check_ui.py",
+        "scripts\\merge_results_csv.py",
+        "scripts\\run_matrix_evals.py",
+        "scripts\\update_progress_report.py",
+        "scripts\\update_summary_with_criteria.py",
+        "scripts\\validate_manifest.py",
+        "testing\\conftest.py",
+        "testing\\import unittest.py",
+        "testing\\run_pattern_eval_local.py",
+        "testing\\run_tests.py",
+        "testing\\test_code_review_and_tests.py",
+        "testing\\test_dynamic_eval_manager.py",
+        "testing\\test_e2e_pattern_eval.py",
+        "testing\\test_library_patterns.py",
+        "testing\\test_orchestration_fullstack.py",
+        "testing\\test_pattern_evaluation.py",
+        "testing\\test_prompteval_parsing.py",
+        "testing\\test_scorer_updates.py",
+        "testing\\test_workflow_rubric_scoring.py",
+        "testing\\test_workflow_step_by_step.py",
+        "testing\\validate_consolidation.py",
+        "testing\\validate_phase4.py",
+        "testing\\archive\\2025-12-04\\test_cli.py",
+        "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+        "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+        "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+        "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+        "testing\\archive\\2025-12-04\\framework\\validators\\safety_validator.py",
+        "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+        "testing\\evals\\dual_eval.py",
+        "testing\\evals\\test_dual_eval.py",
+        "testing\\framework\\core\\test_runner.py",
+        "testing\\framework\\core\\__init__.py",
+        "testing\\framework\\validators\\base_validator.py",
+        "testing\\framework\\validators\\code_validator.py",
+        "testing\\framework\\validators\\content_validator.py",
+        "testing\\framework\\validators\\format_validator.py",
+        "testing\\framework\\validators\\semantic_validator.py",
+        "testing\\framework\\validators\\__init__.py",
+        "testing\\integration\\test_evaluation_agent_e2e.py",
+        "testing\\integration\\test_evaluation_agent_integration.py",
+        "testing\\integration\\test_prompt_integration.py",
+        "testing\\integration\\test_prompt_toolkit.py",
+        "testing\\integration\\__init__.py",
+        "testing\\tool_tests\\test_cli.py",
+        "testing\\tool_tests\\test_evaluation_agent.py",
+        "testing\\tool_tests\\test_generator.py",
+        "testing\\tool_tests\\test_llm_connection.py",
+        "testing\\tool_tests\\test_tools_ecosystem_evaluator.py",
+        "testing\\tool_tests\\__init__.py",
+        "testing\\unit\\test_local_model_geval_parsing.py",
+        "testing\\unit\\test_prompteval_score_normalization.py",
+        "testing\\unit\\__init__.py",
+        "testing\\validators\\frontmatter_auditor.py",
+        "testing\\validators\\test_frontmatter.py",
+        "testing\\validators\\test_frontmatter_auditor.py",
+        "testing\\validators\\test_schema.py",
+        "tools\\dynamic_eval_manager.py",
+        "tools\\validate_prompts.py",
+        "tools\\__init__.py",
+        "tools\\agents\\code_generator.py",
+        "tools\\agents\\evaluation_agent.py",
+        "tools\\agents\\multi_agent_orchestrator.py",
+        "tools\\agents\\test_tasks.py",
+        "tools\\agents\\workflow_runner.py",
+        "tools\\agents\\__init__.py",
+        "tools\\agents\\benchmarks\\datasets.py",
+        "tools\\agents\\benchmarks\\llm_evaluator.py",
+        "tools\\agents\\benchmarks\\loader.py",
+        "tools\\agents\\benchmarks\\registry.py",
+        "tools\\agents\\benchmarks\\runner.py",
+        "tools\\agents\\benchmarks\\__init__.py",
+        "tools\\agents\\fullstack_generator\\agents.py",
+        "tools\\agents\\fullstack_generator\\langchain_models.py",
+        "tools\\agents\\fullstack_generator\\runner.py",
+        "tools\\agents\\fullstack_generator\\workflow.py",
+        "tools\\agents\\fullstack_generator\\__init__.py",
+        "tools\\analysis\\tools_ecosystem_evaluator.py",
+        "tools\\analysis\\tools_ecosystem_merge.py",
+        "tools\\analysis\\__init__.py",
+        "tools\\archive\\batch_evaluate.py",
+        "tools\\archive\\batch_free_eval.py",
+        "tools\\archive\\cove_batch_analyzer.py",
+        "tools\\archive\\evaluate_library.py",
+        "tools\\archive\\evaluation_agent.py",
+        "tools\\archive\\run_eval_direct.py",
+        "tools\\archive\\run_eval_geval.py",
+        "tools\\archive\\run_eval_geval_2.py",
+        "tools\\archive\\run_gh_eval.py",
+        "tools\\archive\\tiered_eval.py",
+        "tools\\archive\\enterprise_evaluator\\batch_evaluate_models.py",
+        "tools\\archive\\enterprise_evaluator\\evaluator.py",
+        "tools\\archive\\enterprise_evaluator\\main.py",
+        "tools\\archive\\enterprise_evaluator\\test_models.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\dimensions.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\rubrics.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\scoring.py",
+        "tools\\benchmarks\\performance_evaluator.py",
+        "tools\\cli\\cli_help.py",
+        "tools\\cli\\interactive.py",
+        "tools\\cli\\main.py",
+        "tools\\cli\\__init__.py",
+        "tools\\core\\cache.py",
+        "tools\\core\\config.py",
+        "tools\\core\\errors.py",
+        "tools\\core\\local_media.py",
+        "tools\\core\\prompt_db.py",
+        "tools\\core\\response_cache.py",
+        "tools\\core\\tool_init.py",
+        "tools\\core\\_encoding.py",
+        "tools\\core\\__init__.py",
+        "tools\\llm\\langchain_adapter.py",
+        "tools\\llm\\list_gemini.py",
+        "tools\\llm\\llm_client.py",
+        "tools\\llm\\local_model.py",
+        "tools\\llm\\model_inventory.py",
+        "tools\\llm\\model_locks.py",
+        "tools\\llm\\model_probe.py",
+        "tools\\llm\\windows_ai.py",
+        "tools\\llm\\__init__.py",
+        "tools\\models\\generator.py",
+        "tools\\models\\refiner.py",
+        "tools\\models\\reviewer.py",
+        "tools\\models\\__init__.py",
+        "tools\\prompteval\\builtin_evaluators.py",
+        "tools\\prompteval\\config.py",
+        "tools\\prompteval\\core.py",
+        "tools\\prompteval\\failures.py",
+        "tools\\prompteval\\integration.py",
+        "tools\\prompteval\\loader.py",
+        "tools\\prompteval\\main.py",
+        "tools\\prompteval\\mutations.py",
+        "tools\\prompteval\\parser.py",
+        "tools\\prompteval\\parse_utils.py",
+        "tools\\prompteval\\pattern_evaluator.py",
+        "tools\\prompteval\\prompt_file.py",
+        "tools\\prompteval\\registry_loader.py",
+        "tools\\prompteval\\unified_scorer.py",
+        "tools\\prompteval\\__init__.py",
+        "tools\\prompteval\\__main__.py",
+        "tools\\runners\\cove_runner.py",
+        "tools\\runners\\eval_quick_runner.py",
+        "tools\\runners\\__init__.py",
+        "tools\\scripts\\add_minimal_frontmatter.py",
+        "tools\\scripts\\ai_error_fixer.py",
+        "tools\\scripts\\cleanup_frontmatter.py",
+        "tools\\scripts\\error_collector.py",
+        "tools\\scripts\\example_score_prompt.py",
+        "tools\\scripts\\fix_all_lint.py",
+        "tools\\scripts\\fix_git_whitespace.py",
+        "tools\\scripts\\fix_heading_punctuation.py",
+        "tools\\scripts\\fix_markdown_lint.py",
+        "tools\\scripts\\fix_table_spacing.py",
+        "tools\\scripts\\improve_prompts.py",
+        "tools\\scripts\\report_duplicate_headings.py",
+        "tools\\scripts\\run_ai_fixer.py",
+        "tools\\scripts\\run_lats_improvement.py",
+        "tools\\scripts\\tiered_eval.py",
+        "tools\\scripts\\validate_prompts.py",
+        "tools\\scripts\\__init__.py",
+        "tools\\tests\\run_all_tests.py",
+        "tools\\tests\\test_all_models.py",
+        "tools\\tests\\test_lats.py",
+        "tools\\tests\\test_llm_client.py",
+        "tools\\tests\\test_models.py",
+        "tools\\tests\\test_model_probe.py",
+        "tools\\tests\\test_prompteval.py",
+        "tools\\utils\\audit_prompts.py",
+        "tools\\utils\\check_links.py",
+        "tools\\utils\\generate_eval_files.py",
+        "tools\\utils\\json_extractor.py",
+        "tools\\utils\\normalize_frontmatter.py",
+        "tools\\utils\\scan_prompts_dual.py",
+        "tools\\validation\\auto_fix_prompts.py",
+        "tools\\validation\\debug_frontmatter.py",
+        "tools\\validators\\registry_crosscheck.py",
+        "tools\\validators\\registry_validator.py",
+        "workflows\\langchain_chains.py",
+        "workflows\\langchain_orchestrator.py",
+        "workflows\\langchain_orchestrator_lc.py"
+      ],
+      "documentation": [
+        "CONTRIBUTING.md",
+        "maintenance_report_20260201_180022.md",
+        "maintenance_report_20260201_180057.md",
+        "maintenance_report_20260201_180538.md",
+        "maintenance_report_20260201_193457.md",
+        "maintenance_report_20260201_194309.md",
+        "maintenance_report_20260201_200126.md",
+        "README.md",
+        "REPO_DOCUMENTS.md",
+        "SECURITY.md",
+        "archive\\README.md",
+        "archive\\audit-files\\CoVE-Prompt-Library-Audit.md",
+        "archive\\audit-files\\reflection-data-pipeline-risk-review.md",
+        "archive\\audit-files\\_audit_chain-of-thought-guide.md",
+        "archive\\prompttools-deprecated\\README.md",
+        "archive\\toolkit-backup\\QUICK_START.md",
+        "archive\\toolkit-backup\\README.md",
+        "docs\\FEATURES.md",
+        "docs\\FULL_REPOSITORY_ANALYSIS.md",
+        "docs\\PROMPT_TEMPLATE_STANDARD.md",
+        "docs\\README.md",
+        "docs\\REPO_ANALYSIS.md",
+        "docs\\analysis\\multiagent_systems_overview.md",
+        "docs\\concepts\\about-advanced-patterns.md",
+        "docs\\concepts\\about-prompt-engineering.md",
+        "docs\\concepts\\index.md",
+        "docs\\concepts\\model-capabilities.md",
+        "docs\\concepts\\prompt-anatomy.md",
+        "docs\\concepts\\README.md",
+        "docs\\instructions\\csharp-standards.instructions.md",
+        "docs\\instructions\\dotnet-stack.instructions.md",
+        "docs\\instructions\\index.md",
+        "docs\\instructions\\junior-developer.instructions.md",
+        "docs\\instructions\\mid-level-developer.instructions.md",
+        "docs\\instructions\\project-structure.instructions.md",
+        "docs\\instructions\\razor-standards.instructions.md",
+        "docs\\instructions\\README.md",
+        "docs\\instructions\\security-compliance.instructions.md",
+        "docs\\instructions\\senior-developer.instructions.md",
+        "docs\\instructions\\sql-security.instructions.md",
+        "docs\\instructions\\team-lead.instructions.md",
+        "docs\\planning\\prompt-library-refactor-react.md",
+        "docs\\planning\\README.md",
+        "docs\\planning\\REPOSITORY_CLEANUP_ANALYSIS.md",
+        "docs\\planning\\REPO_UPDATE_TRACKING.md",
+        "docs\\planning\\tot_evaluator_ready.md",
+        "docs\\planning\\tree-of-thoughts-architecture-evaluator.md",
+        "docs\\planning\\tree-of-thoughts-evaluator-reflection.md",
+        "docs\\planning\\tree-of-thoughts-template.md",
+        "docs\\planning\\VALIDATION_REMEDIATION_PLAN.md",
+        "docs\\reference\\cheat-sheet.md",
+        "docs\\reference\\content-types.md",
+        "docs\\reference\\frontmatter-schema.md",
+        "docs\\reference\\glossary.md",
+        "docs\\reference\\index.md",
+        "docs\\reference\\README.md",
+        "docs\\reference\\registry-metadata.md",
+        "docs\\reference\\TASKS_QUICK_REFERENCE.md",
+        "docs\\research\\advanced-technique-research.md",
+        "docs\\research\\CITATION_AND_GOVERNANCE_RESEARCH.md",
+        "docs\\research\\CoVE Reflexion Prompt Library Evaluation.md",
+        "docs\\research\\CoVe.md",
+        "docs\\research\\library-analysis-react.md",
+        "docs\\research\\library.md",
+        "docs\\research\\osint-research-react.md",
+        "docs\\research\\R1_R2_RESEARCH_EXECUTION.md",
+        "docs\\research\\rag-document-retrieval.md",
+        "docs\\research\\react-doc-search-synthesis.md",
+        "docs\\research\\react-knowledge-base-research.md",
+        "docs\\research\\react-tool-augmented.md",
+        "docs\\research\\README.md",
+        "docs\\research\\ResearchReport.md",
+        "docs\\research\\research_analysis_output.md",
+        "docs\\tutorials\\building-effective-prompts.md",
+        "docs\\tutorials\\first-prompt.md",
+        "docs\\tutorials\\index.md",
+        "docs\\tutorials\\prompt-iteration.md",
+        "docs\\tutorials\\README.md",
+        "docs\\tutorials\\running-pattern-evaluation-locally.md",
+        "evaluation\\results\\logs\\wf-51130700.md",
+        "evaluation\\results\\logs\\wf-b9fc0618.md",
+        "evaluation\\results\\logs\\wf-bec2707a.md",
+        "evaluation\\results\\logs\\wf-c7f234d4.md",
+        "evaluation\\results\\logs\\wf-e2c25278.md",
+        "multiagent-workflows\\README.md",
+        "multiagent-workflows\\WORKFLOW_IMPLEMENTATION_GRADING.md",
+        "multiagent-workflows\\config\\prompts\\analyst.md",
+        "multiagent-workflows\\config\\prompts\\architect.md",
+        "multiagent-workflows\\config\\prompts\\coder.md",
+        "multiagent-workflows\\config\\prompts\\debugger.md",
+        "multiagent-workflows\\config\\prompts\\judge.md",
+        "multiagent-workflows\\config\\prompts\\planner.md",
+        "multiagent-workflows\\config\\prompts\\reasoner.md",
+        "multiagent-workflows\\config\\prompts\\researcher.md",
+        "multiagent-workflows\\config\\prompts\\reviewer.md",
+        "multiagent-workflows\\config\\prompts\\tester.md",
+        "multiagent-workflows\\config\\prompts\\validator.md",
+        "multiagent-workflows\\config\\prompts\\vision.md",
+        "multiagent-workflows\\config\\prompts\\writer.md",
+        "multiagent-workflows\\consolidated\\README.md",
+        "multiagent-workflows\\docs\\architecture.md",
+        "multiagent-workflows\\docs\\fullstack_workflow_overview.md",
+        "multiagent-workflows\\evaluation\\datasets\\README.md",
+        "multiagent-workflows\\evaluation\\golden\\README.md",
+        "multiagent-workflows\\evaluation\\results\\README.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-186a443f.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-2188cd4a.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-3ab60738.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-5419f8f3.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-622b4ce8.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-6b1b669d.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-70d13b8e.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-854f891a.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-b11598da.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-bfe75ad6.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-d09ae7e1.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-e4a8aad3.md",
+        "multiagent-workflows\\evaluation\\results\\logs\\wf-fc947095.md",
+        "multiagent-workflows\\examples\\README.md",
+        "multiagent-workflows\\examples\\evaluation\\results\\logs\\wf-05cca4d6.md",
+        "multiagent-workflows\\examples\\evaluation\\results\\logs\\wf-7c8fc906.md",
+        "multiagent-workflows\\examples\\evaluation\\results\\logs\\wf-fd63f9fa.md",
+        "multiagent-workflows\\prompts\\cleanup.md",
+        "multiagent-workflows\\prompts\\documenter.md",
+        "multiagent-workflows\\prompts\\engineering_expert.md",
+        "multiagent-workflows\\prompts\\explorer.md",
+        "multiagent-workflows\\prompts\\lats_quality_controller.md",
+        "multiagent-workflows\\prompts\\librarian.md",
+        "multiagent-workflows\\prompts\\tester.md",
+        "multiagent-workflows\\scripts\\README.md",
+        "multiagent-workflows\\workflows\\01_fullstack_generation.md",
+        "multiagent-workflows\\workflows\\02_legacy_refactoring.md",
+        "multiagent-workflows\\workflows\\03_bug_triage_fix.md",
+        "multiagent-workflows\\workflows\\04_architecture_evolution.md",
+        "prompts\\index.md",
+        "prompts\\README.md",
+        "prompts\\self-consistency-reasoning.md",
+        "prompts\\advanced\\advanced-technique-research.md",
+        "prompts\\advanced\\chain-of-thought-concise.md",
+        "prompts\\advanced\\chain-of-thought-debugging.md",
+        "prompts\\advanced\\chain-of-thought-detailed.md",
+        "prompts\\advanced\\chain-of-thought-guide.md",
+        "prompts\\advanced\\chain-of-thought-performance-analysis.md",
+        "prompts\\advanced\\CoVe.md",
+        "prompts\\advanced\\index.md",
+        "prompts\\advanced\\lats-lite-evaluator.md",
+        "prompts\\advanced\\lats-self-refine-evaluator-agentic-workflow.md",
+        "prompts\\advanced\\lats-self-refine-evaluator.md",
+        "prompts\\advanced\\library-analysis-react.md",
+        "prompts\\advanced\\library.md",
+        "prompts\\advanced\\osint-research-react.md",
+        "prompts\\advanced\\prompt-library-refactor-react.md",
+        "prompts\\advanced\\rag-document-retrieval.md",
+        "prompts\\advanced\\react-doc-search-synthesis.md",
+        "prompts\\advanced\\react-knowledge-base-research.md",
+        "prompts\\advanced\\react-tool-augmented.md",
+        "prompts\\advanced\\README.md",
+        "prompts\\advanced\\reflection-self-critique.md",
+        "prompts\\advanced\\tot-react-cleanup-agent.md",
+        "prompts\\advanced\\tree-of-thoughts-architecture-evaluator.md",
+        "prompts\\advanced\\tree-of-thoughts-evaluator-reflection.md",
+        "prompts\\advanced\\tree-of-thoughts-template.md",
+        "prompts\\agents\\agent-template.md",
+        "prompts\\agents\\AGENTS_GUIDE.md",
+        "prompts\\agents\\architecture-agent.agent.md",
+        "prompts\\agents\\cloud-agent.agent.md",
+        "prompts\\agents\\code-review-agent.agent.md",
+        "prompts\\agents\\devsecops-tooling-agent.agent.md",
+        "prompts\\agents\\docs-agent.agent.md",
+        "prompts\\agents\\index.md",
+        "prompts\\agents\\prompt-agent.agent.md",
+        "prompts\\agents\\README.md",
+        "prompts\\agents\\refactor-agent.agent.md",
+        "prompts\\agents\\security-agent.agent.md",
+        "prompts\\agents\\test-agent.agent.md",
+        "prompts\\analysis\\business-case-developer.md",
+        "prompts\\analysis\\competitive-analysis-researcher.md",
+        "prompts\\analysis\\competitive-intelligence-researcher.md",
+        "prompts\\analysis\\consumer-behavior-researcher.md",
+        "prompts\\analysis\\data-analysis-insights.md",
+        "prompts\\analysis\\data-analysis-specialist.md",
+        "prompts\\analysis\\data-quality-assessment.md",
+        "prompts\\analysis\\gap-analysis-expert.md",
+        "prompts\\analysis\\index.md",
+        "prompts\\analysis\\industry-analysis-expert.md",
+        "prompts\\analysis\\library-capability-radar.md",
+        "prompts\\analysis\\library-network-graph.md",
+        "prompts\\analysis\\library-structure-treemap.md",
+        "prompts\\analysis\\market-research-analyst.md",
+        "prompts\\analysis\\metrics-and-kpi-designer.md",
+        "prompts\\analysis\\process-optimization-consultant.md",
+        "prompts\\analysis\\README.md",
+        "prompts\\analysis\\requirements-analysis-expert.md",
+        "prompts\\analysis\\stakeholder-requirements-gatherer.md",
+        "prompts\\analysis\\tools-ecosystem-evaluator-lite.md",
+        "prompts\\analysis\\tools-ecosystem-evaluator.md",
+        "prompts\\analysis\\trend-analysis-specialist.md",
+        "prompts\\analysis\\user-experience-analyst.md",
+        "prompts\\analysis\\workflow-designer.md",
+        "prompts\\business\\agile-sprint-planner.md",
+        "prompts\\business\\business-process-reengineering.md",
+        "prompts\\business\\client-presentation-designer.md",
+        "prompts\\business\\competitive-analysis.md",
+        "prompts\\business\\index.md",
+        "prompts\\business\\interview-questions.md",
+        "prompts\\business\\onboarding-checklist-creator.md",
+        "prompts\\business\\organizational-change-manager.md",
+        "prompts\\business\\performance-improvement-consultant.md",
+        "prompts\\business\\performance-review.md",
+        "prompts\\business\\pitch-deck-generator.md",
+        "prompts\\business\\project-documentation-manager.md",
+        "prompts\\business\\README.md",
+        "prompts\\business\\resource-allocation-optimizer.md",
+        "prompts\\business\\team-performance-manager.md",
+        "prompts\\business\\timeline-and-milestone-tracker.md",
+        "prompts\\creative\\ad-copy-generator.md",
+        "prompts\\creative\\brand-voice-developer.md",
+        "prompts\\developers\\api-design-consultant.md",
+        "prompts\\developers\\bug-finder.md",
+        "prompts\\developers\\cloud-migration-specialist.md",
+        "prompts\\developers\\code-generation-assistant.md",
+        "prompts\\developers\\code-review-assistant.md",
+        "prompts\\developers\\code-review-expert-structured.md",
+        "prompts\\developers\\code-review-expert.md",
+        "prompts\\developers\\csharp-enterprise-standards-enforcer.md",
+        "prompts\\developers\\csharp-refactoring-assistant.md",
+        "prompts\\developers\\data-pipeline-engineer.md",
+        "prompts\\developers\\database-migration-specialist.md",
+        "prompts\\developers\\database-schema-designer.md",
+        "prompts\\developers\\devops-pipeline-architect.md",
+        "prompts\\developers\\documentation-generator.md",
+        "prompts\\developers\\dotnet-api-designer.md",
+        "prompts\\developers\\frontend-architecture-consultant.md",
+        "prompts\\developers\\index.md",
+        "prompts\\developers\\legacy-system-modernization.md",
+        "prompts\\developers\\microservices-architect.md",
+        "prompts\\developers\\mid-level-developer-architecture-coach.md",
+        "prompts\\developers\\mobile-app-developer.md",
+        "prompts\\developers\\performance-optimization-specialist.md",
+        "prompts\\developers\\README.md",
+        "prompts\\developers\\refactoring-plan-designer.md",
+        "prompts\\developers\\security-code-auditor.md",
+        "prompts\\developers\\sql-query-analyzer.md",
+        "prompts\\developers\\sql-security-standards-enforcer.md",
+        "prompts\\developers\\test-automation-engineer.md",
+        "prompts\\developers\\unified-documentation-library-builder.md",
+        "prompts\\frameworks\\enterprise-prompt-evaluation-framework.md",
+        "prompts\\frameworks\\README.md",
+        "prompts\\frameworks\\anthropic\\README.md",
+        "prompts\\frameworks\\anthropic\\tool-use\\claude-tool-use.md",
+        "prompts\\frameworks\\langchain\\README.md",
+        "prompts\\frameworks\\langchain\\agent-patterns\\langchain-agents.md",
+        "prompts\\frameworks\\langchain\\lcel-patterns\\langchain-reflexion-example.md",
+        "prompts\\frameworks\\microsoft\\README.md",
+        "prompts\\frameworks\\microsoft\\copilot-patterns\\github-copilot-instructions.md",
+        "prompts\\frameworks\\microsoft\\dotnet\\csharp-multimodel-client.md",
+        "prompts\\frameworks\\microsoft\\semantic-kernel\\semantic-kernel-patterns.md",
+        "prompts\\frameworks\\openai\\README.md",
+        "prompts\\frameworks\\openai\\assistants-api\\openai-assistants.md",
+        "prompts\\frameworks\\openai\\function-calling\\openai-function-calling.md",
+        "prompts\\m365\\m365-daily-standup-assistant.md",
+        "prompts\\m365\\m365-data-insights-assistant.md",
+        "prompts\\m365\\README.md",
+        "prompts\\socmint\\email-investigation.md",
+        "prompts\\socmint\\email-osint-investigation.md",
+        "prompts\\socmint\\README.md",
+        "prompts\\socmint\\social-media-profile-analysis.md",
+        "prompts\\socmint\\socmint-investigator.md",
+        "prompts\\socmint\\username-investigation.md",
+        "prompts\\socmint\\username-pivot-investigation.md",
+        "prompts\\system\\ai-assistant-system-prompt.md",
+        "prompts\\system\\api-architecture-designer.md",
+        "prompts\\system\\blockchain-architecture-specialist.md",
+        "prompts\\system\\cloud-architecture-consultant.md",
+        "prompts\\system\\compliance-architecture-designer.md",
+        "prompts\\system\\data-architecture-designer.md",
+        "prompts\\system\\devops-architecture-planner.md",
+        "prompts\\system\\disaster-recovery-architect.md",
+        "prompts\\system\\enterprise-integration-architect.md",
+        "prompts\\system\\example-research-output.md",
+        "prompts\\system\\frontier-agent-deep-research.md",
+        "prompts\\system\\index.md",
+        "prompts\\system\\iot-architecture-designer.md",
+        "prompts\\system\\legacy-modernization-architect.md",
+        "prompts\\system\\library-visual-audit.md",
+        "prompts\\system\\m365-copilot-research-agent.md",
+        "prompts\\system\\microservices-architecture-expert.md",
+        "prompts\\system\\mobile-architecture-consultant.md",
+        "prompts\\system\\office-agent-technical-specs.md",
+        "prompts\\system\\performance-architecture-optimizer.md",
+        "prompts\\system\\prompt-quality-evaluator.md",
+        "prompts\\system\\README.md",
+        "prompts\\system\\security-architecture-specialist.md",
+        "prompts\\system\\solution-architecture-designer.md",
+        "prompts\\system\\tree-of-thoughts-repository-evaluator.md",
+        "prompts\\techniques\\README.md",
+        "prompts\\techniques\\agentic\\README.md",
+        "prompts\\techniques\\agentic\\multi-agent\\multi-agent-workflow.md",
+        "prompts\\techniques\\agentic\\multi-agent\\multiagent-dev-system-consolidated.md",
+        "prompts\\techniques\\agentic\\multi-agent\\multiagent-dev-system-prompt.md",
+        "prompts\\techniques\\agentic\\single-agent\\code-review-agent.md",
+        "prompts\\techniques\\context-optimization\\README.md",
+        "prompts\\techniques\\context-optimization\\compression\\hierarchical-compression.md",
+        "prompts\\techniques\\context-optimization\\compression\\semantic-compression.md",
+        "prompts\\techniques\\context-optimization\\many-shot-learning\\many-shot-learning.md",
+        "prompts\\techniques\\context-optimization\\retrieval-augmented\\rag-code-documentation.md",
+        "prompts\\techniques\\reflexion\\README.md",
+        "prompts\\techniques\\reflexion\\basic-reflexion\\basic-reflexion.md",
+        "prompts\\techniques\\reflexion\\domain-specific\\analysis-reflexion.md",
+        "prompts\\techniques\\reflexion\\domain-specific\\csharp-code-generator.md",
+        "prompts\\techniques\\reflexion\\domain-specific\\problem-solving-reflexion.md",
+        "prompts\\techniques\\reflexion\\multi-step-reflexion\\multi-step-reflexion.md",
+        "prompts\\templates\\advanced_research_prompt.md",
+        "prompts\\templates\\index-template.md",
+        "prompts\\templates\\prompt-improvement-template.md",
+        "prompts\\templates\\prompt-template-minimal.md",
+        "prompts\\templates\\prompt-template.md",
+        "prompts\\templates\\quick-start-template.md",
+        "prompts\\templates\\README.md",
+        "prompts\\templates\\roi-calculator.md",
+        "results\\benchmark_runs\\custom-local_20260123_075036\\task_1_evaluation.md",
+        "results\\benchmark_runs\\custom-local_20260123_075036\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_075857\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_080229\\task_1_eval.md",
+        "results\\benchmark_runs\\custom-local_20260123_080229\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_084530\\task_1_eval.md",
+        "results\\benchmark_runs\\custom-local_20260123_084530\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_084530\\task_1_phases.md",
+        "results\\benchmark_runs\\custom-local_20260123_112957\\task_1_eval.md",
+        "results\\benchmark_runs\\custom-local_20260123_112957\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_112957\\task_1_phases.md",
+        "results\\benchmark_runs\\custom-local_20260123_181500\\task_1_eval.md",
+        "results\\benchmark_runs\\custom-local_20260123_181500\\task_1_output.md",
+        "results\\benchmark_runs\\custom-local_20260123_181500\\task_1_phases.md",
+        "testing\\CONSOLIDATION_REPORT.md",
+        "testing\\README.md",
+        "testing\\archive\\README.md",
+        "testing\\archive\\2025-12-04\\developers-full-report.md",
+        "testing\\archive\\2025-12-04\\developers-improved-report.md",
+        "testing\\archive\\2025-12-04\\developers-report-v2.md",
+        "testing\\archive\\2025-12-04\\developers-report.md",
+        "testing\\evals\\IMPLEMENTATION_TRACKING.md",
+        "testing\\evals\\README.md",
+        "testing\\evals\\advanced\\README.md",
+        "testing\\evals\\analysis\\README.md",
+        "testing\\evals\\business\\README.md",
+        "testing\\evals\\results\\company-osint-investigation_dual_eval.md",
+        "testing\\evals\\system\\README.md",
+        "testing\\framework\\README.md",
+        "testing\\framework\\core\\README.md",
+        "testing\\framework\\validators\\README.md",
+        "testing\\integration\\README.md",
+        "testing\\tool_tests\\README.md",
+        "testing\\unit\\README.md",
+        "testing\\validators\\README.md",
+        "tools\\README.md",
+        "tools\\agents\\benchmarks\\README.md",
+        "tools\\agents\\gold_standards\\README.md",
+        "tools\\archive\\EVALUATION_AGENT_GUIDE.md",
+        "tools\\archive\\enterprise_evaluator\\README.md",
+        "tools\\docs\\analyzers.md",
+        "tools\\docs\\cove-runner.md",
+        "tools\\docs\\evaluation-agent.md",
+        "tools\\docs\\lats-improvement.md",
+        "tools\\docs\\llm-client.md",
+        "tools\\docs\\local-media.md",
+        "tools\\docs\\local-model.md",
+        "tools\\docs\\model-probe.md",
+        "tools\\docs\\validators.md",
+        "tools\\documentation\\advanced-technique-research-tools-PromptOnly.md",
+        "tools\\documentation\\advanced-technique-research-tools.md",
+        "tools\\documentation\\EXECUTION_GUIDELINES.md",
+        "tools\\documentation\\tests_README.md",
+        "tools\\documentation\\TOOLS_OVERVIEW.md",
+        "tools\\documentation\\WINDOWS_AI_README.md",
+        "tools\\llm\\windows_ai_bridge\\PHI_SILICA_STATUS.md",
+        "tools\\tests\\AUDIT_SUMMARY.md",
+        "tools\\tests\\TEST_COVERAGE_REPORT.md",
+        "workflows\\agentic_planning\\model_selection_matrix.md",
+        "workflows\\agentic_planning\\plan.md",
+        "workflows\\agentic_planning\\README.md",
+        "_recovery\\BATCH_PROCESSING_REPORT.md",
+        "_recovery\\MISSING_SECTIONS_REPORT.md",
+        "_recovery\\PRIORITY3_RESOLUTION_REPORT.md"
+      ],
+      "tools": [
+        "archive\\prompttools-deprecated\\cache.py",
+        "archive\\prompttools-deprecated\\cli.py",
+        "archive\\prompttools-deprecated\\config.py",
+        "archive\\prompttools-deprecated\\evaluate.py",
+        "archive\\prompttools-deprecated\\llm.py",
+        "archive\\prompttools-deprecated\\parse.py",
+        "archive\\prompttools-deprecated\\validate.py",
+        "archive\\prompttools-deprecated\\__init__.py",
+        "archive\\prompttools-deprecated\\__main__.py",
+        "multiagent-workflows\\run_real_benchmarks.py",
+        "multiagent-workflows\\run_workflow_cloud.py",
+        "multiagent-workflows\\run_workflow_test.py",
+        "multiagent-workflows\\examples\\run_code_grading.py",
+        "multiagent-workflows\\examples\\run_defect_resolution.py",
+        "multiagent-workflows\\examples\\run_fullstack.py",
+        "multiagent-workflows\\examples\\run_system_design.py",
+        "multiagent-workflows\\scripts\\run_benchmarks_direct.py",
+        "multiagent-workflows\\scripts\\run_repo_maintenance.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\server\\run_manager.py",
+        "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+        "scripts\\run_matrix_evals.py",
+        "testing\\run_pattern_eval_local.py",
+        "testing\\run_tests.py",
+        "tools\\dynamic_eval_manager.py",
+        "tools\\validate_prompts.py",
+        "tools\\__init__.py",
+        "tools\\agents\\code_generator.py",
+        "tools\\agents\\evaluation_agent.py",
+        "tools\\agents\\multi_agent_orchestrator.py",
+        "tools\\agents\\test_tasks.py",
+        "tools\\agents\\workflow_runner.py",
+        "tools\\agents\\__init__.py",
+        "tools\\agents\\benchmarks\\datasets.py",
+        "tools\\agents\\benchmarks\\llm_evaluator.py",
+        "tools\\agents\\benchmarks\\loader.py",
+        "tools\\agents\\benchmarks\\registry.py",
+        "tools\\agents\\benchmarks\\runner.py",
+        "tools\\agents\\benchmarks\\__init__.py",
+        "tools\\agents\\fullstack_generator\\agents.py",
+        "tools\\agents\\fullstack_generator\\langchain_models.py",
+        "tools\\agents\\fullstack_generator\\runner.py",
+        "tools\\agents\\fullstack_generator\\workflow.py",
+        "tools\\agents\\fullstack_generator\\__init__.py",
+        "tools\\analysis\\tools_ecosystem_evaluator.py",
+        "tools\\analysis\\tools_ecosystem_merge.py",
+        "tools\\analysis\\__init__.py",
+        "tools\\archive\\batch_evaluate.py",
+        "tools\\archive\\batch_free_eval.py",
+        "tools\\archive\\cove_batch_analyzer.py",
+        "tools\\archive\\evaluate_library.py",
+        "tools\\archive\\evaluation_agent.py",
+        "tools\\archive\\run_eval_direct.py",
+        "tools\\archive\\run_eval_geval.py",
+        "tools\\archive\\run_eval_geval_2.py",
+        "tools\\archive\\run_gh_eval.py",
+        "tools\\archive\\tiered_eval.py",
+        "tools\\archive\\enterprise_evaluator\\batch_evaluate_models.py",
+        "tools\\archive\\enterprise_evaluator\\evaluator.py",
+        "tools\\archive\\enterprise_evaluator\\main.py",
+        "tools\\archive\\enterprise_evaluator\\test_models.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\dimensions.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\rubrics.py",
+        "tools\\archive\\enterprise_evaluator\\framework\\scoring.py",
+        "tools\\benchmarks\\performance_evaluator.py",
+        "tools\\cli\\cli_help.py",
+        "tools\\cli\\interactive.py",
+        "tools\\cli\\main.py",
+        "tools\\cli\\__init__.py",
+        "tools\\core\\cache.py",
+        "tools\\core\\config.py",
+        "tools\\core\\errors.py",
+        "tools\\core\\local_media.py",
+        "tools\\core\\prompt_db.py",
+        "tools\\core\\response_cache.py",
+        "tools\\core\\tool_init.py",
+        "tools\\core\\_encoding.py",
+        "tools\\core\\__init__.py",
+        "tools\\llm\\langchain_adapter.py",
+        "tools\\llm\\list_gemini.py",
+        "tools\\llm\\llm_client.py",
+        "tools\\llm\\local_model.py",
+        "tools\\llm\\model_inventory.py",
+        "tools\\llm\\model_locks.py",
+        "tools\\llm\\model_probe.py",
+        "tools\\llm\\windows_ai.py",
+        "tools\\llm\\__init__.py",
+        "tools\\models\\generator.py",
+        "tools\\models\\refiner.py",
+        "tools\\models\\reviewer.py",
+        "tools\\models\\__init__.py",
+        "tools\\prompteval\\builtin_evaluators.py",
+        "tools\\prompteval\\config.py",
+        "tools\\prompteval\\core.py",
+        "tools\\prompteval\\failures.py",
+        "tools\\prompteval\\integration.py",
+        "tools\\prompteval\\loader.py",
+        "tools\\prompteval\\main.py",
+        "tools\\prompteval\\mutations.py",
+        "tools\\prompteval\\parser.py",
+        "tools\\prompteval\\parse_utils.py",
+        "tools\\prompteval\\pattern_evaluator.py",
+        "tools\\prompteval\\prompt_file.py",
+        "tools\\prompteval\\registry_loader.py",
+        "tools\\prompteval\\unified_scorer.py",
+        "tools\\prompteval\\__init__.py",
+        "tools\\prompteval\\__main__.py",
+        "tools\\runners\\cove_runner.py",
+        "tools\\runners\\eval_quick_runner.py",
+        "tools\\runners\\__init__.py",
+        "tools\\scripts\\add_minimal_frontmatter.py",
+        "tools\\scripts\\ai_error_fixer.py",
+        "tools\\scripts\\cleanup_frontmatter.py",
+        "tools\\scripts\\error_collector.py",
+        "tools\\scripts\\example_score_prompt.py",
+        "tools\\scripts\\fix_all_lint.py",
+        "tools\\scripts\\fix_git_whitespace.py",
+        "tools\\scripts\\fix_heading_punctuation.py",
+        "tools\\scripts\\fix_markdown_lint.py",
+        "tools\\scripts\\fix_table_spacing.py",
+        "tools\\scripts\\improve_prompts.py",
+        "tools\\scripts\\report_duplicate_headings.py",
+        "tools\\scripts\\run_ai_fixer.py",
+        "tools\\scripts\\run_lats_improvement.py",
+        "tools\\scripts\\tiered_eval.py",
+        "tools\\scripts\\validate_prompts.py",
+        "tools\\scripts\\__init__.py",
+        "tools\\tests\\run_all_tests.py",
+        "tools\\tests\\test_all_models.py",
+        "tools\\tests\\test_lats.py",
+        "tools\\tests\\test_llm_client.py",
+        "tools\\tests\\test_models.py",
+        "tools\\tests\\test_model_probe.py",
+        "tools\\tests\\test_prompteval.py",
+        "tools\\utils\\audit_prompts.py",
+        "tools\\utils\\check_links.py",
+        "tools\\utils\\generate_eval_files.py",
+        "tools\\utils\\json_extractor.py",
+        "tools\\utils\\normalize_frontmatter.py",
+        "tools\\utils\\scan_prompts_dual.py",
+        "tools\\validation\\auto_fix_prompts.py",
+        "tools\\validation\\debug_frontmatter.py",
+        "tools\\validators\\registry_crosscheck.py",
+        "tools\\validators\\registry_validator.py"
+      ],
+      "potential_duplicates": [
+        {
+          "filename": "analyze_missing.py",
+          "locations": [
+            "analyze_missing.py",
+            "scripts\\analyze_missing.py"
+          ]
+        },
+        {
+          "filename": "conftest.py",
+          "locations": [
+            "conftest.py",
+            "multiagent-workflows\\tests\\conftest.py",
+            "testing\\conftest.py"
+          ]
+        },
+        {
+          "filename": "update_progress_report.py",
+          "locations": [
+            "update_progress_report.py",
+            "scripts\\update_progress_report.py"
+          ]
+        },
+        {
+          "filename": "cache.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cache.py",
+            "tools\\core\\cache.py"
+          ]
+        },
+        {
+          "filename": "cli.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cli.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\cli.py"
+          ]
+        },
+        {
+          "filename": "config.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\config.py",
+            "tools\\core\\config.py",
+            "tools\\prompteval\\config.py"
+          ]
+        },
+        {
+          "filename": "__init__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\langchain\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+            "testing\\framework\\core\\__init__.py",
+            "testing\\framework\\validators\\__init__.py",
+            "testing\\integration\\__init__.py",
+            "testing\\tool_tests\\__init__.py",
+            "testing\\unit\\__init__.py",
+            "tools\\__init__.py",
+            "tools\\agents\\__init__.py",
+            "tools\\agents\\benchmarks\\__init__.py",
+            "tools\\agents\\fullstack_generator\\__init__.py",
+            "tools\\analysis\\__init__.py",
+            "tools\\cli\\__init__.py",
+            "tools\\core\\__init__.py",
+            "tools\\llm\\__init__.py",
+            "tools\\models\\__init__.py",
+            "tools\\prompteval\\__init__.py",
+            "tools\\runners\\__init__.py",
+            "tools\\scripts\\__init__.py"
+          ]
+        },
+        {
+          "filename": "__main__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__main__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+            "tools\\prompteval\\__main__.py"
+          ]
+        },
+        {
+          "filename": "datasets.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\datasets.py",
+            "tools\\agents\\benchmarks\\datasets.py"
+          ]
+        },
+        {
+          "filename": "logger.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\logger.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\logger.py"
+          ]
+        },
+        {
+          "filename": "model_manager.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\model_manager.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\model_manager.py"
+          ]
+        },
+        {
+          "filename": "scorer.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\scorer.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\scorer.py"
+          ]
+        },
+        {
+          "filename": "architect_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\architect_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\architect_agent.py"
+          ]
+        },
+        {
+          "filename": "coder_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\coder_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\coder_agent.py"
+          ]
+        },
+        {
+          "filename": "reviewer_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\reviewer_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\reviewer_agent.py"
+          ]
+        },
+        {
+          "filename": "app.py",
+          "locations": [
+            "multiagent-workflows\\examples\\buggy_app\\app.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\app.py"
+          ]
+        },
+        {
+          "filename": "base.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\base.py"
+          ]
+        },
+        {
+          "filename": "evaluator.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\evaluator.py",
+            "tools\\archive\\enterprise_evaluator\\evaluator.py"
+          ]
+        },
+        {
+          "filename": "registry.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\registry.py",
+            "tools\\agents\\benchmarks\\registry.py"
+          ]
+        },
+        {
+          "filename": "test_cli.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\test_cli.py",
+            "testing\\tool_tests\\test_cli.py"
+          ]
+        },
+        {
+          "filename": "test_runner.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+            "testing\\framework\\core\\test_runner.py"
+          ]
+        },
+        {
+          "filename": "base_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+            "testing\\framework\\validators\\base_validator.py"
+          ]
+        },
+        {
+          "filename": "code_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+            "testing\\framework\\validators\\code_validator.py"
+          ]
+        },
+        {
+          "filename": "validate_prompts.py",
+          "locations": [
+            "tools\\validate_prompts.py",
+            "tools\\scripts\\validate_prompts.py"
+          ]
+        },
+        {
+          "filename": "evaluation_agent.py",
+          "locations": [
+            "tools\\agents\\evaluation_agent.py",
+            "tools\\archive\\evaluation_agent.py"
+          ]
+        },
+        {
+          "filename": "loader.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\loader.py",
+            "tools\\prompteval\\loader.py"
+          ]
+        },
+        {
+          "filename": "runner.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\runner.py",
+            "tools\\agents\\fullstack_generator\\runner.py"
+          ]
+        },
+        {
+          "filename": "tiered_eval.py",
+          "locations": [
+            "tools\\archive\\tiered_eval.py",
+            "tools\\scripts\\tiered_eval.py"
+          ]
+        },
+        {
+          "filename": "main.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\main.py",
+            "tools\\cli\\main.py",
+            "tools\\prompteval\\main.py"
+          ]
+        },
+        {
+          "filename": "test_models.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\test_models.py",
+            "tools\\tests\\test_models.py"
+          ]
+        }
+      ]
+    },
+    "tool_count": 144,
+    "doc_count": 384,
+    "duplicate_candidates": 30
+  },
+  "testing": {
+    "test_results": {
+      "tested": [
+        {
+          "path": "archive\\prompttools-deprecated\\cache.py",
+          "name": "cache",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\cli.py",
+          "name": "cli",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\config.py",
+          "name": "config",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\evaluate.py",
+          "name": "evaluate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\llm.py",
+          "name": "llm",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\parse.py",
+          "name": "parse",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\validate.py",
+          "name": "validate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__main__.py",
+          "name": "__main__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_real_benchmarks.py",
+          "name": "run_real_benchmarks",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_workflow_cloud.py",
+          "name": "run_workflow_cloud",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_workflow_test.py",
+          "name": "run_workflow_test",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_code_grading.py",
+          "name": "run_code_grading",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_defect_resolution.py",
+          "name": "run_defect_resolution",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_fullstack.py",
+          "name": "run_fullstack",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_system_design.py",
+          "name": "run_system_design",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\scripts\\run_benchmarks_direct.py",
+          "name": "run_benchmarks_direct",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\scripts\\run_repo_maintenance.py",
+          "name": "run_repo_maintenance",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+          "name": "cli",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\server\\run_manager.py",
+          "name": "run_manager",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "scripts\\run_matrix_evals.py",
+          "name": "run_matrix_evals",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "testing\\run_pattern_eval_local.py",
+          "name": "run_pattern_eval_local",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "testing\\run_tests.py",
+          "name": "run_tests",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\dynamic_eval_manager.py",
+          "name": "dynamic_eval_manager",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\validate_prompts.py",
+          "name": "validate_prompts",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\code_generator.py",
+          "name": "code_generator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\evaluation_agent.py",
+          "name": "evaluation_agent",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\multi_agent_orchestrator.py",
+          "name": "multi_agent_orchestrator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\test_tasks.py",
+          "name": "test_tasks",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\workflow_runner.py",
+          "name": "workflow_runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\datasets.py",
+          "name": "datasets",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\llm_evaluator.py",
+          "name": "llm_evaluator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\loader.py",
+          "name": "loader",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\registry.py",
+          "name": "registry",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\runner.py",
+          "name": "runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\agents.py",
+          "name": "agents",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\langchain_models.py",
+          "name": "langchain_models",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\runner.py",
+          "name": "runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\workflow.py",
+          "name": "workflow",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\tools_ecosystem_evaluator.py",
+          "name": "tools_ecosystem_evaluator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\tools_ecosystem_merge.py",
+          "name": "tools_ecosystem_merge",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\batch_evaluate.py",
+          "name": "batch_evaluate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\batch_free_eval.py",
+          "name": "batch_free_eval",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\cove_batch_analyzer.py",
+          "name": "cove_batch_analyzer",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        }
+      ],
+      "working": [
+        {
+          "path": "archive\\prompttools-deprecated\\cache.py",
+          "name": "cache",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\cli.py",
+          "name": "cli",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\config.py",
+          "name": "config",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\evaluate.py",
+          "name": "evaluate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\llm.py",
+          "name": "llm",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\parse.py",
+          "name": "parse",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\validate.py",
+          "name": "validate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__main__.py",
+          "name": "__main__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_real_benchmarks.py",
+          "name": "run_real_benchmarks",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_workflow_cloud.py",
+          "name": "run_workflow_cloud",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\run_workflow_test.py",
+          "name": "run_workflow_test",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_code_grading.py",
+          "name": "run_code_grading",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_defect_resolution.py",
+          "name": "run_defect_resolution",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_fullstack.py",
+          "name": "run_fullstack",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\examples\\run_system_design.py",
+          "name": "run_system_design",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\scripts\\run_benchmarks_direct.py",
+          "name": "run_benchmarks_direct",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\scripts\\run_repo_maintenance.py",
+          "name": "run_repo_maintenance",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+          "name": "cli",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\server\\run_manager.py",
+          "name": "run_manager",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "scripts\\run_matrix_evals.py",
+          "name": "run_matrix_evals",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "testing\\run_pattern_eval_local.py",
+          "name": "run_pattern_eval_local",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "testing\\run_tests.py",
+          "name": "run_tests",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\dynamic_eval_manager.py",
+          "name": "dynamic_eval_manager",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\validate_prompts.py",
+          "name": "validate_prompts",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\code_generator.py",
+          "name": "code_generator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\evaluation_agent.py",
+          "name": "evaluation_agent",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\multi_agent_orchestrator.py",
+          "name": "multi_agent_orchestrator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\test_tasks.py",
+          "name": "test_tasks",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\workflow_runner.py",
+          "name": "workflow_runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\datasets.py",
+          "name": "datasets",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\llm_evaluator.py",
+          "name": "llm_evaluator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\loader.py",
+          "name": "loader",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\registry.py",
+          "name": "registry",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\runner.py",
+          "name": "runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\benchmarks\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\agents.py",
+          "name": "agents",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\langchain_models.py",
+          "name": "langchain_models",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\runner.py",
+          "name": "runner",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\workflow.py",
+          "name": "workflow",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\agents\\fullstack_generator\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\tools_ecosystem_evaluator.py",
+          "name": "tools_ecosystem_evaluator",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\tools_ecosystem_merge.py",
+          "name": "tools_ecosystem_merge",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\analysis\\__init__.py",
+          "name": "__init__",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\batch_evaluate.py",
+          "name": "batch_evaluate",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\batch_free_eval.py",
+          "name": "batch_free_eval",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        },
+        {
+          "path": "tools\\archive\\cove_batch_analyzer.py",
+          "name": "cove_batch_analyzer",
+          "status": "syntax_ok",
+          "details": "Syntax valid"
+        }
+      ],
+      "broken": [],
+      "skipped": []
+    },
+    "total_tested": 50,
+    "working_count": 50,
+    "broken_count": 0
+  },
+  "engineering": {
+    "engineering_analysis": {
+      "analyzed": [],
+      "quality_issues": [],
+      "best_practices_violations": [],
+      "security_concerns": [],
+      "technical_debt": [],
+      "recommendations": []
+    },
+    "total_analyzed": 10,
+    "quality_issues_count": 0,
+    "security_concerns_count": 0,
+    "best_practices_violations_count": 0
+  },
+  "documentation": {
+    "audit_results": {
+      "audited": [
+        {
+          "path": "CONTRIBUTING.md",
+          "size": 9858,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_180022.md",
+          "size": 5052,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_180057.md",
+          "size": 5052,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_180538.md",
+          "size": 5052,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_193457.md",
+          "size": 5052,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_194309.md",
+          "size": 4980,
+          "issues": []
+        },
+        {
+          "path": "maintenance_report_20260201_200126.md",
+          "size": 3651,
+          "issues": []
+        },
+        {
+          "path": "README.md",
+          "size": 18525,
+          "issues": []
+        },
+        {
+          "path": "REPO_DOCUMENTS.md",
+          "size": 3362,
+          "issues": []
+        },
+        {
+          "path": "SECURITY.md",
+          "size": 1129,
+          "issues": []
+        },
+        {
+          "path": "archive\\README.md",
+          "size": 1331,
+          "issues": []
+        },
+        {
+          "path": "archive\\audit-files\\CoVE-Prompt-Library-Audit.md",
+          "size": 4277,
+          "issues": []
+        },
+        {
+          "path": "archive\\audit-files\\reflection-data-pipeline-risk-review.md",
+          "size": 1930,
+          "issues": []
+        },
+        {
+          "path": "archive\\audit-files\\_audit_chain-of-thought-guide.md",
+          "size": 725,
+          "issues": []
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\README.md",
+          "size": 15655,
+          "issues": []
+        },
+        {
+          "path": "archive\\toolkit-backup\\QUICK_START.md",
+          "size": 1988,
+          "issues": []
+        },
+        {
+          "path": "archive\\toolkit-backup\\README.md",
+          "size": 9859,
+          "issues": []
+        },
+        {
+          "path": "docs\\FEATURES.md",
+          "size": 3787,
+          "issues": []
+        },
+        {
+          "path": "docs\\FULL_REPOSITORY_ANALYSIS.md",
+          "size": 22664,
+          "issues": []
+        },
+        {
+          "path": "docs\\PROMPT_TEMPLATE_STANDARD.md",
+          "size": 5665,
+          "issues": []
+        }
+      ],
+      "issues": [],
+      "broken_links": [
+        {
+          "file": "README.md",
+          "link": "/docs/tutorials/first-prompt",
+          "text": "Your First Prompt"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/quickstart-copilot",
+          "text": "Quickstart for Copilot"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/quickstart-chatgpt",
+          "text": "Quickstart for ChatGPT"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/quickstart-claude",
+          "text": "Quickstart for Claude"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/quickstart-m365",
+          "text": "Quickstart for M365"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/reference/cheat-sheet",
+          "text": "Cheat Sheet"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/troubleshooting/",
+          "text": "Troubleshooting"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/tutorials/first-prompt",
+          "text": "Your First Prompt"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/choosing-the-right-pattern",
+          "text": "Choosing the Right Pattern"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/get-started/",
+          "text": "Platform Quickstarts"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/reference/cheat-sheet",
+          "text": "Cheat Sheet"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/reference/platform-comparison",
+          "text": "Platform Comparison"
+        },
+        {
+          "file": "README.md",
+          "link": "/docs/reference/glossary",
+          "text": "Glossary"
+        }
+      ],
+      "missing_sections": [],
+      "llm_summary": "### Analysis of Documentation Files\n\n#### 1. Missing Required Sections\n- **CONTRIBUTING.md**\n  - **Installation Section:** There is no section that explains how to set up the environment or prerequisites for contribution.\n  - **Usage Section:** Lacks examples of how to use contributions effectively after they are added.\n  - **Examples Section:** No practical examples of newly created prompts or improvements.\n  - **API Reference:** If applicable, an API reference is not provided, particularly if the prompts interface with other systems.\n\n#### 2. Outdated or Stale Content Indicators\n- **CONTRIBUTING.md** is dated **2025-11-30**, while the maintenance reports are dated **2026-02-01**, indicating potential outdatedness since updates may have occurred after its publication. \n- The versioning does not reflect ongoing changes (e.g., version **1.0** indicates it has not been incremented despite possible updates).\n\n#### 3. Documentation Gaps\n- **Lack of Clarity:** The \"Getting Started\" section is incomplete; it ends abruptly and does not explain how to finish forking or contributing.\n- **No Contact Information for Questions:** There is no mention of how contributors can seek help or clarification about the contribution process.\n- **No Contributor Guidelines:** Best practices for how contributions should be formatted or style guides are missing.\n- **Digital Presence Links:** There are no links to relevant platforms or community contributors (e.g., forums, chat groups).\n\n#### 4. Overall Quality Assessment\n- The **COMTRIBUTING.md** file provides a basic framework for contributions but is incomplete. It requires essential sections on installation, usage, examples, and possibly a clearer contribution guideline.\n- The maintenance reports highlight various issues regarding code quality and security but lack detail about specific documentation issues. The mention of \"Documentation Issues: 4\" warrants investigation to determine if additional documentation efforts are needed.\n- Overall, while the intent of the documentation is clear, the quality needs improvement through the addition of essential sections, updates, and clarity to ensure it adequately guides both junior and senior engineers effectively.\n"
+    },
+    "total_audited": 20,
+    "issues_found": 0,
+    "broken_links_count": 13
+  },
+  "cleanup": {
+    "cleanup_plan": {
+      "phase1_safe": [],
+      "phase2_medium": [
+        {
+          "path": "archive\\prompttools-deprecated\\cache.py",
+          "reason": "Archived copy with active version: tools\\core\\cache.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\cli.py",
+          "reason": "Archived copy with active version: multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\config.py",
+          "reason": "Archived copy with active version: tools\\core\\config.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__init__.py",
+          "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "archive\\prompttools-deprecated\\__main__.py",
+          "reason": "Archived copy with active version: multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\test_cli.py",
+          "reason": "Archived copy with active version: testing\\tool_tests\\test_cli.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+          "reason": "Archived copy with active version: testing\\framework\\core\\test_runner.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+          "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+          "reason": "Archived copy with active version: testing\\framework\\validators\\base_validator.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+          "reason": "Archived copy with active version: testing\\framework\\validators\\code_validator.py",
+          "action": "VERIFY_AND_DELETE"
+        },
+        {
+          "path": "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+          "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+          "action": "VERIFY_AND_DELETE"
+        }
+      ],
+      "phase3_manual": [
+        {
+          "filename": "analyze_missing.py",
+          "locations": [
+            "analyze_missing.py",
+            "scripts\\analyze_missing.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "conftest.py",
+          "locations": [
+            "conftest.py",
+            "multiagent-workflows\\tests\\conftest.py",
+            "testing\\conftest.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "update_progress_report.py",
+          "locations": [
+            "update_progress_report.py",
+            "scripts\\update_progress_report.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "cache.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cache.py",
+            "tools\\core\\cache.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "cli.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cli.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\cli.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "config.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\config.py",
+            "tools\\core\\config.py",
+            "tools\\prompteval\\config.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "__init__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\langchain\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+            "testing\\framework\\core\\__init__.py",
+            "testing\\framework\\validators\\__init__.py",
+            "testing\\integration\\__init__.py",
+            "testing\\tool_tests\\__init__.py",
+            "testing\\unit\\__init__.py",
+            "tools\\__init__.py",
+            "tools\\agents\\__init__.py",
+            "tools\\agents\\benchmarks\\__init__.py",
+            "tools\\agents\\fullstack_generator\\__init__.py",
+            "tools\\analysis\\__init__.py",
+            "tools\\cli\\__init__.py",
+            "tools\\core\\__init__.py",
+            "tools\\llm\\__init__.py",
+            "tools\\models\\__init__.py",
+            "tools\\prompteval\\__init__.py",
+            "tools\\runners\\__init__.py",
+            "tools\\scripts\\__init__.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "__main__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__main__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+            "tools\\prompteval\\__main__.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "datasets.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\datasets.py",
+            "tools\\agents\\benchmarks\\datasets.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "logger.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\logger.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\logger.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "model_manager.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\model_manager.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\model_manager.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "scorer.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\scorer.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\scorer.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "architect_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\architect_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\architect_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "coder_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\coder_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\coder_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "reviewer_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\reviewer_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\reviewer_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "app.py",
+          "locations": [
+            "multiagent-workflows\\examples\\buggy_app\\app.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\app.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "base.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\base.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "evaluator.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\evaluator.py",
+            "tools\\archive\\enterprise_evaluator\\evaluator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "registry.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\registry.py",
+            "tools\\agents\\benchmarks\\registry.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "test_cli.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\test_cli.py",
+            "testing\\tool_tests\\test_cli.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "test_runner.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+            "testing\\framework\\core\\test_runner.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "base_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+            "testing\\framework\\validators\\base_validator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "code_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+            "testing\\framework\\validators\\code_validator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "validate_prompts.py",
+          "locations": [
+            "tools\\validate_prompts.py",
+            "tools\\scripts\\validate_prompts.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "evaluation_agent.py",
+          "locations": [
+            "tools\\agents\\evaluation_agent.py",
+            "tools\\archive\\evaluation_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "loader.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\loader.py",
+            "tools\\prompteval\\loader.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "runner.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\runner.py",
+            "tools\\agents\\fullstack_generator\\runner.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "tiered_eval.py",
+          "locations": [
+            "tools\\archive\\tiered_eval.py",
+            "tools\\scripts\\tiered_eval.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "main.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\main.py",
+            "tools\\cli\\main.py",
+            "tools\\prompteval\\main.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        {
+          "filename": "test_models.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\test_models.py",
+            "tools\\tests\\test_models.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        }
+      ],
+      "llm_recommendations": "Here are the recommendations for each file based on their locations and context:\n\n1. **analyze_missing.py**: KEEP (location A - priority for the main codebase), DELETE (location B)\n2. **conftest.py**: KEEP (location with most relevant tests for the main project), DELETE (others if they are for old tests)\n3. **update_progress_report.py**: KEEP (location A - which seems to be actively updated or used), DELETE (location B)\n4. **cache.py**: KEEP (location where it's used with active code), DELETE (other location)\n5. **cli.py**: KEEP (location that aligns with the main CLI functionality), DELETE (other location)\n6. **config.py**: KEEP (location with the most recent updates), ARCHIVE (older versions in the other locations as backups)\n7. **__init__.py**: KEEP (location for main package), ARCHIVE (other occurrences for reference)\n8. **__main__.py**: KEEP (location aligned with main entry point), DELETE (other location)\n9. **datasets.py**: KEEP (location related to current data handling), DELETE (other location)\n10. **logger.py**: KEEP (location that integrates best with the logging system), DELETE (other location)\n\nEnsure all deleted files do not contain unique content necessary for the project. Consider archiving if there's any uncertainty about important changes or contextual usage.\n"
+    },
+    "safe_deletions": 0,
+    "medium_risk": 11,
+    "manual_review": 30
+  },
+  "lats_verification": {
+    "lats_results": {
+      "verified_actions": [
+        {
+          "path": "doc/broken_link_1.md",
+          "action": "REVIEW",
+          "priority": "MEDIUM",
+          "confidence": 0.85,
+          "reason": "Broken link detected, needs review to ensure no valuable information is lost."
+        },
+        {
+          "path": "doc/broken_link_2.md",
+          "action": "REVIEW",
+          "priority": "MEDIUM",
+          "confidence": 0.85,
+          "reason": "Broken link detected, needs review to ensure no valuable information is lost."
+        },
+        {
+          "path": "doc/broken_link_3.md",
+          "action": "REVIEW",
+          "priority": "MEDIUM",
+          "confidence": 0.85,
+          "reason": "Broken link detected, needs review to ensure no valuable information is lost."
+        },
+        {
+          "path": "cleanup/medium_risk_file_1.py",
+          "action": "ARCHIVE",
+          "priority": "HIGH",
+          "confidence": 0.9,
+          "reason": "Medium risk file identified, archiving as a precautionary measure."
+        },
+        {
+          "path": "cleanup/medium_risk_file_2.py",
+          "action": "ARCHIVE",
+          "priority": "HIGH",
+          "confidence": 0.9,
+          "reason": "Medium risk file identified, archiving as a precautionary measure."
+        }
+      ],
+      "conflicts": [],
+      "human_review": [],
+      "iterations": 1,
+      "overall_confidence": 0.85,
+      "raw_response": "```json\n{\n  \"verified_actions\": [\n    {\n      \"path\": \"doc/broken_link_1.md\",\n      \"action\": \"REVIEW\",\n      \"priority\": \"MEDIUM\",\n      \"confidence\": 0.85,\n      \"reason\": \"Broken link detected, needs review to ensure no valuable information is lost.\"\n    },\n    {\n      \"path\": \"doc/broken_link_2.md\",\n      \"action\": \"REVIEW\",\n      \"priority\": \"MEDIUM\",\n      \"confidence\": 0.85,\n      \"reason\": \"Broken link detected, needs review to ensure no valuable information is lost.\"\n    },\n    {\n      \"path\": \"doc/broken_link_3.md\",\n      \"action\": \"REVIEW\",\n      \"priority\": \"MEDIUM\",\n      \"confidence\": 0.85,\n      \"reason\": \"Broken link detected, needs review to ensure no valuable information is lost.\"\n    },\n    {\n      \"path\": \"cleanup/medium_risk_file_1.py\",\n      \"action\": \"ARCHIVE\",\n      \"priority\": \"HIGH\",\n      \"confidence\": 0.90,\n      \"reason\": \"Medium risk file identified, archiving as a precautionary measure.\"\n    },\n    {\n      \"path\": \"cleanup/medium_risk_file_2.py\",\n      \"action\": \"ARCHIVE\",\n      \"priority\": \"HIGH\",\n      \"confidence\": 0.90,\n      \"reason\": \"Medium risk file identified, archiving as a precautionary measure.\"\n    }\n  ],\n  \"conflicts_resolved\": [],\n  \"items_needing_human_review\": [\n    \"doc/broken_link_1.md\",\n    \"doc/broken_link_2.md\",\n    \"doc/broken_link_3.md\"\n  ],\n  \"overall_confidence\": 0.85\n}\n```\n\n### Explanation:\n- **Actionable Items**: The primary actionable items identified are broken links in the documentation and medium-risk files that need archiving.\n- **Confidence Scores**: High confidence scores are assigned to actions where there is a clear risk or benefit, such as archiving medium-risk files. Lower confidence is used for reviewing broken links due to potential loss of information if not properly managed.\n- **Prioritization**: Broken links and medium-risk files have been prioritized based on their impact and the need for timely action.\n- **Human Review**: All items related to broken links are flagged for human review, ensuring that no critical information is overlooked."
+    },
+    "verified_count": 5,
+    "confidence": 0.85,
+    "iterations": 1
+  },
+  "developer_execution": {
+    "developer_results": {
+      "executed": [],
+      "skipped": [
+        {
+          "action": "REVIEW",
+          "path": "doc/broken_link_1.md",
+          "reason": "No automated action"
+        },
+        {
+          "action": "REVIEW",
+          "path": "doc/broken_link_2.md",
+          "reason": "No automated action"
+        },
+        {
+          "action": "REVIEW",
+          "path": "doc/broken_link_3.md",
+          "reason": "No automated action"
+        }
+      ],
+      "errors": [
+        {
+          "action": "ARCHIVE",
+          "path": "cleanup/medium_risk_file_1.py",
+          "error": "Source not found: cleanup/medium_risk_file_1.py"
+        },
+        {
+          "action": "ARCHIVE",
+          "path": "cleanup/medium_risk_file_2.py",
+          "error": "Source not found: cleanup/medium_risk_file_2.py"
+        }
+      ],
+      "tool_calls": [
+        {
+          "tool_name": "move_file",
+          "success": false,
+          "output": null,
+          "error": "Source not found: cleanup/medium_risk_file_1.py"
+        },
+        {
+          "tool_name": "move_file",
+          "success": false,
+          "output": null,
+          "error": "Source not found: cleanup/medium_risk_file_2.py"
+        }
+      ]
+    },
+    "total_executed": 0,
+    "total_skipped": 3,
+    "total_errors": 2
+  },
+  "recommendations": {
+    "preserve": [
+      {
+        "path": "archive\\prompttools-deprecated\\cache.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\cli.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\config.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\evaluate.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\llm.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\parse.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\validate.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\__init__.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\__main__.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      },
+      {
+        "path": "multiagent-workflows\\run_real_benchmarks.py",
+        "reason": "Working tool - validated",
+        "confidence": "high"
+      }
+    ],
+    "archive": [
+      {
+        "path": "archive\\prompttools-deprecated\\cache.py",
+        "reason": "Archived copy with active version: tools\\core\\cache.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\cli.py",
+        "reason": "Archived copy with active version: multiagent-workflows\\src\\multiagent_workflows\\cli.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\config.py",
+        "reason": "Archived copy with active version: tools\\core\\config.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\__init__.py",
+        "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "archive\\prompttools-deprecated\\__main__.py",
+        "reason": "Archived copy with active version: multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\test_cli.py",
+        "reason": "Archived copy with active version: testing\\tool_tests\\test_cli.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+        "reason": "Archived copy with active version: testing\\framework\\core\\test_runner.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+        "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+        "reason": "Archived copy with active version: testing\\framework\\validators\\base_validator.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+        "reason": "Archived copy with active version: testing\\framework\\validators\\code_validator.py",
+        "confidence": "medium"
+      },
+      {
+        "path": "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+        "reason": "Archived copy with active version: multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+        "confidence": "medium"
+      }
+    ],
+    "discard": [],
+    "review": [
+      {
+        "item": {
+          "filename": "analyze_missing.py",
+          "locations": [
+            "analyze_missing.py",
+            "scripts\\analyze_missing.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "conftest.py",
+          "locations": [
+            "conftest.py",
+            "multiagent-workflows\\tests\\conftest.py",
+            "testing\\conftest.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "update_progress_report.py",
+          "locations": [
+            "update_progress_report.py",
+            "scripts\\update_progress_report.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "cache.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cache.py",
+            "tools\\core\\cache.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "cli.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\cli.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\cli.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "config.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\config.py",
+            "tools\\core\\config.py",
+            "tools\\prompteval\\config.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "__init__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\__init__.py",
+            "multiagent-dev-system\\src\\multiagent_dev_system\\utils\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\langchain\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\tools\\__init__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\core\\__init__.py",
+            "testing\\archive\\2025-12-04\\framework\\validators\\__init__.py",
+            "testing\\framework\\core\\__init__.py",
+            "testing\\framework\\validators\\__init__.py",
+            "testing\\integration\\__init__.py",
+            "testing\\tool_tests\\__init__.py",
+            "testing\\unit\\__init__.py",
+            "tools\\__init__.py",
+            "tools\\agents\\__init__.py",
+            "tools\\agents\\benchmarks\\__init__.py",
+            "tools\\agents\\fullstack_generator\\__init__.py",
+            "tools\\analysis\\__init__.py",
+            "tools\\cli\\__init__.py",
+            "tools\\core\\__init__.py",
+            "tools\\llm\\__init__.py",
+            "tools\\models\\__init__.py",
+            "tools\\prompteval\\__init__.py",
+            "tools\\runners\\__init__.py",
+            "tools\\scripts\\__init__.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "__main__.py",
+          "locations": [
+            "archive\\prompttools-deprecated\\__main__.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\__main__.py",
+            "tools\\prompteval\\__main__.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "datasets.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\datasets.py",
+            "tools\\agents\\benchmarks\\datasets.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "logger.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\logger.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\logger.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "model_manager.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\model_manager.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\model_manager.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "scorer.py",
+          "locations": [
+            "multiagent-dev-system\\src\\multiagent_dev_system\\scorer.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\evaluation\\scorer.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "architect_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\architect_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\architect_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "coder_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\coder_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\coder_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "reviewer_agent.py",
+          "locations": [
+            "multiagent-workflows\\consolidated\\agents\\reviewer_agent.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\reviewer_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "app.py",
+          "locations": [
+            "multiagent-workflows\\examples\\buggy_app\\app.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\server\\app.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "base.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\agents\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\models\\base.py",
+            "multiagent-workflows\\src\\multiagent_workflows\\workflows\\base.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "evaluator.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\core\\evaluator.py",
+            "tools\\archive\\enterprise_evaluator\\evaluator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "registry.py",
+          "locations": [
+            "multiagent-workflows\\src\\multiagent_workflows\\mcp\\registry.py",
+            "tools\\agents\\benchmarks\\registry.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "test_cli.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\test_cli.py",
+            "testing\\tool_tests\\test_cli.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "test_runner.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\core\\test_runner.py",
+            "testing\\framework\\core\\test_runner.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "base_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\base_validator.py",
+            "testing\\framework\\validators\\base_validator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "code_validator.py",
+          "locations": [
+            "testing\\archive\\2025-12-04\\framework\\validators\\code_validator.py",
+            "testing\\framework\\validators\\code_validator.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "validate_prompts.py",
+          "locations": [
+            "tools\\validate_prompts.py",
+            "tools\\scripts\\validate_prompts.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "evaluation_agent.py",
+          "locations": [
+            "tools\\agents\\evaluation_agent.py",
+            "tools\\archive\\evaluation_agent.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "loader.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\loader.py",
+            "tools\\prompteval\\loader.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "runner.py",
+          "locations": [
+            "tools\\agents\\benchmarks\\runner.py",
+            "tools\\agents\\fullstack_generator\\runner.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "tiered_eval.py",
+          "locations": [
+            "tools\\archive\\tiered_eval.py",
+            "tools\\scripts\\tiered_eval.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "main.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\main.py",
+            "tools\\cli\\main.py",
+            "tools\\prompteval\\main.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      },
+      {
+        "item": {
+          "filename": "test_models.py",
+          "locations": [
+            "tools\\archive\\enterprise_evaluator\\test_models.py",
+            "tools\\tests\\test_models.py"
+          ],
+          "reason": "Same filename in multiple locations",
+          "action": "REVIEW"
+        },
+        "reason": "Multiple copies or complex decision",
+        "confidence": "low"
+      }
+    ],
+    "improve": [],
+    "llm_analysis": "The repository is in excellent health with a total of 144 tools and 384 documentation files, all tools are currently operational, and there are no security or code quality issues. However, the presence of 30 duplicate files indicates a need for consolidation to streamline resources. Prioritizing the review and management of these duplicates will enhance overall efficiency without the risk of losing valuable data, as there are no files safe to delete at this time. Continuous monitoring and maintenance should ensure the repository remains organized and functional.\n"
+  }
+}

@@ -1,4 +1,5 @@
-"""Workflow Dashboard API Server (Example)
+"""
+Workflow Dashboard API Server (Example)
 
 Serves the static dashboard UI and a small REST API for:
 - Listing workflows
@@ -17,10 +18,11 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from threading import Thread
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import yaml
 from flask import Flask, jsonify, request, send_from_directory
+
 
 EXAMPLES_DIR = Path(__file__).resolve().parent
 BASE_DIR = EXAMPLES_DIR.parent
@@ -29,6 +31,7 @@ BASE_DIR = EXAMPLES_DIR.parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
 from multiagent_workflows.core.progress_writer import DashboardProgressWriter
+
 
 app = Flask(__name__)
 
@@ -97,8 +100,7 @@ def _resolve_model_preference(preference: str) -> str:
 
 
 def get_step_configs(workflow_id: str) -> List[Dict[str, str]]:
-    """Load steps from `config/workflows.yaml` and format for the progress
-    writer."""
+    """Load steps from `config/workflows.yaml` and format for the progress writer."""
     config_path = BASE_DIR / "config" / "workflows.yaml"
     try:
         with open(config_path, "r", encoding="utf-8") as f:
@@ -129,24 +131,9 @@ def get_step_configs(workflow_id: str) -> List[Dict[str, str]]:
 
     # Minimal fallback so the UI always renders something.
     return [
-        {
-            "step_id": "step_1",
-            "step_name": "Initialize",
-            "agent_name": "system",
-            "model_id": "gh:openai/gpt-4o-mini",
-        },
-        {
-            "step_id": "step_2",
-            "step_name": "Process",
-            "agent_name": "agent",
-            "model_id": "gh:openai/gpt-4o-mini",
-        },
-        {
-            "step_id": "step_3",
-            "step_name": "Finalize",
-            "agent_name": "system",
-            "model_id": "gh:openai/gpt-4o-mini",
-        },
+        {"step_id": "step_1", "step_name": "Initialize", "agent_name": "system", "model_id": "gh:openai/gpt-4o-mini"},
+        {"step_id": "step_2", "step_name": "Process", "agent_name": "agent", "model_id": "gh:openai/gpt-4o-mini"},
+        {"step_id": "step_3", "step_name": "Finalize", "agent_name": "system", "model_id": "gh:openai/gpt-4o-mini"},
     ]
 
 
@@ -219,16 +206,12 @@ def api_compare_runs():
                 "step_id": sid,
                 "a_status": (a_step or {}).get("status"),
                 "b_status": (b_step or {}).get("status"),
-                "a_output": (a_step or {}).get("output_preview")
-                or (a_step or {}).get("output"),
-                "b_output": (b_step or {}).get("output_preview")
-                or (b_step or {}).get("output"),
+                "a_output": (a_step or {}).get("output_preview") or (a_step or {}).get("output"),
+                "b_output": (b_step or {}).get("output_preview") or (b_step or {}).get("output"),
             }
         )
 
-    return jsonify(
-        {"a": run_summary(ra), "b": run_summary(rb), "step_diffs": step_diffs}
-    )
+    return jsonify({"a": run_summary(ra), "b": run_summary(rb), "step_diffs": step_diffs})
 
 
 @app.route("/api/start", methods=["POST"])
@@ -258,9 +241,7 @@ def api_start_workflow():
 
     Thread(target=run_workflow, daemon=True).start()
 
-    return jsonify(
-        {"success": True, "run_id": run_id, "message": f"Started {workflow_id}"}
-    )
+    return jsonify({"success": True, "run_id": run_id, "message": f"Started {workflow_id}"})
 
 
 async def execute_workflow_async(
@@ -270,11 +251,7 @@ async def execute_workflow_async(
     steps_config: List[Dict[str, str]],
 ) -> None:
     """Best-effort execution: run the engine if available, otherwise simulate progress."""
-    simulate_only = os.environ.get("DASHBOARD_SIMULATE_ONLY", "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
+    simulate_only = os.environ.get("DASHBOARD_SIMULATE_ONLY", "").strip().lower() in {"1", "true", "yes"}
     sim_delay = float(os.environ.get("DASHBOARD_SIM_DELAY_SECONDS", "1.0"))
 
     try:
@@ -299,9 +276,7 @@ async def execute_workflow_async(
             sid = step_cfg["step_id"]
             step_result = (result.step_results or {}).get(sid)
             if step_result is None:
-                PROGRESS_WRITER.complete_step(
-                    run_id, sid, output="(no recorded output)"
-                )
+                PROGRESS_WRITER.complete_step(run_id, sid, output="(no recorded output)")
                 continue
             PROGRESS_WRITER.complete_step(
                 run_id,

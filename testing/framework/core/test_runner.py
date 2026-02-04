@@ -21,8 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 class TestType(Enum):
-    """Types of tests that can be run."""
-
+    """Types of tests that can be run"""
     __test__ = False  # Not a pytest test class
     UNIT = "unit"
     INTEGRATION = "integration"
@@ -34,8 +33,7 @@ class TestType(Enum):
 
 
 class TestStatus(Enum):
-    """Possible test execution statuses."""
-
+    """Possible test execution statuses"""
     __test__ = False  # Not a pytest test class
     PASSED = "passed"
     FAILED = "failed"
@@ -47,8 +45,7 @@ class TestStatus(Enum):
 
 @dataclass
 class TestCase:
-    """Individual test case definition."""
-
+    """Individual test case definition"""
     __test__ = False  # Not a pytest test class
     id: str
     name: str
@@ -80,8 +77,7 @@ class TestCase:
 
 @dataclass
 class TestResult:
-    """Test execution result."""
-
+    """Test execution result"""
     __test__ = False  # Not a pytest test class
     test_case: TestCase
     status: TestStatus

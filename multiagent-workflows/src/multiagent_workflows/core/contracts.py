@@ -1,6 +1,7 @@
-"""Agent Data Contracts.
+"""
+Agent Data Contracts
 
-Defines explicit input/output schemas for each agent to ensure
+Defines explicit input/output schemas for each agent to ensure 
 consistent context passing between workflow steps.
 
 Each contract specifies:
@@ -13,13 +14,12 @@ Each contract specifies:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Type, Union
 from enum import Enum
-from typing import Any, Dict, List, Optional
 
 
 class FieldType(Enum):
     """Supported field types for contracts."""
-
     STRING = "string"
     TEXT = "text"  # Long text (prompts, code)
     INTEGER = "integer"
@@ -35,7 +35,6 @@ class FieldType(Enum):
 @dataclass
 class FieldSpec:
     """Specification for a single input/output field."""
-
     name: str
     field_type: FieldType
     description: str
@@ -49,21 +48,22 @@ class FieldSpec:
 
 @dataclass
 class AgentContract:
-    """Contract defining an agent's input/output specification.
-
-    Ensures that data passed between agents is properly formatted and
-    contains all required fields.
     """
-
+    Contract defining an agent's input/output specification.
+    
+    Ensures that data passed between agents is properly formatted
+    and contains all required fields.
+    """
     agent_id: str
     name: str
     description: str
     inputs: Dict[str, FieldSpec] = field(default_factory=dict)
     outputs: Dict[str, FieldSpec] = field(default_factory=dict)
-
+    
     def validate_inputs(self, data: Dict[str, Any]) -> List[str]:
-        """Validate input data against the contract.
-
+        """
+        Validate input data against the contract.
+        
         Returns list of validation errors (empty if valid).
         """
         errors = []
@@ -76,10 +76,11 @@ class AgentContract:
                 if type_error:
                     errors.append(f"Input {field_name}: {type_error}")
         return errors
-
+    
     def validate_outputs(self, data: Dict[str, Any]) -> List[str]:
-        """Validate output data against the contract.
-
+        """
+        Validate output data against the contract.
+        
         Returns list of validation errors (empty if valid).
         """
         errors = []
@@ -92,12 +93,12 @@ class AgentContract:
                 if type_error:
                     errors.append(f"Output {field_name}: {type_error}")
         return errors
-
+    
     def _validate_type(self, value: Any, spec: FieldSpec) -> Optional[str]:
         """Validate a value against its type specification."""
         if value is None:
             return None if not spec.required else "Value is None"
-
+        
         type_map = {
             FieldType.STRING: str,
             FieldType.TEXT: str,
@@ -108,38 +109,30 @@ class AgentContract:
             FieldType.DICT: dict,
             FieldType.OBJECT: dict,
         }
-
+        
         if spec.field_type == FieldType.ANY:
             return None
-
+        
         expected_type = type_map.get(spec.field_type)
         if expected_type and not isinstance(value, expected_type):
             return f"Expected {spec.field_type.value}, got {type(value).__name__}"
-
+        
         return None
-
+    
     def get_example_input(self) -> Dict[str, Any]:
         """Generate example input data for documentation."""
         return {
-            name: (
-                spec.example
-                if spec.example is not None
-                else self._default_for_type(spec.field_type)
-            )
+            name: spec.example if spec.example is not None else self._default_for_type(spec.field_type)
             for name, spec in self.inputs.items()
         }
-
+    
     def get_example_output(self) -> Dict[str, Any]:
         """Generate example output data for documentation."""
         return {
-            name: (
-                spec.example
-                if spec.example is not None
-                else self._default_for_type(spec.field_type)
-            )
+            name: spec.example if spec.example is not None else self._default_for_type(spec.field_type)
             for name, spec in self.outputs.items()
         }
-
+    
     def _default_for_type(self, field_type: FieldType) -> Any:
         """Get a default value for a field type."""
         defaults = {
@@ -189,31 +182,23 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
                 example=[
                     {"type": "button", "label": "Submit", "position": "bottom-right"},
                     {"type": "input", "label": "Email", "position": "center"},
-                ],
+                ]
             ),
             "layout_structure": FieldSpec(
                 name="layout_structure",
                 field_type=FieldType.DICT,
                 description="Page layout structure",
-                example={
-                    "header": True,
-                    "sidebar": False,
-                    "main": True,
-                    "footer": True,
-                },
+                example={"header": True, "sidebar": False, "main": True, "footer": True},
             ),
             "color_palette": FieldSpec(
                 name="color_palette",
                 field_type=FieldType.DICT,
                 description="Extracted color palette",
-                example={
-                    "primary": "#3b82f6",
-                    "secondary": "#22c55e",
-                    "accent": "#f59e0b",
-                },
+                example={"primary": "#3b82f6", "secondary": "#22c55e", "accent": "#f59e0b"},
             ),
         },
     ),
+    
     "requirements_agent": AgentContract(
         agent_id="requirements_agent",
         name="Requirements Analyst",
@@ -232,30 +217,26 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
                 field_type=FieldType.LIST,
                 description="Parsed user stories with acceptance criteria",
                 item_type=FieldType.DICT,
-                example=[
-                    {
-                        "id": "US001",
-                        "title": "User can login",
-                        "description": "As a user, I want to login so that I can access my account",
-                        "acceptance_criteria": [
-                            "Given valid credentials, When I login, Then I see the dashboard",
-                        ],
-                        "priority": "high",
-                    }
-                ],
+                example=[{
+                    "id": "US001",
+                    "title": "User can login",
+                    "description": "As a user, I want to login so that I can access my account",
+                    "acceptance_criteria": [
+                        "Given valid credentials, When I login, Then I see the dashboard",
+                    ],
+                    "priority": "high",
+                }],
             ),
             "data_entities": FieldSpec(
                 name="data_entities",
                 field_type=FieldType.LIST,
                 description="Identified data entities and relationships",
                 item_type=FieldType.DICT,
-                example=[
-                    {
-                        "name": "User",
-                        "fields": ["id", "email", "password_hash", "created_at"],
-                        "relationships": [{"type": "has_many", "target": "Order"}],
-                    }
-                ],
+                example=[{
+                    "name": "User",
+                    "fields": ["id", "email", "password_hash", "created_at"],
+                    "relationships": [{"type": "has_many", "target": "Order"}],
+                }],
             ),
             "acceptance_criteria": FieldSpec(
                 name="acceptance_criteria",
@@ -265,6 +246,7 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
             ),
         },
     ),
+    
     "architect_agent": AgentContract(
         agent_id="architect_agent",
         name="Technical Architect",
@@ -319,6 +301,7 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
             ),
         },
     ),
+    
     "coder_agent": AgentContract(
         agent_id="coder_agent",
         name="Code Generator",
@@ -371,6 +354,7 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
             ),
         },
     ),
+    
     "reviewer_agent": AgentContract(
         agent_id="reviewer_agent",
         name="Code Reviewer",
@@ -395,15 +379,13 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
                 field_type=FieldType.LIST,
                 description="List of identified issues",
                 item_type=FieldType.DICT,
-                example=[
-                    {
-                        "severity": "high",
-                        "type": "security",
-                        "location": "line 45",
-                        "description": "SQL injection vulnerability",
-                        "fix": "Use parameterized queries",
-                    }
-                ],
+                example=[{
+                    "severity": "high",
+                    "type": "security",
+                    "location": "line 45",
+                    "description": "SQL injection vulnerability",
+                    "fix": "Use parameterized queries",
+                }],
             ),
             "score": FieldSpec(
                 name="score",
@@ -422,6 +404,7 @@ AGENT_CONTRACTS: Dict[str, AgentContract] = {
             ),
         },
     ),
+    
     "test_agent": AgentContract(
         agent_id="test_agent",
         name="Test Generator",
@@ -480,27 +463,28 @@ def validate_step_transition(
     output_data: Dict[str, Any],
     field_mapping: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
-    """Validate and transform data when passing between agents.
-
+    """
+    Validate and transform data when passing between agents.
+    
     Args:
         from_agent: ID of the agent producing the output
         to_agent: ID of the agent receiving the input
         output_data: Output data from the source agent
         field_mapping: Optional mapping of output fields to input fields
-
+        
     Returns:
         Transformed data suitable for the target agent
-
+        
     Raises:
         ValueError: If required fields are missing
     """
     from_contract = get_contract(from_agent)
     to_contract = get_contract(to_agent)
-
+    
     if not to_contract:
         # No contract defined, pass through
         return output_data
-
+    
     # Apply field mapping
     if field_mapping:
         mapped_data = {}
@@ -512,12 +496,12 @@ def validate_step_transition(
             if key not in field_mapping:
                 mapped_data[key] = value
         output_data = mapped_data
-
+    
     # Validate against target contract
     errors = to_contract.validate_inputs(output_data)
     if errors:
         raise ValueError(f"Invalid data for {to_agent}: {'; '.join(errors)}")
-
+    
     return output_data
 
 

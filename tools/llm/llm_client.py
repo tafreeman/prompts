@@ -609,28 +609,23 @@ class LLMClient:
             return f"Windows AI error: {str(e)}"
 
     @staticmethod
-    def _call_github_models(
-        model_name: str, prompt: str, system_instruction: Optional[str]
-    ) -> str:
-        """Call GitHub Models via gh CLI with rate limit handling.
+    def _call_github_models(model_name: str, prompt: str, system_instruction: Optional[str]) -> str:
+        """
+        Call GitHub Models via gh CLI with rate limit handling.
 
         Model name format: gh:<model_name>
         Examples:
           - gh:deepseek/deepseek-r1
           - gh:meta/llama-3.3-70b-instruct
           - gh:openai/gpt-4o-mini
-
+        
         Uses gh CLI authentication (gh auth login).
         """
         import subprocess
         import time
 
         # Parse model name (remove gh: prefix)
-        model = (
-            model_name.split(":", 1)[1]
-            if ":" in model_name
-            else "meta/llama-3.3-70b-instruct"
-        )
+        model = model_name.split(":", 1)[1] if ":" in model_name else "meta/llama-3.3-70b-instruct"
 
         # Map short names to full names
         model_map = {
@@ -676,66 +671,54 @@ class LLMClient:
             except Exception:
                 return default
 
-        rate_limit_strategy = (
-            (os.getenv("PROMPTS_GH_RATE_LIMIT_STRATEGY") or "fallback").strip().lower()
-        )
+        rate_limit_strategy = (os.getenv("PROMPTS_GH_RATE_LIMIT_STRATEGY") or "fallback").strip().lower()
         max_retries = _get_int_env("PROMPTS_GH_MAX_RETRIES", 1)
         base_delay = _get_int_env("PROMPTS_GH_BASE_DELAY_SECONDS", 2)
 
         # Clean environment - remove GITHUB_TOKEN so gh CLI uses its own auth
         clean_env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
-
+        
         for attempt in range(max_retries):
             try:
                 result = subprocess.run(
                     ["gh", "models", "run", full_model],
                     input=full_prompt,
-                    capture_output=True,
-                    text=True,
-                    timeout=300,
-                    encoding="utf-8",
-                    errors="replace",
-                    env=clean_env,
+                    capture_output=True, text=True, timeout=300,
+                    encoding='utf-8', errors='replace',
+                    env=clean_env
                 )
                 if result.returncode == 0:
                     return result.stdout
-
+                
                 error_msg = result.stderr.lower()
-
+                
                 # Rate limiting
-                if any(
-                    x in error_msg
-                    for x in ["rate limit", "too many requests", "429", "quota"]
-                ):
+                if any(x in error_msg for x in ["rate limit", "too many requests", "429", "quota"]):
                     # Default: do not wait here; let callers rotate to another model/provider.
                     if rate_limit_strategy == "wait" and attempt < max_retries - 1:
-                        wait_time = min(base_delay * (2**attempt), 60)
+                        wait_time = min(base_delay * (2 ** attempt), 60)
                         print(
                             f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})..."
                         )
                         time.sleep(wait_time)
                         continue
-                    return (
-                        f"gh models error: Rate limited after {attempt + 1} attempt(s)"
-                    )
-
+                    return f"gh models error: Rate limited after {attempt + 1} attempt(s)"
+                
                 # No access error
                 if "no_access" in error_msg or "no access" in error_msg:
                     return f"gh models error: No access to model {full_model}"
-
+                
                 return f"gh models error: {result.stderr}"
-
+                    
             except FileNotFoundError:
                 return "gh models error: gh CLI not found. Install with: winget install GitHub.cli"
             except subprocess.TimeoutExpired:
                 if attempt < max_retries - 1:
-                    print(
-                        f"  [gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})..."
-                    )
+                    print(f"  [gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})...")
                     time.sleep(base_delay)
                     continue
                 return "gh models error: request timed out"
-
+        
         return "gh models error: max retries exceeded"
 
     @staticmethod

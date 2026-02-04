@@ -9,13 +9,11 @@ Note: If you have pytest-asyncio installed, this file is harmless.
 """
 
 import asyncio
-import inspect
 from pathlib import Path
 
 # Load .env file if it exists (for API keys, etc.)
 try:
     from dotenv import load_dotenv
-
     env_path = Path(__file__).parent / ".env"
     if env_path.exists():
         load_dotenv(env_path)

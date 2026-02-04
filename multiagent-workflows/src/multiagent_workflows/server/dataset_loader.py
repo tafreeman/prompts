@@ -95,12 +95,10 @@ def load_tasks(
     try:
         from tools.agents.benchmarks.loader import load_benchmark  # type: ignore
 
-        tasks = load_benchmark(
-            benchmark_id, limit=limit, offset=offset, use_cache=use_cache
-        )
+        tasks = load_benchmark(benchmark_id, limit=limit, offset=offset, use_cache=use_cache)
         if not tasks:
-            # Force fallback if the repo tool returns nothing (e.g. missing dependencies)
-            raise ValueError("No tasks loaded from repo tool")
+             # Force fallback if the repo tool returns nothing (e.g. missing dependencies)
+             raise ValueError("No tasks loaded from repo tool")
 
         # BenchmarkTask has to_dict(); keep it robust if it returns dicts already.
         as_dicts: List[Dict[str, Any]] = []
@@ -133,95 +131,65 @@ def load_tasks(
         datasets_mod = importlib.import_module("datasets")
         load_dataset = getattr(datasets_mod, "load_dataset")
     except Exception as exc:
-        print(
-            f"[DatasetLoader] HuggingFace datasets not available ({exc}). Using synthetic fallback data."
-        )
+        print(f"[DatasetLoader] HuggingFace datasets not available ({exc}). Using synthetic fallback data.")
         return _generate_fallback_tasks(benchmark_id, limit, offset)
 
     # If we get here, datasets is installed, but we interrupted the logic in previous edit.
-    # For now, just return empty or the logic if we had it.
+    # For now, just return empty or the logic if we had it. 
     # Since we know datasets is missing in this env, we can just fail or return empty.
     return LoadedTasks(benchmark_id=benchmark_id, tasks=[])
 
 
-def _generate_fallback_tasks(
-    benchmark_id: str, limit: Optional[int] = None, offset: int = 0
-) -> LoadedTasks:
+def _generate_fallback_tasks(benchmark_id: str, limit: Optional[int] = None, offset: int = 0) -> LoadedTasks:
     """Generate synthetic tasks matching the UI's fallback data."""
     tasks = []
-
+    
     if benchmark_id == "humaneval":
-        he_tasks = [
-            "has_close_elements",
-            "separate_paren_groups",
-            "truncate_number",
-            "below_zero",
-            "mean_absolute_deviation",
-            "intersperse",
-            "parse_nested_parens",
-            "filter_by_substring",
-        ]
+        he_tasks = ['has_close_elements', 'separate_paren_groups', 'truncate_number', 'below_zero', 
+                    'mean_absolute_deviation', 'intersperse', 'parse_nested_parens', 'filter_by_substring']
         for i, task_name in enumerate(he_tasks):
             for j in range(20):
                 idx = i * 20 + j
-                tasks.append(
-                    {
-                        "task_id": f"HE{idx}",
-                        "name": f"HumanEval/{idx}",
-                        "prompt": f'def {task_name}(...):\n    """ Implement {task_name} """\n    pass',
-                        "canonical_solution": "def solution(): pass",
-                        "test": "assert True",
-                    }
-                )
-
+                tasks.append({
+                    "task_id": f"HE{idx}",
+                    "name": f"HumanEval/{idx}",
+                    "prompt": f"def {task_name}(...):\n    \"\"\" Implement {task_name} \"\"\"\n    pass",
+                    "canonical_solution": "def solution(): pass",
+                    "test": "assert True"
+                })
+                
     elif benchmark_id == "mbpp":
-        mb_tasks = [
-            "find_max",
-            "factorial",
-            "fibonacci",
-            "is_palindrome",
-            "binary_search",
-        ]
+        mb_tasks = ['find_max', 'factorial', 'fibonacci', 'is_palindrome', 'binary_search']
         for i, task_name in enumerate(mb_tasks):
             for j in range(20):
                 idx = i * 20 + j
-                tasks.append(
-                    {
-                        "task_id": f"MB{idx}",
-                        "name": f"MBPP/{idx+1}",
-                        "prompt": f"Write function for {task_name}",
-                        "canonical_solution": "def solution(): pass",
-                        "test_list": ["assert True"],
-                    }
-                )
+                tasks.append({
+                    "task_id": f"MB{idx}",
+                    "name": f"MBPP/{idx+1}", 
+                    "prompt": f"Write function for {task_name}",
+                    "canonical_solution": "def solution(): pass",
+                    "test_list": ["assert True"]
+                })
 
     elif benchmark_id == "swe-bench-lite":
-        repos = [
-            "django/django",
-            "flask/flask",
-            "requests/requests",
-            "pandas-dev/pandas",
-            "sympy/sympy",
-        ]
+        repos = ['django/django', 'flask/flask', 'requests/requests', 'pandas-dev/pandas', 'sympy/sympy']
         for i, repo in enumerate(repos):
             for j in range(60):
                 idx = i * 60 + j
-                tasks.append(
-                    {
-                        "task_id": f"SW{idx}",
-                        "name": f"{repo}#{10000+j}",
-                        "repo": repo,
-                        "problem_statement": f"Fix issue in {repo.split('/')[1]}",
-                        "patch": "diff --git a/file.py b/file.py",
-                    }
-                )
+                tasks.append({
+                    "task_id": f"SW{idx}",
+                    "name": f"{repo}#{10000+j}",
+                    "repo": repo,
+                    "problem_statement": f"Fix issue in {repo.split('/')[1]}",
+                    "patch": "diff --git a/file.py b/file.py"
+                })
 
     # Apply offset/limit
     if offset:
         tasks = tasks[offset:]
     if limit:
         tasks = tasks[:limit]
-
+        
     normalized = [_normalize_task_for_ui(d) for d in tasks]
     return LoadedTasks(benchmark_id=benchmark_id, tasks=normalized)
 
