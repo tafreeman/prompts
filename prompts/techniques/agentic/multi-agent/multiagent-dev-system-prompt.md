@@ -146,7 +146,7 @@ multiagent-workflows/
 
 ### Workflow 1: Full-Stack Application Generation
 
-**Agents**: Vision (local:phi3.5-vision), Requirements (gh:gpt-4o-mini), Architect (gh:gpt-4o), DB Designer (gh:gpt-4o), API Designer (gh:gpt-4o-mini), Frontend (gh:gpt-4o), Backend (gh:gpt-4o-mini), Integration (local:phi4mini), Reviewer (gh:o4-mini), Tests (gh:gpt-4o), Docs (gh:gpt-4o-mini)
+**Agents**: Vision (gh:openai/gpt-4o), Requirements (gh:gpt-4o-mini), Architect (gh:gpt-4o), DB Designer (gh:gpt-4o), API Designer (gh:gpt-4o-mini), Frontend (gh:gpt-4o), Backend (gh:gpt-4o-mini), Integration (local:phi4mini), Reviewer (gh:o4-mini), Tests (gh:gpt-4o), Docs (gh:gpt-4o-mini)
 
 **Dataset**: Custom fullstack with requirements, mockups, golden application code
 

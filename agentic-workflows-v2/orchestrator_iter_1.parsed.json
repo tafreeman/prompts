@@ -1,0 +1,99 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Create Package Foundation",
+      "description": "Generate pyproject.toml with Hatchling build system and dependencies: pydantic>=2.0, httpx, jinja2, jmespath. Create src/agentic_v2/ package structure with __init__.py files. Create tests/ directory structure with conftest.py. Create README.md with package description and installation instructions.",
+      "phase": 0,
+      "tier": 0,
+      "assigned_to": "PackageArchitect",
+      "dependencies": [],
+      "output_files": [
+        "pyproject.toml",
+        "src/agentic_v2/__init__.py",
+        "src/agentic_v2/contracts/__init__.py",
+        "src/agentic_v2/tools/__init__.py",
+        "src/agentic_v2/models/__init__.py",
+        "src/agentic_v2/engine/__init__.py",
+        "src/agentic_v2/agents/__init__.py",
+        "tests/__init__.py",
+        "tests/conftest.py",
+        "README.md"
+      ]
+    },
+    {
+      "id": "TASK-002",
+      "title": "Define Core Pydantic Message Contracts",
+      "description": "Implement contracts/messages.py with AgentMessage, StepResult, and WorkflowResult models using Pydantic v2 with extra='forbid' validation. Create base schemas for agent communication and workflow execution results.",
+      "phase": 1,
+      "tier": 0,
+      "assigned_to": "APIDesigner",
+      "dependencies": [
+        "TASK-001"
+      ],
+      "output_files": [
+        "src/agentic_v2/contracts/messages.py"
+      ]
+    },
+    {
+      "id": "TASK-003",
+      "title": "Implement Base Tool Interface and Tier-0 File Operations",
+      "description": "Create tools/base.py with BaseTool abstract class, ToolSchema, and ToolResult. Implement tools/builtin/file_ops.py with FileCopyTool and DirectoryCreateTool as tier-0 tools requiring no LLM.",
+      "phase": 1,
+      "tier": 0,
+      "assigned_to": "ToolBuilder",
+      "dependencies": [
+        "TASK-001"
+      ],
+      "output_files": [
+        "src/agentic_v2/tools/base.py",
+        "src/agentic_v2/tools/builtin/__init__.py",
+        "src/agentic_v2/tools/builtin/file_ops.py"
+      ]
+    },
+    {
+      "id": "TASK-004",
+      "title": "Implement Tier-0 Transform Tools",
+      "description": "Create tools/builtin/transform.py with JsonTransformTool and TemplateRenderTool as tier-0 tools for JSON manipulation and Jinja2 template rendering without LLM dependency.",
+      "phase": 1,
+      "tier": 0,
+      "assigned_to": "ToolBuilder",
+      "dependencies": [
+        "TASK-001",
+        "TASK-003"
+      ],
+      "output_files": [
+        "src/agentic_v2/tools/builtin/transform.py"
+      ]
+    },
+    {
+      "id": "TASK-005",
+      "title": "Create Foundation Tests for Tier-0 Tools",
+      "description": "Implement tests/test_tools.py with temporary directory fixtures and tests for FileCopyTool, DirectoryCreateTool, JsonTransformTool, and TemplateRenderTool. Ensure \u226580% coverage with @pytest.mark.tier0 markers.",
+      "phase": 1,
+      "tier": 0,
+      "assigned_to": "TestWriter",
+      "dependencies": [
+        "TASK-003",
+        "TASK-004"
+      ],
+      "output_files": [
+        "tests/test_tools.py"
+      ]
+    }
+  ],
+  "parallel_groups": [
+    [
+      "TASK-001"
+    ],
+    [
+      "TASK-002",
+      "TASK-003"
+    ],
+    [
+      "TASK-004",
+      "TASK-005"
+    ]
+  ],
+  "notes": "Focusing on package foundation and tier-0 tooling for iteration 1. All tasks are LLM-free (tier 0) for maximum reliability."
+}

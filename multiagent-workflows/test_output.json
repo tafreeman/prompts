@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "outputs": {
+    "documentation": {
+      "readme": "# has_close_elements\n\nA Python function that checks if any two numbers in a list are closer to each other than a given threshold.\n\n## Usage\n\n```python\nfrom typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\"Check if any two numbers are closer than the threshold.\"\"\"\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n```\n\n## Examples\n\n```python\n>>> has_close_elements([1.0, 2.0, 3.0], 0.5)\nFalse\n>>> has_close_elements([1.0, 2.8, 3.0, 4.0], 0.3)\nTrue\n```"
+    },
+    "code": "from typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\"Check if any two numbers in a list are closer to each other than a given threshold.\n    \n    Args:\n        numbers: A list of floating-point numbers to check.\n        threshold: The minimum distance threshold.\n        \n    Returns:\n        True if any two numbers are closer than the threshold, False otherwise.\n    \"\"\"\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False",
+    "tests": "import pytest\nfrom solution import has_close_elements\n\ndef test_no_close_elements():\n    assert has_close_elements([1.0, 2.0, 3.0], 0.5) == False\n\ndef test_has_close_elements():\n    assert has_close_elements([1.0, 2.8, 3.0, 4.0], 0.3) == True\n\ndef test_empty_list():\n    assert has_close_elements([], 0.5) == False\n\ndef test_single_element():\n    assert has_close_elements([1.0], 0.5) == False\n\ndef test_identical_elements():\n    assert has_close_elements([1.0, 1.0], 0.1) == True"
+  },
+  "metrics": {
+    "duration_ms": 1250.5,
+    "model_used": "local:phi4",
+    "tokens_used": 856
+  },
+  "error": null
+}

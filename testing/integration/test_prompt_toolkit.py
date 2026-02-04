@@ -15,6 +15,7 @@ import unittest
 import os
 from unittest.mock import patch
 from pathlib import Path
+from types import SimpleNamespace
 
 # Add project root to path
 REPO_ROOT = Path(__file__).parents[2]
@@ -194,6 +195,55 @@ class TestLLMClientErrorHandling(unittest.TestCase):
                 result = LLMClient.generate_text("local:phi4mini", "test")
             self.assertIn("Error", result)
             self.assertIn("Test error", result)
+
+
+class TestGitHubModelsRetryBehavior(unittest.TestCase):
+    """Verify gh CLI calls fail fast by default so callers can switch models."""
+
+    def test_gh_rate_limit_fails_fast_by_default(self):
+        from tools.llm.llm_client import LLMClient
+
+        fake = SimpleNamespace(returncode=1, stdout="", stderr="Rate limit exceeded (429)")
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0", "PROMPTS_GH_MAX_RETRIES": "3"}):
+            with patch("subprocess.run", return_value=fake) as run_mock:
+                with patch("time.sleep") as sleep_mock:
+                    out = LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")
+
+        self.assertTrue(out.lower().startswith("gh models error:"))
+        self.assertIn("rate limited", out.lower())
+        run_mock.assert_called_once()
+        sleep_mock.assert_not_called()
+
+    def test_gh_rate_limit_wait_strategy_retries(self):
+        from tools.llm.llm_client import LLMClient
+
+        fake = SimpleNamespace(returncode=1, stdout="", stderr="Too many requests")
+        with patch.dict(
+            os.environ,
+            {
+                "PROMPTS_CACHE_ENABLED": "0",
+                "PROMPTS_GH_RATE_LIMIT_STRATEGY": "wait",
+                "PROMPTS_GH_MAX_RETRIES": "2",
+                "PROMPTS_GH_BASE_DELAY_SECONDS": "1",
+            },
+        ):
+            with patch("subprocess.run", return_value=fake) as run_mock:
+                with patch("time.sleep") as sleep_mock:
+                    out = LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")
+
+        self.assertTrue(out.lower().startswith("gh models error:"))
+        self.assertIn("rate limited", out.lower())
+        self.assertEqual(run_mock.call_count, 2)
+        self.assertEqual(sleep_mock.call_count, 1)
+
+    def test_gh_cli_missing_returns_gh_error_prefix(self):
+        from tools.llm.llm_client import LLMClient
+
+        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0"}):
+            with patch("subprocess.run", side_effect=FileNotFoundError()):
+                out = LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")
+
+        self.assertTrue(out.lower().startswith("gh models error:"))
 
 
 class TestCLIArgumentParsing(unittest.TestCase):

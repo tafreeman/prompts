@@ -74,7 +74,7 @@ class AgentConfig:
 VISION_AGENT = AgentConfig(
     id="vision_agent",
     name="Vision Agent",
-    model="local:phi3.5-vision",
+    model="gh:openai/gpt-4o",
     role="Extract UI elements from mockups",
     output_format="Structured JSON of UI components",
     phase=Phase.REQUIREMENTS,
@@ -461,7 +461,7 @@ UPDATED_AGENT_CONFIGS = [
         "id": "vision_agent",
         "name": "Vision Agent",
         "role": "Extract UI elements from mockups",
-        "model": "local:phi3.5-vision",
+        "model": "gh:openai/gpt-4o",
         "recommended_temperature": 0.5,
         "max_tokens": 2048,
         "tier": "local_npu",

@@ -9,6 +9,7 @@ import uuid
 import re
 import json
 import yaml
+from datetime import datetime, timezone
 from pathlib import Path
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
@@ -26,6 +27,15 @@ UI_WORKFLOW_MAP = {
     "bugfix": "defect_resolution",
     "architecture": "system_design",
     "refactoring": "end_to_end",  # Placeholder
+}
+
+UI_WORKFLOW_LABELS = {
+    "fullstack": "Full-Stack Generation",
+    "bugfix": "Bug Triage & Fix",
+    "architecture": "Architecture Evolution",
+    "refactoring": "Legacy Refactoring",
+    "repo_maintenance": "Repository Maintenance",
+    "baseline": "Baseline",
 }
 
 
@@ -68,6 +78,22 @@ class RunItemResult:
 
 def _now_ms() -> int:
     return int(time.time() * 1000)
+
+
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _ms_to_iso(ms: Optional[int]) -> Optional[str]:
+    if not ms:
+        return None
+    return datetime.fromtimestamp(ms / 1000.0, tz=timezone.utc).isoformat()
+
+
+def _workflow_label(workflow_id: Optional[str]) -> str:
+    if not workflow_id:
+        return "(unknown)"
+    return UI_WORKFLOW_LABELS.get(workflow_id, workflow_id)
 
 
 def _task_before(task: Dict[str, Any]) -> str:
@@ -377,6 +403,14 @@ class RunStore:
         except Exception as e:
             print(f"[RunStore] Failed to scan results dir: {e}")
 
+    def _save_run(self, run: Dict[str, Any]) -> None:
+        try:
+            out_path = self._results_dir / f"run_{run['run_id']}.json"
+            with out_path.open("w", encoding="utf-8") as f:
+                json.dump(run, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[RunStore] Failed to save run {run.get('run_id')}: {e}")
+
     def create_run(
         self,
         *,
@@ -392,9 +426,11 @@ class RunStore:
             "run_id": run_id,
             "benchmark_id": benchmark_id,
             "workflow": workflow,
+            "workflow_name": _workflow_label(workflow),
             "model": model,
             "evaluation_method": evaluation_method,
             "status": "queued",
+            "started_at": _now_iso(),
             "created_at_ms": _now_ms(),
             "updated_at_ms": _now_ms(),
             "total": len(task_ids),
@@ -445,6 +481,24 @@ class RunStore:
     def get_run(self, run_id: str) -> Optional[Dict[str, Any]]:
         return self._runs.get(run_id)
 
+    def list_runs(self) -> List[Dict[str, Any]]:
+        runs = list(self._runs.values())
+        runs.sort(key=lambda r: r.get("updated_at_ms", 0), reverse=True)
+        summaries: List[Dict[str, Any]] = []
+        for run in runs:
+            created_ms = run.get("created_at_ms")
+            updated_ms = run.get("updated_at_ms")
+            summaries.append({
+                "run_id": run.get("run_id"),
+                "workflow_name": run.get("workflow_name") or _workflow_label(run.get("workflow")),
+                "benchmark_id": run.get("benchmark_id"),
+                "status": run.get("status"),
+                "started_at": run.get("started_at") or _ms_to_iso(created_ms),
+                "total_duration_ms": (updated_ms - created_ms) if created_ms and updated_ms else None,
+                "steps": run.get("steps") or [],
+            })
+        return summaries
+
     async def shutdown(self) -> None:
         for t in list(self._tasks.values()):
             t.cancel()
@@ -463,6 +517,7 @@ class RunStore:
         run = self._runs[run_id]
         run["status"] = "running"
         run["updated_at_ms"] = _now_ms()
+        self._save_run(run)
 
         evaluation_method = run.get("evaluation_method", _get_evaluation_method(benchmark_id))
         execution_scorer = ExecutionScorer() if evaluation_method == "execution" else None
@@ -576,6 +631,7 @@ class RunStore:
 
                 run["completed"] = len(run["items"])
                 run["updated_at_ms"] = _now_ms()
+                self._save_run(run)
 
                 # Yield control so polling clients see progress.
                 await asyncio.sleep(0)
@@ -620,18 +676,17 @@ class RunStore:
                       f"exact_matches={run['scoring']['exact_matches']}/{run['scoring']['scored_items']}")
 
             # Autosave result to disk
-            import json
-            out_path = self._results_dir / f"run_{run_id}.json"
-            with out_path.open("w", encoding="utf-8") as f:
-                json.dump(run, f, ensure_ascii=False, indent=2)
-            print(f"[RunStore] Saved run {run_id} to {out_path}")
+            self._save_run(run)
+            print(f"[RunStore] Saved run {run_id} to {self._results_dir / f'run_{run_id}.json'}")
 
         except asyncio.CancelledError:
             run["status"] = "cancelled"
             run["updated_at_ms"] = _now_ms()
+            self._save_run(run)
             raise
         except Exception as e:
             run["status"] = "failed"
             run["updated_at_ms"] = _now_ms()
             run["errors"].append({"error": str(e)})
+            self._save_run(run)
             print(f"[RunStore] [{run_id}] FAILED: {e}")

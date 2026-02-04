@@ -19,6 +19,7 @@ from typing import Any, Callable, Dict, List, Optional, Type
 import yaml
 
 from multiagent_workflows.core.agent_base import AgentBase, AgentConfig, AgentResult
+from multiagent_workflows.core.contracts import get_contract
 from multiagent_workflows.core.evaluator import WorkflowEvaluator
 from multiagent_workflows.core.logger import VerboseLogger
 from multiagent_workflows.core.model_manager import ModelManager
@@ -234,9 +235,13 @@ class WorkflowEngine:
                 "config": config or {},
                 "artifacts": {},
                 "workflow_id": workflow_id,
+                "validation_errors": [],  # Track validation issues
             }
             
             step_results: Dict[str, AgentResult] = {}
+            previous_step_agent: Optional[str] = None
+            previous_step_output: Optional[Dict[str, Any]] = None
+            previous_step_id: Optional[str] = None
             
             # Execute steps
             for step in workflow.steps:
@@ -244,15 +249,31 @@ class WorkflowEngine:
                 if step.condition and not self._evaluate_condition(step.condition, context):
                     continue
                 
-                # Log step start
-                step_log_id = logger.log_step_start(
-                    workflow_id=wf_log_id,
-                    step_name=step.name,
-                    step_id=step.id,
-                    context={"inputs": step.inputs, "outputs": step.outputs},
-                )
-                
                 try:
+                    # Gather inputs - includes automatic chaining from previous step
+                    step_inputs = self._gather_inputs(
+                        step.inputs,
+                        context,
+                        previous_step_output,
+                        previous_step_id,
+                    )
+
+                    # Log step start with resolved inputs
+                    step_log_id = logger.log_step_start(
+                        workflow_id=wf_log_id,
+                        step_name=step.name,
+                        step_id=step.id,
+                        inputs=step_inputs,
+                        context={"outputs": step.outputs},
+                    )
+                    
+                    # Validate inputs against agent contract
+                    validation_errors = self._validate_step_inputs(
+                        step.agent, step_inputs, previous_step_agent, logger
+                    )
+                    if validation_errors:
+                        context["validation_errors"].extend(validation_errors)
+                    
                     # Execute step
                     step_context = context.copy()
                     step_context["step_id"] = step_log_id
@@ -260,9 +281,19 @@ class WorkflowEngine:
                     result = await self._execute_step(step, step_context, logger)
                     step_results[step.id] = result
                     
-                    # Store outputs in context
+                    # Validate outputs against agent contract
                     if result.success:
+                        output_errors = self._validate_step_outputs(
+                            step.agent, result.output, logger
+                        )
+                        if output_errors:
+                            context["validation_errors"].extend(output_errors)
                         context["artifacts"][step.id] = result.output
+                    
+                    # Track for chaining to next step
+                    previous_step_agent = step.agent
+                    previous_step_output = result.output if result.success else None
+                    previous_step_id = step.id
                     
                     logger.log_step_complete(
                         step_id=step_log_id,
@@ -271,7 +302,11 @@ class WorkflowEngine:
                     )
                     
                 except Exception as e:
-                    logger.log_step_error(step_log_id, e)
+                    if step_log_id:
+                        logger.log_step_error(step_log_id, e)
+                    else:
+                        logger.log_workflow_error(wf_log_id, Exception(f"Failed to start step {step.id}: {e}"))
+                        
                     step_results[step.id] = AgentResult(
                         success=False,
                         output={},
@@ -479,31 +514,50 @@ class WorkflowEngine:
         return self.model_manager.get_optimal_model(
             task_type=model_preference,
             complexity=5,
-            prefer_local=True,
+            prefer_local=False,  # Use cloud models for faster execution
         )
     
     def _gather_inputs(
         self,
         input_refs: List[str],
         context: Dict[str, Any],
+        previous_output: Optional[Dict[str, Any]] = None,
+        previous_step_id: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """Gather inputs from context based on references."""
+        """
+        Gather inputs from context based on references.
+
+        Implements automatic output-to-input chaining:
+        - If no explicit input_refs, uses previous step's output
+        - Explicit refs override automatic chaining
+        - Previous output is merged as 'previous_output' key for access
+        """
         result: Dict[str, Any] = {}
-        
+
+        # Automatic chaining: if previous step produced output, include it
+        if previous_output:
+            # Include previous step output for automatic chaining
+            result["previous_output"] = previous_output
+            # Also flatten common keys for convenience
+            for key, value in previous_output.items():
+                if key not in result:
+                    result[key] = value
+
+        # Process explicit input references (these can override chained inputs)
         for ref in input_refs:
             # Parse ref like "inputs.requirements" or "step1.output"
             parts = ref.split(".")
             value = context
-            
+
             for part in parts:
                 if isinstance(value, dict):
                     value = value.get(part, value.get("artifacts", {}).get(part, {}))
                 else:
                     value = {}
                     break
-            
+
             result[parts[-1]] = value
-        
+
         return result
     
     def _evaluate_condition(
@@ -566,3 +620,62 @@ class WorkflowEngine:
             }
             for wf in self._workflows.values()
         ]
+
+    def _validate_step_inputs(
+        self,
+        agent_id: str,
+        inputs: Dict[str, Any],
+        previous_agent: Optional[str],
+        logger: VerboseLogger,
+    ) -> List[str]:
+        """
+        Validate step inputs against agent contract.
+
+        Returns list of validation errors, empty if valid.
+        """
+        contract = get_contract(agent_id)
+        if not contract:
+            # No contract defined, skip validation
+            return []
+
+        errors = contract.validate_inputs(inputs)
+        if errors:
+            logger._emit(
+                "validation.warning",
+                {
+                    "agent": agent_id,
+                    "previous_agent": previous_agent,
+                    "type": "input",
+                    "errors": errors,
+                },
+            )
+        return errors
+
+    def _validate_step_outputs(
+        self,
+        agent_id: str,
+        outputs: Dict[str, Any],
+        logger: VerboseLogger,
+    ) -> List[str]:
+        """
+        Validate step outputs against agent contract.
+
+        Returns list of validation errors, empty if valid.
+        """
+        contract = get_contract(agent_id)
+        if not contract:
+            # No contract defined, skip validation
+            return []
+
+        errors = contract.validate_outputs(outputs)
+        if errors:
+            logger._emit(
+                "validation.warning",
+                {
+                    "agent": agent_id,
+                    "type": "output",
+                    "errors": errors,
+                },
+            )
+        return errors
+

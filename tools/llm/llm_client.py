@@ -361,8 +361,12 @@ class LLMClient:
             headers={"Content-Type": "application/json"},
         )
 
+        # Default to a moderate timeout so workflows don't stall for 10 minutes per attempt.
+        # You can override locally if you want to allow very long generations.
+        timeout_s = int(os.getenv("OLLAMA_TIMEOUT_SECONDS", "180"))
+
         try:
-            with urllib.request.urlopen(req, timeout=600) as resp:  # 10 minutes for reasoning models
+            with urllib.request.urlopen(req, timeout=timeout_s) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 return data.get("response", "")
         except urllib.error.HTTPError as e:
@@ -563,29 +567,48 @@ class LLMClient:
     @staticmethod
     def _call_github_models(model_name: str, prompt: str, system_instruction: Optional[str]) -> str:
         """
-        Call GitHub Models API with retry logic for rate limiting.
+        Call GitHub Models via gh CLI with rate limit handling.
 
         Model name format: gh:<model_name>
         Examples:
-          - gh:gpt-4o-mini
-          - gh:gpt-4.1
-          - gh:llama-3.3-70b-instruct
-          - gh:mistral-small-2503
+          - gh:deepseek/deepseek-r1
+          - gh:meta/llama-3.3-70b-instruct
+          - gh:openai/gpt-4o-mini
+        
+        Uses gh CLI authentication (gh auth login).
         """
         import subprocess
         import re
         import time
 
         # Parse model name (remove gh: prefix)
-        model = model_name.split(":", 1)[1] if ":" in model_name else "gpt-4o-mini"
+        model = model_name.split(":", 1)[1] if ":" in model_name else "meta/llama-3.3-70b-instruct"
 
         # Map short names to full names
         model_map = {
             "gpt-4o-mini": "openai/gpt-4o-mini",
             "gpt-4o": "openai/gpt-4o",
             "gpt-4.1": "openai/gpt-4.1",
+            "gpt-4.1-mini": "openai/gpt-4.1-mini",
+            "gpt-5": "openai/gpt-5",
+            "gpt-5-mini": "openai/gpt-5-mini",
+            "o1": "openai/o1",
+            "o1-mini": "openai/o1-mini",
+            "o3": "openai/o3",
+            "o3-mini": "openai/o3-mini",
+            "o4-mini": "openai/o4-mini",
             "llama-3.3-70b": "meta/llama-3.3-70b-instruct",
+            "llama-4-scout": "meta/llama-4-scout-17b-16e-instruct",
+            "llama-4-maverick": "meta/llama-4-maverick-17b-128e-instruct-fp8",
             "mistral-small": "mistral-ai/mistral-small-2503",
+            "mistral-medium": "mistral-ai/mistral-medium-2505",
+            "codestral": "mistral-ai/codestral-2501",
+            "deepseek-r1": "deepseek/deepseek-r1",
+            "deepseek-v3": "deepseek/deepseek-v3-0324",
+            "phi-4": "microsoft/phi-4",
+            "phi-4-reasoning": "microsoft/phi-4-reasoning",
+            "grok-3": "xai/grok-3",
+            "grok-3-mini": "xai/grok-3-mini",
         }
         full_model = model_map.get(model, model)
 
@@ -595,50 +618,65 @@ class LLMClient:
         else:
             full_prompt = prompt
 
-        # Retry configuration
-        max_retries = 5
-        base_delay = 5  # seconds
+        # Retry / rate-limit strategy
+        # Default behavior is "fallback" (fail fast so callers can switch models).
+        # Set PROMPTS_GH_RATE_LIMIT_STRATEGY=wait to enable waiting retries.
+        def _get_int_env(name: str, default: int) -> int:
+            try:
+                v = int((os.getenv(name) or "").strip() or str(default))
+                return max(1, v)
+            except Exception:
+                return default
+
+        rate_limit_strategy = (os.getenv("PROMPTS_GH_RATE_LIMIT_STRATEGY") or "fallback").strip().lower()
+        max_retries = _get_int_env("PROMPTS_GH_MAX_RETRIES", 1)
+        base_delay = _get_int_env("PROMPTS_GH_BASE_DELAY_SECONDS", 2)
+
+        # Clean environment - remove GITHUB_TOKEN so gh CLI uses its own auth
+        clean_env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
         
         for attempt in range(max_retries):
             try:
                 result = subprocess.run(
-                    ["gh", "models", "run", full_model, "--", full_prompt],
-                    capture_output=True, text=True, timeout=180, encoding='utf-8', errors='replace'
+                    ["gh", "models", "run", full_model],
+                    input=full_prompt,
+                    capture_output=True, text=True, timeout=300,
+                    encoding='utf-8', errors='replace',
+                    env=clean_env
                 )
                 if result.returncode == 0:
                     return result.stdout
-                else:
-                    error_msg = result.stderr
-                    
-                    # Check for rate limiting
-                    if "rate limit" in error_msg.lower() or "too many requests" in error_msg.lower():
-                        # Try to extract retry delay from error message
-                        retry_match = re.search(r'retry after (\d+)([sm])', error_msg.lower())
-                        if retry_match:
-                            delay_val = int(retry_match.group(1))
-                            delay_unit = retry_match.group(2)
-                            wait_time = delay_val if delay_unit == 's' else delay_val * 60
-                        else:
-                            # Exponential backoff
-                            wait_time = base_delay * (2 ** attempt)
-                        
-                        if attempt < max_retries - 1:
-                            print(f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})...")
-                            time.sleep(wait_time)
-                            continue
-                    
-                    return f"gh models error: {error_msg}"
+                
+                error_msg = result.stderr.lower()
+                
+                # Rate limiting
+                if any(x in error_msg for x in ["rate limit", "too many requests", "429", "quota"]):
+                    # Default: do not wait here; let callers rotate to another model/provider.
+                    if rate_limit_strategy == "wait" and attempt < max_retries - 1:
+                        wait_time = min(base_delay * (2 ** attempt), 60)
+                        print(
+                            f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})..."
+                        )
+                        time.sleep(wait_time)
+                        continue
+                    return f"gh models error: Rate limited after {attempt + 1} attempt(s)"
+                
+                # No access error
+                if "no_access" in error_msg or "no access" in error_msg:
+                    return f"gh models error: No access to model {full_model}"
+                
+                return f"gh models error: {result.stderr}"
                     
             except FileNotFoundError:
-                return "Error: gh CLI not found. Install GitHub CLI with gh-models extension."
+                return "gh models error: gh CLI not found. Install with: winget install GitHub.cli"
             except subprocess.TimeoutExpired:
                 if attempt < max_retries - 1:
-                    print(f"  [gh] Request timed out, retrying (attempt {attempt + 1}/{max_retries})...")
+                    print(f"  [gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})...")
                     time.sleep(base_delay)
                     continue
-                return "Error: GitHub Models request timed out after retries"
+                return "gh models error: request timed out"
         
-        return "Error: GitHub Models max retries exceeded"
+        return "gh models error: max retries exceeded"
 
     @staticmethod
     def _call_azure_foundry(model_name: str, prompt: str, system_instruction: Optional[str],

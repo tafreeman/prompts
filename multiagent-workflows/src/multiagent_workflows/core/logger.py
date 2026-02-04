@@ -85,9 +85,15 @@ class VerboseLogger:
     end_time: Optional[str] = None
     success: bool = False
     
+    # Full text storage for prompts/responses (for JSON export)
+    _full_prompts: Dict[str, str] = field(default_factory=dict)
+    _full_responses: Dict[str, str] = field(default_factory=dict)
+    
     def __post_init__(self):
         """Initialize logging configuration."""
         self.log_level = self.config.get("level", "DEBUG")
+        # Enable full text storage for detailed JSON exports
+        self.store_full_text = self.config.get("store_full_text", True)
         self._setup_console_logging()
     
     def _setup_console_logging(self) -> None:
@@ -230,14 +236,16 @@ class VerboseLogger:
         workflow_id: str,
         step_name: str,
         step_id: Optional[str] = None,
+        inputs: Optional[Dict[str, Any]] = None,
         context: Optional[Dict[str, Any]] = None,
     ) -> str:
-        """Log workflow step start."""
+        """Log workflow step start with inputs."""
         self._start_timer(f"step_{step_id or step_name}")
         
         data = {
             "name": step_name,
             "step_id": step_id,
+            "inputs": self._sanitize(inputs) if inputs else {},
             "context": context or {},
         }
         return self._emit("step.start", data, parent_id=workflow_id)
@@ -253,7 +261,8 @@ class VerboseLogger:
         
         data = {
             "success": success,
-            "outputs": list(outputs.keys()) if outputs else [],
+            "outputs": self._sanitize(outputs) if outputs else {},
+            "output_keys": list(outputs.keys()) if outputs else [],
             "artifact_count": len(outputs) if outputs else 0,
         }
         self._emit("step.complete", data, parent_id=step_id, duration_ms=duration_ms)
@@ -322,7 +331,7 @@ class VerboseLogger:
         prompt: str,
         params: Dict[str, Any],
     ) -> str:
-        """Log model API call."""
+        """Log model API call with full prompt storage."""
         self._start_timer(f"model_{agent_id}")
         
         data = {
@@ -331,7 +340,13 @@ class VerboseLogger:
             "prompt_preview": prompt[:100] + "..." if len(prompt) > 100 else prompt,
             "parameters": params,
         }
-        return self._emit("model.call", data, parent_id=agent_id)
+        call_id = self._emit("model.call", data, parent_id=agent_id)
+        
+        # Store full prompt for JSON export
+        if self.store_full_text:
+            self._full_prompts[call_id] = prompt
+        
+        return call_id
     
     def log_model_response(
         self,
@@ -341,7 +356,7 @@ class VerboseLogger:
         tokens: int,
         cost: float = 0.0,
     ) -> None:
-        """Log model response with metrics."""
+        """Log model response with full response storage."""
         duration_ms = self._stop_timer(f"model_{call_id}")
         
         # Track metrics
@@ -356,6 +371,11 @@ class VerboseLogger:
             "tokens": tokens,
             "cost_usd": cost,
         }
+        
+        # Store full response for JSON export
+        if self.store_full_text:
+            self._full_responses[call_id] = response
+        
         self._emit("model.response", data, parent_id=call_id, duration_ms=duration_ms)
     
     def log_model_error(self, call_id: str, error: Exception) -> None:
@@ -419,7 +439,30 @@ class VerboseLogger:
         return sanitized
     
     def get_structured_log(self) -> Dict[str, Any]:
-        """Return complete structured log for evaluation."""
+        """Return complete structured log for evaluation with full prompt/response records."""
+        # Build model calls with full prompts and responses
+        model_calls = []
+        for e in self.events:
+            if e.event_type == "model.call":
+                call_record = {
+                    "call_id": e.event_id,
+                    "timestamp": e.timestamp,
+                    "model_id": e.data.get("model_id"),
+                    "prompt": self._full_prompts.get(e.event_id, e.data.get("prompt_preview")),
+                    "parameters": e.data.get("parameters"),
+                }
+                # Find matching response
+                for r in self.events:
+                    if r.event_type == "model.response" and r.parent_id == e.event_id:
+                        call_record["response"] = self._full_responses.get(
+                            e.event_id, r.data.get("response_preview")
+                        )
+                        call_record["tokens"] = r.data.get("tokens")
+                        call_record["timing_ms"] = r.data.get("timing_ms")
+                        call_record["cost_usd"] = r.data.get("cost_usd")
+                        break
+                model_calls.append(call_record)
+
         return {
             "workflow_id": self.workflow_id,
             "workflow_name": self.workflow_name,
@@ -437,6 +480,8 @@ class VerboseLogger:
                 }
                 for e in self.events
             ],
+            # Full prompt/response records per model call
+            "model_calls": model_calls,
             "metrics": {
                 "total_tokens": sum(self.metrics.get("tokens", [])),
                 "total_cost_usd": sum(self.metrics.get("cost", [])),
@@ -445,6 +490,7 @@ class VerboseLogger:
                     len(self.metrics.get("response_time_ms", [1]))
                 ),
                 "event_count": len(self.events),
+                "model_call_count": len(model_calls),
             },
         }
     
@@ -457,6 +503,10 @@ class VerboseLogger:
             json.dump(self.get_structured_log(), f, indent=2, default=str)
         
         logger.info(f"Exported logs to {path}")
+
+    def save_logs(self, filepath: Union[str, Path]) -> None:
+        """Alias for export_to_json for backward compatibility."""
+        self.export_to_json(filepath)
     
     def export_to_markdown(self, filepath: Union[str, Path]) -> None:
         """Export human-readable log to Markdown."""
@@ -494,6 +544,9 @@ class VerboseLogger:
             if event.parent_id:
                 lines.append(f"- **Parent**: {event.parent_id}")
             for key, value in event.data.items():
+                if key == "inputs" or key == "outputs":
+                    lines.append(f"- **{key}**: (Detailed JSON in log file)")
+                    continue
                 if isinstance(value, str) and len(value) > 100:
                     value = value[:100] + "..."
                 lines.append(f"- **{key}**: {value}")

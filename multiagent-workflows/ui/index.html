@@ -509,6 +509,16 @@
                                 </div>
                             </div>
                         </label>
+                        <label class="workflow-option">
+                            <input type="radio" name="workflow" value="repo_maintenance" onchange="updatePipeline()">
+                            <div class="workflow-card">
+                                <span class="workflow-icon">📚</span>
+                                <div class="workflow-info">
+                                    <span class="workflow-name">Repository Maintenance</span>
+                                    <span class="workflow-desc">LATS-verified cleanup, testing, and documentation audit</span>
+                                </div>
+                            </div>
+                        </label>
                     </div>
                 </div>
 
@@ -616,6 +626,34 @@
                             <div class="metric-card"><div class="metric-icon">⏱️</div><div class="metric-label">Estimated Time</div><div class="metric-value" id="estTime">~15 min</div></div>
                             <div class="metric-card"><div class="metric-icon">💰</div><div class="metric-label">Estimated Cost</div><div class="metric-value" id="estCost">~$0.50</div></div>
                         </div>
+                        <div class="config-section" style="margin-top: 16px;">
+                            <div class="config-title">Quick Settings</div>
+                            <div class="output-grid" style="grid-template-columns: repeat(3, 1fr);">
+                                <div class="output-field">
+                                    <label>Output Directory</label>
+                                    <input type="text" id="outputDirQuick" value="./evaluations/results" oninput="syncOutputDir(this.value)">
+                                </div>
+                                <div class="output-field">
+                                    <label>Log Level</label>
+                                    <select class="agent-select" id="logLevelQuick" onchange="syncLogLevel(this.value)">
+                                        <option value="ERROR">Error Only</option>
+                                        <option value="WARNING">Warning</option>
+                                        <option value="INFO">Info (Standard)</option>
+                                        <option value="DEBUG">Debug (Verbose)</option>
+                                        <option value="TRACE">Trace (All)</option>
+                                    </select>
+                                </div>
+                                <div class="output-field">
+                                    <label>Response Detail</label>
+                                    <select class="agent-select" id="responseDetailQuick" onchange="syncResponseDetail(this.value)">
+                                        <option value="minimal">Minimal (Pass/Fail)</option>
+                                        <option value="summary">Summary</option>
+                                        <option value="detailed">Detailed</option>
+                                        <option value="full">Full (Raw Output)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="run-actions">
                             <button class="btn btn-large btn-green" id="startRunBtn" onclick="startRun()">▶ Start Workflow Run</button>
                             <button class="btn btn-large btn-secondary" onclick="exportConfig()">Export Config</button>
@@ -626,7 +664,27 @@
                                 <div id="runStatusText" style="color: var(--text-secondary); font-size: 13px;">Idle</div>
                                 <div id="runStatusMeta" style="color: var(--text-muted); font-size: 12px;"></div>
                             </div>
+                            <div style="margin-top: 10px;">
+                                <div style="display:flex; justify-content: space-between; font-size: 12px; color: var(--text-muted);">
+                                    <span>Progress</span>
+                                    <span id="runProgressText">0%</span>
+                                </div>
+                                <div class="dash-progress-bar" style="margin-top: 6px;">
+                                    <div class="dash-progress-fill" id="runProgressFill" style="width: 0%"></div>
+                                </div>
+                            </div>
                             <div id="runResults" style="margin-top: 12px;"></div>
+                            <div style="margin-top: 12px;">
+                                <div class="config-title" style="margin-bottom: 8px;">Output Watch</div>
+                                <textarea id="watchCmd" class="dash-output" readonly style="width:100%; height:90px;"></textarea>
+                                <div style="display:flex; gap: 8px; margin-top: 8px;">
+                                    <button class="btn btn-secondary" onclick="copyWatchCmd()">Copy watch cmd</button>
+                                    <button class="btn btn-secondary" onclick="copyRunIds()">Copy run id(s)</button>
+                                </div>
+                                <div style="margin-top: 6px; font-size: 12px; color: var(--text-muted);">
+                                    Output files are saved as <code>run_&lt;id&gt;.json</code> under the output directory.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1190,6 +1248,25 @@ const workflows = {
         ],
         flow: ['scanner', 'assessor', 'planner', 'simulator', 'documenter'],
         feedback: [{from: 'simulator', to: 'planner', label: 'Revise Plan'}]
+    },
+    repo_maintenance: {
+        name: 'Repository Maintenance',
+        agents: [
+            {id: 'explorer', name: 'Explorer', icon: '🔍', color: '#3b82f6'},
+            {id: 'tester', name: 'Tester', icon: '🧪', color: '#22c55e'},
+            {id: 'engineering', name: 'Eng Expert', icon: '⚙️', color: '#8b5cf6'},
+            {id: 'documenter', name: 'Documenter', icon: '📝', color: '#f59e0b'},
+            {id: 'cleanup', name: 'Cleanup', icon: '🧹', color: '#ec4899'},
+            {id: 'triage', name: 'Lib Triage', icon: '📚', color: '#06b6d4'},
+            {id: 'lats', name: 'LATS QC', icon: '🔬', color: '#14b8a6'}
+        ],
+        flow: ['explorer', 'tester', 'engineering', 'documenter', 'cleanup', 'triage', 'lats'],
+        feedback: [
+            {from: 'lats', to: 'triage', label: 'Refine (below 80%)'},
+            {from: 'triage', to: 'cleanup', label: 'Re-assess'}
+        ],
+        phases: ['Discovery', 'Analysis (∥)', 'Curation', 'Verification', 'Reporting'],
+        patterns: ['LATS', 'CoVe', 'G-Eval', 'ReAct', 'Reflexion']
     }
 };
 
@@ -1298,9 +1375,59 @@ function render() {
     `}).join('');
     
     const totalPages = Math.ceil(filtered.length / state.perPage);
-    document.getElementById('pageButtons').innerHTML = Array.from({length: Math.min(5, totalPages)}, (_, i) => 
-        `<button class="page-btn ${i+1 === state.page ? 'active' : ''}" onclick="goPage(${i+1})">${i+1}</button>`
-    ).join('') + (totalPages > 5 ? `<button class="page-btn" onclick="goPage(${totalPages})">${totalPages}</button>` : '');
+    // Clamp current page to valid range
+    if (state.page > totalPages && totalPages > 0) state.page = totalPages;
+    if (state.page < 1) state.page = 1;
+    
+    let paginationHtml = '';
+    
+    // Previous button
+    paginationHtml += `<button class="page-btn" onclick="goPage(${state.page - 1})" ${state.page <= 1 ? 'disabled' : ''}>←</button>`;
+    
+    if (totalPages <= 7) {
+        // Show all pages if 7 or fewer
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHtml += `<button class="page-btn ${i === state.page ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+        }
+    } else {
+        // Always show first page
+        paginationHtml += `<button class="page-btn ${1 === state.page ? 'active' : ''}" onclick="goPage(1)">1</button>`;
+        
+        // Calculate window around current page
+        let windowStart = Math.max(2, state.page - 1);
+        let windowEnd = Math.min(totalPages - 1, state.page + 1);
+        
+        // Adjust window to show at least 3 pages in the middle
+        if (windowStart <= 2) {
+            windowEnd = Math.min(totalPages - 1, 4);
+        }
+        if (windowEnd >= totalPages - 1) {
+            windowStart = Math.max(2, totalPages - 3);
+        }
+        
+        // Left ellipsis
+        if (windowStart > 2) {
+            paginationHtml += `<button class="page-btn" disabled>…</button>`;
+        }
+        
+        // Window pages
+        for (let i = windowStart; i <= windowEnd; i++) {
+            paginationHtml += `<button class="page-btn ${i === state.page ? 'active' : ''}" onclick="goPage(${i})">${i}</button>`;
+        }
+        
+        // Right ellipsis
+        if (windowEnd < totalPages - 1) {
+            paginationHtml += `<button class="page-btn" disabled>…</button>`;
+        }
+        
+        // Always show last page
+        paginationHtml += `<button class="page-btn ${totalPages === state.page ? 'active' : ''}" onclick="goPage(${totalPages})">${totalPages}</button>`;
+    }
+    
+    // Next button
+    paginationHtml += `<button class="page-btn" onclick="goPage(${state.page + 1})" ${state.page >= totalPages ? 'disabled' : ''}>→</button>`;
+    
+    document.getElementById('pageButtons').innerHTML = paginationHtml;
     
     document.getElementById('selCount').textContent = state.selected.size;
     updateSelectAllToggle();
@@ -1445,6 +1572,8 @@ function clearSelection() { state.selected.clear(); render(); }
 function goPage(p) { state.page = p; render(); }
 function adjustRuns(d) { const el = document.getElementById('numRuns'); el.value = Math.max(1, Math.min(10, parseInt(el.value) + d)); }
 function toggleFormat(btn) { btn.classList.toggle('active'); }
+function msgDuration(s) { if (!s) return ''; return s < 1 ? Math.round(s*1000)+'ms' : s.toFixed(2)+'s'; }
+
 
 function updateRunSection() {
     const items = Array.from(state.selected).map(id => datasets.find(d => d.id === id)).filter(Boolean);
@@ -1475,6 +1604,41 @@ function updateRunSection() {
     const cost = (items.length * 0.05 * wf.agents.length * parseInt(document.getElementById('numRuns').value)).toFixed(2);
     document.getElementById('estTime').textContent = `~${time} min`;
     document.getElementById('estCost').textContent = `~$${cost}`;
+
+    syncQuickSettingsFromConfig();
+    updateWatchCommands();
+}
+
+function syncOutputDir(value) {
+    const base = document.getElementById('outputDir');
+    if (base) base.value = value;
+    updateRunSection();
+}
+
+function syncLogLevel(value) {
+    const base = document.getElementById('logLevel');
+    if (base) base.value = value;
+    updateRunSection();
+}
+
+function syncResponseDetail(value) {
+    const base = document.getElementById('responseDetail');
+    if (base) base.value = value;
+    updateRunSection();
+}
+
+function syncQuickSettingsFromConfig() {
+    const output = document.getElementById('outputDir');
+    const quickOutput = document.getElementById('outputDirQuick');
+    if (output && quickOutput) quickOutput.value = output.value;
+
+    const log = document.getElementById('logLevel');
+    const quickLog = document.getElementById('logLevelQuick');
+    if (log && quickLog) quickLog.value = log.value;
+
+    const resp = document.getElementById('responseDetail');
+    const quickResp = document.getElementById('responseDetailQuick');
+    if (resp && quickResp) quickResp.value = resp.value;
 }
 
 function _benchmarkIdForSource(source) {
@@ -1499,14 +1663,28 @@ function _renderRunResults(runs) {
 
     runs.forEach(r => {
         const pct = r.total ? Math.round((r.completed / r.total) * 100) : 0;
+        const stepStats = _stepStats(r.items || []);
+        const stepText = stepStats.total ? ` • steps ${stepStats.done}/${stepStats.total}` : '';
         const header = `<div style="display:flex; justify-content: space-between; align-items:center; padding: 8px 0; border-bottom: 1px solid var(--border);">
             <div style="font-weight:600;">${r.benchmark_id}</div>
-            <div style="color: var(--text-muted); font-size: 12px;">${r.status} • ${r.completed}/${r.total} • ${pct}%</div>
+            <div style="display:flex; gap: 8px; align-items:center;">
+                <div style="color: var(--text-muted); font-size: 12px;">${r.status} • ${r.completed}/${r.total} • ${pct}%${stepText}</div>
+                <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="showRunJson('${r.run_id}')">JSON</button>
+            </div>
         </div>`;
 
-        const items = (r.items || []).map((it, idx) => {
+        const allItems = r.items || [];
+        const totalItems = allItems.length;
+        const totalPages = Math.max(1, Math.ceil(totalItems / RUN_PAGE_SIZE));
+        const currentPage = Math.min(_runItemPage[r.run_id] || 1, totalPages);
+        _runItemPage[r.run_id] = currentPage;
+        const start = (currentPage - 1) * RUN_PAGE_SIZE;
+        const pageItems = allItems.slice(start, start + RUN_PAGE_SIZE);
+
+        const items = pageItems.map((it, idx) => {
             const badgeColor = it.status === 'error' ? 'rgba(239,68,68,0.2)' : 'rgba(34,197,94,0.2)';
             const badgeText = it.status === 'error' ? '#ef4444' : '#22c55e';
+            const stepBadge = _itemStepBadge(it);
             
             let scoreBadge = '';
             if (it.evaluation && (it.evaluation.score !== undefined || it.evaluation.correctness !== undefined)) {
@@ -1515,6 +1693,7 @@ function _renderRunResults(runs) {
                  scoreBadge = `<span style="font-weight:600; font-size:11px; color:${sColor}; margin-right:8px;">${s}%</span>`;
             }
 
+            const globalIdx = start + idx;
             return `<div style="padding: 10px 0; border-bottom: 1px solid var(--border); display:flex; justify-content: space-between; gap: 12px; align-items: center;">
                 <div style="min-width: 0;">
                     <div style="font-size: 13px; font-weight: 500;">${it.task_id}</div>
@@ -1522,13 +1701,26 @@ function _renderRunResults(runs) {
                 </div>
                 <div style="display:flex; gap: 8px; align-items:center;">
                     ${scoreBadge}
+                    ${stepBadge}
                     <span style="padding: 3px 8px; border-radius: 6px; font-size: 11px; background: ${badgeColor}; color: ${badgeText};">${it.status}</span>
-                    <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="showRunItem('${r.run_id}', ${idx})">View</button>
+                    <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 12px;" onclick="showRunItem('${r.run_id}', ${globalIdx})">View</button>
                 </div>
             </div>`;
         }).join('');
 
-        blocks.push(`<div style="margin-bottom: 12px;">${header}${items}</div>`);
+        const pager = totalPages > 1 ? `
+            <div style="display:flex; justify-content: space-between; align-items:center; padding: 8px 0; font-size: 12px; color: var(--text-muted);">
+                <div>Showing ${totalItems ? (start + 1) : 0}-${Math.min(start + RUN_PAGE_SIZE, totalItems)} of ${totalItems}</div>
+                <div style="display:flex; gap: 6px; align-items:center;">
+                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" ${currentPage <= 1 ? 'disabled' : ''} onclick="setRunPage('${r.run_id}', ${currentPage - 1})">Prev</button>
+                    <span>${currentPage}/${totalPages}</span>
+                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" ${currentPage >= totalPages ? 'disabled' : ''} onclick="setRunPage('${r.run_id}', ${currentPage + 1})">Next</button>
+                </div>
+            </div>
+        ` : '';
+
+        const body = items || '<div style="padding: 8px 0; color: var(--text-muted); font-size: 12px;">No items yet.</div>';
+        blocks.push(`<div style="margin-bottom: 12px;">${header}${body}${pager}</div>`);
     });
 
     container.innerHTML = blocks.join('') || '<div style="color: var(--text-muted); font-size: 13px;">No results yet.</div>';
@@ -1536,6 +1728,9 @@ function _renderRunResults(runs) {
 
 let _activeRuns = []; // [{run_id, benchmark_id, status, ...}]
 let _activeRunMap = {}; // run_id -> run object
+let _lastRunIds = [];
+let _runItemPage = {};
+const RUN_PAGE_SIZE = 20;
 
 async function showRunItem(runId, itemIndex) {
     const run = _activeRunMap[runId];
@@ -1550,12 +1745,121 @@ async function showRunItem(runId, itemIndex) {
         ${it.evaluation ? `<div class="detail-section"><div class="detail-section-title">📊 Evaluation ${it.evaluation.score !== undefined ? '(' + it.evaluation.score + '%)' : ''}</div><div class="example-block">${it.evaluation.reasoning || JSON.stringify(it.evaluation, null, 2)}</div></div>` : ''}
         <div class="detail-section"><div class="detail-section-title">Code Before / Input</div><div class="example-block">${it.before || ''}</div></div>
         <div class="detail-section"><div class="detail-section-title">Code After / Model Output</div><div class="example-block">${it.after || ''}</div></div>
-        <div class="detail-section"><div class="detail-section-title">Gold Standard</div><div class="example-block">${it.gold || ''}</div></div>
+        <div class="detail-section"><div class="detail-section-title">Gold Standard</div><div class="example-block">${_escapeHtml(it.gold || '')}</div></div>
+        
+        ${(it.steps && it.steps.length > 0) ? `
+            <div class="detail-section"><div class="detail-section-title">Agent Steps (${it.steps.length})</div>
+            ${it.steps.map(s => `
+                <div style="margin-bottom:12px; border:1px solid var(--border); border-radius:6px; padding:10px; background:var(--bg-secondary);">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                        <span style="font-weight:600;">${_escapeHtml(s.name || s.step_id)}</span>
+                        <span style="font-size:11px; color:var(--text-muted);">${_escapeHtml(s.status)} • ${_escapeHtml(s.model || '')} • ${msgDuration(s.duration)}</span>
+                    </div>
+                    ${s.output ? `<div class="example-block" style="font-size:12px; max-height:200px; overflow-y:auto;">${_escapeHtml(s.output)}</div>` : ''}
+                    ${s.error ? `<div style="color:var(--red); font-size:12px;">Error: ${_escapeHtml(s.error)}</div>` : ''}
+                </div>
+            `).join('')}
+            </div>
+        ` : ''}
+
         <div style="margin-top:20px;display:flex;gap:10px;">
             <button class="btn btn-secondary" onclick="closeModal()">Close</button>
         </div>
     `;
     document.getElementById('detailsModal').classList.add('active');
+}
+
+function setRunPage(runId, page) {
+    _runItemPage[runId] = Math.max(1, page);
+    if (_activeRuns && _activeRuns.length) {
+        _renderRunResults(_activeRuns);
+    }
+}
+
+function updateWatchCommands() {
+    const outputDir = document.getElementById('outputDir')?.value || './evaluations/results';
+    const normalized = outputDir.replace(/\//g, '\\');
+    const runs = _lastRunIds || [];
+    const cmds = runs.length
+        ? runs.map(rid => `Get-Content -Path \"${normalized}\\run_${rid}.json\" -Wait`).join('\n')
+        : 'Get-Content -Path "./evaluations/results/run_<id>.json" -Wait';
+    const el = document.getElementById('watchCmd');
+    if (el) el.value = cmds;
+}
+
+function copyWatchCmd() {
+    const el = document.getElementById('watchCmd');
+    if (!el) return;
+    const text = el.value || '';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => alert(text));
+    } else {
+        alert(text);
+    }
+}
+
+function copyRunIds() {
+    const text = (_lastRunIds || []).join(', ');
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => alert(text));
+    } else {
+        alert(text);
+    }
+}
+
+function _stepStats(items) {
+    let total = 0;
+    let done = 0;
+    (items || []).forEach(it => {
+        const steps = it.steps || [];
+        total += steps.length;
+        steps.forEach(s => {
+            const status = String(s.status || '').toLowerCase();
+            if (status === 'complete' || status === 'completed' || status === 'error' || status === 'failed') {
+                done += 1;
+            }
+        });
+    });
+    return { total, done };
+}
+
+function _itemStepBadge(it) {
+    const steps = it.steps || [];
+    if (!steps.length) return '';
+    const done = steps.filter(s => {
+        const status = String(s.status || '').toLowerCase();
+        return status === 'complete' || status === 'completed' || status === 'error' || status === 'failed';
+    }).length;
+    return `<span style="padding: 3px 8px; border-radius: 6px; font-size: 11px; background: rgba(59,130,246,0.2); color: var(--blue);">steps ${done}/${steps.length}</span>`;
+}
+
+function showRunJson(runId) {
+    const run = _activeRunMap[runId];
+    if (!run) return;
+    const jsonText = JSON.stringify(run, null, 2);
+    window._jsonClipboard = jsonText;
+    document.getElementById('modalTitle').textContent = `Run JSON • ${runId}`;
+    document.getElementById('modalBody').innerHTML = `
+        <div class="detail-row"><span class="detail-label">Run ID</span><span class="detail-value">${runId}</span></div>
+        <div class="detail-row"><span class="detail-label">Benchmark</span><span class="detail-value">${run.benchmark_id || ''}</span></div>
+        <div class="detail-section"><div class="detail-section-title">JSON</div><div class="example-block">${_escapeHtml(jsonText)}</div></div>
+        <div style="margin-top:20px;display:flex;gap:10px;">
+            <button class="btn btn-secondary" onclick="copyJsonClipboard()">Copy JSON</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+        </div>
+    `;
+    document.getElementById('detailsModal').classList.add('active');
+}
+
+function copyJsonClipboard() {
+    const text = window._jsonClipboard || '';
+    if (!text) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => alert(text));
+    } else {
+        alert(text);
+    }
 }
 
 async function startRun() {
@@ -1580,6 +1884,8 @@ async function startRun() {
     document.getElementById('runStatusText').textContent = 'Starting run(s)...';
     document.getElementById('runStatusMeta').textContent = '';
     document.getElementById('runResults').innerHTML = '';
+    document.getElementById('runProgressText').textContent = '0%';
+    document.getElementById('runProgressFill').style.width = '0%';
 
     const selectedWf = document.querySelector('input[name="workflow"]:checked').value;
     const model = _pickModelForRun();
@@ -1614,6 +1920,8 @@ async function startRun() {
 
         document.getElementById('runStatusText').textContent = `Running ${runIds.length} job(s)...`;
         document.getElementById('runStatusMeta').textContent = runIds.join(', ');
+        _lastRunIds = runIds.slice();
+        updateWatchCommands();
 
         // Poll runs until all complete
         _activeRuns = [];
@@ -1639,7 +1947,10 @@ async function startRun() {
 
             const total = runs.reduce((sum, r) => sum + (r.total || 0), 0);
             const completed = runs.reduce((sum, r) => sum + (r.completed || 0), 0);
+            const pct = total ? Math.round((completed / total) * 100) : 0;
             document.getElementById('runStatusText').textContent = done ? 'Done' : `Running... (${completed}/${total})`;
+            document.getElementById('runProgressText').textContent = `${pct}%`;
+            document.getElementById('runProgressFill').style.width = `${pct}%`;
 
             if (!done) await new Promise(res => setTimeout(res, 500));
         }

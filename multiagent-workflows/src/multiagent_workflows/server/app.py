@@ -138,6 +138,11 @@ async def handle_get_run(request: web.Request) -> web.Response:
     return _json_response(run)
 
 
+async def handle_list_runs(request: web.Request) -> web.Response:
+    store: RunStore = request.app["run_store"]
+    return _json_response({"runs": store.list_runs()})
+
+
 def _repo_root_from_here() -> Path:
     # .../multiagent-workflows/src/multiagent_workflows/server/app.py -> parents[3] == multiagent-workflows
     return Path(__file__).resolve().parents[3]
@@ -247,6 +252,7 @@ def create_app() -> web.Application:
     app.router.add_get("/api/models", handle_models)
     app.router.add_post("/api/models/refresh", handle_refresh_models)
     app.router.add_get("/api/models/{model_id}/probe", handle_probe_model)
+    app.router.add_get("/api/runs", handle_list_runs)
     app.router.add_post("/api/runs", handle_create_run)
     app.router.add_get("/api/runs/{run_id}", handle_get_run)
     app.router.add_get("/api/agents", handle_list_agents)

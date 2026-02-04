@@ -227,10 +227,34 @@ class ModelManager:
             )
             
         except Exception as e:
+            error_msg = str(e).lower()
+            is_rate_limited = (
+                "rate limit" in error_msg or
+                "too many requests" in error_msg or
+                "429" in error_msg or
+                "quota" in error_msg
+            )
+            
             if self.logger and call_id:
                 self.logger.log_model_error(call_id, e)
             
-            # Try fallback
+            # On rate limit, immediately try fallback without retry
+            if is_rate_limited:
+                fallback_model = await self._get_fallback_for_rate_limit(model_id)
+                if fallback_model:
+                    if self.logger:
+                        self.logger.log("info", f"Rate limited on {model_id}, falling back to {fallback_model}")
+                    return await self.generate(
+                        model_id=fallback_model,
+                        prompt=prompt,
+                        context=context,
+                        system_prompt=system_prompt,
+                        temperature=temperature,
+                        max_tokens=max_tokens,
+                        stream=stream,
+                    )
+            
+            # Try regular fallback for other errors
             fallback_model = await self._get_fallback(model_id)
             if fallback_model:
                 return await self.generate(
@@ -527,7 +551,13 @@ class ModelManager:
         
         candidates = routing.get("preferred", routing) if isinstance(routing, dict) else routing
         
-        # For high complexity, prioritize cloud models
+        # When NOT preferring local, prioritize cloud models
+        if not prefer_local:
+            cloud_first = [m for m in candidates if not m.startswith("local:") and not m.startswith("ollama:")]
+            cloud_first.extend([m for m in candidates if m not in cloud_first])
+            candidates = cloud_first
+        
+        # For high complexity, filter out local models entirely
         if complexity >= 8 and not prefer_local:
             candidates = [m for m in candidates if not m.startswith("local:")]
         
@@ -537,7 +567,7 @@ class ModelManager:
             local_first.extend([m for m in candidates if m not in local_first])
             candidates = local_first
         
-        # Return first available (synchronous check for immediate use)
+        # Return first available cloud model (or first candidate if none cached)
         for model in candidates:
             if model in self._availability_cache and self._availability_cache[model]:
                 return model
@@ -553,6 +583,49 @@ class ModelManager:
             fallback_chain = ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"]
         
         for model in fallback_chain:
+            if model != failed_model and await self.check_availability(model):
+                return model
+        
+        return None
+    
+    async def _get_fallback_for_rate_limit(self, failed_model: str) -> Optional[str]:
+        """Get fallback model specifically for rate limit errors - prioritizes local/Ollama."""
+        # When rate limited, prefer non-cloud models to avoid further rate limits
+        local_fallbacks = [
+            "ollama:qwen2.5-coder:14b",
+            "ollama:phi4-reasoning:latest",
+            "ollama:deepseek-r1:14b",
+            "ollama:qwen3:8b",
+            "local:phi4",
+            "local:phi4mini",
+            "aitk:phi-4-mini-instruct",
+            "aitk:qwen2.5-coder-7b-instruct",
+        ]
+        
+        # Also check config for local models in the fallback chain
+        config_chain = self.config.get("fallback", {}).get("chain", [])
+        for model in config_chain:
+            if model.startswith(("local:", "ollama:", "aitk:")) and model not in local_fallbacks:
+                local_fallbacks.insert(0, model)
+        
+        for model in local_fallbacks:
+            if model != failed_model and await self.check_availability(model):
+                return model
+        
+        # If all local models unavailable, try other cloud providers
+        # Try different provider than the failed one
+        failed_provider = failed_model.split(":")[0] if ":" in failed_model else ""
+        other_cloud = [
+            "gh:meta/llama-3.3-70b-instruct",
+            "gh:mistral-ai/mistral-small-2503",
+            "gh:deepseek/deepseek-v3-0324",
+        ]
+        
+        for model in other_cloud:
+            model_provider = model.split(":")[0] if ":" in model else ""
+            # Skip if same provider (likely also rate limited)
+            if model_provider == failed_provider:
+                continue
             if model != failed_model and await self.check_availability(model):
                 return model
         
