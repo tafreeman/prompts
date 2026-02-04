@@ -16,8 +16,13 @@ from pathlib import Path
 from typing import Any, Optional, Union
 
 from .config import EvalConfig
-from .parse_utils import BatchResult, EvalResult, _get_grade, extract_body, extract_json, parse_frontmatter
-
+from .parse_utils import (
+    BatchResult,
+    EvalResult,
+    _get_grade,
+    extract_body,
+    parse_frontmatter,
+)
 
 # =============================================================================
 # Tier defaults (compatible with the historical prompttools tiers)
@@ -92,7 +97,11 @@ def evaluate(
     if tier is not None:
         tier_cfg = TIERS.get(int(tier), TIERS[1])
         model = model or (tier_cfg.get("model") if isinstance(tier_cfg, dict) else None)  # type: ignore[assignment]
-        method = str(tier_cfg.get("method", method)) if isinstance(tier_cfg, dict) else method
+        method = (
+            str(tier_cfg.get("method", method))
+            if isinstance(tier_cfg, dict)
+            else method
+        )
     else:
         tier = 1
 
@@ -101,7 +110,14 @@ def evaluate(
         model = "local:phi4mini"
 
     if p.is_file():
-        return _evaluate_single(p, model=model, method=method, tier=int(tier), threshold=threshold, verbose=verbose)
+        return _evaluate_single(
+            p,
+            model=model,
+            method=method,
+            tier=int(tier),
+            threshold=threshold,
+            verbose=verbose,
+        )
     if p.is_dir():
         return _evaluate_batch(
             p,
@@ -159,7 +175,9 @@ def _evaluate_single(
     )
 
 
-def _evaluate_structural(path: Path, content: str, *, threshold: float, started: float) -> EvalResult:
+def _evaluate_structural(
+    path: Path, content: str, *, threshold: float, started: float
+) -> EvalResult:
     import re
 
     fm = parse_frontmatter(content)

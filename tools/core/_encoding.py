@@ -8,7 +8,7 @@ Import this module early in any script to fix encoding issues.
 Usage:
     from tools.core._encoding import setup_encoding
     setup_encoding()  # Apply fix if needed
-    
+
     # Or use the safe_print helper:
     from tools.core._encoding import safe_print
     safe_print("Hello 世界 🌍")
@@ -33,45 +33,40 @@ def _is_already_wrapped(stream) -> bool:
     """Check if stream is already a TextIOWrapper with UTF-8."""
     return (
         isinstance(stream, io.TextIOWrapper)
-        and getattr(stream, 'encoding', '').lower() == 'utf-8'
+        and getattr(stream, "encoding", "").lower() == "utf-8"
     )
 
 
 def setup_encoding() -> bool:
-    """
-    Apply Windows console encoding fix.
-    
+    """Apply Windows console encoding fix.
+
     Returns:
         True if fix was applied, False if not needed or already applied
     """
     global _ENCODING_SETUP_DONE
-    
+
     if _ENCODING_SETUP_DONE:
         return False
-    
+
     if sys.platform != "win32":
         _ENCODING_SETUP_DONE = True
         return False
-    
+
     # Don't wrap during pytest (interferes with output capture)
     if _is_pytest_running():
         _ENCODING_SETUP_DONE = True
         return False
-    
+
     os.environ["PYTHONIOENCODING"] = "utf-8"
-    
+
     try:
         if not _is_already_wrapped(sys.stdout):
             sys.stdout = io.TextIOWrapper(
-                sys.stdout.buffer, 
-                encoding='utf-8', 
-                errors='replace'
+                sys.stdout.buffer, encoding="utf-8", errors="replace"
             )
         if not _is_already_wrapped(sys.stderr):
             sys.stderr = io.TextIOWrapper(
-                sys.stderr.buffer, 
-                encoding='utf-8', 
-                errors='replace'
+                sys.stderr.buffer, encoding="utf-8", errors="replace"
             )
         _ENCODING_SETUP_DONE = True
         return True
@@ -85,7 +80,7 @@ def safe_str(text: Any) -> str:
     """Ensure value is a string safe for console output."""
     if not isinstance(text, str):
         text = str(text)
-    return text.encode('utf-8', errors='replace').decode('utf-8')
+    return text.encode("utf-8", errors="replace").decode("utf-8")
 
 
 def safe_print(text: str = "", **kwargs) -> None:

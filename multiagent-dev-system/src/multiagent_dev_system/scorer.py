@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
 from difflib import SequenceMatcher
+from typing import Any, Dict
 
 
 @dataclass
@@ -41,17 +41,25 @@ class Scorer:
             weight_sum += weight
 
         weighted_score = (weighted_total / weight_sum) if weight_sum else 0.0
-        details["weights"] = {name: cat.get("weight") for name, cat in categories.items()}
+        details["weights"] = {
+            name: cat.get("weight") for name, cat in categories.items()
+        }
 
-        return ScoreResult(scores=scores, weighted_score=round(weighted_score, 2), details=details)
+        return ScoreResult(
+            scores=scores, weighted_score=round(weighted_score, 2), details=details
+        )
 
-    def score_functional_correctness(self, output: str, golden: str, _: Dict[str, Any]) -> float:
+    def score_functional_correctness(
+        self, output: str, golden: str, _: Dict[str, Any]
+    ) -> float:
         if not output or not golden:
             return 0.0
         ratio = SequenceMatcher(None, output.strip(), golden.strip()).ratio()
         return round(ratio * 100, 2)
 
-    def score_code_quality(self, output: str, _: str, category: Dict[str, Any]) -> float:
+    def score_code_quality(
+        self, output: str, _: str, category: Dict[str, Any]
+    ) -> float:
         if not output:
             return 0.0
         penalties = 0.0
@@ -62,7 +70,9 @@ class Scorer:
         base = 85.0
         return max(0.0, base - penalties)
 
-    def score_completeness(self, output: str, golden: str, category: Dict[str, Any]) -> float:
+    def score_completeness(
+        self, output: str, golden: str, category: Dict[str, Any]
+    ) -> float:
         required_keys = category.get("required_keys", [])
         missing = [k for k in required_keys if k.lower() not in output.lower()]
         if not required_keys:

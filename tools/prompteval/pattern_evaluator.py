@@ -16,7 +16,6 @@ import yaml
 from .failures import FailureMode, PatternFailureSummary
 from .parser import ParseResult, parse_output
 
-
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
@@ -74,6 +73,7 @@ class DimensionScore:
 @dataclass
 class SingleRunResult:
     """Result from a single evaluation run."""
+
     run_id: int
     dimensions: Dict[str, DimensionScore] = field(default_factory=dict)
     failure_modes: List[FailureMode] = field(default_factory=list)
@@ -114,11 +114,11 @@ class SingleRunResult:
 
 @dataclass
 class PatternScore:
-    """
-    Aggregated pattern evaluation score.
+    """Aggregated pattern evaluation score.
 
     Combines multiple runs using median aggregation for robustness.
     """
+
     pattern_name: str
     runs: List[SingleRunResult] = field(default_factory=list)
 
@@ -152,13 +152,13 @@ class PatternScore:
         # Compute medians and stdevs per dimension
         for dim in all_dims:
             scores = [
-                run.dimensions[dim].score
-                for run in self.runs
-                if dim in run.dimensions
+                run.dimensions[dim].score for run in self.runs if dim in run.dimensions
             ]
             if scores:
                 self.dimension_medians[dim] = statistics.median(scores)
-                self.dimension_stdevs[dim] = statistics.stdev(scores) if len(scores) > 1 else 0.0
+                self.dimension_stdevs[dim] = (
+                    statistics.stdev(scores) if len(scores) > 1 else 0.0
+                )
 
         # Pass rate (runs that completed successfully)
         successful_runs = [r for r in self.runs if r.parse_success]
@@ -166,7 +166,9 @@ class PatternScore:
 
         # Perfect pass rate (runs that pass hard gates)
         perfect_runs = [r for r in successful_runs if r.passed_hard_gates]
-        self.perfect_pass_rate = len(perfect_runs) / len(self.runs) if self.runs else 0.0
+        self.perfect_pass_rate = (
+            len(perfect_runs) / len(self.runs) if self.runs else 0.0
+        )
 
         # Mean Phase Fidelity (if PIF dimension exists)
         if "PIF" in self.dimension_medians:
@@ -177,14 +179,18 @@ class PatternScore:
         for run in self.runs:
             all_failures.extend(run.failure_modes)
         critical = [
-            f for f in all_failures
-            if f in [
+            f
+            for f in all_failures
+            if f
+            in [
                 FailureMode.MISSING_PHASE,
                 FailureMode.PHASE_ORDER_VIOLATION,
                 FailureMode.PREMATURE_TERMINATION,
             ]
         ]
-        self.critical_failure_rate = len(critical) / len(all_failures) if all_failures else 0.0
+        self.critical_failure_rate = (
+            len(critical) / len(all_failures) if all_failures else 0.0
+        )
 
         # Build failure summary
         self.failure_summary = PatternFailureSummary()
@@ -217,15 +223,21 @@ class PatternScore:
         return {
             "pattern_name": self.pattern_name,
             "num_runs": len(self.runs),
-            "dimension_medians": {k: round(v, 3) for k, v in self.dimension_medians.items()},
-            "dimension_stdevs": {k: round(v, 3) for k, v in self.dimension_stdevs.items()},
+            "dimension_medians": {
+                k: round(v, 3) for k, v in self.dimension_medians.items()
+            },
+            "dimension_stdevs": {
+                k: round(v, 3) for k, v in self.dimension_stdevs.items()
+            },
             "pass_rate": round(self.pass_rate, 3),
             "perfect_pass_rate": round(self.perfect_pass_rate, 3),
             "mean_phase_fidelity": round(self.mean_phase_fidelity, 3),
             "critical_failure_rate": round(self.critical_failure_rate, 3),
             "overall_score": round(self.overall_score, 3),
             "passes_hard_gates": self.passes_hard_gates,
-            "failure_summary": self.failure_summary.to_dict() if self.failure_summary else None,
+            "failure_summary": (
+                self.failure_summary.to_dict() if self.failure_summary else None
+            ),
             "runs": [r.to_dict() for r in self.runs],
         }
 
@@ -233,6 +245,7 @@ class PatternScore:
 # =============================================================================
 # SCORING SCHEMA LOADER
 # =============================================================================
+
 
 def load_scoring_schema() -> Dict[str, Any]:
     """Load the pattern scoring schema."""
@@ -248,11 +261,10 @@ def get_dimension_config(
     pattern_name: str,
     schema: Optional[Dict[str, Any]] = None,
 ) -> List[Dict[str, Any]]:
-    """
-    Get scoring dimensions for a pattern.
+    """Get scoring dimensions for a pattern.
 
-    Combines universal dimensions with pattern-specific ones.
-    Returns list of dicts with 'name', 'abbreviation', 'description', 'weight'.
+    Combines universal dimensions with pattern-specific ones. Returns
+    list of dicts with 'name', 'abbreviation', 'description', 'weight'.
     """
     if schema is None:
         schema = load_scoring_schema()
@@ -263,12 +275,14 @@ def get_dimension_config(
     universal = schema.get("universal_dimensions", {})
     if isinstance(universal, dict):
         for name, config in universal.items():
-            dimensions.append({
-                "name": name,
-                "abbreviation": config.get("id", name[:3].upper()),
-                "description": config.get("description", ""),
-                "weight": config.get("weight", 1.0),
-            })
+            dimensions.append(
+                {
+                    "name": name,
+                    "abbreviation": config.get("id", name[:3].upper()),
+                    "description": config.get("description", ""),
+                    "weight": config.get("weight", 1.0),
+                }
+            )
     elif isinstance(universal, list):
         dimensions.extend(universal)
 
@@ -276,12 +290,14 @@ def get_dimension_config(
     pattern_dims = schema.get("pattern_specific", {}).get(pattern_name, {})
     if isinstance(pattern_dims, dict):
         for name, config in pattern_dims.items():
-            dimensions.append({
-                "name": name,
-                "abbreviation": config.get("id", name[:3].upper()),
-                "description": config.get("description", ""),
-                "weight": config.get("weight", 1.0),
-            })
+            dimensions.append(
+                {
+                    "name": name,
+                    "abbreviation": config.get("id", name[:3].upper()),
+                    "description": config.get("description", ""),
+                    "weight": config.get("weight", 1.0),
+                }
+            )
     elif isinstance(pattern_dims, list):
         dimensions.extend(pattern_dims)
 
@@ -291,6 +307,7 @@ def get_dimension_config(
 # =============================================================================
 # JUDGE PROMPT BUILDER
 # =============================================================================
+
 
 def load_judge_template(pattern_name: str) -> str:
     """Load the judge prompt template for a pattern."""
@@ -303,7 +320,9 @@ def load_judge_template(pattern_name: str) -> str:
             templates = yaml.safe_load(f)
 
         # Get pattern-specific template
-        pattern_instructions = templates.get("pattern_templates", {}).get(pattern_name, "")
+        pattern_instructions = templates.get("pattern_templates", {}).get(
+            pattern_name, ""
+        )
         base_template = templates.get("user_template", "")
 
         return base_template.replace("{pattern_instructions}", pattern_instructions)
@@ -324,8 +343,7 @@ def build_judge_prompt(
     dimensions: List[Dict[str, Any]],
     parse_result: ParseResult,
 ) -> str:
-    """
-    Build the complete judge prompt.
+    """Build the complete judge prompt.
 
     Args:
         prompt_content: The original prompt being evaluated
@@ -340,10 +358,12 @@ def build_judge_prompt(
     template = load_judge_template(pattern_name)
 
     # Build dimensions section
-    dim_text = "\n".join([
-        f"- **{d['abbreviation']}** ({d['name']}): {d['description']} [Weight: {d.get('weight', 1.0)}]"
-        for d in dimensions
-    ])
+    dim_text = "\n".join(
+        [
+            f"- **{d['abbreviation']}** ({d['name']}): {d['description']} [Weight: {d.get('weight', 1.0)}]"
+            for d in dimensions
+        ]
+    )
 
     # Build phase summary from parse result
     phase_summary = "Detected phases:\n"
@@ -356,7 +376,9 @@ def build_judge_prompt(
 
     # Build expected output schema
     output_schema = {
-        "scores": {d["abbreviation"]: {"score": 0, "rationale": ""} for d in dimensions},
+        "scores": {
+            d["abbreviation"]: {"score": 0, "rationale": ""} for d in dimensions
+        },
         "failure_modes": [],
         "summary": "",
     }
@@ -399,12 +421,12 @@ Evaluate the following prompt and its model output for conformance to the **{pat
 # JUDGE OUTPUT PARSER
 # =============================================================================
 
+
 def parse_judge_output(
     output: str,
     dimensions: List[Dict[str, Any]],
 ) -> Tuple[Dict[str, DimensionScore], List[FailureMode], Optional[str]]:
-    """
-    Parse the judge's JSON output into structured scores.
+    """Parse the judge's JSON output into structured scores.
 
     Args:
         output: Raw judge output
@@ -414,12 +436,12 @@ def parse_judge_output(
         Tuple of (dimension_scores, failure_modes, error)
     """
     # Extract JSON from output (handle markdown code blocks)
-    json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', output)
+    json_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", output)
     if json_match:
         json_str = json_match.group(1)
     else:
         # Try to find raw JSON
-        json_match = re.search(r'\{[\s\S]*\}', output)
+        json_match = re.search(r"\{[\s\S]*\}", output)
         if json_match:
             json_str = json_match.group(0)
         else:
@@ -470,9 +492,9 @@ def parse_judge_output(
 # MAIN EVALUATOR
 # =============================================================================
 
+
 class PatternEvaluator:
-    """
-    Multi-run pattern evaluator with LLM-as-judge.
+    """Multi-run pattern evaluator with LLM-as-judge.
 
     Implements the evaluation framework with:
     - Multi-iteration execution (20 runs default)
@@ -488,8 +510,7 @@ class PatternEvaluator:
         num_runs: int = DEFAULT_NUM_RUNS,
         temperature: float = DEFAULT_TEMPERATURE,
     ):
-        """
-        Initialize the evaluator.
+        """Initialize the evaluator.
 
         Args:
             llm_client: LLM client instance (e.g., from tools.llm_client)
@@ -508,8 +529,7 @@ class PatternEvaluator:
         pattern_name: str,
         run_id: int = 0,
     ) -> SingleRunResult:
-        """
-        Perform a single evaluation run.
+        """Perform a single evaluation run.
 
         Args:
             prompt_content: Original prompt
@@ -584,8 +604,7 @@ class PatternEvaluator:
         model_output: str,
         pattern_name: str,
     ) -> PatternScore:
-        """
-        Perform full multi-run evaluation.
+        """Perform full multi-run evaluation.
 
         Args:
             prompt_content: Original prompt
@@ -615,8 +634,7 @@ class PatternEvaluator:
         model_output: str,
         pattern_name: str,
     ) -> PatternScore:
-        """
-        Quick evaluation with single run (for testing/development).
+        """Quick evaluation with single run (for testing/development).
 
         Args:
             prompt_content: Original prompt
@@ -644,6 +662,7 @@ class PatternEvaluator:
 # CONVENIENCE FUNCTIONS
 # =============================================================================
 
+
 def evaluate_pattern(
     prompt_content: str,
     model_output: str,
@@ -651,8 +670,7 @@ def evaluate_pattern(
     llm_client: Any,
     num_runs: int = DEFAULT_NUM_RUNS,
 ) -> PatternScore:
-    """
-    Convenience function for pattern evaluation.
+    """Convenience function for pattern evaluation.
 
     Args:
         prompt_content: Original prompt

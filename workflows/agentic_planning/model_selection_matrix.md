@@ -12,7 +12,7 @@ This document outlines the optimal model selections for **all 42 agent roles** a
 |:--|:--|:--|
 | **Premium** | `gh:openai/gpt-4o` | Industry standard for multimodal reasoning |
 | **Premium** | `gh:meta/llama-3.2-90b-vision-instruct` | Excellent open-weights alternative, high fidelity |
-| **Efficient** | `local:phi3.5-vision` / `aitk:phi-3.5-vision` | Best-in-class for small local vision tasks |
+| **Efficient** | `gh:openai/gpt-4o` / `aitk:phi-3.5-vision` | Best-in-class for small local vision tasks |
 | **Efficient** | `gh:microsoft/phi-4-multimodal-instruct` | Stronger reasoning than 3.5 |
 
 ### Reasoning (Planning, Architecture, Complex Logic)
@@ -53,7 +53,7 @@ This document outlines the optimal model selections for **all 42 agent roles** a
 
 | ID | Agent Name | Phase | Primary Model | Secondary Model | Tier | Rationale |
 |:--|:--|:--|:--|:--|:--|:--|
-| `vision_analyst` | Vision Analyst | Discovery | `gh:openai/gpt-4o` | `local:phi3.5-vision` | cloud_premium | High fidelity multimodal reasoning for accurate UI extraction |
+| `vision_analyst` | Vision Analyst | Discovery | `gh:openai/gpt-4o` | `gh:openai/gpt-4o` | cloud_premium | High fidelity multimodal reasoning for accurate UI extraction |
 | `ux_expert` | UX Expert | Discovery | `gh:openai/gpt-4o` | `gh:deepseek/deepseek-v3` | cloud_premium | Visual understanding + empathy + WCAG knowledge |
 | `business_analyst` | Business Analyst | Discovery | `gh:openai/o1` | `gh:openai/o3-mini` | cloud_reasoning | Deep reasoning to extrapolate complex business logic |
 | `system_architect` | System Architect | Design | `gh:deepseek/deepseek-r1` | `ollama:deepseek-r1:14b` | cloud_reasoning | Excels at architectural trade-offs and structural planning |

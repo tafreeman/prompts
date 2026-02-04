@@ -1,15 +1,11 @@
-
 #!/usr/bin/env python3
-"""
-Unit tests for dual_eval.py evaluation framework.
+"""Unit tests for dual_eval.py evaluation framework.
 
 Run with:
     pytest testing/evals/test_dual_eval.py -v
 """
 
-import os
 import sys
-import tempfile
 import threading
 from pathlib import Path
 from typing import Any
@@ -22,23 +18,23 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import dual_eval
 from dual_eval import (
-    EvalResult,
-    ModelSummary,
-    CrossValidationReport,
-    parse_prompt_file,
-    create_temp_eval_file,
-    detect_fatal_error_reason,
-    create_log_writer,
-    cross_validate,
+    CROSS_VALIDATION_THRESHOLD,
     FATAL_ERROR_PATTERNS,
     PASS_THRESHOLD,
-    CROSS_VALIDATION_THRESHOLD,
+    CrossValidationReport,
+    EvalResult,
+    ModelSummary,
+    create_log_writer,
+    create_temp_eval_file,
+    cross_validate,
+    detect_fatal_error_reason,
+    parse_prompt_file,
 )
-
 
 # =============================================================================
 # FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def sample_prompt_file(tmp_path: Path):
@@ -129,6 +125,7 @@ def sample_error_result():
 # DATACLASS TESTS
 # =============================================================================
 
+
 class TestEvalResult:
     """Tests for EvalResult dataclass."""
 
@@ -200,6 +197,7 @@ class TestCrossValidationReport:
 # PROMPT PARSING TESTS
 # =============================================================================
 
+
 class TestParsePromptFile:
     """Tests for parse_prompt_file function."""
 
@@ -226,7 +224,7 @@ class TestParsePromptFile:
         content = "# Simple Prompt\n\nNo frontmatter here."
         file_path = tmp_path / "simple.md"
         file_path.write_text(content, encoding="utf-8")
-        
+
         data = parse_prompt_file(str(file_path))
         assert data["title"] == "simple"  # Falls back to filename stem
         assert data["difficulty"] == "intermediate"  # Default value
@@ -237,6 +235,7 @@ class TestParsePromptFile:
 # TEMP EVAL FILE TESTS
 # =============================================================================
 
+
 class TestCreateTempEvalFile:
     """Tests for create_temp_eval_file function."""
 
@@ -245,7 +244,7 @@ class TestCreateTempEvalFile:
         try:
             assert Path(temp_path).exists()
             assert temp_path.endswith(".prompt.yml")
-            
+
             content = Path(temp_path).read_text(encoding="utf-8")
             assert "openai/gpt-4.1" in content
             assert "Test Prompt" in content
@@ -268,6 +267,7 @@ class TestCreateTempEvalFile:
 # =============================================================================
 # FATAL ERROR DETECTION TESTS
 # =============================================================================
+
 
 class TestDetectFatalErrorReason:
     """Tests for detect_fatal_error_reason function."""
@@ -301,6 +301,7 @@ class TestDetectFatalErrorReason:
 # LOG WRITER TESTS
 # =============================================================================
 
+
 class TestCreateLogWriter:
     """Tests for create_log_writer function."""
 
@@ -311,73 +312,98 @@ class TestCreateLogWriter:
     def test_creates_log_file(self, tmp_path: Path, sample_prompt_data: dict[str, Any]):
         log_file = tmp_path / "eval.log.md"
         writer = create_log_writer(str(log_file), sample_prompt_data)
-        
+
         assert writer is not None
         assert log_file.exists()
-        
+
         content = log_file.read_text(encoding="utf-8")
         assert "## Prompt: Test Prompt" in content
         assert "File: `/path/to/test.md`" in content
 
-    def test_writes_success_entry(self, tmp_path: Path, sample_prompt_data: dict[str, Any], sample_eval_result: EvalResult):
+    def test_writes_success_entry(
+        self,
+        tmp_path: Path,
+        sample_prompt_data: dict[str, Any],
+        sample_eval_result: EvalResult,
+    ):
         log_file = tmp_path / "eval.log.md"
         writer = create_log_writer(str(log_file), sample_prompt_data)
-        
+
         assert writer is not None
         writer("openai/gpt-4.1", 1, sample_eval_result)
-        
+
         content = log_file.read_text(encoding="utf-8")
         assert "**openai/gpt-4.1**" in content
         assert "run 1" in content
         assert "8.60/10" in content
         assert "A-" in content
-    def test_writes_error_entry(self, tmp_path: Path, sample_prompt_data: dict[str, Any], sample_error_result: EvalResult):
+
+    def test_writes_error_entry(
+        self,
+        tmp_path: Path,
+        sample_prompt_data: dict[str, Any],
+        sample_error_result: EvalResult,
+    ):
         log_file = tmp_path / "eval.log.md"
         writer = create_log_writer(str(log_file), sample_prompt_data)
-        
+
         assert writer is not None
         writer("openai/gpt-4.1", 1, sample_error_result)
-        
+
         content = log_file.read_text(encoding="utf-8")
         assert "❌" in content
         assert "Error:" in content
         assert "Error:" in content
-    def test_sequential_ids(self, tmp_path: Path, sample_prompt_data: dict[str, Any], sample_eval_result: EvalResult):
+
+    def test_sequential_ids(
+        self,
+        tmp_path: Path,
+        sample_prompt_data: dict[str, Any],
+        sample_eval_result: EvalResult,
+    ):
         # Reset counter for this test
         dual_eval.LOG_ENTRY_COUNTER = dual_eval.count(1)
-        
+
         log_file = tmp_path / "eval.log.md"
         writer = create_log_writer(str(log_file), sample_prompt_data)
-        
+
         assert writer is not None
         writer("model1", 1, sample_eval_result)
         writer("model2", 1, sample_eval_result)
         writer("model3", 1, sample_eval_result)
-        
+
         content = log_file.read_text(encoding="utf-8")
         assert "1. [" in content
         assert "2. [" in content
         assert "3. [" in content
         assert "3. [" in content
-    def test_thread_safety(self, tmp_path: Path, sample_prompt_data: dict[str, Any], sample_eval_result: EvalResult):
+
+    def test_thread_safety(
+        self,
+        tmp_path: Path,
+        sample_prompt_data: dict[str, Any],
+        sample_eval_result: EvalResult,
+    ):
         """Test that concurrent writes don't corrupt the log."""
         log_file = tmp_path / "concurrent.log.md"
         writer = create_log_writer(str(log_file), sample_prompt_data)
-        
+
         assert writer is not None
         threads = []
         for i in range(10):
-            t = threading.Thread(target=writer, args=(f"model{i}", 1, sample_eval_result))
+            t = threading.Thread(
+                target=writer, args=(f"model{i}", 1, sample_eval_result)
+            )
             threads.append(t)
-        
+
         for t in threads:
             t.start()
         for t in threads:
             t.join()
-        
+
         content = log_file.read_text(encoding="utf-8")
         # Should have header + 10 entries
-        lines = [l for l in content.split('\n') if l.strip()]
+        lines = [l for l in content.split("\n") if l.strip()]
         assert len(lines) >= 10  # At least 10 entries written
         assert len(lines) >= 10  # At least 10 entries written
 
@@ -385,6 +411,7 @@ class TestCreateLogWriter:
 # =============================================================================
 # CROSS-VALIDATION TESTS
 # =============================================================================
+
 
 class TestCrossValidate:
     """Tests for cross_validate function."""
@@ -395,9 +422,9 @@ class TestCrossValidate:
             "model2": ModelSummary(model="model2", avg_score=8.5),
             "model3": ModelSummary(model="model3", avg_score=9.0),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
-        
+
         assert report.consensus_score == pytest.approx(8.5, rel=0.01)
         assert report.score_variance == pytest.approx(1.0, rel=0.01)
 
@@ -406,20 +433,22 @@ class TestCrossValidate:
             "model1": ModelSummary(model="model1", avg_score=8.0),
             "model2": ModelSummary(model="model2", avg_score=8.2),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
-        
+
         assert report.cross_validation_passed is True
         assert len(report.discrepancies) == 0
 
-    def test_fails_cross_validation_high_variance(self, sample_prompt_data: dict[str, Any]):
+    def test_fails_cross_validation_high_variance(
+        self, sample_prompt_data: dict[str, Any]
+    ):
         summaries = {
             "model1": ModelSummary(model="model1", avg_score=6.0),
             "model2": ModelSummary(model="model2", avg_score=9.0),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
-        
+
         assert report.cross_validation_passed is False
         assert report.score_variance > CROSS_VALIDATION_THRESHOLD
 
@@ -429,9 +458,9 @@ class TestCrossValidate:
             "model2": ModelSummary(model="model2", avg_score=8.0),
             "outlier": ModelSummary(model="outlier", avg_score=5.0),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
-        
+
         assert len(report.discrepancies) > 0
         assert any("outlier" in d for d in report.discrepancies)
 
@@ -453,7 +482,7 @@ class TestCrossValidate:
     def test_determines_pass_fail(self, sample_prompt_data: dict[str, Any]):
         passing = {"model1": ModelSummary(model="model1", avg_score=8.0)}
         failing = {"model1": ModelSummary(model="model1", avg_score=5.0)}
-        
+
         assert cross_validate(sample_prompt_data, passing).final_pass is True
         assert cross_validate(sample_prompt_data, failing).final_pass is False
 
@@ -462,29 +491,37 @@ class TestCrossValidate:
             "model1": ModelSummary(model="model1", runs_completed=4, runs_failed=0),
             "model2": ModelSummary(model="model2", runs_completed=3, runs_failed=1),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
         assert report.total_runs == 8
 
-    def test_combines_strengths_and_improvements(self, sample_prompt_data: dict[str, Any]):
+    def test_combines_strengths_and_improvements(
+        self, sample_prompt_data: dict[str, Any]
+    ):
         result1 = EvalResult(
-            model="m1", run_number=1,
+            model="m1",
+            run_number=1,
             strengths=["Clear", "Structured"],
             improvements=["Add examples"],
         )
         result2 = EvalResult(
-            model="m2", run_number=1,
+            model="m2",
+            run_number=1,
             strengths=["Clear", "Concise"],  # "Clear" is duplicate
             improvements=["More detail"],
         )
-        
+
         summaries = {
-            "model1": ModelSummary(model="model1", avg_score=8.0, all_results=[result1]),
-            "model2": ModelSummary(model="model2", avg_score=8.0, all_results=[result2]),
+            "model1": ModelSummary(
+                model="model1", avg_score=8.0, all_results=[result1]
+            ),
+            "model2": ModelSummary(
+                model="model2", avg_score=8.0, all_results=[result2]
+            ),
         }
-        
+
         report = cross_validate(sample_prompt_data, summaries)
-        
+
         # Should dedupe "Clear"
         assert "Clear" in report.combined_strengths
         assert "Structured" in report.combined_strengths
@@ -495,6 +532,7 @@ class TestCrossValidate:
 # =============================================================================
 # CONFIGURATION TESTS
 # =============================================================================
+
 
 class TestConfiguration:
     """Tests for configuration constants."""
@@ -520,13 +558,12 @@ class TestConfiguration:
 # INTEGRATION TESTS (with mocking)
 # =============================================================================
 
+
 class TestRunSingleEval:
     """Tests for run_single_eval with mocked subprocess."""
 
     def test_successful_eval(self, sample_prompt_data: dict[str, Any]):
-        mock_response = {
-            "testResults": [{
-                "modelResponse": '''```json
+        mock_response = {"testResults": [{"modelResponse": """```json
 {
     "scores": {"clarity": 8, "specificity": 8},
     "overall_score": 8.0,
@@ -538,21 +575,19 @@ class TestRunSingleEval:
     "improvements": ["Better"],
     "summary": "OK"
 }
-```'''
-            }]
-        }
-        
+```"""}]}
+
         with mock.patch("subprocess.run") as mock_run:
             mock_run.return_value = mock.Mock(
                 returncode=0,
                 stdout=json.dumps(mock_response),
                 stderr="",
             )
-            
+
             temp_file = create_temp_eval_file(sample_prompt_data, "test-model")
             try:
                 result = dual_eval.run_single_eval(temp_file, "test-model", 1)
-                
+
                 assert result.error is None
                 assert result.overall_score == 8.0
                 assert result.grade == "B+"
@@ -567,13 +602,15 @@ class TestRunSingleEval:
                 stdout="",
                 stderr="Error: Model not found",
             )
-            
+
             temp_file = create_temp_eval_file(sample_prompt_data, "test-model")
             try:
                 result = dual_eval.run_single_eval(temp_file, "test-model", 1)
-                
+
                 assert result.error is not None
-                assert "failed" in result.error.lower() or "error" in result.error.lower()
+                assert (
+                    "failed" in result.error.lower() or "error" in result.error.lower()
+                )
             finally:
                 Path(temp_file).unlink(missing_ok=True)
 
@@ -581,10 +618,10 @@ class TestRunSingleEval:
 # Import json for mock tests
 import json
 
-
 # =============================================================================
 # FILE DISCOVERY TESTS
 # =============================================================================
+
 
 class TestDiscoverPromptFiles:
     """Tests for discover_prompt_files function."""
@@ -599,7 +636,7 @@ class TestDiscoverPromptFiles:
         (tmp_path / "prompt1.md").write_text("# Prompt 1", encoding="utf-8")
         (tmp_path / "prompt2.md").write_text("# Prompt 2", encoding="utf-8")
         (tmp_path / "readme.txt").write_text("Not a prompt", encoding="utf-8")
-        
+
         files = dual_eval.discover_prompt_files([str(tmp_path)])
         assert len(files) == 2
         assert all(f.suffix == ".md" for f in files)
@@ -610,20 +647,24 @@ class TestDiscoverPromptFiles:
         subdir.mkdir()
         (tmp_path / "top.md").write_text("# Top", encoding="utf-8")
         (subdir / "nested.md").write_text("# Nested", encoding="utf-8")
-        
+
         files = dual_eval.discover_prompt_files([str(tmp_path)], recursive=True)
         assert len(files) == 2
-        
+
         files_flat = dual_eval.discover_prompt_files([str(tmp_path)], recursive=False)
         assert len(files_flat) == 1
 
-    def test_skips_nonexistent_paths(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_skips_nonexistent_paths(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         files = dual_eval.discover_prompt_files([str(tmp_path / "nonexistent")])
         assert len(files) == 0
         captured = capsys.readouterr()
         assert "not found" in captured.out.lower()
 
-    def test_skips_non_markdown_files(self, tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    def test_skips_non_markdown_files(
+        self, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+    ):
         (tmp_path / "script.py").write_text("print('hello')", encoding="utf-8")
         files = dual_eval.discover_prompt_files([str(tmp_path / "script.py")])
         assert len(files) == 0
@@ -632,7 +673,9 @@ class TestDiscoverPromptFiles:
 
     def test_deduplicates_files(self, sample_prompt_file: str):
         # Pass same file twice
-        files = dual_eval.discover_prompt_files([sample_prompt_file, sample_prompt_file])
+        files = dual_eval.discover_prompt_files(
+            [sample_prompt_file, sample_prompt_file]
+        )
         assert len(files) == 1
 
     def test_excludes_readme_files(self, tmp_path: Path):
@@ -657,7 +700,9 @@ class TestDiscoverPromptFiles:
         assert files[0].name == "prompt.md"
 
     def test_excludes_instruction_files(self, tmp_path: Path):
-        (tmp_path / "test.instructions.md").write_text("# Instructions", encoding="utf-8")
+        (tmp_path / "test.instructions.md").write_text(
+            "# Instructions", encoding="utf-8"
+        )
         (tmp_path / "prompt.md").write_text("# Prompt", encoding="utf-8")
         files = dual_eval.discover_prompt_files([str(tmp_path)])
         assert len(files) == 1
@@ -676,11 +721,11 @@ class TestDiscoverPromptFiles:
         (tmp_path / "README.md").write_text("# README", encoding="utf-8")
         (tmp_path / "test.agent.md").write_text("# Agent", encoding="utf-8")
         (tmp_path / "prompt.md").write_text("# Prompt", encoding="utf-8")
-        
+
         # Without include_all
         files = dual_eval.discover_prompt_files([str(tmp_path)])
         assert len(files) == 1
-        
+
         # With include_all
         files = dual_eval.discover_prompt_files([str(tmp_path)], include_all=True)
         assert len(files) == 3
@@ -712,6 +757,7 @@ class TestIsPromptFile:
     def test_rejects_archive_path(self, tmp_path: Path):
         f = tmp_path / "archive" / "old-prompt.md"
         assert not dual_eval.is_prompt_file(f)
+
     """Tests for get_changed_files function."""
 
     def test_handles_git_not_found(self, capsys: pytest.CaptureFixture[str]):
@@ -724,6 +770,7 @@ class TestIsPromptFile:
 
     def test_handles_git_timeout(self, capsys: pytest.CaptureFixture[str]):
         import subprocess
+
         with mock.patch("subprocess.run") as mock_run:
             mock_run.side_effect = subprocess.TimeoutExpired("git", 30)
             files = dual_eval.get_changed_files()
@@ -735,7 +782,7 @@ class TestIsPromptFile:
         # Create a test file
         test_file = tmp_path / "changed.md"
         test_file.write_text("# Changed", encoding="utf-8")
-        
+
         with mock.patch("subprocess.run") as mock_run:
             mock_run.return_value = mock.Mock(
                 returncode=0,
@@ -751,6 +798,7 @@ class TestIsPromptFile:
 # JSON REPORT TESTS
 # =============================================================================
 
+
 class TestJsonReport:
     """Tests for JSON report generation."""
 
@@ -763,9 +811,9 @@ class TestJsonReport:
             final_grade="A",
             final_pass=True,
         )
-        
+
         result = dual_eval.report_to_dict(report)
-        
+
         assert result["prompt_title"] == "Test"
         assert result["consensus_score"] == 8.5
         assert result["final_pass"] is True
@@ -779,10 +827,10 @@ class TestJsonReport:
             final_grade="B+",
             final_pass=True,
         )
-        
+
         json_str = dual_eval.generate_json_report([report])
         data = json.loads(json_str)
-        
+
         assert data["total_files"] == 1
         assert data["passed"] == 1
         assert data["failed"] == 0
@@ -803,10 +851,10 @@ class TestJsonReport:
                 final_pass=False,
             ),
         ]
-        
+
         json_str = dual_eval.generate_json_report(reports)
         data = json.loads(json_str)
-        
+
         assert data["total_files"] == 2
         assert data["passed"] == 1
         assert data["failed"] == 1
@@ -835,9 +883,9 @@ class TestBatchMarkdownReport:
                 final_pass=False,
             ),
         ]
-        
+
         md = dual_eval.generate_batch_markdown_report(reports)
-        
+
         assert "Batch Evaluation Report" in md
         assert "Files Evaluated" in md
         assert "good.md" in md
@@ -849,6 +897,7 @@ class TestBatchMarkdownReport:
 # =============================================================================
 # BATCH REPORT DATACLASS TESTS
 # =============================================================================
+
 
 class TestBatchReport:
     """Tests for BatchReport dataclass."""

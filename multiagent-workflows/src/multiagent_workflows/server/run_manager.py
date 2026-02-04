@@ -1,21 +1,20 @@
 from __future__ import annotations
 
 import asyncio
-import time
-import uuid
-import asyncio
-import time
-import uuid
-import re
 import json
-import yaml
-from pathlib import Path
+import re
+import time
+import uuid
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from multiagent_workflows.evaluation.scorer import ExecutionScorer
+import yaml
 from tools.agents.workflow_runner import WorkflowExecutor
+
+from multiagent_workflows.evaluation.scorer import ExecutionScorer
 
 from .benchmarks import FALLBACK_BENCHMARKS, try_get_repo_benchmarks
 from .dataset_loader import load_tasks
@@ -28,10 +27,20 @@ UI_WORKFLOW_MAP = {
     "refactoring": "end_to_end",  # Placeholder
 }
 
+UI_WORKFLOW_LABELS = {
+    "fullstack": "Full-Stack Generation",
+    "bugfix": "Bug Triage & Fix",
+    "architecture": "Architecture Evolution",
+    "refactoring": "Legacy Refactoring",
+    "repo_maintenance": "Repository Maintenance",
+    "baseline": "Baseline",
+}
+
 
 @dataclass
 class ItemScore:
     """Scoring metrics for a single item."""
+
     exact_match: bool = False
     similarity: float = 0.0
     normalized_similarity: float = 0.0
@@ -70,6 +79,22 @@ def _now_ms() -> int:
     return int(time.time() * 1000)
 
 
+def _now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _ms_to_iso(ms: Optional[int]) -> Optional[str]:
+    if not ms:
+        return None
+    return datetime.fromtimestamp(ms / 1000.0, tz=timezone.utc).isoformat()
+
+
+def _workflow_label(workflow_id: Optional[str]) -> str:
+    if not workflow_id:
+        return "(unknown)"
+    return UI_WORKFLOW_LABELS.get(workflow_id, workflow_id)
+
+
 def _task_before(task: Dict[str, Any]) -> str:
     return (
         task.get("prompt")
@@ -85,14 +110,13 @@ def _extract_code_block(text: str) -> str:
     matches = re.findall(r"```python\s*(.*?)```", text, re.DOTALL | re.IGNORECASE)
     if matches:
         return matches[-1].strip()
-    
+
     # Fallback to any code block
     matches = re.findall(r"```\s*(.*?)```", text, re.DOTALL)
     if matches:
         return matches[-1].strip()
-        
-    return text.strip()
 
+    return text.strip()
 
 
 def _task_gold(task: Dict[str, Any]) -> str:
@@ -144,11 +168,12 @@ def _try_generate_with_llm(model: str, prompt: str) -> str:
 
 _RUBRICS_CACHE = None
 
+
 def _load_rubrics() -> Dict[str, Any]:
     global _RUBRICS_CACHE
     if _RUBRICS_CACHE is not None:
         return _RUBRICS_CACHE
-    
+
     try:
         # parent of server -> multiagent_workflows -> src -> root
         rubrics_path = Path(__file__).resolve().parents[3] / "config" / "rubrics.yaml"
@@ -162,34 +187,37 @@ def _load_rubrics() -> Dict[str, Any]:
     except Exception as e:
         print(f"[RunStore] Failed to load rubrics: {e}")
         _RUBRICS_CACHE = {}
-    
+
     return _RUBRICS_CACHE
+
 
 def _get_rubric_text(workflow_id: str) -> str:
     rubrics = _load_rubrics()
-    
+
     # Map workflow ID to rubric key
     key_map = {
         "fullstack": "fullstack_generation",
         "bugfix": "bug_fixing",
         "architecture": "architecture_evolution",
-        "refactoring": "legacy_refactoring"
+        "refactoring": "legacy_refactoring",
     }
-    
-    rubric_key = key_map.get(workflow_id, "fullstack_generation") # Default
+
+    rubric_key = key_map.get(workflow_id, "fullstack_generation")  # Default
     rubric_data = rubrics.get(rubric_key)
-    
+
     if rubric_data:
         return yaml.dump(rubric_data, sort_keys=False)
     return ""
 
 
-def _judge_with_llm(model: str, task_desc: str, gold: str, actual: str, workflow_id: str = "fullstack") -> ItemScore:
+def _judge_with_llm(
+    model: str, task_desc: str, gold: str, actual: str, workflow_id: str = "fullstack"
+) -> ItemScore:
     """Use an LLM to judge the correctness of the generated code."""
     from tools.llm.llm_client import LLMClient
-    
+
     rubric_text = _get_rubric_text(workflow_id)
-    
+
     prompt = f"""You are an expert Senior Technical Lead and Grader.
 
 Task Description:
@@ -226,50 +254,57 @@ Respond with a JSON object ONLY in this format:
     try:
         # Determine strictness/model. Default to a strong model for judging if possible.
         judge_model = model or "gh:openai/gpt-4o"
-        
+
         # Call LLM
         response = LLMClient.generate_text(model_name=judge_model, prompt=prompt)
-        
+
         # Parse JSON
-        code = _extract_code_block(response) # In case it's wrapped in markdown
+        code = _extract_code_block(response)  # In case it's wrapped in markdown
         if not code.startswith("{"):
-             # Try to find { ... }
-             m = re.search(r"\{.*\}", response, re.DOTALL)
-             if m:
-                 code = m.group(0)
-             else:
-                 code = response
+            # Try to find { ... }
+            m = re.search(r"\{.*\}", response, re.DOTALL)
+            if m:
+                code = m.group(0)
+            else:
+                code = response
 
         data = json.loads(code)
-        
+
         breakdown = data.get("breakdown", {})
         score_val = float(data.get("total_score", 0))
         passed = bool(data.get("passed", False))
-        reasoning = data.get("feedback") or data.get("reasoning", "No reasoning provided.")
-        
+        reasoning = data.get("feedback") or data.get(
+            "reasoning", "No reasoning provided."
+        )
+
         # Calculate grade based on 0-100 rubric scale
-        if score_val >= 90: grade = "A"
-        elif score_val >= 80: grade = "B"
-        elif score_val >= 70: grade = "C"
-        elif score_val >= 60: grade = "D"
-        else: grade = "F"
-        
+        if score_val >= 90:
+            grade = "A"
+        elif score_val >= 80:
+            grade = "B"
+        elif score_val >= 70:
+            grade = "C"
+        elif score_val >= 60:
+            grade = "D"
+        else:
+            grade = "F"
+
         return ItemScore(
             exact_match=False,
-            similarity=score_val / 100.0, 
+            similarity=score_val / 100.0,
             normalized_similarity=score_val,
             total_score=score_val,
             grade=grade,
             passed=passed,
             feedback=reasoning,
-            breakdown=breakdown
+            breakdown=breakdown,
         )
-        
+
     except Exception as e:
         print(f"[RunStore] LLM Judge failed: {e}")
         # Fallback to string matching
         return _score_item(actual, gold)
-        
+
     except Exception as e:
         print(f"[RunStore] LLM Judge failed: {e}")
         # Fallback to string matching
@@ -277,8 +312,7 @@ Respond with a JSON object ONLY in this format:
 
 
 def _score_item(after: str, gold: str, pass_threshold: float = 70.0) -> ItemScore:
-    """
-    Score a generated output against the gold standard.
+    """Score a generated output against the gold standard.
 
     Metrics:
     - exact_match: True if output == gold (after normalization)
@@ -358,7 +392,10 @@ class RunStore:
 
         # Directory for autosaving results
         from pathlib import Path
-        self._results_dir = Path(__file__).resolve().parents[3] / "evaluations" / "results"
+
+        self._results_dir = (
+            Path(__file__).resolve().parents[3] / "evaluations" / "results"
+        )
         self._results_dir.mkdir(parents=True, exist_ok=True)
         self._load_existing_runs()
 
@@ -377,6 +414,14 @@ class RunStore:
         except Exception as e:
             print(f"[RunStore] Failed to scan results dir: {e}")
 
+    def _save_run(self, run: Dict[str, Any]) -> None:
+        try:
+            out_path = self._results_dir / f"run_{run['run_id']}.json"
+            with out_path.open("w", encoding="utf-8") as f:
+                json.dump(run, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[RunStore] Failed to save run {run.get('run_id')}: {e}")
+
     def create_run(
         self,
         *,
@@ -392,9 +437,11 @@ class RunStore:
             "run_id": run_id,
             "benchmark_id": benchmark_id,
             "workflow": workflow,
+            "workflow_name": _workflow_label(workflow),
             "model": model,
             "evaluation_method": evaluation_method,
             "status": "queued",
+            "started_at": _now_iso(),
             "created_at_ms": _now_ms(),
             "updated_at_ms": _now_ms(),
             "total": len(task_ids),
@@ -418,7 +465,9 @@ class RunStore:
         self._tasks[run_id] = task
         return run_id
 
-    def _init_scoring_state(self, evaluation_method: str, total_items: int) -> Dict[str, Any]:
+    def _init_scoring_state(
+        self, evaluation_method: str, total_items: int
+    ) -> Dict[str, Any]:
         if evaluation_method == "execution":
             return {
                 "evaluation_method": evaluation_method,
@@ -445,6 +494,29 @@ class RunStore:
     def get_run(self, run_id: str) -> Optional[Dict[str, Any]]:
         return self._runs.get(run_id)
 
+    def list_runs(self) -> List[Dict[str, Any]]:
+        runs = list(self._runs.values())
+        runs.sort(key=lambda r: r.get("updated_at_ms", 0), reverse=True)
+        summaries: List[Dict[str, Any]] = []
+        for run in runs:
+            created_ms = run.get("created_at_ms")
+            updated_ms = run.get("updated_at_ms")
+            summaries.append(
+                {
+                    "run_id": run.get("run_id"),
+                    "workflow_name": run.get("workflow_name")
+                    or _workflow_label(run.get("workflow")),
+                    "benchmark_id": run.get("benchmark_id"),
+                    "status": run.get("status"),
+                    "started_at": run.get("started_at") or _ms_to_iso(created_ms),
+                    "total_duration_ms": (
+                        (updated_ms - created_ms) if created_ms and updated_ms else None
+                    ),
+                    "steps": run.get("steps") or [],
+                }
+            )
+        return summaries
+
     async def shutdown(self) -> None:
         for t in list(self._tasks.values()):
             t.cancel()
@@ -463,14 +535,23 @@ class RunStore:
         run = self._runs[run_id]
         run["status"] = "running"
         run["updated_at_ms"] = _now_ms()
+        self._save_run(run)
 
-        evaluation_method = run.get("evaluation_method", _get_evaluation_method(benchmark_id))
-        execution_scorer = ExecutionScorer() if evaluation_method == "execution" else None
+        evaluation_method = run.get(
+            "evaluation_method", _get_evaluation_method(benchmark_id)
+        )
+        execution_scorer = (
+            ExecutionScorer() if evaluation_method == "execution" else None
+        )
 
-        print(f"[RunStore] Starting run {run_id} (benchmark={benchmark_id}, model={model}, workflow={workflow})")
+        print(
+            f"[RunStore] Starting run {run_id} (benchmark={benchmark_id}, model={model}, workflow={workflow})"
+        )
 
         try:
-            loaded = load_tasks(benchmark_id=benchmark_id, limit=None, offset=0, use_cache=use_cache)
+            loaded = load_tasks(
+                benchmark_id=benchmark_id, limit=None, offset=0, use_cache=use_cache
+            )
             by_id = {str(t.get("task_id")): t for t in loaded.tasks}
 
             ordered_tasks: List[Dict[str, Any]] = []
@@ -487,34 +568,42 @@ class RunStore:
 
                 try:
                     prompt = _default_prompt_for_model(benchmark_id, t)
-                    
+
                     if workflow and workflow != "baseline":
                         # Use multi-agent workflow
                         wf_name = UI_WORKFLOW_MAP.get(workflow, workflow)
                         executor = WorkflowExecutor(model_override=model, verbose=True)
-                        
-                        print(f"[RunStore] [{run_id}] Running workflow '{wf_name}' for task {tid}")
-                        
+
+                        print(
+                            f"[RunStore] [{run_id}] Running workflow '{wf_name}' for task {tid}"
+                        )
+
                         # WorkflowExecutor.run is synchronous, run in thread
-                        wf_result = await asyncio.to_thread(executor.run, wf_name, prompt)
+                        wf_result = await asyncio.to_thread(
+                            executor.run, wf_name, prompt
+                        )
                         after = wf_result.final_output
-                        
+
                         # Extract agent results as steps
                         steps = []
                         if wf_result.agent_results:
                             for agent_id, res in wf_result.agent_results.items():
-                                steps.append({
-                                    "step_id": agent_id,
-                                    "name": res.agent_name,
-                                    "role": getattr(res, "role", "Agent"), # Check if agent result has role, else separate
-                                    "status": res.status.value,
-                                    "model": res.model_used,
-                                    "input": res.input_context,
-                                    "output": res.output,
-                                    "duration": res.duration_seconds,
-                                    "timestamp": res.timestamp
-                                })
-                        
+                                steps.append(
+                                    {
+                                        "step_id": agent_id,
+                                        "name": res.agent_name,
+                                        "role": getattr(
+                                            res, "role", "Agent"
+                                        ),  # Check if agent result has role, else separate
+                                        "status": res.status.value,
+                                        "model": res.model_used,
+                                        "input": res.input_context,
+                                        "output": res.output,
+                                        "duration": res.duration_seconds,
+                                        "timestamp": res.timestamp,
+                                    }
+                                )
+
                         # Extract code for scoring
                         code_to_score = _extract_code_block(after)
                         status = f"workflow:{wf_name}"
@@ -540,11 +629,22 @@ class RunStore:
                         }
 
                         if exec_result.error:
-                            run["errors"].append({"task_id": tid, "error": exec_result.error})
+                            run["errors"].append(
+                                {"task_id": tid, "error": exec_result.error}
+                            )
                     else:
                         # Use LLM Judge for more semantic evaluation
-                        judge_input_model = model or "gh:openai/gpt-4o" # Default to strong model
-                        item_score = await asyncio.to_thread(_judge_with_llm, judge_input_model, before, gold, code_to_score, workflow)
+                        judge_input_model = (
+                            model or "gh:openai/gpt-4o"
+                        )  # Default to strong model
+                        item_score = await asyncio.to_thread(
+                            _judge_with_llm,
+                            judge_input_model,
+                            before,
+                            gold,
+                            code_to_score,
+                            workflow,
+                        )
                         item_score = item_score.to_dict()
 
                     item = RunItemResult(
@@ -558,9 +658,13 @@ class RunStore:
                     )
                     run["items"].append(item.__dict__)
                     if evaluation_method == "execution":
-                        print(f"[RunStore] [{run_id}] Task {tid}: status={status}, resolved={item_score.get('resolved')}, return_code={item_score.get('return_code')}")
+                        print(
+                            f"[RunStore] [{run_id}] Task {tid}: status={status}, resolved={item_score.get('resolved')}, return_code={item_score.get('return_code')}"
+                        )
                     else:
-                        print(f"[RunStore] [{run_id}] Task {tid}: status={status}, score={item_score.get('total_score', 0):.1f}%, grade={item_score.get('grade')}, passed={item_score.get('passed')}")
+                        print(
+                            f"[RunStore] [{run_id}] Task {tid}: status={status}, score={item_score.get('total_score', 0):.1f}%, grade={item_score.get('grade')}, passed={item_score.get('passed')}"
+                        )
                 except Exception as e:
                     item = RunItemResult(
                         task_id=tid,
@@ -576,11 +680,14 @@ class RunStore:
 
                 run["completed"] = len(run["items"])
                 run["updated_at_ms"] = _now_ms()
+                self._save_run(run)
 
                 # Yield control so polling clients see progress.
                 await asyncio.sleep(0)
 
-            run["status"] = "completed" if not run["errors"] else "completed_with_errors"
+            run["status"] = (
+                "completed" if not run["errors"] else "completed_with_errors"
+            )
             run["updated_at_ms"] = _now_ms()
 
             # Compute aggregate scoring
@@ -588,50 +695,71 @@ class RunStore:
             if scored_items:
                 run["scoring"]["scored_items"] = len(scored_items)
                 if evaluation_method == "execution":
-                    resolved_items = sum(1 for it in scored_items if it["score"].get("resolved"))
-                    run["scoring"]["resolved_items"] = resolved_items
-                    run["scoring"]["resolved_rate"] = round(resolved_items / len(scored_items) * 100, 2)
-                    run["scoring"]["avg_duration_ms"] = round(
-                        sum(it["score"].get("duration_ms", 0) for it in scored_items) / len(scored_items), 2
+                    resolved_items = sum(
+                        1 for it in scored_items if it["score"].get("resolved")
                     )
-                    run["scoring"]["execution_errors"] = sum(1 for it in scored_items if it["score"].get("error"))
+                    run["scoring"]["resolved_items"] = resolved_items
+                    run["scoring"]["resolved_rate"] = round(
+                        resolved_items / len(scored_items) * 100, 2
+                    )
+                    run["scoring"]["avg_duration_ms"] = round(
+                        sum(it["score"].get("duration_ms", 0) for it in scored_items)
+                        / len(scored_items),
+                        2,
+                    )
+                    run["scoring"]["execution_errors"] = sum(
+                        1 for it in scored_items if it["score"].get("error")
+                    )
                 else:
-                    run["scoring"]["passed_items"] = sum(1 for it in scored_items if it["score"].get("passed"))
-                    run["scoring"]["exact_matches"] = sum(1 for it in scored_items if it["score"].get("exact_match"))
+                    run["scoring"]["passed_items"] = sum(
+                        1 for it in scored_items if it["score"].get("passed")
+                    )
+                    run["scoring"]["exact_matches"] = sum(
+                        1 for it in scored_items if it["score"].get("exact_match")
+                    )
                     run["scoring"]["avg_similarity"] = round(
-                        sum(it["score"].get("similarity", 0) for it in scored_items) / len(scored_items), 4
+                        sum(it["score"].get("similarity", 0) for it in scored_items)
+                        / len(scored_items),
+                        4,
                     )
                     run["scoring"]["avg_score"] = round(
-                        sum(it["score"].get("total_score", 0) for it in scored_items) / len(scored_items), 2
+                        sum(it["score"].get("total_score", 0) for it in scored_items)
+                        / len(scored_items),
+                        2,
                     )
                     run["scoring"]["pass_rate"] = round(
                         run["scoring"]["passed_items"] / len(scored_items) * 100, 2
                     )
 
             if evaluation_method == "execution":
-                print(f"[RunStore] [{run_id}] Scoring summary: "
-                      f"resolved_rate={run['scoring'].get('resolved_rate', 0)}%, "
-                      f"resolved_items={run['scoring'].get('resolved_items', 0)}/{run['scoring'].get('scored_items', 0)}, "
-                      f"execution_errors={run['scoring'].get('execution_errors', 0)}")
+                print(
+                    f"[RunStore] [{run_id}] Scoring summary: "
+                    f"resolved_rate={run['scoring'].get('resolved_rate', 0)}%, "
+                    f"resolved_items={run['scoring'].get('resolved_items', 0)}/{run['scoring'].get('scored_items', 0)}, "
+                    f"execution_errors={run['scoring'].get('execution_errors', 0)}"
+                )
             else:
-                print(f"[RunStore] [{run_id}] Scoring summary: "
-                      f"pass_rate={run['scoring']['pass_rate']}%, "
-                      f"avg_score={run['scoring']['avg_score']}%, "
-                      f"exact_matches={run['scoring']['exact_matches']}/{run['scoring']['scored_items']}")
+                print(
+                    f"[RunStore] [{run_id}] Scoring summary: "
+                    f"pass_rate={run['scoring']['pass_rate']}%, "
+                    f"avg_score={run['scoring']['avg_score']}%, "
+                    f"exact_matches={run['scoring']['exact_matches']}/{run['scoring']['scored_items']}"
+                )
 
             # Autosave result to disk
-            import json
-            out_path = self._results_dir / f"run_{run_id}.json"
-            with out_path.open("w", encoding="utf-8") as f:
-                json.dump(run, f, ensure_ascii=False, indent=2)
-            print(f"[RunStore] Saved run {run_id} to {out_path}")
+            self._save_run(run)
+            print(
+                f"[RunStore] Saved run {run_id} to {self._results_dir / f'run_{run_id}.json'}"
+            )
 
         except asyncio.CancelledError:
             run["status"] = "cancelled"
             run["updated_at_ms"] = _now_ms()
+            self._save_run(run)
             raise
         except Exception as e:
             run["status"] = "failed"
             run["updated_at_ms"] = _now_ms()
             run["errors"].append({"error": str(e)})
+            self._save_run(run)
             print(f"[RunStore] [{run_id}] FAILED: {e}")

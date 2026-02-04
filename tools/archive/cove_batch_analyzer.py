@@ -32,7 +32,8 @@ import sys
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Callable
+from typing import Any, Callable, Dict, List, Optional
+
 import yaml
 
 # Add tools directory to path
@@ -47,6 +48,7 @@ def _load_dotenv():
     if env_path.exists():
         try:
             from dotenv import load_dotenv
+
             load_dotenv(env_path)
         except ImportError:
             with open(env_path, "r", encoding="utf-8") as f:
@@ -55,7 +57,9 @@ def _load_dotenv():
                     if line and not line.startswith("#") and "=" in line:
                         key, _, value = line.partition("=")
                         if value.strip() and not os.environ.get(key.strip()):
-                            os.environ[key.strip()] = value.strip().strip('"').strip("'")
+                            os.environ[key.strip()] = (
+                                value.strip().strip('"').strip("'")
+                            )
 
 
 _load_dotenv()
@@ -64,6 +68,7 @@ _load_dotenv()
 @dataclass
 class PromptAnalysis:
     """Result of analyzing a single prompt."""
+
     file_path: str
     title: str
     category: str
@@ -91,6 +96,7 @@ class PromptAnalysis:
 @dataclass
 class BatchAnalysisReport:
     """Full batch analysis report."""
+
     timestamp: str
     total_prompts: int
     analyzed: int
@@ -135,10 +141,21 @@ def find_prompts(folder: Path) -> List[Path]:
     prompts = []
     for md_file in folder.rglob("*.md"):
         # Skip non-prompt files
-        if any(skip in str(md_file).lower() for skip in [
-               "readme", "index", "contributing", "license", "changelog",
-               "guide", "template", ".github", "docs/", "testing/"
-               ]):
+        if any(
+            skip in str(md_file).lower()
+            for skip in [
+                "readme",
+                "index",
+                "contributing",
+                "license",
+                "changelog",
+                "guide",
+                "template",
+                ".github",
+                "docs/",
+                "testing/",
+            ]
+        ):
             continue
 
         # Check if it has frontmatter (indicates it's a prompt)
@@ -157,15 +174,15 @@ def parse_prompt(file_path: Path) -> Dict[str, Any]:
     content = file_path.read_text(encoding="utf-8")
 
     result = {
-              "file_path": str(file_path),
-              "title": file_path.stem,
-              "category": file_path.parent.name,
-              "description": "",
-              "purpose": "",
-              "content": content,
-              "frontmatter": {},
-              "body": content,
-              }
+        "file_path": str(file_path),
+        "title": file_path.stem,
+        "category": file_path.parent.name,
+        "description": "",
+        "purpose": "",
+        "content": content,
+        "frontmatter": {},
+        "body": content,
+    }
 
     # Parse YAML frontmatter
     if content.startswith("---"):
@@ -187,13 +204,12 @@ def parse_prompt(file_path: Path) -> Dict[str, Any]:
 
 
 def analyze_prompt_with_cove(
-                             prompt_data: Dict[str, Any],
-                             llm_call: Callable,
-                             rubric: Dict[str, Any],
-                             verbose: bool = False
-                             ) -> PromptAnalysis:
-    """
-    Analyze a single prompt using CoVe methodology.
+    prompt_data: Dict[str, Any],
+    llm_call: Callable,
+    rubric: Dict[str, Any],
+    verbose: bool = False,
+) -> PromptAnalysis:
+    """Analyze a single prompt using CoVe methodology.
 
     This performs:
     1. Rubric-based scoring for each dimension
@@ -202,11 +218,13 @@ def analyze_prompt_with_cove(
     """
 
     analysis = PromptAnalysis(
-                              file_path=prompt_data["file_path"],
-                              title=prompt_data["title"],
-                              category=prompt_data["category"],
-                              stated_purpose=prompt_data["purpose"] or prompt_data["description"] or "Not specified",
-                              )
+        file_path=prompt_data["file_path"],
+        title=prompt_data["title"],
+        category=prompt_data["category"],
+        stated_purpose=prompt_data["purpose"]
+        or prompt_data["description"]
+        or "Not specified",
+    )
 
     # Limit content for API (used directly in prompt formatting below)
 
@@ -265,7 +283,13 @@ Return ONLY JSON with scores 1-5:
         # Fallback: extract numbers after dimension names
         if not scores:
             scores = {}
-            for dim in ["clarity", "effectiveness", "reusability", "simplicity", "examples"]:
+            for dim in [
+                "clarity",
+                "effectiveness",
+                "reusability",
+                "simplicity",
+                "examples",
+            ]:
                 match = re.search(rf'{dim}["\s:]+(\d+)', score_response, re.IGNORECASE)
                 if match:
                     scores[dim] = int(match.group(1))
@@ -278,16 +302,21 @@ Return ONLY JSON with scores 1-5:
             analysis.examples_score = float(scores.get("examples", 3))
 
             # Calculate weighted overall
-            weights = {"clarity": 0.25, "effectiveness": 0.30, "reusability": 0.20,
-                       "simplicity": 0.15, "examples": 0.10}
+            weights = {
+                "clarity": 0.25,
+                "effectiveness": 0.30,
+                "reusability": 0.20,
+                "simplicity": 0.15,
+                "examples": 0.10,
+            }
             analysis.overall_score = round(
-                                           analysis.clarity_score * weights["clarity"] +
-                                           analysis.effectiveness_score * weights["effectiveness"] +
-                                           analysis.reusability_score * weights["reusability"] +
-                                           analysis.simplicity_score * weights["simplicity"] +
-                                           analysis.examples_score * weights["examples"],
-                                           2
-                                           )
+                analysis.clarity_score * weights["clarity"]
+                + analysis.effectiveness_score * weights["effectiveness"]
+                + analysis.reusability_score * weights["reusability"]
+                + analysis.simplicity_score * weights["simplicity"]
+                + analysis.examples_score * weights["examples"],
+                2,
+            )
         else:
             # Default to middle scores
             analysis.clarity_score = 3.0
@@ -324,11 +353,13 @@ Return JSON:
     try:
         verify_response = llm_call(verification_prompt, None)
 
-        match = re.search(r'\{[\s\S]*?\}', verify_response)
+        match = re.search(r"\{[\s\S]*?\}", verify_response)
         if match:
             verify = json.loads(match.group())
             analysis.implementation_verified = verify.get("verified", False)
-            analysis.implementation_issues = verify.get("issues", []) + verify.get("missing_elements", [])
+            analysis.implementation_issues = verify.get("issues", []) + verify.get(
+                "missing_elements", []
+            )
     except Exception as e:
         if verbose:
             print(f"      ⚠️ Verification error: {e}")
@@ -351,7 +382,7 @@ Return JSON:
     try:
         results_response = llm_call(results_prompt, None)
 
-        match = re.search(r'\{[\s\S]*?\}', results_response)
+        match = re.search(r"\{[\s\S]*?\}", results_response)
         if match:
             results = json.loads(match.group())
             analysis.would_produce_expected_results = results.get("would_work", False)
@@ -366,7 +397,9 @@ Return JSON:
 
     if analysis.overall_score < 3.0:
         analysis.priority = "critical"
-        analysis.recommendations.append("Score below minimum threshold - needs major revision")
+        analysis.recommendations.append(
+            "Score below minimum threshold - needs major revision"
+        )
     elif analysis.overall_score < 3.5:
         analysis.priority = "high"
     elif analysis.overall_score < 4.0:
@@ -376,16 +409,24 @@ Return JSON:
 
     if not analysis.implementation_verified:
         analysis.priority = "high" if analysis.priority == "low" else analysis.priority
-        analysis.recommendations.append("Implementation doesn't fully match stated purpose")
+        analysis.recommendations.append(
+            "Implementation doesn't fully match stated purpose"
+        )
 
     if not analysis.would_produce_expected_results:
-        analysis.recommendations.append("May not produce expected results - review structure")
+        analysis.recommendations.append(
+            "May not produce expected results - review structure"
+        )
 
     if analysis.clarity_score < 3:
-        analysis.recommendations.append("Improve clarity - purpose should be clear within 10 seconds")
+        analysis.recommendations.append(
+            "Improve clarity - purpose should be clear within 10 seconds"
+        )
 
     if analysis.examples_score < 3:
-        analysis.recommendations.append("Add or improve examples with clear input/output")
+        analysis.recommendations.append(
+            "Add or improve examples with clear input/output"
+        )
 
     if analysis.simplicity_score < 3:
         analysis.recommendations.append("Simplify - remove redundant content")
@@ -394,23 +435,23 @@ Return JSON:
 
 
 def run_batch_analysis(
-                       folder: Path,
-                       provider: str = "local",
-                       model: Optional[str] = None,
-                       model_path: Optional[str] = None,
-                       verbose: bool = False,
-                       limit: Optional[int] = None,
-                       ) -> BatchAnalysisReport:
+    folder: Path,
+    provider: str = "local",
+    model: Optional[str] = None,
+    model_path: Optional[str] = None,
+    verbose: bool = False,
+    limit: Optional[int] = None,
+) -> BatchAnalysisReport:
     """Run batch analysis on all prompts in folder."""
 
     report = BatchAnalysisReport(
-                                 timestamp=datetime.now().isoformat(),
-                                 total_prompts=0,
-                                 analyzed=0,
-                                 passed=0,
-                                 failed=0,
-                                 errors=0,
-                                 )
+        timestamp=datetime.now().isoformat(),
+        total_prompts=0,
+        analyzed=0,
+        passed=0,
+        failed=0,
+        errors=0,
+    )
 
     # Support single file or folder
     if folder.is_file():
@@ -430,8 +471,11 @@ def run_batch_analysis(
     # Get LLM function
     try:
         from cove_runner import get_llm_function as cove_get_llm
+
         if provider == "local" and model_path:
-            llm_call = cove_get_llm(provider, model, verbose=False, model_path=model_path)
+            llm_call = cove_get_llm(
+                provider, model, verbose=False, model_path=model_path
+            )
         else:
             llm_call = cove_get_llm(provider, model, verbose=False)
         print(f"   Model: {getattr(llm_call, 'model_name', 'unknown')}")
@@ -447,7 +491,11 @@ def run_batch_analysis(
 
     # Analyze each prompt
     for i, prompt_path in enumerate(prompts, 1):
-        rel_path = prompt_path.relative_to(get_repo_root()) if prompt_path.is_relative_to(get_repo_root()) else prompt_path  # noqa: E501
+        rel_path = (
+            prompt_path.relative_to(get_repo_root())
+            if prompt_path.is_relative_to(get_repo_root())
+            else prompt_path
+        )  # noqa: E501
         print(f"[{i}/{len(prompts)}] {rel_path}")
 
         try:
@@ -459,10 +507,10 @@ def run_batch_analysis(
 
             # Determine pass/fail
             passed = (
-                      analysis.overall_score >= 3.0 and
-                      analysis.implementation_verified and
-                      analysis.would_produce_expected_results
-                      )
+                analysis.overall_score >= 3.0
+                and analysis.implementation_verified
+                and analysis.would_produce_expected_results
+            )
 
             if passed:
                 report.passed += 1
@@ -471,7 +519,9 @@ def run_batch_analysis(
                 report.failed += 1
                 status = "❌"
 
-            print(f"   {status} Score: {analysis.overall_score:.1f} | Impl: {'✓' if analysis.implementation_verified else '✗'} | Results: {'✓' if analysis.would_produce_expected_results else '✗'}")  # noqa: E501
+            print(
+                f"   {status} Score: {analysis.overall_score:.1f} | Impl: {'✓' if analysis.implementation_verified else '✗'} | Results: {'✓' if analysis.would_produce_expected_results else '✗'}"
+            )  # noqa: E501
 
             if analysis.recommendations and verbose:
                 for rec in analysis.recommendations[:2]:
@@ -485,23 +535,38 @@ def run_batch_analysis(
             report.by_category[cat]["passed" if passed else "failed"] += 1
 
             # Track by priority
-            report.by_priority[analysis.priority] = report.by_priority.get(analysis.priority, 0) + 1
+            report.by_priority[analysis.priority] = (
+                report.by_priority.get(analysis.priority, 0) + 1
+            )
 
         except Exception as e:
             report.errors += 1
             print(f"   ⚠️ Error: {str(e)[:50]}")
             if verbose:
                 import traceback
+
                 traceback.print_exc()
 
     # Calculate averages
     if report.results:
-        report.avg_clarity = round(sum(r.clarity_score for r in report.results) / len(report.results), 2)
-        report.avg_effectiveness = round(sum(r.effectiveness_score for r in report.results) / len(report.results), 2)
-        report.avg_reusability = round(sum(r.reusability_score for r in report.results) / len(report.results), 2)
-        report.avg_simplicity = round(sum(r.simplicity_score for r in report.results) / len(report.results), 2)
-        report.avg_examples = round(sum(r.examples_score for r in report.results) / len(report.results), 2)
-        report.avg_overall = round(sum(r.overall_score for r in report.results) / len(report.results), 2)
+        report.avg_clarity = round(
+            sum(r.clarity_score for r in report.results) / len(report.results), 2
+        )
+        report.avg_effectiveness = round(
+            sum(r.effectiveness_score for r in report.results) / len(report.results), 2
+        )
+        report.avg_reusability = round(
+            sum(r.reusability_score for r in report.results) / len(report.results), 2
+        )
+        report.avg_simplicity = round(
+            sum(r.simplicity_score for r in report.results) / len(report.results), 2
+        )
+        report.avg_examples = round(
+            sum(r.examples_score for r in report.results) / len(report.results), 2
+        )
+        report.avg_overall = round(
+            sum(r.overall_score for r in report.results) / len(report.results), 2
+        )
 
     return report
 
@@ -516,8 +581,12 @@ def print_report(report: BatchAnalysisReport):
     print("\n📊 Summary:")
     print(f"   Total Prompts: {report.total_prompts}")
     print(f"   Analyzed: {report.analyzed}")
-    print(f"   ✅ Passed: {report.passed} ({100 * report.passed / max(report.analyzed, 1):.0f}%)")
-    print(f"   ❌ Failed: {report.failed} ({100 * report.failed / max(report.analyzed, 1):.0f}%)")
+    print(
+        f"   ✅ Passed: {report.passed} ({100 * report.passed / max(report.analyzed, 1):.0f}%)"
+    )
+    print(
+        f"   ❌ Failed: {report.failed} ({100 * report.failed / max(report.analyzed, 1):.0f}%)"
+    )
     print(f"   ⚠️ Errors: {report.errors}")
 
     print("\n📈 Average Scores (1-5):")
@@ -533,7 +602,9 @@ def print_report(report: BatchAnalysisReport):
     for priority in ["critical", "high", "medium", "low"]:
         count = report.by_priority.get(priority, 0)
         if count:
-            emoji = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢"}[priority]
+            emoji = {"critical": "🔴", "high": "🟠", "medium": "🟡", "low": "🟢"}[
+                priority
+            ]
             print(f"   {emoji} {priority.title()}: {count}")
 
     if report.by_category:
@@ -557,9 +628,9 @@ def print_report(report: BatchAnalysisReport):
 
 def main():
     parser = argparse.ArgumentParser(
-                                     description="Analyze prompts using CoVe methodology",
-                                     formatter_class=argparse.RawDescriptionHelpFormatter,
-                                     epilog=r"""
+        description="Analyze prompts using CoVe methodology",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=r"""
                                      Examples:
                                      # Analyze all prompts
                                      python tools/cove_batch_analyzer.py
@@ -575,23 +646,33 @@ def main():
 
                                      # Output JSON report
                                      python tools/cove_batch_analyzer.py --json --output analysis_report.json
-                                     """
-                                     )
+                                     """,
+    )
 
-    parser.add_argument("folder", nargs="?", default="prompts",
-                        help="Folder to analyze (default: prompts)")
-    parser.add_argument("--provider", "-p", default="local",
-                        choices=["local", "github", "openai"],
-                        help="LLM provider")
+    parser.add_argument(
+        "folder",
+        nargs="?",
+        default="prompts",
+        help="Folder to analyze (default: prompts)",
+    )
+    parser.add_argument(
+        "--provider",
+        "-p",
+        default="local",
+        choices=["local", "github", "openai"],
+        help="LLM provider",
+    )
     parser.add_argument("--model", "-m", help="Model name")
-    parser.add_argument("--model-path", dest="model_path",
-                        help="Path to local ONNX model")
-    parser.add_argument("--limit", "-l", type=int,
-                        help="Limit number of prompts to analyze")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="Show detailed output")
-    parser.add_argument("--json", action="store_true",
-                        help="Output as JSON")
+    parser.add_argument(
+        "--model-path", dest="model_path", help="Path to local ONNX model"
+    )
+    parser.add_argument(
+        "--limit", "-l", type=int, help="Limit number of prompts to analyze"
+    )
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Show detailed output"
+    )
+    parser.add_argument("--json", action="store_true", help="Output as JSON")
     parser.add_argument("--output", "-o", help="Output file for JSON report")
 
     args = parser.parse_args()
@@ -652,7 +733,7 @@ def main():
                     "recommendations": r.recommendations,
                 }
                 for r in report.results
-            ]
+            ],
         }
 
         if args.output:

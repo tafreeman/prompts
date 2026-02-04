@@ -1,5 +1,4 @@
-"""
-Base Workflow
+"""Base Workflow.
 
 Provides foundation for workflow implementations with:
 - Step management
@@ -21,6 +20,7 @@ from multiagent_workflows.core.tool_registry import ToolRegistry
 @dataclass
 class WorkflowStep:
     """A single step in a workflow."""
+
     name: str
     agent: str
     description: str
@@ -32,6 +32,7 @@ class WorkflowStep:
 @dataclass
 class WorkflowContext:
     """Context maintained throughout workflow execution."""
+
     inputs: Dict[str, Any]
     # NOTE: Artifacts are stored in a flat dictionary. Step outputs are merged,
     # and keys can be overwritten by subsequent steps. This is intentional to
@@ -43,18 +44,17 @@ class WorkflowContext:
 
 
 class BaseWorkflow(ABC):
-    """
-    Base class for workflow implementations.
-    
+    """Base class for workflow implementations.
+
     Subclasses should:
     1. Define steps in __init__
     2. Implement _create_agent for each step
     3. Optionally override _pre_step and _post_step hooks
     """
-    
+
     name: str = "base_workflow"
     description: str = "Base workflow"
-    
+
     def __init__(
         self,
         model_manager: ModelManager,
@@ -66,24 +66,27 @@ class BaseWorkflow(ABC):
         self.tool_registry = tool_registry
         self.logger = logger
         self.steps: List[WorkflowStep] = []
-    
+
     @abstractmethod
     def define_steps(self) -> List[WorkflowStep]:
-        """Define the workflow steps. Must be implemented by subclasses."""
+        """Define the workflow steps.
+
+        Must be implemented by subclasses.
+        """
         pass
-    
+
     async def execute(
         self,
         inputs: Dict[str, Any],
         config: Optional[Dict[str, Any]] = None,
         checkpoint_dir: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """
-        Execute the workflow with support for parallel execution of independent steps.
-        """
+        """Execute the workflow with support for parallel execution of
+        independent steps."""
         import asyncio
-        import os
         import json
+        import os
+
         self.steps = self.define_steps()
         context = WorkflowContext(
             inputs=inputs,
@@ -102,7 +105,7 @@ class BaseWorkflow(ABC):
             step_deps = {step.name: [] for step in self.steps}
             for i, step in enumerate(self.steps):
                 if i > 0:
-                    step_deps[step.name] = [self.steps[i-1].name]
+                    step_deps[step.name] = [self.steps[i - 1].name]
 
         # Track completed steps
         completed = set()
@@ -125,30 +128,49 @@ class BaseWorkflow(ABC):
             # Checkpoint after each step
             if checkpoint_dir:
                 os.makedirs(checkpoint_dir, exist_ok=True)
-                with open(os.path.join(checkpoint_dir, f"checkpoint_{step.name}.json"), "w", encoding="utf-8") as f:
-                    json.dump({"artifacts": context.artifacts, "step_results": context.step_results}, f, indent=2)
+                with open(
+                    os.path.join(checkpoint_dir, f"checkpoint_{step.name}.json"),
+                    "w",
+                    encoding="utf-8",
+                ) as f:
+                    json.dump(
+                        {
+                            "artifacts": context.artifacts,
+                            "step_results": context.step_results,
+                        },
+                        f,
+                        indent=2,
+                    )
             completed.add(step_name)
 
         # Main parallel execution loop
         try:
             while pending:
                 # Find all steps whose dependencies are satisfied
-                ready = [s for s in pending if all(dep in completed for dep in step_deps.get(s, []))]
+                ready = [
+                    s
+                    for s in pending
+                    if all(dep in completed for dep in step_deps.get(s, []))
+                ]
                 if not ready:
-                    raise RuntimeError("Cyclic or unsatisfiable dependencies in workflow steps.")
+                    raise RuntimeError(
+                        "Cyclic or unsatisfiable dependencies in workflow steps."
+                    )
                 # Run all ready steps in parallel
                 await asyncio.gather(*(run_step(s) for s in ready))
                 for s in ready:
                     pending.remove(s)
             if self.logger:
-                self.logger.log_workflow_complete(workflow_id or self.name, True, {"artifacts": context.artifacts})
+                self.logger.log_workflow_complete(
+                    workflow_id or self.name, True, {"artifacts": context.artifacts}
+                )
         except Exception as e:
             if self.logger:
                 self.logger.log_workflow_error(workflow_id or self.name, e)
             raise
 
         return self._compile_outputs(context)
-    
+
     async def _execute_step(
         self,
         step: WorkflowStep,
@@ -162,48 +184,57 @@ class BaseWorkflow(ABC):
                 step_inputs[input_name] = context.inputs[input_name]
             elif input_name in context.artifacts:
                 step_inputs[input_name] = context.artifacts[input_name]
-        
+
         # Create and execute agent
         agent = await self._create_agent(step)
         if agent is None:
             return {}
-        
+
         result = await agent.execute(step_inputs, {"artifacts": context.artifacts})
-        
+
         if result.success:
             return result.output
         else:
             if not step.optional:
                 raise RuntimeError(f"Step {step.name} failed: {result.error}")
             return {}
-    
+
     @abstractmethod
     async def _create_agent(self, step: WorkflowStep):
-        """Create agent for a step. Must be implemented by subclasses."""
+        """Create agent for a step.
+
+        Must be implemented by subclasses.
+        """
         pass
-    
+
     async def _pre_step(
         self,
         step: WorkflowStep,
         context: WorkflowContext,
     ) -> None:
-        """Hook called before each step. Override for custom behavior."""
+        """Hook called before each step.
+
+        Override for custom behavior.
+        """
         if self.logger:
             self.logger.log_step_start(
                 workflow_id="",
                 step_name=step.name,
                 context={"step": context.current_step, "total": context.total_steps},
             )
-    
+
     async def _post_step(
         self,
         step: WorkflowStep,
         context: WorkflowContext,
         result: Dict[str, Any],
     ) -> None:
-        """Hook called after each step. Override for custom behavior."""
+        """Hook called after each step.
+
+        Override for custom behavior.
+        """
         pass
-    
+
     def _compile_outputs(self, context: WorkflowContext) -> Dict[str, Any]:
         """Compile final outputs from context."""
         return {

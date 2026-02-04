@@ -1,17 +1,22 @@
-"""
-Minimal test for code review and test generation agents with raw backend code.
-"""
+"""Minimal test for code review and test generation agents with raw backend
+code."""
 
-import sys
-import os
 import asyncio
+import os
+import sys
 import textwrap
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../multiagent-workflows/src')))
-from multiagent_workflows.workflows.fullstack_workflow import FullStackWorkflow
-from multiagent_workflows.core.model_manager import ModelManager
-from multiagent_workflows.core.logger import VerboseLogger
 
-RAW_CODE = textwrap.dedent('''
+sys.path.insert(
+    0,
+    os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../multiagent-workflows/src")
+    ),
+)
+from multiagent_workflows.core.logger import VerboseLogger
+from multiagent_workflows.core.model_manager import ModelManager
+from multiagent_workflows.workflows.fullstack_workflow import FullStackWorkflow
+
+RAW_CODE = textwrap.dedent("""
     from fastapi import FastAPI, HTTPException
 
     app = FastAPI()
@@ -21,7 +26,7 @@ RAW_CODE = textwrap.dedent('''
         if item_id < 0:
             raise HTTPException(status_code=400, detail="Invalid item_id")
         return {"item_id": item_id, "name": f"Item {item_id}"}
-''').strip()
+""").strip()
 
 
 async def test_code_review_and_tests():
@@ -53,7 +58,9 @@ async def test_code_review_and_tests():
 
         missing_inputs = set(step.required_inputs) - set(step_inputs.keys())
         if missing_inputs:
-            print(f"Error: Missing required inputs for step '{step.name}': {missing_inputs}")
+            print(
+                f"Error: Missing required inputs for step '{step.name}': {missing_inputs}"
+            )
             break
 
         try:
@@ -64,6 +71,7 @@ async def test_code_review_and_tests():
         except Exception as e:
             print(f"Error during {step.name}: {e}")
             raise
+
 
 if __name__ == "__main__":
     asyncio.run(test_code_review_and_tests())

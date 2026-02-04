@@ -31,7 +31,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Optional, Sequence, Set, Tuple
 
-
 _CHECK_LINE_RE = re.compile(r"^(?P<path>.*?):(?P<line>\d+):\s*(?P<msg>.*)$")
 
 
@@ -107,7 +106,7 @@ def collect_paths_from_git_check(repo_root: Path, cached: bool) -> List[Path]:
 
     p = _run_git(args, cwd=repo_root)
     # git diff --check returns 1 when it finds problems; that's expected.
-    combined = (p.stdout or "")
+    combined = p.stdout or ""
 
     issues = parse_git_check_output(combined, repo_root)
 
@@ -203,7 +202,10 @@ def fix_path(
     drop_trailing_blank_lines: bool,
     dry_run: bool,
 ) -> bool:
-    """Fix file in-place. Returns True if changed."""
+    """Fix file in-place.
+
+    Returns True if changed.
+    """
     if not path.exists() or not path.is_file():
         return False
 
@@ -241,11 +243,21 @@ def stage_paths(repo_root: Path, paths: Iterable[Path]) -> None:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Fix whitespace issues reported by git diff --check")
-    parser.add_argument("--cached", action="store_true", help="Use staged diff (git diff --cached --check)")
+    parser = argparse.ArgumentParser(
+        description="Fix whitespace issues reported by git diff --check"
+    )
+    parser.add_argument(
+        "--cached",
+        action="store_true",
+        help="Use staged diff (git diff --cached --check)",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Do not write changes")
-    parser.add_argument("--apply", action="store_true", help="Apply fixes (default is report-only)")
-    parser.add_argument("--stage", action="store_true", help="Re-stage modified files (git add)")
+    parser.add_argument(
+        "--apply", action="store_true", help="Apply fixes (default is report-only)"
+    )
+    parser.add_argument(
+        "--stage", action="store_true", help="Re-stage modified files (git add)"
+    )
     parser.add_argument(
         "--paths",
         nargs="*",
@@ -283,7 +295,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     if not args.apply:
         for p in targets:
-            print(f"  - {p.relative_to(repo_root) if p.is_relative_to(repo_root) else p}")
+            print(
+                f"  - {p.relative_to(repo_root) if p.is_relative_to(repo_root) else p}"
+            )
         print("\nRun again with --apply to perform fixes.")
         return 0
 

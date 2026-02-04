@@ -1,524 +1,461 @@
 ---
-title: "ReAct: Prompt Library Analysis"
-shortTitle: "Repo Analysis ReAct"
-intro: "ReAct-based prompt for analyzing and improving prompt library repository structure, content gaps, and quality."
+title: "ReAct: Architecture Plan Validator"
+shortTitle: "Plan Validator ReAct"
+intro: "ReAct-based prompt for reading implementation plans, validating architecture decisions, and recommending optimizations for multi-model agentic workflows."
 type: "how_to"
 difficulty: "advanced"
 audience:
-
   - "senior-engineer"
   - "solution-architect"
-
 platforms:
-
   - "github-copilot"
   - "claude"
   - "chatgpt"
-
 topics:
-
-  - "analysis"
   - "architecture"
-  - "quality-assurance"
-
+  - "validation"
+  - "agentic-workflows"
+  - "model-routing"
 author: "Prompt Library Team"
-version: "4.0"
-date: "2025-12-02"
+version: "5.0"
+date: "2026-02-02"
 governance_tags:
-
   - "PII-safe"
-
 dataClassification: "internal"
-reviewStatus: "approved"
+reviewStatus: "draft"
 ---
-# ReAct: Prompt Library Analysis
+# ReAct: Architecture Plan Validator
 
 ---
 
 ## Description
 
-This is an executable ReAct (Reasoning + Acting) prompt for analyzing prompt library repositories. Use this prompt to systematically audit content, identify gaps, validate standards compliance, and generate improvement recommendations.
+This is an executable ReAct (Reasoning + Acting) prompt for **validating architecture plans** before implementation. Use this prompt to:
+
+1. Read and understand proposed implementation plans
+2. Validate architecture decisions against best practices
+3. Identify gaps, risks, and over-engineering
+4. Recommend optimizations for your specific use case
+5. Validate model tier assignments for cost/performance balance
 
 ## Goal
 
-Perform comprehensive analysis of a prompt library repository to:
+Perform systematic validation of an architecture plan to ensure it:
 
-1. **Map repository structure** - Document folder hierarchy and content distribution
-2. **Audit frontmatter compliance** - Validate all files against schema requirements
-3. **Identify content gaps** - Find missing prompt categories and coverage holes
-4. **Assess quality** - Evaluate prompt effectiveness and documentation completeness
-5. **Generate expansion roadmap** - Prioritize new content creation
-
----
-
-## Current Repository Context
-
-> **Note**: This context reflects the `tafreeman/prompts` repository state as of December 2025.
-> **Last Major Refactor**: Phases 1-6 completed December 2, 2025.
-
-### Completed Infrastructure ✅
-
-| Component | Status | Details |
-| ----------- | -------- | --------- |
-| Frontmatter schema | ✅ Complete | 19 standardized fields, fully validated |
-| Content types | ✅ Complete | conceptual, quickstart, how_to, tutorial, reference, troubleshooting |
-| Validation tooling | ✅ Complete | `tools/validators/frontmatter_validator.py` (291/291 pass) |
-| Navigation structure | ✅ Complete | All `index.md` files created with proper frontmatter |
-| Platform quickstarts | ✅ Complete | Copilot, ChatGPT, Claude, M365 |
-| Reference docs | ✅ Complete | Cheat sheet, glossary, platform comparison |
-| Troubleshooting | ✅ Complete | Common issues, model-specific, debugging guides |
-| Tutorials | ✅ Complete | First prompt, building effective prompts, iteration |
-
-### Current Content Inventory
-
-| Category | Count | Status | Notes |
-| ---------- | ------- | -------- | ------- |
-| **Developers** | 26 prompts | ✅ Mature | Code review, testing, architecture |
-| **Business** | 38 prompts | ✅ Mature | Strategy, analysis, communication |
-| **Analysis** | 21 prompts | ✅ Mature | Data, research, metrics |
-| **M365** | 20 prompts | ✅ Mature | Office productivity |
-| **System** | 22 prompts | ✅ Mature | AI agents, architecture |
-| **Advanced** | 17 prompts | ✅ Mature | CoT, ReAct, RAG, ToT |
-| **Creative** | 9 prompts | ⚠️ Growing | Marketing, content (expanded from 2) |
-| **Governance** | 3 prompts | ⚠️ Minimal | Legal, security, compliance |
-| **Total** | ~165 prompts | | |
-
-### Infrastructure Components
-
-| Component | Count | Status |
-| ----------- | ------- | -------- |
-| Agents | 7 agents | ✅ docs, code-review, test, refactor, security, architecture, prompt |
-| Instructions | 10 files | ✅ Role-based (junior/mid/senior), tech-specific |
-| Techniques | 12 patterns | ✅ Reflexion, agentic, context optimization |
-| Frameworks | 8 integrations | ✅ Anthropic, OpenAI, LangChain, Semantic Kernel |
+1. **Fits the use case** - Right-sized for actual requirements (not over-engineered)
+2. **Optimizes model usage** - Smaller models where possible, large models only when needed
+3. **Minimizes complexity** - Fewest moving parts that still meet requirements
+4. **Enables incremental delivery** - Phased approach with early value
+5. **Avoids common pitfalls** - Anti-patterns, premature abstractions, etc.
 
 ---
 
-## Maturity Assessment Framework
+## Plan Context: Agentic Workflows v2
 
-### Level 1: Foundation ✅ COMPLETE
+> **Current Plans Under Review:**
+> - `docs/planning/agentic-workflows-v2-architecture.md` - Full architecture
+> - `docs/planning/agentic-workflows-v2-implementation-patterns.md` - Code patterns
+> - `docs/planning/agentic-workflows-v2-phased-implementation.md` - Phased plan with model tiers
 
-- [x] Consistent frontmatter schema
-- [x] Validation tooling
-- [x] Basic navigation (index.md files)
-- [x] Content type definitions
+### Proposed Architecture Summary
 
-### Level 2: Discoverability ✅ COMPLETE
+```
+agentic-workflows/
+├── contracts/          # Pydantic schemas for inter-agent messages
+├── tools/              # Tool system with auto-discovery
+│   └── builtin/        # File ops, code tools, search
+├── agents/             # Agent implementations
+│   └── implementations/  # Architect, Coder, Reviewer, etc.
+├── engine/             # Orchestration
+│   └── patterns/       # Sequential, Parallel, Iterative, Self-Refine
+├── workflows/          # YAML workflow definitions
+├── models/             # LLM integration + routing
+├── evaluation/         # Quality scoring
+└── cli/                # Command-line interface
+```
 
-- [x] Platform quickstarts
-- [x] Reference documentation (cheat sheet, glossary)
-- [x] Troubleshooting guides
-- [x] Tutorials for onboarding
+### Proposed Model Tiering
 
-### Level 3: Content Depth 🔄 IN PROGRESS
-
-- [x] Core categories well-covered (developers, business, analysis)
-- [ ] Creative category expansion (9 → 20 target)
-- [ ] Governance category expansion (3 → 15 target)
-- [ ] Cross-platform prompt variants
-- [ ] Industry-specific prompt packs
-
-### Level 4: Advanced Capabilities ⏳ NEXT
-
-- [ ] Prompt chaining/orchestration patterns
-- [ ] Multi-modal prompt templates (vision, audio)
-- [ ] Evaluation and testing frameworks
-- [ ] A/B testing templates for prompts
-- [ ] Prompt versioning best practices
-
-### Level 5: Enterprise Readiness ⏳ FUTURE
-
-- [ ] Role-based access patterns
-- [ ] Audit trail templates
-- [ ] Compliance-specific prompt packs (HIPAA, SOX, GDPR)
-- [ ] Cost optimization guidance
-- [ ] SLA and performance benchmarks
+| Tier | Model Size | Cost | Tasks |
+|------|------------|------|-------|
+| **0** | None | Free | File copy, template render, JSON transform |
+| **1** | 1-3B | Cheap | Code formatting, docstrings, validation |
+| **2** | 7-14B | Moderate | Code generation, review, testing |
+| **3** | 32B+/Cloud | Expensive | Architecture, complex reasoning, evaluation |
 
 ---
 
-## Priority Expansion Areas (December 2025)
+## Validation Framework
 
-### P0 - Critical: Governance Category (3 → 15 prompts)
+### Decision Criteria Matrix
 
-**Gap**: Enterprise customers need compliance, legal, and security prompts.
+For each architecture decision, evaluate:
 
-| Prompt | Type | Difficulty | Effort |
-| -------- | ------ | ------------ | -------- |
-| `compliance-policy-generator.md` | how_to | intermediate | M |
-| `gdpr-data-review.md` | how_to | advanced | L |
-| `hipaa-compliance-checker.md` | how_to | advanced | L |
-| `sox-audit-preparer.md` | how_to | advanced | L |
-| `privacy-impact-assessment.md` | how_to | intermediate | M |
-| `risk-assessment-template.md` | how_to | intermediate | M |
-| `vendor-security-review.md` | how_to | intermediate | M |
-| `access-control-reviewer.md` | how_to | intermediate | M |
-| `data-classification-helper.md` | how_to | beginner | S |
-| `policy-document-generator.md` | how_to | intermediate | M |
-| `audit-evidence-collector.md` | how_to | intermediate | M |
-| `regulatory-change-analyzer.md` | how_to | advanced | L |
+| Criterion | Question | Weight |
+|-----------|----------|--------|
+| **Necessity** | Is this component actually needed for MVP? | High |
+| **Complexity** | Does added complexity justify the benefit? | High |
+| **Model Fit** | Is the right model tier assigned? | High |
+| **Alternatives** | Are there simpler approaches? | Medium |
+| **Dependencies** | Does this create tight coupling? | Medium |
+| **Testability** | Can this be tested in isolation? | Medium |
+| **Incremental** | Can this be delivered incrementally? | Low |
 
-### P1 - High: Creative Category (9 → 20 prompts)
+### Common Anti-Patterns to Check
 
-**Gap**: Marketing and content teams need more variety.
-
-| Prompt | Type | Difficulty | Effort |
-| -------- | ------ | ------------ | -------- |
-| `case-study-builder.md` | how_to | intermediate | M |
-| `whitepaper-outliner.md` | how_to | intermediate | M |
-| `press-release-generator.md` | how_to | beginner | S |
-| `landing-page-copy.md` | how_to | intermediate | M |
-| `seo-content-optimizer.md` | how_to | intermediate | M |
-| `podcast-script-writer.md` | how_to | intermediate | M |
-| `webinar-content-creator.md` | how_to | intermediate | M |
-| `customer-testimonial-formatter.md` | how_to | beginner | S |
-| `infographic-content-planner.md` | how_to | beginner | S |
-| `content-calendar-generator.md` | how_to | beginner | S |
-| `a]b-test-copy-variants.md` | how_to | intermediate | M |
-
-### P2 - Medium: Advanced Patterns
-
-**Gap**: Power users need more sophisticated patterns.
-
-| Prompt | Type | Difficulty | Effort |
-| -------- | ------ | ------------ | -------- |
-| `prompt-chain-orchestrator.md` | tutorial | advanced | L |
-| `multi-model-router.md` | how_to | advanced | L |
-| `context-window-optimizer.md` | how_to | advanced | M |
-| `prompt-ab-testing-framework.md` | tutorial | advanced | L |
-| `vision-prompt-templates.md` | reference | intermediate | M |
-| `structured-output-patterns.md` | reference | intermediate | M |
-
-### P3 - Future: Industry Packs
-
-**Gap**: Vertical-specific prompt collections.
-
-| Pack | Prompts | Priority |
-| ------ | --------- | ---------- |
-| Healthcare | 10-15 | Future |
-| Financial Services | 10-15 | Future |
-| Legal | 10-15 | Future |
-| Education | 10-15 | Future |
-| Retail/E-commerce | 10-15 | Future |
+| Anti-Pattern | Description | Red Flag |
+|--------------|-------------|----------|
+| **Premature Abstraction** | Building flexibility before knowing needs | "Registry", "Factory", "Plugin system" for < 3 items |
+| **Over-Tiering** | Too many model tiers with unclear boundaries | More than 3-4 tiers |
+| **Kitchen Sink** | Including everything "just in case" | Features with no clear user story |
+| **Enterprise Creep** | Adding enterprise features before product-market fit | "RBAC", "Audit logs", "Multi-tenancy" too early |
+| **Parallel Paths** | Multiple ways to do the same thing | Both YAML and Python workflow definitions |
+| **Abstraction Inversion** | Abstracting low-level, hardcoding high-level | Generic tool system but hardcoded workflow steps |
 
 ---
 
-## Available Tools
+## Architecture Validation Checklist
 
-When executing this analysis, you have access to:
+### Phase 0: Foundation (No LLM)
 
-### 1. `file_search`
-Search for files matching glob patterns.
+- [ ] **Q1**: Are Tier 0 tools truly LLM-free? (file ops, templates, JSON)
+- [ ] **Q2**: Is the tool registry over-engineered for the number of tools?
+- [ ] **Q3**: Do we need auto-discovery or would explicit registration suffice?
 
-```text
-file_search("**/*.md") → Find all markdown files
-file_search("prompts/**/*.md") → Find all prompts
-```markdown
+### Phase 1: Contracts & Small Models
 
-### 2. `read_file`
-Read file contents to inspect frontmatter and content.
+- [ ] **Q4**: Are Pydantic contracts necessary, or would simple dicts work?
+- [ ] **Q5**: Is Tier 1 (small models) actually useful, or should we jump to Tier 2?
+- [ ] **Q6**: What's the cost difference between Tier 1 and Tier 2 for simple tasks?
 
-```text
-read_file("/path/to/file.md") → Get file content
-```text
+### Phase 2: Core Engine
 
-### 4. `list_dir`
-List directory contents to map structure.
+- [ ] **Q7**: Do we need a full "executor" abstraction or direct agent calls?
+- [ ] **Q8**: Is state management/checkpointing needed for MVP?
+- [ ] **Q9**: How many agents do we actually need vs. plan to build?
 
-```text
-list_dir("/prompts/") → Get folder structure
-```text
+### Phase 3: Orchestration
 
-```python
+- [ ] **Q10**: Do we need all 4 patterns (sequential, parallel, iterative, self-refine)?
+- [ ] **Q11**: Which pattern addresses the primary use case?
+- [ ] **Q12**: Can we start with 1 pattern and add others later?
 
----
+### Phase 4: Large Models
 
-## ReAct Analysis Loop
+- [ ] **Q13**: What specifically requires Tier 3 (large models)?
+- [ ] **Q14**: Can evaluation be done with Tier 2 models instead?
+- [ ] **Q15**: Is the "Architect" agent needed, or can humans provide architecture?
 
-Execute analysis using iterative Thought → Action → Observation cycles:
+### Cross-Cutting
 
-### Phase 1: Structure Mapping
-
-**Thought**: I need to understand the repository structure before analyzing content.
-
-**Action**: Map the folder hierarchy
-```text
-
-list_dir("/") → Get top-level structure
-list_dir("/prompts/") → Get prompt categories
-
-```text
-
-**Observation**: Create inventory table showing prompts per category.
+- [ ] **Q16**: What's the actual MVP - what's the smallest thing that delivers value?
+- [ ] **Q17**: What existing code can be reused vs. rewritten?
+- [ ] **Q18**: What's the testing strategy for each tier?
 
 ---
 
-### Phase 3: Frontmatter Audit
+## ReAct Validation Loop
 
-**Thought**: I need to verify all files comply with the frontmatter schema.
+Execute validation using iterative Thought → Action → Observation cycles:
 
-**Action**: Run validation and check specific fields
+### Phase 1: Read and Understand Plans
+
+**Thought**: I need to read all related planning documents to understand the full proposal.
+
+**Action**: Load all architecture documents
 ```text
+read_file("docs/planning/agentic-workflows-v2-architecture.md")
+read_file("docs/planning/agentic-workflows-v2-implementation-patterns.md")
+read_file("docs/planning/agentic-workflows-v2-phased-implementation.md")
+```
 
-run_in_terminal("python tools/validate_all.py")
-grep_search("governance_tags:") → Check governance compliance
-grep_search("dataClassification:") → Check classification coverage
-
-```python
-
-**Observation**: Document validation results, noting any failures or warnings.
+**Observation**: Document key decisions, component count, and complexity indicators.
 
 ---
 
-### Phase 4: Gap Analysis
+### Phase 2: Map Current State
 
-**Thought**: I need to compare current content against target coverage.
+**Thought**: I need to understand what already exists before validating new additions.
 
-**Action**: Analyze content distribution
+**Action**: Analyze existing codebase
 ```text
+list_dir("multiagent-workflows/src/")
+list_dir("tools/")
+grep_search("class.*Agent", includePattern="**/*.py")
+grep_search("def execute", includePattern="**/*.py")
+```
 
-grep_search("type: quickstart") → Count quickstarts per platform
-grep_search("difficulty: beginner") → Count beginner-friendly content
-grep_search("audience:.*junior") → Count junior engineer content
-
-```text
-
-**Observation**: Score prompts on:
-
-- Clear description (1-5)
-- Complete frontmatter (1-5)
-- Example quality (1-5)
-- Practical usability (1-5)
+**Observation**: Create inventory of existing components that could be reused.
 
 ---
 
-### Phase 6: Expansion Recommendations
+### Phase 3: Identify Primary Use Case
 
-**Thought**: Based on gaps identified, I need to prioritize new content.
+**Thought**: Architecture should be driven by use cases, not abstractions.
 
-**Action**: Cross-reference gaps with research
+**Action**: Find user stories and requirements
 ```text
+grep_search("use case|user story|requirement", includePattern="**/*.md")
+read_file("README.md")  # Often contains primary use case
+```
 
-# Reference the Knowledge Base Research prompt for external best practices
-# Compare against industry prompt libraries
+**Observation**: Document the PRIMARY use case this architecture serves.
 
+---
+
+### Phase 4: Validate Model Tier Assignments
+
+**Thought**: Model tiers should be based on actual task complexity, not assumptions.
+
+**Action**: Analyze task-to-tier mapping
 ```text
+# For each proposed Tier 1 task, ask:
+# - Has this been tested with a 1-3B model?
+# - What's the quality difference vs Tier 2?
+# - What's the cost difference?
 
-### 2. Gap Analysis Matrix
+# For each proposed Tier 3 task, ask:
+# - Can this be done with Tier 2?
+# - What specific capability requires 32B+?
+```
+
+**Observation**: Create validated tier mapping with justifications.
+
+---
+
+### Phase 5: Simplification Analysis
+
+**Thought**: What can be removed or simplified without losing core value?
+
+**Action**: Apply YAGNI (You Aren't Gonna Need It) analysis
+```text
+# For each component, ask:
+# 1. Does MVP need this?
+# 2. Can it be added later without major refactoring?
+# 3. What's the cost of including it now vs. later?
+```
+
+**Observation**: Create "defer list" of components to build later.
+
+---
+
+### Phase 6: Alternative Architecture
+
+**Thought**: Is there a simpler architecture that meets the same goals?
+
+**Action**: Sketch minimal viable architecture
+```text
+# Minimal architecture might be:
+# 1. Single orchestrator (no patterns abstraction)
+# 2. Direct LLM calls (no model router for < 3 models)
+# 3. Dict-based messages (no Pydantic until validation fails)
+# 4. File-based state (no checkpoint system)
+```
+
+**Observation**: Compare complexity of proposed vs. minimal architecture.
+
+---
+
+## Deliverables
+
+### 1. Architecture Validation Report
 
 ```markdown
+## Architecture Validation Report
 
-## Content Gap Analysis
+**Plan Reviewed**: [Plan name and version]
+**Reviewer**: [AI Assistant]
+**Date**: [Date]
 
-### By Platform Coverage
-| Platform | Quickstart | How-To | Tutorial | Reference | Total |
-| ---------- | ------------ | -------- | ---------- | ----------- | ------- |
-| github-copilot | ✅ | X | X | X | X |
-| claude | ✅ | X | X | X | X |
-| chatgpt | ✅ | X | X | X | X |
-| azure-openai | ⚠️ | X | X | X | X |
-| m365-copilot | ✅ | X | X | X | X |
+### Executive Summary
+[1-2 paragraph summary of findings]
 
-### By Audience
-| Audience | Beginner | Intermediate | Advanced | Total |
-| ---------- | ---------- | -------------- | ---------- | ------- |
-| junior-engineer | X | X | X | X |
-| senior-engineer | X | X | X | X |
-| solution-architect | X | X | X | X |
-| business-analyst | X | X | X | X |
-| project-manager | X | X | X | X |
+### Validation Results
 
-### By Industry (Future)
-| Industry | Current | Target | Gap |
-| ---------- | --------- | -------- | ----- |
-| Healthcare | 0 | 15 | 15 |
-| Financial | 0 | 15 | 15 |
-| Legal | 0 | 15 | 15 |
+| Component | Verdict | Rationale |
+|-----------|---------|-----------|
+| Tool Registry | ✅ Keep | Auto-discovery useful for 10+ tools |
+| Model Router | ⚠️ Simplify | Only 3 models - use dict mapping |
+| Pydantic Contracts | ⚠️ Defer | Start with dicts, add validation when bugs occur |
+| State Checkpointing | ❌ Remove | Not needed for < 5 min workflows |
+| ... | ... | ... |
 
-```text
+### Recommended Changes
+1. [Change 1]
+2. [Change 2]
+...
 
-### 4. Quality Scorecard
+### Deferred Components (Build Later)
+1. [Component] - Add when [trigger condition]
+2. [Component] - Add when [trigger condition]
+...
+```
+
+### 2. Simplified Architecture Proposal
 
 ```markdown
+## Minimal Viable Architecture
 
-## Quality Assessment
+### Core Components (MVP)
+- [ ] Component 1: [Purpose]
+- [ ] Component 2: [Purpose]
+...
 
-**Overall Maturity**: Level X/5
-**Validation Pass Rate**: X%
+### Deferred Components (v2)
+- [ ] Component X: [Trigger to add]
+...
 
-### By Dimension
-| Dimension | Score | Notes |
-| ----------- | ------- | ------- |
-| Frontmatter Compliance | X/5 | All required fields present |
-| Documentation Completeness | X/5 | Description, examples, tips |
-| Example Quality | X/5 | Realistic, copy-paste ready |
-| Cross-Platform Coverage | X/5 | Multi-platform variants |
-| Governance Readiness | X/5 | Compliance, audit support |
+### Model Usage
+| Task | Model | Justification |
+|------|-------|---------------|
+| ... | ... | ... |
+```
 
-### Content Quality Sampling
-| Category | Sample Size | Avg Score | Issues |
-| ---------- | ------------- | ----------- | -------- |
-| Developers | X | X/5 | ... |
-| Business | X | X/5 | ... |
-| ... | ... | ... | ... |
+### 3. Implementation Priority Matrix
 
-```text
-```text
+```markdown
+## Priority Matrix
+
+| Component | Value | Effort | Priority | Phase |
+|-----------|-------|--------|----------|-------|
+| ... | H/M/L | H/M/L | P0/P1/P2 | 0-5 |
+```
 
 ---
 
-## Expansion Priorities
+## Validation Questions by Architecture Type
 
-Based on December 2025 repository state, focus analysis on these maturity areas:
+### For Agentic Workflows
 
-### Governance Category (CRITICAL - 3 prompts → 15 target)
+1. **Agent Count**: How many agents are actually needed?
+   - Rule of thumb: Start with 3 or fewer
+   - Each agent adds: prompts, contracts, tests, routing logic
 
-**Why Critical**: Enterprise adoption requires compliance, legal, and security coverage.
+2. **Pattern Complexity**: Which patterns are essential?
+   - Sequential: Almost always needed
+   - Iterative: Needed for quality-sensitive tasks
+   - Parallel: Only if tasks are truly independent
+   - Self-Refine: Only if quality varies significantly
 
-**Research Focus Areas**:
+3. **Model Routing**: Is routing logic justified?
+   - < 3 models: Use simple if/else
+   - 3-5 models: Use config dict
+   - > 5 models: Consider router abstraction
 
-- Regulatory compliance (GDPR, HIPAA, SOX, CCPA)
-- Security review and incident response
-- Policy and procedure generation
-- Audit preparation and evidence collection
-- Risk assessment and mitigation
+### For Tool Systems
 
-**Recommended Additions**:
+1. **Tool Count**: How many tools?
+   - < 5 tools: Direct registration
+   - 5-15 tools: Simple registry
+   - > 15 tools: Auto-discovery may help
 
-1. `compliance-policy-generator.md` - Generate compliance policies
-2. `gdpr-data-review.md` - GDPR compliance assessment
-3. `hipaa-compliance-checker.md` - Healthcare data compliance
-4. `sox-audit-preparer.md` - Financial controls audit
-5. `privacy-impact-assessment.md` - PIA documentation
-6. `risk-assessment-template.md` - Risk identification and scoring
-7. `vendor-security-review.md` - Third-party security assessment
-8. `access-control-reviewer.md` - Permission and access audit
-9. `data-classification-helper.md` - Data sensitivity classification
-10. `policy-document-generator.md` - Policy drafting assistance
-11. `audit-evidence-collector.md` - Audit documentation
-12. `regulatory-change-analyzer.md` - Regulatory impact analysis
+2. **Tool Complexity**: Are tools doing too much?
+   - Good: Single responsibility (read_file, write_file)
+   - Bad: Multi-purpose (file_operations with 10 modes)
 
-### Creative Category (HIGH - 9 prompts → 20 target)
+### For Multi-Model Systems
 
-**Why High**: Content and marketing teams drive significant AI adoption.
+1. **Tier Boundaries**: Are tiers clearly differentiated?
+   - Good: Clear capability gaps (1B can't do X, 7B can)
+   - Bad: Arbitrary splits (tasks could go either way)
 
-**Research Focus Areas**:
+2. **Cost Optimization**: Is the optimization real?
+   - Calculate: (Tier 1 cost × Tier 1 calls) vs (Tier 2 cost × all calls)
+   - Sometimes simpler to use one model for everything
 
-- Long-form content (whitepapers, case studies)
-- SEO and content optimization
-- Multimedia content (podcasts, webinars, video)
-- Campaign and launch content
-- Content planning and strategy
+---
 
-**Recommended Additions**:
+## Existing Infrastructure (Reuse Candidates)
 
-1. `case-study-builder.md` - Customer success stories
-2. `whitepaper-outliner.md` - Long-form technical content
-3. `press-release-generator.md` - Media announcements
-4. `landing-page-copy.md` - Conversion-focused web copy
-5. `seo-content-optimizer.md` - Search optimization
-6. `podcast-script-writer.md` - Audio content scripts
-7. `webinar-content-creator.md` - Presentation content
-8. `customer-testimonial-formatter.md` - Quote formatting
-9. `infographic-content-planner.md` - Visual content planning
-10. `content-calendar-generator.md` - Editorial planning
-11. `ab-test-copy-variants.md` - A/B testing variations
+### Already Built ✅
 
-### Advanced Patterns (MEDIUM - Add sophisticated capabilities)
+| Component | Location | Reusable? |
+|-----------|----------|-----------|
+| LLM Client | `tools/llm/llm_client.py` | ✅ Yes |
+| Model Manager | `multiagent-workflows/src/.../model_manager.py` | ✅ Yes |
+| Agent Base | `multiagent-workflows/src/.../agents/` | ⚠️ Partial |
+| Workflow Engine | `multiagent-workflows/src/.../core/engine.py` | ⚠️ Review |
+| Tool Definitions | `multiagent-workflows/scripts/run_repo_maintenance.py` | ⚠️ Extract |
 
-**Why Medium**: Power users and architects need advanced patterns.
-
-**Research Focus Areas**:
-
-- Multi-step prompt orchestration
-- Cross-model routing and fallback
-- Context optimization strategies
-- Evaluation and testing frameworks
-- Structured output patterns
-
-**Recommended Additions**:
-
-1. `prompt-chain-orchestrator.md` - Multi-step workflows
-2. `multi-model-router.md` - Model selection logic
-3. `context-window-optimizer.md` - Token management
-4. `prompt-ab-testing-framework.md` - Testing methodology
-5. `vision-prompt-templates.md` - Image/vision prompts
-6. `structured-output-patterns.md` - JSON/schema outputs
-
-### Industry Packs (FUTURE - Vertical-specific collections)
-
-**Why Future**: Enterprise customers need domain expertise.
-
-| Industry | Key Use Cases | Prompt Count |
-| ---------- | --------------- | -------------- |
-| Healthcare | Patient communication, clinical documentation, HIPAA compliance | 10-15 |
-| Financial Services | Risk analysis, regulatory reporting, fraud detection | 10-15 |
-| Legal | Contract review, legal research, document drafting | 10-15 |
-| Education | Curriculum design, assessment creation, student feedback | 10-15 |
-| Retail/E-commerce | Product descriptions, customer service, inventory analysis | 10-15 |
+### Key Question
+> **Before building new, ask**: Can existing code be adapted with < 50% effort of rewrite?
 
 ---
 
 ## Execution Instructions
 
-To run this analysis:
+To run this validation:
 
-1. **Initialize**: Load this prompt into your AI assistant (Claude, GPT-4, or Copilot Chat)
-2. **Scope**: Specify the repository path to analyze (`d:\source\prompts` or your local path)
-3. **Execute**: Follow the ReAct loop phases sequentially:
-   - Phase 1: Structure Mapping
-   - Phase 2: Content Inventory
-   - Phase 3: Frontmatter Audit
-   - Phase 4: Gap Analysis
-   - Phase 5: Quality Assessment
-   - Phase 6: Expansion Recommendations
-4. **Iterate**: Use observations to refine subsequent actions
-5. **Synthesize**: Compile all 5 deliverables from observations
-6. **Validate**: Run `python tools/validators/frontmatter_validator.py --all`
-7. **Create Tasks**: Generate a new `REFACTOR_TODO.md` with prioritized tasks
+1. **Load Context**: Read all planning documents
+   ```
+   read_file("docs/planning/agentic-workflows-v2-architecture.md")
+   read_file("docs/planning/agentic-workflows-v2-implementation-patterns.md")
+   read_file("docs/planning/agentic-workflows-v2-phased-implementation.md")
+   ```
 
-### Quick Validation Commands
+2. **Understand Current State**: Map existing code
+   ```
+   list_dir("multiagent-workflows/src/multiagent_workflows/")
+   list_dir("tools/")
+   ```
 
-```bash
-# Full validation
-python tools/validators/frontmatter_validator.py --all
+3. **Execute ReAct Loop**: Follow phases 1-6
 
-# Validate specific folder
-python tools/validators/frontmatter_validator.py --folder prompts/governance
+4. **Generate Deliverables**:
+   - Architecture Validation Report
+   - Simplified Architecture Proposal
+   - Implementation Priority Matrix
 
-# Verbose output with warnings
-python tools/validators/frontmatter_validator.py --all -v
+5. **Discuss Findings**: Present alternatives to stakeholders
 
-# Count prompts by category
-Get-ChildItem -Path "prompts/*" -Directory | ForEach-Object { 
-  "$($_.Name): $((Get-ChildItem $_.FullName -Filter *.md).Count)" 
-}
-```json
+---
 
-### Previous Analysis Outputs
+---
 
-| Document | Date | Purpose |
-| ---------- | ------ | --------- |
-| `docs/UNIFIED_REFACTOR_GUIDE_REACT.md` | Nov 2025 | Original refactor plan |
-| `docs/REFACTOR_TODO.md` | Dec 2025 | Completed task tracker |
-| `docs/REPO_ANALYSIS_REPORT_2025-11-30.md` | Nov 2025 | Initial analysis |
+## Quick Start: Run Validation Now
+
+To immediately validate the current agentic-workflows-v2 plan:
+
+```powershell
+# 1. Read all three planning documents
+# In Copilot Chat or Claude, paste this prompt:
+
+@workspace Read and analyze these architecture documents:
+- docs/planning/agentic-workflows-v2-architecture.md
+- docs/planning/agentic-workflows-v2-implementation-patterns.md  
+- docs/planning/agentic-workflows-v2-phased-implementation.md
+
+Then answer:
+1. What is the PRIMARY use case this serves?
+2. Which components can be deferred to v2?
+3. Is the model tiering strategy validated?
+4. What existing code can be reused?
+5. What's the simplest architecture that delivers MVP?
+```
+
+### Architecture Documents to Review
+
+| Document | Purpose | Key Decisions |
+|----------|---------|---------------|
+| `agentic-workflows-v2-architecture.md` | Full architecture | Folder structure, components |
+| `agentic-workflows-v2-implementation-patterns.md` | Code patterns | Contracts, tools, patterns |
+| `agentic-workflows-v2-phased-implementation.md` | Phased plan | Model tiers, task mapping |
 
 ---
 
 ## Related Resources
 
-- [Knowledge Base Research](/prompts/advanced/react-knowledge-base-research) - External research prompt
-- [Frontmatter Validator](/tools/validators/frontmatter_validator.py) - Validation tooling
-
-- [Frontmatter Schema](/reference/frontmatter-schema) - Field definitions
-- [Content Types](/reference/content-types) - Type selection guide
-- [Platform Comparison](/reference/platform-comparison) - Cross-platform guidance
+- [Phased Implementation Plan](agentic-workflows-v2-phased-implementation.md) - Model tier assignments
+- [Architecture Document](agentic-workflows-v2-architecture.md) - Full system design
+- [Implementation Patterns](agentic-workflows-v2-implementation-patterns.md) - Code examples
 
 ---
 
 ## Changelog
 
 | Version | Date | Changes |
-| --------- | ------ | --------- |
-| 4.0 | 2025-12-02 | Updated after Phase 1-6 completion; added maturity framework, new expansion priorities |
-| 3.0 | 2025-11-30 | Added governance context, expanded deliverables |
+|---------|------|---------|
+| 5.0 | 2026-02-02 | Transformed to Architecture Plan Validator; added validation framework, anti-patterns, simplification analysis |
+| 4.0 | 2025-12-02 | Previous: Prompt Library Analysis |
+| 3.0 | 2025-11-30 | Added governance context |
 | 2.0 | 2025-11-29 | Initial ReAct structure |

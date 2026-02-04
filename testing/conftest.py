@@ -1,5 +1,4 @@
-"""
-Shared pytest fixtures for the prompts repository testing suite.
+"""Shared pytest fixtures for the prompts repository testing suite.
 
 This module provides common fixtures for:
 - Prompt file discovery and loading
@@ -8,11 +7,10 @@ This module provides common fixtures for:
 - Common test data
 """
 
-import os
 import sys
 import tempfile
 from pathlib import Path
-from typing import Generator, List, Dict, Any
+from typing import Any, Dict, Generator, List
 
 import pytest
 import yaml
@@ -25,6 +23,7 @@ sys.path.insert(0, str(REPO_ROOT))
 # =============================================================================
 # PATH FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def repo_root() -> Path:
@@ -54,6 +53,7 @@ def tools_dir(repo_root: Path) -> Path:
 # PROMPT DISCOVERY FIXTURES
 # =============================================================================
 
+
 @pytest.fixture
 def all_prompt_files(prompts_dir: Path) -> List[Path]:
     """Discover all .md prompt files in the prompts directory."""
@@ -67,12 +67,17 @@ def prompt_categories(prompts_dir: Path) -> List[str]:
     """Return list of prompt category directories."""
     if not prompts_dir.exists():
         return []
-    return [d.name for d in prompts_dir.iterdir() if d.is_dir() and not d.name.startswith('.')]
+    return [
+        d.name
+        for d in prompts_dir.iterdir()
+        if d.is_dir() and not d.name.startswith(".")
+    ]
 
 
 # =============================================================================
 # TEMPORARY FILE FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def temp_dir() -> Generator[Path, None, None]:
@@ -83,7 +88,8 @@ def temp_dir() -> Generator[Path, None, None]:
 
 @pytest.fixture
 def temp_prompt_file(temp_dir: Path) -> Generator[Path, None, None]:
-    """Create a temporary prompt file with valid frontmatter (minimal schema)."""
+    """Create a temporary prompt file with valid frontmatter (minimal
+    schema)."""
     prompt_path = temp_dir / "test-prompt.md"
     content = """---
 name: Test Prompt
@@ -119,7 +125,8 @@ Return a JSON response.
 
 @pytest.fixture
 def temp_invalid_prompt(temp_dir: Path) -> Generator[Path, None, None]:
-    """Create a temporary prompt file with invalid frontmatter (missing required fields)."""
+    """Create a temporary prompt file with invalid frontmatter (missing
+    required fields)."""
     prompt_path = temp_dir / "invalid-prompt.md"
     content = """---
 title: Invalid Prompt
@@ -138,6 +145,7 @@ This prompt is missing required frontmatter fields.
 # FRONTMATTER FIXTURES
 # =============================================================================
 
+
 @pytest.fixture
 def valid_frontmatter() -> Dict[str, Any]:
     """Return valid frontmatter data."""
@@ -151,7 +159,7 @@ def valid_frontmatter() -> Dict[str, Any]:
         "platforms": ["copilot"],
         "topics": ["testing"],
         "author": "Test Author",
-        "version": "1.0"
+        "version": "1.0",
     }
 
 
@@ -166,13 +174,14 @@ def minimal_frontmatter() -> Dict[str, Any]:
         "difficulty": "beginner",
         "audience": ["developers"],
         "platforms": ["copilot"],
-        "topics": ["general"]
+        "topics": ["general"],
     }
 
 
 # =============================================================================
 # MOCK FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def mock_eval_result() -> Dict[str, Any]:
@@ -188,12 +197,12 @@ def mock_eval_result() -> Dict[str, Any]:
             "completeness": 8.0,
             "factuality": 9.0,
             "consistency": 8.0,
-            "safety": 9.0
+            "safety": 9.0,
         },
         "overall_score": 8.125,
         "grade": "B",
         "passed": True,
-        "pass_reason": "All criteria met"
+        "pass_reason": "All criteria met",
     }
 
 
@@ -207,7 +216,7 @@ def mock_cross_validation_report() -> Dict[str, Any]:
         "score_range": {"min": 7.5, "max": 8.5},
         "variance": 0.5,
         "consensus_passed": True,
-        "final_grade": "B"
+        "final_grade": "B",
     }
 
 
@@ -215,19 +224,20 @@ def mock_cross_validation_report() -> Dict[str, Any]:
 # SCHEMA FIXTURES
 # =============================================================================
 
+
 @pytest.fixture
 def frontmatter_schema() -> Dict[str, Any]:
     """Return the expected frontmatter schema."""
     return {
         "required": [
             "title",
-            "shortTitle", 
+            "shortTitle",
             "intro",
             "type",
             "difficulty",
             "audience",
             "platforms",
-            "topics"
+            "topics",
         ],
         "optional": [
             "author",
@@ -235,11 +245,11 @@ def frontmatter_schema() -> Dict[str, Any]:
             "lastUpdated",
             "status",
             "evalScore",
-            "evalDate"
+            "evalDate",
         ],
         "type_values": ["how_to", "template", "reference", "guide"],
         "difficulty_values": ["beginner", "intermediate", "advanced"],
-        "platform_values": ["copilot", "chatgpt", "claude", "m365", "gemini"]
+        "platform_values": ["copilot", "chatgpt", "claude", "m365", "gemini"],
     }
 
 
@@ -247,15 +257,16 @@ def frontmatter_schema() -> Dict[str, Any]:
 # HELPER FUNCTIONS (available to tests via import)
 # =============================================================================
 
+
 def parse_frontmatter(content: str) -> Dict[str, Any]:
     """Parse YAML frontmatter from markdown content."""
     if not content.startswith("---"):
         return {}
-    
+
     parts = content.split("---", 2)
     if len(parts) < 3:
         return {}
-    
+
     try:
         return yaml.safe_load(parts[1]) or {}
     except yaml.YAMLError:
@@ -266,12 +277,12 @@ def load_prompt_file(path: Path) -> tuple[Dict[str, Any], str]:
     """Load a prompt file and return (frontmatter, body) tuple."""
     content = path.read_text(encoding="utf-8")
     frontmatter = parse_frontmatter(content)
-    
+
     # Extract body after frontmatter
     if content.startswith("---"):
         parts = content.split("---", 2)
         body = parts[2].strip() if len(parts) >= 3 else ""
     else:
         body = content
-    
+
     return frontmatter, body

@@ -14,15 +14,15 @@ Usage:
     python -c "from cli_help import print_quick_reference; print_quick_reference()"
 """
 
-import sys
 import os
+import sys
 
 # Fix Windows console encoding
 if sys.platform == "win32":
     os.environ["PYTHONIOENCODING"] = "utf-8"
     try:
-        sys.stdout.reconfigure(encoding='utf-8')
-        sys.stderr.reconfigure(encoding='utf-8')
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     except (AttributeError, OSError):
         pass
 
@@ -110,7 +110,15 @@ def get_cli_summary():
                 "command": "python prompt.py",
                 "description": "Interactive toolkit with menu-driven interface",
                 "best_for": "Humans exploring the toolkit",
-                "commands": ["run", "eval", "cove", "batch", "improve", "models", "help"],
+                "commands": [
+                    "run",
+                    "eval",
+                    "cove",
+                    "batch",
+                    "improve",
+                    "models",
+                    "help",
+                ],
             },
             {
                 "name": "prompteval",
@@ -142,8 +150,10 @@ def get_cli_summary():
 
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1 and sys.argv[1] == "--json":
         import json
+
         print(json.dumps(get_cli_summary(), indent=2))
     else:
         print_quick_reference()

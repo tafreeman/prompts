@@ -24,7 +24,9 @@ class ModelManager:
         self.allow_remote = allow_remote
         self._probe = get_probe()
 
-    async def generate(self, model_id: str, prompt: str, context: Optional[str] = None, **params: Any) -> str:
+    async def generate(
+        self, model_id: str, prompt: str, context: Optional[str] = None, **params: Any
+    ) -> str:
         full_prompt = prompt if context is None else f"{context}\n\n{prompt}"
         return await asyncio.to_thread(
             LLMClient.generate_text,
@@ -49,7 +51,9 @@ class ModelManager:
                 models.append({"provider": name, "model": m})
         return models
 
-    def get_optimal_model(self, task_type: str, complexity: str, prefer_local: bool) -> str:
+    def get_optimal_model(
+        self, task_type: str, complexity: str, prefer_local: bool
+    ) -> str:
         task_type = task_type.lower()
         complexity = complexity.lower()
 

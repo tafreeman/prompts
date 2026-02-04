@@ -24,15 +24,13 @@ Author: AI Error Resolution System
 License: MIT
 """
 
-import os
-import sys
 import json
-import re
+import sys
 import time
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 # Add tools to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -47,6 +45,7 @@ except ImportError:
 @dataclass
 class ErrorInfo:
     """Represents a single linting error."""
+
     file_path: str
     line_number: int
     error_code: str
@@ -62,6 +61,7 @@ class ErrorInfo:
 @dataclass
 class BatchResult:
     """Results from processing one batch of errors."""
+
     batch_number: int
     timestamp: str
     errors_processed: int
@@ -120,7 +120,9 @@ class AIErrorFixer:
         # 2. Run flake8/pylint with JSON formatter
         # 3. Or use VS Code extension API to get Problems panel data
 
-        print("⚠️  Note: Using simulated error detection. In production, integrate with:")
+        print(
+            "⚠️  Note: Using simulated error detection. In production, integrate with:"
+        )
         print("   - markdownlint-cli --json")
         print("   - flake8 --format=json")
         print("   - pylint --output-format=json")
@@ -144,7 +146,7 @@ class AIErrorFixer:
             Tuple of (lines_before, error_line_content, lines_after)
         """
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
 
             # Convert to 0-indexed
@@ -157,7 +159,7 @@ class AIErrorFixer:
 
             before = [l.rstrip() for l in lines[start:idx]]
             current = lines[idx].rstrip()
-            after = [l.rstrip() for l in lines[idx+1:end]]
+            after = [l.rstrip() for l in lines[idx + 1 : end]]
 
             return before, current, after
 
@@ -220,7 +222,7 @@ CORRECTED LINE:"""
             return True
 
         try:
-            with open(error.file_path, 'r', encoding='utf-8') as f:
+            with open(error.file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
 
             # Replace the line (1-indexed to 0-indexed)
@@ -229,15 +231,15 @@ CORRECTED LINE:"""
                 return False
 
             # Handle multiline fixes (e.g., adding blank lines)
-            if '\n' in fixed_line:
+            if "\n" in fixed_line:
                 # Split and replace with multiple lines
-                new_lines = fixed_line.split('\n')
-                lines = lines[:idx] + [l + '\n' for l in new_lines] + lines[idx+1:]
+                new_lines = fixed_line.split("\n")
+                lines = lines[:idx] + [l + "\n" for l in new_lines] + lines[idx + 1 :]
             else:
-                lines[idx] = fixed_line + '\n'
+                lines[idx] = fixed_line + "\n"
 
             # Write back
-            with open(error.file_path, 'w', encoding='utf-8', newline='\n') as f:
+            with open(error.file_path, "w", encoding="utf-8", newline="\n") as f:
                 f.writelines(lines)
 
             return True
@@ -256,10 +258,10 @@ CORRECTED LINE:"""
             ErrorInfo with fix attempt results
         """
         # Extract error information
-        file_path = error_dict.get('file', '')
-        line_num = error_dict.get('line', 0)
-        error_code = error_dict.get('code', 'UNKNOWN')
-        error_msg = error_dict.get('message', '')
+        file_path = error_dict.get("file", "")
+        line_num = error_dict.get("line", 0)
+        error_code = error_dict.get("code", "UNKNOWN")
+        error_msg = error_dict.get("message", "")
 
         # Read context
         before, current, after = self.read_file_context(file_path, line_num)
@@ -359,23 +361,23 @@ CORRECTED LINE:"""
     def save_checkpoint(self):
         """Save current progress to checkpoint file."""
         checkpoint = {
-            'timestamp': datetime.now().isoformat(),
-            'model': self.model_name,
-            'total_processed': self.total_processed,
-            'total_fixed': self.total_fixed,
-            'batch_count': len(self.batch_results),
-            'batches': [asdict(b) for b in self.batch_results],
+            "timestamp": datetime.now().isoformat(),
+            "model": self.model_name,
+            "total_processed": self.total_processed,
+            "total_fixed": self.total_fixed,
+            "batch_count": len(self.batch_results),
+            "batches": [asdict(b) for b in self.batch_results],
         }
 
-        with open(self.checkpoint_file, 'w', encoding='utf-8') as f:
+        with open(self.checkpoint_file, "w", encoding="utf-8") as f:
             json.dump(checkpoint, f, indent=2)
 
         print(f"💾 Checkpoint saved to {self.checkpoint_file}")
 
     def save_batch_log(self, result: BatchResult):
         """Append batch result to JSONL log file."""
-        with open(self.log_file, 'a', encoding='utf-8') as f:
-            f.write(json.dumps(asdict(result)) + '\n')
+        with open(self.log_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(asdict(result)) + "\n")
 
     def run(self, max_iterations: int = 100):
         """Run the error fixing loop.
@@ -383,15 +385,15 @@ CORRECTED LINE:"""
         Args:
             max_iterations: Maximum number of batches to process
         """
-        print("="*60)
+        print("=" * 60)
         print("🤖 AI-POWERED ERROR RESOLUTION SYSTEM")
-        print("="*60)
+        print("=" * 60)
         print(f"Model: {self.model_name}")
         print(f"Batch Size: {self.batch_size}")
         print(f"Dry Run: {self.dry_run}")
         print(f"Checkpoint: {self.checkpoint_file}")
         print(f"Log: {self.log_file}")
-        print("="*60)
+        print("=" * 60)
 
         iteration = 0
         while iteration < max_iterations:
@@ -409,7 +411,7 @@ CORRECTED LINE:"""
 
             # Process in batches
             batch_num = len(self.batch_results) + 1
-            batch_errors = errors[:self.batch_size]
+            batch_errors = errors[: self.batch_size]
 
             result = self.process_batch(batch_errors, batch_num)
             self.batch_results.append(result)
@@ -422,13 +424,13 @@ CORRECTED LINE:"""
 
             # Check if we're making progress
             if result.errors_fixed == 0:
-                print(f"\n⚠️  WARNING: No errors fixed in this batch.")
+                print("\n⚠️  WARNING: No errors fixed in this batch.")
                 print("   Consider trying a different model or manual review.")
 
                 # Ask if we should continue
                 if not self.dry_run:
                     response = input("\nContinue? (y/n): ")
-                    if response.lower() != 'y':
+                    if response.lower() != "y":
                         break
 
         # Final report
@@ -436,28 +438,38 @@ CORRECTED LINE:"""
 
     def print_final_report(self):
         """Print final summary report."""
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("📈 FINAL REPORT")
-        print("="*60)
+        print("=" * 60)
         print(f"Total Iterations: {len(self.batch_results)}")
         print(f"Total Errors Processed: {self.total_processed}")
         print(f"Total Errors Fixed: {self.total_fixed}")
-        print(f"Success Rate: {(self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0:.1f}%")
+        print(
+            f"Success Rate: {(self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0:.1f}%"
+        )
         print(f"Checkpoint: {self.checkpoint_file}")
         print(f"Log: {self.log_file}")
-        print("="*60)
+        print("=" * 60)
 
         # Save final report
         report_file = f"ai_fixer_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(report_file, 'w', encoding='utf-8') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'model': self.model_name,
-                'total_processed': self.total_processed,
-                'total_fixed': self.total_fixed,
-                'success_rate': (self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0,
-                'batches': len(self.batch_results),
-            }, f, indent=2)
+        with open(report_file, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "model": self.model_name,
+                    "total_processed": self.total_processed,
+                    "total_fixed": self.total_fixed,
+                    "success_rate": (
+                        (self.total_fixed / self.total_processed * 100)
+                        if self.total_processed > 0
+                        else 0
+                    ),
+                    "batches": len(self.batch_results),
+                },
+                f,
+                indent=2,
+            )
 
         print(f"\n📄 Report saved to {report_file}")
 
@@ -489,40 +501,40 @@ Examples:
     )
 
     parser.add_argument(
-        '--model',
-        default='local:phi4',
-        help='Model to use (default: local:phi4)',
+        "--model",
+        default="local:phi4",
+        help="Model to use (default: local:phi4)",
     )
     parser.add_argument(
-        '--batch-size',
+        "--batch-size",
         type=int,
         default=10,
-        help='Errors per batch (default: 10)',
+        help="Errors per batch (default: 10)",
     )
     parser.add_argument(
-        '--max-iterations',
+        "--max-iterations",
         type=int,
         default=100,
-        help='Maximum iterations (default: 100)',
+        help="Maximum iterations (default: 100)",
     )
     parser.add_argument(
-        '--checkpoint',
-        default='ai_fixer_checkpoint.json',
-        help='Checkpoint file (default: ai_fixer_checkpoint.json)',
+        "--checkpoint",
+        default="ai_fixer_checkpoint.json",
+        help="Checkpoint file (default: ai_fixer_checkpoint.json)",
     )
     parser.add_argument(
-        '--log',
-        default='ai_fixer_log.jsonl',
-        help='Log file (default: ai_fixer_log.jsonl)',
+        "--log",
+        default="ai_fixer_log.jsonl",
+        help="Log file (default: ai_fixer_log.jsonl)",
     )
     parser.add_argument(
-        '--dry-run',
-        action='store_true',
-        help='Don\'t modify files, just simulate',
+        "--dry-run",
+        action="store_true",
+        help="Don't modify files, just simulate",
     )
     parser.add_argument(
-        '--resume-from',
-        help='Resume from checkpoint file',
+        "--resume-from",
+        help="Resume from checkpoint file",
     )
 
     args = parser.parse_args()
@@ -546,5 +558,5 @@ Examples:
         sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
