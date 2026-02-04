@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
-import json
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -27,7 +27,9 @@ class DatasetRegistry:
         return loader(dataset_config)
 
     def _load_custom(self, dataset_config: Dict[str, Any]) -> List[DatasetItem]:
-        path = Path(dataset_config.get("path", self.base_dir / "datasets" / "custom.jsonl"))
+        path = Path(
+            dataset_config.get("path", self.base_dir / "datasets" / "custom.jsonl")
+        )
         if not path.exists():
             raise FileNotFoundError(f"Custom dataset not found: {path}")
         items: List[DatasetItem] = []
@@ -55,20 +57,41 @@ class DatasetRegistry:
     def _load_swe_bench(self, dataset_config: Dict[str, Any]) -> List[DatasetItem]:
         return self._load_huggingface(dataset_config, "princeton-nlp/SWE-bench", "test")
 
-    def _load_huggingface(self, dataset_config: Dict[str, Any], dataset_id: str, split: str) -> List[DatasetItem]:
+    def _load_huggingface(
+        self, dataset_config: Dict[str, Any], dataset_id: str, split: str
+    ) -> List[DatasetItem]:
         try:
             from datasets import load_dataset
         except ImportError as exc:
-            raise ImportError("datasets package required for Hugging Face datasets") from exc
+            raise ImportError(
+                "datasets package required for Hugging Face datasets"
+            ) from exc
 
-        ds = load_dataset(dataset_config.get("id", dataset_id), split=dataset_config.get("split", split))
+        ds = load_dataset(
+            dataset_config.get("id", dataset_id),
+            split=dataset_config.get("split", split),
+        )
         items: List[DatasetItem] = []
         for row in ds:
-            input_payload = {k: row.get(k) for k in row.keys() if k not in {"canonical_solution", "solution", "patch"}}
-            golden = row.get("canonical_solution") or row.get("solution") or row.get("patch") or ""
+            input_payload = {
+                k: row.get(k)
+                for k in row.keys()
+                if k not in {"canonical_solution", "solution", "patch"}
+            }
+            golden = (
+                row.get("canonical_solution")
+                or row.get("solution")
+                or row.get("patch")
+                or ""
+            )
             items.append(
                 DatasetItem(
-                    id=str(row.get("task_id") or row.get("id") or row.get("instance_id") or "unknown"),
+                    id=str(
+                        row.get("task_id")
+                        or row.get("id")
+                        or row.get("instance_id")
+                        or "unknown"
+                    ),
                     input=input_payload,
                     golden=golden,
                     metadata={"source": dataset_id},

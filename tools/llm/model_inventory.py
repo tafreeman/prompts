@@ -18,8 +18,6 @@ The returned dict is JSON-serializable.
 
 from __future__ import annotations
 
-from typing import Any, Optional
-
 import json
 import os
 import re
@@ -30,6 +28,7 @@ import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
+from typing import Any, Optional
 
 
 def _repo_root() -> Path:
@@ -64,7 +63,7 @@ def _load_dotenv(dotenv_path: Path) -> None:
         if not key or key in os.environ:
             continue
         # Strip optional quotes.
-        if (value.startswith("\"") and value.endswith("\"")) or (
+        if (value.startswith('"') and value.endswith('"')) or (
             value.startswith("'") and value.endswith("'")
         ):
             value = value[1:-1]
@@ -274,9 +273,7 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
         "models": gemini_models,
         "model_count": len(gemini_models),
         "error": gemini_error,
-        "notes": (
-            "Model IDs are the part after 'models/' in the Gemini list API"
-        ),
+        "notes": ("Model IDs are the part after 'models/' in the Gemini list API"),
     }
 
     # ---------------------------------------------------------------------
@@ -306,11 +303,13 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
     foundry_endpoint_hosts = []
     for ep in foundry_endpoints:
         host = _safe_hostname_from_url(ep)
-        foundry_endpoint_hosts.append({
-            "endpoint": ep,
-            "host": host,
-            "dns_resolves": _dns_resolves(host) if host else False,
-        })
+        foundry_endpoint_hosts.append(
+            {
+                "endpoint": ep,
+                "host": host,
+                "dns_resolves": _dns_resolves(host) if host else False,
+            }
+        )
 
     providers["azure_foundry"] = {
         "configured": foundry_api_key_present and bool(foundry_endpoints),
@@ -333,19 +332,20 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
             continue
 
         host = _safe_hostname_from_url(ep) if ep else None
-        azure_slots.append({
-            "slot": i,
-            "endpoint_present": bool(ep),
-            "api_key_present": bool(key),
-            "host": host,
-            "dns_resolves": _dns_resolves(host) if host else False,
-            "deployment": os.getenv(f"AZURE_OPENAI_DEPLOYMENT_{i}") or None,
-        })
+        azure_slots.append(
+            {
+                "slot": i,
+                "endpoint_present": bool(ep),
+                "api_key_present": bool(key),
+                "host": host,
+                "dns_resolves": _dns_resolves(host) if host else False,
+                "deployment": os.getenv(f"AZURE_OPENAI_DEPLOYMENT_{i}") or None,
+            }
+        )
 
     providers["azure_openai"] = {
         "configured": any(
-            s.get("endpoint_present") and s.get("api_key_present")
-            for s in azure_slots
+            s.get("endpoint_present") and s.get("api_key_present") for s in azure_slots
         ),
         "slots": azure_slots,
         "api_version": os.getenv("AZURE_OPENAI_API_VERSION") or None,
@@ -360,15 +360,17 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
     # ---------------------------------------------------------------------
     # 1) Ollama
     ollama_host = os.getenv("OLLAMA_HOST") or "http://localhost:11434"
-    providers["ollama"] = _probe_ollama(ollama_host) if active_probes else {
-        "configured": True,
-        "host": ollama_host,
-        "reachable": None,
-        "models": [],
-        "notes": (
-            "Set OLLAMA_HOST to override (default http://localhost:11434)."
-        ),
-    }
+    providers["ollama"] = (
+        _probe_ollama(ollama_host)
+        if active_probes
+        else {
+            "configured": True,
+            "host": ollama_host,
+            "reachable": None,
+            "models": [],
+            "notes": ("Set OLLAMA_HOST to override (default http://localhost:11434)."),
+        }
+    )
 
     # 2) Generic OpenAI-compatible server
     local_openai_base = (
@@ -403,9 +405,7 @@ def build_inventory(active_probes: bool = False) -> dict[str, Any]:
     # ---------------------------------------------------------------------
     # We do not attempt to import WinRT from Python here; instead we can
     # optionally ask the .NET bridge for info.
-    bridge_proj = (
-        root / "tools" / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
-    )
+    bridge_proj = root / "tools" / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
     dotnet_on_path = bool(shutil.which("dotnet"))
 
     windows_ai_info: dict[str, Any] = {
@@ -492,9 +492,7 @@ def format_inventory_summary(inv: dict[str, Any]) -> str:
     )
 
     ollama = p.get("ollama", {})
-    ollama_reachable = (
-        ollama.get("reachable") if isinstance(ollama, dict) else None
-    )
+    ollama_reachable = ollama.get("reachable") if isinstance(ollama, dict) else None
 
     windows_ai = p.get("windows_ai_phi_silica", {})
     windows_available = windows_ai.get("available")

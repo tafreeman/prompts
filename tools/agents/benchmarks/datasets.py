@@ -12,52 +12,56 @@ from typing import Any, Dict, List, Optional
 
 class BenchmarkType(Enum):
     """Types of coding benchmarks."""
+
     SOFTWARE_ENGINEERING = "software_engineering"  # End-to-end issue resolution
-    FUNCTION_LEVEL = "function_level"              # Single function completion
-    BASIC_PROGRAMMING = "basic_programming"        # Simple coding tasks
-    GOAL_ORIENTED = "goal_oriented"                # Real-world development goals
-    CUSTOM = "custom"                              # User-defined tasks
+    FUNCTION_LEVEL = "function_level"  # Single function completion
+    BASIC_PROGRAMMING = "basic_programming"  # Simple coding tasks
+    GOAL_ORIENTED = "goal_oriented"  # Real-world development goals
+    CUSTOM = "custom"  # User-defined tasks
 
 
 class DataSource(Enum):
     """Where benchmark data comes from."""
-    HUGGINGFACE = "huggingface"      # HuggingFace datasets
-    GITHUB = "github"                # GitHub repositories
-    LOCAL = "local"                  # Local JSON files
-    API = "api"                      # REST API endpoints
+
+    HUGGINGFACE = "huggingface"  # HuggingFace datasets
+    GITHUB = "github"  # GitHub repositories
+    LOCAL = "local"  # Local JSON files
+    API = "api"  # REST API endpoints
 
 
 @dataclass
 class BenchmarkDefinition:
-    """
-    Definition of a benchmark dataset.
-    
+    """Definition of a benchmark dataset.
+
     Only stores metadata - actual tasks are fetched on demand.
     """
-    id: str                                    # Unique identifier
-    name: str                                  # Display name
-    description: str                           # What this benchmark tests
-    benchmark_type: BenchmarkType              # Category
-    size: int                                  # Number of tasks (approximate)
-    
+
+    id: str  # Unique identifier
+    name: str  # Display name
+    description: str  # What this benchmark tests
+    benchmark_type: BenchmarkType  # Category
+    size: int  # Number of tasks (approximate)
+
     # Data source configuration
-    source: DataSource                         # Where to fetch from
-    source_url: str                            # URL/path to dataset
-    source_config: Dict[str, Any] = field(default_factory=dict)  # Source-specific config
-    
+    source: DataSource  # Where to fetch from
+    source_url: str  # URL/path to dataset
+    source_config: Dict[str, Any] = field(
+        default_factory=dict
+    )  # Source-specific config
+
     # Evaluation info
     metrics: List[str] = field(default_factory=list)  # How results are measured
-    evaluation_method: str = "pass@1"          # Default evaluation approach
-    
+    evaluation_method: str = "pass@1"  # Default evaluation approach
+
     # Metadata
-    paper_url: Optional[str] = None            # Research paper
-    leaderboard_url: Optional[str] = None      # Public leaderboard
-    license: str = "unknown"                   # Data license
-    citation: Optional[str] = None             # How to cite
-    
+    paper_url: Optional[str] = None  # Research paper
+    leaderboard_url: Optional[str] = None  # Public leaderboard
+    license: str = "unknown"  # Data license
+    citation: Optional[str] = None  # How to cite
+
     # Filtering options
     languages: List[str] = field(default_factory=lambda: ["python"])
-    difficulty_range: Optional[tuple] = None   # (min, max) if applicable
+    difficulty_range: Optional[tuple] = None  # (min, max) if applicable
     tags: List[str] = field(default_factory=list)
 
 
@@ -66,11 +70,9 @@ class BenchmarkDefinition:
 # =============================================================================
 
 BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
-    
     # -------------------------------------------------------------------------
     # SWE-bench Family - Software Engineering
     # -------------------------------------------------------------------------
-    
     "swe-bench": BenchmarkDefinition(
         id="swe-bench",
         name="SWE-bench",
@@ -92,7 +94,6 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["github", "issues", "patches", "real-world"],
     ),
-    
     "swe-bench-verified": BenchmarkDefinition(
         id="swe-bench-verified",
         name="SWE-bench Verified",
@@ -112,7 +113,6 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["github", "verified", "reliable"],
     ),
-    
     "swe-bench-lite": BenchmarkDefinition(
         id="swe-bench-lite",
         name="SWE-bench Lite",
@@ -132,11 +132,9 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["github", "lite", "fast"],
     ),
-    
     # -------------------------------------------------------------------------
     # HumanEval - Function-Level Coding
     # -------------------------------------------------------------------------
-    
     "humaneval": BenchmarkDefinition(
         id="humaneval",
         name="HumanEval",
@@ -157,7 +155,6 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["functions", "unit-tests", "canonical"],
     ),
-    
     "humaneval-plus": BenchmarkDefinition(
         id="humaneval-plus",
         name="HumanEval+",
@@ -176,11 +173,9 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["functions", "extended-tests", "rigorous"],
     ),
-    
     # -------------------------------------------------------------------------
     # MBPP - Basic Python Programming
     # -------------------------------------------------------------------------
-    
     "mbpp": BenchmarkDefinition(
         id="mbpp",
         name="MBPP",
@@ -201,7 +196,6 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["basic", "entry-level", "crowd-sourced"],
     ),
-    
     "mbpp-sanitized": BenchmarkDefinition(
         id="mbpp-sanitized",
         name="MBPP Sanitized",
@@ -221,11 +215,9 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python"],
         tags=["basic", "sanitized", "verified"],
     ),
-    
     # -------------------------------------------------------------------------
     # CodeClash - Goal-Oriented Development (Newer)
     # -------------------------------------------------------------------------
-    
     "codeclash": BenchmarkDefinition(
         id="codeclash",
         name="CodeClash",
@@ -244,11 +236,9 @@ BENCHMARK_DEFINITIONS: Dict[str, BenchmarkDefinition] = {
         languages=["python", "javascript", "typescript"],
         tags=["goals", "real-world", "multi-file"],
     ),
-    
     # -------------------------------------------------------------------------
     # Custom/Local Benchmarks
     # -------------------------------------------------------------------------
-    
     "custom-local": BenchmarkDefinition(
         id="custom-local",
         name="Custom Local Tasks",
@@ -278,13 +268,12 @@ def list_benchmarks(
     benchmark_type: Optional[BenchmarkType] = None,
     language: Optional[str] = None,
 ) -> Dict[str, BenchmarkDefinition]:
-    """
-    List available benchmarks with optional filtering.
-    
+    """List available benchmarks with optional filtering.
+
     Args:
         benchmark_type: Filter by type (e.g., SOFTWARE_ENGINEERING)
         language: Filter by supported language
-        
+
     Returns:
         Dict of matching benchmarks
     """

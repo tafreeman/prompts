@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
-import json
 
 
 def _now() -> str:
@@ -28,40 +28,68 @@ class VerboseLogger:
     events: List[LogEvent] = field(default_factory=list)
     _next_id: int = 1
 
-    def _emit(self, event_type: str, data: Dict[str, Any], parent_id: Optional[int] = None) -> int:
+    def _emit(
+        self, event_type: str, data: Dict[str, Any], parent_id: Optional[int] = None
+    ) -> int:
         event_id = self._next_id
         self._next_id += 1
         self.events.append(LogEvent(event_type, _now(), data, event_id, parent_id))
         return event_id
 
-    def log_workflow_start(self, name: str, meta: Optional[Dict[str, Any]] = None) -> int:
+    def log_workflow_start(
+        self, name: str, meta: Optional[Dict[str, Any]] = None
+    ) -> int:
         return self._emit("workflow.start", {"name": name, "meta": meta or {}})
 
-    def log_workflow_complete(self, workflow_id: int, status: str, summary: Dict[str, Any]) -> None:
-        self._emit("workflow.complete", {"status": status, "summary": summary}, parent_id=workflow_id)
+    def log_workflow_complete(
+        self, workflow_id: int, status: str, summary: Dict[str, Any]
+    ) -> None:
+        self._emit(
+            "workflow.complete",
+            {"status": status, "summary": summary},
+            parent_id=workflow_id,
+        )
 
-    def log_step_start(self, workflow_id: int, name: str, meta: Optional[Dict[str, Any]] = None) -> int:
-        return self._emit("step.start", {"name": name, "meta": meta or {}}, parent_id=workflow_id)
+    def log_step_start(
+        self, workflow_id: int, name: str, meta: Optional[Dict[str, Any]] = None
+    ) -> int:
+        return self._emit(
+            "step.start", {"name": name, "meta": meta or {}}, parent_id=workflow_id
+        )
 
-    def log_step_complete(self, step_id: int, status: str, summary: Dict[str, Any]) -> None:
-        self._emit("step.complete", {"status": status, "summary": summary}, parent_id=step_id)
+    def log_step_complete(
+        self, step_id: int, status: str, summary: Dict[str, Any]
+    ) -> None:
+        self._emit(
+            "step.complete", {"status": status, "summary": summary}, parent_id=step_id
+        )
 
     def log_agent_start(self, step_id: int, agent_name: str, model_id: str) -> int:
-        return self._emit("agent.start", {"agent": agent_name, "model": model_id}, parent_id=step_id)
+        return self._emit(
+            "agent.start", {"agent": agent_name, "model": model_id}, parent_id=step_id
+        )
 
-    def log_agent_output(self, agent_id: int, output: str, meta: Optional[Dict[str, Any]] = None) -> None:
+    def log_agent_output(
+        self, agent_id: int, output: str, meta: Optional[Dict[str, Any]] = None
+    ) -> None:
         payload = {"output": output, "meta": meta or {}}
         self._emit("agent.output", payload, parent_id=agent_id)
 
-    def log_model_call(self, agent_id: int, prompt: str, parameters: Dict[str, Any]) -> int:
+    def log_model_call(
+        self, agent_id: int, prompt: str, parameters: Dict[str, Any]
+    ) -> int:
         payload = {"prompt": prompt, "parameters": parameters}
         return self._emit("model.call", payload, parent_id=agent_id)
 
-    def log_model_response(self, model_call_id: int, response: str, meta: Optional[Dict[str, Any]] = None) -> None:
+    def log_model_response(
+        self, model_call_id: int, response: str, meta: Optional[Dict[str, Any]] = None
+    ) -> None:
         payload = {"response": response, "meta": meta or {}}
         self._emit("model.response", payload, parent_id=model_call_id)
 
-    def log_tool_invocation(self, step_id: int, tool_name: str, args: Dict[str, Any], result: Any) -> None:
+    def log_tool_invocation(
+        self, step_id: int, tool_name: str, args: Dict[str, Any], result: Any
+    ) -> None:
         payload = {"tool": tool_name, "args": args, "result": result}
         self._emit("tool.call", payload, parent_id=step_id)
 

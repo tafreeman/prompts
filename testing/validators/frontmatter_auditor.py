@@ -1,5 +1,4 @@
-"""
-Frontmatter auditor and refactor tool for prompt markdown files.
+"""Frontmatter auditor and refactor tool for prompt markdown files.
 
 Features:
 - Parse YAML frontmatter.
@@ -20,7 +19,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import yaml
-
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -50,7 +48,16 @@ RECOMMENDED_FIELDS: List[str] = [
 LIST_FIELDS: List[str] = ["audience", "platforms", "topics", "governance_tags"]
 
 ENUM_FIELDS = {
-    "type": ["how_to", "template", "reference", "guide", "playbook", "prompt", "tutorial", "conceptual"],
+    "type": [
+        "how_to",
+        "template",
+        "reference",
+        "guide",
+        "playbook",
+        "prompt",
+        "tutorial",
+        "conceptual",
+    ],
     "difficulty": ["beginner", "intermediate", "advanced"],
     "reviewStatus": ["draft", "in-review", "approved"],
 }
@@ -175,6 +182,7 @@ def _normalize_list(value: Any) -> List[Any]:
 
 def _normalize_date(value: Any) -> Tuple[str | Any, bool]:
     from datetime import date
+
     if isinstance(value, datetime):
         return value.strftime("%Y-%m-%d"), True
     if isinstance(value, date):
@@ -211,7 +219,9 @@ def _normalize_platforms(values: List[Any]) -> Tuple[List[Any], List[str]]:
 # ---------------------------------------------------------------------------
 
 
-def validate_frontmatter_dict(fm: Dict[str, Any]) -> Tuple[List[ValidationIssue], List[ValidationIssue]]:
+def validate_frontmatter_dict(
+    fm: Dict[str, Any],
+) -> Tuple[List[ValidationIssue], List[ValidationIssue]]:
     errors: List[ValidationIssue] = []
     warnings: List[ValidationIssue] = []
 
@@ -224,23 +234,35 @@ def validate_frontmatter_dict(fm: Dict[str, Any]) -> Tuple[List[ValidationIssue]
 
         if field in LIST_FIELDS:
             if not isinstance(value, list) or len(value) == 0:
-                errors.append(ValidationIssue(f"Field '{field}' must be a non-empty list", field))
+                errors.append(
+                    ValidationIssue(f"Field '{field}' must be a non-empty list", field)
+                )
         elif field == "date":
             normalized, ok = _normalize_date(value)
             if not ok:
                 errors.append(ValidationIssue("date must be YYYY-MM-DD", field))
         else:
             if value is None or (isinstance(value, str) and not value.strip()):
-                errors.append(ValidationIssue(f"Field '{field}' must be non-empty", field))
+                errors.append(
+                    ValidationIssue(f"Field '{field}' must be non-empty", field)
+                )
 
         if field in ENUM_FIELDS:
             normalized, ok = _normalize_enum(fm[field], ENUM_FIELDS[field])
             if not ok:
-                errors.append(ValidationIssue(f"Field '{field}' has invalid value: {fm[field]}", field))
+                errors.append(
+                    ValidationIssue(
+                        f"Field '{field}' has invalid value: {fm[field]}", field
+                    )
+                )
 
     for field in RECOMMENDED_FIELDS:
         if field not in fm:
-            warnings.append(ValidationIssue(f"Missing recommended field: {field}", field, level="warning"))
+            warnings.append(
+                ValidationIssue(
+                    f"Missing recommended field: {field}", field, level="warning"
+                )
+            )
 
     return errors, warnings
 
@@ -260,13 +282,17 @@ def autofix_frontmatter(fm: Dict[str, Any]) -> Tuple[Dict[str, Any], List[str]]:
             if field in LIST_FIELDS:
                 fm[field] = DEFAULT_LIST_VALUES.get(field, ["TODO"])
             else:
-                fm[field] = DEFAULT_SCALAR_VALUES.get(field, PLACEHOLDERS.get(field, ""))
+                fm[field] = DEFAULT_SCALAR_VALUES.get(
+                    field, PLACEHOLDERS.get(field, "")
+                )
             fixes.append(f"added missing field '{field}'")
 
     # Add recommended defaults if absent
     for field in RECOMMENDED_FIELDS:
         if field not in fm:
-            fm[field] = PLACEHOLDERS.get(field, 0.0 if field == "effectivenessScore" else [])
+            fm[field] = PLACEHOLDERS.get(
+                field, 0.0 if field == "effectivenessScore" else []
+            )
             fixes.append(f"added recommended field '{field}'")
 
     # Normalize lists
@@ -372,7 +398,11 @@ def run_cli(argv: List[str] | None = None) -> int:
     results: List[ValidationResult] = []
 
     for f in files:
-        res = autofix_frontmatter_file(f, write=args.fix) if args.fix else validate_frontmatter_file(f)
+        res = (
+            autofix_frontmatter_file(f, write=args.fix)
+            if args.fix
+            else validate_frontmatter_file(f)
+        )
         results.append(res)
         if not args.quiet and args.format == "text":
             print(f"{res.status.upper():<6} {f}")

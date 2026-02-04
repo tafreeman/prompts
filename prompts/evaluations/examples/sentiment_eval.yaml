@@ -1,0 +1,12 @@
+description: Sample eval for sentiment classification (POC)
+output: prompts/evaluations/examples/sentiment_eval_results.json
+items:
+  - id: 1
+    prompt: "The movie was excellent and I enjoyed every minute."
+    label: positive
+  - id: 2
+    prompt: "I found the plot dull and the acting unconvincing."
+    label: negative
+  - id: 3
+    prompt: "Service was slow but the food was good."
+    label: positive

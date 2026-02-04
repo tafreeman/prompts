@@ -6,9 +6,10 @@ Provides a minimal interface compatible with various LangChain versions so
 The adapter tries to construct real `langchain.schema` objects when the
 library is available; otherwise it returns simple, duck-typed structures.
 """
+
 from __future__ import annotations
 
-from typing import List, Any, Optional
+from typing import Any, List
 
 from tools.llm.llm_client import LLMClient
 
@@ -29,10 +30,13 @@ class LangChainAdapter:
         return self.predict(prompt, **kwargs)
 
     def predict(self, prompt: str, **kwargs) -> str:
-        return LLMClient.generate_text(self.model_name, prompt,
-                                       system_instruction=kwargs.get("system"),
-                                       temperature=kwargs.get("temperature", 0.7),
-                                       max_tokens=kwargs.get("max_tokens", 1024))
+        return LLMClient.generate_text(
+            self.model_name,
+            prompt,
+            system_instruction=kwargs.get("system"),
+            temperature=kwargs.get("temperature", 0.7),
+            max_tokens=kwargs.get("max_tokens", 1024),
+        )
 
     def generate(self, prompts: List[str], **kwargs) -> Any:
         """Return a LangChain-compatible result for a list of prompts.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tools.windows_ai
+"""tools.windows_ai.
 
 Windows AI (Phi Silica) Integration
 ===================================
@@ -28,11 +28,10 @@ Docs:
 """
 
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Optional, Dict, Any, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 
 class WindowsAIModel:
@@ -44,7 +43,7 @@ class WindowsAIModel:
 
     def _check_availability(self) -> bool:
         """Check if Phi Silica is available via the bridge."""
-        if sys.platform != 'win32':
+        if sys.platform != "win32":
             raise OSError("Windows AI APIs are only available on Windows")
 
         info, _ = get_phi_silica_bridge_info(timeout_s=60)
@@ -61,10 +60,9 @@ class WindowsAIModel:
         prompt: str,
         system_instruction: Optional[str] = None,
         temperature: float = 0.7,
-        max_tokens: int = 2000
+        max_tokens: int = 2000,
     ) -> str:
-        """
-        Generate text using Phi Silica SLM.
+        """Generate text using Phi Silica SLM.
 
         Args:
             prompt: The input prompt
@@ -90,9 +88,7 @@ class WindowsAIModel:
 
             # Call Phi Silica
             response = self._call_phi_silica(
-                full_prompt,
-                temperature=temperature,
-                max_tokens=max_tokens
+                full_prompt, temperature=temperature, max_tokens=max_tokens
             )
 
             return response
@@ -101,16 +97,12 @@ class WindowsAIModel:
             return f"[ERROR] Windows AI API error: {str(e)}"
 
     def _call_phi_silica(
-        self,
-        prompt: str,
-        temperature: float = 0.7,
-        max_tokens: int = 2000
+        self, prompt: str, temperature: float = 0.7, max_tokens: int = 2000
     ) -> str:
-        """
-        Call Phi Silica model via C# bridge.
+        """Call Phi Silica model via C# bridge.
 
-        Uses subprocess to call the PhiSilicaBridge C# application
-        which has access to Windows App SDK AI APIs.
+        Uses subprocess to call the PhiSilicaBridge C# application which
+        has access to Windows App SDK AI APIs.
         """
         # Find the C# bridge
         bridge_dir = Path(__file__).parent / "windows_ai_bridge"
@@ -129,7 +121,7 @@ class WindowsAIModel:
                 capture_output=True,
                 text=True,
                 timeout=120,
-                cwd=str(bridge_dir)
+                cwd=str(bridge_dir),
             )
 
             if result.returncode == 0:
@@ -176,6 +168,7 @@ def get_model_info() -> Dict[str, Any]:
 
 def _which(cmd: str) -> Optional[str]:
     import shutil
+
     return shutil.which(cmd)
 
 
@@ -224,7 +217,10 @@ def get_phi_silica_bridge_info(timeout_s: int = 60) -> Tuple[Dict[str, Any], str
             "bridge_exit_code": r.returncode,
         }, stdout
     except subprocess.TimeoutExpired:
-        return {"available": False, "error": f"Bridge --info timed out after {timeout_s}s"}, ""
+        return {
+            "available": False,
+            "error": f"Bridge --info timed out after {timeout_s}s",
+        }, ""
     except Exception as e:
         return {"available": False, "error": str(e)}, ""
 
@@ -234,19 +230,24 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Test Windows AI APIs (Phi Silica)",
-        epilog="Example: python windows_ai.py -p 'Explain quantum computing in simple terms'"
+        epilog="Example: python windows_ai.py -p 'Explain quantum computing in simple terms'",
     )
-    parser.add_argument("-p", "--prompt", default="Hello, what is AI?",
-                        help="Prompt to send to Phi Silica")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="Verbose output")
-    parser.add_argument("--info", action="store_true",
-                        help="Show model availability info")
+    parser.add_argument(
+        "-p",
+        "--prompt",
+        default="Hello, what is AI?",
+        help="Prompt to send to Phi Silica",
+    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
+    parser.add_argument(
+        "--info", action="store_true", help="Show model availability info"
+    )
 
     args = parser.parse_args()
 
     if args.info:
         import json
+
         info = get_model_info()
         print(json.dumps(info, indent=2))
         sys.exit(0)
@@ -254,11 +255,11 @@ if __name__ == "__main__":
     try:
         model = WindowsAIModel(verbose=args.verbose)
         response = model.generate(args.prompt)
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("RESPONSE FROM PHI SILICA (Windows AI)")
-        print("="*60)
+        print("=" * 60)
         print(response)
-        print("="*60)
+        print("=" * 60)
 
     except Exception as e:
         print(f"[ERROR] Error: {e}")

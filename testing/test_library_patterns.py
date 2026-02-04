@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Test pattern evaluation using actual prompts from the library.
+"""Test pattern evaluation using actual prompts from the library.
 
 This script demonstrates the pattern evaluation system by:
 1. Loading real prompts from prompts/advanced/
@@ -14,22 +13,15 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tools.prompteval.parser import (
-    parse_output,
-    detect_pattern,
-    load_pattern_definition,
-    get_available_patterns,
-)
-from tools.prompteval.failures import FailureMode, PatternFailureSummary
+from tools.prompteval.parse_utils import parse_frontmatter
+from tools.prompteval.parser import detect_pattern, get_available_patterns, parse_output
 from tools.prompteval.pattern_evaluator import (
-    load_scoring_schema,
-    get_dimension_config,
+    DimensionScore,
     PatternScore,
     SingleRunResult,
-    DimensionScore,
+    get_dimension_config,
+    load_scoring_schema,
 )
-from tools.prompteval.parse_utils import parse_frontmatter
-
 
 # =============================================================================
 # SAMPLE MODEL OUTPUTS (simulating what an LLM would produce)
@@ -253,19 +245,20 @@ Final: Python is indeed great.
 # TEST FUNCTIONS
 # =============================================================================
 
+
 def test_pattern_detection():
     """Test automatic pattern detection."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Testing Pattern Detection")
-    print("="*60)
-    
+    print("=" * 60)
+
     test_cases = [
         ("ReAct output", REACT_SAMPLE_OUTPUT, "react"),
         ("CoVe output", COVE_SAMPLE_OUTPUT, "cove"),
         ("Reflexion output", REFLEXION_SAMPLE_OUTPUT, "reflexion"),
         ("RAG output", RAG_SAMPLE_OUTPUT, "rag"),
     ]
-    
+
     for name, output, expected in test_cases:
         detected = detect_pattern(output)
         status = "✓" if detected == expected else "✗"
@@ -274,10 +267,10 @@ def test_pattern_detection():
 
 def test_parser_with_library_patterns():
     """Test parser against sample outputs."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Testing Parser with Sample Outputs")
-    print("="*60)
-    
+    print("=" * 60)
+
     test_cases = [
         ("ReAct", REACT_SAMPLE_OUTPUT, "react"),
         ("CoVe", COVE_SAMPLE_OUTPUT, "cove"),
@@ -286,79 +279,79 @@ def test_parser_with_library_patterns():
         ("Incomplete ReAct", INCOMPLETE_REACT, "react"),
         ("Malformed CoVe", MALFORMED_COVE, "cove"),
     ]
-    
+
     for name, output, pattern in test_cases:
         print(f"\n--- {name} ({pattern}) ---")
         result = parse_output(output, pattern)
-        
+
         print(f"  Phases found: {len(result.phases)}")
         for p in result.phases:
             print(f"    - {p.type} (lines {p.line_start}-{p.line_end})")
-        
+
         print(f"  Valid: {result.is_valid}")
         print(f"  Ordering valid: {result.ordering_valid}")
-        
+
         if result.missing_phases:
             print(f"  Missing phases: {result.missing_phases}")
         if result.leakage_detected:
-            print(f"  Leakage detected: Yes")
+            print("  Leakage detected: Yes")
         if result.parse_errors:
             print(f"  Parse errors: {result.parse_errors[:2]}")
 
 
 def test_scoring_schema():
     """Test scoring schema loading and dimension configuration."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Testing Scoring Schema")
-    print("="*60)
-    
+    print("=" * 60)
+
     schema = load_scoring_schema()
-    universal_dims = schema.get('universal_dimensions', {})
+    universal_dims = schema.get("universal_dimensions", {})
     print(f"\n  Universal dimensions: {len(universal_dims)}")
-    
+
     for name, dim in list(universal_dims.items())[:3]:
-        abbrev = dim.get('id', name[:3].upper())
-        weight = dim.get('weight', 1.0)
+        abbrev = dim.get("id", name[:3].upper())
+        weight = dim.get("weight", 1.0)
         print(f"    - {abbrev}: {name} (weight: {weight})")
-    
-    print(f"\n  Hard gates:")
-    for gate, threshold in schema.get('hard_gates', {}).items():
+
+    print("\n  Hard gates:")
+    for gate, threshold in schema.get("hard_gates", {}).items():
         print(f"    - {gate} >= {threshold}")
-    
-    print(f"\n  Pattern-specific dimensions:")
-    for pattern, dims in schema.get('pattern_specific', {}).items():
+
+    print("\n  Pattern-specific dimensions:")
+    for pattern, dims in schema.get("pattern_specific", {}).items():
         print(f"    - {pattern}: {len(dims)} dimensions")
 
 
 def test_with_library_prompts():
     """Test using actual prompts from the library."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Testing with Library Prompts")
-    print("="*60)
-    
+    print("=" * 60)
+
     prompts_dir = Path(__file__).parent.parent / "prompts" / "advanced"
-    
+
     pattern_prompts = [
         ("CoVe.md", "cove"),
         ("react-tool-augmented.md", "react"),
         ("reflection-self-critique.md", "reflexion"),
         ("rag-document-retrieval.md", "rag"),
     ]
-    
+
     for filename, expected_pattern in pattern_prompts:
         prompt_path = prompts_dir / filename
         if not prompt_path.exists():
             print(f"\n  ⚠ {filename}: Not found")
             continue
-        
+
         content = prompt_path.read_text(encoding="utf-8")
         fm = parse_frontmatter(content)
-        
+
         print(f"\n  📄 {filename}")
         print(f"     Title: {fm.get('title', 'N/A')}")
         print(f"     Category: {fm.get('category', fm.get('type', 'N/A'))}")
         print(f"     Tags: {fm.get('tags', [])[:3]}")
-        
+
         # Get scoring dimensions for this pattern
         dims = get_dimension_config(expected_pattern)
         print(f"     Scoring dimensions: {[d['abbreviation'] for d in dims[:4]]}")
@@ -366,34 +359,44 @@ def test_with_library_prompts():
 
 def test_simulated_scoring():
     """Simulate a full scoring run without LLM."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Simulated Pattern Scoring (no LLM)")
-    print("="*60)
-    
+    print("=" * 60)
+
     # Simulate a PatternScore for ReAct
     score = PatternScore(pattern_name="react")
-    
+
     # Add simulated runs
     for i in range(5):
         run = SingleRunResult(run_id=i)
         run.dimensions = {
-            "PIF": DimensionScore(name="Phase Identification Fidelity", abbreviation="PIF", score=4.0 + (i * 0.1)),
-            "POI": DimensionScore(name="Pattern Ordering Integrity", abbreviation="POI", score=4.5),
-            "PC": DimensionScore(name="Phase Completeness", abbreviation="PC", score=4.0),
-            "CA": DimensionScore(name="Constraint Adherence", abbreviation="CA", score=4.2),
+            "PIF": DimensionScore(
+                name="Phase Identification Fidelity",
+                abbreviation="PIF",
+                score=4.0 + (i * 0.1),
+            ),
+            "POI": DimensionScore(
+                name="Pattern Ordering Integrity", abbreviation="POI", score=4.5
+            ),
+            "PC": DimensionScore(
+                name="Phase Completeness", abbreviation="PC", score=4.0
+            ),
+            "CA": DimensionScore(
+                name="Constraint Adherence", abbreviation="CA", score=4.2
+            ),
         }
         run.failure_modes = []
         score.runs.append(run)
-    
+
     score.compute_aggregates()
-    
+
     print(f"\n  Pattern: {score.pattern_name}")
     print(f"  Runs: {len(score.runs)}")
     print(f"  Overall Score: {score.overall_score:.2f}/5.0")
     print(f"  Pass Rate: {score.pass_rate:.1%}")
     print(f"  Passes Hard Gates: {'✓' if score.passes_hard_gates else '✗'}")
-    
-    print(f"\n  Dimension Medians:")
+
+    print("\n  Dimension Medians:")
     for dim, median in score.dimension_medians.items():
         stdev = score.dimension_stdevs.get(dim, 0)
         print(f"    - {dim}: {median:.2f} (σ={stdev:.2f})")
@@ -401,24 +404,24 @@ def test_simulated_scoring():
 
 def main():
     """Run all tests."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print(" PATTERN EVALUATION - LIBRARY TEST ")
-    print("="*60)
-    
+    print("=" * 60)
+
     # Check available patterns
     patterns = get_available_patterns()
     print(f"\nAvailable patterns: {patterns}")
-    
+
     # Run tests
     test_pattern_detection()
     test_parser_with_library_patterns()
     test_scoring_schema()
     test_with_library_prompts()
     test_simulated_scoring()
-    
-    print("\n" + "="*60)
+
+    print("\n" + "=" * 60)
     print(" ALL TESTS COMPLETE ")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentic-workflows-v2"
+version = "0.1.0"
+description = "Tier-based multi-model AI workflow orchestration"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "pydantic>=2.0",
+    "httpx>=0.25",
+    "jinja2>=3.0",
+    "jmespath>=1.0",
+    "pyyaml>=6.0",
+    "aiofiles>=23.0",
+    "aiohttp>=3.9",
+    "typer>=0.9",
+    "rich>=13.0",
+]
+
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "pytest-cov>=4.0",
+]
+server = [
+    "fastapi>=0.100",
+    "uvicorn>=0.23",
+]
+
+[project.scripts]
+agentic = "agentic_v2.cli:main"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentic_v2"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

@@ -1,1929 +1,332 @@
-# Scoring Rubrics for Multi-Agent Workflow Evaluation
-# Each workflow has specific grading criteria with 1-10 numeric scores
-
-version: "1.0.0"
-
-# Score level descriptions (used across all rubrics)
-# Each criterion is scored 1-10 with the following standard interpretation:
-score_scale:
-  10: "Exceptional - Exceeds all expectations, could serve as reference example"
-  9: "Excellent - Meets all requirements with high quality, minor polish only"
-  8: "Very Good - Fully meets requirements with good quality"
-  7: "Good - Meets most requirements satisfactorily"
-  6: "Satisfactory - Meets minimum requirements"
-  5: "Adequate - Barely acceptable, notable gaps"
-  4: "Below Average - Missing important elements"
-  3: "Poor - Significant deficiencies"
-  2: "Very Poor - Major failures, mostly non-functional"
-  1: "Unacceptable - Does not meet any requirements"
-
 rubrics:
-  # ==========================================================================
-  # Full-Stack Generation Rubric
-  # ==========================================================================
+  # ===========================================================================
+  # 1. Full-Stack Generation Scoring
+  # ===========================================================================
   fullstack_generation:
-    name: Full-Stack Application Generation Rubric
-    total_points: 100
     pass_threshold: 70
-    
+    max_score: 100
     categories:
-      functional_correctness:
-        weight: 40
-        description: Application meets requirements and works correctly
-        criteria:
-          - name: Requirements Coverage
-            max_points: 15
-            description: All functional requirements implemented
-            score_levels:
-              10: "100% of requirements implemented with edge cases and error handling"
-              9: "100% of requirements implemented"
-              8: "95%+ requirements implemented"
-              7: "90%+ requirements implemented"
-              6: "85%+ requirements implemented"
-              5: "80%+ requirements implemented"
-              4: "75%+ requirements implemented"
-              3: "60-74% requirements implemented"
-              2: "40-59% requirements implemented"
-              1: "<40% requirements implemented"
-              
-          - name: Working Application
-            max_points: 15
-            description: Application runs without errors
-            score_levels:
-              10: "Runs perfectly, all features work, production-ready"
-              9: "Runs perfectly, all features work"
-              8: "Runs with cosmetic issues only"
-              7: "Runs with minor non-blocking issues"
-              6: "Runs but some features have issues"
-              5: "Runs but multiple features broken"
-              4: "Runs with significant bugs"
-              3: "Starts but crashes under normal use"
-              2: "Crashes on startup with workaround available"
-              1: "Does not start or immediately crashes"
-              
-          - name: Test Pass Rate
-            max_points: 10
-            description: Generated tests pass successfully
-            score_levels:
-              10: "100% tests pass with good coverage (>90%)"
-              9: "100% tests pass with decent coverage (80-90%)"
-              8: "95%+ tests pass"
-              7: "90%+ tests pass"
-              6: "85%+ tests pass"
-              5: "80%+ tests pass"
-              4: "70-79% tests pass"
-              3: "50-69% tests pass"
-              2: "25-49% tests pass"
-              1: "<25% tests pass or no tests generated"
-              
-      code_quality:
-        weight: 25
-        description: Code follows best practices
-        criteria:
-          - name: Architecture Quality
-            max_points: 8
-            description: Clean architecture and separation of concerns
-            score_levels:
-              10: "Exemplary architecture, clear layers, excellent patterns"
-              9: "Excellent separation of concerns, good patterns"
-              8: "Clear architecture with minor improvements possible"
-              7: "Good structure, some coupling issues"
-              6: "Reasonable structure, notable coupling"
-              5: "Basic structure present but inconsistent"
-              4: "Weak separation, mixed concerns"
-              3: "Poor structure, significant coupling"
-              2: "No clear architecture, spaghetti code"
-              1: "Completely unstructured, unmaintainable"
-              
-          - name: Code Standards
-            max_points: 7
-            description: Follows language best practices and conventions
-            score_levels:
-              10: "Perfect adherence to language idioms and standards"
-              9: "Excellent standards with consistent style"
-              8: "Good standards with minor deviations"
-              7: "Mostly follows standards"
-              6: "Follows basic standards"
-              5: "Inconsistent adherence to standards"
-              4: "Many deviations from standards"
-              3: "Poor adherence, anti-patterns present"
-              2: "Ignores most standards"
-              1: "No adherence to any standards"
-              
-          - name: Error Handling
-            max_points: 5
-            description: Proper error handling and validation
-            score_levels:
-              10: "Comprehensive error handling with recovery and logging"
-              9: "Excellent error handling throughout"
-              8: "Good error handling in most places"
-              7: "Reasonable error handling"
-              6: "Basic error handling present"
-              5: "Minimal error handling"
-              4: "Error handling only in obvious places"
-              3: "Very limited error handling"
-              2: "Almost no error handling"
-              1: "No error handling, crashes on any error"
-              
-          - name: Security
-            max_points: 5
-            description: No critical security vulnerabilities
-            score_levels:
-              10: "Security-first design, follows all OWASP guidelines"
-              9: "Excellent security, no known vulnerabilities"
-              8: "Good security, only minor issues"
-              7: "Reasonable security practices"
-              6: "Basic security measures in place"
-              5: "Some security measures but gaps exist"
-              4: "Notable security gaps"
-              3: "Multiple security issues"
-              2: "Critical security vulnerabilities present"
-              1: "No security considerations, highly vulnerable"
-              
+      correctness:
+        weight: 0.4
+        description: "Functional correctness and requirement satisfaction"
+        scale: [0, 10]
+        rubric:
+          10: "Absolute perfection: All requirements met, zero bugs, handles all edge cases, perfect UI/UX."
+          9: "Excellent: All core requirements met, 1 minor aesthetic issue or trivial bug."
+          8: "Very Good: Functional, 1-2 minor bugs, good UX."
+          7: "Good: Core features work, some edge cases fail, acceptable UX."
+          6: "Adequate: Main path works, several bugs or UI glitches."
+          5: "Fair: Significant bugs but core function demonstrable."
+          3: "Poor: Major features broken, poor UX, frequent errors."
+          1: "Extremely Poor: Barely functions, crashes immediately."
+          0: "Does not build or run."
+
+      quality:
+        weight: 0.3
+        description: "Code quality, architecture, and standards"
+        scale: [0, 10]
+        rubric:
+          10: "World-class: Perfect patterns, separation of concerns, highly scalable, zero lint errors."
+          9: "Excellent: Clean code, good architecture, idiomatic usage."
+          8: "Very Good: Solid structure, minor style inconsistencies."
+          7: "Good: Maintainable, standard structure, some complexity."
+          6: "Adequate: Functional but messy in parts, some tight coupling."
+          5: "Fair: Poor separation of concerns, hard to read."
+          3: "Poor: Spaghetti code, large functions, no structure."
+          1: "Extremely Poor: Unmaintainable, anti-patterns everywhere."
+          0: "Unreadable or obfuscated."
+
+      documentation:
+        weight: 0.2
+        description: "Documentation quality and completeness"
+        scale: [0, 10]
+        rubric:
+          10: "Perfect: Comprehensive README, API docs, setup guide, architecture diagrams."
+          8: "Very Good: Clear README and setup, good inline comments."
+          6: "Adequate: Basic README, sparse comments."
+          4: "Below Average: Missing setup steps, unclear instructions."
+          2: "Very Poor: Almost no documentation."
+          0: "No documentation."
+
       completeness:
-        weight: 20
-        description: All required components present
-        criteria:
-          - name: Frontend Complete
-            max_points: 7
-            description: All UI components generated and styled
-            score_levels:
-              10: "Complete, polished UI with responsive design and accessibility"
-              9: "Complete UI with good styling and responsiveness"
-              8: "All components present with good styling"
-              7: "All core components present, styling complete"
-              6: "Most components present, basic styling"
-              5: "Core components present, minimal styling"
-              4: "Missing some components"
-              3: "Several components missing"
-              2: "Most components missing"
-              1: "No frontend or completely broken"
-              
-          - name: Backend Complete
-            max_points: 7
-            description: All API endpoints and business logic
-            score_levels:
-              10: "Complete API with validation, pagination, filtering"
-              9: "All endpoints with proper error responses"
-              8: "All required endpoints implemented"
-              7: "Core endpoints work properly"
-              6: "Most endpoints present"
-              5: "Basic endpoints only"
-              4: "Missing important endpoints"
-              3: "Several endpoints missing"
-              2: "Only placeholder endpoints"
-              1: "No backend or completely broken"
-              
-          - name: Database Complete
-            max_points: 6
-            description: Schema, migrations, and models
-            score_levels:
-              10: "Complete schema with indexes, constraints, migrations, seeds"
-              9: "Complete schema with migrations"
-              8: "Good schema design with relationships"
-              7: "Working schema with proper types"
-              6: "Basic schema present"
-              5: "Minimal schema"
-              4: "Incomplete schema"
-              3: "Schema with major issues"
-              2: "Barely functional schema"
-              1: "No database or completely broken"
-              
-      documentation:
-        weight: 10
-        description: Comprehensive documentation
-        criteria:
-          - name: API Documentation
-            max_points: 4
-            description: Complete API documentation
-            score_levels:
-              10: "Full OpenAPI spec with examples and error codes"
-              9: "Complete API docs with examples"
-              8: "Good API documentation"
-              7: "All endpoints documented"
-              6: "Most endpoints documented"
-              5: "Basic endpoint list"
-              4: "Partial documentation"
-              3: "Minimal documentation"
-              2: "Almost no documentation"
-              1: "No API documentation"
-              
-          - name: Setup Guide
-            max_points: 3
-            description: Clear setup and deployment instructions
-            score_levels:
-              10: "Complete guide with troubleshooting and deployment"
-              9: "Clear step-by-step with prerequisites"
-              8: "Good setup instructions"
-              7: "Working setup guide"
-              6: "Basic setup steps"
-              5: "Minimal setup info"
-              4: "Incomplete instructions"
-              3: "Confusing instructions"
-              2: "Barely helpful"
-              1: "No setup guide"
-              
-          - name: Code Comments
-            max_points: 3
-            description: Appropriate inline documentation
-            score_levels:
-              10: "Excellent docstrings and helpful inline comments"
-              9: "Good docstrings throughout"
-              8: "Most functions documented"
-              7: "Key functions have docstrings"
-              6: "Some documentation present"
-              5: "Minimal comments"
-              4: "Few comments"
-              3: "Rare comments"
-              2: "Almost no comments"
-              1: "No comments at all"
-              
-      efficiency:
-        weight: 5
-        description: Time and resource efficiency
-        criteria:
-          - name: Generation Time
-            max_points: 3
-            description: Time to generate application
-            score_levels:
-              10: "<5 minutes for complete generation"
-              9: "5-10 minutes"
-              8: "10-15 minutes"
-              7: "15-20 minutes"
-              6: "20-30 minutes"
-              5: "30-45 minutes"
-              4: "45-60 minutes"
-              3: "60-90 minutes"
-              2: "90-120 minutes"
-              1: ">120 minutes or timeout"
-              
-          - name: Resource Usage
-            max_points: 2
-            description: Tokens and cost efficiency
-            score_levels:
-              10: "Minimal token usage, highly efficient"
-              9: "Very efficient token usage"
-              8: "Good efficiency"
-              7: "Reasonable efficiency"
-              6: "Acceptable efficiency"
-              5: "Somewhat wasteful"
-              4: "Inefficient"
-              3: "Very inefficient"
-              2: "Extremely wasteful"
-              1: "Unreasonably expensive"
+        weight: 0.1
+        description: "Requirement coverage and polish"
+        scale: [0, 10]
+        rubric:
+          10: "100% requirements met + bonus features/polish."
+          8: "100% core requirements, missing minor polish."
+          6: "Missing 1-2 minor requirements."
+          4: "Missing significant requirements."
+          2: "MVP incomplete."
+          0: "Empty project."
 
-  # ==========================================================================
-  # Legacy Refactoring Rubric
-  # ==========================================================================
-  legacy_refactoring:
-    name: Legacy Code Refactoring Rubric
-    total_points: 100
+  # ===========================================================================
+  # 2. Prompt Engineering Scoring
+  # ===========================================================================
+  prompt_engineering:
     pass_threshold: 70
-    
-    categories:
-      correctness:
-        weight: 50
-        description: Refactored code maintains behavior
-        criteria:
-          - name: Behavioral Equivalence
-            max_points: 25
-            description: Refactored code maintains exact same behavior
-            score_levels:
-              10: "100% behavioral equivalence verified with comprehensive tests"
-              9: "100% behavioral equivalence, edge cases verified"
-              8: "100% behavioral equivalence for all tested scenarios"
-              7: "99%+ behavioral match, trivial differences documented"
-              6: "Minor documented differences, functionally equivalent"
-              5: "Some behavioral changes, all intentional and documented"
-              4: "Notable behavioral changes, partially documented"
-              3: "Significant behavioral changes"
-              2: "Major behavioral differences, undocumented"
-              1: "Completely different behavior"
-              
-          - name: Test Coverage
-            max_points: 15
-            description: Comprehensive test coverage maintained/added
-            score_levels:
-              10: ">95% coverage with integration and unit tests"
-              9: "90-95% coverage"
-              8: "85-90% coverage"
-              7: "80-85% coverage"
-              6: "75-80% coverage"
-              5: "70-75% coverage"
-              4: "60-70% coverage"
-              3: "50-60% coverage"
-              2: "30-50% coverage"
-              1: "<30% coverage"
-              
-          - name: No Regressions
-            max_points: 10
-            description: All existing tests still pass
-            score_levels:
-              10: "All tests pass, new tests added for refactored code"
-              9: "All tests pass"
-              8: "99%+ tests pass, failures are test issues"
-              7: "98%+ tests pass"
-              6: "95%+ tests pass"
-              5: "90%+ tests pass"
-              4: "80-90% tests pass"
-              3: "60-80% tests pass"
-              2: "40-60% tests pass"
-              1: "<40% tests pass"
-              
-      improvement_quality:
-        weight: 30
-        description: Quality of improvements made
-        criteria:
-          - name: Code Complexity Reduction
-            max_points: 10
-            description: Measurable reduction in cyclomatic complexity
-            score_levels:
-              10: ">50% complexity reduction"
-              9: "40-50% reduction"
-              8: "30-40% reduction"
-              7: "20-30% reduction"
-              6: "15-20% reduction"
-              5: "10-15% reduction"
-              4: "5-10% reduction"
-              3: "1-5% reduction"
-              2: "No change"
-              1: "Complexity increased"
-              
-          - name: Maintainability Improvement
-            max_points: 10
-            description: Better structure, naming, organization
-            score_levels:
-              10: "Dramatically improved, exemplary structure"
-              9: "Major improvements throughout"
-              8: "Good improvements in most areas"
-              7: "Notable improvements"
-              6: "Some improvements"
-              5: "Minor improvements"
-              4: "Minimal improvements"
-              3: "No notable improvement"
-              2: "Slightly worse"
-              1: "Significantly worse"
-              
-          - name: Modern Patterns
-            max_points: 10
-            description: Updated to modern frameworks and patterns
-            score_levels:
-              10: "Fully modern, uses latest stable patterns"
-              9: "Very modern, current best practices"
-              8: "Good modernization"
-              7: "Reasonable modernization"
-              6: "Some modern patterns adopted"
-              5: "Minimal modernization"
-              4: "Mostly legacy patterns remain"
-              3: "Little modernization"
-              2: "Almost no modernization"
-              1: "No modernization or regressed"
-              
-      safety:
-        weight: 15
-        description: Safe refactoring practices
-        criteria:
-          - name: Incremental Changes
-            max_points: 8
-            description: Small, safe, testable changes
-            score_levels:
-              10: "Perfect incremental approach, each step verified"
-              9: "Excellent incremental approach"
-              8: "Good incremental changes"
-              7: "Reasonable step sizes"
-              6: "Mostly incremental"
-              5: "Some large changes"
-              4: "Several large, risky changes"
-              3: "Many large changes"
-              2: "Mostly big-bang changes"
-              1: "Complete rewrite without safety net"
-              
-          - name: Rollback Plan
-            max_points: 7
-            description: Clear migration and rollback strategy
-            score_levels:
-              10: "Comprehensive rollback plan with automation"
-              9: "Detailed rollback plan"
-              8: "Good rollback strategy"
-              7: "Reasonable rollback plan"
-              6: "Basic rollback documented"
-              5: "Mentions rollback"
-              4: "Vague rollback approach"
-              3: "Minimal rollback consideration"
-              2: "No real rollback plan"
-              1: "No rollback possible"
-              
-      documentation:
-        weight: 5
-        description: Updated documentation
-        criteria:
-          - name: Migration Guide
-            max_points: 3
-            description: Clear before/after documentation
-            score_levels:
-              10: "Comprehensive migration guide with examples"
-              9: "Detailed migration documentation"
-              8: "Good migration guide"
-              7: "Clear migration steps"
-              6: "Basic migration info"
-              5: "Minimal migration notes"
-              4: "Incomplete migration info"
-              3: "Poor migration documentation"
-              2: "Almost no migration info"
-              1: "No migration documentation"
-              
-          - name: Architecture Updates
-            max_points: 2
-            description: Updated architecture documentation
-            score_levels:
-              10: "Complete updated architecture docs"
-              9: "Well-updated documentation"
-              8: "Good updates"
-              7: "Key changes documented"
-              6: "Basic updates"
-              5: "Minimal updates"
-              4: "Incomplete updates"
-              3: "Poor updates"
-              2: "Almost no updates"
-              1: "No documentation updates"
+    max_score: 100
+    dimensions:
+      clarity:
+        weight: 0.25
+        scale: [0, 10]
+        rubric:
+          10: "Absolute perfection - zero ambiguity, flawless instruction flow, self-explanatory"
+          9: "Excellent - crystal clear purpose, negligible ambiguity"
+          8: "Very good - clear purpose, 1-2 minor ambiguities"
+          7: "Good - clear intent, some terms could be clearer"
+          6: "Adequate - understandable but requires interpretation"
+          5: "Fair - main idea clear but multiple unclear parts"
+          4: "Below average - confusing in several places"
+          3: "Poor - significant confusion, unclear variables"
+          2: "Very poor - major rewrites needed"
+          1: "Extremely poor - barely comprehensible"
+          0: "Incomprehensible"
+      effectiveness:
+        weight: 0.30
+        scale: [0, 10]
+        rubric:
+          10: "Excellent results 99%+ of time, handles all edge cases"
+          8: "Good results 90%+ of time"
+          5: "Acceptable results 65%+ of time"
+          2: "Frequently fails"
+          0: "Never works"
+      structure:
+        weight: 0.20
+        scale: [0, 10]
+        rubric:
+          10: "Perfect professional formatting, optimal hierarchy"
+          8: "Very good formatting, well-organized"
+          5: "Fair structure, inconsistent formatting"
+          1: "No discernible structure"
+      specificity:
+        weight: 0.15
+        scale: [0, 10]
+        rubric:
+          10: "Perfectly specific, unambiguous constraints"
+          8: "Very specific, good constraints"
+          5: "Somewhat vague"
+          2: "Extremely vague"
+      completeness:
+        weight: 0.10
+        scale: [0, 10]
+        rubric:
+          10: "Everything present - context, instructions, examples, output format"
+          8: "Has most components, small gaps"
+          5: "Missing several components"
+          1: "Almost nothing present"
 
-  # ==========================================================================
-  # Bug Fixing Rubric
-  # ==========================================================================
+  # ===========================================================================
+  # 3. Bug Fixing Scoring
+  # ===========================================================================
   bug_fixing:
-    name: Bug Triage and Fixing Rubric
-    total_points: 100
-    pass_threshold: 70
-    
+    pass_threshold: 80
+    max_score: 100
     categories:
-      correctness:
-        weight: 50
-        description: Bug is fixed correctly
-        criteria:
-          - name: Bug Fixed
-            max_points: 25
-            description: Original bug is completely resolved
-            score_levels:
-              10: "Bug completely fixed, verified in multiple scenarios, edge cases handled"
-              9: "Bug completely fixed, verified in multiple scenarios"
-              8: "Bug fixed, verified with reproduction case"
-              7: "Bug fixed, basic verification passed"
-              6: "Bug mostly fixed, minor edge cases remain"
-              5: "Bug partially fixed"
-              4: "Bug somewhat addressed but issues remain"
-              3: "Bug minimally addressed"
-              2: "Bug not meaningfully addressed"
-              1: "Bug not fixed at all"
-              
-          - name: Regression Tests
-            max_points: 15
-            description: Tests added to prevent regression
-            score_levels:
-              10: "Comprehensive regression tests covering all scenarios"
-              9: "Excellent regression tests"
-              8: "Good regression tests"
-              7: "Adequate regression tests"
-              6: "Basic regression test present"
-              5: "Minimal regression test"
-              4: "Weak regression test"
-              3: "Very limited test"
-              2: "Token test only"
-              1: "No regression tests"
-              
-          - name: No New Bugs
-            max_points: 10
-            description: Fix doesn't introduce new issues
-            score_levels:
-              10: "No new issues, improved overall stability"
-              9: "No new issues introduced"
-              8: "No functional issues, cosmetic only"
-              7: "No significant new issues"
-              6: "Minor new issues"
-              5: "Some new issues introduced"
-              4: "Notable new issues"
-              3: "Several new issues"
-              2: "Many new issues"
-              1: "Fix causes more problems than it solves"
-              
-      analysis_quality:
-        weight: 25
-        description: Quality of bug analysis
-        criteria:
-          - name: Root Cause Identification
-            max_points: 12
-            description: Correct identification of underlying issue
-            score_levels:
-              10: "Deep root cause with full causal chain documented"
-              9: "Root cause with causal chain"
-              8: "Correct root cause identified and explained"
-              7: "Root cause correctly identified"
-              6: "Root cause mostly correct"
-              5: "Partially correct root cause"
-              4: "Root cause partially understood"
-              3: "Superficial understanding"
-              2: "Incorrect root cause"
-              1: "No root cause analysis"
-              
-          - name: Impact Analysis
-            max_points: 8
-            description: Understanding of fix impact on codebase
-            score_levels:
-              10: "Comprehensive impact analysis with all affected areas"
-              9: "Thorough impact analysis"
-              8: "Good impact understanding"
-              7: "Reasonable impact analysis"
-              6: "Basic impact considered"
-              5: "Minimal impact analysis"
-              4: "Limited impact understanding"
-              3: "Poor impact analysis"
-              2: "Almost no impact analysis"
-              1: "No impact consideration"
-              
-          - name: Reproduction
-            max_points: 5
-            description: Created minimal reproduction case
-            score_levels:
-              10: "Perfect minimal reproduction with setup script"
-              9: "Excellent minimal reproduction"
-              8: "Good reproduction case"
-              7: "Working reproduction"
-              6: "Basic reproduction"
-              5: "Partial reproduction"
-              4: "Incomplete reproduction"
-              3: "Poor reproduction"
-              2: "Barely functional reproduction"
-              1: "No reproduction case"
-              
-      solution_quality:
-        weight: 15
-        description: Quality of the fix
-        criteria:
-          - name: Minimal Change
-            max_points: 8
-            description: Fix is minimal and targeted
-            score_levels:
-              10: "Smallest possible fix, surgically precise"
-              9: "Very minimal, focused fix"
-              8: "Small, well-targeted fix"
-              7: "Reasonably targeted fix"
-              6: "Acceptable scope"
-              5: "Somewhat broad fix"
-              4: "Broader than necessary"
-              3: "Significantly oversized fix"
-              2: "Major unnecessary changes"
-              1: "Complete rewrite when patch would suffice"
-              
-          - name: Code Quality
-            max_points: 7
-            description: Fix follows best practices
-            score_levels:
-              10: "Exemplary code quality in fix"
-              9: "Excellent code quality"
-              8: "Good code quality"
-              7: "Reasonable code quality"
-              6: "Acceptable code quality"
-              5: "Passable code quality"
-              4: "Below average quality"
-              3: "Poor code quality"
-              2: "Very poor quality"
-              1: "Unacceptable code quality"
-              
-      documentation:
-        weight: 10
-        description: Fix documentation
-        criteria:
-          - name: PR Description
-            max_points: 5
-            description: Clear description of bug and fix
-            score_levels:
-              10: "Comprehensive PR with context, solution, testing, screenshots"
-              9: "Excellent PR description"
-              8: "Good PR description"
-              7: "Clear PR description"
-              6: "Adequate PR description"
-              5: "Basic PR description"
-              4: "Minimal PR description"
-              3: "Poor PR description"
-              2: "Barely descriptive"
-              1: "No meaningful description"
-              
-          - name: Code Comments
-            max_points: 5
-            description: Comments explain the fix
-            score_levels:
-              10: "Excellent comments explaining why fix works"
-              9: "Very good explanatory comments"
-              8: "Good comments"
-              7: "Helpful comments"
-              6: "Some explanatory comments"
-              5: "Minimal comments"
-              4: "Few comments"
-              3: "Unhelpful comments"
-              2: "Almost no comments"
-              1: "No comments"
+      resolution:
+        weight: 0.5
+        description: "Effectiveness of the bug fix"
+        scale: [0, 10]
+        rubric:
+          10: "Fixes bug completely, addresses root cause, adds regression test, zero side effects."
+          8: "Fixes bug and root cause, basic test added."
+          6: "Fixes bug symptom but not root cause, or missing test."
+          4: "Partial fix, some edge cases still fail."
+          2: "Fix works but introduces regressions."
+          0: "Does not fix the bug."
+      
+      quality:
+        weight: 0.3
+        description: "Code quality of the patch"
+        scale: [0, 10]
+        rubric:
+          10: "Elegant solution, matches existing style perfectly, highly efficient."
+          8: "Good quality, clean code."
+          5: "Functional but messy or inefficient."
+          2: "Hack/workaround implementation."
+          0: "Breaks build or style guidelines."
+      
+      analysis:
+        weight: 0.2
+        description: "Quality of root cause analysis"
+        scale: [0, 10]
+        rubric:
+          10: "Correctly identifies root cause, impact, and reproduction steps in detail."
+          8: "Identifies correct root cause and basic steps."
+          5: "Vague analysis but correct general area."
+          2: "Incorrect analysis."
+          0: "No analysis provided."
 
-  # ==========================================================================
-  # Architecture Evolution Rubric
-  # ==========================================================================
+  # ===========================================================================
+  # 4. Legacy Refactoring Scoring
+  # ===========================================================================
+  legacy_refactoring:
+    pass_threshold: 75
+    max_score: 100
+    categories:
+      equivalence:
+        weight: 0.4
+        description: "Behavioral equivalence to original"
+        scale: [0, 10]
+        rubric:
+          10: "100% behavioral match, all legacy tests pass, verified by strict inputs."
+          8: "Key behaviors match, minor edge case drift (documentable)."
+          5: "Core behavior matches, significant drift in edge cases."
+          2: "Major behavioral regression."
+          0: "Completely different behavior."
+      
+      modernization:
+        weight: 0.3
+        description: "Adherence to modern standards"
+        scale: [0, 10]
+        rubric:
+          10: "Fully idiomatic modern Python/JS, clean architecture, typed."
+          8: "Mostly modern, some legacy patterns remaining."
+          5: "Superficial changes only (e.g., just formatting)."
+          2: "Introduces new anti-patterns."
+          0: "No modernization."
+      
+      cleanliness:
+        weight: 0.3
+        description: "Code cleanliness and maintainability"
+        scale: [0, 10]
+        rubric:
+          10: "Crystal clear logic, small functions, perfect naming, full docstrings."
+          8: "Clean and readable."
+          5: "Better than original but still complex."
+          2: "Harder to read than original."
+          0: "Obfuscated."
+
+  # ===========================================================================
+  # 5. Architecture Evolution Scoring
+  # ===========================================================================
   architecture_evolution:
-    name: Architecture Evolution Rubric
-    total_points: 100
     pass_threshold: 70
-    
+    max_score: 100
     categories:
-      analysis_depth:
-        weight: 35
-        description: Depth of analysis
-        criteria:
-          - name: Current State Assessment
-            max_points: 12
-            description: Comprehensive analysis of existing architecture
-            score_levels:
-              10: "Complete architecture map with all components, dependencies, data flows"
-              9: "Comprehensive architecture analysis"
-              8: "Thorough analysis of major components"
-              7: "Good understanding documented"
-              6: "Reasonable analysis"
-              5: "Basic analysis"
-              4: "Incomplete analysis"
-              3: "Superficial analysis"
-              2: "Minimal analysis"
-              1: "No meaningful analysis"
-              
-          - name: Technical Debt Identification
-            max_points: 12
-            description: All major debt items identified and prioritized
-            score_levels:
-              10: "Comprehensive debt inventory with severity, effort, and priority"
-              9: "Thorough debt identification with prioritization"
-              8: "Good debt identification"
-              7: "Major debt items identified"
-              6: "Reasonable debt identification"
-              5: "Some debt identified"
-              4: "Limited debt identification"
-              3: "Few items identified"
-              2: "Minimal identification"
-              1: "No debt identification"
-              
-          - name: Scalability Analysis
-            max_points: 11
-            description: Bottlenecks and scaling limits identified
-            score_levels:
-              10: "Complete scalability analysis with metrics and limits"
-              9: "Thorough scalability analysis"
-              8: "Good bottleneck identification"
-              7: "Key bottlenecks identified"
-              6: "Some scalability issues noted"
-              5: "Basic scalability consideration"
-              4: "Limited scalability analysis"
-              3: "Superficial analysis"
-              2: "Minimal analysis"
-              1: "No scalability analysis"
-              
-      strategy_quality:
-        weight: 35
-        description: Quality of evolution strategy
-        criteria:
-          - name: Evolution Plan
-            max_points: 15
-            description: Clear, phased migration strategy
-            score_levels:
-              10: "Detailed phased plan with dependencies, rollback, success criteria"
-              9: "Comprehensive phased plan"
-              8: "Good phased plan with milestones"
-              7: "Clear phases defined"
-              6: "Basic plan with phases"
-              5: "Rough plan outline"
-              4: "Vague plan"
-              3: "Incomplete plan"
-              2: "Minimal plan"
-              1: "No plan"
-              
-          - name: Risk Assessment
-            max_points: 10
-            description: Risks identified with mitigation plans
-            score_levels:
-              10: "Comprehensive risk matrix with mitigations"
-              9: "Thorough risk assessment"
-              8: "Good risk identification"
-              7: "Key risks identified"
-              6: "Some risks noted"
-              5: "Basic risks mentioned"
-              4: "Limited risk consideration"
-              3: "Few risks noted"
-              2: "Minimal risk assessment"
-              1: "No risk assessment"
-              
-          - name: Cost-Benefit Analysis
-            max_points: 10
-            description: Realistic effort estimates and ROI
-            score_levels:
-              10: "Detailed cost-benefit with ROI projections"
-              9: "Thorough cost analysis"
-              8: "Good effort estimates"
-              7: "Reasonable estimates"
-              6: "Basic cost consideration"
-              5: "Rough estimates only"
-              4: "Vague cost ideas"
-              3: "Minimal cost thinking"
-              2: "Almost no cost analysis"
-              1: "No cost consideration"
-              
-      documentation:
-        weight: 20
-        description: Documentation quality
-        criteria:
-          - name: Architecture Diagrams
-            max_points: 8
-            description: Clear current and future state diagrams
-            score_levels:
-              10: "Professional diagrams for current, transition, and target states"
-              9: "Excellent current and future state diagrams"
-              8: "Good architecture diagrams"
-              7: "Clear diagrams"
-              6: "Basic diagrams"
-              5: "Simple diagrams"
-              4: "Incomplete diagrams"
-              3: "Poor diagrams"
-              2: "Barely useful diagrams"
-              1: "No diagrams"
-              
-          - name: ADRs
-            max_points: 7
-            description: Architecture Decision Records for key decisions
-            score_levels:
-              10: "Complete ADRs for all key decisions with alternatives"
-              9: "Thorough ADRs"
-              8: "Good ADRs for major decisions"
-              7: "ADRs for key decisions"
-              6: "Basic ADRs"
-              5: "Some ADRs"
-              4: "Limited ADRs"
-              3: "Few ADRs"
-              2: "Minimal ADRs"
-              1: "No ADRs"
-              
-          - name: Stakeholder Summary
-            max_points: 5
-            description: Executive-level summary and recommendations
-            score_levels:
-              10: "Polished executive summary with clear recommendations"
-              9: "Excellent stakeholder communication"
-              8: "Good executive summary"
-              7: "Clear summary"
-              6: "Basic summary"
-              5: "Rough summary"
-              4: "Incomplete summary"
-              3: "Poor summary"
-              2: "Minimal summary"
-              1: "No summary"
-              
-      actionability:
-        weight: 10
-        description: Plan is actionable
-        criteria:
-          - name: Concrete Steps
-            max_points: 6
-            description: Specific, actionable next steps
-            score_levels:
-              10: "Detailed action items with owners and timelines"
-              9: "Clear actionable steps"
-              8: "Good concrete steps"
-              7: "Reasonable action items"
-              6: "Basic next steps"
-              5: "General direction"
-              4: "Vague steps"
-              3: "Unclear actions"
-              2: "Minimal guidance"
-              1: "No actionable steps"
-              
-          - name: Timeline
-            max_points: 4
-            description: Realistic timeline with milestones
-            score_levels:
-              10: "Detailed timeline with milestones and dependencies"
-              9: "Thorough timeline"
-              8: "Good timeline with milestones"
-              7: "Reasonable timeline"
-              6: "Basic timeline"
-              5: "Rough timeline"
-              4: "Vague timeline"
-              3: "Incomplete timeline"
-              2: "Minimal timeline"
-              1: "No timeline"
+      feasibility:
+        weight: 0.4
+        description: "Practicality of the proposed architecture"
+        scale: [0, 10]
+        rubric:
+          10: "Highly practical, clear migration path, costs analyzed, risk low."
+          8: "Practical with minor unknowns."
+          5: "Theoretically sound but difficult to implement."
+          2: "High risk, major blockers identified."
+          0: "Impossible to implement."
+      
+      design:
+        weight: 0.3
+        description: "System design quality"
+        scale: [0, 10]
+        rubric:
+          10: "Excellent separation of concerns, scalable, fault-tolerant, secure."
+          8: "Solid design, standard patterns used correctly."
+          5: "Average design, some bottlenecks."
+          2: "Flawed design (SPOFs, bottlenecks)."
+          0: " incoherent design."
+      
+      clarity:
+        weight: 0.3
+        description: "ADR and Diagram quality"
+        scale: [0, 10]
+        rubric:
+          10: "Professional diagrams (C4), clear decision records, full rationale."
+          8: "Good diagrams and text."
+          5: "Sketchy diagrams, vague text."
+          2: "Confusing or missing visual aids."
+          0: "No diagrams or clear text."
 
-  # ==========================================================================
-  # Code Grading Rubric (NEW - for multi-agent code assessment)
-  # ==========================================================================
+  # ===========================================================================
+  # 6. Repository Maintenance Scoring
+  # ===========================================================================
   code_grading:
-    name: Comprehensive Code Quality Assessment Rubric
-    total_points: 100
     pass_threshold: 70
-    
+    total_points: 100
     categories:
       static_analysis:
-        weight: 10
-        description: Code style, complexity, and static checks
+        weight: 1.0
+        description: "Static checks and similarity to golden output"
         criteria:
-          - name: Style Compliance
-            max_points: 4
-            description: Adheres to language style guides
-            score_levels:
-              10:
-                description: "Zero lint warnings or errors"
-                evidence_required:
-                  - "Linter runs with zero warnings on strictest settings"
-                  - "All naming follows language conventions (snake_case/camelCase per language)"
-                  - "Consistent indentation (2 or 4 spaces, never mixed)"
-                  - "Line length under 100 characters throughout"
-                  - "Import statements properly organized and grouped"
-              9:
-                description: "1-5 minor style warnings, all fixable without logic changes"
-                evidence_required:
-                  - "Only 'info' level lint messages, no warnings or errors"
-                  - "Minor issues like trailing whitespace or missing newlines"
-              8:
-                description: "6-15 style warnings, mostly formatting issues"
-                evidence_required:
-                  - "No 'error' level lint issues"
-                  - "Warnings are cosmetic (line length, spacing)"
-                  - "Naming conventions followed 95%+ of the time"
-              7:
-                description: "16-30 style warnings OR 1-2 naming convention violations"
-                evidence_required:
-                  - "Some inconsistent naming (e.g., mixing camelCase and snake_case)"
-                  - "Line lengths occasionally exceed limits"
-              6:
-                description: "31-50 warnings OR 3-5 naming convention violations"
-                evidence_required:
-                  - "Noticeable inconsistencies in style"
-                  - "Mixed indentation styles in same file"
-              5:
-                description: "50-100 warnings OR significant naming inconsistencies"
-                evidence_required:
-                  - "Multiple files with different styles"
-                  - "Some functions have cryptic single-letter names"
-              4:
-                description: "100+ warnings OR widespread naming violations"
-                evidence_required:
-                  - "Variables like 'x', 'temp', 'data1' used frequently"
-                  - "Inconsistent brace styles throughout"
-              3:
-                description: "Lint errors (not just warnings) present"
-                evidence_required:
-                  - "Actual syntax issues flagged by linter"
-                  - "Undefined variables or unused imports"
-              2:
-                description: "Extensive lint errors blocking analysis"
-                evidence_required:
-                  - "20+ actual errors"
-                  - "Code may not run due to syntax issues"
-              1:
-                description: "Linter cannot complete analysis"
-                evidence_required:
-                  - "Code fails to parse"
-                  - "Syntax errors prevent any analysis"
-              
-          - name: Cyclomatic Complexity
-            max_points: 3
-            description: Function complexity within acceptable limits
-            score_levels:
-              10:
-                description: "All functions ≤5 complexity"
-                evidence_required:
-                  - "Maximum 5 decision points per function"
-                  - "No function exceeds 20 lines"
-                  - "Single responsibility clearly followed"
-                  - "No nested conditionals deeper than 2 levels"
-              9:
-                description: "95% of functions ≤7 complexity, none exceed 10"
-                evidence_required:
-                  - "Average complexity across codebase ≤5"
-                  - "Maximum nesting depth of 3"
-              8:
-                description: "Average complexity 7-10, none exceed 15"
-                evidence_required:
-                  - "Complex functions have explanatory comments"
-                  - "No more than 5% of functions exceed complexity 10"
-              7:
-                description: "Average complexity 10-15, max 2 functions exceed 15"
-                evidence_required:
-                  - "Complex functions are business-critical and documented"
-              6:
-                description: "3-5 functions exceed complexity 15"
-                evidence_required:
-                  - "Most code is reasonably simple"
-                  - "Complex areas are isolated"
-              5:
-                description: "6-10 functions exceed complexity 15"
-                evidence_required:
-                  - "Some spaghetti code present"
-                  - "Refactoring needed in specific modules"
-              4:
-                description: "10-20 functions exceed complexity 15 OR any exceed 25"
-                evidence_required:
-                  - "Multiple god functions with 100+ lines"
-                  - "Deeply nested if-else chains (5+ levels)"
-              3:
-                description: "Widespread high complexity, multiple functions exceed 25"
-                evidence_required:
-                  - "Functions with 10+ if/else branches"
-                  - "Switch statements with 20+ cases"
-              2:
-                description: "Average complexity >20 across codebase"
-                evidence_required:
-                  - "Most functions are untestable due to complexity"
-              1:
-                description: "Functions exceed complexity 40+"
-                evidence_required:
-                  - "1000+ line functions"
-                  - "Impossible to mentally trace execution"
-              
-          - name: Code Duplication
-            max_points: 3
-            description: DRY principle adherence
-            score_levels:
-              10:
-                description: "0% duplication detected"
-                evidence_required:
-                  - "No duplicate blocks ≥6 lines detected"
-                  - "Common logic extracted to reusable functions"
-                  - "Utilities and helpers properly abstracted"
-              9:
-                description: "<3% duplication (less than 50 duplicated lines in 2000 LOC)"
-                evidence_required:
-                  - "Only trivial duplication (boilerplate, imports)"
-              8:
-                description: "3-5% duplication"
-                evidence_required:
-                  - "Minor repeated patterns that are borderline abstraction candidates"
-              7:
-                description: "5-10% duplication"
-                evidence_required:
-                  - "Some copy-paste visible but contained"
-              6:
-                description: "10-15% duplication"
-                evidence_required:
-                  - "Noticeable repeated code blocks"
-                  - "2-3 areas would benefit from refactoring"
-              5:
-                description: "15-20% duplication"
-                evidence_required:
-                  - "Multiple similar functions that should be merged"
-              4:
-                description: "20-30% duplication"
-                evidence_required:
-                  - "Copy-paste is the primary development pattern"
-              3:
-                description: "30-40% duplication"
-                evidence_required:
-                  - "Entire functions duplicated with minor changes"
-              2:
-                description: "40-50% duplication"
-                evidence_required:
-                  - "Same logic repeated in every file"
-              1:
-                description: ">50% duplication"
-                evidence_required:
-                  - "Codebase is mostly copy-pasted snippets"
-              
-          - name: Code Similarity to Golden
+          - name: "Code Similarity to Golden"
+            description: "How closely the produced code matches the golden reference (structure + content)."
             max_points: 5
-            description: Semantic similarity to golden standard implementation
-            score_levels:
-              10:
-                description: "Near-identical functionality and structure to golden standard"
-                evidence_required:
-                  - "Same algorithms and approaches used"
-                  - "Equivalent modularity and organization"
-                  - "Matching error handling patterns"
-                  - "Similar naming conventions and abstractions"
-              9:
-                description: "High similarity with minor variations"
-                evidence_required:
-                  - "Same core logic with slight implementation differences"
-                  - "Equivalent performance characteristics"
-                  - "Minor deviations in structure that don't affect functionality"
-              8:
-                description: "Good similarity with some differences"
-                evidence_required:
-                  - "Core functionality matches golden standard"
-                  - "Different implementation approaches that are equally valid"
-                  - "Some structural differences that don't impact quality"
-              7:
-                description: "Acceptable similarity with notable differences"
-                evidence_required:
-                  - "Functionality largely equivalent"
-                  - "Some implementation choices differ from golden standard"
-                  - "Performance characteristics within acceptable range"
-              6:
-                description: "Basic similarity with significant differences"
-                evidence_required:
-                  - "Core requirements met but with different approaches"
-                  - "Some missing functionality compared to golden standard"
-                  - "Noticeable quality differences but still functional"
-              5:
-                description: "Low similarity with major differences"
-                evidence_required:
-                  - "Functionality partially matches golden standard"
-                  - "Significant structural or quality differences"
-                  - "Missing key features or error handling"
-              4:
-                description: "Very low similarity with critical differences"
-                evidence_required:
-                  - "Core functionality differs substantially"
-                  - "Quality significantly below golden standard"
-                  - "Missing critical error handling or validation"
-              3:
-                description: "Minimal similarity with serious flaws"
-                evidence_required:
-                  - "Only basic requirements met"
-                  - "Serious quality or security issues"
-                  - "Poor error handling or lack thereof"
-              2:
-                description: "Almost no similarity to golden standard"
-                evidence_required:
-                  - "Functionality barely recognizable compared to golden"
-                  - "Major quality and security issues"
-                  - "Fundamental design flaws"
-              1:
-                description: "No meaningful similarity to golden standard"
-                evidence_required:
-                  - "Completely different approach with poor results"
-                  - "Functionality largely broken or missing"
-                  - "Severe quality and security issues"
-              
-      test_coverage:
-        weight: 15
-        description: Test suite quality and coverage
-        criteria:
-          - name: Coverage Percentage
-            max_points: 8
-            description: Line and branch coverage
-            score_levels:
-              10:
-                description: ">95% line coverage AND >90% branch coverage"
-                evidence_required:
-                  - "Coverage report shows 95%+ lines executed"
-                  - "All branches (if/else) have both paths tested"
-                  - "Exception handlers are covered"
-              9:
-                description: "90-95% line coverage AND >85% branch coverage"
-                evidence_required:
-                  - "Only edge cases and error paths uncovered"
-              8:
-                description: "85-90% line coverage AND >80% branch coverage"
-                evidence_required:
-                  - "Core functionality fully covered"
-              7:
-                description: "80-85% line coverage AND >75% branch coverage"
-                evidence_required:
-                  - "Main code paths tested"
-                  - "Some utility functions untested"
-              6:
-                description: "75-80% line coverage"
-                evidence_required:
-                  - "Happy path covered"
-                  - "Error handling partially tested"
-              5:
-                description: "70-75% line coverage"
-                evidence_required:
-                  - "Most public functions have at least one test"
-              4:
-                description: "60-70% line coverage"
-                evidence_required:
-                  - "Major gaps in test coverage visible"
-              3:
-                description: "50-60% line coverage"
-                evidence_required:
-                  - "Only main features tested"
-                  - "No edge case coverage"
-              2:
-                description: "30-50% line coverage"
-                evidence_required:
-                  - "Sparse test coverage"
-                  - "Entire modules untested"
-              1:
-                description: "<30% line coverage"
-                evidence_required:
-                  - "Tests exist but are minimal"
-                  - "Most code has no test coverage"
-              
-          - name: Test Quality
-            max_points: 7
-            description: Tests are meaningful with good assertions
-            score_levels:
-              10:
-                description: "Tests validate behavior, not implementation"
-                evidence_required:
-                  - "Each test has clear arrange/act/assert structure"
-                  - "Boundary values tested (0, 1, max, negative)"
-                  - "Null/empty inputs tested"
-                  - "Integration tests for component interactions"
-                  - "Mocks/stubs used for external dependencies"
-                  - "Test names describe expected behavior (test_returns_error_when_user_not_found)"
-                  - "No test interdependencies - each runs in isolation"
-              9:
-                description: "Comprehensive tests with minor gaps"
-                evidence_required:
-                  - "Edge cases covered in critical paths"
-                  - "Error scenarios have dedicated tests"
-                  - "Parameterized tests for multiple inputs"
-              8:
-                description: "Good test quality with proper assertions"
-                evidence_required:
-                  - "Tests verify return values, not just 'no exception'"
-                  - "State changes are verified"
-                  - "Database tests verify actual data"
-              7:
-                description: "Tests verify correct behavior"
-                evidence_required:
-                  - "Most tests have multiple assertions"
-                  - "Happy path thoroughly tested"
-              6:
-                description: "Tests exist and run"
-                evidence_required:
-                  - "Basic assertions present"
-                  - "Tests can fail when code breaks"
-              5:
-                description: "Tests are shallow"
-                evidence_required:
-                  - "Single assertion per test"
-                  - "Only checks 'does not throw'"
-              4:
-                description: "Tests have tautologies"
-                evidence_required:
-                  - "Tests like 'assert True'"
-                  - "No meaningful assertions"
-              3:
-                description: "Tests are mostly smoke tests"
-                evidence_required:
-                  - "Only verifies code runs without crash"
-              2:
-                description: "Tests are broken or flaky"
-                evidence_required:
-                  - "Tests intermittently fail"
-                  - "Tests pass regardless of code changes"
-              1:
-                description: "No meaningful test assertions"
-                evidence_required:
-                  - "Tests are empty or contain only 'pass'"
-              
+            points: 5
+
+  # ===========================================================================
+  # 7. Repository Maintenance Scoring
+  # ===========================================================================
+  repository_maintenance:
+    pass_threshold: 75
+    max_score: 100
+    categories:
+      coverage:
+        weight: 0.25
+        description: "Completeness of repository analysis"
+        scale: [0, 10]
+        rubric:
+          10: "100% of tools discovered, tested, and analyzed. Full documentation audit."
+          8: "95%+ coverage, only obscure files missed."
+          6: "80%+ coverage, some directories skipped."
+          4: "60%+ coverage, major gaps in analysis."
+          2: "Minimal coverage, only surface-level scan."
+          0: "Failed to explore repository."
+
+      engineering_quality:
+        weight: 0.25
+        description: "Quality of engineering analysis and recommendations"
+        scale: [0, 10]
+        rubric:
+          10: "Comprehensive analysis: security, best practices, performance, tech debt all covered with actionable fixes."
+          8: "Strong analysis covering most areas with specific recommendations."
+          6: "Adequate analysis, some areas vague or missing."
+          4: "Superficial analysis, generic recommendations."
+          2: "Incorrect or misleading analysis."
+          0: "No engineering analysis."
+
+      cleanup_safety:
+        weight: 0.25
+        description: "Safety and accuracy of cleanup recommendations"
+        scale: [0, 10]
+        rubric:
+          10: "All recommendations safe, properly phased, rollback strategies provided, no false positives."
+          8: "Safe recommendations with minor edge cases missed."
+          6: "Generally safe but some risky recommendations not flagged."
+          4: "Several dangerous recommendations without proper warnings."
+          2: "Would break repository if followed."
+          0: "Catastrophic recommendations."
+
+      actionability:
+        weight: 0.15
+        description: "Clarity and executability of action items"
+        scale: [0, 10]
+        rubric:
+          10: "Crystal clear action items, prioritized, with exact commands and file paths."
+          8: "Clear actions with good prioritization."
+          6: "Understandable actions but vague in places."
+          4: "Confusing or incomplete action items."
+          2: "Actions unclear or contradictory."
+          0: "No actionable output."
+
       documentation:
-        weight: 10
-        description: Code documentation quality
-        criteria:
-          - name: Docstrings
-            max_points: 5
-            description: Function and class documentation
-            score_levels:
-              10:
-                description: "100% of public APIs documented with examples"
-                evidence_required:
-                  - "Every public function has a docstring"
-                  - "Docstrings include: description, args, returns, raises"
-                  - "Type hints match docstring types"
-                  - "Usage examples in docstrings"
-                  - "Classes describe purpose and usage pattern"
-              9:
-                description: "95%+ APIs documented, types complete"
-                evidence_required:
-                  - "All public methods documented"
-                  - "Parameter types and return types specified"
-              8:
-                description: "90%+ public APIs have docstrings"
-                evidence_required:
-                  - "Most functions have meaningful descriptions"
-                  - "Complex parameters explained"
-              7:
-                description: "80%+ functions documented"
-                evidence_required:
-                  - "Key public functions have docstrings"
-              6:
-                description: "60-80% of functions documented"
-                evidence_required:
-                  - "Important functions have at least brief descriptions"
-              5:
-                description: "40-60% documented"
-                evidence_required:
-                  - "Some docstrings exist"
-                  - "Many are incomplete or outdated"
-              4:
-                description: "20-40% documented"
-                evidence_required:
-                  - "Sparse documentation"
-              3:
-                description: "<20% documented"
-                evidence_required:
-                  - "Only a handful of docstrings"
-              2:
-                description: "Documentation is wrong or misleading"
-                evidence_required:
-                  - "Docstrings exist but describe different behavior"
-              1:
-                description: "No documentation"
-                evidence_required:
-                  - "Zero docstrings in codebase"
-              
-          - name: Inline Comments
-            max_points: 5
-            description: Helpful comments for complex logic
-            score_levels:
-              10:
-                description: "Comments explain 'why', not 'what'"
-                evidence_required:
-                  - "Complex algorithms have explanatory comments"
-                  - "Business logic decisions documented in code"
-                  - "Regex patterns explained"
-                  - "Magic numbers have named constants with comments"
-                  - "Workarounds reference issue tracker/tickets"
-              9:
-                description: "Complex sections well-commented"
-                evidence_required:
-                  - "Non-obvious code has explanation"
-                  - "TODOs reference actual tasks/issues"
-              8:
-                description: "Good comments where needed"
-                evidence_required:
-                  - "Tricky logic explained"
-                  - "Comments are up-to-date with code"
-              7:
-                description: "Comments present on complex functions"
-                evidence_required:
-                  - "Some helpful context provided"
-              6:
-                description: "Basic comments exist"
-                evidence_required:
-                  - "A few explanatory comments throughout"
-              5:
-                description: "Minimal useful comments"
-                evidence_required:
-                  - "Comments exist but don't add value"
-                  - "Comments like '// increment x'"
-              4:
-                description: "Comments are rare"
-                evidence_required:
-                  - "Complex code has no explanation"
-              3:
-                description: "Comments are outdated"
-                evidence_required:
-                  - "Comments describe different behavior than code"
-              2:
-                description: "Comments are misleading"
-                evidence_required:
-                  - "Following comments leads to wrong understanding"
-              1:
-                description: "Zero comments"
-                evidence_required:
-                  - "No inline comments anywhere"
-              
-      security:
-        weight: 20
-        description: Security vulnerability assessment
-        criteria:
-          - name: OWASP Top 10
-            max_points: 12
-            description: Free from OWASP Top 10 vulnerabilities
-            score_levels:
-              10:
-                description: "Zero vulnerabilities, defense-in-depth implemented"
-                evidence_required:
-                  - "No SQL injection possible - parameterized queries ONLY"
-                  - "No XSS possible - all output HTML-encoded by default"
-                  - "CSRF tokens on all state-changing forms"
-                  - "Auth tokens are HttpOnly and Secure"
-                  - "No hardcoded secrets (verified with git-secrets scan)"
-                  - "Rate limiting on all endpoints"
-                  - "Security headers (CSP, X-Frame-Options) configured"
-              9:
-                description: "No vulnerabilities detected"
-                evidence_required:
-                  - "SAST tools report zero high/critical findings"
-                  - "Dependency scan shows no CVEs"
-                  - "All user input sanitized"
-              8:
-                description: "Only informational findings"
-                evidence_required:
-                  - "Findings are theoretical/low-probability"
-                  - "e.g., 'Consider adding more entropy'"
-              7:
-                description: "1-2 low severity issues"
-                evidence_required:
-                  - "Issues require authenticated access to exploit"
-                  - "No data exposure risk"
-              6:
-                description: "3-5 low severity issues"
-                evidence_required:
-                  - "Multiple minor issues"
-                  - "All behind authentication"
-              5:
-                description: "1-2 medium severity issues"
-                evidence_required:
-                  - "e.g., Missing rate limiting"
-                  - "e.g., Verbose error messages in production"
-              4:
-                description: "3-5 medium severity issues"
-                evidence_required:
-                  - "Multiple concerning patterns"
-                  - "e.g., Some raw SQL queries with string concatenation"
-              3:
-                description: "1 high severity issue"
-                evidence_required:
-                  - "e.g., SQLi in one endpoint"
-                  - "e.g., Stored XSS possible"
-              2:
-                description: "2-3 high severity issues"
-                evidence_required:
-                  - "Multiple exploitable vulnerabilities"
-                  - "e.g., Auth bypass in admin panel"
-              1:
-                description: "Critical vulnerabilities present"
-                evidence_required:
-                  - "e.g., Unauthenticated RCE"
-                  - "e.g., Hardcoded admin credentials"
-                  - "e.g., Public database without authentication"
-              
-          - name: Input Validation
-            max_points: 8
-            description: All inputs properly validated
-            score_levels:
-              10:
-                description: "All inputs validated, sanitized, and normalized"
-                evidence_required:
-                  - "Schema validation (JSON Schema, Pydantic, Zod) on all endpoints"
-                  - "Type coercion handled safely"
-                  - "Length limits enforced (max 1000 chars for text fields)"
-                  - "Regex validation on formats (email, phone, dates)"
-                  - "SQL injection attempts blocked and logged"
-                  - "Path traversal (../) blocked"
-                  - "Null byte injection blocked"
-                  - "Unicode homoglyph attacks considered"
-              9:
-                description: "Comprehensive validation, minor gaps"
-                evidence_required:
-                  - "All required fields validated"
-                  - "Type checking on all inputs"
-                  - "Length limits on most fields"
-              8:
-                description: "Good validation coverage"
-                evidence_required:
-                  - "Primary inputs validated"
-                  - "SQL queries use parameterized queries"
-                  - "Forms have client and server validation"
-              7:
-                description: "Most inputs validated"
-                evidence_required:
-                  - "User-facing forms validated"
-                  - "API requires valid JSON"
-              6:
-                description: "Critical inputs validated"
-                evidence_required:
-                  - "Authentication validated properly"
-                  - "Payment data validated"
-              5:
-                description: "Some validation present"
-                evidence_required:
-                  - "Basic required field checking"
-                  - "Some type validation"
-              4:
-                description: "Limited validation"
-                evidence_required:
-                  - "Only crashes on completely invalid input"
-                  - "No size limits enforced"
-              3:
-                description: "Poor validation"
-                evidence_required:
-                  - "Validation exists but is bypassable"
-                  - "Client-side only validation"
-              2:
-                description: "Minimal validation"
-                evidence_required:
-                  - "Almost no input checking"
-              1:
-                description: "No input validation"
-                evidence_required:
-                  - "Raw user input used directly in queries/commands"
-              
-      dependencies:
-        weight: 5
-        description: Dependency health and licensing
-        criteria:
-          - name: Vulnerability Status
-            max_points: 3
-            description: No known CVEs in dependencies
-            score_levels:
-              10:
-                description: "All dependencies current, zero CVEs"
-                evidence_required:
-                  - "npm audit / pip-audit / snyk shows 0 vulnerabilities"
-                  - "All packages within 1 major version of latest"
-                  - "No deprecated packages"
-                  - "Lockfile exists and is committed"
-              9:
-                description: "No CVEs, dependencies mostly current"
-                evidence_required:
-                  - "Dependencies within 2 major versions of latest"
-              8:
-                description: "No high/critical CVEs"
-                evidence_required:
-                  - "Only low severity CVEs"
-                  - "CVEs are in dev dependencies only"
-              7:
-                description: "1-2 medium CVEs"
-                evidence_required:
-                  - "CVEs have no known exploits"
-                  - "Affected code paths not used"
-              6:
-                description: "3-5 medium CVEs"
-                evidence_required:
-                  - "Update planned"
-              5:
-                description: "1 high CVE"
-                evidence_required:
-                  - "High severity but mitigated by architecture"
-              4:
-                description: "2-3 high CVEs"
-                evidence_required:
-                  - "Active exploits may exist"
-              3:
-                description: "Critical CVE present"
-                evidence_required:
-                  - "Known exploits exist"
-              2:
-                description: "Multiple critical CVEs"
-                evidence_required:
-                  - "Actively exploited in the wild"
-              1:
-                description: "Severely vulnerable dependencies"
-                evidence_required:
-                  - "End-of-life frameworks with unpatched RCE"
-              
-          - name: License Compliance
-            max_points: 2
-            description: All licenses compatible
-            score_levels:
-              10:
-                description: "All licenses documented and compatible"
-                evidence_required:
-                  - "LICENSE file exists"
-                  - "All dependencies use MIT/Apache/BSD compatible licenses"
-                  - "License audit tool shows no conflicts"
-                  - "NOTICE file includes required attributions"
-              8:
-                description: "All licenses compatible"
-                evidence_required:
-                  - "No copyleft licenses in closed-source project"
-              6:
-                description: "Minor license concerns"
-                evidence_required:
-                  - "Some LGPL dependencies (requires dynamic linking)"
-              4:
-                description: "License conflicts present"
-                evidence_required:
-                  - "GPL dependency in MIT project"
-              2:
-                description: "Significant license issues"
-                evidence_required:
-                  - "Copyleft infection risk"
-              1:
-                description: "Incompatible licenses"
-                evidence_required:
-                  - "Commercial license required but not obtained"
-                  - "GPL code in proprietary product"
-              
-      performance:
-        weight: 15
-        description: Algorithmic efficiency and performance
-        criteria:
-          - name: Algorithmic Complexity
-            max_points: 8
-            description: Efficient algorithms used
-            score_levels:
-              10:
-                description: "Optimal algorithms for all operations"
-                evidence_required:
-                  - "No O(n²) or worse in hot paths"
-                  - "Lookups use hash tables (O(1)) not linear search"
-                  - "Sorting uses efficient algorithms"
-                  - "Pagination on all list endpoints"
-                  - "Batch operations use bulk APIs"
-                  - "Indexes on all queried columns"
-              9:
-                description: "Excellent efficiency with minor optimizations possible"
-                evidence_required:
-                  - "O(n²) only in cold paths with small n"
-                  - "Database queries use indexes"
-              8:
-                description: "Good algorithmic choices"
-                evidence_required:
-                  - "No obvious inefficiencies"
-                  - "Common operations are O(log n) or better"
-              7:
-                description: "Reasonable efficiency"
-                evidence_required:
-                  - "Performance acceptable for expected load"
-              6:
-                description: "Some inefficiencies present"
-                evidence_required:
-                  - "O(n²) used where O(n) possible"
-                  - "Some N+1 queries"
-              5:
-                description: "Multiple O(n²) patterns"
-                evidence_required:
-                  - "Nested loops over collections"
-                  - "Repeated database queries in loops"
-              4:
-                description: "Poor algorithmic choices"
-                evidence_required:
-                  - "Full table scans common"
-                  - "No caching implemented"
-              3:
-                description: "Very inefficient"
-                evidence_required:
-                  - "O(n³) algorithms in main paths"
-                  - "Repeated full collection copies"
-              2:
-                description: "Extremely inefficient"
-                evidence_required:
-                  - "Exponential algorithms"
-                  - "Application hangs on moderate data"
-              1:
-                description: "Computationally infeasible"
-                evidence_required:
-                  - "O(2^n) without memoization"
-                  - "Timeouts on normal operations"
-              
-          - name: Resource Usage
-            max_points: 7
-            description: Efficient memory and CPU usage
-            score_levels:
-              10:
-                description: "Optimal resource usage, zero leaks"
-                evidence_required:
-                  - "Memory profiler shows flat usage over time"
-                  - "No memory leaks detected (heap grows then garbage collects)"
-                  - "Streams used for large data (not loading 1GB files into RAM)"
-                  - "Connection pools properly sized and reused"
-                  - "Async operations don't block threads"
-              9:
-                description: "Excellent resource management"
-                evidence_required:
-                  - "Resources properly closed/disposed"
-                  - "Context managers/try-finally used"
-              8:
-                description: "Good resource efficiency"
-                evidence_required:
-                  - "No obvious resource leaks"
-                  - "Reasonable memory footprint"
-              7:
-                description: "Reasonable resource usage"
-                evidence_required:
-                  - "Memory usage proportional to data size"
-              6:
-                description: "Some inefficiencies"
-                evidence_required:
-                  - "Unnecessary object creation"
-                  - "Large objects kept in memory longer than needed"
-              5:
-                description: "Notable inefficiencies"
-                evidence_required:
-                  - "Memory spikes visible"
-                  - "Some resource leaks under load"
-              4:
-                description: "Poor resource usage"
-                evidence_required:
-                  - "Objects never garbage collected"
-                  - "Connection pool exhaustion"
-              3:
-                description: "Memory leaks confirmed"
-                evidence_required:
-                  - "Memory grows indefinitely"
-                  - "Application crashes after extended use"
-              2:
-                description: "Significant resource waste"
-                evidence_required:
-                  - "100MB+ memory growth per hour"
-              1:
-                description: "Severe resource issues"
-                evidence_required:
-                  - "OOM crashes within minutes"
-                  - "100% CPU in infinite loops"
-              
-      architecture:
-        weight: 10
-        description: Architectural pattern compliance
-        criteria:
-          - name: Pattern Adherence
-            max_points: 5
-            description: Follows established patterns
-            score_levels:
-              10:
-                description: "Consistent architecture throughout"
-                evidence_required:
-                  - "Clear layer separation (controller/service/repository)"
-                  - "Dependency injection used consistently"
-                  - "Repository pattern for data access"
-                  - "Interface abstraction for external services"
-                  - "Factory pattern for complex object creation"
-              9:
-                description: "Excellent pattern usage"
-                evidence_required:
-                  - "Patterns documented in README/ADR"
-                  - "New code follows established patterns"
-              8:
-                description: "Good pattern usage"
-                evidence_required:
-                  - "Common patterns applied correctly"
-              7:
-                description: "Patterns mostly followed"
-                evidence_required:
-                  - "Some legacy code doesn't follow patterns"
-              6:
-                description: "Basic patterns present"
-                evidence_required:
-                  - "MVC or similar structure visible"
-              5:
-                description: "Inconsistent patterns"
-                evidence_required:
-                  - "Different modules use different patterns"
-              4:
-                description: "Pattern violations common"
-                evidence_required:
-                  - "Controllers access database directly"
-                  - "Business logic in views"
-              3:
-                description: "Anti-patterns present"
-                evidence_required:
-                  - "God objects with 50+ methods"
-                  - "Circular dependencies"
-              2:
-                description: "Multiple anti-patterns"
-                evidence_required:
-                  - "Big ball of mud"
-                  - "Singletons everywhere"
-              1:
-                description: "No discernible architecture"
-                evidence_required:
-                  - "Everything in one file"
-                  - "Random organization"
-              
-          - name: Separation of Concerns
-            max_points: 5
-            description: Clean boundaries between components
-            score_levels:
-              10:
-                description: "Perfect separation with defined interfaces"
-                evidence_required:
-                  - "Modules communicate through well-defined APIs"
-                  - "No circular imports/dependencies"
-                  - "UI doesn't contain business logic"
-                  - "Database schema changes don't affect UI"
-                  - "External services abstracted behind interfaces"
-              9:
-                description: "Excellent separation"
-                evidence_required:
-                  - "Clear module boundaries"
-                  - "Changes isolated to single layer"
-              8:
-                description: "Good separation"
-                evidence_required:
-                  - "Most concerns properly separated"
-              7:
-                description: "Reasonable separation"
-                evidence_required:
-                  - "Layers exist but sometimes bypassed"
-              6:
-                description: "Basic separation"
-                evidence_required:
-                  - "UI and logic mostly separate"
-              5:
-                description: "Some coupling issues"
-                evidence_required:
-                  - "UI code makes database calls"
-                  - "Shared mutable state between modules"
-              4:
-                description: "Significant coupling"
-                evidence_required:
-                  - "Changes ripple across multiple layers"
-              3:
-                description: "Poor separation"
-                evidence_required:
-                  - "SQL in React components"
-                  - "Everything imports everything"
-              2:
-                description: "Highly coupled"
-                evidence_required:
-                  - "Can't change one thing without breaking others"
-              1:
-                description: "Monolithic mess"
-                evidence_required:
-                  - "All code in 1-2 files"
-              
-      maintainability:
-        weight: 10
-        description: Long-term maintainability assessment
-        criteria:
-          - name: Readability
-            max_points: 5
-            description: Code is easy to understand
-            score_levels:
-              10:
-                description: "Self-documenting code, intent obvious"
-                evidence_required:
-                  - "Function names describe what they do (calculateTotalPriceWithDiscount)"
-                  - "Variables named for their purpose (customerEmailAddress not 'e')"
-                  - "No cognitive overload - functions fit on one screen"
-                  - "Complex logic broken into named helper functions"
-                  - "Boolean conditions extracted to named variables (isEligibleForPromotion)"
-              9:
-                description: "Highly readable"
-                evidence_required:
-                  - "New developer can understand in <30 min"
-              8:
-                description: "Good readability"
-                evidence_required:
-                  - "Most code clear without comments"
-              7:
-                description: "Reasonable readability"
-                evidence_required:
-                  - "Some areas require study to understand"
-              6:
-                description: "Generally readable"
-                evidence_required:
-                  - "Main flow is clear"
-              5:
-                description: "Somewhat confusing"
-                evidence_required:
-                  - "Variable names don't help understanding"
-              4:
-                description: "Hard to follow"
-                evidence_required:
-                  - "Need to trace execution step-by-step"
-              3:
-                description: "Very confusing"
-                evidence_required:
-                  - "Magic numbers throughout"
-                  - "Single letter variables"
-              2:
-                description: "Nearly unreadable"
-                evidence_required:
-                  - "Obfuscated-looking code"
-              1:
-                description: "Completely opaque"
-                evidence_required:
-                  - "Cannot determine purpose"
-              
-          - name: Extensibility
-            max_points: 5
-            description: Easy to extend and modify
-            score_levels:
-              10:
-                description: "Plug-in architecture, open for extension"
-                evidence_required:
-                  - "New features can be added without modifying existing code"
-                  - "Strategy/plugin pattern for behaviors"
-                  - "Configuration-driven behavior"
-                  - "Event/hook system for customization"
-              9:
-                description: "Excellent extensibility"
-                evidence_required:
-                  - "Adding new entity types follows a template"
-              8:
-                description: "Good extensibility"
-                evidence_required:
-                  - "Common extensions are straightforward"
-              7:
-                description: "Reasonable extensibility"
-                evidence_required:
-                  - "Most changes isolated to one area"
-              6:
-                description: "Extensions require some effort"
-                evidence_required:
-                  - "Need to understand multiple files"
-              5:
-                description: "Difficult to extend"
-                evidence_required:
-                  - "Changes require editing core code"
-              4:
-                description: "Very difficult"
-                evidence_required:
-                  - "Adding features breaks existing features"
-              3:
-                description: "Extension means rewrite"
-                evidence_required:
-                  - "No extension points"
-              2:
-                description: "Nearly impossible"
-                evidence_required:
-                  - "Any change requires complete understanding"
-              1:
-                description: "Cannot be extended"
-                evidence_required:
-                  - "Must start from scratch"
-              
-      best_practices:
-        weight: 5
-        description: Framework-specific best practices
-        criteria:
-          - name: Framework Conventions
-            max_points: 3
-            description: Follows framework idioms
-            score_levels:
-              10:
-                description: "Idiomatic framework usage throughout"
-                evidence_required:
-                  - "File structure matches framework conventions"
-                  - "Uses framework utilities instead of custom implementations"
-                  - "Follows framework lifecycle patterns"
-                  - "Package structure matches community standards"
-              8:
-                description: "Excellent framework practices"
-                evidence_required:
-                  - "Follows official style guide"
-              6:
-                description: "Good framework usage"
-                evidence_required:
-                  - "Common patterns applied"
-              4:
-                description: "Some anti-patterns"
-                evidence_required:
-                  - "Fighting the framework in places"
-              2:
-                description: "Many violations"
-                evidence_required:
-                  - "Ignores framework patterns"
-              1:
-                description: "Wrong framework usage"
-                evidence_required:
-                  - "Using framework against its design"
-              
-          - name: Error Handling
-            max_points: 2
-            description: Proper error handling patterns
-            score_levels:
-              10:
-                description: "Comprehensive, user-friendly error handling"
-                evidence_required:
-                  - "All exceptions caught and handled appropriately"
-                  - "User-facing errors are friendly ('Something went wrong' not stack traces)"
-                  - "Technical details logged but not exposed to users"
-                  - "Errors include correlation IDs for debugging"
-                  - "Graceful degradation when services fail"
-                  - "Retry logic for transient failures"
-                  - "Circuit breakers for external dependencies"
-              8:
-                description: "Excellent error handling"
-                evidence_required:
-                  - "Errors caught and logged"
-                  - "Users see clean error messages"
-                  - "No stack traces in production responses"
-              6:
-                description: "Good error handling"
-                evidence_required:
-                  - "Critical errors caught"
-                  - "Basic error messages to users"
-              4:
-                description: "Basic error handling"
-                evidence_required:
-                  - "Try/catch exists"
-                  - "Some errors not handled"
-              2:
-                description: "Poor error handling"
-                evidence_required:
-                  - "Stack traces shown to users"
-                  - "Errors cause crashes"
-              1:
-                description: "No error handling"
-                evidence_required:
-                  - "Exceptions propagate unhandled"
-                  - "Application crashes on any error"
+        weight: 0.1
+        description: "Quality of generated reports and documentation updates"
+        scale: [0, 10]
+        rubric:
+          10: "Professional reports, executive summary, detailed appendix, ready for stakeholders."
+          8: "Good reports with clear structure."
+          6: "Basic reports, some sections lacking."
+          4: "Minimal reporting, hard to follow."
+          2: "Incomplete or confusing reports."
+          0: "No reports generated."
 
-# Scoring methodology
-scoring:
-  aggregation: weighted_average
-  normalize_to_100: true
-  
-  # How to convert 1-10 scores to percentage
-  score_to_percentage:
-    method: linear  # (score / 10) * 100
-    
-  grade_scale:
-    A+: [97, 100]
-    A: [93, 96]
-    A-: [90, 92]
-    B+: [87, 89]
-    B: [83, 86]
-    B-: [80, 82]
-    C+: [77, 79]
-    C: [73, 76]
-    C-: [70, 72]
-    D+: [67, 69]
-    D: [63, 66]
-    D-: [60, 62]
-    F: [0, 59]
-
-# Evaluation settings
-evaluation:
-  runs_per_workflow: 1
-  comparison_method: fuzzy_match
-  golden_output_path: "./evaluation/golden"
+  # ===========================================================================
+  # 8. Global Scoring Configuration
+  # ===========================================================================
+  scoring:
+    grade_scale:
+      A: [90, 100]
+      B: [80, 89]
+      C: [70, 79]
+      D: [60, 69]
+      F: [0, 59]

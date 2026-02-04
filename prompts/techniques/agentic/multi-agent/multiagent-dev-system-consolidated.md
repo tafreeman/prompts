@@ -97,7 +97,7 @@ The system has access to these model providers (using `tools/llm_client.py` pref
 | `local:phi4` | text, reasoning | NPU |
 | `local:phi4mini` | text, fast | NPU |
 | `local:phi3.5` | text, reasoning | NPU |
-| `local:phi3.5-vision` | vision, text | NPU |
+| `gh:openai/gpt-4o` | vision, text | NPU |
 | `local:mistral-7b` | text, code | CPU/GPU |
 
 ### Windows AI NPU
@@ -660,7 +660,7 @@ class Scorer:
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| Vision Agent | `local:phi3.5-vision` | Extract UI components from mockups |
+| Vision Agent | `gh:openai/gpt-4o` | Extract UI components from mockups |
 | Requirements Analyst | `gh:gpt-4o-mini` | Parse business requirements |
 | Technical Architect | `gh:gpt-4o` | Design system architecture |
 | Database Designer | `gh:gpt-4o` | Schema design and optimization |
@@ -980,7 +980,7 @@ providers:
       - id: "local:phi4"
         capabilities: ["text", "reasoning"]
         device: "npu"
-      - id: "local:phi3.5-vision"
+      - id: "gh:openai/gpt-4o"
         capabilities: ["vision", "text"]
         device: "npu"
         
@@ -1002,7 +1002,7 @@ providers:
         cost_tier: "premium"
         
 routing:
-  vision: ["local:phi3.5-vision"]
+  vision: ["gh:openai/gpt-4o"]
   reasoning_complex: ["gh:o3-mini", "gh:deepseek-r1", "ollama:deepseek-r1:14b"]
   code_gen_premium: ["gh:gpt-4o", "gh:gpt-4o-mini", "ollama:qwen2.5-coder:14b"]
   code_gen_fast: ["ollama:qwen2.5-coder:14b", "gh:gpt-4o-mini"]

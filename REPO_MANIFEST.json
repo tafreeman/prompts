@@ -1,0 +1,84 @@
+{
+	"repository": {
+		"name": "Prompts & Multi-Agent Workflows",
+		"description": "A comprehensive repository for advanced prompt engineering, multi-agent workflows, and LLM orchestration.",
+		"version": "1.0.0",
+		"domains": [
+			{
+				"name": "Multi-Agent Workflows",
+				"path": "multiagent-workflows/",
+				"description": "Core engine for orchestrating complex software engineering tasks using multiple agents.",
+				"entry_points": [
+					"multiagent-workflows/src/multiagent_workflows/core/workflow_engine.py",
+					"multiagent-workflows/src/multiagent_workflows/langchain/orchestrator.py"
+				],
+				"workflows_config": "multiagent-workflows/config/workflows.yaml",
+				"agents_config": "multiagent-workflows/config/agents.yaml"
+			},
+			{
+				"name": "Prompt Library",
+				"path": "prompts/",
+				"description": "A large collection of specialized prompts and techniques (CoT, CoVE, LATS, Reflexion).",
+				"registry": "prompts/registry.yaml",
+				"categories": [
+					"advanced",
+					"agents",
+					"analysis",
+					"business",
+					"developers",
+					"frameworks",
+					"system",
+					"techniques"
+				]
+			},
+			{
+				"name": "Developer Tools",
+				"path": "tools/",
+				"description": "Utilities for model management, evaluation, and repository analysis.",
+				"key_tools": [
+					"tools/llm/llm_client.py",
+					"tools/prompteval/scorer.py",
+					"tools/agents/evaluation_agent.py"
+				]
+			},
+			{
+				"name": "Documentation & Concepts",
+				"path": "docs/",
+				"description": "Theoretical and practical guides for the repository's patterns."
+			}
+		],
+		"orchestrators": {
+			"standard": "multiagent_workflows.core.workflow_engine.WorkflowEngine",
+			"langchain": "multiagent_workflows.langchain.orchestrator.LangChainOrchestrator"
+		},
+		"available_agents": [
+			"vision",
+			"analyst",
+			"architect",
+			"planner",
+			"coder",
+			"reviewer",
+			"tester",
+			"validator",
+			"researcher",
+			"writer",
+			"reasoner",
+			"judge",
+			"debugger"
+		],
+		"workflow_types": [
+			"fullstack_generation",
+			"code_generation",
+			"bug_fixing",
+			"legacy_refactoring",
+			"code_grading",
+			"research_pipeline",
+			"prompt_engineering"
+		]
+	},
+	"usage_hints": {
+		"bootstrap_langchain": "Use `multiagent_workflows.langchain.orchestrator.LangChainOrchestrator` to run workflows.",
+		"load_prompts": "Look in `multiagent-workflows/config/prompts/` for the most up-to-date agent system prompts.",
+		"model_management": "Use `multiagent_workflows.core.model_manager.ModelManager` for unified model access."
+	}
+}

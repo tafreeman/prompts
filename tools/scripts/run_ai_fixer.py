@@ -30,14 +30,12 @@ Author: Integrated Error Resolution System
 License: MIT
 """
 
-import os
-import sys
 import json
+import sys
 import time
-import subprocess
-from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Any, Optional
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Add tools to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -143,7 +141,9 @@ If you cannot safely fix this, respond with exactly: SKIP
 
 CORRECTED OUTPUT:"""
 
-    def read_context(self, file_path: str, line_num: int, context_lines: int = 5) -> str:
+    def read_context(
+        self, file_path: str, line_num: int, context_lines: int = 5
+    ) -> str:
         """Read file context around error line.
 
         Args:
@@ -155,7 +155,7 @@ CORRECTED OUTPUT:"""
             Context string with line numbers
         """
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
 
             start = max(0, line_num - context_lines - 1)
@@ -166,7 +166,7 @@ CORRECTED OUTPUT:"""
                 marker = ">>> " if i == line_num - 1 else "    "
                 context_lines_list.append(f"{marker}{i+1:4d}: {lines[i].rstrip()}")
 
-            return '\n'.join(context_lines_list)
+            return "\n".join(context_lines_list)
 
         except Exception as e:
             return f"[Error reading file: {e}]"
@@ -193,29 +193,31 @@ CORRECTED OUTPUT:"""
             return True
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
 
             idx = line_num - 1
 
             # Handle special cases based on error code
-            if error_code.startswith('MD022') or error_code.startswith('MD032'):
+            if error_code.startswith("MD022") or error_code.startswith("MD032"):
                 # Blank line errors - insert blank lines
-                if '\n\n' in fixed_content:
+                if "\n\n" in fixed_content:
                     # AI provided multiple lines
-                    new_lines = fixed_content.split('\n')
-                    lines = lines[:idx] + [l + '\n' for l in new_lines if l] + lines[idx:]
+                    new_lines = fixed_content.split("\n")
+                    lines = (
+                        lines[:idx] + [l + "\n" for l in new_lines if l] + lines[idx:]
+                    )
                 else:
                     # Just add blank line before/after
-                    if 'Below' in fixed_content or idx > 0:
-                        lines.insert(idx + 1, '\n')  # Add after
-                    if 'Above' in fixed_content or idx < len(lines):
-                        lines.insert(idx, '\n')  # Add before
+                    if "Below" in fixed_content or idx > 0:
+                        lines.insert(idx + 1, "\n")  # Add after
+                    if "Above" in fixed_content or idx < len(lines):
+                        lines.insert(idx, "\n")  # Add before
             else:
                 # Direct replacement
-                lines[idx] = fixed_content.rstrip() + '\n'
+                lines[idx] = fixed_content.rstrip() + "\n"
 
-            with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
+            with open(file_path, "w", encoding="utf-8", newline="\n") as f:
                 f.writelines(lines)
 
             return True
@@ -235,8 +237,8 @@ CORRECTED OUTPUT:"""
         """
         # Read context
         context = self.read_context(
-            error['file'],
-            error['line'],
+            error["file"],
+            error["line"],
             context_lines=5,
         )
 
@@ -260,10 +262,10 @@ CORRECTED OUTPUT:"""
 
             # Apply fix
             success = self.apply_fix(
-                error['file'],
-                error['line'],
+                error["file"],
+                error["line"],
                 fixed,
-                error['code'],
+                error["code"],
             )
 
             return success
@@ -287,26 +289,28 @@ CORRECTED OUTPUT:"""
         print(f"   Errors: {len(errors)}")
         print(f"{'='*60}")
 
-        results = {'fixed': 0, 'skipped': 0, 'failed': 0}
+        results = {"fixed": 0, "skipped": 0, "failed": 0}
 
         for i, error in enumerate(errors, 1):
-            file_name = Path(error['file']).name
-            code = error['code']
-            line = error['line']
+            file_name = Path(error["file"]).name
+            code = error["code"]
+            line = error["line"]
 
-            print(f"  [{i:2d}/{len(errors)}] {file_name}:{line} {code}...", end=' ')
+            print(f"  [{i:2d}/{len(errors)}] {file_name}:{line} {code}...", end=" ")
 
             if self.fix_error(error):
                 print("✅")
-                results['fixed'] += 1
+                results["fixed"] += 1
             else:
                 print("⏭️")
-                results['skipped'] += 1
+                results["skipped"] += 1
 
         self.total_processed += len(errors)
-        self.total_fixed += results['fixed']
+        self.total_fixed += results["fixed"]
 
-        print(f"\n📊 Batch Results: ✅ {results['fixed']} fixed, ⏭️ {results['skipped']} skipped")
+        print(
+            f"\n📊 Batch Results: ✅ {results['fixed']} fixed, ⏭️ {results['skipped']} skipped"
+        )
 
         return results
 
@@ -317,31 +321,31 @@ CORRECTED OUTPUT:"""
             errors_remaining: Number of errors left
         """
         checkpoint = {
-            'timestamp': datetime.now().isoformat(),
-            'iteration': self.iteration,
-            'model': self.model_name,
-            'batch_size': self.batch_size,
-            'total_processed': self.total_processed,
-            'total_fixed': self.total_fixed,
-            'errors_remaining': errors_remaining,
-            'elapsed_seconds': time.time() - self.start_time,
+            "timestamp": datetime.now().isoformat(),
+            "iteration": self.iteration,
+            "model": self.model_name,
+            "batch_size": self.batch_size,
+            "total_processed": self.total_processed,
+            "total_fixed": self.total_fixed,
+            "errors_remaining": errors_remaining,
+            "elapsed_seconds": time.time() - self.start_time,
         }
 
         checkpoint_file = self.checkpoint_dir / f"checkpoint_{self.iteration:03d}.json"
-        with open(checkpoint_file, 'w', encoding='utf-8') as f:
+        with open(checkpoint_file, "w", encoding="utf-8") as f:
             json.dump(checkpoint, f, indent=2)
 
     def run(self):
         """Run the integrated fixing loop."""
-        print("="*60)
+        print("=" * 60)
         print("🤖 AI-POWERED ERROR RESOLUTION SYSTEM")
-        print("="*60)
+        print("=" * 60)
         print(f"Model: {self.model_name}")
         print(f"Batch Size: {self.batch_size}")
         print(f"Max Iterations: {self.max_iterations}")
         print(f"Dry Run: {self.dry_run}")
         print(f"Checkpoint Dir: {self.checkpoint_dir}")
-        print("="*60)
+        print("=" * 60)
 
         while self.iteration < self.max_iterations:
             self.iteration += 1
@@ -354,17 +358,17 @@ CORRECTED OUTPUT:"""
                 break
 
             # Process batch
-            batch = errors[:self.batch_size]
+            batch = errors[: self.batch_size]
             results = self.process_batch(batch)
 
             # Save checkpoint
-            self.save_checkpoint(len(errors) - results['fixed'])
+            self.save_checkpoint(len(errors) - results["fixed"])
 
             # Check progress
-            if results['fixed'] == 0:
+            if results["fixed"] == 0:
                 print("\n⚠️  No errors fixed in this batch.")
                 response = input("Continue? (y/n): ")
-                if response.lower() != 'y':
+                if response.lower() != "y":
                     break
 
             # Brief pause between iterations
@@ -377,30 +381,40 @@ CORRECTED OUTPUT:"""
         """Print final report."""
         elapsed = time.time() - self.start_time
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("📈 FINAL REPORT")
-        print("="*60)
+        print("=" * 60)
         print(f"Model: {self.model_name}")
         print(f"Iterations: {self.iteration}")
         print(f"Total Processed: {self.total_processed}")
         print(f"Total Fixed: {self.total_fixed}")
-        print(f"Success Rate: {(self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0:.1f}%")
+        print(
+            f"Success Rate: {(self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0:.1f}%"
+        )
         print(f"Time Elapsed: {elapsed/60:.1f} minutes")
         print(f"Checkpoints: {self.checkpoint_dir}")
-        print("="*60)
+        print("=" * 60)
 
         # Save final report
         report_file = self.checkpoint_dir / "final_report.json"
-        with open(report_file, 'w', encoding='utf-8') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'model': self.model_name,
-                'iterations': self.iteration,
-                'total_processed': self.total_processed,
-                'total_fixed': self.total_fixed,
-                'success_rate': (self.total_fixed/self.total_processed*100) if self.total_processed > 0 else 0,
-                'elapsed_seconds': elapsed,
-            }, f, indent=2)
+        with open(report_file, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "model": self.model_name,
+                    "iterations": self.iteration,
+                    "total_processed": self.total_processed,
+                    "total_fixed": self.total_fixed,
+                    "success_rate": (
+                        (self.total_fixed / self.total_processed * 100)
+                        if self.total_processed > 0
+                        else 0
+                    ),
+                    "elapsed_seconds": elapsed,
+                },
+                f,
+                indent=2,
+            )
 
         print(f"\n📄 Report saved to {report_file}")
 
@@ -432,31 +446,31 @@ Examples:
     )
 
     parser.add_argument(
-        '--model',
-        default='local:phi4',
-        help='AI model to use (default: local:phi4)',
+        "--model",
+        default="local:phi4",
+        help="AI model to use (default: local:phi4)",
     )
     parser.add_argument(
-        '--batch-size',
+        "--batch-size",
         type=int,
         default=10,
-        help='Errors per batch (default: 10)',
+        help="Errors per batch (default: 10)",
     )
     parser.add_argument(
-        '--max-iterations',
+        "--max-iterations",
         type=int,
         default=50,
-        help='Maximum iterations (default: 50)',
+        help="Maximum iterations (default: 50)",
     )
     parser.add_argument(
-        '--checkpoint-dir',
-        default='ai_fixer_checkpoints',
-        help='Checkpoint directory (default: ai_fixer_checkpoints)',
+        "--checkpoint-dir",
+        default="ai_fixer_checkpoints",
+        help="Checkpoint directory (default: ai_fixer_checkpoints)",
     )
     parser.add_argument(
-        '--dry-run',
-        action='store_true',
-        help='Test run without modifying files',
+        "--dry-run",
+        action="store_true",
+        help="Test run without modifying files",
     )
 
     args = parser.parse_args()
@@ -479,5 +493,5 @@ Examples:
         sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

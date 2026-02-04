@@ -22,15 +22,16 @@ class PathConfig:
 
 
 class Config:
-    """
-    Centralized configuration for the Universal Code Generator.
+    """Centralized configuration for the Universal Code Generator.
+
     Loads from environment variables or uses defaults.
     """
+
     def __init__(self):
         self.models = ModelConfig(
             generator_model=os.getenv("GEN_MODEL", "gpt-4o-mini"),
             reviewer_model=os.getenv("REV_MODEL", "gpt-4o-mini"),
-            refiner_model=os.getenv("REF_MODEL", "gpt-4o-mini")
+            refiner_model=os.getenv("REF_MODEL", "gpt-4o-mini"),
         )
         self.paths = PathConfig()
 

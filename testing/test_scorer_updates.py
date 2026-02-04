@@ -1,15 +1,16 @@
 """Test the updated unified_scorer with example-anchored evaluation."""
 
 from tools.prompteval.unified_scorer import (
-    _parse_standard_response,
     _extract_choice_scores,
-    _normalize_standard_result,
+    _parse_standard_response,
 )
 
 
 def test_json_parse():
     """Test basic JSON parsing."""
-    json_test = '{"scores": {"clarity": 8, "effectiveness": 7}, "improvements": ["test"]}'
+    json_test = (
+        '{"scores": {"clarity": 8, "effectiveness": 7}, "improvements": ["test"]}'
+    )
     result = _parse_standard_response(json_test)
     assert result is not None
     assert result["scores"]["clarity"] == 8
@@ -41,7 +42,7 @@ def test_choice_extraction_markdown():
 
 def test_new_format_with_thoughtchain():
     """Test new format with thoughtchain and justifications."""
-    new_format = '''```json
+    new_format = """```json
 {
   "thoughtchain": "This prompt has good clarity matching the 8 anchor.",
   "scores": {"clarity": 8, "effectiveness": 7, "structure": 6, "specificity": 7, "completeness": 6},
@@ -49,13 +50,15 @@ def test_new_format_with_thoughtchain():
   "improvements": ["Add examples"],
   "confidence": 0.9
 }
-```'''
+```"""
     result = _parse_standard_response(new_format)
     assert result is not None
     assert "thoughtchain" in result
     assert result["scores"]["clarity"] == 8
     assert result["confidence"] == 0.9
-    print(f"✅ New format with thoughtchain: preserved={result.get('thoughtchain', '')[:40]}...")
+    print(
+        f"✅ New format with thoughtchain: preserved={result.get('thoughtchain', '')[:40]}..."
+    )
 
 
 def test_fallback_to_choice():
@@ -69,7 +72,8 @@ def test_fallback_to_choice():
 
 
 def test_parse_with_leading_text_and_braces():
-    """Parser should ignore non-JSON braces and find the correct JSON object."""
+    """Parser should ignore non-JSON braces and find the correct JSON
+    object."""
     response = (
         "Thoughts: this is not JSON {just braces} and more text.\n"
         "Here are the results:\n"
@@ -83,7 +87,10 @@ def test_parse_with_leading_text_and_braces():
 
 
 def test_parse_unlabeled_code_fence():
-    """Models sometimes return ``` ... ``` without a json language tag."""
+    """Models sometimes return ``` ...
+
+    ``` without a json language tag.
+    """
     response = """Here you go:
 ```
 {"scores": {"clarity": 9, "effectiveness": 8, "structure": 8, "specificity": 7, "completeness": 8}, "improvements": [], "confidence": 0.9}
@@ -95,16 +102,17 @@ def test_parse_unlabeled_code_fence():
 
 
 def test_parse_multiple_json_objects_prefers_scores_schema():
-    """If multiple JSON objects appear, prefer the one matching the scores schema."""
+    """If multiple JSON objects appear, prefer the one matching the scores
+    schema."""
     response = (
-        "debug={\"a\":1}\n"
+        'debug={"a":1}\n'
         "{"  # start a non-matching object
-        "\"a\": 1"
+        '"a": 1'
         "}\n"
         "{"  # now the real one
-        "\"scores\": {\"clarity\": 8, \"effectiveness\": 7, \"structure\": 6, \"specificity\": 7, \"completeness\": 6},"
-        "\"improvements\": [\"Tighten constraints\"],"
-        "\"confidence\": 0.7"
+        '"scores": {"clarity": 8, "effectiveness": 7, "structure": 6, "specificity": 7, "completeness": 6},'
+        '"improvements": ["Tighten constraints"],'
+        '"confidence": 0.7'
         "}"
     )
     result = _parse_standard_response(response)

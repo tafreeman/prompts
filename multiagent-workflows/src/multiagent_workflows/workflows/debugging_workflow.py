@@ -1,5 +1,4 @@
-"""
-Bug Triage & Automated Fixing Workflow
+"""Bug Triage & Automated Fixing Workflow.
 
 Analyzes bug reports, reproduces issues, identifies root causes, and generates fixes.
 
@@ -23,21 +22,19 @@ from typing import Any, Dict, List, Optional
 from multiagent_workflows.core.agent_base import AgentBase, AgentConfig, SimpleAgent
 from multiagent_workflows.core.logger import VerboseLogger
 from multiagent_workflows.core.model_manager import ModelManager
-from multiagent_workflows.core.tool_registry import ToolRegistry
 from multiagent_workflows.workflows.base import BaseWorkflow, WorkflowStep
 
 
 class BugFixingWorkflow(BaseWorkflow):
+    """Bug triage and fixing workflow.
+
+    Takes bug reports and produces fixes with regression tests and pull
+    request content.
     """
-    Bug triage and fixing workflow.
-    
-    Takes bug reports and produces fixes with regression tests
-    and pull request content.
-    """
-    
+
     name = "bug_fixing"
     description = "Analyze bugs and generate fixes with tests"
-    
+
     def define_steps(self) -> List[WorkflowStep]:
         """Define the workflow steps."""
         return [
@@ -112,7 +109,7 @@ class BugFixingWorkflow(BaseWorkflow):
                 outputs=["pr_title", "pr_body", "pr_labels"],
             ),
         ]
-    
+
     async def _create_agent(self, step: WorkflowStep) -> Optional[AgentBase]:
         """Create the appropriate agent for each step."""
         agent_prompts = {
@@ -127,7 +124,6 @@ Parse the bug report and extract:
 6. Affected code areas
 
 Output structured JSON.""",
-            
             "reproduction_agent": """You are a reproduction specialist.
             
 Create a minimal reproduction case:
@@ -137,7 +133,6 @@ Create a minimal reproduction case:
 4. Step-by-step instructions
 
 Output a failing test case.""",
-            
             "root_cause_agent": """You are a debugging expert.
             
 Given the execution trace, identify:
@@ -147,7 +142,6 @@ Given the execution trace, identify:
 4. Similar patterns that might exist elsewhere
 
 Think step by step and explain your reasoning.""",
-            
             "fix_generator_agent": """You are a bug fix specialist.
             
 Generate multiple candidate fixes:
@@ -156,7 +150,6 @@ Generate multiple candidate fixes:
 3. Comprehensive fix - includes related improvements
 
 For each, show the exact code change and explain the approach.""",
-            
             "side_effect_agent": """You are a change impact analyst.
             
 Analyze the fix for side effects:
@@ -167,7 +160,6 @@ Analyze the fix for side effects:
 5. Compatibility concerns
 
 List all affected areas with risk levels.""",
-            
             "pr_agent": """You are a pull request specialist.
             
 Create a clear, professional PR:
@@ -182,19 +174,23 @@ Create a clear, professional PR:
 
 Output the complete PR content.""",
         }
-        
+
         prompt = agent_prompts.get(step.agent, f"Perform: {step.description}")
-        
+
         # Select model based on task
-        model_pref = "reasoning" if "root_cause" in step.agent or "tracer" in step.agent else "code_gen"
-        
+        model_pref = (
+            "reasoning"
+            if "root_cause" in step.agent or "tracer" in step.agent
+            else "code_gen"
+        )
+
         config = AgentConfig(
             name=step.agent.replace("_", " ").title(),
             role=step.description,
             model_id=self.model_manager.get_optimal_model(model_pref, 5),
             system_prompt=prompt,
         )
-        
+
         return SimpleAgent(
             config=config,
             model_manager=self.model_manager,
@@ -211,27 +207,28 @@ async def run_bug_fixing_workflow(
     model_manager: Optional[ModelManager] = None,
     logger: Optional[VerboseLogger] = None,
 ) -> Dict[str, Any]:
-    """
-    Convenience function to run the bug fixing workflow.
-    
+    """Convenience function to run the bug fixing workflow.
+
     Args:
         bug_report: Bug report text
         codebase_path: Path to codebase
         model_manager: Optional model manager
         logger: Optional logger
-        
+
     Returns:
         Workflow outputs including fix and tests
     """
     if model_manager is None:
         model_manager = ModelManager()
-    
+
     workflow = BugFixingWorkflow(
         model_manager=model_manager,
         logger=logger,
     )
-    
-    return await workflow.execute({
-        "bug_report": bug_report,
-        "codebase_path": codebase_path,
-    })
+
+    return await workflow.execute(
+        {
+            "bug_report": bug_report,
+            "codebase_path": codebase_path,
+        }
+    )
