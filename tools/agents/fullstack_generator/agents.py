@@ -13,15 +13,17 @@ from typing import Any, Dict, List, Optional
 
 class AgentTier(Enum):
     """Cost/quality tier for agents."""
-    LOCAL_NPU = "local_npu"      # Free, fastest (phi4mini, phi3.5-vision)
-    LOCAL_OLLAMA = "local_ollama" # Free, fast (qwen2.5-coder, deepseek-r1)
-    CLOUD_FAST = "cloud_fast"    # Low cost (gpt-4.1-mini, gpt-4.1-nano)
-    CLOUD_STANDARD = "cloud_std" # Medium cost (gpt-4.1, gpt-5-mini)
-    CLOUD_PREMIUM = "cloud_premium" # High cost (gpt-5, o3-mini, o4-mini)
+
+    LOCAL_NPU = "local_npu"  # Free, fastest (phi4mini, phi3.5-vision)
+    LOCAL_OLLAMA = "local_ollama"  # Free, fast (qwen2.5-coder, deepseek-r1)
+    CLOUD_FAST = "cloud_fast"  # Low cost (gpt-4.1-mini, gpt-4.1-nano)
+    CLOUD_STANDARD = "cloud_std"  # Medium cost (gpt-4.1, gpt-5-mini)
+    CLOUD_PREMIUM = "cloud_premium"  # High cost (gpt-5, o3-mini, o4-mini)
 
 
 class Phase(Enum):
     """Workflow phases."""
+
     REQUIREMENTS = "requirements"
     DESIGN = "design"
     CODEGEN = "codegen"
@@ -31,6 +33,7 @@ class Phase(Enum):
 @dataclass
 class AgentConfig:
     """Configuration for a single agent."""
+
     id: str
     name: str
     model: str
@@ -46,7 +49,7 @@ class AgentConfig:
     max_tokens: int = 4096
     tools: List[Dict[str, Any]] = field(default_factory=list)
     env_vars: Dict[str, str] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         return {
             "id": self.id,
@@ -85,7 +88,7 @@ Output a structured JSON with:
 - components: list of UI components (buttons, inputs, cards, etc.)
 - layout: page structure and hierarchy
 - interactions: clickable elements and their expected behaviors
-- styling: colors, fonts, spacing patterns detected"""
+- styling: colors, fonts, spacing patterns detected""",
 )
 
 REQUIREMENTS_ANALYZER = AgentConfig(
@@ -105,7 +108,7 @@ Output:
 3. EDGE CASES: Potential edge cases and error scenarios
 4. BUSINESS RULES: Extracted business logic and constraints
 5. ASSUMPTIONS: Any assumptions made about unclear requirements
-6. QUESTIONS: Critical questions that need clarification"""
+6. QUESTIONS: Critical questions that need clarification""",
 )
 
 TECHNICAL_PLANNER = AgentConfig(
@@ -127,7 +130,7 @@ Given the requirements analysis, produce:
 3. TECHNOLOGY STACK: Recommended technologies with justification
 4. NON-FUNCTIONAL REQUIREMENTS: Performance, scalability, security needs
 5. INTEGRATION POINTS: External systems and APIs needed
-6. RISK ASSESSMENT: Technical risks and mitigation strategies"""
+6. RISK ASSESSMENT: Technical risks and mitigation strategies""",
 )
 
 DOMAIN_MODELER = AgentConfig(
@@ -148,7 +151,7 @@ Output:
 4. AGGREGATES: Aggregate roots and their members
 5. DOMAIN EVENTS: Key events in the system
 6. RELATIONSHIPS: Entity relationships with cardinality
-7. UBIQUITOUS LANGUAGE: Glossary of domain terms"""
+7. UBIQUITOUS LANGUAGE: Glossary of domain terms""",
 )
 
 
@@ -174,7 +177,7 @@ Create a complete system architecture including:
 4. DATA FLOW: How data moves through the system
 5. INFRASTRUCTURE: Cloud services, containers, orchestration
 6. SCALABILITY STRATEGY: How the system scales horizontally/vertically
-7. DEPLOYMENT TOPOLOGY: Environments, CI/CD pipeline structure"""
+7. DEPLOYMENT TOPOLOGY: Environments, CI/CD pipeline structure""",
 )
 
 DATABASE_ARCHITECT = AgentConfig(
@@ -195,7 +198,7 @@ Design the database including:
 4. RELATIONSHIPS: Foreign keys, junction tables, references
 5. QUERY PATTERNS: Common queries and their optimization
 6. MIGRATIONS: Initial migration scripts
-7. SCALING STRATEGY: Sharding, replication, partitioning considerations"""
+7. SCALING STRATEGY: Sharding, replication, partitioning considerations""",
 )
 
 API_DESIGNER = AgentConfig(
@@ -217,7 +220,7 @@ Design the API including:
 5. ERROR HANDLING: Standard error response format
 6. PAGINATION: Pagination strategy for list endpoints
 7. RATE LIMITING: Rate limit policies
-8. OPENAPI SPEC: Complete OpenAPI 3.0 specification"""
+8. OPENAPI SPEC: Complete OpenAPI 3.0 specification""",
 )
 
 SECURITY_ARCHITECT = AgentConfig(
@@ -240,7 +243,7 @@ Design security including:
 5. THREAT MODEL: STRIDE analysis of potential threats
 6. SECURITY CONTROLS: Specific controls for each threat
 7. COMPLIANCE: Relevant compliance requirements (GDPR, SOC2, etc.)
-8. SECURITY TESTING: Recommended security test strategies"""
+8. SECURITY TESTING: Recommended security test strategies""",
 )
 
 
@@ -267,7 +270,7 @@ Generate frontend code following:
 4. ACCESSIBILITY: WCAG 2.1 AA compliance
 5. PERFORMANCE: Code splitting, lazy loading, memoization
 6. ERROR HANDLING: Error boundaries and user feedback
-7. TYPESCRIPT: Full type safety with proper interfaces"""
+7. TYPESCRIPT: Full type safety with proper interfaces""",
 )
 
 BACKEND_GENERATOR = AgentConfig(
@@ -289,7 +292,7 @@ Generate backend code following:
 4. TRANSACTIONS: Proper transaction management
 5. TESTING: Testable code with dependency injection
 6. SECURITY: Secure coding practices
-7. DOCUMENTATION: JSDoc/docstrings for all public methods"""
+7. DOCUMENTATION: JSDoc/docstrings for all public methods""",
 )
 
 DATABASE_GENERATOR = AgentConfig(
@@ -309,7 +312,7 @@ Generate database code including:
 3. REPOSITORIES: Data access layer with query methods
 4. QUERIES: Optimized queries for common operations
 5. SEEDS: Sample data for development/testing
-6. INDEXES: Index definitions in migrations"""
+6. INDEXES: Index definitions in migrations""",
 )
 
 INTEGRATION_ORCHESTRATOR = AgentConfig(
@@ -327,7 +330,7 @@ Determine:
 1. DEPENDENCY ORDER: Which files must be generated first
 2. IMPORT GRAPH: How files depend on each other
 3. BUILD SEQUENCE: Optimal order for code generation
-4. INTEGRATION POINTS: Where components connect"""
+4. INTEGRATION POINTS: Where components connect""",
 )
 
 
@@ -355,7 +358,7 @@ Review for:
 4. ERROR HANDLING: Missing error cases, poor error messages
 5. TESTING: Testability, missing test coverage areas
 6. BEST PRACTICES: Framework-specific best practices
-7. SUGGESTIONS: Specific refactoring recommendations with code examples"""
+7. SUGGESTIONS: Specific refactoring recommendations with code examples""",
 )
 
 TEST_GENERATOR = AgentConfig(
@@ -376,7 +379,7 @@ Generate tests including:
 4. EDGE CASES: Boundary conditions, error cases
 5. MOCKING: Proper mocks for dependencies
 6. FIXTURES: Test data and setup/teardown
-7. COVERAGE: Ensure high code coverage"""
+7. COVERAGE: Ensure high code coverage""",
 )
 
 DOCUMENTATION_WRITER = AgentConfig(
@@ -397,7 +400,7 @@ Generate documentation including:
 3. ARCHITECTURE DOCS: System design documentation
 4. DEVELOPER GUIDE: Contributing, coding standards
 5. DEPLOYMENT GUIDE: Deployment instructions
-6. TROUBLESHOOTING: Common issues and solutions"""
+6. TROUBLESHOOTING: Common issues and solutions""",
 )
 
 PERFORMANCE_AUDITOR = AgentConfig(
@@ -419,7 +422,7 @@ Analyze and report on:
 4. BUNDLE SIZE: Frontend optimization opportunities
 5. MEMORY USAGE: Potential memory leaks or bloat
 6. CONCURRENCY: Thread safety and parallelization opportunities
-7. RECOMMENDATIONS: Prioritized list of optimizations"""
+7. RECOMMENDATIONS: Prioritized list of optimizations""",
 )
 
 
@@ -433,19 +436,16 @@ AGENT_REGISTRY: Dict[str, AgentConfig] = {
     "requirements_analyzer": REQUIREMENTS_ANALYZER,
     "technical_planner": TECHNICAL_PLANNER,
     "domain_modeler": DOMAIN_MODELER,
-    
     # Phase 2: Design
     "system_architect": SYSTEM_ARCHITECT,
     "database_architect": DATABASE_ARCHITECT,
     "api_designer": API_DESIGNER,
     "security_architect": SECURITY_ARCHITECT,
-    
     # Phase 3: Code Generation
     "frontend_generator": FRONTEND_GENERATOR,
     "backend_generator": BACKEND_GENERATOR,
     "database_generator": DATABASE_GENERATOR,
     "integration_orchestrator": INTEGRATION_ORCHESTRATOR,
-    
     # Phase 4: QA
     "code_reviewer": CODE_REVIEWER,
     "test_generator": TEST_GENERATOR,
@@ -477,9 +477,12 @@ UPDATED_AGENT_CONFIGS = [
         "input_schema": {
             "type": "object",
             "properties": {
-                "mockup_image": {"type": "string", "description": "Base64-encoded image of the mockup."}
+                "mockup_image": {
+                    "type": "string",
+                    "description": "Base64-encoded image of the mockup.",
+                }
             },
-            "required": ["mockup_image"]
+            "required": ["mockup_image"],
         },
         "output_schema": {
             "type": "object",
@@ -487,10 +490,10 @@ UPDATED_AGENT_CONFIGS = [
                 "components": {"type": "array", "items": {"type": "string"}},
                 "layout": {"type": "string"},
                 "interactions": {"type": "array", "items": {"type": "string"}},
-                "styling": {"type": "object"}
+                "styling": {"type": "object"},
             },
-            "required": ["components", "layout"]
-        }
+            "required": ["components", "layout"],
+        },
     },
     # Additional agents can be added here following the same structure
 ]
@@ -498,33 +501,50 @@ UPDATED_AGENT_CONFIGS = [
 
 # Orchestration plan for multi-agent workflows
 ORCHESTRATION_PLAN = {
-    "task_order": ["vision_agent", "requirements_analyzer", "technical_planner", "domain_modeler"],
+    "task_order": [
+        "vision_agent",
+        "requirements_analyzer",
+        "technical_planner",
+        "domain_modeler",
+    ],
     "dependency_graph": {
         "edges": [
             {"from": "vision_agent", "to": "requirements_analyzer"},
             {"from": "requirements_analyzer", "to": "technical_planner"},
-            {"from": "technical_planner", "to": "domain_modeler"}
+            {"from": "technical_planner", "to": "domain_modeler"},
         ]
     },
     "retry_policy": {
         "max_retries": 3,
         "backoff_strategy": "exponential",
-        "retryable_errors": ["TimeoutError", "ConnectionError"]
+        "retryable_errors": ["TimeoutError", "ConnectionError"],
     },
     "rollback_plan": {
         "steps": [
             "Revert database changes",
             "Clear temporary files",
-            "Notify stakeholders"
+            "Notify stakeholders",
         ]
     },
     "validation_checks": [
-        {"name": "Schema Validation", "type": "schema", "pass_criteria": "All fields match schema"},
-        {"name": "Checksum Validation", "type": "checksum", "pass_criteria": "Checksum matches expected value"},
+        {
+            "name": "Schema Validation",
+            "type": "schema",
+            "pass_criteria": "All fields match schema",
+        },
+        {
+            "name": "Checksum Validation",
+            "type": "checksum",
+            "pass_criteria": "Checksum matches expected value",
+        },
         {"name": "Unit Tests", "type": "tests", "pass_criteria": "All tests pass"},
         {"name": "Static Lint", "type": "lint", "pass_criteria": "No linting errors"},
-        {"name": "Security Scan", "type": "security", "pass_criteria": "No vulnerabilities detected"}
-    ]
+        {
+            "name": "Security Scan",
+            "type": "security",
+            "pass_criteria": "No vulnerabilities detected",
+        },
+    ],
 }
 
 
@@ -533,28 +553,28 @@ VALIDATION_CHECKS = [
     {
         "name": "Schema Validation",
         "type": "schema",
-        "pass_criteria": "All fields match the defined schema."
+        "pass_criteria": "All fields match the defined schema.",
     },
     {
         "name": "Checksum Validation",
         "type": "checksum",
-        "pass_criteria": "Generated artifacts match the expected checksum."
+        "pass_criteria": "Generated artifacts match the expected checksum.",
     },
     {
         "name": "Unit Tests",
         "type": "tests",
-        "pass_criteria": "All unit tests pass successfully."
+        "pass_criteria": "All unit tests pass successfully.",
     },
     {
         "name": "Static Lint",
         "type": "lint",
-        "pass_criteria": "No linting errors detected in the code."
+        "pass_criteria": "No linting errors detected in the code.",
     },
     {
         "name": "Security Scan",
         "type": "security",
-        "pass_criteria": "No vulnerabilities found during the security scan."
-    }
+        "pass_criteria": "No vulnerabilities found during the security scan.",
+    },
 ]
 
 
@@ -564,19 +584,19 @@ ARTIFACTS = {
         "prompt_templates": [
             "vision_agent_prompt_template.md",
             "requirements_analyzer_prompt_template.md",
-            "technical_planner_prompt_template.md"
+            "technical_planner_prompt_template.md",
         ],
         "code_snippets": [
             "vision_agent_code_snippet.py",
             "requirements_analyzer_code_snippet.py",
-            "technical_planner_code_snippet.py"
-        ]
+            "technical_planner_code_snippet.py",
+        ],
     },
     "expected_files": [
         "outputs/vision_agent_output.json",
         "outputs/requirements_analyzer_output.json",
-        "outputs/technical_planner_output.json"
-    ]
+        "outputs/technical_planner_output.json",
+    ],
 }
 
 
@@ -589,8 +609,8 @@ TEST_CASES = {
                 "components": ["button", "input"],
                 "layout": "grid",
                 "interactions": ["click", "hover"],
-                "styling": {"color": "#FFFFFF"}
-            }
+                "styling": {"color": "#FFFFFF"},
+            },
         },
         {
             "input": {"mockup_image": "base64-encoded-string-2"},
@@ -598,44 +618,65 @@ TEST_CASES = {
                 "components": ["card", "dropdown"],
                 "layout": "flex",
                 "interactions": ["drag", "drop"],
-                "styling": {"font": "Arial"}
-            }
-        }
+                "styling": {"font": "Arial"},
+            },
+        },
     ],
     "requirements_analyzer": [
         {
             "input": {"requirements": "User should be able to log in."},
             "expected_output": {
-                "user_stories": ["As a user, I want to log in so that I can access my account."],
+                "user_stories": [
+                    "As a user, I want to log in so that I can access my account."
+                ],
                 "acceptance_criteria": ["Login succeeds with valid credentials."],
                 "edge_cases": ["Invalid password."],
                 "business_rules": ["Password must be at least 8 characters."],
                 "assumptions": ["User has an account."],
-                "questions": ["What happens after 3 failed attempts?"]
-            }
+                "questions": ["What happens after 3 failed attempts?"],
+            },
         }
-    ]
+    ],
 }
 
 
 # Monitoring setup with metrics, alerts, and dashboards
 MONITORING_SETUP = {
     "metrics": [
-        {"name": "Agent Execution Time", "target": "<500ms", "collection_method": "traces"},
+        {
+            "name": "Agent Execution Time",
+            "target": "<500ms",
+            "collection_method": "traces",
+        },
         {"name": "Error Rate", "target": "<1%", "collection_method": "logs"},
-        {"name": "Throughput", "target": ">100 requests/sec", "collection_method": "synthetic tests"}
+        {
+            "name": "Throughput",
+            "target": ">100 requests/sec",
+            "collection_method": "synthetic tests",
+        },
     ],
     "alerts": [
-        {"name": "High Error Rate", "threshold": "1%", "action": "Send email to on-call engineer"},
-        {"name": "Slow Execution", "threshold": "500ms", "action": "Trigger scaling policy"}
+        {
+            "name": "High Error Rate",
+            "threshold": "1%",
+            "action": "Send email to on-call engineer",
+        },
+        {
+            "name": "Slow Execution",
+            "threshold": "500ms",
+            "action": "Trigger scaling policy",
+        },
     ],
     "dashboards": [
-        {"name": "Agent Performance Dashboard", "widgets": [
-            {"type": "line_chart", "metric": "Agent Execution Time"},
-            {"type": "bar_chart", "metric": "Error Rate"},
-            {"type": "gauge", "metric": "Throughput"}
-        ]}
-    ]
+        {
+            "name": "Agent Performance Dashboard",
+            "widgets": [
+                {"type": "line_chart", "metric": "Agent Execution Time"},
+                {"type": "bar_chart", "metric": "Error Rate"},
+                {"type": "gauge", "metric": "Throughput"},
+            ],
+        }
+    ],
 }
 
 
@@ -649,9 +690,9 @@ ROLLOUT_STRATEGY = {
             "Identify the root cause of the failure.",
             "Revert to the last stable version.",
             "Notify stakeholders about the rollback.",
-            "Run post-mortem analysis to prevent recurrence."
+            "Run post-mortem analysis to prevent recurrence.",
         ]
-    }
+    },
 }
 
 
@@ -662,22 +703,22 @@ RISKS = [
         "description": "High error rate during peak traffic.",
         "severity": "High",
         "mitigation": "Implement auto-scaling and load testing.",
-        "residual_risk": "Moderate"
+        "residual_risk": "Moderate",
     },
     {
         "id": "risk_2",
         "description": "Data inconsistency due to partial failures.",
         "severity": "Medium",
         "mitigation": "Use distributed transactions and retries.",
-        "residual_risk": "Low"
+        "residual_risk": "Low",
     },
     {
         "id": "risk_3",
         "description": "Security vulnerabilities in third-party dependencies.",
         "severity": "High",
         "mitigation": "Perform regular security scans and updates.",
-        "residual_risk": "Low"
-    }
+        "residual_risk": "Low",
+    },
 ]
 
 
@@ -687,20 +728,20 @@ BRANCH_EVALUATIONS = [
         "branch_id": "branch_1",
         "score": 85,
         "rationale": "Balances performance and cost effectively. Uses local models where possible.",
-        "chosen": true
+        "chosen": true,
     },
     {
         "branch_id": "branch_2",
         "score": 70,
         "rationale": "High accuracy but expensive due to reliance on premium cloud models.",
-        "chosen": false
+        "chosen": false,
     },
     {
         "branch_id": "branch_3",
         "score": 60,
         "rationale": "Low cost but compromises on accuracy and scalability.",
-        "chosen": false
-    }
+        "chosen": false,
+    },
 ]
 
 

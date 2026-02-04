@@ -1,5 +1,4 @@
-"""
-Pytest Configuration and Fixtures
+"""Pytest Configuration and Fixtures.
 
 Provides common fixtures for testing the multiagent-workflows package.
 """
@@ -11,10 +10,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 import asyncio
-import pytest
 from pathlib import Path
 from typing import Any, Dict
 from unittest.mock import AsyncMock, MagicMock
+
+import pytest
 
 
 @pytest.fixture
@@ -42,19 +42,21 @@ This function prints a greeting message."""
 @pytest.fixture
 def mock_model_manager(mock_model_response):
     """Mock ModelManager for testing without real API calls."""
-    from multiagent_workflows.core.model_manager import ModelManager, GenerationResult
-    
+    from multiagent_workflows.core.model_manager import GenerationResult, ModelManager
+
     manager = MagicMock(spec=ModelManager)
-    manager.generate = AsyncMock(return_value=GenerationResult(
-        text=mock_model_response,
-        model_id="mock:test",
-        tokens_used=100,
-        timing_ms=50.0,
-        cost_estimate=0.0,
-    ))
+    manager.generate = AsyncMock(
+        return_value=GenerationResult(
+            text=mock_model_response,
+            model_id="mock:test",
+            tokens_used=100,
+            timing_ms=50.0,
+            cost_estimate=0.0,
+        )
+    )
     manager.check_availability = AsyncMock(return_value=True)
     manager.get_optimal_model = MagicMock(return_value="mock:test")
-    
+
     return manager
 
 
@@ -62,7 +64,7 @@ def mock_model_manager(mock_model_response):
 def logger():
     """Create a VerboseLogger for testing."""
     from multiagent_workflows.core.logger import VerboseLogger
-    
+
     return VerboseLogger(
         workflow_id="test-workflow",
         config={"level": "DEBUG"},
@@ -73,13 +75,13 @@ def logger():
 def tool_registry():
     """Create a ToolRegistry with test tools."""
     from multiagent_workflows.core.tool_registry import ToolRegistry
-    
+
     registry = ToolRegistry()
-    
+
     @registry.register("test_tool", "A test tool")
     async def test_tool(input: str) -> str:
         return f"processed: {input}"
-    
+
     return registry
 
 
@@ -99,7 +101,10 @@ def sample_architecture() -> Dict[str, Any]:
     """Sample architecture for testing."""
     return {
         "tech_stack": {
-            "frontend": {"framework": "React", "justification": "Popular and well-supported"},
+            "frontend": {
+                "framework": "React",
+                "justification": "Popular and well-supported",
+            },
             "backend": {"framework": "FastAPI", "justification": "Fast and modern"},
             "database": {"type": "PostgreSQL", "justification": "Robust and scalable"},
         },

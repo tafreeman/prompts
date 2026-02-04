@@ -632,3 +632,5 @@ multiagent-workflows/src/multiagent_workflows/dashboard_data/run_bug_fixing_2026
 multiagent-workflows/src/multiagent_workflows/dashboard_data/run_code_grading_20260131_002503.json
 multiagent-workflows/src/multiagent_workflows/dashboard_data/run_fullstack_generation_20260131_002523.json
 multiagent-workflows/src/multiagent_workflows/dashboard_data/runs.json
+
+agentic-workflows-v2/logs/

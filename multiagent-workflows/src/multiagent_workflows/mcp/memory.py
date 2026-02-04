@@ -1,5 +1,4 @@
-"""
-Memory MCP Client
+"""Memory MCP Client.
 
 Provides a simple, local, persistent memory store exposed via MCP-style tools.
 
@@ -27,7 +26,6 @@ import json
 import os
 import threading
 import time
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -123,7 +121,9 @@ class MemoryMCPClient(MCPClient):
         super().__init__(config)
 
         env_path = os.environ.get("MCP_MEMORY_PATH")
-        self._storage_path = Path(storage_path or env_path or ".mcp_memory.json").resolve()
+        self._storage_path = Path(
+            storage_path or env_path or ".mcp_memory.json"
+        ).resolve()
         self._lock = threading.Lock()
         self._tools = self.TOOLS.copy()
 
@@ -142,7 +142,9 @@ class MemoryMCPClient(MCPClient):
     async def list_tools(self) -> List[MCPToolSchema]:
         return self._tools
 
-    async def invoke_tool(self, tool_name: str, arguments: Dict[str, Any]) -> MCPResponse:
+    async def invoke_tool(
+        self, tool_name: str, arguments: Dict[str, Any]
+    ) -> MCPResponse:
         try:
             if tool_name == "upsert":
                 result = self._upsert(arguments)
@@ -153,7 +155,9 @@ class MemoryMCPClient(MCPClient):
             elif tool_name == "search":
                 result = self._search(arguments)
             else:
-                return MCPResponse(success=False, result=None, error=f"Unknown tool: {tool_name}")
+                return MCPResponse(
+                    success=False, result=None, error=f"Unknown tool: {tool_name}"
+                )
 
             return MCPResponse(success=True, result=result)
         except Exception as e:
@@ -174,7 +178,9 @@ class MemoryMCPClient(MCPClient):
     def _save(self, data: Dict[str, Any]) -> None:
         self._storage_path.parent.mkdir(parents=True, exist_ok=True)
         tmp_path = self._storage_path.with_suffix(self._storage_path.suffix + ".tmp")
-        tmp_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        tmp_path.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
         tmp_path.replace(self._storage_path)
 
     def _normalize_value(self, value: Any) -> Any:

@@ -99,11 +99,15 @@ class ModelRegistry:
         probe = self._get_probe()
         res = probe.check_model(model_id)
         # ProbeResult has to_dict().
-        return res.to_dict() if hasattr(res, "to_dict") else {
-            "model": model_id,
-            "usable": bool(getattr(res, "usable", False)),
-            "error_message": getattr(res, "error_message", None),
-        }
+        return (
+            res.to_dict()
+            if hasattr(res, "to_dict")
+            else {
+                "model": model_id,
+                "usable": bool(getattr(res, "usable", False)),
+                "error_message": getattr(res, "error_message", None),
+            }
+        )
 
     @staticmethod
     def _flatten_discovery(providers: Dict[str, Any]) -> List[ModelRecord]:
@@ -133,7 +137,9 @@ class ModelRegistry:
 
             for mid in available:
                 mid_s = str(mid)
-                if (not allow_remote) and (not mid_s.lower().startswith(default_allowed_prefixes)):
+                if (not allow_remote) and (
+                    not mid_s.lower().startswith(default_allowed_prefixes)
+                ):
                     out.append(
                         ModelRecord(
                             id=mid_s,

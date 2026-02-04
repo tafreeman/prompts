@@ -1,45 +1,40 @@
-"""
-Tests for pattern evaluation modules.
+"""Tests for pattern evaluation modules.
 
 Tests the parser, evaluator, and integration components.
 """
 
 import pytest
-from pathlib import Path
 
-# Import modules under test
-from tools.prompteval.parser import (
-    parse_output,
-    detect_pattern,
-    load_pattern_definition,
-    get_available_patterns,
-    Phase,
-    ParseResult,
-)
 from tools.prompteval.failures import FailureMode, FailureReport, PatternFailureSummary
-from tools.prompteval.pattern_evaluator import (
-    DimensionScore,
-    SingleRunResult,
-    PatternScore,
-    load_scoring_schema,
-    get_dimension_config,
-    parse_judge_output,
-    HARD_GATES,
-)
 from tools.prompteval.mutations import (
-    MutationType,
-    MutationResult,
-    PhaseReorderMutator,
-    PhaseDeleteMutator,
-    MarkerCorruptMutator,
     ContentInjectMutator,
+    MutationType,
     run_mutation_tests,
 )
 
+# Import modules under test
+from tools.prompteval.parser import (
+    ParseResult,
+    Phase,
+    detect_pattern,
+    get_available_patterns,
+    load_pattern_definition,
+    parse_output,
+)
+from tools.prompteval.pattern_evaluator import (
+    HARD_GATES,
+    DimensionScore,
+    PatternScore,
+    SingleRunResult,
+    get_dimension_config,
+    load_scoring_schema,
+    parse_judge_output,
+)
 
 # =============================================================================
 # FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def react_output():
@@ -179,6 +174,7 @@ Thought: Let me think about this more.
 # PARSER TESTS
 # =============================================================================
 
+
 class TestPatternDefinitions:
     """Test pattern definition loading."""
 
@@ -241,10 +237,12 @@ class TestParseResult:
         assert result.phase_types == []
 
     def test_result_with_phases(self):
-        result = ParseResult(phases=[
-            Phase(type="thought", content="test", line_start=0, line_end=1),
-            Phase(type="action", content="test", line_start=2, line_end=3),
-        ])
+        result = ParseResult(
+            phases=[
+                Phase(type="thought", content="test", line_start=0, line_end=1),
+                Phase(type="action", content="test", line_start=2, line_end=3),
+            ]
+        )
         assert result.is_valid
         assert result.phase_types == ["thought", "action"]
 
@@ -261,6 +259,7 @@ class TestParseResult:
 # =============================================================================
 # FAILURE TAXONOMY TESTS
 # =============================================================================
+
 
 class TestFailures:
     """Test failure mode handling."""
@@ -293,6 +292,7 @@ class TestFailures:
 # =============================================================================
 # SCORING TESTS
 # =============================================================================
+
 
 class TestScoring:
     """Test scoring schema and structures."""
@@ -384,7 +384,9 @@ class TestPatternScore:
         for i in range(5):
             run = SingleRunResult(run_id=i)
             run.dimensions = {
-                "PIF": DimensionScore(name="PIF", abbreviation="PIF", score=4.0 + (i * 0.2)),
+                "PIF": DimensionScore(
+                    name="PIF", abbreviation="PIF", score=4.0 + (i * 0.2)
+                ),
             }
             score.runs.append(run)
 
@@ -397,6 +399,7 @@ class TestPatternScore:
 # =============================================================================
 # MUTATION TESTS
 # =============================================================================
+
 
 class TestMutations:
     """Test mutation module."""
@@ -431,11 +434,13 @@ class TestMutations:
 # INTEGRATION TESTS
 # =============================================================================
 
+
 class TestIntegration:
     """Test integration module."""
 
     def test_pattern_keywords(self):
         from tools.prompteval.integration import PATTERN_KEYWORDS
+
         assert "react" in PATTERN_KEYWORDS
         assert "cove" in PATTERN_KEYWORDS
 

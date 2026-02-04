@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-"""
-Test LLM Connection
-Verifies that the LLMClient can connect to the configured providers.
-"""
+"""Test LLM Connection Verifies that the LLMClient can connect to the
+configured providers."""
 
 import os
 import sys
@@ -65,18 +63,15 @@ def main():
     gemini_available = LLMClient.list_gemini_models()
     if gemini_available:
         print(f"Gemini models discovered: {len(gemini_available)}")
-    gemini_model = (
-        LLMClient._pick_preferred_model(
-            gemini_available,
-            [
-                "gemini-2.0-flash",
-                "gemini-2.0-flash-lite",
-                "gemini-1.5-flash",
-                "gemini-1.5-pro",
-            ],
-        )
-        or (gemini_available[0] if gemini_available else "gemini-1.5-pro")
-    )
+    gemini_model = LLMClient._pick_preferred_model(
+        gemini_available,
+        [
+            "gemini-2.0-flash",
+            "gemini-2.0-flash-lite",
+            "gemini-1.5-flash",
+            "gemini-1.5-pro",
+        ],
+    ) or (gemini_available[0] if gemini_available else "gemini-1.5-pro")
     _check_provider("gemini", gemini_model)
 
     # Claude: Anthropic doesn't provide a simple model listing in this tool;
@@ -87,19 +82,16 @@ def main():
     openai_available = LLMClient.list_openai_models()
     if openai_available:
         print(f"OpenAI models discovered: {len(openai_available)}")
-    openai_model = (
-        LLMClient._pick_preferred_model(
-            openai_available,
-            [
-                "gpt-4o-mini",
-                "gpt-4.1-mini",
-                "gpt-4o",
-                "gpt-4.1",
-                "gpt-3.5-turbo",
-            ],
-        )
-        or (openai_available[0] if openai_available else "gpt-4o-mini")
-    )
+    openai_model = LLMClient._pick_preferred_model(
+        openai_available,
+        [
+            "gpt-4o-mini",
+            "gpt-4.1-mini",
+            "gpt-4o",
+            "gpt-4.1",
+            "gpt-3.5-turbo",
+        ],
+    ) or (openai_available[0] if openai_available else "gpt-4o-mini")
     _check_provider("gpt", openai_model)
 
     print("\nDone.")

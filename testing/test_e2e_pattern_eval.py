@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-End-to-end pattern evaluation test using library prompts.
+"""End-to-end pattern evaluation test using library prompts.
 
 Demonstrates the full evaluation pipeline without needing an LLM.
 """
@@ -10,8 +9,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from tools.prompteval.parser import parse_output, load_pattern_definition
-from tools.prompteval.pattern_evaluator import PatternScore, SingleRunResult, DimensionScore
+from tools.prompteval.parser import parse_output
+from tools.prompteval.pattern_evaluator import (
+    DimensionScore,
+    PatternScore,
+    SingleRunResult,
+)
 
 
 def test_react_with_library_output():
@@ -97,10 +100,21 @@ The API 500 errors are caused by **database connection pool exhaustion**:
     score = PatternScore(pattern_name="react")
     run = SingleRunResult(run_id=0)
     run.dimensions = {
-        "PIF": DimensionScore(name="Pattern Invocation Fidelity", abbreviation="PIF", score=5.0, weight=0.2),
-        "POI": DimensionScore(name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2),
-        "PC": DimensionScore(name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2),
-        "CA": DimensionScore(name="Constraint Adherence", abbreviation="CA", score=4.5, weight=0.2),
+        "PIF": DimensionScore(
+            name="Pattern Invocation Fidelity",
+            abbreviation="PIF",
+            score=5.0,
+            weight=0.2,
+        ),
+        "POI": DimensionScore(
+            name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2
+        ),
+        "PC": DimensionScore(
+            name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2
+        ),
+        "CA": DimensionScore(
+            name="Constraint Adherence", abbreviation="CA", score=4.5, weight=0.2
+        ),
     }
     score.runs.append(run)
     score.compute_aggregates()
@@ -169,10 +183,21 @@ alternative implementations like PyPy-STM or Jython (which has no GIL).
     score = PatternScore(pattern_name="cove")
     run = SingleRunResult(run_id=0)
     run.dimensions = {
-        "PIF": DimensionScore(name="Pattern Invocation Fidelity", abbreviation="PIF", score=5.0, weight=0.2),
-        "POI": DimensionScore(name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2),
-        "PC": DimensionScore(name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2),
-        "CA": DimensionScore(name="Constraint Adherence", abbreviation="CA", score=4.8, weight=0.2),
+        "PIF": DimensionScore(
+            name="Pattern Invocation Fidelity",
+            abbreviation="PIF",
+            score=5.0,
+            weight=0.2,
+        ),
+        "POI": DimensionScore(
+            name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2
+        ),
+        "PC": DimensionScore(
+            name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2
+        ),
+        "CA": DimensionScore(
+            name="Constraint Adherence", abbreviation="CA", score=4.8, weight=0.2
+        ),
     }
     score.runs.append(run)
     score.compute_aggregates()
@@ -278,10 +303,21 @@ services.AddHttpClient<MyService>()
     score = PatternScore(pattern_name="rag")
     run = SingleRunResult(run_id=0)
     run.dimensions = {
-        "PIF": DimensionScore(name="Pattern Invocation Fidelity", abbreviation="PIF", score=5.0, weight=0.2),
-        "POI": DimensionScore(name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2),
-        "PC": DimensionScore(name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2),
-        "CA": DimensionScore(name="Constraint Adherence", abbreviation="CA", score=4.5, weight=0.2),
+        "PIF": DimensionScore(
+            name="Pattern Invocation Fidelity",
+            abbreviation="PIF",
+            score=5.0,
+            weight=0.2,
+        ),
+        "POI": DimensionScore(
+            name="Phase Ordering Integrity", abbreviation="POI", score=5.0, weight=0.2
+        ),
+        "PC": DimensionScore(
+            name="Phase Completeness", abbreviation="PC", score=5.0, weight=0.2
+        ),
+        "CA": DimensionScore(
+            name="Constraint Adherence", abbreviation="CA", score=4.5, weight=0.2
+        ),
     }
     score.runs.append(run)
     score.compute_aggregates()
@@ -314,7 +350,7 @@ Let me know if you need more details!
     print(f"✗ Missing phases: {result.missing_phases}")
 
     if result.leakage_detected:
-        print(f"⚠ Leakage detected: Content outside phases")
+        print("⚠ Leakage detected: Content outside phases")
 
 
 def main():

@@ -61,10 +61,12 @@ def _cmd_run(args: argparse.Namespace) -> int:
 
     # Run the workflow
     try:
-        result = asyncio.run(engine.execute_workflow(
-            workflow_name=args.workflow,
-            inputs=inputs,
-        ))
+        result = asyncio.run(
+            engine.execute_workflow(
+                workflow_name=args.workflow,
+                inputs=inputs,
+            )
+        )
         print("\n" + "=" * 60)
         print(f"Workflow completed: {'SUCCESS' if result.success else 'FAILED'}")
         if result.error:
@@ -74,11 +76,16 @@ def _cmd_run(args: argparse.Namespace) -> int:
         # Save output
         if args.output:
             with open(args.output, "w") as f:
-                json.dump({
-                    "success": result.success,
-                    "outputs": result.outputs,
-                    "error": result.error,
-                }, f, indent=2, default=str)
+                json.dump(
+                    {
+                        "success": result.success,
+                        "outputs": result.outputs,
+                        "error": result.error,
+                    },
+                    f,
+                    indent=2,
+                    default=str,
+                )
             print(f"Output saved to: {args.output}")
 
         return 0 if result.success else 1
@@ -86,25 +93,32 @@ def _cmd_run(args: argparse.Namespace) -> int:
     except Exception as e:
         print(f"Error running workflow: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="multiagent", description="Multi-Agent Workflows CLI")
+    parser = argparse.ArgumentParser(
+        prog="multiagent", description="Multi-Agent Workflows CLI"
+    )
     sub = parser.add_subparsers(dest="command")
 
     p_ui = sub.add_parser("ui", help="Start the local UI + API server")
     p_ui.add_argument("--host", default="127.0.0.1")
     p_ui.add_argument("--port", default=8000, type=int)
-    p_ui.add_argument("--open", action="store_true", help="Open the UI in your default browser")
+    p_ui.add_argument(
+        "--open", action="store_true", help="Open the UI in your default browser"
+    )
     p_ui.set_defaults(func=_cmd_ui)
 
     # Back-compat alias
     p_serve = sub.add_parser("serve", help="Alias for 'ui'")
     p_serve.add_argument("--host", default="127.0.0.1")
     p_serve.add_argument("--port", default=8000, type=int)
-    p_serve.add_argument("--open", action="store_true", help="Open the UI in your default browser")
+    p_serve.add_argument(
+        "--open", action="store_true", help="Open the UI in your default browser"
+    )
     p_serve.set_defaults(func=_cmd_ui)
 
     # Run command
@@ -112,7 +126,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_run.add_argument("--workflow", "-w", help="Workflow name to run")
     p_run.add_argument("--input", "-i", help="Input JSON file or JSON string")
     p_run.add_argument("--output", "-o", help="Output file path for results")
-    p_run.add_argument("--list", "-l", action="store_true", help="List available workflows")
+    p_run.add_argument(
+        "--list", "-l", action="store_true", help="List available workflows"
+    )
     p_run.set_defaults(func=_cmd_run)
 
     return parser
@@ -136,4 +152,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-

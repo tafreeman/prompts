@@ -14,9 +14,9 @@ Features:
 
 Usage:
     from response_cache import ResponseCache
-    
+
     cache = ResponseCache()
-    
+
     # Check cache before API call
     cached = cache.get(prompt_content, model, system_prompt)
     if cached:
@@ -26,14 +26,13 @@ Usage:
         cache.set(prompt_content, model, system_prompt, response)
 """
 
-import json
 import hashlib
+import json
 import threading
-from pathlib import Path
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
-from typing import Dict, Any, Optional
-from dataclasses import dataclass, asdict
-
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 # =============================================================================
 # CONFIGURATION
@@ -47,16 +46,17 @@ MAX_CACHE_SIZE_MB = 500  # Maximum cache size before cleanup
 @dataclass
 class CacheEntry:
     """A single cache entry."""
+
     key: str
     model: str
     response: str
     created_at: str
     prompt_hash: str
     hit_count: int = 0
-    
+
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
-    
+
     @classmethod
     def from_dict(cls, d: Dict[str, Any]) -> "CacheEntry":
         return cls(**d)
@@ -82,9 +82,8 @@ def get_cache_index_file() -> Path:
 
 
 def _compute_cache_key(prompt_content: str, model: str, system_prompt: str = "") -> str:
-    """
-    Compute a deterministic cache key from input content.
-    
+    """Compute a deterministic cache key from input content.
+
     Uses SHA-256 hash of combined inputs for unique identification.
     """
     combined = f"{model}||{system_prompt}||{prompt_content}"
@@ -100,13 +99,12 @@ def _get_entry_file(key: str) -> Path:
 
 
 class ResponseCache:
+    """LLM Response Cache with content-based hashing.
+
+    Thread-safe, persistent cache that stores LLM responses indexed by a
+    hash of (model, system_prompt, prompt_content).
     """
-    LLM Response Cache with content-based hashing.
-    
-    Thread-safe, persistent cache that stores LLM responses indexed by
-    a hash of (model, system_prompt, prompt_content).
-    """
-    
+
     def __init__(
         self,
         enabled: bool = True,
@@ -118,14 +116,14 @@ class ResponseCache:
         self.verbose = verbose
         self._index: Dict[str, Dict[str, Any]] = {}
         self._stats = {"hits": 0, "misses": 0, "writes": 0}
-        
+
         if enabled:
             self._load_index()
-    
+
     def _log(self, msg: str) -> None:
         if self.verbose:
             print(f"[ResponseCache] {msg}")
-    
+
     def _load_index(self) -> None:
         """Load the cache index from disk."""
         index_file = get_cache_index_file()
@@ -138,7 +136,7 @@ class ResponseCache:
             except Exception as e:
                 self._log(f"Failed to load cache index: {e}")
                 self._index = {}
-    
+
     def _save_index(self) -> None:
         """Save the cache index to disk."""
         with _cache_lock:
@@ -154,7 +152,7 @@ class ResponseCache:
                     json.dump(data, f, indent=2)
             except Exception as e:
                 self._log(f"Failed to save cache index: {e}")
-    
+
     def _is_expired(self, entry_meta: Dict[str, Any]) -> bool:
         """Check if a cache entry has expired."""
         try:
@@ -162,39 +160,38 @@ class ResponseCache:
             return datetime.now() - created > self.ttl
         except Exception:
             return True
-    
+
     def get(
         self,
         prompt_content: str,
         model: str,
         system_prompt: str = "",
     ) -> Optional[str]:
-        """
-        Get a cached response if available.
-        
+        """Get a cached response if available.
+
         Returns:
             The cached response string, or None if not cached/expired.
         """
         if not self.enabled:
             return None
-        
+
         key = _compute_cache_key(prompt_content, model, system_prompt)
-        
+
         # Check index first
         with _cache_lock:
             if key not in self._index:
                 self._stats["misses"] += 1
                 return None
-            
+
             entry_meta = self._index[key]
-            
+
             # Check expiration
             if self._is_expired(entry_meta):
                 self._log(f"Cache expired for {key[:12]}...")
                 del self._index[key]
                 self._stats["misses"] += 1
                 return None
-        
+
         # Load full entry from disk
         entry_file = _get_entry_file(key)
         if not entry_file.exists():
@@ -203,25 +200,27 @@ class ResponseCache:
                     del self._index[key]
             self._stats["misses"] += 1
             return None
-        
+
         try:
             with open(entry_file, "r", encoding="utf-8") as f:
                 entry = json.load(f)
-            
+
             # Update hit count
             with _cache_lock:
                 if key in self._index:
-                    self._index[key]["hit_count"] = self._index[key].get("hit_count", 0) + 1
+                    self._index[key]["hit_count"] = (
+                        self._index[key].get("hit_count", 0) + 1
+                    )
                 self._stats["hits"] += 1
-            
+
             self._log(f"Cache HIT for {model} ({key[:12]}...)")
             return entry.get("response")
-            
+
         except Exception as e:
             self._log(f"Failed to read cache entry: {e}")
             self._stats["misses"] += 1
             return None
-    
+
     def set(
         self,
         prompt_content: str,
@@ -229,9 +228,8 @@ class ResponseCache:
         system_prompt: str,
         response: str,
     ) -> None:
-        """
-        Store a response in the cache.
-        
+        """Store a response in the cache.
+
         Args:
             prompt_content: The prompt text that was evaluated
             model: The model used for evaluation
@@ -240,10 +238,10 @@ class ResponseCache:
         """
         if not self.enabled:
             return
-        
+
         key = _compute_cache_key(prompt_content, model, system_prompt)
         prompt_hash = hashlib.sha256(prompt_content.encode("utf-8")).hexdigest()[:16]
-        
+
         entry = {
             "key": key,
             "model": model,
@@ -252,13 +250,13 @@ class ResponseCache:
             "prompt_hash": prompt_hash,
             "hit_count": 0,
         }
-        
+
         # Save entry to disk
         entry_file = _get_entry_file(key)
         try:
             with open(entry_file, "w", encoding="utf-8") as f:
                 json.dump(entry, f, indent=2, ensure_ascii=False)
-            
+
             # Update index
             with _cache_lock:
                 self._index[key] = {
@@ -268,27 +266,28 @@ class ResponseCache:
                     "hit_count": 0,
                 }
                 self._stats["writes"] += 1
-            
+
             self._log(f"Cache WRITE for {model} ({key[:12]}...)")
-            
+
         except Exception as e:
             self._log(f"Failed to write cache entry: {e}")
-    
-    def invalidate(self, prompt_content: str, model: str, system_prompt: str = "") -> bool:
-        """
-        Invalidate a specific cache entry.
-        
+
+    def invalidate(
+        self, prompt_content: str, model: str, system_prompt: str = ""
+    ) -> bool:
+        """Invalidate a specific cache entry.
+
         Returns:
             True if an entry was invalidated, False otherwise.
         """
         key = _compute_cache_key(prompt_content, model, system_prompt)
-        
+
         with _cache_lock:
             if key not in self._index:
                 return False
-            
+
             del self._index[key]
-        
+
         # Remove file
         entry_file = _get_entry_file(key)
         if entry_file.exists():
@@ -296,26 +295,26 @@ class ResponseCache:
                 entry_file.unlink()
             except Exception:
                 pass
-        
+
         return True
-    
+
     def clear(self) -> int:
-        """
-        Clear all cache entries.
-        
+        """Clear all cache entries.
+
         Returns:
             Number of entries cleared.
         """
         count = len(self._index)
-        
+
         with _cache_lock:
             self._index = {}
             self._stats = {"hits": 0, "misses": 0, "writes": 0}
-        
+
         # Remove cache directory contents
         cache_dir = get_cache_dir()
         try:
             import shutil
+
             for item in cache_dir.iterdir():
                 if item.is_dir():
                     shutil.rmtree(item)
@@ -323,25 +322,24 @@ class ResponseCache:
                     item.unlink()
         except Exception:
             pass
-        
+
         self._save_index()
         self._log(f"Cleared {count} cache entries")
         return count
-    
+
     def cleanup_expired(self) -> int:
-        """
-        Remove expired cache entries.
-        
+        """Remove expired cache entries.
+
         Returns:
             Number of entries removed.
         """
         expired_keys = []
-        
+
         with _cache_lock:
             for key, meta in self._index.items():
                 if self._is_expired(meta):
                     expired_keys.append(key)
-        
+
         for key in expired_keys:
             entry_file = _get_entry_file(key)
             if entry_file.exists():
@@ -349,22 +347,24 @@ class ResponseCache:
                     entry_file.unlink()
                 except Exception:
                     pass
-            
+
             with _cache_lock:
                 if key in self._index:
                     del self._index[key]
-        
+
         if expired_keys:
             self._save_index()
             self._log(f"Cleaned up {len(expired_keys)} expired entries")
-        
+
         return len(expired_keys)
-    
+
     def get_stats(self) -> Dict[str, Any]:
         """Get cache statistics."""
         total_requests = self._stats["hits"] + self._stats["misses"]
-        hit_rate = (self._stats["hits"] / total_requests * 100) if total_requests > 0 else 0
-        
+        hit_rate = (
+            (self._stats["hits"] / total_requests * 100) if total_requests > 0 else 0
+        )
+
         return {
             "enabled": self.enabled,
             "entries": len(self._index),
@@ -374,7 +374,7 @@ class ResponseCache:
             "hit_rate": round(hit_rate, 1),
             "ttl_hours": self.ttl.total_seconds() / 3600,
         }
-    
+
     def save(self) -> None:
         """Save the cache index to disk."""
         self._save_index()
@@ -389,9 +389,8 @@ _global_cache: Optional[ResponseCache] = None
 
 
 def get_cache(enabled: bool = False, **kwargs) -> ResponseCache:
-    """
-    Get or create the global cache instance.
-    
+    """Get or create the global cache instance.
+
     Args:
         enabled: Whether caching is enabled
         **kwargs: Additional arguments for ResponseCache
@@ -402,7 +401,9 @@ def get_cache(enabled: bool = False, **kwargs) -> ResponseCache:
     return _global_cache
 
 
-def enable_cache(ttl_hours: float = DEFAULT_TTL_HOURS, verbose: bool = False) -> ResponseCache:
+def enable_cache(
+    ttl_hours: float = DEFAULT_TTL_HOURS, verbose: bool = False
+) -> ResponseCache:
     """Enable the global cache with specified settings."""
     global _global_cache
     _global_cache = ResponseCache(enabled=True, ttl_hours=ttl_hours, verbose=verbose)
@@ -421,20 +422,21 @@ def disable_cache() -> None:
 # CLI
 # =============================================================================
 
+
 def main():
     """CLI for cache management."""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Response Cache Management")
     parser.add_argument("--stats", action="store_true", help="Show cache statistics")
     parser.add_argument("--clear", action="store_true", help="Clear all cache entries")
     parser.add_argument("--cleanup", action="store_true", help="Remove expired entries")
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    
+
     args = parser.parse_args()
-    
+
     cache = ResponseCache(enabled=True, verbose=args.verbose)
-    
+
     if args.clear:
         count = cache.clear()
         print(f"Cleared {count} cache entries")

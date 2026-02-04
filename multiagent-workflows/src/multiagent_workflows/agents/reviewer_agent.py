@@ -1,17 +1,15 @@
-"""
-Reviewer Agent
+"""Reviewer Agent.
 
-Reviews code for security, quality, and best practices.
-Identifies issues and provides recommendations.
+Reviews code for security, quality, and best practices. Identifies
+issues and provides recommendations.
 """
 
 from __future__ import annotations
 
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from multiagent_workflows.core.agent_base import AgentBase
-
 
 SYSTEM_PROMPT = """You are a senior security engineer and code quality expert.
 
@@ -52,50 +50,48 @@ Output your response as JSON:
 
 
 class ReviewerAgent(AgentBase):
-    """
-    Agent that reviews code for security and quality.
-    
+    """Agent that reviews code for security and quality.
+
     Analyzes code and produces:
     - List of issues with severity
     - Security findings
     - Quality recommendations
     - Overall scores
     """
-    
+
     async def _process(
         self,
         task: Dict[str, Any],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
-        """
-        Review code for issues.
-        
+        """Review code for issues.
+
         Args:
             task: Contains 'code' to review
             context: Execution context
-            
+
         Returns:
             Review results with issues and scores
         """
         code = task.get("code", "")
         files = task.get("files", {})
         review_type = task.get("review_type", "full")  # full, security, quality
-        
+
         # Combine code from files if provided
         if files and not code:
             code = self._combine_files(files)
-        
+
         prompt = self._build_prompt(code, review_type)
-        
+
         result = await self.call_model(
             prompt=prompt,
             temperature=0.1,  # Low temperature for consistent reviews
             max_tokens=4096,
         )
-        
+
         # Parse review results
         review = self._parse_review(result.text)
-        
+
         return {
             "review": review,
             "issues": review.get("issues", []),
@@ -103,7 +99,7 @@ class ReviewerAgent(AgentBase):
             "security_score": review.get("metrics", {}).get("security_score", 0),
             "quality_score": review.get("metrics", {}).get("quality_score", 0),
         }
-    
+
     def _combine_files(self, files: Dict[str, str]) -> str:
         """Combine multiple files into a single review string."""
         parts = []
@@ -115,7 +111,7 @@ class ReviewerAgent(AgentBase):
             parts.append("```")
             parts.append("")
         return "\n".join(parts)
-    
+
     def _build_prompt(self, code: str, review_type: str) -> str:
         """Build review prompt."""
         focus = {
@@ -123,7 +119,7 @@ class ReviewerAgent(AgentBase):
             "security": "security vulnerabilities and risks",
             "quality": "code quality and maintainability",
         }.get(review_type, "all aspects")
-        
+
         return f"""## Code Review Request
 
 Review the following code, focusing on {focus}.
@@ -141,7 +137,7 @@ Review the following code, focusing on {focus}.
 
 Be thorough but fair. Not every minor style issue needs to be reported.
 Focus on issues that would matter in production."""
-    
+
     def _parse_review(self, response: str) -> Dict[str, Any]:
         """Parse review results from model response."""
         try:
@@ -160,7 +156,7 @@ Focus on issues that would matter in production."""
                 json_str = response[start:end]
             else:
                 json_str = response
-            
+
             return json.loads(json_str)
         except (json.JSONDecodeError, ValueError):
             # Return structured error

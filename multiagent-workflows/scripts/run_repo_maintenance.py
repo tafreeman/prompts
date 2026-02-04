@@ -20,57 +20,61 @@ import json
 import os
 import re
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-
 # ============================================================================
 # Standardized Contracts for Inter-Agent Communication
 # ============================================================================
 
+
 class ItemStatus(str, Enum):
     """Status of an item after agent analysis."""
-    HEALTHY = "healthy"           # No issues found
-    WARNING = "warning"           # Minor issues
+
+    HEALTHY = "healthy"  # No issues found
+    WARNING = "warning"  # Minor issues
     NEEDS_REVIEW = "needs_review"  # Requires human attention
-    DEPRECATED = "deprecated"     # Should be archived/removed
-    CRITICAL = "critical"         # Immediate action required
-    UNKNOWN = "unknown"           # Could not determine status
-    PASSING = "passing"           # Test passed
-    FAILING = "failing"           # Test failed
-    SKIPPED = "skipped"           # Test skipped
-    ERROR = "error"               # Error during analysis
+    DEPRECATED = "deprecated"  # Should be archived/removed
+    CRITICAL = "critical"  # Immediate action required
+    UNKNOWN = "unknown"  # Could not determine status
+    PASSING = "passing"  # Test passed
+    FAILING = "failing"  # Test failed
+    SKIPPED = "skipped"  # Test skipped
+    ERROR = "error"  # Error during analysis
 
 
 class ItemPriority(str, Enum):
     """Priority level for recommendations."""
+
     CRITICAL = "critical"  # P0 - Fix immediately
-    HIGH = "high"          # P1 - Fix soon
-    MEDIUM = "medium"      # P2 - Fix when convenient
-    LOW = "low"            # P3 - Nice to have
-    INFO = "info"          # Informational only
+    HIGH = "high"  # P1 - Fix soon
+    MEDIUM = "medium"  # P2 - Fix when convenient
+    LOW = "low"  # P3 - Nice to have
+    INFO = "info"  # Informational only
 
 
 class ItemAction(str, Enum):
     """Recommended action for an item."""
-    PRESERVE = "preserve"          # Keep as-is
-    ARCHIVE = "archive"            # Move to archive
-    DELETE = "delete"              # Safe to remove
-    REFACTOR = "refactor"          # Needs code changes
-    DOCUMENT = "document"          # Needs documentation
-    TEST = "test"                  # Needs test coverage
-    REVIEW = "review"              # Needs human review
-    MERGE = "merge"                # Consolidate with another file
+
+    PRESERVE = "preserve"  # Keep as-is
+    ARCHIVE = "archive"  # Move to archive
+    DELETE = "delete"  # Safe to remove
+    REFACTOR = "refactor"  # Needs code changes
+    DOCUMENT = "document"  # Needs documentation
+    TEST = "test"  # Needs test coverage
+    REVIEW = "review"  # Needs human review
+    MERGE = "merge"  # Consolidate with another file
     FIX_SECURITY = "fix_security"  # Security issue to address
-    UPDATE = "update"              # Needs update/refresh
-    SKIP = "skip"                  # No action needed
+    UPDATE = "update"  # Needs update/refresh
+    SKIP = "skip"  # No action needed
 
 
 class IssueCategory(str, Enum):
     """Category of issues found."""
+
     SECURITY = "security"
     QUALITY = "quality"
     BEST_PRACTICES = "best_practices"
@@ -85,6 +89,7 @@ class IssueCategory(str, Enum):
 
 class FileType(str, Enum):
     """Type of file being analyzed."""
+
     PYTHON = "python"
     MARKDOWN = "markdown"
     JSON = "json"
@@ -99,6 +104,7 @@ class FileType(str, Enum):
 
 class TestStatus(str, Enum):
     """Status of a test execution."""
+
     PASSED = "passed"
     FAILED = "failed"
     ERROR = "error"
@@ -109,6 +115,7 @@ class TestStatus(str, Enum):
 
 class DocStatus(str, Enum):
     """Status of documentation."""
+
     COMPLETE = "complete"
     INCOMPLETE = "incomplete"
     OUTDATED = "outdated"
@@ -119,6 +126,7 @@ class DocStatus(str, Enum):
 @dataclass
 class MaintenanceItem:
     """Standardized item for inter-agent communication."""
+
     path: str
     status: ItemStatus
     priority: ItemPriority
@@ -144,13 +152,14 @@ class MaintenanceItem:
             "confidence": self.confidence,
             "line_number": self.line_number,
             "notes": self.notes,
-            "details": self.details
+            "details": self.details,
         }
 
 
 @dataclass
 class FileAnalysisItem:
     """Result from file analysis (Explorer, Engineering)."""
+
     path: str
     file_type: FileType
     status: ItemStatus
@@ -167,13 +176,14 @@ class FileAnalysisItem:
             "size_bytes": self.size_bytes,
             "line_count": self.line_count,
             "issues": [i.to_dict() for i in self.issues],
-            "notes": self.notes
+            "notes": self.notes,
         }
 
 
 @dataclass
 class TestResultItem:
     """Result from test execution."""
+
     path: str
     test_status: TestStatus
     execution_time_ms: float = 0
@@ -186,13 +196,14 @@ class TestResultItem:
             "test_status": self.test_status.value,
             "execution_time_ms": self.execution_time_ms,
             "error_message": self.error_message,
-            "notes": self.notes
+            "notes": self.notes,
         }
 
 
 @dataclass
 class DocAuditItem:
     """Result from documentation audit."""
+
     path: str
     doc_status: DocStatus
     broken_links: List[str] = field(default_factory=list)
@@ -205,13 +216,14 @@ class DocAuditItem:
             "doc_status": self.doc_status.value,
             "broken_links": self.broken_links,
             "missing_sections": self.missing_sections,
-            "notes": self.notes
+            "notes": self.notes,
         }
 
 
 @dataclass
 class CleanupItem:
     """Recommendation for file cleanup."""
+
     path: str
     action: ItemAction
     priority: ItemPriority
@@ -228,13 +240,14 @@ class CleanupItem:
             "reason": self.reason,
             "related_files": self.related_files,
             "risk_level": self.risk_level,
-            "notes": self.notes
+            "notes": self.notes,
         }
 
 
 @dataclass
 class AgentResult:
     """Standardized result from any agent."""
+
     agent_name: str
     success: bool
     items: List[MaintenanceItem] = field(default_factory=list)
@@ -256,7 +269,7 @@ class AgentResult:
             "doc_audits": [d.to_dict() for d in self.doc_audits],
             "cleanup_items": [c.to_dict() for c in self.cleanup_items],
             "summary": self.summary,
-            "error": self.error
+            "error": self.error,
         }
 
 
@@ -264,9 +277,11 @@ class AgentResult:
 # Tool Definitions for Agent Use
 # ============================================================================
 
+
 @dataclass
 class ToolResult:
     """Result from a tool execution."""
+
     tool_name: str
     success: bool
     output: Any = None
@@ -277,7 +292,7 @@ class ToolResult:
             "tool_name": self.tool_name,
             "success": self.success,
             "output": str(self.output)[:1000] if self.output else None,
-            "error": self.error
+            "error": self.error,
         }
 
 
@@ -291,13 +306,15 @@ class AgentToolkit:
 
     def _log_action(self, tool: str, params: Dict, result: ToolResult):
         """Log all tool actions for audit."""
-        self.actions_log.append({
-            "timestamp": datetime.now().isoformat(),
-            "tool": tool,
-            "params": params,
-            "success": result.success,
-            "dry_run": self.dry_run
-        })
+        self.actions_log.append(
+            {
+                "timestamp": datetime.now().isoformat(),
+                "tool": tool,
+                "params": params,
+                "success": result.success,
+                "dry_run": self.dry_run,
+            }
+        )
 
     def read_file(self, path: str, max_chars: int = 5000) -> ToolResult:
         """Read file contents."""
@@ -308,7 +325,7 @@ class AgentToolkit:
             if not full_path.is_file():
                 return ToolResult("read_file", False, error=f"Not a file: {path}")
 
-            with open(full_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(full_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read(max_chars)
 
             result = ToolResult("read_file", True, output=content)
@@ -323,13 +340,18 @@ class AgentToolkit:
             full_path = self.repo_path / path
 
             if self.dry_run:
-                result = ToolResult("write_file", True,
-                                    output=f"[DRY RUN] Would write {len(content)} chars to {path}")
+                result = ToolResult(
+                    "write_file",
+                    True,
+                    output=f"[DRY RUN] Would write {len(content)} chars to {path}",
+                )
             else:
                 full_path.parent.mkdir(parents=True, exist_ok=True)
-                with open(full_path, 'w', encoding='utf-8') as f:
+                with open(full_path, "w", encoding="utf-8") as f:
                     f.write(content)
-                result = ToolResult("write_file", True, output=f"Wrote {len(content)} chars to {path}")
+                result = ToolResult(
+                    "write_file", True, output=f"Wrote {len(content)} chars to {path}"
+                )
 
             self._log_action("write_file", {"path": path, "size": len(content)}, result)
             return result
@@ -339,6 +361,7 @@ class AgentToolkit:
     def move_file(self, src: str, dest: str) -> ToolResult:
         """Move/rename a file."""
         import shutil
+
         try:
             src_path = self.repo_path / src
             dest_path = self.repo_path / dest
@@ -347,8 +370,9 @@ class AgentToolkit:
                 return ToolResult("move_file", False, error=f"Source not found: {src}")
 
             if self.dry_run:
-                result = ToolResult("move_file", True,
-                                    output=f"[DRY RUN] Would move {src} -> {dest}")
+                result = ToolResult(
+                    "move_file", True, output=f"[DRY RUN] Would move {src} -> {dest}"
+                )
             else:
                 dest_path.parent.mkdir(parents=True, exist_ok=True)
                 shutil.move(str(src_path), str(dest_path))
@@ -368,15 +392,17 @@ class AgentToolkit:
                 return ToolResult("delete_file", False, error=f"File not found: {path}")
 
             if self.dry_run:
-                result = ToolResult("delete_file", True,
-                                    output=f"[DRY RUN] Would delete {path}")
+                result = ToolResult(
+                    "delete_file", True, output=f"[DRY RUN] Would delete {path}"
+                )
             else:
                 # Safety: move to .trash instead of actual delete
                 trash_path = self.repo_path / ".trash" / path
                 trash_path.parent.mkdir(parents=True, exist_ok=True)
                 full_path.rename(trash_path)
-                result = ToolResult("delete_file", True,
-                                    output=f"Moved to trash: {path}")
+                result = ToolResult(
+                    "delete_file", True, output=f"Moved to trash: {path}"
+                )
 
             self._log_action("delete_file", {"path": path}, result)
             return result
@@ -388,15 +414,19 @@ class AgentToolkit:
         try:
             full_path = self.repo_path / path
             if not full_path.exists():
-                return ToolResult("list_dir", False, error=f"Directory not found: {path}")
+                return ToolResult(
+                    "list_dir", False, error=f"Directory not found: {path}"
+                )
 
             entries = []
             for entry in full_path.iterdir():
-                entries.append({
-                    "name": entry.name,
-                    "type": "dir" if entry.is_dir() else "file",
-                    "size": entry.stat().st_size if entry.is_file() else 0
-                })
+                entries.append(
+                    {
+                        "name": entry.name,
+                        "type": "dir" if entry.is_dir() else "file",
+                        "size": entry.stat().st_size if entry.is_file() else 0,
+                    }
+                )
 
             result = ToolResult("list_dir", True, output=entries)
             self._log_action("list_dir", {"path": path}, result)
@@ -407,37 +437,41 @@ class AgentToolkit:
     def web_search(self, query: str, max_results: int = 5) -> ToolResult:
         """Search the web using DuckDuckGo."""
         try:
-            import urllib.request
-            import urllib.parse
             import json as _json
-            
+            import urllib.parse
+            import urllib.request
+
             # Use DuckDuckGo Instant Answer API (free, no auth required)
             encoded_query = urllib.parse.quote(query)
             url = f"https://api.duckduckgo.com/?q={encoded_query}&format=json&no_html=1&skip_disambig=1"
-            
+
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=10) as response:
-                data = _json.loads(response.read().decode('utf-8'))
-            
+                data = _json.loads(response.read().decode("utf-8"))
+
             results = []
-            
+
             # Abstract (main result)
             if data.get("Abstract"):
-                results.append({
-                    "title": data.get("Heading", "Result"),
-                    "snippet": data["Abstract"],
-                    "url": data.get("AbstractURL", "")
-                })
-            
+                results.append(
+                    {
+                        "title": data.get("Heading", "Result"),
+                        "snippet": data["Abstract"],
+                        "url": data.get("AbstractURL", ""),
+                    }
+                )
+
             # Related topics
             for topic in data.get("RelatedTopics", [])[:max_results]:
                 if isinstance(topic, dict) and topic.get("Text"):
-                    results.append({
-                        "title": topic.get("Text", "")[:100],
-                        "snippet": topic.get("Text", ""),
-                        "url": topic.get("FirstURL", "")
-                    })
-            
+                    results.append(
+                        {
+                            "title": topic.get("Text", "")[:100],
+                            "snippet": topic.get("Text", ""),
+                            "url": topic.get("FirstURL", ""),
+                        }
+                    )
+
             result = ToolResult("web_search", True, output=results[:max_results])
             self._log_action("web_search", {"query": query}, result)
             return result
@@ -450,21 +484,34 @@ class AgentToolkit:
             full_path = self.repo_path / path
 
             if not full_path.exists():
-                return ToolResult("remove_file_permanently", False, error=f"File not found: {path}")
+                return ToolResult(
+                    "remove_file_permanently", False, error=f"File not found: {path}"
+                )
 
             if not confirm:
-                return ToolResult("remove_file_permanently", False, 
-                                  error="Must set confirm=True to permanently delete")
+                return ToolResult(
+                    "remove_file_permanently",
+                    False,
+                    error="Must set confirm=True to permanently delete",
+                )
 
             if self.dry_run:
-                result = ToolResult("remove_file_permanently", True,
-                                    output=f"[DRY RUN] Would permanently delete {path}")
+                result = ToolResult(
+                    "remove_file_permanently",
+                    True,
+                    output=f"[DRY RUN] Would permanently delete {path}",
+                )
             else:
                 full_path.unlink()
-                result = ToolResult("remove_file_permanently", True,
-                                    output=f"Permanently deleted: {path}")
+                result = ToolResult(
+                    "remove_file_permanently",
+                    True,
+                    output=f"Permanently deleted: {path}",
+                )
 
-            self._log_action("remove_file_permanently", {"path": path, "confirm": confirm}, result)
+            self._log_action(
+                "remove_file_permanently", {"path": path, "confirm": confirm}, result
+            )
             return result
         except Exception as e:
             return ToolResult("remove_file_permanently", False, error=str(e))
@@ -494,13 +541,17 @@ sys.path.insert(0, str(project_root))
 # Try to use ModelManager (GitHub Models, Ollama, etc.)
 try:
     from multiagent_workflows.core.model_manager import ModelManager
+
     MODEL_MANAGER_AVAILABLE = True
 except ImportError:
     MODEL_MANAGER_AVAILABLE = False
-    print("Warning: ModelManager not available. Run from multiagent-workflows directory.")
+    print(
+        "Warning: ModelManager not available. Run from multiagent-workflows directory."
+    )
 
 # Global model manager instance
 _model_manager = None
+
 
 def get_model_manager() -> "ModelManager":
     """Get or create the global ModelManager instance."""
@@ -524,7 +575,7 @@ class RepoMaintenanceAgent:
         if self._manager is None:
             self._manager = get_model_manager()
         return self._manager
-    
+
     async def call_llm(self, prompt: str, system_prompt: str = None) -> str:
         """Call the LLM using ModelManager."""
         if self.manager:
@@ -577,7 +628,7 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
         super().__init__(
             name="Librarian",
             role="Head Repository Librarian & Orchestrator",
-            model="gh:openai/gpt-4o-mini"  # Fast orchestration model
+            model="gh:openai/gpt-4o-mini",  # Fast orchestration model
         )
         self.catalog = {}
         self.task_queue = []
@@ -598,7 +649,9 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
             return explorer_results
         return {}
 
-    async def delegate_task(self, specialist_name: str, task: str, *args, **kwargs) -> Dict[str, Any]:
+    async def delegate_task(
+        self, specialist_name: str, task: str, *args, **kwargs
+    ) -> Dict[str, Any]:
         """Delegate a task to a specialist agent."""
         if specialist_name not in self.specialists:
             return {"error": f"Unknown specialist: {specialist_name}"}
@@ -606,11 +659,13 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
         print(f"   📚 Librarian delegating to {specialist_name}: {task[:50]}...")
         result = await self.specialists[specialist_name].execute(*args, **kwargs)
 
-        self.completed_tasks.append({
-            "specialist": specialist_name,
-            "task": task,
-            "result_summary": self._summarize_result(result)
-        })
+        self.completed_tasks.append(
+            {
+                "specialist": specialist_name,
+                "task": task,
+                "result_summary": self._summarize_result(result),
+            }
+        )
         return result
 
     def _summarize_result(self, result: Dict[str, Any]) -> str:
@@ -620,8 +675,11 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
             return f"Keys: {keys}"
         return str(result)[:100]
 
-    async def curate_recommendations(self, all_results: Dict[str, Any]) -> Dict[str, Any]:
-        """Curate final recommendations based on all specialist reports using LLM."""
+    async def curate_recommendations(
+        self, all_results: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Curate final recommendations based on all specialist reports using
+        LLM."""
         print("\n📚 Librarian: Curating final recommendations...")
 
         recommendations = {
@@ -637,43 +695,53 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
         cleanup = all_results.get("cleanup", {}).get("cleanup_plan", {})
 
         for item in cleanup.get("phase1_safe", []):
-            recommendations["discard"].append({
-                "path": item.get("path"),
-                "reason": item.get("reason"),
-                "confidence": "high"
-            })
+            recommendations["discard"].append(
+                {
+                    "path": item.get("path"),
+                    "reason": item.get("reason"),
+                    "confidence": "high",
+                }
+            )
 
         for item in cleanup.get("phase2_medium", []):
-            recommendations["archive"].append({
-                "path": item.get("path"),
-                "reason": item.get("reason"),
-                "confidence": "medium"
-            })
+            recommendations["archive"].append(
+                {
+                    "path": item.get("path"),
+                    "reason": item.get("reason"),
+                    "confidence": "medium",
+                }
+            )
 
         for item in cleanup.get("phase3_manual", []):
-            recommendations["review"].append({
-                "item": item,
-                "reason": "Multiple copies or complex decision",
-                "confidence": "low"
-            })
+            recommendations["review"].append(
+                {
+                    "item": item,
+                    "reason": "Multiple copies or complex decision",
+                    "confidence": "low",
+                }
+            )
 
         # Working tools must be preserved
         testing = all_results.get("testing", {}).get("test_results", {})
         for tool in testing.get("working", [])[:10]:  # Limit to first 10
-            recommendations["preserve"].append({
-                "path": tool.get("path"),
-                "reason": "Working tool - validated",
-                "confidence": "high"
-            })
+            recommendations["preserve"].append(
+                {
+                    "path": tool.get("path"),
+                    "reason": "Working tool - validated",
+                    "confidence": "high",
+                }
+            )
 
         # Add engineering expert recommendations
         engineering = all_results.get("engineering", {})
         for issue in engineering.get("quality_issues", []):
-            recommendations["improve"].append({
-                "path": issue.get("path"),
-                "issue": issue.get("issue"),
-                "priority": issue.get("priority", "medium")
-            })
+            recommendations["improve"].append(
+                {
+                    "path": issue.get("path"),
+                    "issue": issue.get("issue"),
+                    "priority": issue.get("priority", "medium"),
+                }
+            )
 
         # Now use LLM to provide executive summary
         if self.manager:
@@ -688,7 +756,7 @@ Always prioritize preservation over deletion. When in doubt, archive don't delet
                 "duplicates_for_review": len(cleanup.get("phase3_manual", [])),
                 "safe_to_delete": len(cleanup.get("phase1_safe", [])),
             }
-            
+
             prompt = f"""As a Repository Librarian AI, analyze this maintenance scan summary and provide a brief executive analysis (3-5 sentences):
 
 Repository Scan Results:
@@ -744,10 +812,12 @@ class ExplorerAgent(RepoMaintenanceAgent):
         super().__init__(
             name="Explorer",
             role="Repository Structure Analyst",
-            model="gh:openai/gpt-4o-mini"  # Fast scanning
+            model="gh:openai/gpt-4o-mini",  # Fast scanning
         )
 
-    async def execute(self, repo_path: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def execute(
+        self, repo_path: str, context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Map the repository structure."""
         repo_path = Path(repo_path)
 
@@ -759,33 +829,50 @@ class ExplorerAgent(RepoMaintenanceAgent):
             "potential_duplicates": [],
         }
 
-        skip_dirs = {'.git', '__pycache__', '.venv', 'node_modules', '.vs', '.vscode', '.pytest_cache', 'archive'}
+        skip_dirs = {
+            ".git",
+            "__pycache__",
+            ".venv",
+            "node_modules",
+            ".vs",
+            ".vscode",
+            ".pytest_cache",
+            "archive",
+        }
 
         for root, dirs, files in os.walk(repo_path):
-            dirs[:] = [d for d in dirs if d not in skip_dirs and not d.startswith('.')]
+            dirs[:] = [d for d in dirs if d not in skip_dirs and not d.startswith(".")]
 
             rel_path = Path(root).relative_to(repo_path)
 
             for f in files:
-                rel_file_path = str(rel_path / f) if rel_path != Path('.') else f
+                rel_file_path = str(rel_path / f) if rel_path != Path(".") else f
 
                 # Skip files with 'archive' in path
-                if 'archive' in rel_file_path.lower():
+                if "archive" in rel_file_path.lower():
                     continue
 
-                if f.endswith('.py'):
+                if f.endswith(".py"):
                     inventory["python_files"].append(rel_file_path)
-                    if 'tools' in str(rel_path) or f.startswith('run_') or f.startswith('cli'):
+                    if (
+                        "tools" in str(rel_path)
+                        or f.startswith("run_")
+                        or f.startswith("cli")
+                    ):
                         inventory["tools"].append(rel_file_path)
 
-                if f.lower().endswith('.md') or f.lower() in ['readme.txt', 'readme.rst']:
+                if f.lower().endswith(".md") or f.lower() in [
+                    "readme.txt",
+                    "readme.rst",
+                ]:
                     inventory["documentation"].append(rel_file_path)
 
-            if rel_path != Path('.'):
+            if rel_path != Path("."):
                 inventory["directories"].append(str(rel_path))
 
         # Find potential duplicates
         from collections import defaultdict
+
         name_paths = defaultdict(list)
         for py_file in inventory["python_files"]:
             name = Path(py_file).name
@@ -793,22 +880,20 @@ class ExplorerAgent(RepoMaintenanceAgent):
 
         for name, paths in name_paths.items():
             if len(paths) > 1:
-                inventory["potential_duplicates"].append({
-                    "filename": name,
-                    "locations": paths
-                })
+                inventory["potential_duplicates"].append(
+                    {"filename": name, "locations": paths}
+                )
 
         return {
             "repo_inventory": inventory,
             "tool_count": len(inventory["tools"]),
             "doc_count": len(inventory["documentation"]),
-            "duplicate_candidates": len(inventory["potential_duplicates"])
+            "duplicate_candidates": len(inventory["potential_duplicates"]),
         }
 
 
 class EngineeringExpertAgent(RepoMaintenanceAgent):
-    """
-    AI & Software Engineering Expert
+    """AI & Software Engineering Expert.
 
     Analyzes code for:
     - Correctness and functionality
@@ -835,10 +920,12 @@ You provide actionable, specific feedback with priority ratings."""
         super().__init__(
             name="EngineeringExpert",
             role="AI & Software Engineering Expert",
-            model="ollama:deepseek-r1:14b"  # Local reasoning model for code analysis
+            model="ollama:deepseek-r1:14b",  # Local reasoning model for code analysis
         )
 
-    async def execute(self, tools: List[str], repo_path: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def execute(
+        self, tools: List[str], repo_path: str, context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Analyze tools for code quality and best practices using LLM."""
         repo_path = Path(repo_path)
 
@@ -857,7 +944,7 @@ You provide actionable, specific feedback with priority ratings."""
             file_path = repo_path / tool_path
             if file_path.exists():
                 try:
-                    with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                         content = f.read()[:3000]  # First 3000 chars
                     sample_files.append({"path": tool_path, "content": content})
                 except Exception:
@@ -866,12 +953,14 @@ You provide actionable, specific feedback with priority ratings."""
         # Call LLM for analysis
         if self.manager and sample_files:
             print("   🤖 Engineering Expert calling LLM for code analysis...")
-            
-            file_summaries = "\n\n".join([
-                f"### {f['path']}\n```python\n{f['content'][:1500]}\n```"
-                for f in sample_files[:5]  # Show 5 files to LLM
-            ])
-            
+
+            file_summaries = "\n\n".join(
+                [
+                    f"### {f['path']}\n```python\n{f['content'][:1500]}\n```"
+                    for f in sample_files[:5]  # Show 5 files to LLM
+                ]
+            )
+
             prompt = f"""Analyze these Python files for code quality issues.
 
 {file_summaries}
@@ -894,43 +983,49 @@ BEST_PRACTICES:
 Be specific about actual issues found. If no issues, say "None found"."""
 
             try:
-                llm_response = await self.call_llm(prompt, system_prompt=self.SYSTEM_PROMPT)
+                llm_response = await self.call_llm(
+                    prompt, system_prompt=self.SYSTEM_PROMPT
+                )
                 print(f"   ✅ LLM analysis complete ({len(llm_response)} chars)")
-                
+
                 # Parse LLM response into structured issues
                 current_category = None
-                for line in llm_response.split('\n'):
+                for line in llm_response.split("\n"):
                     line = line.strip()
-                    if line.startswith('SECURITY:'):
-                        current_category = 'security'
-                    elif line.startswith('QUALITY:'):
-                        current_category = 'quality'
-                    elif line.startswith('BEST_PRACTICES:'):
-                        current_category = 'best_practices'
-                    elif line.startswith('- ') and current_category:
+                    if line.startswith("SECURITY:"):
+                        current_category = "security"
+                    elif line.startswith("QUALITY:"):
+                        current_category = "quality"
+                    elif line.startswith("BEST_PRACTICES:"):
+                        current_category = "best_practices"
+                    elif line.startswith("- ") and current_category:
                         issue_text = line[2:]
-                        if ':' in issue_text:
-                            path, issue = issue_text.split(':', 1)
+                        if ":" in issue_text:
+                            path, issue = issue_text.split(":", 1)
                             path = path.strip()
                             issue = issue.strip()
                         else:
                             path = "general"
                             issue = issue_text
-                        
-                        if 'none found' not in issue.lower():
+
+                        if "none found" not in issue.lower():
                             issue_obj = {
                                 "path": path,
                                 "issue": issue,
                                 "category": current_category,
-                                "priority": "high" if current_category == "security" else "medium"
+                                "priority": (
+                                    "high"
+                                    if current_category == "security"
+                                    else "medium"
+                                ),
                             }
-                            if current_category == 'security':
+                            if current_category == "security":
                                 analysis["security_concerns"].append(issue_obj)
-                            elif current_category == 'quality':
+                            elif current_category == "quality":
                                 analysis["quality_issues"].append(issue_obj)
-                            elif current_category == 'best_practices':
+                            elif current_category == "best_practices":
                                 analysis["best_practices_violations"].append(issue_obj)
-                
+
             except Exception as e:
                 print(f"   ⚠️ LLM analysis failed: {e}")
                 # Fall back to heuristic analysis
@@ -943,7 +1038,9 @@ Be specific about actual issues found. If no issues, say "None found"."""
                 file_path = repo_path / tool_path
                 if file_path.exists():
                     try:
-                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        with open(
+                            file_path, "r", encoding="utf-8", errors="ignore"
+                        ) as f:
                             content = f.read()
                         file_analysis = self._analyze_file(tool_path, content)
                         analysis["analyzed"].append(file_analysis)
@@ -961,126 +1058,160 @@ Be specific about actual issues found. If no issues, say "None found"."""
 
         return {
             "engineering_analysis": analysis,
-            "total_analyzed": len(sample_files) if sample_files else len(analysis["analyzed"]),
+            "total_analyzed": (
+                len(sample_files) if sample_files else len(analysis["analyzed"])
+            ),
             "quality_issues_count": len(analysis["quality_issues"]),
             "security_concerns_count": len(analysis["security_concerns"]),
-            "best_practices_violations_count": len(analysis["best_practices_violations"])
+            "best_practices_violations_count": len(
+                analysis["best_practices_violations"]
+            ),
         }
 
     def _analyze_file(self, path: str, content: str) -> Dict[str, Any]:
         """Analyze a single file for quality issues."""
         issues = []
-        lines = content.split('\n')
+        lines = content.split("\n")
 
         # Check for docstrings
         if not ('"""' in content or "'''" in content):
-            issues.append({
-                "category": "quality",
-                "issue": "Missing docstrings",
-                "priority": "medium",
-                "suggestion": "Add module and function docstrings"
-            })
+            issues.append(
+                {
+                    "category": "quality",
+                    "issue": "Missing docstrings",
+                    "priority": "medium",
+                    "suggestion": "Add module and function docstrings",
+                }
+            )
 
         # Check for type hints
-        func_pattern = r'def \w+\([^)]*\):'
+        func_pattern = r"def \w+\([^)]*\):"
         funcs_without_hints = re.findall(func_pattern, content)
-        if funcs_without_hints and '->' not in content:
-            issues.append({
-                "category": "best_practices",
-                "issue": "Missing type hints",
-                "priority": "low",
-                "suggestion": "Add return type annotations to functions"
-            })
+        if funcs_without_hints and "->" not in content:
+            issues.append(
+                {
+                    "category": "best_practices",
+                    "issue": "Missing type hints",
+                    "priority": "low",
+                    "suggestion": "Add return type annotations to functions",
+                }
+            )
 
         # Check for bare excepts
-        if 'except:' in content or 'except Exception:' in content:
-            issues.append({
-                "category": "best_practices",
-                "issue": "Broad exception handling",
-                "priority": "medium",
-                "suggestion": "Use specific exception types"
-            })
+        if "except:" in content or "except Exception:" in content:
+            issues.append(
+                {
+                    "category": "best_practices",
+                    "issue": "Broad exception handling",
+                    "priority": "medium",
+                    "suggestion": "Use specific exception types",
+                }
+            )
 
         # Check for hardcoded credentials patterns
-        cred_patterns = ['password=', 'api_key=', 'secret=', 'token=']
+        cred_patterns = ["password=", "api_key=", "secret=", "token="]
         for pattern in cred_patterns:
-            if pattern in content.lower() and '=' in content:
+            if pattern in content.lower() and "=" in content:
                 # Check if it's not just a parameter name
                 for line in lines:
-                    if pattern in line.lower() and ('=' in line) and ('"' in line or "'" in line):
-                        issues.append({
-                            "category": "security",
-                            "issue": f"Potential hardcoded credential: {pattern}",
-                            "priority": "high",
-                            "suggestion": "Use environment variables for secrets"
-                        })
+                    if (
+                        pattern in line.lower()
+                        and ("=" in line)
+                        and ('"' in line or "'" in line)
+                    ):
+                        issues.append(
+                            {
+                                "category": "security",
+                                "issue": f"Potential hardcoded credential: {pattern}",
+                                "priority": "high",
+                                "suggestion": "Use environment variables for secrets",
+                            }
+                        )
                         break
 
         # Check for TODO/FIXME comments (technical debt)
-        todo_count = content.lower().count('todo') + content.lower().count('fixme')
+        todo_count = content.lower().count("todo") + content.lower().count("fixme")
         if todo_count > 0:
-            issues.append({
-                "category": "technical_debt",
-                "issue": f"Found {todo_count} TODO/FIXME comments",
-                "priority": "low",
-                "suggestion": "Address or track these items"
-            })
+            issues.append(
+                {
+                    "category": "technical_debt",
+                    "issue": f"Found {todo_count} TODO/FIXME comments",
+                    "priority": "low",
+                    "suggestion": "Address or track these items",
+                }
+            )
 
         # Check file length (complexity indicator)
         if len(lines) > 500:
-            issues.append({
-                "category": "quality",
-                "issue": f"Large file ({len(lines)} lines)",
-                "priority": "medium",
-                "suggestion": "Consider splitting into smaller modules"
-            })
+            issues.append(
+                {
+                    "category": "quality",
+                    "issue": f"Large file ({len(lines)} lines)",
+                    "priority": "medium",
+                    "suggestion": "Consider splitting into smaller modules",
+                }
+            )
 
         # Check for main guard
-        if 'if __name__' not in content and 'def main' in content:
-            issues.append({
-                "category": "best_practices",
-                "issue": "Missing __name__ guard",
-                "priority": "low",
-                "suggestion": "Add if __name__ == '__main__': guard"
-            })
+        if "if __name__" not in content and "def main" in content:
+            issues.append(
+                {
+                    "category": "best_practices",
+                    "issue": "Missing __name__ guard",
+                    "priority": "low",
+                    "suggestion": "Add if __name__ == '__main__': guard",
+                }
+            )
 
         return {
             "path": path,
             "lines": len(lines),
             "issues": issues,
-            "quality_score": max(0, 100 - len(issues) * 10)
+            "quality_score": max(0, 100 - len(issues) * 10),
         }
 
-    def _generate_recommendations(self, analysis: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_recommendations(
+        self, analysis: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
         """Generate prioritized recommendations."""
         recommendations = []
 
         # High priority: Security
         if analysis["security_concerns"]:
-            recommendations.append({
-                "priority": "HIGH",
-                "category": "Security",
-                "action": "Address security concerns immediately",
-                "files": [c["path"] for c in analysis["security_concerns"][:5]]
-            })
+            recommendations.append(
+                {
+                    "priority": "HIGH",
+                    "category": "Security",
+                    "action": "Address security concerns immediately",
+                    "files": [c["path"] for c in analysis["security_concerns"][:5]],
+                }
+            )
 
         # Medium priority: Quality
         if len(analysis["quality_issues"]) > 5:
-            recommendations.append({
-                "priority": "MEDIUM",
-                "category": "Code Quality",
-                "action": "Improve documentation and reduce file sizes",
-                "files": list(set(i["path"] for i in analysis["quality_issues"]))[:5]
-            })
+            recommendations.append(
+                {
+                    "priority": "MEDIUM",
+                    "category": "Code Quality",
+                    "action": "Improve documentation and reduce file sizes",
+                    "files": list(set(i["path"] for i in analysis["quality_issues"]))[
+                        :5
+                    ],
+                }
+            )
 
         # Low priority: Best practices
         if analysis["best_practices_violations"]:
-            recommendations.append({
-                "priority": "LOW",
-                "category": "Best Practices",
-                "action": "Add type hints and improve exception handling",
-                "files": list(set(i["path"] for i in analysis["best_practices_violations"]))[:5]
-            })
+            recommendations.append(
+                {
+                    "priority": "LOW",
+                    "category": "Best Practices",
+                    "action": "Add type hints and improve exception handling",
+                    "files": list(
+                        set(i["path"] for i in analysis["best_practices_violations"])
+                    )[:5],
+                }
+            )
 
         return recommendations
 
@@ -1092,17 +1223,14 @@ class ToolTesterAgent(RepoMaintenanceAgent):
         super().__init__(
             name="Tester",
             role="Tool Testing Specialist",
-            model="gh:openai/gpt-4o-mini"  # Fast testing
+            model="gh:openai/gpt-4o-mini",  # Fast testing
         )
 
-    async def execute(self, tools: List[str], repo_path: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def execute(
+        self, tools: List[str], repo_path: str, context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Test tools for import errors and basic functionality."""
-        results = {
-            "tested": [],
-            "working": [],
-            "broken": [],
-            "skipped": []
-        }
+        results = {"tested": [], "working": [], "broken": [], "skipped": []}
 
         repo_path = Path(repo_path)
 
@@ -1114,7 +1242,7 @@ class ToolTesterAgent(RepoMaintenanceAgent):
                 "path": tool_path,
                 "name": tool_name,
                 "status": "unknown",
-                "details": ""
+                "details": "",
             }
 
             try:
@@ -1124,11 +1252,11 @@ class ToolTesterAgent(RepoMaintenanceAgent):
                     results["broken"].append(result)
                     continue
 
-                with open(tool_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(tool_file, "r", encoding="utf-8", errors="ignore") as f:
                     source = f.read()
 
                 try:
-                    compile(source, tool_path, 'exec')
+                    compile(source, tool_path, "exec")
                     result["status"] = "syntax_ok"
                     result["details"] = "Syntax valid"
                     results["working"].append(result)
@@ -1148,7 +1276,7 @@ class ToolTesterAgent(RepoMaintenanceAgent):
             "test_results": results,
             "total_tested": len(results["tested"]),
             "working_count": len(results["working"]),
-            "broken_count": len(results["broken"])
+            "broken_count": len(results["broken"]),
         }
 
 
@@ -1178,7 +1306,7 @@ Synthesize findings into actionable recommendations."""
         super().__init__(
             name="Researcher",
             role="Web Research Specialist",
-            model="gh:openai/gpt-4o-mini"
+            model="gh:openai/gpt-4o-mini",
         )
         self.toolkit: Optional[AgentToolkit] = None
 
@@ -1187,10 +1315,7 @@ Synthesize findings into actionable recommendations."""
         self.toolkit = toolkit
 
     async def execute(
-        self,
-        query: str,
-        repo_path: str,
-        context: Dict[str, Any] = None
+        self, query: str, repo_path: str, context: Dict[str, Any] = None
     ) -> Dict[str, Any]:
         """Search the web for information."""
         if not self.toolkit:
@@ -1200,7 +1325,7 @@ Synthesize findings into actionable recommendations."""
             "query": query,
             "search_results": [],
             "synthesis": None,
-            "recommendations": []
+            "recommendations": [],
         }
 
         print(f"   🔍 Researcher: Searching for '{query[:50]}...'")
@@ -1213,10 +1338,12 @@ Synthesize findings into actionable recommendations."""
 
             # Use LLM to synthesize findings
             if self.manager and search_result.output:
-                search_text = "\n".join([
-                    f"- {r.get('title', 'N/A')}: {r.get('snippet', 'N/A')[:200]}"
-                    for r in search_result.output
-                ])
+                search_text = "\n".join(
+                    [
+                        f"- {r.get('title', 'N/A')}: {r.get('snippet', 'N/A')[:200]}"
+                        for r in search_result.output
+                    ]
+                )
 
                 prompt = f"""Based on these search results for \"{query}\":
 
@@ -1225,9 +1352,11 @@ Synthesize findings into actionable recommendations."""
 Provide a brief synthesis (2-3 sentences) and any actionable recommendations."""
 
                 try:
-                    synthesis = await self.call_llm(prompt, system_prompt=self.SYSTEM_PROMPT)
+                    synthesis = await self.call_llm(
+                        prompt, system_prompt=self.SYSTEM_PROMPT
+                    )
                     results["synthesis"] = synthesis
-                    print(f"   ✅ Synthesis complete")
+                    print("   ✅ Synthesis complete")
                 except Exception as e:
                     print(f"   ⚠️ Synthesis failed: {e}")
         else:
@@ -1248,10 +1377,12 @@ Identify missing sections, outdated content, and broken references."""
         super().__init__(
             name="Documenter",
             role="Documentation Specialist",
-            model="gh:openai/gpt-4o-mini"
+            model="gh:openai/gpt-4o-mini",
         )
 
-    async def execute(self, docs: List[str], repo_path: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def execute(
+        self, docs: List[str], repo_path: str, context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Audit documentation files using LLM."""
         repo_path = Path(repo_path)
 
@@ -1260,7 +1391,7 @@ Identify missing sections, outdated content, and broken references."""
             "issues": [],
             "broken_links": [],
             "missing_sections": [],
-            "llm_summary": None
+            "llm_summary": None,
         }
 
         # First pass: quick heuristic scan for broken links
@@ -1271,29 +1402,26 @@ Identify missing sections, outdated content, and broken references."""
                 continue
 
             try:
-                with open(doc_file, 'r', encoding='utf-8', errors='ignore') as f:
+                with open(doc_file, "r", encoding="utf-8", errors="ignore") as f:
                     content = f.read()
 
                 audit = {"path": doc_path, "size": len(content), "issues": []}
 
                 # Check for broken internal links (quick)
-                links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
+                links = re.findall(r"\[([^\]]+)\]\(([^)]+)\)", content)
                 for text, url in links:
-                    if url.startswith('/') or url.startswith('./'):
-                        target = repo_path / url.lstrip('/')
+                    if url.startswith("/") or url.startswith("./"):
+                        target = repo_path / url.lstrip("/")
                         if not target.exists():
-                            audit_results["broken_links"].append({
-                                "file": doc_path, "link": url, "text": text
-                            })
+                            audit_results["broken_links"].append(
+                                {"file": doc_path, "link": url, "text": text}
+                            )
 
                 audit_results["audited"].append(audit)
-                
+
                 # Collect samples for LLM
                 if len(content) > 200 and len(doc_samples) < 5:
-                    doc_samples.append({
-                        "path": doc_path,
-                        "content": content[:2000]
-                    })
+                    doc_samples.append({"path": doc_path, "content": content[:2000]})
 
             except Exception as e:
                 audit_results["issues"].append({"path": doc_path, "error": str(e)})
@@ -1301,12 +1429,11 @@ Identify missing sections, outdated content, and broken references."""
         # Call LLM for deeper analysis
         if self.manager and doc_samples:
             print("   🤖 Documenter calling LLM for doc analysis...")
-            
-            doc_summaries = "\n\n".join([
-                f"### {d['path']}\n{d['content'][:1000]}"
-                for d in doc_samples[:3]
-            ])
-            
+
+            doc_summaries = "\n\n".join(
+                [f"### {d['path']}\n{d['content'][:1000]}" for d in doc_samples[:3]]
+            )
+
             prompt = f"""Analyze these documentation files for quality:
 
 {doc_summaries}
@@ -1320,7 +1447,9 @@ Identify:
 Be brief and specific."""
 
             try:
-                llm_response = await self.call_llm(prompt, system_prompt=self.SYSTEM_PROMPT)
+                llm_response = await self.call_llm(
+                    prompt, system_prompt=self.SYSTEM_PROMPT
+                )
                 audit_results["llm_summary"] = llm_response
                 print(f"   ✅ Doc analysis complete ({len(llm_response)} chars)")
             except Exception as e:
@@ -1330,7 +1459,7 @@ Be brief and specific."""
             "audit_results": audit_results,
             "total_audited": len(audit_results["audited"]),
             "issues_found": len(audit_results["issues"]),
-            "broken_links_count": len(audit_results["broken_links"])
+            "broken_links_count": len(audit_results["broken_links"]),
         }
 
 
@@ -1345,10 +1474,12 @@ Consider file locations, naming, and context when making recommendations."""
         super().__init__(
             name="Cleanup",
             role="Duplicate Detection Specialist",
-            model="gh:openai/gpt-4o-mini"
+            model="gh:openai/gpt-4o-mini",
         )
 
-    async def execute(self, inventory: Dict[str, Any], repo_path: str, context: Dict[str, Any] = None) -> Dict[str, Any]:
+    async def execute(
+        self, inventory: Dict[str, Any], repo_path: str, context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Identify files for cleanup using LLM."""
         repo_path = Path(repo_path)
 
@@ -1356,7 +1487,7 @@ Consider file locations, naming, and context when making recommendations."""
             "phase1_safe": [],
             "phase2_medium": [],
             "phase3_manual": [],
-            "llm_recommendations": None
+            "llm_recommendations": None,
         }
 
         # Quick heuristic scan for empty/stub files
@@ -1366,43 +1497,58 @@ Consider file locations, naming, and context when making recommendations."""
                 try:
                     size = file_path.stat().st_size
                     if size == 0:
-                        cleanup_plan["phase1_safe"].append({
-                            "path": py_file, "reason": "Empty file", "action": "DELETE"
-                        })
+                        cleanup_plan["phase1_safe"].append(
+                            {
+                                "path": py_file,
+                                "reason": "Empty file",
+                                "action": "DELETE",
+                            }
+                        )
                 except Exception:
                     pass
 
         # Mark duplicates for review
         for dup in inventory.get("potential_duplicates", [])[:30]:
-            cleanup_plan["phase3_manual"].append({
-                "filename": dup["filename"],
-                "locations": dup["locations"],
-                "reason": "Same filename in multiple locations",
-                "action": "REVIEW"
-            })
+            cleanup_plan["phase3_manual"].append(
+                {
+                    "filename": dup["filename"],
+                    "locations": dup["locations"],
+                    "reason": "Same filename in multiple locations",
+                    "action": "REVIEW",
+                }
+            )
 
         # Check archive duplicates
-        archive_files = [f for f in inventory.get("python_files", []) if 'archive' in f.lower()]
+        archive_files = [
+            f for f in inventory.get("python_files", []) if "archive" in f.lower()
+        ]
         for archive_file in archive_files[:20]:
             filename = Path(archive_file).name
-            active = [f for f in inventory.get("python_files", [])
-                      if Path(f).name == filename and 'archive' not in f.lower()]
+            active = [
+                f
+                for f in inventory.get("python_files", [])
+                if Path(f).name == filename and "archive" not in f.lower()
+            ]
             if active:
-                cleanup_plan["phase2_medium"].append({
-                    "path": archive_file,
-                    "reason": f"Archived copy with active version: {active[0]}",
-                    "action": "VERIFY_AND_DELETE"
-                })
+                cleanup_plan["phase2_medium"].append(
+                    {
+                        "path": archive_file,
+                        "reason": f"Archived copy with active version: {active[0]}",
+                        "action": "VERIFY_AND_DELETE",
+                    }
+                )
 
         # Call LLM for duplicate analysis
         if self.manager and cleanup_plan["phase3_manual"]:
             print("   🤖 Cleanup agent calling LLM for duplicate analysis...")
-            
-            dup_summary = "\n".join([
-                f"- {d['filename']}: found in {len(d['locations'])} locations"
-                for d in cleanup_plan["phase3_manual"][:10]
-            ])
-            
+
+            dup_summary = "\n".join(
+                [
+                    f"- {d['filename']}: found in {len(d['locations'])} locations"
+                    for d in cleanup_plan["phase3_manual"][:10]
+                ]
+            )
+
             prompt = f"""Analyze these duplicate files and recommend actions:
 
 {dup_summary}
@@ -1413,7 +1559,9 @@ Consider: is one in 'archive/' already? Is one in 'testing/'?
 Be brief."""
 
             try:
-                llm_response = await self.call_llm(prompt, system_prompt=self.SYSTEM_PROMPT)
+                llm_response = await self.call_llm(
+                    prompt, system_prompt=self.SYSTEM_PROMPT
+                )
                 cleanup_plan["llm_recommendations"] = llm_response
                 print(f"   ✅ Cleanup analysis complete ({len(llm_response)} chars)")
             except Exception as e:
@@ -1423,7 +1571,7 @@ Be brief."""
             "cleanup_plan": cleanup_plan,
             "safe_deletions": len(cleanup_plan["phase1_safe"]),
             "medium_risk": len(cleanup_plan["phase2_medium"]),
-            "manual_review": len(cleanup_plan["phase3_manual"])
+            "manual_review": len(cleanup_plan["phase3_manual"]),
         }
 
 
@@ -1454,9 +1602,7 @@ Respond with ACTION: tool_name and PARAMS: {...} to use tools."""
 
     def __init__(self):
         super().__init__(
-            name="Developer",
-            role="Developer Engineer",
-            model="gh:openai/gpt-4o-mini"
+            name="Developer", role="Developer Engineer", model="gh:openai/gpt-4o-mini"
         )
         self.toolkit: Optional[AgentToolkit] = None
 
@@ -1468,18 +1614,13 @@ Respond with ACTION: tool_name and PARAMS: {...} to use tools."""
         self,
         approved_actions: List[Dict[str, Any]],
         repo_path: str,
-        context: Dict[str, Any] = None
+        context: Dict[str, Any] = None,
     ) -> Dict[str, Any]:
         """Execute approved maintenance actions."""
         if not self.toolkit:
             self.toolkit = AgentToolkit(Path(repo_path), dry_run=True)
 
-        results = {
-            "executed": [],
-            "skipped": [],
-            "errors": [],
-            "tool_calls": []
-        }
+        results = {"executed": [], "skipped": [], "errors": [], "tool_calls": []}
 
         for action in approved_actions[:20]:  # Limit for safety
             action_type = action.get("action", "").upper()
@@ -1493,52 +1634,67 @@ Respond with ACTION: tool_name and PARAMS: {...} to use tools."""
                     result = self.toolkit.move_file(path, dest)
                     results["tool_calls"].append(result.to_dict())
                     if result.success:
-                        results["executed"].append({
-                            "action": action_type, "path": path, "result": result.output
-                        })
+                        results["executed"].append(
+                            {
+                                "action": action_type,
+                                "path": path,
+                                "result": result.output,
+                            }
+                        )
                     else:
-                        results["errors"].append({
-                            "action": action_type, "path": path, "error": result.error
-                        })
+                        results["errors"].append(
+                            {"action": action_type, "path": path, "error": result.error}
+                        )
 
                 elif action_type == "DELETE":
                     result = self.toolkit.delete_file(path)
                     results["tool_calls"].append(result.to_dict())
                     if result.success:
-                        results["executed"].append({
-                            "action": action_type, "path": path, "result": result.output
-                        })
+                        results["executed"].append(
+                            {
+                                "action": action_type,
+                                "path": path,
+                                "result": result.output,
+                            }
+                        )
                     else:
-                        results["errors"].append({
-                            "action": action_type, "path": path, "error": result.error
-                        })
+                        results["errors"].append(
+                            {"action": action_type, "path": path, "error": result.error}
+                        )
 
                 elif action_type in ["REVIEW", "PRESERVE", "SKIP"]:
-                    results["skipped"].append({
-                        "action": action_type, "path": path, "reason": "No automated action"
-                    })
+                    results["skipped"].append(
+                        {
+                            "action": action_type,
+                            "path": path,
+                            "reason": "No automated action",
+                        }
+                    )
 
                 else:
-                    results["skipped"].append({
-                        "action": action_type, "path": path, "reason": f"Unknown action: {action_type}"
-                    })
+                    results["skipped"].append(
+                        {
+                            "action": action_type,
+                            "path": path,
+                            "reason": f"Unknown action: {action_type}",
+                        }
+                    )
 
             except Exception as e:
-                results["errors"].append({
-                    "action": action_type, "path": path, "error": str(e)
-                })
+                results["errors"].append(
+                    {"action": action_type, "path": path, "error": str(e)}
+                )
 
         return {
             "developer_results": results,
             "total_executed": len(results["executed"]),
             "total_skipped": len(results["skipped"]),
-            "total_errors": len(results["errors"])
+            "total_errors": len(results["errors"]),
         }
 
 
 class LATSQualityController(RepoMaintenanceAgent):
-    """
-    LATS (Language Agent Tree Search) Quality Controller.
+    """LATS (Language Agent Tree Search) Quality Controller.
 
     Takes ALL agent outputs as input and:
     1. Synthesizes findings across all agents
@@ -1582,7 +1738,7 @@ Be conservative - when uncertain, recommend REVIEW instead of DELETE."""
         super().__init__(
             name="LATSController",
             role="LATS Quality Controller",
-            model="ollama:qwen2.5-coder:14b"  # Local coder model for synthesis
+            model="ollama:qwen2.5-coder:14b",  # Local coder model for synthesis
         )
         self.max_iterations = 2  # LATS refinement iterations
         self.aggressive = False  # If True, be more willing to DELETE
@@ -1591,7 +1747,7 @@ Be conservative - when uncertain, recommend REVIEW instead of DELETE."""
         self,
         all_agent_results: Dict[str, Any],
         repo_path: str,
-        context: Dict[str, Any] = None
+        context: Dict[str, Any] = None,
     ) -> Dict[str, Any]:
         """Run LATS verification on all agent outputs."""
         print("   🔍 LATS Controller: Synthesizing all agent outputs...")
@@ -1604,19 +1760,23 @@ Be conservative - when uncertain, recommend REVIEW instead of DELETE."""
             "conflicts": [],
             "human_review": [],
             "iterations": 0,
-            "overall_confidence": 0.0
+            "overall_confidence": 0.0,
         }
 
         # LATS Loop: Generate -> Evaluate -> Refine
         for iteration in range(self.max_iterations):
             print(f"   🔄 LATS Iteration {iteration + 1}/{self.max_iterations}...")
 
-            aggressive_instruction = """
+            aggressive_instruction = (
+                """
 IMPORTANT: AGGRESSIVE MODE IS ENABLED.
 - Prefer DELETE over REVIEW for empty files, duplicates, and obsolete code
 - Prefer ARCHIVE over REVIEW for deprecated but potentially useful files
 - Only use REVIEW for genuinely ambiguous cases
-""" if self.aggressive else ""
+"""
+                if self.aggressive
+                else ""
+            )
 
             prompt = f"""## Agent Reports Summary
 
@@ -1638,31 +1798,39 @@ For each file that needs action, specify:
 Respond with a JSON object containing verified_actions, conflicts_resolved, and overall_confidence."""
 
             try:
-                llm_response = await self.call_llm(prompt, system_prompt=self.SYSTEM_PROMPT)
+                llm_response = await self.call_llm(
+                    prompt, system_prompt=self.SYSTEM_PROMPT
+                )
 
                 # Parse response
                 parsed = self._parse_lats_response(llm_response)
                 verified_plan["verified_actions"] = parsed.get("verified_actions", [])
                 verified_plan["conflicts"] = parsed.get("conflicts_resolved", [])
-                verified_plan["overall_confidence"] = parsed.get("overall_confidence", 0.7)
+                verified_plan["overall_confidence"] = parsed.get(
+                    "overall_confidence", 0.7
+                )
                 verified_plan["iterations"] = iteration + 1
                 verified_plan["raw_response"] = llm_response
 
                 # If confidence is high enough, stop early
                 if verified_plan["overall_confidence"] >= 0.85:
-                    print(f"   ✅ High confidence ({verified_plan['overall_confidence']:.0%}), stopping early")
+                    print(
+                        f"   ✅ High confidence ({verified_plan['overall_confidence']:.0%}), stopping early"
+                    )
                     break
 
             except Exception as e:
                 print(f"   ⚠️ LATS iteration {iteration + 1} failed: {e}")
 
-        print(f"   ✅ LATS complete: {len(verified_plan['verified_actions'])} verified actions")
+        print(
+            f"   ✅ LATS complete: {len(verified_plan['verified_actions'])} verified actions"
+        )
 
         return {
             "lats_results": verified_plan,
             "verified_count": len(verified_plan["verified_actions"]),
             "confidence": verified_plan["overall_confidence"],
-            "iterations": verified_plan["iterations"]
+            "iterations": verified_plan["iterations"],
         }
 
     def _build_agent_summary(self, results: Dict[str, Any]) -> str:
@@ -1737,7 +1905,9 @@ class RepoMaintenanceWorkflow:
     def __init__(self, repo_path: str, dry_run: bool = True, aggressive: bool = False):
         self.repo_path = Path(repo_path).resolve()
         self.dry_run = dry_run
-        self.aggressive = aggressive  # If True, LATS will output DELETE actions more readily
+        self.aggressive = (
+            aggressive  # If True, LATS will output DELETE actions more readily
+        )
         self.results = {}
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -1753,7 +1923,7 @@ class RepoMaintenanceWorkflow:
         self.librarian.register_specialist("documenter", DocumentationAgent())
         self.librarian.register_specialist("cleanup", CleanupAgent())
         self.librarian.register_specialist("engineering", EngineeringExpertAgent())
-        
+
         # Researcher Agent with web search
         researcher = ResearcherAgent()
         researcher.set_toolkit(self.toolkit)
@@ -1786,8 +1956,10 @@ class RepoMaintenanceWorkflow:
         self.results["exploration"] = await self.librarian.analyze_collection(
             str(self.repo_path)
         )
-        print(f"   Found {self.results['exploration']['tool_count']} tools, "
-              f"{self.results['exploration']['doc_count']} docs")
+        print(
+            f"   Found {self.results['exploration']['tool_count']} tools, "
+            f"{self.results['exploration']['doc_count']} docs"
+        )
 
         # Step 2: Delegate tool testing
         print("\n🧪 Step 2: Delegating tool testing...")
@@ -1795,17 +1967,23 @@ class RepoMaintenanceWorkflow:
         self.results["testing"] = await self.librarian.delegate_task(
             "tester", "Test all repository tools", tools, str(self.repo_path)
         )
-        print(f"   {self.results['testing']['working_count']} working, "
-              f"{self.results['testing']['broken_count']} broken")
+        print(
+            f"   {self.results['testing']['working_count']} working, "
+            f"{self.results['testing']['broken_count']} broken"
+        )
 
         # Step 3: Engineering expert analysis
         print("\n🔬 Step 3: Engineering Expert analyzing code quality...")
         self.results["engineering"] = await self.librarian.delegate_task(
-            "engineering", "Analyze code quality and best practices",
-            tools, str(self.repo_path)
+            "engineering",
+            "Analyze code quality and best practices",
+            tools,
+            str(self.repo_path),
         )
-        print(f"   {self.results['engineering']['quality_issues_count']} quality, "
-              f"{self.results['engineering']['security_concerns_count']} security")
+        print(
+            f"   {self.results['engineering']['quality_issues_count']} quality, "
+            f"{self.results['engineering']['security_concerns_count']} security"
+        )
 
         # Step 4: Audit documentation
         print("\n📝 Step 4: Delegating documentation audit...")
@@ -1813,18 +1991,24 @@ class RepoMaintenanceWorkflow:
         self.results["documentation"] = await self.librarian.delegate_task(
             "documenter", "Audit all documentation", docs, str(self.repo_path)
         )
-        print(f"   {self.results['documentation']['issues_found']} issues, "
-              f"{self.results['documentation']['broken_links_count']} broken links")
+        print(
+            f"   {self.results['documentation']['issues_found']} issues, "
+            f"{self.results['documentation']['broken_links_count']} broken links"
+        )
 
         # Step 5: Plan cleanup
         print("\n🧹 Step 5: Delegating cleanup planning...")
         self.results["cleanup"] = await self.librarian.delegate_task(
-            "cleanup", "Identify duplicates and cleanup candidates",
-            self.results["exploration"]["repo_inventory"], str(self.repo_path)
+            "cleanup",
+            "Identify duplicates and cleanup candidates",
+            self.results["exploration"]["repo_inventory"],
+            str(self.repo_path),
         )
-        print(f"   Phase 1: {self.results['cleanup']['safe_deletions']} safe, "
-              f"Phase 2: {self.results['cleanup']['medium_risk']} medium, "
-              f"Phase 3: {self.results['cleanup']['manual_review']} manual")
+        print(
+            f"   Phase 1: {self.results['cleanup']['safe_deletions']} safe, "
+            f"Phase 2: {self.results['cleanup']['medium_risk']} medium, "
+            f"Phase 3: {self.results['cleanup']['manual_review']} manual"
+        )
 
         # ================================================================
         # PHASE 2: VERIFICATION (LATS Quality Controller)
@@ -1832,30 +2016,36 @@ class RepoMaintenanceWorkflow:
 
         print("\n🔍 Step 6: LATS Quality Controller verifying all outputs...")
         self.results["lats_verification"] = await self.lats_controller.execute(
-            all_agent_results=self.results,
-            repo_path=str(self.repo_path)
+            all_agent_results=self.results, repo_path=str(self.repo_path)
         )
-        print(f"   Verified {self.results['lats_verification']['verified_count']} actions "
-              f"with {self.results['lats_verification']['confidence']:.0%} confidence")
+        print(
+            f"   Verified {self.results['lats_verification']['verified_count']} actions "
+            f"with {self.results['lats_verification']['confidence']:.0%} confidence"
+        )
 
         # ================================================================
         # PHASE 3: IMPLEMENTATION (Developer Agent)
         # ================================================================
 
         # Only run developer if we have verified actions
-        verified_actions = self.results["lats_verification"].get(
-            "lats_results", {}
-        ).get("verified_actions", [])
+        verified_actions = (
+            self.results["lats_verification"]
+            .get("lats_results", {})
+            .get("verified_actions", [])
+        )
 
         if verified_actions:
-            print(f"\n🔧 Step 7: Developer implementing {len(verified_actions)} verified actions...")
-            self.results["developer_execution"] = await self.developer.execute(
-                approved_actions=verified_actions,
-                repo_path=str(self.repo_path)
+            print(
+                f"\n🔧 Step 7: Developer implementing {len(verified_actions)} verified actions..."
             )
-            print(f"   Executed: {self.results['developer_execution']['total_executed']}, "
-                  f"Skipped: {self.results['developer_execution']['total_skipped']}, "
-                  f"Errors: {self.results['developer_execution']['total_errors']}")
+            self.results["developer_execution"] = await self.developer.execute(
+                approved_actions=verified_actions, repo_path=str(self.repo_path)
+            )
+            print(
+                f"   Executed: {self.results['developer_execution']['total_executed']}, "
+                f"Skipped: {self.results['developer_execution']['total_skipped']}, "
+                f"Errors: {self.results['developer_execution']['total_errors']}"
+            )
         else:
             print("\n🔧 Step 7: No verified actions to implement")
             self.results["developer_execution"] = {"total_executed": 0}
@@ -1871,19 +2061,19 @@ class RepoMaintenanceWorkflow:
         report = self._generate_report()
 
         report_path = self.repo_path / f"maintenance_report_{self.timestamp}.md"
-        with open(report_path, 'w', encoding='utf-8') as f:
+        with open(report_path, "w", encoding="utf-8") as f:
             f.write(report)
         print(f"   Report saved to: {report_path}")
 
         json_path = self.repo_path / f"maintenance_results_{self.timestamp}.json"
-        with open(json_path, 'w', encoding='utf-8') as f:
+        with open(json_path, "w", encoding="utf-8") as f:
             json.dump(self.results, f, indent=2, default=str)
         print(f"   JSON results saved to: {json_path}")
 
         # Save tool action log
         if self.toolkit.actions_log:
             log_path = self.repo_path / f"tool_actions_{self.timestamp}.json"
-            with open(log_path, 'w', encoding='utf-8') as f:
+            with open(log_path, "w", encoding="utf-8") as f:
                 json.dump(self.toolkit.actions_log, f, indent=2)
             print(f"   Tool action log saved to: {log_path}")
 
@@ -1924,19 +2114,25 @@ class RepoMaintenanceWorkflow:
 
 ### Security Concerns (Priority: HIGH)
 """
-        for concern in self.results['engineering']['engineering_analysis'].get('security_concerns', [])[:10]:
+        for concern in self.results["engineering"]["engineering_analysis"].get(
+            "security_concerns", []
+        )[:10]:
             report += f"- `{concern.get('path')}`: {concern.get('issue')}\n"
 
         report += """
 ### Code Quality Issues
 """
-        for issue in self.results['engineering']['engineering_analysis'].get('quality_issues', [])[:10]:
+        for issue in self.results["engineering"]["engineering_analysis"].get(
+            "quality_issues", []
+        )[:10]:
             report += f"- `{issue.get('path')}`: {issue.get('issue')} ({issue.get('priority')})\n"
 
         report += """
 ### Engineering Recommendations
 """
-        for rec in self.results['engineering']['engineering_analysis'].get('recommendations', []):
+        for rec in self.results["engineering"]["engineering_analysis"].get(
+            "recommendations", []
+        ):
             report += f"- **{rec['priority']}** [{rec['category']}]: {rec['action']}\n"
 
         report += """
@@ -1946,26 +2142,26 @@ class RepoMaintenanceWorkflow:
 
 ### ✅ Preserve (Working, Validated)
 """
-        for item in self.results['recommendations'].get('preserve', [])[:10]:
+        for item in self.results["recommendations"].get("preserve", [])[:10]:
             report += f"- `{item.get('path')}` - {item.get('reason')}\n"
 
         report += """
 ### 📦 Archive (Move to archive/)
 """
-        for item in self.results['recommendations'].get('archive', [])[:10]:
+        for item in self.results["recommendations"].get("archive", [])[:10]:
             report += f"- `{item.get('path')}` - {item.get('reason')}\n"
 
         report += """
 ### 🗑️ Discard (Safe to Delete)
 """
-        for item in self.results['recommendations'].get('discard', [])[:10]:
+        for item in self.results["recommendations"].get("discard", [])[:10]:
             report += f"- `{item.get('path')}` - {item.get('reason')}\n"
 
         report += """
 ### 👀 Human Review Required
 """
-        for item in self.results['recommendations'].get('review', [])[:10]:
-            if isinstance(item.get('item'), dict) and 'locations' in item['item']:
+        for item in self.results["recommendations"].get("review", [])[:10]:
+            if isinstance(item.get("item"), dict) and "locations" in item["item"]:
                 report += f"- **{item['item'].get('filename')}** in {len(item['item']['locations'])} locations\n"
             else:
                 report += f"- {item}\n"
@@ -1985,16 +2181,20 @@ class RepoMaintenanceWorkflow:
 async def main():
     parser = argparse.ArgumentParser(description="Run repository maintenance workflow")
     parser.add_argument("--repo-path", type=str, default=".", help="Path to repository")
-    parser.add_argument("--dry-run", action="store_true", default=True, help="Report only")
+    parser.add_argument(
+        "--dry-run", action="store_true", default=True, help="Report only"
+    )
     parser.add_argument("--live", action="store_true", help="Execute cleanup (caution)")
-    parser.add_argument("--aggressive", action="store_true", help="Aggressive mode: DELETE instead of REVIEW")
+    parser.add_argument(
+        "--aggressive",
+        action="store_true",
+        help="Aggressive mode: DELETE instead of REVIEW",
+    )
 
     args = parser.parse_args()
 
     workflow = RepoMaintenanceWorkflow(
-        repo_path=args.repo_path,
-        dry_run=not args.live,
-        aggressive=args.aggressive
+        repo_path=args.repo_path, dry_run=not args.live, aggressive=args.aggressive
     )
 
     await workflow.run()

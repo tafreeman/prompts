@@ -22,11 +22,8 @@ Usage:
 Author: Prompts Library Team
 """
 
-import os
-import sys
 from pathlib import Path
-from typing import Optional, Union
-import json
+from typing import Optional
 
 # AI Gallery cache path
 AI_GALLERY_PATH = Path.home() / ".cache" / "aigallery"
@@ -35,6 +32,7 @@ AI_GALLERY_PATH = Path.home() / ".cache" / "aigallery"
 # =============================================================================
 # IMAGE GENERATION (Stable Diffusion)
 # =============================================================================
+
 
 def generate_image(
     prompt: str,
@@ -48,9 +46,8 @@ def generate_image(
     model_path: Optional[str] = None,
     verbose: bool = False,
 ) -> str:
-    """
-    Generate an image from a text prompt using Stable Diffusion ONNX.
-    
+    """Generate an image from a text prompt using Stable Diffusion ONNX.
+
     Args:
         prompt: Text description of the image to generate
         output_path: Path to save the image (default: generated_image.png)
@@ -62,48 +59,48 @@ def generate_image(
         seed: Random seed for reproducibility
         model_path: Override model path
         verbose: Print progress
-        
+
     Returns:
         Path to the generated image
     """
     try:
-        from diffusers import OnnxStableDiffusionPipeline
         import numpy as np
+        from diffusers import OnnxStableDiffusionPipeline
     except ImportError:
         raise ImportError(
             "Required packages not installed. Install with:\n"
             "  pip install diffusers transformers onnxruntime pillow"
         )
-    
+
     # Find model path
     if model_path:
         sd_path = Path(model_path)
     else:
         sd_path = AI_GALLERY_PATH / "CompVis--stable-diffusion-v1-4" / "onnx"
-    
+
     if not sd_path.exists():
         raise FileNotFoundError(
             f"Stable Diffusion model not found at: {sd_path}\n"
             "Download from AI Gallery or HuggingFace."
         )
-    
+
     if verbose:
         print(f"Loading Stable Diffusion from: {sd_path}")
-    
+
     # Load pipeline
     pipe = OnnxStableDiffusionPipeline.from_pretrained(
         str(sd_path),
-        provider="CPUExecutionProvider"  # Use DmlExecutionProvider for GPU
+        provider="CPUExecutionProvider",  # Use DmlExecutionProvider for GPU
     )
-    
+
     # Set seed for reproducibility
     generator = None
     if seed is not None:
         generator = np.random.RandomState(seed)
-    
+
     if verbose:
         print(f"Generating image for: {prompt[:50]}...")
-    
+
     # Generate
     result = pipe(
         prompt=prompt,
@@ -114,24 +111,25 @@ def generate_image(
         guidance_scale=guidance_scale,
         generator=generator,
     )
-    
+
     image = result.images[0]
-    
+
     # Save image
     if output_path is None:
         output_path = "generated_image.png"
-    
+
     image.save(output_path)
-    
+
     if verbose:
         print(f"Image saved to: {output_path}")
-    
+
     return output_path
 
 
 # =============================================================================
 # SPEECH-TO-TEXT (Whisper)
 # =============================================================================
+
 
 def transcribe_audio(
     audio_path: str,
@@ -141,9 +139,8 @@ def transcribe_audio(
     model_path: Optional[str] = None,
     verbose: bool = False,
 ) -> str:
-    """
-    Transcribe audio to text using Whisper ONNX.
-    
+    """Transcribe audio to text using Whisper ONNX.
+
     Args:
         audio_path: Path to audio file (WAV, MP3, etc.)
         model_size: tiny, small, medium (small recommended for balance)
@@ -151,38 +148,41 @@ def transcribe_audio(
         output_path: Optional path to save transcription as text file
         model_path: Override model path
         verbose: Print progress
-        
+
     Returns:
         Transcribed text
     """
     try:
-        import onnxruntime as ort
         import numpy as np
+        import onnxruntime as ort
     except ImportError:
         raise ImportError(
             "Required packages not installed. Install with:\n"
             "  pip install onnxruntime soundfile numpy"
         )
-    
+
     try:
         import soundfile as sf
     except ImportError:
         raise ImportError(
-            "soundfile not installed. Install with:\n"
-            "  pip install soundfile"
+            "soundfile not installed. Install with:\n" "  pip install soundfile"
         )
-    
+
     # Find model path
     if model_path:
         whisper_path = Path(model_path)
     else:
-        whisper_base = AI_GALLERY_PATH / "khmyznikov--whisper-int8-cpu-ort.onnx" / "main"
+        whisper_base = (
+            AI_GALLERY_PATH / "khmyznikov--whisper-int8-cpu-ort.onnx" / "main"
+        )
         model_file = f"whisper_{model_size}_int8_cpu_ort_1.18.0.onnx"
         whisper_path = whisper_base / model_file
-    
+
     if not whisper_path.exists():
         # Try alternative naming
-        available = list(whisper_base.glob("whisper_*.onnx")) if whisper_base.exists() else []
+        available = (
+            list(whisper_base.glob("whisper_*.onnx")) if whisper_base.exists() else []
+        )
         if available:
             whisper_path = available[0]  # Use first available
             if verbose:
@@ -192,75 +192,87 @@ def transcribe_audio(
                 f"Whisper model not found at: {whisper_path}\n"
                 "Download from AI Gallery or HuggingFace."
             )
-    
+
     if verbose:
         print(f"Loading Whisper from: {whisper_path}")
-    
+
     # Load audio
     audio_data, sample_rate = sf.read(audio_path)
-    
+
     # Convert to mono if stereo
     if len(audio_data.shape) > 1:
         audio_data = audio_data.mean(axis=1)
-    
+
     # Resample to 16kHz if needed (Whisper expects 16kHz)
     if sample_rate != 16000:
         try:
             import librosa
-            audio_data = librosa.resample(audio_data, orig_sr=sample_rate, target_sr=16000)
+
+            audio_data = librosa.resample(
+                audio_data, orig_sr=sample_rate, target_sr=16000
+            )
         except ImportError:
             if verbose:
-                print(f"Warning: Audio is {sample_rate}Hz, Whisper expects 16kHz. Install librosa for resampling.")
-    
+                print(
+                    f"Warning: Audio is {sample_rate}Hz, Whisper expects 16kHz. Install librosa for resampling."
+                )
+
     if verbose:
         print(f"Audio loaded: {len(audio_data) / 16000:.1f} seconds")
-    
+
     # For now, use the transformers library for easier Whisper inference
     # The raw ONNX model requires more complex preprocessing
     try:
-        from transformers import WhisperProcessor, WhisperForConditionalGeneration
         import torch
-        
+        from transformers import WhisperForConditionalGeneration, WhisperProcessor
+
         # Use HuggingFace Whisper as fallback (more reliable)
         processor = WhisperProcessor.from_pretrained(f"openai/whisper-{model_size}")
-        model = WhisperForConditionalGeneration.from_pretrained(f"openai/whisper-{model_size}")
-        
+        model = WhisperForConditionalGeneration.from_pretrained(
+            f"openai/whisper-{model_size}"
+        )
+
         # Process audio
         input_features = processor(
-            audio_data, 
-            sampling_rate=16000, 
-            return_tensors="pt"
+            audio_data, sampling_rate=16000, return_tensors="pt"
         ).input_features
-        
+
         # Generate
         forced_decoder_ids = None
         if language:
-            forced_decoder_ids = processor.get_decoder_prompt_ids(language=language, task="transcribe")
-        
-        predicted_ids = model.generate(input_features, forced_decoder_ids=forced_decoder_ids)
-        transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
-        
+            forced_decoder_ids = processor.get_decoder_prompt_ids(
+                language=language, task="transcribe"
+            )
+
+        predicted_ids = model.generate(
+            input_features, forced_decoder_ids=forced_decoder_ids
+        )
+        transcription = processor.batch_decode(predicted_ids, skip_special_tokens=True)[
+            0
+        ]
+
     except ImportError:
         raise ImportError(
             "transformers and torch required for Whisper. Install with:\n"
             "  pip install transformers torch"
         )
-    
+
     if verbose:
         print(f"Transcription: {transcription[:100]}...")
-    
+
     # Save to file if requested
     if output_path:
         Path(output_path).write_text(transcription, encoding="utf-8")
         if verbose:
             print(f"Saved to: {output_path}")
-    
+
     return transcription
 
 
 # =============================================================================
 # IMAGE UPSCALING (ESRGAN)
 # =============================================================================
+
 
 def upscale_image(
     input_path: str,
@@ -269,80 +281,84 @@ def upscale_image(
     model_path: Optional[str] = None,
     verbose: bool = False,
 ) -> str:
-    """
-    Upscale an image using ESRGAN ONNX.
-    
+    """Upscale an image using ESRGAN ONNX.
+
     Args:
         input_path: Path to input image
         output_path: Path for output image (default: input_upscaled.png)
         scale: Upscale factor (4x is typical)
         model_path: Override model path
         verbose: Print progress
-        
+
     Returns:
         Path to upscaled image
     """
     try:
-        import onnxruntime as ort
         import numpy as np
+        import onnxruntime as ort
         from PIL import Image
     except ImportError:
         raise ImportError(
             "Required packages not installed. Install with:\n"
             "  pip install onnxruntime pillow numpy"
         )
-    
+
     # Find model path
     if model_path:
         esrgan_path = Path(model_path)
     else:
-        esrgan_path = AI_GALLERY_PATH / "microsoft--dml-ai-hub-models" / "main" / "esrgan" / "esrgan.onnx"
-    
+        esrgan_path = (
+            AI_GALLERY_PATH
+            / "microsoft--dml-ai-hub-models"
+            / "main"
+            / "esrgan"
+            / "esrgan.onnx"
+        )
+
     if not esrgan_path.exists():
         raise FileNotFoundError(
-            f"ESRGAN model not found at: {esrgan_path}\n"
-            "Download from AI Gallery."
+            f"ESRGAN model not found at: {esrgan_path}\n" "Download from AI Gallery."
         )
-    
+
     if verbose:
         print(f"Loading ESRGAN from: {esrgan_path}")
-    
+
     # Load image
     img = Image.open(input_path).convert("RGB")
-    
+
     # Resize to expected input size (ESRGAN expects 128x128)
     img_resized = img.resize((128, 128), Image.Resampling.LANCZOS)
-    
+
     # Convert to numpy array and normalize
     img_array = np.array(img_resized).astype(np.float32) / 255.0
     img_array = img_array.transpose(2, 0, 1)  # HWC -> CHW
     img_array = np.expand_dims(img_array, 0)  # Add batch dimension
-    
+
     if verbose:
         print(f"Input shape: {img_array.shape}")
-    
+
     # Run inference
     session = ort.InferenceSession(str(esrgan_path), providers=["CPUExecutionProvider"])
     input_name = session.get_inputs()[0].name
     output_name = session.get_outputs()[0].name
-    
+
     result = session.run([output_name], {input_name: img_array})[0]
-    
+
     # Convert back to image
     result = result[0].transpose(1, 2, 0)  # CHW -> HWC
     result = (result * 255).clip(0, 255).astype(np.uint8)
     upscaled_img = Image.fromarray(result)
-    
+
     # Save
     if output_path is None:
         input_stem = Path(input_path).stem
         output_path = f"{input_stem}_upscaled.png"
-    
+
     upscaled_img.save(output_path)
-    
+
     if verbose:
         print(f"Upscaled image saved to: {output_path}")
-    
+
     return output_path
 
 
@@ -350,9 +366,10 @@ def upscale_image(
 # CLI
 # =============================================================================
 
+
 def main():
     import argparse
-    
+
     parser = argparse.ArgumentParser(
         description="Local Media Model Runner - Image Generation & Speech-to-Text",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -366,11 +383,11 @@ Examples:
   
   # Upscale an image
   python local_media.py upscale low_res.png -o high_res.png
-"""
+""",
     )
-    
+
     subparsers = parser.add_subparsers(dest="command", help="Command to run")
-    
+
     # Image generation
     img_parser = subparsers.add_parser("image", help="Generate image from text")
     img_parser.add_argument("prompt", help="Text description of the image")
@@ -380,24 +397,35 @@ Examples:
     img_parser.add_argument("--height", type=int, default=512, help="Image height")
     img_parser.add_argument("--steps", type=int, default=50, help="Inference steps")
     img_parser.add_argument("--seed", type=int, help="Random seed")
-    img_parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    
+    img_parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Verbose output"
+    )
+
     # Transcription
     trans_parser = subparsers.add_parser("transcribe", help="Transcribe audio to text")
     trans_parser.add_argument("audio", help="Audio file path")
     trans_parser.add_argument("-o", "--output", help="Output text file path")
-    trans_parser.add_argument("--model", default="small", choices=["tiny", "small", "medium"], help="Model size")
+    trans_parser.add_argument(
+        "--model",
+        default="small",
+        choices=["tiny", "small", "medium"],
+        help="Model size",
+    )
     trans_parser.add_argument("--language", help="Language code (e.g., en, es)")
-    trans_parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    
+    trans_parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Verbose output"
+    )
+
     # Upscaling
     up_parser = subparsers.add_parser("upscale", help="Upscale an image")
     up_parser.add_argument("image", help="Input image path")
     up_parser.add_argument("-o", "--output", help="Output file path")
-    up_parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    
+    up_parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Verbose output"
+    )
+
     args = parser.parse_args()
-    
+
     if args.command == "image":
         result = generate_image(
             prompt=args.prompt,
@@ -410,7 +438,7 @@ Examples:
             verbose=args.verbose,
         )
         print(f"Generated: {result}")
-        
+
     elif args.command == "transcribe":
         result = transcribe_audio(
             audio_path=args.audio,
@@ -420,7 +448,7 @@ Examples:
             verbose=args.verbose,
         )
         print(f"\nTranscription:\n{result}")
-        
+
     elif args.command == "upscale":
         result = upscale_image(
             input_path=args.image,
@@ -428,7 +456,7 @@ Examples:
             verbose=args.verbose,
         )
         print(f"Upscaled: {result}")
-        
+
     else:
         parser.print_help()
 

@@ -1,5 +1,4 @@
-"""
-Workflow Engine
+"""Workflow Engine.
 
 Orchestrates multi-agent workflows with:
 - Step-by-step execution with context passing
@@ -10,11 +9,10 @@ Orchestrates multi-agent workflows with:
 
 from __future__ import annotations
 
-import asyncio
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type
 
 import yaml
 
@@ -29,6 +27,7 @@ from multiagent_workflows.core.tool_registry import ToolRegistry, get_default_re
 @dataclass
 class WorkflowStep:
     """Definition of a workflow step."""
+
     id: str
     name: str
     agent: str
@@ -44,6 +43,7 @@ class WorkflowStep:
 @dataclass
 class WorkflowDefinition:
     """Complete workflow definition."""
+
     name: str
     description: str
     inputs: List[Dict[str, Any]]
@@ -54,6 +54,7 @@ class WorkflowDefinition:
 @dataclass
 class WorkflowResult:
     """Result from workflow execution."""
+
     workflow_id: str
     workflow_name: str
     success: bool
@@ -65,16 +66,15 @@ class WorkflowResult:
 
 
 class WorkflowEngine:
-    """
-    Orchestrates multi-agent workflows with evaluation integration.
-    
+    """Orchestrates multi-agent workflows with evaluation integration.
+
     Responsibilities:
     - Load workflow definitions from YAML
     - Execute workflows step by step
     - Pass context between steps
     - Handle parallel execution
     - Integrate with evaluation framework
-    
+
     Example:
         engine = WorkflowEngine(model_manager, tool_registry)
         result = await engine.execute_workflow(
@@ -82,7 +82,7 @@ class WorkflowEngine:
             {"requirements": "Build a todo app..."}
         )
     """
-    
+
     def __init__(
         self,
         model_manager: ModelManager,
@@ -90,9 +90,8 @@ class WorkflowEngine:
         evaluator: Optional[WorkflowEvaluator] = None,
         config: Optional[Dict[str, Any]] = None,
     ):
-        """
-        Initialize workflow engine.
-        
+        """Initialize workflow engine.
+
         Args:
             model_manager: Model manager for LLM calls
             tool_registry: Registry for tools
@@ -103,37 +102,39 @@ class WorkflowEngine:
         self.tool_registry = tool_registry or get_default_registry()
         self.evaluator = evaluator
         self.config = config or self._load_default_config()
-        
+
         # Agent registry
         self._agent_classes: Dict[str, Type[AgentBase]] = {}
         self._agent_configs: Dict[str, AgentConfig] = {}
-        
+
         # Workflow definitions
         self._workflows: Dict[str, WorkflowDefinition] = {}
-        
+
         # Load agent and workflow configs
         self._load_agent_configs()
         self._load_workflow_definitions()
-    
+
     def _load_default_config(self) -> Dict[str, Any]:
         """Load default configuration."""
         # Path: src/multiagent_workflows/core/workflow_engine.py
         # Need to go up 4 levels: core -> multiagent_workflows -> src -> multiagent-workflows
-        config_path = Path(__file__).parent.parent.parent.parent / "config" / "workflows.yaml"
+        config_path = (
+            Path(__file__).parent.parent.parent.parent / "config" / "workflows.yaml"
+        )
         if config_path.exists():
             with open(config_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         return {}
-    
+
     def _load_agent_configs(self) -> None:
         """Load agent configurations from YAML."""
         config_path = Path(__file__).parent.parent.parent / "config" / "agents.yaml"
         if not config_path.exists():
             return
-        
+
         with open(config_path, "r", encoding="utf-8") as f:
             agents_config = yaml.safe_load(f)
-        
+
         for agent_id, agent_def in agents_config.get("agents", {}).items():
             self._agent_configs[agent_id] = AgentConfig(
                 name=agent_def.get("name", agent_id),
@@ -143,27 +144,29 @@ class WorkflowEngine:
                 tools=agent_def.get("tools", []),
                 fallback_models=agent_def.get("fallback_models", []),
             )
-    
+
     def _load_workflow_definitions(self) -> None:
         """Load workflow definitions from YAML."""
         workflows_config = self.config.get("workflows", {})
-        
+
         for wf_id, wf_def in workflows_config.items():
             steps = []
             for step_def in wf_def.get("steps", []):
-                steps.append(WorkflowStep(
-                    id=step_def.get("id", ""),
-                    name=step_def.get("name", ""),
-                    agent=step_def.get("agent", ""),
-                    model_preference=step_def.get("model_preference", ""),
-                    inputs=step_def.get("inputs", []),
-                    outputs=step_def.get("outputs", []),
-                    condition=step_def.get("condition"),
-                    config=step_def.get("config", {}),
-                    iterative=step_def.get("iterative", False),
-                    max_iterations=step_def.get("max_iterations", 1),
-                ))
-            
+                steps.append(
+                    WorkflowStep(
+                        id=step_def.get("id", ""),
+                        name=step_def.get("name", ""),
+                        agent=step_def.get("agent", ""),
+                        model_preference=step_def.get("model_preference", ""),
+                        inputs=step_def.get("inputs", []),
+                        outputs=step_def.get("outputs", []),
+                        condition=step_def.get("condition"),
+                        config=step_def.get("config", {}),
+                        iterative=step_def.get("iterative", False),
+                        max_iterations=step_def.get("max_iterations", 1),
+                    )
+                )
+
             self._workflows[wf_id] = WorkflowDefinition(
                 name=wf_def.get("name", wf_id),
                 description=wf_def.get("description", ""),
@@ -171,63 +174,64 @@ class WorkflowEngine:
                 outputs=wf_def.get("outputs", []),
                 steps=steps,
             )
-    
+
     def register_agent(
         self,
         agent_id: str,
         agent_class: Type[AgentBase],
     ) -> None:
-        """
-        Register an agent class for use in workflows.
-        
+        """Register an agent class for use in workflows.
+
         Args:
             agent_id: Agent identifier matching config
             agent_class: Agent class
         """
         self._agent_classes[agent_id] = agent_class
-    
+
     async def execute_workflow(
         self,
         workflow_name: str,
         inputs: Dict[str, Any],
         config: Optional[Dict[str, Any]] = None,
     ) -> WorkflowResult:
-        """
-        Execute a predefined workflow with full logging and evaluation.
-        
+        """Execute a predefined workflow with full logging and evaluation.
+
         Args:
             workflow_name: Name of workflow to execute
             inputs: Workflow inputs
             config: Optional config overrides
-            
+
         Returns:
             WorkflowResult with outputs and metrics
         """
         import time
+
         start_time = time.perf_counter()
-        
+
         # Generate workflow ID
         workflow_id = f"wf-{uuid.uuid4().hex[:8]}"
-        
+
         # Create logger
         logger = VerboseLogger(
             workflow_id=workflow_id,
-            config={"level": config.get("logging_level", "DEBUG") if config else "DEBUG"},
+            config={
+                "level": config.get("logging_level", "DEBUG") if config else "DEBUG"
+            },
         )
-        
+
         # Get workflow definition
         if workflow_name not in self._workflows:
             raise ValueError(f"Unknown workflow: {workflow_name}")
-        
+
         workflow = self._workflows[workflow_name]
-        
+
         # Log workflow start
         wf_log_id = logger.log_workflow_start(
             workflow_name=workflow.name,
             inputs=inputs,
             metadata={"description": workflow.description},
         )
-        
+
         try:
             # Initialize context
             context = {
@@ -237,18 +241,20 @@ class WorkflowEngine:
                 "workflow_id": workflow_id,
                 "validation_errors": [],  # Track validation issues
             }
-            
+
             step_results: Dict[str, AgentResult] = {}
             previous_step_agent: Optional[str] = None
             previous_step_output: Optional[Dict[str, Any]] = None
             previous_step_id: Optional[str] = None
-            
+
             # Execute steps
             for step in workflow.steps:
                 # Check condition
-                if step.condition and not self._evaluate_condition(step.condition, context):
+                if step.condition and not self._evaluate_condition(
+                    step.condition, context
+                ):
                     continue
-                
+
                 try:
                     # Gather inputs - includes automatic chaining from previous step
                     step_inputs = self._gather_inputs(
@@ -266,21 +272,21 @@ class WorkflowEngine:
                         inputs=step_inputs,
                         context={"outputs": step.outputs},
                     )
-                    
+
                     # Validate inputs against agent contract
                     validation_errors = self._validate_step_inputs(
                         step.agent, step_inputs, previous_step_agent, logger
                     )
                     if validation_errors:
                         context["validation_errors"].extend(validation_errors)
-                    
+
                     # Execute step
                     step_context = context.copy()
                     step_context["step_id"] = step_log_id
-                    
+
                     result = await self._execute_step(step, step_context, logger)
                     step_results[step.id] = result
-                    
+
                     # Validate outputs against agent contract
                     if result.success:
                         output_errors = self._validate_step_outputs(
@@ -289,33 +295,35 @@ class WorkflowEngine:
                         if output_errors:
                             context["validation_errors"].extend(output_errors)
                         context["artifacts"][step.id] = result.output
-                    
+
                     # Track for chaining to next step
                     previous_step_agent = step.agent
                     previous_step_output = result.output if result.success else None
                     previous_step_id = step.id
-                    
+
                     logger.log_step_complete(
                         step_id=step_log_id,
                         success=result.success,
                         outputs=result.output,
                     )
-                    
+
                 except Exception as e:
                     if step_log_id:
                         logger.log_step_error(step_log_id, e)
                     else:
-                        logger.log_workflow_error(wf_log_id, Exception(f"Failed to start step {step.id}: {e}"))
-                        
+                        logger.log_workflow_error(
+                            wf_log_id, Exception(f"Failed to start step {step.id}: {e}")
+                        )
+
                     step_results[step.id] = AgentResult(
                         success=False,
                         output={},
                         error=str(e),
                     )
-            
+
             # Compile final output
             final_output = self._compile_output(context, workflow)
-            
+
             # Evaluate if evaluator available
             evaluation = None
             if self.evaluator and self.evaluator.has_golden(workflow_name, inputs):
@@ -325,26 +333,28 @@ class WorkflowEngine:
                     inputs,
                 )
                 final_output["evaluation"] = evaluation
-            
+
             duration_ms = (time.perf_counter() - start_time) * 1000
-            
+
             # Log completion
             logger.log_workflow_complete(
                 workflow_id=wf_log_id,
                 success=True,
                 summary={
                     "steps_executed": len(step_results),
-                    "steps_succeeded": sum(1 for r in step_results.values() if r.success),
+                    "steps_succeeded": sum(
+                        1 for r in step_results.values() if r.success
+                    ),
                     "duration_ms": duration_ms,
                 },
             )
-            
+
             # Export logs
             logs_dir = Path("evaluation/results/logs")
             logs_dir.mkdir(parents=True, exist_ok=True)
             logger.export_to_json(logs_dir / f"{workflow_id}.json")
             logger.export_to_markdown(logs_dir / f"{workflow_id}.md")
-            
+
             return WorkflowResult(
                 workflow_id=workflow_id,
                 workflow_name=workflow_name,
@@ -354,11 +364,11 @@ class WorkflowEngine:
                 step_results=step_results,
                 evaluation=evaluation,
             )
-            
+
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
             logger.log_workflow_error(wf_log_id, e)
-            
+
             return WorkflowResult(
                 workflow_id=workflow_id,
                 workflow_name=workflow_name,
@@ -368,7 +378,7 @@ class WorkflowEngine:
                 step_results={},
                 error=str(e),
             )
-    
+
     async def _execute_step(
         self,
         step: WorkflowStep,
@@ -379,54 +389,58 @@ class WorkflowEngine:
         # Get configuration from step config
         quality_threshold = float(step.config.get("quality_threshold", 0.0))
         max_retries = int(step.config.get("quality_retries", 1))
-        
+
         # Get or create agent
         agent = self._create_agent(step, context, logger)
-        
+
         last_result = None
-        
+
         for attempt in range(max_retries):
             # Gather inputs from context
             task = self._gather_inputs(step.inputs, context)
             task.update(step.config)
-            
+
             # Add context for retries
             if attempt > 0:
                 task["is_retry"] = True
                 task["retry_attempt"] = attempt
                 if last_result and last_result.output:
                     task["previous_score"] = last_result.output.get("score")
-                    task["previous_feedback"] = last_result.output.get("feedback", "Quality threshold not met")
-            
+                    task["previous_feedback"] = last_result.output.get(
+                        "feedback", "Quality threshold not met"
+                    )
+
             # Execute step (iterative or standard)
             if step.iterative:
-                last_result = await self._execute_iterative(agent, task, context, step.max_iterations)
+                last_result = await self._execute_iterative(
+                    agent, task, context, step.max_iterations
+                )
             else:
                 last_result = await agent.execute(task, context)
-            
+
             # Return immediately on hard failure (exception/crash)
             if not last_result.success:
                 return last_result
-            
+
             # If no threshold set, we are done
             if quality_threshold <= 0:
                 return last_result
 
             # Check quality score
             output_score = last_result.output.get("score")
-            
+
             # logic: if score is missing but we succeeded, assume pass unless strictly required
             current_score = float(output_score) if output_score is not None else 100.0
-            
+
             if current_score >= quality_threshold:
                 return last_result
-                
-            # If we are here, we are looping again. 
+
+            # If we are here, we are looping again.
             # Ideally we log this, but the verbose logger tracks agent execution events independently.
-            
+
         # If we exhausted retries, return the last result (even if score is low)
         return last_result
-    
+
     async def _execute_iterative(
         self,
         agent: AgentBase,
@@ -438,32 +452,32 @@ class WorkflowEngine:
         combined_output: Dict[str, Any] = {}
         total_tokens = 0
         total_duration = 0.0
-        
+
         for i in range(max_iterations):
             iter_task = task.copy()
             iter_task["iteration"] = i + 1
             iter_task["previous_output"] = combined_output
-            
+
             result = await agent.execute(iter_task, context)
-            
+
             if not result.success:
                 return result
-            
+
             combined_output.update(result.output)
             total_tokens += result.tokens_used
             total_duration += result.duration_ms
-            
+
             # Check if done (agent can signal completion)
             if result.output.get("done", False):
                 break
-        
+
         return AgentResult(
             success=True,
             output=combined_output,
             tokens_used=total_tokens,
             duration_ms=total_duration,
         )
-    
+
     def _create_agent(
         self,
         step: WorkflowStep,
@@ -472,7 +486,7 @@ class WorkflowEngine:
     ) -> AgentBase:
         """Create an agent instance for a step."""
         agent_id = step.agent
-        
+
         # Get or use default config
         if agent_id in self._agent_configs:
             config = self._agent_configs[agent_id]
@@ -483,11 +497,11 @@ class WorkflowEngine:
                 model_id=self._resolve_model(step.model_preference),
                 system_prompt=f"You are an agent performing: {step.name}",
             )
-        
+
         # Override model based on preference
         if step.model_preference:
             config.model_id = self._resolve_model(step.model_preference)
-        
+
         # Get agent class or use default
         if agent_id in self._agent_classes:
             agent_class = self._agent_classes[agent_id]
@@ -497,9 +511,10 @@ class WorkflowEngine:
                 tool_registry=self.tool_registry,
                 logger=logger,
             )
-        
+
         # Use SimpleAgent as fallback
         from multiagent_workflows.core.agent_base import SimpleAgent
+
         return SimpleAgent(
             config=config,
             model_manager=self.model_manager,
@@ -508,7 +523,7 @@ class WorkflowEngine:
             prompt_template="Task: {task}\n\nContext:\n{context}\n\nProvide your output:",
             output_key=step.outputs[0] if step.outputs else "output",
         )
-    
+
     def _resolve_model(self, model_preference: str) -> str:
         """Resolve a model preference to a specific model ID."""
         return self.model_manager.get_optimal_model(
@@ -516,7 +531,7 @@ class WorkflowEngine:
             complexity=5,
             prefer_local=False,  # Use cloud models for faster execution
         )
-    
+
     def _gather_inputs(
         self,
         input_refs: List[str],
@@ -524,8 +539,7 @@ class WorkflowEngine:
         previous_output: Optional[Dict[str, Any]] = None,
         previous_step_id: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """
-        Gather inputs from context based on references.
+        """Gather inputs from context based on references.
 
         Implements automatic output-to-input chaining:
         - If no explicit input_refs, uses previous step's output
@@ -559,7 +573,7 @@ class WorkflowEngine:
             result[parts[-1]] = value
 
         return result
-    
+
     def _evaluate_condition(
         self,
         condition: str,
@@ -578,15 +592,15 @@ class WorkflowEngine:
                 "True": True,
                 "False": False,
             }
-            
+
             # Replace "is not None" with Python syntax
             condition = condition.replace(" is not None", " != None")
             condition = condition.replace(" is None", " == None")
-            
+
             return eval(condition, {"__builtins__": {}}, eval_context)
         except Exception:
             return True  # Default to executing if condition fails
-    
+
     def _compile_output(
         self,
         context: Dict[str, Any],
@@ -594,7 +608,7 @@ class WorkflowEngine:
     ) -> Dict[str, Any]:
         """Compile final output from context artifacts."""
         output: Dict[str, Any] = {}
-        
+
         for output_def in workflow.outputs:
             name = output_def.get("name", "")
             # Find matching artifact
@@ -603,13 +617,13 @@ class WorkflowEngine:
                     output[name] = artifacts[name]
                 elif step_id == name:
                     output[name] = artifacts
-        
+
         # Include all artifacts if no specific outputs defined
         if not output:
             output = context.get("artifacts", {})
-        
+
         return output
-    
+
     def list_workflows(self) -> List[Dict[str, Any]]:
         """List available workflows."""
         return [
@@ -628,8 +642,7 @@ class WorkflowEngine:
         previous_agent: Optional[str],
         logger: VerboseLogger,
     ) -> List[str]:
-        """
-        Validate step inputs against agent contract.
+        """Validate step inputs against agent contract.
 
         Returns list of validation errors, empty if valid.
         """
@@ -657,8 +670,7 @@ class WorkflowEngine:
         outputs: Dict[str, Any],
         logger: VerboseLogger,
     ) -> List[str]:
-        """
-        Validate step outputs against agent contract.
+        """Validate step outputs against agent contract.
 
         Returns list of validation errors, empty if valid.
         """
@@ -678,4 +690,3 @@ class WorkflowEngine:
                 },
             )
         return errors
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tools Ecosystem Evaluator Runner
+"""Tools Ecosystem Evaluator Runner.
 
 Runs the prompt in `prompts/analysis/tools-ecosystem-evaluator.md` against a
 `tools/` folder by:
@@ -49,7 +49,8 @@ _CODE_FENCE_RE = re.compile(r"^(?P<fence>`{3,})(?P<lang>\w+)?\s*$")
 
 
 def extract_prompt_block(markdown: str) -> str:
-    """Extract the inner prompt code block from the Tools Ecosystem Evaluator prompt.
+    """Extract the inner prompt code block from the Tools Ecosystem Evaluator
+    prompt.
 
     The prompt file stores the runnable prompt inside a fenced block:
 
@@ -150,7 +151,7 @@ def extract_first_json_object(text: str) -> Dict[str, Any]:
         elif ch == "}":
             depth -= 1
             if depth == 0:
-                candidate = cleaned[start:i + 1]
+                candidate = cleaned[start : i + 1]
                 return json.loads(candidate)
 
     raise ValueError("Unbalanced JSON braces; could not extract object")
@@ -256,7 +257,9 @@ def _build_collect_prompt(
     parts.append(f"RUN_ID: {run_id}")
     parts.append("MODE: COLLECT")
     parts.append(f"CHUNK_INDEX: {chunk_index}")
-    parts.append(f"CHUNK_COUNT: {chunk_count if chunk_count is not None else 'unknown'}")
+    parts.append(
+        f"CHUNK_COUNT: {chunk_count if chunk_count is not None else 'unknown'}"
+    )
     if focus_areas:
         parts.append(f"FOCUS_AREAS: {focus_areas}")
     if comparison_targets:
@@ -332,14 +335,14 @@ def _generate_lite_report(final_obj: Dict[str, Any], run_id: str, model: str) ->
     lines.append(f"**Model:** {model}")
     lines.append(f"**Generated:** {datetime.now().isoformat()}")
     lines.append("")
-    
+
     # Summary
     if final_obj.get("summary"):
         lines.append("## Executive Summary")
         lines.append("")
         lines.append(final_obj["summary"])
         lines.append("")
-    
+
     # Scores
     scores = final_obj.get("scores", {})
     if scores:
@@ -354,7 +357,7 @@ def _generate_lite_report(final_obj: Dict[str, Any], run_id: str, model: str) ->
         if "total" in scores:
             lines.append(f"| **Total** | **{scores['total']}/100** |")
         lines.append("")
-    
+
     # Top Issues
     issues = final_obj.get("top_issues", [])
     if issues:
@@ -371,7 +374,7 @@ def _generate_lite_report(final_obj: Dict[str, Any], run_id: str, model: str) ->
             else:
                 lines.append(f"{i}. {issue}")
         lines.append("")
-    
+
     # Strengths
     strengths = final_obj.get("top_strengths", [])
     if strengths:
@@ -380,7 +383,7 @@ def _generate_lite_report(final_obj: Dict[str, Any], run_id: str, model: str) ->
         for s in strengths:
             lines.append(f"- {s}")
         lines.append("")
-    
+
     # Recommended Actions
     actions = final_obj.get("recommended_actions", [])
     if actions:
@@ -396,7 +399,7 @@ def _generate_lite_report(final_obj: Dict[str, Any], run_id: str, model: str) ->
             else:
                 lines.append(f"{i}. {action}")
         lines.append("")
-    
+
     return "\n".join(lines)
 
 
@@ -418,7 +421,10 @@ def run_tools_ecosystem_evaluator(
     temperature: float = 0.2,
     max_tokens: int = 3500,
 ) -> Dict[str, Any]:
-    """Main runner. Returns a dict summary and writes outputs to disk."""
+    """Main runner.
+
+    Returns a dict summary and writes outputs to disk.
+    """
 
     prompt_md = prompt_path.read_text(encoding="utf-8", errors="replace")
     template = extract_prompt_block(prompt_md)
@@ -513,27 +519,33 @@ def run_tools_ecosystem_evaluator(
 
             if not raw or not raw.strip():
                 log.error("Model returned empty response", code="empty_response")
-                collected_notes.append({
-                    "run_id": run_id,
-                    "mode": "COLLECT",
-                    "round": round_idx,
-                    "parse_error": "empty_response",
-                    "raw_preview": "",
-                })
+                collected_notes.append(
+                    {
+                        "run_id": run_id,
+                        "mode": "COLLECT",
+                        "round": round_idx,
+                        "parse_error": "empty_response",
+                        "raw_preview": "",
+                    }
+                )
                 requested = []
                 continue
 
             try:
                 data = extract_first_json_object(raw)
             except Exception as e:
-                log.error(f"Failed to parse JSON from model output: {e}", code="parse_error")
-                collected_notes.append({
-                    "run_id": run_id,
-                    "mode": "COLLECT",
-                    "round": round_idx,
-                    "parse_error": str(e),
-                    "raw_preview": (raw or "")[:1000],
-                })
+                log.error(
+                    f"Failed to parse JSON from model output: {e}", code="parse_error"
+                )
+                collected_notes.append(
+                    {
+                        "run_id": run_id,
+                        "mode": "COLLECT",
+                        "round": round_idx,
+                        "parse_error": str(e),
+                        "raw_preview": (raw or "")[:1000],
+                    }
+                )
                 requested = []
                 continue
 
@@ -547,11 +559,13 @@ def run_tools_ecosystem_evaluator(
                 path = item.get("path")
                 if not path:
                     continue
-                requested.append(FileRequest(
-                    path=str(path),
-                    reason=str(item.get("reason") or ""),
-                    max_chars=item.get("max_chars"),
-                ))
+                requested.append(
+                    FileRequest(
+                        path=str(path),
+                        reason=str(item.get("reason") or ""),
+                        max_chars=item.get("max_chars"),
+                    )
+                )
 
             needs_more = bool(data.get("needs_more"))
             log.success(needs_more=needs_more, requested=len(requested))
@@ -581,7 +595,7 @@ def run_tools_ecosystem_evaluator(
         try:
             final_obj = extract_first_json_object(raw)
             report_md = final_obj.get("report_markdown")
-            
+
             # Lite mode: generate markdown from JSON scores if no report_markdown
             if not report_md and final_obj.get("scores"):
                 report_md = _generate_lite_report(final_obj, run_id, model)
@@ -589,7 +603,9 @@ def run_tools_ecosystem_evaluator(
             # If JSON parsing fails, check if the raw output looks like markdown
             # (model may have ignored JSON instruction and returned markdown directly)
             if raw and ("# " in raw or "## " in raw):
-                print("  [INFO] Model returned markdown directly (not JSON). Using raw output.")
+                print(
+                    "  [INFO] Model returned markdown directly (not JSON). Using raw output."
+                )
                 report_md = raw.strip()
                 final_obj = {
                     "run_id": run_id,
@@ -598,7 +614,10 @@ def run_tools_ecosystem_evaluator(
                     "note": "Extracted from raw markdown output (JSON parse failed)",
                 }
             else:
-                log.error(f"Failed to parse final JSON from model output: {e}", code="parse_error")
+                log.error(
+                    f"Failed to parse final JSON from model output: {e}",
+                    code="parse_error",
+                )
                 final_obj = {
                     "run_id": run_id,
                     "mode": "SYNTHESIZE",
@@ -613,13 +632,15 @@ def run_tools_ecosystem_evaluator(
         log.success(wrote_report=bool(report_md))
 
     summary = init.summary()
-    summary.update({
-        "run_id": run_id,
-        "model": model,
-        "report_path": str(out_path),
-        "notes_count": len(collected_notes),
-        "final": final_obj,
-    })
+    summary.update(
+        {
+            "run_id": run_id,
+            "model": model,
+            "report_path": str(out_path),
+            "notes_count": len(collected_notes),
+            "final": final_obj,
+        }
+    )
 
     return summary
 
@@ -630,13 +651,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(
         description="Run the Tools Ecosystem Evaluator prompt in a loop, then synthesize a report.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=textwrap.dedent(
-            """
+        epilog=textwrap.dedent("""
             Notes:
               - Remote providers are disabled by default for most prefixes; GitHub Models (gh:*) are allowed.
               - For GitHub Models, ensure `gh auth login` or set GITHUB_TOKEN.
-            """
-        ),
+            """),
     )
 
     parser.add_argument(
@@ -688,14 +707,18 @@ def main(argv: Optional[List[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     repo_root = Path(args.repo_root).resolve()
-    tools_dir = Path(args.tools_dir).resolve() if args.tools_dir else (repo_root / "tools")
+    tools_dir = (
+        Path(args.tools_dir).resolve() if args.tools_dir else (repo_root / "tools")
+    )
 
     # Lite mode: use compact prompt and minimal context
     if args.lite:
         prompt_path = (
             Path(args.prompt_path).resolve()
             if args.prompt_path
-            else (repo_root / "prompts" / "analysis" / "tools-ecosystem-evaluator-lite.md")
+            else (
+                repo_root / "prompts" / "analysis" / "tools-ecosystem-evaluator-lite.md"
+            )
         )
         # Override defaults for lite mode
         max_rounds = min(args.max_rounds, 2)

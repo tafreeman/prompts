@@ -1,24 +1,24 @@
-"""
-Mutation module for robustness testing.
+"""Mutation module for robustness testing.
 
-Implements 6 mutation classes for testing prompt robustness
-against adversarial perturbations.
+Implements 6 mutation classes for testing prompt robustness against
+adversarial perturbations.
 """
 
 import random
 import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import List, Dict, Any, Optional, Tuple
 from enum import Enum
-
+from typing import Any, Dict, List, Optional, Tuple
 
 # =============================================================================
 # MUTATION TYPES
 # =============================================================================
 
+
 class MutationType(Enum):
     """Types of mutations that can be applied."""
+
     PHASE_REORDER = "phase_reorder"
     PHASE_DELETE = "phase_delete"
     MARKER_CORRUPT = "marker_corrupt"
@@ -30,6 +30,7 @@ class MutationType(Enum):
 @dataclass
 class MutationResult:
     """Result of applying a mutation."""
+
     mutation_type: MutationType
     original: str
     mutated: str
@@ -50,6 +51,7 @@ class MutationResult:
 # BASE MUTATOR
 # =============================================================================
 
+
 class BaseMutator(ABC):
     """Base class for all mutators."""
 
@@ -57,8 +59,7 @@ class BaseMutator(ABC):
 
     @abstractmethod
     def mutate(self, content: str, pattern_def: Dict[str, Any]) -> MutationResult:
-        """
-        Apply mutation to content.
+        """Apply mutation to content.
 
         Args:
             content: Original content
@@ -78,6 +79,7 @@ class BaseMutator(ABC):
 # =============================================================================
 # MUTATION CLASSES
 # =============================================================================
+
 
 class PhaseReorderMutator(BaseMutator):
     """
@@ -130,7 +132,13 @@ class PhaseReorderMutator(BaseMutator):
 
         # Extract content between phases
         p1_content = content[p1_start:p2_start]
-        p2_content = content[p2_start:p2_end if idx + 2 >= len(phase_positions) else phase_positions[idx + 2][1]]
+        p2_content = content[
+            p2_start : (
+                p2_end
+                if idx + 2 >= len(phase_positions)
+                else phase_positions[idx + 2][1]
+            )
+        ]
 
         # Swap
         mutated = content[:p1_start] + p2_content + p1_content + content[p2_end:]
@@ -157,7 +165,9 @@ class PhaseDeleteMutator(BaseMutator):
     mutation_type = MutationType.PHASE_DELETE
 
     def mutate(self, content: str, pattern_def: Dict[str, Any]) -> MutationResult:
-        phases = [p for p in pattern_def.get("required_phases", []) if p.get("required", True)]
+        phases = [
+            p for p in pattern_def.get("required_phases", []) if p.get("required", True)
+        ]
         if not phases:
             return MutationResult(
                 mutation_type=self.mutation_type,
@@ -183,10 +193,13 @@ class PhaseDeleteMutator(BaseMutator):
         mutated = content
         for pattern in markers:
             # Find the phase section
-            match = re.search(f"({pattern}).*?(?=^(?:Thought|Action|Observation|Final|Verification|Draft|Critique|Reflection|Query|Retrieval|Evidence|Grounded)|$)",
-                            content, re.IGNORECASE | re.MULTILINE | re.DOTALL)
+            match = re.search(
+                f"({pattern}).*?(?=^(?:Thought|Action|Observation|Final|Verification|Draft|Critique|Reflection|Query|Retrieval|Evidence|Grounded)|$)",
+                content,
+                re.IGNORECASE | re.MULTILINE | re.DOTALL,
+            )
             if match:
-                mutated = content[:match.start()] + content[match.end():]
+                mutated = content[: match.start()] + content[match.end() :]
                 break
 
         return MutationResult(
@@ -238,7 +251,9 @@ class MarkerCorruptMutator(BaseMutator):
                         if strategy == "typo":
                             # Insert a typo
                             pos = len(original_marker) // 2
-                            corrupted_marker = original_marker[:pos] + "x" + original_marker[pos+1:]
+                            corrupted_marker = (
+                                original_marker[:pos] + "x" + original_marker[pos + 1 :]
+                            )
                         elif strategy == "case":
                             # Random case
                             corrupted_marker = "".join(
@@ -248,10 +263,14 @@ class MarkerCorruptMutator(BaseMutator):
                         else:
                             # Extra character
                             pos = random.randint(0, len(original_marker))
-                            corrupted_marker = original_marker[:pos] + "_" + original_marker[pos:]
+                            corrupted_marker = (
+                                original_marker[:pos] + "_" + original_marker[pos:]
+                            )
 
                         mutated = mutated.replace(original_marker, corrupted_marker, 1)
-                        corrupted.append(f"{phase_name}: '{original_marker}' -> '{corrupted_marker}'")
+                        corrupted.append(
+                            f"{phase_name}: '{original_marker}' -> '{corrupted_marker}'"
+                        )
                         break
 
         return MutationResult(
@@ -284,7 +303,7 @@ class ContentInjectMutator(BaseMutator):
 
     def mutate(self, content: str, pattern_def: Dict[str, Any]) -> MutationResult:
         # Choose injection point
-        lines = content.split('\n')
+        lines = content.split("\n")
         if len(lines) < 3:
             inject_point = len(content) // 2
         else:
@@ -327,25 +346,39 @@ class ConstraintViolateMutator(BaseMutator):
             # Violate: Action must follow Thought
             # Insert an Action before first Thought
             action_insert = "\n\nAction: Let me search for that immediately.\n\n"
-            thought_match = re.search(r'(Thought|Think):', content, re.IGNORECASE)
+            thought_match = re.search(r"(Thought|Think):", content, re.IGNORECASE)
             if thought_match:
-                mutated = content[:thought_match.start()] + action_insert + content[thought_match.start():]
+                mutated = (
+                    content[: thought_match.start()]
+                    + action_insert
+                    + content[thought_match.start() :]
+                )
                 violation_desc = "Action inserted before Thought"
 
         elif pattern_type == "cove":
             # Violate: Verification questions should be independent
             # Make verification answer reference the draft directly
-            verify_match = re.search(r'(Verification Questions?:|Questions? to Verify:)', content, re.IGNORECASE)
+            verify_match = re.search(
+                r"(Verification Questions?:|Questions? to Verify:)",
+                content,
+                re.IGNORECASE,
+            )
             if verify_match:
                 violation_insert = "\n(Using the draft answer above as reference)\n"
-                mutated = content[:verify_match.end()] + violation_insert + content[verify_match.end():]
+                mutated = (
+                    content[: verify_match.end()]
+                    + violation_insert
+                    + content[verify_match.end() :]
+                )
                 violation_desc = "Verification independence violated"
 
         elif pattern_type == "reflexion":
             # Violate: Reflection must reference critique
             # Add reflection that doesn't reference critique
             reflection_insert = "\n\nReflection:\nI will try a completely different approach without considering the critique.\n\n"
-            critique_match = re.search(r'(Critique|Self-Critique):', content, re.IGNORECASE)
+            critique_match = re.search(
+                r"(Critique|Self-Critique):", content, re.IGNORECASE
+            )
             if critique_match:
                 mutated = content + reflection_insert
                 violation_desc = "Reflection doesn't reference critique"
@@ -354,9 +387,15 @@ class ConstraintViolateMutator(BaseMutator):
             # Violate: Answer must be grounded in retrieved evidence
             # Add answer that makes unsupported claims
             violation_insert = "\n\nAdditionally, based on my general knowledge (not from the retrieved documents): "
-            grounded_match = re.search(r'(Grounded Answer|Final Answer):', content, re.IGNORECASE)
+            grounded_match = re.search(
+                r"(Grounded Answer|Final Answer):", content, re.IGNORECASE
+            )
             if grounded_match:
-                mutated = content[:grounded_match.end()] + violation_insert + content[grounded_match.end():]
+                mutated = (
+                    content[: grounded_match.end()]
+                    + violation_insert
+                    + content[grounded_match.end() :]
+                )
                 violation_desc = "Answer includes ungrounded claims"
 
         return MutationResult(
@@ -381,39 +420,41 @@ class FormatPerturbMutator(BaseMutator):
     mutation_type = MutationType.FORMAT_PERTURB
 
     def mutate(self, content: str, pattern_def: Dict[str, Any]) -> MutationResult:
-        strategy = random.choice([
-            "extra_newlines",
-            "remove_newlines",
-            "mixed_indentation",
-            "unicode_chars",
-        ])
+        strategy = random.choice(
+            [
+                "extra_newlines",
+                "remove_newlines",
+                "mixed_indentation",
+                "unicode_chars",
+            ]
+        )
 
         if strategy == "extra_newlines":
-            mutated = re.sub(r'\n', '\n\n\n', content)
+            mutated = re.sub(r"\n", "\n\n\n", content)
             desc = "Added excessive newlines"
 
         elif strategy == "remove_newlines":
             # Remove some newlines (not all)
-            lines = content.split('\n')
-            mutated = '\n'.join(
-                line if random.random() < 0.7 else line + ' '
-                for line in lines
-            ).replace(' \n', ' ')
+            lines = content.split("\n")
+            mutated = "\n".join(
+                line if random.random() < 0.7 else line + " " for line in lines
+            ).replace(" \n", " ")
             desc = "Removed some newlines"
 
         elif strategy == "mixed_indentation":
-            lines = content.split('\n')
-            mutated = '\n'.join(
-                ('\t' if random.random() < 0.3 else '  ') * random.randint(0, 3) + line.lstrip()
+            lines = content.split("\n")
+            mutated = "\n".join(
+                ("\t" if random.random() < 0.3 else "  ") * random.randint(0, 3)
+                + line.lstrip()
                 for line in lines
             )
             desc = "Mixed indentation styles"
 
         else:  # unicode_chars
             replacements = [
-                (':', '꞉'),  # Unicode colon
-                (' ', ' '),  # Non-breaking space
-                ('-', '–'),  # En dash
+                (":", "꞉"),  # Unicode colon
+                (" ", " "),  # Non-breaking space
+                ("-", "–"),  # En dash
             ]
             mutated = content
             for old, new in replacements:
@@ -451,9 +492,11 @@ MUTATORS: Dict[MutationType, BaseMutator] = {
 # MUTATION TESTING
 # =============================================================================
 
+
 @dataclass
 class MutationTestResult:
     """Result from mutation testing."""
+
     pattern_name: str
     mutation_results: List[MutationResult] = field(default_factory=list)
     detection_rates: Dict[str, float] = field(default_factory=dict)
@@ -473,8 +516,7 @@ def run_mutation_tests(
     pattern_def: Dict[str, Any],
     mutations: Optional[List[MutationType]] = None,
 ) -> Tuple[List[MutationResult], List[str]]:
-    """
-    Run mutation tests on content.
+    """Run mutation tests on content.
 
     Args:
         content: Original content to mutate
@@ -507,8 +549,7 @@ def generate_mutation_suite(
     pattern_def: Dict[str, Any],
     count_per_type: int = 3,
 ) -> List[MutationResult]:
-    """
-    Generate a suite of mutations for comprehensive testing.
+    """Generate a suite of mutations for comprehensive testing.
 
     Args:
         content: Original content

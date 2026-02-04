@@ -18,16 +18,16 @@ Gold standards are stored externally and fetched on demand from:
 Usage:
     # Run a single task
     python -m tools.agents.test_tasks --task 1
-    
+
     # Run all tasks
     python -m tools.agents.test_tasks --all
-    
+
     # List available tasks
     python -m tools.agents.test_tasks --list
-    
+
     # Run with specific model
     python -m tools.agents.test_tasks --task 1 --model local:phi4
-    
+
     # Fetch gold standards from source
     python -m tools.agents.test_tasks --fetch-gold 1
 
@@ -53,14 +53,15 @@ if __name__ == "__main__":
 
 from tools.agents.multi_agent_orchestrator import MultiAgentOrchestrator
 
-
 # =============================================================================
 # GOLD STANDARD REFERENCE SYSTEM
 # =============================================================================
 
+
 @dataclass
 class GoldStandardRef:
     """Reference to a gold standard stored externally."""
+
     source_type: str  # "github", "swe-bench", "local", "url"
     source_url: str  # URL or path to fetch from
     commit_hash: Optional[str] = None  # Git commit for reproducibility
@@ -83,19 +84,20 @@ def get_cache_path(ref: GoldStandardRef) -> Path:
     return GOLD_STANDARD_CACHE_DIR / f"{cache_key}.json"
 
 
-def fetch_gold_standard(ref: GoldStandardRef, force_refresh: bool = False) -> Optional[Dict[str, Any]]:
-    """
-    Fetch gold standard from source or cache.
-    
+def fetch_gold_standard(
+    ref: GoldStandardRef, force_refresh: bool = False
+) -> Optional[Dict[str, Any]]:
+    """Fetch gold standard from source or cache.
+
     Args:
         ref: Reference to the gold standard
         force_refresh: If True, bypass cache and fetch from source
-        
+
     Returns:
         Gold standard dict or None if fetch fails
     """
     cache_path = get_cache_path(ref)
-    
+
     # Check cache first (unless force refresh)
     if not force_refresh and cache_path.exists():
         try:
@@ -107,18 +109,18 @@ def fetch_gold_standard(ref: GoldStandardRef, force_refresh: bool = False) -> Op
                         json.dumps(cached["data"], sort_keys=True).encode()
                     ).hexdigest()
                     if content_hash != ref.checksum:
-                        print(f"  ⚠ Cache checksum mismatch, refetching...")
+                        print("  ⚠ Cache checksum mismatch, refetching...")
                     else:
                         return cached["data"]
                 else:
                     return cached["data"]
         except (json.JSONDecodeError, KeyError):
             pass  # Cache corrupted, will refetch
-    
+
     # Fetch from source
     print(f"  📥 Fetching gold standard from {ref.source_type}...")
     data = None
-    
+
     try:
         if ref.source_type == "github":
             data = _fetch_from_github(ref)
@@ -134,23 +136,27 @@ def fetch_gold_standard(ref: GoldStandardRef, force_refresh: bool = False) -> Op
     except Exception as e:
         print(f"  ⚠ Failed to fetch: {e}")
         return None
-    
+
     # Cache the result
     if data:
         GOLD_STANDARD_CACHE_DIR.mkdir(parents=True, exist_ok=True)
         with open(cache_path, "w", encoding="utf-8") as f:
-            json.dump({
-                "ref": {
-                    "source_type": ref.source_type,
-                    "source_url": ref.source_url,
-                    "commit_hash": ref.commit_hash,
-                    "version": ref.version,
+            json.dump(
+                {
+                    "ref": {
+                        "source_type": ref.source_type,
+                        "source_url": ref.source_url,
+                        "commit_hash": ref.commit_hash,
+                        "version": ref.version,
+                    },
+                    "fetched_at": datetime.now().isoformat(),
+                    "data": data,
                 },
-                "fetched_at": datetime.now().isoformat(),
-                "data": data,
-            }, f, indent=2)
+                f,
+                indent=2,
+            )
         print(f"  ✓ Cached to {cache_path.name}")
-    
+
     return data
 
 
@@ -159,18 +165,20 @@ def _fetch_from_github(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
     # Parse GitHub URL to construct raw content URL
     # Expected format: https://github.com/owner/repo/blob/commit/path
     # Or: owner/repo (with file_path and commit_hash in ref)
-    
+
     if ref.source_url.startswith("https://github.com/"):
         # Full URL provided
-        url = ref.source_url.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
+        url = ref.source_url.replace("github.com", "raw.githubusercontent.com").replace(
+            "/blob/", "/"
+        )
     else:
         # Short format: owner/repo
         commit = ref.commit_hash or "main"
         path = ref.file_path or "gold_standard.json"
         url = f"https://raw.githubusercontent.com/{ref.source_url}/{commit}/{path}"
-    
+
     print(f"    → {url}")
-    
+
     req = urllib.request.Request(url, headers={"User-Agent": "prompts-library/1.0"})
     with urllib.request.urlopen(req, timeout=30) as response:
         content = response.read().decode("utf-8")
@@ -181,17 +189,17 @@ def _fetch_from_swe_bench(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
     """Fetch gold standard from SWE-bench dataset."""
     # SWE-bench instances are stored in HuggingFace datasets
     # https://huggingface.co/datasets/princeton-nlp/SWE-bench
-    
+
     if not ref.benchmark_id:
         print("  ⚠ No benchmark_id provided for SWE-bench reference")
         return None
-    
+
     # For now, return a placeholder structure
     # In production, would use HuggingFace datasets API
     print(f"    → SWE-bench instance: {ref.benchmark_id}")
     print("    ⚠ SWE-bench fetch requires huggingface_hub package")
     print("    → Install with: pip install huggingface_hub datasets")
-    
+
     # Return expected structure for SWE-bench
     return {
         "benchmark": "swe-bench",
@@ -205,8 +213,10 @@ def _fetch_from_swe_bench(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
 def _fetch_from_url(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
     """Fetch gold standard from arbitrary URL."""
     print(f"    → {ref.source_url}")
-    
-    req = urllib.request.Request(ref.source_url, headers={"User-Agent": "prompts-library/1.0"})
+
+    req = urllib.request.Request(
+        ref.source_url, headers={"User-Agent": "prompts-library/1.0"}
+    )
     with urllib.request.urlopen(req, timeout=30) as response:
         content = response.read().decode("utf-8")
         return json.loads(content)
@@ -218,13 +228,13 @@ def _fetch_from_local(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
     if not path.is_absolute():
         # Relative to this file's directory
         path = Path(__file__).parent / ref.source_url
-    
+
     print(f"    → {path}")
-    
+
     if not path.exists():
         print(f"  ⚠ Local file not found: {path}")
         return None
-    
+
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -233,8 +243,10 @@ def _fetch_from_local(ref: GoldStandardRef) -> Optional[Dict[str, Any]]:
 # TEST TASK DEFINITIONS
 # =============================================================================
 
+
 class TaskCategory(Enum):
     """Categories of test tasks."""
+
     API_DESIGN = "api_design"
     CLI_TOOL = "cli_tool"
     DATA_PIPELINE = "data_pipeline"
@@ -247,15 +259,17 @@ class TaskCategory(Enum):
 
 class TaskDifficulty(Enum):
     """Task difficulty levels."""
-    EASY = "easy"           # Single-domain, clear requirements
-    MEDIUM = "medium"       # Multi-domain, some ambiguity
-    HARD = "hard"           # Complex, requires deep analysis
-    EXPERT = "expert"       # Enterprise-scale, many constraints
+
+    EASY = "easy"  # Single-domain, clear requirements
+    MEDIUM = "medium"  # Multi-domain, some ambiguity
+    HARD = "hard"  # Complex, requires deep analysis
+    EXPERT = "expert"  # Enterprise-scale, many constraints
 
 
 @dataclass
 class TestTask:
     """A test task for the multi-agent orchestrator."""
+
     id: int
     name: str
     description: str
@@ -265,30 +279,43 @@ class TestTask:
     evaluation_criteria: List[str]  # What to check in output
     tags: List[str] = field(default_factory=list)
     context: Optional[str] = None  # Additional context/constraints
-    gold_standard_ref: Optional[GoldStandardRef] = None  # Reference to fetch gold standard
+    gold_standard_ref: Optional[GoldStandardRef] = (
+        None  # Reference to fetch gold standard
+    )
     _gold_standard_cache: Optional[Dict[str, Any]] = field(default=None, repr=False)
-    
-    def get_gold_standard(self, force_refresh: bool = False) -> Optional[Dict[str, Any]]:
+
+    def get_gold_standard(
+        self, force_refresh: bool = False
+    ) -> Optional[Dict[str, Any]]:
         """Fetch gold standard on demand."""
         if not self.gold_standard_ref:
             return None
-        
+
         if self._gold_standard_cache and not force_refresh:
             return self._gold_standard_cache
-        
-        self._gold_standard_cache = fetch_gold_standard(self.gold_standard_ref, force_refresh)
+
+        self._gold_standard_cache = fetch_gold_standard(
+            self.gold_standard_ref, force_refresh
+        )
         return self._gold_standard_cache
 
 
 @dataclass
 class GoldStandard:
     """Gold standard output structure (fetched from source)."""
+
     required_components: List[str]  # Must be present (class names, functions, etc.)
     required_patterns: List[str]  # Regex patterns that must match
-    code_structure: Optional[Dict[str, List[str]]] = None  # {filename: [required_elements]}
-    api_endpoints: Optional[List[Dict[str, str]]] = None  # [{method, path, description}]
+    code_structure: Optional[Dict[str, List[str]]] = (
+        None  # {filename: [required_elements]}
+    )
+    api_endpoints: Optional[List[Dict[str, str]]] = (
+        None  # [{method, path, description}]
+    )
     database_tables: Optional[List[str]] = None  # Table names
-    key_decisions: Optional[List[str]] = None  # Architecture decisions that should appear
+    key_decisions: Optional[List[str]] = (
+        None  # Architecture decisions that should appear
+    )
 
 
 # =============================================================================
@@ -336,7 +363,6 @@ Provide the API specification, database schema, and basic implementation approac
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=2,
         name="Configuration File Parser",
@@ -368,7 +394,6 @@ Provide the class design, key methods, and usage examples.""",
             last_verified="2026-01-23",
         ),
     ),
-
     # -------------------------------------------------------------------------
     # MEDIUM TASKS - Multi-domain, some complexity
     # -------------------------------------------------------------------------
@@ -405,7 +430,6 @@ Provide the architecture, key components, and implementation strategy.""",
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=4,
         name="Data Validation Pipeline",
@@ -439,7 +463,6 @@ Provide the pipeline architecture, validation stages, and error handling approac
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=5,
         name="Feature Flag System",
@@ -474,7 +497,6 @@ Provide the system architecture, SDK design, and evaluation logic.""",
             last_verified="2026-01-23",
         ),
     ),
-
     # -------------------------------------------------------------------------
     # HARD TASKS - Complex, requires deep analysis
     # -------------------------------------------------------------------------
@@ -511,7 +533,6 @@ Provide the architecture, analysis pipeline, and GitHub integration approach."""
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=7,
         name="Multi-Tenant SaaS Architecture",
@@ -547,7 +568,6 @@ Provide the architecture, data model, and isolation strategy.""",
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=8,
         name="API Rate Limiter",
@@ -583,7 +603,6 @@ Provide the architecture, algorithm implementations, and distributed coordinatio
             last_verified="2026-01-23",
         ),
     ),
-
     # -------------------------------------------------------------------------
     # EXPERT TASKS - Enterprise-scale, many constraints
     # -------------------------------------------------------------------------
@@ -627,7 +646,6 @@ Provide the migration strategy, risk analysis, and team organization.""",
             last_verified="2026-01-23",
         ),
     ),
-
     TestTask(
         id=10,
         name="Security Incident Response Platform",
@@ -671,10 +689,12 @@ Provide the architecture, data model, and automation framework.""",
 # GOLD STANDARD EVALUATION
 # =============================================================================
 
-def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Evaluate output against gold standard requirements.
-    
+
+def evaluate_against_gold_standard(
+    output: str, gold_standard: Dict[str, Any]
+) -> Dict[str, Any]:
+    """Evaluate output against gold standard requirements.
+
     Returns detailed scoring with:
     - Component coverage (required elements found)
     - Pattern matching (regex patterns matched)
@@ -690,10 +710,10 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
         "overall_score": 0.0,
         "grade": "F",
     }
-    
+
     output_lower = output.lower()
     scores = []
-    
+
     # Check required components
     if "required_components" in gold_standard:
         components = gold_standard["required_components"]
@@ -703,9 +723,11 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
             else:
                 results["components"]["missing"].append(comp)
         if components:
-            results["components"]["score"] = len(results["components"]["matched"]) / len(components) * 100
+            results["components"]["score"] = (
+                len(results["components"]["matched"]) / len(components) * 100
+            )
             scores.append(results["components"]["score"])
-    
+
     # Check required patterns (regex)
     if "required_patterns" in gold_standard:
         patterns = gold_standard["required_patterns"]
@@ -719,9 +741,11 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
                 # Invalid regex, skip
                 pass
         if patterns:
-            results["patterns"]["score"] = len(results["patterns"]["matched"]) / len(patterns) * 100
+            results["patterns"]["score"] = (
+                len(results["patterns"]["matched"]) / len(patterns) * 100
+            )
             scores.append(results["patterns"]["score"])
-    
+
     # Check key decisions
     if "key_decisions" in gold_standard:
         decisions = gold_standard["key_decisions"]
@@ -729,15 +753,19 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
             # Check if key terms from decision appear in output
             key_terms = decision.lower().split()
             # Require at least 50% of key terms to match
-            matches = sum(1 for term in key_terms if len(term) > 3 and term in output_lower)
+            matches = sum(
+                1 for term in key_terms if len(term) > 3 and term in output_lower
+            )
             if matches >= len([t for t in key_terms if len(t) > 3]) * 0.4:
                 results["decisions"]["matched"].append(decision)
             else:
                 results["decisions"]["missing"].append(decision)
         if decisions:
-            results["decisions"]["score"] = len(results["decisions"]["matched"]) / len(decisions) * 100
+            results["decisions"]["score"] = (
+                len(results["decisions"]["matched"]) / len(decisions) * 100
+            )
             scores.append(results["decisions"]["score"])
-    
+
     # Check API endpoints
     if "api_endpoints" in gold_standard:
         endpoints = gold_standard["api_endpoints"]
@@ -745,14 +773,19 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
             method = ep.get("method", "").lower()
             path = ep.get("path", "").lower()
             # Check if both method and path pattern appear
-            if method in output_lower and path.replace("{id}", "").replace("/", " ").strip() in output_lower:
+            if (
+                method in output_lower
+                and path.replace("{id}", "").replace("/", " ").strip() in output_lower
+            ):
                 results["endpoints"]["matched"].append(f"{ep['method']} {ep['path']}")
             else:
                 results["endpoints"]["missing"].append(f"{ep['method']} {ep['path']}")
         if endpoints:
-            results["endpoints"]["score"] = len(results["endpoints"]["matched"]) / len(endpoints) * 100
+            results["endpoints"]["score"] = (
+                len(results["endpoints"]["matched"]) / len(endpoints) * 100
+            )
             scores.append(results["endpoints"]["score"])
-    
+
     # Check database tables
     if "database_tables" in gold_standard:
         tables = gold_standard["database_tables"]
@@ -762,13 +795,15 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
             else:
                 results["tables"]["missing"].append(table)
         if tables:
-            results["tables"]["score"] = len(results["tables"]["matched"]) / len(tables) * 100
+            results["tables"]["score"] = (
+                len(results["tables"]["matched"]) / len(tables) * 100
+            )
             scores.append(results["tables"]["score"])
-    
+
     # Calculate overall score
     if scores:
         results["overall_score"] = sum(scores) / len(scores)
-    
+
     # Assign grade
     score = results["overall_score"]
     if score >= 90:
@@ -781,7 +816,7 @@ def evaluate_against_gold_standard(output: str, gold_standard: Dict[str, Any]) -
         results["grade"] = "D"
     else:
         results["grade"] = "F"
-    
+
     return results
 
 
@@ -790,9 +825,11 @@ def print_gold_standard_report(eval_results: Dict[str, Any], verbose: bool = Tru
     print("\n" + "-" * 80)
     print("GOLD STANDARD COMPARISON")
     print("-" * 80)
-    
-    print(f"\n📊 Overall Score: {eval_results['overall_score']:.1f}/100 (Grade: {eval_results['grade']})")
-    
+
+    print(
+        f"\n📊 Overall Score: {eval_results['overall_score']:.1f}/100 (Grade: {eval_results['grade']})"
+    )
+
     # Components
     if eval_results["components"]["matched"] or eval_results["components"]["missing"]:
         comp = eval_results["components"]
@@ -802,14 +839,16 @@ def print_gold_standard_report(eval_results: Dict[str, Any], verbose: bool = Tru
                 print(f"   ✓ {c}")
             for c in comp["missing"]:
                 print(f"   ✗ {c}")
-    
+
     # Patterns
     if eval_results["patterns"]["matched"] or eval_results["patterns"]["missing"]:
         pat = eval_results["patterns"]
         print(f"\n🔍 Pattern Matching: {pat['score']:.0f}%")
         if verbose:
-            print(f"   Matched: {len(pat['matched'])}/{len(pat['matched']) + len(pat['missing'])}")
-    
+            print(
+                f"   Matched: {len(pat['matched'])}/{len(pat['matched']) + len(pat['missing'])}"
+            )
+
     # Key Decisions
     if eval_results["decisions"]["matched"] or eval_results["decisions"]["missing"]:
         dec = eval_results["decisions"]
@@ -819,7 +858,7 @@ def print_gold_standard_report(eval_results: Dict[str, Any], verbose: bool = Tru
                 print(f"   ✓ {d}")
             for d in dec["missing"]:
                 print(f"   ✗ {d}")
-    
+
     # API Endpoints
     if eval_results["endpoints"]["matched"] or eval_results["endpoints"]["missing"]:
         ep = eval_results["endpoints"]
@@ -829,7 +868,7 @@ def print_gold_standard_report(eval_results: Dict[str, Any], verbose: bool = Tru
                 print(f"   ✓ {e}")
             for e in ep["missing"]:
                 print(f"   ✗ {e}")
-    
+
     # Database Tables
     if eval_results["tables"]["matched"] or eval_results["tables"]["missing"]:
         tbl = eval_results["tables"]
@@ -845,19 +884,20 @@ def print_gold_standard_report(eval_results: Dict[str, Any], verbose: bool = Tru
 # RUNNER
 # =============================================================================
 
+
 def list_tasks():
     """Print all available test tasks."""
     print("\n" + "=" * 80)
     print("AVAILABLE TEST TASKS")
     print("=" * 80)
-    
+
     for task in TEST_TASKS:
         print(f"\n[{task.id}] {task.name}")
         print(f"    Category: {task.category.value}")
         print(f"    Difficulty: {task.difficulty.value}")
         print(f"    Expected agents: {', '.join(task.expected_agents)}")
         print(f"    Tags: {', '.join(task.tags)}")
-        
+
         # Check gold standard reference
         if task.gold_standard_ref:
             src = task.gold_standard_ref.source_type
@@ -865,8 +905,8 @@ def list_tasks():
             ver = task.gold_standard_ref.version
             print(f"    Gold standard: ✓ [{src}] {url} (v{ver})")
         else:
-            print(f"    Gold standard: ✗ (none)")
-    
+            print("    Gold standard: ✗ (none)")
+
     print("\n" + "=" * 80)
     print(f"Total: {len(TEST_TASKS)} tasks")
     print("=" * 80)
@@ -910,10 +950,12 @@ def run_task(
         # Simple heuristic: check if key terms from criterion appear in output
         key_terms = criterion.lower().split()
         found = sum(1 for term in key_terms if term in output_lower)
-        evaluation["criteria_checked"].append({
-            "criterion": criterion,
-            "likely_covered": found >= len(key_terms) * 0.5,
-        })
+        evaluation["criteria_checked"].append(
+            {
+                "criterion": criterion,
+                "likely_covered": found >= len(key_terms) * 0.5,
+            }
+        )
 
     # Gold standard evaluation (fetch on demand)
     gold_standard = task.get_gold_standard()
@@ -942,14 +984,16 @@ def run_all_tasks(
             results.append(result)
         except Exception as e:
             print(f"ERROR running task {task.id}: {e}")
-            results.append({
-                "evaluation": {
-                    "task_id": task.id,
-                    "task_name": task.name,
-                    "error": str(e),
-                },
-                "result": None,
-            })
+            results.append(
+                {
+                    "evaluation": {
+                        "task_id": task.id,
+                        "task_name": task.name,
+                        "error": str(e),
+                    },
+                    "result": None,
+                }
+            )
 
     return results
 
@@ -960,28 +1004,33 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
-        "--task", "-t",
+        "--task",
+        "-t",
         type=int,
         help="Run a specific task by ID",
     )
     parser.add_argument(
-        "--all", "-a",
+        "--all",
+        "-a",
         action="store_true",
         help="Run all tasks",
     )
     parser.add_argument(
-        "--list", "-l",
+        "--list",
+        "-l",
         action="store_true",
         help="List all available tasks",
     )
     parser.add_argument(
-        "--model", "-m",
+        "--model",
+        "-m",
         type=str,
         default="gh:gpt-4o-mini",
         help="Model to use (default: gh:gpt-4o-mini)",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Verbose output",
     )
@@ -991,7 +1040,8 @@ def main():
         help="Maximum number of tasks to run (with --all)",
     )
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         type=str,
         help="Output file for results (JSON)",
     )
@@ -1015,11 +1065,11 @@ def main():
         if not task:
             print(f"Error: Task {args.fetch_gold} not found")
             sys.exit(1)
-        
+
         if not task.gold_standard_ref:
             print(f"Task {task.id} has no gold standard reference")
             sys.exit(1)
-        
+
         print(f"\n{'=' * 80}")
         print(f"GOLD STANDARD: Task {task.id} - {task.name}")
         print(f"{'=' * 80}")
@@ -1030,10 +1080,10 @@ def main():
             print(f"Commit: {task.gold_standard_ref.commit_hash}")
         if task.gold_standard_ref.last_verified:
             print(f"Last Verified: {task.gold_standard_ref.last_verified}")
-        
+
         print("\nFetching...")
         gold = task.get_gold_standard(force_refresh=args.refresh_gold)
-        
+
         if gold:
             print(f"\n{'=' * 80}")
             print("GOLD STANDARD CONTENT")
@@ -1054,20 +1104,22 @@ def main():
         if not task:
             print(f"Error: Task {args.task} not found")
             sys.exit(1)
-        
+
         result = run_task(task, model=args.model, verbose=args.verbose)
-        
+
         print("\n" + "=" * 80)
         print("FINAL OUTPUT")
         print("=" * 80)
         print(result["result"].final_output)
-        
+
         print("\n" + "=" * 80)
         print("EVALUATION")
         print("=" * 80)
         eval_data = result["evaluation"]
         print(f"Duration: {eval_data['duration_seconds']:.1f}s")
-        print(f"Tasks: {eval_data['successful_tasks']}/{eval_data['total_tasks']} successful")
+        print(
+            f"Tasks: {eval_data['successful_tasks']}/{eval_data['total_tasks']} successful"
+        )
         print("\nCriteria Coverage:")
         for check in eval_data["criteria_checked"]:
             status = "✓" if check["likely_covered"] else "?"
@@ -1075,7 +1127,9 @@ def main():
 
         # Print gold standard evaluation if available
         if eval_data.get("gold_standard_eval"):
-            print_gold_standard_report(eval_data["gold_standard_eval"], verbose=args.verbose)
+            print_gold_standard_report(
+                eval_data["gold_standard_eval"], verbose=args.verbose
+            )
 
         if args.output:
             # Can't serialize the full result, just save evaluation
@@ -1089,23 +1143,29 @@ def main():
             verbose=args.verbose,
             max_tasks=args.max_tasks,
         )
-        
+
         print("\n" + "=" * 80)
         print("SUMMARY")
         print("=" * 80)
-        
+
         for r in results:
             eval_data = r["evaluation"]
             if "error" in eval_data:
-                print(f"[{eval_data['task_id']}] {eval_data['task_name']}: ERROR - {eval_data['error']}")
+                print(
+                    f"[{eval_data['task_id']}] {eval_data['task_name']}: ERROR - {eval_data['error']}"
+                )
             else:
-                success_rate = eval_data["successful_tasks"] / max(eval_data["total_tasks"], 1)
+                success_rate = eval_data["successful_tasks"] / max(
+                    eval_data["total_tasks"], 1
+                )
                 gold_grade = ""
                 if eval_data.get("gold_standard_eval"):
                     gold_grade = f" | Gold: {eval_data['gold_standard_eval']['grade']} ({eval_data['gold_standard_eval']['overall_score']:.0f}%)"
-                print(f"[{eval_data['task_id']}] {eval_data['task_name']}: "
-                      f"{eval_data['duration_seconds']:.1f}s, "
-                      f"{success_rate:.0%} task success{gold_grade}")
+                print(
+                    f"[{eval_data['task_id']}] {eval_data['task_name']}: "
+                    f"{eval_data['duration_seconds']:.1f}s, "
+                    f"{success_rate:.0%} task success{gold_grade}"
+                )
 
         if args.output:
             with open(args.output, "w") as f:

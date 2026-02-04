@@ -1,5 +1,6 @@
 # GitHub Models handling logic
 
+
 class GitHubModelsHandler:
     def __init__(self, retry_strategy):
         self.retry_strategy = retry_strategy

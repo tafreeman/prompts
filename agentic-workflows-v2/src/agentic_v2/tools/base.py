@@ -1,4 +1,5 @@
 """Base classes for the tool system."""
+
 from __future__ import annotations
 
 import time
@@ -10,7 +11,7 @@ from typing import Any, Optional
 @dataclass
 class ToolSchema:
     """Schema describing a tool for agent consumption."""
-    
+
     name: str
     description: str
     parameters: dict[str, Any]
@@ -22,14 +23,14 @@ class ToolSchema:
 @dataclass
 class ToolResult:
     """Standardized result from tool execution."""
-    
+
     success: bool
     data: Any = None
     error: Optional[str] = None
     execution_time_ms: float = 0.0
     tool_name: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
-    
+
     def __post_init__(self):
         """Validate that error is set if success is False."""
         if not self.success and self.error is None:
@@ -37,9 +38,8 @@ class ToolResult:
 
 
 class BaseTool(ABC):
-    """
-    Base class for all tools in the system.
-    
+    """Base class for all tools in the system.
+
     Tools are atomic operations that can be called by agents.
     They should be:
     - Deterministic when possible
@@ -47,29 +47,28 @@ class BaseTool(ABC):
     - Fast (< 1s for tier 0, < 5s for tier 1-2)
     - Well-documented with clear input/output contracts
     """
-    
+
     def __init__(self):
         """Initialize the tool."""
         self._schema: Optional[ToolSchema] = None
-    
+
     @property
     @abstractmethod
     def name(self) -> str:
         """Return the tool name (used for registration)."""
         ...
-    
+
     @property
     @abstractmethod
     def description(self) -> str:
         """Return a human-readable description of what the tool does."""
         ...
-    
+
     @property
     @abstractmethod
     def parameters(self) -> dict[str, Any]:
-        """
-        Return the parameter schema for this tool.
-        
+        """Return the parameter schema for this tool.
+
         Format:
         {
             "param_name": {
@@ -81,29 +80,28 @@ class BaseTool(ABC):
         }
         """
         ...
-    
+
     @property
     def returns(self) -> str:
         """Return a description of what the tool returns."""
         return "ToolResult with success status and data"
-    
+
     @property
     def tier(self) -> int:
-        """
-        Return the tier of this tool (0-3).
-        
+        """Return the tier of this tool (0-3).
+
         Tier 0: No LLM needed (file ops, transforms)
         Tier 1: Small model (1-3B) - formatting, simple generation
         Tier 2: Medium model (7-14B) - code generation, review
         Tier 3: Large model (32B+/cloud) - architecture, reasoning
         """
         return 0
-    
+
     @property
     def examples(self) -> list[str]:
         """Return usage examples (optional)."""
         return []
-    
+
     def get_schema(self) -> ToolSchema:
         """Get the tool schema for agent consumption."""
         if self._schema is None:
@@ -116,20 +114,19 @@ class BaseTool(ABC):
                 examples=self.examples,
             )
         return self._schema
-    
+
     @abstractmethod
     async def execute(self, **kwargs) -> ToolResult:
-        """
-        Execute the tool with the given parameters.
-        
+        """Execute the tool with the given parameters.
+
         Args:
             **kwargs: Parameters matching the tool's parameter schema
-        
+
         Returns:
             ToolResult with success status, data, and optional error
         """
         ...
-    
+
     async def __call__(self, **kwargs) -> ToolResult:
         """Allow the tool to be called directly."""
         start_time = time.perf_counter()
@@ -146,24 +143,23 @@ class BaseTool(ABC):
                 execution_time_ms=execution_time,
                 tool_name=self.name,
             )
-    
+
     def validate_parameters(self, **kwargs) -> tuple[bool, Optional[str]]:
-        """
-        Validate parameters against the schema.
-        
+        """Validate parameters against the schema.
+
         Returns:
             (is_valid, error_message)
         """
         params = self.parameters
-        
+
         for param_name, param_spec in params.items():
             required = param_spec.get("required", False)
             if required and param_name not in kwargs:
                 return False, f"Required parameter '{param_name}' is missing"
-        
+
         # Check for unexpected parameters
         unexpected = set(kwargs.keys()) - set(params.keys())
         if unexpected:
             return False, f"Unexpected parameters: {', '.join(unexpected)}"
-        
+
         return True, None

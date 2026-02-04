@@ -1,6 +1,4 @@
-"""
-Integration tests for workflow execution.
-"""
+"""Integration tests for workflow execution."""
 
 from pathlib import Path
 
@@ -11,7 +9,9 @@ from multiagent_workflows.core.workflow_engine import WorkflowEngine
 
 
 @pytest.mark.asyncio
-async def test_fullstack_workflow_integration(mock_model_manager, sample_requirements, monkeypatch, tmp_path):
+async def test_fullstack_workflow_integration(
+    mock_model_manager, sample_requirements, monkeypatch, tmp_path
+):
     """Execute fullstack workflow end-to-end with mocked model calls."""
     # Avoid writing logs into the repo during test runs.
     monkeypatch.chdir(tmp_path)

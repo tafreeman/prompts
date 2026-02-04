@@ -1,5 +1,4 @@
-"""
-Unified Model Manager
+"""Unified Model Manager.
 
 Provides a consistent interface for all model providers with:
 - Automatic fallback strategies
@@ -17,7 +16,7 @@ import asyncio
 import os
 import sys
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, AsyncIterator, Dict, List, Optional, Union
 
@@ -34,6 +33,7 @@ if TOOLS_PATH.exists() and str(TOOLS_PATH) not in sys.path:
 # Try to import existing repository tools
 try:
     from llm.llm_client import LLMClient
+
     HAS_LLM_CLIENT = True
 except ImportError:
     HAS_LLM_CLIENT = False
@@ -41,6 +41,7 @@ except ImportError:
 
 try:
     from llm.model_probe import discover_all_models, get_probe
+
     HAS_MODEL_PROBE = True
 except ImportError:
     HAS_MODEL_PROBE = False
@@ -51,6 +52,7 @@ except ImportError:
 @dataclass
 class ModelInfo:
     """Information about a model."""
+
     id: str
     name: str
     provider: str
@@ -60,9 +62,10 @@ class ModelInfo:
     context_length: int = 4096
 
 
-@dataclass 
+@dataclass
 class GenerationResult:
     """Result from a model generation call."""
+
     text: str
     model_id: str
     tokens_used: int = 0
@@ -71,21 +74,20 @@ class GenerationResult:
 
 
 class ModelManager:
-    """
-    Unified interface for all model providers with comprehensive logging.
-    
+    """Unified interface for all model providers with comprehensive logging.
+
     Wraps tools/llm_client.py patterns for consistency while adding:
     - Automatic fallback strategies (premium → mid-tier → local)
     - All calls logged with full context
     - Async execution support
     - Model availability checking
-    
+
     Example:
         manager = ModelManager(config, logger)
         result = await manager.generate("gh:gpt-4o", "Hello, world!")
         print(result.text)
     """
-    
+
     # Default routing for task types
     TASK_ROUTING = {
         "vision": ["gh:openai/gpt-4o", "local:phi3.5-vision"],
@@ -95,7 +97,7 @@ class ModelManager:
         "coordination": ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"],
         "documentation": ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"],
     }
-    
+
     # Cost estimates per 1M tokens (input + output average)
     COST_PER_MILLION = {
         "gh:openai/gpt-4o": 15.0,
@@ -109,16 +111,15 @@ class ModelManager:
         "ollama:qwen2.5-coder:14b": 0.0,
         "ollama:deepseek-r1:14b": 0.0,
     }
-    
+
     def __init__(
         self,
         config: Optional[Dict[str, Any]] = None,
         logger: Optional[VerboseLogger] = None,
         allow_remote: bool = True,
     ):
-        """
-        Initialize ModelManager.
-        
+        """Initialize ModelManager.
+
         Args:
             config: Model configuration dict (or loaded from config/models.yaml)
             logger: VerboseLogger instance for logging
@@ -127,23 +128,25 @@ class ModelManager:
         self.config = config or self._load_default_config()
         self.logger = logger
         self.allow_remote = allow_remote
-        
+
         # Initialize LLM client if available
         self._llm_client = LLMClient() if HAS_LLM_CLIENT else None
-        
+
         # Model availability cache
         self._availability_cache: Dict[str, bool] = {}
         self._cache_ttl = 300  # 5 minutes
         self._cache_time: Dict[str, float] = {}
-    
+
     def _load_default_config(self) -> Dict[str, Any]:
         """Load default configuration from config/models.yaml."""
-        config_path = Path(__file__).parent.parent.parent.parent / "config" / "models.yaml"
+        config_path = (
+            Path(__file__).parent.parent.parent.parent / "config" / "models.yaml"
+        )
         if config_path.exists():
             with open(config_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         return {"providers": {}, "routing": {}, "fallback": {"chain": []}}
-    
+
     async def generate(
         self,
         model_id: str,
@@ -154,9 +157,8 @@ class ModelManager:
         max_tokens: int = 4096,
         stream: bool = False,
     ) -> Union[GenerationResult, AsyncIterator[str]]:
-        """
-        Generate response from a model with full logging.
-        
+        """Generate response from a model with full logging.
+
         Args:
             model_id: Model identifier (e.g., "gh:gpt-4o", "local:phi4")
             prompt: User prompt
@@ -165,21 +167,21 @@ class ModelManager:
             temperature: Sampling temperature (0.0 = deterministic)
             max_tokens: Maximum tokens to generate
             stream: Whether to stream response
-            
+
         Returns:
             GenerationResult with text, timing, and token info
         """
         start_time = time.perf_counter()
-        
+
         # Combine context and prompt
         full_prompt = f"{context}\n\n{prompt}" if context else prompt
-        
+
         params = {
             "temperature": temperature,
             "max_tokens": max_tokens,
             "stream": stream,
         }
-        
+
         # Log the call
         call_id = None
         if self.logger:
@@ -189,12 +191,14 @@ class ModelManager:
                 prompt=full_prompt,
                 params=params,
             )
-        
+
         try:
             # Check if remote calls allowed
             if not self.allow_remote and self._is_remote_model(model_id):
-                raise ValueError(f"Remote model {model_id} not allowed (allow_remote=False)")
-            
+                raise ValueError(
+                    f"Remote model {model_id} not allowed (allow_remote=False)"
+                )
+
             # Try to generate
             response_text = await self._call_model(
                 model_id=model_id,
@@ -203,11 +207,11 @@ class ModelManager:
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-            
+
             elapsed_ms = (time.perf_counter() - start_time) * 1000
             tokens = self._estimate_tokens(full_prompt, response_text)
             cost = self._estimate_cost(model_id, tokens)
-            
+
             # Log response
             if self.logger and call_id:
                 self.logger.log_model_response(
@@ -217,7 +221,7 @@ class ModelManager:
                     tokens=tokens,
                     cost=cost,
                 )
-            
+
             return GenerationResult(
                 text=response_text,
                 model_id=model_id,
@@ -225,25 +229,28 @@ class ModelManager:
                 timing_ms=elapsed_ms,
                 cost_estimate=cost,
             )
-            
+
         except Exception as e:
             error_msg = str(e).lower()
             is_rate_limited = (
-                "rate limit" in error_msg or
-                "too many requests" in error_msg or
-                "429" in error_msg or
-                "quota" in error_msg
+                "rate limit" in error_msg
+                or "too many requests" in error_msg
+                or "429" in error_msg
+                or "quota" in error_msg
             )
-            
+
             if self.logger and call_id:
                 self.logger.log_model_error(call_id, e)
-            
+
             # On rate limit, immediately try fallback without retry
             if is_rate_limited:
                 fallback_model = await self._get_fallback_for_rate_limit(model_id)
                 if fallback_model:
                     if self.logger:
-                        self.logger.log("info", f"Rate limited on {model_id}, falling back to {fallback_model}")
+                        self.logger.log(
+                            "info",
+                            f"Rate limited on {model_id}, falling back to {fallback_model}",
+                        )
                     return await self.generate(
                         model_id=fallback_model,
                         prompt=prompt,
@@ -253,7 +260,7 @@ class ModelManager:
                         max_tokens=max_tokens,
                         stream=stream,
                     )
-            
+
             # Try regular fallback for other errors
             fallback_model = await self._get_fallback(model_id)
             if fallback_model:
@@ -267,7 +274,7 @@ class ModelManager:
                     stream=stream,
                 )
             raise
-    
+
     async def _call_model(
         self,
         model_id: str,
@@ -292,7 +299,7 @@ class ModelManager:
             return await self._fallback_call(
                 model_id, prompt, system_instruction, temperature, max_tokens
             )
-    
+
     async def _fallback_call(
         self,
         model_id: str,
@@ -304,11 +311,12 @@ class ModelManager:
         """Fallback implementation when LLMClient is not available."""
         # This is a basic implementation - in practice, would implement
         # direct API calls to providers
-        
+
         if model_id.startswith("local:"):
             # Try local ONNX model
             try:
                 from llm.local_model import LocalModel
+
                 model = LocalModel(model_key=model_id.replace("local:", ""))
                 return model.generate(
                     prompt=prompt,
@@ -318,7 +326,7 @@ class ModelManager:
                 )
             except ImportError:
                 pass
-        
+
         elif model_id.startswith("ollama:"):
             # Call Ollama API directly
             return await self._call_ollama(
@@ -326,7 +334,7 @@ class ModelManager:
                 prompt,
                 system_instruction,
             )
-        
+
         elif model_id.startswith("gh:"):
             # Call GitHub Models API
             return await self._call_github_models(
@@ -334,9 +342,9 @@ class ModelManager:
                 prompt,
                 system_instruction,
             )
-        
+
         raise ValueError(f"No implementation available for model: {model_id}")
-    
+
     async def _call_ollama(
         self,
         model_name: str,
@@ -345,23 +353,23 @@ class ModelManager:
     ) -> str:
         """Call Ollama API directly."""
         import httpx
-        
+
         host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
-    
+
         headers = {
             "Content-Type": "application/json",
         }
-        
+
         # Add auth if available
         api_key = os.environ.get("OLLAMA_API_KEY")
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"
-        
+
         messages = []
         if system_instruction:
             messages.append({"role": "system", "content": system_instruction})
         messages.append({"role": "user", "content": prompt})
-        
+
         async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
                 f"{host}/api/chat",
@@ -375,7 +383,7 @@ class ModelManager:
             response.raise_for_status()
             data = response.json()
             return data.get("message", {}).get("content", "")
-    
+
     async def _call_github_models(
         self,
         model_name: str,
@@ -384,16 +392,18 @@ class ModelManager:
     ) -> str:
         """Call GitHub Models API directly."""
         import httpx
-        
+
         token = os.environ.get("GITHUB_TOKEN")
         if not token:
-            raise ValueError("GITHUB_TOKEN environment variable required for GitHub Models")
-        
+            raise ValueError(
+                "GITHUB_TOKEN environment variable required for GitHub Models"
+            )
+
         messages = []
         if system_instruction:
             messages.append({"role": "system", "content": system_instruction})
         messages.append({"role": "user", "content": prompt})
-        
+
         async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
                 "https://models.github.com/v1/chat/completions",
@@ -409,7 +419,7 @@ class ModelManager:
             response.raise_for_status()
             data = response.json()
             return data["choices"][0]["message"]["content"]
-    
+
     async def check_availability(self, model_id: str) -> bool:
         """Check if a model is available and healthy."""
         # Check cache first
@@ -417,7 +427,7 @@ class ModelManager:
         if model_id in self._availability_cache:
             if now - self._cache_time.get(model_id, 0) < self._cache_ttl:
                 return self._availability_cache[model_id]
-        
+
         # Check availability
         available = False
         try:
@@ -436,39 +446,40 @@ class ModelManager:
                     available = self._has_credentials(model_id)
         except Exception:
             available = False
-        
+
         # Update cache
         self._availability_cache[model_id] = available
         self._cache_time[model_id] = now
-        
+
         return available
-    
+
     def _check_local_model(self, model_id: str) -> bool:
         """Check if a local ONNX model is available."""
         try:
             from llm.local_model import check_model_available
+
             return check_model_available()
         except ImportError:
             return False
-    
+
     async def _check_ollama(self) -> bool:
         """Check if Ollama server is running."""
         import httpx
-        
+
         host = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
-        
+
         headers = {}
         api_key = os.environ.get("OLLAMA_API_KEY")
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"
-            
+
         try:
             async with httpx.AsyncClient(timeout=5.0) as client:
                 response = await client.get(f"{host}/api/tags", headers=headers)
                 return response.status_code == 200
         except Exception:
             return False
-    
+
     def _has_credentials(self, model_id: str) -> bool:
         """Check if credentials are available for a model."""
         if model_id.startswith("gh:"):
@@ -478,7 +489,7 @@ class ModelManager:
         elif "gpt" in model_id or "openai" in model_id.lower():
             return bool(os.environ.get("OPENAI_API_KEY"))
         return True
-    
+
     async def list_models(
         self,
         provider: Optional[str] = None,
@@ -486,7 +497,7 @@ class ModelManager:
     ) -> List[ModelInfo]:
         """List available models, optionally filtered."""
         models: List[ModelInfo] = []
-        
+
         if HAS_MODEL_PROBE:
             try:
                 discovered = await asyncio.to_thread(discover_all_models, False)
@@ -495,17 +506,19 @@ class ModelManager:
                     if provider and provider != name:
                         continue
                     for m in info.get("available", []) or []:
-                        models.append(ModelInfo(
-                            id=f"{name}:{m}" if ":" not in m else m,
-                            name=m,
-                            provider=name,
-                            capabilities=[],
-                            cost_tier="unknown",
-                            available=True,
-                        ))
+                        models.append(
+                            ModelInfo(
+                                id=f"{name}:{m}" if ":" not in m else m,
+                                name=m,
+                                provider=name,
+                                capabilities=[],
+                                cost_tier="unknown",
+                                available=True,
+                            )
+                        )
             except Exception:
                 pass
-        
+
         # Add models from config
         for prov_name, prov_info in self.config.get("providers", {}).items():
             if provider and provider != prov_name:
@@ -515,79 +528,92 @@ class ModelManager:
                 caps = model.get("capabilities", [])
                 if capability and capability not in caps:
                     continue
-                models.append(ModelInfo(
-                    id=model_id,
-                    name=model.get("name", model_id),
-                    provider=prov_name,
-                    capabilities=caps,
-                    cost_tier=model.get("cost_tier", "unknown"),
-                    context_length=model.get("context_length", 4096),
-                ))
-        
+                models.append(
+                    ModelInfo(
+                        id=model_id,
+                        name=model.get("name", model_id),
+                        provider=prov_name,
+                        capabilities=caps,
+                        cost_tier=model.get("cost_tier", "unknown"),
+                        context_length=model.get("context_length", 4096),
+                    )
+                )
+
         return models
-    
+
     def get_optimal_model(
         self,
         task_type: str,
         complexity: int = 5,
         prefer_local: bool = False,
     ) -> str:
-        """
-        Get optimal model for a task based on availability and requirements.
-        
+        """Get optimal model for a task based on availability and requirements.
+
         Args:
             task_type: Type of task (vision, reasoning, code_gen, etc.)
             complexity: Complexity level 1-10 (higher = need better model)
             prefer_local: Whether to prefer local models
-            
+
         Returns:
             Best available model ID for the task
         """
         # Get routing from config or defaults
-        routing = self.config.get("routing", {}).get(task_type) or self.TASK_ROUTING.get(task_type)
-        
+        routing = self.config.get("routing", {}).get(
+            task_type
+        ) or self.TASK_ROUTING.get(task_type)
+
         if not routing:
             routing = self.TASK_ROUTING.get("code_gen", ["gh:openai/gpt-4o-mini"])
-        
-        candidates = routing.get("preferred", routing) if isinstance(routing, dict) else routing
-        
+
+        candidates = (
+            routing.get("preferred", routing) if isinstance(routing, dict) else routing
+        )
+
         # When NOT preferring local, prioritize cloud models
         if not prefer_local:
-            cloud_first = [m for m in candidates if not m.startswith("local:") and not m.startswith("ollama:")]
+            cloud_first = [
+                m
+                for m in candidates
+                if not m.startswith("local:") and not m.startswith("ollama:")
+            ]
             cloud_first.extend([m for m in candidates if m not in cloud_first])
             candidates = cloud_first
-        
+
         # For high complexity, filter out local models entirely
         if complexity >= 8 and not prefer_local:
             candidates = [m for m in candidates if not m.startswith("local:")]
-        
+
         # For prefer_local, prioritize local models
         if prefer_local:
-            local_first = [m for m in candidates if m.startswith("local:") or m.startswith("ollama:")]
+            local_first = [
+                m
+                for m in candidates
+                if m.startswith("local:") or m.startswith("ollama:")
+            ]
             local_first.extend([m for m in candidates if m not in local_first])
             candidates = local_first
-        
+
         # Return first available cloud model (or first candidate if none cached)
         for model in candidates:
             if model in self._availability_cache and self._availability_cache[model]:
                 return model
-        
+
         # Return first candidate if no cache
         return candidates[0] if candidates else "gh:openai/gpt-4o-mini"
-    
+
     async def _get_fallback(self, failed_model: str) -> Optional[str]:
         """Get fallback model when one fails."""
         fallback_chain = self.config.get("fallback", {}).get("chain", [])
-        
+
         if not fallback_chain:
             fallback_chain = ["gh:openai/gpt-4o-mini", "gh:openai/gpt-4o", "local:phi4"]
-        
+
         for model in fallback_chain:
             if model != failed_model and await self.check_availability(model):
                 return model
-        
+
         return None
-    
+
     async def _get_fallback_for_rate_limit(self, failed_model: str) -> Optional[str]:
         """Get fallback model specifically for rate limit errors - prioritizes local/Ollama."""
         # When rate limited, prefer non-cloud models to avoid further rate limits
@@ -601,17 +627,20 @@ class ModelManager:
             "aitk:phi-4-mini-instruct",
             "aitk:qwen2.5-coder-7b-instruct",
         ]
-        
+
         # Also check config for local models in the fallback chain
         config_chain = self.config.get("fallback", {}).get("chain", [])
         for model in config_chain:
-            if model.startswith(("local:", "ollama:", "aitk:")) and model not in local_fallbacks:
+            if (
+                model.startswith(("local:", "ollama:", "aitk:"))
+                and model not in local_fallbacks
+            ):
                 local_fallbacks.insert(0, model)
-        
+
         for model in local_fallbacks:
             if model != failed_model and await self.check_availability(model):
                 return model
-        
+
         # If all local models unavailable, try other cloud providers
         # Try different provider than the failed one
         failed_provider = failed_model.split(":")[0] if ":" in failed_model else ""
@@ -620,7 +649,7 @@ class ModelManager:
             "gh:mistral-ai/mistral-small-2503",
             "gh:deepseek/deepseek-v3-0324",
         ]
-        
+
         for model in other_cloud:
             model_provider = model.split(":")[0] if ":" in model else ""
             # Skip if same provider (likely also rate limited)
@@ -628,18 +657,18 @@ class ModelManager:
                 continue
             if model != failed_model and await self.check_availability(model):
                 return model
-        
+
         return None
-    
+
     def _is_remote_model(self, model_id: str) -> bool:
         """Check if a model requires remote API calls."""
         return not (model_id.startswith("local:") or model_id.startswith("ollama:"))
-    
+
     def _estimate_tokens(self, prompt: str, response: str) -> int:
         """Estimate token count (rough approximation)."""
         # Rough estimate: ~4 chars per token
         return (len(prompt) + len(response)) // 4
-    
+
     def _estimate_cost(self, model_id: str, tokens: int) -> float:
         """Estimate cost in USD based on model and tokens."""
         cost_per_million = self.COST_PER_MILLION.get(model_id, 0.0)
