@@ -13,10 +13,15 @@ from tools.agents.code_generator import UniversalCodeGenerator
 
 # Skip if required API keys are not available
 # Accept either GOOGLE_API_KEY or GEMINI_API_KEY for Google
-SKIP_REASON = "Requires GOOGLE_API_KEY/GEMINI_API_KEY and ANTHROPIC_API_KEY environment variables"
+SKIP_REASON = (
+    "Requires GOOGLE_API_KEY/GEMINI_API_KEY and ANTHROPIC_API_KEY environment variables"
+)
 requires_api_keys = pytest.mark.skipif(
-    not ((os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")) and os.getenv("ANTHROPIC_API_KEY")),
-    reason=SKIP_REASON
+    not (
+        (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"))
+        and os.getenv("ANTHROPIC_API_KEY")
+    ),
+    reason=SKIP_REASON,
 )
 
 

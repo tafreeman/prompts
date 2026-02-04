@@ -39,35 +39,6 @@ LANGUAGE_STANDARDS = {
     },
 }
 
-# Language-specific standards (dynamic injection based on industry best practices)
-LANGUAGE_STANDARDS = {
-    "python": {
-        "features": "Modern Python 3.11+ features, type hints, async/await",
-        "docs": "Google-style docstrings",
-        "imports": "Absolute imports, group by stdlib/third-party/local",
-    },
-    "typescript": {
-        "features": "TypeScript 5+, strict mode, ESM imports",
-        "docs": "JSDoc comments for public APIs",
-        "imports": "ESM import/export syntax",
-    },
-    "javascript": {
-        "features": "ES2023+, async/await, destructuring",
-        "docs": "JSDoc comments for public APIs",
-        "imports": "ESM import/export syntax",
-    },
-    "java": {
-        "features": "Java 17+, records, var for local inference",
-        "docs": "Javadoc comments",
-        "imports": "Organized imports (java.*, javax.*, then third-party)",
-    },
-    "csharp": {
-        "features": "C# 11+, nullable reference types, records",
-        "docs": "XML documentation comments",
-        "imports": "Using directives at top, system first",
-    },
-}
-
 SYSTEM_PROMPT = """You are an expert software developer generating production-quality code.
 
 Follow these universal principles:
@@ -149,7 +120,7 @@ class CoderAgent(AgentBase):
         api_spec: Dict[str, Any],
     ) -> str:
         """Build code generation prompt with dynamic language injection.
-        
+
         Follows industry best practices: inject ONLY relevant language rules.
         """
         prompt_parts = [
@@ -157,33 +128,28 @@ class CoderAgent(AgentBase):
             "",
             f"**Language**: {language}",
         ]
-        
+
         # Inject language-specific standards (if available)
         if language.lower() in LANGUAGE_STANDARDS:
             std = LANGUAGE_STANDARDS[language.lower()]
-            prompt_parts.extend([
-                "",
-                "**Language Standards**:",
-                f"- Features: {std['features']}",
-                f"- Documentation: {std['docs']}",
-                f"- Imports: {std['imports']}",
-                "",
-            ])
-        
+            prompt_parts.extend(
+                [
+                    "",
+                    "**Language Standards**:",
+                    f"- Features: {std['features']}",
+                    f"- Documentation: {std['docs']}",
+                    f"- Imports: {std['imports']}",
+                    "",
+                ]
+            )
+
         if framework:
             prompt_parts.append(f"**Framework**: {framework}")
             prompt_parts.append("")
-        
-        prompt_parts.extend([
-            "## Specification",
-            "",
-            specification,
-            "",
-        ])
-        
-        if architecture:
-            prompt_parts.extend([
-                "## Architecture Context",
+
+        prompt_parts.extend(
+            [
+                "## Specification",
                 "",
                 specification,
                 "",
@@ -221,26 +187,15 @@ class CoderAgent(AgentBase):
                 "- Error handling",
                 "- Documentation comments",
                 "",
-            ])
-        
-        prompt_parts.extend([
-            "## Requirements",
-            "",
-            "Generate complete, production-ready code:",
-            "- All necessary files with proper structure",
-            "- Complete imports and dependencies",
-            "- Type annotations/hints",
-            "- Error handling",
-            "- Documentation comments",
-            "",
-            "**Output Format**:",
-            "```filename.ext",
-            "// complete file contents",
-            "```",
-            "",
-            "Generate multiple files if needed.",
-        ])
-        
+                "**Output Format**:",
+                "```filename.ext",
+                "// complete file contents",
+                "```",
+                "",
+                "Generate multiple files if needed.",
+            ]
+        )
+
         return "\n".join(prompt_parts)
 
     def _parse_code_files(

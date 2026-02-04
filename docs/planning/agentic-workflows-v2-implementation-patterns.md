@@ -1203,6 +1203,301 @@ if __name__ == "__main__":
 
 ---
 
+## 6. Context Variable Resolution (Data Flow)
+
+**Rationale:** Control flow patterns handle *when* steps execute, but Data Flow patterns handle *how* data passes between steps. In a DAG where step1 may finish milliseconds before step2 starts, we need precise rules for resolving `${step1.output.result}`.
+
+### 6.1 Variable Resolution Syntax
+
+```python
+# Variable paths follow a dotted notation
+# ${source.path.to.value}
+
+# Supported sources:
+"${inputs.requirement}"          # Workflow input
+"${steps.analyze.output.score}"  # Previous step output
+"${ctx.iteration}"               # Execution context variable
+"${env.API_KEY}"                 # Environment variable (safe list)
+"${workflow.name}"               # Workflow metadata
+```
+
+### 6.2 Resolution Timing in DAG Execution
+
+```python
+# engine/expressions.py
+"""
+Expression evaluation for data flow in DAG execution.
+
+Resolution happens at STEP START TIME, not definition time.
+This is critical: when step4 starts, step2 and step3 have ALREADY completed.
+"""
+
+import re
+from typing import Any, Dict, Optional
+
+class ExpressionEvaluator:
+    """
+    Resolves ${...} expressions against execution context.
+    
+    Thread-safe: Uses immutable snapshots of step results.
+    """
+    
+    VARIABLE_PATTERN = re.compile(r'\$\{([^}]+)\}')
+    
+    def __init__(self, ctx: "ExecutionContext"):
+        self.ctx = ctx
+    
+    def resolve(self, expr: str) -> Any:
+        """
+        Resolve a single expression.
+        
+        Examples:
+            ${steps.step1.output.files} -> ["main.py", "test.py"]
+            ${ctx.iteration} -> 2
+            ${inputs.requirements} -> "Build a todo app"
+        """
+        match = self.VARIABLE_PATTERN.match(expr)
+        if not match:
+            return expr  # Literal value
+        
+        path = match.group(1)
+        return self._resolve_path(path)
+    
+    def _resolve_path(self, path: str) -> Any:
+        """Navigate dotted path to value."""
+        parts = path.split('.')
+        source = parts[0]
+        
+        if source == "steps":
+            # ${steps.step_name.output.field}
+            step_name = parts[1]
+            result = self.ctx.get_step_result(step_name)
+            if result is None:
+                raise ValueError(f"Step '{step_name}' has not completed")
+            return self._navigate(result.outputs, parts[2:])
+        
+        elif source == "inputs":
+            # ${inputs.field}
+            return self._navigate(self.ctx.inputs, parts[1:])
+        
+        elif source == "ctx":
+            # ${ctx.variable}
+            return self._navigate(self.ctx.variables, parts[1:])
+        
+        elif source == "workflow":
+            # ${workflow.name}, ${workflow.id}
+            return getattr(self.ctx.workflow, parts[1], None)
+        
+        raise ValueError(f"Unknown source: {source}")
+    
+    def _navigate(self, obj: Any, path: list[str]) -> Any:
+        """Navigate nested dict/object by path."""
+        for key in path:
+            if isinstance(obj, dict):
+                obj = obj.get(key)
+            elif hasattr(obj, key):
+                obj = getattr(obj, key)
+            else:
+                return None
+        return obj
+    
+    def resolve_mapping(self, mapping: Dict[str, str]) -> Dict[str, Any]:
+        """
+        Resolve input_mapping for a step.
+        
+        Example:
+            mapping = {
+                "code": "${steps.generate.output.code}",
+                "config": "${inputs.config}"
+            }
+            -> {"code": "def main()...", "config": {"debug": true}}
+        """
+        return {key: self.resolve(expr) for key, expr in mapping.items()}
+```
+
+### 6.3 Data Flow in DAG Execution
+
+```
+DAG Execution Timeline:
+────────────────────────────────────────────────────────────────────
+t=0ms   step1 STARTS (no deps)
+t=50ms  step1 COMPLETES -> outputs stored in ctx.step_results["step1"]
+t=51ms  step2 STARTS (dep: step1) -> resolves ${steps.step1.output.x}
+t=52ms  step3 STARTS (dep: step1) -> resolves ${steps.step1.output.y}
+t=80ms  step3 COMPLETES  
+t=120ms step2 COMPLETES
+t=121ms step4 STARTS (deps: step2, step3) 
+        -> resolves ${steps.step2.output.a} (available since t=120ms)
+        -> resolves ${steps.step3.output.b} (available since t=80ms)
+────────────────────────────────────────────────────────────────────
+
+Key insight: By the time step4 starts, BOTH step2 and step3 results
+are guaranteed to be in ctx.step_results. No race condition.
+```
+
+### 6.4 Input/Output Mapping on StepDefinition
+
+```python
+# How input_mapping and output_mapping work at runtime
+step = StepDefinition(
+    name="process",
+    func=process_func,
+    
+    # Map context vars to step inputs (resolved at step start)
+    input_mapping={
+        "data": "${steps.fetch.output.records}",
+        "config": "${inputs.processing_config}",
+    },
+    
+    # Map step outputs to context vars (written at step end)
+    output_mapping={
+        "processed_data": "results.processed",   # Store as ctx.variables["results"]["processed"]
+        "item_count": "metrics.items_processed"  # Store as ctx.variables["metrics"]["items_processed"]
+    }
+)
+
+# At runtime, executor does:
+# 1. Resolve input_mapping -> pass to step function
+# 2. Execute step function -> get result
+# 3. Apply output_mapping -> write to context
+```
+
+---
+
+## 7. Hybrid Execution Patterns
+
+**Rationale:** Complex workflows often need to mix rigid sequences (Pipeline) with fluid graphs (DAG). A Pipeline might contain a sub-DAG for parallel processing, or a DAG node might execute a sequential Pipeline.
+
+### 7.1 Pipeline Inside DAG
+
+```python
+# A DAG node that executes a Pipeline
+from agentic_v2.engine.dag import DAG
+from agentic_v2.engine.pipeline import Pipeline
+
+# Create a Pipeline for review process (must be sequential)
+review_pipeline = Pipeline("review-process")
+review_pipeline.add_step(lint_step)           # Step 1: Lint
+review_pipeline.add_step(type_check_step)     # Step 2: Type check (needs lint clean)
+review_pipeline.add_step(security_scan_step)  # Step 3: Security (needs types)
+
+# Wrap Pipeline as a DAG step
+review_step = StepDefinition(
+    name="review_pipeline",
+    func=lambda ctx: pipeline_executor.execute(review_pipeline, ctx),
+    depends_on=["generate_code"],  # DAG dependency
+)
+
+# Main DAG with embedded Pipeline
+dag = DAG("code-workflow")
+dag.add(generate_code_step)           # Step 1
+dag.add(generate_tests_step)          # Step 2 (parallel with review)
+dag.add(review_step)                  # Step 3 (Pipeline runs sequentially inside)
+dag.add(deploy_step.with_dependency("review_pipeline", "generate_tests"))
+
+# Execution:
+# - generate_code completes
+# - generate_tests and review_pipeline START IN PARALLEL
+# - review_pipeline runs lint -> type_check -> security SEQUENTIALLY
+# - deploy waits for BOTH generate_tests and review_pipeline
+```
+
+### 7.2 DAG Inside Pipeline (Parallel Group Alternative)
+
+```python
+# A Pipeline step that expands to a DAG for maximum parallelism
+from agentic_v2.engine.pipeline import Pipeline, PipelineElement
+
+class DAGStep(PipelineElement):
+    """
+    A Pipeline element that executes a DAG.
+    
+    More flexible than ParallelGroup:
+    - Supports internal dependencies
+    - No artificial sync barrier within the DAG
+    """
+    
+    def __init__(self, dag: DAG):
+        self.dag = dag
+    
+    async def execute(self, ctx: ExecutionContext) -> list[StepResult]:
+        executor = DAGExecutor()
+        result = await executor.execute(self.dag, ctx)
+        return list(result.step_results.values())
+
+# Usage: Processing sub-DAG inside a sequential Pipeline
+processing_dag = DAG("processing")
+processing_dag.add(validate_step)                    # No deps
+processing_dag.add(transform_step.with_dependency("validate"))
+processing_dag.add(enrich_step.with_dependency("validate"))
+processing_dag.add(merge_step.with_dependency("transform", "enrich"))
+
+pipeline = Pipeline("main-workflow")
+pipeline.add_step(fetch_data_step)       # Step 1: Sequential
+pipeline.add(DAGStep(processing_dag))    # Step 2: DAG with internal parallelism
+pipeline.add_step(export_step)           # Step 3: Sequential (waits for entire DAG)
+```
+
+### 7.3 Decision Matrix: When to Use What
+
+| Scenario | Pattern | Rationale |
+|----------|---------|-----------|
+| Strict sequence required | Pipeline | Order matters (lint before type-check) |
+| Known independent steps | ParallelGroup | Simple, clear intent |
+| Complex dependencies | DAG | Maximum parallelism from graph |
+| Sub-workflow with own deps | DAG inside Pipeline | Encapsulation |
+| Sequential within parallel | Pipeline inside DAG | Rigid sequence as single node |
+| Dynamic step count | DAG | Fan-out/fan-in patterns |
+
+### 7.4 Fan-Out / Fan-In Pattern
+
+```python
+# Process N items in parallel, then merge results
+async def create_fan_out_dag(items: list[str]) -> DAG:
+    """
+    Creates a DAG that processes items in parallel then merges.
+    
+    Structure:
+        start
+          |
+       ┌──┼──┐
+       ▼  ▼  ▼
+     p1  p2  p3  (parallel processing)
+       └──┼──┘
+          ▼
+        merge
+    """
+    dag = DAG("fan-out-fan-in")
+    
+    # Start step (prepares items)
+    dag.add(StepDefinition(name="start", func=prepare_items))
+    
+    # Fan-out: Create processing step for each item
+    process_names = []
+    for i, item in enumerate(items):
+        step_name = f"process_{i}"
+        process_names.append(step_name)
+        dag.add(
+            StepDefinition(
+                name=step_name,
+                func=process_item,
+                metadata={"item": item}
+            ).with_dependency("start")
+        )
+    
+    # Fan-in: Merge all results
+    dag.add(
+        StepDefinition(
+            name="merge",
+            func=merge_results
+        ).with_dependency(*process_names)
+    )
+    
+    return dag
+```
+
+---
+
 ## Summary
 
 This document provides reference implementations for the key architectural patterns in the v2 system:

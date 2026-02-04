@@ -92,14 +92,37 @@ These files have significant issues and should be rewritten from scratch using t
 | `tools/agents/multi_agent_orchestrator.py` | Duplicate; different patterns | Consolidate into `orchestrator.py` |
 | `tools/agents/workflow_runner.py` | Duplicate; evaluation coupling | Consolidate into `orchestrator.py` |
 
-### 2.2 New Components to Write
+### 2.2 Files to MOVE (Strict Layout Enforcement)
+
+These files exist in the package root but violate the layout rules and must be moved to their proper submodules:
+
+| Current Location | Target Location | Reason |
+|------------------|-----------------|--------|
+| `src/agentic_v2/agentmessage.py` | `src/agentic_v2/contracts/messages.py` | Contract models belong in `contracts/` |
+| `src/agentic_v2/basetool.py` | `src/agentic_v2/tools/base.py` | Tool base class belongs in `tools/` |
+| `src/agentic_v2/agenticworkflowsv2config.py` | `src/agentic_v2/config/settings.py` | Config belongs in `config/` |
+
+> **Action Required:** Before Phase 4, move these files and update all imports. Run `python -m pytest tests/ -v` to verify no breakage.
+
+### 2.3 New Components to Write
 
 | Component | Location | Description |
 |-----------|----------|-------------|
-| `Executor` | `agentic-workflows/engine/executor.py` | Step execution with patterns |
-| `StateManager` | `agentic-workflows/engine/state.py` | Checkpoint management |
-| `Context` | `agentic-workflows/engine/context.py` | Workflow/Step context |
-| `Routing` | `agentic-workflows/engine/routing.py` | Model selection logic |
+| `StepDefinition` | `agentic-workflows/engine/step.py` | Declarative step with deps, conditions, hooks ✅ |
+| `ExecutionContext` | `agentic-workflows/engine/context.py` | Workflow context with variables, events ✅ |
+| `Pipeline` | `agentic-workflows/engine/pipeline.py` | Sequential/parallel pipeline execution ✅ |
+| `WorkflowExecutor` | `agentic-workflows/engine/executor.py` | Unified workflow executor ✅ |
+| `DAG` | `agentic-workflows/engine/dag.py` | DAG definition with cycle detection, topological sort |
+| `DAGExecutor` | `agentic-workflows/engine/dag_executor.py` | Dynamic parallel DAG execution (no sync barriers) |
+| `ExpressionEvaluator` | `agentic-workflows/engine/expressions.py` | Condition expression evaluator (${ctx.var > 5}) |
+| `StepStateManager` | `agentic-workflows/engine/step_state.py` | Step lifecycle state machine |
+| `ModelRouter` | `agentic-workflows/models/router.py` | Model tier routing ✅ |
+| `SmartModelRouter` | `agentic-workflows/models/smart_router.py` | Adaptive routing with circuit breaker ✅ |
+| `BaseAgent` | `agentic-workflows/agents/base.py` | Agent lifecycle, memory, events ✅ |
+| `CoderAgent` | `agentic-workflows/agents/coder.py` | Code generation agent ✅ |
+| `ReviewerAgent` | `agentic-workflows/agents/reviewer.py` | Code review agent ✅ |
+| `OrchestratorAgent` | `agentic-workflows/agents/orchestrator.py` | Multi-agent coordination ✅ |
+| `CapabilitySet` | `agentic-workflows/agents/capabilities.py` | Agent capability system ✅ |
 | `Sequential Pattern` | `agentic-workflows/engine/patterns/sequential.py` | Linear execution |
 | `Parallel Pattern` | `agentic-workflows/engine/patterns/parallel.py` | Concurrent execution |
 | `Conditional Pattern` | `agentic-workflows/engine/patterns/conditional.py` | Branching logic |
@@ -109,7 +132,8 @@ These files have significant issues and should be rewritten from scratch using t
 | `Workflow Registry` | `agentic-workflows/workflows/registry.py` | Workflow loader |
 | `CLI` | `agentic-workflows/cli/` | Typer-based CLI |
 | `HTTP Server` | `agentic-workflows/server/` | FastAPI server |
-| `UI package` | `ui/` | Simplified workflow dashboard UI |
+
+> **Note:** ✅ marks components already implemented in Phase 0-3.
 
 ---
 

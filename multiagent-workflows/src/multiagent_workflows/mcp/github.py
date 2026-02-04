@@ -1,31 +1,28 @@
-"""
-GitHub MCP Server Client
+"""GitHub MCP Server Client.
 
 Provides GitHub API access via MCP protocol.
 """
 
 from __future__ import annotations
 
-import asyncio
 import os
 from typing import Any, Dict, List, Optional
 
 from multiagent_workflows.mcp.base import (
     MCPClient,
+    MCPResponse,
     MCPServerConfig,
     MCPToolSchema,
-    MCPResponse,
 )
 
 
 class GitHubMCPClient(MCPClient):
-    """
-    MCP client for GitHub operations.
-    
+    """MCP client for GitHub operations.
+
     This is a local implementation using the GitHub API directly.
     Requires GITHUB_TOKEN environment variable.
     """
-    
+
     TOOLS = [
         MCPToolSchema(
             name="search_repositories",
@@ -75,7 +72,10 @@ class GitHubMCPClient(MCPClient):
                     "content": {"type": "string"},
                     "message": {"type": "string"},
                     "branch": {"type": "string"},
-                    "sha": {"type": "string", "description": "SHA if updating existing file"},
+                    "sha": {
+                        "type": "string",
+                        "description": "SHA if updating existing file",
+                    },
                 },
                 "required": ["owner", "repo", "path", "content", "message"],
             },
@@ -194,7 +194,7 @@ class GitHubMCPClient(MCPClient):
             },
         ),
     ]
-    
+
     def __init__(
         self,
         token: Optional[str] = None,
@@ -208,11 +208,11 @@ class GitHubMCPClient(MCPClient):
                 capabilities=["repos", "issues", "pulls", "search"],
             )
         super().__init__(config)
-        
+
         self.token = token or os.environ.get("GITHUB_TOKEN")
         self.base_url = "https://api.github.com"
         self._tools = self.TOOLS.copy()
-    
+
     async def connect(self) -> bool:
         """Verify GitHub token is available."""
         if not self.token:
@@ -221,15 +221,15 @@ class GitHubMCPClient(MCPClient):
             )
         self.connected = True
         return True
-    
+
     async def disconnect(self) -> None:
         """No disconnection needed."""
         self.connected = False
-    
+
     async def list_tools(self) -> List[MCPToolSchema]:
         """Return available GitHub tools."""
         return self._tools
-    
+
     async def invoke_tool(
         self,
         tool_name: str,
@@ -249,7 +249,7 @@ class GitHubMCPClient(MCPClient):
                 "fork_repository": self._fork_repository,
                 "create_branch": self._create_branch,
             }
-            
+
             handler = handlers.get(tool_name)
             if not handler:
                 return MCPResponse(
@@ -257,13 +257,13 @@ class GitHubMCPClient(MCPClient):
                     result=None,
                     error=f"Unknown tool: {tool_name}",
                 )
-            
+
             result = await handler(arguments)
             return MCPResponse(success=True, result=result)
-            
+
         except Exception as e:
             return MCPResponse(success=False, result=None, error=str(e))
-    
+
     def _headers(self) -> Dict[str, str]:
         """Get request headers."""
         return {
@@ -271,7 +271,7 @@ class GitHubMCPClient(MCPClient):
             "Accept": "application/vnd.github.v3+json",
             "X-GitHub-Api-Version": "2022-11-28",
         }
-    
+
     async def _request(
         self,
         method: str,
@@ -281,9 +281,9 @@ class GitHubMCPClient(MCPClient):
     ) -> Dict[str, Any]:
         """Make a request to the GitHub API."""
         import aiohttp
-        
+
         url = f"{self.base_url}{endpoint}"
-        
+
         async with aiohttp.ClientSession() as session:
             async with session.request(
                 method,
@@ -295,9 +295,9 @@ class GitHubMCPClient(MCPClient):
                 if response.status >= 400:
                     error_text = await response.text()
                     raise Exception(f"GitHub API error {response.status}: {error_text}")
-                
+
                 return await response.json()
-    
+
     async def _search_repositories(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Search for repositories."""
         params = {
@@ -306,7 +306,7 @@ class GitHubMCPClient(MCPClient):
             "per_page": args.get("perPage", 30),
         }
         return await self._request("GET", "/search/repositories", params=params)
-    
+
     async def _get_file_contents(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Get file contents."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/contents/{args['path']}"
@@ -314,29 +314,29 @@ class GitHubMCPClient(MCPClient):
         if "branch" in args:
             params["ref"] = args["branch"]
         return await self._request("GET", endpoint, params=params)
-    
+
     async def _create_or_update_file(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Create or update a file."""
         import base64
-        
+
         endpoint = f"/repos/{args['owner']}/{args['repo']}/contents/{args['path']}"
-        
+
         data = {
             "message": args["message"],
             "content": base64.b64encode(args["content"].encode()).decode(),
         }
-        
+
         if "branch" in args:
             data["branch"] = args["branch"]
         if "sha" in args:
             data["sha"] = args["sha"]
-        
+
         return await self._request("PUT", endpoint, data=data)
-    
+
     async def _create_issue(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Create an issue."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/issues"
-        
+
         data = {
             "title": args["title"],
         }
@@ -346,13 +346,13 @@ class GitHubMCPClient(MCPClient):
             data["labels"] = args["labels"]
         if "assignees" in args:
             data["assignees"] = args["assignees"]
-        
+
         return await self._request("POST", endpoint, data=data)
-    
+
     async def _create_pull_request(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Create a pull request."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/pulls"
-        
+
         data = {
             "title": args["title"],
             "head": args["head"],
@@ -362,13 +362,13 @@ class GitHubMCPClient(MCPClient):
             data["body"] = args["body"]
         if "draft" in args:
             data["draft"] = args["draft"]
-        
+
         return await self._request("POST", endpoint, data=data)
-    
+
     async def _list_commits(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """List commits."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/commits"
-        
+
         params = {}
         if "sha" in args:
             params["sha"] = args["sha"]
@@ -376,14 +376,14 @@ class GitHubMCPClient(MCPClient):
             params["page"] = args["page"]
         if "perPage" in args:
             params["per_page"] = args["perPage"]
-        
+
         commits = await self._request("GET", endpoint, params=params)
         return {"commits": commits}
-    
+
     async def _list_issues(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """List issues."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/issues"
-        
+
         params = {}
         if "state" in args:
             params["state"] = args["state"]
@@ -393,10 +393,10 @@ class GitHubMCPClient(MCPClient):
             params["page"] = args["page"]
         if "perPage" in args:
             params["per_page"] = args["perPage"]
-        
+
         issues = await self._request("GET", endpoint, params=params)
         return {"issues": issues}
-    
+
     async def _search_code(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Search code."""
         params = {
@@ -405,30 +405,36 @@ class GitHubMCPClient(MCPClient):
             "per_page": args.get("perPage", 30),
         }
         return await self._request("GET", "/search/code", params=params)
-    
+
     async def _fork_repository(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Fork a repository."""
         endpoint = f"/repos/{args['owner']}/{args['repo']}/forks"
-        
+
         data = {}
         if "organization" in args:
             data["organization"] = args["organization"]
-        
+
         return await self._request("POST", endpoint, data=data if data else None)
-    
+
     async def _create_branch(self, args: Dict[str, Any]) -> Dict[str, Any]:
         """Create a new branch."""
         # First get the SHA of the source branch
         from_branch = args.get("from_branch", "main")
-        ref_endpoint = f"/repos/{args['owner']}/{args['repo']}/git/ref/heads/{from_branch}"
-        
+        ref_endpoint = (
+            f"/repos/{args['owner']}/{args['repo']}/git/ref/heads/{from_branch}"
+        )
+
         ref_data = await self._request("GET", ref_endpoint)
         sha = ref_data["object"]["sha"]
-        
+
         # Create the new branch
         create_endpoint = f"/repos/{args['owner']}/{args['repo']}/git/refs"
-        
-        return await self._request("POST", create_endpoint, data={
-            "ref": f"refs/heads/{args['branch']}",
-            "sha": sha,
-        })
+
+        return await self._request(
+            "POST",
+            create_endpoint,
+            data={
+                "ref": f"refs/heads/{args['branch']}",
+                "sha": sha,
+            },
+        )

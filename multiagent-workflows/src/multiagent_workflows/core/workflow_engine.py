@@ -246,7 +246,7 @@ class WorkflowEngine:
             previous_step_agent: Optional[str] = None
             previous_step_output: Optional[Dict[str, Any]] = None
             previous_step_id: Optional[str] = None
-            
+
             # Execute steps
             for step in workflow.steps:
                 # Check condition
@@ -254,7 +254,7 @@ class WorkflowEngine:
                     step.condition, context
                 ):
                     continue
-                
+
                 try:
                     # Gather inputs - includes automatic chaining from previous step
                     step_inputs = self._gather_inputs(
@@ -272,21 +272,21 @@ class WorkflowEngine:
                         inputs=step_inputs,
                         context={"outputs": step.outputs},
                     )
-                    
+
                     # Validate inputs against agent contract
                     validation_errors = self._validate_step_inputs(
                         step.agent, step_inputs, previous_step_agent, logger
                     )
                     if validation_errors:
                         context["validation_errors"].extend(validation_errors)
-                    
+
                     # Execute step
                     step_context = context.copy()
                     step_context["step_id"] = step_log_id
 
                     result = await self._execute_step(step, step_context, logger)
                     step_results[step.id] = result
-                    
+
                     # Validate outputs against agent contract
                     if result.success:
                         output_errors = self._validate_step_outputs(
@@ -295,12 +295,12 @@ class WorkflowEngine:
                         if output_errors:
                             context["validation_errors"].extend(output_errors)
                         context["artifacts"][step.id] = result.output
-                    
+
                     # Track for chaining to next step
                     previous_step_agent = step.agent
                     previous_step_output = result.output if result.success else None
                     previous_step_id = step.id
-                    
+
                     logger.log_step_complete(
                         step_id=step_log_id,
                         success=result.success,
@@ -311,8 +311,10 @@ class WorkflowEngine:
                     if step_log_id:
                         logger.log_step_error(step_log_id, e)
                     else:
-                        logger.log_workflow_error(wf_log_id, Exception(f"Failed to start step {step.id}: {e}"))
-                        
+                        logger.log_workflow_error(
+                            wf_log_id, Exception(f"Failed to start step {step.id}: {e}")
+                        )
+
                     step_results[step.id] = AgentResult(
                         success=False,
                         output={},
@@ -537,8 +539,7 @@ class WorkflowEngine:
         previous_output: Optional[Dict[str, Any]] = None,
         previous_step_id: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """
-        Gather inputs from context based on references.
+        """Gather inputs from context based on references.
 
         Implements automatic output-to-input chaining:
         - If no explicit input_refs, uses previous step's output
@@ -641,8 +642,7 @@ class WorkflowEngine:
         previous_agent: Optional[str],
         logger: VerboseLogger,
     ) -> List[str]:
-        """
-        Validate step inputs against agent contract.
+        """Validate step inputs against agent contract.
 
         Returns list of validation errors, empty if valid.
         """
@@ -670,8 +670,7 @@ class WorkflowEngine:
         outputs: Dict[str, Any],
         logger: VerboseLogger,
     ) -> List[str]:
-        """
-        Validate step outputs against agent contract.
+        """Validate step outputs against agent contract.
 
         Returns list of validation errors, empty if valid.
         """
@@ -691,4 +690,3 @@ class WorkflowEngine:
                 },
             )
         return errors
-

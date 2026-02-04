@@ -15,6 +15,7 @@ import sys
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 # Add project root to path
 REPO_ROOT = Path(__file__).parents[2]
@@ -243,13 +244,18 @@ class TestLLMClientErrorHandling(unittest.TestCase):
 
 
 class TestGitHubModelsRetryBehavior(unittest.TestCase):
-    """Verify gh CLI calls fail fast by default so callers can switch models."""
+    """Verify gh CLI calls fail fast by default so callers can switch
+    models."""
 
     def test_gh_rate_limit_fails_fast_by_default(self):
         from tools.llm.llm_client import LLMClient
 
-        fake = SimpleNamespace(returncode=1, stdout="", stderr="Rate limit exceeded (429)")
-        with patch.dict(os.environ, {"PROMPTS_CACHE_ENABLED": "0", "PROMPTS_GH_MAX_RETRIES": "3"}):
+        fake = SimpleNamespace(
+            returncode=1, stdout="", stderr="Rate limit exceeded (429)"
+        )
+        with patch.dict(
+            os.environ, {"PROMPTS_CACHE_ENABLED": "0", "PROMPTS_GH_MAX_RETRIES": "3"}
+        ):
             with patch("subprocess.run", return_value=fake) as run_mock:
                 with patch("time.sleep") as sleep_mock:
                     out = LLMClient.generate_text("gh:gpt-4o-mini", "test prompt")

@@ -5,14 +5,6 @@ import json
 import re
 import time
 import uuid
-import asyncio
-import time
-import uuid
-import re
-import json
-import yaml
-from datetime import datetime, timezone
-from pathlib import Path
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
@@ -509,15 +501,20 @@ class RunStore:
         for run in runs:
             created_ms = run.get("created_at_ms")
             updated_ms = run.get("updated_at_ms")
-            summaries.append({
-                "run_id": run.get("run_id"),
-                "workflow_name": run.get("workflow_name") or _workflow_label(run.get("workflow")),
-                "benchmark_id": run.get("benchmark_id"),
-                "status": run.get("status"),
-                "started_at": run.get("started_at") or _ms_to_iso(created_ms),
-                "total_duration_ms": (updated_ms - created_ms) if created_ms and updated_ms else None,
-                "steps": run.get("steps") or [],
-            })
+            summaries.append(
+                {
+                    "run_id": run.get("run_id"),
+                    "workflow_name": run.get("workflow_name")
+                    or _workflow_label(run.get("workflow")),
+                    "benchmark_id": run.get("benchmark_id"),
+                    "status": run.get("status"),
+                    "started_at": run.get("started_at") or _ms_to_iso(created_ms),
+                    "total_duration_ms": (
+                        (updated_ms - created_ms) if created_ms and updated_ms else None
+                    ),
+                    "steps": run.get("steps") or [],
+                }
+            )
         return summaries
 
     async def shutdown(self) -> None:
@@ -751,7 +748,9 @@ class RunStore:
 
             # Autosave result to disk
             self._save_run(run)
-            print(f"[RunStore] Saved run {run_id} to {self._results_dir / f'run_{run_id}.json'}")
+            print(
+                f"[RunStore] Saved run {run_id} to {self._results_dir / f'run_{run_id}.json'}"
+            )
 
         except asyncio.CancelledError:
             run["status"] = "cancelled"

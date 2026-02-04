@@ -84,11 +84,11 @@ class VerboseLogger:
     start_time: Optional[str] = None
     end_time: Optional[str] = None
     success: bool = False
-    
+
     # Full text storage for prompts/responses (for JSON export)
     _full_prompts: Dict[str, str] = field(default_factory=dict)
     _full_responses: Dict[str, str] = field(default_factory=dict)
-    
+
     def __post_init__(self):
         """Initialize logging configuration."""
         self.log_level = self.config.get("level", "DEBUG")
@@ -346,13 +346,13 @@ class VerboseLogger:
             "parameters": params,
         }
         call_id = self._emit("model.call", data, parent_id=agent_id)
-        
+
         # Store full prompt for JSON export
         if self.store_full_text:
             self._full_prompts[call_id] = prompt
-        
+
         return call_id
-    
+
     def log_model_response(
         self,
         call_id: str,
@@ -378,11 +378,11 @@ class VerboseLogger:
             "tokens": tokens,
             "cost_usd": cost,
         }
-        
+
         # Store full response for JSON export
         if self.store_full_text:
             self._full_responses[call_id] = response
-        
+
         self._emit("model.response", data, parent_id=call_id, duration_ms=duration_ms)
 
     def log_model_error(self, call_id: str, error: Exception) -> None:
@@ -446,7 +446,8 @@ class VerboseLogger:
         return sanitized
 
     def get_structured_log(self) -> Dict[str, Any]:
-        """Return complete structured log for evaluation with full prompt/response records."""
+        """Return complete structured log for evaluation with full
+        prompt/response records."""
         # Build model calls with full prompts and responses
         model_calls = []
         for e in self.events:
@@ -455,7 +456,9 @@ class VerboseLogger:
                     "call_id": e.event_id,
                     "timestamp": e.timestamp,
                     "model_id": e.data.get("model_id"),
-                    "prompt": self._full_prompts.get(e.event_id, e.data.get("prompt_preview")),
+                    "prompt": self._full_prompts.get(
+                        e.event_id, e.data.get("prompt_preview")
+                    ),
                     "parameters": e.data.get("parameters"),
                 }
                 # Find matching response
@@ -514,7 +517,7 @@ class VerboseLogger:
     def save_logs(self, filepath: Union[str, Path]) -> None:
         """Alias for export_to_json for backward compatibility."""
         self.export_to_json(filepath)
-    
+
     def export_to_markdown(self, filepath: Union[str, Path]) -> None:
         """Export human-readable log to Markdown."""
         path = Path(filepath)
