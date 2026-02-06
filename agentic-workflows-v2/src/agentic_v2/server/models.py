@@ -23,6 +23,7 @@ class WorkflowRunRequest(BaseModel):
     input_data: dict[str, Any] = Field(
         default_factory=dict, description="Input variables"
     )
+    run_id: Optional[str] = Field(None, description="Unique run identifier")
 
 
 class WorkflowRunResponse(BaseModel):

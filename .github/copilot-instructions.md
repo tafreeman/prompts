@@ -1,73 +1,59 @@
 
-# GitHub Copilot instructions for `prompts`
 
-This repo is a **prompt-library + Python tooling** project. Treat it as a docs/content repo.
+# GitHub Copilot Instructions for `prompts`
 
-- Do **not** add app/service scaffolding unless explicitly requested.
-- For change checklists and guardrails, also follow: `.github/instructions/prompts-repo.instructions.md`.
+This repository is a **prompt library and Python-based evaluation toolkit** for LLM prompt engineering, evaluation, and research. It is structured for modular, reproducible prompt development and robust evaluation workflows.
 
-## Key areas
+## Project Structure & Key Components
 
-- `prompts/` — prompt files (Markdown + YAML frontmatter)
-- `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
-- `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
-- `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
-- `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
-- `testing/` — pytest suite + evaluation fixtures
-- `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
+- `prompts/` — Main prompt library. Each subfolder is a category (e.g., `analysis/`, `business/`, `system/`). Prompts are Markdown with YAML frontmatter. Use [BRACKETED_VALUES] for variables and document them under a “Variables” section.
+- `prompts/templates/` — Canonical prompt templates. Follow `prompt-template.md` for new prompts.
+- `docs/` — Guidance, standards, and planning. See `docs/reference/frontmatter-schema.md` for required frontmatter fields.
+- `tools/` — Python tools for prompt validation, evaluation, and LLM orchestration. Key modules:
+    - `tools/prompteval/` — Main evaluation engine (PromptEval). All evaluations should use this.
+    - `tools/llm/llm_client.py` — Model orchestration; supports multiple providers via prefixes (`local:*`, `gh:*`, `ollama:*`, etc.).
+    - `tools/llm/model_probe.py` — Model discovery/probing.
+- `testing/` — Pytest-based test suite for all Python tooling and prompt evaluation logic.
+- `.github/instructions/` — Repo guardrails and checklists. See `prompts-repo.instructions.md` for required practices.
 
-```instructions
-# GitHub Copilot instructions for `prompts`
+## Developer Workflows
 
-This repo is a **prompt-library + Python tooling** project. Treat it as a docs/content repo.
+- **Prompt Validation:** Use VS Code Task “🔍 Validate All Prompts” or run `python tools/validate_prompts.py --all`.
+- **Testing:** Use “🧪 Run Python Tests” or `python -m pytest testing/ -v`.
+- **Prompt Evaluation:** Use “📊 Eval: ...” tasks or run `python -m tools.prompteval prompts/<folder>/ --tier 2 --verbose --ci` for local evaluation. See `results/` for outputs.
+- **Model Discovery:** Before batch LLM runs, probe models: `python -m tools.llm.model_probe --discover --force -o discovery_results.json`.
+- **Environment:** Use `.env.example` as a template for required secrets (e.g., `GITHUB_TOKEN`). Never hardcode secrets.
 
-- Do **not** add app/service scaffolding unless explicitly requested.
-- For change checklists and guardrails, follow: `.github/instructions/prompts-repo.instructions.md`.
+## Project Conventions & Patterns
 
-## Key areas
+- **Prompt files:** Use lowercase-hyphenated filenames. Place in the correct category folder. Always include YAML frontmatter per `frontmatter-schema.md`.
+- **Variables:** Use `[BRACKETED_VALUES]` for placeholders; document all under a “Variables” section in the prompt file.
+- **Python imports:** Use `from tools...` for all internal tooling. Do not use `sys.path` hacks.
+- **No app/service scaffolding:** Do not add web servers, apps, or unrelated frameworks unless explicitly requested.
+- **Evaluation:** All prompt/model evaluation must use PromptEval (`tools/prompteval/`). Legacy scripts (e.g., `dual_eval.py`) are deprecated.
+- **Results:** Store evaluation outputs in `results/`. Use subfolders for large runs.
+- **Windows:** Activate the virtual environment with `.venv\Scripts\Activate.ps1` before running Python scripts.
 
-- `prompts/` — prompt files (Markdown + YAML frontmatter)
-- `prompts/templates/` — canonical templates (see `prompts/templates/prompt-template.md`)
-- `docs/reference/frontmatter-schema.md` — frontmatter contract (required fields/allowed values)
-- `docs/` — guidance and planning (see `docs/README.md`, `docs/planning/`, `docs/reference/`)
-- `tools/` — Python tooling (e.g., `tools/llm/llm_client.py`, `tools/llm/model_probe.py`, `tools/prompteval/`)
-- `testing/` — pytest suite + evaluation fixtures
-- `.github/instructions/*.instructions.md` — targeted Copilot checklists (this repo: `.github/instructions/prompts-repo.instructions.md`)
+## Examples
 
-## Developer workflows
+- To evaluate all prompts in a folder:
+    ```sh
+    python -m tools.prompteval prompts/analysis/ --tier 2 --verbose --ci
+    ```
+- To validate all prompts:
+    ```sh
+    python tools/validate_prompts.py --all
+    ```
+- To run all Python tests:
+    ```sh
+    python -m pytest testing/ -v
+    ```
 
-- Use **VS Code Tasks** (see `docs/reference/TASKS_QUICK_REFERENCE.md`):
-    - “🔍 Validate All Prompts”
-    - “🧪 Run Python Tests”
-    - “📊/📂 Eval …” (PromptEval runs)
-- CLI equivalents:
-    - `python -m pytest testing/ -v`
-    - `python tools/validate_prompts.py --all`
-    - From repo root: `python -m tools.prompteval prompts/<folder>/ --tier 2 --verbose --ci`
+## See Also
 
-## Evaluation: use PromptEval
+- `.github/instructions/prompts-repo.instructions.md` — Full repo guardrails and checklists
+- `docs/reference/frontmatter-schema.md` — Prompt frontmatter contract
+- `prompts/templates/prompt-template.md` — Prompt authoring template
 
-- **PromptEval** (`tools/prompteval/`) is the canonical evaluation tool. Use it for all prompt scoring, CI, and local/cloud model runs. (Legacy: `dual_eval.py` is deprecated.)
-
-## Model/provider conventions
-
-- Models use prefixes such as: `local:*`, `ollama:*`, `aitk:*`, `windows-ai:*`, `gh:*` (see `tools/llm/llm_client.py`).
-- Before any **batch** LLM run, probe availability and write `discovery_results.json`:
-    - `python -m tools.llm.model_probe --discover --force -o discovery_results.json`
-- Cloud providers require env vars; use `.env.example` as the template (never hardcode secrets). Typical: `GITHUB_TOKEN` for `gh:*`.
-
-## Authoring conventions
-
-- Prompt files: Markdown with YAML frontmatter; filenames **lowercase-hyphenated** under the correct `prompts/<category>/`.
-- Use `[BRACKETED_VALUES]` for placeholders and document each under a “Variables” section.
-
-## Python tools
-
-- Prefer `tools/core/tool_init.py` to enforce: fail-fast prereqs, UTF-8 console safety on Windows, progress + JSONL logging, and standardized error codes (see `tools/documentation/EXECUTION_GUIDELINES.md`).
-- Keep imports as `from tools...` (the repo packages `tools` via `pyproject.toml`); avoid `sys.path` hacks.
-
-## Windows setup
-
-- On Windows, activate the virtual environment with `.venv\\Scripts\\Activate.ps1` before running Python scripts.
-
-``` 
+---
+If any conventions or workflows are unclear or missing, please provide feedback for further refinement.
