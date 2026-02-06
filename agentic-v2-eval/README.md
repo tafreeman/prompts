@@ -40,7 +40,7 @@ accuracy = calculate_accuracy(
 print(f"Accuracy: {accuracy:.2%}")
 
 # Score with a rubric
-scorer = Scorer("rubrics/default.yaml")
+scorer = Scorer("rubrics/default.yaml")  # or pass an in-memory rubric dict
 result = scorer.score({"Accuracy": 0.85, "Completeness": 0.9})
 print(f"Weighted Score: {result.weighted_score:.2f}")
 
@@ -60,6 +60,9 @@ generate_html_report(results, "report.html")
 python -m agentic_v2_eval --help
 
 # Evaluate results with a rubric
+python -m agentic_v2_eval evaluate results.json
+
+# Optionally override the default rubric
 python -m agentic_v2_eval evaluate results.json --rubric rubrics/default.yaml
 
 # Generate HTML report

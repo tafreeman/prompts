@@ -228,7 +228,7 @@ def orchestrate(
         TextColumn("[progress.description]{task.description}"),
         console=console,
     ) as progress:
-        plan_task = progress.add_task("Planning workflow...", total=None)
+        plan_task = progress.add_task("Planning + executing workflow...", total=None)
 
         try:
             ctx = ExecutionContext(workflow_id="orchestrate")

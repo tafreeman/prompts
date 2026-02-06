@@ -1,4 +1,9 @@
-"""Test Agent.
+"""
+DEPRECATED: This module is part of the legacy multiagent-workflows package.
+It has been superseded by the `agentic-workflows-v2` package.
+Please migrate to `agentic_v2.agents.test_agent`.
+
+Test Agent.
 
 Generates comprehensive test suites for code. Supports unit,
 integration, and end-to-end tests.

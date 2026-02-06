@@ -2,7 +2,7 @@
 
 Tier-based multi-model AI workflow orchestration.
 
-[![Tests](https://img.shields.io/badge/tests-305%20passing-brightgreen)]()
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
 [![Status](https://img.shields.io/badge/status-Phase%202-yellow)]()
 
@@ -11,9 +11,9 @@ Tier-based multi-model AI workflow orchestration.
 | Phase | Status | Details |
 |-------|--------|---------|
 | **Phase 1** | ✅ Complete | [IMPLEMENTATION_PLAN_V1_COMPLETE.md](docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md) |
-| **Phase 2** | 🚧 In Progress | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
+| **Phase 2** | ✅ Complete (2D) / 🚧 Polish | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
 
-**Current:** 305 tests passing, 4 agents, 2 workflows, 13 tools
+**Current:** Phase 2D tools + memory/context improvements are implemented. See `docs/` for details.
 
 ## Installation
 
@@ -23,21 +23,38 @@ pip install -e .
 
 ## Quick Start
 
+### CLI
+
+After installation, you can use the `agentic` CLI:
+
+```bash
+agentic list agents
+agentic list tools
+agentic orchestrate "Review the code in src/main.py" --verbose
+```
+
+### Python
+
+Run a built-in agent directly:
+
 ```python
-from agentic_v2 import Orchestrator, Task
+import asyncio
 
-# Create orchestrator
-orch = Orchestrator()
+from agentic_v2 import CodeGenerationInput, CoderAgent
 
-# Define a task
-task = Task(
-    name="analyze_code",
-    tier=2,  # Medium complexity
-    input={"code": "def hello(): pass"}
-)
 
-# Run
-result = await orch.run(task)
+async def main() -> None:
+    agent = CoderAgent()
+    out = await agent.run(
+        CodeGenerationInput(
+            description="Write a small Python function that returns the string 'hello'.",
+            language="python",
+        )
+    )
+    print(out.code)
+
+
+asyncio.run(main())
 ```
 
 ## Features
@@ -46,6 +63,14 @@ result = await orch.run(task)
 - **Smart fallback**: Automatic retry with different models
 - **Pydantic contracts**: Type-safe inputs/outputs
 - **Async-first**: Built for concurrent execution
+- **Token-aware memory**: `ConversationMemory` trims to a message + token budget
+- **Persistent memory tools**: File-backed CRUD via `AGENTIC_MEMORY_PATH`
+
+### Persistent memory location
+
+If you want the built-in persistent memory tools to write to a specific file, set:
+
+- `AGENTIC_MEMORY_PATH` (e.g., `C:\\temp\\agentic_memory.json`)
 
 ## Documentation
 

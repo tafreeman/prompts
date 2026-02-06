@@ -1,7 +1,0 @@
-{
-	"benchmark_id": "humaneval",
-	"task_ids": ["HE0"],
-	"workflow": "fullstack",
-	"model": "aitk:gpt-oss-20b",
-	"use_cache": true
-}
