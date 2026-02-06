@@ -1,3 +1,11 @@
+# ⚠️ DEPRECATED: Multi-Agent Workflows (Legacy)
+
+**Status:** Deprecated (Superseded by `agentic-workflows-v2`)
+
+This package is the legacy implementation of the multi-agent system. It is kept for reference but should not be used for new development. Please direct all new work to the `agentic-workflows-v2` package.
+
+---
+
 # Multi-Agent Workflows
 
 A comprehensive, standalone multi-agent development system for software engineering workflows. This package provides pre-built workflows for common development tasks with full logging, evaluation, and scoring capabilities.
@@ -261,6 +269,7 @@ This package integrates with existing repository patterns:
 I performed a focused review of the key files and folders that implement the workflow engine, agents, evaluation, scoring, and logging. Below are concise findings, concrete issues observed, and recommended actions to improve correctness, maintainability, and alignment with canonical benchmarks (e.g., SWE-Bench).
 
 Files reviewed (representative):
+
 - `src/multiagent_workflows/core/agent_base.py`
 - `src/multiagent_workflows/core/evaluator.py`
 - `src/multiagent_workflows/core/logger.py`
@@ -271,11 +280,13 @@ Files reviewed (representative):
 - `src/multiagent_workflows/agents/*.py`
 
 High-level findings
+
 - Clear, modular architecture: core components (agents, model manager, workflows, logger, evaluator) are separated and easy to reason about.
 - Robust hierarchical logging (`VerboseLogger`) with JSON/Markdown export—this is a strength.
 - `AgentBase` provides rich functionality (retries, timeouts, tool invocation hooks, structured logging) and is a solid foundation for agents.
 
 Key issues and pitfalls
+
 - Scoring mismatch for SWE-Bench: `benchmarks.py` declares `evaluation_method="execution"` and `metrics=["resolved_rate"]`, but `server/run_manager.py` scores SWE-bench tasks using text similarity (`difflib.SequenceMatcher`). This yields misleading results for patch-bug benchmarks where execution (apply patch + run tests) is the ground truth.
 - `run_manager` currently treats patch matching as the canonical metric. Recommendation: either implement an execution harness (Docker + repo clone + apply patch + test run) for SWE-Bench tasks or explicitly label the current scores as `text_similarity` (proxy) and add a separate `execution` scorer later.
 - Overreliance on SequenceMatcher: `core/evaluator.py` uses SequenceMatcher-based similarity for many rubric categories. Similarity is a weak signal for correctness for code/patches; where possible prefer execution-based checks, AST-level diffs, or semantic equivalence checks.
@@ -285,25 +296,39 @@ Key issues and pitfalls
 - Test coverage assumptions: tests exercise dataset loader and model routing, but there are no integration tests for execution-based evaluation (understandable given infra requirements). If you plan to add execution scoring, add sandboxed integration tests that run in containers.
 
 Concrete recommendations (priority order)
+
 1. Fix SWE-Bench scoring mismatch
-  - Implement an optional execution harness (containerized) that: clones repo at `base_commit`, applies generated patch, runs `test_patch` tests, and returns `resolved` boolean.
-  - Add an `ExecutionScorer` class under `evaluation/` and wire it to `run_manager` when `benchmark.evaluation_method == 'execution'`.
+
+- Implement an optional execution harness (containerized) that: clones repo at `base_commit`, applies generated patch, runs `test_patch` tests, and returns `resolved` boolean.
+- Add an `ExecutionScorer` class under `evaluation/` and wire it to `run_manager` when `benchmark.evaluation_method == 'execution'`.
+
 2. Label current similarity scorer as a proxy
-  - Rename `total_score` → `text_similarity_score` in `run_manager` outputs for patch tasks, and document this clearly in the README.
+
+- Rename `total_score` → `text_similarity_score` in `run_manager` outputs for patch tasks, and document this clearly in the README.
+
 3. Consolidate prompt utilities
-  - Move `_build_prompt`, parsing, and formatting helpers into `AgentBase` (or a PromptMixin) so concrete agents remain focused on role-specific logic.
+
+- Move `_build_prompt`, parsing, and formatting helpers into `AgentBase` (or a PromptMixin) so concrete agents remain focused on role-specific logic.
+
 4. Standardize logging usage
-  - Replace ad-hoc `print()` statements in server components with calls to `VerboseLogger` to keep structured logs complete.
+
+- Replace ad-hoc `print()` statements in server components with calls to `VerboseLogger` to keep structured logs complete.
+
 5. Add explicit exports for agents
-  - Populate `src/multiagent_workflows/agents/__init__.py` to export available agent classes for easier imports.
+
+- Populate `src/multiagent_workflows/agents/__init__.py` to export available agent classes for easier imports.
+
 6. Add integration tests for execution scoring (optional)
-  - Create a small, sandboxed integration test that verifies `ExecutionScorer` behavior using a tiny Git repo fixture and pytest + Docker.
+
+- Create a small, sandboxed integration test that verifies `ExecutionScorer` behavior using a tiny Git repo fixture and pytest + Docker.
 
 Potential technical risks and mitigations
+
 - Running tests inside containers is resource-heavy and introduces security considerations. Mitigate by using ephemeral Docker containers with constrained resources, and fail gracefully if Docker is not available (fall back to proxy scoring).
 - AST/semantic comparison can be complex; prefer simpler heuristics first (unit tests pass) and add semantic diffing as a secondary improvement.
 
 Next steps I can take for you
+
 - Implement the `ExecutionScorer` skeleton and wire it into `run_manager` behind a feature flag.
 - Rename and document the current similarity metric to avoid confusion.
 - Refactor common prompt-building helpers into `AgentBase`.

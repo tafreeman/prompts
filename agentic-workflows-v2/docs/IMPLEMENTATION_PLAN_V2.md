@@ -7,12 +7,13 @@
 
 ### Progress Summary
 
-- **Tests:** 369 passing (305 original + 36 new agents + 28 new tools)
+- **Tests:** 370+ passing (as of Feb 4, 2026)
 - **Agents:** ArchitectAgent, TestAgent migrated
 - **Prompts:** 13 templates migrated with loader utility
 - **Configs:** agents.yaml, models.yaml, evaluation.yaml migrated
 - **Workflows:** 3 definitions in place
 - **Tools:** 5 new tool categories added (Git, HTTP, Shell, CodeAnalysis, Search)
+- **Memory/Context:** Token-aware `ConversationMemory` + persistent memory/context builtin tools
 
 ---
 
@@ -207,12 +208,24 @@ src/agentic_v2/server/
 
 ---
 
+## 🧠 Post-2D: Memory & Context Utilities
+
+While working through Phase 2D, we also hardened the agent memory and added deterministic context helpers.
+
+- **Token-aware conversation memory:** `ConversationMemory` now trims to a *message budget* and an *approximate token budget* (`AgentConfig.max_memory_messages`, `AgentConfig.max_memory_tokens`).
+- **Persistent memory tools:** Built-in CRUD tools backed by a JSON file.
+  - Configure the storage location with `AGENTIC_MEMORY_PATH`.
+- **Context utilities:** `token_estimate` + `context_trim` helpers for predictable context shaping.
+
+---
+
 ## 🎯 Phase 2E: Documentation & Polish
 
 | Task | Description | Status |
 |------|-------------|--------|
 | API Reference | Auto-generated from docstrings | ✅ Done |
-| Tutorials | Step-by-step guides | ✅ Done |
+| Tutorials | Step-by-step guides (kept in sync with public API) | 🚧 In progress |
+| README | Quick start + current CLI/Python examples | 🚧 In progress |
 | Examples | Real-world usage examples | ✅ Done |
 | Architecture Docs | ADRs, design decisions | ✅ Done |
 
@@ -252,6 +265,37 @@ src/agentic_v2/server/
 - [x] API reference
 - [x] Tutorials
 - [x] Examples
+
+---
+
+## 🔍 Refinement: Issues & Ideas Assessment (Feb 4, 2026)
+
+Critical review of the evaluation migration plan identified duplications and coupling risks.
+
+### Identified Issues
+
+1. **Three overlapping Scorers**: `tools/prompteval/unified_scorer`, `multiagent-workflows/.../scorer`, and `agentic-v2-eval/scorer` have conflicting interfaces.
+2. **LLMClientProtocol mismatch**: `llm.py` defines a protocol, but `agentic-workflows-v2` uses a different client structure.
+3. **Sandbox is Docker-only**: Blocks local development; need `LocalSubprocessSandbox`.
+4. **Benchmark code stranded**: Code remains in `tools/agents/benchmarks`, creating import risks.
+5. **No tests for loader**: Benchmark loader lacks unit tests.
+6. **Pattern scorer coupled**: Tightly coupled to `tools.llm.llm_client`.
+7. **Rubrics external**: Depends on files in `rubrics/` outside the package.
+8. **No CI**: Evaluation tests not in CI.
+
+### Refined Prioritization
+
+| Priority | Task | Rationale |
+|----------|------|-----------|
+| **P0** | **Sandbox (Local)** | Unblocks dev execution. |
+| **P0** | **Benchmark Tests** | Ensures data reliability. |
+| **P1** | **LLM Protocol** | Unifies model access. |
+| **P1** | **Move Benchmarks** | Fixes architecture/imports. |
+| **P2** | **Merge Scorers** | Unified Scoring API. |
+| **P2** | **Decouple Pattern Scorer** | Clean dependencies. |
+| **P3** | **Rubrics/CI** | Polish/Integration. |
+
+> **Current Focus:** Implementing **P2** (Merge Scorers & Decouple Pattern Scorer) as requested.
 
 ---
 

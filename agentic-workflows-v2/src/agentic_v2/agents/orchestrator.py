@@ -413,20 +413,61 @@ class OrchestratorAgent(
                 overall_status=StepStatus.FAILED,
             )
 
+        # Ensure we have an ExecutionContext
+        if ctx is None:
+            ctx = ExecutionContext(workflow_id=f"orch-{task.task[:20]}")
+
         # Build DAG from subtasks with dependencies
         dag = DAG(
             name=f"orchestrated:{task.task[:30]}",
             description=f"DAG generated from task: {task.task}",
         )
 
+        from ..contracts import CodeGenerationInput, CodeReviewInput
+        from ..engine.step import StepDefinition
+
+        def _make_task_input(subtask_desc: str, target_agent: BaseAgent) -> Any:
+            """Create the right TaskInput subclass based on the agent type."""
+            # Import here to avoid circular imports
+            from .reviewer import ReviewerAgent
+
+            if isinstance(target_agent, ReviewerAgent):
+                # ReviewerAgent needs CodeReviewInput with a 'code' field
+                return CodeReviewInput(
+                    code=f"# Task: {subtask_desc}\n# (code to be reviewed)",
+                    language="python",
+                    context={"subtask_description": subtask_desc},
+                )
+            else:
+                # Default to CodeGenerationInput for coder and other agents
+                return CodeGenerationInput(
+                    description=subtask_desc,
+                    language="python",
+                )
+
+        def _make_step_func(bound_agent, bound_input):
+            """Create a step function with bound agent and task input."""
+            async def run_subtask(step_ctx: ExecutionContext) -> dict[str, Any]:
+                r = await bound_agent.run(bound_input, step_ctx)
+                return {"result": r}
+            return run_subtask
+
         for subtask_data in result.subtasks:
             agent_name = result.agent_assignments.get(subtask_data["id"])
             agent = self._agents.get(agent_name or "")
 
             if agent:
-                step = agent_to_step(agent, subtask_data["id"])
-                step.description = subtask_data["description"]
-                # Set dependencies from subtask data
+                subtask_input = _make_task_input(
+                    subtask_data["description"], agent
+                )
+
+                step = StepDefinition(
+                    name=subtask_data["id"],
+                    description=subtask_data["description"],
+                    func=_make_step_func(agent, subtask_input),
+                    tier=agent.config.default_tier,
+                    timeout_seconds=agent.config.timeout_seconds,
+                )
                 step.depends_on = subtask_data.get("dependencies", [])
                 dag.add(step)
 

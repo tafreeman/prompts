@@ -1,25 +1,17 @@
 import asyncio
-import sys
-from pathlib import Path
-
-# Add root to path so we can import tools
-sys.path.append(str(Path(__file__).parents[2]))
-
-try:
-    from tools.agents.benchmarks import load_benchmark
-
-    print("✅ Successfully imported tools.agents.benchmarks")
-except ImportError as e:
-    print(f"❌ Failed to import tools.agents.benchmarks: {e}")
-    sys.exit(1)
-
-
 import os
 import sys
 from pathlib import Path
 
-# Add root to path so we can import tools
-sys.path.append(str(Path(__file__).parents[2]))
+# Add repo root and agentic-v2-eval/src to path so we can import modules
+REPO_ROOT = Path(__file__).parents[1].resolve()
+EVAL_SRC = (REPO_ROOT / "agentic-v2-eval" / "src").resolve()
+sys.path.insert(0, str(REPO_ROOT))
+if EVAL_SRC.exists():
+    sys.path.insert(0, str(EVAL_SRC))
+else:
+    print(f"❌ agentic-v2-eval src not found at: {EVAL_SRC}")
+    sys.exit(1)
 
 
 def load_env_file():
@@ -54,11 +46,11 @@ def load_env_file():
 load_env_file()
 
 try:
-    from tools.agents.benchmarks import load_benchmark
+    from agentic_v2_eval.datasets import load_benchmark
 
-    print("✅ Successfully imported tools.agents.benchmarks")
+    print("✅ Successfully imported agentic_v2_eval.datasets")
 except ImportError as e:
-    print(f"❌ Failed to import tools.agents.benchmarks: {e}")
+    print(f"❌ Failed to import agentic_v2_eval.datasets: {e}")
     sys.exit(1)
 
 from agentic_v2.agents.orchestrator import OrchestratorAgent, OrchestratorInput

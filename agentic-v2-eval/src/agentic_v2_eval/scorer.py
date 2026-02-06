@@ -42,23 +42,27 @@ class Scorer:
         >>> print(f"Score: {result.weighted_score:.2f}")
     """
 
-    def __init__(self, rubric_path: str | Path):
-        """Initialize scorer with rubric file.
+    def __init__(self, rubric: str | Path | dict[str, Any]):
+        """Initialize scorer with a rubric.
 
         Args:
-            rubric_path: Path to YAML rubric file.
+            rubric: Either a path to a YAML rubric file, or an in-memory rubric dict.
 
         Raises:
             FileNotFoundError: If rubric file doesn't exist.
             ValueError: If rubric format is invalid.
         """
-        rubric_path = Path(rubric_path)
+        if isinstance(rubric, dict):
+            self.rubric = rubric
+        else:
+            rubric_path = Path(rubric)
 
-        if not rubric_path.exists():
-            raise FileNotFoundError(f"Rubric file not found: {rubric_path}")
+            if not rubric_path.exists():
+                raise FileNotFoundError(f"Rubric file not found: {rubric_path}")
 
-        with rubric_path.open("r", encoding="utf-8") as f:
-            self.rubric = yaml.safe_load(f)
+            with rubric_path.open("r", encoding="utf-8") as f:
+                loaded = yaml.safe_load(f)
+                self.rubric = loaded if loaded is not None else {}
 
         if not isinstance(self.rubric, dict):
             raise ValueError("Rubric must be a YAML dictionary")
