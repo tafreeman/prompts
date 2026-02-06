@@ -14,22 +14,34 @@ class ConnectionManager:
     """Manages active WebSocket connections."""
 
     def __init__(self):
-        self.active_connections: list[WebSocket] = []
+        # map run_id -> list of websockets
+        self.connections: dict[str, list[WebSocket]] = {}
 
-    async def connect(self, websocket: WebSocket):
+    async def connect(self, websocket: WebSocket, run_id: str):
         await websocket.accept()
-        self.active_connections.append(websocket)
+        if run_id not in self.connections:
+            self.connections[run_id] = []
+        self.connections[run_id].append(websocket)
 
-    def disconnect(self, websocket: WebSocket):
-        if websocket in self.active_connections:
-            self.active_connections.remove(websocket)
+    def disconnect(self, websocket: WebSocket, run_id: str):
+        if run_id in self.connections:
+            if websocket in self.connections[run_id]:
+                self.connections[run_id].remove(websocket)
+            if not self.connections[run_id]:
+                del self.connections[run_id]
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
         await websocket.send_text(message)
 
-    async def broadcast(self, message: str):
-        for connection in self.active_connections:
-            await connection.send_text(message)
+    async def broadcast(self, run_id: str, message: dict):
+        if run_id in self.connections:
+            for connection in self.connections[run_id]:
+                # Handle disconnected clients gracefully
+                try:
+                    await connection.send_json(message)
+                except Exception:
+                    # Let disconnect handler clean this up
+                    pass
 
 
 manager = ConnectionManager()
@@ -43,10 +55,10 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
     1. Subscribe to events for the specific run_id
     2. Stream step updates, logs, and results
     """
-    await manager.connect(websocket)
+    await manager.connect(websocket, run_id)
     try:
         # Send initial status
-        await websocket.send_json(
+        await manager.broadcast(run_id, 
             {
                 "type": "connection_established",
                 "run_id": run_id,
@@ -55,14 +67,14 @@ async def websocket_endpoint(websocket: WebSocket, run_id: str):
         )
 
         while True:
-            # Just keep the connection alive for now
+            # Just keep the connection alive defined
             # Real implementation would push events here
             data = await websocket.receive_text()
             await websocket.send_json({"type": "echo", "data": data})
 
     except WebSocketDisconnect:
-        manager.disconnect(websocket)
+        manager.disconnect(websocket, run_id)
         logger.info(f"Client disconnected from execution stream: {run_id}")
     except Exception as e:
         logger.error(f"WebSocket error for {run_id}: {e}")
-        manager.disconnect(websocket)
+        manager.disconnect(websocket, run_id)

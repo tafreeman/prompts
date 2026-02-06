@@ -8,7 +8,7 @@ from __future__ import annotations
 import asyncio
 from collections import deque
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Any, Awaitable, Callable, Optional
 
 from ..contracts import StepResult, StepStatus, WorkflowResult
 from .context import ExecutionContext, get_context
@@ -29,6 +29,7 @@ class DAGExecutor:
         dag: DAG,
         ctx: Optional[ExecutionContext] = None,
         max_concurrency: int = 10,
+        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
     ) -> WorkflowResult:
         """Execute DAG with dynamic scheduling and concurrency limits."""
         if ctx is None:
@@ -41,6 +42,14 @@ class DAGExecutor:
             workflow_name=dag.name,
             overall_status=StepStatus.RUNNING,
         )
+        
+        if on_update:
+            await on_update({
+                "type": "workflow_start",
+                "run_id": result.workflow_id,
+                "workflow": result.workflow_name,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
 
         adjacency = dag.build_adjacency_list()
         in_degree = {name: len(step.depends_on) for name, step in dag.steps.items()}
@@ -53,6 +62,13 @@ class DAGExecutor:
 
         async def run_step(step_name: str) -> tuple[str, StepResult]:
             self._state_manager.transition(step_name, StepState.RUNNING)
+            if on_update:
+                await on_update({
+                    "type": "step_start",
+                    "run_id": result.workflow_id,
+                    "step": step_name,
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                })
             step_def = dag.steps[step_name]
             step_result = await self._step_executor.execute(step_def, ctx)
             return step_name, step_result
@@ -104,6 +120,16 @@ class DAGExecutor:
                 results[step_name] = step_result
                 result.add_step(step_result)
                 completed.add(step_name)
+                
+                if on_update:
+                    await on_update({
+                        "type": "step_end",
+                        "run_id": result.workflow_id,
+                        "step": step_name,
+                        "status": step_result.status.value,
+                        "duration_ms": step_result.total_duration_ms,
+                        "timestamp": datetime.now(timezone.utc).isoformat()
+                    })
 
                 if step_result.status == StepStatus.SUCCESS:
                     self._state_manager.transition(step_name, StepState.SUCCESS)
@@ -129,4 +155,13 @@ class DAGExecutor:
 
         result.final_output = ctx.all_variables()
         result.mark_complete(result.overall_status == StepStatus.SUCCESS)
+
+        if on_update:
+            await on_update({
+                "type": "workflow_end",
+                "run_id": result.workflow_id,
+                "status": result.overall_status.value,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
+
         return result

@@ -11,6 +11,7 @@ from typing import Any
 
 import yaml
 
+from ..engine.agent_resolver import resolve_agent
 from ..engine.dag import DAG
 from ..engine.step import StepDefinition
 
@@ -193,6 +194,7 @@ class WorkflowLoader:
 
         for step_data in data.get("steps", []):
             step = self._parse_step(step_data)
+            resolve_agent(step)  # Bind executable func from agent metadata
             dag.add(step)
 
         return WorkflowDefinition(
