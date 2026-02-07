@@ -634,3 +634,6 @@ multiagent-workflows/src/multiagent_workflows/dashboard_data/run_fullstack_gener
 multiagent-workflows/src/multiagent_workflows/dashboard_data/runs.json
 
 agentic-workflows-v2/logs/
+
+# Claude local settings (may contain secrets)
+.claude/settings.local.json

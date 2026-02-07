@@ -104,19 +104,12 @@ class TestGenerateText:
 
     def test_generate_text_error_handling(self):
         """Test error handling with invalid model."""
-        try:
-            response = LLMClient.generate_text(
-                model="invalid:nonexistent", prompt="Test", max_tokens=10
+        from tools.llm.llm_client import LLMClientError
+
+        with pytest.raises(LLMClientError, match="Unknown model"):
+            LLMClient.generate_text(
+                model_name="invalid:nonexistent", prompt="Test", max_tokens=10
             )
-
-            # Should either raise exception or return error message
-            if isinstance(response, str):
-                # Some implementations return error strings
-                assert "error" in response.lower() or "not found" in response.lower()
-
-        except Exception:
-            # Exception is also acceptable error handling
-            assert True
 
 
 class TestParameterValidation:

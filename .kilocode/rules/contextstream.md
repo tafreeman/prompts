@@ -5,7 +5,7 @@
 |---------|----------|
 | **1st message** | `init()` → `context(user_message="...")` |
 | **Every message** | `context(user_message="...")` FIRST |
-| **Before file search** | `search(mode="hybrid")` BEFORE Glob/Grep/Read |
+| **Before file search** | `search(mode="auto")` BEFORE Glob/Grep/Read |
 </contextstream_rules>
 
 **Why?** `context()` delivers task-specific rules, lessons from past mistakes, and relevant decisions. Skip it = fly blind.
@@ -14,5 +14,5 @@
 
 **Notices:** [LESSONS_WARNING] → apply lessons | [PREFERENCE] → follow user preferences | [RULES_NOTICE] → run `generate_rules()` | [VERSION_NOTICE/CRITICAL] → tell user about update
 
-v0.4.58
+v0.4.60
 <!-- END ContextStream -->

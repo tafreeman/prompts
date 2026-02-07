@@ -161,6 +161,11 @@ class LLMClientWrapper:
     log_prompts: bool = False
     log_responses: bool = False
 
+    @property
+    def model_id(self) -> Optional[str]:
+        """Return the current default model ID from the router."""
+        return self.router.get_model_for_tier(ModelTier.TIER_2)
+
     def set_backend(self, backend: LLMBackend) -> None:
         """Set the LLM backend.
 
@@ -403,11 +408,25 @@ class LLMClientWrapper:
 _client: Optional[LLMClientWrapper] = None
 
 
-def get_client() -> LLMClientWrapper:
-    """Get the global LLM client."""
+def get_client(auto_configure: bool = False) -> LLMClientWrapper:
+    """Get the global LLM client.
+
+    Args:
+        auto_configure: If True and no client exists, probe environment
+            variables and set up a MultiBackend automatically.  Default
+            is False so that unit tests get a backend-less client
+            (placeholder mode).
+    """
     global _client
     if _client is None:
         _client = LLMClientWrapper()
+        if auto_configure:
+            from .backends import auto_configure_backend
+
+            try:
+                _client.set_backend(auto_configure_backend())
+            except RuntimeError:
+                pass  # No backends available — will fail at call time
     return _client
 
 

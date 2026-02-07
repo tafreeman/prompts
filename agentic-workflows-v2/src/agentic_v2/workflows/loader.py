@@ -197,6 +197,18 @@ class WorkflowLoader:
             resolve_agent(step)  # Bind executable func from agent metadata
             dag.add(step)
 
+        if len(dag.steps) == 0:
+            # Check if steps exist under a nested key (e.g., workflow.steps)
+            nested_steps = data.get("workflow", {})
+            if isinstance(nested_steps, dict) and nested_steps.get("steps"):
+                raise WorkflowLoadError(
+                    f"Workflow '{name}' has steps nested under 'workflow.steps' "
+                    f"instead of top-level 'steps'. Restructure the YAML."
+                )
+            raise WorkflowLoadError(
+                f"Workflow '{name}' has no executable steps."
+            )
+
         return WorkflowDefinition(
             name=name,
             description=description,
@@ -223,17 +235,27 @@ class WorkflowLoader:
             if isinstance(value, str):
                 output_mapping[key] = value
 
-        # Parse 'when' condition as string (will be evaluated at runtime)
+        # Parse 'when' condition as string expression
         when_expr = data.get("when")
         when_func = None
         if when_expr:
-            # Store expression for later evaluation
-            pass  # Will be handled by step executor
+            # Create a callable condition from the expression string.
+            # The ExpressionEvaluator is instantiated at runtime with the live
+            # ExecutionContext so that ${...} references are resolved.
+            raw_expr = when_expr
+            def _make_condition(expr: str):
+                def _condition(ctx) -> bool:
+                    from ..engine.expressions import ExpressionEvaluator
+                    evaluator = ExpressionEvaluator(ctx, {})
+                    return evaluator.evaluate(expr)
+                return _condition
+            when_func = _make_condition(raw_expr)
 
         return StepDefinition(
             name=name,
             description=data.get("description", ""),
             depends_on=data.get("depends_on", []),
+            when=when_func,
             input_mapping=input_mapping,
             output_mapping=output_mapping,
             metadata={

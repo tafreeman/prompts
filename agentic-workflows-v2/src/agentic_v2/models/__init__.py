@@ -8,7 +8,17 @@ Exports:
 - Globals: get_router, get_smart_router, get_client
 """
 
-from .backends import GitHubModelsBackend, MockBackend, OllamaBackend, get_backend
+from .backends import (
+    AnthropicBackend,
+    GeminiBackend,
+    GitHubModelsBackend,
+    MockBackend,
+    MultiBackend,
+    OllamaBackend,
+    OpenAIBackend,
+    auto_configure_backend,
+    get_backend,
+)
 from .client import (
     CachedResponse,
     LLMBackend,
@@ -65,7 +75,12 @@ __all__ = [
     "reset_client",
     # Backends
     "GitHubModelsBackend",
+    "OpenAIBackend",
+    "AnthropicBackend",
+    "GeminiBackend",
     "OllamaBackend",
+    "MultiBackend",
     "MockBackend",
     "get_backend",
+    "auto_configure_backend",
 ]

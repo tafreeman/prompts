@@ -62,7 +62,13 @@ class ExpressionEvaluator:
         if expression.lower() in {"true", "false"}:
             return expression.lower() == "true"
 
-        return bool(self._safe_eval(expression))
+        try:
+            return bool(self._safe_eval(expression))
+        except AttributeError:
+            # Missing attribute in a when-condition means the condition
+            # isn't satisfiable (e.g. upstream step didn't produce expected
+            # output key).  Treat as False rather than crashing.
+            return False
 
     def resolve_variable(self, path: str) -> Any:
         """Resolve a single ${...} variable reference."""
@@ -73,10 +79,28 @@ class ExpressionEvaluator:
         tree = ast.parse(expression, mode="eval")
         self._validate_ast(tree)
 
+        all_vars = self.ctx.all_variables()
+
+        # Build steps namespace: merge StepResult objects with context-stored
+        # step data (stored by StepExecutor as ctx["steps"]).  This allows
+        # when-conditions like ${steps.review_code.outputs.review_report.approved}
+        # to resolve even when the evaluator has no step_results param.
+        step_views = self._build_step_views()
+        ctx_steps = all_vars.get("steps")
+        if isinstance(ctx_steps, dict):
+            for name, data in ctx_steps.items():
+                if name not in step_views and isinstance(data, dict):
+                    step_views[name] = data  # raw dict, _to_namespace handles it
+
         env = {
-            "ctx": self._to_namespace(self.ctx.all_variables()),
-            "steps": self._to_namespace(self._build_step_views()),
+            "ctx": self._to_namespace(all_vars),
+            "steps": self._to_namespace(step_views),
         }
+        # Expose top-level context keys (e.g. "inputs") as direct names
+        # so that ${inputs.foo} resolves without a "ctx." prefix.
+        for key, value in all_vars.items():
+            if key not in env:
+                env[key] = self._to_namespace(value) if isinstance(value, (dict, list)) else value
 
         return eval(compile(tree, "<expr>", "eval"), {"__builtins__": {}}, env)
 
