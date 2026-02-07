@@ -64,6 +64,8 @@ class DAG:
 
     def validate(self) -> None:
         """Validate DAG structure for missing dependencies and cycles."""
+        if len(self.steps) == 0:
+            raise ValueError(f"DAG '{self.name}' has no steps. Check the YAML schema.")
         self._check_missing_dependencies()
         adjacency = self._build_adjacency_list()
         self._detect_cycles(adjacency)

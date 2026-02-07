@@ -13,11 +13,14 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Optional, TypeVar
+
+logger = logging.getLogger(__name__)
 
 import jmespath
 
@@ -271,8 +274,14 @@ class ExecutionContext:
                 result = handler(self, event_type, data)
                 if asyncio.iscoroutine(result):
                     await result
-            except Exception:
-                pass  # Don't let handler errors break execution
+            except Exception as e:
+                logger.warning(
+                    "Event handler %s failed for event %s: %s",
+                    getattr(handler, "__name__", repr(handler)),
+                    event_type,
+                    e,
+                    exc_info=True,
+                )
 
         # Propagate to parent
         if self._parent is not None:

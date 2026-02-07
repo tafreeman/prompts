@@ -125,6 +125,7 @@ name: test_workflow
 steps:
   - name: step1
     description: Test step
+    agent: tier2_coder
 """)
             result = runner.invoke(app, ["validate", str(workflow_path)])
             assert result.exit_code == 0

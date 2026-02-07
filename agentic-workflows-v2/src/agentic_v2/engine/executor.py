@@ -12,16 +12,21 @@ Aggressive design improvements:
 from __future__ import annotations
 
 import asyncio
+import logging
 import traceback
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Optional, Union
 
+logger = logging.getLogger(__name__)
+
 from ..contracts import StepResult, StepStatus, WorkflowResult
 from ..models import SmartModelRouter, get_smart_router
 from ..tools import ToolRegistry, get_registry
 from .context import ExecutionContext
+from .dag import DAG
+from .dag_executor import DAGExecutor
 from .pipeline import Pipeline, PipelineExecutor
 from .step import StepDefinition, StepExecutor
 
@@ -145,12 +150,18 @@ class WorkflowExecutor:
                 result = listener(event, data)
                 if asyncio.iscoroutine(result):
                     await result
-            except Exception:
-                pass  # Don't let listener errors break execution
+            except Exception as e:
+                logger.warning(
+                    "Event listener %s failed for %s: %s",
+                    getattr(listener, "__name__", repr(listener)),
+                    event.value,
+                    e,
+                    exc_info=True,
+                )
 
     async def execute(
         self,
-        workflow: Union[StepDefinition, Pipeline, list[StepDefinition]],
+        workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
         ctx: Optional[ExecutionContext] = None,
         **initial_vars: Any,
     ) -> WorkflowResult:
@@ -250,13 +261,23 @@ class WorkflowExecutor:
 
     async def _execute_workflow(
         self,
-        workflow: Union[StepDefinition, Pipeline, list[StepDefinition]],
+        workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]],
         ctx: ExecutionContext,
         result: WorkflowResult,
     ) -> WorkflowResult:
         """Internal workflow execution."""
 
-        if isinstance(workflow, StepDefinition):
+        if isinstance(workflow, DAG):
+            # DAG execution via DAGExecutor
+            dag_executor = DAGExecutor(step_executor=self._step_executor)
+            dag_result = await dag_executor.execute(
+                workflow, ctx, max_concurrency=10
+            )
+            result.steps = dag_result.steps
+            result.overall_status = dag_result.overall_status
+            result.final_output = dag_result.final_output
+
+        elif isinstance(workflow, StepDefinition):
             # Single step
             step_result = await self._execute_step(workflow, ctx)
             result.add_step(step_result)
@@ -332,10 +353,12 @@ class WorkflowExecutor:
         await self._pipeline_executor.cancel()
 
     def _get_workflow_name(
-        self, workflow: Union[StepDefinition, Pipeline, list[StepDefinition]]
+        self, workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]]
     ) -> str:
         """Get workflow name for logging."""
-        if isinstance(workflow, StepDefinition):
+        if isinstance(workflow, DAG):
+            return f"dag:{workflow.name}"
+        elif isinstance(workflow, StepDefinition):
             return f"step:{workflow.name}"
         elif isinstance(workflow, Pipeline):
             return workflow.name
@@ -374,7 +397,7 @@ def reset_executor() -> None:
 
 # Convenience functions
 async def execute(
-    workflow: Union[StepDefinition, Pipeline, list[StepDefinition]], **initial_vars: Any
+    workflow: Union[StepDefinition, Pipeline, DAG, list[StepDefinition]], **initial_vars: Any
 ) -> WorkflowResult:
     """Execute a workflow with the global executor."""
     return await get_executor().execute(workflow, **initial_vars)

@@ -42,6 +42,8 @@ class IssueCategory(str, Enum):
 class TestType(str, Enum):
     """Type of test to generate."""
 
+    __test__ = False  # Not a pytest test class
+
     UNIT = "unit"
     INTEGRATION = "integration"
     E2E = "e2e"
@@ -355,6 +357,8 @@ class CodeReviewOutput(TaskOutput):
 class TestCase(BaseModel):
     """A single generated test case."""
 
+    __test__ = False  # Not a pytest test class
+
     name: str = Field(description="Test function name")
     description: str = Field(description="What the test verifies")
     test_type: TestType = Field(description="Type of test")
@@ -375,6 +379,8 @@ class TestGenerationInput(TaskInput):
     - Edge case generation hints
     - Mocking strategy
     """
+
+    __test__ = False  # Not a pytest test class
 
     code: str = Field(description="Code to generate tests for", min_length=1)
     language: str = Field(description="Programming language")
@@ -427,6 +433,8 @@ class TestGenerationOutput(TaskOutput):
     - Test organization
     - Setup/teardown extraction
     """
+
+    __test__ = False  # Not a pytest test class
 
     tests: list[TestCase] = Field(
         default_factory=list, description="Generated test cases"

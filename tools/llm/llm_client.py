@@ -30,6 +30,17 @@ except ImportError:
             pass
 
 
+class LLMClientError(RuntimeError):
+    """Raised when an LLM call fails."""
+
+    def __init__(
+        self, model: str, message: str, original_error: Exception | None = None
+    ):
+        super().__init__(f"[{model}] {message}")
+        self.model = model
+        self.original_error = original_error
+
+
 class LLMClient:
     """Unified client for interacting with different LLM providers.
 
@@ -323,9 +334,10 @@ class LLMClient:
                     model_name, prompt, system_instruction, temperature, max_tokens
                 )
             else:
-                return (
-                    f"Unknown model: {model_name}. Use local:, ollama:, windows-ai:, azure-foundry:, "
-                    "azure-openai:, gh:, openai:, gemini:, claude:, or a plain model name containing gemini/claude/gpt"
+                raise LLMClientError(
+                    model_name,
+                    "Unknown model. Use local:, ollama:, windows-ai:, azure-foundry:, "
+                    "azure-openai:, gh:, openai:, gemini:, claude:, or a plain model name containing gemini/claude/gpt",
                 )
 
             # Cache successful response
@@ -343,8 +355,10 @@ class LLMClient:
                     pass  # Don't fail on cache errors
 
             return result
+        except LLMClientError:
+            raise
         except Exception as e:
-            return f"Error calling {model_name}: {str(e)}"
+            raise LLMClientError(model_name, str(e), original_error=e) from e
 
     @staticmethod
     def _call_ollama(
@@ -522,7 +536,10 @@ class LLMClient:
         try:
             from tools.llm.local_model import LocalModel
         except ImportError:
-            return "Error: local_model.py not found or onnxruntime-genai not installed"
+            raise LLMClientError(
+                model_name,
+                "local_model.py not found or onnxruntime-genai not installed",
+            )
 
         # Parse model key
         model_key = model_name.split(":", 1)[1] if ":" in model_name else "phi4mini"
@@ -596,17 +613,14 @@ class LLMClient:
             )
 
         except ImportError:
-            return (
-                "❌ Windows AI integration not available.\n\n"
-                "Requirements:\n"
-                "  • Windows 11 with NPU (Copilot+ PC)\n"
-                "  • Windows App SDK 1.7+\n"
-                "  • pip install winrt-runtime\n\n"
-                "Documentation: https://learn.microsoft.com/en-us/windows/ai/apis/\n\n"
-                "Falling back to other providers..."
+            raise LLMClientError(
+                "windows-ai",
+                "Windows AI integration not available. "
+                "Requires Windows 11 with NPU (Copilot+ PC), "
+                "Windows App SDK 1.7+, and pip install winrt-runtime",
             )
         except Exception as e:
-            return f"Windows AI error: {str(e)}"
+            raise LLMClientError("windows-ai", str(e), original_error=e) from e
 
     @staticmethod
     def _call_github_models(

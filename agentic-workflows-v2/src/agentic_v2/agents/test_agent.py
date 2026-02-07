@@ -23,6 +23,8 @@ from .base import AgentConfig, BaseAgent
 class TestType(str, Enum):
     """Types of tests to generate."""
 
+    __test__ = False  # Not a pytest test class
+
     UNIT = "unit"
     INTEGRATION = "integration"
     E2E = "e2e"
@@ -32,6 +34,8 @@ class TestType(str, Enum):
 
 class TestGenerationInput(TaskInput):
     """Input for test generation tasks."""
+
+    __test__ = False  # Not a pytest test class
 
     code: str = Field(default="", description="Code to generate tests for")
     files: dict[str, str] = Field(
@@ -67,6 +71,8 @@ class TestGenerationInput(TaskInput):
 
 class TestFile(BaseModel):
     """A generated test file."""
+
+    __test__ = False  # Not a pytest test class
 
     filename: str = Field(default="", description="Test file name")
     content: str = Field(default="", description="Test file content")
@@ -179,6 +185,8 @@ class TestAgent(BaseAgent[TestGenerationInput, TestGenerationOutput]):
     - E2E tests
     - Test fixtures and mocks
     """
+
+    __test__ = False  # Not a pytest test class
 
     def __init__(self, config: Optional[AgentConfig] = None, **kwargs):
         if config is None:

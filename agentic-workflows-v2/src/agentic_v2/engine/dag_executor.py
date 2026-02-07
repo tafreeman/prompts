@@ -127,7 +127,7 @@ class DAGExecutor:
                         "run_id": result.workflow_id,
                         "step": step_name,
                         "status": step_result.status.value,
-                        "duration_ms": step_result.total_duration_ms,
+                        "duration_ms": step_result.duration_ms,
                         "timestamp": datetime.now(timezone.utc).isoformat()
                     })
 

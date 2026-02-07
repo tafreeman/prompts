@@ -303,9 +303,28 @@ class StepExecutor:
                 result.status = StepStatus.SUCCESS
                 result.output_data = output or {}
 
+                # Extract _meta injected by LLM step for model tracking
+                meta = result.output_data.pop("_meta", None)
+                if isinstance(meta, dict):
+                    result.model_used = meta.get("model_used")
+                    if meta.get("tokens_used"):
+                        result.metadata["tokens_used"] = meta["tokens_used"]
+
                 for step_output, ctx_var in step_def.output_mapping.items():
                     if step_output in result.output_data:
                         await ctx.set(ctx_var, result.output_data[step_output])
+
+                # Store step result in context for expression resolution
+                # This enables ${steps.<name>.outputs.<key>} in when conditions
+                step_view = {
+                    "status": result.status.value,
+                    "outputs": result.output_data,
+                }
+                steps_dict = ctx.get_sync("steps") or {}
+                if not isinstance(steps_dict, dict):
+                    steps_dict = {}
+                steps_dict[step_def.name] = step_view
+                ctx.set_sync("steps", steps_dict)
 
                 # Run post-hooks
                 for hook in step_def.post_hooks:

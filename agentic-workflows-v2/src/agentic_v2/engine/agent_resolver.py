@@ -105,17 +105,23 @@ def _make_llm_step(
     agent_name: str,
     description: str,
     tier: ModelTier,
+    expected_output_keys: list[str] | None = None,
 ) -> StepFunction:
     """Create an async step function that calls an LLM for its output.
 
     The step gathers all context variables as input, sends them along with the
     step description to the LLM, and returns the response as a JSON dict.
+
+    Args:
+        expected_output_keys: If provided, the prompt will instruct the LLM to
+            include these keys in the output JSON so downstream steps can
+            resolve ``${steps.<name>.outputs.<key>}`` references.
     """
 
     async def _llm_step(ctx: ExecutionContext) -> dict[str, Any]:
         # Gather available context as step input
         all_vars = ctx.all_variables()
-        
+
         prompt_parts = [
             f"You are acting as agent '{agent_name}'.",
             f"Task: {description}",
@@ -123,16 +129,31 @@ def _make_llm_step(
             "Available context:",
             json.dumps(all_vars, indent=2, default=str),
             "",
+        ]
+
+        # Tell the LLM exactly which keys to include so downstream steps
+        # and when-conditions can reference them.
+        if expected_output_keys:
+            prompt_parts.append(
+                "Your JSON response MUST include these top-level keys: "
+                + ", ".join(f'"{k}"' for k in expected_output_keys)
+                + "."
+            )
+            prompt_parts.append("")
+
+        prompt_parts.append(
             "Produce your analysis as a JSON object. "
             "Return ONLY valid JSON, no markdown fences.",
-        ]
+        )
         prompt = "\n".join(prompt_parts)
 
         # Try to get a model client from the service container
         try:
-            from ..models.client import LLMClientWrapper, get_client
-            client = get_client()
-            response = await client.complete(prompt, tier=tier)
+            from ..models.client import get_client
+            client = get_client(auto_configure=True)
+            response, model_used, tokens_used = await client.complete(
+                prompt, tier=tier, max_retries=6,
+            )
         except Exception as e:
             logger.warning(
                 f"LLM call failed for agent '{agent_name}' (tier {tier.name}): {e}. "
@@ -145,11 +166,23 @@ def _make_llm_step(
                 "note": str(e),
             }
 
+        # Strip markdown fences (LLMs often wrap JSON in ```json blocks)
+        text = response.strip()
+        if text.startswith("```"):
+            lines = text.splitlines()
+            # Remove first and last lines (fences)
+            lines = [l for l in lines if not l.strip().startswith("```")]
+            text = "\n".join(lines).strip()
+
         # Try to parse JSON from response
         try:
-            return json.loads(response)
+            parsed = json.loads(text)
         except json.JSONDecodeError:
-            return {"raw_response": response}
+            parsed = {"raw_response": response}
+
+        # Attach metadata so StepExecutor can populate StepResult.model_used
+        parsed["_meta"] = {"model_used": model_used, "tokens_used": tokens_used}
+        return parsed
 
     _llm_step.__qualname__ = f"llm_step[{agent_name}]"
     return _llm_step
@@ -194,8 +227,10 @@ def resolve_agent(step_def: StepDefinition) -> StepDefinition:
 
     agent_name = step_def.metadata.get("agent")
     if not agent_name:
-        logger.warning(f"Step '{step_def.name}' has no agent and no func — will fail at execution.")
-        return step_def
+        raise ValueError(
+            f"Step '{step_def.name}' has no agent and no func — "
+            f"check YAML 'agent:' field or provide a 'func:' reference"
+        )
 
     tier = _infer_tier(agent_name)
     step_def.tier = tier
@@ -210,6 +245,7 @@ def resolve_agent(step_def: StepDefinition) -> StepDefinition:
             agent_name=agent_name,
             description=step_def.description,
             tier=tier,
+            expected_output_keys=list(step_def.output_mapping.keys()) or None,
         )
         logger.debug(f"Resolved step '{step_def.name}' -> LLM agent {agent_name} (tier {tier.name})")
 

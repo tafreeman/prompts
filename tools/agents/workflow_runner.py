@@ -339,7 +339,7 @@ Be specific, detailed, and actionable.
                     response = self.llm_client.generate_text(
                         fallback_model,
                         prompt,
-                        system=agent.system_prompt,
+                        system_instruction=agent.system_prompt,
                         temperature=agent.temperature,
                         max_tokens=agent.max_tokens,
                     )

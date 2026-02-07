@@ -193,8 +193,10 @@ description: Test workflow
 steps:
   - name: step1
     description: First step
+    agent: tier2_coder
   - name: step2
     depends_on: [step1]
+    agent: tier2_reviewer
 """
             (tmppath / "test_workflow.yaml").write_text(workflow_yaml)
 
@@ -213,6 +215,7 @@ steps:
 name: direct_load
 steps:
   - name: only_step
+    agent: tier2_coder
 """
             file_path = tmppath / "my_workflow.yaml"
             file_path.write_text(workflow_yaml)

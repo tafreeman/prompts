@@ -31,14 +31,12 @@ class TestDAGExecutorBasic:
 
     @pytest.mark.asyncio
     async def test_execute_empty_dag(self):
-        """Executing empty DAG succeeds immediately."""
+        """Executing empty DAG raises ValueError."""
         dag = DAG(name="empty")
         executor = DAGExecutor()
 
-        result = await executor.execute(dag)
-
-        assert result.overall_status == StepStatus.SUCCESS
-        assert len(result.steps) == 0
+        with pytest.raises(ValueError, match="has no steps"):
+            await executor.execute(dag)
 
     @pytest.mark.asyncio
     async def test_execute_single_step(self):

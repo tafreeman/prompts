@@ -88,22 +88,53 @@ class ChainBuilder:
 
 
 # Default chains for each tier
+# Ordering: free cloud (fast) → paid cloud.
+# Gemini free tier and GitHub Models are free and fast — try first.
+# OpenAI/Anthropic are paid — use as secondary.
 DEFAULT_CHAINS: dict[ModelTier, FallbackChain] = {
     ModelTier.TIER_1: FallbackChain(
-        ("ollama:phi4", "ollama:qwen2.5:3b", "local:phi4"), "tier1-default"
+        (
+            "gemini:gemini-2.0-flash-lite",
+            "gh:openai/gpt-4o-mini",
+            "openai:gpt-4o-mini",
+        ),
+        "tier1-default",
     ),
     ModelTier.TIER_2: FallbackChain(
-        ("ollama:phi4", "ollama:llama3.2:latest", "ollama:mistral:7b"), "tier2-default"
+        (
+            "gemini:gemini-2.0-flash",
+            "gh:openai/gpt-4o-mini",
+            "openai:gpt-4o-mini",
+            "anthropic:claude-3-5-haiku-20241022",
+        ),
+        "tier2-default",
     ),
     ModelTier.TIER_3: FallbackChain(
-        ("ollama:qwen2.5:32b", "ollama:deepseek-coder:33b", "gh:gpt-4o-mini"),
+        (
+            "gemini:gemini-2.5-flash",
+            "gh:openai/gpt-4o",
+            "openai:gpt-4o",
+            "anthropic:claude-sonnet-4-5-20250929",
+        ),
         "tier3-default",
     ),
     ModelTier.TIER_4: FallbackChain(
-        ("gh:gpt-4o-mini", "gh:gpt-4o", "gh:o1-mini"), "tier4-default"
+        (
+            "gemini:gemini-2.5-pro",
+            "gh:openai/gpt-4o",
+            "openai:gpt-4o",
+            "anthropic:claude-sonnet-4-5-20250929",
+        ),
+        "tier4-default",
     ),
     ModelTier.TIER_5: FallbackChain(
-        ("gh:gpt-4o", "gh:o1", "gh:claude-3.5-sonnet"), "tier5-default"
+        (
+            "gemini:gemini-2.5-pro",
+            "openai:gpt-4o",
+            "anthropic:claude-opus-4-6",
+            "gh:openai/o3-mini",
+        ),
+        "tier5-default",
     ),
 }
 
