@@ -100,4 +100,26 @@ describe("useWorkflowStream", () => {
     renderHook(() => useWorkflowStream(null));
     expect(MockWebSocket.instances).toHaveLength(0);
   });
+
+  it("captures evaluation results from evaluation_complete event", () => {
+    const { result } = renderHook(() => useWorkflowStream("run-1"));
+
+    act(() => {
+      MockWebSocket.instances[0]!.simulateMessage({
+        type: "evaluation_complete",
+        run_id: "run-1",
+        rubric: "workflow_default",
+        weighted_score: 82.5,
+        overall_score: 79.4,
+        grade: "B",
+        passed: true,
+        pass_threshold: 70,
+        criteria: [],
+        timestamp: "2025-01-01T00:00:03Z",
+      });
+    });
+
+    expect(result.current.evaluation?.weighted_score).toBe(82.5);
+    expect(result.current.workflowStatus).toBe("completed");
+  });
 });

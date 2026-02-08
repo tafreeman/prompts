@@ -161,9 +161,9 @@ class WorkflowRunner:
         self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
         return result
 
-    def list_workflows(self) -> list[str]:
+    def list_workflows(self, include_experimental: bool = False) -> list[str]:
         """List available workflow names."""
-        return self._loader.list_workflows()
+        return self._loader.list_workflows(include_experimental=include_experimental)
 
     def _log_run(
         self,
@@ -223,25 +223,31 @@ class WorkflowRunner:
     ) -> dict[str, Any]:
         """Resolve declared outputs from the execution context."""
         outputs: dict[str, Any] = {}
+        unresolved_required_outputs: list[str] = []
 
         # Build step_results dict from the WorkflowResult so the evaluator
         # can resolve ${steps.X.outputs.Y} references.
         step_results = {s.step_name: s for s in result.steps}
+        evaluator = ExpressionEvaluator(ctx, step_results)
 
         for name, output_def in definition.outputs.items():
             from_expr = output_def.from_expr
-            if not from_expr:
+            if from_expr in ("", None):
                 continue
 
-            # Resolve ${...} references against context
-            evaluator = ExpressionEvaluator(ctx, step_results)
             try:
-                value = evaluator.resolve_variable(
-                    from_expr.strip().lstrip("${").rstrip("}")
-                )
+                value = WorkflowRunner._resolve_output_expr(evaluator, from_expr)
                 outputs[name] = value
+                if value is None and not output_def.optional:
+                    unresolved_required_outputs.append(name)
+                    logger.warning(
+                        "Required output '%s' resolved to None from '%s'",
+                        name,
+                        from_expr,
+                    )
             except Exception:
                 if not output_def.optional:
+                    unresolved_required_outputs.append(name)
                     logger.warning(
                         "Failed to resolve required output '%s' from '%s'",
                         name,
@@ -249,7 +255,37 @@ class WorkflowRunner:
                     )
                 outputs[name] = None
 
+        if unresolved_required_outputs:
+            result.metadata["unresolved_required_outputs"] = sorted(
+                set(unresolved_required_outputs)
+            )
+        else:
+            result.metadata.pop("unresolved_required_outputs", None)
+
         return outputs
+
+    @staticmethod
+    def _resolve_output_expr(
+        evaluator: ExpressionEvaluator,
+        from_expr: Any,
+    ) -> Any:
+        """Resolve workflow output expressions from string/dict/list mappings."""
+        if isinstance(from_expr, str):
+            expr = from_expr.strip()
+            if expr.startswith("${") and expr.endswith("}"):
+                expr = expr[2:-1].strip()
+            return evaluator.resolve_variable(expr)
+
+        if isinstance(from_expr, dict):
+            resolved: dict[str, Any] = {}
+            for key, value in from_expr.items():
+                resolved[key] = WorkflowRunner._resolve_output_expr(evaluator, value)
+            return resolved
+
+        if isinstance(from_expr, list):
+            return [WorkflowRunner._resolve_output_expr(evaluator, item) for item in from_expr]
+
+        return from_expr
 
 
 # -------------------------------------------------------------------------

@@ -311,6 +311,70 @@ class TestWorkflowRunnerConditionalExecution:
 
 
 # ---------------------------------------------------------------------------
+# WorkflowRunner – output resolution metadata
+# ---------------------------------------------------------------------------
+
+
+class TestWorkflowRunnerOutputResolution:
+    """Required output resolution should annotate unresolved outputs."""
+
+    @pytest.mark.asyncio
+    async def test_unresolved_required_output_flagged(self):
+        """Missing required output is recorded in result metadata."""
+
+        async def producer(ctx):
+            return {"present": "value"}
+
+        from agentic_v2.workflows.loader import WorkflowDefinition, WorkflowOutput
+
+        dag = DAG("required_missing")
+        dag.add(StepDefinition(name="producer", func=producer))
+        definition = WorkflowDefinition(
+            name="required_missing",
+            dag=dag,
+            outputs={
+                "required_result": WorkflowOutput(
+                    name="required_result",
+                    from_expr="${steps.producer.outputs.missing}",
+                    optional=False,
+                )
+            },
+        )
+
+        runner = WorkflowRunner()
+        result = await runner.run_definition(definition)
+        assert "unresolved_required_outputs" in result.metadata
+        assert "required_result" in result.metadata["unresolved_required_outputs"]
+
+    @pytest.mark.asyncio
+    async def test_resolved_output_no_flag(self):
+        """Resolved required output does not produce unresolved metadata."""
+
+        async def producer(ctx):
+            return {"present": "value"}
+
+        from agentic_v2.workflows.loader import WorkflowDefinition, WorkflowOutput
+
+        dag = DAG("required_present")
+        dag.add(StepDefinition(name="producer", func=producer))
+        definition = WorkflowDefinition(
+            name="required_present",
+            dag=dag,
+            outputs={
+                "required_result": WorkflowOutput(
+                    name="required_result",
+                    from_expr="${steps.producer.outputs.present}",
+                    optional=False,
+                )
+            },
+        )
+
+        runner = WorkflowRunner()
+        result = await runner.run_definition(definition)
+        assert not result.metadata.get("unresolved_required_outputs")
+
+
+# ---------------------------------------------------------------------------
 # WorkflowExecutor – DAG branch
 # ---------------------------------------------------------------------------
 

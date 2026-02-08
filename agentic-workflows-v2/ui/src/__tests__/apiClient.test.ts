@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { listWorkflows, getWorkflowDAG, listRuns } from "../api/client";
+import {
+  getWorkflowDAG,
+  listEvaluationDatasets,
+  listRuns,
+  listWorkflows,
+} from "../api/client";
 
 describe("API client", () => {
   beforeEach(() => {
@@ -40,6 +45,18 @@ describe("API client", () => {
     const url = (fetch as ReturnType<typeof vi.fn>).mock.calls[0]?.[0] as string;
     expect(url).toContain("workflow=code_review");
     expect(url).toContain("limit=10");
+  });
+
+  it("listEvaluationDatasets fetches /api/eval/datasets", async () => {
+    const mockResponse = { repository: [], local: [] };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockResponse),
+    } as Response);
+
+    const result = await listEvaluationDatasets();
+    expect(result).toEqual(mockResponse);
+    expect(fetch).toHaveBeenCalledWith("/api/eval/datasets", undefined);
   });
 
   it("throws on non-OK response", async () => {

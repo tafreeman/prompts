@@ -58,6 +58,14 @@ function EventLine({ event }: { event: ExecutionEvent }) {
       color = event.status === "success" ? "text-green-400" : "text-red-400";
       message = `Workflow ${event.status}`;
       break;
+    case "evaluation_start":
+      color = "text-amber-400";
+      message = "Evaluation started";
+      break;
+    case "evaluation_complete":
+      color = event.passed ? "text-green-400" : "text-amber-400";
+      message = `Evaluation complete: ${event.weighted_score.toFixed(1)} (${event.grade})`;
+      break;
     case "error":
       color = "text-red-500";
       message = `Error: ${event.error}`;

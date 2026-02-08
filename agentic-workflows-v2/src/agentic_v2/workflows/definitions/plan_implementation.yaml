@@ -4,6 +4,7 @@
 # Target: Self-contained module that runs in WSL or native Linux
 
 version: "1.0.0"
+experimental: true
 
 workflow:
   name: Agentic-Workflows-V2 Implementation

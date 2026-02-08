@@ -121,30 +121,114 @@ class ExpressionEvaluator:
         return views
 
     def _resolve_path(self, path: str) -> Any:
-        parts = path.split(".")
-        source = parts[0]
+        tokens = self._parse_path(path)
+        if not tokens:
+            return None
 
-        if source == "steps" and len(parts) > 1:
-            step_name = parts[1]
-            step = self._build_step_views().get(step_name)
-            return self._navigate(step, parts[2:])
+        source = tokens[0]
+        if source == "steps":
+            if len(tokens) < 2 or not isinstance(tokens[1], str):
+                return None
+            step_name = tokens[1]
+            step = self._get_step_view(step_name)
+            return self._navigate(step, tokens[2:])
 
         if source == "ctx":
-            return self._navigate(self.ctx.all_variables(), parts[1:])
+            return self._navigate(self.ctx.all_variables(), tokens[1:])
 
-        return self._navigate(self.ctx.all_variables(), parts)
+        return self._navigate(self.ctx.all_variables(), tokens)
 
-    def _navigate(self, obj: Any, path: list[str]) -> Any:
+    def _navigate(self, obj: Any, path: list[Any]) -> Any:
         for key in path:
             if obj is None:
                 return None
-            if isinstance(obj, dict):
+            if isinstance(key, int):
+                if isinstance(obj, (list, tuple)) and 0 <= key < len(obj):
+                    obj = obj[key]
+                else:
+                    return None
+            elif isinstance(obj, dict):
                 obj = obj.get(key)
             elif hasattr(obj, key):
                 obj = getattr(obj, key)
             else:
                 return None
         return obj
+
+    def _get_step_view(self, step_name: str) -> Any:
+        """Merge explicit step_results with context-captured step data."""
+        step_views = self._build_step_views()
+        view = step_views.get(step_name)
+
+        ctx_steps = self.ctx.all_variables().get("steps")
+        ctx_step = None
+        if isinstance(ctx_steps, dict):
+            ctx_step = ctx_steps.get(step_name)
+
+        if isinstance(view, StepResultView):
+            merged: dict[str, Any] = {
+                "status": view.status,
+                "output": view.output,
+                "outputs": view.outputs,
+                "error": view.error,
+                "error_type": view.error_type,
+                "completed_at": view.completed_at,
+            }
+            if isinstance(ctx_step, dict):
+                merged.update(ctx_step)
+            if "outputs" in merged and "output" not in merged:
+                merged["output"] = merged["outputs"]
+            return merged
+
+        if isinstance(ctx_step, dict):
+            if "outputs" in ctx_step and "output" not in ctx_step:
+                normalized = dict(ctx_step)
+                normalized["output"] = normalized["outputs"]
+                return normalized
+            return ctx_step
+
+        return view
+
+    @staticmethod
+    def _parse_path(path: str) -> list[Any]:
+        """Parse a dotted path with optional list indexes (e.g. a.b[0].c)."""
+        tokens: list[Any] = []
+        buffer = ""
+        i = 0
+
+        while i < len(path):
+            char = path[i]
+            if char == ".":
+                if buffer:
+                    tokens.append(buffer)
+                    buffer = ""
+                i += 1
+                continue
+
+            if char == "[":
+                if buffer:
+                    tokens.append(buffer)
+                    buffer = ""
+                end = path.find("]", i + 1)
+                if end == -1:
+                    return []
+                index_text = path[i + 1:end].strip()
+                if index_text.startswith(("'", '"')) and index_text.endswith(("'", '"')):
+                    tokens.append(index_text[1:-1])
+                else:
+                    try:
+                        tokens.append(int(index_text))
+                    except ValueError:
+                        tokens.append(index_text)
+                i = end + 1
+                continue
+
+            buffer += char
+            i += 1
+
+        if buffer:
+            tokens.append(buffer)
+        return tokens
 
     def _validate_ast(self, node: ast.AST) -> None:
         allowed_nodes = (

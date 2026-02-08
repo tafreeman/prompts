@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -24,6 +24,9 @@ class WorkflowRunRequest(BaseModel):
         default_factory=dict, description="Input variables"
     )
     run_id: Optional[str] = Field(None, description="Unique run identifier")
+    evaluation: Optional["WorkflowEvaluationRequest"] = Field(
+        None, description="Optional evaluation settings for scored runs"
+    )
 
 
 class WorkflowRunResponse(BaseModel):
@@ -112,6 +115,8 @@ class RunSummaryModel(BaseModel):
     failed_step_count: Optional[int] = None
     start_time: Optional[str] = None
     end_time: Optional[str] = None
+    evaluation_score: Optional[float] = None
+    evaluation_grade: Optional[str] = None
 
 
 class RunsSummaryResponse(BaseModel):
@@ -122,3 +127,33 @@ class RunsSummaryResponse(BaseModel):
     failed: int = 0
     avg_duration_ms: Optional[float] = None
     workflows: list[str] = []
+
+
+class WorkflowEvaluationRequest(BaseModel):
+    """Optional evaluation request payload for /api/run."""
+
+    enabled: bool = False
+    enforce_hard_gates: bool = True
+    dataset_source: Literal["none", "repository", "local"] = "none"
+    dataset_id: Optional[str] = None
+    local_dataset_path: Optional[str] = None
+    sample_index: int = Field(default=0, ge=0)
+    rubric: Optional[str] = None
+    rubric_id: Optional[str] = None
+
+
+class EvaluationDatasetOption(BaseModel):
+    """Single dataset option for UI selection."""
+
+    id: str
+    name: str
+    source: Literal["repository", "local"]
+    description: str = ""
+    sample_count: Optional[int] = None
+
+
+class ListEvaluationDatasetsResponse(BaseModel):
+    """Repository and local dataset options."""
+
+    repository: list[EvaluationDatasetOption] = []
+    local: list[EvaluationDatasetOption] = []

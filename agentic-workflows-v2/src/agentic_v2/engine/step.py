@@ -283,7 +283,7 @@ class StepExecutor:
         # Prepare inputs
         child_ctx = ctx.child(step_def.name)
         for step_input, ctx_var in step_def.input_mapping.items():
-            value = await ctx.get(ctx_var)
+            value = self._resolve_input_mapping_value(ctx, ctx_var)
             await child_ctx.set(step_input, value)
 
         # Execute with retry
@@ -414,6 +414,20 @@ class StepExecutor:
             if await self.cancel(name):
                 count += 1
         return count
+
+    @staticmethod
+    def _resolve_input_mapping_value(ctx: ExecutionContext, mapping_value: Any) -> Any:
+        """Resolve input mapping values, including ${...} expressions."""
+        if not isinstance(mapping_value, str):
+            return mapping_value
+
+        expr = mapping_value.strip()
+        if expr.startswith("${") and expr.endswith("}"):
+            from .expressions import ExpressionEvaluator
+
+            return ExpressionEvaluator(ctx).resolve_variable(expr[2:-1].strip())
+
+        return ctx.get_sync(mapping_value)
 
 
 # Convenience function for simple step execution

@@ -4,16 +4,19 @@ Tier-based multi-model AI workflow orchestration.
 
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
-[![Status](https://img.shields.io/badge/status-Phase%202-yellow)]()
+[![Status](https://img.shields.io/badge/status-Eval%20Phase%200%20Complete-blue)]()
 
 ## 📋 Implementation Status
 
 | Phase | Status | Details |
-|-------|--------|---------|
+|-------|--------|--------|
 | **Phase 1** | ✅ Complete | [IMPLEMENTATION_PLAN_V1_COMPLETE.md](docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md) |
-| **Phase 2** | ✅ Complete (2D) / 🚧 Polish | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
+| **Phase 2** | ✅ Complete (2D) | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
+| **Eval Phase 0** | ✅ Complete | Scoring, hard gates, normalization, profiles, rubrics |
 
-**Current:** Phase 2D tools + memory/context improvements are implemented. See `docs/` for details.
+**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics. See [consolidated plan](../docs/planning/workflow-eval-consolidated-plan.md) for the full roadmap.
+
+For active vs legacy module mapping, see [ACTIVE_VS_LEGACY_TOOLING_MAP.md](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md).
 
 ## Installation
 
@@ -57,6 +60,58 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
+## Run The App (API + UI)
+
+Run the full app (FastAPI backend serving the built UI):
+
+```bash
+cd agentic-workflows-v2
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
+```
+
+Open:
+
+- App UI: `http://127.0.0.1:8010`
+- Health: `http://127.0.0.1:8010/api/health`
+
+Notes:
+
+- Port `8000` may already be used on some machines. `8010` is a safe default.
+- The app serves `ui/dist` via SPA fallback from the backend.
+
+### Frontend dev mode (optional)
+
+For hot-reload UI development:
+
+```bash
+# terminal 1
+cd agentic-workflows-v2
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000 --app-dir src
+
+# terminal 2
+cd agentic-workflows-v2/ui
+npm run dev
+```
+
+Vite runs on `http://127.0.0.1:5173` and proxies `/api` + `/ws` to `http://localhost:8000`.
+
+## Workflow Evaluation UI
+
+The UI supports running and scoring workflows in one pass:
+
+1. Select a workflow.
+2. Enable evaluation.
+3. Choose dataset source (`repository` or `local`).
+4. Pick dataset + sample index.
+5. Run and monitor live workflow + evaluation events.
+
+API endpoints used by this flow:
+
+- `GET /api/eval/datasets`
+- `POST /api/run` (with optional `evaluation` payload)
+- `GET /api/runs`, `GET /api/runs/{filename}`
+- `GET /api/runs/{run_id}/stream` (SSE)
+
 ## Features
 
 - **Tier-based routing**: Route tasks to appropriate model sizes
@@ -77,9 +132,8 @@ If you want the built-in persistent memory tools to write to a specific file, se
 - API Reference: `docs/API_REFERENCE.md`
 - Tutorials: `docs/tutorials/`
 - Architecture decisions (ADRs): `docs/adr/`
+- Active vs Legacy Tooling: `docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md`
 - Examples: `examples/`
-
-To build the API docs locally see `docs/API_REFERENCE.md` for Sphinx/MkDocs instructions.
 
 ## Developer tooling
 
@@ -94,3 +148,26 @@ pre-commit run --all-files
 ```
 
 Recommended VS Code extensions: `ms-python.python`, `ms-python.vscode-pylance`, and `njpwerner.autodocstring`.
+
+## Testing
+
+Backend (full suite):
+
+```bash
+cd agentic-workflows-v2
+python -m pytest tests/ -v
+```
+
+Backend (evaluation-specific):
+
+```bash
+python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py tests/test_server_workflow_routes.py -v
+```
+
+UI:
+
+```bash
+cd agentic-workflows-v2/ui
+npm test
+npm run build
+```

@@ -1,6 +1,7 @@
 import type {
   AgentInfo,
   DAGResponse,
+  EvaluationDatasetsResponse,
   RunDetail,
   RunSummary,
   RunsSummary,
@@ -57,6 +58,11 @@ export function runWorkflow(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(request),
   });
+}
+
+/** List repository and local datasets for evaluation mode. */
+export function listEvaluationDatasets(): Promise<EvaluationDatasetsResponse> {
+  return fetchJSON(`${BASE}/eval/datasets`);
 }
 
 /** List available agents. */

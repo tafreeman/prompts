@@ -51,6 +51,25 @@ class TestWorkflowLoaderBasic:
         with pytest.raises(WorkflowLoadError, match="not found"):
             loader.load("nonexistent_workflow")
 
+    def test_list_workflows_excludes_experimental(self):
+        """Experimental workflows are hidden from default list."""
+        loader = WorkflowLoader()
+        workflows = loader.list_workflows()
+        assert "plan_implementation" not in workflows
+
+    def test_list_workflows_includes_experimental_flag(self):
+        """include_experimental=True surfaces experimental workflows."""
+        loader = WorkflowLoader()
+        workflows = loader.list_workflows(include_experimental=True)
+        assert "plan_implementation" in workflows
+
+    def test_load_experimental_workflow_still_works(self):
+        """Experimental workflow remains loadable by explicit name."""
+        loader = WorkflowLoader()
+        workflow = loader.load("plan_implementation")
+        assert workflow.experimental is True
+        assert len(workflow.dag.steps) > 0
+
 
 class TestWorkflowLoaderDAG:
     """Tests for DAG construction from workflows."""
@@ -144,6 +163,21 @@ class TestWorkflowLoaderOutputs:
         assert "review" in workflow.outputs
         assert "summary" in workflow.outputs
         assert workflow.outputs["summary"].optional is True
+
+    def test_workflow_yaml_selects_profile(self):
+        """Workflow evaluation block includes scoring profile."""
+        loader = WorkflowLoader()
+        workflow = loader.load("code_review")
+        assert workflow.evaluation is not None
+        assert workflow.evaluation.scoring_profile == "B"
+
+    def test_rubric_criterion_has_anchored_scale(self):
+        """Loaded rubric criteria include anchored scale definitions."""
+        loader = WorkflowLoader()
+        workflow = loader.load("code_review")
+        assert workflow.evaluation is not None
+        assert workflow.evaluation.criteria
+        assert workflow.evaluation.criteria[0].scale
 
 
 class TestWorkflowLoaderCaching:
@@ -258,6 +292,33 @@ steps:
 
             with pytest.raises(WorkflowLoadError, match="must have a 'name'"):
                 loader.load("no_name")
+
+    def test_rubric_unknown_formula_id_rejected(self):
+        """Unknown criterion formula_id is rejected during load."""
+        with TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+
+            workflow_yaml = """
+name: bad_formula
+evaluation:
+  criteria:
+    - name: correctness
+      definition: test
+      evidence_required: []
+      scale:
+        "1": bad
+        "5": good
+      weight: 1.0
+      formula_id: unknown_formula
+steps:
+  - name: step1
+    agent: tier2_coder
+"""
+            (tmppath / "bad_formula.yaml").write_text(workflow_yaml)
+
+            loader = WorkflowLoader(definitions_dir=tmppath)
+            with pytest.raises(WorkflowLoadError, match="unknown formula_id"):
+                loader.load("bad_formula")
 
 
 class TestConvenienceFunctions:

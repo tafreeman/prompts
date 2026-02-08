@@ -2,6 +2,66 @@ name: code_review
 description: Automated code review workflow with tiered models
 version: "1.0"
 
+capabilities:
+  inputs: [code_file, review_depth]
+  outputs: [review, summary]
+
+evaluation:
+  rubric_id: code_review_v1
+  scoring_profile: B
+  criteria:
+    - name: correctness_rubric
+      definition: Review output correctness and requirement alignment.
+      evidence_required:
+        - Requirement-to-review mapping
+        - No contradiction with code facts
+      scale:
+        "1": Major requirement failures
+        "2": Multiple significant errors
+        "3": Minimum acceptable correctness
+        "4": Accurate with minor issues
+        "5": Fully correct and robust
+      weight: 0.35
+      critical_floor: 0.70
+      formula_id: zero_one
+    - name: code_quality
+      definition: Quality and actionability of code feedback.
+      evidence_required:
+        - Specific issues identified
+      scale:
+        "1": No useful quality feedback
+        "2": Limited quality feedback
+        "3": Basic actionable feedback
+        "4": Strong actionable feedback
+        "5": Comprehensive high-value feedback
+      weight: 0.30
+      critical_floor: 0.80
+      formula_id: zero_one
+    - name: efficiency
+      definition: Execution/runtime efficiency.
+      evidence_required:
+        - Reasonable duration and retries
+      scale:
+        "1": Excessive latency/retries
+        "2": High latency/retries
+        "3": Acceptable latency/retries
+        "4": Good latency/retries
+        "5": Excellent latency/retries
+      weight: 0.20
+      formula_id: zero_one
+    - name: documentation
+      definition: Clarity of final summary/documentation.
+      evidence_required:
+        - Readable summary
+      scale:
+        "1": Unclear and incomplete
+        "2": Hard to follow
+        "3": Adequate clarity
+        "4": Clear and structured
+        "5": Excellent clarity
+      weight: 0.15
+      formula_id: zero_one
+
 # Workflow inputs
 inputs:
   code_file:

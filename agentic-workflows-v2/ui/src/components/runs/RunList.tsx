@@ -66,6 +66,9 @@ export default function RunList({ runs, isLoading }: Props) {
                 Duration
               </th>
               <th className="px-4 py-3 text-xs font-medium text-gray-500">
+                Score
+              </th>
+              <th className="px-4 py-3 text-xs font-medium text-gray-500">
                 Time
               </th>
             </tr>
@@ -74,7 +77,7 @@ export default function RunList({ runs, isLoading }: Props) {
             {filtered?.length === 0 && (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-8 text-center text-gray-600"
                 >
                   No runs found
@@ -116,6 +119,15 @@ export default function RunList({ runs, isLoading }: Props) {
                     ms={run.total_duration_ms}
                     className="text-gray-400"
                   />
+                </td>
+                <td className="px-4 py-3 text-xs">
+                  {run.evaluation_score != null ? (
+                    <span className="rounded bg-amber-500/10 px-2 py-1 text-amber-300">
+                      {run.evaluation_score.toFixed(1)}
+                    </span>
+                  ) : (
+                    <span className="text-gray-600">--</span>
+                  )}
                 </td>
                 <td className="px-4 py-3 text-xs text-gray-600">
                   {run.start_time

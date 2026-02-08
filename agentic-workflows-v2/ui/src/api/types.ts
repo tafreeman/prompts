@@ -51,6 +51,8 @@ export interface RunSummary {
   failed_step_count: number | null;
   start_time: string | null;
   end_time: string | null;
+  evaluation_score?: number | null;
+  evaluation_grade?: string | null;
 }
 
 /** Full run detail (from GET /api/runs/{filename}). */
@@ -65,6 +67,12 @@ export interface RunDetail {
   start_time: string;
   end_time: string;
   steps: StepResult[];
+  dataset?: Record<string, unknown> | null;
+  extra?: {
+    evaluation_requested?: boolean;
+    evaluation?: EvaluationResult | null;
+    [key: string]: unknown;
+  } | null;
 }
 
 export interface StepResult {
@@ -93,12 +101,55 @@ export interface WorkflowRunRequest {
   workflow: string;
   input_data: Record<string, unknown>;
   run_id?: string;
+  evaluation?: WorkflowEvaluationRequest;
 }
 
 /** POST /api/run response. */
 export interface WorkflowRunResponse {
   run_id: string;
   status: StepStatus;
+}
+
+export interface WorkflowEvaluationRequest {
+  enabled: boolean;
+  dataset_source: "none" | "repository" | "local";
+  dataset_id?: string;
+  local_dataset_path?: string;
+  sample_index?: number;
+  rubric?: string;
+}
+
+export interface EvaluationDatasetOption {
+  id: string;
+  name: string;
+  source: "repository" | "local";
+  description: string;
+  sample_count: number | null;
+}
+
+export interface EvaluationDatasetsResponse {
+  repository: EvaluationDatasetOption[];
+  local: EvaluationDatasetOption[];
+}
+
+export interface EvaluationCriterionScore {
+  criterion: string;
+  score: number;
+  weight: number;
+  max_score: number;
+}
+
+export interface EvaluationResult {
+  enabled: boolean;
+  rubric: string;
+  criteria: EvaluationCriterionScore[];
+  overall_score: number;
+  weighted_score: number;
+  grade: string;
+  passed: boolean;
+  pass_threshold: number;
+  generated_at: string;
+  dataset?: Record<string, unknown> | null;
 }
 
 /** WebSocket execution events. */
@@ -116,6 +167,19 @@ export type ExecutionEvent =
       timestamp: string;
     }
   | { type: "workflow_end"; run_id: string; status: string; timestamp: string }
+  | { type: "evaluation_start"; run_id: string; timestamp: string }
+  | {
+      type: "evaluation_complete";
+      run_id: string;
+      rubric: string;
+      weighted_score: number;
+      overall_score: number;
+      grade: string;
+      passed: boolean;
+      pass_threshold: number;
+      criteria: EvaluationCriterionScore[];
+      timestamp: string;
+    }
   | { type: "error"; run_id: string; error: string }
   | { type: "keepalive" }
   | { type: "connection_established"; run_id: string; message: string };

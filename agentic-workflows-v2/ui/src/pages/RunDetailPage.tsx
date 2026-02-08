@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Clock, Percent } from "lucide-react";
+import { ArrowLeft, Clock, Percent, Trophy } from "lucide-react";
 import { useRunDetail } from "../hooks/useRuns";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import WorkflowDAG from "../components/dag/WorkflowDAG";
@@ -44,6 +44,7 @@ export default function RunDetailPage() {
       },
     ])
   );
+  const successPercent = run.success_rate <= 1 ? run.success_rate * 100 : run.success_rate;
 
   return (
     <div className="flex h-full flex-col">
@@ -57,13 +58,19 @@ export default function RunDetailPage() {
           <p className="text-xs text-gray-600">{run.run_id}</p>
         </div>
         <div className="flex items-center gap-4 text-sm text-gray-400">
+          {run.extra?.evaluation && (
+            <span className="flex items-center gap-1 text-amber-300">
+              <Trophy className="h-4 w-4" />
+              {run.extra.evaluation.weighted_score.toFixed(1)}
+            </span>
+          )}
           <span className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
             <DurationDisplay ms={run.total_duration_ms} />
           </span>
           <span className="flex items-center gap-1">
             <Percent className="h-4 w-4" />
-            {(run.success_rate * 100).toFixed(0)}%
+            {successPercent.toFixed(0)}%
           </span>
           <StatusBadge status={run.status as StepStatus} size="md" />
         </div>
@@ -89,6 +96,35 @@ export default function RunDetailPage() {
 
         {/* Step panels */}
         <div className="w-[450px] overflow-y-auto border-l border-white/5 p-4">
+          {run.extra?.evaluation && (
+            <div className="mb-3 rounded-lg border border-white/10 bg-surface-1 p-3">
+              <div className="mb-2 text-xs uppercase tracking-wide text-gray-500">
+                Evaluation Result
+              </div>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-2xl font-semibold text-gray-100">
+                    {run.extra.evaluation.weighted_score.toFixed(1)}
+                  </div>
+                  <div className="text-xs text-gray-500">Weighted / 100</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-medium text-gray-300">
+                    Grade {run.extra.evaluation.grade}
+                  </div>
+                  <div
+                    className={`text-xs ${
+                      run.extra.evaluation.passed
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {run.extra.evaluation.passed ? "Passed" : "Did not pass"}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <h2 className="mb-3 text-sm font-medium text-gray-400">
             Steps ({run.steps.length})
           </h2>
