@@ -38,7 +38,7 @@ agentic = "agentic_v2.cli:main"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/agentic_v2"]
+packages = ["agentic_v2"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

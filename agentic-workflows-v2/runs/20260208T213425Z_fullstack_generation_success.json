@@ -1,0 +1,655 @@
+{
+  "run_id": "fullstack_generation-a593313e",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 100.0,
+  "total_duration_ms": 38007.715,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-08T21:33:47.489366+00:00",
+  "end_time": "2026-02-08T21:34:25.497081+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "sample_index": 1,
+    "task_id": "1",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "feature_spec": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nDevelop a function that will add two strings\n\n### Input:\nstr1 = \"Hello \"\nstr2 = \"world\"\n\n### Response:\ndef add_strings(str1, str2):\n    \"\"\"This function takes two strings and returns the sum of them.\"\"\"\n    return str1 + str2\n\nstr1 = \"Hello \"\nstr2 = \"world\"\nsum_of_strings = add_strings(str1, str2)",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 0.5730000000000001,
+      "retry_count": 0,
+      "tokens_used": 1170,
+      "input": {},
+      "output": {
+        "raw_response": "{\n  \"api_spec\": {\n    \"endpoints\": [\n      {\n        \"path\": \"/strings/add\",\n        \"method\": \"POST\",\n        \"summary\": \"Concatenate two strings\",\n        \"description\": \"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\",\n        \"request_body\": {\n          \"description\": \"Payload containing two strings to be concatenated.\",\n          \"content\": {\n            \"application/json\": {\n              \"schema\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"str1\": {\n                    \"type\": \"string\",\n                    \"description\": \"The first string for concatenation.\"\n                  },\n                  \"str2\": {\n                    \"type\": \"string\",\n                    \"description\": \"The second string for concatenation.\"\n                  }\n                },\n                \"required\": [\"str1\", \"str2\"]\n              }\n            }\n          }\n        },\n        \"responses\": {\n          \"200\": {\n            \"description\": \"Successfully concatenated strings.\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"result\": {\n                      \"type\": \"string\",\n                      \"description\": \"The concatenated string.\"\n                    }\n                  }\n                }\n              }\n            }\n          },\n          \"400\": {\n            \"description\": \"Invalid input provided (e.g., non-string values or missing parameters).\"\n          },\n          \"500\": {\n            \"description\": \"Internal server error.\"\n          }\n        }\n      }\n    ]\n  },\n  \"db_schema\": {\n    \"tables\": []\n  },\n  \"component_tree\": {\n    \"frontend\": {\n      \"name\": \"React Application\",\n      \"description\": \"The user interface built with React, responsible for collecting string inputs and displaying the concatenation result.\",\n      \"components\": [\n        {\n          \"name\":"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:47.489767+00:00",
+      "end_time": "2026-02-08T21:33:47.490340+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gh:openai/gpt-4o-mini",
+      "duration_ms": 0.755,
+      "retry_count": 0,
+      "tokens_used": 1245,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "migration_name": "create_strings_table",
+            "description": "Creates a table for storing strings if needed in the future.",
+            "up": [
+              {
+                "command": "CREATE TABLE strings (",
+                "parameters": [
+                  "id SERIAL PRIMARY KEY",
+                  "str1 VARCHAR(255)",
+                  "str2 VARCHAR(255)",
+                  "result VARCHAR(255)"
+                ],
+                "command_end": ");"
+              }
+            ],
+            "down": [
+              {
+                "command": "DROP TABLE IF EXISTS strings;"
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:47.490656+00:00",
+      "end_time": "2026-02-08T21:33:47.491411+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 0.8310000000000001,
+      "retry_count": 0,
+      "tokens_used": 1563,
+      "input": {},
+      "output": {
+        "api_code": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass StringInput(BaseModel):\n    str1: str\n    str2: str\n\nclass StringOutput(BaseModel):\n    result: str\n\n@app.post(\"/strings/add\", response_model=StringOutput, summary=\"Concatenate two strings\", description=\"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\")\nasync def add_strings(string_input: StringInput):\n    \"\"\"Concatenates two strings and returns the result.\"\"\"\n    try:\n        result = string_input.str1 + string_input.str2\n        return StringOutput(result=result)\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n",
+        "api_tests": "from fastapi.testclient import TestClient\nfrom main import app  # Assuming your FastAPI app is in main.py\n\nclient = TestClient(app)\n\ndef test_add_strings_success():\n    response = client.post(\"/strings/add\", json={\"str1\": \"Hello \", \"str2\": \"world\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"Hello world\"}\n\ndef test_add_strings_empty_strings():\n    response = client.post(\"/strings/add\", json={\"str1\": \"\", \"str2\": \"\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"\"}\n\ndef test_add_strings_with_numbers():\n     response = client.post(\"/strings/add\", json={\"str1\": \"123\", \"str2\": \"456\"})\n     assert response.status_code == 200\n     assert response.json() == {\"result\": \"123456\"}\n\ndef test_add_strings_missing_parameter():\n    response = client.post(\"/strings/add\", json={\"str1\": \"test\"})\n    assert response.status_code == 422 #Unprocessable Entity\n"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:47.490473+00:00",
+      "end_time": "2026-02-08T21:33:47.491304+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 0.79,
+      "retry_count": 0,
+      "tokens_used": 2486,
+      "input": {},
+      "output": {
+        "ui_code": {
+          "StringAdder.jsx": "import React, { useState } from 'react';\n\nfunction StringAdder() {\n  const [str1, setStr1] = useState('');\n  const [str2, setStr2] = useState('');\n  const [result, setResult] = useState('');\n  const [error, setError] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n\n    try {\n      const response = await fetch('/strings/add', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ str1, str2 }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        setError(errorData.detail || 'An error occurred');\n        setResult('');\n        return;\n      }\n\n      const data = await response.json();\n      setResult(data.result);\n      setError('');\n    } catch (err) {\n      setError(err.message || 'An unexpected error occurred');\n      setResult('');\n    }\n  };\n\n  return (\n    <div>\n      <form onSubmit={handleSubmit}>\n        <div>\n          <label htmlFor=\"str1\">String 1:</label>\n          <input\n            type=\"text\"\n            id=\"str1\"\n            value={str1}\n            onChange={(e) => setStr1(e.target.value)}\n          />\n        </div>\n        <div>\n          <label htmlFor=\"str2\">String 2:</label>\n          <input\n            type=\"text\"\n            id=\"str2\"\n            value={str2}\n            onChange={(e) => setStr2(e.target.value)}\n          />\n        </div>\n        <button type=\"submit\">Add Strings</button>\n      </form>\n      {error && <div style={{ color: 'red' }}>Error: {error}</div>}\n      {result && <div>Result: {result}</div>}\n    </div>\n  );\n}\n\nexport default StringAdder;\n",
+          "App.jsx": "import React from 'react';\nimport StringAdder from './StringAdder';\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <h1>String Adder</h1>\n      <StringAdder />\n    </div>\n  );\n}\n\nexport default App;"
+        },
+        "ui_tests": {
+          "StringAdder.test.jsx": "import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport StringAdder from './StringAdder';\nimport '@testing-library/jest-dom/extend-expect';\n\n// Mock the fetch function\nglobal.fetch = jest.fn();\n\ndescribe('StringAdder Component', () => {\n  beforeEach(() => {\n    fetch.mockClear();\n  });\n\n  it('renders the component', () => {\n    render(<StringAdder />);\n    expect(screen.getByText('String 1:')).toBeInTheDocument();\n    expect(screen.getByText('String 2:')).toBeInTheDocument();\n    expect(screen.getByText('Add Strings')).toBeInTheDocument();\n  });\n\n  it('updates the input values', () => {\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n\n    expect(str1Input.value).toBe('Hello');\n    expect(str2Input.value).toBe('World');\n  });\n\n  it('submits the form and displays the result', async () => {\n    fetch.mockResolvedValue({\n      ok: true,\n      json: () => Promise.resolve({ result: 'HelloWorld' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(fetch).toHaveBeenCalledTimes(1);\n      expect(fetch).toHaveBeenCalledWith(\n        '/strings/add',\n        {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ str1: 'Hello', str2: 'World' }),\n        }\n      );\n    });\n\n    await waitFor(() => {\n      expect(screen.getByText('Result: HelloWorld')).toBeInTheDocument();\n    });\n  });\n\n  it('displays an error message when the API returns an error', async () => {\n    fetch.mockResolvedValue({\n      ok: false,\n      json: () => Promise.resolve({ detail: 'Invalid input' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Invalid' } });\n    fireEvent.change(str2Input, { target: { value: 'Input' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Invalid input')).toBeInTheDocument();\n    });\n  });\n\n  it('displays a generic error message on network error', async () => {\n    fetch.mockRejectedValue(new Error('Network error'));\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Test' } });\n    fireEvent.change(str2Input, { target: { value: 'Test' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Network error')).toBeInTheDocument();\n    });\n  });\n});"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:47.490576+00:00",
+      "end_time": "2026-02-08T21:33:47.491366+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 6394.297,
+      "retry_count": 0,
+      "tokens_used": 6719,
+      "input": {},
+      "output": {
+        "integration_tests": [
+          {
+            "test_name": "End-to-end string concatenation",
+            "description": "Tests the entire flow from the frontend input, API call, and display of the result.",
+            "steps": [
+              {
+                "step": "Render the StringAdder component",
+                "action": "Use React testing library to render the StringAdder component.",
+                "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+              },
+              {
+                "step": "Enter strings into the input fields",
+                "action": "Simulate user input by entering 'test1' into the 'String 1' field and 'test2' into the 'String 2' field.",
+                "assertion": "Verify that the input fields' values are updated to 'test1' and 'test2' respectively."
+              },
+              {
+                "step": "Submit the form",
+                "action": "Simulate a click on the 'Add Strings' button.",
+                "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+              },
+              {
+                "step": "Verify the API request",
+                "action": "Intercept the fetch request and verify its details.",
+                "assertion": "Confirm that the request method is 'POST', the endpoint is '/strings/add', the Content-Type header is 'application/json', and the request body contains the JSON payload { str1: 'test1', str2: 'test2' }."
+              },
+              {
+                "step": "Mock API response",
+                "action": "Mock a successful API response with a 200 status code and a JSON payload { result: 'test1test2' }.",
+                "assertion": "N/A"
+              },
+              {
+                "step": "Verify the result is displayed",
+                "action": "Wait for the component to update.",
+                "assertion": "Assert that the component displays 'Result: test1test2' on the screen."
+              }
+            ]
+          },
+          {
+            "test_name": "End-to-end error handling",
+            "description": "Tests the entire flow when the API returns an error.",
+            "steps": [
+              {
+                "step": "Render the StringAdder component",
+                "action": "Use React testing library to render the StringAdder component.",
+                "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+              },
+              {
+                "step": "Enter strings into the input fields",
+                "action": "Simulate user input by entering 'error1' into the 'String 1' field and 'error2' into the 'String 2' field.",
+                "assertion": "Verify that the input fields' values are updated to 'error1' and 'error2' respectively."
+              },
+              {
+                "step": "Submit the form",
+                "action": "Simulate a click on the 'Add Strings' button.",
+                "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+              },
+              {
+                "step": "Mock API error response",
+                "action": "Mock an API error response with a 400 status code and a JSON payload { detail: 'Invalid input' }.",
+                "assertion": "N/A"
+              },
+              {
+                "step": "Verify the error message is displayed",
+                "action": "Wait for the component to update.",
+                "assertion": "Assert that the component displays 'Error: Invalid input' on the screen."
+              },
+              {
+                "step": "Ensure result is not displayed",
+                "action": "Check if the Result div is present",
+                "assertion": "Assert that the component does not display 'Result: ...' on the screen."
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:47.491617+00:00",
+      "end_time": "2026-02-08T21:33:53.885914+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 14762.082,
+      "retry_count": 0,
+      "tokens_used": 9936,
+      "input": {},
+      "output": {
+        "review_report": "The generated code is comprehensive and of high quality across all components, including the backend API (FastAPI), frontend UI (React), database migrations (PostgreSQL), and various levels of testing (unit and integration). The solution correctly implements the core feature of concatenating two strings.\n\n**Backend (FastAPI):**\n- The API endpoint `/strings/add` is well-defined with appropriate HTTP method (POST), Pydantic models for request and response, and clear documentation (summary, description, response_model).\n- The core logic `str1 + str2` correctly performs string concatenation.\n- The backend unit tests cover successful concatenation, empty strings, strings resembling numbers, and missing parameters, demonstrating good test coverage.\n\n**Frontend (React):**\n- The `StringAdder` component uses React hooks (`useState`) effectively for managing input states, result, and errors.\n- The `handleSubmit` function correctly interacts with the backend API using `fetch`, handles JSON serialization, and processes both successful responses and API-specific error messages.\n- Frontend unit tests for `StringAdder.test.jsx` are robust, covering component rendering, input updates, successful form submission with API mock, API error handling, and network error handling. This provides excellent confidence in the UI's functionality and resilience.\n\n**Database Migrations (PostgreSQL):**\n- A migration to create a `strings` table is provided, adhering to PostgreSQL syntax with `SERIAL PRIMARY KEY` and `VARCHAR` types. While the current feature does not require persistence, this migration is a reasonable forward-looking design for a project specifying PostgreSQL in its tech stack, allowing for easy integration of persistence in the future.\n\n**Integration Tests:**\n- The integration test plans are well-structured and cover end-to-end scenarios for both successful string concatenation and error handling. They clearly outline the steps, actions, and assertions needed to verify the full system flow from UI input to API interaction and result display. These plans demonstrate a solid understanding of how to test the integrated system.\n\nOverall, the code is robust, adheres to best practices for the chosen tech stack, and is thoroughly tested. The solution fully addresses the feature specification.",
+        "suggested_fixes": [
+          {
+            "component": "Backend",
+            "file": "main.py (or equivalent FastAPI app file)",
+            "description": "In the `add_strings` endpoint, the `try...except Exception as e: raise HTTPException(status_code=500, detail=str(e))` block is largely redundant for this specific endpoint. Pydantic handles input validation (raising a 422 if inputs are not strings or missing), and simple string concatenation is highly unlikely to raise other exceptions that aren't already gracefully handled by FastAPI's default error handlers. Removing this `try-except` would simplify the code without compromising robustness for this specific logic.",
+            "severity": "Low",
+            "suggested_change": "```python\nfrom fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass StringInput(BaseModel):\n    str1: str\n    str2: str\n\nclass StringOutput(BaseModel):\n    result: str\n\n@app.post(\"/strings/add\", response_model=StringOutput, summary=\"Concatenate two strings\", description=\"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\")\nasync def add_strings(string_input: StringInput):\n    \"\"\"Concatenates two strings and returns the result.\"\"\"\n    # The try-except block for generic Exception is not strictly necessary here\n    # as Pydantic handles input validation and string concatenation is safe.\n    result = string_input.str1 + string_input.str2\n    return StringOutput(result=result)\n```"
+          },
+          {
+            "component": "Frontend",
+            "file": "StringAdder.jsx",
+            "description": "The inline style `style={{ color: 'red' }}` for displaying error messages is functional but could be improved for maintainability and scalability by using a CSS class. This aligns better with React's component-based approach and separation of concerns.",
+            "severity": "Cosmetic",
+            "suggested_change": "```jsx\n// In StringAdder.jsx\n// ... (assuming you have an App.css or similar for styling)\n\n// Add a CSS class for error messages in your stylesheet (e.g., App.css)\n/*\n.error-message {\n  color: red;\n  font-weight: bold;\n}\n*/\n\nreturn (\n    <div>\n      {/* ... other elements ... */}\n      {error && <div className=\"error-message\">Error: {error}</div>}\n      {result && <div>Result: {result}</div>}\n    </div>\n  );\n```"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:33:53.886063+00:00",
+      "end_time": "2026-02-08T21:34:08.648145+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 16848.643,
+      "retry_count": 0,
+      "tokens_used": 14113,
+      "input": {},
+      "output": {
+        "package": {
+          "backend": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass StringInput(BaseModel):\n    str1: str\n    str2: str\n\nclass StringOutput(BaseModel):\n    result: str\n\n@app.post(\"/strings/add\", response_model=StringOutput, summary=\"Concatenate two strings\", description=\"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\")\nasync def add_strings(string_input: StringInput):\n    \"\"\"Concatenates two strings and returns the result.\"\"\"\n    # The try-except block for generic Exception is not strictly necessary here\n    # as Pydantic handles input validation and string concatenation is safe.\n    result = string_input.str1 + string_input.str2\n    return StringOutput(result=result)",
+          "frontend": {
+            "App.jsx": "import React from 'react';\nimport StringAdder from './StringAdder';\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <h1>String Adder</h1>\n      <StringAdder />\n    </div>\n  );\n}\n\nexport default App;",
+            "StringAdder.jsx": "import React, { useState } from 'react';\n\nfunction StringAdder() {\n  const [str1, setStr1] = useState('');\n  const [str2, setStr2] = useState('');\n  const [result, setResult] = useState('');\n  const [error, setError] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n\n    try {\n      const response = await fetch('/strings/add', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ str1, str2 }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        setError(errorData.detail || 'An error occurred');\n        setResult('');\n        return;\n      }\n\n      const data = await response.json();\n      setResult(data.result);\n      setError('');\n    } catch (err) {\n      setError(err.message || 'An unexpected error occurred');\n      setResult('');\n    }\n  };\n\n  return (\n    <div>\n      <form onSubmit={handleSubmit}>\n        <div>\n          <label htmlFor=\"str1\">String 1:</label>\n          <input\n            type=\"text\"\n            id=\"str1\"\n            value={str1}\n            onChange={(e) => setStr1(e.target.value)}\n          />\n        </div>\n        <div>\n          <label htmlFor=\"str2\">String 2:</label>\n          <input\n            type=\"text\"\n            id=\"str2\"\n            value={str2}\n            onChange={(e) => setStr2(e.target.value)}\n          />\n        </div>\n        <button type=\"submit\">Add Strings</button>\n      </form>\n      {error && <div className=\"error-message\">Error: {error}</div>}\n      {result && <div>Result: {result}</div>}\n    </div>\n  );\n}\n\nexport default StringAdder;"
+          },
+          "tests": {
+            "backend_tests": "from fastapi.testclient import TestClient\nfrom main import app  # Assuming your FastAPI app is in main.py\n\nclient = TestClient(app)\n\ndef test_add_strings_success():\n    response = client.post(\"/strings/add\", json={\"str1\": \"Hello \", \"str2\": \"world\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"Hello world\"}\n\ndef test_add_strings_empty_strings():\n    response = client.post(\"/strings/add\", json={\"str1\": \"\", \"str2\": \"\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"\"}\n\ndef test_add_strings_with_numbers():\n     response = client.post(\"/strings/add\", json={\"str1\": \"123\", \"str2\": \"456\"})\n     assert response.status_code == 200\n     assert response.json() == {\"result\": \"123456\"}\n\ndef test_add_strings_missing_parameter():\n    response = client.post(\"/strings/add\", json={\"str1\": \"test\"})\n    assert response.status_code == 422 #Unprocessable Entity",
+            "frontend_tests": {
+              "StringAdder.test.jsx": "import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport StringAdder from './StringAdder';\nimport '@testing-library/jest-dom/extend-expect';\n\n// Mock the fetch function\nglobal.fetch = jest.fn();\n\ndescribe('StringAdder Component', () => {\n  beforeEach(() => {\n    fetch.mockClear();\n  });\n\n  it('renders the component', () => {\n    render(<StringAdder />);\n    expect(screen.getByText('String 1:')).toBeInTheDocument();\n    expect(screen.getByText('String 2:')).toBeInTheDocument();\n    expect(screen.getByText('Add Strings')).toBeInTheDocument();\n  });\n\n  it('updates the input values', () => {\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n\n    expect(str1Input.value).toBe('Hello');\n    expect(str2Input.value).toBe('World');\n  });\n\n  it('submits the form and displays the result', async () => {\n    fetch.mockResolvedValue({\n      ok: true,\n      json: () => Promise.resolve({ result: 'HelloWorld' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(fetch).toHaveBeenCalledTimes(1);\n      expect(fetch).toHaveBeenCalledWith(\n        '/strings/add',\n        {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ str1: 'Hello', str2: 'World' }),\n        }\n      );\n    });\n\n    await waitFor(() => {\n      expect(screen.getByText('Result: HelloWorld')).toBeInTheDocument();\n    });\n  });\n\n  it('displays an error message when the API returns an error', async () => {\n    fetch.mockResolvedValue({\n      ok: false,\n      json: () => Promise.resolve({ detail: 'Invalid input' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Invalid' } });\n    fireEvent.change(str2Input, { target: { value: 'Input' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Invalid input')).toBeInTheDocument();\n    });\n  });\n\n  it('displays a generic error message on network error', async () => {\n    fetch.mockRejectedValue(new Error('Network error'));\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Test' } });\n    fireEvent.change(str2Input, { target: { value: 'Test' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Network error')).toBeInTheDocument();\n    });\n  });\n});"
+            },
+            "e2e_tests": [
+              {
+                "test_name": "End-to-end string concatenation",
+                "description": "Tests the entire flow from the frontend input, API call, and display of the result.",
+                "steps": [
+                  {
+                    "step": "Render the StringAdder component",
+                    "action": "Use React testing library to render the StringAdder component.",
+                    "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+                  },
+                  {
+                    "step": "Enter strings into the input fields",
+                    "action": "Simulate user input by entering 'test1' into the 'String 1' field and 'test2' into the 'String 2' field.",
+                    "assertion": "Verify that the input fields' values are updated to 'test1' and 'test2' respectively."
+                  },
+                  {
+                    "step": "Submit the form",
+                    "action": "Simulate a click on the 'Add Strings' button.",
+                    "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+                  },
+                  {
+                    "step": "Verify the API request",
+                    "action": "Intercept the fetch request and verify its details.",
+                    "assertion": "Confirm that the request method is 'POST', the endpoint is '/strings/add', the Content-Type header is 'application/json', and the request body contains the JSON payload { str1: 'test1', str2: 'test2' }."
+                  },
+                  {
+                    "step": "Mock API response",
+                    "action": "Mock a successful API response with a 200 status code and a JSON payload { result: 'test1test2' }.",
+                    "assertion": "N/A"
+                  },
+                  {
+                    "step": "Verify the result is displayed",
+                    "action": "Wait for the component to update.",
+                    "assertion": "Assert that the component displays 'Result: test1test2' on the screen."
+                  }
+                ]
+              },
+              {
+                "test_name": "End-to-end error handling",
+                "description": "Tests the entire flow when the API returns an error.",
+                "steps": [
+                  {
+                    "step": "Render the StringAdder component",
+                    "action": "Use React testing library to render the StringAdder component.",
+                    "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+                  },
+                  {
+                    "step": "Enter strings into the input fields",
+                    "action": "Simulate user input by entering 'error1' into the 'String 1' field and 'error2' into the 'String 2' field.",
+                    "assertion": "Verify that the input fields' values are updated to 'error1' and 'error2' respectively."
+                  },
+                  {
+                    "step": "Submit the form",
+                    "action": "Simulate a click on the 'Add Strings' button.",
+                    "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+                  },
+                  {
+                    "step": "Mock API error response",
+                    "action": "Mock an API error response with a 400 status code and a JSON payload { detail: 'Invalid input' }.",
+                    "assertion": "N/A"
+                  },
+                  {
+                    "step": "Verify the error message is displayed",
+                    "action": "Wait for the component to update.",
+                    "assertion": "Assert that the component displays 'Error: Invalid input' on the screen."
+                  },
+                  {
+                    "step": "Ensure result is not displayed",
+                    "action": "Check if the Result div is present",
+                    "assertion": "Assert that the component does not display 'Result: ...' on the screen."
+                  }
+                ]
+              }
+            ]
+          },
+          "migrations": [
+            {
+              "migration_name": "create_strings_table",
+              "description": "Creates a table for storing strings if needed in the future.",
+              "up": [
+                {
+                  "command": "CREATE TABLE strings (",
+                  "parameters": [
+                    "id SERIAL PRIMARY KEY",
+                    "str1 VARCHAR(255)",
+                    "str2 VARCHAR(255)",
+                    "result VARCHAR(255)"
+                  ],
+                  "command_end": ");"
+                }
+              ],
+              "down": [
+                {
+                  "command": "DROP TABLE IF EXISTS strings;"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T21:34:08.648324+00:00",
+      "end_time": "2026-02-08T21:34:25.496967+00:00",
+      "metadata": null
+    }
+  ],
+  "final_output": {
+    "feature_package": {
+      "backend": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass StringInput(BaseModel):\n    str1: str\n    str2: str\n\nclass StringOutput(BaseModel):\n    result: str\n\n@app.post(\"/strings/add\", response_model=StringOutput, summary=\"Concatenate two strings\", description=\"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\")\nasync def add_strings(string_input: StringInput):\n    \"\"\"Concatenates two strings and returns the result.\"\"\"\n    # The try-except block for generic Exception is not strictly necessary here\n    # as Pydantic handles input validation and string concatenation is safe.\n    result = string_input.str1 + string_input.str2\n    return StringOutput(result=result)",
+      "frontend": {
+        "App.jsx": "import React from 'react';\nimport StringAdder from './StringAdder';\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <h1>String Adder</h1>\n      <StringAdder />\n    </div>\n  );\n}\n\nexport default App;",
+        "StringAdder.jsx": "import React, { useState } from 'react';\n\nfunction StringAdder() {\n  const [str1, setStr1] = useState('');\n  const [str2, setStr2] = useState('');\n  const [result, setResult] = useState('');\n  const [error, setError] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n\n    try {\n      const response = await fetch('/strings/add', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ str1, str2 }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        setError(errorData.detail || 'An error occurred');\n        setResult('');\n        return;\n      }\n\n      const data = await response.json();\n      setResult(data.result);\n      setError('');\n    } catch (err) {\n      setError(err.message || 'An unexpected error occurred');\n      setResult('');\n    }\n  };\n\n  return (\n    <div>\n      <form onSubmit={handleSubmit}>\n        <div>\n          <label htmlFor=\"str1\">String 1:</label>\n          <input\n            type=\"text\"\n            id=\"str1\"\n            value={str1}\n            onChange={(e) => setStr1(e.target.value)}\n          />\n        </div>\n        <div>\n          <label htmlFor=\"str2\">String 2:</label>\n          <input\n            type=\"text\"\n            id=\"str2\"\n            value={str2}\n            onChange={(e) => setStr2(e.target.value)}\n          />\n        </div>\n        <button type=\"submit\">Add Strings</button>\n      </form>\n      {error && <div className=\"error-message\">Error: {error}</div>}\n      {result && <div>Result: {result}</div>}\n    </div>\n  );\n}\n\nexport default StringAdder;"
+      },
+      "tests": {
+        "backend_tests": "from fastapi.testclient import TestClient\nfrom main import app  # Assuming your FastAPI app is in main.py\n\nclient = TestClient(app)\n\ndef test_add_strings_success():\n    response = client.post(\"/strings/add\", json={\"str1\": \"Hello \", \"str2\": \"world\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"Hello world\"}\n\ndef test_add_strings_empty_strings():\n    response = client.post(\"/strings/add\", json={\"str1\": \"\", \"str2\": \"\"})\n    assert response.status_code == 200\n    assert response.json() == {\"result\": \"\"}\n\ndef test_add_strings_with_numbers():\n     response = client.post(\"/strings/add\", json={\"str1\": \"123\", \"str2\": \"456\"})\n     assert response.status_code == 200\n     assert response.json() == {\"result\": \"123456\"}\n\ndef test_add_strings_missing_parameter():\n    response = client.post(\"/strings/add\", json={\"str1\": \"test\"})\n    assert response.status_code == 422 #Unprocessable Entity",
+        "frontend_tests": {
+          "StringAdder.test.jsx": "import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport StringAdder from './StringAdder';\nimport '@testing-library/jest-dom/extend-expect';\n\n// Mock the fetch function\nglobal.fetch = jest.fn();\n\ndescribe('StringAdder Component', () => {\n  beforeEach(() => {\n    fetch.mockClear();\n  });\n\n  it('renders the component', () => {\n    render(<StringAdder />);\n    expect(screen.getByText('String 1:')).toBeInTheDocument();\n    expect(screen.getByText('String 2:')).toBeInTheDocument();\n    expect(screen.getByText('Add Strings')).toBeInTheDocument();\n  });\n\n  it('updates the input values', () => {\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n\n    expect(str1Input.value).toBe('Hello');\n    expect(str2Input.value).toBe('World');\n  });\n\n  it('submits the form and displays the result', async () => {\n    fetch.mockResolvedValue({\n      ok: true,\n      json: () => Promise.resolve({ result: 'HelloWorld' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Hello' } });\n    fireEvent.change(str2Input, { target: { value: 'World' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(fetch).toHaveBeenCalledTimes(1);\n      expect(fetch).toHaveBeenCalledWith(\n        '/strings/add',\n        {\n          method: 'POST',\n          headers: { 'Content-Type': 'application/json' },\n          body: JSON.stringify({ str1: 'Hello', str2: 'World' }),\n        }\n      );\n    });\n\n    await waitFor(() => {\n      expect(screen.getByText('Result: HelloWorld')).toBeInTheDocument();\n    });\n  });\n\n  it('displays an error message when the API returns an error', async () => {\n    fetch.mockResolvedValue({\n      ok: false,\n      json: () => Promise.resolve({ detail: 'Invalid input' }),\n    });\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Invalid' } });\n    fireEvent.change(str2Input, { target: { value: 'Input' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Invalid input')).toBeInTheDocument();\n    });\n  });\n\n  it('displays a generic error message on network error', async () => {\n    fetch.mockRejectedValue(new Error('Network error'));\n\n    render(<StringAdder />);\n    const str1Input = screen.getByLabelText('String 1:');\n    const str2Input = screen.getByLabelText('String 2:');\n    const addButton = screen.getByText('Add Strings');\n\n    fireEvent.change(str1Input, { target: { value: 'Test' } });\n    fireEvent.change(str2Input, { target: { value: 'Test' } });\n    fireEvent.click(addButton);\n\n    await waitFor(() => {\n      expect(screen.getByText('Error: Network error')).toBeInTheDocument();\n    });\n  });\n});"
+        },
+        "e2e_tests": [
+          {
+            "test_name": "End-to-end string concatenation",
+            "description": "Tests the entire flow from the frontend input, API call, and display of the result.",
+            "steps": [
+              {
+                "step": "Render the StringAdder component",
+                "action": "Use React testing library to render the StringAdder component.",
+                "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+              },
+              {
+                "step": "Enter strings into the input fields",
+                "action": "Simulate user input by entering 'test1' into the 'String 1' field and 'test2' into the 'String 2' field.",
+                "assertion": "Verify that the input fields' values are updated to 'test1' and 'test2' respectively."
+              },
+              {
+                "step": "Submit the form",
+                "action": "Simulate a click on the 'Add Strings' button.",
+                "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+              },
+              {
+                "step": "Verify the API request",
+                "action": "Intercept the fetch request and verify its details.",
+                "assertion": "Confirm that the request method is 'POST', the endpoint is '/strings/add', the Content-Type header is 'application/json', and the request body contains the JSON payload { str1: 'test1', str2: 'test2' }."
+              },
+              {
+                "step": "Mock API response",
+                "action": "Mock a successful API response with a 200 status code and a JSON payload { result: 'test1test2' }.",
+                "assertion": "N/A"
+              },
+              {
+                "step": "Verify the result is displayed",
+                "action": "Wait for the component to update.",
+                "assertion": "Assert that the component displays 'Result: test1test2' on the screen."
+              }
+            ]
+          },
+          {
+            "test_name": "End-to-end error handling",
+            "description": "Tests the entire flow when the API returns an error.",
+            "steps": [
+              {
+                "step": "Render the StringAdder component",
+                "action": "Use React testing library to render the StringAdder component.",
+                "assertion": "Verify that the input fields for 'String 1' and 'String 2' are present."
+              },
+              {
+                "step": "Enter strings into the input fields",
+                "action": "Simulate user input by entering 'error1' into the 'String 1' field and 'error2' into the 'String 2' field.",
+                "assertion": "Verify that the input fields' values are updated to 'error1' and 'error2' respectively."
+              },
+              {
+                "step": "Submit the form",
+                "action": "Simulate a click on the 'Add Strings' button.",
+                "assertion": "Verify that the form submission triggers a POST request to the '/strings/add' endpoint."
+              },
+              {
+                "step": "Mock API error response",
+                "action": "Mock an API error response with a 400 status code and a JSON payload { detail: 'Invalid input' }.",
+                "assertion": "N/A"
+              },
+              {
+                "step": "Verify the error message is displayed",
+                "action": "Wait for the component to update.",
+                "assertion": "Assert that the component displays 'Error: Invalid input' on the screen."
+              },
+              {
+                "step": "Ensure result is not displayed",
+                "action": "Check if the Result div is present",
+                "assertion": "Assert that the component does not display 'Result: ...' on the screen."
+              }
+            ]
+          }
+        ]
+      },
+      "migrations": [
+        {
+          "migration_name": "create_strings_table",
+          "description": "Creates a table for storing strings if needed in the future.",
+          "up": [
+            {
+              "command": "CREATE TABLE strings (",
+              "parameters": [
+                "id SERIAL PRIMARY KEY",
+                "str1 VARCHAR(255)",
+                "str2 VARCHAR(255)",
+                "result VARCHAR(255)"
+              ],
+              "command_end": ");"
+            }
+          ],
+          "down": [
+            {
+              "command": "DROP TABLE IF EXISTS strings;"
+            }
+          ]
+        }
+      ]
+    },
+    "review_report": "The generated code is comprehensive and of high quality across all components, including the backend API (FastAPI), frontend UI (React), database migrations (PostgreSQL), and various levels of testing (unit and integration). The solution correctly implements the core feature of concatenating two strings.\n\n**Backend (FastAPI):**\n- The API endpoint `/strings/add` is well-defined with appropriate HTTP method (POST), Pydantic models for request and response, and clear documentation (summary, description, response_model).\n- The core logic `str1 + str2` correctly performs string concatenation.\n- The backend unit tests cover successful concatenation, empty strings, strings resembling numbers, and missing parameters, demonstrating good test coverage.\n\n**Frontend (React):**\n- The `StringAdder` component uses React hooks (`useState`) effectively for managing input states, result, and errors.\n- The `handleSubmit` function correctly interacts with the backend API using `fetch`, handles JSON serialization, and processes both successful responses and API-specific error messages.\n- Frontend unit tests for `StringAdder.test.jsx` are robust, covering component rendering, input updates, successful form submission with API mock, API error handling, and network error handling. This provides excellent confidence in the UI's functionality and resilience.\n\n**Database Migrations (PostgreSQL):**\n- A migration to create a `strings` table is provided, adhering to PostgreSQL syntax with `SERIAL PRIMARY KEY` and `VARCHAR` types. While the current feature does not require persistence, this migration is a reasonable forward-looking design for a project specifying PostgreSQL in its tech stack, allowing for easy integration of persistence in the future.\n\n**Integration Tests:**\n- The integration test plans are well-structured and cover end-to-end scenarios for both successful string concatenation and error handling. They clearly outline the steps, actions, and assertions needed to verify the full system flow from UI input to API interaction and result display. These plans demonstrate a solid understanding of how to test the integrated system.\n\nOverall, the code is robust, adheres to best practices for the chosen tech stack, and is thoroughly tested. The solution fully addresses the feature specification.",
+    "all_code": {
+      "backend": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\n\nclass StringInput(BaseModel):\n    str1: str\n    str2: str\n\nclass StringOutput(BaseModel):\n    result: str\n\n@app.post(\"/strings/add\", response_model=StringOutput, summary=\"Concatenate two strings\", description=\"Accepts two strings as input and returns their concatenation. This endpoint implements the 'add two strings' function.\")\nasync def add_strings(string_input: StringInput):\n    \"\"\"Concatenates two strings and returns the result.\"\"\"\n    try:\n        result = string_input.str1 + string_input.str2\n        return StringOutput(result=result)\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n",
+      "frontend": {
+        "StringAdder.jsx": "import React, { useState } from 'react';\n\nfunction StringAdder() {\n  const [str1, setStr1] = useState('');\n  const [str2, setStr2] = useState('');\n  const [result, setResult] = useState('');\n  const [error, setError] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n\n    try {\n      const response = await fetch('/strings/add', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ str1, str2 }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        setError(errorData.detail || 'An error occurred');\n        setResult('');\n        return;\n      }\n\n      const data = await response.json();\n      setResult(data.result);\n      setError('');\n    } catch (err) {\n      setError(err.message || 'An unexpected error occurred');\n      setResult('');\n    }\n  };\n\n  return (\n    <div>\n      <form onSubmit={handleSubmit}>\n        <div>\n          <label htmlFor=\"str1\">String 1:</label>\n          <input\n            type=\"text\"\n            id=\"str1\"\n            value={str1}\n            onChange={(e) => setStr1(e.target.value)}\n          />\n        </div>\n        <div>\n          <label htmlFor=\"str2\">String 2:</label>\n          <input\n            type=\"text\"\n            id=\"str2\"\n            value={str2}\n            onChange={(e) => setStr2(e.target.value)}\n          />\n        </div>\n        <button type=\"submit\">Add Strings</button>\n      </form>\n      {error && <div style={{ color: 'red' }}>Error: {error}</div>}\n      {result && <div>Result: {result}</div>}\n    </div>\n  );\n}\n\nexport default StringAdder;\n",
+        "App.jsx": "import React from 'react';\nimport StringAdder from './StringAdder';\n\nfunction App() {\n  return (\n    <div className=\"App\">\n      <h1>String Adder</h1>\n      <StringAdder />\n    </div>\n  );\n}\n\nexport default App;"
+      },
+      "migrations": [
+        {
+          "migration_name": "create_strings_table",
+          "description": "Creates a table for storing strings if needed in the future.",
+          "up": [
+            {
+              "command": "CREATE TABLE strings (",
+              "parameters": [
+                "id SERIAL PRIMARY KEY",
+                "str1 VARCHAR(255)",
+                "str2 VARCHAR(255)",
+                "result VARCHAR(255)"
+              ],
+              "command_end": ");"
+            }
+          ],
+          "down": [
+            {
+              "command": "DROP TABLE IF EXISTS strings;"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "fullstack_generation_v1",
+      "rubric_id": "fullstack_generation_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "objective_tests",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6296,
+          "score": 100.0,
+          "weight": 0.6,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.5933,
+          "score": 86.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 45.0,
+          "normalized_score": 0.45,
+          "adjusted_normalized_score": 0.487,
+          "score": 45.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 93.0,
+          "normalized_score": 0.93,
+          "adjusted_normalized_score": 0.6115,
+          "score": 93.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 81.0,
+      "weighted_score": 91.0,
+      "grade": "A",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "design_architecture",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_migrations",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_api",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_frontend",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "assemble_feature",
+          "status": "success",
+          "score": 100.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "sample_index": 1,
+        "task_id": "1",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "generated_at": "2026-02-08T21:34:25.524903+00:00",
+      "hard_gates": {
+        "required_outputs_present": true,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}

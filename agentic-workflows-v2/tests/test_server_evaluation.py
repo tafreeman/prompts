@@ -20,6 +20,7 @@ from agentic_v2.server.evaluation import (
 )
 from agentic_v2.server.models import WorkflowEvaluationRequest, WorkflowRunRequest
 from agentic_v2.server.routes import workflows as workflow_routes
+from agentic_v2.workflows.loader import WorkflowLoader
 from agentic_v2.workflows.loader import (
     WorkflowCriterion,
     WorkflowDefinition,
@@ -333,6 +334,46 @@ def test_match_workflow_dataset_missing_field():
     )
     assert compatible is False
     assert "missing: code_file" in reasons
+
+
+def test_match_workflow_dataset_chat_messages_uses_defaults_for_fullstack():
+    loader = WorkflowLoader()
+    workflow_def = loader.load("fullstack_generation")
+    sample, _meta = load_local_dataset_sample(
+        "agentic-workflows-v2/tests/fixtures/datasets/react_code_instructions.json",
+        sample_index=4,
+    )
+    compatible, reasons = match_workflow_dataset(workflow_def, sample)
+    assert compatible is True
+    assert reasons == []
+
+
+def test_adapt_sample_to_workflow_inputs_extracts_feature_spec_from_messages(tmp_path: Path):
+    schema = {
+        "feature_spec": WorkflowInput(name="feature_spec", type="string", required=True),
+        "tech_stack": WorkflowInput(
+            name="tech_stack",
+            type="object",
+            required=True,
+            default={"frontend": "react", "backend": "fastapi", "database": "postgresql"},
+        ),
+    }
+    sample = {
+        "messages": [
+            {"role": "system", "content": "Build modern apps."},
+            {"role": "user", "content": "create a tetris game"},
+        ]
+    }
+
+    adapted = adapt_sample_to_workflow_inputs(
+        schema,
+        sample,
+        run_id="wf-messages",
+        artifacts_dir=tmp_path,
+    )
+    assert adapted["feature_spec"] == "create a tetris game"
+    assert isinstance(adapted["tech_stack"], dict)
+    assert adapted["tech_stack"]["backend"] == "fastapi"
 
 
 def test_validate_evaluation_payload_schema_detects_missing_fields():

@@ -228,8 +228,8 @@ Per step/agent:
 
 ### Workstream 0A: Scoring hard gates and pass/fail correctness
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/server/evaluation.py`
-- `agentic-workflows-v2/src/agentic_v2/server/routes/workflows.py`
+- `agentic-workflows-v2/agentic_v2/server/evaluation.py`
+- `agentic-workflows-v2/agentic_v2/server/routes/workflows.py`
 - `agentic-workflows-v2/tests/test_server_evaluation.py`
 
 **Tasks:**
@@ -240,8 +240,8 @@ Per step/agent:
 
 ### Workstream 0B: Compatibility and input validation
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/server/evaluation.py`
-- `agentic-workflows-v2/src/agentic_v2/server/routes/workflows.py`
+- `agentic-workflows-v2/agentic_v2/server/evaluation.py`
+- `agentic-workflows-v2/agentic_v2/server/routes/workflows.py`
 - UI workflow/dataset selector components
 
 **Tasks:**
@@ -252,8 +252,8 @@ Per step/agent:
 
 ### Workstream 0C: Workflow-level rubric foundation (Decision D1=C)
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/server/evaluation.py`
-- `agentic-workflows-v2/src/agentic_v2/workflows/definitions/*.yaml`
+- `agentic-workflows-v2/agentic_v2/server/evaluation.py`
+- `agentic-workflows-v2/agentic_v2/workflows/definitions/*.yaml`
 
 **Tasks:**
 1. Load rubric metadata from workflow definition.
@@ -266,8 +266,8 @@ Per step/agent:
 
 ### Workstream 0D: Runtime correctness and stale-path cleanup
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/workflows/runner.py`
-- `agentic-workflows-v2/src/agentic_v2/engine/step.py`
+- `agentic-workflows-v2/agentic_v2/workflows/runner.py`
+- `agentic-workflows-v2/agentic_v2/engine/step.py`
 - `docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md`
 - `README.md`
 
@@ -304,8 +304,8 @@ Per step/agent:
 
 ## Workstream 1B: Framework-neutral integration contract (D6=A)
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/integrations/base.py`
-- `agentic-workflows-v2/src/agentic_v2/integrations/langchain.py`
+- `agentic-workflows-v2/agentic_v2/integrations/base.py`
+- `agentic-workflows-v2/agentic_v2/integrations/langchain.py`
 
 **Tasks:**
 1. Define `AgentAdapter`, `ToolAdapter`, `WorkflowAdapter`, `TraceAdapter`.
@@ -397,7 +397,7 @@ Per step/agent:
 
 ## Workstream 5B: Microsoft Agent Framework adapter (D6=A)
 **Files:**
-- `agentic-workflows-v2/src/agentic_v2/integrations/microsoft_agent_framework.py`
+- `agentic-workflows-v2/agentic_v2/integrations/microsoft_agent_framework.py`
 - adapter conformance tests
 
 **Tasks:**

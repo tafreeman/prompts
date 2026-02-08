@@ -2,7 +2,7 @@
 
 This guide shows a minimal agent implementation and how to register it with the framework.
 
-1. Create a new agent class in `src/agentic_v2/agents/`.
+1. Create a new agent class in `agentic_v2/agents/`.
 
 `BaseAgent` is async-first and expects you to implement the model call and some simple parsing hooks.
 Here’s a tiny **offline-friendly** agent that just echoes its input (no LLM required):

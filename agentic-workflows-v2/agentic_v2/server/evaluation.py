@@ -534,6 +534,38 @@ def validate_required_inputs_present(
     return missing
 
 
+def _extract_message_text(
+    sample: dict[str, Any],
+    preferred_roles: tuple[str, ...] = ("user", "system", "assistant"),
+) -> str | None:
+    """Extract the best available text snippet from chat-style dataset samples."""
+    messages = sample.get("messages")
+    if not isinstance(messages, list):
+        return None
+
+    candidates: list[tuple[str, str]] = []
+    for message in messages:
+        if not isinstance(message, dict):
+            continue
+        content = message.get("content")
+        if not isinstance(content, str):
+            continue
+        text = content.strip()
+        if not text:
+            continue
+        role = str(message.get("role", "")).lower()
+        candidates.append((role, text))
+
+    if not candidates:
+        return None
+
+    for role in preferred_roles:
+        for candidate_role, text in candidates:
+            if candidate_role == role:
+                return text
+    return candidates[0][1]
+
+
 def _dataset_value_for_input(
     input_name: str,
     input_def: WorkflowInput,
@@ -543,6 +575,11 @@ def _dataset_value_for_input(
     explicit = dataset_sample.get(input_name)
     if explicit not in (None, ""):
         return explicit
+    nested_inputs = dataset_sample.get("inputs")
+    if isinstance(nested_inputs, dict):
+        nested_value = nested_inputs.get(input_name)
+        if nested_value not in (None, ""):
+            return nested_value
 
     if "file" in lowered:
         return _pick_first(
@@ -556,10 +593,12 @@ def _dataset_value_for_input(
                 "body",
                 "prompt",
                 "task_description",
+                "instruction",
+                "input",
             ],
         )
     if "spec" in lowered or "requirement" in lowered:
-        return _pick_first(
+        value = _pick_first(
             dataset_sample,
             [
                 "feature_spec",
@@ -567,13 +606,24 @@ def _dataset_value_for_input(
                 "prompt",
                 "description",
                 "instruction",
+                "input",
+                "question",
+                "query",
+                "request",
                 "body",
             ],
         )
+        if value not in (None, ""):
+            return value
+        return _extract_message_text(dataset_sample, preferred_roles=("user", "system", "assistant"))
     if "tech_stack" in lowered and input_def.type == "object":
-        return dataset_sample.get("tech_stack")
+        stack = dataset_sample.get("tech_stack")
+        if stack not in (None, ""):
+            return stack
+        if input_def.default not in (None, ""):
+            return input_def.default
 
-    return _pick_first(
+    value = _pick_first(
         dataset_sample,
         [
             "prompt",
@@ -581,12 +631,19 @@ def _dataset_value_for_input(
             "description",
             "body",
             "instruction",
+            "input",
+            "question",
+            "query",
+            "request",
             "issue_text",
             "content",
             "text",
             "code",
         ],
     )
+    if value not in (None, ""):
+        return value
+    return _extract_message_text(dataset_sample)
 
 
 def match_workflow_dataset(
@@ -598,11 +655,14 @@ def match_workflow_dataset(
         return False, ["invalid_dataset_sample"]
 
     missing_reasons: list[str] = []
-    required_input_names = [
-        name
-        for name, input_def in workflow_def.inputs.items()
-        if input_def.required
-    ]
+    required_input_names = []
+    for name, input_def in workflow_def.inputs.items():
+        if not input_def.required:
+            continue
+        if input_def.default not in (None, ""):
+            # Workflow defaults satisfy required inputs even when dataset omits them.
+            continue
+        required_input_names.append(name)
 
     for input_name in required_input_names:
         value = _dataset_value_for_input(
@@ -615,7 +675,16 @@ def match_workflow_dataset(
 
     if workflow_def.capabilities.inputs:
         for capability_input in workflow_def.capabilities.inputs:
-            if _is_empty_value(dataset_sample.get(capability_input)):
+            input_def = workflow_def.inputs.get(capability_input)
+            if input_def is not None and input_def.default not in (None, ""):
+                continue
+
+            if input_def is not None:
+                value = _dataset_value_for_input(capability_input, input_def, dataset_sample)
+            else:
+                value = dataset_sample.get(capability_input)
+
+            if _is_empty_value(value):
                 missing_reasons.append(f"missing: {capability_input}")
 
     return len(missing_reasons) == 0, sorted(set(missing_reasons))
@@ -876,9 +945,17 @@ def score_workflow_result(
 
 
 def _pick_first(sample: dict[str, Any], keys: list[str]) -> Any:
+    nested_inputs = sample.get("inputs")
+    nested_input = sample.get("input")
     for key in keys:
         if key in sample and sample[key] not in (None, ""):
             return sample[key]
+        if isinstance(nested_inputs, dict) and key in nested_inputs and nested_inputs[key] not in (None, ""):
+            return nested_inputs[key]
+        if isinstance(nested_input, dict) and key in nested_input and nested_input[key] not in (None, ""):
+            return nested_input[key]
+        if key == "input" and isinstance(nested_input, str) and nested_input.strip():
+            return nested_input
     return None
 
 
@@ -924,6 +1001,10 @@ def adapt_sample_to_workflow_inputs(
             "description",
             "body",
             "instruction",
+            "input",
+            "question",
+            "query",
+            "request",
             "issue_text",
             "content",
             "text",
@@ -931,6 +1012,8 @@ def adapt_sample_to_workflow_inputs(
             "expected_output",
         ],
     )
+    if generic_text in (None, ""):
+        generic_text = _extract_message_text(sample)
     for name, definition in workflow_inputs.items():
         lowered = name.lower()
         explicit = sample.get(name)
@@ -960,9 +1043,15 @@ def adapt_sample_to_workflow_inputs(
                         "prompt",
                         "description",
                         "instruction",
+                        "input",
+                        "question",
+                        "query",
+                        "request",
                         "body",
                     ],
                 )
+                if value in (None, ""):
+                    value = _extract_message_text(sample, preferred_roles=("user", "system", "assistant"))
             elif "tech_stack" in lowered and definition.type == "object":
                 value = sample.get("tech_stack") or {
                     "frontend": "react",
