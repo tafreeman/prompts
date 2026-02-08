@@ -37,6 +37,9 @@ class DAGExecutor:
 
         dag.validate()
 
+        # Fresh state manager per execution to avoid cross-run pollution
+        self._state_manager = StepStateManager()
+
         result = WorkflowResult(
             workflow_id=ctx.workflow_id,
             workflow_name=dag.name,
@@ -47,7 +50,7 @@ class DAGExecutor:
             await on_update({
                 "type": "workflow_start",
                 "run_id": result.workflow_id,
-                "workflow": result.workflow_name,
+                "workflow_name": result.workflow_name,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             })
 

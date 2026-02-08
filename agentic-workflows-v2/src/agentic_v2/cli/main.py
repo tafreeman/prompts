@@ -491,6 +491,42 @@ def _list_tools():
 
 
 @app.command()
+def serve(
+    port: int = typer.Option(8000, "--port", "-p", help="Port to serve on"),
+    dev: bool = typer.Option(False, "--dev", help="Run with auto-reload"),
+    no_open: bool = typer.Option(False, "--no-open", help="Don't open browser"),
+):
+    """Start the workflow dashboard server.
+
+    In dev mode, run `npm run dev` in the ui/ directory for the frontend dev server.
+
+    Examples:
+        agentic serve
+        agentic serve --port 9000 --dev
+    """
+    try:
+        import uvicorn
+    except ImportError:
+        console.print("[red]Error:[/red] uvicorn not installed. Run: pip install uvicorn")
+        raise typer.Exit(1)
+
+    if not no_open:
+        import webbrowser
+        webbrowser.open(f"http://localhost:{port}")
+
+    console.print(f"[bold blue]Starting dashboard server on port {port}[/bold blue]")
+    if dev:
+        console.print("[dim]Dev mode: auto-reload enabled[/dim]")
+
+    uvicorn.run(
+        "agentic_v2.server.app:app",
+        host="0.0.0.0",
+        port=port,
+        reload=dev,
+    )
+
+
+@app.command()
 def version():
     """Show version information."""
     try:
