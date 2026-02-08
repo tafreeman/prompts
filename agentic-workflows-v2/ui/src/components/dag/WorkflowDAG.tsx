@@ -1,0 +1,148 @@
+import { useMemo, useCallback } from "react";
+import {
+  ReactFlow,
+  Background,
+  Controls,
+  MiniMap,
+  type Node,
+  type Edge,
+  type NodeTypes,
+  MarkerType,
+  BackgroundVariant,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+
+import StepNode, { type StepNodeData } from "./StepNode";
+import { layoutDAG } from "./dagLayout";
+import type { DAGNode, DAGEdge, StepStatus } from "../../api/types";
+
+const nodeTypes: NodeTypes = {
+  step: StepNode,
+};
+
+interface StepLiveState {
+  status: StepStatus;
+  durationMs?: number;
+  modelUsed?: string;
+  tokensUsed?: number;
+}
+
+interface Props {
+  dagNodes: DAGNode[];
+  dagEdges: DAGEdge[];
+  /** Live state overrides per step name. */
+  stepStates?: Map<string, StepLiveState>;
+  /** Callback when a node is clicked. */
+  onNodeClick?: (stepName: string) => void;
+  className?: string;
+}
+
+export default function WorkflowDAG({
+  dagNodes,
+  dagEdges,
+  stepStates,
+  onNodeClick,
+  className = "",
+}: Props) {
+  const positions = useMemo(
+    () => layoutDAG(dagNodes, dagEdges),
+    [dagNodes, dagEdges]
+  );
+
+  const nodes = useMemo(() => {
+    return dagNodes.map((dn) => {
+      const pos = positions.find((p) => p.id === dn.id);
+      const live = stepStates?.get(dn.id);
+
+      const data: StepNodeData = {
+        label: dn.id,
+        agent: dn.agent,
+        description: dn.description,
+        tier: dn.tier,
+        status: live?.status ?? "pending",
+        durationMs: live?.durationMs,
+        modelUsed: live?.modelUsed,
+        tokensUsed: live?.tokensUsed,
+      };
+
+      return {
+        id: dn.id,
+        type: "step" as const,
+        position: { x: pos?.x ?? 0, y: pos?.y ?? 0 },
+        data: data as unknown as Record<string, unknown>,
+      };
+    });
+  }, [dagNodes, positions, stepStates]);
+
+  const edges: Edge[] = useMemo(() => {
+    return dagEdges.map((de) => {
+      const sourceState = stepStates?.get(de.source);
+      const targetState = stepStates?.get(de.target);
+
+      let strokeColor = "#374151"; // gray-700
+      let animated = false;
+
+      if (sourceState?.status === "success" && targetState?.status === "running") {
+        strokeColor = "#3b82f6"; // blue
+        animated = true;
+      } else if (sourceState?.status === "success") {
+        strokeColor = "#22c55e40"; // green/faint
+      } else if (sourceState?.status === "failed") {
+        strokeColor = "#ef444440"; // red/faint
+      }
+
+      return {
+        id: `${de.source}->${de.target}`,
+        source: de.source,
+        target: de.target,
+        animated,
+        style: { stroke: strokeColor, strokeWidth: 2 },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          color: strokeColor,
+          width: 16,
+          height: 16,
+        },
+      };
+    });
+  }, [dagEdges, stepStates]);
+
+  const handleNodeClick = useCallback(
+    (_: React.MouseEvent, node: Node) => {
+      onNodeClick?.(node.id);
+    },
+    [onNodeClick]
+  );
+
+  return (
+    <div className={`h-full w-full ${className}`}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodeClick={handleNodeClick}
+        fitView
+        fitViewOptions={{ padding: 0.2 }}
+        proOptions={{ hideAttribution: true }}
+        minZoom={0.3}
+        maxZoom={1.5}
+      >
+        <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#1f1f2e" />
+        <Controls showInteractive={false} />
+        <MiniMap
+          nodeColor={(node) => {
+            const status = (node.data as unknown as StepNodeData | undefined)?.status;
+            switch (status) {
+              case "running": return "#3b82f6";
+              case "success": return "#22c55e";
+              case "failed":  return "#ef4444";
+              case "skipped": return "#f59e0b";
+              default:        return "#374151";
+            }
+          }}
+          maskColor="rgba(0, 0, 0, 0.7)"
+        />
+      </ReactFlow>
+    </div>
+  );
+}

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
+from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -11,11 +13,16 @@ router = APIRouter(tags=["streaming"])
 
 
 class ConnectionManager:
-    """Manages active WebSocket connections."""
+    """Manages active WebSocket connections with replay buffer and SSE support."""
 
-    def __init__(self):
+    def __init__(self, max_buffer_size: int = 500):
         # map run_id -> list of websockets
         self.connections: dict[str, list[WebSocket]] = {}
+        # Replay buffer: run_id -> list of events (for late-connecting clients)
+        self.event_buffers: dict[str, list[dict[str, Any]]] = {}
+        self._max_buffer_size = max_buffer_size
+        # SSE listeners: run_id -> list of asyncio.Queue
+        self._sse_listeners: dict[str, list[asyncio.Queue[dict[str, Any]]]] = {}
 
     async def connect(self, websocket: WebSocket, run_id: str):
         await websocket.accept()
@@ -30,18 +37,60 @@ class ConnectionManager:
             if not self.connections[run_id]:
                 del self.connections[run_id]
 
-    async def send_personal_message(self, message: str, websocket: WebSocket):
-        await websocket.send_text(message)
+    async def replay(self, websocket: WebSocket, run_id: str):
+        """Send buffered events to a newly connected client."""
+        for event in self.event_buffers.get(run_id, []):
+            try:
+                await websocket.send_json(event)
+            except Exception:
+                break
 
-    async def broadcast(self, run_id: str, message: dict):
+    async def broadcast(self, run_id: str, message: dict[str, Any]):
+        """Broadcast an event to all WS clients and SSE listeners for a run."""
+        # Buffer the event for late-connecting clients
+        if run_id not in self.event_buffers:
+            self.event_buffers[run_id] = []
+        buf = self.event_buffers[run_id]
+        buf.append(message)
+        if len(buf) > self._max_buffer_size:
+            buf.pop(0)
+
+        # Push to WebSocket clients
         if run_id in self.connections:
             for connection in self.connections[run_id]:
-                # Handle disconnected clients gracefully
                 try:
                     await connection.send_json(message)
                 except Exception:
-                    # Let disconnect handler clean this up
-                    pass
+                    pass  # disconnect handler will clean up
+
+        # Push to SSE listeners
+        for queue in self._sse_listeners.get(run_id, []):
+            try:
+                queue.put_nowait(message)
+            except asyncio.QueueFull:
+                logger.warning("SSE listener queue full for run %s, dropping event", run_id)
+
+    def register_sse_listener(
+        self, run_id: str, queue: asyncio.Queue[dict[str, Any]]
+    ) -> None:
+        """Register an SSE listener queue for a run."""
+        if run_id not in self._sse_listeners:
+            self._sse_listeners[run_id] = []
+        self._sse_listeners[run_id].append(queue)
+
+    def unregister_sse_listener(
+        self, run_id: str, queue: asyncio.Queue[dict[str, Any]]
+    ) -> None:
+        """Remove an SSE listener queue."""
+        if run_id in self._sse_listeners:
+            if queue in self._sse_listeners[run_id]:
+                self._sse_listeners[run_id].remove(queue)
+            if not self._sse_listeners[run_id]:
+                del self._sse_listeners[run_id]
+
+    def clear_buffer(self, run_id: str) -> None:
+        """Clear the event buffer for a completed run."""
+        self.event_buffers.pop(run_id, None)
 
 
 manager = ConnectionManager()
@@ -51,30 +100,23 @@ manager = ConnectionManager()
 async def websocket_endpoint(websocket: WebSocket, run_id: str):
     """WebSocket endpoint for real-time execution streaming.
 
-    In a full implementation, this should:
-    1. Subscribe to events for the specific run_id
-    2. Stream step updates, logs, and results
+    On connect:
+    1. Accept the connection and replay buffered events
+    2. Keep alive — execution events are pushed via broadcast()
+    3. Client can send ping/commands; server ignores content
     """
     await manager.connect(websocket, run_id)
     try:
-        # Send initial status
-        await manager.broadcast(run_id, 
-            {
-                "type": "connection_established",
-                "run_id": run_id,
-                "message": f"Connected to execution stream for {run_id}",
-            }
-        )
+        # Replay buffered events for late joiners
+        await manager.replay(websocket, run_id)
 
+        # Keep alive — events are pushed via broadcast()
         while True:
-            # Just keep the connection alive defined
-            # Real implementation would push events here
-            data = await websocket.receive_text()
-            await websocket.send_json({"type": "echo", "data": data})
+            await websocket.receive_text()
 
     except WebSocketDisconnect:
         manager.disconnect(websocket, run_id)
-        logger.info(f"Client disconnected from execution stream: {run_id}")
+        logger.info("Client disconnected from execution stream: %s", run_id)
     except Exception as e:
-        logger.error(f"WebSocket error for {run_id}: {e}")
+        logger.error("WebSocket error for %s: %s", run_id, e)
         manager.disconnect(websocket, run_id)
