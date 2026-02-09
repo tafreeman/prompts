@@ -1,5 +1,4 @@
-"""
-Base Model Provider
+"""Base Model Provider.
 
 Abstract base class for model provider implementations.
 """
@@ -12,6 +11,7 @@ from typing import Any, AsyncIterator, Dict, List, Optional
 @dataclass
 class ProviderConfig:
     """Configuration for a model provider."""
+
     name: str
     endpoint: Optional[str] = None
     api_key_env: Optional[str] = None
@@ -21,6 +21,7 @@ class ProviderConfig:
 @dataclass
 class GenerationParams:
     """Parameters for text generation."""
+
     temperature: float = 0.7
     max_tokens: int = 4096
     top_p: float = 1.0
@@ -28,9 +29,8 @@ class GenerationParams:
 
 
 class BaseModelProvider(ABC):
-    """
-    Abstract base class for model provider implementations.
-    
+    """Abstract base class for model provider implementations.
+
     Subclasses should implement:
     - generate(): Synchronous generation
     - generate_async(): Async generation
@@ -38,10 +38,10 @@ class BaseModelProvider(ABC):
     - list_models(): List available models
     - check_health(): Health check
     """
-    
+
     def __init__(self, config: ProviderConfig):
         self.config = config
-    
+
     @abstractmethod
     async def generate(
         self,
@@ -52,7 +52,7 @@ class BaseModelProvider(ABC):
     ) -> str:
         """Generate text from a prompt."""
         pass
-    
+
     @abstractmethod
     async def stream(
         self,
@@ -63,12 +63,12 @@ class BaseModelProvider(ABC):
     ) -> AsyncIterator[str]:
         """Stream text generation."""
         pass
-    
+
     @abstractmethod
     async def list_models(self) -> List[Dict[str, Any]]:
         """List available models from this provider."""
         pass
-    
+
     @abstractmethod
     async def check_health(self) -> bool:
         """Check if the provider is healthy and available."""

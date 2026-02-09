@@ -116,8 +116,14 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="Override tier default model (e.g., local:phi4-gpu, ollama:gpt-oss:20b, aitk:phi-4-mini-reasoning)",
     )
-    parser.add_argument("--list-tiers", action="store_true", help="List available tiers and exit")
-    parser.add_argument("--list-models", action="store_true", help="List discovered available models and exit")
+    parser.add_argument(
+        "--list-tiers", action="store_true", help="List available tiers and exit"
+    )
+    parser.add_argument(
+        "--list-models",
+        action="store_true",
+        help="List discovered available models and exit",
+    )
     parser.add_argument("--verbose", action="store_true", help="Print progress")
     parser.add_argument("--ci", action="store_true", help="CI-friendly output")
     parser.add_argument(
@@ -142,7 +148,9 @@ def main(argv: list[str] | None = None) -> int:
         return _print_models_from_discovery()
 
     if not args.path:
-        parser.error("path is required unless --list-tiers or --list-models is provided")
+        parser.error(
+            "path is required unless --list-tiers or --list-models is provided"
+        )
 
     result = evaluate(
         args.path,

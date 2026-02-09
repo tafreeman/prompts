@@ -1,5 +1,4 @@
-"""
-Tool Registry
+"""Tool Registry.
 
 Provides registration and invocation of tools for agents.
 Tools can be:
@@ -11,14 +10,14 @@ Tools can be:
 from __future__ import annotations
 
 import asyncio
-import inspect
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional
 
 
 @dataclass
 class ToolDefinition:
     """Definition of a registered tool."""
+
     name: str
     description: str
     handler: Callable
@@ -27,42 +26,41 @@ class ToolDefinition:
 
 
 class ToolRegistry:
-    """
-    Registry for tools that agents can invoke.
-    
+    """Registry for tools that agents can invoke.
+
     Example:
         registry = ToolRegistry()
-        
+
         @registry.register("read_file", "Read contents of a file")
         async def read_file(path: str) -> str:
             with open(path) as f:
                 return f.read()
-        
+
         # In agent:
         content = await self.use_tool("read_file", {"path": "README.md"})
     """
-    
+
     def __init__(self):
         """Initialize empty registry."""
         self._tools: Dict[str, ToolDefinition] = {}
-    
+
     def register(
         self,
         name: str,
         description: str,
         parameters: Optional[Dict[str, Any]] = None,
     ) -> Callable:
-        """
-        Decorator to register a tool.
-        
+        """Decorator to register a tool.
+
         Args:
             name: Tool name
             description: Human-readable description
             parameters: Optional parameter schema
-            
+
         Returns:
             Decorator function
         """
+
         def decorator(func: Callable) -> Callable:
             self._tools[name] = ToolDefinition(
                 name=name,
@@ -72,8 +70,9 @@ class ToolRegistry:
                 is_async=asyncio.iscoroutinefunction(func),
             )
             return func
+
         return decorator
-    
+
     def add_tool(
         self,
         name: str,
@@ -81,9 +80,8 @@ class ToolRegistry:
         description: str = "",
         parameters: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """
-        Add a tool directly (not as decorator).
-        
+        """Add a tool directly (not as decorator).
+
         Args:
             name: Tool name
             handler: Tool function
@@ -97,35 +95,34 @@ class ToolRegistry:
             parameters=parameters or {},
             is_async=asyncio.iscoroutinefunction(handler),
         )
-    
+
     async def invoke(
         self,
         name: str,
         params: Dict[str, Any],
     ) -> Any:
-        """
-        Invoke a registered tool.
-        
+        """Invoke a registered tool.
+
         Args:
             name: Tool name
             params: Tool parameters
-            
+
         Returns:
             Tool result
-            
+
         Raises:
             KeyError: If tool not registered
         """
         if name not in self._tools:
             raise KeyError(f"Tool '{name}' not registered")
-        
+
         tool = self._tools[name]
-        
+
         if tool.is_async:
             return await tool.handler(**params)
         else:
             return await asyncio.to_thread(tool.handler, **params)
-    
+
     def list_tools(self) -> List[Dict[str, Any]]:
         """List all registered tools."""
         return [
@@ -136,11 +133,11 @@ class ToolRegistry:
             }
             for tool in self._tools.values()
         ]
-    
+
     def get_tool(self, name: str) -> Optional[ToolDefinition]:
         """Get a tool definition by name."""
         return self._tools.get(name)
-    
+
     def has_tool(self, name: str) -> bool:
         """Check if a tool is registered."""
         return name in self._tools
@@ -159,10 +156,12 @@ def get_default_registry() -> ToolRegistry:
 # Built-in Tools
 # ============================================================================
 
+
 @_default_registry.register("file_read", "Read contents of a file")
 async def file_read(path: str, encoding: str = "utf-8") -> str:
     """Read a file and return its contents."""
     from pathlib import Path
+
     return Path(path).read_text(encoding=encoding)
 
 
@@ -170,6 +169,7 @@ async def file_read(path: str, encoding: str = "utf-8") -> str:
 async def file_write(path: str, content: str, encoding: str = "utf-8") -> bool:
     """Write content to a file."""
     from pathlib import Path
+
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     Path(path).write_text(content, encoding=encoding)
     return True
@@ -183,6 +183,7 @@ async def file_list(
 ) -> List[str]:
     """List files matching a pattern in a directory."""
     from pathlib import Path
+
     p = Path(directory)
     if recursive:
         return [str(f) for f in p.rglob(pattern) if f.is_file()]
@@ -197,7 +198,7 @@ async def run_command(
 ) -> Dict[str, Any]:
     """Run a shell command and return output."""
     import subprocess
-    
+
     result = await asyncio.to_thread(
         subprocess.run,
         command,
@@ -207,7 +208,7 @@ async def run_command(
         cwd=cwd,
         timeout=timeout,
     )
-    
+
     return {
         "returncode": result.returncode,
         "stdout": result.stdout,
@@ -220,6 +221,7 @@ async def run_command(
 async def json_parse(text: str) -> Any:
     """Parse a JSON string."""
     import json
+
     return json.loads(text)
 
 
@@ -227,4 +229,5 @@ async def json_parse(text: str) -> Any:
 async def json_stringify(obj: Any, indent: int = 2) -> str:
     """Convert an object to JSON string."""
     import json
+
     return json.dumps(obj, indent=indent, default=str)

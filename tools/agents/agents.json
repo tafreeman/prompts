@@ -2,7 +2,7 @@
   {
     "id": "vision_agent",
     "name": "Vision Agent",
-    "model": "local:phi3.5-vision",
+    "model": "gh:openai/gpt-4o",
     "role": "Extract UI elements from mockups",
     "output_format": "Structured JSON of UI components",
     "phase": "requirements",

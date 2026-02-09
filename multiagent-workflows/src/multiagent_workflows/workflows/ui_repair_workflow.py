@@ -1,16 +1,16 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List, Type
+from typing import List
 
-from multiagent_workflows.core.agent_base import AgentBase, AgentConfig, SimpleAgent
-from multiagent_workflows.agents.coder_agent import CoderAgent
-from multiagent_workflows.workflows.base import BaseWorkflow, WorkflowStep
 from tools.llm.langchain_adapter import LangChainAdapter
 
+from multiagent_workflows.agents.coder_agent import CoderAgent
+from multiagent_workflows.core.agent_base import AgentConfig, SimpleAgent
+from multiagent_workflows.workflows.base import BaseWorkflow, WorkflowStep
+
+
 class UiRepairWorkflow(BaseWorkflow):
-    """
-    Workflow to diagnose and repair UI issues using existing agents.
-    """
+    """Workflow to diagnose and repair UI issues using existing agents."""
 
     name = "ui_repair"
     description = "Diagnose and repair UI issues."
@@ -85,9 +85,11 @@ class UiRepairWorkflow(BaseWorkflow):
 
         agent_class = details["class"]
         system_prompt = details["prompt"]
-        
+
         # Use a strong model for coding
-        model_id = self.model_manager.get_optimal_model("code_gen" if step.agent == "coder" else "reasoning", complexity=7)
+        model_id = self.model_manager.get_optimal_model(
+            "code_gen" if step.agent == "coder" else "reasoning", complexity=7
+        )
 
         config = AgentConfig(
             name=step.agent.title(),
@@ -95,7 +97,7 @@ class UiRepairWorkflow(BaseWorkflow):
             model_id=model_id,
             system_prompt=system_prompt,
         )
-        setattr(config, 'langchain_adapter', LangChainAdapter(config.model_id))
+        setattr(config, "langchain_adapter", LangChainAdapter(config.model_id))
 
         if agent_class == SimpleAgent:
             # Pass inputs into prompt context
@@ -104,7 +106,7 @@ class UiRepairWorkflow(BaseWorkflow):
                 model_manager=self.model_manager,
                 tool_registry=self.tool_registry,
                 logger=self.logger,
-                prompt_template=f"Task: {{task}}\n\nContext:\n{{context}}\n\n{system_prompt}"
+                prompt_template=f"Task: {{task}}\n\nContext:\n{{context}}\n\n{system_prompt}",
             )
         elif agent_class == CoderAgent:
             # CoderAgent constructs its own prompt, but we can override or subclass if needed.
@@ -112,8 +114,8 @@ class UiRepairWorkflow(BaseWorkflow):
             # We map inputs to "specification" in _execute_step or rely on CoderAgent to read context.
             # CoderAgent reads "architecture" and "api_spec" from context['artifacts'].
             # We need to ensure 'plan' is passed nicely.
-            # We will rely on CoderAgent being smart enough or modify how we call it? 
-            # Actually CoderAgent._process uses task.get("specification"). 
+            # We will rely on CoderAgent being smart enough or modify how we call it?
+            # Actually CoderAgent._process uses task.get("specification").
             # BaseWorkflow._execute_step passes step_inputs to agent.execute(step_inputs, ...).
             # SimpleAgent wraps this. CoderAgent inherits AgentBase.
             # AgentBase.execute calls _process(task, context).
@@ -122,7 +124,7 @@ class UiRepairWorkflow(BaseWorkflow):
             # Or we can customize CoderAgent usage here.
             # For simplicity, we'll let CoderAgent see "plan" if it's in the input dict.
             # But standard CoderAgent prompt builder checks 'specification'.
-            
+
             # We'll create a custom instance that maps inputs
             return CoderAgent(
                 config=config,
@@ -139,7 +141,7 @@ class UiRepairWorkflow(BaseWorkflow):
             # Get plan and file content
             plan = context.artifacts.get("plan", "")
             content = context.inputs.get("file_content", "")
-            
+
             # Construct specification for CoderAgent
             inputs["specification"] = (
                 f"We need to fix the UI code.\n\n"
@@ -151,12 +153,12 @@ class UiRepairWorkflow(BaseWorkflow):
             inputs["language"] = "html"
             inputs["framework"] = "vanilla"
             inputs["output_type"] = "frontend"
-            
+
             agent = await self._create_agent(step)
             result = await agent.execute(inputs, {"artifacts": context.artifacts})
             if result.success:
                 return result.output
             else:
-                 raise RuntimeError(f"Step {step.name} failed: {result.error}")
-        
+                raise RuntimeError(f"Step {step.name} failed: {result.error}")
+
         return await super()._execute_step(step, context)

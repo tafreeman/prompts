@@ -36,11 +36,12 @@ Tackle ambiguous research briefs, multi-step diagnostics, and large knowledge ba
 - [Concise](/prompts/advanced/chain-of-thought-concise) — short answers with numbered reasoning
 - [Debugging](/prompts/advanced/chain-of-thought-debugging) — investigate failing pipelines
 - [Performance Analysis](/prompts/advanced/chain-of-thought-performance-analysis) — uncover latency or RU spikes
+- [Self-Consistency](/prompts/advanced/self-consistency-reasoning) — maximize accuracy via multiple reasoning paths (Wang et al. 2023)
 - [Detailed Guide](/prompts/advanced/chain-of-thought-guide) — comprehensive CoT reference
 
 ### Verification & Self-Critique
 
-- [Chain-of-Verification (CoVe)](/prompts/advanced/CoVe) — reduce hallucinations through fact-checking
+- [Chain-of-Verification (CoVe)](/prompts/advanced/chain-of-verification) — reduce hallucinations through fact-checking
 - [Reflection Self-Critique](/prompts/advanced/reflection-self-critique) — iterative improvement patterns
 
 ### Tree-of-Thoughts Library

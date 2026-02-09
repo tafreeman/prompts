@@ -1,5 +1,4 @@
-"""
-Legacy Code Refactoring Workflow
+"""Legacy Code Refactoring Workflow.
 
 Analyzes legacy codebases and systematically refactors to modern patterns.
 
@@ -23,21 +22,19 @@ from typing import Any, Dict, List, Optional
 from multiagent_workflows.core.agent_base import AgentBase, AgentConfig, SimpleAgent
 from multiagent_workflows.core.logger import VerboseLogger
 from multiagent_workflows.core.model_manager import ModelManager
-from multiagent_workflows.core.tool_registry import ToolRegistry
 from multiagent_workflows.workflows.base import BaseWorkflow, WorkflowStep
 
 
 class LegacyRefactoringWorkflow(BaseWorkflow):
-    """
-    Legacy code refactoring workflow.
-    
+    """Legacy code refactoring workflow.
+
     Takes a legacy codebase and produces modernized code with
     characterization tests and migration documentation.
     """
-    
+
     name = "legacy_refactoring"
     description = "Refactor legacy code to modern patterns safely"
-    
+
     def define_steps(self) -> List[WorkflowStep]:
         """Define the workflow steps."""
         return [
@@ -113,7 +110,7 @@ class LegacyRefactoringWorkflow(BaseWorkflow):
                 optional=True,
             ),
         ]
-    
+
     async def _create_agent(self, step: WorkflowStep) -> Optional[AgentBase]:
         """Create the appropriate agent for each step."""
         agent_prompts = {
@@ -128,7 +125,6 @@ Analyze the code structure and document:
 6. Areas of high complexity
 
 Output structured JSON with your analysis.""",
-            
             "dependency_agent": """You are a dependency analyzer.
             
 Map all dependencies and identify:
@@ -139,7 +135,6 @@ Map all dependencies and identify:
 5. Dependency injection patterns (or lack thereof)
 
 Output a dependency graph and coupling metrics.""",
-            
             "pattern_agent": """You are a code quality expert detecting anti-patterns.
             
 Identify and categorize:
@@ -150,7 +145,6 @@ Identify and categorize:
 5. Testing anti-patterns
 
 For each issue, provide severity (1-10), location, and recommended fix.""",
-            
             "planner_agent": """You are a refactoring strategist.
             
 Create a phased refactoring plan that:
@@ -161,7 +155,6 @@ Create a phased refactoring plan that:
 5. Provides rollback strategies
 
 Output a detailed roadmap with phases, dependencies, and estimates.""",
-            
             "transformer_agent": """You are a safe code transformer.
             
 Apply refactoring transformations that:
@@ -171,7 +164,6 @@ Apply refactoring transformations that:
 4. Include before/after documentation
 
 Show each transformation with explanation.""",
-            
             "validator_agent": """You are a behavioral equivalence validator.
             
 Verify that refactored code:
@@ -182,16 +174,16 @@ Verify that refactored code:
 
 Report any behavioral differences found.""",
         }
-        
+
         prompt = agent_prompts.get(step.agent, f"Perform: {step.description}")
-        
+
         config = AgentConfig(
             name=step.agent.replace("_", " ").title(),
             role=step.description,
             model_id=self.model_manager.get_optimal_model("code_gen", 5),
             system_prompt=prompt,
         )
-        
+
         return SimpleAgent(
             config=config,
             model_manager=self.model_manager,
@@ -208,28 +200,27 @@ async def run_refactoring_workflow(
     model_manager: Optional[ModelManager] = None,
     logger: Optional[VerboseLogger] = None,
 ) -> Dict[str, Any]:
-    """
-    Convenience function to run the legacy refactoring workflow.
-    
+    """Convenience function to run the legacy refactoring workflow.
+
     Args:
         codebase_path: Path to legacy codebase
         target_framework: Target modern framework
         model_manager: Optional model manager
         logger: Optional logger
-        
+
     Returns:
         Workflow outputs
     """
     if model_manager is None:
         model_manager = ModelManager()
-    
+
     workflow = LegacyRefactoringWorkflow(
         model_manager=model_manager,
         logger=logger,
     )
-    
+
     inputs = {"codebase_path": codebase_path}
     if target_framework:
         inputs["target_framework"] = target_framework
-    
+
     return await workflow.execute(inputs)

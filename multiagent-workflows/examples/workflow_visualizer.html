@@ -208,6 +208,11 @@
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
+
+        .live-dot.offline {
+            background: var(--accent-red);
+            animation: none;
+        }
         
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -434,6 +439,15 @@
             from { transform: translateY(100px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .live-dot { animation: none; }
+            .step-card.running .step-number { animation: none; }
+            .toast { animation: none; }
+            .workflow-option:hover,
+            .step-card:hover,
+            .launch-btn:hover:not(:disabled) { transform: none; }
+        }
     </style>
 </head>
 <body>
@@ -497,8 +511,9 @@
     
     <script>
         // Config
-        const API_BASE = 'http://localhost:5050/api';
+        const API_BASE = `${window.location.origin}/api`;
         const POLL_INTERVAL = 2000;
+        const FETCH_TIMEOUT_MS = 8000;
         
         // State
         let workflows = [];
@@ -508,10 +523,35 @@
         let selectedStepId = null;
         let currentRunData = null;
         let activeTab = 'output';
+        let apiOnline = true;
+
+        function setApiOnline(next) {
+            apiOnline = !!next;
+            const dot = document.querySelector('.live-dot');
+            const label = document.querySelector('.live-indicator span');
+            if (!dot || !label) return;
+            dot.classList.toggle('offline', !apiOnline);
+            label.textContent = apiOnline ? 'Live • Polling every 2s' : 'Offline • Retrying...';
+        }
+
+        async function apiFetch(path, options = {}) {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+            try {
+                const res = await fetch(`${API_BASE}${path}`, { ...options, signal: controller.signal });
+                setApiOnline(true);
+                return res;
+            } catch (e) {
+                setApiOnline(false);
+                throw e;
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
         
         // Utils
         function formatDuration(ms) {
-            if (!ms) return '--';
+            if (ms === null || ms === undefined) return '--';
             if (ms < 1000) return `${Math.round(ms)}ms`;
             if (ms < 60000) return `${(ms / 1000).toFixed(1)}s`;
             return `${(ms / 60000).toFixed(1)}m`;
@@ -538,7 +578,12 @@
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${message}`;
+            const icon = document.createElement('span');
+            icon.textContent = type === 'success' ? '✅' : '❌';
+            const text = document.createElement('span');
+            text.textContent = String(message || '');
+            toast.appendChild(icon);
+            toast.appendChild(text);
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 4000);
         }
@@ -546,7 +591,7 @@
         // Load workflows
         async function loadWorkflows() {
             try {
-                const res = await fetch(`${API_BASE}/workflows`);
+                const res = await apiFetch(`/workflows`);
                 if (res.ok) {
                     const data = await res.json();
                     workflows = data.workflows || [];
@@ -592,7 +637,7 @@
             btn.innerHTML = '<span>⏳</span> Starting...';
             
             try {
-                const res = await fetch(`${API_BASE}/start`, {
+                const res = await apiFetch(`/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -620,7 +665,7 @@
         // Load runs
         async function loadRunsList() {
             try {
-                const res = await fetch(`${API_BASE}/runs?t=${Date.now()}`);
+                const res = await apiFetch(`/runs?t=${Date.now()}`);
                 if (res.ok) {
                     const data = await res.json();
                     runs = data.runs || [];
@@ -629,7 +674,7 @@
             } catch (e) {
                 // Try local file fallback
                 try {
-                    const res = await fetch(`../dashboard_data/runs.json?t=${Date.now()}`);
+                    const res = await fetch(`/dashboard_data/runs.json?t=${Date.now()}`);
                     if (res.ok) {
                         const data = await res.json();
                         runs = data.runs || [];
@@ -670,7 +715,7 @@
         // Load run detail
         async function loadRunDetail(runId) {
             try {
-                const res = await fetch(`${API_BASE}/runs/${runId}?t=${Date.now()}`);
+                const res = await apiFetch(`/runs/${runId}?t=${Date.now()}`);
                 if (res.ok) {
                     currentRunData = await res.json();
                     return;
@@ -679,7 +724,7 @@
             
             // Fallback to file
             try {
-                const res = await fetch(`../dashboard_data/run_${runId}.json?t=${Date.now()}`);
+                const res = await fetch(`/dashboard_data/run_${runId}.json?t=${Date.now()}`);
                 if (res.ok) {
                     currentRunData = await res.json();
                 }
@@ -715,6 +760,10 @@
                     <div class="info-item">
                         <label>Status</label>
                         <div class="value"><span class="run-status ${r.status}">${r.status.toUpperCase()}</span></div>
+                    </div>
+                    <div class="info-item">
+                        <label>Tokens</label>
+                        <div class="value">${totalTokens}</div>
                     </div>
                 </div>
                 
@@ -814,6 +863,7 @@
         
         // Polling
         async function poll() {
+            if (document.hidden) return;
             await loadRunsList();
             
             if (selectedRunId) {
@@ -827,6 +877,7 @@
         loadWorkflows();
         poll();
         setInterval(poll, POLL_INTERVAL);
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
     </script>
 </body>
 </html>

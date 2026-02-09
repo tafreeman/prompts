@@ -43,9 +43,7 @@ def read_text(path: Path, *, max_chars: int) -> str:
 
 def build_merge_prompt(*, inputs: List[tuple[str, str]], focus: Optional[str]) -> str:
     parts: List[str] = []
-    parts.append(
-        textwrap.dedent(
-            """
+    parts.append(textwrap.dedent("""
             You are an expert software architect and developer tooling analyst.
 
             You will be given multiple evaluation reports of the same tooling ecosystem,
@@ -65,9 +63,7 @@ def build_merge_prompt(*, inputs: List[tuple[str, str]], focus: Optional[str]) -
                - PR title, files touched (best guess from reports), acceptance criteria, test plan
             3. Risk Register (top 5)
             4. Follow-ups (nice-to-haves)
-            """
-        ).strip()
-    )
+            """).strip())
 
     if focus:
         parts.append(f"\nFocus areas: {focus}\n")

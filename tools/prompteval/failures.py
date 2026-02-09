@@ -1,5 +1,4 @@
-"""
-Failure taxonomy for pattern evaluation.
+"""Failure taxonomy for pattern evaluation.
 
 Defines enumerated failure modes and reporting structures for
 deterministic classification of pattern execution failures.
@@ -11,11 +10,10 @@ from typing import List, Optional
 
 
 class FailureMode(Enum):
-    """
-    Fixed taxonomy of pattern execution failures.
+    """Fixed taxonomy of pattern execution failures.
 
-    Judges must classify failures using ONLY these modes.
-    Free-text explanations are forbidden in scoring.
+    Judges must classify failures using ONLY these modes. Free-text
+    explanations are forbidden in scoring.
     """
 
     # Phase-related failures
@@ -49,8 +47,7 @@ class FailureMode(Enum):
 
 @dataclass
 class FailureReport:
-    """
-    Structured report of a single failure instance.
+    """Structured report of a single failure instance.
 
     Attributes:
         mode: The classified failure type
@@ -60,6 +57,7 @@ class FailureReport:
         details: Human-readable description (for test compatibility)
         severity: Impact level (critical, major, minor)
     """
+
     mode: FailureMode
     phase: Optional[str] = None
     expected: Optional[str] = None
@@ -91,8 +89,7 @@ class FailureReport:
 
 @dataclass
 class PatternFailureSummary:
-    """
-    Summary of all failures for a pattern evaluation run.
+    """Summary of all failures for a pattern evaluation run.
 
     Attributes:
         pattern: The pattern being evaluated (e.g., 'react', 'cove')
@@ -101,6 +98,7 @@ class PatternFailureSummary:
         hard_gate_failed: Whether hard gates were violated
         failure_count: Total number of failures
     """
+
     pattern: str = ""
     failures: List[FailureReport] = field(default_factory=list)
     hard_gate_failed: bool = False
@@ -142,17 +140,22 @@ class PatternFailureSummary:
         actual: Optional[str] = None,
         severity: str = "major",
     ) -> None:
-        """Add a failure to the summary. Accepts FailureMode or FailureReport."""
+        """Add a failure to the summary.
+
+        Accepts FailureMode or FailureReport.
+        """
         if isinstance(mode_or_report, FailureReport):
             self.failures.append(mode_or_report)
         else:
-            self.failures.append(FailureReport(
-                mode=mode_or_report,
-                phase=phase,
-                expected=expected,
-                actual=actual,
-                severity=severity,
-            ))
+            self.failures.append(
+                FailureReport(
+                    mode=mode_or_report,
+                    phase=phase,
+                    expected=expected,
+                    actual=actual,
+                    severity=severity,
+                )
+            )
 
     def set_hard_gate_failure(self, reason: str) -> None:
         """Mark that a hard gate was failed."""
@@ -176,36 +179,21 @@ class PatternFailureSummary:
 # =============================================================================
 
 FAILURE_DESCRIPTIONS = {
-    FailureMode.MISSING_PHASE:
-        "A required phase was not present in the output",
-    FailureMode.PHASE_ORDER_VIOLATION:
-        "Phases appeared in incorrect order",
-    FailureMode.EXTRA_PHASE:
-        "An unexpected or forbidden phase appeared",
-    FailureMode.INCOMPLETE_PHASE:
-        "A phase was present but lacked required content",
-    FailureMode.IMPLICIT_REASONING:
-        "Reasoning occurred outside of designated phase markers",
-    FailureMode.LEAKAGE_OUTSIDE_PHASE:
-        "Content appeared outside of any phase boundary",
-    FailureMode.PREMATURE_TERMINATION:
-        "Pattern ended before completing required phases",
-    FailureMode.REFLECTION_WITHOUT_REVISION:
-        "Self-critique occurred but no revision followed",
-    FailureMode.RAG_WITHOUT_GROUNDING:
-        "Claims made without citation to retrieved sources",
-    FailureMode.TOOL_CALL_WITHOUT_ACTION:
-        "Tool invocation occurred outside Action phase",
-    FailureMode.VERIFICATION_NOT_INDEPENDENT:
-        "Verification phase referenced draft instead of checking independently",
-    FailureMode.SELF_CONSISTENCY_VIOLATION:
-        "Output contradicts itself across phases",
-    FailureMode.GENERIC_CRITIQUE:
-        "Critique was generic rather than specific to the attempt",
-    FailureMode.PATTERN_COLLAPSE:
-        "Pattern collapsed into a simpler pattern (e.g., ReAct → CoT)",
-    FailureMode.HALLUCINATED_OBSERVATION:
-        "Observation contained fabricated rather than actual results",
+    FailureMode.MISSING_PHASE: "A required phase was not present in the output",
+    FailureMode.PHASE_ORDER_VIOLATION: "Phases appeared in incorrect order",
+    FailureMode.EXTRA_PHASE: "An unexpected or forbidden phase appeared",
+    FailureMode.INCOMPLETE_PHASE: "A phase was present but lacked required content",
+    FailureMode.IMPLICIT_REASONING: "Reasoning occurred outside of designated phase markers",
+    FailureMode.LEAKAGE_OUTSIDE_PHASE: "Content appeared outside of any phase boundary",
+    FailureMode.PREMATURE_TERMINATION: "Pattern ended before completing required phases",
+    FailureMode.REFLECTION_WITHOUT_REVISION: "Self-critique occurred but no revision followed",
+    FailureMode.RAG_WITHOUT_GROUNDING: "Claims made without citation to retrieved sources",
+    FailureMode.TOOL_CALL_WITHOUT_ACTION: "Tool invocation occurred outside Action phase",
+    FailureMode.VERIFICATION_NOT_INDEPENDENT: "Verification phase referenced draft instead of checking independently",
+    FailureMode.SELF_CONSISTENCY_VIOLATION: "Output contradicts itself across phases",
+    FailureMode.GENERIC_CRITIQUE: "Critique was generic rather than specific to the attempt",
+    FailureMode.PATTERN_COLLAPSE: "Pattern collapsed into a simpler pattern (e.g., ReAct → CoT)",
+    FailureMode.HALLUCINATED_OBSERVATION: "Observation contained fabricated rather than actual results",
 }
 
 

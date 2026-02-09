@@ -92,10 +92,13 @@ FALLBACK_BENCHMARKS: Dict[str, BenchmarkDefinition] = {
 def try_get_repo_benchmarks() -> Optional[Dict[str, Any]]:
     """Try to load benchmark definitions from the repo benchmark tool.
 
-    Returns the module-level BENCHMARK_DEFINITIONS mapping if importable.
+    Returns the module-level BENCHMARK_DEFINITIONS mapping if
+    importable.
     """
     try:
-        from tools.agents.benchmarks.datasets import BENCHMARK_DEFINITIONS  # type: ignore
+        from tools.agents.benchmarks.datasets import (
+            BENCHMARK_DEFINITIONS,  # type: ignore
+        )
 
         return BENCHMARK_DEFINITIONS
     except Exception:

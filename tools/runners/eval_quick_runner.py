@@ -2,14 +2,23 @@
 # Usage:
 #   .venv\Scripts\Activate.ps1
 #   python tools/eval_quick_runner.py --prompts prompts/ --tier 1 --sample 5 --models "gh-model-1,gh-model-2"
-import argparse, subprocess, json, csv, shutil, pathlib, time, sys
+import argparse
+import csv
+import json
+import pathlib
+import shutil
+import subprocess
+import sys
+import time
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+
 
 def run_cmd(cmd, timeout=600):
     print(">", " ".join(cmd))
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
     return proc.returncode, proc.stdout, proc.stderr
+
 
 def run_tiered_eval(target, tier, limit=None):
     """Run tiered evaluation using prompteval (the canonical evaluator)."""
@@ -21,10 +30,18 @@ def run_tiered_eval(target, tier, limit=None):
         print("prompteval failed:", err)
     return rc, out
 
+
 def gen_eval_files(target, outdir):
-    cmd = [sys.executable, str(ROOT / "tools" / "generate_eval_files.py"), str(target), "--out", str(outdir)]
+    cmd = [
+        sys.executable,
+        str(ROOT / "tools" / "generate_eval_files.py"),
+        str(target),
+        "--out",
+        str(outdir),
+    ]
     rc, out, err = run_cmd(cmd)
     return rc, out
+
 
 def gh_eval_file(evalfile, model=None):
     cmd = ["gh", "models", "eval", str(evalfile), "--json"]
@@ -32,6 +49,7 @@ def gh_eval_file(evalfile, model=None):
         cmd += ["--model", model]
     rc, out, err = run_cmd(cmd, timeout=600)
     return rc, out
+
 
 def main():
     p = argparse.ArgumentParser()
@@ -61,7 +79,7 @@ def main():
     models = [m.strip() for m in args.models.split(",") if m.strip()]
     results = []
     for ef in eval_files:
-        for model in (models or [None]):
+        for model in models or [None]:
             start = time.time()
             rc, out = gh_eval_file(ef, model=model) if shutil.which("gh") else (1, "")
             dur = time.time() - start
@@ -70,7 +88,7 @@ def main():
                 "model": model or "gh-default",
                 "rc": rc,
                 "duration_s": round(dur, 2),
-                "raw": out[:2000]
+                "raw": out[:2000],
             }
             # quick try parse overall_score if present
             try:
@@ -84,16 +102,30 @@ def main():
             except Exception:
                 pass
             results.append(row)
-            print("=>", row["eval_file"], "model", row["model"], "rc", row["rc"], "dur", row["duration_s"], "score", row.get("score"))
+            print(
+                "=>",
+                row["eval_file"],
+                "model",
+                row["model"],
+                "rc",
+                row["rc"],
+                "dur",
+                row["duration_s"],
+                "score",
+                row.get("score"),
+            )
 
     # write summary csv
     csvf = outdir / "quick_eval_summary.csv"
     with open(csvf, "w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=["eval_file","model","rc","duration_s","score"])
+        writer = csv.DictWriter(
+            fh, fieldnames=["eval_file", "model", "rc", "duration_s", "score"]
+        )
         writer.writeheader()
         for r in results:
-            writer.writerow({k:r.get(k,"") for k in writer.fieldnames})
+            writer.writerow({k: r.get(k, "") for k in writer.fieldnames})
     print("Summary written to", csvf)
+
 
 if __name__ == "__main__":
     main()

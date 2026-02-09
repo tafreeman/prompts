@@ -16,17 +16,17 @@ Key improvements over prose-only rubrics:
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Any
-import re
-
+from typing import Any, Dict, List, Optional
 
 # =============================================================================
 # DATA TYPES
 # =============================================================================
 
+
 @dataclass
 class Choice:
     """A scoring choice with label and normalized score."""
+
     choice: str  # e.g., "1", "2", "poor", "excellent"
     score: float  # Normalized 0.0-1.0
 
@@ -34,14 +34,14 @@ class Choice:
 @dataclass
 class LLMEvaluator:
     """LLM-based evaluator with example-anchored rubric."""
+
     model_id: str
     system_prompt: str
     prompt: str
     choices: List[Choice]
 
     def get_score_from_response(self, response: str) -> Optional[tuple]:
-        """
-        Extract score from LLM response using choice matching.
+        """Extract score from LLM response using choice matching.
 
         Returns (choice_label, normalized_score) or None if no match.
         Much more robust than complex JSON parsing.
@@ -49,7 +49,7 @@ class LLMEvaluator:
         response_lower = response.strip().lower()
 
         # Try to find the score in the last line (most reliable)
-        lines = response_lower.strip().split('\n')
+        lines = response_lower.strip().split("\n")
         last_line = lines[-1].strip() if lines else ""
 
         # Check for exact matches first
@@ -58,7 +58,7 @@ class LLMEvaluator:
                 return (choice.choice, choice.score)
 
         # Then check for containment in last few lines
-        search_text = '\n'.join(lines[-3:]) if len(lines) >= 3 else response_lower
+        search_text = "\n".join(lines[-3:]) if len(lines) >= 3 else response_lower
         for choice in self.choices:
             if choice.choice.lower() in search_text:
                 return (choice.choice, choice.score)
@@ -69,14 +69,14 @@ class LLMEvaluator:
 @dataclass
 class StringEvaluator:
     """Simple string-based evaluator for deterministic checks."""
+
     contains: Optional[str] = None
     equals: Optional[str] = None
     starts_with: Optional[str] = None
     ends_with: Optional[str] = None
 
     def evaluate(self, response: str, variables: Dict[str, Any] = None) -> tuple:
-        """
-        Evaluate response against string criteria.
+        """Evaluate response against string criteria.
 
         Returns (passed: bool, score: float, details: str)
         """
@@ -96,22 +96,38 @@ class StringEvaluator:
         if self.equals:
             expected = template(self.equals)
             passed = response == expected
-            return (passed, 1.0 if passed else 0.0, f"Expected exact match: '{expected}'")
+            return (
+                passed,
+                1.0 if passed else 0.0,
+                f"Expected exact match: '{expected}'",
+            )
 
         if self.contains:
             expected = template(self.contains).lower()
             passed = expected in response_lower
-            return (passed, 1.0 if passed else 0.0, f"Expected to contain: '{expected}'")
+            return (
+                passed,
+                1.0 if passed else 0.0,
+                f"Expected to contain: '{expected}'",
+            )
 
         if self.starts_with:
             expected = template(self.starts_with).lower()
             passed = response_lower.startswith(expected)
-            return (passed, 1.0 if passed else 0.0, f"Expected to start with: '{expected}'")
+            return (
+                passed,
+                1.0 if passed else 0.0,
+                f"Expected to start with: '{expected}'",
+            )
 
         if self.ends_with:
             expected = template(self.ends_with).lower()
             passed = response_lower.endswith(expected)
-            return (passed, 1.0 if passed else 0.0, f"Expected to end with: '{expected}'")
+            return (
+                passed,
+                1.0 if passed else 0.0,
+                f"Expected to end with: '{expected}'",
+            )
 
         return (False, 0.0, "No evaluation criteria specified")
 
@@ -143,7 +159,6 @@ COMPLIANCE_CHOICES = [
 # =============================================================================
 
 BUILTIN_EVALUATORS: Dict[str, LLMEvaluator] = {
-
     # -------------------------------------------------------------------------
     # SIMILARITY (Answer Equivalence)
     # -------------------------------------------------------------------------
@@ -189,7 +204,6 @@ predicted answer: {{completion}}
 stars:""",
         choices=STANDARD_CHOICES,
     ),
-
     # -------------------------------------------------------------------------
     # COHERENCE (Logical Flow)
     # -------------------------------------------------------------------------
@@ -266,7 +280,6 @@ RESPONSE: {{completion}}
 # Output""",
         choices=STANDARD_CHOICES,
     ),
-
     # -------------------------------------------------------------------------
     # FLUENCY (Language Quality)
     # -------------------------------------------------------------------------
@@ -335,7 +348,6 @@ RESPONSE: {{completion}}
 # Output""",
         choices=STANDARD_CHOICES,
     ),
-
     # -------------------------------------------------------------------------
     # RELEVANCE (Query Addressing)
     # -------------------------------------------------------------------------
@@ -415,7 +427,6 @@ RESPONSE: {{completion}}
 # Output""",
         choices=STANDARD_CHOICES,
     ),
-
     # -------------------------------------------------------------------------
     # GROUNDEDNESS (Context Anchoring)
     # -------------------------------------------------------------------------
@@ -513,6 +524,7 @@ RESPONSE: {{completion}}
 # HELPER FUNCTIONS
 # =============================================================================
 
+
 def get_evaluator(name: str) -> Optional[LLMEvaluator]:
     """Get a built-in evaluator by name."""
     return BUILTIN_EVALUATORS.get(name.lower())
@@ -524,8 +536,7 @@ def list_evaluators() -> List[str]:
 
 
 def template_prompt(prompt: str, variables: Dict[str, Any]) -> str:
-    """
-    Template a prompt string with variables using {{variable}} syntax.
+    """Template a prompt string with variables using {{variable}} syntax.
 
     This is compatible with gh-models' simple templating approach.
     """
@@ -539,9 +550,9 @@ def template_prompt(prompt: str, variables: Dict[str, Any]) -> str:
 # EVALUATOR RUNNER
 # =============================================================================
 
+
 class EvaluatorRunner:
-    """
-    Runs built-in evaluators against model outputs.
+    """Runs built-in evaluators against model outputs.
 
     Compatible with gh-models' evaluation pattern:
     1. Template the prompt with test data variables
@@ -550,8 +561,7 @@ class EvaluatorRunner:
     """
 
     def __init__(self, llm_client=None):
-        """
-        Initialize runner with an LLM client.
+        """Initialize runner with an LLM client.
 
         Args:
             llm_client: Client with generate_text(model_name, prompt, temperature) method
@@ -565,8 +575,7 @@ class EvaluatorRunner:
         completion: str,
         model_override: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """
-        Run a single evaluator on a completion.
+        """Run a single evaluator on a completion.
 
         Args:
             evaluator_name: Name of built-in evaluator (e.g., "similarity", "coherence")
@@ -646,7 +655,7 @@ class EvaluatorRunner:
                     "evaluator_name": evaluator_name,
                     "score": 0.0,
                     "passed": False,
-                    "details": f"LLM response did not match any defined choices",
+                    "details": "LLM response did not match any defined choices",
                     "raw_response": response,
                 }
 
@@ -665,8 +674,7 @@ class EvaluatorRunner:
         response: str,
         variables: Dict[str, Any] = None,
     ) -> Dict[str, Any]:
-        """
-        Run a string-based evaluator.
+        """Run a string-based evaluator.
 
         Args:
             evaluator: StringEvaluator instance
@@ -696,5 +704,9 @@ if __name__ == "__main__":
         evaluator = get_evaluator(name)
         print(f"  - {name}: {evaluator.model_id}")
 
-    print("\nThese evaluators use example-anchored definitions from Microsoft PromptFlow.")
-    print("Usage: runner.run_evaluator('similarity', {'input': '...', 'expected': '...'}, completion)")
+    print(
+        "\nThese evaluators use example-anchored definitions from Microsoft PromptFlow."
+    )
+    print(
+        "Usage: runner.run_evaluator('similarity', {'input': '...', 'expected': '...'}, completion)"
+    )

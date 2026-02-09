@@ -1,0 +1,672 @@
+# Agentic-Workflows-V2 Implementation Workflow
+# Specific workflow for implementing the agentic-workflows-v2 module
+# Uses LangChain with tools: MS docs, OpenAI docs, file ops, search
+# Target: Self-contained module that runs in WSL or native Linux
+
+version: "1.0.0"
+
+workflow:
+  name: Agentic-Workflows-V2 Implementation
+  description: |
+    Specialized iterative workflow for implementing the agentic-workflows-v2 module.
+    
+    Goals:
+    1. Translate docs/planning/agentic-workflows-v2-phased-implementation.md into tasks
+    2. Implement each phase using Developer + AI Expert agents
+    3. Validate against MS Docs / OpenAI docs for latest patterns
+    4. Test each component
+    5. Judge determines if phase requirements met
+    
+    Self-Containment Requirements:
+    - All code in agentic-workflows-v2/ directory
+    - Own pyproject.toml with pinned dependencies
+    - No imports from parent repo except tools/llm/llm_client.py (optional)
+    - Must run standalone: `pip install -e agentic-workflows-v2/`
+    
+    WSL/Linux Compatibility:
+    - POSIX paths only in generated code
+    - No Windows-specific APIs
+    - Shell scripts use bash, not PowerShell
+    - Docker support for full isolation
+    
+    Loop continues until Judge approves or max iterations reached.
+    
+  type: iterative
+  max_iterations: 5
+  
+  # Fixed inputs for this specific implementation
+  inputs:
+    - name: plan_document
+      type: file
+      required: true
+      default: "docs/planning/agentic-workflows-v2-phased-implementation.md"
+      description: The phased implementation plan
+    - name: architecture_docs
+      type: file_list
+      required: false
+      default:
+        - "docs/planning/agentic-workflow-architecture.md"
+        - "docs/planning/agentic-workflow-implementation-patterns.md"
+      description: Related architecture documents
+    - name: target_directory
+      type: string
+      required: true
+      default: "agentic-workflows-v2"
+      description: Self-contained module directory
+    - name: acceptance_criteria
+      type: text
+      required: false
+      description: Custom acceptance criteria for the Judge
+      
+  # Self-containment validation
+  self_containment:
+    required: true
+    checks:
+      - has_pyproject_toml: true
+      - has_own_venv: true  # Can create own .venv
+      - no_parent_imports: true  # Except allowed list
+      - allowed_imports:
+          - "tools.llm.llm_client"  # Read-only, optional
+      - posix_paths: true
+      - no_windows_apis: true
+      - has_dockerfile: true
+      - has_bash_scripts: true  # No PowerShell in module
+      
+  # WSL/Linux runtime target
+  runtime:
+    target: linux
+    compatible_with:
+      - wsl2
+      - ubuntu
+      - debian
+      - docker
+    python_version: ">=3.11"
+      
+  outputs:
+    - name: implementation
+      type: directory
+      description: Complete implementation with all code
+    - name: task_tracker
+      type: json
+      description: All tasks with status and notes
+    - name: validation_report
+      type: markdown
+      description: Final validation report
+    - name: iteration_history
+      type: json
+      description: History of all iterations with scores
+
+  # ===========================================================================
+  # AGENTS: Specialized for plan implementation
+  # ===========================================================================
+  agents:
+    orchestrator:
+      name: Orchestrator
+      role: Workflow Coordinator & Task Router
+      model_tier: 3  # Complex reasoning
+      model: "gh:openai/gpt-4o"
+      tools:
+        - file_read
+        - file_write
+        - task_tracker
+        - agent_router
+      system_prompt: |
+        You are the Orchestrator for a plan implementation workflow.
+        Your job is to:
+        1. Read and understand the implementation plan
+        2. Break it into discrete, actionable tasks
+        3. Route each task to the appropriate agent (Developer or AI Expert)
+        4. Track progress and handle failures
+        5. Coordinate iteration loops until requirements are met
+        
+        Always create atomic, testable tasks. Group related tasks into phases.
+        Maintain a task_tracker.json with status for each task.
+        
+    task_planner:
+      name: Task Planner
+      role: Plan-to-Tasks Translator
+      model_tier: 3
+      model: "gh:openai/o3-mini"
+      tools:
+        - file_read
+        - file_write
+        - grep_search
+        - semantic_search
+      system_prompt: |
+        You are the Task Planner. Your job is to:
+        1. Parse the implementation plan document
+        2. Extract all deliverables (files to create, functions to implement)
+        3. Create discrete tasks with:
+           - Unique ID
+           - Title
+           - Description with implementation details
+           - Dependencies (task IDs that must complete first)
+           - Acceptance criteria
+           - Assigned agent (developer or ai_expert)
+        4. Output as JSON task list
+        
+        Each task should be:
+        - Small enough to complete in 1-3 LLM calls
+        - Testable independently
+        - Clearly scoped
+        
+    developer:
+      name: Developer Agent
+      role: Senior Python Developer (Linux/WSL Target)
+      model_tier: 2  # Code generation
+      model: "gh:openai/gpt-4o"
+      fallback: "ollama:qwen2.5-coder:14b"
+      tools:
+        - file_read
+        - file_write
+        - file_delete
+        - grep_search
+        - code_formatter
+        - python_executor
+      system_prompt: |
+        You are a Senior Python Developer implementing code for the agentic-workflows-v2 module.
+        
+        CRITICAL: Self-Contained Module for WSL/Linux
+        =============================================
+        - Target: agentic-workflows-v2/ as STANDALONE package
+        - Must work with: `cd agentic-workflows-v2 && pip install -e .`
+        - NO imports from parent repo (except optionally tools.llm.llm_client)
+        - All paths must be POSIX (use pathlib.Path, never hardcode backslashes)
+        - Shell scripts must be bash, NOT PowerShell
+        
+        Code Standards:
+        - Python 3.11+ features OK (match/case, tomllib, etc.)
+        - Pydantic v2 for all models
+        - Type hints everywhere
+        - Comprehensive docstrings (Google style)
+        - Black + isort formatting
+        
+        File Structure:
+        ```
+        agentic-workflows-v2/
+        ├── pyproject.toml          # Standalone package config
+        ├── README.md
+        ├── Dockerfile              # For full isolation
+        ├── scripts/
+        │   └── *.sh                # Bash scripts only
+        ├── src/agentic_v2/
+        │   ├── __init__.py
+        │   └── ...
+        └── tests/
+        ```
+        
+        For each task:
+        1. Read any referenced existing code
+        2. Generate the implementation
+        3. Verify no Windows-specific code
+        4. Write to correct path under agentic-workflows-v2/
+        
+    ai_expert:
+      name: AI Expert Agent
+      role: AI/ML Implementation Specialist
+      model_tier: 3
+      model: "gh:openai/o3-mini"
+      tools:
+        - file_read
+        - file_write
+        - mcp_microsoft_docs_search
+        - mcp_microsoft_code_sample_search
+        - mcp_openai_docs_search
+        - semantic_search
+      system_prompt: |
+        You are an AI/ML Expert specializing in LangChain, agent frameworks, and LLM integration.
+        
+        Your responsibilities:
+        - Implement agent-related code (LLM routing, prompt templates)
+        - Integrate with model providers (OpenAI, Ollama, local models)
+        - Design agent patterns (ReAct, tool use, self-refinement)
+        
+        Always:
+        - Search Microsoft and OpenAI docs for latest API patterns
+        - Use established agent patterns
+        - Handle token limits and streaming
+        
+    researcher:
+      name: Researcher Agent
+      role: Documentation & Validation Specialist
+      model_tier: 2
+      model: "gh:openai/gpt-4o-mini"
+      tools:
+        - file_read
+        - grep_search
+        - semantic_search
+        - mcp_microsoft_docs_search
+        - mcp_microsoft_docs_fetch
+        - mcp_openai_docs_search
+        - mcp_huggingface_hf_doc_search
+      system_prompt: |
+        You are a Research Specialist. Your responsibilities:
+        
+        1. **Pre-Implementation Research**:
+           - Search MS Docs, OpenAI docs for latest best practices
+           - Verify API signatures haven't changed
+           - Find relevant code samples
+        
+        2. **Post-Implementation Validation**:
+           - Check if implementation follows current best practices
+           - Identify if any APIs used are deprecated
+           - Suggest improvements based on documentation
+        
+        Always cite your sources with URLs.
+        
+    tester:
+      name: Tester Agent
+      role: Test Engineer
+      model_tier: 2
+      model: "gh:openai/gpt-4o"
+      fallback: "ollama:qwen2.5-coder:14b"
+      tools:
+        - file_read
+        - file_write
+        - python_executor
+        - pytest_runner
+      system_prompt: |
+        You are a Test Engineer. For each implementation:
+        
+        1. Generate unit tests using pytest
+        2. Include edge cases and error conditions
+        3. Use mocks for external dependencies (LLM calls, file I/O)
+        4. Run tests and report results
+        
+        Test structure:
+        ```python
+        # tests/test_{module}.py
+        import pytest
+        from agentic_v2.{module} import ...
+        
+        def test_...():
+            ...
+        ```
+        
+    judge:
+      name: Judge Agent
+      role: Quality Arbiter & Decision Maker
+      model_tier: 3  # Needs sophisticated reasoning
+      model: "gh:openai/o3-mini"
+      tools:
+        - file_read
+        - grep_search
+        - semantic_search
+      system_prompt: |
+        You are the Judge Agent. You make GO/NO-GO decisions.
+        
+        Evaluation Criteria:
+        1. **Completeness**: All tasks from plan completed?
+        2. **Correctness**: Code runs without errors? Tests pass?
+        3. **Quality**: Follows patterns? Proper typing? Documented?
+        4. **Alignment**: Matches original plan intent?
+        
+        Output Format:
+        ```json
+        {
+          "decision": "PASS" | "ITERATE" | "FAIL",
+          "score": 0-100,
+          "completeness_score": 0-100,
+          "correctness_score": 0-100,
+          "quality_score": 0-100,
+          "issues": ["issue1", "issue2"],
+          "required_fixes": ["fix1", "fix2"],
+          "iteration_feedback": "What to focus on next iteration"
+        }
+        ```
+        
+        Decision Rules:
+        - PASS: score >= 85 AND all critical tasks complete AND containment_check passed
+        - ITERATE: score >= 50, fixable issues remain
+        - FAIL: score < 50 OR fundamental design issues OR containment violations
+
+    containment_checker:
+      name: Containment Checker Agent
+      role: Self-Containment & WSL Compatibility Validator
+      model_tier: 1  # Simple pattern matching
+      model: "gh:openai/gpt-4o-mini"
+      tools:
+        - file_read
+        - grep_search
+        - python_executor
+      system_prompt: |
+        You are the Containment Checker. You verify the module is self-contained and WSL-ready.
+        
+        CHECKS TO PERFORM:
+        
+        1. **Self-Containment**:
+           - pyproject.toml exists with all dependencies listed
+           - No imports from parent repo (scan all .py files)
+           - Exception: `from tools.llm.llm_client import` is allowed but optional
+           - All relative imports stay within agentic_v2/
+        
+        2. **WSL/Linux Compatibility**:
+           - No `os.name == 'nt'` checks that break Linux
+           - No hardcoded Windows paths (C:\, D:\, backslashes)
+           - pathlib.Path used for all path operations
+           - Shell scripts are .sh (bash), not .ps1
+           - No PowerShell-specific commands in any scripts
+        
+        3. **Standalone Verification**:
+           - Can run: `cd agentic-workflows-v2 && pip install -e .`
+           - Has __init__.py in all packages
+           - Has README.md with setup instructions
+           - Has Dockerfile for full isolation
+        
+        Output Format:
+        ```json
+        {
+          "containment_passed": true|false,
+          "wsl_compatible": true|false,
+          "standalone_ready": true|false,
+          "violations": [
+            {"file": "...", "line": N, "issue": "..."}
+          ],
+          "missing_files": ["Dockerfile", "..."],
+          "forbidden_imports": [
+            {"file": "...", "import": "..."}
+          ]
+        }
+        ```
+
+  # ===========================================================================
+  # WORKFLOW STEPS: Iterative implementation loop
+  # ===========================================================================
+  steps:
+    # Phase 1: Planning (runs once)
+    - id: load_plan
+      name: Load Implementation Plan
+      agent: orchestrator
+      tier: 0  # No LLM needed - file operation
+      action: file_read
+      inputs:
+        path: "${inputs.plan_document}"
+      outputs: ["plan_content"]
+      
+    - id: parse_plan
+      name: Parse Plan into Tasks
+      agent: task_planner
+      tier: 3
+      inputs:
+        plan: "${load_plan.plan_content}"
+        architecture_docs: "${inputs.architecture_docs}"
+      outputs: ["task_list", "task_graph"]
+      
+    - id: create_structure
+      name: Create Directory Structure
+      agent: developer
+      tier: 0  # No LLM - file ops
+      action: create_directories
+      inputs:
+        base_path: "${inputs.target_directory}"
+        structure: "${parse_plan.task_graph.directories}"
+      outputs: ["created_paths"]
+      
+    - id: create_scaffold
+      name: Create Self-Contained Package Scaffold
+      agent: developer
+      tier: 1  # Template rendering
+      description: Create pyproject.toml, Dockerfile, README, and bash scripts
+      action: create_scaffold_files
+      inputs:
+        base_path: "${inputs.target_directory}"
+      outputs: ["scaffold_files"]
+      files_to_create:
+        - path: "pyproject.toml"
+          template: |
+            [build-system]
+            requires = ["hatchling"]
+            build-backend = "hatchling.build"
+            
+            [project]
+            name = "agentic-v2"
+            version = "0.1.0"
+            description = "Self-contained agentic workflows module"
+            requires-python = ">=3.11"
+            dependencies = [
+                "pydantic>=2.0",
+                "httpx>=0.25",
+                "jinja2>=3.0",
+                "jmespath>=1.0",
+                "typer>=0.9",
+                "pyyaml>=6.0",
+            ]
+            
+            [project.optional-dependencies]
+            langchain = ["langchain>=0.1", "langchain-core>=0.1"]
+            dev = ["pytest>=7.0", "pytest-asyncio", "black", "isort", "mypy"]
+            
+            [project.scripts]
+            agentic-v2 = "agentic_v2.cli.main:app"
+            
+            [tool.hatch.build.targets.wheel]
+            packages = ["src/agentic_v2"]
+            
+        - path: "Dockerfile"
+          template: |
+            FROM python:3.11-slim
+            WORKDIR /app
+            COPY pyproject.toml README.md ./
+            COPY src/ ./src/
+            RUN pip install --no-cache-dir -e .
+            ENTRYPOINT ["agentic-v2"]
+            
+        - path: "scripts/run.sh"
+          template: |
+            #!/bin/bash
+            set -e
+            cd "$(dirname "$0")/.."
+            python -m agentic_v2.cli.main "$@"
+            
+        - path: "scripts/test.sh"
+          template: |
+            #!/bin/bash
+            set -e
+            cd "$(dirname "$0")/.."
+            python -m pytest tests/ -v "$@"
+      
+    # Phase 2: Implementation Loop (iterates)
+    - id: implementation_loop
+      name: Iterative Implementation
+      type: iterative_loop
+      max_iterations: "${workflow.max_iterations}"
+      exit_condition: "${judge_decision.decision} == 'PASS'"
+      
+      loop_steps:
+        - id: select_tasks
+          name: Select Next Tasks
+          agent: orchestrator
+          tier: 2
+          inputs:
+            all_tasks: "${parse_plan.task_list}"
+            completed: "${state.completed_tasks}"
+            failed: "${state.failed_tasks}"
+          outputs: ["selected_tasks"]
+          
+        - id: research_phase
+          name: Research Before Implementation
+          agent: researcher
+          tier: 2
+          parallel: true  # Can research multiple tasks in parallel
+          for_each: "${select_tasks.selected_tasks}"
+          inputs:
+            task: "${item}"
+          outputs: ["research_results"]
+          tools_used:
+            - mcp_microsoft_docs_search
+            - mcp_openai_docs_search
+            
+        - id: implement_tasks
+          name: Implement Tasks
+          agent: "${item.assigned_agent}"  # Dynamic: developer or ai_expert
+          tier: 2
+          parallel: false  # Sequential to handle dependencies
+          for_each: "${select_tasks.selected_tasks}"
+          inputs:
+            task: "${item}"
+            research: "${research_phase.research_results[item.id]}"
+            existing_code: "${state.implementation}"
+          outputs: ["implemented_files"]
+          
+        - id: test_implementation
+          name: Test Implementation
+          agent: tester
+          tier: 2
+          inputs:
+            implemented_files: "${implement_tasks.implemented_files}"
+            task_list: "${select_tasks.selected_tasks}"
+          outputs: ["test_results"]
+          
+        - id: validate_against_docs
+          name: Validate Against Latest Docs
+          agent: researcher
+          tier: 2
+          inputs:
+            implemented_files: "${implement_tasks.implemented_files}"
+            test_results: "${test_implementation.test_results}"
+          outputs: ["validation_results"]
+          
+        - id: check_containment
+          name: Verify Self-Containment & WSL Compatibility
+          agent: containment_checker
+          tier: 1
+          inputs:
+            target_directory: "${inputs.target_directory}"
+            implemented_files: "${implement_tasks.implemented_files}"
+          outputs: ["containment_report"]
+          
+        - id: judge_decision
+          name: Judge Progress
+          agent: judge
+          tier: 3
+          inputs:
+            plan: "${load_plan.plan_content}"
+            task_list: "${parse_plan.task_list}"
+            completed_tasks: "${state.completed_tasks}"
+            test_results: "${test_implementation.test_results}"
+            validation_results: "${validate_against_docs.validation_results}"
+            containment_report: "${check_containment.containment_report}"
+            acceptance_criteria: "${inputs.acceptance_criteria}"
+            iteration: "${state.iteration}"
+          outputs: ["decision", "score", "feedback"]
+          
+        - id: update_state
+          name: Update Iteration State
+          agent: orchestrator
+          tier: 0
+          inputs:
+            decision: "${judge_decision}"
+            implemented: "${implement_tasks.implemented_files}"
+            test_results: "${test_implementation.test_results}"
+          outputs: ["updated_state"]
+          
+    # Phase 3: Finalization (runs once after loop exits)
+    - id: generate_report
+      name: Generate Final Report
+      agent: researcher
+      tier: 2
+      inputs:
+        plan: "${load_plan.plan_content}"
+        iteration_history: "${state.iteration_history}"
+        final_decision: "${judge_decision}"
+      outputs: ["final_report"]
+      
+    - id: cleanup
+      name: Cleanup Temporary Files
+      agent: orchestrator
+      tier: 0
+      action: cleanup
+      inputs:
+        temp_files: "${state.temp_files}"
+
+  # ===========================================================================
+  # STATE MANAGEMENT
+  # ===========================================================================
+  state:
+    initial:
+      iteration: 0
+      completed_tasks: []
+      failed_tasks: []
+      implementation: {}
+      iteration_history: []
+      temp_files: []
+      
+    checkpoints:
+      - after: parse_plan
+      - after: judge_decision
+        save_full: true
+        
+    persistence:
+      type: json
+      path: "${inputs.target_directory}/.workflow_state.json"
+
+  # ===========================================================================
+  # TOOLS CONFIGURATION
+  # ===========================================================================
+  tools:
+    # Built-in file operations (Tier 0 - no LLM)
+    file_read:
+      type: builtin
+      tier: 0
+      
+    file_write:
+      type: builtin
+      tier: 0
+      
+    file_delete:
+      type: builtin
+      tier: 0
+      
+    grep_search:
+      type: builtin
+      tier: 0
+      
+    semantic_search:
+      type: builtin
+      tier: 1  # May use embeddings
+      
+    # External doc search via MCP
+    mcp_microsoft_docs_search:
+      type: mcp
+      server: microsoftdocs
+      tier: 0  # API call, no LLM
+      
+    mcp_microsoft_docs_fetch:
+      type: mcp
+      server: microsoftdocs
+      tier: 0
+      
+    mcp_microsoft_code_sample_search:
+      type: mcp
+      server: microsoftdocs
+      tier: 0
+      
+    mcp_openai_docs_search:
+      type: mcp
+      server: openaidevelop
+      tier: 0
+      
+    mcp_huggingface_hf_doc_search:
+      type: mcp
+      server: huggingface
+      tier: 0
+      
+    # Code execution
+    python_executor:
+      type: builtin
+      tier: 0
+      sandbox: true
+      
+    pytest_runner:
+      type: builtin
+      tier: 0
+      
+    code_formatter:
+      type: builtin
+      tier: 0
+      
+    # Task management
+    task_tracker:
+      type: builtin
+      tier: 0
+      path: "${inputs.target_directory}/task_tracker.json"

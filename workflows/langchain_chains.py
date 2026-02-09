@@ -9,13 +9,13 @@ Usage example:
   chain = create_scoring_chain()
   result = chain.run({"prompt": my_prompt, "criteria": criteria})
 """
+
 from __future__ import annotations
-from typing import Any, Dict
 
 
 def _require_langchain():
     try:
-        import langchain  # type: ignore
+        pass  # type: ignore
     except Exception as e:
         raise ImportError(
             "langchain is not installed. Install it with `pip install langchain` "
@@ -72,7 +72,8 @@ def create_scoring_chain(llm=None):
 
 
 def create_implementer_chain(llm=None):
-    """Return a LangChain chain that suggests concrete prompt edits (implementer).
+    """Return a LangChain chain that suggests concrete prompt edits
+    (implementer).
 
     Inputs: prompt_text, prioritized_fixes (list)
     Output: updated_prompt (string) and top_action (string)

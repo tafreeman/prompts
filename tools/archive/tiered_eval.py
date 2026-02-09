@@ -32,21 +32,23 @@ Version: 1.0.0
 """
 
 import argparse
+import json
 import subprocess
 import sys
-import json
-from pathlib import Path
-from datetime import datetime
-from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
 
 # =============================================================================
 # TIER CONFIGURATION
 # =============================================================================
 
+
 @dataclass
 class TierConfig:
     """Configuration for each evaluation tier."""
+
     name: str
     description: str
     cost_estimate: str
@@ -74,60 +76,156 @@ GH_AVAILABLE_MODELS = [
 # All models (including those requiring direct API access)
 ALL_MODELS = {
     # Local models (onnxruntime-genai) - Available from AI Gallery cache
-    "local/phi4mini": {"provider": "local-onnx", "speed": "fast", "quality": "high", "cost": "free"},
-    "local/phi3.5": {"provider": "local-onnx", "speed": "fast", "quality": "good", "cost": "free"},
-    "local/phi3.5-vision": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
-    "local/phi3": {"provider": "local-onnx", "speed": "fast", "quality": "good", "cost": "free"},
-    "local/phi3-medium": {"provider": "local-onnx", "speed": "medium", "quality": "high", "cost": "free"},
-    "local/phi3-vision": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
-    "local/mistral-7b": {"provider": "local-onnx", "speed": "medium", "quality": "good", "cost": "free"},
-
+    "local/phi4mini": {
+        "provider": "local-onnx",
+        "speed": "fast",
+        "quality": "high",
+        "cost": "free",
+    },
+    "local/phi3.5": {
+        "provider": "local-onnx",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "free",
+    },
+    "local/phi3.5-vision": {
+        "provider": "local-onnx",
+        "speed": "medium",
+        "quality": "good",
+        "cost": "free",
+    },
+    "local/phi3": {
+        "provider": "local-onnx",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "free",
+    },
+    "local/phi3-medium": {
+        "provider": "local-onnx",
+        "speed": "medium",
+        "quality": "high",
+        "cost": "free",
+    },
+    "local/phi3-vision": {
+        "provider": "local-onnx",
+        "speed": "medium",
+        "quality": "good",
+        "cost": "free",
+    },
+    "local/mistral-7b": {
+        "provider": "local-onnx",
+        "speed": "medium",
+        "quality": "good",
+        "cost": "free",
+    },
     # GitHub Models (available via gh models run)
-    "openai/gpt-4.1": {"provider": "gh-models", "speed": "fast", "quality": "high", "cost": "free"},
-    "openai/gpt-4o": {"provider": "gh-models", "speed": "fast", "quality": "high", "cost": "free"},
-    "openai/gpt-4o-mini": {"provider": "gh-models", "speed": "very-fast", "quality": "good", "cost": "free"},
-    "mistral-ai/mistral-small-2503": {"provider": "gh-models", "speed": "fast", "quality": "good", "cost": "free"},
-    "meta/llama-3.3-70b-instruct": {"provider": "gh-models", "speed": "medium", "quality": "high", "cost": "free"},
-
+    "openai/gpt-4.1": {
+        "provider": "gh-models",
+        "speed": "fast",
+        "quality": "high",
+        "cost": "free",
+    },
+    "openai/gpt-4o": {
+        "provider": "gh-models",
+        "speed": "fast",
+        "quality": "high",
+        "cost": "free",
+    },
+    "openai/gpt-4o-mini": {
+        "provider": "gh-models",
+        "speed": "very-fast",
+        "quality": "good",
+        "cost": "free",
+    },
+    "mistral-ai/mistral-small-2503": {
+        "provider": "gh-models",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "free",
+    },
+    "meta/llama-3.3-70b-instruct": {
+        "provider": "gh-models",
+        "speed": "medium",
+        "quality": "high",
+        "cost": "free",
+    },
     # Claude models (Copilot Chat only - NOT gh models)
-    "claude-haiku-4.5": {"provider": "copilot-chat", "speed": "fast", "quality": "good", "cost": "included"},
-    "claude-sonnet-4": {"provider": "copilot-chat", "speed": "medium", "quality": "high", "cost": "included"},
-    "claude-sonnet-4.5": {"provider": "copilot-chat", "speed": "medium", "quality": "very-high", "cost": "included"},
-    "claude-opus-4.5": {"provider": "copilot-chat", "speed": "slow", "quality": "exceptional", "cost": "included"},
-
+    "claude-haiku-4.5": {
+        "provider": "copilot-chat",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "included",
+    },
+    "claude-sonnet-4": {
+        "provider": "copilot-chat",
+        "speed": "medium",
+        "quality": "high",
+        "cost": "included",
+    },
+    "claude-sonnet-4.5": {
+        "provider": "copilot-chat",
+        "speed": "medium",
+        "quality": "very-high",
+        "cost": "included",
+    },
+    "claude-opus-4.5": {
+        "provider": "copilot-chat",
+        "speed": "slow",
+        "quality": "exceptional",
+        "cost": "included",
+    },
     # GPT-5 models (may require API key)
-    "openai/gpt-5-mini": {"provider": "api", "speed": "very-fast", "quality": "good", "cost": "low"},
-    "openai/gpt-5": {"provider": "api", "speed": "medium", "quality": "very-high", "cost": "high"},
-
+    "openai/gpt-5-mini": {
+        "provider": "api",
+        "speed": "very-fast",
+        "quality": "good",
+        "cost": "low",
+    },
+    "openai/gpt-5": {
+        "provider": "api",
+        "speed": "medium",
+        "quality": "very-high",
+        "cost": "high",
+    },
     # Azure Foundry models (your own Azure deployment)
-    "azure-foundry/phi4mini": {"provider": "azure-foundry", "speed": "fast", "quality": "good", "cost": "pay-per-use"},
-    "azure-foundry/mistral": {"provider": "azure-foundry", "speed": "fast", "quality": "good", "cost": "pay-per-use"},
+    "azure-foundry/phi4mini": {
+        "provider": "azure-foundry",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "pay-per-use",
+    },
+    "azure-foundry/mistral": {
+        "provider": "azure-foundry",
+        "speed": "fast",
+        "quality": "good",
+        "cost": "pay-per-use",
+    },
 }
 
 # Model definitions by category (using ONLY gh-models compatible ones for dual_eval)
 MODELS = {
     # Local models - Free, no rate limits (all available from AI Gallery)
     "local": [
-        "local/phi4mini",            # Phi-4 Mini - Latest and best Phi
-        "local/phi3.5",              # Phi-3.5 Mini
-        "local/phi3",                # Phi-3 Mini
-        "local/phi3-medium",         # Phi-3 Medium (larger)
-        "local/mistral-7b",          # Mistral 7B Instruct
+        "local/phi4mini",  # Phi-4 Mini - Latest and best Phi
+        "local/phi3.5",  # Phi-3.5 Mini
+        "local/phi3",  # Phi-3 Mini
+        "local/phi3-medium",  # Phi-3 Medium (larger)
+        "local/mistral-7b",  # Mistral 7B Instruct
     ],
     # Fast/cheap models - Best for quick checks
     "fast": [
-        "openai/gpt-4o-mini",         # ⭐ RECOMMENDED: Fastest GitHub Model
+        "openai/gpt-4o-mini",  # ⭐ RECOMMENDED: Fastest GitHub Model
         "mistral-ai/mistral-small-2503",
     ],
     # Balanced models - Best for standard evaluation
     "balanced": [
-        "openai/gpt-4.1",             # ⭐ RECOMMENDED: Great balance
+        "openai/gpt-4.1",  # ⭐ RECOMMENDED: Great balance
         "openai/gpt-4o",
         "mistral-ai/mistral-small-2503",
     ],
     # High quality models - Best for thorough evaluation
     "quality": [
-        "openai/gpt-4.1",             # ⭐ RECOMMENDED
+        "openai/gpt-4.1",  # ⭐ RECOMMENDED
         "openai/gpt-4o",
         "meta/llama-3.3-70b-instruct",
         "mistral-ai/mistral-small-2503",
@@ -141,7 +239,11 @@ RECOMMENDED_MODELS = {
     "code_review": "openai/gpt-4.1",
     "standard_eval": "openai/gpt-4o",
     "thorough_eval": "openai/gpt-4.1",
-    "multi_model": ["openai/gpt-4o-mini", "openai/gpt-4.1", "mistral-ai/mistral-small-2503"],
+    "multi_model": [
+        "openai/gpt-4o-mini",
+        "openai/gpt-4.1",
+        "mistral-ai/mistral-small-2503",
+    ],
     "budget": "openai/gpt-4o-mini",
     "maximum_quality": "meta/llama-3.3-70b-instruct",
 }
@@ -186,9 +288,9 @@ TIERS: Dict[int, TierConfig] = {
         cost_estimate="$0 (free GitHub Models)",
         time_estimate="2-4 minutes",
         models=[
-            "openai/gpt-4o-mini",               # Fast baseline
-            "openai/gpt-4.1",                   # Quality check
-            "mistral-ai/mistral-small-2503",   # Diverse perspective
+            "openai/gpt-4o-mini",  # Fast baseline
+            "openai/gpt-4.1",  # Quality check
+            "mistral-ai/mistral-small-2503",  # Diverse perspective
         ],
         runs_per_model=2,
         uses_llm=True,
@@ -200,11 +302,11 @@ TIERS: Dict[int, TierConfig] = {
         cost_estimate="$0 (free GitHub Models)",
         time_estimate="5-10 minutes",
         models=[
-            "openai/gpt-4.1",                   # ⭐ Best GPT on gh-models
-            "openai/gpt-4o",                    # Strong GPT
-            "meta/llama-3.3-70b-instruct",     # Top open-source
-            "openai/gpt-4o-mini",               # Fast cross-check
-            "mistral-ai/mistral-small-2503",   # Diverse cross-check
+            "openai/gpt-4.1",  # ⭐ Best GPT on gh-models
+            "openai/gpt-4o",  # Strong GPT
+            "meta/llama-3.3-70b-instruct",  # Top open-source
+            "openai/gpt-4o-mini",  # Fast cross-check
+            "mistral-ai/mistral-small-2503",  # Diverse cross-check
         ],
         runs_per_model=3,
         uses_llm=True,
@@ -216,11 +318,11 @@ TIERS: Dict[int, TierConfig] = {
         cost_estimate="$0 (free GitHub Models)",
         time_estimate="10-20 minutes",
         models=[
-            "openai/gpt-4.1",                   # ⭐ Best overall
-            "openai/gpt-4o",                    # Strong alternative
-            "meta/llama-3.3-70b-instruct",     # Top open-source  
-            "mistral-ai/mistral-small-2503",   # Fast diverse check
-            "openai/gpt-4o-mini",               # Fast cross-check
+            "openai/gpt-4.1",  # ⭐ Best overall
+            "openai/gpt-4o",  # Strong alternative
+            "meta/llama-3.3-70b-instruct",  # Top open-source
+            "mistral-ai/mistral-small-2503",  # Fast diverse check
+            "openai/gpt-4o-mini",  # Fast cross-check
         ],
         runs_per_model=4,
         uses_llm=True,
@@ -232,8 +334,8 @@ TIERS: Dict[int, TierConfig] = {
         cost_estimate="Pay-per-use (Azure pricing)",
         time_estimate="15-30 seconds per prompt",
         models=[
-            "azure-foundry/phi4mini",           # Fast SLM on Azure
-            "azure-foundry/mistral",            # Mistral on Azure
+            "azure-foundry/phi4mini",  # Fast SLM on Azure
+            "azure-foundry/mistral",  # Mistral on Azure
         ],
         runs_per_model=2,
         uses_llm=True,
@@ -256,6 +358,7 @@ TIERS: Dict[int, TierConfig] = {
 # HELPER FUNCTIONS
 # =============================================================================
 
+
 def get_repo_root() -> Path:
     """Get the repository root directory."""
     return Path(__file__).parent.parent
@@ -264,10 +367,10 @@ def get_repo_root() -> Path:
 def find_prompts(path: str) -> List[Path]:
     """Find all prompt files in a path (file or directory)."""
     target = Path(path)
-    
+
     if target.is_file():
         return [target]
-    
+
     if target.is_dir():
         prompts = []
         for md_file in target.rglob("*.md"):
@@ -276,78 +379,91 @@ def find_prompts(path: str) -> List[Path]:
                 continue
             if md_file.name.endswith((".agent.md", ".instructions.md")):
                 continue
-            if any(part in {"archive", "node_modules", ".git"} for part in md_file.parts):
+            if any(
+                part in {"archive", "node_modules", ".git"} for part in md_file.parts
+            ):
                 continue
             prompts.append(md_file)
         return sorted(prompts)
-    
+
     print(f"Error: Path not found: {path}")
     return []
 
 
-def run_dual_eval(prompt_path: Path, models: List[str], runs: int, repo_root: Path, timeout: int = 600) -> Dict[str, Any]:
-    """
-    Run dual_eval.py on a prompt and return parsed results.
-    
+def run_dual_eval(
+    prompt_path: Path, models: List[str], runs: int, repo_root: Path, timeout: int = 600
+) -> Dict[str, Any]:
+    """Run dual_eval.py on a prompt and return parsed results.
+
     dual_eval.py writes JSON to a file, not stdout, so we need to:
     1. Specify an output file path
     2. Run the command
     3. Read and parse the JSON file
     4. Clean up
     """
-    import tempfile
     import os
-    
+    import tempfile
+
     dual_eval_path = repo_root / "testing" / "evals" / "dual_eval.py"
-    
+
     # Create a temp file for the output
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as tmp:
         output_path = Path(tmp.name)
-    
+
     try:
         # Build command - specify explicit output path and quiet mode to reduce emoji output
         cmd = [
-            sys.executable, str(dual_eval_path),
+            sys.executable,
+            str(dual_eval_path),
             str(prompt_path),
-            "--runs", str(runs),
-            "--format", "json",
-            "--output", str(output_path),
+            "--runs",
+            str(runs),
+            "--format",
+            "json",
+            "--output",
+            str(output_path),
             "--quiet",  # Suppress progress output (avoids encoding issues)
             "--models",
         ] + models
-        
+
         # Set PYTHONIOENCODING to handle emojis in case --quiet isn't enough
         env = os.environ.copy()
         env["PYTHONIOENCODING"] = "utf-8"
-        
+
         result = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            encoding='utf-8',  # Explicit UTF-8 to handle emojis
-            errors='replace',  # Replace undecodable chars instead of crashing
+            encoding="utf-8",  # Explicit UTF-8 to handle emojis
+            errors="replace",  # Replace undecodable chars instead of crashing
             timeout=timeout,
             cwd=str(repo_root),
             env=env,
         )
-        
+
         # Check if output file was created
         if output_path.exists():
             try:
-                eval_data = json.loads(output_path.read_text(encoding='utf-8'))
+                eval_data = json.loads(output_path.read_text(encoding="utf-8"))
                 # Extract first result if it's a batch report
                 if "results" in eval_data and eval_data["results"]:
                     first_result = eval_data["results"][0]
                     return {
                         "success": True,
                         "consensus_score": first_result.get("consensus_score", 0),
-                        "cross_validation_passed": first_result.get("cross_validation_passed", False),
+                        "cross_validation_passed": first_result.get(
+                            "cross_validation_passed", False
+                        ),
                         "final_grade": first_result.get("final_grade", "N/A"),
                         "final_pass": first_result.get("final_pass", False),
                         "score_variance": first_result.get("score_variance", 0),
                         "model_summaries": first_result.get("model_summaries", {}),
-                        "combined_strengths": first_result.get("combined_strengths", []),
-                        "combined_improvements": first_result.get("combined_improvements", []),
+                        "combined_strengths": first_result.get(
+                            "combined_strengths", []
+                        ),
+                        "combined_improvements": first_result.get(
+                            "combined_improvements", []
+                        ),
                     }
                 else:
                     return {
@@ -362,9 +478,11 @@ def run_dual_eval(prompt_path: Path, models: List[str], runs: int, repo_root: Pa
         else:
             return {
                 "success": False,
-                "error": result.stderr[:500] if result.stderr else "No output file created",
+                "error": (
+                    result.stderr[:500] if result.stderr else "No output file created"
+                ),
             }
-            
+
     except subprocess.TimeoutExpired:
         return {
             "success": False,
@@ -405,17 +523,18 @@ def print_tier_info(tier: int):
 # TIER EXECUTION FUNCTIONS
 # =============================================================================
 
+
 def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     """
     Tier 0: Local Model - Uses local ONNX Mistral 7B for evaluation ($0, no rate limits)
     Uses: local_model.py --evaluate
-    
+
     Benefits:
     - Completely free (runs locally)
     - No rate limits (process as many prompts as needed)
     - Privacy (no data sent to external APIs)
     - Consistent (same model for all evaluations)
-    
+
     Trade-offs:
     - Slower (~30-60s per prompt on CPU)
     - Single model perspective (no cross-validation)
@@ -430,16 +549,16 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": "$0 (local CPU)",
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
     local_model_path = repo_root / "tools" / "local_model.py"
-    
+
     # Check if local_model.py exists
     if not local_model_path.exists():
         print(f"\n❌ Error: local_model.py not found at {local_model_path}")
         print("   Run: python tools/local_model.py --check to verify model setup")
         return results
-    
+
     # Check if model is available
     print("\n🔍 Checking local model availability...")
     check_result = subprocess.run(
@@ -449,28 +568,33 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         timeout=30,
         cwd=str(repo_root),
     )
-    
+
     if check_result.returncode != 0:
         print("\n❌ Local model not available. Setup instructions:")
         print("   1. Install: pip install onnxruntime-genai")
         print("   2. Download Mistral 7B ONNX model from AI Gallery or HuggingFace")
         print("   3. Run: python tools/local_model.py --check")
         return results
-    
+
     model_info = json.loads(check_result.stdout)
     print(f"   ✓ Model found: {model_info.get('found_path', 'unknown')}")
-    print(f"   ✓ onnxruntime-genai: {model_info.get('onnxruntime_genai_version', 'unknown')}")
-    
+    print(
+        f"   ✓ onnxruntime-genai: {model_info.get('onnxruntime_genai_version', 'unknown')}"
+    )
+
     print(f"\n🤖 Running local model evaluation on {len(prompts)} prompts...")
     import tempfile
+
     # Write a JSON array of prompt paths so local_model.py can process them in one load
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as tf:
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".json", delete=False, encoding="utf-8"
+    ) as tf:
         json.dump([str(p) for p in prompts], tf)
         tmp_path = Path(tf.name)
 
     try:
         cmd = [sys.executable, str(local_model_path), "--batch-evaluate", str(tmp_path)]
-        if 'SELECTED_MODEL_PATH' in globals() and SELECTED_MODEL_PATH:
+        if "SELECTED_MODEL_PATH" in globals() and SELECTED_MODEL_PATH:
             cmd += ["--model-path", str(SELECTED_MODEL_PATH)]
 
         proc = subprocess.run(
@@ -485,11 +609,13 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             print(f"       ⚠️ local_model.py failed: {proc.stderr[:300]}")
             # Mark all prompts as errors
             for prompt_path in prompts:
-                results["results"].append({
-                    "file": str(prompt_path),
-                    "error": proc.stderr or "local_model failure",
-                    "tool": "local_model.py",
-                })
+                results["results"].append(
+                    {
+                        "file": str(prompt_path),
+                        "error": proc.stderr or "local_model failure",
+                        "tool": "local_model.py",
+                    }
+                )
                 results["errors"] += 1
                 results["prompts_evaluated"] += 1
             return results
@@ -501,11 +627,13 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         except Exception as e:
             print(f"       ⚠️ Could not parse batch output: {e}")
             for prompt_path in prompts:
-                results["results"].append({
-                    "file": str(prompt_path),
-                    "error": f"Batch parse error: {e}",
-                    "tool": "local_model.py",
-                })
+                results["results"].append(
+                    {
+                        "file": str(prompt_path),
+                        "error": f"Batch parse error: {e}",
+                        "tool": "local_model.py",
+                    }
+                )
                 results["errors"] += 1
                 results["prompts_evaluated"] += 1
             return results
@@ -516,14 +644,20 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             if not file_path:
                 # Skip malformed entry
                 continue
-            rel_path = Path(file_path).relative_to(repo_root) if Path(file_path).is_relative_to(repo_root) else Path(file_path)
+            rel_path = (
+                Path(file_path).relative_to(repo_root)
+                if Path(file_path).is_relative_to(repo_root)
+                else Path(file_path)
+            )
 
             if "error" in item:
-                results["results"].append({
-                    "file": str(rel_path),
-                    "error": item.get("error"),
-                    "tool": "local_model.py",
-                })
+                results["results"].append(
+                    {
+                        "file": str(rel_path),
+                        "error": item.get("error"),
+                        "tool": "local_model.py",
+                    }
+                )
                 results["errors"] += 1
             else:
                 res = item.get("result") or item.get("result", {})
@@ -535,15 +669,21 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
                     overall = sum(nums) / len(nums) if nums else 0
 
                 passed = overall >= 7.0
-                results["results"].append({
-                    "file": str(rel_path),
-                    "score": overall,
-                    "scores": res.get("scores", {}) if isinstance(res, dict) else {},
-                    "summary": res.get("summary", "") if isinstance(res, dict) else "",
-                    "passed": passed,
-                    "model": "local/mistral-7b",
-                    "tool": "local_model.py",
-                })
+                results["results"].append(
+                    {
+                        "file": str(rel_path),
+                        "score": overall,
+                        "scores": (
+                            res.get("scores", {}) if isinstance(res, dict) else {}
+                        ),
+                        "summary": (
+                            res.get("summary", "") if isinstance(res, dict) else ""
+                        ),
+                        "passed": passed,
+                        "model": "local/mistral-7b",
+                        "tool": "local_model.py",
+                    }
+                )
                 if passed:
                     results["passed"] += 1
                 else:
@@ -555,7 +695,7 @@ def run_tier_0(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             tmp_path.unlink()
         except Exception:
             pass
-    
+
     return results
 
 
@@ -570,72 +710,99 @@ def run_tier_1(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": "$0",
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
-    
+
     # Run prompt_analyzer.py for detailed structural analysis
     print("\n📊 Running structural analysis with prompt_analyzer.py...")
-    
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"  Analyzing: {rel_path}")
-        
+
         try:
             result = subprocess.run(
-                [sys.executable, str(repo_root / "tools" / "analyzers" / "prompt_analyzer.py"),
-                 "--file", str(prompt_path), "--json"],
+                [
+                    sys.executable,
+                    str(repo_root / "tools" / "analyzers" / "prompt_analyzer.py"),
+                    "--file",
+                    str(prompt_path),
+                    "--json",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=30,
                 cwd=str(repo_root),
             )
-            
+
             if result.returncode == 0 and result.stdout:
                 try:
                     analysis = json.loads(result.stdout)
-                    results["results"].append({
-                        "file": str(rel_path),
-                        "score": analysis.get("total_score", 0),
-                        "rating": analysis.get("rating_label", "Unknown"),
-                        "dimensions": {
-                            "clarity": analysis.get("clarity", {}).get("score", 0),
-                            "effectiveness": analysis.get("effectiveness", {}).get("score", 0),
-                            "reusability": analysis.get("reusability", {}).get("score", 0),
-                            "simplicity": analysis.get("simplicity", {}).get("score", 0),
-                            "examples": analysis.get("examples", {}).get("score", 0),
-                        },
-                        "tool": "prompt_analyzer.py",
-                    })
+                    results["results"].append(
+                        {
+                            "file": str(rel_path),
+                            "score": analysis.get("total_score", 0),
+                            "rating": analysis.get("rating_label", "Unknown"),
+                            "dimensions": {
+                                "clarity": analysis.get("clarity", {}).get("score", 0),
+                                "effectiveness": analysis.get("effectiveness", {}).get(
+                                    "score", 0
+                                ),
+                                "reusability": analysis.get("reusability", {}).get(
+                                    "score", 0
+                                ),
+                                "simplicity": analysis.get("simplicity", {}).get(
+                                    "score", 0
+                                ),
+                                "examples": analysis.get("examples", {}).get(
+                                    "score", 0
+                                ),
+                            },
+                            "tool": "prompt_analyzer.py",
+                        }
+                    )
                 except json.JSONDecodeError:
                     # Fall back to basic analysis
-                    results["results"].append({
-                        "file": str(rel_path),
-                        "score": "N/A",
-                        "tool": "prompt_analyzer.py",
-                        "error": "Could not parse JSON output",
-                    })
+                    results["results"].append(
+                        {
+                            "file": str(rel_path),
+                            "score": "N/A",
+                            "tool": "prompt_analyzer.py",
+                            "error": "Could not parse JSON output",
+                        }
+                    )
             else:
-                results["results"].append({
-                    "file": str(rel_path),
-                    "error": result.stderr or "Unknown error",
-                    "tool": "prompt_analyzer.py",
-                })
-                
+                results["results"].append(
+                    {
+                        "file": str(rel_path),
+                        "error": result.stderr or "Unknown error",
+                        "tool": "prompt_analyzer.py",
+                    }
+                )
+
         except subprocess.TimeoutExpired:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": "Timeout",
-                "tool": "prompt_analyzer.py",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": "Timeout",
+                    "tool": "prompt_analyzer.py",
+                }
+            )
         except Exception as e:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": str(e),
-                "tool": "prompt_analyzer.py",
-            })
-        
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": str(e),
+                    "tool": "prompt_analyzer.py",
+                }
+            )
+
         results["prompts_evaluated"] += 1
-    
+
     return results
 
 
@@ -646,7 +813,7 @@ def run_tier_2(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     """
     config = TIERS[2]
     model = config.models[0]
-    
+
     results = {
         "tier": 2,
         "model": model,
@@ -654,25 +821,31 @@ def run_tier_2(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": config.cost_estimate,
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
-    
+
     print(f"\n🤖 Running single-model evaluation with {model}...")
-    
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"  Evaluating: {rel_path}")
-        
+
         # Read prompt content
         try:
             content = prompt_path.read_text(encoding="utf-8")
         except Exception as e:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": f"Could not read file: {e}",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": f"Could not read file: {e}",
+                }
+            )
             continue
-        
+
         # Build evaluation prompt
         eval_prompt = f"""Evaluate this prompt template on a 1-10 scale for each criterion.
 Return JSON with scores and brief reasoning.
@@ -701,63 +874,79 @@ Return ONLY valid JSON:
                 timeout=120,
                 cwd=str(repo_root),
             )
-            
+
             if result.returncode == 0:
                 # Try to parse JSON from response
                 response = result.stdout.strip()
                 try:
                     # Find JSON in response
                     import re
-                    json_match = re.search(r'\{.*\}', response, re.DOTALL)
+
+                    json_match = re.search(r"\{.*\}", response, re.DOTALL)
                     if json_match:
                         eval_data = json.loads(json_match.group())
                         overall_score = eval_data.get("overall", 0)
-                        results["results"].append({
-                            "file": str(rel_path),
-                            "model": model,
-                            "scores": eval_data.get("scores", {}),
-                            "overall": overall_score,
-                            "final_pass": overall_score >= 7.0,  # Same threshold as dual_eval
-                            "summary": eval_data.get("summary", ""),
-                            "tool": "gh models run",
-                        })
+                        results["results"].append(
+                            {
+                                "file": str(rel_path),
+                                "model": model,
+                                "scores": eval_data.get("scores", {}),
+                                "overall": overall_score,
+                                "final_pass": overall_score
+                                >= 7.0,  # Same threshold as dual_eval
+                                "summary": eval_data.get("summary", ""),
+                                "tool": "gh models run",
+                            }
+                        )
                     else:
-                        results["results"].append({
+                        results["results"].append(
+                            {
+                                "file": str(rel_path),
+                                "model": model,
+                                "raw_response": response[:500],
+                                "error": "Could not parse JSON from response",
+                            }
+                        )
+                except json.JSONDecodeError:
+                    results["results"].append(
+                        {
                             "file": str(rel_path),
                             "model": model,
                             "raw_response": response[:500],
-                            "error": "Could not parse JSON from response",
-                        })
-                except json.JSONDecodeError:
-                    results["results"].append({
+                            "error": "Invalid JSON in response",
+                        }
+                    )
+            else:
+                results["results"].append(
+                    {
                         "file": str(rel_path),
                         "model": model,
-                        "raw_response": response[:500],
-                        "error": "Invalid JSON in response",
-                    })
-            else:
-                results["results"].append({
+                        "error": result.stderr or "Unknown error",
+                    }
+                )
+
+        except subprocess.TimeoutExpired:
+            results["results"].append(
+                {
                     "file": str(rel_path),
                     "model": model,
-                    "error": result.stderr or "Unknown error",
-                })
-                
-        except subprocess.TimeoutExpired:
-            results["results"].append({
-                "file": str(rel_path),
-                "model": model,
-                "error": "Timeout (120s)",
-            })
+                    "error": "Timeout (120s)",
+                }
+            )
         except FileNotFoundError:
-            print("Error: 'gh' CLI not found. Install GitHub CLI and gh-models extension.")
-            results["results"].append({
-                "file": str(rel_path),
-                "error": "gh CLI not found",
-            })
+            print(
+                "Error: 'gh' CLI not found. Install GitHub CLI and gh-models extension."
+            )
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": "gh CLI not found",
+                }
+            )
             break
-        
+
         results["prompts_evaluated"] += 1
-    
+
     return results
 
 
@@ -767,7 +956,7 @@ def run_tier_3(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     Uses: dual_eval.py with multi-model consensus
     """
     config = TIERS[3]
-    
+
     results = {
         "tier": 3,
         "models": config.models,
@@ -776,21 +965,27 @@ def run_tier_3(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": config.cost_estimate,
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
     dual_eval_path = repo_root / "testing" / "evals" / "dual_eval.py"
-    
+
     if not dual_eval_path.exists():
         print(f"Error: dual_eval.py not found at {dual_eval_path}")
         return results
-    
-    print(f"\n🔄 Running cross-validation with {len(config.models)} models × {config.runs_per_model} runs...")
+
+    print(
+        f"\n🔄 Running cross-validation with {len(config.models)} models × {config.runs_per_model} runs..."
+    )
     print(f"   Models: {', '.join(config.models)}")
-    
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"\n  Evaluating: {rel_path}")
-        
+
         # Use helper function to run dual_eval and get JSON results
         eval_result = run_dual_eval(
             prompt_path=prompt_path,
@@ -799,28 +994,36 @@ def run_tier_3(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             repo_root=repo_root,
             timeout=600,  # 10 minutes
         )
-        
+
         if eval_result.get("success"):
-            results["results"].append({
-                "file": str(rel_path),
-                "consensus_score": eval_result.get("consensus_score", 0),
-                "cross_validation_passed": eval_result.get("cross_validation_passed", False),
-                "final_grade": eval_result.get("final_grade", "N/A"),
-                "final_pass": eval_result.get("final_pass", False),
-                "model_summaries": eval_result.get("model_summaries", {}),
-                "combined_strengths": eval_result.get("combined_strengths", []),
-                "combined_improvements": eval_result.get("combined_improvements", []),
-                "tool": "dual_eval.py",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "consensus_score": eval_result.get("consensus_score", 0),
+                    "cross_validation_passed": eval_result.get(
+                        "cross_validation_passed", False
+                    ),
+                    "final_grade": eval_result.get("final_grade", "N/A"),
+                    "final_pass": eval_result.get("final_pass", False),
+                    "model_summaries": eval_result.get("model_summaries", {}),
+                    "combined_strengths": eval_result.get("combined_strengths", []),
+                    "combined_improvements": eval_result.get(
+                        "combined_improvements", []
+                    ),
+                    "tool": "dual_eval.py",
+                }
+            )
         else:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": eval_result.get("error", "Unknown error"),
-                "tool": "dual_eval.py",
-            })
-        
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": eval_result.get("error", "Unknown error"),
+                    "tool": "dual_eval.py",
+                }
+            )
+
         results["prompts_evaluated"] += 1
-    
+
     return results
 
 
@@ -830,7 +1033,7 @@ def run_tier_4(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     Uses: dual_eval.py with full model set
     """
     config = TIERS[4]
-    
+
     results = {
         "tier": 4,
         "models": config.models,
@@ -839,22 +1042,30 @@ def run_tier_4(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": config.cost_estimate,
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
     dual_eval_path = repo_root / "testing" / "evals" / "dual_eval.py"
-    
+
     if not dual_eval_path.exists():
         print(f"Error: dual_eval.py not found at {dual_eval_path}")
         return results
-    
-    print(f"\n🚀 Running full pipeline with {len(config.models)} models × {config.runs_per_model} runs...")
+
+    print(
+        f"\n🚀 Running full pipeline with {len(config.models)} models × {config.runs_per_model} runs..."
+    )
     print(f"   Models: {', '.join(config.models)}")
-    print(f"   Total API calls per prompt: {len(config.models) * config.runs_per_model}")
-    
+    print(
+        f"   Total API calls per prompt: {len(config.models) * config.runs_per_model}"
+    )
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"\n  Evaluating: {rel_path}")
-        
+
         # Use helper function to run dual_eval and get JSON results
         eval_result = run_dual_eval(
             prompt_path=prompt_path,
@@ -863,29 +1074,37 @@ def run_tier_4(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             repo_root=repo_root,
             timeout=900,  # 15 minutes
         )
-        
+
         if eval_result.get("success"):
-            results["results"].append({
-                "file": str(rel_path),
-                "consensus_score": eval_result.get("consensus_score", 0),
-                "score_variance": eval_result.get("score_variance", 0),
-                "cross_validation_passed": eval_result.get("cross_validation_passed", False),
-                "final_grade": eval_result.get("final_grade", "N/A"),
-                "final_pass": eval_result.get("final_pass", False),
-                "model_summaries": eval_result.get("model_summaries", {}),
-                "combined_strengths": eval_result.get("combined_strengths", []),
-                "combined_improvements": eval_result.get("combined_improvements", []),
-                "tool": "dual_eval.py",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "consensus_score": eval_result.get("consensus_score", 0),
+                    "score_variance": eval_result.get("score_variance", 0),
+                    "cross_validation_passed": eval_result.get(
+                        "cross_validation_passed", False
+                    ),
+                    "final_grade": eval_result.get("final_grade", "N/A"),
+                    "final_pass": eval_result.get("final_pass", False),
+                    "model_summaries": eval_result.get("model_summaries", {}),
+                    "combined_strengths": eval_result.get("combined_strengths", []),
+                    "combined_improvements": eval_result.get(
+                        "combined_improvements", []
+                    ),
+                    "tool": "dual_eval.py",
+                }
+            )
         else:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": eval_result.get("error", "Unknown error"),
-                "tool": "dual_eval.py",
-            })
-        
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": eval_result.get("error", "Unknown error"),
+                    "tool": "dual_eval.py",
+                }
+            )
+
         results["prompts_evaluated"] += 1
-    
+
     return results
 
 
@@ -895,7 +1114,7 @@ def run_tier_5(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     Uses: dual_eval.py with maximum configuration
     """
     config = TIERS[5]
-    
+
     results = {
         "tier": 5,
         "models": config.models,
@@ -904,22 +1123,30 @@ def run_tier_5(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": config.cost_estimate,
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
     dual_eval_path = repo_root / "testing" / "evals" / "dual_eval.py"
-    
+
     if not dual_eval_path.exists():
         print(f"Error: dual_eval.py not found at {dual_eval_path}")
         return results
-    
-    print(f"\n💎 Running premium evaluation with {len(config.models)} models × {config.runs_per_model} runs...")
+
+    print(
+        f"\n💎 Running premium evaluation with {len(config.models)} models × {config.runs_per_model} runs..."
+    )
     print(f"   Models: {', '.join(config.models)}")
-    print(f"   Total API calls per prompt: {len(config.models) * config.runs_per_model}")
-    
+    print(
+        f"   Total API calls per prompt: {len(config.models) * config.runs_per_model}"
+    )
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"\n  Evaluating: {rel_path}")
-        
+
         # Use helper function to run dual_eval and get JSON results
         eval_result = run_dual_eval(
             prompt_path=prompt_path,
@@ -928,29 +1155,37 @@ def run_tier_5(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
             repo_root=repo_root,
             timeout=1200,  # 20 minutes for premium tier
         )
-        
+
         if eval_result.get("success"):
-            results["results"].append({
-                "file": str(rel_path),
-                "consensus_score": eval_result.get("consensus_score", 0),
-                "score_variance": eval_result.get("score_variance", 0),
-                "cross_validation_passed": eval_result.get("cross_validation_passed", False),
-                "final_grade": eval_result.get("final_grade", "N/A"),
-                "final_pass": eval_result.get("final_pass", False),
-                "model_summaries": eval_result.get("model_summaries", {}),
-                "combined_strengths": eval_result.get("combined_strengths", []),
-                "combined_improvements": eval_result.get("combined_improvements", []),
-                "tool": "dual_eval.py",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "consensus_score": eval_result.get("consensus_score", 0),
+                    "score_variance": eval_result.get("score_variance", 0),
+                    "cross_validation_passed": eval_result.get(
+                        "cross_validation_passed", False
+                    ),
+                    "final_grade": eval_result.get("final_grade", "N/A"),
+                    "final_pass": eval_result.get("final_pass", False),
+                    "model_summaries": eval_result.get("model_summaries", {}),
+                    "combined_strengths": eval_result.get("combined_strengths", []),
+                    "combined_improvements": eval_result.get(
+                        "combined_improvements", []
+                    ),
+                    "tool": "dual_eval.py",
+                }
+            )
         else:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": eval_result.get("error", "Unknown error"),
-                "tool": "dual_eval.py",
-            })
-        
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": eval_result.get("error", "Unknown error"),
+                    "tool": "dual_eval.py",
+                }
+            )
+
         results["prompts_evaluated"] += 1
-    
+
     return results
 
 
@@ -970,8 +1205,8 @@ def run_tier_6(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     - AZURE_FOUNDRY_ENDPOINT_2 (Mistral)
     """
     import os
-    import urllib.request
     import urllib.error
+    import urllib.request
 
     config = TIERS[6]
 
@@ -1010,16 +1245,22 @@ def run_tier_6(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     print(f"   Runs per model: {config.runs_per_model}")
 
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"\n  Evaluating: {rel_path}")
 
         try:
             content = prompt_path.read_text(encoding="utf-8")
         except Exception as e:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": f"Could not read file: {e}",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": f"Could not read file: {e}",
+                }
+            )
             results["errors"] += 1
             results["prompts_evaluated"] += 1
             continue
@@ -1068,19 +1309,17 @@ Return ONLY valid JSON:
             for run_idx in range(config.runs_per_model):
                 try:
                     messages = [{"role": "user", "content": eval_prompt}]
-                    payload = json.dumps({
-                        "messages": messages,
-                        "temperature": 0.7,
-                        "max_tokens": 2000
-                    }).encode("utf-8")
+                    payload = json.dumps(
+                        {"messages": messages, "temperature": 0.7, "max_tokens": 2000}
+                    ).encode("utf-8")
 
                     req = urllib.request.Request(
                         endpoint,
                         data=payload,
                         headers={
                             "Content-Type": "application/json",
-                            "api-key": api_key
-                        }
+                            "api-key": api_key,
+                        },
                     )
 
                     with urllib.request.urlopen(req, timeout=120) as resp:
@@ -1089,42 +1328,55 @@ Return ONLY valid JSON:
 
                     # Parse JSON from response
                     import re
-                    json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+
+                    json_match = re.search(r"\{.*\}", response_text, re.DOTALL)
                     if json_match:
                         eval_data = json.loads(json_match.group())
-                        model_results.append({
-                            "model": model_name,
-                            "run": run_idx + 1,
-                            "scores": eval_data.get("scores", {}),
-                            "overall": eval_data.get("overall", 0),
-                            "summary": eval_data.get("summary", ""),
-                        })
+                        model_results.append(
+                            {
+                                "model": model_name,
+                                "run": run_idx + 1,
+                                "scores": eval_data.get("scores", {}),
+                                "overall": eval_data.get("overall", 0),
+                                "summary": eval_data.get("summary", ""),
+                            }
+                        )
                     else:
-                        model_results.append({
-                            "model": model_name,
-                            "run": run_idx + 1,
-                            "error": "Could not parse JSON from response",
-                        })
+                        model_results.append(
+                            {
+                                "model": model_name,
+                                "run": run_idx + 1,
+                                "error": "Could not parse JSON from response",
+                            }
+                        )
 
                 except Exception as e:
-                    model_results.append({
-                        "model": model_name,
-                        "run": run_idx + 1,
-                        "error": str(e),
-                    })
+                    model_results.append(
+                        {
+                            "model": model_name,
+                            "run": run_idx + 1,
+                            "error": str(e),
+                        }
+                    )
 
         # Aggregate results
-        valid_scores = [r.get("overall", 0) for r in model_results if "overall" in r and r["overall"] > 0]
+        valid_scores = [
+            r.get("overall", 0)
+            for r in model_results
+            if "overall" in r and r["overall"] > 0
+        ]
         avg_score = sum(valid_scores) / len(valid_scores) if valid_scores else 0
         passed = avg_score >= 7.0
 
-        results["results"].append({
-            "file": str(rel_path),
-            "model_results": model_results,
-            "avg_score": round(avg_score, 2),
-            "passed": passed,
-            "tool": "azure_foundry",
-        })
+        results["results"].append(
+            {
+                "file": str(rel_path),
+                "model_results": model_results,
+                "avg_score": round(avg_score, 2),
+                "passed": passed,
+                "tool": "azure_foundry",
+            }
+        )
 
         if passed:
             results["passed"] += 1
@@ -1142,7 +1394,7 @@ def run_tier_7(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
     Uses: windows_ai.py via llm_client.py
     """
     config = TIERS[7]
-    
+
     results = {
         "tier": 7,
         "name": config.name,
@@ -1153,20 +1405,24 @@ def run_tier_7(prompts: List[Path], output_dir: Path) -> Dict[str, Any]:
         "total_cost": config.cost_estimate,
         "results": [],
     }
-    
+
     repo_root = get_repo_root()
     sys.path.insert(0, str(repo_root / "tools"))
     from llm_client import LLMClient
-    
+
     print(f"\n🧠 Running Windows AI (NPU) evaluation on {len(prompts)} prompts...")
-    
+
     for prompt_path in prompts:
-        rel_path = prompt_path.relative_to(repo_root) if prompt_path.is_relative_to(repo_root) else prompt_path
+        rel_path = (
+            prompt_path.relative_to(repo_root)
+            if prompt_path.is_relative_to(repo_root)
+            else prompt_path
+        )
         print(f"  Evaluating: {rel_path}")
-        
+
         try:
             content = prompt_path.read_text(encoding="utf-8")
-            
+
             # Build evaluation prompt
             eval_prompt = f"""Evaluate this prompt template on a 1-10 scale for clarity and specificity.
 Return JSON with overall score 1-10.
@@ -1177,37 +1433,42 @@ Prompt:
 Return JSON: {{"overall": N, "summary": "..."}}"""
 
             response = LLMClient.generate_text("windows-ai:phi-silica", eval_prompt)
-            
+
             # Simple score extraction if model doesn't return clean JSON
             import re
+
             score_match = re.search(r'"overall":\s*(\d+)', response)
             score = int(score_match.group(1)) if score_match else 5
-            
+
             passed = score >= 7
-            results["results"].append({
-                "file": str(rel_path),
-                "score": score,
-                "passed": passed,
-                "model": "windows-ai/phi-silica",
-                "tool": "windows_ai.py",
-                "response": response[:100] + "..."
-            })
-            
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "score": score,
+                    "passed": passed,
+                    "model": "windows-ai/phi-silica",
+                    "tool": "windows_ai.py",
+                    "response": response[:100] + "...",
+                }
+            )
+
             if passed:
                 results["passed"] += 1
             else:
                 results["failed"] += 1
-                
+
         except Exception as e:
-            results["results"].append({
-                "file": str(rel_path),
-                "error": str(e),
-                "tool": "windows_ai.py",
-            })
+            results["results"].append(
+                {
+                    "file": str(rel_path),
+                    "error": str(e),
+                    "tool": "windows_ai.py",
+                }
+            )
             results["errors"] += 1
-            
+
         results["prompts_evaluated"] += 1
-        
+
     return results
 
 
@@ -1215,43 +1476,50 @@ Return JSON: {{"overall": N, "summary": "..."}}"""
 # REPORT GENERATION
 # =============================================================================
 
+
 def generate_report(results: Dict[str, Any], output_path: Path):
     """Generate a markdown report from evaluation results."""
     tier = results.get("tier", 0)
     config = TIERS.get(tier, TIERS[1])
-    
+
     lines = [
         f"# Tier {tier} Evaluation Report: {config.name}",
-        f"",
+        "",
         f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"**Cost Estimate:** {results.get('total_cost', 'N/A')}",
         f"**Prompts Evaluated:** {results.get('prompts_evaluated', 0)}",
-        f"",
+        "",
     ]
-    
+
     if config.models:
-        lines.extend([
-            f"## Models Used",
-            f"",
-        ])
+        lines.extend(
+            [
+                "## Models Used",
+                "",
+            ]
+        )
         for model in config.models:
             lines.append(f"- `{model}`")
-        lines.extend([
-            f"",
-            f"**Runs per model:** {config.runs_per_model}",
-            f"",
-        ])
-    
-    lines.extend([
-        f"## Results",
-        f"",
-        f"| File | Score | Grade | Status |",
-        f"|------|-------|-------|--------|",
-    ])
-    
+        lines.extend(
+            [
+                "",
+                f"**Runs per model:** {config.runs_per_model}",
+                "",
+            ]
+        )
+
+    lines.extend(
+        [
+            "## Results",
+            "",
+            "| File | Score | Grade | Status |",
+            "|------|-------|-------|--------|",
+        ]
+    )
+
     for r in results.get("results", []):
         file_name = Path(r.get("file", "")).name
-        
+
         if "error" in r:
             lines.append(f"| {file_name} | - | - | ❌ {r['error'][:30]} |")
         elif tier == 0:
@@ -1265,18 +1533,26 @@ def generate_report(results: Dict[str, Any], output_path: Path):
             rating = r.get("rating", "N/A")
             lines.append(f"| {file_name} | {score}/5.0 | {rating} | ✅ |")
         else:
-            score = r.get("consensus_score") or r.get("overall") or r.get("score", "N/A")
+            score = (
+                r.get("consensus_score") or r.get("overall") or r.get("score", "N/A")
+            )
             grade = r.get("final_grade", "N/A")
-            passed = r.get("cross_validation_passed") or r.get("final_pass", False) or r.get("passed", False)
+            passed = (
+                r.get("cross_validation_passed")
+                or r.get("final_pass", False)
+                or r.get("passed", False)
+            )
             status = "✅ PASS" if passed else "❌ FAIL"
             lines.append(f"| {file_name} | {score}/10 | {grade} | {status} |")
-    
-    lines.extend([
-        f"",
-        f"---",
-        f"*Report generated by tiered_eval.py*",
-    ])
-    
+
+    lines.extend(
+        [
+            "",
+            "---",
+            "*Report generated by tiered_eval.py*",
+        ]
+    )
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines), encoding="utf-8")
     print(f"\n📄 Report saved to: {output_path}")
@@ -1286,18 +1562,18 @@ def print_summary(results: Dict[str, Any]):
     """Print a summary of evaluation results."""
     tier = results.get("tier", 0)
     config = TIERS.get(tier, TIERS[1])
-    
+
     print(f"\n{'='*60}")
     print(f"EVALUATION SUMMARY - Tier {tier}: {config.name}")
     print(f"{'='*60}")
     print(f"Prompts evaluated: {results.get('prompts_evaluated', 0)}")
     print(f"Estimated cost: {results.get('total_cost', 'N/A')}")
-    
+
     passed = 0
     failed = 0
     errors = 0
     scores = []
-    
+
     for r in results.get("results", []):
         if "error" in r:
             errors += 1
@@ -1316,12 +1592,12 @@ def print_summary(results: Dict[str, Any]):
                 failed += 1
         else:
             failed += 1
-    
-    print(f"\nResults:")
+
+    print("\nResults:")
     print(f"  ✅ Passed: {passed}")
     print(f"  ❌ Failed: {failed}")
     print(f"  ⚠️  Errors: {errors}")
-    
+
     if scores:
         avg_score = sum(scores) / len(scores)
         print(f"\nAverage score: {avg_score:.2f}")
@@ -1330,6 +1606,7 @@ def print_summary(results: Dict[str, Any]):
 # =============================================================================
 # MAIN
 # =============================================================================
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -1360,23 +1637,43 @@ Examples:
   python tools/tiered_eval.py prompts/critical.md --tier 5    # Premium eval
         """,
     )
-    
+
     parser.add_argument("path", nargs="?", help="Prompt file or directory to evaluate")
-    parser.add_argument("--tier", "-t", type=int, choices=[0, 1, 2, 3, 4, 5], default=1,
-                        help="Evaluation tier (1-5)")
-    parser.add_argument("--model-path", "-m", help="Path to local ONNX model directory to use for Tier 0 (overrides detected model)")
+    parser.add_argument(
+        "--tier",
+        "-t",
+        type=int,
+        choices=[0, 1, 2, 3, 4, 5],
+        default=1,
+        help="Evaluation tier (1-5)",
+    )
+    parser.add_argument(
+        "--model-path",
+        "-m",
+        help="Path to local ONNX model directory to use for Tier 0 (overrides detected model)",
+    )
     parser.add_argument("--output", "-o", help="Output report path")
-    parser.add_argument("--limit", "-l", type=int, help="Limit number of prompts to evaluate")
-    parser.add_argument("--list-models", action="store_true", help="List available models")
-    parser.add_argument("--list-tiers", action="store_true", help="List all tiers with details")
-    parser.add_argument("--recommend", action="store_true", help="Show model recommendations")
-    parser.add_argument("--json", action="store_true", help="Output JSON instead of report")
-    
+    parser.add_argument(
+        "--limit", "-l", type=int, help="Limit number of prompts to evaluate"
+    )
+    parser.add_argument(
+        "--list-models", action="store_true", help="List available models"
+    )
+    parser.add_argument(
+        "--list-tiers", action="store_true", help="List all tiers with details"
+    )
+    parser.add_argument(
+        "--recommend", action="store_true", help="Show model recommendations"
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="Output JSON instead of report"
+    )
+
     args = parser.parse_args()
     # Store selected model path globally for tier_0 runner to forward to local_model.py
     global SELECTED_MODEL_PATH
-    SELECTED_MODEL_PATH = args.model_path if hasattr(args, 'model_path') else None
-    
+    SELECTED_MODEL_PATH = args.model_path if hasattr(args, "model_path") else None
+
     # List models
     if args.list_models:
         print("\n" + "=" * 70)
@@ -1389,18 +1686,27 @@ Examples:
                 speed = info.get("speed", "unknown")
                 quality = info.get("quality", "unknown")
                 cost = info.get("cost", "unknown")
-                star = "⭐" if model in [RECOMMENDED_MODELS["quick_check"], 
-                                         RECOMMENDED_MODELS["standard_eval"],
-                                         RECOMMENDED_MODELS["maximum_quality"]] else "  "
-                print(f"  {star} {model:<35} speed:{speed:<10} quality:{quality:<12} cost:{cost}")
+                star = (
+                    "⭐"
+                    if model
+                    in [
+                        RECOMMENDED_MODELS["quick_check"],
+                        RECOMMENDED_MODELS["standard_eval"],
+                        RECOMMENDED_MODELS["maximum_quality"],
+                    ]
+                    else "  "
+                )
+                print(
+                    f"  {star} {model:<35} speed:{speed:<10} quality:{quality:<12} cost:{cost}"
+                )
         return
-    
+
     # Show recommendations
     if args.recommend:
         print("\n" + "=" * 70)
         print("MODEL RECOMMENDATIONS BY USE CASE")
         print("=" * 70)
-        print(f"""
+        print("""
 ┌────────────────────┬─────────────────────────────────┬─────────────────────────┐
 │ Use Case           │ Recommended Model               │ Why                     │
 ├────────────────────┼─────────────────────────────────┼─────────────────────────┤
@@ -1427,7 +1733,7 @@ NOTE: Claude and Gemini models are only available via Copilot Chat,
       NOT via `gh models run`. Use them directly in chat for evaluation.
 """)
         return
-    
+
     # List tiers
     if args.list_tiers:
         print("\n" + "=" * 60)
@@ -1436,32 +1742,34 @@ NOTE: Claude and Gemini models are only available via Copilot Chat,
         for tier_num in sorted(TIERS.keys()):
             print_tier_info(tier_num)
         return
-    
+
     # Require path for evaluation
     if not args.path:
         parser.print_help()
-        print("\nError: Please provide a path to evaluate or use --list-models / --list-tiers")
+        print(
+            "\nError: Please provide a path to evaluate or use --list-models / --list-tiers"
+        )
         sys.exit(1)
-    
+
     # Find prompts
     prompts = find_prompts(args.path)
-    
+
     if not prompts:
         print(f"No prompt files found in: {args.path}")
         sys.exit(1)
-    
+
     # Apply limit
     if args.limit:
-        prompts = prompts[:args.limit]
-    
+        prompts = prompts[: args.limit]
+
     print(f"\n📋 Found {len(prompts)} prompt(s) to evaluate")
     print_tier_info(args.tier)
-    
+
     # Set up output directory
     repo_root = get_repo_root()
     output_dir = repo_root / "docs" / "reports"
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Run evaluation
     tier_runners = {
         0: run_tier_0,
@@ -1473,27 +1781,27 @@ NOTE: Claude and Gemini models are only available via Copilot Chat,
         6: run_tier_6,
         7: run_tier_7,
     }
-    
+
     runner = tier_runners.get(args.tier)
     if not runner:
         print(f"Error: Unknown tier {args.tier}")
         sys.exit(1)
-    
+
     results = runner(prompts, output_dir)
-    
+
     # Output
     if args.json:
         print(json.dumps(results, indent=2, default=str))
     else:
         print_summary(results)
-        
+
         # Generate report
         if args.output:
             report_path = Path(args.output)
         else:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             report_path = output_dir / f"tier{args.tier}_eval_{timestamp}.md"
-        
+
         generate_report(results, report_path)
 
 

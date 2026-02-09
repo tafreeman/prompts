@@ -1,8 +1,11 @@
 from pathlib import Path
+
 import pytest
 
 
-@pytest.mark.skip(reason="tools-ecosystem-evaluator.md needs prompt block restructuring")
+@pytest.mark.skip(
+    reason="tools-ecosystem-evaluator.md needs prompt block restructuring"
+)
 def test_extract_prompt_block_finds_markdown_fence(repo_root: Path):
     # Import without triggering heavy tool imports.
     from tools.analysis.tools_ecosystem_evaluator import extract_prompt_block
@@ -29,7 +32,7 @@ def test_extract_first_json_object_handles_code_fence():
 def test_extract_first_json_object_handles_prefix_suffix():
     from tools.analysis.tools_ecosystem_evaluator import extract_first_json_object
 
-    text = "noise... {\"ok\": true, \"n\": 3} ...tail"
+    text = 'noise... {"ok": true, "n": 3} ...tail'
     obj = extract_first_json_object(text)
     assert obj["ok"] is True
     assert obj["n"] == 3

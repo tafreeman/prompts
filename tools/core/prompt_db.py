@@ -2,12 +2,12 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
-DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'db')
-PROMPTS_FILE = os.path.join(DB_DIR, 'prompts.json')
-RUBRICS_FILE = os.path.join(DB_DIR, 'rubrics.json')
-EVALUATIONS_FILE = os.path.join(DB_DIR, 'evaluations.json')
+DB_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "db")
+PROMPTS_FILE = os.path.join(DB_DIR, "prompts.json")
+RUBRICS_FILE = os.path.join(DB_DIR, "rubrics.json")
+EVALUATIONS_FILE = os.path.join(DB_DIR, "evaluations.json")
 
 
 class PromptDatabase:
@@ -21,18 +21,18 @@ class PromptDatabase:
         os.makedirs(DB_DIR, exist_ok=True)
         for file_path in [PROMPTS_FILE, RUBRICS_FILE, EVALUATIONS_FILE]:
             if not os.path.exists(file_path):
-                with open(file_path, 'w') as f:
+                with open(file_path, "w") as f:
                     json.dump([], f)
 
     def _load_json(self, file_path: str) -> List[Dict]:
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError):
             return []
 
     def _save_json(self, file_path: str, data: List[Dict]):
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             json.dump(data, f, indent=2)
 
     def save(self):
@@ -42,7 +42,9 @@ class PromptDatabase:
 
     # --- Prompts ---
 
-    def add_prompt(self, name: str, content: str, metadata: Optional[Dict] = None) -> str:
+    def add_prompt(
+        self, name: str, content: str, metadata: Optional[Dict] = None
+    ) -> str:
         """Adds a new prompt or a new version of an existing prompt."""
         prompt_id = str(uuid.uuid4())
 
@@ -52,18 +54,18 @@ class PromptDatabase:
         # Let's go with a flat list of prompt versions for now, linked by name or a group_id if needed.
         # Actually, the schema I designed earlier had prompts containing versions.
 
-        existing_prompt = next((p for p in self.prompts if p['name'] == name), None)
+        existing_prompt = next((p for p in self.prompts if p["name"] == name), None)
 
         if existing_prompt:
-            version_num = len(existing_prompt['versions']) + 1
+            version_num = len(existing_prompt["versions"]) + 1
             new_version = {
                 "version": str(version_num) + ".0",
                 "content": content,
                 "metadata": metadata or {},
-                "created_at": datetime.now().isoformat()
+                "created_at": datetime.now().isoformat(),
             }
-            existing_prompt['versions'].append(new_version)
-            prompt_id = existing_prompt['id']  # Return the main prompt ID
+            existing_prompt["versions"].append(new_version)
+            prompt_id = existing_prompt["id"]  # Return the main prompt ID
         else:
             prompt_id = str(uuid.uuid4())
             new_prompt = {
@@ -74,53 +76,55 @@ class PromptDatabase:
                         "version": "1.0",
                         "content": content,
                         "metadata": metadata or {},
-                        "created_at": datetime.now().isoformat()
+                        "created_at": datetime.now().isoformat(),
                     }
-                ]
+                ],
             }
             self.prompts.append(new_prompt)
-            
+
         self.save()
         return prompt_id
 
     def get_prompt(self, prompt_id: str) -> Optional[Dict]:
-        return next((p for p in self.prompts if p['id'] == prompt_id), None)
-    
+        return next((p for p in self.prompts if p["id"] == prompt_id), None)
+
     def get_prompt_by_name(self, name: str) -> Optional[Dict]:
-        return next((p for p in self.prompts if p['name'] == name), None)
+        return next((p for p in self.prompts if p["name"] == name), None)
 
     # --- Rubrics ---
 
     def add_rubric(self, rubric_data: Dict) -> str:
-        if 'id' not in rubric_data:
-            rubric_data['id'] = str(uuid.uuid4())
+        if "id" not in rubric_data:
+            rubric_data["id"] = str(uuid.uuid4())
         self.rubrics.append(rubric_data)
         self.save()
-        return rubric_data['id']
+        return rubric_data["id"]
 
     def get_rubric(self, rubric_id: str) -> Optional[Dict]:
-        return next((r for r in self.rubrics if r['id'] == rubric_id), None)
+        return next((r for r in self.rubrics if r["id"] == rubric_id), None)
 
     # --- Evaluations ---
 
     def add_evaluation(self, evaluation_data: Dict) -> str:
-        if 'id' not in evaluation_data:
-            evaluation_data['id'] = str(uuid.uuid4())
-        if 'timestamp' not in evaluation_data:
-            evaluation_data['timestamp'] = datetime.now().isoformat()
-            
+        if "id" not in evaluation_data:
+            evaluation_data["id"] = str(uuid.uuid4())
+        if "timestamp" not in evaluation_data:
+            evaluation_data["timestamp"] = datetime.now().isoformat()
+
         self.evaluations.append(evaluation_data)
         self.save()
-        return evaluation_data['id']
+        return evaluation_data["id"]
 
     def get_evaluations_for_prompt(self, prompt_id: str) -> List[Dict]:
-        return [e for e in self.evaluations if e.get('prompt_id') == prompt_id]
+        return [e for e in self.evaluations if e.get("prompt_id") == prompt_id]
 
     def get_evaluations_by_model(self, model_name: str) -> List[Dict]:
-        return [e for e in self.evaluations if e.get('model') == model_name]
+        return [e for e in self.evaluations if e.get("model") == model_name]
 
 
 if __name__ == "__main__":
     # Simple test
     db = PromptDatabase()
-    print(f"Loaded {len(db.prompts)} prompts, {len(db.rubrics)} rubrics, {len(db.evaluations)} evaluations.")
+    print(
+        f"Loaded {len(db.prompts)} prompts, {len(db.rubrics)} rubrics, {len(db.evaluations)} evaluations."
+    )

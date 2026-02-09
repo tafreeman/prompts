@@ -78,8 +78,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Callable
-
+from typing import Any, Callable, Dict, List, Optional
 
 # Load environment variables from .env file if present
 
@@ -90,6 +89,7 @@ def _load_dotenv():
     if env_path.exists():
         try:
             from dotenv import load_dotenv
+
             load_dotenv(env_path)
             return True
         except ImportError:
@@ -106,6 +106,7 @@ def _load_dotenv():
             return True
     return False
 
+
 _dotenv_loaded = _load_dotenv()
 
 
@@ -113,12 +114,14 @@ _dotenv_loaded = _load_dotenv()
 if __name__ == "__main__":
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parents[2]))
 
 
 @dataclass
 class CoVeResult:
     """Result of a Chain-of-Verification run."""
+
     question: str
     draft: str
     verification_questions: List[str]
@@ -130,9 +133,14 @@ class CoVeResult:
     model: str
 
 
-def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool = False, model_path: Optional[str] = None) -> Callable[[str, Optional[str]], str]:
-    """
-    Returns a function that calls the LLM with (prompt, system_prompt) -> response.
+def get_llm_function(
+    provider: str,
+    model: Optional[str] = None,
+    verbose: bool = False,
+    model_path: Optional[str] = None,
+) -> Callable[[str, Optional[str]], str]:
+    """Returns a function that calls the LLM with (prompt, system_prompt) ->
+    response.
 
     Supported providers:
       - local: Uses local ONNX model via onnxruntime-genai (free)
@@ -152,7 +160,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         # Windows AI - uses Local NPU (Phi Silica) via Windows App SDK
         try:
             from tools.llm.windows_ai import WindowsAIModel
-            
+
             w_model = WindowsAIModel(verbose=verbose)
             model_name = "phi-silica (NPU)"
 
@@ -172,6 +180,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         # Falls back to Ollama if local model initialization fails.
         try:
             from tools.llm.local_model import LocalModel
+
             lm = LocalModel(model_path=model_path, verbose=verbose)
             model_name = lm.model_path.name if lm.model_path else "local-onnx"
 
@@ -197,8 +206,8 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
             provider = "ollama"
 
     if provider == "ollama":
-        import urllib.request
         import urllib.error
+        import urllib.request
 
         model_name = model or "llama3"
         ollama_url = os.environ.get("OLLAMA_HOST", "http://localhost:11434")
@@ -209,17 +218,19 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            payload = json.dumps({
-                                 "model": model_name,
-                                 "messages": messages,
-                                 "stream": False,
-                                 "options": {"temperature": 0.7}
-            }).encode("utf-8")
+            payload = json.dumps(
+                {
+                    "model": model_name,
+                    "messages": messages,
+                    "stream": False,
+                    "options": {"temperature": 0.7},
+                }
+            ).encode("utf-8")
 
             req = urllib.request.Request(
-                                         f"{ollama_url}/api/chat",
-                                         data=payload,
-                                         headers={"Content-Type": "application/json"}
+                f"{ollama_url}/api/chat",
+                data=payload,
+                headers={"Content-Type": "application/json"},
             )
 
             try:
@@ -237,9 +248,9 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
         if not token:
             raise ValueError(
-                             "GitHub token required. Set GITHUB_TOKEN or GH_TOKEN environment variable.\n"
-                             "Get a token at: https://github.com/settings/tokens"
-                             )
+                "GitHub token required. Set GITHUB_TOKEN or GH_TOKEN environment variable.\n"
+                "Get a token at: https://github.com/settings/tokens"
+            )
 
         import urllib.request
 
@@ -253,20 +264,22 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            payload = json.dumps({
-                                 "model": model_name,
-                                 "messages": messages,
-                                 "temperature": 0.7,
-                                 "max_tokens": 2000
-                                 }).encode("utf-8")
+            payload = json.dumps(
+                {
+                    "model": model_name,
+                    "messages": messages,
+                    "temperature": 0.7,
+                    "max_tokens": 2000,
+                }
+            ).encode("utf-8")
 
             req = urllib.request.Request(
-                                         endpoint,
-                                         data=payload,
-                                         headers={
-                                         "Content-Type": "application/json",
-                                         "Authorization": f"Bearer {token}"
-                                         }
+                endpoint,
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {token}",
+                },
             )
 
             with urllib.request.urlopen(req, timeout=60) as resp:
@@ -281,9 +294,9 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         if not api_key:
             raise ValueError("OPENAI_API_KEY environment variable required")
 
-        import urllib.request
-        import urllib.error
         import time
+        import urllib.error
+        import urllib.request
 
         model_name = model or "gpt-4o-mini"
 
@@ -293,20 +306,22 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            payload = json.dumps({
-                                 "model": model_name,
-                                 "messages": messages,
-                                 "temperature": 0.7,
-                                 "max_tokens": 2000
-                                 }).encode("utf-8")
+            payload = json.dumps(
+                {
+                    "model": model_name,
+                    "messages": messages,
+                    "temperature": 0.7,
+                    "max_tokens": 2000,
+                }
+            ).encode("utf-8")
 
             req = urllib.request.Request(
-                                         "https://api.openai.com/v1/chat/completions",
-                                         data=payload,
-                                         headers={
-                                         "Content-Type": "application/json",
-                                         "Authorization": f"Bearer {api_key}"
-                                         }
+                "https://api.openai.com/v1/chat/completions",
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {api_key}",
+                },
             )
 
             # Retry with exponential backoff on rate limit
@@ -336,19 +351,19 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                 "Set this in your .env file with your Azure Foundry API key."
             )
 
-        import urllib.request
         import urllib.error
+        import urllib.request
 
         # Determine which endpoint to use based on model
         # Supports: phi4mini, phi4, phi, mistral, or numeric (1, 2)
         model_part = model or "phi4mini"
-        
+
         if model_part in ("phi4mini", "phi4", "phi", "1"):
             endpoint = os.environ.get("AZURE_FOUNDRY_ENDPOINT_1")
-            model_name = f"azure-foundry-phi4mini"
+            model_name = "azure-foundry-phi4mini"
         elif model_part in ("mistral", "2"):
             endpoint = os.environ.get("AZURE_FOUNDRY_ENDPOINT_2")
-            model_name = f"azure-foundry-mistral"
+            model_name = "azure-foundry-mistral"
         else:
             # Try to get numbered endpoint
             endpoint = os.environ.get(f"AZURE_FOUNDRY_ENDPOINT_{model_part}")
@@ -367,7 +382,7 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         # Ensure endpoint ends with /chat/completions
         if not endpoint.endswith("/chat/completions"):
             endpoint = endpoint.rstrip("/") + "/chat/completions"
-        
+
         # Add API version if not present
         if "api-version" not in endpoint:
             endpoint += "?api-version=2024-02-15-preview"
@@ -378,19 +393,14 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                 messages.append({"role": "system", "content": system_prompt})
             messages.append({"role": "user", "content": prompt})
 
-            payload = json.dumps({
-                "messages": messages,
-                "temperature": 0.7,
-                "max_tokens": 2000
-            }).encode("utf-8")
+            payload = json.dumps(
+                {"messages": messages, "temperature": 0.7, "max_tokens": 2000}
+            ).encode("utf-8")
 
             req = urllib.request.Request(
                 endpoint,
                 data=payload,
-                headers={
-                    "Content-Type": "application/json",
-                    "api-key": api_key
-                }
+                headers={"Content-Type": "application/json", "api-key": api_key},
             )
 
             # Retry with exponential backoff on rate limit
@@ -405,10 +415,13 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
                         if verbose:
                             print(f"   ⏳ Rate limited, waiting {wait}s...")
                         import time as time_module
+
                         time_module.sleep(wait)
                         continue
                     error_body = e.read().decode("utf-8") if e.fp else str(e)
-                    raise RuntimeError(f"Azure Foundry API error ({e.code}): {error_body}")
+                    raise RuntimeError(
+                        f"Azure Foundry API error ({e.code}): {error_body}"
+                    )
                 except urllib.error.URLError as e:
                     raise RuntimeError(f"Azure Foundry connection error: {e}")
 
@@ -420,7 +433,9 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
         try:
             from tools.llm.llm_client import LLMClient
         except ImportError:
-            raise ValueError(f"llm_client.py not found - required for {provider} provider")
+            raise ValueError(
+                f"llm_client.py not found - required for {provider} provider"
+            )
 
         if provider == "claude":
             model_name = model or "claude-3-5-sonnet-20241022"
@@ -439,18 +454,19 @@ def get_llm_function(provider: str, model: Optional[str] = None, verbose: bool =
     )
 
 
-COVE_SYSTEM_PROMPT = """You are a factual assistant. Answer questions accurately and concisely."""
+COVE_SYSTEM_PROMPT = (
+    """You are a factual assistant. Answer questions accurately and concisely."""
+)
 
 
 def run_cove(
-             question: str,
-             llm_call: Callable[[str, Optional[str]], str],
-             n_questions: int = 5,
-             domain: Optional[str] = None,
-             verbose: bool = False
-             ) -> CoVeResult:
-    """
-    Execute the Chain-of-Verification process.
+    question: str,
+    llm_call: Callable[[str, Optional[str]], str],
+    n_questions: int = 5,
+    domain: Optional[str] = None,
+    verbose: bool = False,
+) -> CoVeResult:
+    """Execute the Chain-of-Verification process.
 
     Args:
         question: The user's question
@@ -463,7 +479,7 @@ def run_cove(
         CoVeResult with all phases documented
     """
 
-    model_name = getattr(llm_call, 'model_name', 'unknown')
+    model_name = getattr(llm_call, "model_name", "unknown")
 
     # ─────────────────────────────────────────────────────────────────────────
     # Phase 1: Generate Draft
@@ -479,7 +495,12 @@ Answer with specific facts, dates, and names."""
     draft = llm_call(draft_prompt, COVE_SYSTEM_PROMPT)
 
     # Clean up draft - remove echoed system/user prompts (common with local models)
-    for noise in [COVE_SYSTEM_PROMPT, draft_prompt, "Question:", "Answer with specific"]:
+    for noise in [
+        COVE_SYSTEM_PROMPT,
+        draft_prompt,
+        "Question:",
+        "Answer with specific",
+    ]:
         if noise in draft:
             draft = draft.split(noise)[-1].strip()
     draft = draft.strip()
@@ -507,24 +528,39 @@ Questions:
     verification_questions = []
 
     # First try numbered format: 1. Question? 2. Question?
-    numbered = re.findall(r'\d+[\.\)]\s*([^?\n]+\?)', vq_response)
+    numbered = re.findall(r"\d+[\.\)]\s*([^?\n]+\?)", vq_response)
     if numbered:
         verification_questions = [q.strip() for q in numbered[:n_questions]]
     else:
         # Fallback: any line with a question mark
-        lines = [l.strip() for l in vq_response.split('\n') if '?' in l]
-        verification_questions = [re.sub(r'^[\d\.\-\*\)]+\s*', '', l).strip() for l in lines[:n_questions]]
+        lines = [l.strip() for l in vq_response.split("\n") if "?" in l]
+        verification_questions = [
+            re.sub(r"^[\d\.\-\*\)]+\s*", "", l).strip() for l in lines[:n_questions]
+        ]
 
     # Clean up any remaining numbering (e.g., "1. Question?" -> "Question?")
-    verification_questions = [re.sub(r'^\d+[\.\)]\s*', '', q).strip() for q in verification_questions]
+    verification_questions = [
+        re.sub(r"^\d+[\.\)]\s*", "", q).strip() for q in verification_questions
+    ]
 
     # Final fallback: generate basic questions from the original question
-    if not verification_questions or all(q in ['Question 1?', 'Question 2?', 'Question 3?'] for q in verification_questions):
+    if not verification_questions or all(
+        q in ["Question 1?", "Question 2?", "Question 3?"]
+        for q in verification_questions
+    ):
         verification_questions = [
-                                  f"Who {question.lower().replace('?', '')}?" if 'who' not in question.lower() else question,
-                                  f"When {question.lower().replace('?', '')}?" if 'when' not in question.lower() else question,
-                                  f"What facts support the answer to: {question}"
-                                  ][:n_questions]
+            (
+                f"Who {question.lower().replace('?', '')}?"
+                if "who" not in question.lower()
+                else question
+            ),
+            (
+                f"When {question.lower().replace('?', '')}?"
+                if "when" not in question.lower()
+                else question
+            ),
+            f"What facts support the answer to: {question}",
+        ][:n_questions]
 
     if verbose:
         print(f"   Generated {len(verification_questions)} questions:")
@@ -556,7 +592,7 @@ Answer briefly and factually:"""
             if noise in clean_answer:
                 clean_answer = clean_answer.split(noise)[-1].strip()
         # Remove leading colons/punctuation
-        clean_answer = re.sub(r'^[:\-\s]+', '', clean_answer).strip()
+        clean_answer = re.sub(r"^[:\-\s]+", "", clean_answer).strip()
 
         verified_answers.append({"question": vq, "answer": clean_answer})
 
@@ -567,10 +603,9 @@ Answer briefly and factually:"""
         print("\n📋 Phase 4: Synthesizing final verified response...")
 
     # Build verification context
-    verification_context = "\n".join([
-                                     f"- {va['question']} → {va['answer']}"
-                                     for va in verified_answers
-                                     ])
+    verification_context = "\n".join(
+        [f"- {va['question']} → {va['answer']}" for va in verified_answers]
+    )
     final_prompt = """Answer the question using ONLY the verified facts below.
 
 Question: {question}
@@ -586,7 +621,7 @@ Final answer:"""
     for noise in [final_prompt, COVE_SYSTEM_PROMPT, "Final answer:", "Verified facts:"]:
         if noise in final_answer:
             final_answer = final_answer.split(noise)[-1].strip()
-    final_answer = re.sub(r'^[:\-\s]+', '', final_answer).strip()
+    final_answer = re.sub(r"^[:\-\s]+", "", final_answer).strip()
 
     # ─────────────────────────────────────────────────────────────────────────
     # Build Verification Summary
@@ -594,20 +629,25 @@ Final answer:"""
     verification_summary = []
     for va in verified_answers:
         # Simple heuristic for verification status
-        answer_lower = va['answer'].lower()
-        if any(w in answer_lower for w in ['uncertain', 'not sure', 'cannot verify', 'no information']):
+        answer_lower = va["answer"].lower()
+        if any(
+            w in answer_lower
+            for w in ["uncertain", "not sure", "cannot verify", "no information"]
+        ):
             status = "Uncertain"
         else:
             status = "Verified"
 
-        verification_summary.append({
-                                    "claim": va['question'],
-                                    "verified": status,
-                                    "note": va['answer'][:100] + ("..." if len(va['answer']) > 100 else "")
-        })
+        verification_summary.append(
+            {
+                "claim": va["question"],
+                "verified": status,
+                "note": va["answer"][:100] + ("..." if len(va["answer"]) > 100 else ""),
+            }
+        )
 
     # Calculate confidence
-    verified_count = sum(1 for v in verification_summary if v['verified'] == "Verified")
+    verified_count = sum(1 for v in verification_summary if v["verified"] == "Verified")
     total = len(verification_summary)
     if total == 0:
         confidence = "Low"
@@ -619,72 +659,84 @@ Final answer:"""
         confidence = "Low"
 
     return CoVeResult(
-                      question=question,
-                      draft=draft,
-                      verification_questions=verification_questions,
-                      verified_answers=verified_answers,
-                      final_answer=final_answer,
-                      verification_summary=verification_summary,
-                      confidence=confidence,
-                      provider=getattr(llm_call, '__name__', 'unknown').replace('_call', ''),
-                      model=model_name
-                      )
+        question=question,
+        draft=draft,
+        verification_questions=verification_questions,
+        verified_answers=verified_answers,
+        final_answer=final_answer,
+        verification_summary=verification_summary,
+        confidence=confidence,
+        provider=getattr(llm_call, "__name__", "unknown").replace("_call", ""),
+        model=model_name,
+    )
 
 
 def format_result(result: CoVeResult, show_draft: bool = False) -> str:
     """Format CoVeResult as readable Markdown."""
 
     lines = [
-             "# Chain-of-Verification (CoVe) Result",
-             "",
-             f"**Question:** {result.question}",
-             f"**Model:** {result.model}",
-             f"**Confidence:** {result.confidence}",
-             "",
-             ]
+        "# Chain-of-Verification (CoVe) Result",
+        "",
+        f"**Question:** {result.question}",
+        f"**Model:** {result.model}",
+        f"**Confidence:** {result.confidence}",
+        "",
+    ]
 
     if show_draft:
-        lines.extend([
-                     "## Draft (Phase 1)",
-                     "",
-                     result.draft,
-                     "",
-                     ])
+        lines.extend(
+            [
+                "## Draft (Phase 1)",
+                "",
+                result.draft,
+                "",
+            ]
+        )
 
-    lines.extend([
-                 "## Verification Questions (Phase 2)",
-                 "",
-                 ])
+    lines.extend(
+        [
+            "## Verification Questions (Phase 2)",
+            "",
+        ]
+    )
     for i, q in enumerate(result.verification_questions, 1):
         lines.append(f"{i}. {q}")
 
-    lines.extend([
-                 "",
-                 "## Verified Answers (Phase 3)",
-                 "",
-                 ])
+    lines.extend(
+        [
+            "",
+            "## Verified Answers (Phase 3)",
+            "",
+        ]
+    )
     for va in result.verified_answers:
         lines.append(f"**Q:** {va['question']}")
         lines.append(f"**A:** {va['answer']}")
         lines.append("")
 
-    lines.extend([
-                 "## Final Answer (Phase 4)",
-                 "",
-                 result.final_answer,
-                 "",
-                 "## Verification Summary",
-                 "",
-                 "| Claim | Status | Note |",
-                 "|-------|--------|------|",
-                 ])
+    lines.extend(
+        [
+            "## Final Answer (Phase 4)",
+            "",
+            result.final_answer,
+            "",
+            "## Verification Summary",
+            "",
+            "| Claim | Status | Note |",
+            "|-------|--------|------|",
+        ]
+    )
     for v in result.verification_summary:
-        lines.append(f"| {v['claim'][:50]}... | {v['verified']} | {v['note'][:40]}... |")
+        lines.append(
+            f"| {v['claim'][:50]}... | {v['verified']} | {v['note'][:40]}... |"
+        )
 
-    lines.extend([
-                 "",
-                 f"**Overall Confidence:** {result.confidence}",
-                 ])
+    lines.extend(
+        [
+            "",
+            f"**Overall Confidence:** {result.confidence}",
+        ]
+    )
 
     return "\n".join(lines)
 
@@ -704,10 +756,10 @@ def interactive_mode(llm_call: Callable, verbose: bool = False):
 
         if not question:
             continue
-        if question.lower() in ('quit', 'exit', 'q'):
+        if question.lower() in ("quit", "exit", "q"):
             print("Goodbye!")
             break
-        if question.lower() == 'help':
+        if question.lower() == "help":
             print("""
                   Commands:
                   quit, exit, q  - Exit interactive mode
@@ -720,16 +772,16 @@ def interactive_mode(llm_call: Callable, verbose: bool = False):
         try:
             result = run_cove(question, llm_call, verbose=verbose)
             print("\n" + format_result(result, show_draft=verbose))
-            print("\n" + "="*60 + "\n")
+            print("\n" + "=" * 60 + "\n")
         except Exception as e:
             print(f"❌ Error: {e}\n")
 
 
 def main():
     parser = argparse.ArgumentParser(
-                                     description="Run Chain-of-Verification (CoVe) to reduce hallucinations",
-                                     formatter_class=argparse.RawDescriptionHelpFormatter,
-                                     epilog=r"""
+        description="Run Chain-of-Verification (CoVe) to reduce hallucinations",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=r"""
                                      Examples:
                                      # Local ONNX model (free, no API)
   python tools/cove_runner.py "When was Python created?"
@@ -755,36 +807,62 @@ Providers:
   ollama  - Local Ollama server (free)
   github  - GitHub Models API (free tier with GITHUB_TOKEN)
   openai  - OpenAI API (requires OPENAI_API_KEY)
-"""
+""",
     )
 
-    parser.add_argument("question", nargs="?", help="Question to verify (or use --prompt-file)")
-    parser.add_argument("--prompt-file", type=str, help="Path to a file containing the prompt or question to audit")
-    parser.add_argument("--provider", "-p", default="local",
-                        choices=["local", "windows", "ollama", "github", "openai"],
-                        help="LLM provider (default: local)")
+    parser.add_argument(
+        "question", nargs="?", help="Question to verify (or use --prompt-file)"
+    )
+    parser.add_argument(
+        "--prompt-file",
+        type=str,
+        help="Path to a file containing the prompt or question to audit",
+    )
+    parser.add_argument(
+        "--provider",
+        "-p",
+        default="local",
+        choices=["local", "windows", "ollama", "github", "openai"],
+        help="LLM provider (default: local)",
+    )
     parser.add_argument("--model", "-m", help="Model name (provider-specific)")
-    parser.add_argument("--model-path", dest="model_path",
-                        help="(local provider) Path to ONNX model directory")
-    parser.add_argument("--questions", "-n", type=int, default=5,
-                        help="Number of verification questions (default: 5)")
+    parser.add_argument(
+        "--model-path",
+        dest="model_path",
+        help="(local provider) Path to ONNX model directory",
+    )
+    parser.add_argument(
+        "--questions",
+        "-n",
+        type=int,
+        default=5,
+        help="Number of verification questions (default: 5)",
+    )
     parser.add_argument("--domain", "-d", help="Domain context for verification")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="Show detailed progress")
-    parser.add_argument("--show-draft", action="store_true",
-                        help="Include draft in output")
-    parser.add_argument("--interactive", "-i", action="store_true",
-                        help="Run in interactive mode")
-    parser.add_argument("--json", action="store_true",
-                        help="Output as JSON")
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Show detailed progress"
+    )
+    parser.add_argument(
+        "--show-draft", action="store_true", help="Include draft in output"
+    )
+    parser.add_argument(
+        "--interactive", "-i", action="store_true", help="Run in interactive mode"
+    )
+    parser.add_argument("--json", action="store_true", help="Output as JSON")
 
     args = parser.parse_args()
 
-
     # Get LLM function
     try:
-        llm_call = get_llm_function(args.provider, args.model, args.verbose, model_path=getattr(args, 'model_path', None))
-        print(f"✅ Using {args.provider} provider with model: {getattr(llm_call, 'model_name', 'unknown')}")
+        llm_call = get_llm_function(
+            args.provider,
+            args.model,
+            args.verbose,
+            model_path=getattr(args, "model_path", None),
+        )
+        print(
+            f"✅ Using {args.provider} provider with model: {getattr(llm_call, 'model_name', 'unknown')}"
+        )
     except Exception as e:
         print(f"❌ Failed to initialize provider '{args.provider}': {e}")
         sys.exit(1)
@@ -808,7 +886,9 @@ Providers:
     question_input = prompt_text if prompt_text else args.question
     if not question_input:
         parser.print_help()
-        print("\n❌ Error: Please provide a question, --prompt-file, or use --interactive mode")
+        print(
+            "\n❌ Error: Please provide a question, --prompt-file, or use --interactive mode"
+        )
         sys.exit(1)
 
     try:
@@ -817,7 +897,7 @@ Providers:
             llm_call,
             n_questions=args.questions,
             domain=args.domain,
-            verbose=args.verbose
+            verbose=args.verbose,
         )
 
         if args.json:
@@ -830,7 +910,7 @@ Providers:
                 "verification_summary": result.verification_summary,
                 "confidence": result.confidence,
                 "provider": result.provider,
-                "model": result.model
+                "model": result.model,
             }
             print(json.dumps(output, indent=2))
         else:
@@ -840,6 +920,7 @@ Providers:
         print(f"❌ Error: {e}")
         if args.verbose:
             import traceback
+
             traceback.print_exc()
         sys.exit(1)
 

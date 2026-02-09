@@ -1,5 +1,5 @@
 from .generator import Generator
-from .reviewer import Reviewer
 from .refiner import Refiner
+from .reviewer import Reviewer
 
 __all__ = ["Generator", "Reviewer", "Refiner"]

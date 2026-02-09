@@ -1,24 +1,25 @@
-"""
-Output parser for pattern evaluation.
+"""Output parser for pattern evaluation.
 
-Parses raw model outputs into structured execution traces (IR)
-for deterministic pattern conformance scoring.
+Parses raw model outputs into structured execution traces (IR) for
+deterministic pattern conformance scoring.
 """
 
 import re
-import yaml
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Dict, Optional, Any, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
+import yaml
 
 # =============================================================================
 # DATA STRUCTURES
 # =============================================================================
 
+
 @dataclass
 class Phase:
     """A detected phase in the model output."""
+
     type: str
     content: str
     line_start: int
@@ -29,7 +30,11 @@ class Phase:
     @property
     def content_preview(self) -> str:
         """First 50 chars of content."""
-        return self.content[:50].replace('\n', ' ').strip() + "..." if len(self.content) > 50 else self.content.replace('\n', ' ').strip()
+        return (
+            self.content[:50].replace("\n", " ").strip() + "..."
+            if len(self.content) > 50
+            else self.content.replace("\n", " ").strip()
+        )
 
     def to_dict(self) -> dict:
         return {
@@ -44,11 +49,11 @@ class Phase:
 
 @dataclass
 class ParseResult:
-    """
-    Intermediate representation (IR) of parsed output.
+    """Intermediate representation (IR) of parsed output.
 
     This is the structured execution trace used for scoring.
     """
+
     phases: List[Phase] = field(default_factory=list)
     ordering_valid: bool = True
     missing_phases: List[str] = field(default_factory=list)
@@ -86,9 +91,9 @@ class ParseResult:
 # PATTERN DEFINITION LOADER
 # =============================================================================
 
+
 def load_pattern_definition(pattern_name: str) -> Dict[str, Any]:
-    """
-    Load a pattern definition from YAML.
+    """Load a pattern definition from YAML.
 
     Args:
         pattern_name: Name of pattern (react, cove, reflexion, rag)
@@ -118,9 +123,9 @@ def get_available_patterns() -> List[str]:
 # PHASE DETECTION
 # =============================================================================
 
+
 def compile_phase_markers(pattern_def: Dict[str, Any]) -> Dict[str, List[re.Pattern]]:
-    """
-    Compile regex patterns for phase detection.
+    """Compile regex patterns for phase detection.
 
     Args:
         pattern_def: Pattern definition with phase_markers
@@ -133,8 +138,7 @@ def compile_phase_markers(pattern_def: Dict[str, Any]) -> Dict[str, List[re.Patt
 
     for phase_name, patterns in markers.items():
         compiled[phase_name] = [
-            re.compile(p, re.IGNORECASE | re.MULTILINE)
-            for p in patterns
+            re.compile(p, re.IGNORECASE | re.MULTILINE) for p in patterns
         ]
 
     return compiled
@@ -144,8 +148,7 @@ def detect_phases(
     output: str,
     phase_markers: Dict[str, List[re.Pattern]],
 ) -> Tuple[List[Phase], List[str]]:
-    """
-    Detect phases in model output using regex markers.
+    """Detect phases in model output using regex markers.
 
     Args:
         output: Raw model output
@@ -154,7 +157,7 @@ def detect_phases(
     Returns:
         Tuple of (detected phases, content outside phases)
     """
-    lines = output.split('\n')
+    lines = output.split("\n")
     phases = []
     current_phase = None
     current_content = []
@@ -177,12 +180,14 @@ def detect_phases(
         if phase_found:
             # Save previous phase if exists
             if current_phase:
-                phases.append(Phase(
-                    type=current_phase.lower(),  # Normalize to lowercase
-                    content='\n'.join(current_content),
-                    line_start=current_start,
-                    line_end=i - 1,
-                ))
+                phases.append(
+                    Phase(
+                        type=current_phase.lower(),  # Normalize to lowercase
+                        content="\n".join(current_content),
+                        line_start=current_start,
+                        line_end=i - 1,
+                    )
+                )
             elif current_content:
                 # Content before first phase = potential leakage
                 pre_phase_content = current_content.copy()
@@ -196,17 +201,19 @@ def detect_phases(
 
     # Don't forget the last phase
     if current_phase:
-        phases.append(Phase(
-            type=current_phase.lower(),  # Normalize to lowercase
-            content='\n'.join(current_content),
-            line_start=current_start,
-            line_end=len(lines) - 1,
-        ))
+        phases.append(
+            Phase(
+                type=current_phase.lower(),  # Normalize to lowercase
+                content="\n".join(current_content),
+                line_start=current_start,
+                line_end=len(lines) - 1,
+            )
+        )
 
     # Check for leakage (non-whitespace content before first phase)
     if pre_phase_content:
-        content = '\n'.join(pre_phase_content).strip()
-        if content and not content.startswith('#'):  # Allow markdown headers
+        content = "\n".join(pre_phase_content).strip()
+        if content and not content.startswith("#"):  # Allow markdown headers
             leakage.append(content)
 
     return phases, leakage
@@ -216,12 +223,12 @@ def detect_phases(
 # ORDERING VALIDATION
 # =============================================================================
 
+
 def validate_ordering(
     phases: List[Phase],
     pattern_def: Dict[str, Any],
 ) -> Tuple[bool, List[str]]:
-    """
-    Validate phase ordering against pattern constraints.
+    """Validate phase ordering against pattern constraints.
 
     Args:
         phases: Detected phases
@@ -272,12 +279,12 @@ def validate_ordering(
 # COMPLETENESS CHECK
 # =============================================================================
 
+
 def check_completeness(
     phases: List[Phase],
     pattern_def: Dict[str, Any],
 ) -> Tuple[List[str], List[str]]:
-    """
-    Check for missing and extra phases.
+    """Check for missing and extra phases.
 
     Args:
         phases: Detected phases
@@ -304,13 +311,13 @@ def check_completeness(
 # MAIN PARSER
 # =============================================================================
 
+
 def parse_output(
     output: str,
     pattern_name: str,
     pattern_def: Optional[Dict[str, Any]] = None,
 ) -> ParseResult:
-    """
-    Parse model output into structured execution trace.
+    """Parse model output into structured execution trace.
 
     Args:
         output: Raw model output
@@ -363,9 +370,9 @@ def parse_output(
 # UTILITY FUNCTIONS
 # =============================================================================
 
+
 def detect_pattern(output: str) -> Optional[str]:
-    """
-    Auto-detect which pattern an output follows.
+    """Auto-detect which pattern an output follows.
 
     Args:
         output: Raw model output
@@ -398,8 +405,7 @@ def extract_phase_content(
     result: ParseResult,
     phase_type: str,
 ) -> List[str]:
-    """
-    Extract all content from phases of a specific type.
+    """Extract all content from phases of a specific type.
 
     Args:
         result: ParseResult from parsing

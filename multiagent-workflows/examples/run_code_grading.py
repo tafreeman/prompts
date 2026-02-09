@@ -1,5 +1,4 @@
-"""
-Code Grading Workflow Example
+"""Code Grading Workflow Example.
 
 Demonstrates how to use the multi-agent code grading workflow to evaluate
 code quality across multiple dimensions using specialized agents.
@@ -18,18 +17,17 @@ This workflow uses:
 """
 
 import asyncio
-from pathlib import Path
-import sys
 import json
+import sys
 from datetime import datetime
+from pathlib import Path
 
 # Add parent to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
+from multiagent_workflows.core.logger import VerboseLogger
 from multiagent_workflows.core.model_manager import ModelManager
 from multiagent_workflows.core.workflow_engine import WorkflowEngine
-from multiagent_workflows.core.logger import VerboseLogger
-
 
 # Sample Python code to grade - intentionally has some issues to demonstrate scoring
 SAMPLE_CODE_GOOD = '''
@@ -188,7 +186,7 @@ if __name__ == "__main__":
     print(f"Token: {token[:50]}...")
 '''
 
-SAMPLE_CODE_POOR = '''
+SAMPLE_CODE_POOR = """
 import os
 
 password = "admin123"  # hardcoded password
@@ -214,7 +212,7 @@ def process(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p):
     temp2 = f+g+h+i+j
     temp3 = k+l+m+n+o+p
     return temp*temp2*temp3
-'''
+"""
 
 
 async def run_code_grading_demo():
@@ -223,120 +221,128 @@ async def run_code_grading_demo():
     print("Multi-Agent Code Grading Workflow Demo")
     print("=" * 70)
     print()
-    
+
     # Initialize components
     print("Initializing model manager...")
     model_manager = ModelManager(allow_remote=True)
-    
+
     # Check model availability
     print("\nChecking model availability...")
     available = await model_manager.list_models()
     print(f"  Available models: {len(available)}")
-    
+
     # Create logger
     logger = VerboseLogger(
         workflow_id=f"code-grading-{datetime.now().strftime('%Y%m%d_%H%M%S')}",
         config={"level": "INFO"},
     )
-    
+
     # Create workflow engine
     print("Creating workflow engine...")
     engine = WorkflowEngine(model_manager=model_manager)
-    
+
     # List available workflows
     print("\nAvailable workflows:")
     workflows = engine.list_workflows()
     for wf in workflows:
         print(f"  - {wf}")
-    
+
     # Prepare inputs
     code_to_grade = SAMPLE_CODE_GOOD  # Use the good example
-    
+
     print(f"\nCode sample: {len(code_to_grade)} characters")
     print("Sample preview:")
     print("-" * 40)
     print(code_to_grade[:500] + "...")
     print("-" * 40)
-    
+
     # Run workflow
     print("\n🚀 Starting code grading workflow...")
     print()
-    
+
     try:
         result = await engine.execute_workflow(
             workflow_name="code_grading",
             inputs={
                 "code_submission": code_to_grade,
                 "language": "python",
-                "context": "Authentication module for a web application"
+                "context": "Authentication module for a web application",
             },
         )
-        
+
         print("\n" + "=" * 70)
         print("✅ Workflow Complete!")
         print("=" * 70)
-        
+
         # Display results
         if result.success:
             outputs = result.outputs
-            
+
             print(f"\n📊 Execution time: {result.duration_ms:.0f}ms")
             print(f"📋 Steps completed: {len(result.step_results)}")
-            
+
             # Show step results
             print("\n📝 Step Results:")
             for step_id, step_result in result.step_results.items():
                 status = "✅" if step_result.success else "❌"
                 print(f"  {status} {step_id}")
-            
+
             # Show grading outputs if available
             if "overall_grade" in outputs:
                 print(f"\n🎓 Overall Grade: {outputs.get('overall_grade', 'N/A')}")
-            
+
             if "category_scores" in outputs:
                 print("\n📈 Category Scores:")
                 for category, score in outputs.get("category_scores", {}).items():
                     print(f"  {category}: {score}")
-            
+
             # Export results
             results_dir = Path("evaluation/results/code_grading")
             results_dir.mkdir(parents=True, exist_ok=True)
-            
-            result_file = results_dir / f"grading_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+
+            result_file = (
+                results_dir / f"grading_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            )
             with open(result_file, "w") as f:
-                json.dump({
-                    "workflow_id": result.workflow_id,
-                    "workflow_name": result.workflow_name,
-                    "success": result.success,
-                    "duration_ms": result.duration_ms,
-                    "outputs": outputs,
-                }, f, indent=2, default=str)
-            
+                json.dump(
+                    {
+                        "workflow_id": result.workflow_id,
+                        "workflow_name": result.workflow_name,
+                        "success": result.success,
+                        "duration_ms": result.duration_ms,
+                        "outputs": outputs,
+                    },
+                    f,
+                    indent=2,
+                    default=str,
+                )
+
             print(f"\n💾 Results saved to: {result_file}")
-            
+
         else:
             print(f"\n❌ Workflow failed: {result.error}")
-            
+
     except Exception as e:
         print(f"\n❌ Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 
 async def simple_model_test():
     """Test model availability before running full workflow."""
     print("Testing model availability...")
-    
+
     manager = ModelManager()
-    
+
     # Check key models used by grading workflow
     models = [
-        "local:phi4",           # Static analysis
+        "local:phi4",  # Static analysis
         "gh:openai/gpt-4o-mini",  # Fast tasks
-        "gh:openai/o3-mini",    # Security
-        "gh:openai/gpt-4o",     # Head judge
+        "gh:openai/o3-mini",  # Security
+        "gh:openai/gpt-4o",  # Head judge
     ]
-    
+
     print("\nModel Status:")
     for model_id in models:
         try:
@@ -349,7 +355,7 @@ async def simple_model_test():
 
 if __name__ == "__main__":
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Code Grading Workflow Demo")
     parser.add_argument(
         "--check",
@@ -362,7 +368,7 @@ if __name__ == "__main__":
         help="Grade the poor quality sample instead",
     )
     args = parser.parse_args()
-    
+
     if args.check:
         asyncio.run(simple_model_test())
     else:

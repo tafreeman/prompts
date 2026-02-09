@@ -18,7 +18,7 @@ platforms:
 
 author: "Prompts Library Team"
 version: "1.0"
-date: "2025-11-30"
+date: "2026-02-01"
 governance_tags:
 
   - "PII-safe"
@@ -30,9 +30,10 @@ reviewStatus: "approved"
 # Enterprise AI Prompt Library
 
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
-![Prompts](https://img.shields.io/badge/Prompts-165%2B-blue)
+![Prompts](https://img.shields.io/badge/Prompts-196%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 ![Platforms](https://img.shields.io/badge/Platforms-Claude%20%7C%20GPT%20%7C%20Copilot-blueviolet)
+![Multi-Agent](https://img.shields.io/badge/Multi--Agent-LangChain%20%7C%20MCP-orange)
 
 A comprehensive, community-driven prompt library designed for everyone—from developers to business professionals. This repository provides well-organized, reusable prompts for AI/LLM interactions across diverse use cases, optimized for **Claude Sonnet 4.5** and **Code 5**.
 
@@ -53,8 +54,9 @@ Based on **scientific research** and analysis of 95+ prompts, we've identified a
 - **Business Professionals**: Prompts for analysis, strategy, reporting, and communication
 - **Creative Teams**: Content creation, marketing, and storytelling prompts
 - **Data Analysts**: Prompts for data analysis, insights extraction, and visualization
-- **Advanced Users**: Chain-of-Thought, ReAct, RAG, and Tree-of-Thoughts patterns 🆕
-- **Enterprise Teams**: Legal, compliance, security, and governance prompts with audit controls 🆕
+- **Advanced Users**: Chain-of-Thought, ReAct, RAG, and Tree-of-Thoughts patterns
+- **Enterprise Teams**: Legal, compliance, security, and governance prompts with audit controls
+- **Multi-Agent Developers**: Build orchestrated AI workflows with LangChain & MCP 🆕
 - **Everyone**: General-purpose system prompts and templates
 
 ## ✨ New: Advanced Techniques & Enterprise Governance
@@ -82,6 +84,32 @@ Production AI requires governance, risk management, and compliance controls:
 - **Access Controls**: Role-based permissions, human review requirements
 
 📋 **[Explore Governance & Compliance →](prompts/governance/)**
+
+### Agentic Workflows V2 (State-of-the-Art) 🚀
+
+**The new standard for high-performance AI orchestration.**
+
+- **DAG Engine**: Parallel execution of complex dependency graphs
+- **Smart Router**: Intelligent model selection (Tier 0-3) based on task complexity
+- **CLI-First**: Powerful `agentic` command line interface
+- **Strict Typing**: Built on Pydantic v2 for robustness
+
+📦 **[Explore Agentic V2 →](agentic-workflows-v2/)**
+💻 **CLI**: `python -m agentic_v2.cli.main`
+
+### Multi-Agent Workflow System
+
+A complete multi-agent development system for orchestrated AI workflows:
+
+- **LangChain Integration**: Build complex chains, agents, and RAG pipelines
+- **MCP Server Support**: Filesystem, GitHub, and custom MCP servers
+- **Workflow Engine**: Define multi-step agent workflows with YAML/JSON configs
+- **Dashboard UI**: Interactive web UI for running and monitoring workflows
+- **Benchmark Framework**: Evaluate against HumanEval, MBPP, and SWE-bench
+- **Rubric Scoring**: Comprehensive evaluation rubrics for output quality
+
+📦 **[Explore Multi-Agent Workflows →](multiagent-workflows/)**  
+📊 **[Dashboard Server →](multiagent-workflows/examples/dashboard_server.py)**
 
 ## 🤖 GitHub Copilot Custom Agents
 
@@ -129,23 +157,52 @@ The library includes a powerful CLI and a unified backend for executing, evaluat
 
 ```text
 prompts/
+├── .github/                # GitHub config, agents & workflows
 ├── docs/                   # 📖 Documentation & Guides
-│   ├── get-started/        # Platform quickstarts
-│   ├── tutorials/          # Step-by-step learning
 │   ├── concepts/           # Theory & understanding
-│   ├── reference/          # Quick lookup & Glossary
 │   ├── instructions/       # Copilot instructions files
-│   └── troubleshooting/    # Fix common issues
-├── prompts/                # 📚 Prompt Library & Content
-│   ├── developers/         # Code generation, debugging
-│   ├── business/           # Analysis, strategy
-│   ├── advanced/           # CoT, ReAct, RAG patterns
+│   ├── planning/           # Project planning docs
+│   ├── reference/          # Quick lookup & Glossary
+│   ├── research/           # Research documentation
+│   └── tutorials/          # Step-by-step learning
+├── multiagent-workflows/   # 🤖 Multi-Agent System (NEW)
+│   ├── config/             # Agent, model, workflow configs
+│   ├── examples/           # Dashboard server & examples
+│   ├── src/                # Core source code
+│   │   └── multiagent_workflows/
+│   │       ├── core/       # Model manager, workflow engine
+│   │       ├── langchain/  # LangChain integration
+│   │       ├── mcp/        # MCP server support
+│   │       └── server/     # Dataset loaders
+│   ├── tests/              # Test suite
+│   └── ui/                 # Dashboard web UI
+├── prompts/                # 📚 Prompt Library (196+ prompts)
+│   ├── advanced/           # CoT, ReAct, ToT, RAG patterns
 │   ├── agents/             # 🤖 GitHub Copilot Agents
-│   ├── templates/          # 📄 Reusable templates
+│   ├── analysis/           # Analysis prompts
+│   ├── business/           # Business & strategy
+│   ├── developers/         # Code generation, debugging
+│   ├── frameworks/         # 🏗️ Prompting frameworks
+│   ├── system/             # System-level prompts
 │   ├── techniques/         # 🎯 Advanced techniques
-│   └── frameworks/         # 🏗️ Prompting frameworks
+│   ├── templates/          # 📄 Reusable templates
+│   └── registry.yaml       # Central prompt registry
 ├── scripts/                # 🛠️ Utility scripts
-├── tools/                  # 🔧 Unified Tooling (CLI)
+├── testing/                # 🧪 Test framework (103+ tests)
+│   ├── evals/              # Evaluation tests
+│   ├── framework/          # Test framework utilities
+│   ├── integration/        # Integration tests
+│   └── unit/               # Unit tests
+├── tools/                  # 🔧 Unified Tooling Suite
+│   ├── agents/             # Agent implementations
+│   ├── cli/                # CLI commands
+│   ├── core/               # Core utilities
+│   ├── llm/                # LLM client implementations
+│   ├── prompteval/         # Prompt evaluation framework
+│   └── rubrics/            # Scoring rubrics
+├── workflows/              # Workflow definitions
+│   └── agentic_planning/   # Agentic planning workflows
+├── prompt.py               # Main CLI entry point
 └── README.md               # This file
 ```
 
@@ -153,28 +210,46 @@ prompts/
 
 ```mermaid
 graph TB
-    subgraph "📚 Content"
+    subgraph "📚 Prompt Library"
         A[prompts/] --> A1[developers/]
         A --> A2[business/]
         A --> A3[advanced/]
         A --> A4[agents/]
+        A --> A5[techniques/]
+    end
+
+    subgraph "🤖 Multi-Agent System"
+        B[multiagent-workflows/] --> B1[config/]
+        B --> B2[src/]
+        B2 --> B2a[langchain/]
+        B2 --> B2b[mcp/]
+        B --> B3[ui/]
     end
 
     subgraph "📖 Docs"
-        C[docs/] --> C1[get-started/]
+        C[docs/] --> C1[concepts/]
         C --> C2[reference/]
         C --> C3[tutorials/]
     end
 
-    subgraph "🔧 Tools"
+    subgraph "🔧 Tooling"
         D[tools/] --> D1[prompteval/]
         D --> D2[cli/]
+        D --> D3[llm/]
+    end
+
+    subgraph "🧪 Testing"
+        E[testing/] --> E1[evals/]
+        E --> E2[integration/]
+        E --> E3[unit/]
     end
 
     style A fill:#e3f2fd
+    style B fill:#e8f5e9
     style C fill:#fff3e0
     style D fill:#f3e5f5
-```text
+    style E fill:#fce4ec
+```
 
 ### User Journey: Finding and Using a Prompt
 
@@ -202,17 +277,20 @@ journey
 <details>
 <summary>📊 <strong>Library Statistics</strong></summary>
 
-| Category | Prompts | Difficulty Distribution |
+| Category | Items | Description |
 | ---------- | --------- | ------------------------ |
-| Developers | 25+ | 🟢 40% 🟡 45% 🔴 15% |
-| Business | 26 | 🟢 60% 🟡 35% 🔴 5% |
-| Advanced | 17 | 🟡 20% 🔴 80% |
-| Analysis | 21 | 🟢 35% 🟡 50% 🔴 15% |
-| M365 | 21 | 🟢 70% 🟡 30% |
-| System | 23 | 🟢 50% 🟡 40% 🔴 10% |
-| Governance | 3+ | 🟡 30% 🔴 70% |
-
-**Legend**: 🟢 Beginner | 🟡 Intermediate | 🔴 Advanced
+| **Prompts** | 196+ | Across 12 categories |
+| Developers | 29 | Code generation, debugging, testing |
+| Business | 16 | Analysis, strategy, reporting |
+| Advanced | 29 | CoT, ReAct, ToT, RAG patterns |
+| Analysis | 25 | Data analysis, insights |
+| System | 25 | System-level configurations |
+| Techniques | 18 | Advanced prompting techniques |
+| Frameworks | 17 | Prompting frameworks |
+| Agents | 13 | GitHub Copilot agents |
+| **Testing** | 103+ | Unit, integration, evaluation tests |
+| **Tools** | 176+ | CLI, LLM clients, evaluators |
+| **Multi-Agent** | 152+ | Workflow configs, LangChain, MCP |
 
 </details>
 
@@ -403,8 +481,15 @@ All prompts in this library:
 Prompts are versioned to track improvements:
 
 - **1.0**: Initial version
-- **1.1**: Minor improvements
+- **1.1**: Minor improvements  
 - **2.0**: Major changes or rewrites
+
+### Recent Updates (2026)
+
+- **Feb 2026**: Multi-agent workflow system with LangChain & MCP integration
+- **Jan 2026**: Comprehensive testing framework (103+ tests)
+- **Jan 2026**: Dashboard UI for workflow monitoring
+- **Jan 2026**: Benchmark framework (HumanEval, MBPP, SWE-bench)
 
 Check individual prompt files for version history.
 

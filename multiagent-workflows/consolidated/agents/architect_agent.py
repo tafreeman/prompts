@@ -1,8 +1,7 @@
-"""
-Architect Agent
+"""Architect Agent.
 
-Designs system architecture based on requirements.
-Outputs tech stack recommendations, component diagrams, and API strategies.
+Designs system architecture based on requirements. Outputs tech stack
+recommendations, component diagrams, and API strategies.
 """
 
 from __future__ import annotations
@@ -57,53 +56,51 @@ Output your response as JSON with the following structure:
 
 
 class ArchitectAgent(AgentBase):
-    """
-    Agent that designs system architecture.
-    
+    """Agent that designs system architecture.
+
     Takes requirements and produces:
     - Tech stack recommendations
     - Component diagrams
     - API strategy
     - Deployment architecture
     """
-    
+
     async def _process(
         self,
         task: Dict[str, Any],
         context: Dict[str, Any],
     ) -> Dict[str, Any]:
-        """
-        Design architecture based on requirements.
-        
+        """Design architecture based on requirements.
+
         Args:
             task: Contains 'requirements' and optional 'constraints'
             context: Execution context
-            
+
         Returns:
             Architecture design as structured dict
         """
         requirements = task.get("requirements", "")
         constraints = task.get("constraints", "")
         user_stories = task.get("user_stories", "")
-        
+
         prompt = self._build_prompt(requirements, constraints, user_stories)
-        
+
         result = await self.call_model(
             prompt=prompt,
             temperature=0.3,  # Lower temperature for more consistent output
             max_tokens=4096,
         )
-        
+
         # Parse response
         architecture = self._parse_architecture(result.text)
-        
+
         return {
             "architecture": architecture,
             "tech_stack": architecture.get("tech_stack", {}),
             "component_diagram": architecture.get("component_diagram", ""),
             "api_strategy": architecture.get("api_strategy", {}),
         }
-    
+
     def _build_prompt(
         self,
         requirements: str,
@@ -112,32 +109,38 @@ class ArchitectAgent(AgentBase):
     ) -> str:
         """Build the architecture design prompt."""
         prompt_parts = ["## Requirements", "", requirements, ""]
-        
+
         if user_stories:
-            prompt_parts.extend([
-                "## User Stories",
-                "",
-                user_stories,
-                "",
-            ])
-        
+            prompt_parts.extend(
+                [
+                    "## User Stories",
+                    "",
+                    user_stories,
+                    "",
+                ]
+            )
+
         if constraints:
-            prompt_parts.extend([
-                "## Constraints",
+            prompt_parts.extend(
+                [
+                    "## Constraints",
+                    "",
+                    constraints,
+                    "",
+                ]
+            )
+
+        prompt_parts.extend(
+            [
+                "## Task",
                 "",
-                constraints,
-                "",
-            ])
-        
-        prompt_parts.extend([
-            "## Task",
-            "",
-            "Design a comprehensive system architecture for the above requirements.",
-            "Provide your response as valid JSON matching the specified structure.",
-        ])
-        
+                "Design a comprehensive system architecture for the above requirements.",
+                "Provide your response as valid JSON matching the specified structure.",
+            ]
+        )
+
         return "\n".join(prompt_parts)
-    
+
     def _parse_architecture(self, response: str) -> Dict[str, Any]:
         """Parse architecture from model response."""
         # Try to extract JSON from response
@@ -157,7 +160,7 @@ class ArchitectAgent(AgentBase):
                 json_str = response[start:end]
             else:
                 json_str = response
-            
+
             return json.loads(json_str)
         except (json.JSONDecodeError, ValueError):
             # Return raw response in structured format

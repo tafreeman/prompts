@@ -16,13 +16,13 @@ LLM call), this module actually:
 Usage:
     # Basic usage
     from tools.agents.multi_agent_orchestrator import MultiAgentOrchestrator
-    
+
     orchestrator = MultiAgentOrchestrator(model="gh:gpt-4o-mini")
     result = orchestrator.run("Design a scalable microservices architecture")
-    
+
     # CLI usage
     python -m tools.agents.multi_agent_orchestrator "Your complex task here"
-    
+
     # With specific model
     python -m tools.agents.multi_agent_orchestrator --model local:phi4 "Your task"
 
@@ -32,15 +32,14 @@ Version: 1.0
 
 import argparse
 import json
-import sys
-import time
 import re
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 # Add parent directory to path for imports
 if __name__ == "__main__":
@@ -48,13 +47,14 @@ if __name__ == "__main__":
 
 from tools.llm.llm_client import LLMClient
 
-
 # =============================================================================
 # DATA STRUCTURES
 # =============================================================================
 
+
 class AgentType(Enum):
     """Types of specialist agents available."""
+
     ORCHESTRATOR = "orchestrator"
     ANALYST = "analyst"
     RESEARCHER = "researcher"
@@ -65,6 +65,7 @@ class AgentType(Enum):
 
 class TaskPriority(Enum):
     """Task priority levels."""
+
     HIGH = "high"
     MEDIUM = "medium"
     LOW = "low"
@@ -72,6 +73,7 @@ class TaskPriority(Enum):
 
 class TaskStatus(Enum):
     """Task execution status."""
+
     PENDING = "pending"
     RUNNING = "running"
     COMPLETED = "completed"
@@ -82,6 +84,7 @@ class TaskStatus(Enum):
 @dataclass
 class Task:
     """Represents a delegated subtask."""
+
     id: str
     description: str
     agent_type: AgentType
@@ -106,6 +109,7 @@ class Task:
 @dataclass
 class ExecutionPlan:
     """Represents the orchestrated execution plan."""
+
     phases: List[List[Task]]  # Each phase is a list of parallel tasks
     integration_strategy: str = ""
 
@@ -113,6 +117,7 @@ class ExecutionPlan:
 @dataclass
 class OrchestratorResult:
     """Final result from the multi-agent workflow."""
+
     task_description: str
     plan: ExecutionPlan
     agent_results: Dict[str, Task]
@@ -360,10 +365,10 @@ AGENT_PROMPTS = {
 # MULTI-AGENT ORCHESTRATOR
 # =============================================================================
 
+
 class MultiAgentOrchestrator:
-    """
-    Orchestrates multi-agent workflows with real LLM execution.
-    
+    """Orchestrates multi-agent workflows with real LLM execution.
+
     This is a real implementation - not a simulation. Each agent gets its own
     LLM call, tasks execute in parallel where possible, and results are
     integrated at the end.
@@ -376,9 +381,8 @@ class MultiAgentOrchestrator:
         max_parallel: int = 3,
         verbose: bool = False,
     ):
-        """
-        Initialize the orchestrator.
-        
+        """Initialize the orchestrator.
+
         Args:
             model: Model to use for all agents (e.g., "gh:gpt-4o-mini", "local:phi4")
             temperature: Sampling temperature (0.0-2.0)
@@ -408,18 +412,21 @@ class MultiAgentOrchestrator:
         )
 
     def _parse_plan(self, response: str) -> Tuple[List[Task], ExecutionPlan]:
-        """Parse the orchestrator's JSON response into tasks and execution plan."""
+        """Parse the orchestrator's JSON response into tasks and execution
+        plan."""
         # Extract JSON from response (handle markdown code blocks)
-        json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', response)
+        json_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", response)
         if json_match:
             json_str = json_match.group(1)
         else:
             # Try to find raw JSON
-            json_match = re.search(r'\{[\s\S]*\}', response)
+            json_match = re.search(r"\{[\s\S]*\}", response)
             if json_match:
                 json_str = json_match.group(0)
             else:
-                raise ValueError(f"Could not parse JSON from orchestrator response: {response[:500]}")
+                raise ValueError(
+                    f"Could not parse JSON from orchestrator response: {response[:500]}"
+                )
 
         try:
             plan_data = json.loads(json_str)
@@ -470,7 +477,9 @@ class MultiAgentOrchestrator:
 
         plan = ExecutionPlan(
             phases=phases,
-            integration_strategy=plan_data.get("integration_strategy", "Combine all results"),
+            integration_strategy=plan_data.get(
+                "integration_strategy", "Combine all results"
+            ),
         )
 
         return tasks, plan
@@ -479,17 +488,17 @@ class MultiAgentOrchestrator:
         """Build context string from completed dependency tasks."""
         if not task.dependencies:
             return "No previous context available."
-        
+
         context_parts = []
         for dep_id in task.dependencies:
             if dep_id in self.context:
                 dep_task = self.tasks.get(dep_id)
                 dep_name = dep_task.description if dep_task else dep_id
                 context_parts.append(f"### From {dep_name}:\n{self.context[dep_id]}")
-        
+
         if not context_parts:
             return "No previous context available."
-        
+
         return "\n\n".join(context_parts)
 
     def _execute_task(self, task: Task) -> Task:
@@ -497,18 +506,24 @@ class MultiAgentOrchestrator:
         task.status = TaskStatus.RUNNING
         task.started_at = datetime.now()
         desc_preview = task.description[:50] if task.description else "(no description)"
-        self._log(f"Starting task '{task.id}' ({task.agent_type.value}): {desc_preview}...")
+        self._log(
+            f"Starting task '{task.id}' ({task.agent_type.value}): {desc_preview}..."
+        )
 
         try:
             # Get the appropriate prompt template
             prompt_template = AGENT_PROMPTS.get(task.agent_type)
             if not prompt_template:
-                raise ValueError(f"No prompt template for agent type: {task.agent_type}")
+                raise ValueError(
+                    f"No prompt template for agent type: {task.agent_type}"
+                )
 
             # Build the prompt - use safe substitution to avoid format string errors
             context = self._build_context(task)
-            inputs_str = json.dumps(task.inputs, indent=2) if task.inputs else "None specified"
-            
+            inputs_str = (
+                json.dumps(task.inputs, indent=2) if task.inputs else "None specified"
+            )
+
             # Replace placeholders manually to avoid issues with curly braces in content
             prompt = prompt_template
             prompt = prompt.replace("{task_description}", task.description or "")
@@ -517,16 +532,18 @@ class MultiAgentOrchestrator:
 
             # Call the LLM
             result = self._call_llm(prompt)
-            
+
             # Store result
             task.result = result
             task.status = TaskStatus.COMPLETED
-            task.completed_at = datetime.now()  # Set completion time BEFORE logging duration
+            task.completed_at = (
+                datetime.now()
+            )  # Set completion time BEFORE logging duration
             task.confidence = 0.8  # Default confidence; could parse from response
-            
+
             # Add to accumulated context
             self.context[task.id] = result
-            
+
             duration = task.duration_seconds or 0.0
             self._log(f"Completed task '{task.id}' ({duration:.1f}s)")
 
@@ -546,11 +563,15 @@ class MultiAgentOrchestrator:
 
         # Multiple tasks - execute in parallel
         results = []
-        with ThreadPoolExecutor(max_workers=min(len(phase), self.max_parallel)) as executor:
-            futures = {executor.submit(self._execute_task, task): task for task in phase}
+        with ThreadPoolExecutor(
+            max_workers=min(len(phase), self.max_parallel)
+        ) as executor:
+            futures = {
+                executor.submit(self._execute_task, task): task for task in phase
+            }
             for future in as_completed(futures):
                 results.append(future.result())
-        
+
         return results
 
     def _integrate_results(self, task_description: str, plan: ExecutionPlan) -> str:
@@ -578,12 +599,11 @@ class MultiAgentOrchestrator:
         return self._call_llm(prompt)
 
     def run(self, task_description: str) -> OrchestratorResult:
-        """
-        Execute a complete multi-agent workflow.
-        
+        """Execute a complete multi-agent workflow.
+
         Args:
             task_description: The complex task to orchestrate
-            
+
         Returns:
             OrchestratorResult with final output and all agent results
         """
@@ -592,7 +612,9 @@ class MultiAgentOrchestrator:
 
         # Phase 1: Orchestrator decomposes the task
         self._log("Phase 1: Task decomposition...")
-        orchestrator_prompt = ORCHESTRATOR_PROMPT.format(task_description=task_description)
+        orchestrator_prompt = ORCHESTRATOR_PROMPT.format(
+            task_description=task_description
+        )
         orchestrator_response = self._call_llm(
             orchestrator_prompt,
             system="You are a task orchestrator. Output only valid JSON.",
@@ -604,7 +626,9 @@ class MultiAgentOrchestrator:
 
         # Phase 2: Execute tasks by phase
         for i, phase in enumerate(plan.phases):
-            self._log(f"Phase {i+1}/{len(plan.phases)}: Executing {len(phase)} task(s)...")
+            self._log(
+                f"Phase {i+1}/{len(plan.phases)}: Executing {len(phase)} task(s)..."
+            )
             self._execute_phase(phase)
 
         # Phase 3: Integrate results
@@ -623,8 +647,12 @@ class MultiAgentOrchestrator:
                 "temperature": self.temperature,
                 "num_tasks": len(tasks),
                 "num_phases": len(plan.phases),
-                "successful_tasks": sum(1 for t in self.tasks.values() if t.status == TaskStatus.COMPLETED),
-                "failed_tasks": sum(1 for t in self.tasks.values() if t.status == TaskStatus.FAILED),
+                "successful_tasks": sum(
+                    1 for t in self.tasks.values() if t.status == TaskStatus.COMPLETED
+                ),
+                "failed_tasks": sum(
+                    1 for t in self.tasks.values() if t.status == TaskStatus.FAILED
+                ),
             },
         )
 
@@ -635,6 +663,7 @@ class MultiAgentOrchestrator:
 # =============================================================================
 # CLI
 # =============================================================================
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -661,25 +690,29 @@ Examples:
         help="The complex task to orchestrate",
     )
     parser.add_argument(
-        "--model", "-m",
+        "--model",
+        "-m",
         type=str,
         default="gh:gpt-4o-mini",
         help="Model to use (e.g., 'gh:gpt-4o-mini', 'local:phi4', 'openai:gpt-4')",
     )
     parser.add_argument(
-        "--temperature", "-t",
+        "--temperature",
+        "-t",
         type=float,
         default=0.7,
         help="Sampling temperature (0.0-2.0, default: 0.7)",
     )
     parser.add_argument(
-        "--max-parallel", "-p",
+        "--max-parallel",
+        "-p",
         type=int,
         default=3,
         help="Maximum parallel agent executions (default: 3)",
     )
     parser.add_argument(
-        "--verbose", "-v",
+        "--verbose",
+        "-v",
         action="store_true",
         help="Print detailed progress information",
     )
@@ -732,7 +765,9 @@ Examples:
         print("=" * 80)
         print(f"\nTask: {result.task_description}")
         print(f"Duration: {result.total_duration_seconds:.1f}s")
-        print(f"Tasks: {result.metadata['successful_tasks']}/{result.metadata['num_tasks']} successful")
+        print(
+            f"Tasks: {result.metadata['successful_tasks']}/{result.metadata['num_tasks']} successful"
+        )
         print("\n" + "-" * 80)
         print("FINAL OUTPUT:")
         print("-" * 80)
