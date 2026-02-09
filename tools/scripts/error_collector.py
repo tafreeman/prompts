@@ -21,12 +21,11 @@ Author: Error Collector System
 License: MIT
 """
 
-import os
-import sys
 import json
 import subprocess
+import sys
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List
 
 
 class ErrorCollector:
@@ -52,16 +51,20 @@ class ErrorCollector:
         # Check if markdownlint-cli is installed
         try:
             result = subprocess.run(
-                ['markdownlint', '--version'],
+                ["markdownlint", "--version"],
                 capture_output=True,
                 text=True,
                 cwd=self.repo_root,
             )
             if result.returncode != 0:
-                print("  ⚠️  markdownlint not found. Install with: npm install -g markdownlint-cli")
+                print(
+                    "  ⚠️  markdownlint not found. Install with: npm install -g markdownlint-cli"
+                )
                 return 0
         except FileNotFoundError:
-            print("  ⚠️  markdownlint not found. Install with: npm install -g markdownlint-cli")
+            print(
+                "  ⚠️  markdownlint not found. Install with: npm install -g markdownlint-cli"
+            )
             return 0
 
         # Run markdownlint with JSON output
@@ -69,14 +72,14 @@ class ErrorCollector:
         try:
             result = subprocess.run(
                 [
-                    'markdownlint',
-                    '**/*.md',
-                    '--ignore',
-                    'node_modules',
-                    '--ignore',
-                    '.venv',
-                    '--ignore',
-                    '_archive',
+                    "markdownlint",
+                    "**/*.md",
+                    "--ignore",
+                    "node_modules",
+                    "--ignore",
+                    ".venv",
+                    "--ignore",
+                    "_archive",
                 ],
                 capture_output=True,
                 text=True,
@@ -85,7 +88,7 @@ class ErrorCollector:
 
             # Parse output (format: file:line message)
             # Example: docs/README.md:89 MD022/blanks-around-headings Headings should be...
-            lines = result.stdout.split('\n')
+            lines = result.stdout.split("\n")
             count = 0
 
             for line in lines:
@@ -93,7 +96,7 @@ class ErrorCollector:
                     continue
 
                 # Parse format: filepath:line[:column] CODE/name message
-                match = line.split(':', 2)
+                match = line.split(":", 2)
                 if len(match) < 3:
                     continue
 
@@ -106,22 +109,24 @@ class ErrorCollector:
                 rest = match[2].strip()
 
                 # Extract error code and message
-                parts = rest.split(' ', 1)
+                parts = rest.split(" ", 1)
                 if len(parts) < 2:
                     continue
 
                 error_code = parts[0].strip()
                 error_message = parts[1].strip()
 
-                self.errors.append({
-                    'file': str(self.repo_root / file_path),
-                    'line': line_num,
-                    'column': 1,
-                    'code': error_code,
-                    'message': error_message,
-                    'source': 'markdownlint',
-                    'severity': 'warning',
-                })
+                self.errors.append(
+                    {
+                        "file": str(self.repo_root / file_path),
+                        "line": line_num,
+                        "column": 1,
+                        "code": error_code,
+                        "message": error_message,
+                        "source": "markdownlint",
+                        "severity": "warning",
+                    }
+                )
                 count += 1
 
             print(f"  ✅ Found {count} Markdown errors")
@@ -142,7 +147,7 @@ class ErrorCollector:
         # Check if flake8 is installed
         try:
             result = subprocess.run(
-                [sys.executable, '-m', 'flake8', '--version'],
+                [sys.executable, "-m", "flake8", "--version"],
                 capture_output=True,
                 text=True,
                 cwd=self.repo_root,
@@ -159,11 +164,11 @@ class ErrorCollector:
             result = subprocess.run(
                 [
                     sys.executable,
-                    '-m',
-                    'flake8',
-                    '.',
-                    '--exclude=.venv,node_modules,_archive,.git',
-                    '--max-line-length=120',
+                    "-m",
+                    "flake8",
+                    ".",
+                    "--exclude=.venv,node_modules,_archive,.git",
+                    "--max-line-length=120",
                 ],
                 capture_output=True,
                 text=True,
@@ -172,7 +177,7 @@ class ErrorCollector:
 
             # Parse output (format: file:line:column: CODE message)
             # Example: tools/llm.py:42:80: E501 line too long (121 > 120 characters)
-            lines = result.stdout.split('\n')
+            lines = result.stdout.split("\n")
             count = 0
 
             for line in lines:
@@ -180,7 +185,7 @@ class ErrorCollector:
                     continue
 
                 # Parse format: filepath:line:column: CODE message
-                match = line.split(':', 4)
+                match = line.split(":", 4)
                 if len(match) < 5:
                     continue
 
@@ -194,22 +199,24 @@ class ErrorCollector:
                 rest = match[4].strip()
 
                 # Extract error code and message
-                parts = rest.split(' ', 1)
+                parts = rest.split(" ", 1)
                 if len(parts) < 2:
                     continue
 
                 error_code = parts[0].strip()
                 error_message = parts[1].strip()
 
-                self.errors.append({
-                    'file': str(self.repo_root / file_path),
-                    'line': line_num,
-                    'column': column,
-                    'code': error_code,
-                    'message': error_message,
-                    'source': 'flake8',
-                    'severity': 'warning',
-                })
+                self.errors.append(
+                    {
+                        "file": str(self.repo_root / file_path),
+                        "line": line_num,
+                        "column": column,
+                        "code": error_code,
+                        "message": error_message,
+                        "source": "flake8",
+                        "severity": "warning",
+                    }
+                )
                 count += 1
 
             print(f"  ✅ Found {count} flake8 errors")
@@ -230,7 +237,7 @@ class ErrorCollector:
         # Check if pylint is installed
         try:
             result = subprocess.run(
-                [sys.executable, '-m', 'pylint', '--version'],
+                [sys.executable, "-m", "pylint", "--version"],
                 capture_output=True,
                 text=True,
                 cwd=self.repo_root,
@@ -247,12 +254,12 @@ class ErrorCollector:
             result = subprocess.run(
                 [
                     sys.executable,
-                    '-m',
-                    'pylint',
-                    '.',
-                    '--output-format=json',
-                    '--ignore=.venv,node_modules,_archive,.git',
-                    '--max-line-length=120',
+                    "-m",
+                    "pylint",
+                    ".",
+                    "--output-format=json",
+                    "--ignore=.venv,node_modules,_archive,.git",
+                    "--max-line-length=120",
                 ],
                 capture_output=True,
                 text=True,
@@ -265,15 +272,17 @@ class ErrorCollector:
                 count = 0
 
                 for error in pylint_errors:
-                    self.errors.append({
-                        'file': str(self.repo_root / error.get('path', '')),
-                        'line': error.get('line', 0),
-                        'column': error.get('column', 0),
-                        'code': error.get('message-id', 'UNKNOWN'),
-                        'message': error.get('message', ''),
-                        'source': 'pylint',
-                        'severity': error.get('type', 'warning'),
-                    })
+                    self.errors.append(
+                        {
+                            "file": str(self.repo_root / error.get("path", "")),
+                            "line": error.get("line", 0),
+                            "column": error.get("column", 0),
+                            "code": error.get("message-id", "UNKNOWN"),
+                            "message": error.get("message", ""),
+                            "source": "pylint",
+                            "severity": error.get("type", "warning"),
+                        }
+                    )
                     count += 1
 
                 print(f"  ✅ Found {count} pylint errors")
@@ -321,12 +330,16 @@ class ErrorCollector:
         Args:
             output_file: Path to output JSON file
         """
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump({
-                'timestamp': Path(output_file).stem,
-                'total_errors': len(self.errors),
-                'errors': self.errors,
-            }, f, indent=2)
+        with open(output_file, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "timestamp": Path(output_file).stem,
+                    "total_errors": len(self.errors),
+                    "errors": self.errors,
+                },
+                f,
+                indent=2,
+            )
 
         print(f"\n💾 Saved {len(self.errors)} errors to {output_file}")
 
@@ -349,30 +362,30 @@ def main():
     )
 
     parser.add_argument(
-        '--output',
-        '-o',
-        default='collected_errors.json',
-        help='Output JSON file (default: collected_errors.json)',
+        "--output",
+        "-o",
+        default="collected_errors.json",
+        help="Output JSON file (default: collected_errors.json)",
     )
     parser.add_argument(
-        '--markdown-only',
-        action='store_true',
-        help='Only collect Markdown errors',
+        "--markdown-only",
+        action="store_true",
+        help="Only collect Markdown errors",
     )
     parser.add_argument(
-        '--python-only',
-        action='store_true',
-        help='Only collect Python errors',
+        "--python-only",
+        action="store_true",
+        help="Only collect Python errors",
     )
     parser.add_argument(
-        '--repo-root',
-        default='.',
-        help='Repository root directory (default: .)',
+        "--repo-root",
+        default=".",
+        help="Repository root directory (default: .)",
     )
     parser.add_argument(
-        '--use-pylint',
-        action='store_true',
-        help='Also run pylint (slower, more strict)',
+        "--use-pylint",
+        action="store_true",
+        help="Also run pylint (slower, more strict)",
     )
 
     args = parser.parse_args()
@@ -381,9 +394,9 @@ def main():
     collector = ErrorCollector(repo_root=args.repo_root)
 
     # Collect errors
-    print("="*60)
+    print("=" * 60)
     print("📊 ERROR COLLECTION SYSTEM")
-    print("="*60)
+    print("=" * 60)
 
     markdown = not args.python_only
     python = not args.markdown_only
@@ -394,16 +407,16 @@ def main():
         python_pylint=args.use_pylint and python,
     )
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print(f"📈 COLLECTION COMPLETE: {total} errors found")
-    print("="*60)
+    print("=" * 60)
 
     # Save to file
     collector.save(args.output)
 
-    print(f"\nNext: Run AI fixer with this error file")
+    print("\nNext: Run AI fixer with this error file")
     print(f"  python tools/scripts/ai_error_fixer.py --errors {args.output}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

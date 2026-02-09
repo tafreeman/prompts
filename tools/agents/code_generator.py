@@ -1,8 +1,8 @@
-from typing import Dict, Any
 from dataclasses import dataclass
+from typing import Any, Dict
 
-from tools.models import Generator, Reviewer, Refiner
-from tools.core.config import default_config, Config
+from tools.core.config import Config, default_config
+from tools.models import Generator, Refiner, Reviewer
 
 
 @dataclass
@@ -14,23 +14,22 @@ class PromptGenerationResult:
 
 
 class UniversalCodeGenerator:
-    """
-    Generates high-quality code/prompts/docs using a three-step workflow with flexible model selection.
-    """
+    """Generates high-quality code/prompts/docs using a three-step workflow
+    with flexible model selection."""
 
     def __init__(self, config: Config = default_config):
         self.config = config
         self.generator = Generator(
             model_name=config.models.generator_model,
-            temperature=config.models.generator_temp
+            temperature=config.models.generator_temp,
         )
         self.reviewer = Reviewer(
             model_name=config.models.reviewer_model,
-            temperature=config.models.reviewer_temp
+            temperature=config.models.reviewer_temp,
         )
         self.refiner = Refiner(
             model_name=config.models.refiner_model,
-            temperature=config.models.refiner_temp
+            temperature=config.models.refiner_temp,
         )
 
     def generate(
@@ -39,11 +38,9 @@ class UniversalCodeGenerator:
         use_case: str,
         variables: Dict[str, str],
         target_tier: int = 1,
-        auto_refine: bool = True
+        auto_refine: bool = True,
     ) -> PromptGenerationResult:
-        """
-        Generate a prompt with optional multi-model review.
-        """
+        """Generate a prompt with optional multi-model review."""
         # Step 1: Generate draft
         draft = self.generator.generate_draft(category, use_case, variables)
 
@@ -61,12 +58,13 @@ class UniversalCodeGenerator:
             draft=draft,
             review=review,
             final=final,
-            metadata=self._extract_metadata(final)
+            metadata=self._extract_metadata(final),
         )
 
     def _extract_metadata(self, content: str) -> Dict[str, Any]:
-        """
-        Extracts metadata from the generated content (e.g., YAML frontmatter).
+        """Extracts metadata from the generated content (e.g., YAML
+        frontmatter).
+
         Placeholder implementation.
         """
         return {"version": "1.0", "generator": "UniversalCodeGenerator"}

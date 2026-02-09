@@ -1,13 +1,14 @@
-"""
-Workflow Dashboard API Server
+"""Workflow Dashboard API Server (Example)
 
-Provides REST endpoints for:
-- Listing available workflows
-- Starting workflow executions
-- Getting run status
+Serves the static dashboard UI and a small REST API for:
+- Listing workflows
+- Starting a workflow "run"
+- Reading run status/progress JSON files
 
-Run with: python dashboard_server.py
+Run with: `python3 dashboard_server.py`
 """
+
+from __future__ import annotations
 
 import asyncio
 import json
@@ -16,325 +17,333 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from threading import Thread
+from typing import Any, Dict, List
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
+import yaml
 from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
 
-app = Flask(__name__, static_folder='.')
-CORS(app)
+EXAMPLES_DIR = Path(__file__).resolve().parent
+BASE_DIR = EXAMPLES_DIR.parent
 
-# Paths
-BASE_DIR = Path(__file__).parent.parent
+# Ensure `multiagent_workflows` package is importable when running this file directly.
+sys.path.insert(0, str(BASE_DIR / "src"))
+
+from multiagent_workflows.core.progress_writer import DashboardProgressWriter
+
+app = Flask(__name__)
+
+# Dashboard data location (kept alongside the repo, not under src/)
 DASHBOARD_DATA = BASE_DIR / "dashboard_data"
-DASHBOARD_DATA.mkdir(exist_ok=True)
+DASHBOARD_DATA.mkdir(parents=True, exist_ok=True)
 
-# Available workflows
+# Shared writer instance that persists runs to `DASHBOARD_DATA`
+PROGRESS_WRITER = DashboardProgressWriter(data_dir=DASHBOARD_DATA)
+
+
+# Available workflows (for the UI selector)
 WORKFLOWS = {
     "bug_fixing": {
         "name": "🔧 Defect Resolution",
         "description": "Analyze bugs, find root cause, and generate patches",
         "inputs": ["bug_report", "codebase_path"],
-        "estimated_time": "3-5 min"
+        "estimated_time": "3-5 min",
     },
     "fullstack_generation": {
-        "name": "🏗️ Fullstack Generation", 
+        "name": "🏗️ Fullstack Generation",
         "description": "Generate complete fullstack applications from specs",
         "inputs": ["specification", "tech_stack"],
-        "estimated_time": "5-10 min"
+        "estimated_time": "5-10 min",
     },
     "architecture_evolution": {
         "name": "🏛️ System Design",
         "description": "Evolve system architecture with best practices",
         "inputs": ["codebase_path", "goals"],
-        "estimated_time": "4-8 min"
+        "estimated_time": "4-8 min",
     },
     "code_grading": {
         "name": "📊 Code Grading",
         "description": "Evaluate code quality across multiple dimensions",
         "inputs": ["codebase_path"],
-        "estimated_time": "2-4 min"
-    }
+        "estimated_time": "2-4 min",
+    },
 }
 
 
-@app.route('/')
+def _safe_read_json(path: Path, default: Any) -> Any:
+    try:
+        if path.exists():
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception:
+        return default
+    return default
+
+
+def _resolve_model_preference(preference: str) -> str:
+    # Keep in sync with `multiagent_workflows.langchain.orchestrator.WorkflowOrchestrator._resolve_model`
+    preference_map = {
+        "vision": "gh:openai/gpt-4o",
+        "reasoning": "gh:openai/gpt-4o",
+        "reasoning_complex": "gh:openai/o3-mini",
+        "code_gen": "gh:openai/gpt-4o",
+        "code_gen_fast": "gh:openai/gpt-4o-mini",
+        "code_gen_premium": "gh:openai/gpt-4o",
+        "code_review": "gh:openai/o4-mini",
+        "documentation": "gh:openai/gpt-4o-mini",
+        "coordination": "gh:openai/gpt-4o-mini",
+        "local_efficient": "local:phi4",
+    }
+    return preference_map.get(preference or "", "gh:openai/gpt-4o-mini")
+
+
+def get_step_configs(workflow_id: str) -> List[Dict[str, str]]:
+    """Load steps from `config/workflows.yaml` and format for the progress
+    writer."""
+    config_path = BASE_DIR / "config" / "workflows.yaml"
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            config = yaml.safe_load(f) or {}
+    except Exception:
+        config = {}
+
+    wf = (config.get("workflows") or {}).get(workflow_id) or {}
+    raw_steps = wf.get("steps") or []
+
+    steps: List[Dict[str, str]] = []
+    for idx, s in enumerate(raw_steps[:30]):
+        step_id = str(s.get("id") or f"step_{idx+1}")
+        step_name = str(s.get("name") or step_id.replace("_", " ").title())
+        agent_name = str(s.get("agent") or "agent")
+        model_id = _resolve_model_preference(str(s.get("model_preference") or ""))
+        steps.append(
+            {
+                "step_id": step_id,
+                "step_name": step_name,
+                "agent_name": agent_name,
+                "model_id": model_id,
+            }
+        )
+
+    if steps:
+        return steps
+
+    # Minimal fallback so the UI always renders something.
+    return [
+        {
+            "step_id": "step_1",
+            "step_name": "Initialize",
+            "agent_name": "system",
+            "model_id": "gh:openai/gpt-4o-mini",
+        },
+        {
+            "step_id": "step_2",
+            "step_name": "Process",
+            "agent_name": "agent",
+            "model_id": "gh:openai/gpt-4o-mini",
+        },
+        {
+            "step_id": "step_3",
+            "step_name": "Finalize",
+            "agent_name": "system",
+            "model_id": "gh:openai/gpt-4o-mini",
+        },
+    ]
+
+
+@app.route("/")
 def index():
-    return send_from_directory('.', 'workflow_visualizer.html')
+    return send_from_directory(str(EXAMPLES_DIR), "workflow_visualizer.html")
 
 
-@app.route('/api/workflows')
-def list_workflows():
-    """List available workflows."""
-    return jsonify({
-        "workflows": [
-            {"id": k, **v} for k, v in WORKFLOWS.items()
-        ]
-    })
+@app.route("/dashboard_data/<path:filename>")
+def dashboard_data_file(filename: str):
+    # Convenience route for direct browser access to run JSON.
+    return send_from_directory(str(DASHBOARD_DATA), filename)
 
 
-@app.route('/api/health')
-def handle_health():
-    """Simple health check used by the UI to mark API online/offline."""
+@app.route("/api/health")
+def api_health():
     return jsonify({"ok": True, "time": datetime.now().isoformat()})
 
 
-@app.route('/api/models')
-def handle_models():
-    """Return a minimal model inventory so the UI has something to show.
-
-    The real project uses a richer model probe; this endpoint provides a
-    baseline for the static UI and example server.
-    """
-    models = [
-        {"id": "", "label": "(Gold baseline — no model call)", "selectable": True}
-    ]
-    return jsonify({"models": models})
+@app.route("/api/workflows")
+def api_list_workflows():
+    return jsonify({"workflows": [{"id": k, **v} for k, v in WORKFLOWS.items()]})
 
 
-@app.route('/api/tasks')
-def handle_tasks():
-    """Return lightweight task lists for requested benchmark_id.
-
-    The real server loads full datasets; for the dashboard example we return
-    a small fallback set so the UI can render items.
-    """
-    benchmark = request.args.get('benchmark_id', 'custom')
-    limit = int(request.args.get('limit', '50'))
-
-    fallback = []
-    for i in range(min(limit, 20)):
-        fallback.append({
-            "id": f"{benchmark}_task_{i+1}",
-            "name": f"{benchmark} task {i+1}",
-            "source": benchmark,
-            "difficulty": ["Easy", "Medium", "Hard"][i % 3]
-        })
-
-    return jsonify({"tasks": fallback, "benchmark_id": benchmark})
+@app.route("/api/runs")
+def api_list_runs():
+    return jsonify(_safe_read_json(DASHBOARD_DATA / "runs.json", {"runs": []}))
 
 
-@app.route('/api/runs')
-def list_runs():
-    """List all workflow runs."""
-    runs_file = DASHBOARD_DATA / "runs.json"
-    if runs_file.exists():
-        with open(runs_file) as f:
-            return jsonify(json.load(f))
-    return jsonify({"runs": []})
+@app.route("/api/runs/<run_id>")
+def api_get_run(run_id: str):
+    data = _safe_read_json(DASHBOARD_DATA / f"run_{run_id}.json", None)
+    if data is None:
+        return jsonify({"error": "Run not found"}), 404
+    return jsonify(data)
 
 
-@app.route('/api/runs/<run_id>')
-def get_run(run_id):
-    """Get details for a specific run."""
-    run_file = DASHBOARD_DATA / f"run_{run_id}.json"
-    if run_file.exists():
-        with open(run_file) as f:
-            return jsonify(json.load(f))
-    return jsonify({"error": "Run not found"}), 404
+@app.route("/api/runs/compare")
+def api_compare_runs():
+    a = request.args.get("a")
+    b = request.args.get("b")
+    if not a or not b:
+        return jsonify({"error": "Please provide run ids 'a' and 'b'"}), 400
+
+    ra = _safe_read_json(DASHBOARD_DATA / f"run_{a}.json", None)
+    rb = _safe_read_json(DASHBOARD_DATA / f"run_{b}.json", None)
+    if ra is None or rb is None:
+        return jsonify({"error": "One or both runs not found"}), 404
+
+    def run_summary(r: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "run_id": r.get("run_id"),
+            "workflow_name": r.get("workflow_name"),
+            "status": r.get("status"),
+            "started_at": r.get("started_at"),
+            "completed_at": r.get("completed_at"),
+            "total_steps": len(r.get("steps", []) or []),
+        }
+
+    steps_a = {s.get("step_id"): s for s in (ra.get("steps") or []) if s.get("step_id")}
+    steps_b = {s.get("step_id"): s for s in (rb.get("steps") or []) if s.get("step_id")}
+    all_step_ids = sorted(set(steps_a.keys()) | set(steps_b.keys()))
+
+    step_diffs = []
+    for sid in all_step_ids:
+        a_step = steps_a.get(sid)
+        b_step = steps_b.get(sid)
+        step_diffs.append(
+            {
+                "step_id": sid,
+                "a_status": (a_step or {}).get("status"),
+                "b_status": (b_step or {}).get("status"),
+                "a_output": (a_step or {}).get("output_preview")
+                or (a_step or {}).get("output"),
+                "b_output": (b_step or {}).get("output_preview")
+                or (b_step or {}).get("output"),
+            }
+        )
+
+    return jsonify(
+        {"a": run_summary(ra), "b": run_summary(rb), "step_diffs": step_diffs}
+    )
 
 
-@app.route('/api/start', methods=['POST'])
-def start_workflow():
-    """Start a new workflow execution."""
-    data = request.json
-    workflow_id = data.get('workflow_id')
-    inputs = data.get('inputs', {})
-    
+@app.route("/api/start", methods=["POST"])
+def api_start_workflow():
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid JSON body"}), 400
+
+    workflow_id = str(data.get("workflow_id") or "")
     if workflow_id not in WORKFLOWS:
         return jsonify({"error": "Unknown workflow"}), 400
-    
-    # Generate run ID
-    run_id = f"{workflow_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    
-    # Create initial run entry
-    run_data = {
-        "run_id": run_id,
-        "workflow_name": workflow_id,
-        "started_at": datetime.now().isoformat(),
-        "status": "starting",
-        "inputs": inputs,
-        "steps": [],
-        "current_step_index": 0
+
+    inputs = data.get("inputs") or {}
+    if not isinstance(inputs, dict):
+        return jsonify({"error": "inputs must be an object"}), 400
+
+    steps_config = get_step_configs(workflow_id)
+
+    run_id = PROGRESS_WRITER.start_run(
+        workflow_name=workflow_id,
+        inputs=inputs,
+        steps_config=steps_config,
+    )
+
+    def run_workflow() -> None:
+        asyncio.run(execute_workflow_async(workflow_id, inputs, run_id, steps_config))
+
+    Thread(target=run_workflow, daemon=True).start()
+
+    return jsonify(
+        {"success": True, "run_id": run_id, "message": f"Started {workflow_id}"}
+    )
+
+
+async def execute_workflow_async(
+    workflow_id: str,
+    inputs: Dict[str, Any],
+    run_id: str,
+    steps_config: List[Dict[str, str]],
+) -> None:
+    """Best-effort execution: run the engine if available, otherwise simulate progress."""
+    simulate_only = os.environ.get("DASHBOARD_SIMULATE_ONLY", "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
     }
-    
-    # Save to file
-    run_file = DASHBOARD_DATA / f"run_{run_id}.json"
-    with open(run_file, 'w') as f:
-        json.dump(run_data, f, indent=2)
-    
-    # Update runs index
-    runs_file = DASHBOARD_DATA / "runs.json"
-    if runs_file.exists():
-        with open(runs_file) as f:
-            runs_data = json.load(f)
-    else:
-        runs_data = {"runs": []}
-    
-    runs_data["runs"].insert(0, {
-        "run_id": run_id,
-        "workflow_name": workflow_id,
-        "started_at": run_data["started_at"],
-        "status": "starting"
-    })
-    runs_data["runs"] = runs_data["runs"][:50]  # Keep last 50
-    
-    with open(runs_file, 'w') as f:
-        json.dump(runs_data, f, indent=2)
-    
-    # Start workflow in background thread
-    def run_workflow():
-        asyncio.run(execute_workflow_async(workflow_id, inputs, run_id))
-    
-    thread = Thread(target=run_workflow, daemon=True)
-    thread.start()
-    
-    return jsonify({
-        "success": True,
-        "run_id": run_id,
-        "message": f"Started {workflow_id}"
-    })
+    sim_delay = float(os.environ.get("DASHBOARD_SIM_DELAY_SECONDS", "1.0"))
 
-
-async def execute_workflow_async(workflow_id: str, inputs: dict, run_id: str):
-    """Execute a workflow and update progress."""
     try:
-        from multiagent_workflows.core.workflow_engine import WorkflowEngine
-        from multiagent_workflows.core.progress_writer import get_progress_writer
+        if not steps_config:
+            steps_config = get_step_configs(workflow_id)
+
+        # Mark first step as running so the UI shows activity.
+        if steps_config:
+            PROGRESS_WRITER.start_step(run_id, steps_config[0]["step_id"])
+
+        if simulate_only:
+            raise RuntimeError("Simulation mode enabled (DASHBOARD_SIMULATE_ONLY=1)")
+
         from multiagent_workflows.core.model_manager import ModelManager
-        
-        # Initialize engine
-        mm = ModelManager()
-        engine = WorkflowEngine(mm)
-        writer = get_progress_writer()
-        
-        # Define step configs based on workflow
-        step_configs = get_step_configs(workflow_id)
-        
-        # Start the run
-        writer.start_run(workflow_id, inputs, step_configs)
-        
-        # Update status to running
-        update_run_status(run_id, "running")
-        
-        # Execute workflow
+        from multiagent_workflows.core.workflow_engine import WorkflowEngine
+
+        engine = WorkflowEngine(ModelManager())
         result = await engine.execute_workflow(workflow_id, inputs)
-        
-        if not result.success:
-            print(f"Workflow execution failed: {result.error}")
-            with open("last_workflow_failure.txt", "w") as f:
-                f.write(f"Workflow failed: {result.error}\n")
-        
-        # Complete run
-        writer.complete_run(run_id, {"result": "success" if result.success else "failed"})
-        update_run_status(run_id, "complete" if result.success else "error")
-        
+
+        # Fill step outputs after execution (we don't currently have step-level callbacks).
+        for step_cfg in steps_config:
+            sid = step_cfg["step_id"]
+            step_result = (result.step_results or {}).get(sid)
+            if step_result is None:
+                PROGRESS_WRITER.complete_step(
+                    run_id, sid, output="(no recorded output)"
+                )
+                continue
+            PROGRESS_WRITER.complete_step(
+                run_id,
+                sid,
+                output=json.dumps(step_result.output, indent=2, ensure_ascii=False),
+                tokens=int(getattr(step_result, "tokens_used", 0) or 0),
+                cost=float(0.0),
+                error=str(step_result.error) if not step_result.success else None,
+            )
+
+        PROGRESS_WRITER.complete_run(
+            run_id,
+            outputs={"success": bool(result.success), "outputs": result.outputs},
+            error=str(result.error) if not result.success else None,
+        )
+
     except Exception as e:
-        import traceback
-        with open("last_error.txt", "w") as f:
-            f.write(f"Error: {e}\n")
-            traceback.print_exc(file=f)
-        print(f"Workflow error: {e}")
-        update_run_status(run_id, "error")
+        # Fall back to lightweight simulation so the UI stays usable in minimal envs.
+        for idx, step_cfg in enumerate(steps_config):
+            sid = step_cfg["step_id"]
+            PROGRESS_WRITER.start_step(run_id, sid, input_preview="")
+            await asyncio.sleep(max(0.05, sim_delay))
+            PROGRESS_WRITER.complete_step(
+                run_id,
+                sid,
+                output=f"Simulated output for {sid} (step {idx+1}/{len(steps_config)})\n\nError/Reason: {e}",
+                tokens=0,
+                cost=0.0,
+                error=None,
+            )
+
+        PROGRESS_WRITER.complete_run(
+            run_id,
+            outputs={"success": True, "result": "simulated"},
+            error=None,
+        )
 
 
-import yaml
-
-def get_step_configs(workflow_id: str):
-    """Get step configurations for a workflow."""
-    # Try to load from workflows.yaml
-    try:
-        config_path = BASE_DIR / "config" / "workflows.yaml"
-        if config_path.exists():
-            with open(config_path, "r", encoding="utf-8") as f:
-                data = yaml.safe_load(f)
-                wf_def = data.get("workflows", {}).get(workflow_id)
-                if wf_def:
-                    steps = []
-                    for s in wf_def.get("steps", []):
-                        steps.append({
-                            "step_id": s.get("id"),
-                            "step_name": s.get("name"),
-                            "agent_name": s.get("agent"),
-                            "model_id": s.get("model_preference") or "auto"
-                        })
-                    return steps
-    except Exception as e:
-        print(f"Error loading workflow config: {e}")
-
-    # Fallback to hardcoded configs
-    configs = {
-        "bug_fixing": [
-            {"step_id": "bug_intake", "step_name": "Bug Intake", "agent_name": "IntakeAgent", "model_id": "gpt-4o-mini"},
-            {"step_id": "codebase_search", "step_name": "Codebase Search", "agent_name": "SearchAgent", "model_id": "gpt-4o-mini"},
-            {"step_id": "root_cause_analysis", "step_name": "Root Cause Analysis", "agent_name": "AnalystAgent", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "fix_generation", "step_name": "Fix Generation", "agent_name": "PatchAgent", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "test_generation", "step_name": "Test Generation", "agent_name": "TestAgent", "model_id": "gpt-4o"},
-            {"step_id": "fix_validation", "step_name": "Fix Validation", "agent_name": "ReviewerAgent", "model_id": "gpt-4o"},
-        ],
-        "fullstack_generation": [
-            {"step_id": "vision_analysis", "step_name": "Analyze UI Mockups", "agent_name": "VisionAgent", "model_id": "gpt-4o"},
-            {"step_id": "requirements_parsing", "step_name": "Parse Requirements", "agent_name": "SpecParser", "model_id": "gpt-4o-mini"},
-            {"step_id": "architecture_design", "step_name": "System Design", "agent_name": "Architect", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "database_design", "step_name": "Database Design", "agent_name": "DBArchitect", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "api_design", "step_name": "API Design", "agent_name": "APIArchitect", "model_id": "gpt-4o-mini"},
-            {"step_id": "frontend_generation", "step_name": "Frontend Generation", "agent_name": "FrontendDev", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "backend_generation", "step_name": "Backend Generation", "agent_name": "BackendDev", "model_id": "deepseek-v3.2:cloud"},
-        ],
-        "architecture_evolution": [
-            {"step_id": "analyze", "step_name": "Codebase Analysis", "agent_name": "Analyzer", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "assess", "step_name": "Quality Assessment", "agent_name": "Assessor", "model_id": "gpt-4o"},
-            {"step_id": "propose", "step_name": "Propose Changes", "agent_name": "Architect", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "validate", "step_name": "Validate Design", "agent_name": "Validator", "model_id": "gpt-4o"},
-        ],
-        "code_grading": [
-            {"step_id": "static_analysis", "step_name": "Static Analysis", "agent_name": "StaticAnalyst", "model_id": "gpt-4o-mini"},
-            {"step_id": "test_analysis", "step_name": "Test Analysis", "agent_name": "TestAnalyst", "model_id": "gpt-4o-mini"},
-            {"step_id": "documentation_review", "step_name": "Doc Review", "agent_name": "DocReviewer", "model_id": "gpt-4o-mini"},
-            {"step_id": "security_audit", "step_name": "Security Audit", "agent_name": "SecAuditor", "model_id": "gpt-4o"},
-            {"step_id": "dependency_audit", "step_name": "Dependency Audit", "agent_name": "DepAuditor", "model_id": "gpt-4o"},
-            {"step_id": "performance_review", "step_name": "Performance Review", "agent_name": "PerfReviewer", "model_id": "deepseek-v3.2:cloud"},
-            {"step_id": "architecture_check", "step_name": "Architecture Check", "agent_name": "ArchReviewer", "model_id": "gpt-4o"},
-            {"step_id": "maintainability_score", "step_name": "Maintainability", "agent_name": "MaintReviewer", "model_id": "o3-mini"},
-            {"step_id": "best_practices", "step_name": "Best Practices", "agent_name": "BPReviewer", "model_id": "gpt-4o-mini"},
-            {"step_id": "final_grading", "step_name": "Final Grading", "agent_name": "HeadJudge", "model_id": "gpt-4o"},
-        ]
-    }
-    return configs.get(workflow_id, [])
-
-
-def update_run_status(run_id: str, status: str):
-    """Update run status in files."""
-    run_file = DASHBOARD_DATA / f"run_{run_id}.json"
-    if run_file.exists():
-        with open(run_file) as f:
-            data = json.load(f)
-        data["status"] = status
-        if status in ("complete", "error"):
-            data["completed_at"] = datetime.now().isoformat()
-        with open(run_file, 'w') as f:
-            json.dump(data, f, indent=2)
-    
-    # Update index too
-    runs_file = DASHBOARD_DATA / "runs.json"
-    if runs_file.exists():
-        with open(runs_file) as f:
-            runs_data = json.load(f)
-        for run in runs_data.get("runs", []):
-            if run["run_id"] == run_id:
-                run["status"] = status
-                break
-        with open(runs_file, 'w') as f:
-            json.dump(runs_data, f, indent=2)
-
-
-if __name__ == '__main__':
-    print("Starting Workflow Dashboard Server (fixed)...")
-    print("   Open http://localhost:5050 in your browser")
-    print("   Press Ctrl+C to stop")
-    print()
-    # Allow overriding the port via environment for parallel instances/tests
+def main() -> None:
     port = int(os.environ.get("DASHBOARD_PORT", "5050"))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(host="0.0.0.0", port=port, debug=False)
+
+
+if __name__ == "__main__":
+    main()

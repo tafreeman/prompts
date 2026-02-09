@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import importlib
 
-
 _normalize_task_for_ui = importlib.import_module(
     "multiagent_workflows.server.dataset_loader"
 )._normalize_task_for_ui

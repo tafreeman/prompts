@@ -1,5 +1,4 @@
-"""
-Entry point for running prompttools as a module.
+"""Entry point for running prompttools as a module.
 
 Usage:
     python -m prompttools evaluate prompts/
@@ -8,6 +7,7 @@ Usage:
 """
 
 import sys
+
 from .cli import main
 
 if __name__ == "__main__":

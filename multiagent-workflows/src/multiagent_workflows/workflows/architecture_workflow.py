@@ -1,5 +1,4 @@
-"""
-Architecture Evolution Workflow
+"""Architecture Evolution Workflow.
 
 Analyzes existing architecture, identifies technical debt, and creates evolution roadmap.
 
@@ -23,21 +22,19 @@ from typing import Any, Dict, List, Optional
 from multiagent_workflows.core.agent_base import AgentBase, AgentConfig, SimpleAgent
 from multiagent_workflows.core.logger import VerboseLogger
 from multiagent_workflows.core.model_manager import ModelManager
-from multiagent_workflows.core.tool_registry import ToolRegistry
 from multiagent_workflows.workflows.base import BaseWorkflow, WorkflowStep
 
 
 class ArchitectureEvolutionWorkflow(BaseWorkflow):
+    """Architecture evolution workflow.
+
+    Takes a codebase and produces architecture assessment, evolution
+    roadmap, and ADRs.
     """
-    Architecture evolution workflow.
-    
-    Takes a codebase and produces architecture assessment,
-    evolution roadmap, and ADRs.
-    """
-    
+
     name = "architecture_evolution"
     description = "Assess architecture and create evolution roadmap"
-    
+
     def define_steps(self) -> List[WorkflowStep]:
         """Define the workflow steps."""
         return [
@@ -112,7 +109,7 @@ class ArchitectureEvolutionWorkflow(BaseWorkflow):
                 outputs=["executive_summary", "recommendations"],
             ),
         ]
-    
+
     async def _create_agent(self, step: WorkflowStep) -> Optional[AgentBase]:
         """Create the appropriate agent for each step."""
         agent_prompts = {
@@ -127,7 +124,6 @@ Scan and document the current architecture:
 6. Deployment topology
 
 Create architecture diagrams using Mermaid notation.""",
-            
             "debt_assessor_agent": """You are a technical debt expert.
             
 Identify and quantify technical debt:
@@ -138,7 +134,6 @@ Identify and quantify technical debt:
 5. Test debt (low coverage)
 
 For each item: impact (1-10), effort (story points), priority.""",
-            
             "scalability_agent": """You are a scalability engineer.
             
 Analyze scaling characteristics:
@@ -149,7 +144,6 @@ Analyze scaling characteristics:
 5. Horizontal vs vertical scaling options
 
 Provide metrics and recommendations.""",
-            
             "security_auditor_agent": """You are a security architect.
             
 Review security architecture:
@@ -161,7 +155,6 @@ Review security architecture:
 6. Compliance requirements
 
 Rate each area (1-10) and list vulnerabilities.""",
-            
             "modernization_planner_agent": """You are a modernization strategist.
             
 Create an evolution strategy:
@@ -172,7 +165,6 @@ Create an evolution strategy:
 5. Quick wins vs long-term improvements
 
 Output a clear evolution plan.""",
-            
             "adr_agent": """You are an architecture documentation expert.
             
 Generate ADRs following this format:
@@ -184,7 +176,6 @@ Generate ADRs following this format:
 6. Alternatives - What else was considered?
 
 Create ADRs for all key architectural decisions.""",
-            
             "reporter_agent": """You are an executive communications expert.
             
 Create a stakeholder summary:
@@ -197,9 +188,9 @@ Create a stakeholder summary:
 
 Make it clear, concise, and actionable for leadership.""",
         }
-        
+
         prompt = agent_prompts.get(step.agent, f"Perform: {step.description}")
-        
+
         # Select model based on task
         if "security" in step.agent or "auditor" in step.agent:
             model_pref = "code_review"
@@ -207,14 +198,14 @@ Make it clear, concise, and actionable for leadership.""",
             model_pref = "documentation"
         else:
             model_pref = "reasoning"
-        
+
         config = AgentConfig(
             name=step.agent.replace("_", " ").title(),
             role=step.description,
             model_id=self.model_manager.get_optimal_model(model_pref, 6),
             system_prompt=prompt,
         )
-        
+
         return SimpleAgent(
             config=config,
             model_manager=self.model_manager,
@@ -231,28 +222,27 @@ async def run_architecture_workflow(
     model_manager: Optional[ModelManager] = None,
     logger: Optional[VerboseLogger] = None,
 ) -> Dict[str, Any]:
-    """
-    Convenience function to run the architecture evolution workflow.
-    
+    """Convenience function to run the architecture evolution workflow.
+
     Args:
         codebase_path: Path to codebase
         business_context: Business goals and constraints
         model_manager: Optional model manager
         logger: Optional logger
-        
+
     Returns:
         Workflow outputs including roadmap and ADRs
     """
     if model_manager is None:
         model_manager = ModelManager()
-    
+
     workflow = ArchitectureEvolutionWorkflow(
         model_manager=model_manager,
         logger=logger,
     )
-    
+
     inputs = {"codebase_path": codebase_path}
     if business_context:
         inputs["business_context"] = business_context
-    
+
     return await workflow.execute(inputs)

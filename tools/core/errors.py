@@ -7,7 +7,7 @@ This is the canonical source of truth for error handling.
 
 Usage:
     from tools.core.errors import ErrorCode, classify_error, TRANSIENT_ERRORS, PERMANENT_ERRORS
-    
+
     code, should_retry = classify_error("Rate limit exceeded")
     if code in TRANSIENT_ERRORS:
         # Implement retry logic
@@ -15,11 +15,12 @@ Usage:
 """
 
 from enum import Enum
-from typing import Tuple, Optional, Set
+from typing import Optional, Set, Tuple
 
 
 class ErrorCode(str, Enum):
     """Standardized error codes (matches EVALUATION_SCHEMA.md)."""
+
     SUCCESS = "success"
     UNAVAILABLE_MODEL = "unavailable_model"
     PERMISSION_DENIED = "permission_denied"
@@ -49,17 +50,18 @@ TRANSIENT_ERRORS: Set[ErrorCode] = {
 }
 
 
-def classify_error(error_message: str, return_code: Optional[int] = None) -> Tuple[ErrorCode, bool]:
-    """
-    Classify an error message into a standard error code.
-    
+def classify_error(
+    error_message: str, return_code: Optional[int] = None
+) -> Tuple[ErrorCode, bool]:
+    """Classify an error message into a standard error code.
+
     Args:
         error_message: The error message to classify
         return_code: Optional return code from subprocess (not currently used)
-    
+
     Returns:
         Tuple of (ErrorCode, should_retry: bool)
-        
+
     Examples:
         >>> classify_error("Rate limit exceeded")
         (ErrorCode.RATE_LIMITED, True)
@@ -67,7 +69,7 @@ def classify_error(error_message: str, return_code: Optional[int] = None) -> Tup
         (ErrorCode.UNAVAILABLE_MODEL, False)
     """
     msg = error_message.lower() if error_message else ""
-    
+
     # Permission/entitlement errors (403, 401, access denied)
     if "403" in msg or "forbidden" in msg:
         return ErrorCode.PERMISSION_DENIED, False
@@ -79,7 +81,7 @@ def classify_error(error_message: str, return_code: Optional[int] = None) -> Tup
         return ErrorCode.PERMISSION_DENIED, False
     if "systemaimodels" in msg or "package identity" in msg:
         return ErrorCode.PERMISSION_DENIED, False
-    
+
     # Model availability
     if "unavailable_model" in msg or "unavailable model" in msg:
         return ErrorCode.UNAVAILABLE_MODEL, False
@@ -89,19 +91,19 @@ def classify_error(error_message: str, return_code: Optional[int] = None) -> Tup
         return ErrorCode.UNAVAILABLE_MODEL, False
     if "not found" in msg and ("model" in msg or "resource" in msg):
         return ErrorCode.UNAVAILABLE_MODEL, False
-    
+
     # Rate limiting (429)
     if "429" in msg or "rate limit" in msg or "too many requests" in msg:
         return ErrorCode.RATE_LIMITED, True
     if "quota" in msg and ("exceeded" in msg or "limit" in msg):
         return ErrorCode.RATE_LIMITED, True
-    
+
     # Timeouts
     if "timeout" in msg or "timed out" in msg:
         return ErrorCode.TIMEOUT, True
     if "deadline exceeded" in msg:
         return ErrorCode.TIMEOUT, True
-    
+
     # Network errors
     if "connection" in msg and ("refused" in msg or "reset" in msg or "error" in msg):
         return ErrorCode.NETWORK_ERROR, True
@@ -111,25 +113,25 @@ def classify_error(error_message: str, return_code: Optional[int] = None) -> Tup
         return ErrorCode.NETWORK_ERROR, True
     if "unreachable" in msg or "no route" in msg:
         return ErrorCode.NETWORK_ERROR, True
-    
+
     # Parse errors (usually transient - model gave bad output)
     if "json" in msg and ("parse" in msg or "decode" in msg or "invalid" in msg):
         return ErrorCode.PARSE_ERROR, True
     if "yaml" in msg and ("parse" in msg or "invalid" in msg):
         return ErrorCode.PARSE_ERROR, True
-    
+
     # File not found
     if "file not found" in msg or "no such file" in msg:
         return ErrorCode.FILE_NOT_FOUND, False
     if "filenotfounderror" in msg:
         return ErrorCode.FILE_NOT_FOUND, False
-    
+
     # Invalid input
     if "invalid" in msg and ("input" in msg or "parameter" in msg or "argument" in msg):
         return ErrorCode.INVALID_INPUT, False
     if "validation" in msg and ("failed" in msg or "error" in msg):
         return ErrorCode.INVALID_INPUT, False
-    
+
     # Default to internal error (non-retryable by default)
     return ErrorCode.INTERNAL_ERROR, False
 

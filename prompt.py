@@ -26,21 +26,21 @@ providing both a CLI and an interactive experience for executing, evaluating,
 and improving AI prompts across multiple providers and models.
 """
 
-import sys
-import os
 import json
+import os
+import sys
 from pathlib import Path
-from typing import Optional, List, Dict, Any
+from typing import Any, Dict, List, Optional
 
 # Repo-local path helper (kept for UI/document navigation). We intentionally do NOT
 # modify sys.path here.
 SCRIPT_DIR = Path(__file__).parent
 
 # Fix Windows console encoding for Unicode support
-if sys.platform == 'win32':
+if sys.platform == "win32":
     try:
-        sys.stdout.reconfigure(encoding='utf-8')
-        sys.stderr.reconfigure(encoding='utf-8')
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
     except (AttributeError, OSError):
         # Fallback for older Python or restricted environments
         pass
@@ -141,9 +141,10 @@ EXAMPLES:
 # INTERACTIVE MENU
 # =============================================================================
 
+
 def clear_screen():
     """Clear terminal screen."""
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def interactive_menu():
@@ -381,7 +382,7 @@ def menu_docs():
         doc_path = SCRIPT_DIR / docs[choice]
         if doc_path.exists():
             print(f"\n--- {docs[choice]} ---\n")
-            print(doc_path.read_text(encoding='utf-8')[:3000])
+            print(doc_path.read_text(encoding="utf-8")[:3000])
             print("\n... (truncated)\n")
         else:
             print(f"❌ File not found: {docs[choice]}")
@@ -393,30 +394,45 @@ def menu_docs():
 # COMMAND IMPLEMENTATIONS
 # =============================================================================
 
-def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = None,
-               input_text: Optional[str] = None, output: Optional[str] = None,
-               system: Optional[str] = None, temperature: float = 0.7,
-               max_tokens: int = 256):
+
+def run_prompt(
+    file_path: str,
+    provider: str = "local",
+    model: Optional[str] = None,
+    input_text: Optional[str] = None,
+    output: Optional[str] = None,
+    system: Optional[str] = None,
+    temperature: float = 0.7,
+    max_tokens: int = 256,
+):
     """Execute a prompt with the specified provider."""
     try:
-        content = Path(file_path).read_text(encoding='utf-8')
+        content = Path(file_path).read_text(encoding="utf-8")
         if input_text:
             content = f"{content}\n\n---\nUser Input:\n{input_text}"
 
         if provider == "local":
             # Direct call to LocalModel for the fastest execution
             from tools.llm.local_model import LocalModel
+
             lm = LocalModel(verbose=False)
-            response = lm.generate(content, max_tokens=max_tokens, temperature=temperature,
-                                   system_prompt=system)
+            response = lm.generate(
+                content,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                system_prompt=system,
+            )
 
         elif provider in ("gh", "github"):
             # Use GitHub CLI 'gh models' extension
             import subprocess
+
             model_name = model or "openai/gpt-4o-mini"
             result = subprocess.run(
                 ["gh", "models", "run", model_name, "--", content[:8000]],
-                capture_output=True, text=True, timeout=120
+                capture_output=True,
+                text=True,
+                timeout=120,
             )
             if result.returncode != 0:
                 print(f"❌ Error: {result.stderr}")
@@ -425,16 +441,19 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
 
         elif provider == "azure":
             from tools.llm.llm_client import LLMClient
+
             model_key = model or "phi4mini"
             response = LLMClient.generate_text(f"azure-foundry:{model_key}", content)
 
         elif provider == "openai":
             from tools.llm.llm_client import LLMClient
+
             model_name = model or "gpt-4o-mini"
             response = LLMClient.generate_text(model_name, content)
 
         elif provider in ("windows", "windows-ai", "win"):
             from tools.llm.llm_client import LLMClient
+
             model_name = model or "phi-silica"
             response = LLMClient.generate_text(f"windows-ai:{model_name}", content)
 
@@ -446,7 +465,7 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
         print(response)
 
         if output:
-            Path(output).write_text(response, encoding='utf-8')
+            Path(output).write_text(response, encoding="utf-8")
             print(f"\n💾 Saved to: {output}")
 
     except Exception as e:
@@ -454,7 +473,8 @@ def run_prompt(file_path: str, provider: str = "local", model: Optional[str] = N
 
 
 def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
-    """Run tiered evaluation on prompts using PromptEval (canonical evaluator)."""
+    """Run tiered evaluation on prompts using PromptEval (canonical
+    evaluator)."""
     try:
         from tools.prompteval import evaluate, evaluate_directory
         from tools.prompteval.tiers import TIERS
@@ -466,7 +486,9 @@ def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
 
         tier_info = TIERS.get(tier, {})
         print(f"📊 Running Tier {tier} evaluation...")
-        print(f"   Tier: {tier_info.get('name', f'Tier {tier}')} - {tier_info.get('description', '')}")
+        print(
+            f"   Tier: {tier_info.get('name', f'Tier {tier}')} - {tier_info.get('description', '')}"
+        )
 
         # Run evaluation
         if target.is_file():
@@ -477,15 +499,15 @@ def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
 
         # Print summary
         print(f"\n✅ Evaluated {len(results.get('results', []))} prompt(s)")
-        for r in results.get('results', []):
-            passed = r.get('passed', r.get('overall', 0) >= 70)
+        for r in results.get("results", []):
+            passed = r.get("passed", r.get("overall", 0) >= 70)
             status = "✅" if passed else "❌"
-            score = r.get('overall', r.get('score', 'N/A'))
+            score = r.get("overall", r.get("score", "N/A"))
             print(f"  {status} {Path(r.get('file', r.get('path', ''))).name}: {score}")
 
         # Save output if requested
         if output:
-            with open(output, 'w', encoding='utf-8') as f:
+            with open(output, "w", encoding="utf-8") as f:
                 json.dump(results, f, indent=2, default=str)
             print(f"\n💾 Saved to: {output}")
 
@@ -499,7 +521,8 @@ def eval_prompts(path: str, tier: int = 2, output: Optional[str] = None):
 def run_cove(question: str, provider: str = "local", n_questions: int = 5):
     """Run Chain-of-Verification analysis."""
     try:
-        from tools.runners.cove_runner import get_llm_function, run_cove as _run_cove, format_result
+        from tools.runners.cove_runner import format_result, get_llm_function
+        from tools.runners.cove_runner import run_cove as _run_cove
 
         llm_call = get_llm_function(provider, None, verbose=True)
         print(f"   Model: {getattr(llm_call, 'model_name', 'unknown')}")
@@ -530,9 +553,12 @@ def batch_process(folder: str, provider: str = "local", output: Optional[str] = 
             try:
                 if provider == "local":
                     from tools.llm.local_model import LocalModel
+
                     lm = LocalModel(verbose=False)
-                    content = prompt_path.read_text(encoding='utf-8')[:4000]
-                    lm.generate(f"Evaluate this prompt (1-10): {content[:500]}", max_tokens=200)
+                    content = prompt_path.read_text(encoding="utf-8")[:4000]
+                    lm.generate(
+                        f"Evaluate this prompt (1-10): {content[:500]}", max_tokens=200
+                    )
                     print(" ✅")
                     results["processed"] += 1
                 else:
@@ -550,7 +576,7 @@ def batch_process(folder: str, provider: str = "local", output: Optional[str] = 
 def get_improvements(path: str, output: Optional[str] = None):
     """Get improvement suggestions for prompts."""
     try:
-        from tools.improve_prompts import find_prompt_files, assess_prompt
+        from tools.improve_prompts import assess_prompt, find_prompt_files
 
         root = Path(path)
         if root.is_file():
@@ -570,7 +596,9 @@ def get_improvements(path: str, output: Optional[str] = None):
                 assessment = assess_prompt(prompt_path)
                 assessments.append(assessment)
                 tier = assessment.quality_tier
-                print(f"  {tier} {prompt_path.name}: {assessment.quality_total:.0f}/100")
+                print(
+                    f"  {tier} {prompt_path.name}: {assessment.quality_total:.0f}/100"
+                )
             except Exception as e:
                 print(f"  ❌ {prompt_path.name}: {e}")
 
@@ -597,6 +625,7 @@ def show_tiers():
 # ARGUMENT PARSING
 # =============================================================================
 
+
 def parse_args(args: List[str]) -> Dict[str, Any]:
     """Simple argument parser."""
     result = {"command": None, "args": [], "options": {}}
@@ -608,9 +637,17 @@ def parse_args(args: List[str]) -> Dict[str, Any]:
             # Option
             key = arg.lstrip("-")
             # Handle short options
-            short_map = {"p": "provider", "m": "model", "t": "tier",
-                         "o": "output", "n": "questions", "i": "input",
-                         "f": "format", "v": "verbose", "s": "system"}
+            short_map = {
+                "p": "provider",
+                "m": "model",
+                "t": "tier",
+                "o": "output",
+                "n": "questions",
+                "i": "input",
+                "f": "format",
+                "v": "verbose",
+                "s": "system",
+            }
             key = short_map.get(key, key)
 
             if i + 1 < len(args) and not args[i + 1].startswith("-"):
@@ -647,11 +684,16 @@ def main():
         if not args:
             print("❌ Usage: prompt.py run <file> [-p provider] [-m model]")
             sys.exit(1)
-        run_prompt(args[0], opts.get("provider", "local"),
-                   opts.get("model"), opts.get("input"), opts.get("output"),
-                   opts.get("system"),
-                   float(opts.get("temperature", 0.7)),
-                   int(opts.get("max-tokens", opts.get("max_tokens", 256))))
+        run_prompt(
+            args[0],
+            opts.get("provider", "local"),
+            opts.get("model"),
+            opts.get("input"),
+            opts.get("output"),
+            opts.get("system"),
+            float(opts.get("temperature", 0.7)),
+            int(opts.get("max-tokens", opts.get("max_tokens", 256))),
+        )
 
     elif cmd == "eval":
         if not args:
@@ -690,10 +732,14 @@ def main():
     elif cmd in ("tools-eval", "ecosystem", "tools-ecosystem"):
         # Tools Ecosystem Evaluator (looped runner)
         try:
-            from tools.analysis.tools_ecosystem_evaluator import main as run_tools_ecosystem_eval
+            from tools.analysis.tools_ecosystem_evaluator import (
+                main as run_tools_ecosystem_eval,
+            )
         except Exception as e:
             print(f"❌ Failed to load tools ecosystem evaluator: {e}")
-            print("   Ensure tools/tools_ecosystem_evaluator.py exists and dependencies are installed.")
+            print(
+                "   Ensure tools/tools_ecosystem_evaluator.py exists and dependencies are installed."
+            )
             sys.exit(1)
 
         # Forward remaining args to the runner (it has its own argparse)

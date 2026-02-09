@@ -1,22 +1,17 @@
-"""
-Schema compliance tests for the prompt library.
+"""Schema compliance tests for the prompt library.
 
-Tests that prompts conform to the defined metadata schema
-and content structure requirements.
+Tests that prompts conform to the defined metadata schema and content
+structure requirements.
 """
 
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
-
-import pytest
-import yaml
+from typing import Any, Dict, List
 
 # Add parent to path for conftest imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from conftest import parse_frontmatter, load_prompt_file
-
+from conftest import load_prompt_file
 
 # =============================================================================
 # SCHEMA DEFINITIONS
@@ -32,7 +27,7 @@ PROMPT_SCHEMA = {
         "difficulty": {"type": str, "enum": ["beginner", "intermediate", "advanced"]},
         "audience": {"type": list, "min_items": 1},
         "platforms": {"type": list, "min_items": 1},
-        "topics": {"type": list, "min_items": 1}
+        "topics": {"type": list, "min_items": 1},
     },
     "optional": {
         "author": {"type": str},
@@ -42,8 +37,8 @@ PROMPT_SCHEMA = {
         "evalScore": {"type": (int, float)},
         "evalDate": {"type": str},
         "tags": {"type": list},
-        "relatedPrompts": {"type": list}
-    }
+        "relatedPrompts": {"type": list},
+    },
 }
 
 # Valid audience values
@@ -55,7 +50,7 @@ VALID_AUDIENCES = [
     "writers",
     "designers",
     "data-scientists",
-    "general"
+    "general",
 ]
 
 # Valid topic values (extensible)
@@ -68,13 +63,14 @@ CORE_TOPICS = [
     "performance",
     "debugging",
     "refactoring",
-    "general"
+    "general",
 ]
 
 
 # =============================================================================
 # VALIDATION FUNCTIONS
 # =============================================================================
+
 
 def validate_field_type(value: Any, expected_type: type) -> bool:
     """Validate that a value matches the expected type."""
@@ -103,49 +99,54 @@ def validate_list_items(items: list, min_items: int = 0) -> bool:
 
 
 def validate_frontmatter(fm: Dict[str, Any]) -> List[str]:
-    """
-    Validate frontmatter against schema.
+    """Validate frontmatter against schema.
+
     Returns list of validation errors (empty if valid).
     """
     errors = []
-    
+
     # Check required fields
     for field, constraints in PROMPT_SCHEMA["required"].items():
         if field not in fm:
             errors.append(f"Missing required field: {field}")
             continue
-        
+
         value = fm[field]
-        
+
         # Type check
         if not validate_field_type(value, constraints["type"]):
-            errors.append(f"Field '{field}' has wrong type: expected {constraints['type'].__name__}")
+            errors.append(
+                f"Field '{field}' has wrong type: expected {constraints['type'].__name__}"
+            )
             continue
-        
+
         # String length check
         if constraints["type"] == str:
             min_len = constraints.get("min_length", 0)
             max_len = constraints.get("max_length", 10000)
             if not validate_field_length(value, min_len, max_len):
-                errors.append(f"Field '{field}' length out of range [{min_len}, {max_len}]")
-        
+                errors.append(
+                    f"Field '{field}' length out of range [{min_len}, {max_len}]"
+                )
+
         # Enum check
         if "enum" in constraints:
             if not validate_enum(value, constraints["enum"]):
                 errors.append(f"Field '{field}' has invalid value: {value}")
-        
+
         # List minimum items check
         if constraints["type"] == list:
             min_items = constraints.get("min_items", 0)
             if not validate_list_items(value, min_items):
                 errors.append(f"Field '{field}' needs at least {min_items} items")
-    
+
     return errors
 
 
 # =============================================================================
 # SCHEMA VALIDATION TESTS
 # =============================================================================
+
 
 class TestSchemaStructure:
     """Tests for schema structure and definitions."""
@@ -169,13 +170,15 @@ class TestSchemaStructure:
         for section in ["required", "optional"]:
             for field, constraints in PROMPT_SCHEMA[section].items():
                 if "enum" in constraints:
-                    assert len(constraints["enum"]) > 0, \
-                        f"Field '{field}' has empty enum"
+                    assert (
+                        len(constraints["enum"]) > 0
+                    ), f"Field '{field}' has empty enum"
 
 
 # =============================================================================
 # VALIDATION FUNCTION TESTS
 # =============================================================================
+
 
 class TestValidationFunctions:
     """Tests for validation helper functions."""
@@ -224,6 +227,7 @@ class TestValidationFunctions:
 # FRONTMATTER VALIDATION TESTS
 # =============================================================================
 
+
 class TestFrontmatterValidation:
     """Tests for complete frontmatter validation."""
 
@@ -252,7 +256,7 @@ class TestFrontmatterValidation:
             "difficulty": "beginner",
             "audience": "developers",  # Should be list
             "platforms": ["copilot"],
-            "topics": ["testing"]
+            "topics": ["testing"],
         }
         errors = validate_frontmatter(wrong_type)
         assert len(errors) > 0
@@ -268,7 +272,7 @@ class TestFrontmatterValidation:
             "difficulty": "beginner",
             "audience": ["developers"],
             "platforms": ["copilot"],
-            "topics": ["testing"]
+            "topics": ["testing"],
         }
         errors = validate_frontmatter(invalid_enum)
         assert len(errors) > 0
@@ -284,7 +288,7 @@ class TestFrontmatterValidation:
             "difficulty": "beginner",
             "audience": [],  # Empty list
             "platforms": ["copilot"],
-            "topics": ["testing"]
+            "topics": ["testing"],
         }
         errors = validate_frontmatter(empty_list)
         assert len(errors) > 0
@@ -294,6 +298,7 @@ class TestFrontmatterValidation:
 # =============================================================================
 # CONTENT STRUCTURE TESTS
 # =============================================================================
+
 
 class TestContentStructure:
     """Tests for prompt content structure requirements."""
@@ -312,8 +317,9 @@ class TestContentStructure:
         """Test that prompt has reasonable content length."""
         _, body = load_prompt_file(temp_prompt_file)
         # Should be at least 50 chars but not excessively long
-        assert 50 <= len(body) <= 50000, \
-            f"Prompt body length {len(body)} outside reasonable range"
+        assert (
+            50 <= len(body) <= 50000
+        ), f"Prompt body length {len(body)} outside reasonable range"
 
 
 # =============================================================================
@@ -323,11 +329,11 @@ class TestContentStructure:
 # Export for use by other tools
 __all__ = [
     "PROMPT_SCHEMA",
-    "VALID_AUDIENCES", 
+    "VALID_AUDIENCES",
     "CORE_TOPICS",
     "validate_frontmatter",
     "validate_field_type",
     "validate_field_length",
     "validate_enum",
-    "validate_list_items"
+    "validate_list_items",
 ]

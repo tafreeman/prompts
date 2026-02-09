@@ -55,6 +55,12 @@ Notes and recent fixes
 - Added `tools/dynamic_eval_manager.py` as a lightweight module to provide `manage_evaluations`, `evaluate_prompt`, and `monitor_system` utilities used by tests and evaluation scripts.
 - Added `conftest.py` shim to allow pytest to run `async def` test functions when `pytest-asyncio` is not installed in the environment. If you have `pytest-asyncio` available, the shim is harmless.
 
+Server / UI improvements
+
+- The example dashboard server now includes simulated run progress so the UI can display "running" workflows and step-level progress even when the full Workflow engine is not available. This makes it easy to demo pipelines locally.
+- Added a comparison endpoint `/api/runs/compare?a=<run_id>&b=<run_id>` which returns a simple side-by-side summary and per-step diffs for two runs. Use this to power the UI's compare view.
+- API endpoints available in the example server: `/api/health`, `/api/models`, `/api/tasks`, `/api/workflows`, `/api/runs`, `/api/runs/<run_id>`, `/api/runs/compare`.
+
 Next steps
 
 - If integrating the multi-agent workflows with a UI, ensure the UI calls async workflow entrypoints correctly (use asyncio.run or integrate with an async framework event loop).

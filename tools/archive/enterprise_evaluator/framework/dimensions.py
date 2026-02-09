@@ -1,6 +1,7 @@
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Any
+from dataclasses import dataclass
 from enum import Enum
+from typing import Dict, List
+
 
 class PerformanceLevel(Enum):
     EXCEPTIONAL = "Exceptional"
@@ -9,11 +10,13 @@ class PerformanceLevel(Enum):
     DEVELOPING = "Developing"
     INADEQUATE = "Inadequate"
 
+
 @dataclass
 class Criterion:
     name: str
     description: str
     weight: float = 1.0  # internal relative weight if needed, usually just average
+
 
 @dataclass
 class Dimension:
@@ -23,6 +26,7 @@ class Dimension:
     description: str
     criteria: List[Criterion]
     rubric: Dict[PerformanceLevel, Dict[str, str]]
+
 
 @dataclass
 class EvaluationResult:

@@ -1,10 +1,11 @@
-import pytest
-from tools.prompteval.core import PromptEval
 from tools.prompteval.config import EvalConfig
+from tools.prompteval.core import PromptEval
+
 
 class DummyLLM:
     def __init__(self, response):
         self._response = response
+
     def generate_text(self, model_name, prompt, temperature, max_tokens):
         return self._response
 

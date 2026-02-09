@@ -1,12 +1,13 @@
 """Simple dynamic evaluation manager utilities.
 
 This module provides a minimal implementation for monitoring system
-performance and managing prompt evaluations. It's intentionally lightweight
-to satisfy unit tests and provide a stable default implementation for the
-repository's evaluation tooling.
+performance and managing prompt evaluations. It's intentionally
+lightweight to satisfy unit tests and provide a stable default
+implementation for the repository's evaluation tooling.
 """
-from typing import List, Tuple
+
 import time
+from typing import List, Tuple
 
 try:
     import psutil

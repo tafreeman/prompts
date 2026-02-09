@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validation Test for Consolidated Test Runner
+"""Validation Test for Consolidated Test Runner.
 
 Tests that test_runner.py correctly:
 1. Imports without errors
@@ -9,6 +8,7 @@ Tests that test_runner.py correctly:
 4. Loads prompts from markdown files
 5. Executes basic test cases
 """
+
 import asyncio
 import sys
 from pathlib import Path
@@ -17,11 +17,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from testing.framework.core.test_runner import (
-                                                PromptTestRunner,
-                                                TestCase,
-                                                TestType,
-                                                TestStatus
-                                                )
+    PromptTestRunner,
+    TestCase,
+    TestStatus,
+    TestType,
+)
 
 
 def test_imports():
@@ -62,14 +62,14 @@ def test_methods_exist(runner):
     """Test that all required methods exist."""
     print("Testing required methods exist...")
     required_methods = [
-                        '_detect_provider',
-                        '_execute_local_model',
-                        '_execute_gh_models',
-                        '_execute_ollama',
-                        '_execute_text_prompt',
-                        '_load_prompt',
-                        'run_single_test'
-                        ]
+        "_detect_provider",
+        "_execute_local_model",
+        "_execute_gh_models",
+        "_execute_ollama",
+        "_execute_text_prompt",
+        "_load_prompt",
+        "run_single_test",
+    ]
 
     for method in required_methods:
         assert hasattr(runner, method), f"Missing method: {method}"
@@ -82,7 +82,7 @@ async def test_prompt_loading(runner):
     print("Testing prompt loading...")
 
     # Find a test prompt file
-    prompt_files = list(Path('prompts/advanced').glob('*.md'))
+    prompt_files = list(Path("prompts/advanced").glob("*.md"))
     if not prompt_files:
         print("⏭️  Test 5 SKIPPED: No prompt files found")
         return
@@ -91,7 +91,7 @@ async def test_prompt_loading(runner):
     try:
         prompt_data = await runner._load_prompt(test_prompt)
         print(f"✅ Test 5: Loaded prompt from {prompt_files[0].name}")
-        assert 'template' in prompt_data or 'id' in prompt_data
+        assert "template" in prompt_data or "id" in prompt_data
         return prompt_data
     except Exception as e:
         print(f"⚠️  Test 5 WARNING: {e}")
@@ -106,16 +106,16 @@ async def test_basic_execution():
 
         # Create a simple test case
         test_case = TestCase(
-                             id="validation_test_001",
-                             name="Basic Validation Test",
-                             description="Validates test runner can execute a simple test",
-                             test_type=TestType.UNIT,
-                             prompt_id="test_prompt",  # Will use mock/default
-                             inputs={"input": "Test input"},
-                             expected_outputs=None,
-                             validators=[],
-                             timeout=5
-                             )
+            id="validation_test_001",
+            name="Basic Validation Test",
+            description="Validates test runner can execute a simple test",
+            test_type=TestType.UNIT,
+            prompt_id="test_prompt",  # Will use mock/default
+            inputs={"input": "Test input"},
+            expected_outputs=None,
+            validators=[],
+            timeout=5,
+        )
 
         # Note: This will try to call LLM which may fail without credentials
         # So we just check it doesn't crash completely
@@ -134,9 +134,9 @@ async def test_basic_execution():
 
 def print_summary():
     """Print test summary."""
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("VALIDATION SUMMARY")
-    print("="*60)
+    print("=" * 60)
     print("\n✅ Core functionality validated:")
     print("  1. Module imports correctly")
     print("  2. TestRunner initializes without errors")
@@ -153,14 +153,14 @@ def print_summary():
     print("  • Set up LLM credentials to test actual execution")
     print("  • Run full test suite with real prompts")
     print("  • Create test cases for validators")
-    print("="*60)
+    print("=" * 60)
 
 
 async def main():
     """Run all validation tests."""
-    print("="*60)
+    print("=" * 60)
     print("TEST RUNNER CONSOLIDATION VALIDATION")
-    print("="*60)
+    print("=" * 60)
     print()
 
     try:
@@ -180,6 +180,7 @@ async def main():
     except Exception as e:
         print(f"\n❌ VALIDATION FAILED: {e}")
         import traceback
+
         traceback.print_exc()
         return 1
 

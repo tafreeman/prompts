@@ -16,6 +16,15 @@
 			},
 			"gallery": "https://api.mcp.github.com",
 			"version": "1.0.0"
+		},
+		"io.github.contextstreamio/mcp-server": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"@contextstream/mcp-server@0.3.63"
+			],
+			"gallery": "https://api.mcp.github.com",
+			"version": "0.3.63"
 		}
 	},
 	"inputs": [

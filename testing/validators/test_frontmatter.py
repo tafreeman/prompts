@@ -1,21 +1,18 @@
-"""
-Frontmatter validation tests for the prompt library.
+"""Frontmatter validation tests for the prompt library.
 
-Tests that all prompts in the library have valid frontmatter
-according to the defined schema.
+Tests that all prompts in the library have valid frontmatter according
+to the defined schema.
 """
 
 import sys
 from pathlib import Path
 
 import pytest
-import yaml
 
 # Add parent to path for conftest imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from conftest import parse_frontmatter, load_prompt_file
-
+from conftest import load_prompt_file, parse_frontmatter
 
 # =============================================================================
 # SCHEMA DEFINITION
@@ -38,7 +35,7 @@ FULL_SCHEMA_FIELDS = [
     "difficulty",
     "audience",
     "platforms",
-    "topics"
+    "topics",
 ]
 
 OPTIONAL_FIELDS = [
@@ -49,7 +46,7 @@ OPTIONAL_FIELDS = [
     "evalScore",
     "evalDate",
     "tags",
-    "relatedPrompts"
+    "relatedPrompts",
 ]
 
 VALID_TYPES = ["how_to", "template", "reference", "guide"]
@@ -60,6 +57,7 @@ VALID_PLATFORMS = ["copilot", "chatgpt", "claude", "m365", "gemini", "generic"]
 # =============================================================================
 # FIXTURES
 # =============================================================================
+
 
 @pytest.fixture
 def prompt_files(prompts_dir: Path) -> list[Path]:
@@ -74,6 +72,7 @@ def prompt_files(prompts_dir: Path) -> list[Path]:
 # =============================================================================
 # FRONTMATTER PARSING TESTS
 # =============================================================================
+
 
 class TestFrontmatterParsing:
     """Tests for frontmatter parsing functionality."""
@@ -133,6 +132,7 @@ title: Bad YAML
 # REQUIRED FIELDS TESTS
 # =============================================================================
 
+
 class TestRequiredFields:
     """Tests for required frontmatter fields."""
 
@@ -185,6 +185,7 @@ class TestRequiredFields:
 # FIELD VALIDATION TESTS
 # =============================================================================
 
+
 class TestFieldValidation:
     """Tests for field value validation."""
 
@@ -221,6 +222,7 @@ class TestFieldValidation:
 # PROMPT FILE VALIDATION TESTS
 # =============================================================================
 
+
 class TestPromptFileValidation:
     """Tests that validate actual prompt files in the repository."""
 
@@ -235,9 +237,10 @@ class TestPromptFileValidation:
             content = prompt_file.read_text(encoding="utf-8")
             if not content.startswith("---"):
                 missing_frontmatter.append(prompt_file.name)
-        
-        assert len(missing_frontmatter) == 0, \
-            f"Files missing frontmatter: {missing_frontmatter}"
+
+        assert (
+            len(missing_frontmatter) == 0
+        ), f"Files missing frontmatter: {missing_frontmatter}"
 
     def test_prompt_files_have_required_fields(self, prompt_files):
         """Test that prompt files have required fields."""
@@ -247,16 +250,18 @@ class TestPromptFileValidation:
             missing = [f for f in REQUIRED_FIELDS if f not in fm]
             if missing:
                 invalid_files.append((prompt_file.name, missing))
-        
+
         if invalid_files:
-            details = "\n".join(f"  {name}: missing {fields}" 
-                              for name, fields in invalid_files)
+            details = "\n".join(
+                f"  {name}: missing {fields}" for name, fields in invalid_files
+            )
             pytest.fail(f"Files with missing required fields:\n{details}")
 
 
 # =============================================================================
 # TEMP FILE TESTS
 # =============================================================================
+
 
 class TestTempFileFixtures:
     """Tests for temporary file fixtures."""
@@ -265,11 +270,11 @@ class TestTempFileFixtures:
         """Test that temp_prompt_file fixture creates valid prompt."""
         assert temp_prompt_file.exists()
         fm, body = load_prompt_file(temp_prompt_file)
-        
+
         # Check all required fields
         for field in REQUIRED_FIELDS:
             assert field in fm, f"Missing required field: {field}"
-        
+
         # Check body content
         assert len(body) > 0
 
@@ -277,7 +282,7 @@ class TestTempFileFixtures:
         """Test that temp_invalid_prompt fixture creates invalid prompt."""
         assert temp_invalid_prompt.exists()
         fm, _ = load_prompt_file(temp_invalid_prompt)
-        
+
         # Should be missing required fields
         missing = [f for f in REQUIRED_FIELDS if f not in fm]
         assert len(missing) > 0, "Expected missing fields in invalid prompt"

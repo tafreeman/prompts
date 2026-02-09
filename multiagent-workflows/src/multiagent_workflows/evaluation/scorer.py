@@ -1,25 +1,26 @@
-"""
-Scorer
+"""Scorer.
 
-Scores workflow outputs against golden examples using configured rubrics.
-Integrates with the existing tools/prompteval/ scoring patterns.
+Scores workflow outputs against golden examples using configured
+rubrics. Integrates with the existing tools/prompteval/ scoring
+patterns.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from difflib import SequenceMatcher
-from pathlib import Path
 import shutil
 import subprocess
 import tempfile
 import time
+from dataclasses import dataclass
+from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 
 @dataclass
 class ScoreResult:
     """Result from scoring."""
+
     total_score: float
     max_score: float
     percentage: float
@@ -29,52 +30,49 @@ class ScoreResult:
 
 
 class Scorer:
-    """
-    Scores outputs against goldens using rubric weights.
-    
+    """Scores outputs against goldens using rubric weights.
+
     Supports multiple scoring methods:
     - Exact match
     - Fuzzy match
     - AST comparison (for code)
     - Test execution (for functional correctness)
     """
-    
+
     def __init__(self, rubrics: Dict[str, Any]):
-        """
-        Initialize scorer with rubrics.
-        
+        """Initialize scorer with rubrics.
+
         Args:
             rubrics: Rubrics configuration dict
         """
         self.rubrics = rubrics
-    
+
     def score(
         self,
         output: str,
         golden: str,
         rubric_name: str,
     ) -> ScoreResult:
-        """
-        Score output against golden using named rubric.
-        
+        """Score output against golden using named rubric.
+
         Args:
             output: Generated output to score
             golden: Golden/expected output
             rubric_name: Name of rubric to use
-            
+
         Returns:
             ScoreResult with detailed breakdown
         """
         rubric = self.rubrics.get("rubrics", {}).get(rubric_name, {})
         categories = rubric.get("categories", {})
         pass_threshold = rubric.get("pass_threshold", 70)
-        
+
         scores: Dict[str, float] = {}
         details: Dict[str, Any] = {}
-        
+
         for category_name, category in categories.items():
             weight = category.get("weight", 0)
-            
+
             # Score this category
             category_score = self._score_category(
                 output, golden, category_name, category
@@ -85,13 +83,13 @@ class Scorer:
                 "weight": weight,
                 "weighted_score": category_score * weight,
             }
-        
+
         # Calculate total
         total_score = sum(scores.values())
         max_score = 100.0
         percentage = (total_score / max_score) * 100
         passed = percentage >= pass_threshold
-        
+
         return ScoreResult(
             total_score=total_score,
             max_score=max_score,
@@ -100,7 +98,7 @@ class Scorer:
             category_scores=scores,
             details=details,
         )
-    
+
     def _score_category(
         self,
         output: str,
@@ -120,17 +118,17 @@ class Scorer:
             return self.score_completeness(output, golden)
         else:
             return self.score_similarity(output, golden)
-    
+
     def score_correctness(self, output: str, golden: str) -> float:
         """Score functional correctness."""
         # Use fuzzy matching as a baseline
         similarity = SequenceMatcher(None, output, golden).ratio()
         return similarity
-    
+
     def score_code_quality(self, output: str) -> float:
         """Score code quality based on heuristics."""
         score = 0.8  # Base score
-        
+
         # Positive indicators
         if "def " in output or "function " in output:
             score += 0.05  # Has functions
@@ -138,7 +136,7 @@ class Scorer:
             score += 0.05  # Has docstrings
         if ": str" in output or ": int" in output or "-> " in output:
             score += 0.05  # Has type hints
-        
+
         # Negative indicators
         if "TODO" in output:
             score -= 0.1
@@ -146,13 +144,13 @@ class Scorer:
             score -= 0.1
         if "pass" in output and output.count("pass") > 5:
             score -= 0.1  # Many empty pass statements
-        
+
         return max(0, min(1, score))
-    
+
     def score_documentation(self, output: str) -> float:
         """Score documentation presence."""
         score = 0.0
-        
+
         indicators = [
             ("README", 0.2),
             ("## ", 0.1),
@@ -163,28 +161,28 @@ class Scorer:
             ("Args:", 0.1),
             ("Returns:", 0.1),
         ]
-        
+
         for indicator, points in indicators:
             if indicator in output:
                 score += points
-        
+
         return min(1, score)
-    
+
     def score_completeness(self, output: str, golden: str) -> float:
         """Score completeness based on expected elements."""
         if not golden:
             return 1.0
-        
+
         # Extract key elements from golden
         golden_lines = set(line.strip() for line in golden.split("\n") if line.strip())
         output_lines = set(line.strip() for line in output.split("\n") if line.strip())
-        
+
         if not golden_lines:
             return 1.0
-        
+
         matched = len(golden_lines & output_lines)
         return matched / len(golden_lines)
-    
+
     def score_similarity(self, output: str, golden: str) -> float:
         """Score based on text similarity."""
         return SequenceMatcher(None, output, golden).ratio()
@@ -193,6 +191,7 @@ class Scorer:
 @dataclass
 class ExecutionResult:
     """Result from execution-based scoring."""
+
     resolved: bool
     return_code: int
     duration_ms: float
@@ -203,8 +202,7 @@ class ExecutionResult:
 
 
 class ExecutionScorer:
-    """
-    Execution-based scorer for SWE-bench style tasks.
+    """Execution-based scorer for SWE-bench style tasks.
 
     This scorer:
     - clones the repository at base_commit
@@ -240,7 +238,9 @@ class ExecutionScorer:
         if shutil.which(name) is None:
             raise RuntimeError(f"Required tool not found: {name}")
 
-    def _run(self, cmd: List[str], cwd: Optional[Path] = None, timeout: Optional[int] = None) -> subprocess.CompletedProcess:
+    def _run(
+        self, cmd: List[str], cwd: Optional[Path] = None, timeout: Optional[int] = None
+    ) -> subprocess.CompletedProcess:
         return subprocess.run(
             cmd,
             cwd=str(cwd) if cwd else None,
@@ -295,8 +295,16 @@ class ExecutionScorer:
         test_patch = ""
         test_cases = task.get("test_cases") or []
         if isinstance(test_cases, list) and test_cases:
-            test_patch = test_cases[0].get("test_patch", "") if isinstance(test_cases[0], dict) else ""
-        test_command = task.get("test_command") or task.get("test_cmd") or self.default_test_command
+            test_patch = (
+                test_cases[0].get("test_patch", "")
+                if isinstance(test_cases[0], dict)
+                else ""
+            )
+        test_command = (
+            task.get("test_command")
+            or task.get("test_cmd")
+            or self.default_test_command
+        )
 
         if not repo or not base_commit:
             return ExecutionResult(
@@ -314,7 +322,9 @@ class ExecutionScorer:
                 patches_dir = Path(tmpdir) / "patches"
                 patches_dir.mkdir(parents=True, exist_ok=True)
                 (patches_dir / "model.patch").write_text(patch or "", encoding="utf-8")
-                (patches_dir / "tests.patch").write_text(test_patch or "", encoding="utf-8")
+                (patches_dir / "tests.patch").write_text(
+                    test_patch or "", encoding="utf-8"
+                )
 
                 result = self._docker_run_tests(
                     repo=repo,

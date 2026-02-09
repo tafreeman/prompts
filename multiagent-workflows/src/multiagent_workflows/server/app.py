@@ -48,10 +48,16 @@ async def handle_tasks(request: web.Request) -> web.Response:
     use_cache = request.query.get("use_cache", "true").lower() != "false"
 
     try:
-        loaded = load_tasks(benchmark_id=benchmark_id, limit=limit, offset=offset, use_cache=use_cache)
-        return _json_response({"benchmark_id": loaded.benchmark_id, "tasks": loaded.tasks})
+        loaded = load_tasks(
+            benchmark_id=benchmark_id, limit=limit, offset=offset, use_cache=use_cache
+        )
+        return _json_response(
+            {"benchmark_id": loaded.benchmark_id, "tasks": loaded.tasks}
+        )
     except KeyError:
-        return _json_response({"error": f"unknown benchmark_id: {benchmark_id}"}, status=404)
+        return _json_response(
+            {"error": f"unknown benchmark_id: {benchmark_id}"}, status=404
+        )
     except ImportError as e:
         return _json_response({"error": str(e)}, status=500)
     except Exception as e:
@@ -93,8 +99,12 @@ async def handle_create_run(request: web.Request) -> web.Response:
         return _json_response({"error": "benchmark_id is required"}, status=400)
 
     task_ids = payload.get("task_ids") or []
-    if not isinstance(task_ids, list) or not all(isinstance(x, (str, int)) for x in task_ids):
-        return _json_response({"error": "task_ids must be a list of strings"}, status=400)
+    if not isinstance(task_ids, list) or not all(
+        isinstance(x, (str, int)) for x in task_ids
+    ):
+        return _json_response(
+            {"error": "task_ids must be a list of strings"}, status=400
+        )
 
     workflow = payload.get("workflow") or "fullstack"
     model = payload.get("model") or None
@@ -138,6 +148,11 @@ async def handle_get_run(request: web.Request) -> web.Response:
     return _json_response(run)
 
 
+async def handle_list_runs(request: web.Request) -> web.Response:
+    store: RunStore = request.app["run_store"]
+    return _json_response({"runs": store.list_runs()})
+
+
 def _repo_root_from_here() -> Path:
     # .../multiagent-workflows/src/multiagent_workflows/server/app.py -> parents[3] == multiagent-workflows
     return Path(__file__).resolve().parents[3]
@@ -151,9 +166,13 @@ def _monorepo_root_from_here() -> Path:
 async def handle_list_agents(request: web.Request) -> web.Response:
     try:
         agents_map = {}
-        config_dir = _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        config_dir = (
+            _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        )
         if not config_dir.exists():
-             return _json_response({"error": f"Config dir not found: {config_dir}"}, status=404)
+            return _json_response(
+                {"error": f"Config dir not found: {config_dir}"}, status=404
+            )
 
         for p in config_dir.glob("workflow_*.json"):
             try:
@@ -161,9 +180,11 @@ async def handle_list_agents(request: web.Request) -> web.Response:
                     data = json.load(f)
                     for a in data.get("agents", []):
                         # Ensure we capture tool/mcp fields if missing
-                        if "tools" not in a: a["tools"] = []
-                        if "mcp_servers" not in a: a["mcp_servers"] = []
-                        
+                        if "tools" not in a:
+                            a["tools"] = []
+                        if "mcp_servers" not in a:
+                            a["mcp_servers"] = []
+
                         a["_source_workflow"] = data.get("description", p.name)
                         a["_source_file"] = p.name
                         agents_map[a["id"]] = a
@@ -182,35 +203,46 @@ async def handle_update_agent(request: web.Request) -> web.Response:
         if not agent_id:
             return _json_response({"error": "id is required"}, status=400)
 
-        config_dir = _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        config_dir = (
+            _monorepo_root_from_here() / "workflows" / "agentic_planning" / "configs"
+        )
         updated = False
-        
+
         for p in config_dir.glob("workflow_*.json"):
             try:
                 with open(p, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                
+
                 found = False
                 for a in data.get("agents", []):
                     if a["id"] == agent_id:
                         # Update fields
-                        for k in ["system_prompt", "model", "temperature", "max_tokens", "tools", "mcp_servers"]:
+                        for k in [
+                            "system_prompt",
+                            "model",
+                            "temperature",
+                            "max_tokens",
+                            "tools",
+                            "mcp_servers",
+                        ]:
                             if k in payload:
                                 a[k] = payload[k]
                         found = True
                         updated = True
-                
+
                 if found:
                     with open(p, "w", encoding="utf-8") as f:
-                        json.dump(data, f, indent="\t") # Use tab/4 spaces to match style
+                        json.dump(
+                            data, f, indent="\t"
+                        )  # Use tab/4 spaces to match style
                     return _json_response({"ok": True, "agent_id": agent_id})
-                    
+
             except Exception as e:
                 print(f"Error updating {p}: {e}")
-                
+
         if not updated:
             return _json_response({"error": "Agent not found"}, status=404)
-            
+
     except Exception as e:
         return _json_response({"error": str(e)}, status=500)
 
@@ -247,6 +279,7 @@ def create_app() -> web.Application:
     app.router.add_get("/api/models", handle_models)
     app.router.add_post("/api/models/refresh", handle_refresh_models)
     app.router.add_get("/api/models/{model_id}/probe", handle_probe_model)
+    app.router.add_get("/api/runs", handle_list_runs)
     app.router.add_post("/api/runs", handle_create_run)
     app.router.add_get("/api/runs/{run_id}", handle_get_run)
     app.router.add_get("/api/agents", handle_list_agents)
@@ -258,7 +291,9 @@ def create_app() -> web.Application:
 
     async def handle_index(_: web.Request) -> web.StreamResponse:
         if not index_path.exists():
-            return _json_response({"error": f"UI not found at {index_path}"}, status=404)
+            return _json_response(
+                {"error": f"UI not found at {index_path}"}, status=404
+            )
         return web.FileResponse(path=index_path)
 
     app.router.add_get("/", handle_index)
@@ -270,7 +305,9 @@ def create_app() -> web.Application:
 def main(argv: Optional[list[str]] = None) -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Multi-Agent Workflows UI + Dataset API server")
+    parser = argparse.ArgumentParser(
+        description="Multi-Agent Workflows UI + Dataset API server"
+    )
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", default=8000, type=int)
     args = parser.parse_args(argv)

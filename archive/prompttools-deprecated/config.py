@@ -1,5 +1,4 @@
-"""
-Configuration for prompttools.
+"""Configuration for prompttools.
 
 This module provides handles for both local and package-level paths,
 default model configurations, and provider settings managed through
@@ -7,13 +6,14 @@ environment variables or standard defaults.
 """
 
 import os
-from pathlib import Path
 from dataclasses import dataclass, field
-from typing import Optional, List
+from pathlib import Path
+from typing import Optional
 
 # =============================================================================
 # PATHS
 # =============================================================================
+
 
 def get_package_dir() -> Path:
     """Get the prompttools package directory."""
@@ -21,9 +21,8 @@ def get_package_dir() -> Path:
 
 
 def get_project_root() -> Path:
-    """
-    Get the project root directory.
-    
+    """Get the project root directory.
+
     Returns:
         Path to the root of the repository.
     """
@@ -32,10 +31,11 @@ def get_project_root() -> Path:
 
 def get_cache_dir() -> Path:
     """Get the cache directory."""
-    cache_dir = Path(os.environ.get(
-        "PROMPTTOOLS_CACHE_DIR",
-        get_project_root() / ".cache" / "prompttools"
-    ))
+    cache_dir = Path(
+        os.environ.get(
+            "PROMPTTOOLS_CACHE_DIR", get_project_root() / ".cache" / "prompttools"
+        )
+    )
     cache_dir.mkdir(parents=True, exist_ok=True)
     return cache_dir
 
@@ -65,12 +65,12 @@ PREFERRED_FRONTMATTER = ["description", "type"]
 
 # Optional execution/evaluation frontmatter fields
 OPTIONAL_FRONTMATTER = [
-    "pattern",           # react | cove | reflexion | rag
-    "model",             # Recommended model (e.g., openai/gpt-4o)
+    "pattern",  # react | cove | reflexion | rag
+    "model",  # Recommended model (e.g., openai/gpt-4o)
     "model_parameters",  # {temperature, max_tokens, top_p}
-    "response_format",   # text | json_object | json_schema
-    "difficulty",        # beginner | intermediate | advanced
-    "test_data",         # List of input/expected pairs for evaluation
+    "response_format",  # text | json_object | json_schema
+    "difficulty",  # beginner | intermediate | advanced
+    "test_data",  # List of input/expected pairs for evaluation
 ]
 
 # Valid values for enumerated frontmatter fields
@@ -108,21 +108,22 @@ CACHE_TTL_HOURS = 24.0
 # PROVIDER CONFIGURATION
 # =============================================================================
 
+
 @dataclass
 class ProviderConfig:
     """Configuration for LLM providers."""
-    
+
     # Ollama
     ollama_host: str = field(
         default_factory=lambda: os.environ.get("OLLAMA_HOST", "http://localhost:11434")
     )
-    
+
     # GitHub Models
     github_token: Optional[str] = field(
         default_factory=lambda: os.environ.get("GITHUB_TOKEN")
     )
     github_endpoint: str = "https://models.github.ai/inference"
-    
+
     # Azure OpenAI
     azure_openai_endpoint: Optional[str] = field(
         default_factory=lambda: os.environ.get("AZURE_OPENAI_ENDPOINT")
@@ -130,18 +131,18 @@ class ProviderConfig:
     azure_openai_key: Optional[str] = field(
         default_factory=lambda: os.environ.get("AZURE_OPENAI_API_KEY")
     )
-    
+
     # OpenAI
     openai_key: Optional[str] = field(
         default_factory=lambda: os.environ.get("OPENAI_API_KEY")
     )
-    
+
     # Google Gemini
     gemini_key: Optional[str] = field(
-        default_factory=lambda: os.environ.get("GEMINI_API_KEY") or 
-                                os.environ.get("GOOGLE_API_KEY")
+        default_factory=lambda: os.environ.get("GEMINI_API_KEY")
+        or os.environ.get("GOOGLE_API_KEY")
     )
-    
+
     # Anthropic Claude
     anthropic_key: Optional[str] = field(
         default_factory=lambda: os.environ.get("ANTHROPIC_API_KEY")
@@ -164,16 +165,20 @@ def get_config() -> ProviderConfig:
 # ENVIRONMENT HELPERS
 # =============================================================================
 
+
 def is_cache_enabled() -> bool:
-    """
-    Check if the global response cache is enabled.
-    
+    """Check if the global response cache is enabled.
+
     Controlled by PROMPTTOOLS_CACHE_ENABLED environment variable.
-    
+
     Returns:
         True if enabled (default), False otherwise.
     """
-    return os.environ.get("PROMPTTOOLS_CACHE_ENABLED", "1").lower() in ("1", "true", "yes")
+    return os.environ.get("PROMPTTOOLS_CACHE_ENABLED", "1").lower() in (
+        "1",
+        "true",
+        "yes",
+    )
 
 
 def is_verbose() -> bool:

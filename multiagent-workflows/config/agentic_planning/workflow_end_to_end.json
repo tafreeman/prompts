@@ -12,7 +12,7 @@
 			"name": "Vision Analyst",
 			"model": "gh:openai/gpt-4o",
 			"compatible_models": [
-				"local:phi3.5-vision",
+				"gh:openai/gpt-4o",
 				"gh:meta/llama-3.2-90b-vision-instruct",
 				"gemini-3-pro"
 			],
