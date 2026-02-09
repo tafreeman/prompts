@@ -241,6 +241,11 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
         run_id = request.run_id or f"{workflow_def.name}-{uuid.uuid4().hex[:8]}"
         workflow_inputs = dict(request.input_data)
         evaluation = request.evaluation
+        execution_profile = (
+            request.execution_profile.model_dump(exclude_none=True)
+            if request.execution_profile
+            else None
+        )
         dataset_sample: dict[str, Any] | None = None
         dataset_meta: dict[str, Any] | None = None
 
@@ -329,6 +334,7 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
                     request.workflow,
                     ctx=ctx,
                     on_update=event_callback,
+                    execution_profile=execution_profile,
                     **workflow_inputs,
                 )
 

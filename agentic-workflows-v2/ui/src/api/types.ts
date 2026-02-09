@@ -96,12 +96,21 @@ export interface RunsSummary {
   workflows: string[];
 }
 
+/** Execution profile for runtime configuration. */
+export interface ExecutionProfileRequest {
+  runtime: "subprocess" | "docker";
+  max_attempts?: number;
+  max_duration_minutes?: number;
+  container_image?: string;
+}
+
 /** POST /api/run request. */
 export interface WorkflowRunRequest {
   workflow: string;
   input_data: Record<string, unknown>;
   run_id?: string;
   evaluation?: WorkflowEvaluationRequest;
+  execution_profile?: ExecutionProfileRequest;
 }
 
 /** POST /api/run response. */
@@ -112,11 +121,13 @@ export interface WorkflowRunResponse {
 
 export interface WorkflowEvaluationRequest {
   enabled: boolean;
+  enforce_hard_gates?: boolean;
   dataset_source: "none" | "repository" | "local";
   dataset_id?: string;
   local_dataset_path?: string;
   sample_index?: number;
   rubric?: string;
+  rubric_id?: string;
 }
 
 export interface EvaluationDatasetOption {

@@ -15,14 +15,15 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable, Mapping, Optional
 
-from ..contracts import StepStatus, WorkflowResult
-from ..engine.context import ExecutionContext, get_context
+from ..contracts import WorkflowResult
+from ..engine.context import ExecutionContext
 from ..engine.dag_executor import DAGExecutor
 from ..engine.expressions import ExpressionEvaluator
+from ..engine.runtime import IsolatedTaskRuntime, create_runtime
 from ..engine.step import StepExecutor
-from .loader import WorkflowDefinition, WorkflowLoader, WorkflowLoadError
+from .loader import WorkflowDefinition, WorkflowLoader
 from .run_logger import RunLogger
 
 logger = logging.getLogger(__name__)
@@ -55,10 +56,12 @@ class WorkflowRunner:
         step_executor: StepExecutor | None = None,
         max_concurrency: int = 10,
         run_logger: RunLogger | bool | None = None,
+        execution_profile: Mapping[str, Any] | None = None,
     ):
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
         self._max_concurrency = max_concurrency
+        self._execution_profile = dict(execution_profile or {})
         # run_logger=True → auto-create with default dir; False/None → disabled
         if run_logger is True:
             self._run_logger: RunLogger | None = RunLogger()
@@ -77,6 +80,7 @@ class WorkflowRunner:
         ctx: ExecutionContext | None = None,
         on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
         dataset_meta: dict[str, Any] | None = None,
+        execution_profile: Mapping[str, Any] | None = None,
         **inputs: Any,
     ) -> WorkflowResult:
         """Run a named workflow end-to-end.
@@ -112,17 +116,18 @@ class WorkflowRunner:
         ctx.set_sync("inputs", validated)
 
         # 4. Execute DAG
-        executor = DAGExecutor(step_executor=self._step_executor)
-        result = await executor.execute(
-            definition.dag,
+        result, runtime_profile, runtime_artifacts = await self._execute_definition(
+            definition,
             ctx,
-            max_concurrency=self._max_concurrency,
             on_update=on_update,
+            execution_profile=execution_profile,
         )
 
         # 5. Resolve outputs
         result.final_output = self._resolve_outputs(definition, ctx, result)
         result.workflow_name = definition.name
+        result.metadata["execution_profile"] = runtime_profile
+        result.metadata["runtime_artifacts"] = runtime_artifacts
 
         # 6. Log run
         self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
@@ -135,6 +140,7 @@ class WorkflowRunner:
         ctx: ExecutionContext | None = None,
         on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
         dataset_meta: dict[str, Any] | None = None,
+        execution_profile: Mapping[str, Any] | None = None,
         **inputs: Any,
     ) -> WorkflowResult:
         """Run a pre-loaded WorkflowDefinition (useful for testing)."""
@@ -147,16 +153,17 @@ class WorkflowRunner:
             ctx.set_sync(f"inputs.{key}", value)
         ctx.set_sync("inputs", validated)
 
-        executor = DAGExecutor(step_executor=self._step_executor)
-        result = await executor.execute(
-            definition.dag,
+        result, runtime_profile, runtime_artifacts = await self._execute_definition(
+            definition,
             ctx,
-            max_concurrency=self._max_concurrency,
             on_update=on_update,
+            execution_profile=execution_profile,
         )
 
         result.final_output = self._resolve_outputs(definition, ctx, result)
         result.workflow_name = definition.name
+        result.metadata["execution_profile"] = runtime_profile
+        result.metadata["runtime_artifacts"] = runtime_artifacts
 
         self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
         return result
@@ -184,6 +191,52 @@ class WorkflowRunner:
             logger.info("Run logged to %s", path)
         except Exception:
             logger.exception("Failed to log run")
+
+    async def _execute_definition(
+        self,
+        definition: WorkflowDefinition,
+        ctx: ExecutionContext,
+        on_update: Optional[Callable[[dict[str, Any]], Awaitable[None]]] = None,
+        execution_profile: Mapping[str, Any] | None = None,
+    ) -> tuple[WorkflowResult, dict[str, Any], dict[str, Any]]:
+        runtime_profile = self._resolve_execution_profile(execution_profile)
+        runtime = create_runtime(runtime_profile)
+        ctx.services.register_singleton(IsolatedTaskRuntime, runtime)
+        ctx.metadata["execution_profile"] = runtime_profile
+
+        try:
+            await runtime.setup()
+        except Exception:
+            # Best effort cleanup if setup partially initialized resources.
+            await runtime.cleanup()
+            raise
+
+        executor = DAGExecutor(step_executor=self._step_executor)
+        runtime_artifacts: dict[str, Any] = {}
+        try:
+            result = await executor.execute(
+                definition.dag,
+                ctx,
+                max_concurrency=self._max_concurrency,
+                on_update=on_update,
+            )
+        finally:
+            try:
+                runtime_artifacts = await runtime.collect_artifacts()
+            finally:
+                await runtime.cleanup()
+
+        return result, runtime_profile, runtime_artifacts
+
+    def _resolve_execution_profile(
+        self, override: Mapping[str, Any] | None = None
+    ) -> dict[str, Any]:
+        profile = dict(self._execution_profile)
+        if override:
+            profile.update(dict(override))
+        runtime_name = str(profile.get("runtime", "subprocess")).strip().lower()
+        profile["runtime"] = runtime_name
+        return profile
 
     # --------------------------------------------------------------------- #
     # Internal helpers

@@ -16,6 +16,15 @@ class HealthResponse(BaseModel):
     version: str = "0.1.0"
 
 
+class WorkflowExecutionProfileRequest(BaseModel):
+    """Optional execution profile controls for workflow runs."""
+
+    runtime: Literal["subprocess", "docker"] = "subprocess"
+    max_attempts: Optional[int] = Field(default=None, ge=1)
+    max_duration_minutes: Optional[int] = Field(default=None, ge=1)
+    container_image: Optional[str] = None
+
+
 class WorkflowRunRequest(BaseModel):
     """Request to run a workflow."""
 
@@ -26,6 +35,9 @@ class WorkflowRunRequest(BaseModel):
     run_id: Optional[str] = Field(None, description="Unique run identifier")
     evaluation: Optional["WorkflowEvaluationRequest"] = Field(
         None, description="Optional evaluation settings for scored runs"
+    )
+    execution_profile: Optional[WorkflowExecutionProfileRequest] = Field(
+        None, description="Optional runtime execution settings"
     )
 
 

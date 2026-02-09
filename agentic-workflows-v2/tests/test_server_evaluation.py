@@ -18,6 +18,7 @@ from agentic_v2.server.evaluation import (
     score_workflow_result,
     validate_evaluation_payload_schema,
 )
+from agentic_v2.server.judge import LLMJudge
 from agentic_v2.server.models import WorkflowEvaluationRequest, WorkflowRunRequest
 from agentic_v2.server.routes import workflows as workflow_routes
 from agentic_v2.workflows.loader import WorkflowLoader
@@ -473,6 +474,106 @@ def test_scoring_profile_overridable():
     )
     weights = {item["criterion"]: item["weight"] for item in evaluation["criteria"]}
     assert weights["objective_tests"] == pytest.approx(0.40)
+
+
+def test_hybrid_score_without_judge():
+    result = _build_result(StepStatus.SUCCESS)
+    evaluation = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+    )
+    assert evaluation["judge"] is None
+    assert evaluation["score_layers"]["layer2_judge"] is None
+    assert evaluation["hybrid_weights"].keys() == {"objective", "advisory"}
+
+
+def test_hybrid_score_with_mock_judge():
+    def _provider(*, prompt: str, model: str, temperature: float):
+        assert "Schema" in prompt
+        return {
+            "criteria": [
+                {"name": "correctness", "score": 2, "evidence": "missed edge cases"},
+                {"name": "code_quality", "score": 2, "evidence": "style and structure issues"},
+                {"name": "efficiency", "score": 2, "evidence": "slow with retries"},
+                {"name": "documentation", "score": 2, "evidence": "thin summary"},
+            ]
+        }
+
+    result = _build_result(StepStatus.SUCCESS)
+    without_judge = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+    )
+    with_judge = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+        judge=LLMJudge(response_provider=_provider, model_version="mock-judge-1"),
+    )
+    assert with_judge["weighted_score"] < without_judge["weighted_score"]
+    assert with_judge["judge"] is not None
+    assert with_judge["score_layers"]["layer2_judge"] is not None
+
+
+def test_hybrid_hard_gates_still_override():
+    def _provider(*, prompt: str, model: str, temperature: float):
+        return {
+            "criteria": [
+                {"name": "correctness", "score": 5, "evidence": "excellent"},
+                {"name": "code_quality", "score": 5, "evidence": "excellent"},
+                {"name": "efficiency", "score": 5, "evidence": "excellent"},
+                {"name": "documentation", "score": 5, "evidence": "excellent"},
+            ]
+        }
+
+    result = _build_result(StepStatus.SUCCESS)
+    result.final_output = {}
+    evaluation = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+        judge=LLMJudge(response_provider=_provider, model_version="mock-judge-2"),
+    )
+    assert evaluation["score_layers"]["layer2_judge"] is not None
+    assert evaluation["passed"] is False
+    assert evaluation["grade"] == "F"
+    assert "required_outputs_present" in evaluation["hard_gate_failures"]
+
+
+def test_hybrid_score_determinism():
+    def _provider(*, prompt: str, model: str, temperature: float):
+        return {
+            "criteria": [
+                {"name": "correctness", "score": 4, "evidence": "solid"},
+                {"name": "code_quality", "score": 4, "evidence": "solid"},
+                {"name": "efficiency", "score": 4, "evidence": "solid"},
+                {"name": "documentation", "score": 4, "evidence": "solid"},
+            ]
+        }
+
+    judge = LLMJudge(response_provider=_provider, model_version="mock-judge-deterministic")
+    result = _build_result(StepStatus.SUCCESS)
+    first = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+        judge=judge,
+    )
+    second = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+        judge=judge,
+    )
+    assert first["weighted_score"] == pytest.approx(second["weighted_score"], abs=0.0001)
 
 
 @pytest.mark.asyncio

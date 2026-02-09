@@ -20,14 +20,41 @@ from ..workflows.loader import (
     WorkflowInput,
     WorkflowOutput,
 )
+from .judge import JudgeCriterionDefinition, JudgeEvaluationResult, LLMJudge
 from .normalization import adjust_for_sample_size, normalize_score
 from .scoring_profiles import get_profile
 
 logger = logging.getLogger(__name__)
 
-_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+
+def _resolve_project_root() -> Path:
+    this_file = Path(__file__).resolve()
+    # Support both layouts:
+    # 1) <repo>/agentic_v2/server/evaluation.py
+    # 2) <repo>/src/agentic_v2/server/evaluation.py
+    candidates = [this_file.parents[2], this_file.parents[3]]
+    for root in candidates:
+        if (root / "agentic_v2").exists() and (root / "pyproject.toml").exists():
+            return root
+        if (root / "src" / "agentic_v2").exists() and (root / "pyproject.toml").exists():
+            return root
+    return this_file.parents[2]
+
+
+def _resolve_eval_config_path(project_root: Path) -> Path:
+    candidates = [
+        project_root / "agentic_v2" / "config" / "defaults" / "evaluation.yaml",
+        project_root / "src" / "agentic_v2" / "config" / "defaults" / "evaluation.yaml",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
+
+
+_PROJECT_ROOT = _resolve_project_root()
 _WORKSPACE_ROOT = _PROJECT_ROOT.parent
-_EVAL_CONFIG_PATH = _PROJECT_ROOT / "src" / "agentic_v2" / "config" / "defaults" / "evaluation.yaml"
+_EVAL_CONFIG_PATH = _resolve_eval_config_path(_PROJECT_ROOT)
 _DEFAULT_WEIGHTS: dict[str, float] = {
     "correctness": 0.50,
     "code_quality": 0.25,
@@ -789,6 +816,125 @@ def _grade(score: float) -> str:
     return "F"
 
 
+def _default_judge_scale() -> dict[str, str]:
+    return {
+        "1": "Major requirement failures",
+        "2": "Multiple significant errors",
+        "3": "Minimum acceptable quality",
+        "4": "Strong quality with minor gaps",
+        "5": "Excellent quality and completeness",
+    }
+
+
+def _build_judge_criteria(
+    *,
+    weights: dict[str, float],
+    criteria_by_name: dict[str, WorkflowCriterion],
+) -> list[JudgeCriterionDefinition]:
+    criteria: list[JudgeCriterionDefinition] = []
+    if criteria_by_name:
+        for criterion_name in weights:
+            criterion = criteria_by_name.get(criterion_name)
+            if criterion is None:
+                continue
+            criteria.append(
+                JudgeCriterionDefinition(
+                    name=criterion.name,
+                    definition=criterion.definition,
+                    scale=criterion.scale or _default_judge_scale(),
+                )
+            )
+        if criteria:
+            return criteria
+
+    for criterion_name in weights:
+        criteria.append(
+            JudgeCriterionDefinition(
+                name=criterion_name,
+                definition=f"Evaluate {criterion_name}",
+                scale=_default_judge_scale(),
+            )
+        )
+    return criteria
+
+
+def _advisory_similarity_score(
+    *,
+    expected_text: str,
+    generated_text: str,
+    objective_score_0_1: float,
+) -> float:
+    if expected_text:
+        overlap = _text_overlap_score(expected_text, generated_text)
+        return normalize_score(overlap / 100.0, "zero_one")
+    # When no reference text is available, avoid penalizing by falling back
+    # to objective execution signal.
+    return normalize_score(objective_score_0_1, "zero_one")
+
+
+def _advisory_efficiency_score(
+    *,
+    result: WorkflowResult,
+    normalized_scores: dict[str, float],
+) -> float:
+    if "efficiency" in normalized_scores:
+        return normalize_score(normalized_scores["efficiency"], "zero_one")
+
+    duration_seconds = (result.total_duration_ms or 0.0) / 1000.0
+    duration_norm = normalize_score(
+        duration_seconds,
+        "lower_is_better",
+        slo_good=2.0,
+        slo_bad=60.0,
+    )
+    retry_norm = normalize_score(
+        result.total_retries,
+        "lower_is_better",
+        slo_good=0.0,
+        slo_bad=8.0,
+    )
+    return (duration_norm * 0.7) + (retry_norm * 0.3)
+
+
+def _compose_hybrid_score(
+    *,
+    objective_score_0_1: float,
+    advisory_score_0_1: float,
+    judge_score_0_1: float | None,
+    component_weights: dict[str, float] | None = None,
+) -> tuple[float, dict[str, float]]:
+    default_weights = {
+        "objective": 0.60,
+        "judge": 0.25,
+        "advisory": 0.15,
+    }
+    weights = dict(default_weights)
+    if component_weights:
+        weights.update(component_weights)
+
+    active_components: dict[str, float] = {
+        "objective": objective_score_0_1,
+        "advisory": advisory_score_0_1,
+    }
+    if judge_score_0_1 is not None:
+        active_components["judge"] = judge_score_0_1
+
+    weight_sum = 0.0
+    weighted = 0.0
+    active_weights: dict[str, float] = {}
+    for name, value in active_components.items():
+        weight = max(float(weights.get(name, 0.0)), 0.0)
+        if weight <= 0:
+            continue
+        active_weights[name] = weight
+        weighted += value * weight
+        weight_sum += weight
+
+    if weight_sum <= 0:
+        return objective_score_0_1, {"objective": 1.0}
+    return weighted / weight_sum, active_weights
+
+
 def score_workflow_result(
     result: WorkflowResult,
     *,
@@ -797,6 +943,8 @@ def score_workflow_result(
     rubric: str | None = None,
     workflow_definition: WorkflowDefinition | None = None,
     enforce_hard_gates: bool = True,
+    judge: LLMJudge | None = None,
+    hybrid_component_weights: dict[str, float] | None = None,
 ) -> dict[str, Any]:
     """Produce criterion-level and aggregate scores for a workflow result."""
     rubric_id, rubric_version, weights, criteria_by_name = _resolve_rubric(
@@ -838,7 +986,53 @@ def score_workflow_result(
         weighted_sum += normalized_score * float(weight)
         raw_sum += raw_score
 
-    weighted_score = (weighted_sum / total_weight) * 100.0
+    objective_score_0_1 = weighted_sum / total_weight
+    objective_weighted_score = objective_score_0_1 * 100.0
+    generated_text = _output_text(result)
+    advisory_similarity_0_1 = _advisory_similarity_score(
+        expected_text=expected_text,
+        generated_text=generated_text,
+        objective_score_0_1=objective_score_0_1,
+    )
+    advisory_efficiency_0_1 = _advisory_efficiency_score(
+        result=result,
+        normalized_scores=normalized_scores,
+    )
+    advisory_score_0_1 = (advisory_similarity_0_1 * 0.67) + (advisory_efficiency_0_1 * 0.33)
+
+    judge_result: JudgeEvaluationResult | None = None
+    judge_score_0_1: float | None = None
+    if judge is not None:
+        try:
+            judge_criteria = _build_judge_criteria(
+                weights=weights,
+                criteria_by_name=criteria_by_name,
+            )
+            judge_result = judge.evaluate(
+                candidate_output=generated_text,
+                expected_output=expected_text,
+                criteria=judge_criteria,
+            )
+            judge_score_0_1 = judge_result.normalized_score
+
+            judge_by_name = {item.name: item for item in judge_result.criteria}
+            for criterion_payload in criteria:
+                judge_item = judge_by_name.get(str(criterion_payload["criterion"]))
+                if judge_item is None:
+                    continue
+                criterion_payload["judge_raw_score"] = round(judge_item.raw_score, 4)
+                criterion_payload["judge_normalized_score"] = round(judge_item.normalized_score, 4)
+                criterion_payload["judge_evidence"] = judge_item.evidence
+        except Exception as exc:
+            logger.warning("Judge evaluation skipped due to error: %s", exc)
+
+    hybrid_score_0_1, active_hybrid_weights = _compose_hybrid_score(
+        objective_score_0_1=objective_score_0_1,
+        advisory_score_0_1=advisory_score_0_1,
+        judge_score_0_1=judge_score_0_1,
+        component_weights=hybrid_component_weights,
+    )
+    weighted_score = hybrid_score_0_1 * 100.0
     overall_score = raw_sum / len(criteria) if criteria else 0.0
     threshold = pass_threshold()
     grade = _grade(weighted_score)
@@ -886,11 +1080,21 @@ def score_workflow_result(
         "criteria": criteria,
         "overall_score": round(overall_score, 2),
         "weighted_score": round(weighted_score, 2),
+        "objective_weighted_score": round(objective_weighted_score, 2),
         "grade": grade,
         "passed": False,
         "pass_threshold": threshold,
         "step_scores": step_scores,
         "dataset": dataset_meta,
+        "score_layers": {
+            "layer1_objective": round(objective_score_0_1 * 100.0, 2),
+            "layer2_judge": None if judge_score_0_1 is None else round(judge_score_0_1 * 100.0, 2),
+            "layer3_similarity": round(advisory_similarity_0_1 * 100.0, 2),
+            "layer3_efficiency": round(advisory_efficiency_0_1 * 100.0, 2),
+            "layer3_advisory": round(advisory_score_0_1 * 100.0, 2),
+        },
+        "hybrid_weights": active_hybrid_weights,
+        "judge": judge_result.to_payload() if judge_result is not None else None,
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
 
