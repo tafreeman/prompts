@@ -97,19 +97,11 @@ Production AI requires governance, risk management, and compliance controls:
 📦 **[Explore Agentic V2 →](agentic-workflows-v2/)**
 💻 **CLI**: `python -m agentic_v2.cli.main`
 
-### Multi-Agent Workflow System
+### Runtime Surface Map
 
-A complete multi-agent development system for orchestrated AI workflows:
+For active vs legacy runtime surfaces, use the authoritative map:
 
-- **LangChain Integration**: Build complex chains, agents, and RAG pipelines
-- **MCP Server Support**: Filesystem, GitHub, and custom MCP servers
-- **Workflow Engine**: Define multi-step agent workflows with YAML/JSON configs
-- **Dashboard UI**: Interactive web UI for running and monitoring workflows
-- **Benchmark Framework**: Evaluate against HumanEval, MBPP, and SWE-bench
-- **Rubric Scoring**: Comprehensive evaluation rubrics for output quality
-
-📦 **[Explore Multi-Agent Workflows →](multiagent-workflows/)**  
-📊 **[Dashboard Server →](multiagent-workflows/examples/dashboard_server.py)**
+- 📍 **[Active vs Legacy Tooling Map →](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md)**
 
 ## 🤖 GitHub Copilot Custom Agents
 
@@ -165,16 +157,9 @@ prompts/
 │   ├── reference/          # Quick lookup & Glossary
 │   ├── research/           # Research documentation
 │   └── tutorials/          # Step-by-step learning
-├── multiagent-workflows/   # 🤖 Multi-Agent System (NEW)
-│   ├── config/             # Agent, model, workflow configs
-│   ├── examples/           # Dashboard server & examples
-│   ├── src/                # Core source code
-│   │   └── multiagent_workflows/
-│   │       ├── core/       # Model manager, workflow engine
-│   │       ├── langchain/  # LangChain integration
-│   │       ├── mcp/        # MCP server support
-│   │       └── server/     # Dataset loaders
-│   ├── tests/              # Test suite
+├── agentic-workflows-v2/   # 🤖 Active workflow runtime
+│   ├── src/agentic_v2/     # Core runtime, server, integrations
+│   ├── tests/              # Runtime test suite
 │   └── ui/                 # Dashboard web UI
 ├── prompts/                # 📚 Prompt Library (196+ prompts)
 │   ├── advanced/           # CoT, ReAct, ToT, RAG patterns
@@ -218,11 +203,9 @@ graph TB
         A --> A5[techniques/]
     end
 
-    subgraph "🤖 Multi-Agent System"
-        B[multiagent-workflows/] --> B1[config/]
-        B --> B2[src/]
-        B2 --> B2a[langchain/]
-        B2 --> B2b[mcp/]
+    subgraph "🤖 Agentic Runtime"
+        B[agentic-workflows-v2/] --> B1[src/agentic_v2/]
+        B --> B2[tests/]
         B --> B3[ui/]
     end
 

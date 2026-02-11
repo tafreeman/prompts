@@ -12,6 +12,7 @@ import pytest
 from agentic_v2.contracts import StepResult, StepStatus
 from agentic_v2.engine.context import ExecutionContext
 from agentic_v2.engine.expressions import ExpressionEvaluator, StepResultView
+from agentic_v2.engine.step import StepDefinition, StepExecutor
 
 
 class TestExpressionEvaluatorBasic:
@@ -270,6 +271,86 @@ class TestExpressionEvaluatorStepResults:
 
         assert evaluator.evaluate("${steps.good.status == 'success'}") is True
         assert evaluator.evaluate("${steps.bad.status == 'success'}") is False
+
+
+class TestExpressionEvaluatorPhase0:
+    """Phase-0 regression tests for step-path resolution."""
+
+    def test_resolve_deep_nested_step_output(self):
+        ctx = ExecutionContext()
+        ctx.set_sync(
+            "steps",
+            {
+                "parse_code": {
+                    "outputs": {
+                        "ast": {
+                            "functions": [
+                                {"name": "a"},
+                                {"name": "b"},
+                            ]
+                        }
+                    }
+                }
+            },
+        )
+        evaluator = ExpressionEvaluator(ctx)
+        result = evaluator.resolve_variable("steps.parse_code.outputs.ast.functions[0].name")
+        assert result == "a"
+
+    def test_resolve_missing_intermediate_returns_none(self):
+        ctx = ExecutionContext()
+        evaluator = ExpressionEvaluator(ctx)
+        assert evaluator.resolve_variable("steps.nonexistent.outputs.foo") is None
+
+    def test_resolve_step_data_from_context_merge(self):
+        ctx = ExecutionContext()
+        ctx.set_sync(
+            "steps",
+            {
+                "parse_code": {
+                    "outputs": {
+                        "ast": {
+                            "functions": ["from_ctx"]
+                        }
+                    }
+                }
+            },
+        )
+        step_result = StepResult(
+            step_name="parse_code",
+            status=StepStatus.SUCCESS,
+            output_data={"ast": {"module": True}},
+        )
+        evaluator = ExpressionEvaluator(ctx, step_results={"parse_code": step_result})
+        result = evaluator.resolve_variable("steps.parse_code.outputs.ast.functions[0]")
+        assert result == "from_ctx"
+
+    @pytest.mark.asyncio
+    async def test_resolve_input_mapping_e2e(self):
+        ctx = ExecutionContext()
+        ctx.set_sync(
+            "steps",
+            {
+                "parse_code": {
+                    "outputs": {
+                        "ast": {"functions": ["selected_fn"]},
+                    }
+                }
+            },
+        )
+
+        async def consumer(child_ctx):
+            return {"selected": await child_ctx.get("selected")}
+
+        step = StepDefinition(
+            name="consumer",
+            func=consumer,
+            input_mapping={"selected": "${steps.parse_code.outputs.ast.functions[0]}"},
+        )
+        executor = StepExecutor()
+        result = await executor.execute(step, ctx)
+        assert result.status == StepStatus.SUCCESS
+        assert result.output_data["selected"] == "selected_fn"
 
 
 class TestExpressionEvaluatorSafety:

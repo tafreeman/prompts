@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-lg border border-white/5 bg-surface-1 p-4;
+  }
+
+  .card-hover {
+    @apply card transition-colors hover:border-white/10 hover:bg-surface-2;
+  }
+
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue/50;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent-blue text-white hover:bg-accent-blue/80;
+  }
+
+  .btn-ghost {
+    @apply btn text-gray-400 hover:bg-white/5 hover:text-gray-200;
+  }
+}
+
+/* React Flow overrides */
+.react-flow__background {
+  background-color: #0a0a0f !important;
+}
+
+.react-flow__minimap {
+  background-color: #12121a !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+}
+
+.react-flow__controls {
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background-color: #1a1a25 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  fill: #9ca3af !important;
+}
+
+.react-flow__controls-button:hover {
+  background-color: #222230 !important;
+}
+
+/* Animated edge for running steps */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.animated-edge {
+  animation: dash-flow 0.5s linear infinite;
+}

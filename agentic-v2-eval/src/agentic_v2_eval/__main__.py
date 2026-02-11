@@ -4,7 +4,7 @@ Supports running evaluations from the command line.
 
 Usage:
     python -m agentic_v2_eval --help
-    python -m agentic_v2_eval evaluate results.json --rubric rubrics/default.yaml
+    python -m agentic_v2_eval evaluate results.json [--rubric rubrics/default.yaml]
     python -m agentic_v2_eval report results.json --format html --output report.html
 """
 
@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from . import __version__
+from .rubrics import load_rubric
 from .scorer import Scorer
 
 
@@ -47,8 +48,8 @@ def main(argv: list[str] | None = None) -> int:
     eval_parser.add_argument(
         "--rubric",
         type=Path,
-        required=True,
-        help="Path to rubric YAML file",
+        required=False,
+        help="Path to rubric YAML file (defaults to packaged 'default' rubric)",
     )
     eval_parser.add_argument(
         "--output",
@@ -112,7 +113,8 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
             results_list = [data]
 
         # Load scorer
-        scorer = Scorer(args.rubric)
+        rubric_source = str(args.rubric) if args.rubric else "<builtin:default>"
+        scorer = Scorer(args.rubric if args.rubric else load_rubric("default"))
 
         # Score each result
         scored_results: list[dict[str, Any]] = []
@@ -141,7 +143,7 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
         # Output if requested
         if args.output:
             output_data = {
-                "rubric": str(args.rubric),
+                "rubric": rubric_source,
                 "results": scored_results,
             }
             with args.output.open("w", encoding="utf-8") as f:

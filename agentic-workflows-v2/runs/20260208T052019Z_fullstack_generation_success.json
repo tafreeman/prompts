@@ -1,0 +1,399 @@
+{
+  "run_id": "fullstack_generation-7e89b516",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 5.393,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-08T05:20:19.300340+00:00",
+  "end_time": "2026-02-08T05:20:19.305733+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "sample_index": 10,
+    "task_id": "10"
+  },
+  "inputs": {
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    },
+    "feature_spec": ""
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 0.703,
+      "retry_count": 0,
+      "tokens_used": 2183,
+      "input": {},
+      "output": {
+        "raw_response": "{\n  \"api_spec\": {\n    \"auth\": [\n      {\n        \"endpoint\": \"/auth/register\",\n        \"method\": \"POST\",\n        \"description\": \"Register a new user.\",\n        \"request_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"username\": {\n              \"type\": \"string\",\n              \"minLength\": 3,\n              \"maxLength\": 50\n            },\n            \"email\": {\n              \"type\": \"string\",\n              \"format\": \"email\"\n            },\n            \"password\": {\n              \"type\": \"string\",\n              \"minLength\": 8\n            }\n          },\n          \"required\": [\n            \"username\",\n            \"email\",\n            \"password\"\n          ]\n        },\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"message\": {\n              \"type\": \"string\"\n            },\n            \"user_id\": {\n              \"type\": \"integer\"\n            }\n          }\n        },\n        \"authentication_required\": false\n      },\n      {\n        \"endpoint\": \"/auth/login\",\n        \"method\": \"POST\",\n        \"description\": \"Authenticate a user and get an access token.\",\n        \"request_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"username\": {\n              \"type\": \"string\"\n            },\n            \"password\": {\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"username\",\n            \"password\"\n          ]\n        },\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"access_token\": {\n              \"type\": \"string\"\n            },\n            \"token_type\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"bearer\"\n              ]\n            }\n          }\n        },\n        \"authentication_required\": false\n      },\n      {\n        \"endpoint\": \"/auth/me\",\n        \"method\": \"GET\",\n        \"description\": \"Retrieve information about the current authenticated user.\",\n        \"request_body\": null,\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"user_id\": {\n              \"type\": \"integer\"\n            },\n            \"username\": {\n              \"type\": \"string\"\n            },\n            \"email\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        \"authentication_required\": true\n      }\n    ],\n    \"items\": [\n      {\n        \"endpoint\": \"/items\",\n        \"method\": \"POST\",\n        \"description\": \"Create a new item.\",\n        \"request_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\",\n              \"minLength\": 1,\n              \"maxLength\": 100\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"nullable\": true\n            }\n          },\n          \"required\": [\n            \"name\"\n          ]\n        },\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"item_id\": {\n              \"type\": \"integer\"\n            },\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"nullable\": true\n            },\n            \"owner_id\": {\n              \"type\": \"integer\"\n            }\n          }\n        },\n        \"authentication_required\": true\n      },\n      {\n        \"endpoint\": \"/items\",\n        \"method\": \"GET\",\n        \"description\": \"Retrieve a list of all items.\",\n        \"request_body\": null,\n        \"response_body\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"item_id\": {\n                \"type\": \"integer\"\n              },\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"description\": {\n                \"type\": \"string\",\n                \"nullable\": true\n              },\n              \"owner_id\": {\n                \"type\": \"integer\"\n              }\n            }\n          }\n        },\n        \"authentication_required\": true\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"GET\",\n        \"description\": \"Retrieve a specific item by ID.\",\n        \"path_parameters\": {\n          \"item_id\": {\n            \"type\": \"integer\",\n            \"description\": \"The ID of the item to retrieve.\"\n          }\n        },\n        \"request_body\": null,\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"item_id\": {\n              \"type\": \"integer\"\n            },\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"nullable\": true\n            },\n            \"owner_id\": {\n              \"type\": \"integer\"\n            }\n          }\n        },\n        \"authentication_required\": true\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"PUT\",\n        \"description\": \"Update an existing item by ID. Only the owner can update.\",\n        \"path_parameters\": {\n          \"item_id\": {\n            \"type\": \"integer\",\n            \"description\": \"The ID of the item to update.\"\n          }\n        },\n        \"request_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"name\": {\n              \"type\": \"string\",\n              \"minLength\": 1,\n              \"maxLength\": 100,\n              \"nullable\": true\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"nullable\": true\n            }\n          }\n        },\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"item_id\": {\n              \"type\": \"integer\"\n            },\n            \"name\": {\n              \"type\": \"string\"\n            },\n            \"description\": {\n              \"type\": \"string\",\n              \"nullable\": true\n            },\n            \"owner_id\": {\n              \"type\": \"integer\"\n            }\n          }\n        },\n        \"authentication_required\": true\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"DELETE\",\n        \"description\": \"Delete an item by ID. Only the owner can delete.\",\n        \"path_parameters\": {\n          \"item_id\": {\n            \"type\": \"integer\",\n            \"description\": \"The ID of the item to delete.\"\n          }\n        },\n        \"request_body\": null,\n        \"response_body\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"message\": {\n              \"type\": \"string\"\n            }\n          }\n        },\n        \"authentication_required\": true\n      }\n    ]\n  },\n  \"db_schema\": {\n    \"users\": {\n      \"table_name\": \"users\",\n      \"columns\": [\n        {\n          \"name\": \"id\",\n          \"type\": \"SERIAL\",\n          \"constraints\": [\n            \"PRIMARY KEY\"\n          ]\n        },\n        {\n          \"name\": \"username\",\n          \"type\": \"VARCHAR(50)\",\n          \"constraints\": [\n            \"UNIQUE\",\n            \"NOT NULL\"\n          ]\n        },\n        {\n          \"name\": \"email\",\n          \"type\": \"VARCHAR(100)\",\n          \"constraints\": [\n            \"UNIQUE\",\n            \"NOT NULL\"\n          ]\n        },\n        {\n          \"name\": \"hashed_password\",\n          \"type\": \"VARCHAR(255)\",\n          \"constraints\": [\n            \"NOT NULL\"\n          ]\n        },\n        {\n          \"name\": \"created_at\",\n          \"type\": \"TIMESTAMP WITH TIME ZONE\",\n          \"constraints\": [\n            \"DEFAULT CURRENT_TIMESTAMP\"\n          ]\n        }\n      ]\n    },\n    \"items\": {\n      \"table_name\": \"items\",\n      \"columns\": [\n        {\n          \"name\": \"id\",\n          \"type\": \"SERIAL\",\n          \"constraints\": [\n            \"PRIMARY KEY\"\n          ]\n        },\n        {\n          \"name\": \"name\",\n          \"type\": \"VARCHAR(100)\",\n          \"constraints\": [\n            \"NOT NULL\"\n          ]\n        },\n        {\n          \"name\": \"description\",\n          \"type\": \"TEXT\",\n          \"constraints\": [\n            "
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.300676+00:00",
+      "end_time": "2026-02-08T05:20:19.301379+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 0.9380000000000001,
+      "retry_count": 0,
+      "tokens_used": 5851,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"api_code\": {\n    \"auth\": [\n      {\n        \"endpoint\": \"/auth/register\",\n        \"method\": \"POST\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\nfrom pydantic import BaseModel\\nfrom typing import Annotated\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\n\\nrouter = APIRouter(prefix=\\\"/auth\\\", tags=[\\\"auth\\\"])\\n\\nclass RegisterRequest(BaseModel):\\n    username: str\\n    email: str\\n    password: str\\n\\n@router.post(\\\"/register\\\")\\nasync def register_user(request: RegisterRequest, db: Session = Depends(get_db)):\\n    db_user = crud.get_user_by_username(db, username=request.username)\\n    if db_user:\\n        raise HTTPException(status_code=400, detail=\\\"Username already registered\\\")\\n    db_user = crud.get_user_by_email(db, email=request.email)\\n    if db_user:\\n        raise HTTPException(status_code=400, detail=\\\"Email already registered\\\")\\n    user = crud.create_user(db=db, user=schemas.UserCreate(username=request.username, email=request.email, password=request.password))\\n    return {\\\"message\\\": \\\"User registered successfully\\\", \\\"user_id\\\": user.id}\"\n      },\n      {\n        \"endpoint\": \"/auth/login\",\n        \"method\": \"POST\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom fastapi.security import OAuth2PasswordRequestForm\\nfrom sqlalchemy.orm import Session\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import create_access_token, authenticate_user\\n\\nrouter = APIRouter(prefix=\\\"/auth\\\", tags=[\\\"auth\\\"])\\n\\n@router.post(\\\"/login\\\")\\nasync def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):\\n    user = authenticate_user(db, form_data.username, form_data.password)\\n    if not user:\\n        raise HTTPException(status_code=400, detail=\\\"Incorrect username or password\\\")\\n    access_token = create_access_token(data={\\\"sub\\\": user.username})\\n    return {\\\"access_token\\\": access_token, \\\"token_type\\\": \\\"bearer\\\"}\"\n      },\n      {\n        \"endpoint\": \"/auth/me\",\n        \"method\": \"GET\",\n        \"code\": \"from fastapi import APIRouter, Depends\\nfrom sqlalchemy.orm import Session\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/auth\\\", tags=[\\\"auth\\\"])\\n\\n@router.get(\\\"/me\\\", response_model=schemas.User)\\nasync def read_users_me(current_user: schemas.User = Depends(get_current_user)):\\n    return current_user\"\n      }\n    ],\n    \"items\": [\n      {\n        \"endpoint\": \"/items\",\n        \"method\": \"POST\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\nfrom pydantic import BaseModel\\nfrom typing import Annotated\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/items\\\", tags=[\\\"items\\\"])\\n\\nclass ItemCreateRequest(BaseModel):\\n    name: str\\n    description: str | None = None\\n\\n@router.post(\\\"/\\\", response_model=schemas.Item)\\nasync def create_item(request: ItemCreateRequest, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):\\n    return crud.create_item(db=db, item=schemas.ItemCreate(name=request.name, description=request.description), user_id=current_user.id)\"\n      },\n      {\n        \"endpoint\": \"/items\",\n        \"method\": \"GET\",\n        \"code\": \"from fastapi import APIRouter, Depends\\nfrom sqlalchemy.orm import Session\\nfrom typing import List\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/items\\\", tags=[\\\"items\\\"])\\n\\n@router.get(\\\"/\\\", response_model=List[schemas.Item])\\nasync def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):\\n    items = crud.get_items(db, skip=skip, limit=limit, user_id=current_user.id)\\n    return items\"\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"GET\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/items\\\", tags=[\\\"items\\\"])\\n\\n@router.get(\\\"/{item_id}\\\", response_model=schemas.Item)\\nasync def read_item(item_id: int, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):\\n    db_item = crud.get_item(db, item_id=item_id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail=\\\"Item not found\\\")\\n    if db_item.owner_id != current_user.id:\\n        raise HTTPException(status_code=403, detail=\\\"Not authorized\\\")\\n    return db_item\"\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"PUT\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\nfrom pydantic import BaseModel\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/items\\\", tags=[\\\"items\\\"])\\n\\nclass ItemUpdateRequest(BaseModel):\\n    name: str | None = None\\n    description: str | None = None\\n\\n@router.put(\\\"/{item_id}\\\", response_model=schemas.Item)\\nasync def update_item(item_id: int, request: ItemUpdateRequest, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):\\n    db_item = crud.get_item(db, item_id=item_id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail=\\\"Item not found\\\")\\n    if db_item.owner_id != current_user.id:\\n        raise HTTPException(status_code=403, detail=\\\"Not authorized\\\")\\n    return crud.update_item(db=db, item_id=item_id, item=schemas.ItemUpdate(name=request.name, description=request.description))\"\n      },\n      {\n        \"endpoint\": \"/items/{item_id}\",\n        \"method\": \"DELETE\",\n        \"code\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\n\\nfrom . import crud, models, schemas\\nfrom .database import get_db\\nfrom .auth import get_current_user\\n\\nrouter = APIRouter(prefix=\\\"/items\\\", tags=[\\\"items\\\"])\\n\\n@router.delete(\\\"/{item_id}\\\")\\nasync def delete_item(item_id: int, db: Session = Depends(get_db), current_user: schemas.User = Depends(get_current_user)):\\n    db_item = crud.get_item(db, item_id=item_id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail=\\\"Item not found\\\")\\n    if db_item.owner_id != current_user.id:\\n        raise HTTPException(status_code=403, detail=\\\"Not authorized\\\")\\n    crud.delete_item(db=db, item_id=item_id)\\n    return {\\\"message\\\": \\\"Item deleted successfully\\\"}\"\n      }\n    ]\n  },\n  \"api_tests\": {\n    \"auth\": [\n      {\n        \"endpoint\": \"/auth/register\",\n        \"method\": \"POST\",\n        \"test_code\": \"import pytest\\nfrom httpx import AsyncClient\\nfrom fastapi import FastAPI\\nfrom sqlalchemy import create_engine\\nfrom sqlalchemy.orm import sessionmaker\\nfrom typing import Generator\\n\\nfrom app.database import Base, get_db\\nfrom app.main import app\\nfrom app import models\\n\\nSQLALCHEMY_DATABASE_URL = \\\"sqlite:///./test.db\\\"\\n\\nengine = create_engine(\\n    SQLALCHEMY_DATABASE_URL, connect_args={\\\"check_same_thread\\\": False}\\n)\\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\\n\\n\\n@pytest.fixture(scope=\\\"function\\\")\\ndef db() -> Generator:\\n    Base.metadata.create_all(bind=engine)\\n    db = TestingSessionLocal()\\n    try:\\n        yield db\\n    finally:\\n        db.close()\\n        Base.metadata.drop_all(bind=engine)\\n\\n\\n@pytest.fixture(scope=\\\"function\\\")\\nasync def client(db) -> Generator:\\n\\n    def override_get_db():\\n        try:\\n            yield db\\n        finally:\\n            db.close()\\n\\n    app.dependency_overrides[get_db] = override_get_db\\n\\n    async with AsyncClient(app=app, base_url=\\\"http://test\\\") as client:\\n        yield client\\n\\n    del app.dependency_overrides[get_db]\\n\\n\\nasync def test_register_user(client: AsyncClient, db):\\n    response = await client.post(\\\"/auth/register\\\", json={\\\"username\\\": \\\"testuser\\\", \\\"email\\\": \\\"test@example.com\\\", \\\"password\\\": \\\"testpassword\\\"})\\n    assert response.status_code == 200\\n    assert response.json()[\\\"message\\\"] == \\\"User registered successfully\\\"\\n    assert response.json()[\\\"user_id\\\"] == 1\\n\\n\"\n      },\n      {\n        \"endpoint\": \"/auth/login\",\n        \"method\": \"POST\",\n        \"test_code\": \"import pytest\\nfrom httpx import AsyncClient\\nfrom fastapi import FastAPI\\nfrom sqlalchemy import create_engine\\nfrom sqlalchemy.orm import sessionmaker\\nfrom typing import Generator\\n\\nfrom app.database import Base, get_db\\nfrom app.main import app\\nfrom app import models\\n\\nSQLALCHEMY_DATABASE_URL = \\\"sqlite:///./test.db\\\"\\n\\nengine = create_engine(\\n    SQLALCHEMY_DATABASE_URL, connect_args={\\\"check_same_thread\\\": False}\\n)\\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\\n\\n\\n@pytest.fixture(scope=\\\"function\\\")\\ndef db() -> Generator:\\n    Base.metadata.create_all(bind=engine)\\n    db = TestingSessionLocal()\\n    try:\\n        yield db\\n    finally:\\n        db.close()\\n        Base.metadata.drop_all(bind=engine)\\n\\n\\n@pytest.fixture(scope=\\\"function\\\")\\nasync def client(db) -> Generator:\\n\\n    def override_get_db():\\n        try:\\n            yield db\\n        finally:\\n            db.close()\\n\\n    app.dependency_overrides[get_db] = override_get_db\\n\\n    async with AsyncClient(app=app, base_url=\\\"http://test\\\") as client:\\n        yield client\\n\\n    del app.dependency_overrides[get_db]\\n\\nasync def test_login(client: AsyncClient, db):\\n    # First, register a user\\n    await client.post(\\\"/auth/register\\\", json={\\\"username\\\": \\\"testuser\\\", \\\"email\\\": \\\"test@example.com\\\", \\\"password\\\": \\\"testpassword\\\"})\\n\\n    # Then, log... (13599 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.301523+00:00",
+      "end_time": "2026-02-08T05:20:19.302461+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 0.888,
+      "retry_count": 0,
+      "tokens_used": 6160,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"ui_code\": {\n    \"src/App.js\": \"import React, { useState, useEffect } from 'react';\\nimport { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';\\nimport Login from './components/Login';\\nimport Register from './components/Register';\\nimport ItemsList from './components/ItemsList';\\nimport ItemDetail from './components/ItemDetail';\\nimport CreateItem from './components/CreateItem';\\nimport EditItem from './components/EditItem';\\nimport Profile from './components/Profile';\\nimport AuthService from './services/AuthService';\\nimport ItemService from './services/ItemService';\\nimport './App.css';\\n\\nfunction App() {\\n  const [isLoggedIn, setIsLoggedIn] = useState(AuthService.isLoggedIn());\\n\\n  useEffect(() => {\\n    setIsLoggedIn(AuthService.isLoggedIn());\\n  }, []);\\n\\n  const handleLogin = () => {\\n    setIsLoggedIn(true);\\n  };\\n\\n  const handleLogout = () => {\\n    AuthService.logout();\\n    setIsLoggedIn(false);\\n  };\\n\\n  return (\\n    <Router>\\n      <div>\\n        <nav>\\n          <ul>\\n            <li><a href=\\\"/\\\">Home</a></li>\\n            {\\n              isLoggedIn ? (\\n                <>\\n                  <li><a href=\\\"/items\\\">Items</a></li>\\n                  <li><a href=\\\"/create-item\\\">Create Item</a></li>\\n                  <li><a href=\\\"/profile\\\">Profile</a></li>\\n                  <li><button onClick={handleLogout}>Logout</button></li>\\n                </>\\n              ) : (\\n                <>\\n                  <li><a href=\\\"/login\\\">Login</a></li>\\n                  <li><a href=\\\"/register\\\">Register</a></li>\\n                </>\\n              )\\n            }\\n          </ul>\\n        </nav>\\n\\n        <Routes>\\n          <Route path=\\\"/\\\" element={<h1>Welcome!</h1>} />\\n          <Route path=\\\"/register\\\" element={<Register />} />\\n          <Route path=\\\"/login\\\" element={<Login onLogin={handleLogin} />} />\\n          <Route\\n            path=\\\"/items\\\"\\n            element={\\n              isLoggedIn ? (\\n                <ItemsList />\\n              ) : (\\n                <Navigate to=\\\"/login\\\" replace />\\n              )\\n            }\\n          />\\n          <Route\\n            path=\\\"/items/:itemId\\\"\\n            element={\\n              isLoggedIn ? (\\n                <ItemDetail />\\n              ) : (\\n                <Navigate to=\\\"/login\\\" replace />\\n              )\\n            }\\n          />\\n          <Route\\n            path=\\\"/create-item\\\"\\n            element={\\n              isLoggedIn ? (\\n                <CreateItem />\\n              ) : (\\n                <Navigate to=\\\"/login\\\" replace />\\n              )\\n            }\\n          />\\n          <Route\\n            path=\\\"/items/:itemId/edit\\\"\\n            element={\\n              isLoggedIn ? (\\n                <EditItem />\\n              ) : (\\n                <Navigate to=\\\"/login\\\" replace />\\n              )\\n            }\\n          />\\n          <Route\\n            path=\\\"/profile\\\"\\n            element={\\n              isLoggedIn ? (\\n                <Profile />\\n              ) : (\\n                <Navigate to=\\\"/login\\\" replace />\\n              )\\n            }\\n          />\\n        </Routes>\\n      </div>\\n    </Router>\\n  );\\n}\\n\\nexport default App;\",\n    \"src/components/Login.js\": \"import React, { useState } from 'react';\\nimport AuthService from '../services/AuthService';\\n\\nfunction Login({ onLogin }) {\\n  const [username, setUsername] = useState('');\\n  const [password, setPassword] = useState('');\\n  const [error, setError] = useState('');\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    try {\\n      const response = await AuthService.login(username, password);\\n      if (response && response.access_token) {\\n        localStorage.setItem('token', response.access_token);\\n        onLogin();\\n      } else {\\n        setError('Invalid credentials');\\n      }\\n    } catch (err) {\\n      setError('Invalid credentials');\\n    }\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Login</h2>\\n      {error && <p style={{ color: 'red' }}>{error}</p>}\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label>Username:</label>\\n          <input\\n            type=\\\"text\\\"\\n            value={username}\\n            onChange={(e) => setUsername(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label>Password:</label>\\n          <input\\n            type=\\\"password\\\"\\n            value={password}\\n            onChange={(e) => setPassword(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <button type=\\\"submit\\\">Login</button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default Login;\",\n    \"src/components/Register.js\": \"import React, { useState } from 'react';\\nimport AuthService from '../services/AuthService';\\n\\nfunction Register() {\\n  const [username, setUsername] = useState('');\\n  const [email, setEmail] = useState('');\\n  const [password, setPassword] = useState('');\\n  const [message, setMessage] = useState('');\\n  const [error, setError] = useState('');\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    try {\\n      const response = await AuthService.register(username, email, password);\\n      setMessage(response.message);\\n      setError('');\\n    } catch (err) {\\n      setError('Registration failed. Please try again.');\\n      setMessage('');\\n    }\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Register</h2>\\n      {message && <p style={{ color: 'green' }}>{message}</p>}\\n      {error && <p style={{ color: 'red' }}>{error}</p>}\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label>Username:</label>\\n          <input\\n            type=\\\"text\\\"\\n            value={username}\\n            onChange={(e) => setUsername(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label>Email:</label>\\n          <input\\n            type=\\\"email\\\"\\n            value={email}\\n            onChange={(e) => setEmail(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label>Password:</label>\\n          <input\\n            type=\\\"password\\\"\\n            value={password}\\n            onChange={(e) => setPassword(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <button type=\\\"submit\\\">Register</button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default Register;\",\n    \"src/components/ItemsList.js\": \"import React, { useState, useEffect } from 'react';\\nimport ItemService from '../services/ItemService';\\nimport { Link } from 'react-router-dom';\\n\\nfunction ItemsList() {\\n  const [items, setItems] = useState([]);\\n  const [error, setError] = useState('');\\n\\n  useEffect(() => {\\n    const fetchItems = async () => {\\n      try {\\n        const data = await ItemService.getItems();\\n        setItems(data);\\n      } catch (err) {\\n        setError('Failed to fetch items.');\\n      }\\n    };\\n\\n    fetchItems();\\n  }, []);\\n\\n  return (\\n    <div>\\n      <h2>Items</h2>\\n      {error && <p style={{ color: 'red' }}>{error}</p>}\\n      <ul>\\n        {items.map((item) => (\\n          <li key={item.item_id}>\\n            <Link to={`/items/${item.item_id}`}>{item.name}</Link>\\n          </li>\\n        ))}\\n      </ul>\\n    </div>\\n  );\\n}\\n\\nexport default ItemsList;\",\n    \"src/components/ItemDetail.js\": \"import React, { useState, useEffect } from 'react';\\nimport { useParams, Link } from 'react-router-dom';\\nimport ItemService from '../services/ItemService';\\n\\nfunction ItemDetail() {\\n  const { itemId } = useParams();\\n  const [item, setItem] = useState(null);\\n  const [error, setError] = useState('');\\n\\n  useEffect(() => {\\n    const fetchItem = async () => {\\n      try {\\n        const data = await ItemService.getItem(itemId);\\n        setItem(data);\\n      } catch (err) {\\n        setError('Failed to fetch item.');\\n      }\\n    };\\n\\n    fetchItem();\\n  }, [itemId]);\\n\\n  if (error) {\\n    return <p style={{ color: 'red' }}>{error}</p>;\\n  }\\n\\n  if (!item) {\\n    return <p>Loading...</p>;\\n  }\\n\\n  return (\\n    <div>\\n      <h2>Item Detail</h2>\\n      <h3>{item.name}</h3>\\n      <p>{item.description}</p>\\n      <Link to={`/items/${itemId}/edit`}>Edit</Link>\\n    </div>\\n  );\\n}\\n\\nexport default ItemDetail;\",\n    \"src/components/CreateItem.js\": \"import React, { useState } from 'react';\\nimport ItemService from '../services/ItemService';\\nimport { useNavigate } from 'react-router-dom';\\n\\nfunction CreateItem() {\\n  const [name, setName] = useState('');\\n  const [description, setDescription] = useState('');\\n  const [error, setError] = useState('');\\n  const navigate = useNavigate();\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    try {\\n      await ItemService.createItem(name, description);\\n      navigate('/items');\\n    } catch (err) {\\n      setError('Failed to create item.');\\n    }\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Create Item</h2>\\n      {error && <p style={{ color: 'red' }}>{error}</p>}\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label>Name:</label>\\n          <input\\n            type=\\\"text\\\"\\n            value={name}\\n            onChange={(e) => setName(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label>Description:</label>\\n          <textarea\\n            value={description}\\n            onChange={(e) => setDescription(e.target.value)}\\n          />\\n        </div>\\n        <button type=\\\"submit\\\">Create</button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default CreateItem;\",\n    \"src/components/EditItem.js\": \"import React, { useState, useEffect } from 'react';\\nimport { useParams, useNavigate } from 'react-router-dom';\\nimport ItemService from '../services/ItemService';\\n\\nfunction EditItem() {\\n  const { itemId } = useParams();\\n  const [name, setName] = useState('');\\n  const [description, setDescription] = useState('');... (14840 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.301624+00:00",
+      "end_time": "2026-02-08T05:20:19.302512+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 0.878,
+      "retry_count": 0,
+      "tokens_used": 2624,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "file_name": "0001_create_users_table.sql",
+            "content": "-- CreateTable\nCREATE TABLE users (\n    id SERIAL PRIMARY KEY,\n    username VARCHAR(50) UNIQUE NOT NULL,\n    email VARCHAR(100) UNIQUE NOT NULL,\n    hashed_password VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP\n);\n"
+          },
+          {
+            "file_name": "0002_create_items_table.sql",
+            "content": "-- CreateTable\nCREATE TABLE items (\n    id SERIAL PRIMARY KEY,\n    name VARCHAR(100) NOT NULL,\n    description TEXT,\n    owner_id INTEGER,\n    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,\n    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE\n);\n"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.301685+00:00",
+      "end_time": "2026-02-08T05:20:19.302563+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 0.9790000000000001,
+      "retry_count": 0,
+      "tokens_used": 12018,
+      "input": {},
+      "output": {
+        "integration_tests": [
+          {
+            "test_name": "Full user registration and login flow",
+            "description": "Registers a new user, logs them in, and verifies the access token.",
+            "steps": [
+              {
+                "step_number": 1,
+                "description": "Register a new user via the /auth/register endpoint.",
+                "endpoint": "/auth/register",
+                "method": "POST",
+                "request_body": {
+                  "username": "integration_test_user",
+                  "email": "integration_test@example.com",
+                  "password": "secure_password"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'message': 'User registered successfully'",
+                  "Response body contains 'user_id' which is an integer"
+                ]
+              },
+              {
+                "step_number": 2,
+                "description": "Login with the registered user via the /auth/login endpoint.",
+                "endpoint": "/auth/login",
+                "method": "POST",
+                "request_body": {
+                  "username": "integration_test_user",
+                  "password": "secure_password"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'access_token'",
+                  "Response body contains 'token_type': 'bearer'"
+                ],
+                "store_response_value": {
+                  "key": "access_token",
+                  "path": "access_token"
+                }
+              },
+              {
+                "step_number": 3,
+                "description": "Verify the access token by retrieving user information via the /auth/me endpoint.",
+                "endpoint": "/auth/me",
+                "method": "GET",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'username': 'integration_test_user'",
+                  "Response body contains 'email': 'integration_test@example.com'"
+                ]
+              }
+            ]
+          },
+          {
+            "test_name": "Item creation and retrieval flow",
+            "description": "Creates an item, retrieves it, updates it and deletes it using the API.",
+            "steps": [
+              {
+                "step_number": 1,
+                "description": "Register a new user via the /auth/register endpoint.",
+                "endpoint": "/auth/register",
+                "method": "POST",
+                "request_body": {
+                  "username": "item_test_user",
+                  "email": "item_test@example.com",
+                  "password": "secure_password"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'message': 'User registered successfully'",
+                  "Response body contains 'user_id' which is an integer"
+                ]
+              },
+              {
+                "step_number": 2,
+                "description": "Login with the registered user via the /auth/login endpoint.",
+                "endpoint": "/auth/login",
+                "method": "POST",
+                "request_body": {
+                  "username": "item_test_user",
+                  "password": "secure_password"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'access_token'",
+                  "Response body contains 'token_type': 'bearer'"
+                ],
+                "store_response_value": {
+                  "key": "access_token",
+                  "path": "access_token"
+                }
+              },
+              {
+                "step_number": 3,
+                "description": "Create a new item via the /items endpoint.",
+                "endpoint": "/items",
+                "method": "POST",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "request_body": {
+                  "name": "Test Item",
+                  "description": "A test item description."
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'item_id' which is an integer",
+                  "Response body contains 'name': 'Test Item'",
+                  "Response body contains 'description': 'A test item description.'"
+                ],
+                "store_response_value": {
+                  "key": "item_id",
+                  "path": "item_id"
+                }
+              },
+              {
+                "step_number": 4,
+                "description": "Retrieve the created item via the /items/{item_id} endpoint.",
+                "endpoint": "/items/${item_id}",
+                "method": "GET",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'item_id': ${item_id}",
+                  "Response body contains 'name': 'Test Item'",
+                  "Response body contains 'description': 'A test item description.'"
+                ]
+              },
+              {
+                "step_number": 5,
+                "description": "Update the created item via the /items/{item_id} endpoint.",
+                "endpoint": "/items/${item_id}",
+                "method": "PUT",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "request_body": {
+                  "name": "Updated Test Item",
+                  "description": "An updated test item description."
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'item_id': ${item_id}",
+                  "Response body contains 'name': 'Updated Test Item'",
+                  "Response body contains 'description': 'An updated test item description.'"
+                ]
+              },
+              {
+                "step_number": 6,
+                "description": "Delete the created item via the /items/{item_id} endpoint.",
+                "endpoint": "/items/${item_id}",
+                "method": "DELETE",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "expected_status_code": 200,
+                "assertions": [
+                  "Response body contains 'message': 'Item deleted successfully'"
+                ]
+              },
+              {
+                "step_number": 7,
+                "description": "Verify that the item is deleted by attempting to retrieve it.",
+                "endpoint": "/items/${item_id}",
+                "method": "GET",
+                "headers": {
+                  "Authorization": "Bearer ${access_token}"
+                },
+                "expected_status_code": 404
+              }
+            ]
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.302713+00:00",
+      "end_time": "2026-02-08T05:20:19.303692+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 0.915,
+      "retry_count": 0,
+      "tokens_used": 14115,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code provides a solid foundation for a full-stack application with user authentication and item management. The backend API design, database schema, and frontend React components are generally well-structured and adhere to common best practices for their respective technologies. Integration tests are comprehensive and cover the main user flows.\",\n    \"correctness\": \"Most components are correctly implemented according to the API specification and tech stack. The database migrations accurately reflect the schema. Frontend components correctly interact with the API endpoints.\",\n    \"completeness\": \"The core functionalities (user registration, login, profile, item CRUD) are covered in both backend and frontend. The integration tests cover these flows comprehensively. However, the provided `ItemService.js`"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.303951+00:00",
+      "end_time": "2026-02-08T05:20:19.304866+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-08T05:20:19.305017+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": null
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "workflow_default",
+      "criteria": [
+        {
+          "criterion": "correctness",
+          "score": 85.71,
+          "weight": 0.5,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "score": 86.0,
+          "weight": 0.25,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "score": 99.99,
+          "weight": 0.15,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "score": 48.55,
+          "weight": 0.1,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 80.06,
+      "weighted_score": 84.21,
+      "grade": "B",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "sample_index": 10,
+        "task_id": "10"
+      },
+      "generated_at": "2026-02-08T05:20:19.338411+00:00"
+    }
+  }
+}

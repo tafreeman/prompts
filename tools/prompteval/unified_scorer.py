@@ -407,22 +407,6 @@ def score_prompt(
                 max_tokens=900,
             )
 
-            # Some providers return an error string (instead of raising).
-            # Detect common error prefixes and fail fast so the caller surfaces the true reason.
-            if isinstance(response, str):
-                resp_l = response.strip().lower()
-                error_prefixes = (
-                    "gh models error:",
-                    "local model error:",
-                    "windows-ai error:",
-                    "ollama error:",
-                    "error calling ",
-                )
-                if resp_l.startswith(error_prefixes) or "rate limited" in resp_l:
-                    # Keep message short and actionable.
-                    msg = response.strip().splitlines()[0]
-                    raise RuntimeError(msg)
-
             if verbose:
                 print(
                     f"\n📝 Raw Response:\n{response[:500]}{'...' if len(response) > 500 else ''}"

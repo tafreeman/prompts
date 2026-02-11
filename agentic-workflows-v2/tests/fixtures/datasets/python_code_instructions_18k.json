@@ -1,0 +1,122 @@
+[
+  {
+    "instruction": "Create a function to calculate the sum of a sequence of integers.",
+    "input": "[1, 2, 3, 4, 5]",
+    "output": "# Python code\ndef sum_sequence(sequence):\n  sum = 0\n  for num in sequence:\n    sum += num\n  return sum",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a function to calculate the sum of a sequence of integers.\n\n### Input:\n[1, 2, 3, 4, 5]\n\n### Output:\n# Python code\ndef sum_sequence(sequence):\n  sum = 0\n  for num in sequence:\n    sum += num\n  return sum"
+  },
+  {
+    "instruction": "Generate a Python code for crawling a website for a specific type of data.",
+    "input": "website: www.example.com \ndata to crawl: phone numbers",
+    "output": "import requests\nimport re\n\ndef crawl_website_for_phone_numbers(website):\n    response = requests.get(website)\n    phone_numbers = re.findall('\\d{3}-\\d{3}-\\d{4}', response.text)\n    return phone_numbers\n    \nif __name__ == '__main__':\n    print(crawl_website_for_phone_numbers('www.example.com'))",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nGenerate a Python code for crawling a website for a specific type of data.\n\n### Input:\nwebsite: www.example.com \ndata to crawl: phone numbers\n\n### Output:\nimport requests\nimport re\n\ndef crawl_website_for_phone_numbers(website):\n    response = requests.get(website)\n    phone_numbers = re.findall('\\d{3}-\\d{3}-\\d{4}', response.text)\n    return phone_numbers\n    \nif __name__ == '__main__':\n    print(crawl_website_for_phone_numbers('www.example.com'))"
+  },
+  {
+    "instruction": "Create a Python list comprehension to get the squared values of a list [1, 2, 3, 5, 8, 13].",
+    "input": "",
+    "output": "[x*x for x in [1, 2, 3, 5, 8, 13]]",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a Python list comprehension to get the squared values of a list [1, 2, 3, 5, 8, 13].\n\n### Input:\n\n\n### Output:\n[x*x for x in [1, 2, 3, 5, 8, 13]]"
+  },
+  {
+    "instruction": "Generate a python script to perform this action.",
+    "input": "Given a string, remove all the consecutive duplicates from the string.\n\nInput: \"AAABBCCCD\"",
+    "output": "def remove_duplicates(string): \n    result = \"\" \n    prev = '' \n\n    for char in string:\n        if char != prev: \n            result += char\n            prev = char\n    return result\n\nresult = remove_duplicates(\"AAABBCCCD\")\nprint(result)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nGenerate a python script to perform this action.\n\n### Input:\nGiven a string, remove all the consecutive duplicates from the string.\n\nInput: \"AAABBCCCD\"\n\n### Output:\ndef remove_duplicates(string): \n    result = \"\" \n    prev = '' \n\n    for char in string:\n        if char != prev: \n            result += char\n            prev = char\n    return result\n\nresult = remove_duplicates(\"AAABBCCCD\")\nprint(result)"
+  },
+  {
+    "instruction": "Write a python script to generates random numbers between 0 and 9 that are divisible by 3.",
+    "input": "",
+    "output": "def generate_random_divisible_number():\n    import random\n    while True:\n        # Generate a random number\n        process = random.randint(0, 9)\n        # Check if the number is divisible by 3\n        if process % 3 == 0:\n            # If it is divisible, return it\n            return process",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite a python script to generates random numbers between 0 and 9 that are divisible by 3.\n\n### Input:\n\n\n### Output:\ndef generate_random_divisible_number():\n    import random\n    while True:\n        # Generate a random number\n        process = random.randint(0, 9)\n        # Check if the number is divisible by 3\n        if process % 3 == 0:\n            # If it is divisible, return it\n            return process"
+  },
+  {
+    "instruction": "Write a Python code to get the third largest element in a given row.",
+    "input": "[12, 13, 13, 45, 22, 99]",
+    "output": "def third_largest(lst):\n    if len(lst) < 3:\n        return\n    distinct = []\n    for i in lst:\n        if i not in distinct:\n            distinct.append(i)\n    distinct.sort(reverse=True)\n    return distinct[2]",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite a Python code to get the third largest element in a given row.\n\n### Input:\n[12, 13, 13, 45, 22, 99]\n\n### Output:\ndef third_largest(lst):\n    if len(lst) < 3:\n        return\n    distinct = []\n    for i in lst:\n        if i not in distinct:\n            distinct.append(i)\n    distinct.sort(reverse=True)\n    return distinct[2]"
+  },
+  {
+    "instruction": "Generate a REST API with Python and Flask that allows users to create, read, update, and delete records from a database.",
+    "input": "Not applicable",
+    "output": "from flask import Flask, request\nfrom flask_sqlalchemy import SQLAlchemy\n\napp = Flask(name)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'\ndb = SQLAlchemy(app)\n\nclass Record(db.Model):\n id = db.Column(db.Integer, primary_key=True)\n name = db.Column(db.String(120), unique=True)\n\ndb.create_all()\n\n@app.route('/records', methods=['GET'])\ndef get_records():\n records = Record.query.all()\n return {'records':[record.name for record in records]}\n\n@app.route('/records', methods=['POST'])\ndef create_record():\n record = Record(name=request.json['name'])\n db.session.add(record)\n db.session.commit()\n return {'id': record.id}\n\n@app.route('/records/int:id', methods=['PUT'])\ndef update_record(id):\n record = Record.query.get(id)\n record.name = request.json['name']\n db.session.commit()\n return {'message': 'Record updated'}\n\n@app.route('/records/int:id', methods=['DELETE'])\ndef delete_record(id):\n Record.query.filter_by(id=id).delete()\n db.session.commit()\n return {'message': 'Record deleted'}\n\nif name == 'main':\n app.run(debug=True)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nGenerate a REST API with Python and Flask that allows users to create, read, update, and delete records from a database.\n\n### Input:\nNot applicable\n\n### Output:\nfrom flask import Flask, request\nfrom flask_sqlalchemy import SQLAlchemy\n\napp = Flask(name)\napp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'\ndb = SQLAlchemy(app)\n\nclass Record(db.Model):\n id = db.Column(db.Integer, primary_key=True)\n name = db.Column(db.String(120), unique=True)\n\ndb.create_all()\n\n@app.route('/records', methods=['GET'])\ndef get_records():\n records = Record.query.all()\n return {'records':[record.name for record in records]}\n\n@app.route('/records', methods=['POST'])\ndef create_record():\n record = Record(name=request.json['name'])\n db.session.add(record)\n db.session.commit()\n return {'id': record.id}\n\n@app.route('/records/int:id', methods=['PUT'])\ndef update_record(id):\n record = Record.query.get(id)\n record.name = request.json['name']\n db.session.commit()\n return {'message': 'Record updated'}\n\n@app.route('/records/int:id', methods=['DELETE'])\ndef delete_record(id):\n Record.query.filter_by(id=id).delete()\n db.session.commit()\n return {'message': 'Record deleted'}\n\nif name == 'main':\n app.run(debug=True)"
+  },
+  {
+    "instruction": "Create a Python function that takes in a string and a list of words and returns true if the string contains all the words in the list.",
+    "input": "'This is a test', ['test', 'this', 'is']",
+    "output": "def contains_words(input_string, words):\n for word in words:\n if word not in input_string:\n return False\n return True\n\nprint(contains_words('This is a test', ['test', 'this', 'is'])) # True",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a Python function that takes in a string and a list of words and returns true if the string contains all the words in the list.\n\n### Input:\n'This is a test', ['test', 'this', 'is']\n\n### Output:\ndef contains_words(input_string, words):\n for word in words:\n if word not in input_string:\n return False\n return True\n\nprint(contains_words('This is a test', ['test', 'this', 'is'])) # True"
+  },
+  {
+    "instruction": "What should this Python program do?",
+    "input": "def is_palindrome(s):\n    '''Write your code here.'''",
+    "output": "def is_palindrome(s):\n    '''This function returns True if the string s is a palindrome and False if it isn't.''' \n    return s == s[::-1]  # Checks if s is the same as its reverse.",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWhat should this Python program do?\n\n### Input:\ndef is_palindrome(s):\n    '''Write your code here.'''\n\n### Output:\ndef is_palindrome(s):\n    '''This function returns True if the string s is a palindrome and False if it isn't.''' \n    return s == s[::-1]  # Checks if s is the same as its reverse."
+  },
+  {
+    "instruction": "Create a Python program to sort and print out the elements of an array of integers.",
+    "input": "[17, 41, 5, 22, 54, 6, 29, 3, 13]",
+    "output": "arr = [17, 41, 5, 22, 54, 6, 29, 3, 13]\n\narr.sort()\n\nprint(arr)\n\n# Output: [3, 5, 6, 13, 17, 22, 29, 41, 54]",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a Python program to sort and print out the elements of an array of integers.\n\n### Input:\n[17, 41, 5, 22, 54, 6, 29, 3, 13]\n\n### Output:\narr = [17, 41, 5, 22, 54, 6, 29, 3, 13]\n\narr.sort()\n\nprint(arr)\n\n# Output: [3, 5, 6, 13, 17, 22, 29, 41, 54]"
+  },
+  {
+    "instruction": "Generate a Python program that adds two then doubles the result.",
+    "input": "",
+    "output": "def double_add(num1, num2): \n    return (num1 + num2) * 2",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nGenerate a Python program that adds two then doubles the result.\n\n### Input:\n\n\n### Output:\ndef double_add(num1, num2): \n    return (num1 + num2) * 2"
+  },
+  {
+    "instruction": "Write a python program to extract the non-vowel words in a sentence.",
+    "input": "This machine learning project is challenging.",
+    "output": "def extract_words(sentence):\n    non_vowel_words = []\n    words = sentence.split()\n    vowels = ['a','e','i','o','u','A','E','I','O','U']\n    for word in words:\n        if not any(char in vowels for char in word):\n            non_vowel_words.append(word) \n    return non_vowel_words",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite a python program to extract the non-vowel words in a sentence.\n\n### Input:\nThis machine learning project is challenging.\n\n### Output:\ndef extract_words(sentence):\n    non_vowel_words = []\n    words = sentence.split()\n    vowels = ['a','e','i','o','u','A','E','I','O','U']\n    for word in words:\n        if not any(char in vowels for char in word):\n            non_vowel_words.append(word) \n    return non_vowel_words"
+  },
+  {
+    "instruction": "Write a Python program to calculate the average of a list of positive integers and output the result.",
+    "input": "List of positive integers: [1, 5, 6, 7, 8]",
+    "output": "list_of_positive_integers = [1, 5, 6, 7, 8]\ntotal = sum(list_of_positive_integers)\n\navg = total/len(list_of_positive_integers)\n\nprint(\"The average of the list of positive integers is {}\".format(avg))",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite a Python program to calculate the average of a list of positive integers and output the result.\n\n### Input:\nList of positive integers: [1, 5, 6, 7, 8]\n\n### Output:\nlist_of_positive_integers = [1, 5, 6, 7, 8]\ntotal = sum(list_of_positive_integers)\n\navg = total/len(list_of_positive_integers)\n\nprint(\"The average of the list of positive integers is {}\".format(avg))"
+  },
+  {
+    "instruction": "Develop a function in Python that prints out the Pascal's triangle for a given number of rows.",
+    "input": "",
+    "output": "def pascal_triangle(n): \n    trow = [1] \n    y = [0] \n    for x in range(max(n, 0)): \n        print(trow) \n        trow=[l+r for l,r in zip(trow + y, y + trow)] \n    return n>=1\n\npascal_triangle(5)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nDevelop a function in Python that prints out the Pascal's triangle for a given number of rows.\n\n### Input:\n\n\n### Output:\ndef pascal_triangle(n): \n    trow = [1] \n    y = [0] \n    for x in range(max(n, 0)): \n        print(trow) \n        trow=[l+r for l,r in zip(trow + y, y + trow)] \n    return n>=1\n\npascal_triangle(5)"
+  },
+  {
+    "instruction": "Implement a decision-making algorithm for a rock-paper-scissors game using Python.",
+    "input": "",
+    "output": "# Rock, paper, scissors game!\n\ndef play_game(player1, player2):\n    #  Define the winning rules\n    rules = {'rock': 'scissors', 'scissors': 'paper', 'paper': 'rock'}\n    if player1 == player2:\n        return 'It is a draw!'\n    elif rules[player1] == player2:\n        return 'Player 1 wins!'\n    elif rules[player2] == player1:\n        return 'Player 2 wins!'\n\n# Get user input\nplayer1 = input('Player 1, make a choice: rock, paper, or scissors? ').lower()\nplayer2 = input('Player 2, make a choice: rock, paper, or scissors? ').lower()\n\n# Start the game and get the result\nresult = play_game(player1, player2)\nprint(result)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nImplement a decision-making algorithm for a rock-paper-scissors game using Python.\n\n### Input:\n\n\n### Output:\n# Rock, paper, scissors game!\n\ndef play_game(player1, player2):\n    #  Define the winning rules\n    rules = {'rock': 'scissors', 'scissors': 'paper', 'paper': 'rock'}\n    if player1 == player2:\n        return 'It is a draw!'\n    elif rules[player1] == player2:\n        return 'Player 1 wins!'\n    elif rules[player2] == player1:\n        return 'Player 2 wins!'\n\n# Get user input\nplayer1 = input('Player 1, make a choice: rock, paper, or scissors? ').lower()\nplayer2 = input('Player 2, make a choice: rock, paper, or scissors? ').lower()\n\n# Start the game and get the result\nresult = play_game(player1, player2)\nprint(result)"
+  },
+  {
+    "instruction": "Collate a machine learning model in Python that distinguishes between cats and dogs.",
+    "input": "A dataset of 800 images of cats and dogs",
+    "output": "import numpy as np\nimport keras\nfrom keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Flatten\nfrom keras.models import Sequential\nfrom keras.preprocessing.image import ImageDataGenerator\n\n# Create the neural network model\nmodel = Sequential()\n\n# Input layer\nmodel.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))\n\n# Hidden layers\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\nmodel.add(Conv2D(64, (3, 3), activation = 'relu'))\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\nmodel.add(Conv2D(64, (3, 3), activation = 'relu'))\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\n\n# Output layer\nmodel.add(Flatten())\nmodel.add(Dense(units = 128, activation = 'relu'))\nmodel.add(Dense(units = 1, activation = 'sigmoid'))\n\n# Compile the model\nmodel.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])\n\n# Create data generator\ndatagen = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)\n\n# Fit the model\ntrain_generator = datagen.flow_from_directory(directory = '/path/to/dataset', target_size = (64, 64), color_mode = 'rgb', class_mode = 'binary', batch_size = 32)\nmodel.fit_generator(generator = train_generator, steps_per_epoch = 800, epochs = 5, validation_data = test_generator, validation_steps = 200)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCollate a machine learning model in Python that distinguishes between cats and dogs.\n\n### Input:\nA dataset of 800 images of cats and dogs\n\n### Output:\nimport numpy as np\nimport keras\nfrom keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Flatten\nfrom keras.models import Sequential\nfrom keras.preprocessing.image import ImageDataGenerator\n\n# Create the neural network model\nmodel = Sequential()\n\n# Input layer\nmodel.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))\n\n# Hidden layers\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\nmodel.add(Conv2D(64, (3, 3), activation = 'relu'))\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\nmodel.add(Conv2D(64, (3, 3), activation = 'relu'))\nmodel.add(MaxPooling2D(pool_size = (2, 2)))\nmodel.add(Dropout(0.3))\n\n# Output layer\nmodel.add(Flatten())\nmodel.add(Dense(units = 128, activation = 'relu'))\nmodel.add(Dense(units = 1, activation = 'sigmoid'))\n\n# Compile the model\nmodel.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])\n\n# Create data generator\ndatagen = ImageDataGenerator(rescale = 1./255, shear_range = 0.2, zoom_range = 0.2, horizontal_flip = True)\n\n# Fit the model\ntrain_generator = datagen.flow_from_directory(directory = '/path/to/dataset', target_size = (64, 64), color_mode = 'rgb', class_mode = 'binary', batch_size = 32)\nmodel.fit_generator(generator = train_generator, steps_per_epoch = 800, epochs = 5, validation_data = test_generator, validation_steps = 200)"
+  },
+  {
+    "instruction": "Write a Python program to find all the numbers divisible by a certain number within a certain range.",
+    "input": "int m=36, int n=74, int divisor=6",
+    "output": "def find_numbers_divisible_by(m, n, divisor):\n    divisible_numbers = []\n    for i in range(m, n+1):\n        if i % divisor == 0:\n            divisible_numbers.append(i)\n    return divisible_numbers",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite a Python program to find all the numbers divisible by a certain number within a certain range.\n\n### Input:\nint m=36, int n=74, int divisor=6\n\n### Output:\ndef find_numbers_divisible_by(m, n, divisor):\n    divisible_numbers = []\n    for i in range(m, n+1):\n        if i % divisor == 0:\n            divisible_numbers.append(i)\n    return divisible_numbers"
+  },
+  {
+    "instruction": "Implement a Python function that will take two strings and return true if the first string contains the second.",
+    "input": "query = \"catering\"\nword = \"cat\"",
+    "output": "def check_contains(query, word): \n    if query.find(word) != -1:\n        return True\n    return False\n\nresult = check_contains(query, word)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nImplement a Python function that will take two strings and return true if the first string contains the second.\n\n### Input:\nquery = \"catering\"\nword = \"cat\"\n\n### Output:\ndef check_contains(query, word): \n    if query.find(word) != -1:\n        return True\n    return False\n\nresult = check_contains(query, word)"
+  },
+  {
+    "instruction": "Write an algorithm in Python 3 that calculates the factorial of a number.",
+    "input": "Not applicable",
+    "output": "def factorial(n):\n if n == 0:\n  return 1\n else:\n  return n * factorial(n-1)",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nWrite an algorithm in Python 3 that calculates the factorial of a number.\n\n### Input:\nNot applicable\n\n### Output:\ndef factorial(n):\n if n == 0:\n  return 1\n else:\n  return n * factorial(n-1)"
+  },
+  {
+    "instruction": "Develop a Python function to predict the class labels of a given set of data.",
+    "input": "The dataset contains 4 features: Length, Width, Height and Weight.",
+    "output": "# Load the dataset\nimport pandas as pd\ncsv_url = 'http://test.test/test.csv'\ndf = pd.read_csv(csv_url)\n\n# Split the dataset into features and label\nX = df.iloc[:, 0:4].values\ny = df.iloc[:, 4].values\n\n# Import the ML model\nfrom sklearn.tree import DecisionTreeClassifier\n\n# Create and fit the model\nmodel = DecisionTreeClassifier()\nmodel.fit(X, y)\n\n# Predict the label\ndef predict(data):\n    predicted_label = model.predict([data])\n    return predicted_label",
+    "prompt": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nDevelop a Python function to predict the class labels of a given set of data.\n\n### Input:\nThe dataset contains 4 features: Length, Width, Height and Weight.\n\n### Output:\n# Load the dataset\nimport pandas as pd\ncsv_url = 'http://test.test/test.csv'\ndf = pd.read_csv(csv_url)\n\n# Split the dataset into features and label\nX = df.iloc[:, 0:4].values\ny = df.iloc[:, 4].values\n\n# Import the ML model\nfrom sklearn.tree import DecisionTreeClassifier\n\n# Create and fit the model\nmodel = DecisionTreeClassifier()\nmodel.fit(X, y)\n\n# Predict the label\ndef predict(data):\n    predicted_label = model.predict([data])\n    return predicted_label"
+  }
+]
