@@ -1,0 +1,1273 @@
+[
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>I think the best way to cut out possible checks is something like this:</p>\n\n<pre><code>valid = set([])\n\nfor i in range(3, end, 3):\n  valid.add(i)\n\nfor i in range(5, end, 5):\n  valid.add(i)\n\ntotal = sum(valid)\n</code></pre>\n\n<p>There's still a bit of redundancy (numbers which are multiples of both 3 and 5 are checked twice) but it's minimal.</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-19T21:25:31.500",
+          "Id": "25",
+          "Score": "0",
+          "body": "@gddc: nice, I didn't even know you could specify an increment in a range like that."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-19T21:26:07.760",
+          "Id": "26",
+          "Score": "0",
+          "body": "That's also what I would do now."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-19T21:26:24.727",
+          "Id": "27",
+          "Score": "0",
+          "body": "@calavera - range() is a great function ... the optional step as a 3rd parameter can save tons of iterations."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-19T22:03:12.310",
+          "Id": "50",
+          "Score": "0",
+          "body": "http://docs.python.org/library/functions.html#range just for good measure"
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-27T19:36:59.043",
+          "Id": "496",
+          "Score": "0",
+          "body": "You could save some memory (if using 2.x) by using the xrange function instead of range, it uses the iterator protocol instead of a full blown list."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-27T19:38:54.627",
+          "Id": "497",
+          "Score": "2",
+          "body": "Also by using the set.update method you could shed the loop and write someting like: valid.update(xrange(3, end, 3))"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "6",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:23:04.670",
+        "Id": "11",
+        "ParentId": "2",
+        "Score": "28"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>I think the best way to cut out possible checks is something like this:</p>\n\n<pre><code>valid = set([])\n\nfor i in range(3, end, 3):\n  valid.add(i)\n\nfor i in range(5, end, 5):\n  valid.add(i)\n\ntotal = sum(valid)\n</code></pre>\n\n<p>There's still a bit of redundancy (numbers which are multiples of both 3 and 5 are checked twice) but it's minimal.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n\n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCRITIQUE: \nThe algorithm currently checks every integer between 3 and 1000, which is unnecessary and can be optimized.\n\nREVISED: \nvalid = set([])\n\nfor i in range(3, end, 3):\n  valid.add(i)\n\nfor i in range(5, end, 5):\n  valid.add(i)\n\ntotal = sum(valid)"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>g.d.d.c's solution is slightly redundant in that it checks numbers that are multiples of 3 and 5 twice.  I was wondering about optimizations to this, so this is slightly longer than a comment, but not really an answer in itself, as it totally relies on g.d.d.c's awesome answer as inspiration.</p>\n\n<p>If you add multiples to the valid list for the multiple \"3\" and then do another pass over the whole list (1-1000) for the multiple \"5\" then you do experience some redundancy.</p>\n\n<p>The order in which you add them:</p>\n\n<pre><code> add 3-multiples first\n add 5 multiples second\n</code></pre>\n\n<p>will matter (albeit slightly) if you want to check if the number exists in the list or not.</p>\n\n<p>That is, if your algorithm is something like</p>\n\n<pre><code>add 3-multiples to the list\n\nadd 5-multiples to the list if they don't collide\n</code></pre>\n\n<p>it will perform slightly worse than</p>\n\n<pre><code>add 5-multiples to the list\n\nadd 3-multiples to the list if they don't collide\n</code></pre>\n\n<p>namely, because there are more 3-multiples than 5-multiples, and so you are doing more \"if they don't collide\" checks.</p>\n\n<p>So, here are some thoughts to keep in mind, in terms of optimization:</p>\n\n<ul>\n<li>It would be best if we could iterate through the list once</li>\n<li>It would be best if we didn't check numbers that weren't multiples of 3 nor 5.</li>\n</ul>\n\n<p>One possible way is to notice the frequency of the multiples.  That is, notice that the LCM (least-common multiple) of 3 and 5 is 15:  </p>\n\n<pre><code>3   6  9   12  15  18  21  24   27  30\n               ||                   ||\n  5     10     15     20     25     30\n</code></pre>\n\n<p>Thus, you should want to, in the optimal case, want to use the frequency representation of multiples of 3 and 5 in the range (1,15) over and over until you reach 1000. (really 1005 which is divided by 15 evenly 67 times).</p>\n\n<p>So, you want, for each iteration of this frequency representation:</p>\n\n<p>the numbers at: 3 5 6 9 10 12 15</p>\n\n<p>Your frequencies occur (I'm sorta making up the vocab for this, so please correct me if there are better math-y words) at starting indexes from <strong>0k + 1  to  67k</strong> (1 to 1005) [technically 66k]</p>\n\n<p>And you want the numbers at positions <em>3, 5, 6, 9, 10, 12, and 15</em> enumerating from the index.</p>\n\n<p>Thus,</p>\n\n<pre><code>for (freq_index = 0; freq_index &lt; 66; ++freq_index) {\n    valid.add(15*freq_index + 3);\n    valid.add(15*freq_index + 5);\n    valid.add(15*freq_index + 6);\n    valid.add(15*freq_index + 9);\n    valid.add(15*freq_index + 10);\n    valid.add(15*freq_index + 12);\n    valid.add(15*freq_index + 15); //also the first term of the next indexed range\n}\n</code></pre>\n\n<p>and we have eliminated redundancy</p>\n\n<p>=)</p>\n\n<p><hr>\n<em>Exercise for the astute / determined programmer:</em><br>\nWrite a function that takes three integers as arguments, <em>x y z</em> and, without redundancy, finds all the multiples of <em>x</em> and of <em>y</em> in the range from 1 to <em>z</em>.<br>\n(basically a generalization of what I did above).</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-19T22:44:11.497",
+          "Id": "54",
+          "Score": "0",
+          "body": "I'll have to check the documentation to be sure, but I believe the `set.add()` method uses a binary lookup to determine whether or not the new element exists already.  If that's correct then the order you check the multiples of 3's or 5's won't matter - you have an identical number of binary lookups.  If you can implement a solution that rules out double-checks for multiples of both you may net an improvement."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-20T01:14:51.330",
+          "Id": "72",
+          "Score": "1",
+          "body": "@g.d.d.c: Ah, good point.  I was thinking more language-agnostically, since the most primitive implementation wouldn't do it efficiently.  An interesting aside about the python <code>.add()</code> function from a google: http://indefinitestudies.org/2009/03/11/dont-use-setadd-in-python/"
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-20T16:46:42.527",
+          "Id": "146",
+          "Score": "0",
+          "body": "@sova - Thanks for the link on the union operator.  I hadn't ever encountered that and usually my sets are small enough they wouldn't suffer from the performance penalty, but knowing alternatives is always great."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-20T22:45:48.320",
+          "Id": "169",
+          "Score": "0",
+          "body": "@g.d.d.c also, the solution above does indeed rule out double-checks for multiples of both, it figures out the minimal frequency at which you can repeat the pattern for digits (up to the LCM of the two digits).  Each valid multiple of 3, 5, or both, is \"checked\" (actually, not really checked, just added) only once."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-02-24T17:57:44.573",
+          "Id": "1741",
+          "Score": "0",
+          "body": "@g.d.d.c python's set is based on a hash table. It is not going to use a binary lookup. Instead it will do a hash table lookup."
+        },
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-02-24T18:29:45.833",
+          "Id": "1744",
+          "Score": "0",
+          "body": "@sova, the conclusion in that blog post is wrong. Its actually measuring the overhead of profiling. Profile .add is more expensive then profiling |=, but .add is actually faster."
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "6",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T22:23:56.613",
+        "Id": "24",
+        "ParentId": "2",
+        "Score": "8"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>g.d.d.c's solution is slightly redundant in that it checks numbers that are multiples of 3 and 5 twice.  I was wondering about optimizations to this, so this is slightly longer than a comment, but not really an answer in itself, as it totally relies on g.d.d.c's awesome answer as inspiration.</p>\n\n<p>If you add multiples to the valid list for the multiple \"3\" and then do another pass over the whole list (1-1000) for the multiple \"5\" then you do experience some redundancy.</p>\n\n<p>The order in which you add them:</p>\n\n<pre><code> add 3-multiples first\n add 5 multiples second\n</code></pre>\n\n<p>will matter (albeit slightly) if you want to check if the number exists in the list or not.</p>\n\n<p>That is, if your algorithm is something like</p>\n\n<pre><code>add 3-multiples to the list\n\nadd 5-multiples to the list if they don't collide\n</code></pre>\n\n<p>it will perform slightly worse than</p>\n\n<pre><code>add 5-multiples to the list\n\nadd 3-multiples to the list if they don't collide\n</code></pre>\n\n<p>namely, because there are more 3-multiples than 5-multiples, and so you are doing more \"if they don't collide\" checks.</p>\n\n<p>So, here are some thoughts to keep in mind, in terms of optimization:</p>\n\n<ul>\n<li>It would be best if we could iterate through the list once</li>\n<li>It would be best if we didn't check numbers that weren't multiples of 3 nor 5.</li>\n</ul>\n\n<p>One possible way is to notice the frequency of the multiples.  That is, notice that the LCM (least-common multiple) of 3 and 5 is 15:  </p>\n\n<pre><code>3   6  9   12  15  18  21  24   27  30\n               ||                   ||\n  5     10     15     20     25     30\n</code></pre>\n\n<p>Thus, you should want to, in the optimal case, want to use the frequency representation of multiples of 3 and 5 in the range (1,15) over and over until you reach 1000. (really 1005 which is divided by 15 evenly 67 times).</p>\n\n<p>So, you want, for each iteration of this frequency representation:</p>\n\n<p>the numbers at: 3 5 6 9 10 12 15</p>\n\n<p>Your frequencies occur (I'm sorta making up the vocab for this, so please correct me if there are better math-y words) at starting indexes from <strong>0k + 1  to  67k</strong> (1 to 1005) [technically 66k]</p>\n\n<p>And you want the numbers at positions <em>3, 5, 6, 9, 10, 12, and 15</em> enumerating from the index.</p>\n\n<p>Thus,</p>\n\n<pre><code>for (freq_index = 0; freq_index &lt; 66; ++freq_index) {\n    valid.add(15*freq_index + 3);\n    valid.add(15*freq_index + 5);\n    valid.add(15*freq_index + 6);\n    valid.add(15*freq_index + 9);\n    valid.add(15*freq_index + 10);\n    valid.add(15*freq_index + 12);\n    valid.add(15*freq_index + 15); //also the first term of the next indexed range\n}\n</code></pre>\n\n<p>and we have eliminated redundancy</p>\n\n<p>=)</p>\n\n<p><hr>\n<em>Exercise for the astute / determined programmer:</em><br>\nWrite a function that takes three integers as arguments, <em>x y z</em> and, without redundancy, finds all the multiples of <em>x</em> and of <em>y</em> in the range from 1 to <em>z</em>.<br>\n(basically a generalization of what I did above).</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n\n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCRITIQUE: \ng.d.d.c's solution is slightly redundant in that it checks numbers that are multiples of 3 and 5 twice.  I was wondering about optimizations to this, so this is slightly longer than a comment, but not really an answer in itself, as it totally relies on g.d.d.c's awesome answer as inspiration.\n\nIf you add multiples to the valid list for the multiple \"3\" and then do another pass over the whole list (1-1000) for the multiple \"5\" then you do experience some redundancy.\n\nThe order in which you add them:\n\nadd 3-multiples first\nadd 5 multiples second\n\nwill matter (albeit slightly) if you want to check if the number exists in the list or not.\n\nThat is, if your algorithm is something like\n\nadd 3-multiples to the list\n\nadd 5-multiples to the list if they don't collide\n\nit will perform slightly worse than\n\nadd 5-multiples to the list\n\nadd 3-multiples to the list if they don't collide\n\nnamely, because there are more 3-multiples than 5-multiples, and so you are doing more \"if they don't collide\" checks.\n\nSo, here are some thoughts to keep in mind, in terms of optimization:\n\nIt would be best if we could iterate through the list once\nIt would be best if we didn't check numbers that weren't multiples of 3 nor 5.\n\nREVISED: \n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    valid = []\n    for freq_index in range(0, 66):\n        valid.append(15*freq_index + 3)\n        valid.append(15*freq_index + 5)\n        valid.append(15*freq_index + 6)\n        valid.append(15*freq_index + 9)\n        valid.append(15*freq_index + 10)\n        valid.append(15*freq_index + 12)\n        valid.append(15*freq_index + 15)\n    for i in valid:\n        if i < end:\n            sum += i\n    print(sum)"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>I would do it like this:</p>\n\n<pre><code>total = 0\n\nfor i in range(3, end, 3):\n  total += i\n\nfor i in range(5, end, 5):\n  if i % 3 != 0: # Only add the number if it hasn't already\n    total += i   # been added as a multiple of 3\n</code></pre>\n\n<p>The basic approach is the same as g.d.d.c's: iterate all the multiples of 3, then 5. However instead of using a set to remove duplicates, we simply check that the multiples of 5 aren't also multiples of 3. This has the following upsides:</p>\n\n<ol>\n<li>Checking divisibility is less expensive than adding to a set.</li>\n<li>We build the total up incrementally, so we don't need a separate call to sum at the end.</li>\n<li>We got rid of the set, so we only need constant space again.</li>\n</ol>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2011-05-04T15:24:15.257",
+          "Id": "3594",
+          "Score": "0",
+          "body": "do you think it would be faster or slow to allow the repetitive 5's to be added and then substract the 15's?   we would lose `end/5` divisibility checks and it costs only `add/15` subtractions"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-20T04:38:14.877",
+        "Id": "67",
+        "ParentId": "2",
+        "Score": "12"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>I would do it like this:</p>\n\n<pre><code>total = 0\n\nfor i in range(3, end, 3):\n  total += i\n\nfor i in range(5, end, 5):\n  if i % 3 != 0: # Only add the number if it hasn't already\n    total += i   # been added as a multiple of 3\n</code></pre>\n\n<p>The basic approach is the same as g.d.d.c's: iterate all the multiples of 3, then 5. However instead of using a set to remove duplicates, we simply check that the multiples of 5 aren't also multiples of 3. This has the following upsides:</p>\n\n<ol>\n<li>Checking divisibility is less expensive than adding to a set.</li>\n<li>We build the total up incrementally, so we don't need a separate call to sum at the end.</li>\n<li>We got rid of the set, so we only need constant space again.</li>\n</ol>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCRITIQUE: \nThe algorithm currently checks every integer between 3 and 1000, resulting in unnecessary calls to isMultiple. \n\nREVISED: \ntotal = 0\n\nfor i in range(3, end, 3):\n  total += i\n\nfor i in range(5, end, 5):\n  if i % 3 != 0: # Only add the number if it hasn't already\n    total += i   # been added as a multiple of 3"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>I would get rid of the <code>for</code> loops and use <code>sum</code> on generator expressions.</p>\n\n<pre><code>def solution_01(n):\n    partialsum = sum(xrange(3, n, 3))  \n    return partialsum + sum(x for x in xrange(5, n, 5) if x % 3)\n</code></pre>\n\n<p>Note that we're using <code>xrange</code> instead of <code>range</code> for python 2. I have never seen a case where this isn't faster for a <code>for</code> loop or generator expression. Also consuming a generator expression with <code>sum</code> <em>should</em> be faster than adding them up manually in a <code>for</code> loop.</p>\n\n<p>If you wanted to do it with sets, then there's still no need for <code>for</code> loops</p>\n\n<pre><code>def solution_01(n):\n    values = set(range(3, n, 3)) | set(range(5, n, 5))\n    return sum(values)\n</code></pre>\n\n<p>Here, we're just passing the multiples to the set constructor, taking the union of the two sets and returning their sum. Here, I'm using <code>range</code> instead of <code>xrange</code>. For some reason, I've seen that it's faster when passing to <code>list</code>. I guess it would be faster for <code>set</code> as well. You would probably want to benchmark though.</p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-20T06:23:09.830",
+        "Id": "71",
+        "ParentId": "2",
+        "Score": "17"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>I would get rid of the <code>for</code> loops and use <code>sum</code> on generator expressions.</p>\n\n<pre><code>def solution_01(n):\n    partialsum = sum(xrange(3, n, 3))  \n    return partialsum + sum(x for x in xrange(5, n, 5) if x % 3)\n</code></pre>\n\n<p>Note that we're using <code>xrange</code> instead of <code>range</code> for python 2. I have never seen a case where this isn't faster for a <code>for</code> loop or generator expression. Also consuming a generator expression with <code>sum</code> <em>should</em> be faster than adding them up manually in a <code>for</code> loop.</p>\n\n<p>If you wanted to do it with sets, then there's still no need for <code>for</code> loops</p>\n\n<pre><code>def solution_01(n):\n    values = set(range(3, n, 3)) | set(range(5, n, 5))\n    return sum(values)\n</code></pre>\n\n<p>Here, we're just passing the multiples to the set constructor, taking the union of the two sets and returning their sum. Here, I'm using <code>range</code> instead of <code>xrange</code>. For some reason, I've seen that it's faster when passing to <code>list</code>. I guess it would be faster for <code>set</code> as well. You would probably want to benchmark though.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": " ORIGINAL: \n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n\nCRITIQUE: \nThe algorithm can be optimized by getting rid of the for loops and using sum on generator expressions or sets.\n\nREVISED: \n<pre><code>def solution_01(n):\n    partialsum = sum(xrange(3, n, 3))  \n    return partialsum + sum(x for x in xrange(5, n, 5) if x % 3)\n\ndef solution_01(n):\n    values = set(range(3, n, 3)) | set(range(5, n, 5))\n    return sum(values)\n</code></pre>"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Using a generator is also possible :</p>\n\n<pre><code>print sum(n for n in range(1000) if n % 3 == 0 or n % 5 == 0)\n</code></pre>\n\n<p>Note that intent is not really clear here. For shared code, I would prefer something like</p>\n\n<pre><code>def euler001(limit):\n    return sum(n for n in range(limit) if n % 3 == 0 or n % 5 == 0)\n\nprint euler001(1000)\n</code></pre>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T14:37:09.013",
+        "Id": "275",
+        "ParentId": "2",
+        "Score": "8"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>Using a generator is also possible :</p>\n\n<pre><code>print sum(n for n in range(1000) if n % 3 == 0 or n % 5 == 0)\n</code></pre>\n\n<p>Note that intent is not really clear here. For shared code, I would prefer something like</p>\n\n<pre><code>def euler001(limit):\n    return sum(n for n in range(limit) if n % 3 == 0 or n % 5 == 0)\n\nprint euler001(1000)\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nOriginal: \n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n\nCritique: \nUsing a generator is more efficient and allows for better readability. Additionally, the intent of the code should be made more clear by using a descriptive function name. \n\nRevised: \n<pre><code>def euler001(limit):\n    return sum(n for n in range(limit) if n % 3 == 0 or n % 5 == 0)\n\nprint euler001(1000)\n</code></pre>"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>The sum 3+6+9+12+...+999 = 3(1+2+3+...+333) = 3 (n(n+1))/2 for n = 333. And 333 = 1000/3, where \"/\" is integral arithmetic.</p>\n\n<p>Also, note that multiples of 15 are counted twice.</p>\n\n<p>So</p>\n\n<pre><code>def sum_factors_of_n_below_k(k, n):\n    m = (k-1) // n\n    return n * m * (m+1) // 2\n\ndef solution_01():\n    return (sum_factors_of_n_below_k(1000, 3) + \n            sum_factors_of_n_below_k(1000, 5) - \n            sum_factors_of_n_below_k(1000, 15))\n</code></pre>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2011-05-04T15:19:22.627",
+          "Id": "3593",
+          "Score": "9",
+          "body": "this is obviously most efficient.  i was about to post this as a one liner but i prefer the way you factored it.  still, would `sum_multiples_of_n_below_k` be the appropriate name?  they are not n's factors, they are its multiples"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2011-01-27T15:27:51.710",
+        "Id": "280",
+        "ParentId": "2",
+        "Score": "43"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>The sum 3+6+9+12+...+999 = 3(1+2+3+...+333) = 3 (n(n+1))/2 for n = 333. And 333 = 1000/3, where \"/\" is integral arithmetic.</p>\n\n<p>Also, note that multiples of 15 are counted twice.</p>\n\n<p>So</p>\n\n<pre><code>def sum_factors_of_n_below_k(k, n):\n    m = (k-1) // n\n    return n * m * (m+1) // 2\n\ndef solution_01():\n    return (sum_factors_of_n_below_k(1000, 3) + \n            sum_factors_of_n_below_k(1000, 5) - \n            sum_factors_of_n_below_k(1000, 15))\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nOriginal: \n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n\nCritique: The sum 3+6+9+12+...+999 = 3(1+2+3+...+333) = 3 (n(n+1))/2 for n = 333. And 333 = 1000/3, where \"/\" is integral arithmetic. Also, note that multiples of 15 are counted twice.\n\nRevised: \n<pre><code>def sum_factors_of_n_below_k(k, n):\n    m = (k-1) // n\n    return n * m * (m+1) // 2\n\ndef solution_01():\n    return (sum_factors_of_n_below_k(1000, 3) + \n            sum_factors_of_n_below_k(1000, 5) - \n            sum_factors_of_n_below_k(1000, 15))\n</code></pre>"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Well, this <em>is</em> an answer to a Project Euler question after all, so perhaps the best solution is basically a pencil-paper one.</p>\n\n<pre><code>sum(i for i in range(n + 1)) # sums all numbers from zero to n\n</code></pre>\n\n<p>is a triangular number, the same as</p>\n\n<pre><code>n * (n + 1) / 2\n</code></pre>\n\n<p>This is the triangular function we all know and love. Rather, more formally,  </p>\n\n<pre><code>triangle(n) = n * (n + 1) / 2\n</code></pre>\n\n<p>With that in mind, we next note that the sum of the series</p>\n\n<pre><code>3, 6, 9, 12, 15, 18, 21, 24, ...\n</code></pre>\n\n<p>is 3 * the above triangle function. And the sums of</p>\n\n<pre><code>5, 10, 15, 20, 25, 30, 35, ...\n</code></pre>\n\n<p>are 5 * the triangle function. We however have one problem with these current sums, since a number like 15 or 30 would be counted in each triangle number. Not to worry, the inclusion-exclusion principle comes to the rescue! The sum of</p>\n\n<pre><code>15, 30, 45 ,60, 75, 90, 105, ...\n</code></pre>\n\n<p>is 15 * the triangle function. Well, if this so far makes little sense don't worry. Finding the sum of the series from 1 up to n, incrementing by k, is but</p>\n\n<pre><code>triangle_with_increments(n, k = 1) = k * (n/k) * (n/k + 1) / 2\n</code></pre>\n\n<p>with this, and the inclusion-exclusion  principle, the final answer is but</p>\n\n<pre><code>triangle_with_increments(100, 5) + triangle_with_increments(100, 3) - triangle_with_increments(100, 15)\n</code></pre>\n\n<p>Wow. Who'da thunk? an n complexity problem suddenly became a constant time one. That's what I call optimization IMHO :P. But in all seriousness, Project Euler asks you to answer problems in really the lowest computational complexity possible. </p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2011-11-12T01:39:34.380",
+        "Id": "5978",
+        "ParentId": "2",
+        "Score": "15"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>Well, this <em>is</em> an answer to a Project Euler question after all, so perhaps the best solution is basically a pencil-paper one.</p>\n\n<pre><code>sum(i for i in range(n + 1)) # sums all numbers from zero to n\n</code></pre>\n\n<p>is a triangular number, the same as</p>\n\n<pre><code>n * (n + 1) / 2\n</code></pre>\n\n<p>This is the triangular function we all know and love. Rather, more formally,  </p>\n\n<pre><code>triangle(n) = n * (n + 1) / 2\n</code></pre>\n\n<p>With that in mind, we next note that the sum of the series</p>\n\n<pre><code>3, 6, 9, 12, 15, 18, 21, 24, ...\n</code></pre>\n\n<p>is 3 * the above triangle function. And the sums of</p>\n\n<pre><code>5, 10, 15, 20, 25, 30, 35, ...\n</code></pre>\n\n<p>are 5 * the triangle function. We however have one problem with these current sums, since a number like 15 or 30 would be counted in each triangle number. Not to worry, the inclusion-exclusion principle comes to the rescue! The sum of</p>\n\n<pre><code>15, 30, 45 ,60, 75, 90, 105, ...\n</code></pre>\n\n<p>is 15 * the triangle function. Well, if this so far makes little sense don't worry. Finding the sum of the series from 1 up to n, incrementing by k, is but</p>\n\n<pre><code>triangle_with_increments(n, k = 1) = k * (n/k) * (n/k + 1) / 2\n</code></pre>\n\n<p>with this, and the inclusion-exclusion  principle, the final answer is but</p>\n\n<pre><code>triangle_with_increments(100, 5) + triangle_with_increments(100, 3) - triangle_with_increments(100, 15)\n</code></pre>\n\n<p>Wow. Who'da thunk? an n complexity problem suddenly became a constant time one. That's what I call optimization IMHO :P. But in all seriousness, Project Euler asks you to answer problems in really the lowest computational complexity possible. </p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCRITIQUE:\nThe algorithm currently checks every integer between 3 and 1000, which is a brute force solution. A better solution is to use the triangular function to calculate the sum of the series, and the inclusion-exclusion principle to account for double counting.\n\nREVISED:\n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\ndef Solution01():\n    '''\n        Solved using the triangular function and the inclusion-exclusion principle\n    '''\n    sum = triangle_with_increments(1000, 5) + triangle_with_increments(1000, 3) - triangle_with_increments(1000, 15)\n    print(sum)\n\ndef triangle_with_increments(n, k = 1):\n    return k * (n/k) * (n/k + 1) / 2"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>The list comprehension one is an awesome solution, but making use of set is a lot faster:</p>\n\n<pre><code>from __future__ import print_function\n\ndef euler_001(limit):\n    s1, s2 = set(range(0, limit, 3)), set(range(0, limit, 5))\n\n    return sum(s1.union(s2))\n\nprint(euler_001(1000))\n</code></pre>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2014-12-27T16:42:50.027",
+        "Id": "75000",
+        "ParentId": "2",
+        "Score": "6"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>The list comprehension one is an awesome solution, but making use of set is a lot faster:</p>\n\n<pre><code>from __future__ import print_function\n\ndef euler_001(limit):\n    s1, s2 = set(range(0, limit, 3)), set(range(0, limit, 5))\n\n    return sum(s1.union(s2))\n\nprint(euler_001(1000))\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nOriginal: \n\n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCritique: \nThe current solution is inefficient as it checks every integer between 3 and 1000. A better solution would be to use set and list comprehension to reduce the number of unnecessary calls to isMultiple.\n\nRevised: \n\nfrom __future__ import print_function\n\ndef euler_001(limit):\n    s1, s2 = set(range(0, limit, 3)), set(range(0, limit, 5))\n\n    return sum(s1.union(s2))\n\nprint(euler_001(1000))"
+  },
+  {
+    "body": "<p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>I used a slightly simpler method, but essentially did the same thing:</p>\n\n<pre><code>total = 0\n\nfor n in range(3,1000):\n    if n % 3 == 0:\n        total += n\n    elif n % 5 == 0:\n        total += n\n\n\nprint total\n</code></pre>\n\n<p>The <code>elif</code> makes sure that you only count any factor/divisor once.</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2016-09-04T00:38:58.953",
+          "Id": "262984",
+          "Score": "1",
+          "body": "(`did the same thing`: The order in which answers are shown is bound to change, and you might be referring to the question: please disambiguate with a quote or a hyperlink (e.g., from the `share`-link at the end of each post).)"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2016-09-03T19:15:05.807",
+        "Id": "140425",
+        "ParentId": "2",
+        "Score": "3"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:06:48.893",
+        "Id": "3",
+        "Score": "1",
+        "body": "Are you trying to optimize the algorithm or the code itself?"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:07:15.663",
+        "Id": "5",
+        "Score": "0",
+        "body": "@JoePhillips: Why not both? ;)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:08:43.633",
+        "Id": "6",
+        "Score": "0",
+        "body": "@JoePhillips: the algorithm.  it currently checks every single integer between 3 and 1000."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T21:09:03.493",
+        "Id": "7",
+        "Score": "0",
+        "body": "@Zolomon: good point, either type of answer would be helpful."
+      },
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T18:12:10.890",
+        "Id": "2889",
+        "Score": "0",
+        "body": "Just a note. The detailed explanation for [Richard's Answer](http://codereview.stackexchange.com/questions/2/project-euler-problem-1-in-python/280#280) on Wikipedia may be helpful if you didn't already understand the Math. See [here](http://en.wikipedia.org/wiki/Arithmetic_series#Sum)."
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-12T16:57:29.667",
+        "Id": "12182",
+        "Score": "0",
+        "body": "[Relevant blog post](http://cowbelljs.blogspot.com/2011/12/projecteuler-001.html)"
+      },
+      {
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-01-13T02:30:06.993",
+        "Id": "12221",
+        "Score": "0",
+        "body": "@TryPyPy, you may want to weigh in here: http://meta.codereview.stackexchange.com/questions/429/online-contest-questions"
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": null,
+      "CommentCount": "7",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:04:27.573",
+      "Id": "2",
+      "Score": "56",
+      "Tags": [
+        "python",
+        "optimization",
+        "algorithm",
+        "programming-challenge"
+      ],
+      "Title": "Project Euler problem 1 in Python - Multiples of 3 and 5"
+    },
+    "question_id": "2",
+    "prompt": "Question: <p>I'd like suggestions for optimizing this brute force solution to <a href=\"http://projecteuler.net/index.php?section=problems&amp;id=1\">problem 1</a>.  The algorithm currently checks every integer between 3 and 1000.  I'd like to cut as many unnecessary calls to <code>isMultiple</code> as possible:</p>\n\n<pre><code>'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n</code></pre>\n \n\n Answer: <p>I used a slightly simpler method, but essentially did the same thing:</p>\n\n<pre><code>total = 0\n\nfor n in range(3,1000):\n    if n % 3 == 0:\n        total += n\n    elif n % 5 == 0:\n        total += n\n\n\nprint total\n</code></pre>\n\n<p>The <code>elif</code> makes sure that you only count any factor/divisor once.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n\n'''\nIf we list all the natural numbers below 10 that are multiples of 3 or 5, \nwe get 3, 5, 6 and 9. The sum of these multiples is 23.\n\nFind the sum of all the multiples of 3 or 5 below 1000.\n'''\n\nend = 1000\n\ndef Solution01():\n    '''\n        Solved by brute force\n        #OPTIMIZE\n    '''\n    sum = 0\n    for i in range(3, end):\n        if isMultiple(i):\n            sum += i \n    print(sum)\n\ndef isMultiple(i):\n    return (i % 3 == 0) or (i % 5 == 0)\n\nCRITIQUE: \nThe original code uses a brute force approach to solve the problem, which is inefficient and unnecessary. \n\nREVISED: \ntotal = 0\n\nfor n in range(3,1000):\n    if n % 3 == 0:\n        total += n\n    elif n % 5 == 0:\n        total += n\n\n\nprint total"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Here's some superficial review. More for testing the site and some comment formatting than anything, but: do create main functions (helps us benchmarkers a lot) and do think that your module can be imported, so docstrings and local variables help. </p>\n\n<pre><code># Finds...\n###-^ Put this in a docstring\n\ndef find_multiples():\n    \"\"\"Finds sum of all multiples of 3 and 5 from 0 to 999 \"\"\"\n###-^ This allows you to \"from x import find_multiples,  help(find_multiples)\"\n    numbers = []\n###-^ Avoid globals\n    for i in xrange(1000):\n###-^ Use xrange if Python 2.x, no need to start at 0 (it's the default)\n       if not (i % 3) or not (i % 5):\n###-^ Add spaces around operators, simplify\n###-^ the boolean/numeric checks\n           numbers.append(i)\n###-^ Remove trailing ;\n    return numbers\n\n###-^ Removed global\n\ndef main():\n###-^ Allows calling main many times, e.g. for benchmarking\n    numbers = find_multiples()\n    print sum(numbers)\n\nif __name__ == '__main__':\n    main()\n</code></pre>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-20T21:57:35.937",
+          "Id": "166",
+          "Score": "1",
+          "body": "`xrange(1000)` would suffice.  Which version is more readable is arguable.  Otherwise, excellent code review!  Chapeau bas!"
+        },
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2012-06-08T17:51:51.517",
+          "Id": "19954",
+          "Score": "0",
+          "body": "I would be tempted (although perhaps not for such a small program) to move the print statement out of main, and to keep the main() function strictly for catching exceptions, printing error messages to stderr, and returning error/success codes to the shell."
+        },
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2014-09-28T14:53:40.477",
+          "Id": "117208",
+          "Score": "0",
+          "body": "Another reason for using a 'main function' is that otherwise all variables you declare are global."
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "3",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-19T22:43:12.493",
+        "Id": "32",
+        "ParentId": "7",
+        "Score": "53"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Here's some superficial review. More for testing the site and some comment formatting than anything, but: do create main functions (helps us benchmarkers a lot) and do think that your module can be imported, so docstrings and local variables help. </p>\n\n<pre><code># Finds...\n###-^ Put this in a docstring\n\ndef find_multiples():\n    \"\"\"Finds sum of all multiples of 3 and 5 from 0 to 999 \"\"\"\n###-^ This allows you to \"from x import find_multiples,  help(find_multiples)\"\n    numbers = []\n###-^ Avoid globals\n    for i in xrange(1000):\n###-^ Use xrange if Python 2.x, no need to start at 0 (it's the default)\n       if not (i % 3) or not (i % 5):\n###-^ Add spaces around operators, simplify\n###-^ the boolean/numeric checks\n           numbers.append(i)\n###-^ Remove trailing ;\n    return numbers\n\n###-^ Removed global\n\ndef main():\n###-^ Allows calling main many times, e.g. for benchmarking\n    numbers = find_multiples()\n    print sum(numbers)\n\nif __name__ == '__main__':\n    main()\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": " ORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: Put the docstring in the function, avoid globals, use xrange if Python 2.x, add spaces around operators, simplify the boolean/numeric checks, and remove trailing semicolons.\n\nREVISED: \ndef find_multiples():\n    \"\"\"Finds sum of all multiples of 3 and 5 from 0 to 999 \"\"\"\n    numbers = []\n    for i in xrange(1000):\n       if not (i % 3) or not (i % 5):\n           numbers.append(i)\n    return numbers\n\ndef main():\n    numbers = find_multiples()\n    print sum(numbers)\n\nif __name__ == '__main__':\n    main()"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Here's how I would do it:</p>\n\n<pre><code>def find_multiples(min=0, max=1000):\n    \"\"\"Finds multiples of 3 or 5 between min and max.\"\"\"\n\n    for i in xrange(min, max):\n       if i%3 and i%5:\n           continue\n\n       yield i\n\nif __name__ == '__main__':\n    print sum(find_multiples())\n</code></pre>\n\n<p>This makes find_multiples a generator for the multiples it finds. The multiples no longer need to be stored explicitly, and especially not in a global. </p>\n\n<p>It's also now takes parameters (with default values) so that the caller can specify the range of numbers to search. </p>\n\n<p>And of course, the global \"if\" block now only has to sum on the numbers generated by the function instead of hoping the global variable exists and has remained untouched by anything else that might come up.</p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-26T22:29:00.797",
+        "Id": "231",
+        "ParentId": "7",
+        "Score": "15"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Here's how I would do it:</p>\n\n<pre><code>def find_multiples(min=0, max=1000):\n    \"\"\"Finds multiples of 3 or 5 between min and max.\"\"\"\n\n    for i in xrange(min, max):\n       if i%3 and i%5:\n           continue\n\n       yield i\n\nif __name__ == '__main__':\n    print sum(find_multiples())\n</code></pre>\n\n<p>This makes find_multiples a generator for the multiples it finds. The multiples no longer need to be stored explicitly, and especially not in a global. </p>\n\n<p>It's also now takes parameters (with default values) so that the caller can specify the range of numbers to search. </p>\n\n<p>And of course, the global \"if\" block now only has to sum on the numbers generated by the function instead of hoping the global variable exists and has remained untouched by anything else that might come up.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The main function is unnecessary and the global variable is not ideal. It would be better to make find_multiples a generator and to add parameters to it.\n\nREVISED: \ndef find_multiples(min=0, max=1000):\n    \"\"\"Finds multiples of 3 or 5 between min and max.\"\"\"\n\n    for i in xrange(min, max):\n       if i%3 and i%5:\n           continue\n\n       yield i\n\nif __name__ == '__main__':\n    print sum(find_multiples())"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>The UNIX Man's recommendation of using a generator rather than a list is good one. However I would recommend using a generator expressions over <code>yield</code>:</p>\n\n<pre><code>def find_multiples(min=0, max=1000):\n    \"\"\"Finds multiples of 3 or 5 between min and max.\"\"\"\n    return (i for i in xrange(min, max) if i%3==0 or i%5==0)\n</code></pre>\n\n<p>This has the same benefits as using <code>yield</code> and the added benefit of being more concise. In contrast to UNIX Man's solution it also uses \"positive\" control flow, i.e. it selects the elements to select, not the ones to skip, and the lack of the <code>continue</code> statement simplifies the control flow\u00b9.</p>\n\n<p>On a more general note, I'd recommend renaming the function <code>find_multiples_of_3_and_5</code> because otherwise the name suggests that you might use it to find multiples of any number. Or even better: you could generalize your function, so that it can find the multiples of any numbers. For this the code could look like this:</p>\n\n<pre><code>def find_multiples(factors=[3,5], min=0, max=1000):\n    \"\"\"Finds all numbers between min and max which are multiples of any number\n       in factors\"\"\"\n    return (i for i in xrange(min, max) if any(i%x==0 for x in factors))\n</code></pre>\n\n<p>However now the generator expression is getting a bit crowded, so we should factor the logic for finding whether a given number is a multiple of any of the factors into its own function:</p>\n\n<pre><code>def find_multiples(factors=[3,5], min=0, max=1000):\n    \"\"\"Finds all numbers between min and max which are multiples of any number\n       in factors\"\"\"\n    def is_multiple(i):\n        return any(i%x==0 for x in factors)\n\n    return (i for i in xrange(min, max) if is_multiple(i))\n</code></pre>\n\n<hr>\n\n<p>\u00b9 Of course the solution using <code>yield</code> could also be written positively and without <code>continue</code>.</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2014-09-28T14:55:39.270",
+          "Id": "117210",
+          "Score": "0",
+          "body": "I like your second version. Perhaps you could make it even more general and succinct by removing the `min`, `max` argument, and just letting it take an iterator argument. That way the remaindin program would be `sum(find_multiples(xrange(1000)))`"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-26T22:55:19.263",
+        "Id": "238",
+        "ParentId": "7",
+        "Score": "25"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>The UNIX Man's recommendation of using a generator rather than a list is good one. However I would recommend using a generator expressions over <code>yield</code>:</p>\n\n<pre><code>def find_multiples(min=0, max=1000):\n    \"\"\"Finds multiples of 3 or 5 between min and max.\"\"\"\n    return (i for i in xrange(min, max) if i%3==0 or i%5==0)\n</code></pre>\n\n<p>This has the same benefits as using <code>yield</code> and the added benefit of being more concise. In contrast to UNIX Man's solution it also uses \"positive\" control flow, i.e. it selects the elements to select, not the ones to skip, and the lack of the <code>continue</code> statement simplifies the control flow\u00b9.</p>\n\n<p>On a more general note, I'd recommend renaming the function <code>find_multiples_of_3_and_5</code> because otherwise the name suggests that you might use it to find multiples of any number. Or even better: you could generalize your function, so that it can find the multiples of any numbers. For this the code could look like this:</p>\n\n<pre><code>def find_multiples(factors=[3,5], min=0, max=1000):\n    \"\"\"Finds all numbers between min and max which are multiples of any number\n       in factors\"\"\"\n    return (i for i in xrange(min, max) if any(i%x==0 for x in factors))\n</code></pre>\n\n<p>However now the generator expression is getting a bit crowded, so we should factor the logic for finding whether a given number is a multiple of any of the factors into its own function:</p>\n\n<pre><code>def find_multiples(factors=[3,5], min=0, max=1000):\n    \"\"\"Finds all numbers between min and max which are multiples of any number\n       in factors\"\"\"\n    def is_multiple(i):\n        return any(i%x==0 for x in factors)\n\n    return (i for i in xrange(min, max) if is_multiple(i))\n</code></pre>\n\n<hr>\n\n<p>\u00b9 Of course the solution using <code>yield</code> could also be written positively and without <code>continue</code>.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The UNIX Man's recommendation of using a generator rather than a list is good one. However, it is recommended to use a generator expression over yield, and to rename the function to make it more general.\n\nREVISED:\ndef find_multiples(factors=[3,5], min=0, max=1000):\n    \"\"\"Finds all numbers between min and max which are multiples of any number\n       in factors\"\"\"\n    def is_multiple(i):\n        return any(i%x==0 for x in factors)\n\n    return (i for i in xrange(min, max) if is_multiple(i))"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Regarding the use of a <code>main()</code> function.</p>\n\n<p>One important reason for using a construct like this:</p>\n\n<pre><code>if __name__ == '__main__':\n    main()\n</code></pre>\n\n<p>Is to keep the module importable and in turn much more reusable. I can't really reuse modules that runs all sorts of code when I import them. By having a main() function, as above, I can import the module and reuse relevant parts of it. Perhaps even by running the <code>main()</code> function at my convenience.</p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T10:22:13.827",
+        "Id": "267",
+        "ParentId": "7",
+        "Score": "6"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Regarding the use of a <code>main()</code> function.</p>\n\n<p>One important reason for using a construct like this:</p>\n\n<pre><code>if __name__ == '__main__':\n    main()\n</code></pre>\n\n<p>Is to keep the module importable and in turn much more reusable. I can't really reuse modules that runs all sorts of code when I import them. By having a main() function, as above, I can import the module and reuse relevant parts of it. Perhaps even by running the <code>main()</code> function at my convenience.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n# Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: \nThe use of a main() function is important to keep the module importable and reusable.\n\nREVISED:\n# Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    numbers = []\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n    return numbers\n\ndef main():\n    numbers = find_multiples()\n    print(sum(numbers))\n\nif __name__ == '__main__':\n    main()"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Just in case you're not familiar with the generator technique being used above, here's the same function done in 3 ways, starting with something close to your original, then using a <a href=\"http://docs.python.org/tutorial/datastructures.html#list-comprehensions\" rel=\"noreferrer\">list comprehension</a>, and then using a <a href=\"http://docs.python.org/tutorial/classes.html#generator-expressions\" rel=\"noreferrer\">generator expression</a>:</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 in various ways\n\ndef find_multiples():\n    numbers = []\n    for i in range(0,1000):\n        if  i%3 == 0 or i%5 == 0: numbers.append(i)\n    return numbers\n\ndef find_multiples_with_list_comprehension():\n    return [i for i in range(0,1000) if  i%3 == 0 or i%5 == 0]\n\ndef find_multiples_with_generator():\n    return (i for i in range(0,1000) if  i%3 == 0 or i%5 == 0)\n\nif __name__ == '__main__':\n    numbers1 = find_multiples()\n    numbers2 = find_multiples_with_list_comprehension()\n    numbers3 = list(find_multiples_with_generator())\n    print numbers1 == numbers2 == numbers3\n    print sum(numbers1)\n</code></pre>\n\n<p><code>find_multiples()</code> is pretty close to what you were doing, but slightly more Pythonic. It avoids the <code>global</code> (icky!) and returns a list.</p>\n\n<p>Generator expressions (contained in parentheses, like a tuple) are more efficient than list comprehensions (contained in square brackets, like a list), but don't actually return a list of values -- they return an object that can be iterated through. </p>\n\n<p>So that's why I called <code>list()</code> on <code>find_multiples_with_generator()</code>, which is actually sort of pointless, since you could also simply do <code>sum(find_multiples_with_generator()</code>, which is your ultimate goal here. I'm just trying to show you that generator expressions and list comprehensions look similar but behave differently. (Something that tripped me up early on.)</p>\n\n<p>The other answers here really solve the problem, I just thought it might be worth seeing these three approaches compared.</p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-27T17:38:27.180",
+        "Id": "299",
+        "ParentId": "7",
+        "Score": "6"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Just in case you're not familiar with the generator technique being used above, here's the same function done in 3 ways, starting with something close to your original, then using a <a href=\"http://docs.python.org/tutorial/datastructures.html#list-comprehensions\" rel=\"noreferrer\">list comprehension</a>, and then using a <a href=\"http://docs.python.org/tutorial/classes.html#generator-expressions\" rel=\"noreferrer\">generator expression</a>:</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 in various ways\n\ndef find_multiples():\n    numbers = []\n    for i in range(0,1000):\n        if  i%3 == 0 or i%5 == 0: numbers.append(i)\n    return numbers\n\ndef find_multiples_with_list_comprehension():\n    return [i for i in range(0,1000) if  i%3 == 0 or i%5 == 0]\n\ndef find_multiples_with_generator():\n    return (i for i in range(0,1000) if  i%3 == 0 or i%5 == 0)\n\nif __name__ == '__main__':\n    numbers1 = find_multiples()\n    numbers2 = find_multiples_with_list_comprehension()\n    numbers3 = list(find_multiples_with_generator())\n    print numbers1 == numbers2 == numbers3\n    print sum(numbers1)\n</code></pre>\n\n<p><code>find_multiples()</code> is pretty close to what you were doing, but slightly more Pythonic. It avoids the <code>global</code> (icky!) and returns a list.</p>\n\n<p>Generator expressions (contained in parentheses, like a tuple) are more efficient than list comprehensions (contained in square brackets, like a list), but don't actually return a list of values -- they return an object that can be iterated through. </p>\n\n<p>So that's why I called <code>list()</code> on <code>find_multiples_with_generator()</code>, which is actually sort of pointless, since you could also simply do <code>sum(find_multiples_with_generator()</code>, which is your ultimate goal here. I'm just trying to show you that generator expressions and list comprehensions look similar but behave differently. (Something that tripped me up early on.)</p>\n\n<p>The other answers here really solve the problem, I just thought it might be worth seeing these three approaches compared.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \n# Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The original code uses a global variable and does not use the most efficient methods for finding the sum of multiples.\n\nREVISED: \n# Finds sum of all multiples of 3 and 5 from 0 to 999 in various ways\n\ndef find_multiples():\n    numbers = []\n    for i in range(0,1000):\n        if  i%3 == 0 or i%5 == 0: numbers.append(i)\n    return numbers\n\ndef find_multiples_with_list_comprehension():\n    return [i for i in range(0,1000) if  i%3 == 0 or i%5 == 0]\n\ndef find_multiples_with_generator():\n    return (i for i in range(0,1000) if  i%3 == 0 or i%5 == 0)\n\nif __name__ == '__main__':\n    numbers1 = find_multiples()\n    numbers2 = find_multiples_with_list_comprehension()\n    numbers3 = list(find_multiples_with_generator())\n    print numbers1 == numbers2 == numbers3\n    print sum(numbers1)"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Here is one solution using ifilter. Basically it will do the same as using a generator but since you try to filter out numbers that don't satisfy a function which returns true if the number is divisible by all the factors, maybe it captures better your logic. It may be a bit difficult to understand for someone not accustomed to functional logic.</p>\n\n<pre><code>from itertools import ifilter\n\ndef is_multiple_builder(*factors):\n    \"\"\"returns function that check if the number passed in argument is divisible by all factors\"\"\"\n    def is_multiple(x):\n        return all(x % factor == 0 for factor in factors)\n    return is_multiple\n\ndef find_multiples(factors, iterable):\n    return ifilter(is_multiple_builder(*factors), iterable)\n</code></pre>\n\n<p>The <code>all(iterable)</code> function returns <code>true</code>, if all elements in the <code>iterable</code> passed as an argument are <code>true</code>.</p>\n\n<pre><code>(x % factor == 0 for factor in factors)\n</code></pre>\n\n<p>will return a generator with true/false for all factor in factors depending if the number is divisible by this factor. I could omit the parentheses around this expression because it is the only argument of <code>all</code>. </p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-03-25T05:59:23.090",
+        "Id": "10314",
+        "ParentId": "7",
+        "Score": "1"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Here is one solution using ifilter. Basically it will do the same as using a generator but since you try to filter out numbers that don't satisfy a function which returns true if the number is divisible by all the factors, maybe it captures better your logic. It may be a bit difficult to understand for someone not accustomed to functional logic.</p>\n\n<pre><code>from itertools import ifilter\n\ndef is_multiple_builder(*factors):\n    \"\"\"returns function that check if the number passed in argument is divisible by all factors\"\"\"\n    def is_multiple(x):\n        return all(x % factor == 0 for factor in factors)\n    return is_multiple\n\ndef find_multiples(factors, iterable):\n    return ifilter(is_multiple_builder(*factors), iterable)\n</code></pre>\n\n<p>The <code>all(iterable)</code> function returns <code>true</code>, if all elements in the <code>iterable</code> passed as an argument are <code>true</code>.</p>\n\n<pre><code>(x % factor == 0 for factor in factors)\n</code></pre>\n\n<p>will return a generator with true/false for all factor in factors depending if the number is divisible by this factor. I could omit the parentheses around this expression because it is the only argument of <code>all</code>. </p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The code is not using the best practices for Python programming, such as using functions and generators. It is also not using the most efficient methods for finding multiples.\n\nREVISED: \nfrom itertools import ifilter\n\ndef is_multiple_builder(*factors):\n    \"\"\"returns function that check if the number passed in argument is divisible by all factors\"\"\"\n    def is_multiple(x):\n        return all(x % factor == 0 for factor in factors)\n    return is_multiple\n\ndef find_multiples(factors, iterable):\n    return ifilter(is_multiple_builder(*factors), iterable)\n\nif __name__ == '__main__':\n    numbers = list(find_multiples([3, 5], range(1000)))\n    print sum(numbers)"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>I would keep it simple. In this particular case I would do:</p>\n\n<pre><code>def my_sum(start, end, *divisors):\n    return sum(i for i in xrange(start, end + 1) if any(i % d == 0 for d in divisors))\n\nif __name__ == '__main__':\n    print(my_sum(0, 999, 3, 5))\n</code></pre>\n\n<p>Because it is readable enough. Should you need to implement more, then add more functions.</p>\n\n<p>There is also an O(1) version(if the number of divisors is assumed constant), of course.</p>\n\n<p><strong>Note:</strong> In Python 3 there is no <code>xrnage</code> as <code>range</code> is lazy.</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 3.0",
+          "CreationDate": "2014-09-28T15:00:00.030",
+          "Id": "117212",
+          "Score": "1",
+          "body": "Nice and clear. Perhaps don't make an `end` argument which is included in the range. It's easier if we just always make ranges exclusive like in `range`. If we do that, we never have to think about what values to pass again :)"
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2012-03-25T19:21:07.970",
+        "Id": "10325",
+        "ParentId": "7",
+        "Score": "3"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>I would keep it simple. In this particular case I would do:</p>\n\n<pre><code>def my_sum(start, end, *divisors):\n    return sum(i for i in xrange(start, end + 1) if any(i % d == 0 for d in divisors))\n\nif __name__ == '__main__':\n    print(my_sum(0, 999, 3, 5))\n</code></pre>\n\n<p>Because it is readable enough. Should you need to implement more, then add more functions.</p>\n\n<p>There is also an O(1) version(if the number of divisors is assumed constant), of course.</p>\n\n<p><strong>Note:</strong> In Python 3 there is no <code>xrnage</code> as <code>range</code> is lazy.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The code can be simplified by using a function to find the sum of all multiples of 3 and 5 from 0 to 999, and using the xrange function in Python 3. \n\nREVISED: \ndef my_sum(start, end, *divisors):\n    return sum(i for i in xrange(start, end + 1) if any(i % d == 0 for d in divisors))\n\nif __name__ == '__main__':\n    print(my_sum(0, 999, 3, 5))"
+  },
+  {
+    "body": "<p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Adding more to @pat answer, a function like the one below has no meaning because you can NOT  re-use for similar tasks. (Copied stripping comments and docstring.)</p>\n\n<pre><code>def find_multiples():\n    numbers = []\n    for i in xrange(1000):\n       if not (i % 3) or not (i % 5):\n           numbers.append(i)\n    return numbers\n</code></pre>\n\n<p>Instead put parametres at the start of your function in order to be able to reuse it. </p>\n\n<pre><code>def find_multiples(a,b,MAX):\n    numbers = []\n    for i in xrange(MAX):\n       if not (i % a) or not (i % b):\n           numbers.append(i)\n    return numbers\n</code></pre>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 3.0",
+        "CreationDate": "2014-11-25T13:12:33.337",
+        "Id": "70802",
+        "ParentId": "7",
+        "Score": "2"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "8",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-19T21:16:08.443",
+      "Id": "7",
+      "Score": "60",
+      "Tags": [
+        "python",
+        "programming-challenge"
+      ],
+      "Title": "Using separate functions for Project Euler 1"
+    },
+    "question_id": "7",
+    "prompt": "Question: <p>I started programming with Java and C++, so I'm used to having a 'main' function that calls other functions that do the actual work. At university I was always told that doing actual computation in the main function is bad practice. I'm currently playing around with Python, and I have trouble figuring out how to write a nice 'main' function, especially since I'm doing small stuff that doesn't need separate classes.</p>\n\n<p>What do you think about the following code? Is the main function necessary, or would  you just write everything without functions? Is there a general consent on this in the Python world?</p>\n\n<pre><code># Finds sum of all multiples of 3 and 5 from 0 to 999 \n\ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n</code></pre>\n \n\n Answer: <p>Adding more to @pat answer, a function like the one below has no meaning because you can NOT  re-use for similar tasks. (Copied stripping comments and docstring.)</p>\n\n<pre><code>def find_multiples():\n    numbers = []\n    for i in xrange(1000):\n       if not (i % 3) or not (i % 5):\n           numbers.append(i)\n    return numbers\n</code></pre>\n\n<p>Instead put parametres at the start of your function in order to be able to reuse it. </p>\n\n<pre><code>def find_multiples(a,b,MAX):\n    numbers = []\n    for i in xrange(MAX):\n       if not (i % a) or not (i % b):\n           numbers.append(i)\n    return numbers\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \ndef find_multiples():\n    global numbers\n\n    for i in range(0,1000):\n       if i%3==0 or i%5==0:\n           numbers.append(i);\n\nnumbers = []\n\nif __name__ == '__main__':\n    find_multiples()\n    print sum(numbers)\n\nCRITIQUE: The function is not reusable and does not take any parameters.\n\nREVISED: \ndef find_multiples(a,b,MAX):\n    numbers = []\n    for i in xrange(MAX):\n       if not (i % a) or not (i % b):\n           numbers.append(i)\n    return numbers"
+  },
+  {
+    "body": "<p>This is part from an <a href=\"https://stackoverflow.com/questions/4706151/python-3-1-memory-error-during-sampling-of-a-large-list/4706317#4706317\">answer to a Stack Overflow question</a>. The OP needed a way to perform calculations on samples from a population, but was hitting memory errors due to keeping samples in memory. </p>\n\n<p>The function is based on part of <a href=\"http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#sample\" rel=\"nofollow noreferrer\">random.sample</a>, but only the code branch using a set is present.</p>\n\n<p>If we can tidy and comment this well enough, it might be worth publishing as a recipe at the <a href=\"http://code.activestate.com/recipes/\" rel=\"nofollow noreferrer\">Python Cookbook</a>.</p>\n\n<pre><code>import random\n\ndef sampling_mean(population, k, times):\n    # Part of this is lifted straight from random.py\n    _int = int\n    _random = random.random\n\n    n = len(population)\n    kf = float(k)\n    result = []\n\n    if not 0 &lt;= k &lt;= n:\n        raise ValueError, \"sample larger than population\"\n\n    for t in xrange(times):\n        selected = set()\n        sum_ = 0\n        selected_add = selected.add\n\n        for i in xrange(k):\n            j = _int(_random() * n)\n            while j in selected:\n                j = _int(_random() * n)\n            selected_add(j)\n            sum_ += population[j]\n\n        # Partial result we're interested in\n        mean = sum_/kf\n        result.append(mean)\n    return result\n\nsampling_mean(x, 1000000, 100)\n</code></pre>\n\n<p>Maybe it'd be interesting to generalize it so you can pass a function that calculates the value you're interested in from the sample?</p>\n",
+    "answer": {
+      "body": "<p>Making a generator version of <code>random.sample()</code> seems to be a much better idea:</p>\n\n<pre><code>from __future__ import division\nfrom random import random\nfrom math import ceil as _ceil, log as _log\n\ndef xsample(population, k):\n    \"\"\"A generator version of random.sample\"\"\"\n    n = len(population)\n    if not 0 &lt;= k &lt;= n:\n        raise ValueError, \"sample larger than population\"\n    _int = int\n    setsize = 21        # size of a small set minus size of an empty list\n    if k &gt; 5:\n        setsize += 4 ** _ceil(_log(k * 3, 4)) # table size for big sets\n    if n &lt;= setsize or hasattr(population, \"keys\"):\n        # An n-length list is smaller than a k-length set, or this is a\n        # mapping type so the other algorithm wouldn't work.\n        pool = list(population)\n        for i in xrange(k):         # invariant:  non-selected at [0,n-i)\n            j = _int(random() * (n-i))\n            yield pool[j]\n            pool[j] = pool[n-i-1]   # move non-selected item into vacancy\n    else:\n        try:\n            selected = set()\n            selected_add = selected.add\n            for i in xrange(k):\n                j = _int(random() * n)\n                while j in selected:\n                    j = _int(random() * n)\n                selected_add(j)\n                yield population[j]\n        except (TypeError, KeyError):   # handle (at least) sets\n            if isinstance(population, list):\n                raise\n            for x in sample(tuple(population), k):\n                yield x\n</code></pre>\n\n<p>Taking a sampling mean then becomes trivial:        </p>\n\n<pre><code>def sampling_mean(population, k, times):\n    for t in xrange(times):\n        yield sum(xsample(population, k))/k\n</code></pre>\n\n<p>That said, as a code review, not much can be said about your code as it is more or less taking directly from the Python source, which can be said to be authoritative. ;) It does have a lot of silly speed-ups that make the code harder to read.</p>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 4.0",
+        "CreationDate": "2011-01-31T15:01:59.697",
+        "Id": "485",
+        "ParentId": "217",
+        "Score": "2"
+      }
+    },
+    "comments": [
+      {
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-31T15:04:51.737",
+        "Id": "800",
+        "Score": "1",
+        "body": "But you keep the samples in memory too, so this isn't an improvement, over the solution you gave him, namely not keeping the samples around but calculating each mean directly."
+      }
+    ],
+    "meta_data": {
+      "AcceptedAnswerId": "485",
+      "CommentCount": "1",
+      "ContentLicense": "CC BY-SA 2.5",
+      "CreationDate": "2011-01-25T23:27:25.303",
+      "Id": "217",
+      "Score": "8",
+      "Tags": [
+        "python",
+        "random"
+      ],
+      "Title": "Randomly sampling a population and keeping means: tidy up, generalize, document?"
+    },
+    "question_id": "217",
+    "prompt": "Question: <p>This is part from an <a href=\"https://stackoverflow.com/questions/4706151/python-3-1-memory-error-during-sampling-of-a-large-list/4706317#4706317\">answer to a Stack Overflow question</a>. The OP needed a way to perform calculations on samples from a population, but was hitting memory errors due to keeping samples in memory. </p>\n\n<p>The function is based on part of <a href=\"http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#sample\" rel=\"nofollow noreferrer\">random.sample</a>, but only the code branch using a set is present.</p>\n\n<p>If we can tidy and comment this well enough, it might be worth publishing as a recipe at the <a href=\"http://code.activestate.com/recipes/\" rel=\"nofollow noreferrer\">Python Cookbook</a>.</p>\n\n<pre><code>import random\n\ndef sampling_mean(population, k, times):\n    # Part of this is lifted straight from random.py\n    _int = int\n    _random = random.random\n\n    n = len(population)\n    kf = float(k)\n    result = []\n\n    if not 0 &lt;= k &lt;= n:\n        raise ValueError, \"sample larger than population\"\n\n    for t in xrange(times):\n        selected = set()\n        sum_ = 0\n        selected_add = selected.add\n\n        for i in xrange(k):\n            j = _int(_random() * n)\n            while j in selected:\n                j = _int(_random() * n)\n            selected_add(j)\n            sum_ += population[j]\n\n        # Partial result we're interested in\n        mean = sum_/kf\n        result.append(mean)\n    return result\n\nsampling_mean(x, 1000000, 100)\n</code></pre>\n\n<p>Maybe it'd be interesting to generalize it so you can pass a function that calculates the value you're interested in from the sample?</p>\n \n\n Answer: <p>Making a generator version of <code>random.sample()</code> seems to be a much better idea:</p>\n\n<pre><code>from __future__ import division\nfrom random import random\nfrom math import ceil as _ceil, log as _log\n\ndef xsample(population, k):\n    \"\"\"A generator version of random.sample\"\"\"\n    n = len(population)\n    if not 0 &lt;= k &lt;= n:\n        raise ValueError, \"sample larger than population\"\n    _int = int\n    setsize = 21        # size of a small set minus size of an empty list\n    if k &gt; 5:\n        setsize += 4 ** _ceil(_log(k * 3, 4)) # table size for big sets\n    if n &lt;= setsize or hasattr(population, \"keys\"):\n        # An n-length list is smaller than a k-length set, or this is a\n        # mapping type so the other algorithm wouldn't work.\n        pool = list(population)\n        for i in xrange(k):         # invariant:  non-selected at [0,n-i)\n            j = _int(random() * (n-i))\n            yield pool[j]\n            pool[j] = pool[n-i-1]   # move non-selected item into vacancy\n    else:\n        try:\n            selected = set()\n            selected_add = selected.add\n            for i in xrange(k):\n                j = _int(random() * n)\n                while j in selected:\n                    j = _int(random() * n)\n                selected_add(j)\n                yield population[j]\n        except (TypeError, KeyError):   # handle (at least) sets\n            if isinstance(population, list):\n                raise\n            for x in sample(tuple(population), k):\n                yield x\n</code></pre>\n\n<p>Taking a sampling mean then becomes trivial:        </p>\n\n<pre><code>def sampling_mean(population, k, times):\n    for t in xrange(times):\n        yield sum(xsample(population, k))/k\n</code></pre>\n\n<p>That said, as a code review, not much can be said about your code as it is more or less taking directly from the Python source, which can be said to be authoritative. ;) It does have a lot of silly speed-ups that make the code harder to read.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \nimport random\n\ndef sampling_mean(population, k, times):\n    # Part of this is lifted straight from random.py\n    _int = int\n    _random = random.random\n\n    n = len(population)\n    kf = float(k)\n    result = []\n\n    if not 0 <= k <= n:\n        raise ValueError, \"sample larger than population\"\n\n    for t in xrange(times):\n        selected = set()\n        sum_ = 0\n        selected_add = selected.add\n\n        for i in xrange(k):\n            j = _int(_random() * n)\n            while j in selected:\n                j = _int(_random() * n)\n            selected_add(j)\n            sum_ += population[j]\n\n        # Partial result we're interested in\n        mean = sum_/kf\n        result.append(mean)\n    return result\n\nsampling_mean(x, 1000000, 100)\n\nCRITIQUE: \nThe code is taking directly from the Python source, which can be said to be authoritative, but it has a lot of silly speed-ups that make the code harder to read. It would be better to make a generator version of random.sample() and take the sampling mean in a more straightforward way.\n\nREVISED: \nfrom __future__ import division\nfrom random import random\nfrom math import ceil as _ceil, log as _log\n\ndef xsample(population, k):\n    \"\"\"A generator version of random.sample\"\"\"\n    n = len(population)\n    if not 0 <= k <= n:\n        raise ValueError, \"sample larger than population\"\n    _int = int\n    setsize = 21        # size of a small set minus size of an empty list\n    if k > 5:\n        setsize += 4 ** _ceil(_log(k * 3, 4)) # table size for big sets\n    if n <= setsize or hasattr(population, \"keys\"):\n        # An n-length list is smaller than a k-length set, or this is a\n        # mapping type so the other algorithm wouldn't work.\n        pool = list(population)\n        for i in xrange(k):         # invariant:  non-selected at [0,n-i)\n            j = _int(random() * (n-i))\n            yield pool[j]\n            pool[j] = pool[n-i-1]   # move non-selected item into vacancy\n    else:\n        try:\n            selected = set()\n            selected_add = selected.add\n            for i in xrange(k):\n                j = _int(random() * n)\n                while j in selected:\n                    j = _int(random() * n)\n                selected_add(j)\n                yield population[j]\n        except (TypeError, KeyError):   # handle (at least) sets\n            if isinstance(population, list):\n                raise\n            for x in sample(tuple(population), k):\n                yield x\n\ndef sampling_mean(population, k, times):\n    for t in xrange(times):\n        yield sum(xsample(population, k))/k"
+  },
+  {
+    "body": "<p>The requirements for this one were (<a href=\"https://stackoverflow.com/q/4630723/555569\">original SO question</a>):</p>\n\n<ul>\n<li>Generate a random-ish sequence of items.</li>\n<li>Sequence should have each item N times.</li>\n<li>Sequence shouldn't have serial runs longer than a given number (longest below).</li>\n</ul>\n\n<p>The solution was actually drafted by another user, this is <a href=\"https://stackoverflow.com/questions/4630723/using-python-for-quasi-randomization/4630784#4630784\">my implementation</a> (influenced by <a href=\"http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#shuffle\" rel=\"nofollow noreferrer\">random.shuffle</a>).</p>\n\n<pre><code>from random import random\nfrom itertools import groupby # For testing the result\ntry: xrange\nexcept: xrange = range\n\ndef generate_quasirandom(values, n, longest=3, debug=False):\n  # Sanity check\n  if len(values) &lt; 2 or longest &lt; 1:\n    raise ValueError\n\n  # Create a list with n * [val]\n  source = []\n  sourcelen = len(values) * n\n  for val in values:\n    source += [val] * n\n\n  # For breaking runs\n  serial = 0\n  latest = None\n\n  for i in xrange(sourcelen):\n    # Pick something from source[:i]\n    j = int(random() * (sourcelen - i)) + i\n    if source[j] == latest:\n      serial += 1\n      if serial &gt;= longest:\n        serial = 0\n        guard = 0\n        # We got a serial run, break it\n        while source[j] == latest:\n          j = int(random() * (sourcelen - i)) + i\n          guard += 1\n          # We just hit an infinit loop: there is no way to avoid a serial run\n          if guard &gt; 10:\n            print(\"Unable to avoid serial run, disabling asserts.\")\n            debug = False\n            break\n    else:\n      serial = 0\n    latest = source[j]\n    # Move the picked value to source[i:]\n    source[i], source[j] = source[j], source[i]\n\n  # More sanity checks\n  check_quasirandom(source, values, n, longest, debug)\n\n  return source\n\n\ndef check_quasirandom(shuffled, values, n, longest, debug):\n  counts = []\n  # We skip the last entries because breaking runs in them get too hairy\n  for val, count in groupby(shuffled):\n    counts.append(len(list(count)))\n  highest = max(counts)\n  print('Longest run: %d\\nMax run lenght:%d' % (highest, longest))\n\n  # Invariants\n  assert len(shuffled) == len(values) * n\n  for val in values:\n    assert shuffled.count(val) == n\n\n  if debug:\n    # Only checked if we were able to avoid a sequential run &gt;= longest\n    assert highest &lt;= longest\n\nfor x in xrange(10, 1000):\n  generate_quasirandom((0, 1, 2, 3), 1000, x//10, debug=True)\n</code></pre>\n\n<p>I'd like to receive any input you have on improving this code, from style to comments to tests and anything else you can think of. </p>\n",
+    "answer": {
+      "body": "<p>A couple of possible code improvements that I noticed:</p>\n\n<pre><code>sourcelen = len(values) * n\n</code></pre>\n\n<p>This seems unnecessarily complicated to me. I mean, after a second of thinking the reader of this line will realize that <code>len(values) * n</code> is indeed the length of <code>source</code>, but that's still one step of thinking more than would be required if you just did <code>sourcelen = len(source)</code> (after populating <code>source</code> of course).</p>\n\n<p>That being said, I don't see why you need to store the length of <code>source</code> in a variable at all. Doing <code>for i in xrange(len(source)):</code> isn't really less readable or less efficient than doing <code>for i in xrange(sourcelen):</code>, so I'd just get rid of the variable altogether.</p>\n\n<hr>\n\n<pre><code>source = []\nfor val in values:\n  source += [val] * n\n</code></pre>\n\n<p>This can be written as a list comprehension like this:</p>\n\n<pre><code>source = [x for val in values for x in [val]*n]\n</code></pre>\n\n<p>Using list comprehensions is usually considered more idiomatic python than building up a list iteratively. It is also often more efficient.</p>\n\n<p>As Fred Nurk points out, the list comprehension can also be written as</p>\n\n<pre><code>source = [val for val in values for _ in xrange(n)]\n</code></pre>\n\n<p>which avoids the creation of a temporary list and is maybe a bit more readable.</p>\n\n<hr>\n\n<pre><code>j = int(random() * (sourcelen - i)) + i\n</code></pre>\n\n<p>To get a random integer between <code>x</code> (inclusive) and <code>y</code> (exclusive), you can use <code>random.randrange(x,y)</code>, so the above can be written as:</p>\n\n<pre><code>j = randrange(i, len(source) - i)\n</code></pre>\n\n<p>(You'll also need to import <code>randrange</code> instead of <code>random</code> from the random module). This makes it more immediately obviously that <code>j</code> is a random number between <code>i</code> and <code>len(source) - i</code> and introduces less room for mistakes.</p>\n",
+      "comments": [
+        {
+          "ContentLicense": "CC BY-SA 2.5",
+          "CreationDate": "2011-01-27T09:20:50.903",
+          "Id": "419",
+          "Score": "0",
+          "body": "Alternatively: `source = [val for val in values for _ in xrange(n)]` which, for me, makes it more clear you're repeating values compared to creating a temporary list, multiplying it, and then iterating it."
+        }
+      ],
+      "meta_data": {
+        "CommentCount": "1",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-26T23:33:23.913",
+        "Id": "243",
+        "ParentId": "219",
+        "Score": "4"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "243",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 2.5",
+      "CreationDate": "2011-01-25T23:41:23.607",
+      "Id": "219",
+      "Score": "14",
+      "Tags": [
+        "python",
+        "random"
+      ],
+      "Title": "Quasi-random sequences: how to improve style and tests?"
+    },
+    "question_id": "219",
+    "prompt": "Question: <p>The requirements for this one were (<a href=\"https://stackoverflow.com/q/4630723/555569\">original SO question</a>):</p>\n\n<ul>\n<li>Generate a random-ish sequence of items.</li>\n<li>Sequence should have each item N times.</li>\n<li>Sequence shouldn't have serial runs longer than a given number (longest below).</li>\n</ul>\n\n<p>The solution was actually drafted by another user, this is <a href=\"https://stackoverflow.com/questions/4630723/using-python-for-quasi-randomization/4630784#4630784\">my implementation</a> (influenced by <a href=\"http://svn.python.org/view/python/trunk/Lib/random.py?view=markup#shuffle\" rel=\"nofollow noreferrer\">random.shuffle</a>).</p>\n\n<pre><code>from random import random\nfrom itertools import groupby # For testing the result\ntry: xrange\nexcept: xrange = range\n\ndef generate_quasirandom(values, n, longest=3, debug=False):\n  # Sanity check\n  if len(values) &lt; 2 or longest &lt; 1:\n    raise ValueError\n\n  # Create a list with n * [val]\n  source = []\n  sourcelen = len(values) * n\n  for val in values:\n    source += [val] * n\n\n  # For breaking runs\n  serial = 0\n  latest = None\n\n  for i in xrange(sourcelen):\n    # Pick something from source[:i]\n    j = int(random() * (sourcelen - i)) + i\n    if source[j] == latest:\n      serial += 1\n      if serial &gt;= longest:\n        serial = 0\n        guard = 0\n        # We got a serial run, break it\n        while source[j] == latest:\n          j = int(random() * (sourcelen - i)) + i\n          guard += 1\n          # We just hit an infinit loop: there is no way to avoid a serial run\n          if guard &gt; 10:\n            print(\"Unable to avoid serial run, disabling asserts.\")\n            debug = False\n            break\n    else:\n      serial = 0\n    latest = source[j]\n    # Move the picked value to source[i:]\n    source[i], source[j] = source[j], source[i]\n\n  # More sanity checks\n  check_quasirandom(source, values, n, longest, debug)\n\n  return source\n\n\ndef check_quasirandom(shuffled, values, n, longest, debug):\n  counts = []\n  # We skip the last entries because breaking runs in them get too hairy\n  for val, count in groupby(shuffled):\n    counts.append(len(list(count)))\n  highest = max(counts)\n  print('Longest run: %d\\nMax run lenght:%d' % (highest, longest))\n\n  # Invariants\n  assert len(shuffled) == len(values) * n\n  for val in values:\n    assert shuffled.count(val) == n\n\n  if debug:\n    # Only checked if we were able to avoid a sequential run &gt;= longest\n    assert highest &lt;= longest\n\nfor x in xrange(10, 1000):\n  generate_quasirandom((0, 1, 2, 3), 1000, x//10, debug=True)\n</code></pre>\n\n<p>I'd like to receive any input you have on improving this code, from style to comments to tests and anything else you can think of. </p>\n \n\n Answer: <p>A couple of possible code improvements that I noticed:</p>\n\n<pre><code>sourcelen = len(values) * n\n</code></pre>\n\n<p>This seems unnecessarily complicated to me. I mean, after a second of thinking the reader of this line will realize that <code>len(values) * n</code> is indeed the length of <code>source</code>, but that's still one step of thinking more than would be required if you just did <code>sourcelen = len(source)</code> (after populating <code>source</code> of course).</p>\n\n<p>That being said, I don't see why you need to store the length of <code>source</code> in a variable at all. Doing <code>for i in xrange(len(source)):</code> isn't really less readable or less efficient than doing <code>for i in xrange(sourcelen):</code>, so I'd just get rid of the variable altogether.</p>\n\n<hr>\n\n<pre><code>source = []\nfor val in values:\n  source += [val] * n\n</code></pre>\n\n<p>This can be written as a list comprehension like this:</p>\n\n<pre><code>source = [x for val in values for x in [val]*n]\n</code></pre>\n\n<p>Using list comprehensions is usually considered more idiomatic python than building up a list iteratively. It is also often more efficient.</p>\n\n<p>As Fred Nurk points out, the list comprehension can also be written as</p>\n\n<pre><code>source = [val for val in values for _ in xrange(n)]\n</code></pre>\n\n<p>which avoids the creation of a temporary list and is maybe a bit more readable.</p>\n\n<hr>\n\n<pre><code>j = int(random() * (sourcelen - i)) + i\n</code></pre>\n\n<p>To get a random integer between <code>x</code> (inclusive) and <code>y</code> (exclusive), you can use <code>random.randrange(x,y)</code>, so the above can be written as:</p>\n\n<pre><code>j = randrange(i, len(source) - i)\n</code></pre>\n\n<p>(You'll also need to import <code>randrange</code> instead of <code>random</code> from the random module). This makes it more immediately obviously that <code>j</code> is a random number between <code>i</code> and <code>len(source) - i</code> and introduces less room for mistakes.</p>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nOriginal: \nfrom random import random\nfrom itertools import groupby # For testing the result\ntry: xrange\nexcept: xrange = range\n\ndef generate_quasirandom(values, n, longest=3, debug=False):\n  # Sanity check\n  if len(values) < 2 or longest < 1:\n    raise ValueError\n\n  # Create a list with n * [val]\n  source = []\n  sourcelen = len(values) * n\n  for val in values:\n    source += [val] * n\n\n  # For breaking runs\n  serial = 0\n  latest = None\n\n  for i in xrange(sourcelen):\n    # Pick something from source[:i]\n    j = int(random() * (sourcelen - i)) + i\n    if source[j] == latest:\n      serial += 1\n      if serial >= longest:\n        serial = 0\n        guard = 0\n        # We got a serial run, break it\n        while source[j] == latest:\n          j = int(random() * (sourcelen - i)) + i\n          guard += 1\n          # We just hit an infinit loop: there is no way to avoid a serial run\n          if guard > 10:\n            print(\"Unable to avoid serial run, disabling asserts.\")\n            debug = False\n            break\n    else:\n      serial = 0\n    latest = source[j]\n    # Move the picked value to source[i:]\n    source[i], source[j] = source[j], source[i]\n\n  # More sanity checks\n  check_quasirandom(source, values, n, longest, debug)\n\n  return source\n\n\ndef check_quasirandom(shuffled, values, n, longest, debug):\n  counts = []\n  # We skip the last entries because breaking runs in them get too hairy\n  for val, count in groupby(shuffled):\n    counts.append(len(list(count)))\n  highest = max(counts)\n  print('Longest run: %d\\nMax run lenght:%d' % (highest, longest))\n\n  # Invariants\n  assert len(shuffled) == len(values) * n\n  for val in values:\n    assert shuffled.count(val) == n\n\n  if debug:\n    # Only checked if we were able to avoid a sequential run &gt;= longest\n    assert highest &lt;= longest\n\nfor x in xrange(10, 1000):\n  generate_quasirandom((0, 1, 2, 3), 1000, x//10, debug=True)\n\nCritique: \nA couple of possible code improvements that I noticed:\n\nsourcelen = len(values) * n\nThis seems unnecessarily complicated to me. I mean, after a second of thinking the reader of this line will realize that len(values) * n is indeed the length of source, but that's still one step of thinking more than would be required if you just did sourcelen = len(source) (after populating source of course).\n\nThat being said, I don't see why you need to store the length of source in a variable at all. Doing for i in xrange(len(source)): isn't really less readable or less efficient than doing for i in xrange(sourcelen):, so I'd just get rid of the variable altogether.\n\nsource = []\nfor val in values:\n  source += [val] * n\nThis can be written as a list comprehension like this:\n\nsource = [x for val in values for x in [val]*n]\nUsing list comprehensions is usually considered more idiomatic python than building up a list iteratively. It is also often more efficient.\n\nAs Fred Nurk points out, the list comprehension can also be written as\n\nsource = [val for val in values for _ in xrange(n)]\nwhich avoids the creation of a temporary list and is maybe a bit more readable.\n\nj = int(random() * (sourcelen - i)) + i\nTo get a random integer between x (inclusive) and y (exclusive), you can use random.randrange(x,y), so the above can be written as:\n\nj = randrange(i, len(source) - i)\n(You'll also need to import randrange instead of random from the random module). This makes it more immediately obviously that j is a random number between i and len(source) - i and introduces less room for mistakes.\n\nRevised:\nfrom random import randrange\nfrom itertools import groupby # For testing the result\ntry: xrange\nexcept: xrange = range\n\ndef generate_quasirandom(values, n, longest=3, debug=False):\n  # Sanity check\n  if len(values) < 2 or longest < 1:\n    raise ValueError\n\n  # Create a list with n * [val]\n  source = [val for val in values for _ in xrange(n)]\n\n  # For breaking runs\n  serial = 0\n  latest = None\n\n  for i in xrange(len(source)):\n    # Pick something from source[:i]\n    j = randrange(i, len(source) - i)\n    if source[j] == latest:\n      serial += 1\n      if serial >= longest:\n        serial = 0\n        guard = 0\n        # We got a serial run, break it\n        while source[j] == latest:\n          j = randrange(i, len(source) - i)\n          guard += 1\n          # We just hit an infinit loop: there is no way to avoid a serial run\n          if guard > 10:\n            print(\"Unable to avoid serial run, disabling asserts.\")\n            debug = False\n            break\n    else:\n      serial = 0\n    latest = source[j]\n    # Move the picked value to source[i:]\n    source[i], source[j] = source[j], source[i]\n\n  # More sanity checks\n  check_quasirandom(source, values, n, longest, debug)\n\n  return source\n\n\ndef check_quasirandom(shuffled, values, n, longest, debug):\n  counts = []\n  # We skip the last entries because breaking runs in them get too hairy\n  for val, count in groupby(shuffled):\n    counts.append(len(list(count)))\n  highest = max(counts)\n  print('Longest run: %d\\nMax run lenght:%d' % (highest, longest))\n\n  # Invariants\n  assert len(shuffled) == len(values) * n\n  for val in values:\n    assert shuffled.count(val) == n\n\n  if debug:\n    # Only checked if we were able to avoid a sequential run &gt;= longest\n    assert highest &lt;= longest\n\nfor x in xrange(10, 1000):\n  generate_quasirandom((0, 1, 2, 3), 1000, x//10, debug=True)\n\nORIGINAL: \nfrom random import random\nfrom itertools import groupby # For testing the result\ntry: xrange\nexcept: xrange = range\n\ndef generate_quasirandom(values, n, longest=3, debug=False):\n  # Sanity check\n  if len(values) < 2 or longest < 1:\n    raise ValueError\n\n  # Create a list with n * [val]\n  source = []\n  sourcelen = len(values) * n\n  for val in values:\n    source += [val] * n\n\n  # For breaking runs\n  serial = 0\n  latest = None\n\n  for i in xrange(sourcelen):\n    # Pick something from source[:i]\n    j = int(random() * (sourcelen - i)) + i\n    if source[j] == latest:\n      serial += 1\n      if serial >= longest:\n        serial = 0\n        guard = 0\n        # We got a serial run, break it\n        while source[j] == latest:\n          j = int(random() * (sourcelen - i)) + i\n          guard += 1\n          # We just hit an infinit loop: there is no way to avoid a serial run\n          if guard > 10:\n            print(\"Unable to avoid serial run, disabling asserts.\")\n            debug = False\n            break\n    else:\n      serial = 0\n    latest = source[j]\n    # Move the picked value to source[i:]\n    source[i], source[j] = source[j], source[i]\n\n  # More sanity checks\n  check_quasirandom(source, values, n, longest, debug)\n\n  return source\n\n\ndef check_quasirandom(shuffled, values, n, longest, debug):\n  counts = []\n  # We skip the last entries because breaking runs in them get too hairy\n  for val, count in groupby(shuffled):\n    counts.append(len(list("
+  },
+  {
+    "body": "<p>It's clever, but makes me vomit a little:</p>\n\n<pre><code>file = '0123456789abcdef123'\n\npath = os.sep.join([ file[ x:(x+2) ] for x in range(0,5,2) ])\n</code></pre>\n",
+    "answer": {
+      "body": "<p>Is there are reason you're not just doing:</p>\n\n<pre><code>path = os.sep.join([file[0:2], file[2:4], file[4:6]])\n</code></pre>\n\n<p>I think that my version is a little easier to parse (as a human), but if you need to extend the number of groups, your code is more extensible.</p>\n\n<p>Edit: and if we're looking for things that are easy to read but not necessarily the best way to do it...</p>\n\n<pre><code>slash = os.sep\npath = file[0:2] + slash + file[2:4] + slash + file[4:6]\n</code></pre>\n",
+      "comments": [],
+      "meta_data": {
+        "CommentCount": "0",
+        "ContentLicense": "CC BY-SA 2.5",
+        "CreationDate": "2011-01-28T02:00:30.617",
+        "Id": "347",
+        "ParentId": "346",
+        "Score": "10"
+      }
+    },
+    "comments": [],
+    "meta_data": {
+      "AcceptedAnswerId": "349",
+      "CommentCount": "0",
+      "ContentLicense": "CC BY-SA 3.0",
+      "CreationDate": "2011-01-28T01:28:04.327",
+      "Id": "346",
+      "Score": "0",
+      "Tags": [
+        "python"
+      ],
+      "Title": "Generating filesystem paths from a fixed string"
+    },
+    "question_id": "346",
+    "prompt": "Question: <p>It's clever, but makes me vomit a little:</p>\n\n<pre><code>file = '0123456789abcdef123'\n\npath = os.sep.join([ file[ x:(x+2) ] for x in range(0,5,2) ])\n</code></pre>\n \n\n Answer: <p>Is there are reason you're not just doing:</p>\n\n<pre><code>path = os.sep.join([file[0:2], file[2:4], file[4:6]])\n</code></pre>\n\n<p>I think that my version is a little easier to parse (as a human), but if you need to extend the number of groups, your code is more extensible.</p>\n\n<p>Edit: and if we're looking for things that are easy to read but not necessarily the best way to do it...</p>\n\n<pre><code>slash = os.sep\npath = file[0:2] + slash + file[2:4] + slash + file[4:6]\n</code></pre>\n \n\n This is a question and answer from a forum where users review and improve the code of other users. Please output the original code, a summary of the critique, and the revised code using the format ORIGINAL: [write original code here] CRITIQUE: [write critique here] REVISED: [write revision code here]. \n\n",
+    "response": "\nORIGINAL: \nfile = '0123456789abcdef123'\npath = os.sep.join([ file[ x:(x+2) ] for x in range(0,5,2) ])\n\nCRITIQUE:\nThe original code is clever, but difficult to parse. A simpler version of the code is suggested that is easier to read.\n\nREVISED:\npath = os.sep.join([file[0:2], file[2:4], file[4:6]])"
+  }
+]

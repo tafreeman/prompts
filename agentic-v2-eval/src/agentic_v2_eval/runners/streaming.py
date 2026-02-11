@@ -7,8 +7,9 @@ results as they arrive.
 from __future__ import annotations
 
 import asyncio
+import inspect
 import logging
-from collections.abc import AsyncIterator, Callable, Iterator
+from collections.abc import AsyncIterator, Awaitable, Callable, Iterator
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
@@ -126,7 +127,7 @@ class AsyncStreamingRunner(Generic[T, R]):
 
     def __init__(
         self,
-        evaluator: Callable[[T], R],
+        evaluator: Callable[[T], R | Awaitable[R]],
         on_result: Callable[[R], None] | None = None,
         continue_on_error: bool = True,
         max_concurrency: int = 5,
@@ -142,7 +143,8 @@ class AsyncStreamingRunner(Generic[T, R]):
         self.evaluator = evaluator
         self.on_result = on_result
         self.continue_on_error = continue_on_error
-        self.max_concurrency = max_concurrency
+        # Treat non-positive values as "sequential".
+        self.max_concurrency = max(1, int(max_concurrency))
 
     async def iter_results(
         self,
@@ -156,25 +158,63 @@ class AsyncStreamingRunner(Generic[T, R]):
         Yields:
             Results for successful evaluations.
         """
-        if isinstance(test_cases, list):
-            test_cases = iter(test_cases)
+        async def _aiter_cases() -> AsyncIterator[T]:
+            if hasattr(test_cases, "__aiter__"):
+                async for tc in test_cases:  # type: ignore[operator]
+                    yield tc
+            else:
+                for tc in test_cases:  # type: ignore[operator]
+                    yield tc
 
-        for test_case in test_cases:  # type: ignore
-            try:
-                if asyncio.iscoroutinefunction(self.evaluator):
-                    result = await self.evaluator(test_case)
+        semaphore = asyncio.Semaphore(self.max_concurrency)
+
+        async def _eval_one(tc: T) -> tuple[bool, R | Exception]:
+            async with semaphore:
+                try:
+                    value = self.evaluator(tc)
+                    if inspect.isawaitable(value):
+                        value = await value
+                    return True, value  # type: ignore[return-value]
+                except Exception as e:  # pragma: no cover (exercised via tests)
+                    return False, e
+
+        pending: set[asyncio.Task[tuple[bool, R | Exception]]] = set()
+
+        async def _drain_one() -> AsyncIterator[tuple[bool, R | Exception]]:
+            if not pending:
+                return
+            done, _ = await asyncio.wait(pending, return_when=asyncio.FIRST_COMPLETED)
+            for task in done:
+                pending.remove(task)
+                yield task.result()
+
+        async for test_case in _aiter_cases():
+            pending.add(asyncio.create_task(_eval_one(test_case)))
+            if len(pending) >= self.max_concurrency:
+                async for ok, payload in _drain_one():
+                    if ok:
+                        result = payload  # type: ignore[assignment]
+                        if self.on_result:
+                            self.on_result(result)
+                        yield result
+                    else:
+                        err = payload  # type: ignore[assignment]
+                        logger.warning(f"Async streaming error: {err}")
+                        if not self.continue_on_error:
+                            raise err
+
+        while pending:
+            async for ok, payload in _drain_one():
+                if ok:
+                    result = payload  # type: ignore[assignment]
+                    if self.on_result:
+                        self.on_result(result)
+                    yield result
                 else:
-                    result = self.evaluator(test_case)
-
-                if self.on_result:
-                    self.on_result(result)
-
-                yield result
-
-            except Exception as e:
-                logger.warning(f"Async streaming error: {e}")
-                if not self.continue_on_error:
-                    raise
+                    err = payload  # type: ignore[assignment]
+                    logger.warning(f"Async streaming error: {err}")
+                    if not self.continue_on_error:
+                        raise err
 
 
 def run_streaming_evaluation(

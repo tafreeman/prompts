@@ -125,6 +125,7 @@ name: test_workflow
 steps:
   - name: step1
     description: Test step
+    agent: tier2_coder
 """)
             result = runner.invoke(app, ["validate", str(workflow_path)])
             assert result.exit_code == 0
@@ -177,6 +178,28 @@ class TestCLIOrchestrate:
         result = runner.invoke(app, ["orchestrate", "Test task"])
         # Either succeeds or shows config message
         assert "LLM" in result.stdout or "Dynamic Orchestration" in result.stdout
+
+
+class TestServerApp:
+    """Tests for server app startup."""
+
+    def test_server_app_imports_cleanly(self):
+        """Server app module imports without errors."""
+        from agentic_v2.server.app import create_app
+
+        app = create_app()
+        assert app is not None
+        assert app.title == "Agentic Workflows V2 API"
+
+    def test_server_api_routes_registered(self):
+        """All expected API routes are registered."""
+        from agentic_v2.server.app import create_app
+
+        app = create_app()
+        paths = [r.path for r in app.routes]
+        assert "/api/health" in paths
+        assert "/api/workflows" in paths
+        assert "/api/agents" in paths
 
 
 class TestCLIEdgeCases:

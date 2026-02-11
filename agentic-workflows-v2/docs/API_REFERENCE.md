@@ -23,7 +23,7 @@ python -m sphinx.cmd.quickstart docs/_build/sphinx -q -p "agentic_v2" -a "Team" 
 MkDocs alternative:
 
 - Install: `pip install mkdocs mkdocstrings mkdocs-material`
-- Configure `mkdocs.yml` with `plugins: - mkdocstrings.handlers.python` and point to `src/` packages.
+- Configure `mkdocs.yml` with `plugins: - mkdocstrings.handlers.python` and point to the `agentic_v2` package.
 
 CI / Local invocation examples:
 

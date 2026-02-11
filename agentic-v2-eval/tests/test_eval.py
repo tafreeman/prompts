@@ -2,27 +2,35 @@
 
 from __future__ import annotations
 
+import asyncio
+import json
 from pathlib import Path
 
 import pytest
 
-from src.agentic_v2_eval.metrics.accuracy import (
+from agentic_v2_eval.metrics.accuracy import (
     calculate_accuracy,
     calculate_f1_score,
     calculate_precision_recall,
 )
-from src.agentic_v2_eval.metrics.performance import (
+from agentic_v2_eval.metrics.performance import (
     benchmark,
     execution_time_score,
     latency_percentiles,
 )
-from src.agentic_v2_eval.metrics.quality import code_quality_score, complexity_score, lint_score
-from src.agentic_v2_eval.reporters.html import HtmlReporter, generate_html_report
-from src.agentic_v2_eval.reporters.json import JsonReporter, generate_json_report
-from src.agentic_v2_eval.reporters.markdown import MarkdownReporter, generate_markdown_report
-from src.agentic_v2_eval.runners.batch import BatchRunner, run_batch_evaluation
-from src.agentic_v2_eval.runners.streaming import StreamingRunner, run_streaming_evaluation
-from src.agentic_v2_eval.scorer import Scorer, ScoringResult
+from agentic_v2_eval.metrics.quality import code_quality_score, complexity_score, lint_score
+from agentic_v2_eval.reporters.html import HtmlReporter, generate_html_report
+from agentic_v2_eval.reporters.json import JsonReporter, generate_json_report
+from agentic_v2_eval.reporters.markdown import MarkdownReporter, generate_markdown_report
+from agentic_v2_eval.runners.batch import BatchRunner, run_batch_evaluation
+from agentic_v2_eval.runners.streaming import (
+    AsyncStreamingRunner,
+    StreamingRunner,
+    run_streaming_evaluation,
+)
+from agentic_v2_eval.scorer import Scorer, ScoringResult
+
+from agentic_v2_eval.__main__ import main
 
 # === Accuracy Metrics Tests ===
 
@@ -264,6 +272,102 @@ def test_run_streaming_evaluation():
     run_streaming_evaluation(test_cases, dummy_evaluator, callback)
 
     assert collected == [{"result": 1}, {"result": 2}]
+
+
+def test_scorer_from_dict():
+    """Scorer should accept an in-memory rubric dict."""
+    rubric = {
+        "name": "Dict Rubric",
+        "version": "1.0",
+        "criteria": [
+            {"name": "Accuracy", "weight": 1.0},
+            {"name": "Completeness", "weight": 1.0},
+        ],
+    }
+    scorer = Scorer(rubric)
+    score = scorer.score({"Accuracy": 1.0, "Completeness": 0.0})
+    assert 0.0 <= score.weighted_score <= 1.0
+
+
+def test_async_streaming_runner_supports_async_iterables_and_awaitables():
+    """AsyncStreamingRunner should handle async iterables and awaitable return values."""
+
+    async def _gen(n: int):
+        for i in range(n):
+            yield i
+
+    async def _async_double(x: int) -> int:
+        await asyncio.sleep(0)
+        return x * 2
+
+    # evaluator returns a coroutine object but is not itself an async def
+    def evaluator(x: int):
+        return _async_double(x)
+
+    runner = AsyncStreamingRunner(evaluator=evaluator, max_concurrency=2)
+
+    async def _collect() -> list[int]:
+        out: list[int] = []
+        async for r in runner.iter_results(_gen(5)):
+            out.append(r)
+        return out
+
+    results = asyncio.run(_collect())
+    assert sorted(results) == [0, 2, 4, 6, 8]
+
+
+def test_async_streaming_runner_respects_max_concurrency():
+    """max_concurrency should bound concurrent evaluator executions."""
+    current = 0
+    max_seen = 0
+
+    async def evaluator(x: int) -> int:
+        nonlocal current, max_seen
+        current += 1
+        max_seen = max(max_seen, current)
+        await asyncio.sleep(0.01)
+        current -= 1
+        return x
+
+    runner = AsyncStreamingRunner(evaluator=evaluator, max_concurrency=3)
+
+    async def _collect() -> list[int]:
+        out: list[int] = []
+        async for r in runner.iter_results(list(range(10))):
+            out.append(r)
+        return out
+
+    results = asyncio.run(_collect())
+    assert sorted(results) == list(range(10))
+    assert max_seen <= 3
+
+
+def test_cli_evaluate_defaults_to_packaged_rubric(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    """CLI should run evaluate without an explicit --rubric."""
+    results_path = tmp_path / "results.json"
+    out_path = tmp_path / "scored.json"
+
+    results_path.write_text(
+        json.dumps(
+            {
+                "Accuracy": 0.9,
+                "Completeness": 0.8,
+                "Efficiency": 0.7,
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    exit_code = main(["evaluate", str(results_path), "--output", str(out_path)])
+    captured = capsys.readouterr()
+
+    assert exit_code == 0
+    assert out_path.exists()
+    assert "Average Score" in captured.out
+
+    data = json.loads(out_path.read_text(encoding="utf-8"))
+    assert data["rubric"] == "<builtin:default>"
+    assert "results" in data
 
 
 # === Reporter Tests ===

@@ -1,0 +1,242 @@
+[
+  {
+    "task_id": 601,
+    "text": "Write a function to find the longest chain which can be formed from the given set of pairs.",
+    "code": "class Pair(object): \r\n\tdef __init__(self, a, b): \r\n\t\tself.a = a \r\n\t\tself.b = b \r\ndef max_chain_length(arr, n): \r\n\tmax = 0\r\n\tmcl = [1 for i in range(n)] \r\n\tfor i in range(1, n): \r\n\t\tfor j in range(0, i): \r\n\t\t\tif (arr[i].a > arr[j].b and\r\n\t\t\t\tmcl[i] < mcl[j] + 1): \r\n\t\t\t\tmcl[i] = mcl[j] + 1\r\n\tfor i in range(n): \r\n\t\tif (max < mcl[i]): \r\n\t\t\tmax = mcl[i] \r\n\treturn max",
+    "test_list": [
+      "assert max_chain_length([Pair(5, 24), Pair(15, 25),Pair(27, 40), Pair(50, 60)], 4) == 3",
+      "assert max_chain_length([Pair(1, 2), Pair(3, 4),Pair(5, 6), Pair(7, 8)], 4) == 4",
+      "assert max_chain_length([Pair(19, 10), Pair(11, 12),Pair(13, 14), Pair(15, 16), Pair(31, 54)], 5) == 5"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 602,
+    "text": "Write a python function to find the first repeated character in a given string.",
+    "code": "def first_repeated_char(str1):\r\n  for index,c in enumerate(str1):\r\n    if str1[:index+1].count(c) > 1:\r\n      return c \r\n  return \"None\"",
+    "test_list": [
+      "assert first_repeated_char(\"abcabc\") == \"a\"",
+      "assert first_repeated_char(\"abc\") == \"None\"",
+      "assert first_repeated_char(\"123123\") == \"1\""
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 603,
+    "text": "Write a function to get a lucid number smaller than or equal to n.",
+    "code": "def get_ludic(n):\r\n\tludics = []\r\n\tfor i in range(1, n + 1):\r\n\t\tludics.append(i)\r\n\tindex = 1\r\n\twhile(index != len(ludics)):\r\n\t\tfirst_ludic = ludics[index]\r\n\t\tremove_index = index + first_ludic\r\n\t\twhile(remove_index < len(ludics)):\r\n\t\t\tludics.remove(ludics[remove_index])\r\n\t\t\tremove_index = remove_index + first_ludic - 1\r\n\t\tindex += 1\r\n\treturn ludics",
+    "test_list": [
+      "assert get_ludic(10) == [1, 2, 3, 5, 7]",
+      "assert get_ludic(25) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25]",
+      "assert get_ludic(45) == [1, 2, 3, 5, 7, 11, 13, 17, 23, 25, 29, 37, 41, 43]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 604,
+    "text": "Write a function to reverse words in a given string.",
+    "code": "def reverse_words(s):\r\n        return ' '.join(reversed(s.split()))",
+    "test_list": [
+      "assert reverse_words(\"python program\")==(\"program python\")",
+      "assert reverse_words(\"java language\")==(\"language java\")",
+      "assert reverse_words(\"indian man\")==(\"man indian\")"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 605,
+    "text": "Write a function to check if the given integer is a prime number.",
+    "code": "def prime_num(num):\r\n  if num >=1:\r\n   for i in range(2, num//2):\r\n     if (num % i) == 0:\r\n                return False\r\n     else:\r\n                return True\r\n  else:\r\n          return False",
+    "test_list": [
+      "assert prime_num(13)==True",
+      "assert prime_num(7)==True",
+      "assert prime_num(-1010)==False"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 606,
+    "text": "Write a function to convert degrees to radians.",
+    "code": "import math\r\ndef radian_degree(degree):\r\n radian = degree*(math.pi/180)\r\n return radian",
+    "test_list": [
+      "assert radian_degree(90)==1.5707963267948966",
+      "assert radian_degree(60)==1.0471975511965976",
+      "assert radian_degree(120)==2.0943951023931953"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 607,
+    "text": "Write a function to search a literals string in a string and also find the location within the original string where the pattern occurs by using regex.",
+    "code": "import re\r\npattern = 'fox'\r\ntext = 'The quick brown fox jumps over the lazy dog.'\r\ndef find_literals(text, pattern):\r\n  match = re.search(pattern, text)\r\n  s = match.start()\r\n  e = match.end()\r\n  return (match.re.pattern, s, e)",
+    "test_list": [
+      "assert find_literals('The quick brown fox jumps over the lazy dog.', 'fox') == ('fox', 16, 19)",
+      "assert find_literals('Its been a very crazy procedure right', 'crazy') == ('crazy', 16, 21)",
+      "assert find_literals('Hardest choices required strongest will', 'will') == ('will', 35, 39)"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 608,
+    "text": "Write a python function to find nth bell number.",
+    "code": "def bell_Number(n): \r\n    bell = [[0 for i in range(n+1)] for j in range(n+1)] \r\n    bell[0][0] = 1\r\n    for i in range(1, n+1):\r\n        bell[i][0] = bell[i-1][i-1]\r\n        for j in range(1, i+1): \r\n            bell[i][j] = bell[i-1][j-1] + bell[i][j-1] \r\n    return bell[n][0] ",
+    "test_list": [
+      "assert bell_Number(2) == 2",
+      "assert bell_Number(3) == 5",
+      "assert bell_Number(4) == 15"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 609,
+    "text": "Write a python function to find minimum possible value for the given periodic function.",
+    "code": "def floor_Min(A,B,N):\r\n    x = max(B - 1,N)\r\n    return (A*x) // B",
+    "test_list": [
+      "assert floor_Min(10,20,30) == 15",
+      "assert floor_Min(1,2,1) == 0",
+      "assert floor_Min(11,10,9) == 9"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 610,
+    "text": "Write a python function to remove the k'th element from a given list.",
+    "code": "def remove_kth_element(list1, L):\r\n    return  list1[:L-1] + list1[L:]",
+    "test_list": [
+      "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
+      "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
+      "assert remove_kth_element([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10],5)==[10,10,15,19, 18, 17, 26, 26, 17, 18, 10]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 611,
+    "text": "Write a function to find the maximum of nth column from the given tuple list.",
+    "code": "def max_of_nth(test_list, N):\r\n  res = max([sub[N] for sub in test_list])\r\n  return (res) ",
+    "test_list": [
+      "assert max_of_nth([(5, 6, 7), (1, 3, 5), (8, 9, 19)], 2) == 19",
+      "assert max_of_nth([(6, 7, 8), (2, 4, 6), (9, 10, 20)], 1) == 10",
+      "assert max_of_nth([(7, 8, 9), (3, 5, 7), (10, 11, 21)], 1) == 11"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 612,
+    "text": "Write a python function to merge the first and last elements separately in a list of lists.",
+    "code": "def merge(lst):  \r\n    return [list(ele) for ele in list(zip(*lst))] ",
+    "test_list": [
+      "assert merge([['x', 'y'], ['a', 'b'], ['m', 'n']]) == [['x', 'a', 'm'], ['y', 'b', 'n']]",
+      "assert merge([[1, 2], [3, 4], [5, 6], [7, 8]]) == [[1, 3, 5, 7], [2, 4, 6, 8]]",
+      "assert merge([['x', 'y','z' ], ['a', 'b','c'], ['m', 'n','o']]) == [['x', 'a', 'm'], ['y', 'b', 'n'],['z', 'c','o']]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 613,
+    "text": "Write a function to find the maximum value in record list as tuple attribute in the given tuple list.",
+    "code": "def maximum_value(test_list):\r\n  res = [(key, max(lst)) for key, lst in test_list]\r\n  return (res) ",
+    "test_list": [
+      "assert maximum_value([('key1', [3, 4, 5]), ('key2', [1, 4, 2]), ('key3', [9, 3])]) == [('key1', 5), ('key2', 4), ('key3', 9)]",
+      "assert maximum_value([('key1', [4, 5, 6]), ('key2', [2, 5, 3]), ('key3', [10, 4])]) == [('key1', 6), ('key2', 5), ('key3', 10)]",
+      "assert maximum_value([('key1', [5, 6, 7]), ('key2', [3, 6, 4]), ('key3', [11, 5])]) == [('key1', 7), ('key2', 6), ('key3', 11)]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 614,
+    "text": "Write a function to find the cumulative sum of all the values that are present in the given tuple list.",
+    "code": "def cummulative_sum(test_list):\r\n  res = sum(map(sum, test_list))\r\n  return (res)",
+    "test_list": [
+      "assert cummulative_sum([(1, 3), (5, 6, 7), (2, 6)]) == 30",
+      "assert cummulative_sum([(2, 4), (6, 7, 8), (3, 7)]) == 37",
+      "assert cummulative_sum([(3, 5), (7, 8, 9), (4, 8)]) == 44"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 615,
+    "text": "Write a function to find average value of the numbers in a given tuple of tuples.",
+    "code": "def average_tuple(nums):\r\n    result = [sum(x) / len(x) for x in zip(*nums)]\r\n    return result",
+    "test_list": [
+      "assert average_tuple(((10, 10, 10, 12), (30, 45, 56, 45), (81, 80, 39, 32), (1, 2, 3, 4)))==[30.5, 34.25, 27.0, 23.25]",
+      "assert average_tuple(((1, 1, -5), (30, -15, 56), (81, -60, -39), (-10, 2, 3)))== [25.5, -18.0, 3.75]",
+      "assert average_tuple( ((100, 100, 100, 120), (300, 450, 560, 450), (810, 800, 390, 320), (10, 20, 30, 40)))==[305.0, 342.5, 270.0, 232.5]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 616,
+    "text": "Write a function to perfom the modulo of tuple elements in the given two tuples.",
+    "code": "def tuple_modulo(test_tup1, test_tup2):\r\n  res = tuple(ele1 % ele2 for ele1, ele2 in zip(test_tup1, test_tup2)) \r\n  return (res) ",
+    "test_list": [
+      "assert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+      "assert tuple_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+      "assert tuple_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 617,
+    "text": "Write a function to check for the number of jumps required of given length to reach a point of form (d, 0) from origin in a 2d plane.",
+    "code": "def min_Jumps(a, b, d): \r\n    temp = a \r\n    a = min(a, b) \r\n    b = max(temp, b) \r\n    if (d >= b): \r\n        return (d + b - 1) / b \r\n    if (d == 0): \r\n        return 0\r\n    if (d == a): \r\n        return 1\r\n    else:\r\n        return 2",
+    "test_list": [
+      "assert min_Jumps(3,4,11)==3.5",
+      "assert min_Jumps(3,4,0)==0",
+      "assert min_Jumps(11,14,11)==1"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 618,
+    "text": "Write a function to divide two lists using map and lambda function.",
+    "code": "def div_list(nums1,nums2):\r\n  result = map(lambda x, y: x / y, nums1, nums2)\r\n  return list(result)",
+    "test_list": [
+      "assert div_list([4,5,6],[1, 2, 3])==[4.0,2.5,2.0]",
+      "assert div_list([3,2],[1,4])==[3.0, 0.5]",
+      "assert div_list([90,120],[50,70])==[1.8, 1.7142857142857142]"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 619,
+    "text": "Write a function to move all the numbers in it to the given string.",
+    "code": "def move_num(test_str):\r\n  res = ''\r\n  dig = ''\r\n  for ele in test_str:\r\n    if ele.isdigit():\r\n      dig += ele\r\n    else:\r\n      res += ele\r\n  res += dig\r\n  return (res) ",
+    "test_list": [
+      "assert move_num('I1love143you55three3000thousand') == 'Iloveyouthreethousand1143553000'",
+      "assert move_num('Avengers124Assemble') == 'AvengersAssemble124'",
+      "assert move_num('Its11our12path13to14see15things16do17things') == 'Itsourpathtoseethingsdothings11121314151617'"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  },
+  {
+    "task_id": 620,
+    "text": "Write a function to find the largest subset where each pair is divisible.",
+    "code": "def largest_subset(a, n):\r\n\tdp = [0 for i in range(n)]\r\n\tdp[n - 1] = 1; \r\n\tfor i in range(n - 2, -1, -1):\r\n\t\tmxm = 0;\r\n\t\tfor j in range(i + 1, n):\r\n\t\t\tif a[j] % a[i] == 0 or a[i] % a[j] == 0:\r\n\t\t\t\tmxm = max(mxm, dp[j])\r\n\t\tdp[i] = 1 + mxm\r\n\treturn max(dp)",
+    "test_list": [
+      "assert largest_subset([ 1, 3, 6, 13, 17, 18 ], 6) == 4",
+      "assert largest_subset([10, 5, 3, 15, 20], 5) == 3",
+      "assert largest_subset([18, 1, 3, 6, 13, 17], 6) == 4"
+    ],
+    "test_setup_code": "",
+    "challenge_test_list": []
+  }
+]

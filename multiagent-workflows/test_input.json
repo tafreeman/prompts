@@ -1,5 +1,0 @@
-{
-	"requirements": "Create a Python function that checks if in a given list of numbers, any two numbers are closer to each other than a given threshold. The function signature should be: def has_close_elements(numbers: List[float], threshold: float) -> bool",
-	"language": "python",
-	"framework": null
-}
