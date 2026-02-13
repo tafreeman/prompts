@@ -37,9 +37,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
-          # Install parent tools package for integration tests
-          pip install -e .. || true
 
+      - name: Install parent tools package for integration tests
+        run: pip install -e ..
+        continue-on-error: true
       - name: Run tests with coverage
         run: |
           python -m pytest tests/ -v --cov=src/agentic_v2_eval --cov-report=xml --cov-report=term-missing
