@@ -440,13 +440,31 @@ def _list_workflows():
 
 def _list_agents():
     """List available agents."""
-    agents = [
+    agents: list[tuple[str, str, str]] = [
         ("CoderAgent", "Tier 2", "Code generation and modification"),
         ("ReviewerAgent", "Tier 2", "Code review and quality analysis"),
         ("TestAgent", "Tier 2", "Test generation and validation"),
         ("ArchitectAgent", "Tier 2", "Architecture planning and tech stack selection"),
         ("OrchestratorAgent", "Tier 3", "Dynamic workflow planning and coordination"),
     ]
+    existing = {name for name, _, _ in agents}
+
+    try:
+        from ..storage import get_catalog_store
+
+        store = get_catalog_store()
+        store.sync_agents_config()
+        for item in store.list_agents():
+            class_name = str(item.get("class_name") or "")
+            if not class_name or class_name in existing:
+                continue
+            tier = f"Tier {item.get('tier') or '2'}"
+            description = str(item.get("description") or item.get("role") or "")
+            agents.append((class_name, tier, description or "-"))
+            existing.add(class_name)
+    except Exception:
+        # Keep CLI functional when optional catalog sync fails.
+        pass
 
     table = Table(title="Available Agents")
     table.add_column("Agent", style="cyan")

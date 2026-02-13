@@ -148,17 +148,82 @@ export interface EvaluationCriterionScore {
   score: number;
   weight: number;
   max_score: number;
+  raw_score?: number;
+  normalized_score?: number;
+  critical_floor?: number | null;
+  judge_raw_score?: number;
+  judge_normalized_score?: number;
+  judge_evidence?: string[];
+}
+
+export interface EvaluationHardGates {
+  required_outputs_present: boolean;
+  overall_status_success: boolean;
+  no_critical_step_failures: boolean;
+  schema_contract_valid: boolean;
+  dataset_workflow_compatible: boolean;
+}
+
+export interface EvaluationFloorViolation {
+  criterion: string;
+  floor: number;
+  normalized_score: number;
+}
+
+export interface EvaluationStepScore {
+  step_name: string;
+  status: StepStatus;
+  duration_ms?: number | null;
+  tokens_used?: number | null;
+  model_used?: string | null;
+  score: number;
+}
+
+export interface EvaluationAgentScore {
+  step_name: string;
+  agent_role?: string | null;
+  model_used?: string | null;
+  status: StepStatus;
+  role_adherence: number;
+  output_quality: number;
+  efficiency: number;
+  reliability: number;
+  overall_score: number;
+}
+
+export interface EvaluationReportingBundle {
+  sample_count: number;
+  per_criterion: Record<
+    string,
+    {
+      mean_score: number;
+      stdev: number;
+      min: number;
+      max: number;
+    }
+  >;
+  grade_distribution: Record<string, number>;
+  floor_violation_count: number;
 }
 
 export interface EvaluationResult {
   enabled: boolean;
   rubric: string;
+  rubric_id?: string;
+  rubric_version?: string;
   criteria: EvaluationCriterionScore[];
   overall_score: number;
   weighted_score: number;
   grade: string;
   passed: boolean;
   pass_threshold: number;
+  hard_gates?: EvaluationHardGates;
+  hard_gate_failures?: string[];
+  floor_violations?: EvaluationFloorViolation[];
+  grade_capped?: boolean;
+  step_scores?: EvaluationStepScore[];
+  agent_scores?: EvaluationAgentScore[];
+  reporting_bundle?: EvaluationReportingBundle;
   generated_at: string;
   dataset?: Record<string, unknown> | null;
 }
@@ -189,6 +254,13 @@ export type ExecutionEvent =
       passed: boolean;
       pass_threshold: number;
       criteria: EvaluationCriterionScore[];
+      hard_gates?: EvaluationHardGates;
+      hard_gate_failures?: string[];
+      floor_violations?: EvaluationFloorViolation[];
+      grade_capped?: boolean;
+      step_scores?: EvaluationStepScore[];
+      agent_scores?: EvaluationAgentScore[];
+      reporting_bundle?: EvaluationReportingBundle;
       timestamp: string;
     }
   | { type: "error"; run_id: string; error: string }

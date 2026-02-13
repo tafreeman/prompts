@@ -47,6 +47,8 @@ from .runtime import (
     SubprocessRuntime,
     create_runtime,
 )
+from .strategy import DagOnceStrategy, ExecutionStrategy, create_execution_strategy
+from .iterative import IterativeRepairStrategy
 from .step import (
     RetryConfig,
     RetryStrategy,
@@ -97,6 +99,11 @@ __all__ = [
     "SubprocessRuntime",
     "DockerRuntime",
     "create_runtime",
+    # Strategies
+    "ExecutionStrategy",
+    "DagOnceStrategy",
+    "IterativeRepairStrategy",
+    "create_execution_strategy",
     # Executor
     "ExecutorEvent",
     "ExecutionConfig",

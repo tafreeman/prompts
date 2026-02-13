@@ -32,11 +32,13 @@ export default function RunList({ runs, isLoading }: Props) {
     <div>
       {/* Filters */}
       <div className="mb-4 flex items-center gap-2">
-        <Filter className="h-4 w-4 text-gray-500" />
+        <Filter className="h-4 w-4 text-gray-500" aria-hidden="true" />
         {["all", "success", "failed"].map((f) => (
           <button
             key={f}
             onClick={() => setStatusFilter(f)}
+            aria-label={`Filter by ${f} status`}
+            aria-pressed={statusFilter === f}
             className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
               statusFilter === f
                 ? "bg-accent-blue/20 text-accent-blue"

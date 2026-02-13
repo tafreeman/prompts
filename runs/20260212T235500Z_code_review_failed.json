@@ -1,0 +1,124 @@
+{
+  "run_id": "code_review-51a41915",
+  "workflow_name": "code_review",
+  "status": "failed",
+  "success_rate": 0.0,
+  "total_duration_ms": 7177.329000000001,
+  "total_retries": 3,
+  "step_count": 5,
+  "failed_step_count": 1,
+  "start_time": "2026-02-12T23:54:53.487329+00:00",
+  "end_time": "2026-02-12T23:55:00.664658+00:00",
+  "dataset": null,
+  "inputs": {
+    "code_file": "D:\\source\\prompts\\agentic-workflows-v2\\agentic_v2",
+    "review_depth": "standard"
+  },
+  "steps": [
+    {
+      "step_name": "parse_code",
+      "status": "failed",
+      "agent_role": null,
+      "tier": 0,
+      "model_used": null,
+      "duration_ms": 7176.175,
+      "retry_count": 3,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": "[Errno 13] Permission denied: 'D:\\\\source\\\\prompts\\\\agentic-workflows-v2\\\\agentic_v2'",
+      "error_type": "PermissionError",
+      "start_time": "2026-02-12T23:54:53.487671+00:00",
+      "end_time": "2026-02-12T23:55:00.663846+00:00",
+      "metadata": {
+        "retry_1_delay": 0.9363172047897782,
+        "retry_2_delay": 2.189407738514374,
+        "retry_3_delay": 4.022233449769114
+      }
+    },
+    {
+      "step_name": "style_check",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": null,
+      "model_used": null,
+      "duration_ms": 0.015000000000000001,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:55:00.664455+00:00",
+      "end_time": "2026-02-12T23:55:00.664470+00:00",
+      "metadata": {
+        "skip_reason": "dependency failed"
+      }
+    },
+    {
+      "step_name": "complexity_analysis",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": null,
+      "model_used": null,
+      "duration_ms": 0.014,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:55:00.664538+00:00",
+      "end_time": "2026-02-12T23:55:00.664552+00:00",
+      "metadata": {
+        "skip_reason": "dependency failed"
+      }
+    },
+    {
+      "step_name": "review_code",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": null,
+      "model_used": null,
+      "duration_ms": 0.004,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:55:00.664591+00:00",
+      "end_time": "2026-02-12T23:55:00.664595+00:00",
+      "metadata": {
+        "skip_reason": "dependency failed"
+      }
+    },
+    {
+      "step_name": "generate_summary",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": null,
+      "model_used": null,
+      "duration_ms": 0.003,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:55:00.664616+00:00",
+      "end_time": "2026-02-12T23:55:00.664619+00:00",
+      "metadata": {
+        "skip_reason": "dependency failed"
+      }
+    }
+  ],
+  "final_output": {
+    "review": null,
+    "summary": null
+  },
+  "extra": {
+    "evaluation_requested": false,
+    "evaluation": null
+  }
+}

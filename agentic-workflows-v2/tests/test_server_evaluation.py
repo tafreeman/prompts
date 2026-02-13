@@ -618,6 +618,8 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
     event = evaluation_events[-1]
     assert "hard_gates" in event
     assert "hard_gate_failures" in event
+    assert "agent_scores" in event
+    assert "reporting_bundle" in event
 
 
 @pytest.mark.asyncio
@@ -665,6 +667,8 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
     assert "hard_gates" in evaluation_payload
     assert "hard_gate_failures" in evaluation_payload
     assert "step_scores" in evaluation_payload
+    assert "agent_scores" in evaluation_payload
+    assert "reporting_bundle" in evaluation_payload
 
 
 @pytest.mark.asyncio
@@ -712,6 +716,8 @@ async def test_sse_payload_schema_validation(monkeypatch):
     assert isinstance(payload["rubric_id"], str)
     assert isinstance(payload["rubric_version"], str)
     assert isinstance(payload["step_scores"], list)
+    assert isinstance(payload["agent_scores"], list)
+    assert isinstance(payload["reporting_bundle"], dict)
 
 
 @pytest.mark.asyncio

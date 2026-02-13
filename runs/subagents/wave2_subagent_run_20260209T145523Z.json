@@ -1,0 +1,534 @@
+{
+  "timestamp": "20260209T145523Z",
+  "model": "gh:openai/gpt-4o-mini",
+  "eval_model": "gh:openai/gpt-4o-mini",
+  "wave": "Wave2",
+  "subagents": [
+    {
+      "id": "scoring_engineer",
+      "title": "W2-AG Scoring Engineer",
+      "focus": "W2-AG-001",
+      "system_instruction": "You are a scoring/evaluation systems engineer. Design per-agent scoring schemas and statistically sound reporting bundles. Prioritize deterministic outputs, payload backward compatibility, and explicit edge-case tests. You must specify exact response fields for server payloads and SSE emission.",
+      "raw_output": "{\n  \"summary\": \"Add agent_scores payload and enhance reporting bundle stats in server evaluation.\",\n  \"ticket_scope\": [\"W2-AG-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/server/evaluation.py\",\n      \"purpose\": \"Introduce agent_scores payload for comprehensive evaluation metrics.\",\n      \"operations\": [\n        \"Add agent_scores field to the result payload structure\",\n        \"Implement reliability adjustment logic based on new scoring criteria\",\n        \"Integrate reporting bundle stats aggregation to include new metrics\"\n      ],\n      \"compatibility_notes\": \"Agent_scores field is optional; existing metrics will remain accessible under previous keys.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/contracts/messages.py\",\n      \"purpose\": \"Extend payload schema to include agent_scores.\",\n      \"operations\": [\n        \"Add scoring structure to message schema\",\n        \"Include new statistics fields as part of the reporting bundle\"\n      ],\n      \"compatibility_notes\": \"Old message contracts remain intact, with new fields added to the schema.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_integration\",\n      \"file\": \"agentic-workflows-v2/tests/test_agent_scores.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"agent_scores are included correctly in the evaluation payload\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_reliability_adjustment\",\n      \"file\": \"agentic-workflows-v2/tests/test_reliability_adjustment.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"reliability adjustments correctly impact reported scores\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_backward_compatibility\",\n      \"file\": \"agentic-workflows-v2/tests/test_backward_compatibility.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"legacy payload structure remains functional and accessible\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\"agent_scores payload structure\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Potential incompatibility with existing workflows relying on previous payload schema\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Implement optional new fields and adjust parsing logic accordingly\",\n      \"validation\": \"Test against existing workflows to ensure no disruption occurs.\"\n    }\n  ],\n  \"acceptance_checks\": [\"All tests pass, including backward-compatibility checks.\"]\n}\n",
+      "parsed_output": {
+        "summary": "Add agent_scores payload and enhance reporting bundle stats in server evaluation.",
+        "ticket_scope": [
+          "W2-AG-001"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/server/evaluation.py",
+            "purpose": "Introduce agent_scores payload for comprehensive evaluation metrics.",
+            "operations": [
+              "Add agent_scores field to the result payload structure",
+              "Implement reliability adjustment logic based on new scoring criteria",
+              "Integrate reporting bundle stats aggregation to include new metrics"
+            ],
+            "compatibility_notes": "Agent_scores field is optional; existing metrics will remain accessible under previous keys."
+          },
+          {
+            "file": "agentic-workflows-v2/contracts/messages.py",
+            "purpose": "Extend payload schema to include agent_scores.",
+            "operations": [
+              "Add scoring structure to message schema",
+              "Include new statistics fields as part of the reporting bundle"
+            ],
+            "compatibility_notes": "Old message contracts remain intact, with new fields added to the schema."
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_agent_scores_integration",
+            "file": "agentic-workflows-v2/tests/test_agent_scores.py",
+            "type": "integration",
+            "asserts": "agent_scores are included correctly in the evaluation payload",
+            "edge_case": false
+          },
+          {
+            "name": "test_reliability_adjustment",
+            "file": "agentic-workflows-v2/tests/test_reliability_adjustment.py",
+            "type": "unit",
+            "asserts": "reliability adjustments correctly impact reported scores",
+            "edge_case": true
+          },
+          {
+            "name": "test_backward_compatibility",
+            "file": "agentic-workflows-v2/tests/test_backward_compatibility.py",
+            "type": "integration",
+            "asserts": "legacy payload structure remains functional and accessible",
+            "edge_case": true
+          }
+        ],
+        "integration_dependencies": [
+          "agent_scores payload structure"
+        ],
+        "risk_register": [
+          {
+            "risk": "Potential incompatibility with existing workflows relying on previous payload schema",
+            "impact": "medium",
+            "mitigation": "Implement optional new fields and adjust parsing logic accordingly",
+            "validation": "Test against existing workflows to ensure no disruption occurs."
+          }
+        ],
+        "acceptance_checks": [
+          "All tests pass, including backward-compatibility checks."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 6,\n    \"backward_compatibility\": 8,\n    \"repo_alignment\": 7,\n    \"risk_management\": 7,\n    \"specificity\": 6\n  },\n  \"overall_score\": 7,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"Strong alignment with ticket W2-AG-001, addressing the addition of agent_scores.\",\n    \"Implementation covers necessary code changes across files but lacks detailed edge-case tests for all new metrics.\",\n    \"Backward compatibility is well-handled; however, the mitigation strategy could be more specific in validation testing.\",\n    \"The tests provided are sufficient but should include explicit cases for all edge conditions to ensure robust coverage.\"\n  ],\n  \"blocking_issues\": [],\n  \"next_actions\": [\n    \"Enhance edge case testing to cover all potential scenarios, especially for new agent_scores and reporting bundles.\",\n    \"Clarify the mitigation validation process in risk management for existing workflows.\",\n    \"Consider specifying file paths for potential additional test files to strengthen test coverage.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 6,
+          "backward_compatibility": 8,
+          "repo_alignment": 7,
+          "risk_management": 7,
+          "specificity": 6
+        },
+        "overall_score": 7,
+        "verdict": "adequate",
+        "key_findings": [
+          "Strong alignment with ticket W2-AG-001, addressing the addition of agent_scores.",
+          "Implementation covers necessary code changes across files but lacks detailed edge-case tests for all new metrics.",
+          "Backward compatibility is well-handled; however, the mitigation strategy could be more specific in validation testing.",
+          "The tests provided are sufficient but should include explicit cases for all edge conditions to ensure robust coverage."
+        ],
+        "blocking_issues": [],
+        "next_actions": [
+          "Enhance edge case testing to cover all potential scenarios, especially for new agent_scores and reporting bundles.",
+          "Clarify the mitigation validation process in risk management for existing workflows.",
+          "Consider specifying file paths for potential additional test files to strengthen test coverage."
+        ]
+      }
+    },
+    {
+      "id": "ui_engineer",
+      "title": "W2-UI Engineer",
+      "focus": "W2-UI-001 and W2-UI-002",
+      "system_instruction": "You are a frontend engineer for React+TypeScript dashboards. Design compatibility-aware UI states and transparent score breakdown UX tied to backend payloads. Include explicit disabled/empty/error states and test assertions for hard gate visibility.",
+      "raw_output": "{\n  \"summary\": \"Implement dataset selector and score breakdown functionality with backward compatibility and edge-case coverage.\",\n  \"ticket_scope\": [\"W2-UI-001\", \"W2-UI-002\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/src/components/DatasetSelector.tsx\",\n      \"purpose\": \"Implement workflow compatibility checks for the dataset selector to disable options accordingly.\",\n      \"operations\": [\n        \"Rename function fetchDatasets to fetchCompatibleDatasets for clarity\",\n        \"Add state management for disabled datasets based on API payload\"\n      ],\n      \"compatibility_notes\": \"The existing dataset selection behavior remains unchanged; if the API request fails or no compatible datasets are found, the previous state is preserved.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/src/components/ScoreBreakdownPanel.tsx\",\n      \"purpose\": \"Display score breakdown with explicit handling for hard-gate failures.\",\n      \"operations\": [\n        \"Extend payload handling in useEffect for scoring data with fallback options\",\n        \"Add explicit error states and loading indicators for robustness\"\n      ],\n      \"compatibility_notes\": \"Hard-gate checks are added without removing existing scoring display logic; legacy score data is displayed when new data isn't available.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"DatasetSelector renders disabled options correctly\",\n      \"file\": \"agentic-workflows-v2/tests/components/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Correct datasets are disabled based on compatibility from API response\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"ScoreBreakdownPanel displays grades and hard-gate failures\",\n      \"file\": \"agentic-workflows-v2/tests/components/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"unit\",\n      \"asserts\": \"Score breakdown is rendered with correct grades or displays an error state on failure\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"Fallback behavior for missing scoring data\",\n      \"file\": \"agentic-workflows-v2/tests/components/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"unit\",\n      \"asserts\": \"Previous valid score data is displayed when new data fails to load\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\"GET /api/eval/datasets?workflow=...\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Inconsistent state management of dataset selections\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Ensure that all state updates are made based on the latest API response and include fallback handling\",\n      \"validation\": \"Run integration tests to check if the state remains stable across various API responses\"\n    }\n  ],\n  \"acceptance_checks\": [\"DatasetSelector correctly disables options based on compatibility\"]\n}\n",
+      "parsed_output": {
+        "summary": "Implement dataset selector and score breakdown functionality with backward compatibility and edge-case coverage.",
+        "ticket_scope": [
+          "W2-UI-001",
+          "W2-UI-002"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/src/components/DatasetSelector.tsx",
+            "purpose": "Implement workflow compatibility checks for the dataset selector to disable options accordingly.",
+            "operations": [
+              "Rename function fetchDatasets to fetchCompatibleDatasets for clarity",
+              "Add state management for disabled datasets based on API payload"
+            ],
+            "compatibility_notes": "The existing dataset selection behavior remains unchanged; if the API request fails or no compatible datasets are found, the previous state is preserved."
+          },
+          {
+            "file": "agentic-workflows-v2/src/components/ScoreBreakdownPanel.tsx",
+            "purpose": "Display score breakdown with explicit handling for hard-gate failures.",
+            "operations": [
+              "Extend payload handling in useEffect for scoring data with fallback options",
+              "Add explicit error states and loading indicators for robustness"
+            ],
+            "compatibility_notes": "Hard-gate checks are added without removing existing scoring display logic; legacy score data is displayed when new data isn't available."
+          }
+        ],
+        "tests": [
+          {
+            "name": "DatasetSelector renders disabled options correctly",
+            "file": "agentic-workflows-v2/tests/components/DatasetSelector.test.tsx",
+            "type": "ui",
+            "asserts": "Correct datasets are disabled based on compatibility from API response",
+            "edge_case": true
+          },
+          {
+            "name": "ScoreBreakdownPanel displays grades and hard-gate failures",
+            "file": "agentic-workflows-v2/tests/components/ScoreBreakdownPanel.test.tsx",
+            "type": "unit",
+            "asserts": "Score breakdown is rendered with correct grades or displays an error state on failure",
+            "edge_case": false
+          },
+          {
+            "name": "Fallback behavior for missing scoring data",
+            "file": "agentic-workflows-v2/tests/components/ScoreBreakdownPanel.test.tsx",
+            "type": "unit",
+            "asserts": "Previous valid score data is displayed when new data fails to load",
+            "edge_case": true
+          }
+        ],
+        "integration_dependencies": [
+          "GET /api/eval/datasets?workflow=..."
+        ],
+        "risk_register": [
+          {
+            "risk": "Inconsistent state management of dataset selections",
+            "impact": "medium",
+            "mitigation": "Ensure that all state updates are made based on the latest API response and include fallback handling",
+            "validation": "Run integration tests to check if the state remains stable across various API responses"
+          }
+        ],
+        "acceptance_checks": [
+          "DatasetSelector correctly disables options based on compatibility"
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 7,\n    \"backward_compatibility\": 8,\n    \"repo_alignment\": 9,\n    \"risk_management\": 6,\n    \"specificity\": 7\n  },\n  \"overall_score\": 7,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation adheres well to the ticket requirements and demonstrates a clear structure.\",\n    \"Backward compatibility is well handled with preserved existing behaviors in both components.\",\n    \"The test cases are relevant but lack depth in edge-case testing for the ScoreBreakdownPanel component.\"\n  ],\n  \"blocking_issues\": [\n    \"The risk register mentions a state management issue but lacks a detailed analysis of the potential impact on user experience.\",\n    \"Acceptance checks are vague; they should specify testing scenarios and expected outcomes.\"\n  ],\n  \"next_actions\": [\n    \"Enhance test coverage on edge cases, particularly for the ScoreBreakdownPanel.\",\n    \"Clarify acceptance checks with precise scenarios for validation.\",\n    \"Review and expand on risk analysis to provide a clearer understanding of user impact.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 7,
+          "backward_compatibility": 8,
+          "repo_alignment": 9,
+          "risk_management": 6,
+          "specificity": 7
+        },
+        "overall_score": 7,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation adheres well to the ticket requirements and demonstrates a clear structure.",
+          "Backward compatibility is well handled with preserved existing behaviors in both components.",
+          "The test cases are relevant but lack depth in edge-case testing for the ScoreBreakdownPanel component."
+        ],
+        "blocking_issues": [
+          "The risk register mentions a state management issue but lacks a detailed analysis of the potential impact on user experience.",
+          "Acceptance checks are vague; they should specify testing scenarios and expected outcomes."
+        ],
+        "next_actions": [
+          "Enhance test coverage on edge cases, particularly for the ScoreBreakdownPanel.",
+          "Clarify acceptance checks with precise scenarios for validation.",
+          "Review and expand on risk analysis to provide a clearer understanding of user impact."
+        ]
+      }
+    },
+    {
+      "id": "adapter_engineer",
+      "title": "W2-AD Adapter Engineer",
+      "focus": "W2-AD-001",
+      "system_instruction": "You are an integration adapter engineer. Design framework adapters with strict contract conformance and graceful optional dependencies. Explicitly define fallback behavior when the Microsoft SDK is unavailable.",
+      "raw_output": "{\n  \"summary\": \"Implement Microsoft Agent Framework adapter with optional import behavior and canonical event mapping.\",\n  \"ticket_scope\": [\"W2-AD-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/integrations/microsoft_agent_framework.py\",\n      \"purpose\": \"To integrate Microsoft SDK optionally and define canonical event mapping.\",\n      \"operations\": [\n        \"Added conditional import of Microsoft SDK based on availability.\",\n        \"Implemented fallback behavior to use default event mapping when SDK is unavailable.\",\n        \"Defined canonical event mapping structure for captured events.\"\n      ],\n      \"compatibility_notes\": \"Existing behavior remains stable through fallback logic; if the SDK is not available, the system defaults to predefined mappings without breaking existing workflows.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_microsoft_sdk_integration\",\n      \"file\": \"agentic-workflows-v2/tests/test_microsoft_adapter.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Check correct event mapping when Microsoft SDK is available.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_microsoft_sdk_fallback_behavior\",\n      \"file\": \"agentic-workflows-v2/tests/test_microsoft_adapter.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Ensure default event mapping is used when the Microsoft SDK is unavailable.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_microsoft_sdk_partial_import\",\n      \"file\": \"agentic-workflows-v2/tests/test_microsoft_adapter.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"Verify system operates correctly with partial SDK methods.\",\n      \"edge_case\": false\n    }\n  ],\n  \"integration_dependencies\": [\"microsoft_sdk\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Microsoft SDK not installed in production environment.\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Implement robust fallback mechanism to alternative event mapping.\",\n      \"validation\": \"Perform integration tests with a simulator that mimics SDK behavior.\"\n    }\n  ],\n  \"acceptance_checks\": [\"All tests pass under different integration scenarios.\"]\n}\n",
+      "parsed_output": {
+        "summary": "Implement Microsoft Agent Framework adapter with optional import behavior and canonical event mapping.",
+        "ticket_scope": [
+          "W2-AD-001"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/integrations/microsoft_agent_framework.py",
+            "purpose": "To integrate Microsoft SDK optionally and define canonical event mapping.",
+            "operations": [
+              "Added conditional import of Microsoft SDK based on availability.",
+              "Implemented fallback behavior to use default event mapping when SDK is unavailable.",
+              "Defined canonical event mapping structure for captured events."
+            ],
+            "compatibility_notes": "Existing behavior remains stable through fallback logic; if the SDK is not available, the system defaults to predefined mappings without breaking existing workflows."
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_microsoft_sdk_integration",
+            "file": "agentic-workflows-v2/tests/test_microsoft_adapter.py",
+            "type": "unit",
+            "asserts": "Check correct event mapping when Microsoft SDK is available.",
+            "edge_case": false
+          },
+          {
+            "name": "test_microsoft_sdk_fallback_behavior",
+            "file": "agentic-workflows-v2/tests/test_microsoft_adapter.py",
+            "type": "unit",
+            "asserts": "Ensure default event mapping is used when the Microsoft SDK is unavailable.",
+            "edge_case": true
+          },
+          {
+            "name": "test_microsoft_sdk_partial_import",
+            "file": "agentic-workflows-v2/tests/test_microsoft_adapter.py",
+            "type": "integration",
+            "asserts": "Verify system operates correctly with partial SDK methods.",
+            "edge_case": false
+          }
+        ],
+        "integration_dependencies": [
+          "microsoft_sdk"
+        ],
+        "risk_register": [
+          {
+            "risk": "Microsoft SDK not installed in production environment.",
+            "impact": "medium",
+            "mitigation": "Implement robust fallback mechanism to alternative event mapping.",
+            "validation": "Perform integration tests with a simulator that mimics SDK behavior."
+          }
+        ],
+        "acceptance_checks": [
+          "All tests pass under different integration scenarios."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 8,\n    \"backward_compatibility\": 9,\n    \"repo_alignment\": 7,\n    \"risk_management\": 8,\n    \"specificity\": 6\n  },\n  \"overall_score\": 7,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation aligns well with the ticket scope and provides clear file paths.\",\n    \"Code changes demonstrate consideration of fallback logic which is good for compatibility.\",\n    \"Tests include scenarios for both SDK availability and fallback behaviour, improving test coverage.\",\n    \"There is a lack of detailed edge case tests beyond simple availability which could be improved.\",\n    \"Mitigation strategy is solid but execution scenarios need more specificity.\"\n  ],\n  \"blocking_issues\": [],\n  \"next_actions\": [\n    \"Add more detailed edge case tests for unexpected scenarios in SDK behaviour.\",\n    \"Clarify the specifics of the fallback logic and ensure alignment with the integration documentation.\",\n    \"Enhance the risk register with additional potential risks and their mitigations.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 8,
+          "backward_compatibility": 9,
+          "repo_alignment": 7,
+          "risk_management": 8,
+          "specificity": 6
+        },
+        "overall_score": 7,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation aligns well with the ticket scope and provides clear file paths.",
+          "Code changes demonstrate consideration of fallback logic which is good for compatibility.",
+          "Tests include scenarios for both SDK availability and fallback behaviour, improving test coverage.",
+          "There is a lack of detailed edge case tests beyond simple availability which could be improved.",
+          "Mitigation strategy is solid but execution scenarios need more specificity."
+        ],
+        "blocking_issues": [],
+        "next_actions": [
+          "Add more detailed edge case tests for unexpected scenarios in SDK behaviour.",
+          "Clarify the specifics of the fallback logic and ensure alignment with the integration documentation.",
+          "Enhance the risk register with additional potential risks and their mitigations."
+        ]
+      }
+    },
+    {
+      "id": "integration_architect",
+      "title": "Wave2 Integration Architect",
+      "focus": "Cross-ticket backend+SSE+UI contract integration for W2-AG-001/W2-UI-001/W2-UI-002/W2-AD-001",
+      "system_instruction": "You are a cross-layer integration architect. Align backend evaluation payloads, streaming contracts, and UI rendering types. Prevent schema drift and call out required API/type updates.",
+      "raw_output": "{\n  \"summary\": \"Cross-ticket backend and UI integration for evaluation features and reporting.\",\n  \"ticket_scope\": [\"W2-AG-001\", \"W2-UI-001\", \"W2-UI-002\", \"W2-AD-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/server/evaluation.py\",\n      \"purpose\": \"Add agent_scores payload and enhance reliability adjustments for reporting.\",\n      \"operations\": [\n        \"Add agent_scores field to the evaluation response payload\",\n        \"Implement reliability adjustments based on criteria weights\"\n      ],\n      \"compatibility_notes\": \"Existing payload structure is preserved; new fields are additive.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/server/contracts/messages.py\",\n      \"purpose\": \"Define new payload schema for agent_scores and reporting.\",\n      \"operations\": [\n        \"Extend evaluation response schema to include agent_scores\",\n        \"Ensure backward compatibility by making new fields optional\"\n      ],\n      \"compatibility_notes\": \"Backward-compatible schema changes maintain integration stability.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/dataset_selector.js\",\n      \"purpose\": \"Implement dataset filtering by workflow compatibility.\",\n      \"operations\": [\n        \"Add conditional logic to disable filters based on workflow\",\n        \"Fetch datasets using GET /api/eval/datasets?workflow=... with updated handling\"\n      ],\n      \"compatibility_notes\": \"Existing UI behavior remains unchanged; new functionalities added conditionally.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_in_eval_response\",\n      \"file\": \"agentic-workflows-v2/tests/test_evaluation.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"agent_scores should be present in the evaluation response\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_dataset_selector_filters\",\n      \"file\": \"agentic-workflows-v2/tests/test_ui_dataset_selector.py\",\n      \"type\": \"ui\",\n      \"asserts\": \"filters are disabled for incompatible workflows\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_score_breakdown_panel\",\n      \"file\": \"agentic-workflows-v2/tests/test_score_breakdown.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Score breakdown includes correct criteria and weights\",\n      \"edge_case\": false\n    }\n  ],\n  \"integration_dependencies\": [\"evaluation payload\", \"dataset API response\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Incompatibility in new agent_scores field\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Use feature flags to toggle new behavior while testing\",\n      \"validation\": \"Verify successful integration and behavior using test cases\"\n    }\n  ],\n  \"acceptance_checks\": [\"All new tests are passing with existing tests unaffected.\"]\n}\n",
+      "parsed_output": {
+        "summary": "Cross-ticket backend and UI integration for evaluation features and reporting.",
+        "ticket_scope": [
+          "W2-AG-001",
+          "W2-UI-001",
+          "W2-UI-002",
+          "W2-AD-001"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/server/evaluation.py",
+            "purpose": "Add agent_scores payload and enhance reliability adjustments for reporting.",
+            "operations": [
+              "Add agent_scores field to the evaluation response payload",
+              "Implement reliability adjustments based on criteria weights"
+            ],
+            "compatibility_notes": "Existing payload structure is preserved; new fields are additive."
+          },
+          {
+            "file": "agentic-workflows-v2/server/contracts/messages.py",
+            "purpose": "Define new payload schema for agent_scores and reporting.",
+            "operations": [
+              "Extend evaluation response schema to include agent_scores",
+              "Ensure backward compatibility by making new fields optional"
+            ],
+            "compatibility_notes": "Backward-compatible schema changes maintain integration stability."
+          },
+          {
+            "file": "agentic-workflows-v2/ui/dataset_selector.js",
+            "purpose": "Implement dataset filtering by workflow compatibility.",
+            "operations": [
+              "Add conditional logic to disable filters based on workflow",
+              "Fetch datasets using GET /api/eval/datasets?workflow=... with updated handling"
+            ],
+            "compatibility_notes": "Existing UI behavior remains unchanged; new functionalities added conditionally."
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_agent_scores_in_eval_response",
+            "file": "agentic-workflows-v2/tests/test_evaluation.py",
+            "type": "unit",
+            "asserts": "agent_scores should be present in the evaluation response",
+            "edge_case": false
+          },
+          {
+            "name": "test_dataset_selector_filters",
+            "file": "agentic-workflows-v2/tests/test_ui_dataset_selector.py",
+            "type": "ui",
+            "asserts": "filters are disabled for incompatible workflows",
+            "edge_case": true
+          },
+          {
+            "name": "test_score_breakdown_panel",
+            "file": "agentic-workflows-v2/tests/test_score_breakdown.py",
+            "type": "unit",
+            "asserts": "Score breakdown includes correct criteria and weights",
+            "edge_case": false
+          }
+        ],
+        "integration_dependencies": [
+          "evaluation payload",
+          "dataset API response"
+        ],
+        "risk_register": [
+          {
+            "risk": "Incompatibility in new agent_scores field",
+            "impact": "medium",
+            "mitigation": "Use feature flags to toggle new behavior while testing",
+            "validation": "Verify successful integration and behavior using test cases"
+          }
+        ],
+        "acceptance_checks": [
+          "All new tests are passing with existing tests unaffected."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 6,\n    \"backward_compatibility\": 8,\n    \"repo_alignment\": 9,\n    \"risk_management\": 7,\n    \"specificity\": 6\n  },\n  \"overall_score\": 7,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The output aligns with the specified tickets, addressing key functionalities as per the requirements.\",\n    \"There is a good level of implementation depth with changes outlined across relevant files.\",\n    \"Backward compatibility is well-managed through optional fields and clear compatibility notes.\",\n    \"Tests are defined but lack coverage for edge cases, specifically for the agent_scores integration.\",\n    \"The risk management strategy is present but could benefit from more detailed validation steps.\"\n  ],\n  \"blocking_issues\": [\n    \"The test for the new agent_scores field lacks an edge case scenario.\",\n    \"There are no specific paths for integration tests ensuring overall system stability.\"\n  ],\n  \"next_actions\": [\n    \"Add edge case tests for the agent_scores field and its impact on existing functionalities.\",\n    \"Implement integration tests to verify the complete interaction of new features with existing components.\",\n    \"Enhance risk validation details to ensure uncertainties are comprehensively addressed.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 6,
+          "backward_compatibility": 8,
+          "repo_alignment": 9,
+          "risk_management": 7,
+          "specificity": 6
+        },
+        "overall_score": 7,
+        "verdict": "adequate",
+        "key_findings": [
+          "The output aligns with the specified tickets, addressing key functionalities as per the requirements.",
+          "There is a good level of implementation depth with changes outlined across relevant files.",
+          "Backward compatibility is well-managed through optional fields and clear compatibility notes.",
+          "Tests are defined but lack coverage for edge cases, specifically for the agent_scores integration.",
+          "The risk management strategy is present but could benefit from more detailed validation steps."
+        ],
+        "blocking_issues": [
+          "The test for the new agent_scores field lacks an edge case scenario.",
+          "There are no specific paths for integration tests ensuring overall system stability."
+        ],
+        "next_actions": [
+          "Add edge case tests for the agent_scores field and its impact on existing functionalities.",
+          "Implement integration tests to verify the complete interaction of new features with existing components.",
+          "Enhance risk validation details to ensure uncertainties are comprehensively addressed."
+        ]
+      }
+    },
+    {
+      "id": "qa_reviewer",
+      "title": "Wave2 QA Reviewer",
+      "focus": "Wave 2 end-to-end regression and test coverage",
+      "system_instruction": "You are a principal QA reviewer. Identify regression risks, missing tests, and release gates for Wave 2 integration. Require explicit backward-compatibility checks and failure-mode tests.",
+      "raw_output": "{\n  \"summary\": \"Wave 2 integration covers execution strategies and agent score adjustments. Enhanced testing and compatibility checks needed.\",\n  \"ticket_scope\": [\"W2-AG-001\", \"W2-UI-001\", \"W2-UI-002\", \"W2-AD-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/server/evaluation.py\",\n      \"purpose\": \"Add agent_scores payload to enhance evaluation accuracy\",\n      \"operations\": [\n        \"add field agent_scores to response payload\",\n        \"adjust scoring logic to include reliability adjustments\"\n      ],\n      \"compatibility_notes\": \"Existing response payload structure remains unchanged; new field is optional.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/contracts/messages.py\",\n      \"purpose\": \"Define new message format for agent scores\",\n      \"operations\": [\n        \"extend message schema to include new agent_scores field\"\n      ],\n      \"compatibility_notes\": \"Backward compatibility maintained by keeping old message structure intact.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/integrations/microsoft_agent_framework.py\",\n      \"purpose\": \"Implement optional import behavior for Microsoft Agent\",\n      \"operations\": [\n        \"add conditional imports for optional dependencies\",\n        \"introduce fallback to default behavior if import fails\"\n      ],\n      \"compatibility_notes\": \"Existing integration flows remain operational without the new optional imports.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_payload\",\n      \"file\": \"agentic-workflows-v2/tests/test_agent_scores.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"verifies that agent_scores is present in response when requested\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_dataset_selector_compatibility\",\n      \"file\": \"agentic-workflows-v2/tests/test_dataset_selector.py\",\n      \"type\": \"ui\",\n      \"asserts\": \"ensures dataset selector filters function correctly with backward compatibility\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_microsoft_adapter_fallback\",\n      \"file\": \"agentic-workflows-v2/tests/test_microsoft_adapter.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"confirms fallback behavior when optional Microsoft agent import fails\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\"module for Microsoft agent integration\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Incompatibility of new agent_scores payload with legacy systems\",\n      \"impact\": \"high\",\n      \"mitigation\": \"Adopt additive schema changes for the agent_scores.\",\n      \"validation\": \"Verify legacy systems can still process existing payloads without issues.\"\n    },\n    {\n      \"risk\": \"Uncovered edge cases in new UI components\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Incorporate comprehensive edge-case tests for new UI features.\",\n      \"validation\": \"Execution of edge-case tests that ensure UI components handle unforeseen inputs gracefully.\"\n    },\n    {\n      \"risk\": \"Inconsistent behavior of optional imports\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Implement explicit fallback mechanisms in code for missing optional imports.\",\n      \"validation\": \"Review logs for fallback operation when optional dependencies are unavailable.\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"All tests must pass in CI, including edge cases and compatibility tests\"\n  ]\n}\n",
+      "parsed_output": {
+        "summary": "Wave 2 integration covers execution strategies and agent score adjustments. Enhanced testing and compatibility checks needed.",
+        "ticket_scope": [
+          "W2-AG-001",
+          "W2-UI-001",
+          "W2-UI-002",
+          "W2-AD-001"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/server/evaluation.py",
+            "purpose": "Add agent_scores payload to enhance evaluation accuracy",
+            "operations": [
+              "add field agent_scores to response payload",
+              "adjust scoring logic to include reliability adjustments"
+            ],
+            "compatibility_notes": "Existing response payload structure remains unchanged; new field is optional."
+          },
+          {
+            "file": "agentic-workflows-v2/contracts/messages.py",
+            "purpose": "Define new message format for agent scores",
+            "operations": [
+              "extend message schema to include new agent_scores field"
+            ],
+            "compatibility_notes": "Backward compatibility maintained by keeping old message structure intact."
+          },
+          {
+            "file": "agentic-workflows-v2/integrations/microsoft_agent_framework.py",
+            "purpose": "Implement optional import behavior for Microsoft Agent",
+            "operations": [
+              "add conditional imports for optional dependencies",
+              "introduce fallback to default behavior if import fails"
+            ],
+            "compatibility_notes": "Existing integration flows remain operational without the new optional imports."
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_agent_scores_payload",
+            "file": "agentic-workflows-v2/tests/test_agent_scores.py",
+            "type": "unit",
+            "asserts": "verifies that agent_scores is present in response when requested",
+            "edge_case": false
+          },
+          {
+            "name": "test_dataset_selector_compatibility",
+            "file": "agentic-workflows-v2/tests/test_dataset_selector.py",
+            "type": "ui",
+            "asserts": "ensures dataset selector filters function correctly with backward compatibility",
+            "edge_case": true
+          },
+          {
+            "name": "test_microsoft_adapter_fallback",
+            "file": "agentic-workflows-v2/tests/test_microsoft_adapter.py",
+            "type": "integration",
+            "asserts": "confirms fallback behavior when optional Microsoft agent import fails",
+            "edge_case": true
+          }
+        ],
+        "integration_dependencies": [
+          "module for Microsoft agent integration"
+        ],
+        "risk_register": [
+          {
+            "risk": "Incompatibility of new agent_scores payload with legacy systems",
+            "impact": "high",
+            "mitigation": "Adopt additive schema changes for the agent_scores.",
+            "validation": "Verify legacy systems can still process existing payloads without issues."
+          },
+          {
+            "risk": "Uncovered edge cases in new UI components",
+            "impact": "medium",
+            "mitigation": "Incorporate comprehensive edge-case tests for new UI features.",
+            "validation": "Execution of edge-case tests that ensure UI components handle unforeseen inputs gracefully."
+          },
+          {
+            "risk": "Inconsistent behavior of optional imports",
+            "impact": "medium",
+            "mitigation": "Implement explicit fallback mechanisms in code for missing optional imports.",
+            "validation": "Review logs for fallback operation when optional dependencies are unavailable."
+          }
+        ],
+        "acceptance_checks": [
+          "All tests must pass in CI, including edge cases and compatibility tests"
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 6,\n    \"backward_compatibility\": 8,\n    \"repo_alignment\": 8,\n    \"risk_management\": 7,\n    \"specificity\": 6\n  },\n  \"overall_score\": 7,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"Implementation covers essential changes and includes appropriate code modifications aligned with tickets.\",\n    \"Backward compatibility is well-addressed in compatibility notes.\",\n    \"Risk management includes relevant risks with feasible mitigations but could benefit from more specific validation strategies.\",\n    \"Tests cover key cases, but there's a lack of edge-case examples in standard unit tests.\"\n  ],\n  \"blocking_issues\": [\n    \"Need more edge-case tests to ensure robustness of new features, especially in the UI components.\",\n    \"Specific unit tests for the new message format are missing, which could negatively affect implementation depth.\"\n  ],\n  \"next_actions\": [\n    \"Add edge-case tests for `test_agent_scores_payload` to capture potential issues.\",\n    \"Enhance test coverage for the new message schema with a dedicated test case.\",\n    \"Review and specify the validation criteria for risk mitigations to strengthen risk management.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 6,
+          "backward_compatibility": 8,
+          "repo_alignment": 8,
+          "risk_management": 7,
+          "specificity": 6
+        },
+        "overall_score": 7,
+        "verdict": "adequate",
+        "key_findings": [
+          "Implementation covers essential changes and includes appropriate code modifications aligned with tickets.",
+          "Backward compatibility is well-addressed in compatibility notes.",
+          "Risk management includes relevant risks with feasible mitigations but could benefit from more specific validation strategies.",
+          "Tests cover key cases, but there's a lack of edge-case examples in standard unit tests."
+        ],
+        "blocking_issues": [
+          "Need more edge-case tests to ensure robustness of new features, especially in the UI components.",
+          "Specific unit tests for the new message format are missing, which could negatively affect implementation depth."
+        ],
+        "next_actions": [
+          "Add edge-case tests for `test_agent_scores_payload` to capture potential issues.",
+          "Enhance test coverage for the new message schema with a dedicated test case.",
+          "Review and specify the validation criteria for risk mitigations to strengthen risk management."
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "evaluated_agents": 5,
+    "mean_overall_score": 7.0,
+    "min_overall_score": 7.0,
+    "max_overall_score": 7.0
+  }
+}

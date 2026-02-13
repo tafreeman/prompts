@@ -1,0 +1,462 @@
+{
+  "run_id": "code_review-6c5e5db6",
+  "workflow_name": "code_review",
+  "status": "success",
+  "success_rate": 100.0,
+  "total_duration_ms": 12861.117,
+  "total_retries": 0,
+  "step_count": 5,
+  "failed_step_count": 0,
+  "start_time": "2026-02-10T18:14:32.453370+00:00",
+  "end_time": "2026-02-10T18:14:45.314487+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "sample_index": 1,
+    "task_id": "1",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "code_file": "TEST",
+    "review_depth": "deep"
+  },
+  "steps": [
+    {
+      "step_name": "parse_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 0,
+      "model_used": null,
+      "duration_ms": 2.9979999999999998,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {
+        "parsed_ast": {
+          "raw_source": "TEST",
+          "language": "python",
+          "functions": [],
+          "classes": [],
+          "imports": []
+        },
+        "code_metrics": {
+          "lines": 1,
+          "chars": 4,
+          "function_count": 0,
+          "class_count": 0,
+          "import_count": 0
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-10T18:14:32.454108+00:00",
+      "end_time": "2026-02-10T18:14:32.457106+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "style_check",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 1457.214,
+      "retry_count": 0,
+      "tokens_used": 230,
+      "input": {},
+      "output": {
+        "issues": []
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-10T18:14:32.458368+00:00",
+      "end_time": "2026-02-10T18:14:33.915582+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "complexity_analysis",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 2381.0370000000003,
+      "retry_count": 0,
+      "tokens_used": 337,
+      "input": {},
+      "output": {
+        "complexity_report": {
+          "overall_complexity": "Very Low",
+          "reasoning": "The code consists of a single line with only 4 characters. There are no functions, classes, or imports, indicating minimal complexity.",
+          "details": {
+            "line_count": 1,
+            "character_count": 4,
+            "function_count": 0,
+            "class_count": 0,
+            "import_count": 0,
+            "cyclomatic_complexity": "Not applicable (no functions)"
+          }
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-10T18:14:32.458557+00:00",
+      "end_time": "2026-02-10T18:14:34.839594+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 4080.0359999999996,
+      "retry_count": 0,
+      "tokens_used": 1071,
+      "input": {},
+      "output": {
+        "review": {
+          "summary": "The code consists of the word 'TEST'. Given the 'deep' review depth, it is impossible to provide meaningful feedback without understanding the intended purpose of this code. It is essentially a placeholder. A deep review would normally involve looking at design patterns, security implications, error handling, edge cases, and overall code structure, none of which are applicable here.",
+          "potential_issues": [
+            {
+              "category": "Design",
+              "issue": "Lack of functionality.",
+              "suggestion": "Replace the placeholder with actual code that performs a specific task. Define the purpose of this code segment and implement the necessary logic."
+            },
+            {
+              "category": "Maintainability",
+              "issue": "No comments or documentation.",
+              "suggestion": "Add comments explaining the purpose of the code once it is implemented. This will improve readability and maintainability."
+            },
+            {
+              "category": "Error Handling",
+              "issue": "No error handling.",
+              "suggestion": "Implement appropriate error handling mechanisms based on the functionality that will be added to the code."
+            }
+          ],
+          "security_considerations": "Since the code is currently a placeholder, there are no security implications. However, once the code is implemented, security should be considered based on the functionality. Input validation, output sanitization, and protection against common vulnerabilities such as injection attacks may be necessary.",
+          "performance_considerations": "Performance is not relevant at this stage, but should be addressed once the code is implemented. Consider the time and space complexity of algorithms used.",
+          "alternative_solutions": "Without knowing the intended functionality, it's impossible to suggest alternative solutions.",
+          "overall_assessment": "The code is currently a placeholder and requires significant development before it can be properly assessed. It is impossible to conduct a deep review without knowing the intended function of the code.",
+          "next_steps": "Define the purpose of this code segment and implement the necessary logic. Then, a more thorough review can be conducted."
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-10T18:14:34.840417+00:00",
+      "end_time": "2026-02-10T18:14:38.920453+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_summary",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gh:openai/gpt-4o-mini",
+      "duration_ms": 6393.287,
+      "retry_count": 0,
+      "tokens_used": 2591,
+      "input": {},
+      "output": {
+        "summary": {
+          "overall_assessment": "The code is currently a placeholder consisting of the word 'TEST'. It lacks functionality and cannot be properly assessed without understanding its intended purpose.",
+          "complexity": "Very Low - The code contains only a single line with 4 characters, indicating minimal complexity.",
+          "potential_issues": [
+            {
+              "category": "Design",
+              "issue": "Lack of functionality.",
+              "suggestion": "Replace the placeholder with actual code that performs a specific task."
+            },
+            {
+              "category": "Maintainability",
+              "issue": "No comments or documentation.",
+              "suggestion": "Add comments explaining the purpose of the code once it is implemented."
+            },
+            {
+              "category": "Error Handling",
+              "issue": "No error handling.",
+              "suggestion": "Implement appropriate error handling mechanisms based on the functionality to be added."
+            }
+          ],
+          "security_considerations": "Currently, there are no security implications due to the placeholder nature of the code; however, security should be considered once functionality is implemented.",
+          "performance_considerations": "Performance is not relevant at this stage but should be addressed after the code is implemented.",
+          "next_steps": "Define the purpose of this code segment and implement the necessary logic for a more thorough review."
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-10T18:14:38.920740+00:00",
+      "end_time": "2026-02-10T18:14:45.314027+00:00",
+      "metadata": null
+    }
+  ],
+  "final_output": {
+    "review": {
+      "summary": "The code consists of the word 'TEST'. Given the 'deep' review depth, it is impossible to provide meaningful feedback without understanding the intended purpose of this code. It is essentially a placeholder. A deep review would normally involve looking at design patterns, security implications, error handling, edge cases, and overall code structure, none of which are applicable here.",
+      "potential_issues": [
+        {
+          "category": "Design",
+          "issue": "Lack of functionality.",
+          "suggestion": "Replace the placeholder with actual code that performs a specific task. Define the purpose of this code segment and implement the necessary logic."
+        },
+        {
+          "category": "Maintainability",
+          "issue": "No comments or documentation.",
+          "suggestion": "Add comments explaining the purpose of the code once it is implemented. This will improve readability and maintainability."
+        },
+        {
+          "category": "Error Handling",
+          "issue": "No error handling.",
+          "suggestion": "Implement appropriate error handling mechanisms based on the functionality that will be added to the code."
+        }
+      ],
+      "security_considerations": "Since the code is currently a placeholder, there are no security implications. However, once the code is implemented, security should be considered based on the functionality. Input validation, output sanitization, and protection against common vulnerabilities such as injection attacks may be necessary.",
+      "performance_considerations": "Performance is not relevant at this stage, but should be addressed once the code is implemented. Consider the time and space complexity of algorithms used.",
+      "alternative_solutions": "Without knowing the intended functionality, it's impossible to suggest alternative solutions.",
+      "overall_assessment": "The code is currently a placeholder and requires significant development before it can be properly assessed. It is impossible to conduct a deep review without knowing the intended function of the code.",
+      "next_steps": "Define the purpose of this code segment and implement the necessary logic. Then, a more thorough review can be conducted."
+    },
+    "summary": {
+      "overall_assessment": "The code is currently a placeholder consisting of the word 'TEST'. It lacks functionality and cannot be properly assessed without understanding its intended purpose.",
+      "complexity": "Very Low - The code contains only a single line with 4 characters, indicating minimal complexity.",
+      "potential_issues": [
+        {
+          "category": "Design",
+          "issue": "Lack of functionality.",
+          "suggestion": "Replace the placeholder with actual code that performs a specific task."
+        },
+        {
+          "category": "Maintainability",
+          "issue": "No comments or documentation.",
+          "suggestion": "Add comments explaining the purpose of the code once it is implemented."
+        },
+        {
+          "category": "Error Handling",
+          "issue": "No error handling.",
+          "suggestion": "Implement appropriate error handling mechanisms based on the functionality to be added."
+        }
+      ],
+      "security_considerations": "Currently, there are no security implications due to the placeholder nature of the code; however, security should be considered once functionality is implemented.",
+      "performance_considerations": "Performance is not relevant at this stage but should be addressed after the code is implemented.",
+      "next_steps": "Define the purpose of this code segment and implement the necessary logic for a more thorough review."
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "code_review_v1",
+      "rubric_id": "code_review_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "correctness_rubric",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.35,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.572,
+          "score": 86.0,
+          "weight": 0.3,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 80.7083,
+          "normalized_score": 0.8071,
+          "adjusted_normalized_score": 0.5614,
+          "score": 80.71,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 69.7833,
+          "normalized_score": 0.6978,
+          "adjusted_normalized_score": 0.5396,
+          "score": 69.78,
+          "weight": 0.15,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 84.12,
+      "weighted_score": 86.97,
+      "objective_weighted_score": 87.41,
+      "grade": "B",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "parse_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "style_check",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "complexity_analysis",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_summary",
+          "status": "success",
+          "score": 100.0
+        }
+      ],
+      "agent_scores": [
+        {
+          "step_name": "parse_code",
+          "agent_role": null,
+          "model_used": null,
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 100.0,
+          "reliability": 52.38,
+          "overall_score": 80.36
+        },
+        {
+          "step_name": "style_check",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash-lite",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 99.27,
+          "reliability": 52.38,
+          "overall_score": 80.21
+        },
+        {
+          "step_name": "complexity_analysis",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash-lite",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 97.8,
+          "reliability": 52.38,
+          "overall_score": 79.92
+        },
+        {
+          "step_name": "review_code",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 95.1,
+          "reliability": 52.38,
+          "overall_score": 79.38
+        },
+        {
+          "step_name": "generate_summary",
+          "agent_role": null,
+          "model_used": "gh:openai/gpt-4o-mini",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 91.42,
+          "reliability": 52.38,
+          "overall_score": 78.64
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "sample_index": 1,
+        "task_id": "1",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 87.41,
+        "layer2_judge": null,
+        "layer3_similarity": 87.41,
+        "layer3_efficiency": 80.71,
+        "layer3_advisory": 85.2
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-10T18:14:45.392556+00:00",
+      "hard_gates": {
+        "required_outputs_present": true,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [],
+      "floor_violations": [],
+      "grade_capped": false,
+      "reporting_bundle": {
+        "sample_count": 1,
+        "per_criterion": {
+          "correctness_rubric": {
+            "mean_score": 1.0,
+            "stdev": 0.0,
+            "min": 1.0,
+            "max": 1.0
+          },
+          "code_quality": {
+            "mean_score": 0.86,
+            "stdev": 0.0,
+            "min": 0.86,
+            "max": 0.86
+          },
+          "efficiency": {
+            "mean_score": 0.8071,
+            "stdev": 0.0,
+            "min": 0.8071,
+            "max": 0.8071
+          },
+          "documentation": {
+            "mean_score": 0.6978,
+            "stdev": 0.0,
+            "min": 0.6978,
+            "max": 0.6978
+          }
+        },
+        "grade_distribution": {
+          "A": 0,
+          "B": 1,
+          "C": 0,
+          "D": 0,
+          "F": 0
+        },
+        "floor_violation_count": {}
+      }
+    }
+  }
+}

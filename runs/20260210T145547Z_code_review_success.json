@@ -1,0 +1,513 @@
+{
+	"run_id": "code_review-ed7e5dd7",
+	"workflow_name": "code_review",
+	"status": "success",
+	"success_rate": 100.0,
+	"total_duration_ms": 14984.196,
+	"total_retries": 0,
+	"step_count": 5,
+	"failed_step_count": 0,
+	"start_time": "2026-02-10T14:55:32.889192+00:00",
+	"end_time": "2026-02-10T14:55:47.873388+00:00",
+	"dataset": {
+		"source": "local",
+		"dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+		"dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+		"sample_index": 3,
+		"task_id": "3",
+		"dataset_workflow_compatible": true,
+		"dataset_mismatch_reasons": []
+	},
+	"inputs": {
+		"code_file": "A",
+		"review_depth": "deep"
+	},
+	"steps": [
+		{
+			"step_name": "parse_code",
+			"status": "success",
+			"agent_role": null,
+			"tier": 0,
+			"model_used": null,
+			"duration_ms": 1.549,
+			"retry_count": 0,
+			"tokens_used": null,
+			"input": {},
+			"output": {
+				"parsed_ast": {
+					"raw_source": "A",
+					"language": "python",
+					"functions": [],
+					"classes": [],
+					"imports": []
+				},
+				"code_metrics": {
+					"lines": 1,
+					"chars": 1,
+					"function_count": 0,
+					"class_count": 0,
+					"import_count": 0
+				}
+			},
+			"error": null,
+			"error_type": null,
+			"start_time": "2026-02-10T14:55:32.889581+00:00",
+			"end_time": "2026-02-10T14:55:32.891130+00:00",
+			"metadata": null
+		},
+		{
+			"step_name": "style_check",
+			"status": "success",
+			"agent_role": null,
+			"tier": 1,
+			"model_used": "gemini:gemini-2.0-flash-lite",
+			"duration_ms": 1000.942,
+			"retry_count": 0,
+			"tokens_used": 227,
+			"input": {},
+			"output": {
+				"issues": []
+			},
+			"error": null,
+			"error_type": null,
+			"start_time": "2026-02-10T14:55:32.891283+00:00",
+			"end_time": "2026-02-10T14:55:33.892225+00:00",
+			"metadata": null
+		},
+		{
+			"step_name": "complexity_analysis",
+			"status": "success",
+			"agent_role": null,
+			"tier": 1,
+			"model_used": "gemini:gemini-2.0-flash-lite",
+			"duration_ms": 1725.002,
+			"retry_count": 0,
+			"tokens_used": 319,
+			"input": {},
+			"output": {
+				"complexity_report": {
+					"file_name": "A",
+					"overall_complexity": "Very Low",
+					"line_count": 1,
+					"function_count": 0,
+					"class_count": 0,
+					"import_count": 0,
+					"details": "The code consists of a single line with no functions, classes or imports. The complexity is therefore extremely low.",
+					"function_complexity": [],
+					"class_complexity": []
+				}
+			},
+			"error": null,
+			"error_type": null,
+			"start_time": "2026-02-10T14:55:32.891354+00:00",
+			"end_time": "2026-02-10T14:55:34.616356+00:00",
+			"metadata": null
+		},
+		{
+			"step_name": "review_code",
+			"status": "success",
+			"agent_role": null,
+			"tier": 2,
+			"model_used": "gemini:gemini-2.0-flash",
+			"duration_ms": 4826.380999999999,
+			"retry_count": 0,
+			"tokens_used": 1194,
+			"input": {},
+			"output": {
+				"review": {
+					"summary": "The code file 'A' contains a single character and no functions, classes, or imports. Therefore, the complexity is very low, and there are no style issues.",
+					"detailed_comments": [
+						{
+							"section": "Overall Code Structure",
+							"comment": "The code consists of a single character. While technically valid Python, it lacks any meaningful functionality. Consider what purpose this code is intended to serve and implement the necessary logic.",
+							"suggestion": "Expand the code to perform a specific task. Define functions, classes, or import necessary modules to achieve the desired functionality."
+						},
+						{
+							"section": "Complexity",
+							"comment": "The complexity is extremely low due to the minimal amount of code. This isn't inherently bad, but it suggests that the code is incomplete or a placeholder.",
+							"suggestion": "As you add functionality, monitor the complexity of your code. Aim for a balance between readability and efficiency. Consider refactoring complex sections into smaller, more manageable functions or classes."
+						},
+						{
+							"section": "Style and Readability",
+							"comment": "While there are no style issues flagged, the single character makes the code unreadable in a practical sense. Readability should be a primary concern as the code evolves.",
+							"suggestion": "Follow PEP 8 guidelines for Python code style. Use meaningful variable names, add comments to explain complex logic, and ensure consistent indentation."
+						},
+						{
+							"section": "Error Handling",
+							"comment": "The current code lacks any error handling. As you add functionality, consider potential errors that might occur and implement appropriate error handling mechanisms.",
+							"suggestion": "Use `try-except` blocks to catch potential exceptions. Log errors for debugging purposes. Provide informative error messages to the user or calling functions."
+						},
+						{
+							"section": "Testing",
+							"comment": "Given the lack of functionality, there is nothing to test at this stage. However, as you develop the code, it's crucial to write unit tests to ensure its correctness.",
+							"suggestion": "Use a testing framework like `unittest` or `pytest` to write unit tests. Aim for high test coverage to catch potential bugs early in the development process."
+						}
+					],
+					"overall_assessment": "The code is currently a placeholder. It needs to be expanded with meaningful functionality, proper error handling, and thorough testing. Adhering to coding style guidelines is essential for maintainability.",
+					"next_steps": [
+						"Define the purpose of the code.",
+						"Implement the core functionality.",
+						"Add error handling.",
+						"Write unit tests.",
+						"Refactor for readability and maintainability."
+					]
+				}
+			},
+			"error": null,
+			"error_type": null,
+			"start_time": "2026-02-10T14:55:34.616734+00:00",
+			"end_time": "2026-02-10T14:55:39.443115+00:00",
+			"metadata": null
+		},
+		{
+			"step_name": "generate_summary",
+			"status": "success",
+			"agent_role": null,
+			"tier": 2,
+			"model_used": "gh:openai/gpt-4o-mini",
+			"duration_ms": 8429.3,
+			"retry_count": 0,
+			"tokens_used": 3389,
+			"input": {},
+			"output": {
+				"summary": {
+					"overall_assessment": "The code file 'A' is currently a placeholder containing a single character, lacking any meaningful functionality, proper error handling, and thorough testing. The complexity is very low, and there are no style issues. Adhering to coding style guidelines is crucial for future maintainability.",
+					"detailed_comments": [
+						{
+							"section": "Overall Code Structure",
+							"comment": "The code consists of a single character. While technically valid Python, it lacks any meaningful functionality. Consider what purpose this code is intended to serve and implement the necessary logic.",
+							"suggestion": "Expand the code to perform a specific task. Define functions, classes, or import necessary modules to achieve the desired functionality."
+						},
+						{
+							"section": "Complexity",
+							"comment": "The complexity is extremely low due to the minimal amount of code. This isn't inherently bad, but it suggests that the code is incomplete or a placeholder.",
+							"suggestion": "As you add functionality, monitor the complexity of your code. Aim for a balance between readability and efficiency. Consider refactoring complex sections into smaller, more manageable functions or classes."
+						},
+						{
+							"section": "Style and Readability",
+							"comment": "While there are no style issues flagged, the single character makes the code unreadable in a practical sense. Readability should be a primary concern as the code evolves.",
+							"suggestion": "Follow PEP 8 guidelines for Python code style. Use meaningful variable names, add comments to explain complex logic, and ensure consistent indentation."
+						},
+						{
+							"section": "Error Handling",
+							"comment": "The current code lacks any error handling. As you add functionality, consider potential errors that might occur and implement appropriate error handling mechanisms.",
+							"suggestion": "Use `try-except` blocks to catch potential exceptions. Log errors for debugging purposes. Provide informative error messages to the user or calling functions."
+						},
+						{
+							"section": "Testing",
+							"comment": "Given the lack of functionality, there is nothing to test at this stage. However, as you develop the code, it's crucial to write unit tests to ensure its correctness.",
+							"suggestion": "Use a testing framework like `unittest` or `pytest` to write unit tests. Aim for high test coverage to catch potential bugs early in the development process."
+						}
+					],
+					"next_steps": [
+						"Define the purpose of the code.",
+						"Implement the core functionality.",
+						"Add error handling.",
+						"Write unit tests.",
+						"Refactor for readability and maintainability."
+					]
+				}
+			},
+			"error": null,
+			"error_type": null,
+			"start_time": "2026-02-10T14:55:39.443709+00:00",
+			"end_time": "2026-02-10T14:55:47.873009+00:00",
+			"metadata": null
+		}
+	],
+	"final_output": {
+		"review": {
+			"summary": "The code file 'A' contains a single character and no functions, classes, or imports. Therefore, the complexity is very low, and there are no style issues.",
+			"detailed_comments": [
+				{
+					"section": "Overall Code Structure",
+					"comment": "The code consists of a single character. While technically valid Python, it lacks any meaningful functionality. Consider what purpose this code is intended to serve and implement the necessary logic.",
+					"suggestion": "Expand the code to perform a specific task. Define functions, classes, or import necessary modules to achieve the desired functionality."
+				},
+				{
+					"section": "Complexity",
+					"comment": "The complexity is extremely low due to the minimal amount of code. This isn't inherently bad, but it suggests that the code is incomplete or a placeholder.",
+					"suggestion": "As you add functionality, monitor the complexity of your code. Aim for a balance between readability and efficiency. Consider refactoring complex sections into smaller, more manageable functions or classes."
+				},
+				{
+					"section": "Style and Readability",
+					"comment": "While there are no style issues flagged, the single character makes the code unreadable in a practical sense. Readability should be a primary concern as the code evolves.",
+					"suggestion": "Follow PEP 8 guidelines for Python code style. Use meaningful variable names, add comments to explain complex logic, and ensure consistent indentation."
+				},
+				{
+					"section": "Error Handling",
+					"comment": "The current code lacks any error handling. As you add functionality, consider potential errors that might occur and implement appropriate error handling mechanisms.",
+					"suggestion": "Use `try-except` blocks to catch potential exceptions. Log errors for debugging purposes. Provide informative error messages to the user or calling functions."
+				},
+				{
+					"section": "Testing",
+					"comment": "Given the lack of functionality, there is nothing to test at this stage. However, as you develop the code, it's crucial to write unit tests to ensure its correctness.",
+					"suggestion": "Use a testing framework like `unittest` or `pytest` to write unit tests. Aim for high test coverage to catch potential bugs early in the development process."
+				}
+			],
+			"overall_assessment": "The code is currently a placeholder. It needs to be expanded with meaningful functionality, proper error handling, and thorough testing. Adhering to coding style guidelines is essential for maintainability.",
+			"next_steps": [
+				"Define the purpose of the code.",
+				"Implement the core functionality.",
+				"Add error handling.",
+				"Write unit tests.",
+				"Refactor for readability and maintainability."
+			]
+		},
+		"summary": {
+			"overall_assessment": "The code file 'A' is currently a placeholder containing a single character, lacking any meaningful functionality, proper error handling, and thorough testing. The complexity is very low, and there are no style issues. Adhering to coding style guidelines is crucial for future maintainability.",
+			"detailed_comments": [
+				{
+					"section": "Overall Code Structure",
+					"comment": "The code consists of a single character. While technically valid Python, it lacks any meaningful functionality. Consider what purpose this code is intended to serve and implement the necessary logic.",
+					"suggestion": "Expand the code to perform a specific task. Define functions, classes, or import necessary modules to achieve the desired functionality."
+				},
+				{
+					"section": "Complexity",
+					"comment": "The complexity is extremely low due to the minimal amount of code. This isn't inherently bad, but it suggests that the code is incomplete or a placeholder.",
+					"suggestion": "As you add functionality, monitor the complexity of your code. Aim for a balance between readability and efficiency. Consider refactoring complex sections into smaller, more manageable functions or classes."
+				},
+				{
+					"section": "Style and Readability",
+					"comment": "While there are no style issues flagged, the single character makes the code unreadable in a practical sense. Readability should be a primary concern as the code evolves.",
+					"suggestion": "Follow PEP 8 guidelines for Python code style. Use meaningful variable names, add comments to explain complex logic, and ensure consistent indentation."
+				},
+				{
+					"section": "Error Handling",
+					"comment": "The current code lacks any error handling. As you add functionality, consider potential errors that might occur and implement appropriate error handling mechanisms.",
+					"suggestion": "Use `try-except` blocks to catch potential exceptions. Log errors for debugging purposes. Provide informative error messages to the user or calling functions."
+				},
+				{
+					"section": "Testing",
+					"comment": "Given the lack of functionality, there is nothing to test at this stage. However, as you develop the code, it's crucial to write unit tests to ensure its correctness.",
+					"suggestion": "Use a testing framework like `unittest` or `pytest` to write unit tests. Aim for high test coverage to catch potential bugs early in the development process."
+				}
+			],
+			"next_steps": [
+				"Define the purpose of the code.",
+				"Implement the core functionality.",
+				"Add error handling.",
+				"Write unit tests.",
+				"Refactor for readability and maintainability."
+			]
+		}
+	},
+	"extra": {
+		"evaluation_requested": true,
+		"evaluation": {
+			"enabled": true,
+			"rubric": "code_review_v1",
+			"rubric_id": "code_review_v1",
+			"rubric_version": "1.0.0",
+			"criteria": [
+				{
+					"criterion": "correctness_rubric",
+					"raw_score": 100.0,
+					"normalized_score": 1.0,
+					"adjusted_normalized_score": 0.6,
+					"score": 100.0,
+					"weight": 0.35,
+					"formula_id": "zero_one",
+					"critical_floor": 0.7,
+					"floor_passed": true,
+					"max_score": 100.0
+				},
+				{
+					"criterion": "code_quality",
+					"raw_score": 86.0,
+					"normalized_score": 0.86,
+					"adjusted_normalized_score": 0.572,
+					"score": 86.0,
+					"weight": 0.3,
+					"formula_id": "zero_one",
+					"critical_floor": 0.8,
+					"floor_passed": true,
+					"max_score": 100.0
+				},
+				{
+					"criterion": "efficiency",
+					"raw_score": 77.5237,
+					"normalized_score": 0.7752,
+					"adjusted_normalized_score": 0.555,
+					"score": 77.52,
+					"weight": 0.2,
+					"formula_id": "zero_one",
+					"critical_floor": null,
+					"floor_passed": true,
+					"max_score": 100.0
+				},
+				{
+					"criterion": "documentation",
+					"raw_score": 84.7,
+					"normalized_score": 0.847,
+					"adjusted_normalized_score": 0.5694,
+					"score": 84.7,
+					"weight": 0.15,
+					"formula_id": "zero_one",
+					"critical_floor": null,
+					"floor_passed": true,
+					"max_score": 100.0
+				}
+			],
+			"overall_score": 87.06,
+			"weighted_score": 88.25,
+			"objective_weighted_score": 89.01,
+			"grade": "B",
+			"passed": true,
+			"pass_threshold": 70.0,
+			"step_scores": [
+				{
+					"step_name": "parse_code",
+					"status": "success",
+					"score": 100.0
+				},
+				{
+					"step_name": "style_check",
+					"status": "success",
+					"score": 100.0
+				},
+				{
+					"step_name": "complexity_analysis",
+					"status": "success",
+					"score": 100.0
+				},
+				{
+					"step_name": "review_code",
+					"status": "success",
+					"score": 100.0
+				},
+				{
+					"step_name": "generate_summary",
+					"status": "success",
+					"score": 100.0
+				}
+			],
+			"agent_scores": [
+				{
+					"step_name": "parse_code",
+					"agent_role": null,
+					"model_used": null,
+					"status": "success",
+					"role_adherence": 70.0,
+					"output_quality": 90.0,
+					"efficiency": 100.0,
+					"reliability": 52.38,
+					"overall_score": 80.36
+				},
+				{
+					"step_name": "style_check",
+					"agent_role": null,
+					"model_used": "gemini:gemini-2.0-flash-lite",
+					"status": "success",
+					"role_adherence": 70.0,
+					"output_quality": 90.0,
+					"efficiency": 100.0,
+					"reliability": 52.38,
+					"overall_score": 80.36
+				},
+				{
+					"step_name": "complexity_analysis",
+					"agent_role": null,
+					"model_used": "gemini:gemini-2.0-flash-lite",
+					"status": "success",
+					"role_adherence": 70.0,
+					"output_quality": 90.0,
+					"efficiency": 98.85,
+					"reliability": 52.38,
+					"overall_score": 80.13
+				},
+				{
+					"step_name": "review_code",
+					"agent_role": null,
+					"model_used": "gemini:gemini-2.0-flash",
+					"status": "success",
+					"role_adherence": 70.0,
+					"output_quality": 90.0,
+					"efficiency": 93.91,
+					"reliability": 52.38,
+					"overall_score": 79.14
+				},
+				{
+					"step_name": "generate_summary",
+					"agent_role": null,
+					"model_used": "gh:openai/gpt-4o-mini",
+					"status": "success",
+					"role_adherence": 70.0,
+					"output_quality": 90.0,
+					"efficiency": 88.18,
+					"reliability": 52.38,
+					"overall_score": 77.99
+				}
+			],
+			"dataset": {
+				"source": "local",
+				"dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+				"dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+				"sample_index": 3,
+				"task_id": "3",
+				"dataset_workflow_compatible": true,
+				"dataset_mismatch_reasons": []
+			},
+			"score_layers": {
+				"layer1_objective": 89.01,
+				"layer2_judge": null,
+				"layer3_similarity": 89.01,
+				"layer3_efficiency": 77.52,
+				"layer3_advisory": 85.22
+			},
+			"hybrid_weights": {
+				"objective": 0.6,
+				"advisory": 0.15
+			},
+			"judge": null,
+			"generated_at": "2026-02-10T14:55:47.902169+00:00",
+			"hard_gates": {
+				"required_outputs_present": true,
+				"overall_status_success": true,
+				"no_critical_step_failures": true,
+				"schema_contract_valid": true,
+				"dataset_workflow_compatible": true
+			},
+			"hard_gate_failures": [],
+			"floor_violations": [],
+			"grade_capped": false,
+			"reporting_bundle": {
+				"sample_count": 1,
+				"per_criterion": {
+					"correctness_rubric": {
+						"mean_score": 1.0,
+						"stdev": 0.0,
+						"min": 1.0,
+						"max": 1.0
+					},
+					"code_quality": {
+						"mean_score": 0.86,
+						"stdev": 0.0,
+						"min": 0.86,
+						"max": 0.86
+					},
+					"efficiency": {
+						"mean_score": 0.7752,
+						"stdev": 0.0,
+						"min": 0.7752,
+						"max": 0.7752
+					},
+					"documentation": {
+						"mean_score": 0.847,
+						"stdev": 0.0,
+						"min": 0.847,
+						"max": 0.847
+					}
+				},
+				"grade_distribution": {
+					"A": 0,
+					"B": 1,
+					"C": 0,
+					"D": 0,
+					"F": 0
+				},
+				"floor_violation_count": {}
+			}
+		}
+	}
+}

@@ -15,8 +15,12 @@ export default function WorkflowDetailPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
   const { data: dag, isLoading: dagLoading } = useWorkflowDAG(name);
-  const { data: evaluationDatasets } = useEvaluationDatasets();
+  const { data: evaluationDatasets } = useEvaluationDatasets(name);
   const { data: runs, isLoading: runsLoading } = useRuns(name);
+
+  useEffect(() => {
+    document.title = `${name || "Workflow"} | Agentic Workflows`;
+  }, [name]);
 
   // Run config form values (inputs + runtime + rubric)
   const configRef = useRef<RunConfigValues>({
@@ -107,12 +111,18 @@ export default function WorkflowDetailPage() {
 
   const hasInputs = dag?.inputs && dag.inputs.length > 0;
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    runMutation.mutate();
+  };
+
   return (
     <div className="flex h-full flex-col">
       {/* Header */}
-      <div className="border-b border-white/5 px-6 py-4">
+      <form onSubmit={handleSubmit} className="border-b border-white/5 px-6 py-4">
         <div className="flex items-center gap-4">
           <button
+            type="button"
             onClick={() => navigate("/workflows")}
             className="btn-ghost p-1"
             aria-label="Back to workflows"
@@ -126,7 +136,7 @@ export default function WorkflowDetailPage() {
             )}
           </div>
           <button
-            onClick={() => runMutation.mutate()}
+            type="submit"
             disabled={runMutation.isPending}
             className="btn-primary text-xs"
           >
@@ -228,7 +238,7 @@ export default function WorkflowDetailPage() {
             </p>
           )}
         </div>
-      </div>
+      </form>
 
       {/* Content */}
       <div className="flex flex-1 overflow-hidden">
@@ -258,8 +268,14 @@ export default function WorkflowDetailPage() {
 
       {/* Error */}
       {runMutation.isError && (
-        <div className="border-t border-red-500/20 bg-red-500/10 px-6 py-3 text-sm text-red-400">
-          Failed to start workflow: {(runMutation.error as Error).message}
+        <div className="border-t border-red-500/20 bg-red-500/10 px-6 py-3">
+          <p className="text-sm font-medium text-red-400">Failed to start workflow</p>
+          <p className="mt-1 text-xs text-red-300">{(runMutation.error as Error).message}</p>
+          {(runMutation.error as any)?.cause?.missing_inputs && (
+            <p className="mt-2 text-xs text-red-200">
+              Missing required fields: <strong>{(runMutation.error as any).cause.missing_inputs.join(", ")}</strong>
+            </p>
+          )}
         </div>
       )}
     </div>

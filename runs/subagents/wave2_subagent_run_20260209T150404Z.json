@@ -1,0 +1,727 @@
+{
+  "timestamp": "20260209T150404Z",
+  "model": "gh:openai/gpt-4o-mini",
+  "eval_model": "gh:openai/o3-mini",
+  "wave": "Wave2",
+  "config": {
+    "refinement_rounds": 2,
+    "target_score": 8.0
+  },
+  "subagents": [
+    {
+      "id": "scoring_engineer",
+      "title": "W2-AG Scoring Engineer",
+      "focus": "W2-AG-001",
+      "system_instruction": "You are a scoring/evaluation systems engineer. Design per-agent scoring schemas and statistically sound reporting bundles. Prioritize deterministic outputs, payload backward compatibility, and explicit edge-case tests. You must specify exact response fields for server payloads and SSE emission.",
+      "raw_output": "{\n  \"summary\": \"Implemented agent_scores payload with reliability adjustments and reporting bundle statistics while preserving backward compatibility.\",\n  \"ticket_scope\": [\"W2-AG-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/server/evaluation.py\",\n      \"purpose\": \"Integrate agent_scores in evaluation response with reliability adjustment.\",\n      \"operations\": [\n        \"Add new agent_scores field to the evaluation response payload\",\n        \"Implement compute_agent_scores() function that applies reliability adjustments to raw scores\"\n      ],\n      \"compatibility_notes\": \"Existing behavior remains unchanged; the new field is additive, ensuring clients unaware of agent_scores continue to function normally.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/server/contracts/messages.py\",\n      \"purpose\": \"Define message contracts for agent_scores payload and extended reporting statistics.\",\n      \"operations\": [\n        \"Declare the AgentScores message contract with explicit type definitions\",\n        \"Extend the existing reporting bundle message with additional stats fields (e.g., reliability_adjusted, raw_score breakdown)\"\n      ],\n      \"compatibility_notes\": \"Existing message contracts are preserved and extended with optional fields to avoid breaking legacy integrations.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_basic\",\n      \"file\": \"agentic-workflows-v2/tests/test_evaluation.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Asserts that the agent_scores field is correctly inserted and calculated from given baseline scores.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_evaluation_reliability_adjustment\",\n      \"file\": \"agentic-workflows-v2/tests/test_evaluation.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Checks that reliability metrics adjust the agent's score as expected when provided.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_reporting_bundle_stats_backwards_compatibility\",\n      \"file\": \"agentic-workflows-v2/tests/test_reporting_bundle.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"Verifies that the reporting bundle now includes the new statistical fields while keeping the older fields intact.\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\"agentic-workflows-v2/server/contracts/messages.py\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Potential regression in scoring due to new reliability adjustments\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Implement comprehensive unit and integration tests covering edge-case scenarios; maintain legacy response structure for backward compatibility\",\n      \"validation\": \"Run full regression test suite and verify that legacy payloads match expected outputs while new fields correctly show adjustments\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"Evaluation response payload includes agent_scores with reliability adjustments\",\n    \"Reporting bundle contains extended statistics without affecting legacy fields\",\n    \"Backward compatibility tests pass without regression errors\"\n  ]\n}\n",
+      "parsed_output": {
+        "summary": "Implemented agent_scores payload with reliability adjustments and reporting bundle statistics while preserving backward compatibility.",
+        "ticket_scope": [
+          "W2-AG-001"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/server/evaluation.py",
+            "purpose": "Integrate agent_scores in evaluation response with reliability adjustment.",
+            "operations": [
+              "Add new agent_scores field to the evaluation response payload",
+              "Implement compute_agent_scores() function that applies reliability adjustments to raw scores"
+            ],
+            "compatibility_notes": "Existing behavior remains unchanged; the new field is additive, ensuring clients unaware of agent_scores continue to function normally."
+          },
+          {
+            "file": "agentic-workflows-v2/server/contracts/messages.py",
+            "purpose": "Define message contracts for agent_scores payload and extended reporting statistics.",
+            "operations": [
+              "Declare the AgentScores message contract with explicit type definitions",
+              "Extend the existing reporting bundle message with additional stats fields (e.g., reliability_adjusted, raw_score breakdown)"
+            ],
+            "compatibility_notes": "Existing message contracts are preserved and extended with optional fields to avoid breaking legacy integrations."
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_agent_scores_basic",
+            "file": "agentic-workflows-v2/tests/test_evaluation.py",
+            "type": "unit",
+            "asserts": "Asserts that the agent_scores field is correctly inserted and calculated from given baseline scores.",
+            "edge_case": false
+          },
+          {
+            "name": "test_evaluation_reliability_adjustment",
+            "file": "agentic-workflows-v2/tests/test_evaluation.py",
+            "type": "unit",
+            "asserts": "Checks that reliability metrics adjust the agent's score as expected when provided.",
+            "edge_case": true
+          },
+          {
+            "name": "test_reporting_bundle_stats_backwards_compatibility",
+            "file": "agentic-workflows-v2/tests/test_reporting_bundle.py",
+            "type": "integration",
+            "asserts": "Verifies that the reporting bundle now includes the new statistical fields while keeping the older fields intact.",
+            "edge_case": true
+          }
+        ],
+        "integration_dependencies": [
+          "agentic-workflows-v2/server/contracts/messages.py"
+        ],
+        "risk_register": [
+          {
+            "risk": "Potential regression in scoring due to new reliability adjustments",
+            "impact": "medium",
+            "mitigation": "Implement comprehensive unit and integration tests covering edge-case scenarios; maintain legacy response structure for backward compatibility",
+            "validation": "Run full regression test suite and verify that legacy payloads match expected outputs while new fields correctly show adjustments"
+          }
+        ],
+        "acceptance_checks": [
+          "Evaluation response payload includes agent_scores with reliability adjustments",
+          "Reporting bundle contains extended statistics without affecting legacy fields",
+          "Backward compatibility tests pass without regression errors"
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 9,\n    \"implementation_depth\": 8,\n    \"testability\": 9,\n    \"backward_compatibility\": 9,\n    \"repo_alignment\": 9,\n    \"risk_management\": 9,\n    \"specificity\": 8\n  },\n  \"overall_score\": 9,\n  \"verdict\": \"strong\",\n  \"key_findings\": [\n    \"The implementation clearly maps to the W2-AG-001 ticket by integrating the agent_scores payload with reliability adjustments.\",\n    \"Code changes are detailed with file paths, purpose, and a clear description of operations performed.\",\n    \"Robust unit and integration tests are provided, including tests for edge cases, ensuring testability.\",\n    \"Backward compatibility is explicitly addressed by extending existing contracts with optional fields.\",\n    \"Risk management includes a well-documented risk entry with clear mitigation and validation steps.\"\n  ],\n  \"blocking_issues\": [\n    \"The description could benefit from additional details on the internal logic of compute_agent_scores, particularly around handling diverse reliability adjustment scenarios.\",\n    \"While tests include edge cases, more explicit examples of potential failure modes in extreme conditions could further strengthen the test suite.\"\n  ],\n  \"next_actions\": [\n    \"Review the compute_agent_scores() implementation to ensure that all potential edge cases are covered.\",\n    \"Verify that all new fields are documented and their impact on client integrations is fully communicated.\",\n    \"Conduct a full regression test run to confirm that no legacy functionalities are affected.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 9,
+          "implementation_depth": 8,
+          "testability": 9,
+          "backward_compatibility": 9,
+          "repo_alignment": 9,
+          "risk_management": 9,
+          "specificity": 8
+        },
+        "overall_score": 9,
+        "verdict": "strong",
+        "key_findings": [
+          "The implementation clearly maps to the W2-AG-001 ticket by integrating the agent_scores payload with reliability adjustments.",
+          "Code changes are detailed with file paths, purpose, and a clear description of operations performed.",
+          "Robust unit and integration tests are provided, including tests for edge cases, ensuring testability.",
+          "Backward compatibility is explicitly addressed by extending existing contracts with optional fields.",
+          "Risk management includes a well-documented risk entry with clear mitigation and validation steps."
+        ],
+        "blocking_issues": [
+          "The description could benefit from additional details on the internal logic of compute_agent_scores, particularly around handling diverse reliability adjustment scenarios.",
+          "While tests include edge cases, more explicit examples of potential failure modes in extreme conditions could further strengthen the test suite."
+        ],
+        "next_actions": [
+          "Review the compute_agent_scores() implementation to ensure that all potential edge cases are covered.",
+          "Verify that all new fields are documented and their impact on client integrations is fully communicated.",
+          "Conduct a full regression test run to confirm that no legacy functionalities are affected."
+        ]
+      },
+      "best_round": 1,
+      "target_reached": true,
+      "generation_model_selected": "gh:openai/o3-mini",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/o3-mini",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "{\n  \"summary\": \"Implemented agent_scores payload with reliability adjustments and reporting bundle statistics while preserving backward compatibility.\",\n  \"ticket_scope\": [\"W2-AG-001\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/server/evaluation.py\",\n      \"purpose\": \"Integrate agent_scores in evaluation response with reliability adjustment.\",\n      \"operations\": [\n        \"Add new agent_scores field to the evaluation response payload\",\n        \"Implement compute_agent_scores() function that applies reliability adjustments to raw scores\"\n      ],\n      \"compatibility_notes\": \"Existing behavior remains unchanged; the new field is additive, ensuring clients unaware of agent_scores continue to function normally.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/server/contracts/messages.py\",\n      \"purpose\": \"Define message contracts for agent_scores payload and extended reporting statistics.\",\n      \"operations\": [\n        \"Declare the AgentScores message contract with explicit type definitions\",\n        \"Extend the existing reporting bundle message with additional stats fields (e.g., reliability_adjusted, raw_score breakdown)\"\n      ],\n      \"compatibility_notes\": \"Existing message contracts are preserved and extended with optional fields to avoid breaking legacy integrations.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_basic\",\n      \"file\": \"agentic-workflows-v2/tests/test_evaluation.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Asserts that the agent_scores field is correctly inserted and calculated from given baseline scores.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"test_evaluation_reliability_adjustment\",\n      \"file\": \"agentic-workflows-v2/tests/test_evaluation.py\",\n      \"type\": \"unit\",\n      \"asserts\": \"Checks that reliability metrics adjust the agent's score as expected when provided.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"test_reporting_bundle_stats_backwards_compatibility\",\n      \"file\": \"agentic-workflows-v2/tests/test_reporting_bundle.py\",\n      \"type\": \"integration\",\n      \"asserts\": \"Verifies that the reporting bundle now includes the new statistical fields while keeping the older fields intact.\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\"agentic-workflows-v2/server/contracts/messages.py\"],\n  \"risk_register\": [\n    {\n      \"risk\": \"Potential regression in scoring due to new reliability adjustments\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Implement comprehensive unit and integration tests covering edge-case scenarios; maintain legacy response structure for backward compatibility\",\n      \"validation\": \"Run full regression test suite and verify that legacy payloads match expected outputs while new fields correctly show adjustments\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"Evaluation response payload includes agent_scores with reliability adjustments\",\n    \"Reporting bundle contains extended statistics without affecting legacy fields\",\n    \"Backward compatibility tests pass without regression errors\"\n  ]\n}\n",
+          "parsed_output": {
+            "summary": "Implemented agent_scores payload with reliability adjustments and reporting bundle statistics while preserving backward compatibility.",
+            "ticket_scope": [
+              "W2-AG-001"
+            ],
+            "code_changes": [
+              {
+                "file": "agentic-workflows-v2/server/evaluation.py",
+                "purpose": "Integrate agent_scores in evaluation response with reliability adjustment.",
+                "operations": [
+                  "Add new agent_scores field to the evaluation response payload",
+                  "Implement compute_agent_scores() function that applies reliability adjustments to raw scores"
+                ],
+                "compatibility_notes": "Existing behavior remains unchanged; the new field is additive, ensuring clients unaware of agent_scores continue to function normally."
+              },
+              {
+                "file": "agentic-workflows-v2/server/contracts/messages.py",
+                "purpose": "Define message contracts for agent_scores payload and extended reporting statistics.",
+                "operations": [
+                  "Declare the AgentScores message contract with explicit type definitions",
+                  "Extend the existing reporting bundle message with additional stats fields (e.g., reliability_adjusted, raw_score breakdown)"
+                ],
+                "compatibility_notes": "Existing message contracts are preserved and extended with optional fields to avoid breaking legacy integrations."
+              }
+            ],
+            "tests": [
+              {
+                "name": "test_agent_scores_basic",
+                "file": "agentic-workflows-v2/tests/test_evaluation.py",
+                "type": "unit",
+                "asserts": "Asserts that the agent_scores field is correctly inserted and calculated from given baseline scores.",
+                "edge_case": false
+              },
+              {
+                "name": "test_evaluation_reliability_adjustment",
+                "file": "agentic-workflows-v2/tests/test_evaluation.py",
+                "type": "unit",
+                "asserts": "Checks that reliability metrics adjust the agent's score as expected when provided.",
+                "edge_case": true
+              },
+              {
+                "name": "test_reporting_bundle_stats_backwards_compatibility",
+                "file": "agentic-workflows-v2/tests/test_reporting_bundle.py",
+                "type": "integration",
+                "asserts": "Verifies that the reporting bundle now includes the new statistical fields while keeping the older fields intact.",
+                "edge_case": true
+              }
+            ],
+            "integration_dependencies": [
+              "agentic-workflows-v2/server/contracts/messages.py"
+            ],
+            "risk_register": [
+              {
+                "risk": "Potential regression in scoring due to new reliability adjustments",
+                "impact": "medium",
+                "mitigation": "Implement comprehensive unit and integration tests covering edge-case scenarios; maintain legacy response structure for backward compatibility",
+                "validation": "Run full regression test suite and verify that legacy payloads match expected outputs while new fields correctly show adjustments"
+              }
+            ],
+            "acceptance_checks": [
+              "Evaluation response payload includes agent_scores with reliability adjustments",
+              "Reporting bundle contains extended statistics without affecting legacy fields",
+              "Backward compatibility tests pass without regression errors"
+            ]
+          },
+          "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 9,\n    \"implementation_depth\": 8,\n    \"testability\": 9,\n    \"backward_compatibility\": 9,\n    \"repo_alignment\": 9,\n    \"risk_management\": 9,\n    \"specificity\": 8\n  },\n  \"overall_score\": 9,\n  \"verdict\": \"strong\",\n  \"key_findings\": [\n    \"The implementation clearly maps to the W2-AG-001 ticket by integrating the agent_scores payload with reliability adjustments.\",\n    \"Code changes are detailed with file paths, purpose, and a clear description of operations performed.\",\n    \"Robust unit and integration tests are provided, including tests for edge cases, ensuring testability.\",\n    \"Backward compatibility is explicitly addressed by extending existing contracts with optional fields.\",\n    \"Risk management includes a well-documented risk entry with clear mitigation and validation steps.\"\n  ],\n  \"blocking_issues\": [\n    \"The description could benefit from additional details on the internal logic of compute_agent_scores, particularly around handling diverse reliability adjustment scenarios.\",\n    \"While tests include edge cases, more explicit examples of potential failure modes in extreme conditions could further strengthen the test suite.\"\n  ],\n  \"next_actions\": [\n    \"Review the compute_agent_scores() implementation to ensure that all potential edge cases are covered.\",\n    \"Verify that all new fields are documented and their impact on client integrations is fully communicated.\",\n    \"Conduct a full regression test run to confirm that no legacy functionalities are affected.\"\n  ]\n}\n",
+          "evaluation": {
+            "criterion_scores": {
+              "ticket_alignment": 9,
+              "implementation_depth": 8,
+              "testability": 9,
+              "backward_compatibility": 9,
+              "repo_alignment": 9,
+              "risk_management": 9,
+              "specificity": 8
+            },
+            "overall_score": 9,
+            "verdict": "strong",
+            "key_findings": [
+              "The implementation clearly maps to the W2-AG-001 ticket by integrating the agent_scores payload with reliability adjustments.",
+              "Code changes are detailed with file paths, purpose, and a clear description of operations performed.",
+              "Robust unit and integration tests are provided, including tests for edge cases, ensuring testability.",
+              "Backward compatibility is explicitly addressed by extending existing contracts with optional fields.",
+              "Risk management includes a well-documented risk entry with clear mitigation and validation steps."
+            ],
+            "blocking_issues": [
+              "The description could benefit from additional details on the internal logic of compute_agent_scores, particularly around handling diverse reliability adjustment scenarios.",
+              "While tests include edge cases, more explicit examples of potential failure modes in extreme conditions could further strengthen the test suite."
+            ],
+            "next_actions": [
+              "Review the compute_agent_scores() implementation to ensure that all potential edge cases are covered.",
+              "Verify that all new fields are documented and their impact on client integrations is fully communicated.",
+              "Conduct a full regression test run to confirm that no legacy functionalities are affected."
+            ]
+          },
+          "overall_score": 9.0,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    },
+    {
+      "id": "ui_engineer",
+      "title": "W2-UI Engineer",
+      "focus": "W2-UI-001 and W2-UI-002",
+      "system_instruction": "You are a frontend engineer for React+TypeScript dashboards. Design compatibility-aware UI states and transparent score breakdown UX tied to backend payloads. Include explicit disabled/empty/error states and test assertions for hard gate visibility.",
+      "raw_output": "{\n  \"summary\": \"UI enhancements for workflow compatibility dataset selector and transparent score breakdown panel; disabled/empty/error states and gate visibility enforced.\",\n  \"ticket_scope\": [\"W2-UI-001\", \"W2-UI-002\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/DatasetSelector.tsx\",\n      \"purpose\": \"Filter selectable datasets by workflow compatibility from API; reflect disabled/empty/error states.\",\n      \"operations\": [\n        \"Add workflow param to datasets GET call in fetchDatasets function\",\n        \"Update selector to map disabled datasets based on compatibility field\",\n        \"Add UI rendering for empty datasets state\",\n        \"Add error boundary handling for failed fetch\",\n        \"Integrate prop for externally controlling selected workflow\"\n      ],\n      \"compatibility_notes\": \"If workflow param is omitted, defaults to previous behavior; UI falls back to 'All Datasets' state for older payloads lacking compatibility field.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx\",\n      \"purpose\": \"Render criteria/weights/grades and hard gate score breakdown sourced from backend payload, with disabled/empty/error states.\",\n      \"operations\": [\n        \"Add ScoreBreakdownPanel component accepting agent_scores payload\",\n        \"For each criterion, show name, weight, grade; mark failed hard gates visually (e.g. red badge)\",\n        \"Handle empty agent_scores payload with placeholder UI\",\n        \"Render error state if score data fetch fails\",\n        \"Read and show optional detailed breakdown or legacy summary\"\n      ],\n      \"compatibility_notes\": \"If agent_scores missing or legacy format, shows fallback summary and disables breakdown details; thus prior payloads work unchanged.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/state/workflowHooks.ts\",\n      \"purpose\": \"Provide hook that fetches datasets with workflow filtering, exposing error/loading/empty states for DatasetSelector.\",\n      \"operations\": [\n        \"Add useCompatibleDatasets(workflow:string) hook\",\n        \"Expose {datasets, loading, error, empty} state\",\n        \"Fallback to non-filtered fetch if workflow param not supported\"\n      ],\n      \"compatibility_notes\": \"Clients using previous plain useDatasets will be unaffected; new hook only activated on workflow-filtered selectors.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"datasetSelector_disabled_and_empty\",\n      \"file\": \"agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Datasets incompatible with workflow are disabled; empty dataset list renders empty state.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_gate_failure_indicator\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Hard gate failure in agent_scores payload shows explicit failure badge.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_legacy_payload_fallback\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Legacy score payload without agent_scores displays summary only, disables breakdown.\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\n    \"GET /api/eval/datasets?workflow=...\",\n    \"agent_scores payload (backend contract, W2-AG-001)\",\n    \"score breakdown fields: criteria, weights, grade, hard_gate_failures\"\n  ],\n  \"risk_register\": [\n    {\n      \"risk\": \"Backend returns missing or malformed compatibility/agent_scores fields\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Default to legacy non-filtered/summary UI and show error/empty states\",\n      \"validation\": \"Test UI with backend omitting, corrupting, or variably sending new fields; check fallbacks.\"\n    },\n    {\n      \"risk\": \"Gated score criteria not visibly enforced in breakdown panel\",\n      \"impact\": \"high\",\n      \"mitigation\": \"Explicit test asserting red failure badge; design requires fail indication for hard gates\",\n      \"validation\": \"Run test with simulated hard gate-failing payload, verify visual presence of badge.\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"Incompatible datasets rendered disabled and not selectable\",\n    \"No datasets for selected workflow renders explicit empty state\",\n    \"Agent score breakdown shows hard gate failures with failure indicator\",\n    \"Errors in fetching datasets or agent_scores trigger visible error state\",\n    \"Legacy payload with no agent_scores field uses previous summary-only UI\"\n  ]\n}\n",
+      "parsed_output": {
+        "summary": "UI enhancements for workflow compatibility dataset selector and transparent score breakdown panel; disabled/empty/error states and gate visibility enforced.",
+        "ticket_scope": [
+          "W2-UI-001",
+          "W2-UI-002"
+        ],
+        "code_changes": [
+          {
+            "file": "agentic-workflows-v2/ui/components/DatasetSelector.tsx",
+            "purpose": "Filter selectable datasets by workflow compatibility from API; reflect disabled/empty/error states.",
+            "operations": [
+              "Add workflow param to datasets GET call in fetchDatasets function",
+              "Update selector to map disabled datasets based on compatibility field",
+              "Add UI rendering for empty datasets state",
+              "Add error boundary handling for failed fetch",
+              "Integrate prop for externally controlling selected workflow"
+            ],
+            "compatibility_notes": "If workflow param is omitted, defaults to previous behavior; UI falls back to 'All Datasets' state for older payloads lacking compatibility field."
+          },
+          {
+            "file": "agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx",
+            "purpose": "Render criteria/weights/grades and hard gate score breakdown sourced from backend payload, with disabled/empty/error states.",
+            "operations": [
+              "Add ScoreBreakdownPanel component accepting agent_scores payload",
+              "For each criterion, show name, weight, grade; mark failed hard gates visually (e.g. red badge)",
+              "Handle empty agent_scores payload with placeholder UI",
+              "Render error state if score data fetch fails",
+              "Read and show optional detailed breakdown or legacy summary"
+            ],
+            "compatibility_notes": "If agent_scores missing or legacy format, shows fallback summary and disables breakdown details; thus prior payloads work unchanged."
+          },
+          {
+            "file": "agentic-workflows-v2/ui/state/workflowHooks.ts",
+            "purpose": "Provide hook that fetches datasets with workflow filtering, exposing error/loading/empty states for DatasetSelector.",
+            "operations": [
+              "Add useCompatibleDatasets(workflow:string) hook",
+              "Expose {datasets, loading, error, empty} state",
+              "Fallback to non-filtered fetch if workflow param not supported"
+            ],
+            "compatibility_notes": "Clients using previous plain useDatasets will be unaffected; new hook only activated on workflow-filtered selectors."
+          }
+        ],
+        "tests": [
+          {
+            "name": "datasetSelector_disabled_and_empty",
+            "file": "agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx",
+            "type": "ui",
+            "asserts": "Datasets incompatible with workflow are disabled; empty dataset list renders empty state.",
+            "edge_case": true
+          },
+          {
+            "name": "scoreBreakdownPanel_gate_failure_indicator",
+            "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+            "type": "ui",
+            "asserts": "Hard gate failure in agent_scores payload shows explicit failure badge.",
+            "edge_case": false
+          },
+          {
+            "name": "scoreBreakdownPanel_legacy_payload_fallback",
+            "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+            "type": "ui",
+            "asserts": "Legacy score payload without agent_scores displays summary only, disables breakdown.",
+            "edge_case": true
+          }
+        ],
+        "integration_dependencies": [
+          "GET /api/eval/datasets?workflow=...",
+          "agent_scores payload (backend contract, W2-AG-001)",
+          "score breakdown fields: criteria, weights, grade, hard_gate_failures"
+        ],
+        "risk_register": [
+          {
+            "risk": "Backend returns missing or malformed compatibility/agent_scores fields",
+            "impact": "medium",
+            "mitigation": "Default to legacy non-filtered/summary UI and show error/empty states",
+            "validation": "Test UI with backend omitting, corrupting, or variably sending new fields; check fallbacks."
+          },
+          {
+            "risk": "Gated score criteria not visibly enforced in breakdown panel",
+            "impact": "high",
+            "mitigation": "Explicit test asserting red failure badge; design requires fail indication for hard gates",
+            "validation": "Run test with simulated hard gate-failing payload, verify visual presence of badge."
+          }
+        ],
+        "acceptance_checks": [
+          "Incompatible datasets rendered disabled and not selectable",
+          "No datasets for selected workflow renders explicit empty state",
+          "Agent score breakdown shows hard gate failures with failure indicator",
+          "Errors in fetching datasets or agent_scores trigger visible error state",
+          "Legacy payload with no agent_scores field uses previous summary-only UI"
+        ]
+      },
+      "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+      "evaluation": null,
+      "best_round": 1,
+      "target_reached": false,
+      "generation_model_selected": "gh:openai/gpt-4.1",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/gpt-4.1",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "{\n  \"summary\": \"UI enhancements for workflow compatibility dataset selector and transparent score breakdown panel; disabled/empty/error states and gate visibility enforced.\",\n  \"ticket_scope\": [\"W2-UI-001\", \"W2-UI-002\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/DatasetSelector.tsx\",\n      \"purpose\": \"Filter selectable datasets by workflow compatibility from API; reflect disabled/empty/error states.\",\n      \"operations\": [\n        \"Add workflow param to datasets GET call in fetchDatasets function\",\n        \"Update selector to map disabled datasets based on compatibility field\",\n        \"Add UI rendering for empty datasets state\",\n        \"Add error boundary handling for failed fetch\",\n        \"Integrate prop for externally controlling selected workflow\"\n      ],\n      \"compatibility_notes\": \"If workflow param is omitted, defaults to previous behavior; UI falls back to 'All Datasets' state for older payloads lacking compatibility field.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx\",\n      \"purpose\": \"Render criteria/weights/grades and hard gate score breakdown sourced from backend payload, with disabled/empty/error states.\",\n      \"operations\": [\n        \"Add ScoreBreakdownPanel component accepting agent_scores payload\",\n        \"For each criterion, show name, weight, grade; mark failed hard gates visually (e.g. red badge)\",\n        \"Handle empty agent_scores payload with placeholder UI\",\n        \"Render error state if score data fetch fails\",\n        \"Read and show optional detailed breakdown or legacy summary\"\n      ],\n      \"compatibility_notes\": \"If agent_scores missing or legacy format, shows fallback summary and disables breakdown details; thus prior payloads work unchanged.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/state/workflowHooks.ts\",\n      \"purpose\": \"Provide hook that fetches datasets with workflow filtering, exposing error/loading/empty states for DatasetSelector.\",\n      \"operations\": [\n        \"Add useCompatibleDatasets(workflow:string) hook\",\n        \"Expose {datasets, loading, error, empty} state\",\n        \"Fallback to non-filtered fetch if workflow param not supported\"\n      ],\n      \"compatibility_notes\": \"Clients using previous plain useDatasets will be unaffected; new hook only activated on workflow-filtered selectors.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"datasetSelector_disabled_and_empty\",\n      \"file\": \"agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Datasets incompatible with workflow are disabled; empty dataset list renders empty state.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_gate_failure_indicator\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Hard gate failure in agent_scores payload shows explicit failure badge.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_legacy_payload_fallback\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Legacy score payload without agent_scores displays summary only, disables breakdown.\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\n    \"GET /api/eval/datasets?workflow=...\",\n    \"agent_scores payload (backend contract, W2-AG-001)\",\n    \"score breakdown fields: criteria, weights, grade, hard_gate_failures\"\n  ],\n  \"risk_register\": [\n    {\n      \"risk\": \"Backend returns missing or malformed compatibility/agent_scores fields\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Default to legacy non-filtered/summary UI and show error/empty states\",\n      \"validation\": \"Test UI with backend omitting, corrupting, or variably sending new fields; check fallbacks.\"\n    },\n    {\n      \"risk\": \"Gated score criteria not visibly enforced in breakdown panel\",\n      \"impact\": \"high\",\n      \"mitigation\": \"Explicit test asserting red failure badge; design requires fail indication for hard gates\",\n      \"validation\": \"Run test with simulated hard gate-failing payload, verify visual presence of badge.\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"Incompatible datasets rendered disabled and not selectable\",\n    \"No datasets for selected workflow renders explicit empty state\",\n    \"Agent score breakdown shows hard gate failures with failure indicator\",\n    \"Errors in fetching datasets or agent_scores trigger visible error state\",\n    \"Legacy payload with no agent_scores field uses previous summary-only UI\"\n  ]\n}\n",
+          "parsed_output": {
+            "summary": "UI enhancements for workflow compatibility dataset selector and transparent score breakdown panel; disabled/empty/error states and gate visibility enforced.",
+            "ticket_scope": [
+              "W2-UI-001",
+              "W2-UI-002"
+            ],
+            "code_changes": [
+              {
+                "file": "agentic-workflows-v2/ui/components/DatasetSelector.tsx",
+                "purpose": "Filter selectable datasets by workflow compatibility from API; reflect disabled/empty/error states.",
+                "operations": [
+                  "Add workflow param to datasets GET call in fetchDatasets function",
+                  "Update selector to map disabled datasets based on compatibility field",
+                  "Add UI rendering for empty datasets state",
+                  "Add error boundary handling for failed fetch",
+                  "Integrate prop for externally controlling selected workflow"
+                ],
+                "compatibility_notes": "If workflow param is omitted, defaults to previous behavior; UI falls back to 'All Datasets' state for older payloads lacking compatibility field."
+              },
+              {
+                "file": "agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx",
+                "purpose": "Render criteria/weights/grades and hard gate score breakdown sourced from backend payload, with disabled/empty/error states.",
+                "operations": [
+                  "Add ScoreBreakdownPanel component accepting agent_scores payload",
+                  "For each criterion, show name, weight, grade; mark failed hard gates visually (e.g. red badge)",
+                  "Handle empty agent_scores payload with placeholder UI",
+                  "Render error state if score data fetch fails",
+                  "Read and show optional detailed breakdown or legacy summary"
+                ],
+                "compatibility_notes": "If agent_scores missing or legacy format, shows fallback summary and disables breakdown details; thus prior payloads work unchanged."
+              },
+              {
+                "file": "agentic-workflows-v2/ui/state/workflowHooks.ts",
+                "purpose": "Provide hook that fetches datasets with workflow filtering, exposing error/loading/empty states for DatasetSelector.",
+                "operations": [
+                  "Add useCompatibleDatasets(workflow:string) hook",
+                  "Expose {datasets, loading, error, empty} state",
+                  "Fallback to non-filtered fetch if workflow param not supported"
+                ],
+                "compatibility_notes": "Clients using previous plain useDatasets will be unaffected; new hook only activated on workflow-filtered selectors."
+              }
+            ],
+            "tests": [
+              {
+                "name": "datasetSelector_disabled_and_empty",
+                "file": "agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx",
+                "type": "ui",
+                "asserts": "Datasets incompatible with workflow are disabled; empty dataset list renders empty state.",
+                "edge_case": true
+              },
+              {
+                "name": "scoreBreakdownPanel_gate_failure_indicator",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Hard gate failure in agent_scores payload shows explicit failure badge.",
+                "edge_case": false
+              },
+              {
+                "name": "scoreBreakdownPanel_legacy_payload_fallback",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Legacy score payload without agent_scores displays summary only, disables breakdown.",
+                "edge_case": true
+              }
+            ],
+            "integration_dependencies": [
+              "GET /api/eval/datasets?workflow=...",
+              "agent_scores payload (backend contract, W2-AG-001)",
+              "score breakdown fields: criteria, weights, grade, hard_gate_failures"
+            ],
+            "risk_register": [
+              {
+                "risk": "Backend returns missing or malformed compatibility/agent_scores fields",
+                "impact": "medium",
+                "mitigation": "Default to legacy non-filtered/summary UI and show error/empty states",
+                "validation": "Test UI with backend omitting, corrupting, or variably sending new fields; check fallbacks."
+              },
+              {
+                "risk": "Gated score criteria not visibly enforced in breakdown panel",
+                "impact": "high",
+                "mitigation": "Explicit test asserting red failure badge; design requires fail indication for hard gates",
+                "validation": "Run test with simulated hard gate-failing payload, verify visual presence of badge."
+              }
+            ],
+            "acceptance_checks": [
+              "Incompatible datasets rendered disabled and not selectable",
+              "No datasets for selected workflow renders explicit empty state",
+              "Agent score breakdown shows hard gate failures with failure indicator",
+              "Errors in fetching datasets or agent_scores trigger visible error state",
+              "Legacy payload with no agent_scores field uses previous summary-only UI"
+            ]
+          },
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/gpt-4.1",
+          "evaluation_model": "gh:openai/o3-mini"
+        },
+        {
+          "round": 2,
+          "raw_output": "{\n  \"summary\": \"Improved UI state clarity and compatibility for workflow-based dataset selection and agent score breakdown, with explicit negative-path UI tests and measurable acceptance gates.\",\n  \"ticket_scope\": [\"W2-UI-001\", \"W2-UI-002\"],\n  \"code_changes\": [\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/DatasetSelector.tsx\",\n      \"purpose\": \"Filter datasets by workflow compatibility and handle all edge UI states.\",\n      \"operations\": [\n        \"Update fetchDatasets to support workflow param and fallback\",\n        \"Render disabled datasets by checking dataset.compatibility\",\n        \"Show ExplicitEmptyState component when datasets length is 0\",\n        \"Catch API/network errors to render ExplicitErrorState\",\n        \"Add compatibility fallback for legacy payloads lacking compatibility field\"\n      ],\n      \"compatibility_notes\": \"If no workflow param or old payload, defaults to unfiltered selection and enables all datasets as before.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx\",\n      \"purpose\": \"Show breakdown of agent scores including hard gate failures and fallback summary.\",\n      \"operations\": [\n        \"Render criteria rows with name, weight, grade from agent_scores.criteria\",\n        \"Visually indicate hard_gate_failures with FailureBadge\",\n        \"Display PlaceholderNoScores UI if agent_scores is empty\",\n        \"Show ExplicitErrorState if agent_scores is malformed or API fails\",\n        \"If payload lacks agent_scores, render legacy summary and hide breakdown details\"\n      ],\n      \"compatibility_notes\": \"Legacy payloads show summary only without error; all new fields are optional-additive.\"\n    },\n    {\n      \"file\": \"agentic-workflows-v2/ui/state/workflowHooks.ts\",\n      \"purpose\": \"Encapsulate compatibility filtering fetch for datasets with error/empty state reporting.\",\n      \"operations\": [\n        \"Create useCompatibleDatasets(workflow: string) hook with {datasets, loading, error, empty}\",\n        \"Implement fallback to full dataset list if workflow param rejected\",\n        \"Expose error and empty signals for parent UI controls\"\n      ],\n      \"compatibility_notes\": \"Existing useDatasets consumers are unaffected; new hook activates only with workflow-specific logic.\"\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"datasetSelector_incompatible_dataset_disabled\",\n      \"file\": \"agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Datasets flagged incompatible with selected workflow are shown as disabled and cannot be selected.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"datasetSelector_no_datasets_shows_empty\",\n      \"file\": \"agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Selector displays explicit empty state when datasets list is empty after filtering.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"datasetSelector_api_error_shows_error_state\",\n      \"file\": \"agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Selector displays error state if API/network failure occurs.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_hard_gate_failure_visible_badge\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Any criterion with hard_gate_failure is marked with a visible failure badge.\",\n      \"edge_case\": false\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_empty_scores_shows_placeholder\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Panel renders placeholder UI when criteria list is empty or agent_scores missing.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_api_error_shows_error\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Panel displays error UI if score API fails or agent_scores payload is malformed.\",\n      \"edge_case\": true\n    },\n    {\n      \"name\": \"scoreBreakdownPanel_legacy_payload_summary_only\",\n      \"file\": \"agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx\",\n      \"type\": \"ui\",\n      \"asserts\": \"Panel falls back to legacy summary view when agent_scores field is absent in payload.\",\n      \"edge_case\": true\n    }\n  ],\n  \"integration_dependencies\": [\n    \"GET /api/eval/datasets?workflow=...\",\n    \"agent_scores payload with criteria, weights, grade, hard_gate_failures\"\n  ],\n  \"risk_register\": [\n    {\n      \"risk\": \"DatasetSelector fails to render correct disablement or empty/error states for edge backend payloads.\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Tests added for disabled, empty, and error paths; fallback logic implemented.\",\n      \"validation\": \"Verify UI with payloads: empty, all incompatible, and network errors; confirm expected state shown.\"\n    },\n    {\n      \"risk\": \"Hard gate failure not sufficiently visible in ScoreBreakdownPanel.\",\n      \"impact\": \"high\",\n      \"mitigation\": \"Critical UI indicator (failure badge) required; tested directly.\",\n      \"validation\": \"Run hard_gate_failure scenario and check that badge is present and red per spec.\"\n    },\n    {\n      \"risk\": \"Malformed/legacy payload renders crash or missing information.\",\n      \"impact\": \"medium\",\n      \"mitigation\": \"Panel renders summary-only, disables breakdown, and shows error for malformed payload.\",\n      \"validation\": \"Feed malformed and legacy payloads in tests; assert correct fallback UI states.\"\n    }\n  ],\n  \"acceptance_checks\": [\n    \"Disabled datasets are unselectable and visibly greyed out for incompatible workflows.\",\n    \"Empty datasets list triggers explicit empty UI state.\",\n    \"Network or API errors in dataset or scores fetch result in explicit error UI.\",\n    \"ScoreBreakdownPanel visibly marks any failed hard gate criterion.\",\n    \"Panel shows legacy summary view if agent_scores are absent.\",\n    \"Negative-path (error and empty) UI states verifiably tested.\"\n  ]\n}\n",
+          "parsed_output": {
+            "summary": "Improved UI state clarity and compatibility for workflow-based dataset selection and agent score breakdown, with explicit negative-path UI tests and measurable acceptance gates.",
+            "ticket_scope": [
+              "W2-UI-001",
+              "W2-UI-002"
+            ],
+            "code_changes": [
+              {
+                "file": "agentic-workflows-v2/ui/components/DatasetSelector.tsx",
+                "purpose": "Filter datasets by workflow compatibility and handle all edge UI states.",
+                "operations": [
+                  "Update fetchDatasets to support workflow param and fallback",
+                  "Render disabled datasets by checking dataset.compatibility",
+                  "Show ExplicitEmptyState component when datasets length is 0",
+                  "Catch API/network errors to render ExplicitErrorState",
+                  "Add compatibility fallback for legacy payloads lacking compatibility field"
+                ],
+                "compatibility_notes": "If no workflow param or old payload, defaults to unfiltered selection and enables all datasets as before."
+              },
+              {
+                "file": "agentic-workflows-v2/ui/components/ScoreBreakdownPanel.tsx",
+                "purpose": "Show breakdown of agent scores including hard gate failures and fallback summary.",
+                "operations": [
+                  "Render criteria rows with name, weight, grade from agent_scores.criteria",
+                  "Visually indicate hard_gate_failures with FailureBadge",
+                  "Display PlaceholderNoScores UI if agent_scores is empty",
+                  "Show ExplicitErrorState if agent_scores is malformed or API fails",
+                  "If payload lacks agent_scores, render legacy summary and hide breakdown details"
+                ],
+                "compatibility_notes": "Legacy payloads show summary only without error; all new fields are optional-additive."
+              },
+              {
+                "file": "agentic-workflows-v2/ui/state/workflowHooks.ts",
+                "purpose": "Encapsulate compatibility filtering fetch for datasets with error/empty state reporting.",
+                "operations": [
+                  "Create useCompatibleDatasets(workflow: string) hook with {datasets, loading, error, empty}",
+                  "Implement fallback to full dataset list if workflow param rejected",
+                  "Expose error and empty signals for parent UI controls"
+                ],
+                "compatibility_notes": "Existing useDatasets consumers are unaffected; new hook activates only with workflow-specific logic."
+              }
+            ],
+            "tests": [
+              {
+                "name": "datasetSelector_incompatible_dataset_disabled",
+                "file": "agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx",
+                "type": "ui",
+                "asserts": "Datasets flagged incompatible with selected workflow are shown as disabled and cannot be selected.",
+                "edge_case": false
+              },
+              {
+                "name": "datasetSelector_no_datasets_shows_empty",
+                "file": "agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx",
+                "type": "ui",
+                "asserts": "Selector displays explicit empty state when datasets list is empty after filtering.",
+                "edge_case": true
+              },
+              {
+                "name": "datasetSelector_api_error_shows_error_state",
+                "file": "agentic-workflows-v2/tests/ui/DatasetSelector.test.tsx",
+                "type": "ui",
+                "asserts": "Selector displays error state if API/network failure occurs.",
+                "edge_case": true
+              },
+              {
+                "name": "scoreBreakdownPanel_hard_gate_failure_visible_badge",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Any criterion with hard_gate_failure is marked with a visible failure badge.",
+                "edge_case": false
+              },
+              {
+                "name": "scoreBreakdownPanel_empty_scores_shows_placeholder",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Panel renders placeholder UI when criteria list is empty or agent_scores missing.",
+                "edge_case": true
+              },
+              {
+                "name": "scoreBreakdownPanel_api_error_shows_error",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Panel displays error UI if score API fails or agent_scores payload is malformed.",
+                "edge_case": true
+              },
+              {
+                "name": "scoreBreakdownPanel_legacy_payload_summary_only",
+                "file": "agentic-workflows-v2/tests/ui/ScoreBreakdownPanel.test.tsx",
+                "type": "ui",
+                "asserts": "Panel falls back to legacy summary view when agent_scores field is absent in payload.",
+                "edge_case": true
+              }
+            ],
+            "integration_dependencies": [
+              "GET /api/eval/datasets?workflow=...",
+              "agent_scores payload with criteria, weights, grade, hard_gate_failures"
+            ],
+            "risk_register": [
+              {
+                "risk": "DatasetSelector fails to render correct disablement or empty/error states for edge backend payloads.",
+                "impact": "medium",
+                "mitigation": "Tests added for disabled, empty, and error paths; fallback logic implemented.",
+                "validation": "Verify UI with payloads: empty, all incompatible, and network errors; confirm expected state shown."
+              },
+              {
+                "risk": "Hard gate failure not sufficiently visible in ScoreBreakdownPanel.",
+                "impact": "high",
+                "mitigation": "Critical UI indicator (failure badge) required; tested directly.",
+                "validation": "Run hard_gate_failure scenario and check that badge is present and red per spec."
+              },
+              {
+                "risk": "Malformed/legacy payload renders crash or missing information.",
+                "impact": "medium",
+                "mitigation": "Panel renders summary-only, disables breakdown, and shows error for malformed payload.",
+                "validation": "Feed malformed and legacy payloads in tests; assert correct fallback UI states."
+              }
+            ],
+            "acceptance_checks": [
+              "Disabled datasets are unselectable and visibly greyed out for incompatible workflows.",
+              "Empty datasets list triggers explicit empty UI state.",
+              "Network or API errors in dataset or scores fetch result in explicit error UI.",
+              "ScoreBreakdownPanel visibly marks any failed hard gate criterion.",
+              "Panel shows legacy summary view if agent_scores are absent.",
+              "Negative-path (error and empty) UI states verifiably tested."
+            ]
+          },
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/gpt-4.1",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    },
+    {
+      "id": "adapter_engineer",
+      "title": "W2-AD Adapter Engineer",
+      "focus": "W2-AD-001",
+      "system_instruction": "You are an integration adapter engineer. Design framework adapters with strict contract conformance and graceful optional dependencies. Explicitly define fallback behavior when the Microsoft SDK is unavailable.",
+      "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+      "parsed_output": null,
+      "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+      "evaluation": null,
+      "best_round": 1,
+      "target_reached": false,
+      "generation_model_selected": "gh:openai/o3-mini",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/o3-mini",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        },
+        {
+          "round": 2,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    },
+    {
+      "id": "integration_architect",
+      "title": "Wave2 Integration Architect",
+      "focus": "Cross-ticket backend+SSE+UI contract integration for W2-AG-001/W2-UI-001/W2-UI-002/W2-AD-001",
+      "system_instruction": "You are a cross-layer integration architect. Align backend evaluation payloads, streaming contracts, and UI rendering types. Prevent schema drift and call out required API/type updates.",
+      "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+      "parsed_output": null,
+      "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+      "evaluation": null,
+      "best_round": 1,
+      "target_reached": false,
+      "generation_model_selected": "gh:openai/o3-mini",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/o3-mini",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        },
+        {
+          "round": 2,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    },
+    {
+      "id": "qa_reviewer",
+      "title": "Wave2 QA Reviewer",
+      "focus": "Wave 2 end-to-end regression and test coverage",
+      "system_instruction": "You are a principal QA reviewer. Identify regression risks, missing tests, and release gates for Wave 2 integration. Require explicit backward-compatibility checks and failure-mode tests.",
+      "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+      "parsed_output": null,
+      "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+      "evaluation": null,
+      "best_round": 1,
+      "target_reached": false,
+      "generation_model_selected": "gh:openai/o3-mini",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/o3-mini",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        },
+        {
+          "round": 2,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    },
+    {
+      "id": "adversarial_reviewer",
+      "title": "Wave2 Adversarial Reviewer",
+      "focus": "Negative-path and adversarial failure-mode analysis for W2-AG-001/W2-UI-001/W2-UI-002/W2-AD-001",
+      "system_instruction": "You are a red-team reliability reviewer for software delivery plans. Focus on breakpoints, malformed payloads, missing optional dependencies, and schema mismatch regressions. Demand concrete negative-path tests.",
+      "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+      "parsed_output": null,
+      "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+      "evaluation": null,
+      "best_round": 1,
+      "target_reached": false,
+      "generation_model_selected": "gh:openai/o3-mini",
+      "evaluation_model_selected": "gh:openai/o3-mini",
+      "generation_model_used": "gh:openai/o3-mini",
+      "evaluation_model_used": "gh:openai/o3-mini",
+      "rounds": [
+        {
+          "round": 1,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        },
+        {
+          "round": 2,
+          "raw_output": "gh models error: Rate limited after 1 attempt(s)",
+          "parsed_output": null,
+          "evaluation_raw": "gh models error: Rate limited after 1 attempt(s)",
+          "evaluation": null,
+          "overall_score": null,
+          "generation_model": "gh:openai/o3-mini",
+          "evaluation_model": "gh:openai/o3-mini"
+        }
+      ]
+    }
+  ],
+  "aggregate": {
+    "evaluated_agents": 1,
+    "mean_overall_score": 9.0,
+    "min_overall_score": 9.0,
+    "max_overall_score": 9.0
+  }
+}

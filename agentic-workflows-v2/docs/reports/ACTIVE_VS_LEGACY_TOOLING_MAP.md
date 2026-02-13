@@ -33,8 +33,11 @@
 | `engine/step_state.py` | Step state management during execution | **Active** |
 | `engine/context.py` | Execution context shared across steps | **Active** |
 | `engine/dag.py` | DAG construction and validation | **Active** |
+| `engine/strategy.py` | Execution strategy factory and default DagOnceStrategy | **Active** |
+| `engine/iterative.py` | Iterative repair strategy (retry/repair attempts) | **Active** |
 | `engine/pipeline.py` | Pipeline orchestration | **Active** |
 | `engine/agent_resolver.py` | Agent resolution for steps | **Active** |
+| `engine/feature_flags.py` | Runtime feature flags (strategy selection overrides) | **Active** |
 | `engine/patterns/` | Execution patterns (empty — future Phase 2 strategies) | **Placeholder** |
 
 ### Workflows

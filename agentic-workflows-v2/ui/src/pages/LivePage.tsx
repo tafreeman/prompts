@@ -1,10 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowLeft, Radio, Trophy } from "lucide-react";
 import { useWorkflowStream } from "../hooks/useWorkflowStream";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import WorkflowDAG from "../components/dag/WorkflowDAG";
 import StepLogPanel from "../components/live/StepLogPanel";
 import TokenCounter from "../components/live/TokenCounter";
+import ScoreBreakdownPanel from "../components/runs/ScoreBreakdownPanel";
 import StatusBadge from "../components/common/StatusBadge";
 
 export default function LivePage() {
@@ -13,6 +15,10 @@ export default function LivePage() {
   const { stepStates, events, workflowStatus, evaluation, error } = useWorkflowStream(
     runId ?? null
   );
+
+  useEffect(() => {
+    document.title = `Live: ${runId || "..."} | Agentic Workflows`;
+  }, [runId]);
 
   // Try to extract workflow name from events
   const workflowName = events.find((e) => e.type === "workflow_start");
@@ -87,34 +93,37 @@ export default function LivePage() {
         {/* Event log */}
         <div className="w-[350px] overflow-y-auto border-l border-white/5 p-4">
           {evaluation && (
-            <div className="mb-3 rounded-lg border border-white/5 bg-surface-1 p-3">
-              <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-wide text-gray-500">
-                <Trophy className="h-3.5 w-3.5 text-amber-400" />
-                Evaluation Score
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-semibold text-gray-100">
-                    {evaluation.weighted_score.toFixed(1)}
+            <>
+              <div className="mb-3 rounded-lg border border-white/5 bg-surface-1 p-3">
+                <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-wide text-gray-500">
+                  <Trophy className="h-3.5 w-3.5 text-amber-400" />
+                  Evaluation Score
+                </div>
+                <div className="flex items-end justify-between">
+                  <div>
+                    <div className="text-2xl font-semibold text-gray-100">
+                      {evaluation.weighted_score.toFixed(1)}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      Weighted / 100
+                    </div>
                   </div>
-                  <div className="text-xs text-gray-500">
-                    Weighted / 100
+                  <div className="text-right">
+                    <div className="text-sm font-medium text-gray-300">
+                      Grade {evaluation.grade}
+                    </div>
+                    <div
+                      className={`text-xs ${
+                        evaluation.passed ? "text-green-400" : "text-red-400"
+                      }`}
+                    >
+                      {evaluation.passed ? "Passed" : "Needs improvement"}
+                    </div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium text-gray-300">
-                    Grade {evaluation.grade}
-                  </div>
-                  <div
-                    className={`text-xs ${
-                      evaluation.passed ? "text-green-400" : "text-red-400"
-                    }`}
-                  >
-                    {evaluation.passed ? "Passed" : "Needs improvement"}
-                  </div>
-                </div>
               </div>
-            </div>
+              <ScoreBreakdownPanel evaluation={evaluation} className="mb-3" />
+            </>
           )}
           <StepLogPanel events={events} />
         </div>

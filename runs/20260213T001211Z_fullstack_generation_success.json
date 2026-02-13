@@ -1,0 +1,425 @@
+{
+  "run_id": "fullstack_generation-a21a1dfb",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 65850.069,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T00:11:05.880657+00:00",
+  "end_time": "2026-02-13T00:12:11.730726+00:00",
+  "dataset": null,
+  "inputs": {
+    "feature_spec": "develop an app to try my sleep patterns by tying into apple health statics on my watch and iphone. It should provide insights and ana;lyssi from various dimensions",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 18059.375,
+      "retry_count": 0,
+      "tokens_used": 1291,
+      "input": {},
+      "output": {
+        "raw_response": "{\n  \"component_tree\": {\n    \"name\": \"Sleep Pattern Tracker System\",\n    \"components\": [\n      {\n        \"name\": \"Mobile Client (React Native)\",\n        \"description\": \"User-facing application running on iPhone/Apple Watch (via companion app or direct integration).\",\n        \"responsibilities\": [\n          \"User Interface for data visualization and interaction\",\n          \"Authentication with Backend API\",\n          \"Integration with Apple Health Kit (requesting permissions, reading sleep data, potentially other relevant health metrics like heart rate or activity)\",\n          \"Sending raw Apple Health data to Backend API for processing\",\n          \"Displaying processed insights and analysis from Backend API\",\n          \"Managing user settings and preferences\"\n        ],\n        \"technologies\": [\"React Native\", \"Apple Health Kit APIs\"]\n      },\n      {\n        \"name\": \"Backend Server (FastAPI)\",\n        \"description\": \"Centralized API and business logic for data processing, storage, and insights generation.\",\n        \"responsibilities\": [\n          \"Exposing RESTful API endpoints for mobile client\",\n          \"User authentication and authorization (JWT-based)\",\n          \"Ingesting raw sleep data from mobile client\",\n          \"Storing raw and processed sleep data\",\n          \"Processing raw sleep records into meaningful sleep sessions\",\n          \"Generating multi-dimensional insights and analysis (e.g., sleep duration, quality, consistency, correlations)\",\n          \"Managing user profiles and settings\",\n          \"Handling data integrity and deduplication\"\n        ],\n        \"technologies\": [\"FastAPI\", \"Python\", \"SQLAlchemy (ORM)\"]\n      },\n      {\n        \"name\": \"Database (PostgreSQL)\",\n        \"description\": \"Persistent storage for all application data.\",\n        \"responsibilities\": [\n          \"Storing user accounts and authentication details\",\n          \"Storing raw sleep records from Apple Health\",\n          \"Storing aggregated sleep sessions\",\n          \"Storing pre-calculated sleep insights and analysis results\",\n          \"Storing user-specific settings and preferences\"\n        ],\n        \"technologies\": [\"PostgreSQL\"]\n      },\n      {\n        \"name\": \"Apple Health Kit (External Service)\",\n        \"description\": \"Apple's framework for managing health-related data on iOS devices and Apple Watch.\",\n        \"responsibilities\": [\n          \"Providing access to user's sleep analysis data (sleep stages, duration, wake times)\",\n          \"Providing access to other relevant health metrics (e.g., heart rate, activity levels) if required for deeper analysis\",\n          \"Managing user data privacy and permissions\"\n        ],\n        \"technologies\": [\"Apple Health Kit APIs\"]\n      }\n    ]\n  },\n  \"api_spec\": {\n    \"base_url\": \"/api/v1\",\n    \"authentication\": \"JWT Bearer Token\",\n    \"endpoints\": [\n      {\n        \"path\": \"/auth/register\",\n        \"method\": \"POST\",\n        \"description\": \"Register a new user.\",\n        \"request_body\": {\n          \"email\": \"string\",\n          \"password\": \"string\"\n        },\n        \"response_body\": {\n          \"message\": \"User registered successfully\"\n        }\n      },\n      {\n        \"path\": \"/auth/login\",\n        \"method\": \"POST\",\n        \"description\": \"Authenticate user and receive JWT token.\",\n        \"request_body\": {\n          \"email\": \"string\",\n          \"password\": \"string\"\n        },\n        \"response_body\": {\n          \"access_token\": \"string\",\n          \"token_type\": \"bearer\"\n        }\n      },\n      {\n        \"path\": \"/users/me\",\n        \"method\": \"GET\",\n        \"description\": \"Get current authenticated user's profile.\",\n        \"authentication_required\": true,\n        \""
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:05.880837+00:00",
+      "end_time": "2026-02-13T00:11:23.940212+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 4622.099999999999,
+      "retry_count": 0,
+      "tokens_used": 1943,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "name": "create_users_table",
+            "content": "CREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) UNIQUE NOT NULL,\n    hashed_password VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_users_email ON users (email);"
+          },
+          {
+            "name": "create_sleep_records_table",
+            "content": "CREATE TABLE sleep_records (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,\n    start_time TIMESTAMPTZ NOT NULL,\n    end_time TIMESTAMPTZ NOT NULL,\n    sleep_stage VARCHAR(50),\n    source VARCHAR(255), -- e.g., 'Apple Watch', 'iPhone'\n    raw_data JSONB,  -- Store raw data from Apple Health\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_sleep_records_user_id ON sleep_records (user_id);\nCREATE INDEX idx_sleep_records_start_time ON sleep_records (start_time);\nCREATE INDEX idx_sleep_records_end_time ON sleep_records (end_time);"
+          },
+          {
+            "name": "create_sleep_sessions_table",
+            "content": "CREATE TABLE sleep_sessions (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,\n    start_time TIMESTAMPTZ NOT NULL,\n    end_time TIMESTAMPTZ NOT NULL,\n    duration_seconds INTEGER,\n    sleep_efficiency REAL, -- Calculated sleep efficiency\n    total_sleep_time_seconds INTEGER, -- Total time in sleep stages\n    deep_sleep_seconds INTEGER,\n    light_sleep_seconds INTEGER,\n    rem_sleep_seconds INTEGER,\n    wake_time_seconds INTEGER,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_sleep_sessions_user_id ON sleep_sessions (user_id);\nCREATE INDEX idx_sleep_sessions_start_time ON sleep_sessions (start_time);\nCREATE INDEX idx_sleep_sessions_end_time ON sleep_sessions (end_time);"
+          },
+          {
+            "name": "create_user_settings_table",
+            "content": "CREATE TABLE user_settings (\n    user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,\n    preferred_units VARCHAR(50) DEFAULT 'metric',\n    notifications_enabled BOOLEAN DEFAULT TRUE,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:23.941095+00:00",
+      "end_time": "2026-02-13T00:11:28.563195+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 17436.598,
+      "retry_count": 0,
+      "tokens_used": 3820,
+      "input": {},
+      "output": {
+        "api_code": "from fastapi import FastAPI, Depends, HTTPException, status\nfrom fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm\nfrom jose import JWTError, jwt\nfrom datetime import datetime, timedelta\nfrom typing import Annotated\nfrom sqlalchemy import create_engine, Column, Integer, String, DateTime, Float\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker, Session\nfrom passlib.context import CryptContext\nfrom pydantic import BaseModel, EmailStr, constr\n\n\n# Database Configuration\nDATABASE_URL = \"postgresql://user:password@db:5432/sleep_tracker\"\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\n\n# Security\nSECRET_KEY = \"YOUR_SECRET_KEY\"  # Change this in production\nALGORITHM = \"HS256\"\nACCESS_TOKEN_EXPIRE_MINUTES = 30\n\ncrypt_context = CryptContext(schemes=[\"bcrypt\"], deprecated=\"auto\")\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n# Models\nclass User(Base):\n    __tablename__ = \"users\"\n\n    id = Column(Integer, primary_key=True, index=True)\n    email = Column(String, unique=True, index=True)\n    hashed_password = Column(String)\n\n\nclass SleepData(Base):\n    __tablename__ = \"sleep_data\"\n\n    id = Column(Integer, primary_key=True, index=True)\n    user_id = Column(Integer)\n    start_time = Column(DateTime)\n    end_time = Column(DateTime)\n    sleep_duration = Column(Float)  # In hours\n    sleep_stage_data = Column(String)  # JSON representation of sleep stages\n\n\nBase.metadata.create_all(bind=engine)\n\n\n# Pydantic Models\nclass UserCreate(BaseModel):\n    email: EmailStr\n    password: constr(min_length=8)\n\n\nclass Token(BaseModel):\n    access_token: str\n    token_type: str\n\n\nclass UserProfile(BaseModel):\n    id: int\n    email: EmailStr\n\n\nclass SleepDataCreate(BaseModel):\n    start_time: datetime\n    end_time: datetime\n    sleep_stage_data: str\n\n\nclass SleepDataResponse(BaseModel):\n    id: int\n    start_time: datetime\n    end_time: datetime\n    sleep_duration: float\n    sleep_stage_data: str\n\n\n# Dependency\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n\ndef verify_password(plain_password, hashed_password):\n    return crypt_context.verify(plain_password, hashed_password)\n\n\ndef get_password_hash(password):\n    return crypt_context.hash(password)\n\n\ndef create_access_token(data: dict, expires_delta: timedelta | None = None):\n    to_encode = data.copy()\n    if expires_delta:\n        expire = datetime.utcnow() + expires_delta\n    else:\n        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)\n    to_encode.update({\"exp\": expire})\n    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)\n    return encoded_jwt\n\n\nasync def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):\n    credentials_exception = HTTPException(\n        status_code=status.HTTP_401_UNAUTHORIZED,\n        detail=\"Could not validate credentials\",\n        headers={\"WWW-Authenticate\": \"Bearer\"},\n    )\n    try:\n        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])\n        email: str = payload.get(\"sub\")\n        if email is None:\n            raise credentials_exception\n\n    except JWTError:\n        raise credentials_exception\n    user = db.query(User).filter(User.email == email).first()\n    if user is None:\n        raise credentials_exception\n    return user\n\n\nasync def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):\n    return current_user\n\n\n# FastAPI App\napp = FastAPI()\n\n\n@app.post(\"/api/v1/auth/register\", response_model=UserProfile)\nasync def register_user(user: UserCreate, db: Session = Depends(get_db)):\n    db_user = db.query(User).filter(User.email == user.email).first()\n    if db_user:\n        raise HTTPException(status_code=400, detail=\"Email already registered\")\n    hashed_password = get_password_hash(user.password)\n    db_user = User(email=user.email, hashed_password=hashed_password)\n    db.add(db_user)\n    db.commit()\n    db.refresh(db_user)\n    return UserProfile(id=db_user.id, email=db_user.email)\n\n\n@app.post(\"/api/v1/auth/login\", response_model=Token)\nasync def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):\n    user = db.query(User).filter(User.email == form_data.username).first()\n    if not user:\n        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=\"Incorrect username or password\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    if not verify_password(form_data.password, user.hashed_password):\n        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=\"Incorrect username or password\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)\n    access_token = create_access_token(data={\"sub\": user.email}, expires_delta=access_token_expires)\n    return {\"access_token\": access_token, \"token_type\": \"bearer\"}\n\n\n@app.get(\"/api/v1/users/me\", response_model=UserProfile)\nasync def read_users_me(current_user: Annotated[User, Depends(get_current_active_user)]):\n    return UserProfile(id=current_user.id, email=current_user.email)\n\n\n@app.post(\"/api/v1/sleep_data/\", response_model=SleepDataResponse, status_code=status.HTTP_201_CREATED)\nasync def create_sleep_data(sleep_data: SleepDataCreate, current_user: Annotated[User, Depends(get_current_active_user)], db: Session = Depends(get_db)):\n    db_sleep_data = SleepData(user_id=current_user.id, start_time=sleep_data.start_time, end_time=sleep_data.end_time, sleep_duration=(sleep_data.end_time - sleep_data.start_time).total_seconds() / 3600, sleep_stage_data=sleep_data.sleep_stage_data)\n    db.add(db_sleep_data)\n    db.commit()\n    db.refresh(db_sleep_data)\n    return SleepDataResponse(id=db_sleep_data.id, start_time=db_sleep_data.start_time, end_time=db_sleep_data.end_time, sleep_duration=db_sleep_data.sleep_duration, sleep_stage_data=db_sleep_data.sleep_stage_data)\n\n\n@app.get(\"/api/v1/sleep_data/\", response_model=list[SleepDataResponse])\nasync def read_sleep_data(current_user: Annotated[User, Depends(get_current_active_user)], db: Session = Depends(get_db)):\n    sleep_data = db.query(SleepData).filter(SleepData.user_id == current_user.id).all()\n    return sleep_data\n",
+        "api_tests": "import pytest\nfrom fastapi.testclient import TestClient\nfrom sqlalchemy import create_engine\nfrom sqlalchemy.orm import sessionmaker\nfrom main import app, Base, get_db, SECRET_KEY, ALGORITHM\nfrom main import User\nfrom fastapi import status\nfrom jose import jwt\nfrom datetime import datetime, timedelta\n\nSQLALCHEMY_DATABASE_URL = \"sqlite:///./test.db\"\n\nengine = create_engine(\n    SQLALCHEMY_DATABASE_URL, connect_args={\"check_same_thread\": False}\n)\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\n\n\nBase.metadata.create_all(bind=engine)\n\n\ndef override_get_db():\n    db = TestingSessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n\napp.dependency_overrides[get_db] = override_get_db\n\nclient = TestClient(app)\n\n\n@pytest.fixture\ndef test_user():\n    db = TestingSessionLocal()\n    user = User(email=\"test@example.com\", hashed_password=\"password\") # In real test, hash the password\n    db.add(user)\n    db.commit()\n    db.refresh(user)\n    yield user\n    db.delete(user)\n    db.commit()\n    db.close()\n\n\n@pytest.fixture\ndef test_token(test_user):\n    access_token_expires = timedelta(minutes=30)\n    to_encode = {\"sub\": test_user.email}\n    expire = datetime.utcnow() + access_token_expires\n    to_encode.update({\"exp\": expire})\n    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)\n    return encoded_jwt\n\n\ndef test_register_user():\n    response = client.post(\"/api/v1/auth/register\", json={\"email\": \"test2@example.com\", \"password\": \"password\"})\n    assert response.status_code == status.HTTP_200_OK\n    assert response.json()[\"email\"] == \"test2@example.com\"\n\n\ndef test_login_user(test_user): # Use fixture to create the user\n    response = client.post(\"/api/v1/auth/login\", data={\"username\": \"test@example.com\", \"password\": \"password\"})\n    assert response.status_code == status.HTTP_200_OK\n    assert \"access_token\" in response.json()\n\n\ndef test_read_users_me(test_token): # use fixture for the token\n    response = client.get(\"/api/v1/users/me\", headers={\"Authorization\": f\"Bearer {test_token}\"})\n    assert response.status_code == status.HTTP_200_OK\n    assert response.json()[\"email\"] == \"test@example.com\"\n\n\ndef test_create_sleep_data(test_token):\n    response = client.post(\n        \"/api/v1/sleep_data/\",\n        headers={\"Authorization\": f\"Bearer {test_token}\"},\n        json={\"start_time\": \"2024-01-01T22:00:00\", \"end_time\": \"2024-01-02T06:00:00\", \"sleep_stage_data\": \"{}\"},\n    )\n    assert response.status_code == status.HTTP_201_CREATED\n    assert response.json()[\"sleep_duration\"] == 8.0\n\n\ndef test_read_sleep_data(test_token, test_user):\n    # First create some sleep data\n    client.post(\n        \"/api/v1/sleep_data/\",\n        headers={\"Authorization\": f\"Bearer {test_token}\"},\n        json={\"start_time\": \"2024-01-01T22:00:00\", \"end_time\": \"2024-01-02T06:00:00\", \"sleep_stage_data\": \"{}\"},\n    )\n    response = client.get(\"/api/v1/sleep_data/\", headers={\"Authorization\": f\"Bearer {test_token}\"})\n    assert response.status_code == status.HTTP_200_OK\n    assert len(response.json()) > 0\n    assert response.json()[0][\"sleep_duration\"] == 8.0\n"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:23.940756+00:00",
+      "end_time": "2026-02-13T00:11:41.377354+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 20336.722,
+      "retry_count": 0,
+      "tokens_used": 4486,
+      "input": {},
+      "output": {
+        "ui_code": {
+          "components": [
+            {
+              "name": "LoginScreen",
+              "description": "Component for user login.",
+              "code": "// LoginScreen.js\nimport React, { useState } from 'react';\nimport { View, Text, TextInput, Button, StyleSheet } from 'react-native';\n\nconst LoginScreen = ({ onLogin }) => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n\n  const handleLogin = async () => {\n    // Implement login logic here, call onLogin on success\n    try {\n      const response = await fetch('/api/v1/auth/login', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ email, password }),\n      });\n\n      const data = await response.json();\n\n      if (response.ok) {\n        onLogin(data.access_token); // Pass the token to the parent component\n      } else {\n        console.error('Login failed:', data);\n        // Handle login failure (e.g., display an error message)\n      }\n    } catch (error) {\n      console.error('Login error:', error);\n      // Handle network errors\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Login</Text>\n      <TextInput\n        style={styles.input}\n        placeholder=\"Email\"\n        value={email}\n        onChangeText={setEmail}\n        keyboardType=\"email-address\"\n      />\n      <TextInput\n        style={styles.input}\n        placeholder=\"Password\"\n        value={password}\n        onChangeText={setPassword}\n        secureTextEntry\n      />\n      <Button title=\"Login\" onPress={handleLogin} />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  input: {\n    width: '100%',\n    height: 40,\n    borderColor: 'gray',\n    borderWidth: 1,\n    marginBottom: 12,\n    paddingHorizontal: 8,\n  },\n});\n\nexport default LoginScreen;"
+            },
+            {
+              "name": "RegistrationScreen",
+              "description": "Component for user registration.",
+              "code": "// RegistrationScreen.js\nimport React, { useState } from 'react';\nimport { View, Text, TextInput, Button, StyleSheet } from 'react-native';\n\nconst RegistrationScreen = () => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n\n  const handleRegister = async () => {\n    // Implement registration logic here\n    try {\n      const response = await fetch('/api/v1/auth/register', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ email, password }),\n      });\n\n      const data = await response.json();\n\n      if (response.ok) {\n        console.log('Registration successful:', data);\n        // Optionally, navigate to the login screen or display a success message\n      } else {\n        console.error('Registration failed:', data);\n        // Handle registration failure (e.g., display an error message)\n      }\n    } catch (error) {\n      console.error('Registration error:', error);\n      // Handle network errors\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Register</Text>\n      <TextInput\n        style={styles.input}\n        placeholder=\"Email\"\n        value={email}\n        onChangeText={setEmail}\n        keyboardType=\"email-address\"\n      />\n      <TextInput\n        style={styles.input}\n        placeholder=\"Password\"\n        value={password}\n        onChangeText={setPassword}\n        secureTextEntry\n      />\n      <Button title=\"Register\" onPress={handleRegister} />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  input: {\n    width: '100%',\n    height: 40,\n    borderColor: 'gray',\n    borderWidth: 1,\n    marginBottom: 12,\n    paddingHorizontal: 8,\n  },\n});\n\nexport default RegistrationScreen;"
+            },
+            {
+              "name": "SleepDataScreen",
+              "description": "Component to display sleep data and insights.",
+              "code": "// SleepDataScreen.js\nimport React, { useState, useEffect } from 'react';\nimport { View, Text, StyleSheet, ActivityIndicator } from 'react-native';\n\nconst SleepDataScreen = ({ token }) => {\n  const [sleepData, setSleepData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    const fetchSleepData = async () => {\n      setLoading(true);\n      setError(null);\n      try {\n        const response = await fetch('/api/v1/users/me', {\n          method: 'GET',\n          headers: {\n            Authorization: `Bearer ${token}`,\n          },\n        });\n\n        if (!response.ok) {\n          throw new Error(`HTTP error! Status: ${response.status}`);\n        }\n\n        const data = await response.json();\n        setSleepData(data);\n      } catch (e) {\n        setError(e.message);\n        console.error('Error fetching sleep data:', e);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchSleepData();\n  }, [token]);\n\n  if (loading) {\n    return (\n      <View style={styles.container}>\n        <ActivityIndicator size=\"large\" color=\"#0000ff\" />\n        <Text>Loading sleep data...</Text>\n      </View>\n    );\n  }\n\n  if (error) {\n    return (\n      <View style={styles.container}>\n        <Text style={styles.error}>Error: {error}</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Sleep Data</Text>\n      {sleepData ? (\n        <View>\n          <Text>Email: {sleepData.email}</Text>\n          {/* Display sleep data insights here */}\n        </View>\n      ) : (\n        <Text>No sleep data available.</Text>\n      )}\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  error: {\n    color: 'red',\n  },\n});\n\nexport default SleepDataScreen;"
+            },
+            {
+              "name": "App",
+              "description": "Main App Component",
+              "code": "// App.js\nimport React, { useState, useEffect } from 'react';\nimport { View, StyleSheet } from 'react-native';\nimport LoginScreen from './LoginScreen';\nimport RegistrationScreen from './RegistrationScreen';\nimport SleepDataScreen from './SleepDataScreen';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst App = () => {\n  const [token, setToken] = useState(null);\n  const [isLoggedIn, setIsLoggedIn] = useState(false);\n\n  useEffect(() => {\n    const loadToken = async () => {\n      try {\n        const storedToken = await AsyncStorage.getItem('userToken');\n        if (storedToken) {\n          setToken(storedToken);\n          setIsLoggedIn(true);\n        }\n      } catch (error) {\n        console.error('Error loading token:', error);\n      }\n    };\n\n    loadToken();\n  }, []);\n\n  const handleLogin = async (newToken) => {\n    setToken(newToken);\n    setIsLoggedIn(true);\n    try {\n      await AsyncStorage.setItem('userToken', newToken);\n    } catch (error) {\n      console.error('Error saving token:', error);\n    }\n  };\n\n  const handleLogout = async () => {\n    setToken(null);\n    setIsLoggedIn(false);\n    try {\n      await AsyncStorage.removeItem('userToken');\n    } catch (error) {\n      console.error('Error removing token:', error);\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      {!isLoggedIn ? (\n        <>\n          <LoginScreen onLogin={handleLogin} />\n          <RegistrationScreen />\n        </>\n      ) : (\n        <SleepDataScreen token={token} />\n      )}\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n  },\n});\n\nexport default App;"
+            }
+          ],
+          "dependencies": [
+            "react",
+            "react-native",
+            "@react-native-async-storage/async-storage"
+          ],
+          "installation_commands": [
+            "npm install react-native",
+            "npm install @react-native-async-storage/async-storage"
+          ]
+        },
+        "ui_tests": {
+          "test_cases": [
+            {
+              "name": "LoginScreen Test",
+              "description": "Tests the LoginScreen component.",
+              "steps": [
+                "Render the LoginScreen component.",
+                "Enter valid email and password.",
+                "Press the Login button.",
+                "Verify that the onLogin function is called with the correct token upon successful login.",
+                "Verify that an error message is displayed if login fails."
+              ]
+            },
+            {
+              "name": "RegistrationScreen Test",
+              "description": "Tests the RegistrationScreen component.",
+              "steps": [
+                "Render the RegistrationScreen component.",
+                "Enter valid email and password.",
+                "Press the Register button.",
+                "Verify that the registration API is called with the correct data.",
+                "Verify that a success message is displayed upon successful registration.",
+                "Verify that an error message is displayed if registration fails."
+              ]
+            },
+            {
+              "name": "SleepDataScreen Test",
+              "description": "Tests the SleepDataScreen component.",
+              "steps": [
+                "Render the SleepDataScreen component with a valid token.",
+                "Verify that the sleep data is fetched and displayed correctly.",
+                "Verify that a loading indicator is displayed while the data is being fetched.",
+                "Verify that an error message is displayed if the data fetching fails."
+              ]
+            },
+            {
+              "name": "App Component Test",
+              "description": "Tests the main App component's authentication flow.",
+              "steps": [
+                "Render the App component.",
+                "Verify that the LoginScreen and RegistrationScreen are initially displayed.",
+                "Log in successfully using the LoginScreen.",
+                "Verify that the SleepDataScreen is displayed after successful login.",
+                "Simulate a logout action.",
+                "Verify that the LoginScreen and RegistrationScreen are displayed again after logout."
+              ]
+            }
+          ],
+          "testing_framework": "Jest and React Native Testing Library",
+          "setup_commands": [
+            "npm install --save-dev jest",
+            "npm install --save-dev @testing-library/react-native"
+          ],
+          "example_test_code": "// Example Test Code (LoginScreen.test.js)\nimport React from 'react';\nimport { render, fireEvent, waitFor } from '@testing-library/react-native';\nimport LoginScreen from './LoginScreen';\n\n// Mock the fetch function\nglobal.fetch = jest.fn(() =>\n  Promise.resolve({\n    ok: true,\n    json: () => Promise.resolve({ access_token: 'test_token' }),\n  })\n);\n\ndescribe('LoginScreen', () => {\n  it('calls onLogin with the correct token on successful login', async () => {\n    const onLogin = jest.fn();\n    const { getByPlaceholderText, getByText } = render(<LoginScreen onLogin={onLogin} />);\n\n    const emailInput = getByPlaceholderText('Email');\n    const passwordInput = getByPlaceholderText('Password');\n    const loginButton = getByText('Login');\n\n    fireEvent.changeText(emailInput, 'test@example.com');\n    fireEvent.changeText(passwordInput, 'password');\n    fireEvent.press(loginButton);\n\n    await waitFor(() => {\n      expect(onLogin).toHaveBeenCalledWith('test_token');\n    });\n  });\n\n  it('displays an error message if login fails', async () => {\n    global.fetch.mockImplementationOnce(() =>\n      Promise.resolve({\n        ok: false,\n        json: () => Promise.resolve({ message: 'Invalid credentials' }),\n      })\n    );\n\n    const { getByPlaceholderText, getByText } = render(<LoginScreen onLogin={() => {}} />);\n\n    const emailInput = getByPlaceholderText('Email');\n    const passwordInput = getByPlaceholderText('Password');\n    const loginButton = getByText('Login');\n\n    fireEvent.changeText(emailInput, 'test@example.com');\n    fireEvent.changeText(passwordInput, 'password');\n    fireEvent.press(loginButton);\n\n    // Add assertions here to check for the error message\n  });\n});"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:23.940964+00:00",
+      "end_time": "2026-02-13T00:11:44.277686+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 8947.478000000001,
+      "retry_count": 0,
+      "tokens_used": 19125,
+      "input": {},
+      "output": {
+        "integration_tests": [
+          {
+            "name": "Full User Flow Integration Test",
+            "description": "Tests the complete user flow from registration to viewing sleep data.",
+            "steps": [
+              "Start the application.",
+              "Register a new user via the RegistrationScreen (frontend) by sending a POST request to /api/v1/auth/register (backend).",
+              "Verify that the user is successfully registered and a UserProfile is returned (backend database is updated).",
+              "Log in the newly registered user via the LoginScreen (frontend) by sending a POST request to /api/v1/auth/login (backend).",
+              "Verify that the login is successful and a JWT token is returned (backend).",
+              "Store the JWT token in AsyncStorage (frontend).",
+              "Navigate to the SleepDataScreen (frontend).",
+              "Create sleep data via the frontend which sends a POST request to /api/v1/sleep_data/ (backend) using the stored JWT token in the Authorization header.",
+              "Verify that the sleep data is successfully created and stored in the database (backend database is updated).",
+              "Retrieve the sleep data via the SleepDataScreen (frontend) by sending a GET request to /api/v1/sleep_data/ (backend) using the stored JWT token.",
+              "Verify that the sleep data is displayed correctly on the SleepDataScreen (frontend)."
+            ],
+            "preconditions": [
+              "The backend FastAPI server is running and accessible.",
+              "The PostgreSQL database is running and accessible.",
+              "The React Native application is running and connected to the backend.",
+              "AsyncStorage is configured correctly in the React Native environment."
+            ],
+            "expected_results": [
+              "User is successfully registered in the database.",
+              "User is successfully authenticated and receives a JWT token.",
+              "JWT token is stored in AsyncStorage.",
+              "Sleep data is successfully created and stored in the database.",
+              "Sleep data is retrieved and displayed correctly in the SleepDataScreen."
+            ],
+            "frontend_components_involved": [
+              "RegistrationScreen",
+              "LoginScreen",
+              "SleepDataScreen",
+              "App"
+            ],
+            "backend_endpoints_involved": [
+              "/api/v1/auth/register",
+              "/api/v1/auth/login",
+              "/api/v1/sleep_data/",
+              "/api/v1/users/me"
+            ],
+            "database_tables_involved": [
+              "users",
+              "sleep_data"
+            ]
+          },
+          {
+            "name": "Invalid Login Attempt Integration Test",
+            "description": "Tests the scenario when a user attempts to log in with invalid credentials.",
+            "steps": [
+              "Start the application.",
+              "Attempt to log in with invalid email and password via the LoginScreen (frontend) by sending a POST request to /api/v1/auth/login (backend).",
+              "Verify that the backend returns an HTTP 401 Unauthorized error.",
+              "Verify that an appropriate error message is displayed on the LoginScreen (frontend)."
+            ],
+            "preconditions": [
+              "The backend FastAPI server is running and accessible.",
+              "The PostgreSQL database is running and accessible.",
+              "The React Native application is running and connected to the backend."
+            ],
+            "expected_results": [
+              "The backend returns an HTTP 401 Unauthorized error.",
+              "An error message is displayed on the LoginScreen indicating invalid credentials."
+            ],
+            "frontend_components_involved": [
+              "LoginScreen"
+            ],
+            "backend_endpoints_involved": [
+              "/api/v1/auth/login"
+            ],
+            "database_tables_involved": [
+              "users"
+            ]
+          },
+          {
+            "name": "Unauthorized Access to Sleep Data Integration Test",
+            "description": "Tests the scenario when a user attempts to access sleep data without a valid JWT token.",
+            "steps": [
+              "Start the application.",
+              "Attempt to access the SleepDataScreen (frontend) without logging in or with an expired/invalid JWT token.",
+              "Verify that the frontend attempts to send a GET request to /api/v1/sleep_data/ (backend) without a valid Authorization header or with an invalid one.",
+              "Verify that the backend returns an HTTP 401 Unauthorized error.",
+              "Verify that an appropriate error message is displayed on the SleepDataScreen (frontend) or the user is redirected to the login screen."
+            ],
+            "preconditions": [
+              "The backend FastAPI server is running and accessible.",
+              "The PostgreSQL database is running and accessible.",
+              "The React Native application is running and connected to the backend."
+            ],
+            "expected_results": [
+              "The backend returns an HTTP 401 Unauthorized error.",
+              "An error message is displayed on the SleepDataScreen or the user is redirected to the login screen."
+            ],
+            "frontend_components_involved": [
+              "SleepDataScreen"
+            ],
+            "backend_endpoints_involved": [
+              "/api/v1/sleep_data/"
+            ],
+            "database_tables_involved": []
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:44.278144+00:00",
+      "end_time": "2026-02-13T00:11:53.225622+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 18503.19,
+      "retry_count": 0,
+      "tokens_used": 22879,
+      "input": {},
+      "output": {
+        "raw_response": "{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code provides a foundational structure for the sleep tracking application, including basic user authentication (registration, login), API endpoints for user and simplified sleep data management, and corresponding frontend components. However, there are significant architectural and functional inconsistencies, particularly between the designed database schema and the implemented backend models and logic. The core feature of providing 'insights and analysis from various dimensions' is largely unimplemented in the current backend and frontend code.\",\n    \"migrations_review\": {\n      \"status\": \"satisfactory\",\n      \"details\": \"The database migrations (`create_users_table`, `create_sleep_records_table`, `create_sleep_sessions_table`, `create_user_settings_table`) are well-designed and align with the feature requirements, providing tables for users, raw sleep data, processed sleep sessions (for insights), and user settings. They correctly use UUIDs for primary keys and foreign keys, and include relevant timestamps and indexes.\"\n    },\n    \"backend_code_review\": {\n      \"status\": \"needs_major_refactoring\",\n      \"details\": [\n        \"**Critical Model/Schema Mismatch**: The SQLAlchemy `User` and `SleepData` models in the backend code do not align with the generated PostgreSQL migrations. The `User.id` is `Integer` in the code but `UUID` in the migration. The `SleepData` model uses a table named `sleep_data` which is not present in the migrations (instead `sleep_records` and `sleep_sessions` were generated). Furthermore, `SleepData.user_id` is `Integer` in the code, but `users.id` is `UUID`. This is the most significant issue, as it means the backend is not interacting with the intended database schema"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:11:53.226166+00:00",
+      "end_time": "2026-02-13T00:12:11.729356+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T00:12:11.729941+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": {
+      "backend": "from fastapi import FastAPI, Depends, HTTPException, status\nfrom fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm\nfrom jose import JWTError, jwt\nfrom datetime import datetime, timedelta\nfrom typing import Annotated\nfrom sqlalchemy import create_engine, Column, Integer, String, DateTime, Float\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker, Session\nfrom passlib.context import CryptContext\nfrom pydantic import BaseModel, EmailStr, constr\n\n\n# Database Configuration\nDATABASE_URL = \"postgresql://user:password@db:5432/sleep_tracker\"\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\n\n# Security\nSECRET_KEY = \"YOUR_SECRET_KEY\"  # Change this in production\nALGORITHM = \"HS256\"\nACCESS_TOKEN_EXPIRE_MINUTES = 30\n\ncrypt_context = CryptContext(schemes=[\"bcrypt\"], deprecated=\"auto\")\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"token\")\n\n\n# Models\nclass User(Base):\n    __tablename__ = \"users\"\n\n    id = Column(Integer, primary_key=True, index=True)\n    email = Column(String, unique=True, index=True)\n    hashed_password = Column(String)\n\n\nclass SleepData(Base):\n    __tablename__ = \"sleep_data\"\n\n    id = Column(Integer, primary_key=True, index=True)\n    user_id = Column(Integer)\n    start_time = Column(DateTime)\n    end_time = Column(DateTime)\n    sleep_duration = Column(Float)  # In hours\n    sleep_stage_data = Column(String)  # JSON representation of sleep stages\n\n\nBase.metadata.create_all(bind=engine)\n\n\n# Pydantic Models\nclass UserCreate(BaseModel):\n    email: EmailStr\n    password: constr(min_length=8)\n\n\nclass Token(BaseModel):\n    access_token: str\n    token_type: str\n\n\nclass UserProfile(BaseModel):\n    id: int\n    email: EmailStr\n\n\nclass SleepDataCreate(BaseModel):\n    start_time: datetime\n    end_time: datetime\n    sleep_stage_data: str\n\n\nclass SleepDataResponse(BaseModel):\n    id: int\n    start_time: datetime\n    end_time: datetime\n    sleep_duration: float\n    sleep_stage_data: str\n\n\n# Dependency\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n\ndef verify_password(plain_password, hashed_password):\n    return crypt_context.verify(plain_password, hashed_password)\n\n\ndef get_password_hash(password):\n    return crypt_context.hash(password)\n\n\ndef create_access_token(data: dict, expires_delta: timedelta | None = None):\n    to_encode = data.copy()\n    if expires_delta:\n        expire = datetime.utcnow() + expires_delta\n    else:\n        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)\n    to_encode.update({\"exp\": expire})\n    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)\n    return encoded_jwt\n\n\nasync def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):\n    credentials_exception = HTTPException(\n        status_code=status.HTTP_401_UNAUTHORIZED,\n        detail=\"Could not validate credentials\",\n        headers={\"WWW-Authenticate\": \"Bearer\"},\n    )\n    try:\n        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])\n        email: str = payload.get(\"sub\")\n        if email is None:\n            raise credentials_exception\n\n    except JWTError:\n        raise credentials_exception\n    user = db.query(User).filter(User.email == email).first()\n    if user is None:\n        raise credentials_exception\n    return user\n\n\nasync def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):\n    return current_user\n\n\n# FastAPI App\napp = FastAPI()\n\n\n@app.post(\"/api/v1/auth/register\", response_model=UserProfile)\nasync def register_user(user: UserCreate, db: Session = Depends(get_db)):\n    db_user = db.query(User).filter(User.email == user.email).first()\n    if db_user:\n        raise HTTPException(status_code=400, detail=\"Email already registered\")\n    hashed_password = get_password_hash(user.password)\n    db_user = User(email=user.email, hashed_password=hashed_password)\n    db.add(db_user)\n    db.commit()\n    db.refresh(db_user)\n    return UserProfile(id=db_user.id, email=db_user.email)\n\n\n@app.post(\"/api/v1/auth/login\", response_model=Token)\nasync def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):\n    user = db.query(User).filter(User.email == form_data.username).first()\n    if not user:\n        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=\"Incorrect username or password\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    if not verify_password(form_data.password, user.hashed_password):\n        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=\"Incorrect username or password\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)\n    access_token = create_access_token(data={\"sub\": user.email}, expires_delta=access_token_expires)\n    return {\"access_token\": access_token, \"token_type\": \"bearer\"}\n\n\n@app.get(\"/api/v1/users/me\", response_model=UserProfile)\nasync def read_users_me(current_user: Annotated[User, Depends(get_current_active_user)]):\n    return UserProfile(id=current_user.id, email=current_user.email)\n\n\n@app.post(\"/api/v1/sleep_data/\", response_model=SleepDataResponse, status_code=status.HTTP_201_CREATED)\nasync def create_sleep_data(sleep_data: SleepDataCreate, current_user: Annotated[User, Depends(get_current_active_user)], db: Session = Depends(get_db)):\n    db_sleep_data = SleepData(user_id=current_user.id, start_time=sleep_data.start_time, end_time=sleep_data.end_time, sleep_duration=(sleep_data.end_time - sleep_data.start_time).total_seconds() / 3600, sleep_stage_data=sleep_data.sleep_stage_data)\n    db.add(db_sleep_data)\n    db.commit()\n    db.refresh(db_sleep_data)\n    return SleepDataResponse(id=db_sleep_data.id, start_time=db_sleep_data.start_time, end_time=db_sleep_data.end_time, sleep_duration=db_sleep_data.sleep_duration, sleep_stage_data=db_sleep_data.sleep_stage_data)\n\n\n@app.get(\"/api/v1/sleep_data/\", response_model=list[SleepDataResponse])\nasync def read_sleep_data(current_user: Annotated[User, Depends(get_current_active_user)], db: Session = Depends(get_db)):\n    sleep_data = db.query(SleepData).filter(SleepData.user_id == current_user.id).all()\n    return sleep_data\n",
+      "frontend": {
+        "components": [
+          {
+            "name": "LoginScreen",
+            "description": "Component for user login.",
+            "code": "// LoginScreen.js\nimport React, { useState } from 'react';\nimport { View, Text, TextInput, Button, StyleSheet } from 'react-native';\n\nconst LoginScreen = ({ onLogin }) => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n\n  const handleLogin = async () => {\n    // Implement login logic here, call onLogin on success\n    try {\n      const response = await fetch('/api/v1/auth/login', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ email, password }),\n      });\n\n      const data = await response.json();\n\n      if (response.ok) {\n        onLogin(data.access_token); // Pass the token to the parent component\n      } else {\n        console.error('Login failed:', data);\n        // Handle login failure (e.g., display an error message)\n      }\n    } catch (error) {\n      console.error('Login error:', error);\n      // Handle network errors\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Login</Text>\n      <TextInput\n        style={styles.input}\n        placeholder=\"Email\"\n        value={email}\n        onChangeText={setEmail}\n        keyboardType=\"email-address\"\n      />\n      <TextInput\n        style={styles.input}\n        placeholder=\"Password\"\n        value={password}\n        onChangeText={setPassword}\n        secureTextEntry\n      />\n      <Button title=\"Login\" onPress={handleLogin} />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  input: {\n    width: '100%',\n    height: 40,\n    borderColor: 'gray',\n    borderWidth: 1,\n    marginBottom: 12,\n    paddingHorizontal: 8,\n  },\n});\n\nexport default LoginScreen;"
+          },
+          {
+            "name": "RegistrationScreen",
+            "description": "Component for user registration.",
+            "code": "// RegistrationScreen.js\nimport React, { useState } from 'react';\nimport { View, Text, TextInput, Button, StyleSheet } from 'react-native';\n\nconst RegistrationScreen = () => {\n  const [email, setEmail] = useState('');\n  const [password, setPassword] = useState('');\n\n  const handleRegister = async () => {\n    // Implement registration logic here\n    try {\n      const response = await fetch('/api/v1/auth/register', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ email, password }),\n      });\n\n      const data = await response.json();\n\n      if (response.ok) {\n        console.log('Registration successful:', data);\n        // Optionally, navigate to the login screen or display a success message\n      } else {\n        console.error('Registration failed:', data);\n        // Handle registration failure (e.g., display an error message)\n      }\n    } catch (error) {\n      console.error('Registration error:', error);\n      // Handle network errors\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Register</Text>\n      <TextInput\n        style={styles.input}\n        placeholder=\"Email\"\n        value={email}\n        onChangeText={setEmail}\n        keyboardType=\"email-address\"\n      />\n      <TextInput\n        style={styles.input}\n        placeholder=\"Password\"\n        value={password}\n        onChangeText={setPassword}\n        secureTextEntry\n      />\n      <Button title=\"Register\" onPress={handleRegister} />\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  input: {\n    width: '100%',\n    height: 40,\n    borderColor: 'gray',\n    borderWidth: 1,\n    marginBottom: 12,\n    paddingHorizontal: 8,\n  },\n});\n\nexport default RegistrationScreen;"
+          },
+          {
+            "name": "SleepDataScreen",
+            "description": "Component to display sleep data and insights.",
+            "code": "// SleepDataScreen.js\nimport React, { useState, useEffect } from 'react';\nimport { View, Text, StyleSheet, ActivityIndicator } from 'react-native';\n\nconst SleepDataScreen = ({ token }) => {\n  const [sleepData, setSleepData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    const fetchSleepData = async () => {\n      setLoading(true);\n      setError(null);\n      try {\n        const response = await fetch('/api/v1/users/me', {\n          method: 'GET',\n          headers: {\n            Authorization: `Bearer ${token}`,\n          },\n        });\n\n        if (!response.ok) {\n          throw new Error(`HTTP error! Status: ${response.status}`);\n        }\n\n        const data = await response.json();\n        setSleepData(data);\n      } catch (e) {\n        setError(e.message);\n        console.error('Error fetching sleep data:', e);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchSleepData();\n  }, [token]);\n\n  if (loading) {\n    return (\n      <View style={styles.container}>\n        <ActivityIndicator size=\"large\" color=\"#0000ff\" />\n        <Text>Loading sleep data...</Text>\n      </View>\n    );\n  }\n\n  if (error) {\n    return (\n      <View style={styles.container}>\n        <Text style={styles.error}>Error: {error}</Text>\n      </View>\n    );\n  }\n\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>Sleep Data</Text>\n      {sleepData ? (\n        <View>\n          <Text>Email: {sleepData.email}</Text>\n          {/* Display sleep data insights here */}\n        </View>\n      ) : (\n        <Text>No sleep data available.</Text>\n      )}\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n    padding: 16,\n  },\n  title: {\n    fontSize: 24,\n    marginBottom: 16,\n  },\n  error: {\n    color: 'red',\n  },\n});\n\nexport default SleepDataScreen;"
+          },
+          {
+            "name": "App",
+            "description": "Main App Component",
+            "code": "// App.js\nimport React, { useState, useEffect } from 'react';\nimport { View, StyleSheet } from 'react-native';\nimport LoginScreen from './LoginScreen';\nimport RegistrationScreen from './RegistrationScreen';\nimport SleepDataScreen from './SleepDataScreen';\nimport AsyncStorage from '@react-native-async-storage/async-storage';\n\nconst App = () => {\n  const [token, setToken] = useState(null);\n  const [isLoggedIn, setIsLoggedIn] = useState(false);\n\n  useEffect(() => {\n    const loadToken = async () => {\n      try {\n        const storedToken = await AsyncStorage.getItem('userToken');\n        if (storedToken) {\n          setToken(storedToken);\n          setIsLoggedIn(true);\n        }\n      } catch (error) {\n        console.error('Error loading token:', error);\n      }\n    };\n\n    loadToken();\n  }, []);\n\n  const handleLogin = async (newToken) => {\n    setToken(newToken);\n    setIsLoggedIn(true);\n    try {\n      await AsyncStorage.setItem('userToken', newToken);\n    } catch (error) {\n      console.error('Error saving token:', error);\n    }\n  };\n\n  const handleLogout = async () => {\n    setToken(null);\n    setIsLoggedIn(false);\n    try {\n      await AsyncStorage.removeItem('userToken');\n    } catch (error) {\n      console.error('Error removing token:', error);\n    }\n  };\n\n  return (\n    <View style={styles.container}>\n      {!isLoggedIn ? (\n        <>\n          <LoginScreen onLogin={handleLogin} />\n          <RegistrationScreen />\n        </>\n      ) : (\n        <SleepDataScreen token={token} />\n      )}\n    </View>\n  );\n};\n\nconst styles = StyleSheet.create({\n  container: {\n    flex: 1,\n    justifyContent: 'center',\n    alignItems: 'center',\n  },\n});\n\nexport default App;"
+          }
+        ],
+        "dependencies": [
+          "react",
+          "react-native",
+          "@react-native-async-storage/async-storage"
+        ],
+        "installation_commands": [
+          "npm install react-native",
+          "npm install @react-native-async-storage/async-storage"
+        ]
+      },
+      "migrations": [
+        {
+          "name": "create_users_table",
+          "content": "CREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) UNIQUE NOT NULL,\n    hashed_password VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_users_email ON users (email);"
+        },
+        {
+          "name": "create_sleep_records_table",
+          "content": "CREATE TABLE sleep_records (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,\n    start_time TIMESTAMPTZ NOT NULL,\n    end_time TIMESTAMPTZ NOT NULL,\n    sleep_stage VARCHAR(50),\n    source VARCHAR(255), -- e.g., 'Apple Watch', 'iPhone'\n    raw_data JSONB,  -- Store raw data from Apple Health\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_sleep_records_user_id ON sleep_records (user_id);\nCREATE INDEX idx_sleep_records_start_time ON sleep_records (start_time);\nCREATE INDEX idx_sleep_records_end_time ON sleep_records (end_time);"
+        },
+        {
+          "name": "create_sleep_sessions_table",
+          "content": "CREATE TABLE sleep_sessions (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,\n    start_time TIMESTAMPTZ NOT NULL,\n    end_time TIMESTAMPTZ NOT NULL,\n    duration_seconds INTEGER,\n    sleep_efficiency REAL, -- Calculated sleep efficiency\n    total_sleep_time_seconds INTEGER, -- Total time in sleep stages\n    deep_sleep_seconds INTEGER,\n    light_sleep_seconds INTEGER,\n    rem_sleep_seconds INTEGER,\n    wake_time_seconds INTEGER,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE INDEX idx_sleep_sessions_user_id ON sleep_sessions (user_id);\nCREATE INDEX idx_sleep_sessions_start_time ON sleep_sessions (start_time);\nCREATE INDEX idx_sleep_sessions_end_time ON sleep_sessions (end_time);"
+        },
+        {
+          "name": "create_user_settings_table",
+          "content": "CREATE TABLE user_settings (\n    user_id UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,\n    preferred_units VARCHAR(50) DEFAULT 'metric',\n    notifications_enabled BOOLEAN DEFAULT TRUE,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);"
+        }
+      ]
+    }
+  },
+  "extra": {
+    "evaluation_requested": false,
+    "evaluation": null
+  }
+}

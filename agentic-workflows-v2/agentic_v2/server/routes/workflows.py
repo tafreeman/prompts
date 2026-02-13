@@ -157,6 +157,36 @@ async def runs_summary(workflow: Optional[str] = None):
     return run_logger.summary(workflow_name=workflow)
 
 
+@router.get("/runs/query")
+async def query_runs(
+    workflow: Optional[str] = None,
+    status: Optional[str] = None,
+    min_score: Optional[float] = None,
+    model: Optional[str] = None,
+    limit: int = 100,
+):
+    """Query run summaries using SQLite-backed filters."""
+    return run_logger.query_runs(
+        workflow_name=workflow,
+        status=status,
+        min_weighted_score=min_score,
+        model_used=model,
+        limit=limit,
+    )
+
+
+@router.get("/analytics/agents/failure-rates")
+async def agent_failure_rates(limit: int = 20):
+    """Return failure-rate analytics grouped by agent role."""
+    return run_logger.agent_failure_rates(limit=limit)
+
+
+@router.get("/analytics/models/scores")
+async def model_score_comparison(limit: int = 20):
+    """Return weighted score and success-rate analytics grouped by model."""
+    return run_logger.model_score_comparison(limit=limit)
+
+
 @router.get("/runs/{filename}")
 async def get_run(filename: str):
     """Get full run detail including all step data."""
@@ -206,7 +236,7 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
                 sample, _ = load_local_dataset_sample(dataset["id"], sample_index=0)
             except Exception:
                 continue
-            compatible, _ = match_workflow_dataset(workflow_def, sample)
+            compatible, _ = match_workflow_dataset(workflow_def, sample, dataset_id=dataset["id"])
             if compatible:
                 filtered_local.append(dataset)
 
@@ -218,7 +248,7 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
                 # Repository datasets may be unavailable in local dev; skip when
                 # compatibility cannot be determined.
                 continue
-            compatible, _ = match_workflow_dataset(workflow_def, sample)
+            compatible, _ = match_workflow_dataset(workflow_def, sample, dataset_id=dataset["id"])
             if compatible:
                 filtered_repository.append(dataset)
 
@@ -279,7 +309,8 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
                 raise HTTPException(status_code=422, detail=str(exc)) from exc
 
             if dataset_sample:
-                compatible, reasons = match_workflow_dataset(workflow_def, dataset_sample)
+                ds_id = evaluation.dataset_id or evaluation.local_dataset_path
+                compatible, reasons = match_workflow_dataset(workflow_def, dataset_sample, dataset_id=ds_id)
                 if not compatible:
                     raise HTTPException(
                         status_code=422,
@@ -373,6 +404,10 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
                             "hard_gates": scored_evaluation["hard_gates"],
                             "hard_gate_failures": scored_evaluation["hard_gate_failures"],
                             "step_scores": scored_evaluation["step_scores"],
+                            "agent_scores": scored_evaluation["agent_scores"],
+                            "floor_violations": scored_evaluation["floor_violations"],
+                            "grade_capped": scored_evaluation["grade_capped"],
+                            "reporting_bundle": scored_evaluation["reporting_bundle"],
                             "timestamp": datetime.now(timezone.utc).isoformat(),
                         },
                     )

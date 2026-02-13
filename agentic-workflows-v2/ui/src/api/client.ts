@@ -61,8 +61,13 @@ export function runWorkflow(
 }
 
 /** List repository and local datasets for evaluation mode. */
-export function listEvaluationDatasets(): Promise<EvaluationDatasetsResponse> {
-  return fetchJSON(`${BASE}/eval/datasets`);
+export function listEvaluationDatasets(
+  workflow?: string
+): Promise<EvaluationDatasetsResponse> {
+  const params = workflow
+    ? `?workflow=${encodeURIComponent(workflow)}`
+    : "";
+  return fetchJSON(`${BASE}/eval/datasets${params}`);
 }
 
 /** List available agents. */
@@ -70,7 +75,7 @@ export function listAgents(): Promise<{ agents: AgentInfo[] }> {
   return fetchJSON(`${BASE}/agents`);
 }
 
-/** Health check. */
+/** Health check. (Currently unused in UI) */
 export function healthCheck(): Promise<{ status: string; version: string }> {
   return fetchJSON(`${BASE}/health`);
 }

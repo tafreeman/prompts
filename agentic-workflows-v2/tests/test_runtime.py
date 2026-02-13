@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import pytest
@@ -30,8 +31,13 @@ async def test_subprocess_runtime_failure():
     runtime = SubprocessRuntime()
     await runtime.setup()
     try:
+        fail_cmd = (
+            "echo boom >&2; exit 7"
+            if os.name != "nt"
+            else "(echo boom 1>&2) & exit /b 7"
+        )
         with pytest.raises(RuntimeExecutionError) as exc:
-            await runtime.execute("echo boom >&2; exit 7")
+            await runtime.execute(fail_cmd)
         assert exc.value.exit_code == 7
         assert "boom" in exc.value.stderr
     finally:

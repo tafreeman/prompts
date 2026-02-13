@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from ..storage import get_catalog_store
 from . import websocket
 from .routes import agents, health, workflows
 
@@ -18,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Built frontend assets directory
-UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent.parent / "ui" / "dist"
+UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dist"
 
 
 def create_app() -> FastAPI:
@@ -65,6 +66,12 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def startup_event():
         logger.info("Starting Agentic Workflows V2 Server")
+        try:
+            store = get_catalog_store()
+            store.sync_static_catalog()
+            logger.info("Synced static workflow catalog into SQLite cache at %s", store.db.path)
+        except Exception:
+            logger.warning("Failed to sync startup catalog data", exc_info=True)
 
     @app.on_event("shutdown")
     async def shutdown_event():

@@ -6,14 +6,18 @@ Loads YAML workflow files and converts them to executable DAG objects.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import logging
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 from ..engine.agent_resolver import resolve_agent
+from ..storage import get_catalog_store
 from ..engine.dag import DAG
 from ..engine.step import StepDefinition
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -110,6 +114,11 @@ class WorkflowLoader:
             definitions_dir = Path(__file__).parent / "definitions"
         self.definitions_dir = Path(definitions_dir)
         self._cache: dict[str, WorkflowDefinition] = {}
+        self._catalog_store = None
+        try:
+            self._catalog_store = get_catalog_store()
+        except Exception:
+            logger.debug("Workflow catalog store unavailable", exc_info=True)
 
     def load(self, name: str, use_cache: bool = True) -> WorkflowDefinition:
         """Load a workflow by name.
@@ -154,6 +163,12 @@ class WorkflowLoader:
 
     def list_workflows(self, include_experimental: bool = False) -> list[str]:
         """List all available workflow names."""
+        if self._catalog_store is not None:
+            try:
+                self._catalog_store.sync_workflow_definitions(self.definitions_dir)
+            except Exception:
+                logger.debug("Failed syncing workflow definitions to catalog store", exc_info=True)
+
         if not self.definitions_dir.exists():
             return []
 
@@ -179,6 +194,12 @@ class WorkflowLoader:
 
         if not isinstance(data, dict):
             raise WorkflowLoadError(f"Workflow must be a YAML mapping: {path}")
+
+        if self._catalog_store is not None:
+            try:
+                self._catalog_store.sync_workflow_file(path, data=data)
+            except Exception:
+                logger.debug("Failed syncing workflow '%s' to catalog store", path.stem, exc_info=True)
 
         return self._parse_definition(data, path.stem)
 

@@ -1,0 +1,478 @@
+{
+  "timestamp": "20260209T143209Z",
+  "model": "gh:openai/gpt-4o-mini",
+  "eval_model": "gh:openai/gpt-4o-mini",
+  "wave": "Wave2",
+  "subagents": [
+    {
+      "id": "strategy_architect",
+      "title": "W2-ST Strategy Architect",
+      "focus": "W2-ST-001 and W2-ST-002",
+      "system_instruction": "You are a senior Python execution-engine architect. Design robust strategy abstractions and iterative execution loops. Be explicit about async behavior, factory wiring, and backward compatibility.",
+      "raw_output": "{\n  \"summary\": \"Implement ExecutionStrategy abstraction and iterative execution loop enhancement.\",\n  \"code_changes\": [\n    {\n      \"file\": \"engine/strategy.py\",\n      \"purpose\": \"Add ExecutionStrategy ABC and DagOnceStrategy to define execution strategies.\",\n      \"operations\": [\n        \"Define ExecutionStrategy as an abstract base class (ABC) with required methods.\",\n        \"Implement DagOnceStrategy inheriting from ExecutionStrategy with specific logic.\"\n      ]\n    },\n    {\n      \"file\": \"engine/__init__.py\",\n      \"purpose\": \"Facilitate strategy factory creation.\",\n      \"operations\": [\n        \"Add a factory method to instantiate strategies based on configuration.\",\n        \"Ensure backward compatibility by checking existing strategy types.\"\n      ]\n    },\n    {\n      \"file\": \"engine/iterative.py\",\n      \"purpose\": \"Enhance iterative execution with failure repair loop and event handling.\",\n      \"operations\": [\n        \"Create an iterative repair loop to handle execution retries.\",\n        \"Integrate attempt-level events logging within the iterative process.\"\n      ]\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_execution_strategy_inheritance\",\n      \"asserts\": \"Verify DagOnceStrategy correctly implements ExecutionStrategy interface.\",\n      \"file\": \"tests/test_strategy.py\"\n    },\n    {\n      \"name\": \"test_strategy_factory_creation\",\n      \"asserts\": \"Ensure factory method creates the correct strategy instance.\",\n      \"file\": \"tests/test_strategy.py\"\n    },\n    {\n      \"name\": \"test_iterative_repair_loop\",\n      \"asserts\": \"Check that iterative loop retries on failure as expected.\",\n      \"file\": \"tests/test_iterative.py\"\n    },\n    {\n      \"name\": \"test_attempt_level_events\",\n      \"asserts\": \"Validate that event logging happens at each attempt level.\",\n      \"file\": \"tests/test_iterative.py\"\n    }\n  ],\n  \"dependencies\": [\"W2-ST-001\", \"W2-ST-002\"],\n  \"risks\": [\n    \"Changes to execution strategies may affect current workflows; mitigate by extensive regression testing of existing strategies.\"\n  ],\n  \"acceptance_checks\": [\"All new tests pass and existing functionality is preserved without errors.\"]\n}\n",
+      "parsed_output": {
+        "summary": "Implement ExecutionStrategy abstraction and iterative execution loop enhancement.",
+        "code_changes": [
+          {
+            "file": "engine/strategy.py",
+            "purpose": "Add ExecutionStrategy ABC and DagOnceStrategy to define execution strategies.",
+            "operations": [
+              "Define ExecutionStrategy as an abstract base class (ABC) with required methods.",
+              "Implement DagOnceStrategy inheriting from ExecutionStrategy with specific logic."
+            ]
+          },
+          {
+            "file": "engine/__init__.py",
+            "purpose": "Facilitate strategy factory creation.",
+            "operations": [
+              "Add a factory method to instantiate strategies based on configuration.",
+              "Ensure backward compatibility by checking existing strategy types."
+            ]
+          },
+          {
+            "file": "engine/iterative.py",
+            "purpose": "Enhance iterative execution with failure repair loop and event handling.",
+            "operations": [
+              "Create an iterative repair loop to handle execution retries.",
+              "Integrate attempt-level events logging within the iterative process."
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_execution_strategy_inheritance",
+            "asserts": "Verify DagOnceStrategy correctly implements ExecutionStrategy interface.",
+            "file": "tests/test_strategy.py"
+          },
+          {
+            "name": "test_strategy_factory_creation",
+            "asserts": "Ensure factory method creates the correct strategy instance.",
+            "file": "tests/test_strategy.py"
+          },
+          {
+            "name": "test_iterative_repair_loop",
+            "asserts": "Check that iterative loop retries on failure as expected.",
+            "file": "tests/test_iterative.py"
+          },
+          {
+            "name": "test_attempt_level_events",
+            "asserts": "Validate that event logging happens at each attempt level.",
+            "file": "tests/test_iterative.py"
+          }
+        ],
+        "dependencies": [
+          "W2-ST-001",
+          "W2-ST-002"
+        ],
+        "risks": [
+          "Changes to execution strategies may affect current workflows; mitigate by extensive regression testing of existing strategies."
+        ],
+        "acceptance_checks": [
+          "All new tests pass and existing functionality is preserved without errors."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 8,\n    \"repo_alignment\": 9,\n    \"risk_management\": 7\n  },\n  \"overall_score\": 7.8,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation correctly aligns with the requirements of W2-ST-001 and W2-ST-002 by defining requisite abstractions and execution strategies.\",\n    \"Adequate depth of implementation with core elements such as the abstract base class and specific strategies is present.\",\n    \"The inclusion of tests demonstrates a commitment to testability, with appropriate coverage for the new functionality.\",\n    \"The proposed changes appear to maintain alignment with the existing repository structure and practices.\"\n  ],\n  \"blocking_issues\": [],\n  \"next_actions\": [\n    \"Conduct thorough regression testing to ensure existing workflows are unaffected.\",\n    \"Review event logging to confirm that it provides sufficient information for debugging and monitoring.\",\n    \"Ensure all acceptance criteria are met by validating that all tests pass under various scenarios.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 8,
+          "repo_alignment": 9,
+          "risk_management": 7
+        },
+        "overall_score": 7.8,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation correctly aligns with the requirements of W2-ST-001 and W2-ST-002 by defining requisite abstractions and execution strategies.",
+          "Adequate depth of implementation with core elements such as the abstract base class and specific strategies is present.",
+          "The inclusion of tests demonstrates a commitment to testability, with appropriate coverage for the new functionality.",
+          "The proposed changes appear to maintain alignment with the existing repository structure and practices."
+        ],
+        "blocking_issues": [],
+        "next_actions": [
+          "Conduct thorough regression testing to ensure existing workflows are unaffected.",
+          "Review event logging to confirm that it provides sufficient information for debugging and monitoring.",
+          "Ensure all acceptance criteria are met by validating that all tests pass under various scenarios."
+        ]
+      }
+    },
+    {
+      "id": "scoring_engineer",
+      "title": "W2-AG Scoring Engineer",
+      "focus": "W2-AG-001",
+      "system_instruction": "You are a scoring/evaluation systems engineer. Design per-agent scoring schemas and statistically sound reporting bundles. Prioritize deterministic outputs and schema compatibility.",
+      "raw_output": "```json\n{\n  \"summary\": \"Add agent_scores payload and enhance reporting bundle stats in server evaluation.\",\n  \"code_changes\": [\n    {\n      \"file\": \"server/evaluation.py\",\n      \"purpose\": \"Introduce agent_scores payload for better agent performance insights.\",\n      \"operations\": [\n        \"Define agent_scores data structure following established scoring schemas.\",\n        \"Implement logic to compute and populate agent_scores based on evaluation results.\"\n      ]\n    },\n    {\n      \"file\": \"contracts/messages.py\",\n      \"purpose\": \"Update message contracts to include the new agent_scores payload.\",\n      \"operations\": [\n        \"Modify existing message definitions to incorporate agent_scores field.\",\n        \"Ensure backward compatibility for existing message formats.\"\n      ]\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_agent_scores_payload_in_evaluation\",\n      \"asserts\": \"Verifies the agent_scores payload is included and correctly formatted.\",\n      \"file\": \"tests/test_evaluation.py\"\n    },\n    {\n      \"name\": \"test_reliability_adjustment_calculation\",\n      \"asserts\": \"Checks if reliability adjustment affects the reporting bundle stats correctly.\",\n      \"file\": \"tests/test_reporting.py\"\n    },\n    {\n      \"name\": \"test_reporting_bundle_statistics\",\n      \"asserts\": \"Ensures the new statistics reflect changes and calculations of agent_scores.\",\n      \"file\": \"tests/test_statistics.py\"\n    }\n  ],\n  \"dependencies\": [\"W2-ST-001 for evaluation strategy updates\"],\n  \"risks\": [\n    \"Introduced changes may affect existing evaluations; mitigation by thorough unit and integration tests.\"\n  ],\n  \"acceptance_checks\": [\n    \"All tests must pass including new tests for agent_scores.\",\n    \"Evaluation reporting must still comply with existing format and maintain backward compatibility.\"\n  ]\n}\n```\n",
+      "parsed_output": {
+        "summary": "Add agent_scores payload and enhance reporting bundle stats in server evaluation.",
+        "code_changes": [
+          {
+            "file": "server/evaluation.py",
+            "purpose": "Introduce agent_scores payload for better agent performance insights.",
+            "operations": [
+              "Define agent_scores data structure following established scoring schemas.",
+              "Implement logic to compute and populate agent_scores based on evaluation results."
+            ]
+          },
+          {
+            "file": "contracts/messages.py",
+            "purpose": "Update message contracts to include the new agent_scores payload.",
+            "operations": [
+              "Modify existing message definitions to incorporate agent_scores field.",
+              "Ensure backward compatibility for existing message formats."
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_agent_scores_payload_in_evaluation",
+            "asserts": "Verifies the agent_scores payload is included and correctly formatted.",
+            "file": "tests/test_evaluation.py"
+          },
+          {
+            "name": "test_reliability_adjustment_calculation",
+            "asserts": "Checks if reliability adjustment affects the reporting bundle stats correctly.",
+            "file": "tests/test_reporting.py"
+          },
+          {
+            "name": "test_reporting_bundle_statistics",
+            "asserts": "Ensures the new statistics reflect changes and calculations of agent_scores.",
+            "file": "tests/test_statistics.py"
+          }
+        ],
+        "dependencies": [
+          "W2-ST-001 for evaluation strategy updates"
+        ],
+        "risks": [
+          "Introduced changes may affect existing evaluations; mitigation by thorough unit and integration tests."
+        ],
+        "acceptance_checks": [
+          "All tests must pass including new tests for agent_scores.",
+          "Evaluation reporting must still comply with existing format and maintain backward compatibility."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 7,\n    \"implementation_depth\": 8,\n    \"testability\": 8,\n    \"repo_alignment\": 9,\n    \"risk_management\": 7\n  },\n  \"overall_score\": 7.8,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The output aligns well with the W2-AG-001 ticket by defining the new agent_scores payload and mentioning the enhancement of reporting bundle stats.\",\n    \"Implementation details provided are substantial, with clear operations specified for each file, showcasing a good understanding of the changes needed.\",\n    \"The proposed tests cover the necessary scenarios to validate the additions, demonstrating good testability and coverage.\",\n    \"Dependencies are acknowledged, which is important for ensuring that changes are integrated properly.\",\n    \"Risk is acknowledged but the mitigation strategy could be more detailed.\"\n  ],\n  \"blocking_issues\": [],\n  \"next_actions\": [\n    \"Provide a more detailed risk mitigation plan that specifies testing strategies and what constitutes 'thorough' testing.\",\n    \"Consider expanding the tests to include edge cases or error conditions related to the agent_scores computations.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 7,
+          "implementation_depth": 8,
+          "testability": 8,
+          "repo_alignment": 9,
+          "risk_management": 7
+        },
+        "overall_score": 7.8,
+        "verdict": "adequate",
+        "key_findings": [
+          "The output aligns well with the W2-AG-001 ticket by defining the new agent_scores payload and mentioning the enhancement of reporting bundle stats.",
+          "Implementation details provided are substantial, with clear operations specified for each file, showcasing a good understanding of the changes needed.",
+          "The proposed tests cover the necessary scenarios to validate the additions, demonstrating good testability and coverage.",
+          "Dependencies are acknowledged, which is important for ensuring that changes are integrated properly.",
+          "Risk is acknowledged but the mitigation strategy could be more detailed."
+        ],
+        "blocking_issues": [],
+        "next_actions": [
+          "Provide a more detailed risk mitigation plan that specifies testing strategies and what constitutes 'thorough' testing.",
+          "Consider expanding the tests to include edge cases or error conditions related to the agent_scores computations."
+        ]
+      }
+    },
+    {
+      "id": "adapter_engineer",
+      "title": "W2-AD Adapter Engineer",
+      "focus": "W2-AD-001",
+      "system_instruction": "You are an integration adapter engineer. Design framework adapters with strict contract conformance and graceful optional dependencies.",
+      "raw_output": "```json\n{\n  \"summary\": \"Add optional import behavior and canonical event mapping for Microsoft Agent Framework integration.\",\n  \"code_changes\": [\n    {\n      \"file\": \"integrations/microsoft_agent_framework.py\",\n      \"purpose\": \"Implement optional import behavior to enhance flexibility and include canonical event mapping for standardized integration.\",\n      \"operations\": [\n        \"Add try-except block for optional importing of external libraries used in the Microsoft Agent Framework.\",\n        \"Implement canonical event mapping function to standardize event structures from the framework.\"\n      ]\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_microsoft_adapter_optional_import\",\n      \"asserts\": \"Verify that optional import does not break existing functionality and initializes correctly.\",\n      \"file\": \"tests/test_microsoft_adapter.py\"\n    },\n    {\n      \"name\": \"test_microsoft_adapter_event_mapping\",\n      \"asserts\": \"Ensure that events are transformed into canonical form correctly.\",\n      \"file\": \"tests/test_microsoft_adapter.py\"\n    },\n    {\n      \"name\": \"test_microsoft_adapter_integration\",\n      \"asserts\": \"Confirm integration with Microsoft Agent Framework works according to defined contracts.\",\n      \"file\": \"tests/test_microsoft_adapter.py\"\n    }\n  ],\n  \"dependencies\": [\n    \"W2-ST-001: engine/strategy.py for event handling strategy.\",\n    \"Existing integration tests for backward compatibility.\"\n  ],\n  \"risks\": [\n    \"Optional import may lead to runtime errors if the module is not available; mitigate by ensuring fallback behavior is well defined.\",\n    \"Changes in event mapping could affect existing workflows; mitigate by maintaining a detailed mapping audit and thorough testing.\"\n  ],\n  \"acceptance_checks\": [\n    \"All test cases pass without failures.\",\n    \"Backward compatibility verified through integration tests.\"\n  ]\n}\n```\n",
+      "parsed_output": {
+        "summary": "Add optional import behavior and canonical event mapping for Microsoft Agent Framework integration.",
+        "code_changes": [
+          {
+            "file": "integrations/microsoft_agent_framework.py",
+            "purpose": "Implement optional import behavior to enhance flexibility and include canonical event mapping for standardized integration.",
+            "operations": [
+              "Add try-except block for optional importing of external libraries used in the Microsoft Agent Framework.",
+              "Implement canonical event mapping function to standardize event structures from the framework."
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_microsoft_adapter_optional_import",
+            "asserts": "Verify that optional import does not break existing functionality and initializes correctly.",
+            "file": "tests/test_microsoft_adapter.py"
+          },
+          {
+            "name": "test_microsoft_adapter_event_mapping",
+            "asserts": "Ensure that events are transformed into canonical form correctly.",
+            "file": "tests/test_microsoft_adapter.py"
+          },
+          {
+            "name": "test_microsoft_adapter_integration",
+            "asserts": "Confirm integration with Microsoft Agent Framework works according to defined contracts.",
+            "file": "tests/test_microsoft_adapter.py"
+          }
+        ],
+        "dependencies": [
+          "W2-ST-001: engine/strategy.py for event handling strategy.",
+          "Existing integration tests for backward compatibility."
+        ],
+        "risks": [
+          "Optional import may lead to runtime errors if the module is not available; mitigate by ensuring fallback behavior is well defined.",
+          "Changes in event mapping could affect existing workflows; mitigate by maintaining a detailed mapping audit and thorough testing."
+        ],
+        "acceptance_checks": [
+          "All test cases pass without failures.",
+          "Backward compatibility verified through integration tests."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 8,\n    \"repo_alignment\": 9,\n    \"risk_management\": 7\n  },\n  \"overall_score\": 7.8,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation aligns well with the specified ticket, addressing optional import behavior and event mapping.\",\n    \"The code changes are well defined and follow a clear structure, enhancing code flexibility.\",\n    \"Tests are comprehensive and cover different aspects of the integration, ensuring a solid testing strategy.\"\n  ],\n  \"blocking_issues\": [\n    \"Potential runtime errors due to optional imports if not handled correctly in the implementation.\"\n  ],\n  \"next_actions\": [\n    \"Refine the fallback behavior for optional module imports to minimize runtime issues.\",\n    \"Increase documentation clarity around event mapping changes to aid future developers.\",\n    \"Conduct thorough integration tests to confirm that existing workflows remain unaffected.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 8,
+          "repo_alignment": 9,
+          "risk_management": 7
+        },
+        "overall_score": 7.8,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation aligns well with the specified ticket, addressing optional import behavior and event mapping.",
+          "The code changes are well defined and follow a clear structure, enhancing code flexibility.",
+          "Tests are comprehensive and cover different aspects of the integration, ensuring a solid testing strategy."
+        ],
+        "blocking_issues": [
+          "Potential runtime errors due to optional imports if not handled correctly in the implementation."
+        ],
+        "next_actions": [
+          "Refine the fallback behavior for optional module imports to minimize runtime issues.",
+          "Increase documentation clarity around event mapping changes to aid future developers.",
+          "Conduct thorough integration tests to confirm that existing workflows remain unaffected."
+        ]
+      }
+    },
+    {
+      "id": "ui_engineer",
+      "title": "W2-UI Engineer",
+      "focus": "W2-UI-001 and W2-UI-002",
+      "system_instruction": "You are a frontend engineer for React+TypeScript dashboards. Design compatibility-aware UI states and transparent score breakdown UX tied to backend payloads.",
+      "raw_output": "```json\n{\n  \"summary\": \"Implement dataset selector filters based on workflow compatibility and add a score breakdown panel with detailed criteria.\",\n  \"code_changes\": [\n    {\n      \"file\": \"server/evaluation.py\",\n      \"purpose\": \"Add logic to filter datasets by workflow compatibility.\",\n      \"operations\": [\n        \"Add new endpoint GET /api/eval/datasets?workflow=... to retrieve compatible datasets.\",\n        \"Implement compatibility checks based on workflow parameters.\"\n      ]\n    },\n    {\n      \"file\": \"client/src/components/DatasetSelector.tsx\",\n      \"purpose\": \"Integrate REST API to fetch filtered datasets based on the selected workflow.\",\n      \"operations\": [\n        \"Add state management for selected workflow and datasets.\",\n        \"Update UI components to reflect available datasets and disable incompatible options.\"\n      ]\n    },\n    {\n      \"file\": \"client/src/components/ScoreBreakdownPanel.tsx\",\n      \"purpose\": \"Display detailed score breakdown, including criteria, weights, and failures.\",\n      \"operations\": [\n        \"Create a score breakdown component to visualize scores.\",\n        \"Ensure integration with the backend to fetch agent_scores payload.\"\n      ]\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_dataset_selector_filters\",\n      \"asserts\": \"Datasets are filtered correctly based on selected workflow.\",\n      \"file\": \"client/src/tests/DatasetSelector.test.tsx\"\n    },\n    {\n      \"name\": \"test_score_breakdown_panel\",\n      \"asserts\": \"Score breakdown displays criteria, weights, and hard-gate failures correctly.\",\n      \"file\": \"client/src/tests/ScoreBreakdownPanel.test.tsx\"\n    }\n  ],\n  \"dependencies\": [\"W2-AG-001\"],\n  \"risks\": [\n    \"Modification might affect existing dataset retrieval logic; mitigate by ensuring comprehensive test coverage.\",\n    \"UI may not load data correctly if API response changes; mitigate by using feature flags and monitoring during deployment.\"\n  ],\n  \"acceptance_checks\": [\"Verify that dataset filters respond correctly to workflow selections and that score breakdown is accurate.\"]\n}\n```\n",
+      "parsed_output": {
+        "summary": "Implement dataset selector filters based on workflow compatibility and add a score breakdown panel with detailed criteria.",
+        "code_changes": [
+          {
+            "file": "server/evaluation.py",
+            "purpose": "Add logic to filter datasets by workflow compatibility.",
+            "operations": [
+              "Add new endpoint GET /api/eval/datasets?workflow=... to retrieve compatible datasets.",
+              "Implement compatibility checks based on workflow parameters."
+            ]
+          },
+          {
+            "file": "client/src/components/DatasetSelector.tsx",
+            "purpose": "Integrate REST API to fetch filtered datasets based on the selected workflow.",
+            "operations": [
+              "Add state management for selected workflow and datasets.",
+              "Update UI components to reflect available datasets and disable incompatible options."
+            ]
+          },
+          {
+            "file": "client/src/components/ScoreBreakdownPanel.tsx",
+            "purpose": "Display detailed score breakdown, including criteria, weights, and failures.",
+            "operations": [
+              "Create a score breakdown component to visualize scores.",
+              "Ensure integration with the backend to fetch agent_scores payload."
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_dataset_selector_filters",
+            "asserts": "Datasets are filtered correctly based on selected workflow.",
+            "file": "client/src/tests/DatasetSelector.test.tsx"
+          },
+          {
+            "name": "test_score_breakdown_panel",
+            "asserts": "Score breakdown displays criteria, weights, and hard-gate failures correctly.",
+            "file": "client/src/tests/ScoreBreakdownPanel.test.tsx"
+          }
+        ],
+        "dependencies": [
+          "W2-AG-001"
+        ],
+        "risks": [
+          "Modification might affect existing dataset retrieval logic; mitigate by ensuring comprehensive test coverage.",
+          "UI may not load data correctly if API response changes; mitigate by using feature flags and monitoring during deployment."
+        ],
+        "acceptance_checks": [
+          "Verify that dataset filters respond correctly to workflow selections and that score breakdown is accurate."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 9,\n    \"implementation_depth\": 8,\n    \"testability\": 7,\n    \"repo_alignment\": 8,\n    \"risk_management\": 8\n  },\n  \"overall_score\": 8,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation aligns well with the ticket requirements, showing clear connections to W2-UI-001 and W2-UI-002.\",\n    \"The code changes are well-structured, maintaining logical separation between server and client functionalities.\",\n    \"Adequate test coverage is provided, though the assertions could include specific edge cases to improve rigor.\"\n  ],\n  \"blocking_issues\": [],\n  \"next_actions\": [\n    \"Expand test cases to cover more edge scenarios for both dataset filtering and score breakdown.\",\n    \"Consider enhancing documentation for the new API endpoint to ensure clarity for future development.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 9,
+          "implementation_depth": 8,
+          "testability": 7,
+          "repo_alignment": 8,
+          "risk_management": 8
+        },
+        "overall_score": 8,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation aligns well with the ticket requirements, showing clear connections to W2-UI-001 and W2-UI-002.",
+          "The code changes are well-structured, maintaining logical separation between server and client functionalities.",
+          "Adequate test coverage is provided, though the assertions could include specific edge cases to improve rigor."
+        ],
+        "blocking_issues": [],
+        "next_actions": [
+          "Expand test cases to cover more edge scenarios for both dataset filtering and score breakdown.",
+          "Consider enhancing documentation for the new API endpoint to ensure clarity for future development."
+        ]
+      }
+    },
+    {
+      "id": "qa_reviewer",
+      "title": "Wave2 QA Reviewer",
+      "focus": "Wave 2 end-to-end regression and test coverage",
+      "system_instruction": "You are a principal QA reviewer. Identify regression risks, missing tests, and release gates for Wave 2 integration.",
+      "raw_output": "```json\n{\n  \"summary\": \"Wave 2 integration introduces new strategies and UI components while ensuring backward compatibility and test stability.\",\n  \"code_changes\": [\n    {\n      \"file\": \"engine/strategy.py\",\n      \"purpose\": \"Implement ExecutionStrategy ABC and DagOnceStrategy to standardize execution methods.\",\n      \"operations\": [\"Add ExecutionStrategy ABC interface\", \"Implement DagOnceStrategy with factory method\"]\n    },\n    {\n      \"file\": \"engine/iterative.py\",\n      \"purpose\": \"Integrate iterative repair loop and attempt-level event logging.\",\n      \"operations\": [\"Implement iterative repair loop logic\", \"Add event tracking to each attempt\"]\n    },\n    {\n      \"file\": \"server/evaluation.py\",\n      \"purpose\": \"Enhance server response with agent_scores and reporting adjustments.\",\n      \"operations\": [\"Add agent_scores payload to response\", \"Implement reliability adjustment logic\"]\n    },\n    {\n      \"file\": \"server/contracts/messages.py\",\n      \"purpose\": \"Define message contracts to include new data fields.\",\n      \"operations\": [\"Update data contracts to include new agent_scores fields\", \"Adjust existing contracts for backward compatibility\"]\n    },\n    {\n      \"file\": \"api/eval/datasets.py\",\n      \"purpose\": \"Enhance dataset selection based on workflow compatibility.\",\n      \"operations\": [\"Implement filtering logic based on workflows\", \"Ensure existing endpoints remain functional\"]\n    },\n    {\n      \"file\": \"ui/score_breakdown_panel.py\",\n      \"purpose\": \"Display score breakdown with criteria-based feedback.\",\n      \"operations\": [\"Add UI elements for criteria, weights, grades\", \"Implement hard-gate failure visuals\"]\n    },\n    {\n      \"file\": \"integrations/microsoft_agent_framework.py\",\n      \"purpose\": \"Add optional import behavior and adapt event mapping.\",\n      \"operations\": [\"Implement optional import handling\", \"Map canonical events to Microsoft framework\"]\n    }\n  ],\n  \"tests\": [\n    {\n      \"name\": \"test_execution_strategy\",\n      \"asserts\": \"Ensure ExecutionStrategy ABC functions correctly with DagOnceStrategy.\",\n      \"file\": \"tests/test_strategy.py\"\n    },\n    {\n      \"name\": \"test_iterative_repair_loop\",\n      \"asserts\": \"Verify the correctness of the iterative repair process.\",\n      \"file\": \"tests/test_iterative.py\"\n    },\n    {\n      \"name\": \"test_agent_scores_payload\",\n      \"asserts\": \"Validate the agent_scores is returned correctly from the API.\",\n      \"file\": \"tests/test_evaluation.py\"\n    },\n    {\n      \"name\": \"test_dataset_filtering\",\n      \"asserts\": \"Check that datasets are filtered based on workflow compatibility.\",\n      \"file\": \"tests/test_datasets.py\"\n    },\n    {\n      \"name\": \"test_score_breakdown_panel\",\n      \"asserts\": \"Confirm the score breakdown panel displays correct criteria and weights.\",\n      \"file\": \"tests/test_score_panel.py\"\n    },\n    {\n      \"name\": \"test_microsoft_adapter_import\",\n      \"asserts\": \"Ensure the optional Microsoft agent import logic works as expected.\",\n      \"file\": \"tests/test_microsoft_adapter.py\"\n    }\n  ],\n  \"dependencies\": [\"W2-ST-001 requires W2-ST-002 for strategies\", \"W2-UI-001 depends on W2-AG-001 for data\"],\n  \"risks\": [\n    \"Changes to the strategy layer might affect existing execution flows + Mitigation: Conduct regression testing on all execution scenarios.\",\n    \"New UI components may not align with existing workflows + Mitigation: Implement cross-component integration tests.\"\n  ],\n  \"acceptance_checks\": [\"All end-to-end tests must pass in the integration environment before release.\"]\n}\n```\n",
+      "parsed_output": {
+        "summary": "Wave 2 integration introduces new strategies and UI components while ensuring backward compatibility and test stability.",
+        "code_changes": [
+          {
+            "file": "engine/strategy.py",
+            "purpose": "Implement ExecutionStrategy ABC and DagOnceStrategy to standardize execution methods.",
+            "operations": [
+              "Add ExecutionStrategy ABC interface",
+              "Implement DagOnceStrategy with factory method"
+            ]
+          },
+          {
+            "file": "engine/iterative.py",
+            "purpose": "Integrate iterative repair loop and attempt-level event logging.",
+            "operations": [
+              "Implement iterative repair loop logic",
+              "Add event tracking to each attempt"
+            ]
+          },
+          {
+            "file": "server/evaluation.py",
+            "purpose": "Enhance server response with agent_scores and reporting adjustments.",
+            "operations": [
+              "Add agent_scores payload to response",
+              "Implement reliability adjustment logic"
+            ]
+          },
+          {
+            "file": "server/contracts/messages.py",
+            "purpose": "Define message contracts to include new data fields.",
+            "operations": [
+              "Update data contracts to include new agent_scores fields",
+              "Adjust existing contracts for backward compatibility"
+            ]
+          },
+          {
+            "file": "api/eval/datasets.py",
+            "purpose": "Enhance dataset selection based on workflow compatibility.",
+            "operations": [
+              "Implement filtering logic based on workflows",
+              "Ensure existing endpoints remain functional"
+            ]
+          },
+          {
+            "file": "ui/score_breakdown_panel.py",
+            "purpose": "Display score breakdown with criteria-based feedback.",
+            "operations": [
+              "Add UI elements for criteria, weights, grades",
+              "Implement hard-gate failure visuals"
+            ]
+          },
+          {
+            "file": "integrations/microsoft_agent_framework.py",
+            "purpose": "Add optional import behavior and adapt event mapping.",
+            "operations": [
+              "Implement optional import handling",
+              "Map canonical events to Microsoft framework"
+            ]
+          }
+        ],
+        "tests": [
+          {
+            "name": "test_execution_strategy",
+            "asserts": "Ensure ExecutionStrategy ABC functions correctly with DagOnceStrategy.",
+            "file": "tests/test_strategy.py"
+          },
+          {
+            "name": "test_iterative_repair_loop",
+            "asserts": "Verify the correctness of the iterative repair process.",
+            "file": "tests/test_iterative.py"
+          },
+          {
+            "name": "test_agent_scores_payload",
+            "asserts": "Validate the agent_scores is returned correctly from the API.",
+            "file": "tests/test_evaluation.py"
+          },
+          {
+            "name": "test_dataset_filtering",
+            "asserts": "Check that datasets are filtered based on workflow compatibility.",
+            "file": "tests/test_datasets.py"
+          },
+          {
+            "name": "test_score_breakdown_panel",
+            "asserts": "Confirm the score breakdown panel displays correct criteria and weights.",
+            "file": "tests/test_score_panel.py"
+          },
+          {
+            "name": "test_microsoft_adapter_import",
+            "asserts": "Ensure the optional Microsoft agent import logic works as expected.",
+            "file": "tests/test_microsoft_adapter.py"
+          }
+        ],
+        "dependencies": [
+          "W2-ST-001 requires W2-ST-002 for strategies",
+          "W2-UI-001 depends on W2-AG-001 for data"
+        ],
+        "risks": [
+          "Changes to the strategy layer might affect existing execution flows + Mitigation: Conduct regression testing on all execution scenarios.",
+          "New UI components may not align with existing workflows + Mitigation: Implement cross-component integration tests."
+        ],
+        "acceptance_checks": [
+          "All end-to-end tests must pass in the integration environment before release."
+        ]
+      },
+      "evaluation_raw": "{\n  \"criterion_scores\": {\n    \"ticket_alignment\": 8,\n    \"implementation_depth\": 7,\n    \"testability\": 7,\n    \"repo_alignment\": 9,\n    \"risk_management\": 8\n  },\n  \"overall_score\": 7.8,\n  \"verdict\": \"adequate\",\n  \"key_findings\": [\n    \"The implementation aligns well with Wave 2 tickets, addressing the specified changes in strategies, UI components, and data contracts.\",\n    \"The code changes showcase a reasonable depth of implementation, covering multiple files and responsibilities.\",\n    \"The provided test cases generally cover new functionalities, but more assertions within tests could boost confidence.\",\n    \"Dependencies are clearly stated, ensuring clarity in integration requirements.\",\n    \"Risk management strategies are proactive, highlighting potential issues and presenting mitigation measures.\"\n  ],\n  \"blocking_issues\": [\n    \"Some tests may lack coverage for edge cases, particularly around backward compatibility checks which could compromise stability during integration.\",\n    \"The overall implementation relies heavily on new UI components. Any issues there could potentially halt the release.\"\n  ],\n  \"next_actions\": [\n    \"Enhance test cases to cover edge scenarios, especially in the context of new UI components and execution strategies.\",\n    \"Conduct thorough regression testing as outlined in risk management to ensure existing functionality remains intact.\",\n    \"Review the UI components for alignment against current user workflows and gather early feedback.\"\n  ]\n}\n",
+      "evaluation": {
+        "criterion_scores": {
+          "ticket_alignment": 8,
+          "implementation_depth": 7,
+          "testability": 7,
+          "repo_alignment": 9,
+          "risk_management": 8
+        },
+        "overall_score": 7.8,
+        "verdict": "adequate",
+        "key_findings": [
+          "The implementation aligns well with Wave 2 tickets, addressing the specified changes in strategies, UI components, and data contracts.",
+          "The code changes showcase a reasonable depth of implementation, covering multiple files and responsibilities.",
+          "The provided test cases generally cover new functionalities, but more assertions within tests could boost confidence.",
+          "Dependencies are clearly stated, ensuring clarity in integration requirements.",
+          "Risk management strategies are proactive, highlighting potential issues and presenting mitigation measures."
+        ],
+        "blocking_issues": [
+          "Some tests may lack coverage for edge cases, particularly around backward compatibility checks which could compromise stability during integration.",
+          "The overall implementation relies heavily on new UI components. Any issues there could potentially halt the release."
+        ],
+        "next_actions": [
+          "Enhance test cases to cover edge scenarios, especially in the context of new UI components and execution strategies.",
+          "Conduct thorough regression testing as outlined in risk management to ensure existing functionality remains intact.",
+          "Review the UI components for alignment against current user workflows and gather early feedback."
+        ]
+      }
+    }
+  ],
+  "aggregate": {
+    "evaluated_agents": 5,
+    "mean_overall_score": 7.84,
+    "min_overall_score": 7.8,
+    "max_overall_score": 8.0
+  }
+}

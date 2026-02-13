@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Clock, Percent, Trophy } from "lucide-react";
 import { useRunDetail } from "../hooks/useRuns";
 import { useWorkflowDAG } from "../hooks/useWorkflows";
 import WorkflowDAG from "../components/dag/WorkflowDAG";
 import RunDetailSteps from "../components/runs/RunDetail";
+import ScoreBreakdownPanel from "../components/runs/ScoreBreakdownPanel";
 import StatusBadge from "../components/common/StatusBadge";
 import DurationDisplay from "../components/common/DurationDisplay";
 import type { StepStatus } from "../api/types";
@@ -15,6 +16,12 @@ export default function RunDetailPage() {
   const { data: run, isLoading } = useRunDetail(filename);
   const { data: dag } = useWorkflowDAG(run?.workflow_name);
   const [selectedStep, setSelectedStep] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (run) {
+      document.title = `${run.workflow_name} - ${run.run_id} | Agentic Workflows`;
+    }
+  }, [run]);
 
   if (isLoading) {
     return (
@@ -97,33 +104,36 @@ export default function RunDetailPage() {
         {/* Step panels */}
         <div className="w-[450px] overflow-y-auto border-l border-white/5 p-4">
           {run.extra?.evaluation && (
-            <div className="mb-3 rounded-lg border border-white/10 bg-surface-1 p-3">
-              <div className="mb-2 text-xs uppercase tracking-wide text-gray-500">
-                Evaluation Result
-              </div>
-              <div className="flex items-end justify-between">
-                <div>
-                  <div className="text-2xl font-semibold text-gray-100">
-                    {run.extra.evaluation.weighted_score.toFixed(1)}
-                  </div>
-                  <div className="text-xs text-gray-500">Weighted / 100</div>
+            <>
+              <div className="mb-3 rounded-lg border border-white/10 bg-surface-1 p-3">
+                <div className="mb-2 text-xs uppercase tracking-wide text-gray-500">
+                  Evaluation Result
                 </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium text-gray-300">
-                    Grade {run.extra.evaluation.grade}
+                <div className="flex items-end justify-between">
+                  <div>
+                    <div className="text-2xl font-semibold text-gray-100">
+                      {run.extra.evaluation.weighted_score.toFixed(1)}
+                    </div>
+                    <div className="text-xs text-gray-500">Weighted / 100</div>
                   </div>
-                  <div
-                    className={`text-xs ${
-                      run.extra.evaluation.passed
-                        ? "text-green-400"
-                        : "text-red-400"
-                    }`}
-                  >
-                    {run.extra.evaluation.passed ? "Passed" : "Did not pass"}
+                  <div className="text-right">
+                    <div className="text-sm font-medium text-gray-300">
+                      Grade {run.extra.evaluation.grade}
+                    </div>
+                    <div
+                      className={`text-xs ${
+                        run.extra.evaluation.passed
+                          ? "text-green-400"
+                          : "text-red-400"
+                      }`}
+                    >
+                      {run.extra.evaluation.passed ? "Passed" : "Did not pass"}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+              <ScoreBreakdownPanel evaluation={run.extra.evaluation} className="mb-3" />
+            </>
           )}
           <h2 className="mb-3 text-sm font-medium text-gray-400">
             Steps ({run.steps.length})

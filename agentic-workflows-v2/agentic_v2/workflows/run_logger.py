@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from ..contracts import StepStatus, WorkflowResult
+from ..storage import Database
 
 logger = logging.getLogger(__name__)
 
@@ -123,10 +124,20 @@ class RunLogger:
     def __init__(self, runs_dir: Path | str | None = None):
         self._runs_dir = Path(runs_dir) if runs_dir else _DEFAULT_RUNS_DIR
         self._runs_dir.mkdir(parents=True, exist_ok=True)
+        self._db: Database | None = None
+        try:
+            self._db = Database(self._runs_dir / "agentic_v2.sqlite3")
+            self._db.import_runs_directory_once(self._runs_dir)
+        except Exception:
+            logger.warning("SQLite run metadata store unavailable", exc_info=True)
 
     @property
     def runs_dir(self) -> Path:
         return self._runs_dir
+
+    @property
+    def db_path(self) -> Path | None:
+        return self._db.path if self._db is not None else None
 
     def log(
         self,
@@ -156,6 +167,11 @@ class RunLogger:
             json.dumps(record, indent=2, default=_safe_serialize),
             encoding="utf-8",
         )
+        if self._db is not None:
+            try:
+                self._db.upsert_run_record(record, source_file=path)
+            except Exception:
+                logger.warning("Failed to persist run metadata for %s", path.name, exc_info=True)
         logger.info("Run logged: %s", path)
         return path
 
@@ -166,10 +182,93 @@ class RunLogger:
 
     def load_run(self, path: Path) -> dict[str, Any]:
         """Load a run record from disk."""
-        return json.loads(path.read_text(encoding="utf-8"))
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+        if self._db is not None:
+            from_db = self._db.get_run_by_filename(path.name)
+            if from_db is not None:
+                return from_db
+        raise FileNotFoundError(path)
+
+    def log_attempt(
+        self,
+        run_id: str,
+        attempt_number: int,
+        result: WorkflowResult,
+        *,
+        feedback: Optional[dict[str, Any]] = None,
+    ) -> Path:
+        """Save a per-attempt snapshot inside ``runs/<run_id>/attempts/<N>/``.
+
+        Returns the path to the written attempt JSON file.
+        """
+        attempt_dir = self._runs_dir / run_id / "attempts" / str(attempt_number)
+        attempt_dir.mkdir(parents=True, exist_ok=True)
+
+        record: dict[str, Any] = {
+            "attempt_number": attempt_number,
+            "status": result.overall_status.value,
+            "steps": [build_step_record(s) for s in result.steps],
+            "final_output": _truncate(result.final_output),
+            "feedback": feedback,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+
+        path = attempt_dir / "attempt.json"
+        path.write_text(
+            json.dumps(record, indent=2, default=_safe_serialize),
+            encoding="utf-8",
+        )
+        if self._db is not None:
+            try:
+                self._db.upsert_run_attempt(
+                    run_id=run_id,
+                    attempt_number=attempt_number,
+                    record=record,
+                    source_file=path,
+                )
+            except Exception:
+                logger.warning(
+                    "Failed to persist attempt metadata for run=%s attempt=%d",
+                    run_id,
+                    attempt_number,
+                    exc_info=True,
+                )
+        logger.info("Attempt %d logged: %s", attempt_number, path)
+        return path
+
+    def list_attempts(self, run_id: str) -> list[Path]:
+        """List all attempt directories for a given run, sorted by number."""
+        attempts_dir = self._runs_dir / run_id / "attempts"
+        if not attempts_dir.is_dir():
+            return []
+        dirs = sorted(
+            (d for d in attempts_dir.iterdir() if d.is_dir()),
+            key=lambda d: int(d.name) if d.name.isdigit() else 0,
+        )
+        return dirs
+
+    def load_attempt(self, run_id: str, attempt_number: int) -> dict[str, Any]:
+        """Load a single attempt record."""
+        path = self._runs_dir / run_id / "attempts" / str(attempt_number) / "attempt.json"
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+        if self._db is not None:
+            from_db = self._db.get_attempt(run_id, attempt_number)
+            if from_db is not None:
+                return from_db
+        raise FileNotFoundError(path)
 
     def summary(self, workflow_name: str | None = None) -> dict[str, Any]:
         """Quick summary of all logged runs."""
+        if self._db is not None:
+            try:
+                summary = self._db.summarize_runs(workflow_name=workflow_name)
+                if summary.get("total_runs", 0) > 0:
+                    return summary
+            except Exception:
+                logger.warning("Failed querying SQLite run summary", exc_info=True)
+
         runs = self.list_runs(workflow_name)
         if not runs:
             return {"total_runs": 0}
@@ -185,3 +284,35 @@ class RunLogger:
             "avg_duration_ms": sum(durations) / len(durations) if durations else None,
             "workflows": list({r["workflow_name"] for r in records}),
         }
+
+    def query_runs(
+        self,
+        *,
+        workflow_name: str | None = None,
+        status: str | None = None,
+        min_weighted_score: float | None = None,
+        model_used: str | None = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        """Query runs using SQLite-backed filters when available."""
+        if self._db is None:
+            return []
+        return self._db.query_runs(
+            workflow_name=workflow_name,
+            status=status,
+            min_weighted_score=min_weighted_score,
+            model_used=model_used,
+            limit=limit,
+        )
+
+    def agent_failure_rates(self, limit: int = 20) -> list[dict[str, Any]]:
+        """Return failure-rate analytics grouped by agent role."""
+        if self._db is None:
+            return []
+        return self._db.agent_failure_rates(limit=limit)
+
+    def model_score_comparison(self, limit: int = 20) -> list[dict[str, Any]]:
+        """Return score/success analytics grouped by model id."""
+        if self._db is None:
+            return []
+        return self._db.model_score_comparison(limit=limit)

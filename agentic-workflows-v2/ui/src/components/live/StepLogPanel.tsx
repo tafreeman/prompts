@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { ExecutionEvent } from "../../api/types";
 import { Clock } from "lucide-react";
 
@@ -7,9 +8,17 @@ interface Props {
 }
 
 export default function StepLogPanel({ events, className = "" }: Props) {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const displayEvents = events.filter(
     (e) => e.type !== "keepalive" && e.type !== "connection_established"
   );
+
+  // Auto-scroll to bottom when new events arrive
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [displayEvents.length]);
 
   return (
     <div className={`rounded-lg border border-white/5 bg-surface-1 ${className}`}>
@@ -19,7 +28,7 @@ export default function StepLogPanel({ events, className = "" }: Props) {
         </h3>
       </div>
 
-      <div className="max-h-64 overflow-y-auto p-2 font-mono text-xs">
+      <div ref={scrollRef} className="max-h-64 overflow-y-auto p-2 font-mono text-xs">
         {displayEvents.length === 0 && (
           <div className="px-2 py-4 text-center text-gray-600">
             Waiting for events...

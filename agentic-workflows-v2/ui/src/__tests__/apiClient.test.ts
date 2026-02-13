@@ -59,6 +59,20 @@ describe("API client", () => {
     expect(fetch).toHaveBeenCalledWith("/api/eval/datasets", undefined);
   });
 
+  it("listEvaluationDatasets includes workflow compatibility filter", async () => {
+    const mockResponse = { repository: [], local: [] };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(mockResponse),
+    } as Response);
+
+    await listEvaluationDatasets("code_review");
+    expect(fetch).toHaveBeenCalledWith(
+      "/api/eval/datasets?workflow=code_review",
+      undefined
+    );
+  });
+
   it("throws on non-OK response", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: false,

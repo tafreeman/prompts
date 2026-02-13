@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { Workflow, ChevronRight } from "lucide-react";
 import { useWorkflows } from "../hooks/useWorkflows";
 
 export default function WorkflowsPage() {
+  useEffect(() => {
+    document.title = "Workflows | Agentic Workflows";
+  }, []);
+  
   const { data: workflows, isLoading } = useWorkflows();
 
   return (

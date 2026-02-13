@@ -2,14 +2,12 @@ import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   Workflow,
-  Radio,
   Zap,
 } from "lucide-react";
 
 const links = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/workflows", icon: Workflow, label: "Workflows" },
-  { to: "/live/latest", icon: Radio, label: "Live" },
 ];
 
 export default function Sidebar() {
@@ -30,6 +28,7 @@ export default function Sidebar() {
             key={link.to}
             to={link.to}
             end={link.to === "/"}
+            aria-label={link.label}
             className={({ isActive }) =>
               `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
                 isActive
@@ -38,7 +37,7 @@ export default function Sidebar() {
               }`
             }
           >
-            <link.icon className="h-4 w-4" />
+            <link.icon className="h-4 w-4" aria-hidden="true" />
             {link.label}
           </NavLink>
         ))}

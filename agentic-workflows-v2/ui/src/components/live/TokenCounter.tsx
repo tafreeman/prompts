@@ -7,7 +7,7 @@ interface Props {
 
 export default function TokenCounter({ events }: Props) {
   let totalTokens = 0;
-  let models = new Set<string>();
+  const models = new Set<string>();
 
   for (const e of events) {
     if (e.type === "step_end" && e.tokens_used) {

@@ -59,6 +59,7 @@ const statusConfig: Record<
 };
 
 function StepNodeComponent({ data }: NodeProps) {
+  // Type assertion: React Flow's NodeProps.data is 'unknown', but we know it's StepNodeData
   const nodeData = data as unknown as StepNodeData;
   const cfg = statusConfig[nodeData.status] ?? statusConfig.pending;
   const Icon = cfg.icon;

@@ -19,9 +19,9 @@ from typing import Any, Awaitable, Callable, Mapping, Optional
 
 from ..contracts import WorkflowResult
 from ..engine.context import ExecutionContext
-from ..engine.dag_executor import DAGExecutor
 from ..engine.expressions import ExpressionEvaluator
 from ..engine.runtime import IsolatedTaskRuntime, create_runtime
+from ..engine.strategy import create_execution_strategy
 from ..engine.step import StepExecutor
 from .loader import WorkflowDefinition, WorkflowLoader
 from .run_logger import RunLogger
@@ -203,6 +203,11 @@ class WorkflowRunner:
         runtime = create_runtime(runtime_profile)
         ctx.services.register_singleton(IsolatedTaskRuntime, runtime)
         ctx.metadata["execution_profile"] = runtime_profile
+        strategy = create_execution_strategy(
+            runtime_profile,
+            step_executor=self._step_executor,
+        )
+        ctx.metadata["execution_strategy"] = type(strategy).__name__
 
         try:
             await runtime.setup()
@@ -211,10 +216,9 @@ class WorkflowRunner:
             await runtime.cleanup()
             raise
 
-        executor = DAGExecutor(step_executor=self._step_executor)
         runtime_artifacts: dict[str, Any] = {}
         try:
-            result = await executor.execute(
+            result = await strategy.execute(
                 definition.dag,
                 ctx,
                 max_concurrency=self._max_concurrency,
@@ -234,8 +238,20 @@ class WorkflowRunner:
         profile = dict(self._execution_profile)
         if override:
             profile.update(dict(override))
+
         runtime_name = str(profile.get("runtime", "subprocess")).strip().lower()
         profile["runtime"] = runtime_name
+
+        if "strategy" in profile and profile["strategy"] is not None:
+            profile["strategy"] = str(profile["strategy"]).strip().lower()
+
+        if "max_attempts" in profile and profile["max_attempts"] is not None:
+            try:
+                max_attempts = int(profile["max_attempts"])
+            except (TypeError, ValueError) as exc:
+                raise ValueError("execution_profile.max_attempts must be an integer") from exc
+            profile["max_attempts"] = max(1, max_attempts)
+
         return profile
 
     # --------------------------------------------------------------------- #

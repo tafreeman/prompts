@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Workflow, Play, ArrowRight } from "lucide-react";
+import { useEffect } from "react";
 import { useRuns, useRunsSummary } from "../hooks/useRuns";
 import { useWorkflows } from "../hooks/useWorkflows";
 import RunSummaryCards from "../components/runs/RunSummaryCards";
@@ -9,6 +10,10 @@ export default function DashboardPage() {
   const { data: summary, isLoading: summaryLoading } = useRunsSummary();
   const { data: runs, isLoading: runsLoading } = useRuns();
   const { data: workflows } = useWorkflows();
+
+  useEffect(() => {
+    document.title = "Dashboard | Agentic Workflows";
+  }, []);
 
   const hasRuns = (runs?.length ?? 0) > 0;
 

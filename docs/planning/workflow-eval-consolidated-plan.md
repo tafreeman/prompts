@@ -551,7 +551,7 @@ All foundation tickets are **done**. This section is retained as audit trail.
 
 ## Dependency Graph
 
-```
+```mermaid
 Foundation (DONE)
   |
   +-- [Wave 1] -------- all start immediately, no inter-dependencies --------+
@@ -688,7 +688,7 @@ Done 2026-02-09 — Refactored LangChain-related classes to implement adapter ba
 | Field | Value |
 |---|---|
 | Track | C: Scoring |
-| Status | pending |
+| Status | done |
 | Est. | 3 days |
 | Depends on | Foundation (done) — only needs `evaluation.py`, `normalization.py` |
 | Files | `server/evaluation.py`, `server/judge.py` (new) |
@@ -725,6 +725,8 @@ Create `server/judge.py` implementing LLM-as-judge protocol (reference guide S8)
 | 7 | `test_judge_calibration_within_tolerance` | Judge on calibration fixture scores within +/-0.5 of human labels |
 | 8 | `test_judge_logs_model_version` | Judge result includes model/version/prompt_version metadata |
 
+Done 2026-02-09 — Implemented hybrid scoring in `server/evaluation.py` and judge protocol in `server/judge.py` with all 8 specified tests passing.
+
 ---
 
 ### W1-DA-001: Dataset lane expansion
@@ -732,7 +734,7 @@ Create `server/judge.py` implementing LLM-as-judge protocol (reference guide S8)
 | Field | Value |
 |---|---|
 | Track | D: Data |
-| Status | pending |
+| Status | done |
 | Est. | 2 days |
 | Depends on | Foundation (done) |
 | Files | `tests/fixtures/datasets/`, evaluation config |
@@ -749,6 +751,8 @@ Add new benchmark dataset fixtures for additional workflow types. Add CI smoke m
 | 1 | `test_new_datasets_valid_json` | All new fixture files parse as valid JSON |
 | 2 | `test_new_datasets_have_required_fields` | Each sample has `prompt` or `task_description` |
 | 3 | `test_compatibility_smoke_matrix` | Each dataset compatible with at least one workflow |
+
+Done 2026-02-09 — Added and validated expanded dataset fixtures plus workflow compatibility smoke coverage in `tests/test_dataset_workflows.py`.
 
 ---
 
@@ -1072,6 +1076,9 @@ Add feature flag config for: iterative strategy, per-agent scoring, Microsoft ad
 
 ---
 
+Wave 4 has a dedicated extracted view for execution/backlog tracking:
+`docs/planning/workflow-eval-wave4-extracted.md`
+
 ### W4-CI-001: CI benchmark gating
 
 | Field | Value |
@@ -1169,22 +1176,22 @@ Implement promotion policy checks per reference guide S11:
 | P0-T009 | Docs cleanup | Foundation | — | 0.5d | — | 0 | **partial** |
 | P0-T010 | Score normalization framework | Foundation | — | 1d | T001 | 9 | **done** |
 | P0-T011 | Scoring profile templates | Foundation | — | 1d | T010,T007 | 4 | **done** |
-| W1-RT-001 | Runtime abstraction | 1 | Runtime | 2d | Foundation | 6 | pending |
+| W1-RT-001 | Runtime abstraction | 1 | Runtime | 2d | Foundation | 6 | **done** |
 | W1-AD-001 | Adapter base interfaces | 1 | Adapters | 1d | Foundation | 3 | **done** |
 | W1-AD-002 | LangChain normalization | 1 | Adapters | 1d | W1-AD-001 | 4 | **done** |
-| W1-SC-001 | Hybrid scoring + LLM judge | 1 | Scoring | 3d | Foundation | 8 | pending |
-| W1-DA-001 | Dataset expansion | 1 | Data | 2d | Foundation | 3 | pending |
+| W1-SC-001 | Hybrid scoring + LLM judge | 1 | Scoring | 3d | Foundation | 8 | **done** |
+| W1-DA-001 | Dataset expansion | 1 | Data | 2d | Foundation | 3 | **done** |
 | W1-UI-001 | Schema-driven run config | 1 | UI | 2d | Foundation | 3 | **done** |
-| W2-ST-001 | ExecutionStrategy ABC | 2 | Strategy | 1d | W1-RT-001 | 3 | pending |
-| W2-ST-002 | Iterative repair strategy | 2 | Strategy | 2d | W2-ST-001 | 5 | pending |
-| W2-AG-001 | Per-agent scoring + reporting | 2 | Scoring | 2.5d | W1-SC-001 | 8 | pending |
-| W2-UI-001 | Compatibility matrix UI | 2 | UI | 1d | W1-UI-001 | 2 | pending |
-| W2-UI-002 | Score breakdown panel | 2 | UI | 1.5d | W1-SC-001 | 3 | pending |
-| W2-AD-001 | MS Agent Framework adapter | 2 | Adapters | 2d | W1-AD-001 | 3 | pending |
-| W3-ART-001 | Attempt artifact persistence | 3 | Artifacts | 1d | W2-ST-002 | 2 | pending |
-| W3-UI-001 | Iteration timeline UI | 3 | UI | 2d | W3-ART-001 | 2 | pending |
-| W3-AD-001 | Cross-framework conformance | 3 | Adapters | 1d | W2-AD-001,W1-AD-002 | 4 | pending |
-| W3-FL-001 | Feature flags | 3 | Ops | 1d | Wave 2 done | 3 | pending |
+| W2-ST-001 | ExecutionStrategy ABC | 2 | Strategy | 1d | W1-RT-001 | 3 | **done** |
+| W2-ST-002 | Iterative repair strategy | 2 | Strategy | 2d | W2-ST-001 | 5 | **done** |
+| W2-AG-001 | Per-agent scoring + reporting | 2 | Scoring | 2.5d | W1-SC-001 | 8 | **done** |
+| W2-UI-001 | Compatibility matrix UI | 2 | UI | 1d | W1-UI-001 | 2 | **partial** |
+| W2-UI-002 | Score breakdown panel | 2 | UI | 1.5d | W1-SC-001 | 3 | **done** |
+| W2-AD-001 | MS Agent Framework adapter | 2 | Adapters | 2d | W1-AD-001 | 3 | **done** |
+| W3-ART-001 | Attempt artifact persistence | 3 | Artifacts | 1d | W2-ST-002 | 2 | **done** |
+| W3-UI-001 | Iteration timeline UI | 3 | UI | 2d | W3-ART-001 | 2 | **partial** |
+| W3-AD-001 | Cross-framework conformance | 3 | Adapters | 1d | W2-AD-001,W1-AD-002 | 4 | **done** |
+| W3-FL-001 | Feature flags | 3 | Ops | 1d | Wave 2 done | 3 | **done** |
 | W4-CI-001 | CI benchmark gating | 4 | CI | 1d | W3-FL-001 | 2 | pending |
 | W4-PR-001 | Promotion policy automation | 4 | CI | 1.5d | W3-FL-001,W2-AG-001 | 5 | pending |
 | W4-DOC-001 | Rollout runbooks + tooling map | 4 | Docs | 1.5d | all waves | 0 | pending |

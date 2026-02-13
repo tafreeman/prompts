@@ -9,11 +9,13 @@ from dataclasses import dataclass
 from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
+from statistics import mean, pstdev
 from typing import Any
 
 import yaml
 
 from ..contracts import StepStatus, WorkflowResult
+from ..storage import get_catalog_store
 from ..workflows.loader import (
     WorkflowCriterion,
     WorkflowDefinition,
@@ -64,6 +66,47 @@ _DEFAULT_WEIGHTS: dict[str, float] = {
 _DEFAULT_PASS_THRESHOLD = 70.0
 _DEFAULT_RUBRIC = "workflow_default"
 _DEFAULT_RUBRIC_VERSION = "1.0"
+_AFFINITY_SYNCED = False
+
+
+def _catalog_store():
+    try:
+        return get_catalog_store()
+    except Exception:
+        logger.debug("Catalog store unavailable for evaluation helpers", exc_info=True)
+        return None
+
+
+def _sync_dataset_options(options: list[dict[str, Any]]) -> None:
+    store = _catalog_store()
+    if store is None:
+        return
+    try:
+        store.sync_dataset_options(options)
+    except Exception:
+        logger.debug("Failed syncing dataset option metadata", exc_info=True)
+
+
+def _sync_dataset_sample(
+    *,
+    dataset_id: str,
+    sample_index: int,
+    sample: dict[str, Any],
+    meta: dict[str, Any],
+) -> None:
+    store = _catalog_store()
+    if store is None:
+        return
+    try:
+        store.sync_dataset_sample(
+            dataset_id=dataset_id,
+            sample_index=sample_index,
+            sample=sample,
+            task_id=str(meta.get("task_id")) if meta.get("task_id") is not None else None,
+            metadata=meta,
+        )
+    except Exception:
+        logger.debug("Failed syncing dataset sample metadata", exc_info=True)
 
 
 @dataclass
@@ -302,6 +345,102 @@ def _step_scores(result: WorkflowResult) -> list[dict[str, Any]]:
     return scores
 
 
+def _compute_agent_scores(result: WorkflowResult) -> list[dict[str, Any]]:
+    """Compute per-step/agent scoring envelope for reporting and UI."""
+    agent_scores: list[dict[str, Any]] = []
+    for step in result.steps:
+        success_norm = 1.0 if step.status == StepStatus.SUCCESS else 0.0
+        role_adherence_norm = 1.0 if step.agent_role else 0.7
+
+        has_output = bool(step.output_data)
+        if step.status == StepStatus.SUCCESS and has_output:
+            output_quality_norm = 0.9
+        elif step.status == StepStatus.SUCCESS:
+            output_quality_norm = 0.7
+        elif has_output:
+            output_quality_norm = 0.5
+        else:
+            output_quality_norm = 0.2
+
+        duration_seconds = (step.duration_ms or 0.0) / 1000.0
+        duration_norm = normalize_score(
+            duration_seconds,
+            "lower_is_better",
+            slo_good=1.0,
+            slo_bad=45.0,
+        )
+        retry_norm = normalize_score(
+            step.retry_count,
+            "lower_is_better",
+            slo_good=0.0,
+            slo_bad=6.0,
+        )
+        efficiency_norm = (duration_norm * 0.7) + (retry_norm * 0.3)
+        reliability_norm = adjust_for_sample_size(
+            success_norm,
+            n=max(1, step.retry_count + 1),
+        )
+        overall_norm = (
+            (role_adherence_norm * 0.30)
+            + (output_quality_norm * 0.35)
+            + (efficiency_norm * 0.20)
+            + (reliability_norm * 0.15)
+        )
+
+        agent_scores.append(
+            {
+                "step_name": step.step_name,
+                "agent_role": step.agent_role,
+                "model_used": step.model_used,
+                "status": step.status.value,
+                "role_adherence": round(role_adherence_norm * 100.0, 2),
+                "output_quality": round(output_quality_norm * 100.0, 2),
+                "efficiency": round(efficiency_norm * 100.0, 2),
+                "reliability": round(reliability_norm * 100.0, 2),
+                "overall_score": round(overall_norm * 100.0, 2),
+            }
+        )
+    return agent_scores
+
+
+def _build_reporting_bundle(
+    *,
+    criteria: list[dict[str, Any]],
+    grade: str,
+    floor_violations: list[CriterionFloorResult],
+) -> dict[str, Any]:
+    """Build statistical reporting bundle (single-run safe)."""
+    per_criterion: dict[str, dict[str, float]] = {}
+    for item in criteria:
+        name = str(item.get("criterion"))
+        score = float(item.get("normalized_score", 0.0))
+        # Single sample in this execution path; keep structure future-proof.
+        values = [score]
+        per_criterion[name] = {
+            "mean_score": round(mean(values), 4),
+            "stdev": round(pstdev(values), 4),
+            "min": round(min(values), 4),
+            "max": round(max(values), 4),
+        }
+
+    distribution = {letter: 0 for letter in ("A", "B", "C", "D", "F")}
+    if grade in distribution:
+        distribution[grade] += 1
+
+    floor_violation_count: dict[str, int] = {}
+    for violation in floor_violations:
+        floor_violation_count[violation.criterion] = (
+            floor_violation_count.get(violation.criterion, 0) + 1
+        )
+
+    return {
+        "sample_count": 1,
+        "per_criterion": per_criterion,
+        "grade_distribution": distribution,
+        "floor_violation_count": floor_violation_count,
+    }
+
+
 def validate_evaluation_payload_schema(payload: dict[str, Any]) -> tuple[bool, list[str]]:
     """Validate evaluation payload shape for schema hard-gate checks."""
     errors: list[str] = []
@@ -367,7 +506,9 @@ def list_repository_datasets() -> list[dict[str, Any]]:
                     "sample_count": definition.size,
                 }
             )
-        return sorted(options, key=lambda x: x["id"])
+        sorted_options = sorted(options, key=lambda x: x["id"])
+        _sync_dataset_options(sorted_options)
+        return sorted_options
     except Exception as exc:
         logger.info("Repository benchmark definitions unavailable: %s", exc)
 
@@ -389,7 +530,9 @@ def list_repository_datasets() -> list[dict[str, Any]]:
                     "sample_count": None,
                 }
             )
-    return sorted(options, key=lambda x: x["id"])
+    sorted_options = sorted(options, key=lambda x: x["id"])
+    _sync_dataset_options(sorted_options)
+    return sorted_options
 
 
 def _local_dataset_roots() -> list[Path]:
@@ -441,7 +584,9 @@ def list_local_datasets() -> list[dict[str, Any]]:
     dedup: dict[str, dict[str, Any]] = {}
     for option in options:
         dedup[option["id"]] = option
-    return sorted(dedup.values(), key=lambda x: x["id"])
+    sorted_options = sorted(dedup.values(), key=lambda x: x["id"])
+    _sync_dataset_options(sorted_options)
+    return sorted_options
 
 
 def _is_under_allowed_root(path: Path) -> bool:
@@ -508,6 +653,12 @@ def load_local_dataset_sample(dataset_ref: str, sample_index: int = 0) -> tuple[
         "sample_index": sample_index,
         "task_id": task_id,
     }
+    _sync_dataset_sample(
+        dataset_id=dataset_ref,
+        sample_index=sample_index,
+        sample=sample,
+        meta=meta,
+    )
     return sample, meta
 
 
@@ -528,6 +679,12 @@ def load_repository_dataset_sample(dataset_id: str, sample_index: int = 0) -> tu
             "task_id": sample.get("task_id"),
             "benchmark_id": sample.get("benchmark_id", dataset_id),
         }
+        _sync_dataset_sample(
+            dataset_id=dataset_id,
+            sample_index=index,
+            sample=sample,
+            meta=meta,
+        )
         return sample, meta
     except Exception as exc:
         raise ValueError(
@@ -593,6 +750,60 @@ def _extract_message_text(
     return candidates[0][1]
 
 
+# ---------------------------------------------------------------------------
+# Dataset ↔ Workflow affinity registry
+# ---------------------------------------------------------------------------
+# Maps dataset filename stems to the workflow names they are semantically
+# aligned with.  Datasets not listed here fall back to structural matching.
+_DATASET_WORKFLOW_AFFINITY: dict[str, list[str]] = {
+    # Datasets containing actual source code → code_review
+    "humaneval": ["code_review"],
+    "mbpp": ["code_review"],
+    "code_instructions_120k": ["code_review"],
+    "python_code_instructions_18k": ["code_review"],
+    "code_review_instruct": ["code_review"],
+    "codeparrot_apps": ["code_review"],
+    # Natural-language feature / bug descriptions → fullstack_generation
+    "react_code_instructions": ["fullstack_generation"],
+    "swe_bench_lite": ["fullstack_generation"],
+    "swe_bench_verified": ["fullstack_generation"],
+}
+
+
+def _dataset_stem(dataset_id: str) -> str:
+    """Extract the stem (filename without extension) from a dataset id."""
+    from pathlib import PurePosixPath
+    return PurePosixPath(dataset_id).stem
+
+
+def _ensure_affinity_registry_synced() -> None:
+    global _AFFINITY_SYNCED
+    if _AFFINITY_SYNCED:
+        return
+    store = _catalog_store()
+    if store is None:
+        return
+    try:
+        store.sync_dataset_affinity(_DATASET_WORKFLOW_AFFINITY)
+        _AFFINITY_SYNCED = True
+    except Exception:
+        logger.debug("Failed syncing dataset affinity registry", exc_info=True)
+
+
+def check_dataset_affinity(
+    dataset_id: str | None,
+    workflow_name: str,
+) -> bool | None:
+    """Return True/False if dataset is in the registry, None if unknown."""
+    _ensure_affinity_registry_synced()
+    if not dataset_id:
+        return None
+    stem = _dataset_stem(dataset_id)
+    if stem not in _DATASET_WORKFLOW_AFFINITY:
+        return None
+    return workflow_name in _DATASET_WORKFLOW_AFFINITY[stem]
+
+
 def _dataset_value_for_input(
     input_name: str,
     input_def: WorkflowInput,
@@ -609,7 +820,8 @@ def _dataset_value_for_input(
             return nested_value
 
     if "file" in lowered:
-        return _pick_first(
+        # Prefer fields that contain actual source code.
+        value = _pick_first(
             dataset_sample,
             [
                 "code_file",
@@ -617,27 +829,32 @@ def _dataset_value_for_input(
                 "path",
                 "source_path",
                 "code",
+                "canonical_solution",
+                "solutions",
+                "patch",
                 "body",
+                "problem_statement",
                 "prompt",
-                "task_description",
-                "instruction",
-                "input",
             ],
         )
+        if value not in (None, ""):
+            return value
+        return _extract_message_text(dataset_sample)
     if "spec" in lowered or "requirement" in lowered:
+        # Prefer fields that contain natural-language descriptions.
         value = _pick_first(
             dataset_sample,
             [
                 "feature_spec",
                 "task_description",
-                "prompt",
                 "description",
-                "instruction",
-                "input",
+                "problem_statement",
                 "question",
                 "query",
                 "request",
                 "body",
+                "text",
+                "content",
             ],
         )
         if value not in (None, ""):
@@ -676,10 +893,22 @@ def _dataset_value_for_input(
 def match_workflow_dataset(
     workflow_def: WorkflowDefinition,
     dataset_sample: dict[str, Any],
+    *,
+    dataset_id: str | None = None,
 ) -> tuple[bool, list[str]]:
-    """Check whether dataset sample can satisfy required workflow inputs."""
+    """Check whether dataset sample can satisfy required workflow inputs.
+
+    When *dataset_id* is provided, the affinity registry is consulted first.
+    Datasets with an explicit affinity that does **not** include the current
+    workflow are rejected immediately.
+    """
     if not isinstance(dataset_sample, dict):
         return False, ["invalid_dataset_sample"]
+
+    # --- Affinity gate ---------------------------------------------------
+    affinity = check_dataset_affinity(dataset_id, workflow_def.name)
+    if affinity is False:
+        return False, [f"dataset_affinity: {_dataset_stem(dataset_id or '')} is not aligned with {workflow_def.name}"]
 
     missing_reasons: list[str] = []
     required_input_names = []
@@ -1072,6 +1301,7 @@ def score_workflow_result(
             break
 
     step_scores = _step_scores(result)
+    agent_scores = _compute_agent_scores(result)
     payload: dict[str, Any] = {
         "enabled": True,
         "rubric": rubric_id,
@@ -1085,6 +1315,7 @@ def score_workflow_result(
         "passed": False,
         "pass_threshold": threshold,
         "step_scores": step_scores,
+        "agent_scores": agent_scores,
         "dataset": dataset_meta,
         "score_layers": {
             "layer1_objective": round(objective_score_0_1 * 100.0, 2),
@@ -1144,6 +1375,11 @@ def score_workflow_result(
     payload["grade_capped"] = grade_capped
     payload["grade"] = grade
     payload["passed"] = passed
+    payload["reporting_bundle"] = _build_reporting_bundle(
+        criteria=criteria,
+        grade=grade,
+        floor_violations=floor_violations,
+    )
 
     return payload
 
@@ -1233,25 +1469,30 @@ def adapt_sample_to_workflow_inputs(
                         "path",
                         "source_path",
                         "code",
+                        "canonical_solution",
+                        "solutions",
+                        "patch",
                         "body",
+                        "problem_statement",
                         "prompt",
-                        "task_description",
                     ],
                 )
+                if value in (None, ""):
+                    value = _extract_message_text(sample)
             elif "spec" in lowered or "requirement" in lowered:
                 value = _pick_first(
                     sample,
                     [
                         "feature_spec",
                         "task_description",
-                        "prompt",
                         "description",
-                        "instruction",
-                        "input",
+                        "problem_statement",
                         "question",
                         "query",
                         "request",
                         "body",
+                        "text",
+                        "content",
                     ],
                 )
                 if value in (None, ""):
@@ -1283,6 +1524,12 @@ def adapt_sample_to_workflow_inputs(
                 value = json.loads(value)
             except Exception:
                 value = {"value": value}
+
+        # If the input has an enum constraint, reject values not in the enum
+        # so the workflow falls back to its default.
+        if definition.enum and isinstance(value, str):
+            if value not in definition.enum:
+                continue
 
         adapted[name] = value
 

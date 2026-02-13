@@ -1,0 +1,737 @@
+{
+  "run_id": "fullstack_generation-9e08ad58",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 82563.946,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-12T23:49:37.340162+00:00",
+  "end_time": "2026-02-12T23:50:59.904108+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_lite.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_lite.json",
+    "sample_index": 1,
+    "task_id": "1",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "feature_spec": "app",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 15816.563,
+      "retry_count": 0,
+      "tokens_used": 2092,
+      "input": {},
+      "output": {
+        "api_spec": {
+          "auth": {
+            "signup": {
+              "method": "POST",
+              "path": "/auth/signup",
+              "description": "Registers a new user.",
+              "request_body": {
+                "email": "string",
+                "password": "string"
+              },
+              "response_body": {
+                "id": "uuid",
+                "email": "string"
+              },
+              "authentication_required": false
+            },
+            "login": {
+              "method": "POST",
+              "path": "/auth/login",
+              "description": "Authenticates a user and returns an access token.",
+              "request_body": {
+                "email": "string",
+                "password": "string"
+              },
+              "response_body": {
+                "access_token": "string",
+                "token_type": "bearer"
+              },
+              "authentication_required": false
+            },
+            "me": {
+              "method": "GET",
+              "path": "/auth/me",
+              "description": "Retrieves the current authenticated user's details.",
+              "request_body": null,
+              "response_body": {
+                "id": "uuid",
+                "email": "string"
+              },
+              "authentication_required": true
+            }
+          },
+          "items": {
+            "get_all": {
+              "method": "GET",
+              "path": "/items",
+              "description": "Retrieves a list of items.",
+              "query_params": {
+                "skip": "integer",
+                "limit": "integer"
+              },
+              "response_body": "[{\"id\": \"uuid\", \"title\": \"string\", \"description\": \"string\", \"owner_id\": \"uuid\"}]",
+              "authentication_required": true
+            },
+            "get_by_id": {
+              "method": "GET",
+              "path": "/items/{item_id}",
+              "description": "Retrieves a single item by its ID.",
+              "path_params": {
+                "item_id": "uuid"
+              },
+              "response_body": "{\"id\": \"uuid\", \"title\": \"string\", \"description\": \"string\", \"owner_id\": \"uuid\"}",
+              "authentication_required": true
+            },
+            "create": {
+              "method": "POST",
+              "path": "/items",
+              "description": "Creates a new item.",
+              "request_body": {
+                "title": "string",
+                "description": "string"
+              },
+              "response_body": "{\"id\": \"uuid\", \"title\": \"string\", \"description\": \"string\", \"owner_id\": \"uuid\"}",
+              "authentication_required": true
+            },
+            "update": {
+              "method": "PUT",
+              "path": "/items/{item_id}",
+              "description": "Updates an existing item.",
+              "path_params": {
+                "item_id": "uuid"
+              },
+              "request_body": {
+                "title": "string (optional)",
+                "description": "string (optional)"
+              },
+              "response_body": "{\"id\": \"uuid\", \"title\": \"string\", \"description\": \"string\", \"owner_id\": \"uuid\"}",
+              "authentication_required": true
+            },
+            "delete": {
+              "method": "DELETE",
+              "path": "/items/{item_id}",
+              "description": "Deletes an item.",
+              "path_params": {
+                "item_id": "uuid"
+              },
+              "response_body": "{\"message\": \"Item deleted successfully\"}",
+              "authentication_required": true
+            }
+          }
+        },
+        "db_schema": {
+          "tables": [
+            {
+              "name": "users",
+              "columns": [
+                {
+                  "name": "id",
+                  "type": "UUID",
+                  "constraints": [
+                    "PRIMARY KEY",
+                    "DEFAULT gen_random_uuid()"
+                  ]
+                },
+                {
+                  "name": "email",
+                  "type": "VARCHAR(255)",
+                  "constraints": [
+                    "UNIQUE",
+                    "NOT NULL"
+                  ]
+                },
+                {
+                  "name": "hashed_password",
+                  "type": "VARCHAR(255)",
+                  "constraints": [
+                    "NOT NULL"
+                  ]
+                },
+                {
+                  "name": "created_at",
+                  "type": "TIMESTAMP WITH TIME ZONE",
+                  "constraints": [
+                    "DEFAULT CURRENT_TIMESTAMP"
+                  ]
+                },
+                {
+                  "name": "updated_at",
+                  "type": "TIMESTAMP WITH TIME ZONE",
+                  "constraints": [
+                    "DEFAULT CURRENT_TIMESTAMP"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "items",
+              "columns": [
+                {
+                  "name": "id",
+                  "type": "UUID",
+                  "constraints": [
+                    "PRIMARY KEY",
+                    "DEFAULT gen_random_uuid()"
+                  ]
+                },
+                {
+                  "name": "title",
+                  "type": "VARCHAR(255)",
+                  "constraints": [
+                    "NOT NULL"
+                  ]
+                },
+                {
+                  "name": "description",
+                  "type": "TEXT",
+                  "constraints": []
+                },
+                {
+                  "name": "owner_id",
+                  "type": "UUID",
+                  "constraints": [
+                    "NOT NULL",
+                    "REFERENCES users(id) ON DELETE CASCADE"
+                  ]
+                },
+                {
+                  "name": "created_at",
+                  "type": "TIMESTAMP WITH TIME ZONE",
+                  "constraints": [
+                    "DEFAULT CURRENT_TIMESTAMP"
+                  ]
+                },
+                {
+                  "name": "updated_at",
+                  "type": "TIMESTAMP WITH TIME ZONE",
+                  "constraints": [
+                    "DEFAULT CURRENT_TIMESTAMP"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "component_tree": {
+          "frontend": {
+            "tech_stack": "React",
+            "components": {
+              "App": {
+                "children": {
+                  "Layout": {
+                    "children": {
+                      "Header": {
+                        "children": {
+                          "Navigation": [
+                            "HomePageLink",
+                            "ItemsPageLink",
+                            "Login/LogoutLink"
+                          ],
+                          "AuthStatus": [
+                            "UserEmailDisplay",
+                            "LogoutButton"
+                          ]
+                        }
+                      },
+                      "MainContent": "React Router Outlet (for pages)",
+                      "Footer": null
+                    }
+                  },
+                  "Pages": {
+                    "children": {
+                      "HomePage": null,
+                      "LoginPage": [
+                        "LoginForm"
+                      ],
+                      "RegisterPage": [
+                        "RegisterForm"
+                      ],
+                      "ItemsPage": {
+                        "children": {
+                          "ItemList": [
+                            "ItemCard"
+                          ],
+                          "ItemForm": null
+                        }
+                      },
+                      "ItemDetailPage": [
+                        "ItemDetailView",
+                        "ItemEditButton",
+                        "ItemDeleteButton"
+                      ]
+                    }
+                  },
+                  "Contexts": [
+                    "AuthContext"
+                  ],
+                  "Hooks": [
+                    "useAuth"
+                  ],
+                  "Services": [
+                    "ApiClient (for FastAPI)"
+                  ],
+                  "UI_Components": [
+                    "Button",
+                    "Input",
+                    "Card",
+                    "LoadingSpinner",
+                    "Alert"
+                  ]
+                }
+              }
+            }
+          },
+          "backend": {
+            "tech_stack": "FastAPI",
+            "modules": {
+              "main.py": "Application entry point, FastAPI app instance",
+              "routers/": {
+                "auth.py": "Authentication endpoints (signup, login, me)",
+                "items.py": "Item related endpoints (CRUD)"
+              },
+              "schemas/": {
+                "user.py": "Pydantic models for User (UserCreate, UserResponse, Token)",
+                "item.py": "Pydantic models for Item (ItemCreate, ItemResponse, ItemUpdate)"
+              },
+              "crud/": {
+                "user.py": "CRUD operations for User model (database interaction)",
+                "item.py": "CRUD operations for Item model (database interaction)"
+              },
+              "models/": {
+                "user.py": "SQLAlchemy ORM model for User table",
+                "item.py": "SQLAlchemy ORM model for Item table"
+              },
+              "dependencies/": {
+                "database.py": "Dependency for database session",
+                "auth.py": "Dependency for JWT token verification and current user retrieval"
+              },
+              "core/": {
+                "config.py": "Application settings and configurations",
+                "security.py": "Password hashing, JWT token creation/verification utilities"
+              },
+              "database.py": "Database engine and session setup"
+            }
+          }
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:49:37.340634+00:00",
+      "end_time": "2026-02-12T23:49:53.157197+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 1730.694,
+      "retry_count": 0,
+      "tokens_used": 5572,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "name": "create_users_table",
+            "content": "CREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) UNIQUE NOT NULL,\n    hashed_password VARCHAR(255) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);"
+          },
+          {
+            "name": "create_items_table",
+            "content": "CREATE TABLE items (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    title VARCHAR(255) NOT NULL,\n    description TEXT,\n    owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:49:53.157940+00:00",
+      "end_time": "2026-02-12T23:49:54.888634+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 20848.231,
+      "retry_count": 0,
+      "tokens_used": 9491,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"api_code\": {\n    \"main.py\": \"from fastapi import FastAPI\\nfrom routers import auth, items\\n\\napp = FastAPI()\\n\\napp.include_router(auth.router)\\napp.include_router(items.router)\",\n    \"routers/auth.py\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom fastapi.security import OAuth2PasswordRequestForm\\nfrom sqlalchemy.orm import Session\\nfrom typing import Annotated\\n\\nfrom schemas import user as user_schema\\nfrom crud import user as user_crud\\nfrom dependencies import database, auth as auth_dependency\\nfrom core import security\\n\\nrouter = APIRouter(prefix='/auth', tags=['auth'])\\n\\n@router.post('/signup', response_model=user_schema.UserResponse)\\nasync def signup(user: user_schema.UserCreate, db: Session = Depends(database.get_db)):\\n    db_user = user_crud.get_user_by_email(db, email=user.email)\\n    if db_user:\\n        raise HTTPException(status_code=400, detail='Email already registered')\\n    hashed_password = security.get_password_hash(user.password)\\n    return user_crud.create_user(db=db, user=user, hashed_password=hashed_password)\\n\\n@router.post('/login')\\nasync def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):\\n    user = auth_dependency.authenticate_user(db, form_data.username, form_data.password)\\n    if not user:\\n        raise HTTPException(status_code=400, detail='Incorrect email or password')\\n    access_token = security.create_access_token(data={'sub': user.email})\\n    return {'access_token': access_token, 'token_type': 'bearer'}\\n\\n@router.get('/me', response_model=user_schema.UserResponse)\\nasync def read_users_me(current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)]) -> user_schema.UserResponse:\\n    return current_user\",\n    \"routers/items.py\": \"from fastapi import APIRouter, Depends, HTTPException\\nfrom sqlalchemy.orm import Session\\nfrom typing import Annotated, List\\n\\nfrom schemas import item as item_schema\\nfrom crud import item as item_crud\\nfrom dependencies import database, auth as auth_dependency\\nfrom schemas import user as user_schema\\n\\nrouter = APIRouter(prefix='/items', tags=['items'])\\n\\n@router.post('/', response_model=item_schema.ItemResponse)\\nasync def create_item(item: item_schema.ItemCreate, current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)], db: Session = Depends(database.get_db)):\\n    return item_crud.create_item(db=db, item=item, user_id=current_user.id)\\n\\n@router.get('/', response_model=List[item_schema.ItemResponse])\\nasync def read_items(skip: int = 0, limit: int = 100, current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)], db: Session = Depends(database.get_db)):\\n    items = item_crud.get_items(db, skip=skip, limit=limit, user_id=current_user.id)\\n    return items\\n\\n@router.get('/{item_id}', response_model=item_schema.ItemResponse)\\nasync def read_item(item_id: str, current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)], db: Session = Depends(database.get_db)):\\n    db_item = item_crud.get_item(db, item_id=item_id, user_id=current_user.id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail='Item not found')\\n    return db_item\\n\\n@router.put('/{item_id}', response_model=item_schema.ItemResponse)\\nasync def update_item(item_id: str, item: item_schema.ItemUpdate, current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)], db: Session = Depends(database.get_db)):\\n    db_item = item_crud.get_item(db, item_id=item_id, user_id=current_user.id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail='Item not found')\\n\\n    updated_item = item_crud.update_item(db, item_id=item_id, item=item, user_id=current_user.id)\\n    return updated_item\\n\\n@router.delete('/{item_id}')\\nasync def delete_item(item_id: str, current_user: Annotated[user_schema.UserResponse, Depends(auth_dependency.get_current_user)], db: Session = Depends(database.get_db)):\\n    db_item = item_crud.get_item(db, item_id=item_id, user_id=current_user.id)\\n    if db_item is None:\\n        raise HTTPException(status_code=404, detail='Item not found')\\n    item_crud.delete_item(db, item_id=item_id, user_id=current_user.id)\\n    return {'message': 'Item deleted successfully'}\",\n    \"schemas/user.py\": \"from pydantic import BaseModel\\nfrom uuid import UUID\\n\\nclass UserBase(BaseModel):\\n    email: str\\n\\nclass UserCreate(UserBase):\\n    password: str\\n\\nclass UserResponse(UserBase):\\n    id: UUID\\n\\n    class Config:\\n        orm_mode = True\\n\\nclass Token(BaseModel):\\n    access_token: str\\n    token_type: str\",\n    \"schemas/item.py\": \"from pydantic import BaseModel\\nfrom uuid import UUID\\nfrom typing import Optional\\n\\nclass ItemBase(BaseModel):\\n    title: str\\n    description: Optional[str] = None\\n\\nclass ItemCreate(ItemBase):\\n    pass\\n\\nclass ItemUpdate(ItemBase):\\n    title: Optional[str] = None\\n    description: Optional[str] = None\\n\\nclass ItemResponse(ItemBase):\\n    id: UUID\\n    owner_id: UUID\\n\\n    class Config:\\n        orm_mode = True\",\n    \"crud/user.py\": \"from sqlalchemy.orm import Session\\n\\nfrom models import user as user_model\\nfrom schemas import user as user_schema\\n\\ndef get_user(db: Session, user_id: str):\\n    return db.query(user_model.User).filter(user_model.User.id == user_id).first()\\n\\n\\ndef get_user_by_email(db: Session, email: str):\\n    return db.query(user_model.User).filter(user_model.User.email == email).first()\\n\\n\\ndef get_users(db: Session, skip: int = 0, limit: int = 100):\\n    return db.query(user_model.User).offset(skip).limit(limit).all()\\n\\n\\ndef create_user(db: Session, user: user_schema.UserCreate, hashed_password: str):\\n    db_user = user_model.User(email=user.email, hashed_password=hashed_password)\\n    db.add(db_user)\\n    db.commit()\\n    db.refresh(db_user)\\n    return db_user\",\n    \"crud/item.py\": \"from sqlalchemy.orm import Session\\nfrom typing import List\\n\\nfrom models import item as item_model\\nfrom schemas import item as item_schema\\n\\n\\ndef get_item(db: Session, item_id: str, user_id: str):\\n    return db.query(item_model.Item).filter(item_model.Item.id == item_id, item_model.Item.owner_id == user_id).first()\\n\\n\\ndef get_items(db: Session, skip: int = 0, limit: int = 100, user_id: str) -> List[item_model.Item]:\\n    return db.query(item_model.Item).filter(item_model.Item.owner_id == user_id).offset(skip).limit(limit).all()\\n\\n\\ndef create_item(db: Session, item: item_schema.ItemCreate, user_id: str):\\n    db_item = item_model.Item(**item.dict(), owner_id=user_id)\\n    db.add(db_item)\\n    db.commit()\\n    db.refresh(db_item)\\n    return db_item\\n\\ndef update_item(db: Session, item_id: str, item: item_schema.ItemUpdate, user_id: str):\\n    db_item = db.query(item_model.Item).filter(item_model.Item.id == item_id, item_model.Item.owner_id == user_id).first()\\n\\n    if db_item is None:\\n        return None\\n\\n    for key, value in item.dict(exclude_unset=True).items():\\n        setattr(db_item, key, value)\\n\\n    db.add(db_item)\\n    db.commit()\\n    db.refresh(db_item)\\n    return db_item\\n\\ndef delete_item(db: Session, item_id: str, user_id: str):\\n    db_item = db.query(item_model.Item).filter(item_model.Item.id == item_id, item_model.Item.owner_id == user_id).first()\\n    db.delete(db_item)\\n    db.commit()\",\n    \"models/user.py\": \"from sqlalchemy import Column, String, DateTime\\nfrom sqlalchemy.dialects.postgresql import UUID\\nfrom sqlalchemy.sql import func\\nfrom sqlalchemy.orm import relationship\\n\\nfrom database import Base\\nfrom .item import Item\\n\\nclass User(Base):\\n    __tablename__ = 'users'\\n\\n    id = Column(UUID(as_uuid=True), primary_key=True, default=func.gen_random_uuid())\\n    email = Column(String, unique=True, nullable=False)\\n    hashed_password = Column(String, nullable=False)\\n    created_at = Column(DateTime(timezone=True), server_default=func.now())\\n    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())\\n\\n    items = relationship('Item', back_populates='owner')\\n\",\n    \"models/item.py\": \"from sqlalchemy import Column, String, ForeignKey, DateTime\\nfrom sqlalchemy.dialects.postgresql import UUID\\nfrom sqlalchemy.sql import func\\nfrom sqlalchemy.orm import relationship\\n\\nfrom database import Base\\n\\n\\nclass Item(Base):\\n    __tablename__ = 'items'\\n\\n    id = Column(UUID(as_uuid=True), primary_key=True, default=func.gen_random_uuid())\\n    title = Column(String, nullable=False)\\n    description = Column(String)\\n    owner_id = Column(UUID(as_uuid=True), ForeignKey('users.id', ondelete='CASCADE'), nullable=False)\\n    created_at = Column(DateTime(timezone=True), server_default=func.now())\\n    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())\\n\\n    owner = relationship('User', back_populates='items')\\n\",\n    \"dependencies/database.py\": \"from sqlalchemy import create_engine\\nfrom sqlalchemy.orm import sessionmaker\\n\\nfrom core.config import settings\\nfrom database import Base\\n\\nSQLALCHEMY_DATABASE_URL = settings.database_url\\n\\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\\n\\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\\n\\n\\ndef get_db():\\n    db = SessionLocal()\\n    try:\\n        yield db\\n    finally:\\n        db.close()\",\n    \"dependencies/auth.py\": \"from fastapi import Depends, HTTPException, status\\nfrom fastapi.security import OAuth2PasswordBearer\\nfrom jose import JWTError, jwt\\nfrom sqlalchemy.orm import Session\\nfrom typing import Annotated\\n\\nfrom core import security\\nfrom schemas import user as user_schema\\nfrom crud import user as user_crud\\nfrom dependencies import database\\nfrom core.config import settings\\n\\noauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')\\n\\nasync def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db))... (13371 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:49:53.157698+00:00",
+      "end_time": "2026-02-12T23:50:14.005929+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 23795.815000000002,
+      "retry_count": 0,
+      "tokens_used": 9813,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"ui_code\": {\n    \"src/components/Auth/LoginForm.jsx\": \"```jsx\\nimport React, { useState } from 'react';\\nimport { useAuth } from '../../hooks/useAuth';\\nimport { Input, Button, Alert } from '../UI';\\n\\nconst LoginForm = () => {\\n  const [email, setEmail] = useState('');\\n  const [password, setPassword] = useState('');\\n  const { login, error, loading } = useAuth();\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    await login(email, password);\\n  };\\n\\n  return (\\n    <form onSubmit={handleSubmit}>\\n      {error && <Alert type=\\\"error\\\" message={error} />}\\n      <Input\\n        type=\\\"email\\\"\\n        placeholder=\\\"Email\\\"\\n        value={email}\\n        onChange={(e) => setEmail(e.target.value)}\\n        required\\n      />\\n      <Input\\n        type=\\\"password\\\"\\n        placeholder=\\\"Password\\\"\\n        value={password}\\n        onChange={(e) => setPassword(e.target.value)}\\n        required\\n      />\\n      <Button type=\\\"submit\\\" disabled={loading}>\\n        {loading ? 'Logging in...' : 'Login'}\\n      </Button>\\n    </form>\\n  );\\n};\\n\\nexport default LoginForm;\\n```\",\n    \"src/components/Auth/RegisterForm.jsx\": \"```jsx\\nimport React, { useState } from 'react';\\nimport { useAuth } from '../../hooks/useAuth';\\nimport { Input, Button, Alert } from '../UI';\\n\\nconst RegisterForm = () => {\\n  const [email, setEmail] = useState('');\\n  const [password, setPassword] = useState('');\\n  const { signup, error, loading } = useAuth();\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    await signup(email, password);\\n  };\\n\\n  return (\\n    <form onSubmit={handleSubmit}>\\n      {error && <Alert type=\\\"error\\\" message={error} />}\\n      <Input\\n        type=\\\"email\\\"\\n        placeholder=\\\"Email\\\"\\n        value={email}\\n        onChange={(e) => setEmail(e.target.value)}\\n        required\\n      />\\n      <Input\\n        type=\\\"password\\\"\\n        placeholder=\\\"Password\\\"\\n        value={password}\\n        onChange={(e) => setPassword(e.target.value)}\\n        required\\n      />\\n      <Button type=\\\"submit\\\" disabled={loading}>\\n        {loading ? 'Registering...' : 'Register'}\\n      </Button>\\n    </form>\\n  );\\n};\\n\\nexport default RegisterForm;\\n```\",\n    \"src/components/Items/ItemCard.jsx\": \"```jsx\\nimport React from 'react';\\nimport { Link } from 'react-router-dom';\\nimport { Card } from '../UI';\\n\\nconst ItemCard = ({ item }) => {\\n  return (\\n    <Card>\\n      <h3>{item.title}</h3>\\n      <p>{item.description}</p>\\n      <Link to={`/items/${item.id}`}>View Details</Link>\\n    </Card>\\n  );\\n};\\n\\nexport default ItemCard;\\n```\",\n    \"src/components/Items/ItemList.jsx\": \"```jsx\\nimport React from 'react';\\nimport ItemCard from './ItemCard';\\n\\nconst ItemList = ({ items }) => {\\n  return (\\n    <div>\\n      {items.map((item) => (\\n        <ItemCard key={item.id} item={item} />\\n      ))}\\n    </div>\\n  );\\n};\\n\\nexport default ItemList;\\n```\",\n    \"src/components/Items/ItemDetailView.jsx\": \"```jsx\\nimport React from 'react';\\n\\nconst ItemDetailView = ({ item }) => {\\n  if (!item) {\\n    return <p>Loading...</p>;\\n  }\\n\\n  return (\\n    <div>\\n      <h2>{item.title}</h2>\\n      <p>{item.description}</p>\\n    </div>\\n  );\\n};\\n\\nexport default ItemDetailView;\\n```\",\n    \"src/components/Layout/Header.jsx\": \"```jsx\\nimport React from 'react';\\nimport Navigation from './Navigation';\\nimport AuthStatus from './AuthStatus';\\n\\nconst Header = () => {\\n  return (\\n    <header>\\n      <Navigation />\\n      <AuthStatus />\\n    </header>\\n  );\\n};\\n\\nexport default Header;\\n```\",\n    \"src/components/Layout/Navigation.jsx\": \"```jsx\\nimport React from 'react';\\nimport { Link } from 'react-router-dom';\\n\\nconst Navigation = () => {\\n  return (\\n    <nav>\\n      <Link to=\\\"/\\\">Home</Link>\\n      <Link to=\\\"/items\\\">Items</Link>\\n    </nav>\\n  );\\n};\\n\\nexport default Navigation;\\n```\",\n    \"src/components/Layout/AuthStatus.jsx\": \"```jsx\\nimport React from 'react';\\nimport { useAuth } from '../../hooks/useAuth';\\n\\nconst AuthStatus = () => {\\n  const { user, logout } = useAuth();\\n\\n  return (\\n    <div>\\n      {user ? (\\n        <>\\n          <span>{user.email}</span>\\n          <button onClick={logout}>Logout</button>\\n        </>\\n      ) : (\\n        <>\\n          <Link to=\\\"/login\\\">Login</Link>\\n          <Link to=\\\"/register\\\">Register</Link>\\n        </>\\n      )}\\n    </div>\\n  );\\n};\\n\\nexport default AuthStatus;\\n```\",\n    \"src/components/UI/Button.jsx\": \"```jsx\\nimport React from 'react';\\n\\nconst Button = ({ children, onClick, type, disabled }) => {\\n  return (\\n    <button type={type} onClick={onClick} disabled={disabled}>\\n      {children}\\n    </button>\\n  );\\n};\\n\\nexport default Button;\\n```\",\n    \"src/components/UI/Input.jsx\": \"```jsx\\nimport React from 'react';\\n\\nconst Input = ({ type, placeholder, value, onChange, required }) => {\\n  return (\\n    <input\\n      type={type}\\n      placeholder={placeholder}\\n      value={value}\\n      onChange={onChange}\\n      required={required}\\n    />\\n  );\\n};\\n\\nexport default Input;\\n```\",\n    \"src/components/UI/Card.jsx\": \"```jsx\\nimport React from 'react';\\n\\nconst Card = ({ children }) => {\\n  return <div className=\\\"card\\\">{children}</div>;\\n};\\n\\nexport default Card;\\n```\",\n    \"src/components/UI/Alert.jsx\": \"```jsx\\nimport React from 'react';\\n\\nconst Alert = ({ type, message }) => {\\n  return <div className={`alert alert-${type}`}>{message}</div>;\\n};\\n\\nexport default Alert;\\n```\",\n    \"src/contexts/AuthContext.jsx\": \"```jsx\\nimport React, { createContext, useState, useEffect, useContext } from 'react';\\nimport ApiClient from '../services/ApiClient';\\n\\nconst AuthContext = createContext();\\n\\nexport const AuthProvider = ({ children }) => {\\n  const [user, setUser] = useState(null);\\n  const [token, setToken] = useState(localStorage.getItem('token') || null);\\n  const [loading, setLoading] = useState(false);\\n  const [error, setError] = useState(null);\\n  const api = new ApiClient();\\n\\n  useEffect(() => {\\n    if (token) {\\n      api.setToken(token);\\n      fetchMe();\\n    }\\n  }, [token]);\\n\\n  const signup = async (email, password) => {\\n    setLoading(true);\\n    setError(null);\\n    try {\\n      const data = await api.signup(email, password);\\n      setUser(data);\\n      setLoading(false);\\n      return data;\\n    } catch (err) {\\n      setError(err.message || 'Signup failed');\\n      setLoading(false);\\n    }\\n  };\\n\\n  const login = async (email, password) => {\\n    setLoading(true);\\n    setError(null);\\n    try {\\n      const data = await api.login(email, password);\\n      setToken(data.access_token);\\n      localStorage.setItem('token', data.access_token);\\n      setLoading(false);\\n      return data;\\n    } catch (err) {\\n      setError(err.message || 'Login failed');\\n      setLoading(false);\\n    }\\n  };\\n\\n  const logout = () => {\\n    setUser(null);\\n    setToken(null);\\n    localStorage.removeItem('token');\\n    api.setToken(null);\\n  };\\n\\n  const fetchMe = async () => {\\n    try {\\n      const data = await api.me();\\n      setUser(data);\\n    } catch (err) {\\n      console.error('Failed to fetch user:', err);\\n      // Token might be invalid, clear it\\n      logout();\\n    }\\n  };\\n\\n  const value = {\\n    user,\\n    token,\\n    loading,\\n    error,\\n    signup,\\n    login,\\n    logout,\\n    fetchMe,\\n  };\\n\\n  return (\\n    <AuthContext.Provider value={value}>\\n      {children}\\n    </AuthContext.Provider>\\n  );\\n};\\n\\nexport const useAuth = () => {\\n  return useContext(AuthContext);\\n};\\n```\",\n    \"src/hooks/useAuth.jsx\": \"```jsx\\nimport { useContext } from 'react';\\nimport { AuthContext } from '../contexts/AuthContext';\\n\\nexport const useAuth = () => {\\n  return useContext(AuthContext);\\n};\\n```\",\n    \"src/services/ApiClient.jsx\": \"```jsx\\nimport axios from 'axios';\\n\\nclass ApiClient {\\n  constructor() {\\n    this.api = axios.create({\\n      baseURL: 'http://localhost:8000', // Replace with your FastAPI backend URL\\n      timeout: 10000,\\n      headers: {\\n        'Content-Type': 'application/json',\\n      },\\n    });\\n\\n    this.token = null;\\n  }\\n\\n  setToken(token) {\\n    this.token = token;\\n    if (token) {\\n      this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;\\n    } else {\\n      delete this.api.defaults.headers.common['Authorization'];\\n    }\\n  }\\n\\n  async signup(email, password) {\\n    try {\\n      const response = await this.api.post('/auth/signup', { email, password });\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Signup failed');\\n    }\\n  }\\n\\n  async login(email, password) {\\n    try {\\n      const response = await this.api.post('/auth/login', { email, password });\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Login failed');\\n    }\\n  }\\n\\n  async me() {\\n    try {\\n      const response = await this.api.get('/auth/me');\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Failed to fetch user');\\n    }\\n  }\\n\\n  async getItems(skip = 0, limit = 10) {\\n    try {\\n      const response = await this.api.get('/items', { params: { skip, limit } });\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Failed to fetch items');\\n    }\\n  }\\n\\n  async getItem(itemId) {\\n    try {\\n      const response = await this.api.get(`/items/${itemId}`);\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Failed to fetch item');\\n    }\\n  }\\n\\n  async createItem(title, description) {\\n    try {\\n      const response = await this.api.post('/items', { title, description });\\n      return response.data;\\n    } catch (error) {\\n      throw new Error(error.response?.data?.detail || 'Failed to create item');\\n    }\\n  }\\n\\n  async updateItem(itemId, title, description) {\\n    const payl... (13748 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:49:53.157853+00:00",
+      "end_time": "2026-02-12T23:50:16.953668+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 22680.392,
+      "retry_count": 0,
+      "tokens_used": 15779,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"integration_tests\": {\n    \"backend\": {\n      \"test_auth_integration.py\": \"import pytest\\nfrom httpx import AsyncClient\\nfrom sqlalchemy import create_engine\\nfrom sqlalchemy.orm import sessionmaker\\nfrom sqlalchemy.pool import StaticPool\\nfrom fastapi import FastAPI\\nfrom fastapi.routing import APIRoute\\n\\nfrom database import Base\\nfrom main import app\\nfrom dependencies import database\\nfrom core.config import settings\\n\\nSQLALCHEMY_DATABASE_URL = 'sqlite:///:memory:'\\n\\nengine = create_engine(\\n    SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False}, poolclass=StaticPool\\n)\\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\\n\\n\\ndef override_get_db():\\n    try:\\n        db = TestingSessionLocal()\\n        yield db\\n    finally:\\n        db.close()\\n\\n\\napp.dependency_overrides[database.get_db] = override_get_db\\n\\n@pytest.fixture(scope='session', autouse=True)\\nasync def create_test_database():\\n    Base.metadata.create_all(engine)\\n    yield\\n    Base.metadata.drop_all(engine)\\n\\n@pytest.fixture\\nasync def async_client():\\n    async with AsyncClient(app=app, base_url='http://test') as client:\\n        yield client\\n\\nasync def create_user(client: AsyncClient, email, password):\\n  response = await client.post('/auth/signup', json={'email': email, 'password': password})\\n  return response.json(), response.status_code\\n\\nasync def login_user(client: AsyncClient, email, password):\\n  form_data = {'username': email, 'password': password}\\n  response = await client.post('/auth/login', data=form_data)\\n  return response.json(), response.status_code\\n\\n\\n@pytest.mark.asyncio\\nasync def test_signup_login_me(async_client: AsyncClient):\\n  # Signup\\n  signup_data, signup_status = await create_user(async_client, 'test@example.com', 'password123')\\n  assert signup_status == 200\\n  assert signup_data['email'] == 'test@example.com'\\n  assert 'id' in signup_data\\n\\n  # Login\\n  login_data, login_status = await login_user(async_client, 'test@example.com', 'password123')\\n  assert login_status == 200\\n  assert 'access_token' in login_data\\n  assert login_data['token_type'] == 'bearer'\\n\\n  access_token = login_data['access_token']\\n  async_client.headers['Authorization'] = f'Bearer {access_token}'\\n\\n  # Me\\n  me_response = await async_client.get('/auth/me')\\n  me_data = me_response.json()\\n  me_status = me_response.status_code\\n\\n  assert me_status == 200\\n  assert me_data['email'] == 'test@example.com'\\n  assert me_data['id'] == signup_data['id']\\n\\n@pytest.mark.asyncio\\nasync def test_signup_duplicate_email(async_client: AsyncClient):\\n  # Signup\\n  await create_user(async_client, 'test2@example.com', 'password123')\\n\\n  # Signup with the same email\\n  signup_data, signup_status = await create_user(async_client, 'test2@example.com', 'password456')\\n  assert signup_status == 400\\n  assert signup_data['detail'] == 'Email already registered'\\n\\n@pytest.mark.asyncio\\nasync def test_login_incorrect_password(async_client: AsyncClient):\\n  # Signup\\n  await create_user(async_client, 'test3@example.com', 'password123')\\n\\n  # Login with incorrect password\\n  login_data, login_status = await login_user(async_client, 'test3@example.com', 'wrong_password')\\n  assert login_status == 400\\n  assert login_data['detail'] == 'Incorrect email or password'\\n\\n@pytest.mark.asyncio\\nasync def test_login_nonexistent_user(async_client: AsyncClient):\\n  # Login with nonexistent user\\n  login_data, login_status = await login_user(async_client, 'nonexistent@example.com', 'password123')\\n  assert login_status == 400\\n  assert login_data['detail'] == 'Incorrect email or password'\",\n      \"test_items_integration.py\": \"import pytest\\nimport uuid\\nfrom httpx import AsyncClient\\nfrom sqlalchemy import create_engine\\nfrom sqlalchemy.orm import sessionmaker\\nfrom sqlalchemy.pool import StaticPool\\nfrom fastapi import FastAPI\\n\\nfrom database import Base\\nfrom main import app\\nfrom dependencies import database\\nfrom core.config import settings\\n\\nSQLALCHEMY_DATABASE_URL = 'sqlite:///:memory:'\\n\\nengine = create_engine(\\n    SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False}, poolclass=StaticPool\\n)\\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\\n\\n\\ndef override_get_db():\\n    try:\\n        db = TestingSessionLocal()\\n        yield db\\n    finally:\\n        db.close()\\n\\n\\napp.dependency_overrides[database.get_db] = override_get_db\\n\\n@pytest.fixture(scope='session', autouse=True)\\nasync def create_test_database():\\n    Base.metadata.create_all(engine)\\n    yield\\n    Base.metadata.drop_all(engine)\\n\\n@pytest.fixture\\nasync def async_client():\\n    async with AsyncClient(app=app, base_url='http://test') as client:\\n        yield client\\n\\nasync def create_user(client: AsyncClient, email, password):\\n  response = await client.post('/auth/signup', json={'email': email, 'password': password})\\n  return response.json(), response.status_code\\n\\nasync def login_user(client: AsyncClient, email, password):\\n  form_data = {'username': email, 'password': password}\\n  response = await client.post('/auth/login', data=form_data)\\n  return response.json(), response.status_code\\n\\nasync def create_item(client: AsyncClient, access_token, title, description):\\n    headers = {'Authorization': f'Bearer {access_token}'}\\n    response = await client.post('/items', headers=headers, json={'title': title, 'description': description})\\n    return response.json(), response.status_code\\n\\nasync def get_items(client: AsyncClient, access_token):\\n    headers = {'Authorization': f'Bearer {access_token}'}\\n    response = await client.get('/items', headers=headers)\\n    return response.json(), response.status_code\\n\\nasync def get_item_by_id(client: AsyncClient, access_token, item_id):\\n    headers = {'Authorization': f'Bearer {access_token}'}\\n    response = await client.get(f'/items/{item_id}', headers=headers)\\n    return response.json(), response.status_code\\n\\nasync def update_item(client: AsyncClient, access_token, item_id, title=None, description=None):\\n    headers = {'Authorization': f'Bearer {access_token}'}\\n    payload = {}\\n    if title: payload['title'] = title\\n    if description: payload['description'] = description\\n    response = await client.put(f'/items/{item_id}', headers=headers, json=payload)\\n    return response.json(), response.status_code\\n\\nasync def delete_item(client: AsyncClient, access_token, item_id):\\n    headers = {'Authorization': f'Bearer {access_token}'}\\n    response = await client.delete(f'/items/{item_id}', headers=headers)\\n    return response.json(), response.status_code\\n\\n@pytest.mark.asyncio\\nasync def test_create_get_update_delete_item(async_client: AsyncClient):\\n    # Signup and Login\\n    signup_data, signup_status = await create_user(async_client, 'itemtest@example.com', 'password123')\\n    assert signup_status == 200\\n    login_data, login_status = await login_user(async_client, 'itemtest@example.com', 'password123')\\n    assert login_status == 200\\n    access_token = login_data['access_token']\\n\\n    # Create Item\\n    item_data, item_status = await create_item(async_client, access_token, 'Test Item', 'Test Description')\\n    assert item_status == 200\\n    assert item_data['title'] == 'Test Item'\\n    assert item_data['description'] == 'Test Description'\\n    item_id = item_data['id']\\n\\n    # Get Items\\n    items_data, items_status = await get_items(async_client, access_token)\\n    assert items_status == 200\\n    assert len(items_data) > 0\\n    assert items_data[0]['title'] == 'Test Item'\\n\\n    # Get Item by ID\\n    item_by_id_data, item_by_id_status = await get_item_by_id(async_client, access_token, item_id)\\n    assert item_by_id_status == 200\\n    assert item_by_id_data['title'] == 'Test Item'\\n    assert item_by_id_data['description'] == 'Test Description'\\n\\n    # Update Item\\n    updated_item_data, updated_item_status = await update_item(async_client, access_token, item_id, title='Updated Item', description='Updated Description')\\n    assert updated_item_status == 200\\n    assert updated_item_data['title'] == 'Updated Item'\\n    assert updated_item_data['description'] == 'Updated Description'\\n\\n    # Get Item by ID after update\\n    item_by_id_data, item_by_id_status = await get_item_by_id(async_client, access_token, item_id)\\n    assert item_by_id_status == 200\\n    assert item_by_id_data['title'] == 'Updated Item'\\n    assert item_by_id_data['description'] == 'Updated Description'\\n\\n    # Delete Item\\n    delete_item_data, delete_item_status = await delete_item(async_client, access_token, item_id)\\n    assert delete_item_status == 200\\n    assert delete_item_data['message'] == 'Item deleted successfully'\\n\\n    # Get Item by ID after deletion\\n    item_by_id_data, item_by_id_status = await get_item_by_id(async_client, access_token, item_id)\\n    assert item_by_id_status == 404\"\n    },\n    \"frontend\": {\n      \"App.test.jsx\": \"import React from 'react';\\nimport { render, screen, waitFor } from '@testing-library/react';\\nimport userEvent from '@testing-library/user-event';\\nimport App from '../src/App';\\nimport { AuthProvider } from '../src/contexts/AuthContext';\\n\\n// Mock the ApiClient and its methods\\nconst mockSignup = jest.fn();\\nconst mockLogin = jest.fn();\\nconst mockLogout = jest.fn();\\nconst mockMe = jest.fn();\\nconst mockGetItems = jest.fn();\\nconst mockGetItem = jest.fn();\\nconst mockCreateItem = jest.fn();\\nconst mockUpdateItem = jest.fn();\\nconst mockDeleteItem = jest.fn();\\n\\njest.mock('../src/services/ApiClient', () => {\\n  return jest.fn().mockImplementation(() => {\\n    return {\\n      signup: mockSignup,\\n      login: mockLogin,\\n      me: mockMe,\\n      getItems: mockGetItems,\\n      getItem: mockGetItem,\\n      createItem: mockCreateItem,\\n      updateItem: mockUpdateItem,\\n      deleteItem: mockDeleteItem,\\n      setToken: jest.fn(),\\n    };\\n  });\\n});\\n\\ndescribe('App Integration Tests', () ... (13584 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:50:16.954214+00:00",
+      "end_time": "2026-02-12T23:50:39.634606+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 20266.659,
+      "retry_count": 0,
+      "tokens_used": 16319,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code provides a solid foundation for both the backend (FastAPI) and frontend (React) components, along with essential tests. The architecture generally aligns with best practices for the chosen tech stack. Key features like user authentication and item management are implemented. However, there are several critical issues and missing components that need to be addressed to make the application fully functional and robust.\",\n    \"backend_review\": {\n      \"api_implementation\": \"The FastAPI backend implementation largely follows the API design. Routers are correctly set up, schemas are well-defined using Pydantic, and CRUD operations interact with SQLAlchemy models effectively. Authentication and authorization (using JWT and `Depends`) are correctly integrated into"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:50:39.635141+00:00",
+      "end_time": "2026-02-12T23:50:59.901800+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-12T23:50:59.902506+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": {
+      "backend": null,
+      "frontend": null,
+      "migrations": [
+        {
+          "name": "create_users_table",
+          "content": "CREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) UNIQUE NOT NULL,\n    hashed_password VARCHAR(255) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);"
+        },
+        {
+          "name": "create_items_table",
+          "content": "CREATE TABLE items (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    title VARCHAR(255) NOT NULL,\n    description TEXT,\n    owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);"
+        }
+      ]
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "fullstack_generation_v1",
+      "rubric_id": "fullstack_generation_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "objective_tests",
+          "raw_score": 85.7143,
+          "normalized_score": 0.8571,
+          "adjusted_normalized_score": 0.5926,
+          "score": 85.71,
+          "weight": 0.6,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.5933,
+          "score": 86.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 45.0,
+          "normalized_score": 0.45,
+          "adjusted_normalized_score": 0.487,
+          "score": 45.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 54.9917,
+          "normalized_score": 0.5499,
+          "adjusted_normalized_score": 0.5129,
+          "score": 54.99,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 67.93,
+      "weighted_score": 76.41,
+      "objective_weighted_score": 78.63,
+      "grade": "F",
+      "passed": false,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "design_architecture",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_migrations",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_api",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_frontend",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "assemble_feature",
+          "status": "skipped",
+          "score": 0.0
+        }
+      ],
+      "agent_scores": [
+        {
+          "step_name": "design_architecture",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.5-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 76.43,
+          "reliability": 52.38,
+          "overall_score": 75.64
+        },
+        {
+          "step_name": "generate_migrations",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash-lite",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 98.84,
+          "reliability": 52.38,
+          "overall_score": 80.12
+        },
+        {
+          "step_name": "generate_api",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 68.42,
+          "reliability": 52.38,
+          "overall_score": 74.04
+        },
+        {
+          "step_name": "generate_frontend",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 63.73,
+          "reliability": 52.38,
+          "overall_score": 73.1
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.0-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 65.51,
+          "reliability": 52.38,
+          "overall_score": 73.46
+        },
+        {
+          "step_name": "review_code",
+          "agent_role": null,
+          "model_used": "gemini:gemini-2.5-flash",
+          "status": "success",
+          "role_adherence": 70.0,
+          "output_quality": 90.0,
+          "efficiency": 69.35,
+          "reliability": 52.38,
+          "overall_score": 74.23
+        },
+        {
+          "step_name": "assemble_feature",
+          "agent_role": null,
+          "model_used": null,
+          "status": "skipped",
+          "role_adherence": 70.0,
+          "output_quality": 20.0,
+          "efficiency": 100.0,
+          "reliability": 47.62,
+          "overall_score": 55.14
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_lite.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_lite.json",
+        "sample_index": 1,
+        "task_id": "1",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 78.63,
+        "layer2_judge": null,
+        "layer3_similarity": 78.63,
+        "layer3_efficiency": 45.0,
+        "layer3_advisory": 67.53
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-12T23:50:59.944230+00:00",
+      "hard_gates": {
+        "required_outputs_present": false,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [
+        "required_outputs_present"
+      ],
+      "floor_violations": [],
+      "grade_capped": false,
+      "reporting_bundle": {
+        "sample_count": 1,
+        "per_criterion": {
+          "objective_tests": {
+            "mean_score": 0.8571,
+            "stdev": 0.0,
+            "min": 0.8571,
+            "max": 0.8571
+          },
+          "code_quality": {
+            "mean_score": 0.86,
+            "stdev": 0.0,
+            "min": 0.86,
+            "max": 0.86
+          },
+          "efficiency": {
+            "mean_score": 0.45,
+            "stdev": 0.0,
+            "min": 0.45,
+            "max": 0.45
+          },
+          "documentation": {
+            "mean_score": 0.5499,
+            "stdev": 0.0,
+            "min": 0.5499,
+            "max": 0.5499
+          }
+        },
+        "grade_distribution": {
+          "A": 0,
+          "B": 0,
+          "C": 0,
+          "D": 0,
+          "F": 1
+        },
+        "floor_violation_count": {}
+      }
+    }
+  }
+}

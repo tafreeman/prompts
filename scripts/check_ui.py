@@ -1,9 +1,14 @@
 import requests
+import os
+
+# Default to 8010, can override with env var
+PORT = os.environ.get("UI_PORT", "8010")
+BASE_URL = f"http://127.0.0.1:{PORT}"
 
 urls = [
-    "http://127.0.0.1:5050/",
-    "http://127.0.0.1:5050/api/workflows",
-    "http://127.0.0.1:5050/api/runs",
+    f"{BASE_URL}/",
+    f"{BASE_URL}/api/workflows",
+    f"{BASE_URL}/api/runs",
 ]
 
 for u in urls:

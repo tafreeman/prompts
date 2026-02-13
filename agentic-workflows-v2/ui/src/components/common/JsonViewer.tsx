@@ -45,6 +45,7 @@ function JsonNode({
           <span className="text-green-400">"{value.slice(0, 200)}</span>
           <button
             onClick={() => setExpanded(true)}
+            aria-label="Expand truncated text"
             className="text-gray-500 hover:text-gray-300"
           >
             ...{value.length - 200} more"

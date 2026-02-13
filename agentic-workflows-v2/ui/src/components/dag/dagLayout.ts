@@ -70,6 +70,8 @@ export function layoutDAG(
 
   // Assign positions
   const positioned: PositionedNode[] = [];
+  const maxLevel = Math.max(...Array.from(byLevel.keys()), 0);
+  
   for (const [level, ids] of byLevel) {
     const totalWidth = ids.length * NODE_WIDTH + (ids.length - 1) * H_GAP;
     const startX = -totalWidth / 2;
@@ -79,6 +81,26 @@ export function layoutDAG(
         id,
         x: startX + i * (NODE_WIDTH + H_GAP),
         y: level * (NODE_HEIGHT + V_GAP),
+      });
+    });
+  }
+
+  // Handle nodes not placed (cycles or disconnected components)
+  const placedIds = new Set(positioned.map(n => n.id));
+  const unplacedNodes = nodes.filter(n => !placedIds.has(n.id));
+  
+  if (unplacedNodes.length > 0) {
+    console.warn(`DAG layout: ${unplacedNodes.length} nodes in cycles or disconnected:`, unplacedNodes.map(n => n.id));
+    // Place them in a final row
+    const finalLevel = maxLevel + 1;
+    const totalWidth = unplacedNodes.length * NODE_WIDTH + (unplacedNodes.length - 1) * H_GAP;
+    const startX = -totalWidth / 2;
+    
+    unplacedNodes.forEach((node, i) => {
+      positioned.push({
+        id: node.id,
+        x: startX + i * (NODE_WIDTH + H_GAP),
+        y: finalLevel * (NODE_HEIGHT + V_GAP),
       });
     });
   }

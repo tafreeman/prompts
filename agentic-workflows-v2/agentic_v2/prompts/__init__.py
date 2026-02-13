@@ -7,11 +7,22 @@ stored as markdown files and loaded dynamically.
 from __future__ import annotations
 
 from functools import lru_cache
+import logging
 from pathlib import Path
 from typing import Optional
 
+from ..storage import get_catalog_store
+
 # Directory containing prompt templates
 PROMPTS_DIR = Path(__file__).parent
+logger = logging.getLogger(__name__)
+
+
+def _sync_prompt_to_store(prompt_path: Path) -> None:
+    try:
+        get_catalog_store().sync_prompt_file(prompt_path)
+    except Exception:
+        logger.debug("Failed syncing prompt %s to catalog store", prompt_path.name, exc_info=True)
 
 
 @lru_cache(maxsize=32)
@@ -35,6 +46,7 @@ def load_prompt(name: str) -> str:
     if not prompt_path.exists():
         raise FileNotFoundError(f"Prompt not found: {name}")
 
+    _sync_prompt_to_store(prompt_path)
     return prompt_path.read_text(encoding="utf-8")
 
 
@@ -44,6 +56,10 @@ def list_prompts() -> list[str]:
     Returns:
         List of prompt names (without .md extension).
     """
+    try:
+        get_catalog_store().sync_prompt_directory()
+    except Exception:
+        logger.debug("Failed syncing prompt directory to catalog store", exc_info=True)
     return [p.stem for p in PROMPTS_DIR.glob("*.md")]
 
 

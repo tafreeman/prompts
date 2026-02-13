@@ -20,9 +20,9 @@ export function useWorkflowDAG(name: string | undefined) {
   });
 }
 
-export function useEvaluationDatasets() {
+export function useEvaluationDatasets(workflow?: string) {
   return useQuery({
-    queryKey: ["evaluation-datasets"],
-    queryFn: () => listEvaluationDatasets(),
+    queryKey: ["evaluation-datasets", workflow],
+    queryFn: () => listEvaluationDatasets(workflow),
   });
 }

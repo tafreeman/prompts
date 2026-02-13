@@ -19,5 +19,7 @@
 	},
 	"diffEditor.codeLens": true,
 	"gemini-cli.debug.logging.enabled": true,
-	"livePreview.defaultPreviewPath": "/multiagent-workflows/ui/index.html"
+	"livePreview.defaultPreviewPath": "/multiagent-workflows/ui/index.html",
+	"chatgpt.followUpQueueMode": "steer",
+	"chatgpt.runCodexInWindowsSubsystemForLinux": true
 }
