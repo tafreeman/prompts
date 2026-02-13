@@ -320,11 +320,8 @@ class StepExecutor:
                     "status": result.status.value,
                     "outputs": result.output_data,
                 }
-                steps_dict = ctx.get_sync("steps") or {}
-                if not isinstance(steps_dict, dict):
-                    steps_dict = {}
-                steps_dict[step_def.name] = step_view
-                ctx.set_sync("steps", steps_dict)
+                # Use a per-step key to avoid read-modify-write races on a shared dict
+                ctx.set_sync(f"steps.{step_def.name}", step_view)
 
                 # Run post-hooks
                 for hook in step_def.post_hooks:
