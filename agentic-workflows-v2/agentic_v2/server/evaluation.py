@@ -456,20 +456,25 @@ def _is_under_allowed_root(path: Path) -> bool:
 
 
 def _resolve_local_dataset(dataset_ref: str) -> Path:
-    candidate = Path(dataset_ref)
-    if not candidate.is_absolute():
-        candidate = (_WORKSPACE_ROOT / dataset_ref).resolve()
-    else:
-        candidate = candidate.resolve()
+    """
+    Resolve a local dataset reference to a JSON file path under an allowed root.
 
-    if candidate.exists() and candidate.is_file() and _is_under_allowed_root(candidate):
-        return candidate
+    The reference must be an ID previously returned by list_local_datasets().
 
+    In all cases the resolved path must point to a file under one of the
+    directories returned by _local_dataset_roots(), otherwise a ValueError
+    is raised.
+    """
+    # Only allow dataset references that match a known local dataset ID.
+    # IDs are produced by _safe_relative_id from paths under the allowed roots.
     for option in list_local_datasets():
         if option["id"] == dataset_ref:
-            path = (_WORKSPACE_ROOT / dataset_ref).resolve()
-            if path.exists() and path.is_file() and _is_under_allowed_root(path):
-                return path
+            # option["id"] is produced by _safe_relative_id from a path under
+            # one of the allowed roots, relative to _WORKSPACE_ROOT when possible.
+            option_path = (_WORKSPACE_ROOT / option["id"]).resolve()
+            if option_path.exists() and option_path.is_file() and _is_under_allowed_root(option_path):
+                return option_path
+
     raise ValueError(f"Local dataset not found or not allowed: {dataset_ref}")
 
 
@@ -1173,14 +1178,39 @@ def _materialize_file_input(
     if not isinstance(value, str):
         return value
 
-    candidate = Path(value)
-    if candidate.exists():
-        return str(candidate)
-
+    # Always materialize files under the controlled artifacts_dir.
     artifacts_dir.mkdir(parents=True, exist_ok=True)
+    artifacts_root = artifacts_dir.resolve()
+
     looks_python = any(marker in value for marker in ("def ", "class ", "import "))
+
+    # If the value is clearly code, treat it as content, not as a path.
+    if looks_python:
+        suffix = ".py"
+        file_path = artifacts_root / f"{run_id}_{input_name}{suffix}"
+        file_path.write_text(value, encoding="utf-8")
+        return str(file_path)
+
+    # Otherwise, if the value looks like a path, attempt to interpret it as a
+    # path relative to artifacts_dir, but prevent directory traversal.
+    candidate: Path | None = None
+    if any(sep in value for sep in ("/", "\\")) or value.endswith((".py", ".txt")):
+        try:
+            candidate = (artifacts_root / value).resolve()
+            # Ensure the resolved candidate is within artifacts_root
+            try:
+                candidate.relative_to(artifacts_root)
+                if candidate.is_file():
+                    return str(candidate)
+            except ValueError:
+                # candidate is outside artifacts_root; ignore and treat as content
+                candidate = None
+        except Exception:
+            candidate = None
+
+    # Fallback: treat value as content and write it to a new file.
     suffix = ".py" if looks_python else ".txt"
-    file_path = artifacts_dir / f"{run_id}_{input_name}{suffix}"
+    file_path = artifacts_root / f"{run_id}_{input_name}{suffix}"
     file_path.write_text(value, encoding="utf-8")
     return str(file_path)
 

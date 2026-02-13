@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 # Built frontend assets directory
 UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent.parent / "ui" / "dist"
-
+UI_DIST_DIR_RESOLVED = UI_DIST_DIR.resolve()
 
 def create_app() -> FastAPI:
     """Create and configure the FastAPI application."""
@@ -54,10 +54,12 @@ def create_app() -> FastAPI:
 
         @app.get("/{path:path}")
         async def spa_fallback(request: Request, path: str):
-            # Serve actual files if they exist in dist/
-            file_path = UI_DIST_DIR / path
-            if path and file_path.exists() and file_path.is_file():
-                return FileResponse(file_path)
+            # Serve actual files if they exist in dist/, but prevent directory traversal
+            if path:
+                candidate_path = (UI_DIST_DIR_RESOLVED / path).resolve()
+                # Ensure the resolved candidate path is within the UI_DIST_DIR_RESOLVED tree
+                if (candidate_path == UI_DIST_DIR_RESOLVED or UI_DIST_DIR_RESOLVED in candidate_path.parents) and candidate_path.is_file():
+                    return FileResponse(candidate_path)
             return FileResponse(index_html)
 
         logger.info("Serving UI from %s", UI_DIST_DIR)
