@@ -148,7 +148,7 @@ steps:
     agent: tier1_assembler
     description: Assemble final feature package
     depends_on: [review_code]
-    when: ${steps.review_code.outputs.review_report}
+    when: ${steps.review_code.outputs.review_report.approved}
     inputs:
       backend: ${steps.generate_api.outputs.api_code}
       frontend: ${steps.generate_frontend.outputs.ui_code}

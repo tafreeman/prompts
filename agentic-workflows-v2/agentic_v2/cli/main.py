@@ -519,10 +519,11 @@ def serve(
         console.print("[dim]Dev mode: auto-reload enabled[/dim]")
 
     uvicorn.run(
-        "agentic_v2.server.app:app",
+        "agentic_v2.server.app:create_app",
         host="0.0.0.0",
         port=port,
         reload=dev,
+        factory=True,
     )
 
 
