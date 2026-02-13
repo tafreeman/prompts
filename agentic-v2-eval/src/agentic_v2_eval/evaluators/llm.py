@@ -4,27 +4,12 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Protocol, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from .base import Evaluator, EvaluatorRegistry
+from ..interfaces import LLMClientProtocol
 
 logger = logging.getLogger(__name__)
-
-
-class LLMClientProtocol(Protocol):
-    """Protocol for LLM clients used by evaluators."""
-
-    def generate_text(
-        self,
-        model_name: str,
-        prompt: str,
-        temperature: float = 0.0,
-        **kwargs,
-    ) -> str:
-        """Generate text from a prompt."""
-        ...
-
-
 @dataclass
 class Choice:
     """A scoring choice with label and normalized score."""
