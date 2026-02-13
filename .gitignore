@@ -314,6 +314,9 @@ tot_*.txt
 # PromptEval / tooling outputs (generated)
 results/
 
+# Agentic workflow execution artifacts (generated run logs)
+agentic-workflows-v2/runs/*.json
+
 # Model discovery snapshots (machine/user-specific)
 discovery_results.json
 tools/discovery_results.json
