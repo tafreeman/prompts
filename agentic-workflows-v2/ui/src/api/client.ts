@@ -65,6 +65,28 @@ export function listEvaluationDatasets(): Promise<EvaluationDatasetsResponse> {
   return fetchJSON(`${BASE}/eval/datasets`);
 }
 
+/** Preview how dataset sample fields will map to workflow inputs. */
+export function previewDatasetInputs(
+  workflowName: string,
+  datasetSource: string,
+  datasetId: string,
+  sampleIndex: number
+): Promise<{
+  compatible: boolean;
+  reasons: string[];
+  adapted_inputs: Record<string, unknown>;
+  dataset_meta: Record<string, unknown>;
+}> {
+  const params = new URLSearchParams({
+    dataset_source: datasetSource,
+    dataset_id: datasetId,
+    sample_index: String(sampleIndex),
+  });
+  return fetchJSON(
+    `${BASE}/workflows/${encodeURIComponent(workflowName)}/preview-dataset-inputs?${params}`
+  );
+}
+
 /** List available agents. */
 export function listAgents(): Promise<{ agents: AgentInfo[] }> {
   return fetchJSON(`${BASE}/agents`);

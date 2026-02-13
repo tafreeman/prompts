@@ -285,3 +285,51 @@ def test_accept_full_adapted_inputs(monkeypatch):
     )
 
     assert response.status_code == 200
+
+
+def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch):
+    app = create_app()
+    client = TestClient(app)
+
+    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.server.routes import workflows
+
+    class _DummyWorkflow:
+        name = "dummy_workflow"
+        inputs = {
+            "code_file": WorkflowInput(name="code_file", type="string", required=True),
+            "review_depth": WorkflowInput(name="review_depth", type="string", required=False),
+        }
+        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+
+    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(
+        workflows,
+        "load_local_dataset_sample",
+        lambda _dataset_ref, sample_index=0: ({"prompt": "Review this code"}, {"source": "local"}),
+    )
+    monkeypatch.setattr(
+        workflows,
+        "adapt_sample_to_workflow_inputs",
+        lambda *_args, **_kwargs: {"code_file": "adapted/path.py", "review_depth": "deep"},
+    )
+
+    response = client.post(
+        "/api/run",
+        json={
+            "workflow": "dummy_workflow",
+            "input_data": {
+                "code_file": "",
+                "review_depth": "shallow",
+            },
+            "evaluation": {
+                "enabled": True,
+                "dataset_source": "local",
+                "dataset_id": "any.json",
+            },
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "pending"

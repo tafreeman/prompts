@@ -138,9 +138,17 @@ export interface EvaluationDatasetOption {
   sample_count: number | null;
 }
 
+export interface EvaluationSetOption {
+  id: string;
+  name: string;
+  description: string;
+  datasets: string[];
+}
+
 export interface EvaluationDatasetsResponse {
   repository: EvaluationDatasetOption[];
   local: EvaluationDatasetOption[];
+  eval_sets: EvaluationSetOption[];
 }
 
 export interface EvaluationCriterionScore {

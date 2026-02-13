@@ -444,6 +444,32 @@ def list_local_datasets() -> list[dict[str, Any]]:
     return sorted(dedup.values(), key=lambda x: x["id"])
 
 
+def list_eval_sets() -> list[dict[str, Any]]:
+    """Return predefined evaluation sets from config."""
+    config = _load_eval_config()
+    eval_sets_config = (
+        config.get("evaluation", {})
+        .get("eval_sets", {})
+    )
+
+    if not isinstance(eval_sets_config, dict):
+        return []
+
+    eval_sets: list[dict[str, Any]] = []
+    for set_id, set_config in eval_sets_config.items():
+        if not isinstance(set_config, dict):
+            continue
+
+        eval_sets.append({
+            "id": str(set_id),
+            "name": set_config.get("name", str(set_id).replace("_", " ").title()),
+            "description": set_config.get("description", ""),
+            "datasets": set_config.get("datasets", []),
+        })
+
+    return sorted(eval_sets, key=lambda x: x["id"])
+
+
 def _is_under_allowed_root(path: Path) -> bool:
     resolved = path.resolve()
     for root in _local_dataset_roots():
@@ -613,7 +639,7 @@ def _dataset_value_for_input(
         if nested_value not in (None, ""):
             return nested_value
 
-    if "file" in lowered:
+    if "file" in lowered or "patch" in lowered:
         return _pick_first(
             dataset_sample,
             [
@@ -621,6 +647,7 @@ def _dataset_value_for_input(
                 "file_path",
                 "path",
                 "source_path",
+                "patch",
                 "code",
                 "body",
                 "prompt",
@@ -629,6 +656,28 @@ def _dataset_value_for_input(
                 "input",
             ],
         )
+    if "bug" in lowered or "report" in lowered or "issue" in lowered:
+        value = _pick_first(
+            dataset_sample,
+            [
+                "bug_report",
+                "problem_statement",
+                "issue_text",
+                "issue_body",
+                "description",
+                "prompt",
+                "task_description",
+                "body",
+                "instruction",
+                "input",
+                "question",
+                "query",
+                "request",
+            ],
+        )
+        if value not in (None, ""):
+            return value
+        return _extract_message_text(dataset_sample, preferred_roles=("user", "system", "assistant"))
     if "spec" in lowered or "requirement" in lowered:
         value = _pick_first(
             dataset_sample,
@@ -655,11 +704,17 @@ def _dataset_value_for_input(
         if input_def.default not in (None, ""):
             return input_def.default
 
+    # Skip enum fields — generic text won't be a valid enum value.
+    # Skip fields that have a default — they don't need dataset data.
+    if input_def.enum or input_def.default not in (None, ""):
+        return input_def.default
+
     value = _pick_first(
         dataset_sample,
         [
             "prompt",
             "task_description",
+            "problem_statement",
             "description",
             "body",
             "instruction",
@@ -1232,6 +1287,7 @@ def adapt_sample_to_workflow_inputs(
         [
             "prompt",
             "task_description",
+            "problem_statement",
             "description",
             "body",
             "instruction",
@@ -1254,7 +1310,7 @@ def adapt_sample_to_workflow_inputs(
         value = explicit
 
         if value in (None, ""):
-            if "file" in lowered:
+            if "file" in lowered or "patch" in lowered:
                 value = _pick_first(
                     sample,
                     [
@@ -1262,12 +1318,34 @@ def adapt_sample_to_workflow_inputs(
                         "file_path",
                         "path",
                         "source_path",
+                        "patch",
                         "code",
                         "body",
                         "prompt",
                         "task_description",
                     ],
                 )
+            elif "bug" in lowered or "report" in lowered or "issue" in lowered:
+                value = _pick_first(
+                    sample,
+                    [
+                        "bug_report",
+                        "problem_statement",
+                        "issue_text",
+                        "issue_body",
+                        "description",
+                        "prompt",
+                        "task_description",
+                        "body",
+                        "instruction",
+                        "input",
+                        "question",
+                        "query",
+                        "request",
+                    ],
+                )
+                if value in (None, ""):
+                    value = _extract_message_text(sample, preferred_roles=("user", "system", "assistant"))
             elif "spec" in lowered or "requirement" in lowered:
                 value = _pick_first(
                     sample,
@@ -1293,7 +1371,14 @@ def adapt_sample_to_workflow_inputs(
                     "database": "postgresql",
                 }
             else:
-                value = generic_text
+                # Skip enum fields — generic text won't be a valid enum value.
+                # Skip fields that have a default — they don't need dataset data.
+                if definition.enum:
+                    pass
+                elif definition.default not in (None, ""):
+                    pass
+                else:
+                    value = generic_text
 
         if value in (None, ""):
             continue

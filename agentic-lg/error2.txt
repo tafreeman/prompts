@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from agentic_lg.server.app import app; print('Import OK')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\server\app.py", line 18, in <module>
+    from .routes import agents, health, runs, workflows
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\server\routes\agents.py", line 11, in <module>
+    from ...agents import AgentRegistry
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\agents\__init__.py", line 3, in <module>
+    from .registry import AgentRegistry, LLMClientModelFactory, ModelFactory
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\agents\registry.py", line 21, in <module>
+    from ..compiler.schema import AgentDefinition
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\compiler\__init__.py", line 4, in <module>
+    from .yaml_compiler import CompiledWorkflow, YAMLCompiler
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\compiler\yaml_compiler.py", line 22, in <module>
+    from .node_factory import (
+    ...<4 lines>...
+    )
+  File "D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\compiler\node_factory.py", line 18, in <module>
+    from ..agents.registry import AgentRegistry
+ImportError: cannot import name 'AgentRegistry' from partially initialized module 'agentic_lg.agents.registry' (most likely due to a circular import) (D:\source\prompts\agentic-lg\packages\core\src\agentic_lg\agents\registry.py)

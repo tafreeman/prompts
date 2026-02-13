@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
 import {
   CheckCircle2,
@@ -17,6 +17,7 @@ export interface StepNodeData {
   description: string;
   tier: string | null;
   status: StepStatus;
+  startTime?: string;
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
@@ -92,14 +93,11 @@ function StepNodeComponent({ data }: NodeProps) {
 
         {/* Metrics row */}
         <div className="mt-2 flex items-center gap-3 text-xs text-gray-400">
-          {nodeData.durationMs != null && (
-            <span className="flex items-center gap-1">
-              <Timer className="h-3 w-3" />
-              {nodeData.durationMs < 1000
-                ? `${Math.round(nodeData.durationMs)}ms`
-                : `${(nodeData.durationMs / 1000).toFixed(1)}s`}
-            </span>
-          )}
+          <StepTimer
+            status={nodeData.status}
+            startTime={nodeData.startTime}
+            durationMs={nodeData.durationMs}
+          />
           {nodeData.tokensUsed != null && (
             <span className="flex items-center gap-1">
               <Cpu className="h-3 w-3" />
@@ -128,6 +126,54 @@ function StepNodeComponent({ data }: NodeProps) {
       <Handle type="source" position={Position.Bottom} className="!bg-gray-600 !border-0 !w-2 !h-2" />
     </>
   );
+}
+
+/* ── StepTimer: live elapsed or final duration ────────────────── */
+function StepTimer({
+  status,
+  startTime,
+  durationMs,
+}: Readonly<{
+  status: StepStatus;
+  startTime?: string;
+  durationMs?: number;
+}>) {
+  const [elapsed, setElapsed] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (status !== "running" || !startTime) {
+      setElapsed(null);
+      return;
+    }
+    const origin = new Date(startTime).getTime();
+    // set immediately so there's no 1-second blank
+    setElapsed(Date.now() - origin);
+    const id = setInterval(() => setElapsed(Date.now() - origin), 250);
+    return () => clearInterval(id);
+  }, [status, startTime]);
+
+  const ms =
+    status === "running" && elapsed != null
+      ? elapsed
+      : durationMs ?? null;
+
+  if (ms == null) return null;
+
+  return (
+    <span className="flex items-center gap-1">
+      <Timer className="h-3 w-3" />
+      {formatMs(ms)}
+    </span>
+  );
+}
+
+function formatMs(ms: number): string {
+  if (ms < 1000) return `${ms}ms`;
+  const totalSec = ms / 1000;
+  if (totalSec < 60) return `${totalSec.toFixed(1)}s`;
+  const m = Math.floor(totalSec / 60);
+  const s = Math.floor(totalSec % 60);
+  return `${m}m ${s.toString().padStart(2, "0")}s`;
 }
 
 export default memo(StepNodeComponent);
