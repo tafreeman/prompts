@@ -22,6 +22,7 @@ const nodeTypes: NodeTypes = {
 
 interface StepLiveState {
   status: StepStatus;
+  startTime?: string;
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
@@ -60,6 +61,7 @@ export default function WorkflowDAG({
         description: dn.description,
         tier: dn.tier,
         status: live?.status ?? "pending",
+        startTime: live?.startTime,
         durationMs: live?.durationMs,
         modelUsed: live?.modelUsed,
         tokensUsed: live?.tokensUsed,

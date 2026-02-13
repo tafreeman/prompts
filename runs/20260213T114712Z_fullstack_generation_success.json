@@ -1,0 +1,775 @@
+{
+  "run_id": "fullstack_generation-0d9e8329",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 73669.751,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T11:45:59.251926+00:00",
+  "end_time": "2026-02-13T11:47:12.921677+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/react_code_instructions.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/react_code_instructions.json",
+    "sample_index": 0,
+    "task_id": "0",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "feature_spec": "i want to build a website/app for a local business in louisiana small town called Easy Rider Transportation, and I want it to be able to have features like booking, payment, and whatever else would be useful to customers needing to get and book a ride whether its for the future or for ASAP, and also need it to be able to have features for the owner so they can get some automated stuff like automatically giving the ride to the next available driver or something. Or maybe like where the different drivers can log in the app and the owner can see who is logged on at any given time. Kind of like clocking in. So the owner knows which drivers are on the clock and available to take rides right now for whenever they get a booking for a ride. Any other features that are simple but that can make the business run smoothly and effieciently so that the owner has to do less maintenence and stuff and the website/web app automates most things.",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 17017.381,
+      "retry_count": 0,
+      "tokens_used": 1288,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"api_spec\": {\n    \"authentication\": [\n      {\n        \"endpoint\": \"/auth/register\",\n        \"method\": \"POST\",\n        \"description\": \"Registers a new user (customer or driver).\",\n        \"request_body\": {\n          \"email\": \"string\",\n          \"password\": \"string\",\n          \"first_name\": \"string\",\n          \"last_name\": \"string\",\n          \"phone_number\": \"string\",\n          \"user_type\": \"enum('customer', 'driver')\"\n        },\n        \"response\": {\n          \"user_id\": \"uuid\",\n          \"message\": \"string\"\n        }\n      },\n      {\n        "
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:45:59.252199+00:00",
+      "end_time": "2026-02-13T11:46:16.269580+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 4975.1050000000005,
+      "retry_count": 0,
+      "tokens_used": 1769,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "name": "0001_create_users_table.sql",
+            "content": "-- Create users table\nCREATE TABLE users (\n    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) NOT NULL UNIQUE,\n    password_hash VARCHAR(255) NOT NULL,\n    first_name VARCHAR(255),\n    last_name VARCHAR(255),\n    phone_number VARCHAR(20),\n    user_type VARCHAR(20) CHECK (user_type IN ('customer', 'driver', 'owner')),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Create an index on the email column for faster lookups\nCREATE INDEX idx_users_email ON users (email);\n"
+          },
+          {
+            "name": "0002_create_drivers_table.sql",
+            "content": "-- Create drivers table\nCREATE TABLE drivers (\n    driver_id UUID PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,\n    is_active BOOLEAN DEFAULT FALSE,\n    current_location GEOGRAPHY(Point,4326),\n    last_seen TIMESTAMP WITH TIME ZONE,\n    vehicle_details JSONB\n);\n"
+          },
+          {
+            "name": "0003_create_rides_table.sql",
+            "content": "-- Create rides table\nCREATE TABLE rides (\n    ride_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    customer_id UUID REFERENCES users(user_id) ON DELETE SET NULL,\n    driver_id UUID REFERENCES drivers(driver_id) ON DELETE SET NULL,\n    pickup_location GEOGRAPHY(Point,4326) NOT NULL,\n    dropoff_location GEOGRAPHY(Point,4326) NOT NULL,\n    pickup_time TIMESTAMP WITH TIME ZONE NOT NULL,\n    status VARCHAR(20) CHECK (status IN ('pending', 'accepted', 'in_progress', 'completed', 'cancelled')) DEFAULT 'pending',\n    fare_amount DECIMAL(10, 2),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n"
+          },
+          {
+            "name": "0004_create_payments_table.sql",
+            "content": "-- Create payments table\nCREATE TABLE payments (\n    payment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    ride_id UUID REFERENCES rides(ride_id) ON DELETE CASCADE,\n    payment_method VARCHAR(50),\n    amount DECIMAL(10, 2),\n    transaction_id VARCHAR(255),\n    payment_status VARCHAR(20) CHECK (payment_status IN ('pending', 'completed', 'failed')) DEFAULT 'pending',\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n"
+          },
+          {
+            "name": "0005_add_driver_availability_view.sql",
+            "content": "-- Create a view to show available drivers\nCREATE OR REPLACE VIEW available_drivers AS\nSELECT\n    d.driver_id,\n    u.first_name, \n    u.last_name,\n    d.current_location\nFROM\n    drivers d\nJOIN\n    users u ON d.driver_id = u.user_id\nWHERE\n    d.is_active = TRUE;\n"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:46:16.269994+00:00",
+      "end_time": "2026-02-13T11:46:21.245099+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 13410.344000000001,
+      "retry_count": 0,
+      "tokens_used": 2790,
+      "input": {},
+      "output": {
+        "api_code": {
+          "endpoints": [
+            {
+              "path": "/auth/register",
+              "method": "POST",
+              "description": "Registers a new user (customer, driver, or owner).",
+              "request_body": {
+                "email": "string",
+                "password": "string",
+                "first_name": "string",
+                "last_name": "string",
+                "phone_number": "string",
+                "user_type": "enum('customer', 'driver', 'owner')"
+              },
+              "response": {
+                "user_id": "uuid",
+                "message": "string"
+              }
+            },
+            {
+              "path": "/auth/login",
+              "method": "POST",
+              "description": "Logs in an existing user.",
+              "request_body": {
+                "email": "string",
+                "password": "string"
+              },
+              "response": {
+                "access_token": "string",
+                "token_type": "string"
+              }
+            },
+            {
+              "path": "/rides",
+              "method": "POST",
+              "description": "Creates a new ride request.",
+              "request_body": {
+                "customer_id": "uuid",
+                "pickup_location": "string",
+                "dropoff_location": "string",
+                "pickup_time": "datetime (ISO format)",
+                "ride_type": "enum('ASAP', 'Scheduled')",
+                "number_of_passengers": "integer"
+              },
+              "response": {
+                "ride_id": "uuid",
+                "status": "string"
+              }
+            },
+            {
+              "path": "/rides/{ride_id}",
+              "method": "GET",
+              "description": "Retrieves details of a specific ride.",
+              "parameters": {
+                "ride_id": "uuid"
+              },
+              "response": {
+                "ride_id": "uuid",
+                "customer_id": "uuid",
+                "driver_id": "uuid",
+                "pickup_location": "string",
+                "dropoff_location": "string",
+                "pickup_time": "datetime (ISO format)",
+                "status": "enum('Pending', 'Accepted', 'InProgress', 'Completed', 'Cancelled')",
+                "fare": "number"
+              }
+            },
+            {
+              "path": "/rides/{ride_id}/cancel",
+              "method": "POST",
+              "description": "Cancels a ride.",
+              "parameters": {
+                "ride_id": "uuid"
+              },
+              "request_body": {
+                "reason": "string"
+              },
+              "response": {
+                "message": "string"
+              }
+            },
+            {
+              "path": "/drivers",
+              "method": "GET",
+              "description": "Lists all available drivers (for owner).",
+              "response": {
+                "drivers": [
+                  {
+                    "driver_id": "uuid",
+                    "first_name": "string",
+                    "last_name": "string",
+                    "is_available": "boolean",
+                    "current_location": "string"
+                  }
+                ]
+              }
+            },
+            {
+              "path": "/drivers/{driver_id}/availability",
+              "method": "PUT",
+              "description": "Updates a driver's availability status.",
+              "parameters": {
+                "driver_id": "uuid"
+              },
+              "request_body": {
+                "is_available": "boolean"
+              },
+              "response": {
+                "message": "string"
+              }
+            },
+            {
+              "path": "/payments",
+              "method": "POST",
+              "description": "Processes a payment for a ride.",
+              "request_body": {
+                "ride_id": "uuid",
+                "amount": "number",
+                "payment_method": "enum('Credit Card', 'Cash')"
+              },
+              "response": {
+                "payment_id": "uuid",
+                "status": "string"
+              }
+            },
+            {
+              "path": "/drivers/clockin",
+              "method": "POST",
+              "description": "Driver clock in",
+              "request_body": {
+                "driver_id": "uuid"
+              },
+              "response": {
+                "message": "string",
+                "clockin_time": "datetime"
+              }
+            },
+            {
+              "path": "/drivers/clockout",
+              "method": "POST",
+              "description": "Driver clock out",
+              "request_body": {
+                "driver_id": "uuid"
+              },
+              "response": {
+                "message": "string",
+                "clockout_time": "datetime"
+              }
+            },
+            {
+              "path": "/owner/drivers/logged_in",
+              "method": "GET",
+              "description": "Get a list of the currently logged in drivers",
+              "response": {
+                "drivers": [
+                  {
+                    "driver_id": "uuid",
+                    "first_name": "string",
+                    "last_name": "string"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "api_tests": {
+          "tests": [
+            {
+              "endpoint": "/auth/register",
+              "method": "POST",
+              "test_data": {
+                "email": "test@example.com",
+                "password": "password123",
+                "first_name": "John",
+                "last_name": "Doe",
+                "phone_number": "123-456-7890",
+                "user_type": "customer"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/auth/login",
+              "method": "POST",
+              "test_data": {
+                "email": "test@example.com",
+                "password": "password123"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/rides",
+              "method": "POST",
+              "test_data": {
+                "customer_id": "uuid_placeholder",
+                "pickup_location": "123 Main St",
+                "dropoff_location": "456 Elm St",
+                "pickup_time": "2024-11-18T10:00:00",
+                "ride_type": "Scheduled",
+                "number_of_passengers": 2
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/rides/uuid_placeholder",
+              "method": "GET",
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/rides/uuid_placeholder/cancel",
+              "method": "POST",
+              "test_data": {
+                "reason": "Customer cancelled"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/drivers",
+              "method": "GET",
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/drivers/uuid_placeholder/availability",
+              "method": "PUT",
+              "test_data": {
+                "is_available": true
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/payments",
+              "method": "POST",
+              "test_data": {
+                "ride_id": "uuid_placeholder",
+                "amount": 25.0,
+                "payment_method": "Credit Card"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/drivers/clockin",
+              "method": "POST",
+              "test_data": {
+                "driver_id": "uuid_placeholder"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/drivers/clockout",
+              "method": "POST",
+              "test_data": {
+                "driver_id": "uuid_placeholder"
+              },
+              "expected_response_code": 200
+            },
+            {
+              "endpoint": "/owner/drivers/logged_in",
+              "method": "GET",
+              "expected_response_code": 200
+            }
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:46:16.269755+00:00",
+      "end_time": "2026-02-13T11:46:29.680099+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 23387.6,
+      "retry_count": 0,
+      "tokens_used": 4869,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"ui_code\": {\n    \"CustomerBooking.jsx\": \"// CustomerBooking.jsx\\nimport React, { useState } from 'react';\\n\\nfunction CustomerBooking() {\\n  const [pickupLocation, setPickupLocation] = useState('');\\n  const [dropoffLocation, setDropoffLocation] = useState('');\\n  const [pickupTime, setPickupTime] = useState(''); // Consider using a date/time picker\\n  const [rideType, setRideType] = useState('ASAP'); // ASAP or Scheduled\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    // Implement booking logic here, calling the backend API\\n    console.log('Booking submitted:', { pickupLocation, dropoffLocation, pickupTime, rideType });\\n    // Example API call (replace with actual API endpoint)\\n    // const response = await fetch('/api/bookings', {\\n    //   method: 'POST',\\n    //   headers: { 'Content-Type': 'application/json' },\\n    //   body: JSON.stringify({ pickupLocation, dropoffLocation, pickupTime, rideType }),\\n    // });\\n    // const data = await response.json();\\n    // console.log(data);\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Book a Ride</h2>\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label htmlFor=\\\"pickupLocation\\\">Pickup Location:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"pickupLocation\\\"\\n            value={pickupLocation}\\n            onChange={(e) => setPickupLocation(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"dropoffLocation\\\">Dropoff Location:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"dropoffLocation\\\"\\n            value={dropoffLocation}\\n            onChange={(e) => setDropoffLocation(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"pickupTime\\\">Pickup Time:</label>\\n          <input\\n            type=\\\"datetime-local\\\"\\n            id=\\\"pickupTime\\\"\\n            value={pickupTime}\\n            onChange={(e) => setPickupTime(e.target.value)}\\n            required={rideType !== 'ASAP'}\\n            disabled={rideType === 'ASAP'}\\n          />\\n        </div>\\n        <div>\\n          <label>Ride Type:</label>\\n          <select value={rideType} onChange={(e) => setRideType(e.target.value)}>\\n            <option value=\\\"ASAP\\\">ASAP</option>\\n            <option value=\\\"Scheduled\\\">Scheduled</option>\\n          </select>\\n        </div>\\n        <button type=\\\"submit\\\">Book Ride</button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default CustomerBooking;\",\n    \"DriverDashboard.jsx\": \"// DriverDashboard.jsx\\nimport React, { useState, useEffect } from 'react';\\n\\nfunction DriverDashboard() {\\n  const [isClockedIn, setIsClockedIn] = useState(false);\\n  const [availableRides, setAvailableRides] = useState([]);\\n\\n  useEffect(() => {\\n    // Fetch initial clock-in status and available rides from the backend\\n    // Example API calls (replace with actual API endpoints)\\n    // fetch('/api/driver/status')\\n    //   .then(response => response.json())\\n    //   .then(data => setIsClockedIn(data.isClockedIn));\\n\\n    // fetch('/api/driver/rides')\\n    //   .then(response => response.json())\\n    //   .then(data => setAvailableRides(data));\\n  }, []);\\n\\n  const handleClockIn = async () => {\\n    // Implement clock-in/clock-out logic here, calling the backend API\\n    // Example API call (replace with actual API endpoint)\\n    // const response = await fetch('/api/driver/clock', {\\n    //   method: 'POST',\\n    // });\\n    // const data = await response.json();\\n    // setIsClockedIn(data.isClockedIn);\\n    setIsClockedIn(!isClockedIn);\\n  };\\n\\n  const handleAcceptRide = async (rideId) => {\\n    // Implement ride acceptance logic here, calling the backend API\\n    console.log('Accepting ride:', rideId);\\n    // Example API call (replace with actual API endpoint)\\n    // const response = await fetch(`/api/driver/rides/${rideId}/accept`, {\\n    //   method: 'POST',\\n    // });\\n    // const data = await response.json();\\n    // Update availableRides state to remove the accepted ride\\n    // setAvailableRides(availableRides.filter(ride => ride.id !== rideId));\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Driver Dashboard</h2>\\n      <button onClick={handleClockIn}>\\n        {isClockedIn ? 'Clock Out' : 'Clock In'}\\n      </button>\\n      <p>Status: {isClockedIn ? 'Clocked In' : 'Clocked Out'}</p>\\n\\n      <h3>Available Rides</h3>\\n      <ul>\\n        {availableRides.map((ride) => (\\n          <li key={ride.id}>\\n            {ride.pickupLocation} to {ride.dropoffLocation} - {ride.pickupTime}\\n            <button onClick={() => handleAcceptRide(ride.id)}>Accept Ride</button>\\n          </li>\\n        ))}\\n      </ul>\\n    </div>\\n  );\\n}\\n\\nexport default DriverDashboard;\",\n    \"OwnerDashboard.jsx\": \"// OwnerDashboard.jsx\\nimport React, { useState, useEffect } from 'react';\\n\\nfunction OwnerDashboard() {\\n  const [drivers, setDrivers] = useState([]);\\n  const [bookings, setBookings] = useState([]);\\n\\n  useEffect(() => {\\n    // Fetch driver and booking data from the backend\\n    // Example API calls (replace with actual API endpoints)\\n    // fetch('/api/owner/drivers')\\n    //   .then(response => response.json())\\n    //   .then(data => setDrivers(data));\\n\\n    // fetch('/api/owner/bookings')\\n    //   .then(response => response.json())\\n    //   .then(data => setBookings(data));\\n  }, []);\\n\\n  return (\\n    <div>\\n      <h2>Owner Dashboard</h2>\\n\\n      <h3>Online Drivers</h3>\\n      <ul>\\n        {drivers.map((driver) => (\\n          <li key={driver.id}>\\n            {driver.firstName} {driver.lastName} - {driver.status}\\n          </li>\\n        ))}\\n      </ul>\\n\\n      <h3>Recent Bookings</h3>\\n      <ul>\\n        {bookings.map((booking) => (\\n          <li key={booking.id}>\\n            {booking.pickupLocation} to {booking.dropoffLocation} - {booking.pickupTime}\\n          </li>\\n        ))}\\n      </ul>\\n    </div>\\n  );\\n}\\n\\nexport default OwnerDashboard;\",\n    \"Payment.jsx\": \"// Payment.jsx\\nimport React, { useState } from 'react';\\n\\nfunction Payment() {\\n  const [cardNumber, setCardNumber] = useState('');\\n  const [expiryDate, setExpiryDate] = useState('');\\n  const [cvv, setCvv] = useState('');\\n  const [amount, setAmount] = useState('');\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    // Implement payment processing logic here, calling the backend API or a third-party payment gateway\\n    console.log('Payment submitted:', { cardNumber, expiryDate, cvv, amount });\\n    // Example API call (replace with actual API endpoint)\\n    // const response = await fetch('/api/payment', {\\n    //   method: 'POST',\\n    //   headers: { 'Content-Type': 'application/json' },\\n    //   body: JSON.stringify({ cardNumber, expiryDate, cvv, amount }),\\n    // });\\n    // const data = await response.json();\\n    // console.log(data);\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Payment</h2>\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label htmlFor=\\\"cardNumber\\\">Card Number:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"cardNumber\\\"\\n            value={cardNumber}\\n            onChange={(e) => setCardNumber(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"expiryDate\\\">Expiry Date:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"expiryDate\\\"\\n            value={expiryDate}\\n            onChange={(e) => setExpiryDate(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"cvv\\\">CVV:</label>\\n          <input\\n            type=\\\"text\\\"\\n            id=\\\"cvv\\\"\\n            value={cvv}\\n            onChange={(e) => setCvv(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"amount\\\">Amount:</label>\\n          <input\\n            type=\\\"number\\\"\\n            id=\\\"amount\\\"\\n            value={amount}\\n            onChange={(e) => setAmount(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <button type=\\\"submit\\\">Pay</button>\\n      </form>\\n    </div>\\n  );\\n}\\n\\nexport default Payment;\",\n    \"Registration.jsx\": \"// Registration.jsx\\nimport React, { useState } from 'react';\\n\\nfunction Registration() {\\n  const [email, setEmail] = useState('');\\n  const [password, setPassword] = useState('');\\n  const [firstName, setFirstName] = useState('');\\n  const [lastName, setLastName] = useState('');\\n  const [phoneNumber, setPhoneNumber] = useState('');\\n  const [userType, setUserType] = useState('customer');\\n\\n  const handleSubmit = async (e) => {\\n    e.preventDefault();\\n    // Implement registration logic here, calling the backend API\\n    console.log('Registration submitted:', { email, password, firstName, lastName, phoneNumber, userType });\\n    // Example API call (replace with actual API endpoint)\\n    // const response = await fetch('/api/auth/register', {\\n    //   method: 'POST',\\n    //   headers: { 'Content-Type': 'application/json' },\\n    //   body: JSON.stringify({ email, password, firstName, lastName, phoneNumber, userType }),\\n    // });\\n    // const data = await response.json();\\n    // console.log(data);\\n  };\\n\\n  return (\\n    <div>\\n      <h2>Registration</h2>\\n      <form onSubmit={handleSubmit}>\\n        <div>\\n          <label htmlFor=\\\"email\\\">Email:</label>\\n          <input\\n            type=\\\"email\\\"\\n            id=\\\"email\\\"\\n            value={email}\\n            onChange={(e) => setEmail(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n          <label htmlFor=\\\"password\\\">Password:</label>\\n          <input\\n            type=\\\"password\\\"\\n            id=\\\"password\\\"\\n            value={password}\\n            onChange={(e) => setPassword(e.target.value)}\\n            required\\n          />\\n        </div>\\n        <div>\\n         ... (15189 chars)"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:46:16.269924+00:00",
+      "end_time": "2026-02-13T11:46:39.657524+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 13930.752,
+      "retry_count": 0,
+      "tokens_used": 12155,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"integration_tests\": [\n    {\n      \"test_name\": \"Register Customer, Login, Book Ride, Get Ride Details, Cancel Ride\",\n      \"description\": \"Registers a customer, logs them in, books a ride, retrieves the ride details, and then cancels the ride.\",\n      \"steps\": [\n        {\n          \"step_name\": \"Register Customer\",\n          \"endpoint\": \"/auth/register\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"customer1@example.com\",\n            \"password\": \"password123\",\n            \"first_name\": \"Customer\",\n            \"last_name\": \"One\",\n            \"phone_number\": \"111-222-3333\",\n            \"user_type\": \"customer\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"customer_id\"\n        },\n        {\n          \"step_name\": \"Login Customer\",\n          \"endpoint\": \"/auth/login\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"customer1@example.com\",\n            \"password\": \"password123\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"access_token\"\n        },\n        {\n          \"step_name\": \"Book Ride\",\n          \"endpoint\": \"/rides\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"customer_id\": \"${customer_id}\",\n            \"pickup_location\": \"Easy Rider HQ\",\n            \"dropoff_location\": \"Downtown Easy Rider\",\n            \"pickup_time\": \"2024-12-25T12:00:00\",\n            \"ride_type\": \"Scheduled\",\n            \"number_of_passengers\": 1\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${access_token}\",\n          \"response_variable\": \"ride_id\"\n        },\n        {\n          \"step_name\": \"Get Ride Details\",\n          \"endpoint\": \"/rides/${ride_id}\",\n          \"method\": \"GET\",\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${access_token}\",\n          \"assertions\": [\n            {\n              \"field\": \"customer_id\",\n              \"expected_value\": \"${customer_id}\"\n            },\n            {\n              \"field\": \"pickup_location\",\n              \"expected_value\": \"Easy Rider HQ\"\n            }\n          ]\n        },\n        {\n          \"step_name\": \"Cancel Ride\",\n          \"endpoint\": \"/rides/${ride_id}/cancel\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"reason\": \"Change of plans\"\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${access_token}\"\n        }\n      }\n    },\n    {\n      \"test_name\": \"Register Driver, Login, Clock In, Clock Out, Owner View Logged In\",\n      \"description\": \"Registers a driver, logs them in, clocks them in and out, and then verifies the owner can see the driver's logged-in status.\",\n      \"steps\": [\n        {\n          \"step_name\": \"Register Driver\",\n          \"endpoint\": \"/auth/register\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"driver1@example.com\",\n            \"password\": \"password123\",\n            \"first_name\": \"Driver\",\n            \"last_name\": \"One\",\n            \"phone_number\": \"444-555-6666\",\n            \"user_type\": \"driver\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"driver_id\"\n        },\n        {\n          \"step_name\": \"Login Driver\",\n          \"endpoint\": \"/auth/login\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"driver1@example.com\",\n            \"password\": \"password123\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"driver_access_token\"\n        },\n        {\n          \"step_name\": \"Driver Clock In\",\n          \"endpoint\": \"/drivers/clockin\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"driver_id\": \"${driver_id}\"\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${driver_access_token}\"\n        },\n        {\n          \"step_name\": \"Register Owner\",\n          \"endpoint\": \"/auth/register\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"owner1@example.com\",\n            \"password\": \"password123\",\n            \"first_name\": \"Owner\",\n            \"last_name\": \"One\",\n            \"phone_number\": \"555-666-7777\",\n            \"user_type\": \"owner\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"owner_id\"\n        },\n        {\n          \"step_name\": \"Login Owner\",\n          \"endpoint\": \"/auth/login\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"owner1@example.com\",\n            \"password\": \"password123\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"owner_access_token\"\n        },\n        {\n          \"step_name\": \"Owner View Logged In Drivers\",\n          \"endpoint\": \"/owner/drivers/logged_in\",\n          \"method\": \"GET\",\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${owner_access_token}\",\n          \"assertions\": [\n            {\n              \"field\": \"drivers[0].driver_id\",\n              \"expected_value\": \"${driver_id}\"\n            }\n          ]\n        },\n        {\n          \"step_name\": \"Driver Clock Out\",\n          \"endpoint\": \"/drivers/clockout\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"driver_id\": \"${driver_id}\"\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${driver_access_token}\"\n        },\n        {\n          \"step_name\": \"Owner View Logged In Drivers After Clockout\",\n          \"endpoint\": \"/owner/drivers/logged_in\",\n          \"method\": \"GET\",\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${owner_access_token}\",\n          \"assertions\": [\n            {\n              \"field\": \"drivers\",\n              \"expected_value\": []\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"test_name\": \"Payment Processing\",\n      \"description\": \"Tests the payment processing flow for a ride.\",\n      \"steps\": [\n        {\n          \"step_name\": \"Register Customer\",\n          \"endpoint\": \"/auth/register\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"customer2@example.com\",\n            \"password\": \"password123\",\n            \"first_name\": \"Customer\",\n            \"last_name\": \"Two\",\n            \"phone_number\": \"666-777-8888\",\n            \"user_type\": \"customer\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"customer2_id\"\n        },\n        {\n          \"step_name\": \"Login Customer\",\n          \"endpoint\": \"/auth/login\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"email\": \"customer2@example.com\",\n            \"password\": \"password123\"\n          },\n          \"expected_response_code\": 200,\n          \"response_variable\": \"customer2_access_token\"\n        },\n        {\n          \"step_name\": \"Book Ride\",\n          \"endpoint\": \"/rides\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"customer_id\": \"${customer2_id}\",\n            \"pickup_location\": \"Location A\",\n            \"dropoff_location\": \"Location B\",\n            \"pickup_time\": \"2024-12-26T10:00:00\",\n            \"ride_type\": \"Scheduled\",\n            \"number_of_passengers\": 1\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${customer2_access_token}\",\n          \"response_variable\": \"ride2_id\"\n        },\n        {\n          \"step_name\": \"Process Payment\",\n          \"endpoint\": \"/payments\",\n          \"method\": \"POST\",\n          \"request_body\": {\n            \"ride_id\": \"${ride2_id}\",\n            \"amount\": 30.00,\n            \"payment_method\": \"Credit Card\"\n          },\n          \"expected_response_code\": 200,\n          \"auth_token\": \"${customer2_access_token}\",\n          \"response_variable\": \"payment_id\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:46:39.657687+00:00",
+      "end_time": "2026-02-13T11:46:53.588439+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 19332.015,
+      "retry_count": 0,
+      "tokens_used": 12620,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code provides a solid foundational structure for the Easy Rider Transportation platform, covering essential features like user registration, ride booking, driver management, and payments. The database schema is well-designed with appropriate data types and relationships, including `GEOGRAPHY` for locations, which is excellent for a ride-sharing app. The API endpoints cover the core functionalities requested. The frontend components provide basic UI structures for different user roles. Integration tests demonstrate a good understanding of end-to-end flows.\",\n    \"strengths\": [\n      \"**Comprehensive Database Schema:** The PostgreSQL migrations define a robust schema with `users`, `drivers`, `rides`, and `payments` tables, including `GEOGRAPHY` types for"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:46:53.588615+00:00",
+      "end_time": "2026-02-13T11:47:12.920630+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T11:47:12.920790+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": {
+      "backend": {
+        "endpoints": [
+          {
+            "path": "/auth/register",
+            "method": "POST",
+            "description": "Registers a new user (customer, driver, or owner).",
+            "request_body": {
+              "email": "string",
+              "password": "string",
+              "first_name": "string",
+              "last_name": "string",
+              "phone_number": "string",
+              "user_type": "enum('customer', 'driver', 'owner')"
+            },
+            "response": {
+              "user_id": "uuid",
+              "message": "string"
+            }
+          },
+          {
+            "path": "/auth/login",
+            "method": "POST",
+            "description": "Logs in an existing user.",
+            "request_body": {
+              "email": "string",
+              "password": "string"
+            },
+            "response": {
+              "access_token": "string",
+              "token_type": "string"
+            }
+          },
+          {
+            "path": "/rides",
+            "method": "POST",
+            "description": "Creates a new ride request.",
+            "request_body": {
+              "customer_id": "uuid",
+              "pickup_location": "string",
+              "dropoff_location": "string",
+              "pickup_time": "datetime (ISO format)",
+              "ride_type": "enum('ASAP', 'Scheduled')",
+              "number_of_passengers": "integer"
+            },
+            "response": {
+              "ride_id": "uuid",
+              "status": "string"
+            }
+          },
+          {
+            "path": "/rides/{ride_id}",
+            "method": "GET",
+            "description": "Retrieves details of a specific ride.",
+            "parameters": {
+              "ride_id": "uuid"
+            },
+            "response": {
+              "ride_id": "uuid",
+              "customer_id": "uuid",
+              "driver_id": "uuid",
+              "pickup_location": "string",
+              "dropoff_location": "string",
+              "pickup_time": "datetime (ISO format)",
+              "status": "enum('Pending', 'Accepted', 'InProgress', 'Completed', 'Cancelled')",
+              "fare": "number"
+            }
+          },
+          {
+            "path": "/rides/{ride_id}/cancel",
+            "method": "POST",
+            "description": "Cancels a ride.",
+            "parameters": {
+              "ride_id": "uuid"
+            },
+            "request_body": {
+              "reason": "string"
+            },
+            "response": {
+              "message": "string"
+            }
+          },
+          {
+            "path": "/drivers",
+            "method": "GET",
+            "description": "Lists all available drivers (for owner).",
+            "response": {
+              "drivers": [
+                {
+                  "driver_id": "uuid",
+                  "first_name": "string",
+                  "last_name": "string",
+                  "is_available": "boolean",
+                  "current_location": "string"
+                }
+              ]
+            }
+          },
+          {
+            "path": "/drivers/{driver_id}/availability",
+            "method": "PUT",
+            "description": "Updates a driver's availability status.",
+            "parameters": {
+              "driver_id": "uuid"
+            },
+            "request_body": {
+              "is_available": "boolean"
+            },
+            "response": {
+              "message": "string"
+            }
+          },
+          {
+            "path": "/payments",
+            "method": "POST",
+            "description": "Processes a payment for a ride.",
+            "request_body": {
+              "ride_id": "uuid",
+              "amount": "number",
+              "payment_method": "enum('Credit Card', 'Cash')"
+            },
+            "response": {
+              "payment_id": "uuid",
+              "status": "string"
+            }
+          },
+          {
+            "path": "/drivers/clockin",
+            "method": "POST",
+            "description": "Driver clock in",
+            "request_body": {
+              "driver_id": "uuid"
+            },
+            "response": {
+              "message": "string",
+              "clockin_time": "datetime"
+            }
+          },
+          {
+            "path": "/drivers/clockout",
+            "method": "POST",
+            "description": "Driver clock out",
+            "request_body": {
+              "driver_id": "uuid"
+            },
+            "response": {
+              "message": "string",
+              "clockout_time": "datetime"
+            }
+          },
+          {
+            "path": "/owner/drivers/logged_in",
+            "method": "GET",
+            "description": "Get a list of the currently logged in drivers",
+            "response": {
+              "drivers": [
+                {
+                  "driver_id": "uuid",
+                  "first_name": "string",
+                  "last_name": "string"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "frontend": null,
+      "migrations": [
+        {
+          "name": "0001_create_users_table.sql",
+          "content": "-- Create users table\nCREATE TABLE users (\n    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email VARCHAR(255) NOT NULL UNIQUE,\n    password_hash VARCHAR(255) NOT NULL,\n    first_name VARCHAR(255),\n    last_name VARCHAR(255),\n    phone_number VARCHAR(20),\n    user_type VARCHAR(20) CHECK (user_type IN ('customer', 'driver', 'owner')),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Create an index on the email column for faster lookups\nCREATE INDEX idx_users_email ON users (email);\n"
+        },
+        {
+          "name": "0002_create_drivers_table.sql",
+          "content": "-- Create drivers table\nCREATE TABLE drivers (\n    driver_id UUID PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,\n    is_active BOOLEAN DEFAULT FALSE,\n    current_location GEOGRAPHY(Point,4326),\n    last_seen TIMESTAMP WITH TIME ZONE,\n    vehicle_details JSONB\n);\n"
+        },
+        {
+          "name": "0003_create_rides_table.sql",
+          "content": "-- Create rides table\nCREATE TABLE rides (\n    ride_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    customer_id UUID REFERENCES users(user_id) ON DELETE SET NULL,\n    driver_id UUID REFERENCES drivers(driver_id) ON DELETE SET NULL,\n    pickup_location GEOGRAPHY(Point,4326) NOT NULL,\n    dropoff_location GEOGRAPHY(Point,4326) NOT NULL,\n    pickup_time TIMESTAMP WITH TIME ZONE NOT NULL,\n    status VARCHAR(20) CHECK (status IN ('pending', 'accepted', 'in_progress', 'completed', 'cancelled')) DEFAULT 'pending',\n    fare_amount DECIMAL(10, 2),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n"
+        },
+        {
+          "name": "0004_create_payments_table.sql",
+          "content": "-- Create payments table\nCREATE TABLE payments (\n    payment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    ride_id UUID REFERENCES rides(ride_id) ON DELETE CASCADE,\n    payment_method VARCHAR(50),\n    amount DECIMAL(10, 2),\n    transaction_id VARCHAR(255),\n    payment_status VARCHAR(20) CHECK (payment_status IN ('pending', 'completed', 'failed')) DEFAULT 'pending',\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,\n    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP\n);\n"
+        },
+        {
+          "name": "0005_add_driver_availability_view.sql",
+          "content": "-- Create a view to show available drivers\nCREATE OR REPLACE VIEW available_drivers AS\nSELECT\n    d.driver_id,\n    u.first_name, \n    u.last_name,\n    d.current_location\nFROM\n    drivers d\nJOIN\n    users u ON d.driver_id = u.user_id\nWHERE\n    d.is_active = TRUE;\n"
+        }
+      ]
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "fullstack_generation_v1",
+      "rubric_id": "fullstack_generation_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "objective_tests",
+          "raw_score": 85.7143,
+          "normalized_score": 0.8571,
+          "adjusted_normalized_score": 0.5926,
+          "score": 85.71,
+          "weight": 0.6,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.5933,
+          "score": 86.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 45.0,
+          "normalized_score": 0.45,
+          "adjusted_normalized_score": 0.487,
+          "score": 45.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 93.0,
+          "normalized_score": 0.93,
+          "adjusted_normalized_score": 0.6115,
+          "score": 93.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 77.43,
+      "weighted_score": 79.96,
+      "objective_weighted_score": 82.43,
+      "grade": "F",
+      "passed": false,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "design_architecture",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_migrations",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_api",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_frontend",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "assemble_feature",
+          "status": "skipped",
+          "score": 0.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/react_code_instructions.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/react_code_instructions.json",
+        "sample_index": 0,
+        "task_id": "0",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 82.43,
+        "layer2_judge": null,
+        "layer3_similarity": 82.43,
+        "layer3_efficiency": 45.0,
+        "layer3_advisory": 70.08
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-13T11:47:12.957544+00:00",
+      "hard_gates": {
+        "required_outputs_present": false,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [
+        "required_outputs_present"
+      ],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}

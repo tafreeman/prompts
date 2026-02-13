@@ -23,6 +23,8 @@ from ..engine.dag_executor import DAGExecutor
 from ..engine.expressions import ExpressionEvaluator
 from ..engine.runtime import IsolatedTaskRuntime, create_runtime
 from ..engine.step import StepExecutor
+from ..integrations.base import TraceAdapter
+from ..integrations.tracing import NullTraceAdapter
 from .loader import WorkflowDefinition, WorkflowLoader
 from .run_logger import RunLogger
 
@@ -57,6 +59,7 @@ class WorkflowRunner:
         max_concurrency: int = 10,
         run_logger: RunLogger | bool | None = None,
         execution_profile: Mapping[str, Any] | None = None,
+        trace_adapter: TraceAdapter | None = None,
     ):
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
@@ -69,6 +72,8 @@ class WorkflowRunner:
             self._run_logger = run_logger
         else:
             self._run_logger = None
+        # trace_adapter=None → use NullTraceAdapter (no-op)
+        self._trace_adapter = trace_adapter if trace_adapter is not None else NullTraceAdapter()
 
     # --------------------------------------------------------------------- #
     # Public API
@@ -109,30 +114,47 @@ class WorkflowRunner:
         if ctx is None:
             ctx = ExecutionContext(workflow_id=f"wf-{workflow_name}")
 
+        run_id = ctx.workflow_id
+
+        # Emit workflow_start trace event
+        self._trace_adapter.emit_workflow_start(workflow_name, run_id, validated)
+
         # Seed inputs into context under an "inputs" namespace
         for key, value in validated.items():
             ctx.set_sync(f"inputs.{key}", value)
         # Also store the flat dict for expression resolution
         ctx.set_sync("inputs", validated)
 
-        # 4. Execute DAG
-        result, runtime_profile, runtime_artifacts = await self._execute_definition(
-            definition,
-            ctx,
-            on_update=on_update,
-            execution_profile=execution_profile,
-        )
+        try:
+            # 4. Execute DAG
+            result, runtime_profile, runtime_artifacts = await self._execute_definition(
+                definition,
+                ctx,
+                on_update=on_update,
+                execution_profile=execution_profile,
+            )
 
-        # 5. Resolve outputs
-        result.final_output = self._resolve_outputs(definition, ctx, result)
-        result.workflow_name = definition.name
-        result.metadata["execution_profile"] = runtime_profile
-        result.metadata["runtime_artifacts"] = runtime_artifacts
+            # 5. Resolve outputs
+            result.final_output = self._resolve_outputs(definition, ctx, result)
+            result.workflow_name = definition.name
+            result.metadata["execution_profile"] = runtime_profile
+            result.metadata["runtime_artifacts"] = runtime_artifacts
 
-        # 6. Log run
-        self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
+            # 6. Log run
+            self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
 
-        return result
+            # Emit workflow_end trace event
+            self._trace_adapter.emit_workflow_end(
+                workflow_name, run_id, result.overall_status.value, result.final_output
+            )
+
+            return result
+        except Exception as e:
+            # Emit workflow_end with error status
+            self._trace_adapter.emit_workflow_end(
+                workflow_name, run_id, "error", {"error": str(e)}
+            )
+            raise
 
     async def run_definition(
         self,

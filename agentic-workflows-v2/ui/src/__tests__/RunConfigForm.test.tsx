@@ -25,7 +25,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     // Both fields should be rendered
     expect(screen.getByTestId("input-repo_url")).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     const select = screen.getByTestId("input-language") as HTMLSelectElement;
     expect(select.tagName).toBe("SELECT");
@@ -65,7 +65,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     const optionalInput = screen.getByTestId(
       "input-optional_field"
@@ -84,7 +84,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     const input = screen.getByTestId("input-model") as HTMLInputElement;
     expect(input.value).toBe("gpt-4o");
@@ -96,7 +96,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     // Advanced panel should not be visible initially
     expect(screen.queryByTestId("rubric-config")).not.toBeInTheDocument();
@@ -116,7 +116,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     // The form should emit onChange on initial render with defaults
     expect(onChange).toHaveBeenCalled();
@@ -134,7 +134,7 @@ describe("RunConfigForm", () => {
     ];
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={inputs} onChange={onChange} />);
+    render(<RunConfigForm inputs={inputs} workflowName="test" onChange={onChange} />);
 
     const textarea = screen.getByTestId("input-config") as HTMLTextAreaElement;
     expect(textarea.tagName).toBe("TEXTAREA");
@@ -143,7 +143,7 @@ describe("RunConfigForm", () => {
   it("renders no input grid when inputs array is empty", () => {
     const onChange = vi.fn();
 
-    render(<RunConfigForm inputs={[]} onChange={onChange} />);
+    render(<RunConfigForm inputs={[]} workflowName="test" onChange={onChange} />);
 
     expect(screen.queryByTestId("workflow-inputs")).not.toBeInTheDocument();
     // Form wrapper should still exist

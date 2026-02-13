@@ -51,6 +51,41 @@ evaluation:
       description: Architecture case studies with golden evolution plans
 
   # ==========================================================================
+  # Evaluation Sets
+  # ==========================================================================
+  eval_sets:
+    quick_test:
+      name: "Quick Test"
+      description: "Fast evaluation with minimal samples"
+      datasets:
+        - humaneval
+        - mbpp
+
+    comprehensive:
+      name: "Comprehensive Evaluation"
+      description: "Full evaluation across all datasets"
+      datasets:
+        - humaneval
+        - mbpp
+        - swe_bench
+        - custom_fullstack
+        - refactoring_examples
+
+    code_generation:
+      name: "Code Generation"
+      description: "Focus on code generation tasks"
+      datasets:
+        - humaneval
+        - mbpp
+
+    bug_fixing:
+      name: "Bug Fixing"
+      description: "Focus on bug fixing and issue resolution"
+      datasets:
+        - swe_bench
+        - refactoring_examples
+
+  # ==========================================================================
   # Logging Configuration
   # ==========================================================================
   logging:

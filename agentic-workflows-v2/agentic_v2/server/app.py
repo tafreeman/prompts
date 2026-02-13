@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Built frontend assets directory
-UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent.parent / "ui" / "dist"
+UI_DIST_DIR = Path(__file__).resolve().parent.parent.parent / "ui" / "dist"
 UI_DIST_DIR_RESOLVED = UI_DIST_DIR.resolve()
 
 def create_app() -> FastAPI:

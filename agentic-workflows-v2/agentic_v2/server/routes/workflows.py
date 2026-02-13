@@ -20,6 +20,7 @@ from ..evaluation import (
     adapt_sample_to_workflow_inputs,
     list_local_datasets,
     list_repository_datasets,
+    list_eval_sets,
     load_local_dataset_sample,
     load_repository_dataset_sample,
     match_workflow_dataset,
@@ -39,6 +40,35 @@ router = APIRouter(tags=["workflows"])
 loader = WorkflowLoader()
 runner = WorkflowRunner(run_logger=False)
 run_logger = RunLogger()
+
+
+def _is_effectively_empty(value: Any) -> bool:
+    if value is None:
+        return True
+    if isinstance(value, str):
+        return value.strip() == ""
+    if isinstance(value, (list, dict, tuple, set)):
+        return len(value) == 0
+    return False
+
+
+def _merge_dataset_and_request_inputs(
+    adapted_inputs: dict[str, Any],
+    request_inputs: dict[str, Any],
+) -> dict[str, Any]:
+    """
+    Merge adapted dataset inputs with request inputs.
+
+    Request inputs normally take precedence, except when a request value is
+    effectively empty and an adapted value already exists for that key.
+    This prevents blank form fields from overriding dataset-derived values.
+    """
+    merged = dict(adapted_inputs)
+    for key, value in request_inputs.items():
+        if _is_effectively_empty(value) and key in merged:
+            continue
+        merged[key] = value
+    return merged
 
 
 @router.get("/workflows", response_model=ListWorkflowsResponse)
@@ -193,6 +223,7 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
     """List repository and local dataset options for workflow evaluation."""
     repository = list_repository_datasets()
     local = list_local_datasets()
+    eval_sets = list_eval_sets()
 
     if workflow:
         try:
@@ -228,7 +259,64 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
     return ListEvaluationDatasetsResponse(
         repository=repository,
         local=local,
+        eval_sets=eval_sets,
     )
+
+
+@router.get("/workflows/{workflow_name}/preview-dataset-inputs")
+async def preview_dataset_inputs(
+    workflow_name: str,
+    dataset_source: str,
+    dataset_id: str,
+    sample_index: int = 0,
+):
+    """Preview how dataset sample fields will map to workflow inputs."""
+    try:
+        workflow_def = loader.load(workflow_name)
+    except Exception as exc:
+        raise HTTPException(status_code=404, detail=f"Workflow not found: {exc}") from exc
+
+    try:
+        if dataset_source == "repository":
+            dataset_sample, dataset_meta = load_repository_dataset_sample(
+                dataset_id,
+                sample_index=sample_index,
+            )
+        elif dataset_source == "local":
+            dataset_sample, dataset_meta = load_local_dataset_sample(
+                dataset_id,
+                sample_index=sample_index,
+            )
+        else:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Invalid dataset_source: {dataset_source}",
+            )
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    compatible, reasons = match_workflow_dataset(workflow_def, dataset_sample)
+    if not compatible:
+        return {
+            "compatible": False,
+            "reasons": reasons,
+            "adapted_inputs": {},
+            "dataset_meta": dataset_meta,
+        }
+
+    adapted_inputs = adapt_sample_to_workflow_inputs(
+        workflow_def.inputs,
+        dataset_sample,
+        run_id="preview",
+        artifacts_dir=run_logger.runs_dir / "_inputs",
+    )
+
+    return {
+        "compatible": True,
+        "reasons": [],
+        "adapted_inputs": adapted_inputs,
+        "dataset_meta": dataset_meta,
+    }
 
 
 @router.post("/run", response_model=WorkflowRunResponse)
@@ -295,8 +383,12 @@ async def run_workflow(request: WorkflowRunRequest, background_tasks: Background
                     run_id=run_id,
                     artifacts_dir=run_logger.runs_dir / "_inputs",
                 )
-                # Request input_data takes precedence over adapted dataset inputs
-                workflow_inputs = {**adapted_inputs, **workflow_inputs}
+                # Request input_data takes precedence over adapted dataset inputs,
+                # except empty request values do not override adapted values.
+                workflow_inputs = _merge_dataset_and_request_inputs(
+                    adapted_inputs,
+                    workflow_inputs,
+                )
                 dataset_meta = {
                     **(dataset_meta or {}),
                     "dataset_workflow_compatible": True,
