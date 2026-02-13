@@ -459,23 +459,14 @@ def _resolve_local_dataset(dataset_ref: str) -> Path:
     """
     Resolve a local dataset reference to a JSON file path under an allowed root.
 
-    The reference may be either:
-      * an ID previously returned by list_local_datasets(), or
-      * a workspace-relative path.
+    The reference must be an ID previously returned by list_local_datasets().
 
     In all cases the resolved path must point to a file under one of the
     directories returned by _local_dataset_roots(), otherwise a ValueError
     is raised.
     """
-    ref_path = Path(dataset_ref)
-
-    # First, treat the reference as a workspace-relative path and validate it.
-    if not ref_path.is_absolute():
-        candidate = (_WORKSPACE_ROOT / ref_path).resolve()
-        if candidate.exists() and candidate.is_file() and _is_under_allowed_root(candidate):
-            return candidate
-
-    # Next, try to match against known local dataset IDs.
+    # Only allow dataset references that match a known local dataset ID.
+    # IDs are produced by _safe_relative_id from paths under the allowed roots.
     for option in list_local_datasets():
         if option["id"] == dataset_ref:
             # option["id"] is produced by _safe_relative_id from a path under
