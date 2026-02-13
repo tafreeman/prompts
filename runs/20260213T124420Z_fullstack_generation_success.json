@@ -1,0 +1,415 @@
+{
+  "run_id": "fullstack_generation-5304850d",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 60602.041999999994,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T12:43:19.875416+00:00",
+  "end_time": "2026-02-13T12:44:20.477458+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "sample_index": 4,
+    "task_id": "4",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "feature_spec": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a function to calculate the sum of a sequence of integers.\n\n### Input:\n[1, 2, 3, 4, 5]\n\n### Response:\n# Python code\ndef sum_sequence(sequence):\n  sum = 0\n  for num in sequence:\n    sum += num\n  return sum",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 16706.447,
+      "retry_count": 0,
+      "tokens_used": 2939,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"api_spec\": {\n    \"title\": \"Sequence Sum Calculator API\",\n    \"version\": \"1.0.0\",\n    \"description\": \"API for calculating the sum of a sequence of integers and managing calculation history.\",\n    \"base_url\": \"/api/v1\",\n    \"endpoints\": [\n      {\n        \"path\": \"/calculations/sum\",\n        \"method\": \"POST\",\n        \"summary\": \"Calculate sum of a sequence and store it\",\n        \"description\": \"Receives a list of integers, calculates their sum, stores the input sequence and result, and returns the calculation details.\",\n        \"request_body\": {\n          \"content\": {\n            \"application/json\": {\n              \"schema\": {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"sequence\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                      \"type\": \"integer\"\n                    },\n                    \"description\": \"A list of integers to be summed.\"\n                  }\n                },\n                \"required\": [\n                  \"sequence\"\n                ],\n                \"example\": {\n                  \"sequence\": [\n                    1,\n                    2,\n                    3,\n                    4,\n                    5\n                  ]\n                }\n              }\n            }\n          }\n        },\n        \"responses\": {\n          \"201\": {\n            \"description\": \"Calculation created successfully\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"id\": {\n                      \"type\": \"string\",\n                      \"format\": \"uuid\",\n                      \"description\": \"Unique identifier for the calculation.\"\n                    },\n                    \"sequence\": {\n                      \"type\": \"array\",\n                      \"items\": {\n                        \"type\": \"integer\"\n                      },\n                      \"description\": \"The input sequence of integers.\"\n                    },\n                    \"sum\": {\n                      \"type\": \"integer\",\n                      \"description\": \"The calculated sum.\"\n                    },\n                    \"timestamp\": {\n                      \"type\": \"string\",\n                      \"format\": \"date-time\",\n                      \"description\": \"Timestamp of when the calculation was performed.\"\n                    }\n                  },\n                  \"example\": {\n                    \"id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n                    \"sequence\": [\n                      1,\n                      2,\n                      3,\n                      4,\n                      5\n                    ],\n                    \"sum\": 15,\n                    \"timestamp\": \"2023-10-27T10:00:00Z\"\n                  }\n                }\n              }\n            }\n          },\n          \"422\": {\n            \"description\": \"Validation Error\"\n          }\n        }\n      },\n      {\n        \"path\": \"/calculations/{calculation_id}\",\n        \"method\": \"GET\",\n        \"summary\": \"Retrieve a specific calculation by ID\",\n        \"description\": \"Fetches the details of a previously stored calculation.\",\n        \"parameters\": [\n          {\n            \"name\": \"calculation_id\",\n            \"in\": \"path\",\n            \"required\": true,\n            \"schema\": {\n              \"type\": \"string\",\n              \"format\": \"uuid\"\n            },\n            \"description\": \"The unique identifier of the calculation.\"\n          }\n        ],\n        \"responses\": {\n          \"200\": {\n            \"description\": \"Calculation details retrieved successfully\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"id\": {\n                      \"type\": \"string\",\n                      \"format\": \"uuid\"\n                    },\n                    \"sequence\": {\n                      \"type\": \"array\",\n                      \"items\": {\n                        \"type\": \"integer\"\n                      }\n                    },\n                    \"sum\": {\n                      \"type\": \"integer\"\n                    },\n                    \"timestamp\": {\n                      \"type\": \"string\",\n                      \"format\": \"date-time\"\n                    }\n                  }\n                },\n                \"example\": {\n                  \"id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n                  \"sequence\": [\n                    1,\n                    2,\n                    3,\n                    4,\n                    5\n                  ],\n                  \"sum\": 15,\n                  \"timestamp\": \"2023-10-27T10:00:00Z\"\n                }\n              }\n            }\n          },\n          \"404\": {\n            \"description\": \"Calculation not found\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"object\",\n                  \"properties\": {\n                    \"detail\": {\n                      \"type\": \"string\"\n                    }\n                  }\n                },\n                \"example\": {\n                  \"detail\": \"Calculation not found\"\n                }\n              }\n            }\n          }\n        }\n      },\n      {\n        \"path\": \"/calculations\",\n        \"method\": \"GET\",\n        \"summary\": \"Retrieve all stored calculations\",\n        \"description\": \"Fetches a list of all historical sum calculations.\",\n        \"responses\": {\n          \"200\": {\n            \"description\": \"List of calculations retrieved successfully\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"object\",\n                    \"properties\": {\n                      \"id\": {\n                        \"type\": \"string\",\n                        \"format\": \"uuid\"\n                      },\n                      \"sequence\": {\n                        \"type\": \"array\",\n                        \"items\": {\n                          \"type\": \"integer\"\n                        }\n                      },\n                      \"sum\": {\n                        \"type\": \"integer\"\n                      },\n                      \"timestamp\": {\n                        \"type\": \"string\",\n                        \"format\": \"date-time\"\n                      }\n                    }\n                  }\n                },\n                \"example\": [\n                  {\n                    \"id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n                    \"sequence\": [\n                      1,\n                      2,\n                      3,\n                      4,\n                      5\n                    ],\n                    \"sum\": 15,\n                    \"timestamp\": \"2023-10-27T10:00:00Z\"\n                  },\n                  {\n                    \"id\": \"f5e4d3c2-b1a0-9876-5432-10fedcba9876\",\n                    \"sequence\": [\n                      10,\n                      20\n                    ],\n                    \"sum\": 30,\n                    \"timestamp\": \"2023-10-27T10:05:00Z\"\n                  }\n                ]\n              }\n            }\n          }\n        }\n      }\n    ]\n  },\n  \"db_schema\": {\n    \"database_type\": \"PostgreSQL\",\n    \"tables\": [\n      {\n        \"name\": \"calculations\",\n        \"description\": \"Stores the history of sequence sum calculations.\",\n        \"columns\": [\n          {\n            \"name\": \"id\",\n            \"type\": \"UUID\",\n            \"constraints\": [\n              \"PRIMARY KEY\",\n              \"NOT NULL\"\n            ],\n            \"description\": \"Unique identifier for each calculation entry.\"\n          },\n          {\n            \"name\": \"sequence\",\n            \"type\": \"JSONB\",\n            \"constraints\": [\n              \"NOT NULL\"\n            ],\n            \"description\": \"The input sequence of integers, stored as a JSON array.\"\n          },\n          {\n            \"name\": \"sum_result\",\n            \"type\": \"INTEGER\",\n            \"constraints\": [\n              \"NOT NULL\"\n            ],\n            \"description\": \"The calculated sum of the sequence.\"\n          },\n          {\n            \"name\": \"created_at\",\n            \"type\": \"TIMESTAMP WITH TIME ZONE\",\n            \"constraints\": [\n              \"NOT NULL\",\n              \"DEFAULT CURRENT_TIMESTAMP\"\n            ],\n            \"description\": \"Timestamp when the calculation was recorded.\"\n          }\n        ]\n      }\n    ]\n  },\n  \"component_tree\": {\n    \"name\": \"Sequence Sum Calculator System\",\n    \"type\": \"System\",\n    \"children\": [\n      {\n        \"name\": \"Frontend Application\",\n        \"type\": \"Client Application\",\n        \"tech\": \"React\",\n        \"description\": \"User interface for inputting sequences, viewing results, and browsing calculation history.\",\n        \"children\": [\n          {\n            \"name\": \"App (Root Component)\",\n            \"type\": \"UI Component\",\n            \"description\": \"Main application layout and routing.\"\n          },\n          {\n            \"name\": \"CalculationForm\",\n            \"type\": \"UI Component\",\n            \"description\": \"Allows users to input a sequence of integers and submit it for sum calculation.\",\n            \"interacts_with\": [\n              \"API Service Layer\"\n            ]\n          },\n          {\n            \"name\": \"CalculationResultDisplay\",\n            \"type\": \"UI Component\",\n            \"description"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:19.875970+00:00",
+      "end_time": "2026-02-13T12:43:36.582417+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 1330.509,
+      "retry_count": 0,
+      "tokens_used": 3183,
+      "input": {},
+      "output": {
+        "migrations": [
+          {
+            "name": "create_calculations_table.sql",
+            "content": "-- Create the calculations table\nCREATE TABLE calculations (\n    id UUID PRIMARY KEY NOT NULL,\n    sequence JSONB NOT NULL,\n    sum_result INTEGER NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Add an index for faster retrieval by created_at\nCREATE INDEX idx_calculations_created_at ON calculations (created_at);\n"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:36.583108+00:00",
+      "end_time": "2026-02-13T12:43:37.913617+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 12573.693000000001,
+      "retry_count": 0,
+      "tokens_used": 4695,
+      "input": {},
+      "output": {
+        "api_code": "from fastapi import FastAPI, HTTPException, Depends\nfrom pydantic import BaseModel\nfrom typing import List\nfrom uuid import UUID, uuid4\nfrom datetime import datetime\nfrom sqlalchemy import create_engine, Column, Integer, ARRAY, DateTime, Identity\nfrom sqlalchemy.dialects.postgresql import UUID as PG_UUID\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker, Session\nfrom sqlalchemy.types import TypeDecorator, String\nimport json\n\n\n# Database Configuration\nDATABASE_URL = \"postgresql://user:password@db:5432/dbname\" # Replace with your actual database URL\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\n\n\n# Define a custom JSON type for SQLAlchemy\nclass JSONType(TypeDecorator):\n    impl = String\n\n    def process_bind_param(self, value, dialect):\n        if value is not None:\n            return json.dumps(value)\n        return None\n\n    def process_result_value(self, value, dialect):\n        if value is not None:\n            return json.loads(value)\n        return None\n\n# Database Model\nclass Calculation(Base):\n    __tablename__ = \"calculations\"\n\n    id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid4)\n    sequence = Column(JSONType, nullable=False)\n    sum_result = Column(Integer, nullable=False)\n    created_at = Column(DateTime, default=datetime.utcnow)\n\nBase.metadata.create_all(bind=engine)\n\n\n# Dependency\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n\n# Pydantic Models\nclass CalculationRequest(BaseModel):\n    sequence: List[int]\n\nclass CalculationResponse(BaseModel):\n    id: UUID\n    sequence: List[int]\n    sum: int\n    timestamp: datetime\n\napp = FastAPI()\n\n@app.post(\"/api/v1/calculations/sum\", response_model=CalculationResponse, status_code=201)\nasync def calculate_sum(calculation_request: CalculationRequest, db: Session = Depends(get_db)):\n    sequence = calculation_request.sequence\n    sum_result = sum(sequence)\n\n    db_calculation = Calculation(sequence=sequence, sum_result=sum_result)\n    db.add(db_calculation)\n    db.commit()\n    db.refresh(db_calculation)\n\n    return CalculationResponse(\n        id=db_calculation.id,\n        sequence=db_calculation.sequence,\n        sum=db_calculation.sum_result,\n        timestamp=db_calculation.created_at\n    )\n\n@app.get(\"/api/v1/calculations/{calculation_id}\", response_model=CalculationResponse)\nasync def get_calculation(calculation_id: UUID, db: Session = Depends(get_db)):\n    calculation = db.query(Calculation).filter(Calculation.id == calculation_id).first()\n    if calculation is None:\n        raise HTTPException(status_code=404, detail=\"Calculation not found\")\n    return CalculationResponse(\n        id=calculation.id,\n        sequence=calculation.sequence,\n        sum=calculation.sum_result,\n        timestamp=calculation.created_at\n    )\n\n@app.get(\"/api/v1/calculations\", response_model=List[CalculationResponse])\nasync def get_all_calculations(db: Session = Depends(get_db)):\n    calculations = db.query(Calculation).all()\n    return [CalculationResponse(\n        id=calculation.id,\n        sequence=calculation.sequence,\n        sum=calculation.sum_result,\n        timestamp=calculation.created_at\n    ) for calculation in calculations]",
+        "api_tests": "from fastapi.testclient import TestClient\nfrom main import app, Base, engine, get_db\nfrom sqlalchemy.orm import sessionmaker, Session\nfrom sqlalchemy import create_engine\nimport pytest\nfrom uuid import UUID\nfrom datetime import datetime\n\nSQLALCHEMY_DATABASE_URL = \"postgresql://user:password@db:5432/testdb\"  # Use a separate test database\n\nengine = create_engine(SQLALCHEMY_DATABASE_URL)\nTestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\n\n\ndef override_get_db():\n    try:\n        db = TestingSessionLocal()\n        yield db\n    finally:\n        db.close()\n\n\napp.dependency_overrides[get_db] = override_get_db\n\nclient = TestClient(app)\n\n\n@pytest.fixture(scope=\"module\", autouse=True)\ndef create_test_database():\n    Base.metadata.create_all(bind=engine)\n    yield\n    Base.metadata.drop_all(bind=engine)\n\n\ndef test_calculate_sum():\n    response = client.post(\"/api/v1/calculations/sum\", json={\"sequence\": [1, 2, 3, 4, 5]})\n    assert response.status_code == 201\n    data = response.json()\n    assert \"id\" in data\n    assert data[\"sequence\"] == [1, 2, 3, 4, 5]\n    assert data[\"sum\"] == 15\n    assert \"timestamp\" in data\n    try:\n        UUID(data[\"id\"])\n        datetime.fromisoformat(data[\"timestamp\"].replace(\"Z\", \"+00:00\"))\n    except ValueError:\n        assert False, \"ID is not a valid UUID or timestamp is not a valid datetime\"\n\n\ndef test_get_calculation():\n    # First, create a calculation\n    create_response = client.post(\"/api/v1/calculations/sum\", json={\"sequence\": [10, 20, 30]})\n    assert create_response.status_code == 201\n    create_data = create_response.json()\n    calculation_id = create_data[\"id\"]\n\n    # Then, retrieve it\n    response = client.get(f\"/api/v1/calculations/{calculation_id}\")\n    assert response.status_code == 200\n    data = response.json()\n    assert data[\"id\"] == calculation_id\n    assert data[\"sequence\"] == [10, 20, 30]\n    assert data[\"sum\"] == 60\n    assert \"timestamp\" in data\n\n\ndef test_get_calculation_not_found():\n    response = client.get(\"/api/v1/calculations/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee\")  # Non-existent UUID\n    assert response.status_code == 404\n    assert response.json() == {\"detail\": \"Calculation not found\"}\n\n\ndef test_get_all_calculations():\n    # Create some calculations first\n    client.post(\"/api/v1/calculations/sum\", json={\"sequence\": [5, 5, 5]})\n    client.post(\"/api/v1/calculations/sum\", json={\"sequence\": [100]})\n\n    response = client.get(\"/api/v1/calculations\")\n    assert response.status_code == 200\n    data = response.json()\n    assert isinstance(data, list)\n    assert len(data) >= 2\n\n    # Basic check on the structure of the returned data\n    for calculation in data:\n        assert \"id\" in calculation\n        assert \"sequence\" in calculation\n        assert \"sum\" in calculation\n        assert \"timestamp\" in calculation"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:36.582997+00:00",
+      "end_time": "2026-02-13T12:43:49.156690+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 17102.917,
+      "retry_count": 0,
+      "tokens_used": 5436,
+      "input": {},
+      "output": {
+        "ui_code": {
+          "CalculationForm.jsx": "import React, { useState } from 'react';\n\nfunction CalculationForm({ onCalculation }) {\n  const [sequenceInput, setSequenceInput] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n    try {\n      const sequence = sequenceInput.split(',').map(Number);\n      if (sequence.some(isNaN)) {\n        alert('Please enter a comma-separated list of numbers.');\n        return;\n      }\n\n      const response = await fetch('/api/v1/calculations/sum', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ sequence: sequence }),\n      });\n\n      if (!response.ok) {\n        throw new Error(`HTTP error! Status: ${response.status}`);\n      }\n\n      const data = await response.json();\n      onCalculation(data);\n      setSequenceInput(''); // Clear the input after successful submission\n    } catch (error) {\n      console.error('Error submitting calculation:', error);\n      alert('Failed to submit calculation. Please try again.');\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Enter a sequence of numbers (comma-separated):\n        <input\n          type=\"text\"\n          value={sequenceInput}\n          onChange={(e) => setSequenceInput(e.target.value)}\n        />\n      </label>\n      <button type=\"submit\">Calculate Sum</button>\n    </form>\n  );\n}\n\nexport default CalculationForm;",
+          "CalculationResultDisplay.jsx": "import React from 'react';\n\nfunction CalculationResultDisplay({ calculation }) {\n  if (!calculation) {\n    return <p>No calculation to display.</p>;\n  }\n\n  return (\n    <div>\n      <h3>Calculation Result</h3>\n      <p>ID: {calculation.id}</p>\n      <p>Sequence: {calculation.sequence.join(', ')}</p>\n      <p>Sum: {calculation.sum}</p>\n      <p>Timestamp: {calculation.timestamp}</p>\n    </div>\n  );\n}\n\nexport default CalculationResultDisplay;",
+          "CalculationHistory.jsx": "import React, { useState, useEffect } from 'react';\n\nfunction CalculationHistory() {\n  const [calculations, setCalculations] = useState([]);\n\n  useEffect(() => {\n    const fetchCalculations = async () => {\n      try {\n        const response = await fetch('/api/v1/calculations');\n        if (!response.ok) {\n          throw new Error(`HTTP error! Status: ${response.status}`);\n        }\n        const data = await response.json();\n        setCalculations(data);\n      } catch (error) {\n        console.error('Error fetching calculations:', error);\n        alert('Failed to fetch calculation history.');\n      }\n    };\n\n    fetchCalculations();\n  }, []);\n\n  return (\n    <div>\n      <h3>Calculation History</h3>\n      <ul>\n        {calculations.map((calculation) => (\n          <li key={calculation.id}>\n            Sequence: {calculation.sequence.join(', ')}, Sum: {calculation.sum}, Timestamp: {calculation.timestamp}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}\n\nexport default CalculationHistory;",
+          "App.jsx": "import React, { useState } from 'react';\nimport CalculationForm from './CalculationForm';\nimport CalculationResultDisplay from './CalculationResultDisplay';\nimport CalculationHistory from './CalculationHistory';\n\nfunction App() {\n  const [currentCalculation, setCurrentCalculation] = useState(null);\n\n  const handleCalculation = (calculation) => {\n    setCurrentCalculation(calculation);\n  };\n\n  return (\n    <div>\n      <h1>Sequence Sum Calculator</h1>\n      <CalculationForm onCalculation={handleCalculation} />\n      <CalculationResultDisplay calculation={currentCalculation} />\n      <CalculationHistory />\n    </div>\n  );\n}\n\nexport default App;"
+        },
+        "ui_tests": {
+          "CalculationForm.test.jsx": "import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport CalculationForm from './CalculationForm';\n\n// Mock the fetch function\nglobal.fetch = jest.fn(() =>\n  Promise.resolve({\n    ok: true,\n    json: () => Promise.resolve({ id: '123', sequence: [1, 2, 3], sum: 6, timestamp: '2024-01-01T00:00:00Z' }),\n  })\n);\n\ndescribe('CalculationForm', () => {\n  it('renders the form with an input and a button', () => {\n    render(<CalculationForm onCalculation={() => {}} />);\n    expect(screen.getByLabelText('Enter a sequence of numbers (comma-separated):')).toBeInTheDocument();\n    expect(screen.getByText('Calculate Sum')).toBeInTheDocument();\n  });\n\n  it('updates the input value when the user types', () => {\n    render(<CalculationForm onCalculation={() => {}} />);\n    const inputElement = screen.getByLabelText('Enter a sequence of numbers (comma-separated):');\n    fireEvent.change(inputElement, { target: { value: '1,2,3' } });\n    expect(inputElement.value).toBe('1,2,3');\n  });\n\n  it('calls the onCalculation function with the result when the form is submitted', async () => {\n    const onCalculationMock = jest.fn();\n    render(<CalculationForm onCalculation={onCalculationMock} />);\n    const inputElement = screen.getByLabelText('Enter a sequence of numbers (comma-separated):');\n    const buttonElement = screen.getByText('Calculate Sum');\n\n    fireEvent.change(inputElement, { target: { value: '1,2,3' } });\n    fireEvent.click(buttonElement);\n\n    await waitFor(() => {\n      expect(onCalculationMock).toHaveBeenCalledWith({\n        id: '123',\n        sequence: [1, 2, 3],\n        sum: 6,\n        timestamp: '2024-01-01T00:00:00Z',\n      });\n    });\n  });\n\n  it('displays an alert if the input is not a comma-separated list of numbers', async () => {\n    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});\n    render(<CalculationForm onCalculation={() => {}} />);\n    const inputElement = screen.getByLabelText('Enter a sequence of numbers (comma-separated):');\n    const buttonElement = screen.getByText('Calculate Sum');\n\n    fireEvent.change(inputElement, { target: { value: '1,a,3' } });\n    fireEvent.click(buttonElement);\n\n    await waitFor(() => {\n      expect(alertMock).toHaveBeenCalledWith('Please enter a comma-separated list of numbers.');\n    });\n\n    alertMock.mockRestore();\n  });\n});",
+          "CalculationResultDisplay.test.jsx": "import React from 'react';\nimport { render, screen } from '@testing-library/react';\nimport CalculationResultDisplay from './CalculationResultDisplay';\n\ndescribe('CalculationResultDisplay', () => {\n  it('renders the calculation result when a calculation is provided', () => {\n    const calculation = {\n      id: '123',\n      sequence: [1, 2, 3],\n      sum: 6,\n      timestamp: '2024-01-01T00:00:00Z',\n    };\n\n    render(<CalculationResultDisplay calculation={calculation} />);\n\n    expect(screen.getByText('Calculation Result')).toBeInTheDocument();\n    expect(screen.getByText('ID: 123')).toBeInTheDocument();\n    expect(screen.getByText('Sequence: 1, 2, 3')).toBeInTheDocument();\n    expect(screen.getByText('Sum: 6')).toBeInTheDocument();\n    expect(screen.getByText('Timestamp: 2024-01-01T00:00:00Z')).toBeInTheDocument();\n  });\n\n  it('renders a message when no calculation is provided', () => {\n    render(<CalculationResultDisplay calculation={null} />);\n    expect(screen.getByText('No calculation to display.')).toBeInTheDocument();\n  });\n});",
+          "CalculationHistory.test.jsx": "import React from 'react';\nimport { render, screen, waitFor } from '@testing-library/react';\nimport CalculationHistory from './CalculationHistory';\n\n// Mock the fetch function\nglobal.fetch = jest.fn(() =>\n  Promise.resolve({\n    ok: true,\n    json: () =>\n      Promise.resolve([\n        {\n          id: '123',\n          sequence: [1, 2, 3],\n          sum: 6,\n          timestamp: '2024-01-01T00:00:00Z',\n        },\n        {\n          id: '456',\n          sequence: [4, 5, 6],\n          sum: 15,\n          timestamp: '2024-01-01T00:01:00Z',\n        },\n      ]),\n  })\n);\n\ndescribe('CalculationHistory', () => {\n  it('fetches and displays the calculation history', async () => {\n    render(<CalculationHistory />);\n\n    await waitFor(() => {\n      expect(screen.getByText('Sequence: 1, 2, 3, Sum: 6, Timestamp: 2024-01-01T00:00:00Z')).toBeInTheDocument();\n      expect(screen.getByText('Sequence: 4, 5, 6, Sum: 15, Timestamp: 2024-01-01T00:01:00Z')).toBeInTheDocument();\n    });\n  });\n\n  it('displays an alert if fetching the calculation history fails', async () => {\n    const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});\n    global.fetch.mockImplementationOnce(() => Promise.reject(new Error('Failed to fetch')));\n\n    render(<CalculationHistory />);\n\n    await waitFor(() => {\n      expect(alertMock).toHaveBeenCalledWith('Failed to fetch calculation history.');\n    });\n\n    alertMock.mockRestore();\n  });\n});",
+          "App.test.jsx": "import React from 'react';\nimport { render, screen } from '@testing-library/react';\nimport App from './App';\n\ndescribe('App', () => {\n  it('renders the main components', () => {\n    render(<App />);\n    expect(screen.getByText('Sequence Sum Calculator')).toBeInTheDocument();\n    expect(screen.getByLabelText('Enter a sequence of numbers (comma-separated):')).toBeInTheDocument();\n    expect(screen.getByText('Calculation History')).toBeInTheDocument();\n  });\n});"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:36.583074+00:00",
+      "end_time": "2026-02-13T12:43:53.685991+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 7193.112,
+      "retry_count": 0,
+      "tokens_used": 12356,
+      "input": {},
+      "output": {
+        "integration_tests": {
+          "description": "Integration tests to verify the interaction between the frontend (React), backend (FastAPI), and database (PostgreSQL).",
+          "tests": [
+            {
+              "name": "Submit calculation and verify result in history",
+              "steps": [
+                {
+                  "step": 1,
+                  "description": "Enter a sequence in the CalculationForm and submit.",
+                  "frontend_action": "Enter '1,2,3' into the CalculationForm input and click 'Calculate Sum'.",
+                  "expected_result": "A POST request is sent to /api/v1/calculations/sum with the sequence [1, 2, 3]."
+                },
+                {
+                  "step": 2,
+                  "description": "Verify that the CalculationResultDisplay shows the correct result.",
+                  "frontend_verification": "Check that the CalculationResultDisplay shows the ID, sequence [1, 2, 3], sum 6, and timestamp.",
+                  "expected_result": "The CalculationResultDisplay should display the returned calculation details."
+                },
+                {
+                  "step": 3,
+                  "description": "Verify that the CalculationHistory updates with the new calculation.",
+                  "frontend_verification": "Check that the CalculationHistory displays the new calculation with sequence [1, 2, 3] and sum 6.",
+                  "expected_result": "The CalculationHistory list should include an entry for the new calculation."
+                },
+                {
+                  "step": 4,
+                  "description": "Verify the calculation is stored in the database.",
+                  "backend_verification": "Query the database to check that a calculation entry exists with sequence [1, 2, 3] and sum 6.",
+                  "expected_result": "A new row exists in the 'calculations' table with the correct 'sequence' and 'sum_result'."
+                }
+              ]
+            },
+            {
+              "name": "Retrieve calculation history and verify data",
+              "steps": [
+                {
+                  "step": 1,
+                  "description": "Ensure there are some calculations in the database.",
+                  "backend_setup": "If the database is empty, create a few calculations via API calls.",
+                  "expected_result": "The 'calculations' table contains at least two rows."
+                },
+                {
+                  "step": 2,
+                  "description": "Load the App component.",
+                  "frontend_action": "Navigate to the application's root URL.",
+                  "expected_result": "The App component, including CalculationHistory, is rendered."
+                },
+                {
+                  "step": 3,
+                  "description": "Verify that the CalculationHistory displays the correct data.",
+                  "frontend_verification": "Check that the CalculationHistory displays the calculations from the database, including sequence, sum, and timestamp.",
+                  "expected_result": "The CalculationHistory list accurately reflects the calculations stored in the database."
+                }
+              ]
+            },
+            {
+              "name": "Handle invalid input in CalculationForm",
+              "steps": [
+                {
+                  "step": 1,
+                  "description": "Enter an invalid sequence in the CalculationForm and submit.",
+                  "frontend_action": "Enter '1,a,3' into the CalculationForm input and click 'Calculate Sum'.",
+                  "expected_result": "A POST request to /api/v1/calculations/sum is NOT sent."
+                },
+                {
+                  "step": 2,
+                  "description": "Verify that an alert is displayed.",
+                  "frontend_verification": "Check that an alert message 'Please enter a comma-separated list of numbers.' is displayed.",
+                  "expected_result": "An alert box appears with the appropriate error message."
+                },
+                {
+                  "step": 3,
+                  "description": "Verify that no calculation is stored in the database.",
+                  "backend_verification": "Query the database to check that no new calculation entry exists.",
+                  "expected_result": "The 'calculations' table remains unchanged."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:53.686120+00:00",
+      "end_time": "2026-02-13T12:44:00.879232+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 19597.781000000003,
+      "retry_count": 0,
+      "tokens_used": 14819,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code for the full-stack application (FastAPI backend, PostgreSQL database, React frontend) is well-structured, follows best practices, and correctly implements the requested feature. The API design is clean, the database schema is appropriate, and the frontend provides a functional user interface. Both backend and frontend include comprehensive unit tests, and the E2E test descriptions cover critical integration points.\",\n    \"database_migrations\": {\n      \"status\": \"success\",\n      \"comments\": \"The `create_calculations_table.sql` migration is correctly defined, creating the `calculations` table with appropriate data types (UUID, JSONB, INTEGER, TIMESTAMPTZ) and constraints (PRIMARY KEY, NOT NULL, DEFAULT CURRENT_TIMESTAMP). The addition of an index on `created_at` is a good optimization for history retrieval.\"\n    },\n    \"backend_code\": {\n      \"status\": \"success\",\n      \"comments\": \"The FastAPI backend correctly implements all API endpoints as per the design. Pydantic models are well-defined for request and response. The custom `JSONType` for SQLAlchemy handles `JSONB` serialization/deserialization effectively. Database interactions are handled using SQLAlchemy sessions and dependency injection. The sum calculation logic is straightforward and correct.\\n\\n**Minor Issues/Improvements:**\\n1.  **`DATABASE_URL` Placeholder:** The `DATABASE_URL` is still a placeholder (`\\\"postgresql://user:password@db:5432/dbname\\\"`). This needs to be configured with actual credentials and host for deployment.\\n2.  **`created_at` Timestamp:** `datetime.utcnow` generates a naive datetime object. While PostgreSQL `TIMESTAMPTZ` can handle it, it's generally better practice to provide timezone-aware datetimes (e.g., `datetime.now(timezone.utc)`) or rely on `sqlalchemy.func.now()` to ensure explicit timezone handling, especially since `datetime.utcnow` is deprecated in Python 3.12.\\n3.  **`Base.metadata.create_all` in App:** Calling `Base.metadata.create_all(bind=engine)` directly in the main application file is typically for development/testing or very simple applications. In a production setting, database schema management should exclusively be handled by migrations (like the generated `create_calculations_table.sql`). It should be removed or guarded to prevent accidental schema changes on application startup in production.\\n4.  **Pydantic vs. DB Naming Consistency:** The Pydantic `CalculationResponse` uses `sum: int`, while the database column is `sum_result`. While correctly mapped (`sum=db_calculation.sum_result`), aligning these names (e.g., renaming the DB column to `sum` or the Pydantic field to `sum_result`) would improve consistency, though it's a minor point.\"\n    },\n    \"backend_tests\": {\n      \"status\": \"success\",\n      \"comments\": \"The backend tests are comprehensive and well-written. They correctly utilize a separate test database, employ a `pytest` fixture for setup/teardown, and override the `get_db` dependency for isolated testing. All API endpoints are covered, including successful operations, edge cases (e.g., 404 for non-existent calculation), and validation of data types (UUID, datetime format). This provides high confidence in the backend's functionality.\"\n    },\n    \"frontend_code\": {\n      \"status\": \"success\",\n      \"comments\": \"The React frontend components (`App`, `CalculationForm`, `CalculationResultDisplay`, `CalculationHistory`) are well-designed and follow modern React practices using functional components and hooks (`useState`, `useEffect`).\\n*   **`CalculationForm`**: Handles user input, parses sequences, performs client-side validation, and makes correct API calls. Good error handling and UX (clearing input).\\n*   **`CalculationResultDisplay`**: Clearly displays calculation results and handles the 'no calculation' state.\\n*   **`CalculationHistory`**: Fetches and displays historical calculations on component mount, with appropriate error handling.\\n*   **`App`**: Integrates all components effectively and manages shared state.\\n\\n**Minor Issues/Improvements:**\\n1.  **Timestamp Formatting:** The `timestamp` is displayed directly as received from the backend (e.g., `2024-01-01T00:00:00Z`). For better user experience, it could be formatted into a more human-readable, locale-specific date and time string.\"\n    },\n    \"frontend_tests\": {\n      \"status\": \"success\",\n      \"comments\": \"The frontend tests are robust, using Jest and React Testing Library effectively. They mock `fetch` to isolate components, ensuring unit tests are fast and reliable. Test cases cover rendering, user interaction (typing, clicking), form submission, prop passing, and error scenarios (e.g., invalid input, failed API calls). This provides good coverage and confidence in the frontend's correctness.\"\n    },\n    \"e2e_tests\": {\n      \"status\": \"success\",\n      \"comments\": \"The E2E test descriptions are excellent. They clearly define scenarios that cover the full stack, from frontend user interaction to backend processing and database persistence. The steps are logical and include specific frontend actions, frontend verifications, and crucial backend/database verifications. These descriptions serve as a strong foundation for implementing actual E2E tests using tools like Playwright or Cypress.\"\n    }\n  },\n  \"suggested_fixes\": [\n    {\n"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:44:00.879331+00:00",
+      "end_time": "2026-02-13T12:44:20.477112+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:44:20.477219+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": {
+      "backend": "from fastapi import FastAPI, HTTPException, Depends\nfrom pydantic import BaseModel\nfrom typing import List\nfrom uuid import UUID, uuid4\nfrom datetime import datetime\nfrom sqlalchemy import create_engine, Column, Integer, ARRAY, DateTime, Identity\nfrom sqlalchemy.dialects.postgresql import UUID as PG_UUID\nfrom sqlalchemy.ext.declarative import declarative_base\nfrom sqlalchemy.orm import sessionmaker, Session\nfrom sqlalchemy.types import TypeDecorator, String\nimport json\n\n\n# Database Configuration\nDATABASE_URL = \"postgresql://user:password@db:5432/dbname\" # Replace with your actual database URL\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)\nBase = declarative_base()\n\n\n# Define a custom JSON type for SQLAlchemy\nclass JSONType(TypeDecorator):\n    impl = String\n\n    def process_bind_param(self, value, dialect):\n        if value is not None:\n            return json.dumps(value)\n        return None\n\n    def process_result_value(self, value, dialect):\n        if value is not None:\n            return json.loads(value)\n        return None\n\n# Database Model\nclass Calculation(Base):\n    __tablename__ = \"calculations\"\n\n    id = Column(PG_UUID(as_uuid=True), primary_key=True, default=uuid4)\n    sequence = Column(JSONType, nullable=False)\n    sum_result = Column(Integer, nullable=False)\n    created_at = Column(DateTime, default=datetime.utcnow)\n\nBase.metadata.create_all(bind=engine)\n\n\n# Dependency\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()\n\n\n# Pydantic Models\nclass CalculationRequest(BaseModel):\n    sequence: List[int]\n\nclass CalculationResponse(BaseModel):\n    id: UUID\n    sequence: List[int]\n    sum: int\n    timestamp: datetime\n\napp = FastAPI()\n\n@app.post(\"/api/v1/calculations/sum\", response_model=CalculationResponse, status_code=201)\nasync def calculate_sum(calculation_request: CalculationRequest, db: Session = Depends(get_db)):\n    sequence = calculation_request.sequence\n    sum_result = sum(sequence)\n\n    db_calculation = Calculation(sequence=sequence, sum_result=sum_result)\n    db.add(db_calculation)\n    db.commit()\n    db.refresh(db_calculation)\n\n    return CalculationResponse(\n        id=db_calculation.id,\n        sequence=db_calculation.sequence,\n        sum=db_calculation.sum_result,\n        timestamp=db_calculation.created_at\n    )\n\n@app.get(\"/api/v1/calculations/{calculation_id}\", response_model=CalculationResponse)\nasync def get_calculation(calculation_id: UUID, db: Session = Depends(get_db)):\n    calculation = db.query(Calculation).filter(Calculation.id == calculation_id).first()\n    if calculation is None:\n        raise HTTPException(status_code=404, detail=\"Calculation not found\")\n    return CalculationResponse(\n        id=calculation.id,\n        sequence=calculation.sequence,\n        sum=calculation.sum_result,\n        timestamp=calculation.created_at\n    )\n\n@app.get(\"/api/v1/calculations\", response_model=List[CalculationResponse])\nasync def get_all_calculations(db: Session = Depends(get_db)):\n    calculations = db.query(Calculation).all()\n    return [CalculationResponse(\n        id=calculation.id,\n        sequence=calculation.sequence,\n        sum=calculation.sum_result,\n        timestamp=calculation.created_at\n    ) for calculation in calculations]",
+      "frontend": {
+        "CalculationForm.jsx": "import React, { useState } from 'react';\n\nfunction CalculationForm({ onCalculation }) {\n  const [sequenceInput, setSequenceInput] = useState('');\n\n  const handleSubmit = async (event) => {\n    event.preventDefault();\n    try {\n      const sequence = sequenceInput.split(',').map(Number);\n      if (sequence.some(isNaN)) {\n        alert('Please enter a comma-separated list of numbers.');\n        return;\n      }\n\n      const response = await fetch('/api/v1/calculations/sum', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ sequence: sequence }),\n      });\n\n      if (!response.ok) {\n        throw new Error(`HTTP error! Status: ${response.status}`);\n      }\n\n      const data = await response.json();\n      onCalculation(data);\n      setSequenceInput(''); // Clear the input after successful submission\n    } catch (error) {\n      console.error('Error submitting calculation:', error);\n      alert('Failed to submit calculation. Please try again.');\n    }\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Enter a sequence of numbers (comma-separated):\n        <input\n          type=\"text\"\n          value={sequenceInput}\n          onChange={(e) => setSequenceInput(e.target.value)}\n        />\n      </label>\n      <button type=\"submit\">Calculate Sum</button>\n    </form>\n  );\n}\n\nexport default CalculationForm;",
+        "CalculationResultDisplay.jsx": "import React from 'react';\n\nfunction CalculationResultDisplay({ calculation }) {\n  if (!calculation) {\n    return <p>No calculation to display.</p>;\n  }\n\n  return (\n    <div>\n      <h3>Calculation Result</h3>\n      <p>ID: {calculation.id}</p>\n      <p>Sequence: {calculation.sequence.join(', ')}</p>\n      <p>Sum: {calculation.sum}</p>\n      <p>Timestamp: {calculation.timestamp}</p>\n    </div>\n  );\n}\n\nexport default CalculationResultDisplay;",
+        "CalculationHistory.jsx": "import React, { useState, useEffect } from 'react';\n\nfunction CalculationHistory() {\n  const [calculations, setCalculations] = useState([]);\n\n  useEffect(() => {\n    const fetchCalculations = async () => {\n      try {\n        const response = await fetch('/api/v1/calculations');\n        if (!response.ok) {\n          throw new Error(`HTTP error! Status: ${response.status}`);\n        }\n        const data = await response.json();\n        setCalculations(data);\n      } catch (error) {\n        console.error('Error fetching calculations:', error);\n        alert('Failed to fetch calculation history.');\n      }\n    };\n\n    fetchCalculations();\n  }, []);\n\n  return (\n    <div>\n      <h3>Calculation History</h3>\n      <ul>\n        {calculations.map((calculation) => (\n          <li key={calculation.id}>\n            Sequence: {calculation.sequence.join(', ')}, Sum: {calculation.sum}, Timestamp: {calculation.timestamp}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}\n\nexport default CalculationHistory;",
+        "App.jsx": "import React, { useState } from 'react';\nimport CalculationForm from './CalculationForm';\nimport CalculationResultDisplay from './CalculationResultDisplay';\nimport CalculationHistory from './CalculationHistory';\n\nfunction App() {\n  const [currentCalculation, setCurrentCalculation] = useState(null);\n\n  const handleCalculation = (calculation) => {\n    setCurrentCalculation(calculation);\n  };\n\n  return (\n    <div>\n      <h1>Sequence Sum Calculator</h1>\n      <CalculationForm onCalculation={handleCalculation} />\n      <CalculationResultDisplay calculation={currentCalculation} />\n      <CalculationHistory />\n    </div>\n  );\n}\n\nexport default App;"
+      },
+      "migrations": [
+        {
+          "name": "create_calculations_table.sql",
+          "content": "-- Create the calculations table\nCREATE TABLE calculations (\n    id UUID PRIMARY KEY NOT NULL,\n    sequence JSONB NOT NULL,\n    sum_result INTEGER NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\n-- Add an index for faster retrieval by created_at\nCREATE INDEX idx_calculations_created_at ON calculations (created_at);\n"
+        }
+      ]
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "fullstack_generation_v1",
+      "rubric_id": "fullstack_generation_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "objective_tests",
+          "raw_score": 85.7143,
+          "normalized_score": 0.8571,
+          "adjusted_normalized_score": 0.5926,
+          "score": 85.71,
+          "weight": 0.6,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.5933,
+          "score": 86.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 45.0,
+          "normalized_score": 0.45,
+          "adjusted_normalized_score": 0.487,
+          "score": 45.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 93.0,
+          "normalized_score": 0.93,
+          "adjusted_normalized_score": 0.6115,
+          "score": 93.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 77.43,
+      "weighted_score": 79.96,
+      "objective_weighted_score": 82.43,
+      "grade": "F",
+      "passed": false,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "design_architecture",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_migrations",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_api",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_frontend",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "assemble_feature",
+          "status": "skipped",
+          "score": 0.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "sample_index": 4,
+        "task_id": "4",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 82.43,
+        "layer2_judge": null,
+        "layer3_similarity": 82.43,
+        "layer3_efficiency": 45.0,
+        "layer3_advisory": 70.08
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-13T12:44:20.495071+00:00",
+      "hard_gates": {
+        "required_outputs_present": false,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [
+        "required_outputs_present"
+      ],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}

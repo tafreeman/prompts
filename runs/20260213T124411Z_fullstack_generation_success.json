@@ -1,0 +1,466 @@
+{
+  "run_id": "fullstack_generation-711f89e1",
+  "workflow_name": "fullstack_generation",
+  "status": "success",
+  "success_rate": 85.71428571428571,
+  "total_duration_ms": 46586.305,
+  "total_retries": 0,
+  "step_count": 7,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T12:43:24.878876+00:00",
+  "end_time": "2026-02-13T12:44:11.465181+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+    "sample_index": 0,
+    "task_id": "0",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "feature_spec": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\nCreate a function to calculate the sum of a sequence of integers.\n\n### Input:\n[1, 2, 3, 4, 5]\n\n### Response:\n# Python code\ndef sum_sequence(sequence):\n  sum = 0\n  for num in sequence:\n    sum += num\n  return sum",
+    "tech_stack": {
+      "frontend": "react",
+      "backend": "fastapi",
+      "database": "postgresql"
+    }
+  },
+  "steps": [
+    {
+      "step_name": "design_architecture",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 14157.72,
+      "retry_count": 0,
+      "tokens_used": 1976,
+      "input": {},
+      "output": {
+        "api_spec": {
+          "endpoints": [
+            {
+              "path": "/calculate_sum",
+              "method": "POST",
+              "description": "Calculates the sum of a sequence of integers.",
+              "request": {
+                "content_type": "application/json",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "numbers": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "A sequence of integers to be summed."
+                    }
+                  },
+                  "required": [
+                    "numbers"
+                  ]
+                },
+                "example": {
+                  "numbers": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                  ]
+                }
+              },
+              "response": {
+                "status_codes": {
+                  "200": {
+                    "description": "Sum calculated successfully.",
+                    "content_type": "application/json",
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "sum": {
+                          "type": "integer",
+                          "description": "The sum of the provided sequence of integers."
+                        }
+                      }
+                    },
+                    "example": {
+                      "sum": 15
+                    }
+                  },
+                  "400": {
+                    "description": "Invalid input. 'numbers' must be a list of integers.",
+                    "content_type": "application/json",
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "detail": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "example": {
+                      "detail": "Input 'numbers' must be a list of integers."
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "db_schema": {
+          "note": "The core feature (summing a sequence of integers) is stateless and does not inherently require a database for persistence. If this were part of a larger application, PostgreSQL could be used for user data, logging, or storing calculation history, but it is not directly utilized for this specific calculation.",
+          "tables": []
+        },
+        "component_tree": {
+          "system_name": "Integer Sum Calculator Service",
+          "components": [
+            {
+              "name": "Frontend Application",
+              "type": "Client-side",
+              "technology": "React",
+              "description": "Provides the user interface for inputting integer sequences and displaying the calculated results.",
+              "sub_components": [
+                {
+                  "name": "Input Form",
+                  "description": "A UI component (e.g., text area or input field) allowing users to enter a comma-separated or space-separated list of integers."
+                },
+                {
+                  "name": "Calculation Button",
+                  "description": "Triggers the submission of the input sequence to the backend."
+                },
+                {
+                  "name": "Result Display",
+                  "description": "A UI component to show the sum returned from the Backend API."
+                },
+                {
+                  "name": "API Client",
+                  "description": "Handles making HTTP POST requests to the Backend API and processing responses/errors."
+                }
+              ],
+              "interfaces_with": [
+                "Backend API"
+              ]
+            },
+            {
+              "name": "Backend API",
+              "type": "Server-side",
+              "technology": "FastAPI",
+              "description": "Exposes an API endpoint responsible for receiving integer sequences, validating them, and calculating their sum.",
+              "sub_components": [
+                {
+                  "name": "Sum Calculation Endpoint",
+                  "path": "/calculate_sum",
+                  "method": "POST",
+                  "description": "Receives a JSON payload containing a list of integers, performs validation, sums the integers, and returns the result.",
+                  "logic_flow": [
+                    "Receive POST request with JSON body (e.g., {'numbers': [1, 2, 3]})",
+                    "Validate input data: Ensure 'numbers' is a list and all elements are integers (FastAPI's Pydantic models handle this)",
+                    "If validation fails, return 400 Bad Request with error details",
+                    "If validation succeeds, iterate through the 'numbers' list and calculate the total sum",
+                    "Return 200 OK with JSON response containing the sum (e.g., {'sum': 6})"
+                  ]
+                }
+              ],
+              "interfaces_with": [
+                "Frontend Application"
+              ]
+            },
+            {
+              "name": "Database",
+              "type": "Persistence Layer",
+              "technology": "PostgreSQL",
+              "description": "Provided in the tech stack. For this specific feature, it is not directly involved in the sum calculation as it's a stateless operation. It would be utilized for other application functionalities like user management, logging, or storing historical calculations if the application were to expand beyond this single feature.",
+              "interfaces_with": []
+            }
+          ],
+          "data_flow": [
+            "1. User enters a sequence of integers into the Frontend's Input Form.",
+            "2. User clicks the 'Calculate' button.",
+            "3. Frontend's API Client sends an HTTP POST request to the Backend API's '/calculate_sum' endpoint, with the integer sequence in the request body.",
+            "4. Backend API's '/calculate_sum' endpoint receives the request, validates the input, calculates the sum, and generates a response.",
+            "5. Backend API sends an HTTP 200 OK response (or 400 Bad Request if input is invalid) with the calculated sum (or error details) back to the Frontend.",
+            "6. Frontend's API Client receives the response, and the Result Display shows the sum to the user."
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:24.879226+00:00",
+      "end_time": "2026-02-13T12:43:39.036946+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_migrations",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 540.59,
+      "retry_count": 0,
+      "tokens_used": 3527,
+      "input": {},
+      "output": {
+        "migrations": []
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:39.037137+00:00",
+      "end_time": "2026-02-13T12:43:39.577727+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_api",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 3052.565,
+      "retry_count": 0,
+      "tokens_used": 3862,
+      "input": {},
+      "output": {
+        "api_code": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\nfrom typing import List\n\napp = FastAPI()\n\nclass Numbers(BaseModel):\n    numbers: List[int]\n\n@app.post(\"/calculate_sum\")\nasync def calculate_sum(numbers_data: Numbers):\n    numbers = numbers_data.numbers\n    if not all(isinstance(num, int) for num in numbers):\n        raise HTTPException(status_code=400, detail=\"Input 'numbers' must be a list of integers.\")\n    return {\"sum\": sum(numbers)}",
+        "api_tests": "from fastapi.testclient import TestClient\nfrom .main import app  # Assuming your FastAPI app is in main.py\n\nclient = TestClient(app)\n\ndef test_calculate_sum_valid_input():\n    response = client.post(\"/calculate_sum\", json={\"numbers\": [1, 2, 3, 4, 5]})\n    assert response.status_code == 200\n    assert response.json() == {\"sum\": 15}\n\ndef test_calculate_sum_invalid_input():\n    response = client.post(\"/calculate_sum\", json={\"numbers\": [1, 2, \"a\", 4, 5]})\n    assert response.status_code == 400\n    assert response.json() == {\"detail\": \"Input 'numbers' must be a list of integers.\"}\n\ndef test_calculate_sum_empty_list():\n    response = client.post(\"/calculate_sum\", json={\"numbers\": []})\n    assert response.status_code == 200\n    assert response.json() == {\"sum\": 0}"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:39.037046+00:00",
+      "end_time": "2026-02-13T12:43:42.089611+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_frontend",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 7639.072999999999,
+      "retry_count": 0,
+      "tokens_used": 4507,
+      "input": {},
+      "output": {
+        "ui_code": {
+          "InputForm.jsx": "import React, { useState } from 'react';\n\nfunction InputForm({ onCalculate }) {\n  const [numbers, setNumbers] = useState('');\n\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    const numbersArray = numbers.split(/[,\\s]+/).map(Number).filter(Boolean);\n    onCalculate(numbersArray);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Enter a sequence of integers (comma or space separated):\n        <input\n          type=\"text\"\n          value={numbers}\n          onChange={(e) => setNumbers(e.target.value)}\n        />\n      </label>\n      <button type=\"submit\">Calculate</button>\n    </form>\n  );\n}\n\nexport default InputForm;",
+          "ResultDisplay.jsx": "import React from 'react';\n\nfunction ResultDisplay({ result }) {\n  return (\n    <div>\n      {result !== null ? <p>Sum: {result}</p> : null}\n    </div>\n  );\n}\n\nexport default ResultDisplay;",
+          "App.jsx": "import React, { useState } from 'react';\nimport InputForm from './InputForm';\nimport ResultDisplay from './ResultDisplay';\n\nfunction App() {\n  const [sum, setSum] = useState(null);\n\n  const calculateSum = async (numbers) => {\n    try {\n      const response = await fetch('/calculate_sum', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ numbers }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        throw new Error(errorData.detail || 'Something went wrong');\n      }\n\n      const data = await response.json();\n      setSum(data.sum);\n    } catch (error) {\n      console.error('Error:', error);\n      alert(error.message);\n      setSum(null);\n    }\n  };\n\n  return (\n    <div>\n      <h1>Integer Sum Calculator</h1>\n      <InputForm onCalculate={calculateSum} />\n      <ResultDisplay result={sum} />\n    </div>\n  );\n}\n\nexport default App;"
+        },
+        "ui_tests": {
+          "App.test.jsx": "import React from 'react';\nimport { render, screen, fireEvent, waitFor } from '@testing-library/react';\nimport App from './App';\nimport fetchMock from 'jest-fetch-mock';\n\nfetchMock.enableMocks();\n\ndescribe('App Component', () => {\n  beforeEach(() => {\n    fetch.resetMocks();\n  });\n\n  it('renders the input form and calculate button', () => {\n    render(<App />);\n    expect(screen.getByLabelText(/Enter a sequence of integers/i)).toBeInTheDocument();\n    expect(screen.getByText(/Calculate/i)).toBeInTheDocument();\n  });\n\n  it('calculates and displays the sum correctly', async () => {\n    fetch.mockResponseOnce(JSON.stringify({ sum: 15 }));\n    render(<App />);\n    const inputElement = screen.getByLabelText(/Enter a sequence of integers/i);\n    const calculateButton = screen.getByText(/Calculate/i);\n\n    fireEvent.change(inputElement, { target: { value: '1,2,3,4,5' } });\n    fireEvent.click(calculateButton);\n\n    await waitFor(() => {\n      expect(screen.getByText(/Sum: 15/i)).toBeInTheDocument();\n    });\n  });\n\n  it('displays an error message when the API returns an error', async () => {\n    fetch.mockResponseOnce(JSON.stringify({ detail: 'Invalid input' }), { status: 400 });\n    render(<App />);\n    const inputElement = screen.getByLabelText(/Enter a sequence of integers/i);\n    const calculateButton = screen.getByText(/Calculate/i);\n\n    fireEvent.change(inputElement, { target: { value: 'a,b,c' } });\n    fireEvent.click(calculateButton);\n\n    // Mocking window.alert is generally bad practice, but for this example it's the easiest way to test the alert.\n    const alertMock = jest.spyOn(window, 'alert').mockImplementation();\n\n    await waitFor(() => {\n      expect(alertMock).toHaveBeenCalledWith('Invalid input');\n    });\n\n    alertMock.mockRestore(); // Restore the original alert function\n  });\n});"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:39.037103+00:00",
+      "end_time": "2026-02-13T12:43:46.676176+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_integration_tests",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 7826.018,
+      "retry_count": 0,
+      "tokens_used": 7253,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"integration_tests\": [\n    {\n      \"test_name\": \"Valid Input Flow - Frontend to Backend\",\n      \"description\": \"Tests the complete flow from the frontend input to the backend calculation and result display with valid integer input.\",\n      \"steps\": [\n        {\n          \"step_number\": 1,\n          \"action\": \"User enters '1,2,3,4,5' into the Input Form on the frontend.\",\n          \"expected_result\": \"The input field should reflect the entered value.\"\n        },\n        {\n          \"step_number\": 2,\n          \"action\": \"User clicks the 'Calculate' button on the frontend.\",\n          \"expected_result\": \"A POST request is sent to the backend's '/calculate_sum' endpoint with the payload {'numbers': [1, 2, 3, 4, 5]}.\"\n        },\n        {\n          \"step_number\": 3,\n          \"action\": \"The backend receives the request, validates the input, and calculates the sum (15).\",\n          \"expected_result\": \"The backend should respond with a 200 OK status code and a JSON payload of {'sum': 15}.\"\n        },\n        {\n          \"step_number\": 4,\n          \"action\": \"The frontend receives the response from the backend.\",\n          \"expected_result\": \"The Result Display component on the frontend should display 'Sum: 15'.\"\n        }\n      ]\n    },\n    {\n      \"test_name\": \"Invalid Input Flow - Frontend to Backend\",\n      \"description\": \"Tests the complete flow with invalid input (non-integer) to ensure the backend returns an error and the frontend displays it correctly.\",\n      \"steps\": [\n        {\n          \"step_number\": 1,\n          \"action\": \"User enters '1,2,a,4,5' into the Input Form on the frontend.\",\n          \"expected_result\": \"The input field should reflect the entered value.\"\n        },\n        {\n          \"step_number\": 2,\n          \"action\": \"User clicks the 'Calculate' button on the frontend.\",\n          \"expected_result\": \"A POST request is sent to the backend's '/calculate_sum' endpoint with the payload {'numbers': [1, 2, null, 4, 5]} (or similar representation of 'a' depending on frontend parsing).\"\n        },\n        {\n          \"step_number\": 3,\n          \"action\": \"The backend receives the request and validates the input.\",\n          \"expected_result\": \"The backend should respond with a 400 Bad Request status code and a JSON payload of {'detail': 'Input \\'numbers\\' must be a list of integers.'}.\"\n        },\n        {\n          \"step_number\": 4,\n          \"action\": \"The frontend receives the error response from the backend.\",\n          \"expected_result\": \"An alert box should appear on the frontend displaying the error message 'Input \\'numbers\\' must be a list of integers.' (or similar).\"\n        },\n        {\n          \"step_number\": 5,\n          \"action\": \"The Result Display component should be cleared.\",\n          \"expected_result\": \"The Result Display should not show any sum.\"\n        }\n      ]\n    },\n    {\n      \"test_name\": \"Empty Input Flow - Frontend to Backend\",\n      \"description\": \"Tests the complete flow with an empty input to ensure the backend returns a sum of 0 and the frontend displays it correctly.\",\n      \"steps\": [\n        {\n          \"step_number\": 1,\n          \"action\": \"User enters '' into the Input Form on the frontend.\",\n          \"expected_result\": \"The input field should reflect the empty value.\"\n        },\n        {\n          \"step_number\": 2,\n          \"action\": \"User clicks the 'Calculate' button on the frontend.\",\n          \"expected_result\": \"A POST request is sent to the backend's '/calculate_sum' endpoint with the payload {'numbers': []}.\"\n        },\n        {\n          \"step_number\": 3,\n          \"action\": \"The backend receives the request, validates the input, and calculates the sum (0).\",\n          \"expected_result\": \"The backend should respond with a 200 OK status code and a JSON payload of {'sum': 0}.\"\n        },\n        {\n          \"step_number\": 4,\n          \"action\": \"The frontend receives the response from the backend.\",\n          \"expected_result\": \"The Result Display component on the frontend should display 'Sum: 0'.\"\n        }\n      ]\n    }\n  ]\n}\n```"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:46.676277+00:00",
+      "end_time": "2026-02-13T12:43:54.502295+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 3,
+      "model_used": "gemini:gemini-2.5-flash",
+      "duration_ms": 16962.266,
+      "retry_count": 0,
+      "tokens_used": 7547,
+      "input": {},
+      "output": {
+        "raw_response": "```json\n{\n  \"review_report\": {\n    \"overall_assessment\": \"The generated code provides a functional solution for calculating the sum of a sequence of integers. The architecture design, API specification, and component breakdown are clear and well-defined. However, there are critical issues in the backend's validation logic and the frontend's input parsing, which lead to incorrect behavior for invalid inputs and a mismatch between expected and actual error handling. The tests also reflect these discrepancies.\",\n    \"specific_findings\": [\n      {\n        \"component\": \"Backend API (main.py)\",\n        \"issue\": \"Redundant and conflicting input validation.\",\n        \"description\": \"The `if not all(isinstance(num, int) for num in numbers):` check in"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:43:54.502393+00:00",
+      "end_time": "2026-02-13T12:44:11.464659+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "assemble_feature",
+      "status": "skipped",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": null,
+      "duration_ms": null,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {},
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:44:11.464836+00:00",
+      "end_time": null,
+      "metadata": {
+        "skip_reason": "conditions not met"
+      }
+    }
+  ],
+  "final_output": {
+    "feature_package": null,
+    "review_report": null,
+    "all_code": {
+      "backend": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\nfrom typing import List\n\napp = FastAPI()\n\nclass Numbers(BaseModel):\n    numbers: List[int]\n\n@app.post(\"/calculate_sum\")\nasync def calculate_sum(numbers_data: Numbers):\n    numbers = numbers_data.numbers\n    if not all(isinstance(num, int) for num in numbers):\n        raise HTTPException(status_code=400, detail=\"Input 'numbers' must be a list of integers.\")\n    return {\"sum\": sum(numbers)}",
+      "frontend": {
+        "InputForm.jsx": "import React, { useState } from 'react';\n\nfunction InputForm({ onCalculate }) {\n  const [numbers, setNumbers] = useState('');\n\n  const handleSubmit = (event) => {\n    event.preventDefault();\n    const numbersArray = numbers.split(/[,\\s]+/).map(Number).filter(Boolean);\n    onCalculate(numbersArray);\n  };\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <label>\n        Enter a sequence of integers (comma or space separated):\n        <input\n          type=\"text\"\n          value={numbers}\n          onChange={(e) => setNumbers(e.target.value)}\n        />\n      </label>\n      <button type=\"submit\">Calculate</button>\n    </form>\n  );\n}\n\nexport default InputForm;",
+        "ResultDisplay.jsx": "import React from 'react';\n\nfunction ResultDisplay({ result }) {\n  return (\n    <div>\n      {result !== null ? <p>Sum: {result}</p> : null}\n    </div>\n  );\n}\n\nexport default ResultDisplay;",
+        "App.jsx": "import React, { useState } from 'react';\nimport InputForm from './InputForm';\nimport ResultDisplay from './ResultDisplay';\n\nfunction App() {\n  const [sum, setSum] = useState(null);\n\n  const calculateSum = async (numbers) => {\n    try {\n      const response = await fetch('/calculate_sum', {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n        },\n        body: JSON.stringify({ numbers }),\n      });\n\n      if (!response.ok) {\n        const errorData = await response.json();\n        throw new Error(errorData.detail || 'Something went wrong');\n      }\n\n      const data = await response.json();\n      setSum(data.sum);\n    } catch (error) {\n      console.error('Error:', error);\n      alert(error.message);\n      setSum(null);\n    }\n  };\n\n  return (\n    <div>\n      <h1>Integer Sum Calculator</h1>\n      <InputForm onCalculate={calculateSum} />\n      <ResultDisplay result={sum} />\n    </div>\n  );\n}\n\nexport default App;"
+      },
+      "migrations": []
+    }
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "fullstack_generation_v1",
+      "rubric_id": "fullstack_generation_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "objective_tests",
+          "raw_score": 85.7143,
+          "normalized_score": 0.8571,
+          "adjusted_normalized_score": 0.5926,
+          "score": 85.71,
+          "weight": 0.6,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.5933,
+          "score": 86.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 45.0,
+          "normalized_score": 0.45,
+          "adjusted_normalized_score": 0.487,
+          "score": 45.0,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 69.3,
+          "normalized_score": 0.693,
+          "adjusted_normalized_score": 0.55,
+          "score": 69.3,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 71.5,
+      "weighted_score": 77.74,
+      "objective_weighted_score": 80.06,
+      "grade": "F",
+      "passed": false,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "design_architecture",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_migrations",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_api",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_frontend",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_integration_tests",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "assemble_feature",
+          "status": "skipped",
+          "score": 0.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/code_instructions_120k.json",
+        "sample_index": 0,
+        "task_id": "0",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 80.06,
+        "layer2_judge": null,
+        "layer3_similarity": 80.06,
+        "layer3_efficiency": 45.0,
+        "layer3_advisory": 68.49
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-13T12:44:11.483952+00:00",
+      "hard_gates": {
+        "required_outputs_present": false,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [
+        "required_outputs_present"
+      ],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}

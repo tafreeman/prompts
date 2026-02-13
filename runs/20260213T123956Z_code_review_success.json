@@ -1,0 +1,371 @@
+{
+  "run_id": "code_review-6aacdbda",
+  "workflow_name": "code_review",
+  "status": "success",
+  "success_rate": 100.0,
+  "total_duration_ms": 10650.773,
+  "total_retries": 0,
+  "step_count": 5,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T12:39:45.555109+00:00",
+  "end_time": "2026-02-13T12:39:56.205882+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "sample_index": 2,
+    "task_id": "2",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "code_file": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py",
+    "review_depth": "deep"
+  },
+  "steps": [
+    {
+      "step_name": "parse_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 0,
+      "model_used": null,
+      "duration_ms": 1.734,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {
+        "parsed_ast": {
+          "raw_source": "diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\n     else:\n         cright = np.zeros((noutp, right.shape[1]))\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\n \n     return np.hstack([cleft, cright])\n \n",
+          "language": "unknown",
+          "parse_error": "Could not parse as Python"
+        },
+        "code_metrics": {
+          "lines": 12,
+          "chars": 470
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.555341+00:00",
+      "end_time": "2026-02-13T12:39:45.557075+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "style_check",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 1944.256,
+      "retry_count": 0,
+      "tokens_used": 541,
+      "input": {},
+      "output": {
+        "issues": [
+          {
+            "line": 8,
+            "column": 9,
+            "message": "Potential bug: The original code used `1` to fill the cright matrix.  The corrected code uses `right`. This is likely the intended behavior.  This change might have unintended consequences if `right` is not a matrix of ones.",
+            "type": "potential_bug",
+            "severity": "warning",
+            "details": "The original code used a hardcoded value of 1 to fill a portion of the `cright` matrix. The change replaced this with `right`. This is a significant change in behavior and could be a bug fix if `right` represents the correct values, or could introduce a bug if `right` does not contain the expected values. Further context is needed to determine if this is the correct behavior."
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.561145+00:00",
+      "end_time": "2026-02-13T12:39:47.505401+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "complexity_analysis",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 2537.1679999999997,
+      "retry_count": 0,
+      "tokens_used": 643,
+      "input": {},
+      "output": {
+        "complexity_report": {
+          "file_path": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py",
+          "overall_complexity": "low",
+          "line_count": 12,
+          "code_metrics": {
+            "lines": 12,
+            "chars": 470
+          },
+          "details": [
+            {
+              "line_range": "1-12",
+              "complexity_score": "low",
+              "reason": "The code snippet defines a function `_cstack`. It involves basic array manipulation with NumPy, including creating coordinate matrices and stacking them horizontally. The logic is relatively straightforward, with a conditional statement and array slicing. The use of NumPy operations contributes to efficiency but doesn't inherently increase complexity.",
+              "functions": [
+                {
+                  "name": "_cstack",
+                  "complexity_score": "low",
+                  "reason": "The function's logic is primarily focused on array manipulation and conditional execution. The use of NumPy operations like `hstack`, `zeros`, and array slicing indicates moderate complexity, but the overall structure is not overly intricate. The conditional block adds a small amount of branching complexity."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.561246+00:00",
+      "end_time": "2026-02-13T12:39:48.098414+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 6368.446,
+      "retry_count": 0,
+      "tokens_used": 1810,
+      "input": {},
+      "output": {
+        "review": {
+          "general_comments": "The code snippet represents a change in the `_cstack` function within the `astropy.modeling.separable` module. The key change is replacing a hardcoded value of `1` with the variable `right` when assigning values to the `cright` matrix. This could be a bug fix or the introduction of a bug, depending on the intended behavior and the contents of the `right` variable. Further context within the Astropy modeling framework is needed to definitively assess the correctness of this change.",
+          "code_quality": {
+            "readability": "The code is relatively readable, utilizing descriptive variable names (`cleft`, `cright`, `noutp`). The use of NumPy functions is concise and efficient.",
+            "maintainability": "The function is short and focused, which aids maintainability. However, the potential ambiguity surrounding the change (hardcoded `1` vs. `right`) could make future maintenance more challenging if the context is not well-documented.",
+            "testability": "Testing this function in isolation might be difficult without understanding its role within the larger Astropy modeling system. Comprehensive tests would need to consider various shapes and values of the `right` input to ensure the change behaves as expected."
+          },
+          "potential_issues": [
+            {
+              "issue_type": "semantic_change",
+              "severity": "high",
+              "description": "The replacement of `1` with `right` is a significant semantic change. It's crucial to verify that this change aligns with the intended behavior of the `_cstack` function and the overall modeling framework. Consider adding an assertion or validation step to confirm `right` contains the expected values (e.g., all ones, specific values, or a particular structure).",
+              "recommendation": "Add a comment explaining the rationale behind this change and the expected contents of the `right` variable. Consider adding a unit test that specifically targets this change and verifies the output with different `right` inputs.",
+              "line_numbers": [
+                8
+              ]
+            },
+            {
+              "issue_type": "lack_of_context",
+              "severity": "medium",
+              "description": "Without more context on how `_cstack` is used and what `right` represents, it's difficult to assess the full impact of this change. It's unclear whether `right` is always expected to contain ones, or if it can contain other values. If `right` can contain values other than one, the original code was definitely incorrect.",
+              "recommendation": "Review the surrounding code and usage of `_cstack` to understand the purpose and expected behavior. Ensure there's sufficient documentation to explain the role of `right` and the expected output of `_cstack`.",
+              "line_numbers": [
+                1,
+                8
+              ]
+            }
+          ],
+          "security": {
+            "concerns": "No apparent security concerns in this code snippet.",
+            "recommendations": "N/A"
+          },
+          "performance": {
+            "analysis": "The code uses NumPy operations, which are generally efficient for array manipulation. No significant performance concerns are apparent in this short snippet.",
+            "recommendations": "N/A"
+          },
+          "recommendations": [
+            "Add a comment explaining the change from `1` to `right` and its implications.",
+            "Add a unit test to specifically test this change with various inputs for `right`.",
+            "Review the surrounding code and documentation to provide more context on the purpose of `_cstack` and the expected contents of the `right` variable."
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:48.098508+00:00",
+      "end_time": "2026-02-13T12:39:54.466954+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_summary",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 1738.745,
+      "retry_count": 0,
+      "tokens_used": 3429,
+      "input": {},
+      "output": {
+        "summary": "This code review focuses on a change in the `_cstack` function within the `astropy.modeling.separable` module where a hardcoded value of `1` was replaced with the variable `right`. This change has the potential to be a bug fix or introduce a bug, depending on the context of the `right` variable. The code itself is relatively readable and uses efficient NumPy operations. However, the lack of context surrounding the purpose of `_cstack` and the expected values of `right` makes it difficult to fully assess the impact of this change. It is recommended to add a comment explaining the rationale behind the change, include a unit test to verify the behavior with different inputs for `right`, and review the surrounding code for more context."
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:54.467074+00:00",
+      "end_time": "2026-02-13T12:39:56.205819+00:00",
+      "metadata": null
+    }
+  ],
+  "final_output": {
+    "review": {
+      "general_comments": "The code snippet represents a change in the `_cstack` function within the `astropy.modeling.separable` module. The key change is replacing a hardcoded value of `1` with the variable `right` when assigning values to the `cright` matrix. This could be a bug fix or the introduction of a bug, depending on the intended behavior and the contents of the `right` variable. Further context within the Astropy modeling framework is needed to definitively assess the correctness of this change.",
+      "code_quality": {
+        "readability": "The code is relatively readable, utilizing descriptive variable names (`cleft`, `cright`, `noutp`). The use of NumPy functions is concise and efficient.",
+        "maintainability": "The function is short and focused, which aids maintainability. However, the potential ambiguity surrounding the change (hardcoded `1` vs. `right`) could make future maintenance more challenging if the context is not well-documented.",
+        "testability": "Testing this function in isolation might be difficult without understanding its role within the larger Astropy modeling system. Comprehensive tests would need to consider various shapes and values of the `right` input to ensure the change behaves as expected."
+      },
+      "potential_issues": [
+        {
+          "issue_type": "semantic_change",
+          "severity": "high",
+          "description": "The replacement of `1` with `right` is a significant semantic change. It's crucial to verify that this change aligns with the intended behavior of the `_cstack` function and the overall modeling framework. Consider adding an assertion or validation step to confirm `right` contains the expected values (e.g., all ones, specific values, or a particular structure).",
+          "recommendation": "Add a comment explaining the rationale behind this change and the expected contents of the `right` variable. Consider adding a unit test that specifically targets this change and verifies the output with different `right` inputs.",
+          "line_numbers": [
+            8
+          ]
+        },
+        {
+          "issue_type": "lack_of_context",
+          "severity": "medium",
+          "description": "Without more context on how `_cstack` is used and what `right` represents, it's difficult to assess the full impact of this change. It's unclear whether `right` is always expected to contain ones, or if it can contain other values. If `right` can contain values other than one, the original code was definitely incorrect.",
+          "recommendation": "Review the surrounding code and usage of `_cstack` to understand the purpose and expected behavior. Ensure there's sufficient documentation to explain the role of `right` and the expected output of `_cstack`.",
+          "line_numbers": [
+            1,
+            8
+          ]
+        }
+      ],
+      "security": {
+        "concerns": "No apparent security concerns in this code snippet.",
+        "recommendations": "N/A"
+      },
+      "performance": {
+        "analysis": "The code uses NumPy operations, which are generally efficient for array manipulation. No significant performance concerns are apparent in this short snippet.",
+        "recommendations": "N/A"
+      },
+      "recommendations": [
+        "Add a comment explaining the change from `1` to `right` and its implications.",
+        "Add a unit test to specifically test this change with various inputs for `right`.",
+        "Review the surrounding code and documentation to provide more context on the purpose of `_cstack` and the expected contents of the `right` variable."
+      ]
+    },
+    "summary": "This code review focuses on a change in the `_cstack` function within the `astropy.modeling.separable` module where a hardcoded value of `1` was replaced with the variable `right`. This change has the potential to be a bug fix or introduce a bug, depending on the context of the `right` variable. The code itself is relatively readable and uses efficient NumPy operations. However, the lack of context surrounding the purpose of `_cstack` and the expected values of `right` makes it difficult to fully assess the impact of this change. It is recommended to add a comment explaining the rationale behind the change, include a unit test to verify the behavior with different inputs for `right`, and review the surrounding code for more context."
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "code_review_v1",
+      "rubric_id": "code_review_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "correctness_rubric",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.35,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.572,
+          "score": 86.0,
+          "weight": 0.3,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 84.0238,
+          "normalized_score": 0.8402,
+          "adjusted_normalized_score": 0.568,
+          "score": 84.02,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 75.7,
+          "normalized_score": 0.757,
+          "adjusted_normalized_score": 0.5514,
+          "score": 75.7,
+          "weight": 0.15,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 86.43,
+      "weighted_score": 88.63,
+      "objective_weighted_score": 88.96,
+      "grade": "B",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "parse_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "style_check",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "complexity_analysis",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_summary",
+          "status": "success",
+          "score": 100.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "sample_index": 2,
+        "task_id": "2",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 88.96,
+        "layer2_judge": null,
+        "layer3_similarity": 88.96,
+        "layer3_efficiency": 84.02,
+        "layer3_advisory": 87.33
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-13T12:39:56.230354+00:00",
+      "hard_gates": {
+        "required_outputs_present": true,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}
