@@ -1187,14 +1187,39 @@ def _materialize_file_input(
     if not isinstance(value, str):
         return value
 
-    candidate = Path(value)
-    if candidate.exists():
-        return str(candidate)
-
+    # Always materialize files under the controlled artifacts_dir.
     artifacts_dir.mkdir(parents=True, exist_ok=True)
+    artifacts_root = artifacts_dir.resolve()
+
     looks_python = any(marker in value for marker in ("def ", "class ", "import "))
+
+    # If the value is clearly code, treat it as content, not as a path.
+    if looks_python:
+        suffix = ".py"
+        file_path = artifacts_root / f"{run_id}_{input_name}{suffix}"
+        file_path.write_text(value, encoding="utf-8")
+        return str(file_path)
+
+    # Otherwise, if the value looks like a path, attempt to interpret it as a
+    # path relative to artifacts_dir, but prevent directory traversal.
+    candidate: Path | None = None
+    if any(sep in value for sep in ("/", "\\")) or value.endswith((".py", ".txt")):
+        try:
+            candidate = (artifacts_root / value).resolve()
+            # Ensure the resolved candidate is within artifacts_root
+            try:
+                candidate.relative_to(artifacts_root)
+                if candidate.is_file():
+                    return str(candidate)
+            except ValueError:
+                # candidate is outside artifacts_root; ignore and treat as content
+                candidate = None
+        except Exception:
+            candidate = None
+
+    # Fallback: treat value as content and write it to a new file.
     suffix = ".py" if looks_python else ".txt"
-    file_path = artifacts_dir / f"{run_id}_{input_name}{suffix}"
+    file_path = artifacts_root / f"{run_id}_{input_name}{suffix}"
     file_path.write_text(value, encoding="utf-8")
     return str(file_path)
 
