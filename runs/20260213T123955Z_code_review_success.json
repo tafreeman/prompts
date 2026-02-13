@@ -1,0 +1,367 @@
+{
+  "run_id": "code_review-0905b46b",
+  "workflow_name": "code_review",
+  "status": "success",
+  "success_rate": 100.0,
+  "total_duration_ms": 10237.712,
+  "total_retries": 0,
+  "step_count": 5,
+  "failed_step_count": 0,
+  "start_time": "2026-02-13T12:39:45.609311+00:00",
+  "end_time": "2026-02-13T12:39:55.847023+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "sample_index": 4,
+    "task_id": "4",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "code_file": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py",
+    "review_depth": "deep"
+  },
+  "steps": [
+    {
+      "step_name": "parse_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 0,
+      "model_used": null,
+      "duration_ms": 6.482,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {},
+      "output": {
+        "parsed_ast": {
+          "raw_source": "diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\n     else:\n         cright = np.zeros((noutp, right.shape[1]))\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\n \n     return np.hstack([cleft, cright])\n \n",
+          "language": "unknown",
+          "parse_error": "Could not parse as Python"
+        },
+        "code_metrics": {
+          "lines": 12,
+          "chars": 470
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.609617+00:00",
+      "end_time": "2026-02-13T12:39:45.616099+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "style_check",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 2549.95,
+      "retry_count": 0,
+      "tokens_used": 595,
+      "input": {},
+      "output": {
+        "issues": [
+          {
+            "line": 8,
+            "column": 9,
+            "message": "Potential issue: The code `cright[-right.shape[0]:, -right.shape[1]:] = 1` seems incorrect. It should likely be `cright[-right.shape[0]:, -right.shape[1]:] = right`.  The context suggests an attempt to copy the contents of `right` into a portion of `cright`, but the original code assigns only the value `1`. This could lead to unexpected behavior.  This is a deep review concern as it is not a direct style or formatting issue but a potential bug.",
+            "type": "potential_bug",
+            "severity": "high"
+          },
+          {
+            "line": 8,
+            "column": 9,
+            "message": "The code `cright[-right.shape[0]:, -right.shape[1]:] = right` looks correct now. However, it's still worth checking if this copy operation is intended. The original code was assigning the value 1. This change makes it more correct but the intent needs to be verified.",
+            "type": "potential_bug",
+            "severity": "medium"
+          }
+        ]
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.618052+00:00",
+      "end_time": "2026-02-13T12:39:48.168002+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "complexity_analysis",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 3480.3700000000003,
+      "retry_count": 0,
+      "tokens_used": 737,
+      "input": {},
+      "output": {
+        "complexity_report": {
+          "file_path": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py",
+          "overall_complexity": "low",
+          "line_count": 12,
+          "code_metrics": {
+            "lines": 12,
+            "chars": 470
+          },
+          "details": [
+            {
+              "line_range": "242-242",
+              "complexity": "moderate",
+              "reason": "The line `cright[-right.shape[0]:, -right.shape[1]:] = right` involves array slicing and assignment, which can be moderately complex depending on the shapes of the arrays involved. The use of negative indexing adds a bit of complexity.",
+              "snippet": "cright[-right.shape[0]:, -right.shape[1]:] = right"
+            },
+            {
+              "line_range": "239-241",
+              "complexity": "low",
+              "reason": "Simple conditional and assignment.",
+              "snippet": "else:\n        cright = np.zeros((noutp, right.shape[1]))\n        cright[-right.shape[0]:, -right.shape[1]:] = right"
+            },
+            {
+              "line_range": "236-237",
+              "complexity": "low",
+              "reason": "Simple conditional branch.",
+              "snippet": "if right.ndim == 2:\n        cright = _coord_matrix(right, 'right', noutp)"
+            },
+            {
+              "line_range": "230-231",
+              "complexity": "low",
+              "reason": "Function call",
+              "snippet": "def _cstack(left, right):\n        cleft = _coord_matrix(left, 'left', noutp)"
+            },
+            {
+              "line_range": "245",
+              "complexity": "low",
+              "reason": "Simple function call",
+              "snippet": "return np.hstack([cleft, cright])"
+            }
+          ]
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:45.618174+00:00",
+      "end_time": "2026-02-13T12:39:49.098544+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "review_code",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 4955.897,
+      "retry_count": 0,
+      "tokens_used": 1734,
+      "input": {},
+      "output": {
+        "review": {
+          "summary": "The code snippet appears to be part of a function `_cstack` that horizontally stacks two coordinate matrices, `left` and `right`. The primary concern revolves around the assignment `cright[-right.shape[0]:, -right.shape[1]:] = right`. Initially, the code had `cright[-right.shape[0]:, -right.shape[1]:] = 1` which was flagged as a likely bug. The change to `cright[-right.shape[0]:, -right.shape[1]:] = right` corrects this issue but requires careful verification to ensure it aligns with the intended behavior. The complexity is considered low overall, with moderate complexity in the array slicing and assignment operation.",
+          "potential_issues": [
+            {
+              "line": 8,
+              "column": 9,
+              "type": "potential_bug",
+              "severity": "medium",
+              "description": "While `cright[-right.shape[0]:, -right.shape[1]:] = right` is likely correct, the original assignment of `1` warrants a deeper investigation into the intended behavior. It is crucial to verify that copying the values from `right` into `cright` is indeed the desired outcome. Consider adding a comment explaining why `right` is being copied instead of assigning `1`, clarifying the change and its purpose."
+            }
+          ],
+          "suggestions": [
+            {
+              "type": "comment",
+              "line": 8,
+              "description": "Add a comment explaining the purpose of assigning `right` to `cright[-right.shape[0]:, -right.shape[1]:]`. This will help future developers (and your future self) understand the intention behind this operation and the reason for the change from assigning `1`."
+            },
+            {
+              "type": "test",
+              "description": "Add a unit test that specifically checks the behavior of `_cstack` when `right` has different shapes and values, especially focusing on the section of `cright` that is being assigned to. The test should assert that the correct values from `right` are being copied into `cright`."
+            },
+            {
+              "type": "investigation",
+              "description": "Investigate the context where `_cstack` is called to understand the possible values and shapes of `right`. This will help confirm that the assignment `cright[-right.shape[0]:, -right.shape[1]:] = right` is valid for all expected inputs."
+            }
+          ],
+          "overall_assessment": "The code change appears to be a correction of a bug. However, the original intent needs to be clarified and verified with tests and further investigation of the context where it's being used. The addition of comments is highly recommended to improve maintainability."
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:49.098637+00:00",
+      "end_time": "2026-02-13T12:39:54.054534+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_summary",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 1792.306,
+      "retry_count": 0,
+      "tokens_used": 3243,
+      "input": {},
+      "output": {
+        "summary": "The code modifies the `_cstack` function in `astropy/modeling/separable.py`. The key change involves correcting a potential bug where the value `1` was being assigned to a portion of the `cright` matrix. The code now assigns values from the `right` matrix. While this change seems correct, the original intent of assigning `1` is unclear. The review suggests adding a comment to explain the purpose of the assignment, creating a unit test to verify the behavior with different shapes and values of `right`, and investigating the context where `_cstack` is called to ensure the change is valid for all expected inputs. Overall, the change is likely a bug fix, but requires further verification and clarification to ensure correctness and maintainability."
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-13T12:39:54.054651+00:00",
+      "end_time": "2026-02-13T12:39:55.846957+00:00",
+      "metadata": null
+    }
+  ],
+  "final_output": {
+    "review": {
+      "summary": "The code snippet appears to be part of a function `_cstack` that horizontally stacks two coordinate matrices, `left` and `right`. The primary concern revolves around the assignment `cright[-right.shape[0]:, -right.shape[1]:] = right`. Initially, the code had `cright[-right.shape[0]:, -right.shape[1]:] = 1` which was flagged as a likely bug. The change to `cright[-right.shape[0]:, -right.shape[1]:] = right` corrects this issue but requires careful verification to ensure it aligns with the intended behavior. The complexity is considered low overall, with moderate complexity in the array slicing and assignment operation.",
+      "potential_issues": [
+        {
+          "line": 8,
+          "column": 9,
+          "type": "potential_bug",
+          "severity": "medium",
+          "description": "While `cright[-right.shape[0]:, -right.shape[1]:] = right` is likely correct, the original assignment of `1` warrants a deeper investigation into the intended behavior. It is crucial to verify that copying the values from `right` into `cright` is indeed the desired outcome. Consider adding a comment explaining why `right` is being copied instead of assigning `1`, clarifying the change and its purpose."
+        }
+      ],
+      "suggestions": [
+        {
+          "type": "comment",
+          "line": 8,
+          "description": "Add a comment explaining the purpose of assigning `right` to `cright[-right.shape[0]:, -right.shape[1]:]`. This will help future developers (and your future self) understand the intention behind this operation and the reason for the change from assigning `1`."
+        },
+        {
+          "type": "test",
+          "description": "Add a unit test that specifically checks the behavior of `_cstack` when `right` has different shapes and values, especially focusing on the section of `cright` that is being assigned to. The test should assert that the correct values from `right` are being copied into `cright`."
+        },
+        {
+          "type": "investigation",
+          "description": "Investigate the context where `_cstack` is called to understand the possible values and shapes of `right`. This will help confirm that the assignment `cright[-right.shape[0]:, -right.shape[1]:] = right` is valid for all expected inputs."
+        }
+      ],
+      "overall_assessment": "The code change appears to be a correction of a bug. However, the original intent needs to be clarified and verified with tests and further investigation of the context where it's being used. The addition of comments is highly recommended to improve maintainability."
+    },
+    "summary": "The code modifies the `_cstack` function in `astropy/modeling/separable.py`. The key change involves correcting a potential bug where the value `1` was being assigned to a portion of the `cright` matrix. The code now assigns values from the `right` matrix. While this change seems correct, the original intent of assigning `1` is unclear. The review suggests adding a comment to explain the purpose of the assignment, creating a unit test to verify the behavior with different shapes and values of `right`, and investigating the context where `_cstack` is called to ensure the change is valid for all expected inputs. Overall, the change is likely a bug fix, but requires further verification and clarification to ensure correctness and maintainability."
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "code_review_v1",
+      "rubric_id": "code_review_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "correctness_rubric",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.35,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "code_quality",
+          "raw_score": 86.0,
+          "normalized_score": 0.86,
+          "adjusted_normalized_score": 0.572,
+          "score": 86.0,
+          "weight": 0.3,
+          "formula_id": "zero_one",
+          "critical_floor": 0.8,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "efficiency",
+          "raw_score": 84.6434,
+          "normalized_score": 0.8464,
+          "adjusted_normalized_score": 0.5693,
+          "score": 84.64,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "documentation",
+          "raw_score": 68.2833,
+          "normalized_score": 0.6828,
+          "adjusted_normalized_score": 0.5366,
+          "score": 68.28,
+          "weight": 0.15,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 84.73,
+      "weighted_score": 87.75,
+      "objective_weighted_score": 87.97,
+      "grade": "B",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "parse_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "style_check",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "complexity_analysis",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "review_code",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_summary",
+          "status": "success",
+          "score": 100.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "sample_index": 4,
+        "task_id": "4",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 87.97,
+        "layer2_judge": null,
+        "layer3_similarity": 87.97,
+        "layer3_efficiency": 84.64,
+        "layer3_advisory": 86.87
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-13T12:39:55.870074+00:00",
+      "hard_gates": {
+        "required_outputs_present": true,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}
