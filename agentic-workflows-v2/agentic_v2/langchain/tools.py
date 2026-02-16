@@ -1,0 +1,290 @@
+"""Standard LangChain tool definitions.
+
+Each tool is a plain ``@tool``-decorated function.  These replace the
+custom ``BaseTool`` subclasses and are directly consumable by any
+LangChain agent or ``ToolNode``.
+"""
+
+from __future__ import annotations
+
+import ast
+import json
+import os
+import subprocess
+import textwrap
+from pathlib import Path
+from typing import Any
+
+from langchain_core.tools import tool
+
+
+# ---------------------------------------------------------------------------
+# File operations
+# ---------------------------------------------------------------------------
+
+
+@tool
+def file_read(path: str) -> str:
+    """Read the contents of a file and return them as a string.
+
+    Args:
+        path: Absolute or relative path to the file.
+    """
+    p = Path(path)
+    if not p.exists():
+        return f"ERROR: File not found: {path}"
+    try:
+        return p.read_text(encoding="utf-8", errors="replace")
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+@tool
+def file_write(path: str, content: str) -> str:
+    """Write content to a file, creating parent directories if needed.
+
+    Args:
+        path: Destination file path.
+        content: Text content to write.
+    """
+    try:
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(content, encoding="utf-8")
+        return f"OK: Wrote {len(content)} chars to {path}"
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+@tool
+def file_list(directory: str, pattern: str = "*") -> str:
+    """List files in a directory matching a glob pattern.
+
+    Args:
+        directory: Directory path to list.
+        pattern: Glob pattern (default ``*``).
+    """
+    p = Path(directory)
+    if not p.is_dir():
+        return f"ERROR: Not a directory: {directory}"
+    try:
+        files = sorted(str(f.relative_to(p)) for f in p.glob(pattern) if f.is_file())
+        return json.dumps(files[:200])
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+# ---------------------------------------------------------------------------
+# Code analysis
+# ---------------------------------------------------------------------------
+
+
+@tool
+def code_analyze(code: str, language: str = "python") -> str:
+    """Analyze code and return structural metrics.
+
+    Args:
+        code: Source code string to analyze.
+        language: Programming language (currently only ``python`` is supported).
+    """
+    if language != "python":
+        return json.dumps({"error": f"Unsupported language: {language}"})
+
+    try:
+        tree = ast.parse(code)
+    except SyntaxError as e:
+        return json.dumps({"error": f"Syntax error: {e}"})
+
+    functions = []
+    classes = []
+    imports = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef | ast.AsyncFunctionDef):
+            functions.append(node.name)
+        elif isinstance(node, ast.ClassDef):
+            classes.append(node.name)
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                imports.append(alias.name)
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imports.append(node.module)
+
+    return json.dumps(
+        {
+            "lines": len(code.splitlines()),
+            "functions": functions,
+            "classes": classes,
+            "imports": imports,
+        },
+        indent=2,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Shell / command execution
+# ---------------------------------------------------------------------------
+
+
+@tool
+def shell_run(command: str, cwd: str | None = None, timeout: int = 30) -> str:
+    """Execute a shell command and return stdout + stderr.
+
+    Args:
+        command: Shell command to run.
+        cwd: Working directory (optional).
+        timeout: Max seconds to wait (default 30).
+    """
+    try:
+        result = subprocess.run(
+            command,
+            shell=True,
+            capture_output=True,
+            text=True,
+            cwd=cwd,
+            timeout=timeout,
+        )
+        output = result.stdout
+        if result.stderr:
+            output += f"\nSTDERR:\n{result.stderr}"
+        if result.returncode != 0:
+            output += f"\nExit code: {result.returncode}"
+        # Truncate long output
+        if len(output) > 12000:
+            output = output[:12000] + "\n... (truncated)"
+        return output
+    except subprocess.TimeoutExpired:
+        return f"ERROR: Command timed out after {timeout}s"
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+# ---------------------------------------------------------------------------
+# Search / grep
+# ---------------------------------------------------------------------------
+
+
+@tool
+def search_files(
+    directory: str,
+    query: str,
+    file_pattern: str = "*.py",
+    max_results: int = 20,
+) -> str:
+    """Search for a text pattern across files in a directory.
+
+    Args:
+        directory: Root directory to search.
+        query: Text or regex pattern to search for.
+        file_pattern: Glob pattern for files to search (default ``*.py``).
+        max_results: Maximum number of results to return.
+    """
+    results = []
+    p = Path(directory)
+    if not p.is_dir():
+        return f"ERROR: Not a directory: {directory}"
+
+    try:
+        for filepath in p.rglob(file_pattern):
+            if not filepath.is_file():
+                continue
+            try:
+                text = filepath.read_text(encoding="utf-8", errors="replace")
+                for i, line in enumerate(text.splitlines(), 1):
+                    if query.lower() in line.lower():
+                        results.append(
+                            {
+                                "file": str(filepath.relative_to(p)),
+                                "line": i,
+                                "content": line.strip()[:200],
+                            }
+                        )
+                        if len(results) >= max_results:
+                            return json.dumps(results, indent=2)
+            except Exception:
+                continue
+    except Exception as e:
+        return f"ERROR: {e}"
+
+    return json.dumps(results, indent=2)
+
+
+# ---------------------------------------------------------------------------
+# Context / memory
+# ---------------------------------------------------------------------------
+
+
+@tool
+def context_store(key: str, value: str) -> str:
+    """Store a key-value pair in the workflow context.
+
+    Args:
+        key: Context key name.
+        value: Value to store (string).
+    """
+    # Agents can use this to pass structured data between steps.
+    # The actual state update happens in the node wrapper.
+    return json.dumps({"stored": key, "length": len(value)})
+
+
+# ---------------------------------------------------------------------------
+# HTTP
+# ---------------------------------------------------------------------------
+
+
+@tool
+def http_get(url: str) -> str:
+    """Fetch content from a URL via HTTP GET.
+
+    Args:
+        url: The URL to fetch.
+    """
+    try:
+        import httpx
+
+        resp = httpx.get(url, timeout=15, follow_redirects=True)
+        text = resp.text
+        if len(text) > 12000:
+            text = text[:12000] + "\n... (truncated)"
+        return text
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+# ---------------------------------------------------------------------------
+# Tool registry helper
+# ---------------------------------------------------------------------------
+
+# Master list of all available tools
+ALL_TOOLS = [
+    file_read,
+    file_write,
+    file_list,
+    code_analyze,
+    shell_run,
+    search_files,
+    context_store,
+    http_get,
+]
+
+# Tier-based tool sets (agents get tools matching their tier or below)
+TIER_TOOLS: dict[int, list] = {
+    0: [file_read, file_list, code_analyze],
+    1: [file_read, file_write, file_list, code_analyze, search_files],
+    2: [file_read, file_write, file_list, code_analyze, search_files,
+        shell_run, context_store],
+    3: ALL_TOOLS,
+    4: ALL_TOOLS,
+    5: ALL_TOOLS,
+}
+
+
+def get_tools_for_tier(tier: int) -> list:
+    """Return the tool list appropriate for a given model tier."""
+    return list(TIER_TOOLS.get(min(tier, 5), ALL_TOOLS))
+
+
+def get_tools_by_name(names: list[str]) -> list:
+    """Filter tools to only those matching the given names."""
+    name_set = set(names)
+    return [t for t in ALL_TOOLS if t.name in name_set]

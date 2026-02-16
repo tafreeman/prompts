@@ -19,6 +19,8 @@ dependencies = [
     "aiohttp>=3.9",
     "typer>=0.9",
     "rich>=13.0",
+    "langchain-core>=0.3",
+    "langgraph>=0.2",
 ]
 
 
@@ -31,6 +33,11 @@ dev = [
 server = [
     "fastapi>=0.100",
     "uvicorn>=0.23",
+]
+langchain = [
+    "langchain>=0.3",
+    "langchain-openai>=0.2",
+    "langgraph-checkpoint-sqlite>=2.0",
 ]
 
 [project.scripts]
