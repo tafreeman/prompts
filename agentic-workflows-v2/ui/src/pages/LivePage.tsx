@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Radio, Trophy, ChevronDown, ChevronRight } from "lucide-react";
 import { useWorkflowStream } from "../hooks/useWorkflowStream";
@@ -8,6 +8,26 @@ import StepLogPanel from "../components/live/StepLogPanel";
 import TokenCounter from "../components/live/TokenCounter";
 import StatusBadge from "../components/common/StatusBadge";
 import type { EvaluationResult } from "../api/types";
+
+const WIDTH_CLASS_BY_DECILE: Record<number, string> = {
+  0: "w-0",
+  10: "w-[10%]",
+  20: "w-[20%]",
+  30: "w-[30%]",
+  40: "w-[40%]",
+  50: "w-[50%]",
+  60: "w-[60%]",
+  70: "w-[70%]",
+  80: "w-[80%]",
+  90: "w-[90%]",
+  100: "w-full",
+};
+
+function scoreWidthClass(percent: number): string {
+  const clamped = Math.max(0, Math.min(100, percent));
+  const decile = Math.floor(clamped / 10) * 10;
+  return WIDTH_CLASS_BY_DECILE[decile] ?? "w-0";
+}
 
 export default function LivePage() {
   const { runId } = useParams<{ runId: string }>();
@@ -24,6 +44,47 @@ export default function LivePage() {
       : undefined;
   const { data: dag } = useWorkflowDAG(wfName);
 
+  const edgeCounts = useMemo(() => {
+    if (!dag) return new Map<string, number>();
+
+    const counts = new Map<string, number>();
+    const incoming = new Map<string, string[]>();
+    for (const edge of dag.edges) {
+      const key = `${edge.source}->${edge.target}`;
+      incoming.set(edge.target, [...(incoming.get(edge.target) ?? []), edge.source]);
+      counts.set(key, 0);
+    }
+
+    const completedSuccess = new Set<string>();
+    for (const event of events) {
+      if (event.type === "step_end" && event.status === "success") {
+        completedSuccess.add(event.step);
+      }
+
+      if (event.type === "step_start") {
+        for (const source of incoming.get(event.step) ?? []) {
+          if (!completedSuccess.has(source)) continue;
+          const edgeId = `${source}->${event.step}`;
+          counts.set(edgeId, (counts.get(edgeId) ?? 0) + 1);
+        }
+      }
+    }
+
+    return counts;
+  }, [dag, events]);
+
+  const kickbackEdges = useMemo(() => {
+    if (!dag) return new Set<string>();
+    const isReviewOrTest = (name: string) => /(review|test)/i.test(name);
+    const isDevRework = (name: string) => /(rework|developer|generate|fix)/i.test(name);
+
+    return new Set(
+      dag.edges
+        .filter((edge) => isReviewOrTest(edge.source) && isDevRework(edge.target))
+        .map((edge) => `${edge.source}->${edge.target}`)
+    );
+  }, [dag]);
+
   const statusMap: Record<string, string> = {
     connecting: "pending",
     running: "running",
@@ -36,7 +97,7 @@ export default function LivePage() {
     <div className="flex h-full flex-col">
       {/* Header */}
       <div className="flex items-center gap-4 border-b border-white/5 px-6 py-4">
-        <button onClick={() => navigate(-1)} className="btn-ghost p-1">
+        <button onClick={() => navigate(-1)} className="btn-ghost p-1" title="Go back">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <Radio className="h-4 w-4 text-red-400 animate-pulse" />
@@ -76,6 +137,8 @@ export default function LivePage() {
               dagNodes={dag.nodes}
               dagEdges={dag.edges}
               stepStates={stepStates}
+              edgeCounts={edgeCounts}
+              kickbackEdges={kickbackEdges}
             />
           ) : (
             <div className="flex h-full items-center justify-center text-gray-600">
@@ -104,6 +167,7 @@ function CriterionRow({
 }: Readonly<{ criterion: EvaluationResult["criteria"][number] }>) {
   const pct = c.max_score > 0 ? (c.score / c.max_score) * 100 : 0;
   const clampedPct = Math.min(pct, 100);
+  const widthClass = scoreWidthClass(clampedPct);
 
   let barColor = "bg-red-500";
   if (pct >= 80) barColor = "bg-green-500";
@@ -121,10 +185,7 @@ function CriterionRow({
         </span>
       </div>
       <div className="mt-0.5 h-1 w-full rounded-full bg-white/5">
-        <div
-          className={`h-full rounded-full ${barColor} transition-all`}
-          style={{ width: `${Math.round(clampedPct)}%` }}
-        />
+        <div className={`h-full rounded-full ${barColor} ${widthClass} transition-all`} />
       </div>
     </div>
   );

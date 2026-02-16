@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 from agentic_v2.contracts import StepStatus
+from agentic_v2.engine.agent_resolver import _parse_llm_json_output, resolve_agent
 from agentic_v2.engine import (  # Context; Steps; Pipeline; Executor
     EventType, ExecutionConfig, ExecutionContext,
     Pipeline, PipelineBuilder, RetryConfig,
@@ -269,6 +270,54 @@ class TestStepExecutor:
         assert await ctx.get("final_value") == 42
 
     @pytest.mark.asyncio
+    async def test_records_resolved_input_data(self):
+        """StepResult includes resolved mapped inputs for UI/run logs."""
+
+        async def echo(ctx):
+            payload = await ctx.get("code")
+            return {"echo": payload}
+
+        step_def = StepDefinition(name="echo", func=echo).with_input(code="source_code")
+        executor = StepExecutor()
+        ctx = ExecutionContext()
+        await ctx.set("source_code", "print('hi')")
+
+        result = await executor.execute(step_def, ctx)
+
+        assert result.is_success
+        assert result.input_data == {"code": "print('hi')"}
+
+    @pytest.mark.asyncio
+    async def test_synthesizes_review_status_from_raw_response(self):
+        """Review steps with raw_response-only output still expose review_report for gates."""
+
+        async def reviewer_like_step(ctx):
+            return {
+                "raw_response": """```json
+{
+    \"review_report\": {
+        \"overall_assessment\": \"Needs significant changes\"
+    }
+}
+```"""
+            }
+
+        step_def = StepDefinition(
+            name="review_code",
+            func=reviewer_like_step,
+        ).with_output(review_report="code_review")
+
+        executor = StepExecutor()
+        ctx = ExecutionContext()
+
+        result = await executor.execute(step_def, ctx)
+
+        assert result.is_success
+        assert "review_report" in result.output_data
+        assert result.output_data["review_report"]["overall_status"] == "NEEDS_FIXES"
+        assert await ctx.get("code_review") is not None
+
+    @pytest.mark.asyncio
     async def test_timeout_handling(self):
         """Test step timeout."""
 
@@ -329,6 +378,162 @@ class TestStepExecutor:
         result = await executor.execute(step_def, ctx)
 
         assert result.status == StepStatus.SKIPPED
+
+
+class TestAgentResolverParsing:
+    """Regression tests for resilient reviewer-output parsing."""
+
+    def test_parse_malformed_review_response_extracts_status(self):
+        """When JSON is malformed, fallback still provides review_report status."""
+        response = (
+            '```json\n{\n'
+            '  "review_report": {\n'
+            '    "overall_status": "needs_major_rework",\n'
+            '    "summary": "Missing pieces"\n'
+            '  }\n'
+            # Intentionally malformed/truncated JSON (missing closing brace)
+            '```'
+        )
+
+        parsed = _parse_llm_json_output(response, ["review_report"])
+
+        assert "review_report" in parsed
+        assert parsed["review_report"]["overall_status"] == "NEEDS_MAJOR_REWORK"
+        assert "raw_response" in parsed
+
+    def test_parse_unstructured_review_defaults_to_needs_fixes(self):
+        """When no status can be extracted, fallback should force rework path."""
+        response = "Model returned narrative text, not JSON."
+
+        parsed = _parse_llm_json_output(response, ["review_report"])
+
+        assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
+
+    def test_parse_nested_raw_response_review_report(self):
+        """Recover review_report when model wraps it under raw_response JSON field."""
+        response = (
+            '{"raw_response":"```json\\n{\\n  \\\"review_report\\\": {\\n'
+            '    \\\"overall_assessment\\\": \\\"Looks decent but incomplete.\\\"\\n'
+            '  }\\n}\\n```"}'
+        )
+
+        parsed = _parse_llm_json_output(response, ["review_report"])
+
+        assert "review_report" in parsed
+        assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
+
+    def test_parse_malformed_nested_raw_response_defaults_to_needs_fixes(self):
+        """When nested raw_response JSON is truncated, still force non-approved status."""
+        response = (
+            '{"raw_response":"```json\\n{\\n  \\\"review_report\\\": {\\n'
+            '    \\\"overall_assessment\\\": \\\"Good start\\\"\\n'
+            # Intentionally malformed nested JSON (missing closing braces)
+            '```"}'
+        )
+
+        parsed = _parse_llm_json_output(response, ["review_report"])
+
+        assert "review_report" in parsed
+        assert parsed["review_report"]["overall_status"] == "NEEDS_FIXES"
+
+
+class TestAgentResolverTooling:
+    """Runtime tool-calling behavior for YAML-resolved LLM steps."""
+
+    @pytest.mark.asyncio
+    async def test_llm_step_executes_tool_calls(self, monkeypatch):
+        """Resolved LLM steps should execute tool calls before final answer."""
+        from agentic_v2.models.client import get_client
+
+        class _ToolCallingBackend:
+            def __init__(self):
+                self.calls = []
+
+            async def complete(self, model, prompt, **kwargs):
+                return ""
+
+            async def complete_chat(
+                self,
+                model,
+                messages,
+                max_tokens=4096,
+                temperature=0.7,
+                tools=None,
+                **kwargs,
+            ):
+                self.calls.append(
+                    {
+                        "model": model,
+                        "messages": messages,
+                        "tools": tools,
+                    }
+                )
+
+                if len(self.calls) == 1:
+                    return {
+                        "content": "",
+                        "tool_calls": [
+                            {
+                                "id": "call-1",
+                                "type": "function",
+                                "function": {
+                                    "name": "json_dump",
+                                    "arguments": '{"data": {"value": 7}, "indent": null}',
+                                },
+                            }
+                        ],
+                        "usage": {"total_tokens": 12},
+                        "finish_reason": "tool_calls",
+                        "model": model,
+                    }
+
+                return {
+                    "content": (
+                        "<<<ARTIFACT result>>>\n"
+                        '{"status":"ok","source":"tool"}\n'
+                        "<<<ENDARTIFACT>>>"
+                    ),
+                    "tool_calls": None,
+                    "usage": {"total_tokens": 10},
+                    "finish_reason": "stop",
+                    "model": model,
+                }
+
+            async def complete_stream(self, model, prompt, **kwargs):
+                yield ""
+
+            def count_tokens(self, text, model):
+                return max(1, len(text) // 4)
+
+        client = get_client(auto_configure=False)
+        backend = _ToolCallingBackend()
+        client.set_backend(backend)
+        monkeypatch.setattr(
+            client.router,
+            "get_model_for_tier",
+            lambda _: "openai:gpt-4o-mini",
+        )
+
+        step = StepDefinition(
+            name="tool_enabled_step",
+            description="Use available tools before answering.",
+            metadata={"agent": "tier2_coder"},
+        ).with_output(result="tooling_output")
+        resolve_agent(step)
+
+        result = await StepExecutor().execute(step, ExecutionContext())
+
+        assert result.is_success
+        assert result.output_data["result"]["status"] == "ok"
+        assert result.output_data["result"]["source"] == "tool"
+        assert len(backend.calls) == 2
+
+        first_call_tools = backend.calls[0]["tools"] or []
+        tool_names = {t.get("function", {}).get("name") for t in first_call_tools}
+        assert "json_dump" in tool_names
+
+        second_messages = backend.calls[1]["messages"]
+        assert any(msg.get("role") == "tool" for msg in second_messages)
 
 
 # ============================================================================

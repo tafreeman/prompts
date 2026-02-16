@@ -28,7 +28,10 @@ def _safe_serialize(obj: Any) -> Any:
         return obj.isoformat()
     if isinstance(obj, StepStatus):
         return obj.value
-    if hasattr(obj, "model_dump"):
+    # _NullSafe sentinels from expression evaluation should serialize as None
+    if type(obj).__name__ == "_NullSafe":
+        return None
+    if hasattr(obj, "model_dump") and callable(obj.model_dump):
         return obj.model_dump(mode="json")
     if isinstance(obj, Path):
         return str(obj)
@@ -89,10 +92,22 @@ def build_run_record(
         workflow_inputs: The raw inputs passed to the workflow.
         extra: Any additional metadata to attach.
     """
+    evaluation_score: float | None = None
+    if isinstance(extra, dict):
+        evaluation = extra.get("evaluation")
+        if isinstance(evaluation, dict):
+            weighted = evaluation.get("weighted_score")
+            overall = evaluation.get("overall_score")
+            if isinstance(weighted, (int, float)):
+                evaluation_score = float(weighted)
+            elif isinstance(overall, (int, float)):
+                evaluation_score = float(overall)
+
     record: dict[str, Any] = {
         "run_id": result.workflow_id,
         "workflow_name": result.workflow_name,
         "status": result.overall_status.value,
+        "score": evaluation_score if evaluation_score is not None else result.success_rate,
         "success_rate": result.success_rate,
         "total_duration_ms": result.total_duration_ms,
         "total_retries": result.total_retries,

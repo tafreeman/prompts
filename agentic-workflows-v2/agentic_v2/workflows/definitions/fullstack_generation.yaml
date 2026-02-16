@@ -143,12 +143,28 @@ steps:
       review_report: code_review
       suggested_fixes: fixes
 
+  # Phase 4.5: Rework pass (kickback path when review is not approved)
+  - name: developer_rework
+    agent: tier2_coder
+    description: Rework generated artifacts based on reviewer feedback
+    depends_on: [review_code]
+    when: ${steps.review_code.outputs.review_report.overall_status != 'APPROVED'}
+    inputs:
+      backend: ${steps.generate_api.outputs.api_code}
+      frontend: ${steps.generate_frontend.outputs.ui_code}
+      migrations: ${steps.generate_migrations.outputs.migrations}
+      tests: ${steps.generate_integration_tests.outputs.integration_tests}
+      review_report: ${steps.review_code.outputs.review_report}
+      suggested_fixes: ${steps.review_code.outputs.suggested_fixes}
+    outputs:
+      rework_report: rework_report
+
   # Phase 5: Final assembly (depends on review)
   - name: assemble_feature
     agent: tier1_assembler
     description: Assemble final feature package
     depends_on: [review_code]
-    when: ${steps.review_code.outputs.review_report.approved}
+    when: ${steps.review_code.outputs.review_report.overall_status == 'APPROVED'}
     inputs:
       backend: ${steps.generate_api.outputs.api_code}
       frontend: ${steps.generate_frontend.outputs.ui_code}

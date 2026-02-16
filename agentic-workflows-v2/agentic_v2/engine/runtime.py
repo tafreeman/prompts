@@ -3,21 +3,34 @@
 Wave 1 runtime policy:
 - Subprocess runtime is the default.
 - Docker runtime is opt-in through execution_profile.runtime="docker".
+
+Docker hardening:
+- Execution timeout (default 300s)
+- Memory limit (default 512m)
+- CPU limit (default 1.0 core)
+- Network isolation (default disabled)
+- Named containers for reliable cleanup
 """
 
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 import shutil
 import tempfile
+import uuid
 from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+logger = logging.getLogger(__name__)
 
 DEFAULT_DOCKER_IMAGE = "python:3.11-slim"
+DEFAULT_TIMEOUT_SECONDS = 300
+DEFAULT_MEMORY_LIMIT = "512m"
+DEFAULT_CPU_LIMIT = 1.0
 
 
 @dataclass(slots=True)
@@ -141,13 +154,33 @@ class SubprocessRuntime(IsolatedTaskRuntime):
 
 
 class DockerRuntime(IsolatedTaskRuntime):
-    """Optional runtime: run commands inside Docker."""
+    """Optional runtime: run commands inside Docker with resource limits.
 
-    def __init__(self, container_image: str | None = None) -> None:
+    Hardening features:
+    - Named containers (``agentic-<uuid>``) for reliable cleanup.
+    - Execution timeout (``timeout_seconds``, default 300).
+    - Memory limit (``memory_limit``, default "512m").
+    - CPU limit (``cpu_limit``, default 1.0 core).
+    - Network isolation (``network_disabled``, default True).
+    """
+
+    def __init__(
+        self,
+        container_image: str | None = None,
+        timeout_seconds: int | None = None,
+        memory_limit: str | None = None,
+        cpu_limit: float | None = None,
+        network_disabled: bool = True,
+    ) -> None:
         self._container_image = container_image or DEFAULT_DOCKER_IMAGE
+        self._timeout_seconds = timeout_seconds or DEFAULT_TIMEOUT_SECONDS
+        self._memory_limit = memory_limit or DEFAULT_MEMORY_LIMIT
+        self._cpu_limit = cpu_limit if cpu_limit is not None else DEFAULT_CPU_LIMIT
+        self._network_disabled = network_disabled
         self._is_setup = False
         self._managed_workdirs: list[Path] = []
         self._executions: list[RuntimeExecutionResult] = []
+        self._active_containers: list[str] = []
 
     @staticmethod
     def is_available() -> bool:
@@ -165,27 +198,58 @@ class DockerRuntime(IsolatedTaskRuntime):
             await self.setup()
 
         cwd = self._resolve_workdir(workdir)
-        command = self._docker_command(cmd, cwd)
+        container_name = f"agentic-{uuid.uuid4().hex[:12]}"
+        command = self._docker_command(cmd, cwd, container_name)
+        self._active_containers.append(container_name)
+
         proc = await asyncio.create_subprocess_exec(
             *command,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        stdout_bytes, stderr_bytes = await proc.communicate()
+
+        timed_out = False
+        try:
+            stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                proc.communicate(),
+                timeout=self._timeout_seconds,
+            )
+        except asyncio.TimeoutError:
+            timed_out = True
+            logger.warning(
+                "Docker container %s exceeded %ds timeout — killing",
+                container_name,
+                self._timeout_seconds,
+            )
+            await self._kill_container(container_name)
+            # Collect any partial output after kill
+            try:
+                stdout_bytes, stderr_bytes = await asyncio.wait_for(
+                    proc.communicate(), timeout=10,
+                )
+            except asyncio.TimeoutError:
+                stdout_bytes = b""
+                stderr_bytes = b"<timeout: container killed>"
+        finally:
+            # Remove from active list — cleanup already handled by --rm or kill
+            if container_name in self._active_containers:
+                self._active_containers.remove(container_name)
+
         stdout = stdout_bytes.decode("utf-8", errors="replace")
         stderr = stderr_bytes.decode("utf-8", errors="replace")
 
+        exit_code = 137 if timed_out else int(proc.returncode or 0)
         result = RuntimeExecutionResult(
             command=cmd,
-            exit_code=int(proc.returncode or 0),
+            exit_code=exit_code,
             stdout=stdout,
-            stderr=stderr,
+            stderr=stderr if not timed_out else f"[TIMEOUT after {self._timeout_seconds}s] {stderr}",
             workdir=str(cwd),
         )
         self._executions.append(result)
 
         if result.exit_code != 0:
-            raise RuntimeExecutionError(cmd, result.exit_code, stdout, stderr)
+            raise RuntimeExecutionError(cmd, result.exit_code, stdout, result.stderr)
 
         return result
 
@@ -197,6 +261,11 @@ class DockerRuntime(IsolatedTaskRuntime):
         }
 
     async def cleanup(self) -> None:
+        # Kill any still-running containers
+        for name in list(self._active_containers):
+            await self._kill_container(name)
+        self._active_containers.clear()
+
         for path in self._managed_workdirs:
             shutil.rmtree(path, ignore_errors=True)
         self._managed_workdirs.clear()
@@ -209,28 +278,58 @@ class DockerRuntime(IsolatedTaskRuntime):
         self._managed_workdirs.append(tmp)
         return tmp
 
-    def _docker_command(self, cmd: str, workdir: Path) -> Sequence[str]:
+    def _docker_command(
+        self, cmd: str, workdir: Path, container_name: str,
+    ) -> Sequence[str]:
         args: list[str] = [
             "docker",
             "run",
             "--rm",
+            "--name",
+            container_name,
             "-w",
             "/workspace",
             "-v",
             f"{workdir}:/workspace",
-            self._container_image,
+            "--memory",
+            self._memory_limit,
+            f"--cpus={self._cpu_limit}",
         ]
+        if self._network_disabled:
+            args.append("--network=none")
+        args.append(self._container_image)
         if os.name == "nt":
             args.extend(["cmd", "/c", cmd])
         else:
             args.extend(["/bin/sh", "-lc", cmd])
         return args
 
+    @staticmethod
+    async def _kill_container(name: str) -> None:
+        """Force-kill a running container by name, ignoring errors."""
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                "docker", "kill", name,
+                stdout=asyncio.subprocess.DEVNULL,
+                stderr=asyncio.subprocess.DEVNULL,
+            )
+            await asyncio.wait_for(proc.wait(), timeout=10)
+        except Exception:  # noqa: BLE001
+            logger.debug("Failed to kill container %s (may already be stopped)", name)
+
 
 def create_runtime(
     execution_profile: Mapping[str, Any] | None = None,
 ) -> IsolatedTaskRuntime:
-    """Runtime factory from execution profile settings."""
+    """Runtime factory from execution profile settings.
+
+    Docker-specific profile keys:
+    - ``container_image``: Docker image name (default ``python:3.11-slim``).
+    - ``timeout_seconds``: Per-command execution cap in seconds (default 300).
+    - ``memory_limit``: Docker ``--memory`` value (default "512m").
+    - ``cpu_limit``: Docker ``--cpus`` value (default 1.0).
+    - ``network_disabled``: Whether to run with ``--network=none`` (default True).
+    """
 
     profile = dict(execution_profile or {})
     runtime_name = str(profile.get("runtime", "subprocess")).strip().lower()
@@ -238,7 +337,13 @@ def create_runtime(
     if runtime_name == "subprocess":
         return SubprocessRuntime()
     if runtime_name == "docker":
-        return DockerRuntime(container_image=profile.get("container_image"))
+        return DockerRuntime(
+            container_image=profile.get("container_image"),
+            timeout_seconds=profile.get("timeout_seconds"),
+            memory_limit=profile.get("memory_limit"),
+            cpu_limit=profile.get("cpu_limit"),
+            network_disabled=profile.get("network_disabled", True),
+        )
 
     raise ValueError(
         f"Unsupported runtime '{runtime_name}'. Expected 'subprocess' or 'docker'."
