@@ -181,8 +181,12 @@ export type ExecutionEvent =
       step: string;
       status: StepStatus;
       duration_ms: number;
-      model_used?: string;
-      tokens_used?: number;
+      model_used?: string | null;
+      tokens_used?: number | null;
+      tier?: string | null;
+      input?: Record<string, unknown>;
+      output?: Record<string, unknown>;
+      error?: string | null;
       timestamp: string;
     }
   | { type: "workflow_end"; run_id: string; status: string; timestamp: string }

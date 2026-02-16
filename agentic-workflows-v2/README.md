@@ -1,171 +1,111 @@
-# agentic-workflows-v2
+# 🌌 Agentic Workflows v2
 
-Tier-based multi-model AI workflow orchestration.
+> **Enterprise-grade, tier-based multi-model AI orchestration.**
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
-[![Status](https://img.shields.io/badge/status-Eval%20Phase%200%20Complete-blue)]()
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen?style=for-the-badge)]()
+[![Python](https://img.shields.io/badge/python-3.11%2B-blue?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/status-LangChain%20Migration-orange?style=for-the-badge)]()
+[![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)]()
 
-## 📋 Implementation Status
+---
 
-| Phase | Status | Details |
-|-------|--------|--------|
-| **Eval Phase 0** | ✅ Complete | Scoring, hard gates, normalization, profiles, rubrics |
+**Agentic Workflows v2** is a modular framework for building and executing complex AI agent topologies. It uses a **Tier-based Routing** system to intelligently select models based on task complexity, cost, and latency, transitioning from deterministic logic to large-scale LLMs seamlessly.
 
-**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics.
+The project is currently undergoing a **LangGraph migration** to provide industry-standard persistence, cycle handling, and "time-travel" debugging.
 
-For active vs legacy module mapping, see [ACTIVE_VS_LEGACY_TOOLING_MAP.md](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md).
+## ✨ Core Pillars
 
-## Installation
+### 🧩 Tier-Based Orchestration
+
+Agents are assigned capability tiers (0-5). Our **SmartRouter** automatically selects the best available model for each tier—using fast, free models for routing and small tasks, while reserving flagship models for reasoning and code generation.
+
+### 🕸️ Graph-Based Execution
+
+Workflows are defined as Directed Acyclic Graphs (DAGs) in YAML, which are then compiled into executable **LangGraph** runtimes. This enables complex feedback loops, parallel step execution, and robust error recovery.
+
+### 🧪 Unified Evaluation Framework
+
+Built-in support for **SWE-bench**, **HumanEval**, and custom datasets. Every run is logged with structured telemetry, allowing for automated scoring and regression testing via an LLM-as-a-Judge protocol.
+
+### 📺 Real-Time Live Monitoring
+
+A full React-based dashboard provides live views of multi-agent conversations, token usage tracking, and dynamic graph visualization.
+
+---
+
+## 🚀 Quick Start
+
+### Installation
 
 ```bash
-pip install -e .
+# Clone and install with server and langchain extras
+git clone https://github.com/tafreeman/agentic-workflows-v2.git
+cd agentic-workflows-v2
+pip install -e ".[server,langchain,dev]"
 ```
 
-## Quick Start
-
-### CLI
-
-After installation, you can use the `agentic` CLI:
-
-```bash
-agentic list agents
-agentic list tools
-agentic orchestrate "Review the code in src/main.py" --verbose
-```
-
-### Python
-
-Run a built-in agent directly:
+### Run a Coder Agent
 
 ```python
 import asyncio
-
 from agentic_v2 import CodeGenerationInput, CoderAgent
 
-
-async def main() -> None:
+async def main():
     agent = CoderAgent()
-    out = await agent.run(
+    result = await agent.run(
         CodeGenerationInput(
-            description="Write a small Python function that returns the string 'hello'.",
-            language="python",
+            description="Build a FastAPI endpoint for user registration",
+            language="python"
         )
     )
-    print(out.code)
-
+    print(result.code)
 
 asyncio.run(main())
 ```
 
-## Run The App (API + UI)
+---
 
-Run the full app (FastAPI backend serving the built UI):
+## 🖥️ Dashboard & API
 
-```bash
-cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
-```
-
-Open:
-
-- App UI: `http://127.0.0.1:8010`
-- Health: `http://127.0.0.1:8010/api/health`
-
-Notes:
-
-- Port `8000` may already be used on some machines. `8010` is a safe default.
-- The app serves `ui/dist` via SPA fallback from the backend.
-
-### Frontend dev mode (optional)
-
-For hot-reload UI development:
+Launch the backend server to access the UI and API endpoints:
 
 ```bash
-# terminal 1
-cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000 --app-dir src
-
-# terminal 2
-cd agentic-workflows-v2/ui
-npm run dev
+# Default port 8010 to avoid common conflicts
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 ```
 
-Vite runs on `http://127.0.0.1:5173` and proxies `/api` + `/ws` to `http://localhost:8000`.
+- **Live Dashboard**: [http://127.0.0.1:8010](http://127.0.0.1:8010)
+- **API Documentation**: [http://127.0.0.1:8010/docs](http://127.0.0.1:8010/docs)
 
-## Workflow Evaluation UI
+---
 
-The UI supports running and scoring workflows in one pass:
+## 🛠️ Project Structure
 
-1. Select a workflow.
-2. Enable evaluation.
-3. Choose dataset source (`repository` or `local`).
-4. Pick dataset + sample index.
-5. Run and monitor live workflow + evaluation events.
+For a complete map of all files, see [MASTER_MANIFEST.md](./MASTER_MANIFEST.md).
 
-API endpoints used by this flow:
+```text
+agentic_v2/
+├── agents/             # Reusable AI Agent implementations (Coder, Reviewer, etc.)
+├── engine/             # Core execution logic (DAG, Pipeline, State Management)
+├── langchain/          # (Ongoing) LangGraph-native engine implementation
+├── models/             # SmartRouter, LLM clients, and Backend adapters
+├── server/             # FastAPI backend and WebSocket handlers
+├── tools/              # Tier-based tool registry (File, Shell, Search, etc.)
+└── workflows/          # YAML-to-Graph loading and execution
+```
 
-- `GET /api/eval/datasets`
-- `POST /api/run` (with optional `evaluation` payload)
-- `GET /api/runs`, `GET /api/runs/{filename}`
-- `GET /api/runs/{run_id}/stream` (SSE)
+---
 
-## Features
-
-- **Tier-based routing**: Route tasks to appropriate model sizes
-- **Smart fallback**: Automatic retry with different models
-- **Pydantic contracts**: Type-safe inputs/outputs
-- **Async-first**: Built for concurrent execution
-- **Token-aware memory**: `ConversationMemory` trims to a message + token budget
-- **Persistent memory tools**: File-backed CRUD via `AGENTIC_MEMORY_PATH`
-
-### Persistent memory location
-
-If you want the built-in persistent memory tools to write to a specific file, set:
-
-- `AGENTIC_MEMORY_PATH` (e.g., `C:\\temp\\agentic_memory.json`)
-
-## Documentation
-
-- API Reference: `docs/API_REFERENCE.md`
-- Tutorials: `docs/tutorials/`
-- Architecture decisions (ADRs): `docs/adr/`
-- Active vs Legacy Tooling: `docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md`
-- Examples: `examples/`
-
-## Developer tooling
-
-We enforce formatting and linting via `pre-commit`.
-
-Install and enable locally:
+## 🧪 Testing
 
 ```bash
-pip install pre-commit
-pre-commit install
-pre-commit run --all-files
+# Run backend tests
+pytest tests/ -v
+
+# Run UI tests
+cd ui && npm test
 ```
 
-Recommended VS Code extensions: `ms-python.python`, `ms-python.vscode-pylance`, and `njpwerner.autodocstring`.
+## 📄 License & Contributing
 
-## Testing
-
-Backend (full suite):
-
-```bash
-cd agentic-workflows-v2
-python -m pytest tests/ -v
-```
-
-Backend (evaluation-specific):
-
-```bash
-python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py tests/test_server_workflow_routes.py -v
-```
-
-UI:
-
-```bash
-cd agentic-workflows-v2/ui
-npm test
-npm run build
-```
+This project is licensed under the **MIT License**. We welcome contributions focusing on agent quality, tool diversity, and evaluation metrics. See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.

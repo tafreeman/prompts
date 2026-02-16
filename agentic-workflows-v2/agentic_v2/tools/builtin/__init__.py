@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .build_ops import BuildAppTool
 from .code_analysis import AstDumpTool, CodeAnalysisTool
 
 # Import all tool classes
@@ -68,6 +69,8 @@ __all__ = [
     # Code analysis
     "CodeAnalysisTool",
     "AstDumpTool",
+    # Build verification
+    "BuildAppTool",
     # Search operations
     "SearchTool",
     "GrepTool",

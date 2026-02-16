@@ -180,22 +180,26 @@ class WorkflowExecutor:
         Returns:
             WorkflowResult with execution details
         """
-        # Create context if needed
+        # 1. Setup Execution Context
+        # Every workflow run requires a context for variable storage and service registry.
         if ctx is None:
             ctx = ExecutionContext()
 
         self._current_ctx = ctx
         self._cancelled = False
 
-        # Set initial variables
+        # 2. Seed Initial Variables
+        # These are usually passed from the CLI or API (e.g., input file paths).
         for key, value in initial_vars.items():
             ctx.set_sync(key, value)
 
-        # Inject services
+        # 3. Dynamic Service Injection
+        # We register the router and tool registry into the context so that 
+        # individual steps/agents can access them without global lookups.
         ctx.services.register_singleton(SmartModelRouter, self.router)
         ctx.services.register_singleton(ToolRegistry, self.tools)
 
-        # Create result
+        # 4. Initialize Result Object
         workflow_name = self._get_workflow_name(workflow)
         result = WorkflowResult(
             workflow_id=ctx.workflow_id,
@@ -203,6 +207,7 @@ class WorkflowExecutor:
             overall_status=StepStatus.RUNNING,
         )
 
+        # 5. Signal Start
         self._history.record("workflow_start", data={"name": workflow_name})
         await self._emit(ExecutorEvent.WORKFLOW_START, {"workflow": workflow_name})
 

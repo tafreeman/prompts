@@ -28,34 +28,34 @@ const statusConfig: Record<
   { border: string; icon: typeof Clock; iconClass: string }
 > = {
   pending: {
-    border: "border-gray-600",
+    border: "border-gray-700/50",
     icon: Clock,
-    iconClass: "text-gray-500",
+    iconClass: "text-gray-600",
   },
   running: {
-    border: "border-blue-500 shadow-blue-500/20 shadow-lg",
+    border: "border-blue-500 shadow-blue-500/25 shadow-lg",
     icon: Loader2,
     iconClass: "text-blue-400 animate-spin",
   },
   success: {
-    border: "border-green-500/60",
+    border: "border-green-500/50",
     icon: CheckCircle2,
     iconClass: "text-green-400",
   },
   failed: {
-    border: "border-red-500/60",
+    border: "border-red-500/50",
     icon: XCircle,
     iconClass: "text-red-400",
   },
   skipped: {
-    border: "border-amber-500/40",
+    border: "border-amber-500/30",
     icon: SkipForward,
-    iconClass: "text-amber-400",
+    iconClass: "text-amber-400/70",
   },
   cancelled: {
-    border: "border-gray-600",
+    border: "border-gray-700/50",
     icon: Clock,
-    iconClass: "text-gray-500",
+    iconClass: "text-gray-600",
   },
 };
 
@@ -64,61 +64,64 @@ function StepNodeComponent({ data }: NodeProps) {
   const cfg = statusConfig[nodeData.status] ?? statusConfig.pending;
   const Icon = cfg.icon;
 
-  const bgClass =
-    nodeData.status === "running"
-      ? "bg-surface-2 animate-pulse-slow"
-      : nodeData.status === "pending"
-        ? "bg-surface-1/80"
-        : "bg-surface-2";
+  let bgClass = "bg-surface-2";
+  if (nodeData.status === "pending") bgClass = "bg-surface-1/60";
 
   return (
     <>
       <Handle type="target" position={Position.Top} className="!bg-gray-600 !border-0 !w-2 !h-2" />
 
       <div
-        className={`rounded-lg border-2 ${cfg.border} ${bgClass} px-4 py-3 min-w-[200px] max-w-[280px] transition-all`}
+        className={`
+          rounded-lg border ${cfg.border} ${bgClass}
+          px-3 py-2.5 min-w-[180px] max-w-[240px]
+          transition-all duration-500 ease-out
+          ${nodeData.status === "running" ? "ring-1 ring-blue-500/20" : ""}
+        `}
       >
         {/* Header: status icon + name */}
-        <div className="flex items-center gap-2">
-          <Icon className={`h-4 w-4 flex-shrink-0 ${cfg.iconClass}`} />
-          <span className="truncate text-sm font-medium text-gray-100">
+        <div className="flex items-center gap-1.5">
+          <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
+          <span className="truncate text-xs font-medium text-gray-200">
             {nodeData.label}
           </span>
         </div>
 
         {/* Agent name */}
         {nodeData.agent && (
-          <div className="mt-1 text-xs text-gray-500">{nodeData.agent}</div>
+          <div className="mt-0.5 truncate text-[10px] text-gray-600">{nodeData.agent}</div>
         )}
 
-        {/* Metrics row */}
-        <div className="mt-2 flex items-center gap-3 text-xs text-gray-400">
-          <StepTimer
-            status={nodeData.status}
-            startTime={nodeData.startTime}
-            durationMs={nodeData.durationMs}
-          />
-          {nodeData.tokensUsed != null && (
-            <span className="flex items-center gap-1">
-              <Cpu className="h-3 w-3" />
-              {nodeData.tokensUsed.toLocaleString()} tok
-            </span>
-          )}
-        </div>
-
-        {/* Model used */}
-        {nodeData.modelUsed && (
-          <div className="mt-1 truncate text-xs text-gray-600">
-            {nodeData.modelUsed}
+        {/* Metrics row — only show when there's data */}
+        {(nodeData.status === "running" || nodeData.durationMs != null || nodeData.tokensUsed != null) && (
+          <div className="mt-1.5 flex items-center gap-2 text-[10px] text-gray-500">
+            <StepTimer
+              status={nodeData.status}
+              startTime={nodeData.startTime}
+              durationMs={nodeData.durationMs}
+            />
+            {nodeData.tokensUsed != null && (
+              <span className="flex items-center gap-0.5">
+                <Cpu className="h-2.5 w-2.5" />
+                {nodeData.tokensUsed.toLocaleString()}
+              </span>
+            )}
           </div>
         )}
 
-        {/* Tier badge */}
-        {nodeData.tier && (
-          <div className="mt-1">
-            <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-gray-500 uppercase">
-              {nodeData.tier}
-            </span>
+        {/* Model + tier — compact single line */}
+        {(nodeData.modelUsed || nodeData.tier) && (
+          <div className="mt-1 flex items-center gap-1.5">
+            {nodeData.modelUsed && (
+              <span className="truncate text-[10px] text-gray-600">
+                {nodeData.modelUsed}
+              </span>
+            )}
+            {nodeData.tier && (
+              <span className="rounded bg-white/5 px-1 py-px text-[9px] text-gray-600 uppercase flex-shrink-0">
+                {nodeData.tier}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -128,7 +131,7 @@ function StepNodeComponent({ data }: NodeProps) {
   );
 }
 
-/* ── StepTimer: live elapsed or final duration ────────────────── */
+/* ── StepTimer: live elapsed or final duration ── */
 function StepTimer({
   status,
   startTime,
@@ -146,7 +149,6 @@ function StepTimer({
       return;
     }
     const origin = new Date(startTime).getTime();
-    // set immediately so there's no 1-second blank
     setElapsed(Date.now() - origin);
     const id = setInterval(() => setElapsed(Date.now() - origin), 250);
     return () => clearInterval(id);
@@ -160,8 +162,8 @@ function StepTimer({
   if (ms == null) return null;
 
   return (
-    <span className="flex items-center gap-1">
-      <Timer className="h-3 w-3" />
+    <span className="flex items-center gap-0.5 tabular-nums">
+      <Timer className="h-2.5 w-2.5" />
       {formatMs(ms)}
     </span>
   );

@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect, useRef } from "react";
 import {
   ReactFlow,
   Background,
@@ -7,8 +7,11 @@ import {
   type Node,
   type Edge,
   type NodeTypes,
+
   MarkerType,
   BackgroundVariant,
+  useReactFlow,
+  ReactFlowProvider,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -42,7 +45,8 @@ interface Props {
   className?: string;
 }
 
-export default function WorkflowDAG({
+/* ── Inner component (has access to useReactFlow) ── */
+function WorkflowDAGInner({
   dagNodes,
   dagEdges,
   stepStates,
@@ -51,10 +55,63 @@ export default function WorkflowDAG({
   onNodeClick,
   className = "",
 }: Readonly<Props>) {
+  const { fitView, setCenter } = useReactFlow();
+  const prevRunningRef = useRef<string | null>(null);
+  const userInteractedRef = useRef(false);
+  const interactionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const positions = useMemo(
     () => layoutDAG(dagNodes, dagEdges),
     [dagNodes, dagEdges]
   );
+
+  // Find the currently-running step
+  const runningStepId = useMemo(() => {
+    if (!stepStates) return null;
+    for (const [id, state] of stepStates) {
+      if (state.status === "running") return id;
+    }
+    return null;
+  }, [stepStates]);
+
+  // Auto-pan to the running node when it changes
+  useEffect(() => {
+    if (!runningStepId || runningStepId === prevRunningRef.current) return;
+    if (userInteractedRef.current) return; // respect manual navigation
+
+    prevRunningRef.current = runningStepId;
+    const pos = positions.find((p) => p.id === runningStepId);
+    if (!pos) return;
+
+    // Center on the running node with a smooth animation
+    setCenter(pos.x + 120, pos.y + 60, { zoom: 1.1, duration: 700 });
+  }, [runningStepId, positions, setCenter]);
+
+  // When workflow completes (no running step and we had one before), zoom to fit all
+  const allDone = useMemo(() => {
+    if (!stepStates || stepStates.size === 0) return false;
+    for (const [, state] of stepStates) {
+      if (state.status === "running" || state.status === "pending") return false;
+    }
+    return true;
+  }, [stepStates]);
+
+  useEffect(() => {
+    if (allDone && prevRunningRef.current) {
+      prevRunningRef.current = null;
+      userInteractedRef.current = false;
+      fitView({ padding: 0.15, duration: 800 });
+    }
+  }, [allDone, fitView]);
+
+  // Track user interaction — pause auto-pan for 8s after manual move
+  const handleMoveEnd = useCallback(() => {
+    userInteractedRef.current = true;
+    if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    interactionTimerRef.current = setTimeout(() => {
+      userInteractedRef.current = false;
+    }, 8000);
+  }, []);
 
   const nodes = useMemo(() => {
     return dagNodes.map((dn) => {
@@ -146,14 +203,15 @@ export default function WorkflowDAG({
         edges={edges}
         nodeTypes={nodeTypes}
         onNodeClick={handleNodeClick}
+        onMoveEnd={handleMoveEnd}
         fitView
         fitViewOptions={{ padding: 0.2 }}
         proOptions={{ hideAttribution: true }}
-        minZoom={0.3}
-        maxZoom={1.5}
+        minZoom={0.2}
+        maxZoom={2.0}
       >
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#1f1f2e" />
-        <Controls showInteractive={false} />
+        <Controls showInteractive={false} className="dag-controls" />
         <MiniMap
           nodeColor={(node) => {
             const status = (node.data as unknown as StepNodeData | undefined)?.status;
@@ -166,8 +224,19 @@ export default function WorkflowDAG({
             }
           }}
           maskColor="rgba(0, 0, 0, 0.7)"
+          pannable
+          zoomable
         />
       </ReactFlow>
     </div>
+  );
+}
+
+/* ── Wrapper providing ReactFlowProvider ── */
+export default function WorkflowDAG(props: Readonly<Props>) {
+  return (
+    <ReactFlowProvider>
+      <WorkflowDAGInner {...props} />
+    </ReactFlowProvider>
   );
 }

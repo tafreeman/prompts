@@ -75,6 +75,7 @@ class HardGateResult:
     no_critical_step_failures: bool
     schema_contract_valid: bool
     dataset_workflow_compatible: bool
+    release_build_verified: bool
 
     @property
     def all_passed(self) -> bool:
@@ -84,6 +85,7 @@ class HardGateResult:
             and self.no_critical_step_failures
             and self.schema_contract_valid
             and self.dataset_workflow_compatible
+            and self.release_build_verified
         )
 
     @property
@@ -99,6 +101,8 @@ class HardGateResult:
             failed.append("schema_contract_valid")
         if not self.dataset_workflow_compatible:
             failed.append("dataset_workflow_compatible")
+        if not self.release_build_verified:
+            failed.append("release_build_verified")
         return failed
 
 
@@ -134,12 +138,41 @@ def compute_hard_gates(
     if eval_payload is not None:
         schema_contract_valid, _ = validate_evaluation_payload_schema(eval_payload)
 
+    def _coerce_bool(value: Any) -> bool | None:
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            lowered = value.strip().lower()
+            if lowered in {"true", "1", "yes", "y", "pass", "passed"}:
+                return True
+            if lowered in {"false", "0", "no", "n", "fail", "failed"}:
+                return False
+        return None
+
+    release_build_verified = True
+    build_verify_step = next(
+        (step for step in result.steps if step.step_name in {"build_verify_release", "build_verify_release_round2"}),
+        None,
+    )
+    if build_verify_step is not None:
+        ready_value = build_verify_step.output_data.get("ready_for_release")
+        if ready_value is None:
+            nested = build_verify_step.output_data.get("build_verification")
+            if isinstance(nested, dict):
+                ready_value = nested.get("ready_for_release")
+
+        coerced_ready = _coerce_bool(ready_value)
+        release_build_verified = bool(coerced_ready) if coerced_ready is not None else False
+        if build_verify_step.status == StepStatus.FAILED:
+            release_build_verified = False
+
     return HardGateResult(
         required_outputs_present=required_outputs_present,
         overall_status_success=overall_status_success,
         no_critical_step_failures=no_critical_step_failures,
         schema_contract_valid=schema_contract_valid,
         dataset_workflow_compatible=dataset_workflow_compatible,
+        release_build_verified=release_build_verified,
     )
 
 
@@ -1191,6 +1224,7 @@ def score_workflow_result(
         "no_critical_step_failures": hard_gates.no_critical_step_failures,
         "schema_contract_valid": hard_gates.schema_contract_valid,
         "dataset_workflow_compatible": hard_gates.dataset_workflow_compatible,
+        "release_build_verified": hard_gates.release_build_verified,
     }
     payload["hard_gate_failures"] = hard_gates.failures
     payload["floor_violations"] = [
