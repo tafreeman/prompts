@@ -1,184 +1,177 @@
-# LangChain Migration Plan & Feature Documentation
+# LangChain Migration — Implementation Status
 
-This document outlines the strategy to migrate the existing `agentic-workflows-v2` system to a **LangChain/LangGraph-based architecture**. The goal is to leverage LangChain's robust ecosystem (persistence, observability, established patterns) while maintaining the user-friendly **YAML-based workflow definition** system.
+## Overview
 
-## 1. Migration Strategy
+Clean LangChain/LangGraph reimplementation of the agentic workflow engine.
+The old custom `DAG`, `BaseAgent`, `StepExecutor`, and `ExecutionContext`
+are replaced entirely with standard LangChain primitives.
 
-The migration will start in a new branch (e.g., `feature/langchain-migration`). The core approach is to replace the custom `DAG` and `BaseAgent` engine with **LangGraph**, using a "Bridge Module" to translate existing YAML configurations into LangGraph executables at runtime.
-
-### Phase 1: Core Primitives (The "Bridge Module")
-
-Develop the adapter layer that bridges existing YAMLs to LangGraph.
-
-- **`State` Definition**: Define a typed state (e.g., `TypedDict` or Pydantic) that mirrors `ExecutionContext` and `ConversationMemory`.
-- **`YamlGraphBuilder`**: A class that reads `WorkflowDefinition` objects (loaded by the existing `WorkflowLoader`) and programmatically constructs a `StateGraph`.
-
-### Phase 2: Agent Isolation
-
-Convert existing `BaseAgent` subclasses into LangGraph-compatible **Nodes**.
-
-- Instead of managing their own loop, agents become functional nodes that receive `State`, call an LLM, and return `State` updates.
-- Tools will be standardized to `langchain_core.tools.BaseTool`.
-
-### Phase 3: Workflow Translation
-
-Update the `runner.py` to execute the generated `StateGraph` instead of the custom `DAG`.
-
-- Map `depends_on` → `graph.add_edge`.
-- Map `when` expressions → `graph.add_conditional_edges`.
-- Map `loop_until` → `graph.add_conditional_edges` (looping back to self).
-
-### Phase 4: Persistence & Observability
-
-- Replace `AGENTIC_MEMORY_PATH` with `langgraph.checkpoint.sqlite.SqliteSaver` or `MemorySaver`.
-- Enable LangSmith tracing for free observability.
+**Branch:** `feature/langchain-migration`
 
 ---
 
-## 2. Feature Documentation (Proposed System)
+## Architecture
 
-The new system retains all high-level features but powers them with industry-standard infrastructure.
-
-### 🌐 Declarative Workflows (YAML-Based)
-
-**Feature**: Define complex multi-agent workflows in simple YAML files.
-**How it works**:
-
-- **Structure**: Continues to use `steps`, `inputs`, `outputs`, and `depends_on`.
-- **Benefit**: No code required to wire agents together. The "Bridge Module" compiles YAML to a graph at runtime.
-
-### 🧠 Unified State Management
-
-**Feature**: Robust, typed state shared across all agents.
-**Details**:
-
-- Uses a central `AgentState` object containing:
-  - `messages`: Full conversation history (replaces `ConversationMemory`).
-  - `context`: Key-value store for workflow variables (replaces `ExecutionContext`).
-  - `artifacts`: Generated files/code.
-
-### 💾 Built-in Persistence (Time Travel)
-
-**Feature**: Pause, resume, and "replay" workflows.
-**Details**:
-
-- Powered by **LangGraph Checkpointing**.
-- Every step is saved. You can resume a failed workflow from the exact point of failure without re-running previous steps.
-
-### 🔀 Dynamic conditional Logic
-
-**Feature**: Logic gates and loops defined in YAML.
-**Details**:
-
-- **Conditions**: `when: "${context.score} < 5"` compiles to a conditional edge.
-- **Loops**: `loop_until: "${context.is_valid}"` automatically creates a feedback loop in the graph.
-
-### 🛠️ Adaptive Tooling
-
-**Feature**: Agents receive tools dynamically based on their "Tier" or config.
-**Details**:
-
-- Tools are standard LangChain tools.
-- The `Node` logic filters and binds usage-allowed tools to the LLM model just-in-time.
-
----
-
-## 3. Implementation Blueprint: The "Bridge Module"
-
-This module is the key "minor modification" that enables the migration without rewriting all YAMLs.
-
-### `src/agentic_v2/langchain_bridge.py`
-
-```python
-import operator
-from typing import Annotated, Any, TypedDict, Union, Sequence
-
-from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
-from langgraph.graph import StateGraph, END
-from langgraph.prebuilt import ToolNode
-
-from .workflows.loader import WorkflowDefinition, StepDefinition
-
-# 1. Define the Global State
-class WorkflowState(TypedDict):
-    # Append-only message history
-    messages: Annotated[Sequence[BaseMessage], operator.add]
-    # Shared context (overwrites keys)
-    context: dict[str, Any]
-    # Final outputs
-    outputs: dict[str, Any]
-
-class YamlGraphBuilder:
-    """Compiles a YAML WorkflowDefinition into a specific LangGraph StateGraph."""
-    
-    def __init__(self, workflow_def: WorkflowDefinition):
-        self.wf = workflow_def
-        self.graph = StateGraph(WorkflowState)
-        self.steps_map = {step.name: step for step in self.wf.dag.steps}
-
-    def build(self):
-        # 1. Add Nodes
-        for step in self.wf.dag.steps:
-            node_func = self._create_step_node(step)
-            self.graph.add_node(step.name, node_func)
-
-        # 2. Add Edges
-        for step in self.wf.dag.steps:
-            if not step.depends_on:
-                # If no dependencies, it's a start node (or dependent on separate start logic)
-                # In strict DAG, we might need a dummy start, but here we can rely on flow.
-                # Simplification: If it's a root step, add edge from START? 
-                # (Logic depends on specific topological sort or explicit entry)
-                pass
-            
-            # Add standard edges
-            # Note: LangGraph infers flow, but for explicit DAGs we draw edges.
-            # If Step B depends on Step A, we add Edge A -> B
-            for dep in step.depends_on:
-                self.graph.add_edge(dep, step.name)
-
-            # 3. Handle Conditional Edges (Loops & When)
-            if step.loop_until:
-                 self.graph.add_conditional_edges(
-                    step.name,
-                    self._make_condition(step.loop_until),
-                    {True: "next_node", False: step.name} # Simplified logic
-                 )
-
-        self.graph.set_entry_point(self.wf.dag.steps[0].name) # Simplified entry
-        return self.graph.compile()
-
-    def _create_step_node(self, step: StepDefinition):
-        """Factory to create a runnable node function from a step definition."""
-        async def _node(state: WorkflowState):
-            # Resolve Agent based on step.metadata['agent']
-            # Execute Agent Logic (LLM Call)
-            # Return State Update
-            return {"context": {"last_step": step.name}}
-        return _node
-
-    def _make_condition(self, expr_str):
-        """Converts string expression to callable."""
-        def _cond(state):
-            # Evaluate expr_str against state['context']
-            return True
-        return _cond
+```
+agentic_v2/langchain/
+├── __init__.py          # Package exports (WorkflowRunner, WorkflowConfig)
+├── state.py             # WorkflowState TypedDict (LangGraph state schema)
+├── config.py            # YAML config loader → pure dataclasses
+├── tools.py             # @tool decorated functions (file, code, shell, etc.)
+├── agents.py            # create_react_agent factory (tier-based model selection)
+├── expressions.py       # ${...} expression evaluator (conditions / variable refs)
+├── graph.py             # StateGraph compiler (YAML config → runnable graph)
+└── runner.py            # WorkflowRunner (top-level API: load → validate → run)
 ```
 
-### Key Mapping Logic
+### What's Standard LangChain
 
-| Concept | Current System | New LangGraph System |
-| :--- | :--- | :--- |
-| **Agent** | Class inheriting `BaseAgent` | `Annotated[Runnable, "agent"]` (Node) |
-| **Memory** | `ConversationMemory` (Manual) | `state["messages"]` (Managed) |
-| **DAG** | Custom `DAG` class | `StateGraph` |
-| **Step** | `StepDefinition` | Graph Node |
-| **Edge** | `depends_on` list | `graph.add_edge()` |
-| **Loop** | Custom runner logic | Cyclic Graph Edge |
+| Component           | LangChain Primitive Used                     |
+|---------------------|----------------------------------------------|
+| State               | `TypedDict` with `Annotated` reducers        |
+| Tools               | `@tool` decorator from `langchain_core`      |
+| Agents              | `create_react_agent` from `langgraph.prebuilt`|
+| Models              | `ChatOpenAI` from `langchain_openai`         |
+| Graph               | `StateGraph` from `langgraph.graph`          |
+| Edges               | `add_edge`, `add_conditional_edges`          |
+| Checkpointing       | `MemorySaver` / `SqliteSaver` (ready)        |
 
-## 4. Next Steps for User
+### What's Custom (Thin Layers)
 
-1. **Approval**: Confirm this plan aligns with your vision.
-2. **Repo Setup**: Create the `feature/langchain-migration` branch.
-3. **Dependency Install**: Add `langchain`, `langgraph`, `langchain-openai`.
-4. **Prototype**: Implement the `YamlGraphBuilder` to validate one simple workflow.
+| Component           | Purpose                                      |
+|---------------------|----------------------------------------------|
+| `config.py`         | YAML parsing → dataclasses (no execution logic) |
+| `expressions.py`    | `${...}` expression evaluation on state dict |
+| `graph.py`          | Compiles YAML config into `StateGraph`       |
+| `runner.py`         | Orchestrates load/validate/compile/run       |
+
+---
+
+## Module Details
+
+### `state.py` — WorkflowState
+
+```python
+class WorkflowState(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]  # append-only
+    context: dict[str, Any]      # overwrite merge
+    inputs: dict[str, Any]       # immutable after init
+    outputs: dict[str, Any]      # resolved at end
+    steps: dict[str, dict]       # per-step status + outputs
+    current_step: str
+    errors: Annotated[list[str], operator.add]  # append-only
+```
+
+### `config.py` — YAML Loader
+
+Pure-data parsing:
+
+- `WorkflowConfig` → `StepConfig`, `InputConfig`, `OutputConfig`
+- `EvaluationConfig` → `CriterionConfig`
+- Uses existing YAML files unchanged
+
+### `tools.py` — LangChain Tools
+
+Standard `@tool` decorated functions:
+
+- `file_read`, `file_write`, `file_list`
+- `code_analyze`
+- `shell_run`
+- `search_files`
+- `context_store`
+- `http_get`
+- Tier-based tool sets: `get_tools_for_tier(tier)`
+
+### `agents.py` — Agent Factory
+
+- Parses `tier{N}_{role}` agent names
+- Maps tiers to models (`gpt-4o-mini`, `gpt-4o`, etc.)
+- Loads system prompts from `prompts/{role}.md`
+- Creates `create_react_agent(model, tools, prompt)`
+- Env var overrides: `AGENTIC_MODEL_TIER_{N}`
+
+### `graph.py` — Graph Compiler
+
+Transforms `WorkflowConfig` → compiled `StateGraph`:
+
+- **Tier 0 nodes**: Deterministic functions (no LLM)
+- **Tier 1+ nodes**: ReAct agent wrappers
+- **Edges**: `depends_on` → `add_edge`
+- **Conditional edges**: `when` → `add_conditional_edges`
+- **Loop edges**: `loop_until` → self-edge with iteration counter
+- **Auto-wiring**: `START → root steps`, `terminal steps → END`
+
+### `runner.py` — WorkflowRunner API
+
+```python
+runner = WorkflowRunner()
+result = runner.invoke("code_review", code_file="main.py")
+result = await runner.run("code_review", code_file="main.py")
+```
+
+- Input validation with defaults and enum checks
+- Graph caching (compile once, run many)
+- Output resolution from final state
+- `WorkflowResult` with status, outputs, steps, errors, timing
+
+---
+
+## Test Coverage
+
+**21 tests** (20 passed, 1 skipped without API key):
+
+| Suite               | Tests | Notes                          |
+|---------------------|-------|--------------------------------|
+| Config Loader       | 8     | YAML parsing, inputs, steps    |
+| Expressions         | 7     | Variables, conditions, `in`    |
+| State               | 2     | Initial state creation         |
+| Graph Compilation   | 4     | Compile, edge validation, run  |
+
+---
+
+## Phase 2: Remaining Work
+
+### 2a. Run with Real LLM (requires API key)
+
+- [ ] End-to-end `code_review` workflow execution
+- [ ] Multi-step agent orchestration test
+- [ ] Tool usage verification
+
+### 2b. Persistence & Memory
+
+- [ ] Wire `MemorySaver` / `SqliteSaver` checkpointer
+- [ ] Resume interrupted workflows
+- [ ] Cross-session memory
+
+### 2c. UI Rearchitecture
+
+- [ ] Update dashboard to work with new `WorkflowResult`
+- [ ] Stream graph events to UI in real-time
+- [ ] Graph visualization (LangGraph natively supports this)
+
+### 2d. Evaluation Rearchitecture
+
+- [ ] Port evaluation criteria resolution
+- [ ] LangSmith integration for tracing
+- [ ] Benchmark harness using new runner
+
+### 2e. Custom Agents
+
+- [ ] Port any agents that don't fit `create_react_agent`
+- [ ] Multi-agent collaboration patterns (supervisor, swarm)
+- [ ] Human-in-the-loop (LangGraph interrupts)
+
+---
+
+## Dependencies Added
+
+```toml
+# Core (required)
+"langchain-core>=0.3"
+"langgraph>=0.2"
+
+# Optional [langchain] extra
+"langchain>=0.3"
+"langchain-openai>=0.2"
+"langgraph-checkpoint-sqlite>=2.0"
+```
