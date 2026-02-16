@@ -44,6 +44,16 @@ class TestWorkflowLoaderBasic:
         assert workflow.name == "fullstack_generation"
         assert len(workflow.dag.steps) > 0
 
+    def test_load_fullstack_generation_bounded_rereview_workflow(self):
+        """Load bounded re-review fullstack workflow with second review path."""
+        loader = WorkflowLoader()
+        workflow = loader.load("fullstack_generation_bounded_rereview")
+
+        assert workflow.name == "fullstack_generation_bounded_rereview"
+        assert "review_code" in workflow.dag.steps
+        assert "review_code_round2" in workflow.dag.steps
+        assert "developer_rework_round1" in workflow.dag.steps
+
     def test_load_nonexistent_workflow_raises(self):
         """Loading nonexistent workflow raises WorkflowLoadError."""
         loader = WorkflowLoader()
@@ -124,6 +134,29 @@ class TestWorkflowLoaderDAG:
         # They are in parallel (not depending on each other)
         assert "generate_frontend" not in dag.steps["generate_api"].depends_on
         assert "generate_api" not in dag.steps["generate_frontend"].depends_on
+
+    def test_step_tools_metadata_is_parsed(self):
+        """Step-level tools allowlist is preserved in metadata."""
+        with TemporaryDirectory() as tmpdir:
+            tmppath = Path(tmpdir)
+
+            workflow_yaml = """
+name: tools_workflow
+steps:
+  - name: inspect
+    agent: tier2_coder
+    tools: [file_read, search]
+"""
+            (tmppath / "tools_workflow.yaml").write_text(
+                workflow_yaml,
+                encoding="utf-8",
+            )
+
+            loader = WorkflowLoader(definitions_dir=tmppath)
+            workflow = loader.load("tools_workflow")
+
+            step = workflow.dag.steps["inspect"]
+            assert step.metadata["tools"] == ["file_read", "search"]
 
 
 class TestWorkflowLoaderInputs:

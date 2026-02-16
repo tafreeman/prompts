@@ -309,6 +309,52 @@ class TestWorkflowRunnerConditionalExecution:
         statuses = {s.step_name: s.status for s in result.steps}
         assert statuses["guarded"] == StepStatus.SUCCESS
 
+    @pytest.mark.asyncio
+    async def test_when_expression_triggers_rework_on_non_approved_review(self):
+        """Kickback path runs when review overall_status is not APPROVED."""
+
+        async def review_step(ctx):
+            return {
+                "review_report": {
+                    "overall_status": "REJECTED",
+                }
+            }
+
+        async def rework_step(ctx):
+            return {"rework_report": {"status": "reworked"}}
+
+        from agentic_v2.engine.expressions import ExpressionEvaluator
+        from agentic_v2.workflows.loader import WorkflowDefinition
+
+        def _needs_rework(ctx) -> bool:
+            return ExpressionEvaluator(ctx).evaluate(
+                "${steps.review_code.outputs.review_report.overall_status != 'APPROVED'}"
+            )
+
+        dag = DAG("conditional_rework")
+        dag.add(
+            StepDefinition(name="review_code", func=review_step).with_output(
+                review_report="review_report"
+            )
+        )
+        dag.add(
+            StepDefinition(
+                name="developer_rework",
+                func=rework_step,
+                when=_needs_rework,
+            )
+            .with_dependency("review_code")
+            .with_output(rework_report="rework_report")
+        )
+
+        definition = WorkflowDefinition(name="conditional_rework", dag=dag)
+        runner = WorkflowRunner()
+        result = await runner.run_definition(definition)
+
+        statuses = {s.step_name: s.status for s in result.steps}
+        assert statuses["review_code"] == StepStatus.SUCCESS
+        assert statuses["developer_rework"] == StepStatus.SUCCESS
+
 
 # ---------------------------------------------------------------------------
 # WorkflowRunner – output resolution metadata

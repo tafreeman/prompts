@@ -78,7 +78,14 @@ export default function WorkflowDetailPage() {
             rubric_id: rubricId || undefined,
           };
         }
-        return undefined;
+        // Evaluation enabled without a dataset should still run workflow-level
+        // scoring (rubric + output quality), so send an explicit request.
+        return {
+          enabled: true as const,
+          dataset_source: "none" as const,
+          sample_index: sampleIndex,
+          rubric_id: rubricId || undefined,
+        };
       };
 
       const samples = evaluation.enabled && evaluation.selectedSamples.length > 0

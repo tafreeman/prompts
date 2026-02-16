@@ -1,0 +1,178 @@
+name: fullstack_generation_bounded_rereview
+description: Generate a fullstack feature with bounded re-review (max 2 review passes)
+version: "1.0"
+
+capabilities:
+  inputs: [feature_spec, tech_stack]
+  outputs: [feature_package, review_report, all_code]
+
+inputs:
+  feature_spec:
+    type: string
+    description: Natural language description of the feature
+  tech_stack:
+    type: object
+    description: Technology stack configuration
+    default:
+      frontend: react
+      backend: fastapi
+      database: postgresql
+
+steps:
+  # Phase 1: Architecture
+  - name: design_architecture
+    agent: tier3_architect
+    description: Design system architecture from requirements
+    inputs:
+      spec: ${inputs.feature_spec}
+      stack: ${inputs.tech_stack}
+    outputs:
+      api_spec: api_design
+      db_schema: database_schema
+      component_tree: frontend_components
+
+  # Phase 2: Parallel generation
+  - name: generate_api
+    agent: tier2_coder
+    description: Generate backend API endpoints
+    depends_on: [design_architecture]
+    inputs:
+      api_spec: ${steps.design_architecture.outputs.api_spec}
+      db_schema: ${steps.design_architecture.outputs.db_schema}
+    outputs:
+      api_code: backend_code
+      api_tests: backend_tests
+
+  - name: generate_frontend
+    agent: tier2_coder
+    description: Generate frontend components
+    depends_on: [design_architecture]
+    inputs:
+      components: ${steps.design_architecture.outputs.component_tree}
+      api_spec: ${steps.design_architecture.outputs.api_spec}
+    outputs:
+      ui_code: frontend_code
+      ui_tests: frontend_tests
+
+  - name: generate_migrations
+    agent: tier1_generator
+    description: Generate database migrations
+    depends_on: [design_architecture]
+    inputs:
+      schema: ${steps.design_architecture.outputs.db_schema}
+    outputs:
+      migrations: db_migrations
+
+  # Phase 3: Integration tests
+  - name: generate_integration_tests
+    agent: tier2_tester
+    description: Generate integration tests
+    depends_on: [generate_api, generate_frontend]
+    inputs:
+      backend: ${steps.generate_api.outputs.api_code}
+      frontend: ${steps.generate_frontend.outputs.ui_code}
+    outputs:
+      integration_tests: e2e_tests
+
+  # Phase 4: Review pass 1
+  - name: review_code
+    agent: tier3_reviewer
+    description: Review all generated code (pass 1)
+    depends_on: [generate_api, generate_frontend, generate_migrations, generate_integration_tests]
+    inputs:
+      backend: ${steps.generate_api.outputs.api_code}
+      frontend: ${steps.generate_frontend.outputs.ui_code}
+      migrations: ${steps.generate_migrations.outputs.migrations}
+      tests: ${steps.generate_integration_tests.outputs.integration_tests}
+    outputs:
+      review_report: code_review
+      suggested_fixes: fixes
+
+  # Phase 4.5: Rework pass 1 (only if pass 1 is not approved)
+  - name: developer_rework_round1
+    agent: tier2_coder
+    description: Rework generated artifacts from review pass 1 feedback
+    depends_on: [review_code]
+    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED']}
+    inputs:
+      backend: ${steps.generate_api.outputs.api_code}
+      frontend: ${steps.generate_frontend.outputs.ui_code}
+      migrations: ${steps.generate_migrations.outputs.migrations}
+      tests: ${steps.generate_integration_tests.outputs.integration_tests}
+      review_report: ${steps.review_code.outputs.review_report}
+      suggested_fixes: ${steps.review_code.outputs.suggested_fixes}
+    outputs:
+      rework_report: rework_round1
+      backend_code: reworked_backend_r1
+      frontend_code: reworked_frontend_r1
+      migrations: reworked_migrations_r1
+      integration_tests: reworked_tests_r1
+
+  # Phase 5: Review pass 2 (bounded second pass)
+  - name: review_code_round2
+    agent: tier3_reviewer
+    description: Re-review after rework (pass 2)
+    depends_on: [developer_rework_round1]
+    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED']}
+    inputs:
+      backend: ${coalesce(steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
+      frontend: ${coalesce(steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
+      migrations: ${coalesce(steps.developer_rework_round1.outputs.migrations, steps.generate_migrations.outputs.migrations)}
+      tests: ${coalesce(steps.developer_rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      rework_report: ${steps.developer_rework_round1.outputs.rework_report}
+      previous_review_report: ${steps.review_code.outputs.review_report}
+    outputs:
+      review_report: code_review_round2
+      suggested_fixes: fixes_round2
+
+  # Phase 5.5: Optional bounded rework pass 2 (no further review loop)
+  - name: developer_rework_round2
+    agent: tier2_coder
+    description: Final bounded rework from review pass 2 feedback (no further loop)
+    depends_on: [review_code_round2]
+    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED'] and steps.review_code_round2.outputs.review_report.overall_status not in ['APPROVED']}
+    inputs:
+      backend: ${coalesce(steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
+      frontend: ${coalesce(steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
+      migrations: ${coalesce(steps.developer_rework_round1.outputs.migrations, steps.generate_migrations.outputs.migrations)}
+      tests: ${coalesce(steps.developer_rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      review_report: ${steps.review_code_round2.outputs.review_report}
+      suggested_fixes: ${steps.review_code_round2.outputs.suggested_fixes}
+    outputs:
+      rework_report: rework_round2
+      backend_code: reworked_backend_r2
+      frontend_code: reworked_frontend_r2
+      migrations: reworked_migrations_r2
+      integration_tests: reworked_tests_r2
+
+  # Phase 6: Final assembly if either review pass approves
+  - name: assemble_feature
+    agent: tier1_assembler
+    description: Assemble final feature package
+    depends_on: [review_code, review_code_round2, developer_rework_round2]
+    when: ${steps.review_code.outputs.review_report.overall_status in ['APPROVED'] or steps.review_code_round2.outputs.review_report.overall_status in ['APPROVED'] or steps.developer_rework_round2.status in ['success', 'SUCCESS']}
+    inputs:
+      backend: ${coalesce(steps.developer_rework_round2.outputs.backend_code, steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
+      frontend: ${coalesce(steps.developer_rework_round2.outputs.frontend_code, steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
+      migrations: ${coalesce(steps.developer_rework_round2.outputs.migrations, steps.developer_rework_round1.outputs.migrations, steps.generate_migrations.outputs.migrations)}
+      tests: ${coalesce(steps.developer_rework_round2.outputs.integration_tests, steps.developer_rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+    outputs:
+      package: feature_package
+
+outputs:
+  feature_package:
+    from: ${steps.assemble_feature.outputs.package}
+    optional: true
+  review_report:
+    from: ${steps.review_code_round2.outputs.review_report}
+    optional: true
+  review_report_round1:
+    from: ${steps.review_code.outputs.review_report}
+    optional: true
+  all_code:
+    from:
+      backend: ${coalesce(steps.developer_rework_round2.outputs.backend_code, steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
+      frontend: ${coalesce(steps.developer_rework_round2.outputs.frontend_code, steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
+      migrations: ${coalesce(steps.developer_rework_round2.outputs.migrations, steps.developer_rework_round1.outputs.migrations, steps.generate_migrations.outputs.migrations)}
+
+

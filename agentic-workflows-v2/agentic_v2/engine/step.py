@@ -12,11 +12,12 @@ Aggressive design improvements:
 from __future__ import annotations
 
 import asyncio
+import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Awaitable, Callable, Optional, TypeVar
 
-from ..contracts import StepResult, StepStatus
+from ..contracts import ReviewStatus, StepResult, StepStatus
 from ..models import ModelTier
 from .context import ExecutionContext
 
@@ -108,6 +109,13 @@ class StepDefinition:
     # Conditions
     when: Optional[ConditionFunction] = None  # Run only if True
     unless: Optional[ConditionFunction] = None  # Skip if True
+
+    # Loop control (R5)
+    # When set, the step re-executes until this expression evaluates to True,
+    # or until loop_max iterations have been reached.
+    # Example YAML:  loop_until: "${review_report.overall_status} in ['APPROVED']"
+    loop_until: Optional[str] = None
+    loop_max: int = 3
 
     # Dependencies
     depends_on: list[str] = field(default_factory=list)
@@ -282,9 +290,12 @@ class StepExecutor:
 
         # Prepare inputs
         child_ctx = ctx.child(step_def.name)
+        mapped_inputs: dict[str, Any] = {}
         for step_input, ctx_var in step_def.input_mapping.items():
             value = self._resolve_input_mapping_value(ctx, ctx_var)
+            mapped_inputs[step_input] = value
             await child_ctx.set(step_input, value)
+        result.input_data = mapped_inputs
 
         # Execute with retry
         attempt = 0
@@ -310,6 +321,51 @@ class StepExecutor:
                     if meta.get("tokens_used"):
                         result.metadata["tokens_used"] = meta["tokens_used"]
 
+                # Safety-net: reviewer outputs sometimes arrive as raw_response
+                # (e.g. fenced/truncated JSON). Ensure gating conditions can still
+                # evaluate ${steps.<review>.outputs.review_report.overall_status}.
+                if (
+                    (
+                        "review_report" in step_def.output_mapping
+                        or step_def.name.startswith("review")
+                    )
+                    and "review_report" not in result.output_data
+                ):
+                    raw_text = str(result.output_data.get("raw_response", ""))
+                    status_match = re.search(
+                        r'"?overall_status"?\s*[:=]\s*"?([A-Za-z_ -]+)"?',
+                        raw_text,
+                        flags=re.IGNORECASE,
+                    )
+                    approved_match = re.search(
+                        r'"?approved"?\s*[:=]\s*(true|false)',
+                        raw_text,
+                        flags=re.IGNORECASE,
+                    )
+
+                    if status_match:
+                        raw_status = status_match.group(1).strip()
+                    elif approved_match:
+                        raw_status = (
+                            "APPROVED"
+                            if approved_match.group(1).lower() == "true"
+                            else None
+                        )
+                    else:
+                        raw_status = None  # normalize() defaults to NEEDS_FIXES
+
+                    result.output_data["review_report"] = {
+                        "overall_status": ReviewStatus.normalize(raw_status).value
+                    }
+
+                # Also normalize review_report.overall_status when it IS present
+                if isinstance(result.output_data.get("review_report"), dict):
+                    rr = result.output_data["review_report"]
+                    if "overall_status" in rr:
+                        rr["overall_status"] = ReviewStatus.normalize(
+                            rr["overall_status"]
+                        ).value
+
                 for step_output, ctx_var in step_def.output_mapping.items():
                     if step_output in result.output_data:
                         await ctx.set(ctx_var, result.output_data[step_output])
@@ -320,12 +376,33 @@ class StepExecutor:
                     "status": result.status.value,
                     "outputs": result.output_data,
                 }
-                # Use a per-step key to avoid read-modify-write races on a shared dict
-                ctx.set_sync(f"steps.{step_def.name}", step_view)
+                # Store under a shared nested "steps" namespace so expressions
+                # like ${steps.review_code.outputs.foo} resolve correctly.
+                steps_state = ctx.get_sync("steps")
+                if not isinstance(steps_state, dict):
+                    steps_state = {}
+                steps_state[step_def.name] = step_view
+                ctx.set_sync("steps", steps_state)
 
                 # Run post-hooks
                 for hook in step_def.post_hooks:
                     await hook(ctx, step_def)
+
+                # Loop-until logic (R5): re-execute until condition is satisfied
+                if step_def.loop_until:
+                    loop_iteration = result.metadata.get("loop_iteration", 1)
+                    if loop_iteration < step_def.loop_max:
+                        from .expressions import ExpressionEvaluator
+                        satisfied = ExpressionEvaluator(ctx, {}).evaluate(
+                            step_def.loop_until
+                        )
+                        if not satisfied:
+                            result.metadata["loop_iteration"] = loop_iteration + 1
+                            result.status = StepStatus.RUNNING
+                            result.retry_count = 0
+                            continue  # re-run the step body
+
+                    result.metadata.setdefault("loop_iteration", loop_iteration)
 
                 await ctx.mark_step_complete(step_def.name)
                 break

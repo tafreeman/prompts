@@ -8,7 +8,17 @@ Exports:
 - Issue types: CodeIssue, Severity, IssueCategory, TestType, TestCase
 """
 
-from .messages import AgentMessage, MessageType, StepResult, StepStatus, WorkflowResult
+from .messages import (
+    AgentMessage,
+    Finding,
+    FindingSeverity,
+    MessageType,
+    ReviewReport,
+    ReviewStatus,
+    StepResult,
+    StepStatus,
+    WorkflowResult,
+)
 from .schemas import (  # Enums; Base classes; Code generation; Code review; Test generation
     CodeGenerationInput,
     CodeGenerationOutput,
@@ -29,9 +39,14 @@ __all__ = [
     # Messages
     "MessageType",
     "StepStatus",
+    "ReviewStatus",
     "AgentMessage",
     "StepResult",
     "WorkflowResult",
+    # Review
+    "FindingSeverity",
+    "Finding",
+    "ReviewReport",
     # Schemas - enums
     "Severity",
     "IssueCategory",

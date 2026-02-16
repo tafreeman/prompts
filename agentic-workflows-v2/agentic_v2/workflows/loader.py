@@ -489,6 +489,13 @@ class WorkflowLoader:
                 return _condition
             when_func = _make_condition(raw_expr)
 
+        # Parse loop_max — must be a positive integer
+        loop_max_raw = data.get("loop_max", 3)
+        try:
+            loop_max = max(1, int(loop_max_raw))
+        except (TypeError, ValueError):
+            loop_max = 3
+
         return StepDefinition(
             name=name,
             description=data.get("description", ""),
@@ -496,9 +503,24 @@ class WorkflowLoader:
             when=when_func,
             input_mapping=input_mapping,
             output_mapping=output_mapping,
+            loop_until=data.get("loop_until") or None,
+            loop_max=loop_max,
             metadata={
                 "agent": data.get("agent"),
                 "when_expr": when_expr,
+                # Optional: override the agent persona prompt file, e.g.
+                #   prompt_file: coder.md
+                # Must be a filename relative to prompts/ directory.
+                "prompt_file": data.get("prompt_file") or None,
+                # Optional tool filter for this step:
+                # - omitted/None => all tools allowed for the step's tier
+                # - [] => no tools
+                # - ["file_read", "search"] => only those tool names
+                "tools": (
+                    data.get("tools")
+                    if isinstance(data.get("tools"), list)
+                    else None
+                ),
             },
         )
 

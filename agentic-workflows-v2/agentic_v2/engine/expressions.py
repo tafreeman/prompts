@@ -20,6 +20,82 @@ from ..contracts import StepResult
 from .context import ExecutionContext
 
 
+# ---------------------------------------------------------------------------
+# Null-safe helpers for expression evaluation
+# ---------------------------------------------------------------------------
+
+class _NullSafe:
+    """Sentinel for missing values that allows continued attribute chaining.
+
+    Any attribute access on ``_NullSafe`` returns another ``_NullSafe`` so that
+    deeply-nested paths like ``steps.skipped_step.outputs.backend_code`` resolve
+    to a falsy sentinel instead of raising ``AttributeError``.
+
+    ``coalesce(_NullSafe(), real_value)`` → ``real_value``.
+    """
+
+    __slots__ = ()
+
+    def __getattr__(self, name: str) -> "_NullSafe":
+        return _NullSafe()
+
+    def __bool__(self) -> bool:
+        return False
+
+    def __eq__(self, other: object) -> bool:
+        if other is None or isinstance(other, _NullSafe):
+            return True
+        return NotImplemented
+
+    def __ne__(self, other: object) -> bool:
+        if other is None or isinstance(other, _NullSafe):
+            return False
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return hash(None)
+
+    def __repr__(self) -> str:
+        return "NullSafe(None)"
+
+
+class _SafeNamespace(SimpleNamespace):
+    """``SimpleNamespace`` that returns ``_NullSafe()`` for missing attributes.
+
+    This prevents ``AttributeError`` when accessing keys that don't exist —
+    critical for ``coalesce()`` expressions where some steps may have been
+    skipped and therefore have no output keys.
+    """
+
+    def __getattr__(self, name: str) -> Any:
+        return _NullSafe()
+
+
+def _coalesce(*args: Any) -> Any:
+    """Return the first non-None / non-NullSafe argument (SQL-style COALESCE)."""
+    for arg in args:
+        if arg is not None and not isinstance(arg, _NullSafe):
+            return arg
+    return None
+
+
+def _from_namespace(obj: Any) -> Any:
+    """Convert ``_SafeNamespace`` / ``SimpleNamespace`` trees back to plain dicts.
+
+    Called at the expression-evaluation boundary so that callers never see
+    namespace wrapper objects in their results.
+    """
+    if isinstance(obj, _NullSafe):
+        return None
+    if isinstance(obj, SimpleNamespace):
+        return {k: _from_namespace(v) for k, v in vars(obj).items()}
+    if isinstance(obj, dict):
+        return {k: _from_namespace(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_from_namespace(v) for v in obj]
+    return obj
+
+
 @dataclass
 class StepResultView:
     """Lightweight view of a StepResult for expression evaluation."""
@@ -65,14 +141,32 @@ class ExpressionEvaluator:
         try:
             return bool(self._safe_eval(expression))
         except AttributeError:
-            # Missing attribute in a when-condition means the condition
-            # isn't satisfiable (e.g. upstream step didn't produce expected
-            # output key).  Treat as False rather than crashing.
+            # Missing attribute in a when-condition.  The correct result
+            # depends on the expression semantics:
+            #
+            #   "X not in [...]"  → missing value is NOT in the list → True
+            #   "X in [...]"      → missing value is NOT in the list → False
+            #   "X != Y"          → missing value differs from Y     → True
+            #   "X == Y"          → missing value does not equal Y   → False
+            #   anything else     → not satisfiable                  → False
+            #
+            # This is critical for bounded re-review: when review_report is
+            # missing (truncated LLM output), "overall_status not in
+            # ['APPROVED']" must return True so rework triggers.
+            if " not in " in expression or " != " in expression:
+                return True
             return False
 
     def resolve_variable(self, path: str) -> Any:
         """Resolve a single ${...} variable reference."""
-        return self._resolve_path(path)
+        # If the expression contains function calls, use full eval
+        if "(" in path:
+            result = self._safe_eval(path)
+        else:
+            result = self._resolve_path(path)
+        # Sanitize internal types — _NullSafe sentinels and _SafeNamespace
+        # wrappers must never leak outside the expression evaluation boundary.
+        return _from_namespace(result)
 
     def _safe_eval(self, expression: str) -> Any:
         """Safely evaluate a boolean expression with limited syntax."""
@@ -95,6 +189,7 @@ class ExpressionEvaluator:
         env = {
             "ctx": self._to_namespace(all_vars),
             "steps": self._to_namespace(step_views),
+            "coalesce": _coalesce,
         }
         # Expose top-level context keys (e.g. "inputs") as direct names
         # so that ${inputs.foo} resolves without a "ctx." prefix.
@@ -265,6 +360,7 @@ class ExpressionEvaluator:
             ast.List,
             ast.Tuple,
             ast.Dict,
+            ast.Call,
         )
         for child in ast.walk(node):
             if not isinstance(child, allowed_nodes):
@@ -273,8 +369,17 @@ class ExpressionEvaluator:
                 )
 
     def _to_namespace(self, obj: Any) -> Any:
+        if isinstance(obj, StepResultView):
+            return _SafeNamespace(
+                status=obj.status,
+                output=self._to_namespace(obj.output),
+                outputs=self._to_namespace(obj.outputs),
+                error=obj.error,
+                error_type=obj.error_type,
+                completed_at=obj.completed_at,
+            )
         if isinstance(obj, dict):
-            return SimpleNamespace(**{k: self._to_namespace(v) for k, v in obj.items()})
+            return _SafeNamespace(**{k: self._to_namespace(v) for k, v in obj.items()})
         if isinstance(obj, list):
             return [self._to_namespace(v) for v in obj]
         return obj

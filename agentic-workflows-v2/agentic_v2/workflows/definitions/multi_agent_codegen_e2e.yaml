@@ -1,0 +1,415 @@
+name: multi_agent_codegen_e2e
+description: End-to-end multi-agent code generation with bounded iteration, test gates, and release packaging
+version: "1.0"
+
+capabilities:
+  inputs: [feature_spec, repo_context, constraints, quality_bar]
+  outputs: [feature_package, release_manifest, final_gate_report, all_code]
+
+evaluation:
+  rubric_id: multi_agent_codegen_e2e_v1
+  scoring_profile: A
+  criteria:
+    - name: objective_tests
+      definition: Objective correctness through static and dynamic test gates.
+      evidence_required:
+        - Static analysis report
+        - Executable test outcomes
+      scale:
+        "1": Tests fail broadly
+        "2": Major objective gaps
+        "3": Baseline objective pass
+        "4": Strong objective validation
+        "5": Excellent objective validation
+      weight: 0.45
+      critical_floor: 0.75
+      formula_id: zero_one
+    - name: review_quality
+      definition: Code review depth and issue resolution quality.
+      evidence_required:
+        - Structured review findings
+        - Rework evidence
+      scale:
+        "1": Superficial or incorrect review
+        "2": Weak coverage of issues
+        "3": Acceptable review quality
+        "4": Strong, actionable review
+        "5": Comprehensive and precise review
+      weight: 0.20
+      critical_floor: 0.80
+      formula_id: zero_one
+    - name: package_integrity
+      definition: Final artifact completeness and integration quality.
+      evidence_required:
+        - Package manifest
+        - Integrated backend/frontend/shared artifacts
+      scale:
+        "1": Package incomplete
+        "2": Significant integration defects
+        "3": Usable integrated package
+        "4": Strong package integrity
+        "5": Production-ready package quality
+      weight: 0.20
+      critical_floor: 0.75
+      formula_id: zero_one
+    - name: execution_efficiency
+      definition: Runtime and iteration efficiency.
+      evidence_required:
+        - Bounded rework rounds
+        - Reasonable retry/latency profile
+      scale:
+        "1": Excessive retries/latency
+        "2": High inefficiency
+        "3": Acceptable efficiency
+        "4": Good efficiency
+        "5": Excellent efficiency
+      weight: 0.10
+      formula_id: zero_one
+    - name: documentation_handoff
+      definition: Handoff clarity and release traceability.
+      evidence_required:
+        - Manifest and handoff notes
+      scale:
+        "1": Missing handoff quality
+        "2": Sparse handoff quality
+        "3": Adequate handoff quality
+        "4": Clear handoff quality
+        "5": Excellent handoff quality
+      weight: 0.05
+      formula_id: zero_one
+
+inputs:
+  feature_spec:
+    type: string
+    description: Natural language description of desired feature or product increment
+  repo_context:
+    type: object
+    description: Existing repository context, conventions, and constraints
+    default: {}
+  constraints:
+    type: object
+    description: Build/runtime/security constraints for generation
+    default:
+      target_runtime: python
+      package_type: fullstack
+      max_rework_rounds: 2
+      require_tests: true
+  quality_bar:
+    type: string
+    enum: [standard, strict]
+    default: standard
+    description: Strictness level for final release gate
+
+steps:
+  # Phase 1: Problem decomposition and architecture
+  - name: decompose_problem
+    agent: tier3_planner
+    description: Break request into scoped requirements, task graph, and acceptance criteria
+    inputs:
+      feature_spec: ${inputs.feature_spec}
+      repo_context: ${inputs.repo_context}
+      constraints: ${inputs.constraints}
+    outputs:
+      scoped_requirements: scoped_requirements
+      acceptance_criteria: acceptance_criteria
+      task_graph: task_graph
+      iteration_plan: iteration_plan
+
+  - name: design_architecture
+    agent: tier3_architect
+    description: Produce architecture, contracts, and package layout for implementation
+    depends_on: [decompose_problem]
+    inputs:
+      requirements: ${steps.decompose_problem.outputs.scoped_requirements}
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+      task_graph: ${steps.decompose_problem.outputs.task_graph}
+      constraints: ${inputs.constraints}
+      repo_context: ${inputs.repo_context}
+    outputs:
+      architecture_blueprint: architecture_blueprint
+      api_contracts: api_contracts
+      data_model: data_model
+      package_layout: package_layout
+
+  # Phase 2: Parallel implementation
+  - name: implement_backend
+    agent: tier2_coder
+    description: Implement backend services and API handlers
+    depends_on: [design_architecture]
+    inputs:
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      data_model: ${steps.design_architecture.outputs.data_model}
+      constraints: ${inputs.constraints}
+    outputs:
+      backend_code: backend_code
+      backend_tests: backend_tests
+
+  - name: implement_frontend
+    agent: tier2_coder
+    description: Implement frontend flows aligned to API contracts
+    depends_on: [design_architecture]
+    inputs:
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      package_layout: ${steps.design_architecture.outputs.package_layout}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      constraints: ${inputs.constraints}
+    outputs:
+      frontend_code: frontend_code
+      frontend_tests: frontend_tests
+
+  - name: implement_shared
+    agent: tier2_coder
+    description: Implement shared models, types, and utilities
+    depends_on: [design_architecture]
+    inputs:
+      data_model: ${steps.design_architecture.outputs.data_model}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      package_layout: ${steps.design_architecture.outputs.package_layout}
+    outputs:
+      shared_code: shared_code
+      shared_tests: shared_tests
+
+  # Phase 3: Testing strategy and first validation pass
+  - name: build_test_plan
+    agent: tier2_tester
+    description: Build layered test plan and explicit quality gates
+    depends_on: [decompose_problem, design_architecture]
+    inputs:
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      constraints: ${inputs.constraints}
+      quality_bar: ${inputs.quality_bar}
+    outputs:
+      test_plan: test_plan
+      quality_gates: quality_gates
+
+  - name: generate_integration_tests
+    agent: tier2_tester
+    description: Generate integration and end-to-end tests from implementation and plan
+    depends_on: [implement_backend, implement_frontend, implement_shared, build_test_plan]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      test_plan: ${steps.build_test_plan.outputs.test_plan}
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+    outputs:
+      integration_tests: integration_tests
+      e2e_tests: e2e_tests
+
+  - name: static_checks_round1
+    agent: tier1_validator
+    description: Run lint, type, and static checks and return machine-readable status
+    depends_on: [implement_backend, implement_frontend, implement_shared]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      quality_gates: ${steps.build_test_plan.outputs.quality_gates}
+    outputs:
+      static_check_report: static_report_r1
+      overall_status: static_status_r1
+
+  - name: execute_tests_round1
+    agent: tier2_tester
+    description: Execute unit/integration/end-to-end tests and capture failures
+    depends_on: [static_checks_round1, generate_integration_tests]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      backend_tests: ${steps.implement_backend.outputs.backend_tests}
+      frontend_tests: ${steps.implement_frontend.outputs.frontend_tests}
+      shared_tests: ${steps.implement_shared.outputs.shared_tests}
+      integration_tests: ${steps.generate_integration_tests.outputs.integration_tests}
+      e2e_tests: ${steps.generate_integration_tests.outputs.e2e_tests}
+      quality_gates: ${steps.build_test_plan.outputs.quality_gates}
+    outputs:
+      test_execution_report: test_report_r1
+      overall_status: test_status_r1
+      failing_tests: failing_tests_r1
+
+  - name: review_round1
+    agent: tier3_reviewer
+    description: Review generated code and test evidence, then provide fix instructions
+    depends_on: [execute_tests_round1]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      static_report: ${steps.static_checks_round1.outputs.static_check_report}
+      test_report: ${steps.execute_tests_round1.outputs.test_execution_report}
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+    outputs:
+      review_report: review_report_r1
+      suggested_fixes: fixes_r1
+
+  # Phase 4: Bounded iteration round 1
+  - name: rework_round1
+    agent: tier2_coder
+    description: Rework code and tests when round 1 review or tests fail gates
+    depends_on: [review_round1]
+    when: ${steps.review_round1.outputs.review_report.overall_status not in ['APPROVED'] or steps.execute_tests_round1.outputs.overall_status not in ['PASS']}
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      integration_tests: ${steps.generate_integration_tests.outputs.integration_tests}
+      e2e_tests: ${steps.generate_integration_tests.outputs.e2e_tests}
+      static_report: ${steps.static_checks_round1.outputs.static_check_report}
+      test_report: ${steps.execute_tests_round1.outputs.test_execution_report}
+      failing_tests: ${steps.execute_tests_round1.outputs.failing_tests}
+      review_report: ${steps.review_round1.outputs.review_report}
+      suggested_fixes: ${steps.review_round1.outputs.suggested_fixes}
+    outputs:
+      backend_code: backend_code_r1
+      frontend_code: frontend_code_r1
+      shared_code: shared_code_r1
+      integration_tests: integration_tests_r1
+      e2e_tests: e2e_tests_r1
+      change_summary: rework_summary_r1
+
+  - name: static_checks_round2
+    agent: tier1_validator
+    description: Re-run static checks on reworked artifacts
+    depends_on: [rework_round1]
+    when: ${steps.rework_round1.status in ['success', 'SUCCESS']}
+    inputs:
+      backend: ${coalesce(steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      quality_gates: ${steps.build_test_plan.outputs.quality_gates}
+    outputs:
+      static_check_report: static_report_r2
+      overall_status: static_status_r2
+
+  - name: execute_tests_round2
+    agent: tier2_tester
+    description: Re-run tests on reworked artifacts
+    depends_on: [static_checks_round2]
+    when: ${steps.rework_round1.status in ['success', 'SUCCESS']}
+    inputs:
+      backend: ${coalesce(steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      backend_tests: ${steps.implement_backend.outputs.backend_tests}
+      frontend_tests: ${steps.implement_frontend.outputs.frontend_tests}
+      shared_tests: ${steps.implement_shared.outputs.shared_tests}
+      integration_tests: ${coalesce(steps.rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      e2e_tests: ${coalesce(steps.rework_round1.outputs.e2e_tests, steps.generate_integration_tests.outputs.e2e_tests)}
+      quality_gates: ${steps.build_test_plan.outputs.quality_gates}
+    outputs:
+      test_execution_report: test_report_r2
+      overall_status: test_status_r2
+      failing_tests: failing_tests_r2
+
+  - name: review_round2
+    agent: tier3_reviewer
+    description: Final bounded re-review after first rework
+    depends_on: [execute_tests_round2]
+    when: ${steps.rework_round1.status in ['success', 'SUCCESS']}
+    inputs:
+      backend: ${coalesce(steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      static_report: ${steps.static_checks_round2.outputs.static_check_report}
+      test_report: ${steps.execute_tests_round2.outputs.test_execution_report}
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+      previous_review_report: ${steps.review_round1.outputs.review_report}
+    outputs:
+      review_report: review_report_r2
+      suggested_fixes: fixes_r2
+
+  # Optional final rework with no additional review loop (bounded to 2 rounds)
+  - name: rework_round2_final
+    agent: tier2_coder
+    description: Final bounded rework pass when round 2 still fails
+    depends_on: [review_round2]
+    when: ${steps.rework_round1.status in ['success', 'SUCCESS'] and (steps.review_round2.outputs.review_report.overall_status not in ['APPROVED'] or steps.execute_tests_round2.outputs.overall_status not in ['PASS'])}
+    inputs:
+      backend: ${coalesce(steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      integration_tests: ${coalesce(steps.rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      e2e_tests: ${coalesce(steps.rework_round1.outputs.e2e_tests, steps.generate_integration_tests.outputs.e2e_tests)}
+      static_report: ${steps.static_checks_round2.outputs.static_check_report}
+      test_report: ${steps.execute_tests_round2.outputs.test_execution_report}
+      failing_tests: ${steps.execute_tests_round2.outputs.failing_tests}
+      review_report: ${steps.review_round2.outputs.review_report}
+      suggested_fixes: ${steps.review_round2.outputs.suggested_fixes}
+    outputs:
+      backend_code: backend_code_r2
+      frontend_code: frontend_code_r2
+      shared_code: shared_code_r2
+      integration_tests: integration_tests_r2
+      e2e_tests: e2e_tests_r2
+      change_summary: rework_summary_r2
+
+  # Phase 5: Final assembly and release gate
+  - name: assemble_release_package
+    agent: tier1_assembler
+    description: Build a single release package with manifest and handoff notes
+    depends_on: [review_round1, review_round2, rework_round2_final]
+    when: ${steps.review_round1.outputs.review_report.overall_status in ['APPROVED'] or steps.review_round2.outputs.review_report.overall_status in ['APPROVED'] or steps.rework_round2_final.status in ['success', 'SUCCESS']}
+    inputs:
+      backend: ${coalesce(steps.rework_round2_final.outputs.backend_code, steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round2_final.outputs.frontend_code, steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round2_final.outputs.shared_code, steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      integration_tests: ${coalesce(steps.rework_round2_final.outputs.integration_tests, steps.rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      e2e_tests: ${coalesce(steps.rework_round2_final.outputs.e2e_tests, steps.rework_round1.outputs.e2e_tests, steps.generate_integration_tests.outputs.e2e_tests)}
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      task_graph: ${steps.decompose_problem.outputs.task_graph}
+      acceptance_criteria: ${steps.decompose_problem.outputs.acceptance_criteria}
+      test_report: ${coalesce(steps.execute_tests_round2.outputs.test_execution_report, steps.execute_tests_round1.outputs.test_execution_report)}
+      static_report: ${coalesce(steps.static_checks_round2.outputs.static_check_report, steps.static_checks_round1.outputs.static_check_report)}
+    outputs:
+      package: feature_package
+      manifest: release_manifest
+      handoff_notes: handoff_notes
+
+  - name: final_quality_gate
+    agent: tier2_validator
+    description: Final gate to confirm release quality and readiness
+    depends_on: [assemble_release_package]
+    inputs:
+      package: ${steps.assemble_release_package.outputs.package}
+      release_manifest: ${steps.assemble_release_package.outputs.manifest}
+      quality_bar: ${inputs.quality_bar}
+      review_round1: ${steps.review_round1.outputs.review_report}
+      review_round2: ${steps.review_round2.outputs.review_report}
+      test_report: ${coalesce(steps.execute_tests_round2.outputs.test_execution_report, steps.execute_tests_round1.outputs.test_execution_report)}
+      static_report: ${coalesce(steps.static_checks_round2.outputs.static_check_report, steps.static_checks_round1.outputs.static_check_report)}
+      handoff_notes: ${steps.assemble_release_package.outputs.handoff_notes}
+    outputs:
+      gate_report: final_gate_report
+      release_decision: release_decision
+
+outputs:
+  feature_package:
+    from: ${steps.assemble_release_package.outputs.package}
+    optional: true
+  release_manifest:
+    from: ${steps.assemble_release_package.outputs.manifest}
+    optional: true
+  final_gate_report:
+    from: ${steps.final_quality_gate.outputs.gate_report}
+    optional: true
+  release_decision:
+    from: ${steps.final_quality_gate.outputs.release_decision}
+    optional: true
+  quality_summary:
+    from:
+      round1_review: ${steps.review_round1.outputs.review_report}
+      round2_review: ${steps.review_round2.outputs.review_report}
+      round1_tests: ${steps.execute_tests_round1.outputs.test_execution_report}
+      round2_tests: ${steps.execute_tests_round2.outputs.test_execution_report}
+      round1_static: ${steps.static_checks_round1.outputs.static_check_report}
+      round2_static: ${steps.static_checks_round2.outputs.static_check_report}
+  all_code:
+    from:
+      backend: ${coalesce(steps.rework_round2_final.outputs.backend_code, steps.rework_round1.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.rework_round2_final.outputs.frontend_code, steps.rework_round1.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.rework_round2_final.outputs.shared_code, steps.rework_round1.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      integration_tests: ${coalesce(steps.rework_round2_final.outputs.integration_tests, steps.rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
+      e2e_tests: ${coalesce(steps.rework_round2_final.outputs.e2e_tests, steps.rework_round1.outputs.e2e_tests, steps.generate_integration_tests.outputs.e2e_tests)}

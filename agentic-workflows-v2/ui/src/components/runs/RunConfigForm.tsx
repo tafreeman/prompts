@@ -543,6 +543,113 @@ function SampleSelector({
 }
 
 // ---------------------------------------------------------------------------
+// TechStackField — structured dropdowns for the tech_stack object input
+// ---------------------------------------------------------------------------
+
+const FRONTEND_OPTIONS = [
+  { value: "react",   label: "React" },
+  { value: "nextjs",  label: "Next.js" },
+  { value: "vue",     label: "Vue 3" },
+  { value: "angular", label: "Angular" },
+  { value: "svelte",  label: "Svelte" },
+];
+
+const BACKEND_OPTIONS = [
+  { value: "fastapi",    label: "FastAPI (Python)" },
+  { value: "aspnetcore", label: "ASP.NET Core 8 (.NET)" },
+  { value: "express",    label: "Express (Node.js)" },
+  { value: "django",     label: "Django REST (Python)" },
+  { value: "nestjs",     label: "NestJS (Node.js)" },
+];
+
+const DATABASE_OPTIONS = [
+  { value: "postgresql", label: "PostgreSQL" },
+  { value: "mysql",      label: "MySQL" },
+  { value: "sqlserver",  label: "SQL Server" },
+  { value: "sqlite",     label: "SQLite" },
+  { value: "mongodb",    label: "MongoDB" },
+];
+
+function TechStackField({
+  value,
+  onChange,
+  required,
+}: Readonly<{
+  value: string;
+  onChange: (val: string) => void;
+  required: boolean;
+}>) {
+  // Parse the current JSON value (or fall back to defaults)
+  let parsed: { frontend: string; backend: string; database: string } = {
+    frontend: "react",
+    backend: "fastapi",
+    database: "postgresql",
+  };
+  try {
+    const candidate = JSON.parse(value);
+    if (candidate && typeof candidate === "object") parsed = { ...parsed, ...candidate };
+  } catch {
+    /* use defaults */
+  }
+
+  const update = (key: "frontend" | "backend" | "database", val: string) => {
+    onChange(JSON.stringify({ ...parsed, [key]: val }));
+  };
+
+  const selectClass =
+    "w-full rounded-md border border-white/10 bg-surface-2 px-2 py-1.5 text-xs text-gray-200 focus:border-accent-blue/50 focus:outline-none";
+
+  return (
+    <div className="sm:col-span-2 lg:col-span-3" data-testid="input-tech_stack">
+      <span className="mb-1.5 block text-xs font-medium text-gray-400">
+        Tech Stack{required && <span className="ml-0.5 text-red-400">*</span>}
+      </span>
+      <div className="grid grid-cols-3 gap-2">
+        <label className="space-y-0.5">
+          <span className="text-xs text-gray-500">Frontend</span>
+          <select
+            value={parsed.frontend}
+            onChange={(e) => update("frontend", e.target.value)}
+            aria-label="Frontend framework"
+            className={selectClass}
+          >
+            {FRONTEND_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className="space-y-0.5">
+          <span className="text-xs text-gray-500">Backend</span>
+          <select
+            value={parsed.backend}
+            onChange={(e) => update("backend", e.target.value)}
+            aria-label="Backend framework"
+            className={selectClass}
+          >
+            {BACKEND_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className="space-y-0.5">
+          <span className="text-xs text-gray-500">Database</span>
+          <select
+            value={parsed.database}
+            onChange={(e) => update("database", e.target.value)}
+            aria-label="Database"
+            className={selectClass}
+          >
+            {DATABASE_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // SchemaInputField — renders a single input based on its schema
 // ---------------------------------------------------------------------------
 
@@ -584,6 +691,17 @@ function SchemaInputField({
           <p className="mt-0.5 text-xs text-gray-600">{schema.description}</p>
         )}
       </div>
+    );
+  }
+
+  // tech_stack object -> structured stack picker
+  if (schema.name === "tech_stack" && schema.type === "object") {
+    return (
+      <TechStackField
+        value={value}
+        onChange={onChange}
+        required={schema.required}
+      />
     );
   }
 

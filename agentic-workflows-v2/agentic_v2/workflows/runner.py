@@ -25,6 +25,7 @@ from ..engine.runtime import IsolatedTaskRuntime, create_runtime
 from ..engine.step import StepExecutor
 from ..integrations.base import TraceAdapter
 from ..integrations.tracing import NullTraceAdapter
+from .artifact_extractor import extract_artifacts
 from .loader import WorkflowDefinition, WorkflowLoader
 from .run_logger import RunLogger
 
@@ -60,6 +61,8 @@ class WorkflowRunner:
         run_logger: RunLogger | bool | None = None,
         execution_profile: Mapping[str, Any] | None = None,
         trace_adapter: TraceAdapter | None = None,
+        extract_artifacts: bool = True,
+        artifacts_dir: Path | None = None,
     ):
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
@@ -74,6 +77,8 @@ class WorkflowRunner:
             self._run_logger = None
         # trace_adapter=None → use NullTraceAdapter (no-op)
         self._trace_adapter = trace_adapter if trace_adapter is not None else NullTraceAdapter()
+        self._extract_artifacts = extract_artifacts
+        self._artifacts_dir = artifacts_dir
 
     # --------------------------------------------------------------------- #
     # Public API
@@ -105,7 +110,9 @@ class WorkflowRunner:
             WorkflowValidationError: If required inputs are missing.
         """
         # 1. Load
-        definition = self._loader.load(workflow_name)
+        # Always reload at execution time so recent YAML edits (e.g. when/outputs)
+        # are applied immediately and not masked by stale in-memory cache.
+        definition = self._loader.load(workflow_name, use_cache=False)
 
         # 2. Validate inputs
         validated = self._validate_inputs(definition, inputs)
@@ -140,7 +147,10 @@ class WorkflowRunner:
             result.metadata["execution_profile"] = runtime_profile
             result.metadata["runtime_artifacts"] = runtime_artifacts
 
-            # 6. Log run
+            # 6. Extract artifacts to disk
+            self._do_extract_artifacts(result)
+
+            # 7. Log run
             self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
 
             # Emit workflow_end trace event
@@ -187,12 +197,24 @@ class WorkflowRunner:
         result.metadata["execution_profile"] = runtime_profile
         result.metadata["runtime_artifacts"] = runtime_artifacts
 
+        self._do_extract_artifacts(result)
         self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
         return result
 
     def list_workflows(self, include_experimental: bool = False) -> list[str]:
         """List available workflow names."""
         return self._loader.list_workflows(include_experimental=include_experimental)
+
+    def _do_extract_artifacts(self, result: WorkflowResult) -> None:
+        """Extract FILE blocks from step outputs to the artifacts directory."""
+        if not self._extract_artifacts:
+            return
+        try:
+            out_dir = extract_artifacts(result, artifacts_dir=self._artifacts_dir)
+            if out_dir:
+                result.metadata["artifacts_dir"] = str(out_dir)
+        except Exception:
+            logger.exception("Artifact extraction failed for run %s", result.workflow_id)
 
     def _log_run(
         self,
