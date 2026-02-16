@@ -10,11 +10,9 @@ Tier-based multi-model AI workflow orchestration.
 
 | Phase | Status | Details |
 |-------|--------|--------|
-| **Phase 1** | ✅ Complete | [IMPLEMENTATION_PLAN_V1_COMPLETE.md](docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md) |
-| **Phase 2** | ✅ Complete (2D) | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
 | **Eval Phase 0** | ✅ Complete | Scoring, hard gates, normalization, profiles, rubrics |
 
-**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics. See [consolidated plan](../docs/planning/workflow-eval-consolidated-plan.md) for the full roadmap.
+**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics.
 
 For active vs legacy module mapping, see [ACTIVE_VS_LEGACY_TOOLING_MAP.md](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md).
 
