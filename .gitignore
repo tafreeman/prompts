@@ -1778,3 +1778,5 @@ runs/20260215T142149Z_fullstack_generation_bounded_rereview_success.json
 runs/20260215T143822Z_fullstack_generation_bounded_rereview_success.json
 runs/20260216T005835Z_fullstack_generation_bounded_rereview_success.json
 runs/20260216T011643Z_fullstack_generation_bounded_rereview_success.json
+agentic-workflows-v2/.run-logs/backend.pid
+agentic-workflows-v2/.run-logs/frontend.pid
