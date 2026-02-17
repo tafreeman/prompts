@@ -18,11 +18,16 @@ Quick start::
 """
 
 from .config import WorkflowConfig, load_workflow_config, list_workflows
+from .graph import compile_workflow
+from .models import get_chat_model, get_model_for_tier
 from .runner import WorkflowRunner
 
 __all__ = [
     "WorkflowConfig",
     "WorkflowRunner",
+    "compile_workflow",
+    "get_chat_model",
+    "get_model_for_tier",
     "list_workflows",
     "load_workflow_config",
 ]

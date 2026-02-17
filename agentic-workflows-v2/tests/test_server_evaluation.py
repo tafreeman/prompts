@@ -21,14 +21,8 @@ from agentic_v2.server.evaluation import (
 from agentic_v2.server.judge import LLMJudge
 from agentic_v2.server.models import WorkflowEvaluationRequest, WorkflowRunRequest
 from agentic_v2.server.routes import workflows as workflow_routes
-from agentic_v2.workflows.loader import WorkflowLoader
-from agentic_v2.workflows.loader import (
-    WorkflowCriterion,
-    WorkflowDefinition,
-    WorkflowEvaluation,
-    WorkflowInput,
-    WorkflowOutput,
-)
+from agentic_v2.langchain import load_workflow_config
+from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
 
 
 def _build_result(status: StepStatus = StepStatus.SUCCESS) -> WorkflowResult:
@@ -53,15 +47,15 @@ def _build_result(status: StepStatus = StepStatus.SUCCESS) -> WorkflowResult:
     return result
 
 
-def _build_workflow_definition() -> WorkflowDefinition:
-    return WorkflowDefinition(
+def _build_workflow_definition() -> WorkflowConfig:
+    return WorkflowConfig(
         name="code_review",
         inputs={
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-            "review_depth": WorkflowInput(name="review_depth", type="string", required=False),
+            "code_file": InputConfig(name="code_file", type="string", required=True),
+            "review_depth": InputConfig(name="review_depth", type="string", required=False),
         },
         outputs={
-            "review": WorkflowOutput(
+            "review": OutputConfig(
                 name="review",
                 from_expr="${steps.analyze.outputs.review}",
                 optional=False,
@@ -384,7 +378,7 @@ def test_validate_evaluation_payload_schema_detects_missing_fields():
 
 
 def test_rubric_loaded_from_workflow_yaml():
-    workflow_def = workflow_routes.loader.load("code_review")
+    workflow_def = load_workflow_config("code_review")
     result = _build_result(StepStatus.SUCCESS)
     evaluation = score_workflow_result(
         result,
@@ -398,7 +392,7 @@ def test_rubric_loaded_from_workflow_yaml():
 
 
 def test_rubric_request_override():
-    workflow_def = workflow_routes.loader.load("code_review")
+    workflow_def = load_workflow_config("code_review")
     result = _build_result(StepStatus.SUCCESS)
     evaluation = score_workflow_result(
         result,
@@ -580,12 +574,9 @@ def test_hybrid_score_determinism():
 async def test_sse_payload_includes_hard_gates(monkeypatch):
     events: list[dict] = []
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
-        outputs = {}
-        evaluation = None
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        from agentic_v2.langchain.config import WorkflowConfig
+        return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
 
     async def _fake_run(*_args, **_kwargs):
         return _build_result(StepStatus.SUCCESS)
@@ -593,10 +584,10 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
     async def _fake_broadcast(_run_id: str, event: dict):
         events.append(event)
 
-    monkeypatch.setattr(workflow_routes.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
     monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.runner, "run", _fake_run)
+    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json"))
 
@@ -624,13 +615,6 @@ async def test_sse_payload_includes_hard_gates(monkeypatch):
 async def test_run_log_evaluation_has_gate_fields(monkeypatch):
     captured: dict = {}
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
-        outputs = {}
-        evaluation = None
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
-
     async def _fake_run(*_args, **_kwargs):
         return _build_result(StepStatus.SUCCESS)
 
@@ -641,10 +625,13 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
         captured.update(kwargs)
         return Path("dummy.json")
 
-    monkeypatch.setattr(workflow_routes.loader, "load", lambda _name: _DummyWorkflow())
+    def _mock_load_config(name, definitions_dir=None):
+        from agentic_v2.langchain.config import WorkflowConfig
+        return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+    monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
     monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.runner, "run", _fake_run)
+    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(workflow_routes.run_logger, "log", _fake_log)
 
@@ -671,23 +658,19 @@ async def test_run_log_evaluation_has_gate_fields(monkeypatch):
 async def test_sse_payload_schema_validation(monkeypatch):
     events: list[dict] = []
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
-        outputs = {}
-        evaluation = None
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
-
     async def _fake_run(*_args, **_kwargs):
         return _build_result(StepStatus.SUCCESS)
 
     async def _fake_broadcast(_run_id: str, event: dict):
         events.append(event)
 
-    monkeypatch.setattr(workflow_routes.loader, "load", lambda _name: _DummyWorkflow())
+    def _mock_load_config(name, definitions_dir=None):
+        from agentic_v2.langchain.config import WorkflowConfig
+        return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+    monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(workflow_routes, "load_local_dataset_sample", lambda *_a, **_k: ({}, {"source": "local"}))
     monkeypatch.setattr(workflow_routes, "adapt_sample_to_workflow_inputs", lambda *_a, **_k: {})
-    monkeypatch.setattr(workflow_routes.runner, "run", _fake_run)
+    monkeypatch.setattr(workflow_routes.lc_runner, "run", _fake_run)
     monkeypatch.setattr(workflow_routes.websocket.manager, "broadcast", _fake_broadcast)
     monkeypatch.setattr(workflow_routes.run_logger, "log", lambda *_a, **_k: Path("dummy.json"))
 
@@ -716,11 +699,10 @@ async def test_sse_payload_schema_validation(monkeypatch):
 
 @pytest.mark.asyncio
 async def test_run_workflow_preserves_422_for_invalid_repository_dataset(monkeypatch):
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
-
-    monkeypatch.setattr(workflow_routes.loader, "load", lambda _name: _DummyWorkflow())
+    def _mock_load_config(name, definitions_dir=None):
+        from agentic_v2.langchain.config import WorkflowConfig
+        return WorkflowConfig(name=name, inputs={}, outputs={}, steps=[])
+    monkeypatch.setattr(workflow_routes, "load_workflow_config", _mock_load_config)
     request = WorkflowRunRequest(
         workflow="dummy_workflow",
         evaluation=WorkflowEvaluationRequest(
