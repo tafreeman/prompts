@@ -227,7 +227,7 @@ class LLMJudge:
     def __init__(
         self,
         *,
-        model: str = "gh:openai/o3-mini",
+        model: str = "gh:openai/gpt-4o",
         model_version: str | None = None,
         prompt_version: str = "judge-v1",
         temperature: float = 0.1,

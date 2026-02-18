@@ -14,6 +14,8 @@ from __future__ import annotations
 import ast as python_ast
 import json
 import logging
+import re
+from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -90,6 +92,157 @@ _TIER0_REGISTRY: dict[str, Any] = {
 }
 
 
+def _resolve_inputs_into_context(
+    step: StepConfig,
+    state: WorkflowState,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Resolve step input expressions into context and return both."""
+    ctx = dict(state.get("context", {}))
+    resolved_inputs: dict[str, Any] = {}
+    for key, expr in step.inputs.items():
+        value = resolve_expression(expr, state)
+        resolved_inputs[key] = value
+        ctx[key] = value
+    return ctx, resolved_inputs
+
+
+def _next_iteration(state: WorkflowState, step_name: str) -> int:
+    """Compute next loop iteration number for a step."""
+    existing = state.get("steps", {}).get(step_name, {})
+    return existing.get("loop_iteration", 0) + 1
+
+
+def _record_step_result(
+    state: WorkflowState,
+    step_name: str,
+    status: str,
+    outputs: dict[str, Any],
+    *,
+    error: str | None = None,
+) -> dict[str, dict]:
+    """Return updated steps dict for a completed/failed step."""
+    steps = dict(state.get("steps", {}))
+    payload: dict[str, Any] = {
+        "status": status,
+        "outputs": outputs,
+        "loop_iteration": _next_iteration(state, step_name),
+    }
+    if error:
+        payload["error"] = error
+    steps[step_name] = payload
+    return steps
+
+
+def _map_step_outputs_to_context(
+    step: StepConfig,
+    step_outputs: dict[str, Any],
+    ctx: dict[str, Any],
+) -> dict[str, Any]:
+    """Map declared step outputs into context keys."""
+    final_ctx = dict(ctx)
+    for out_key, ctx_key in step.outputs.items():
+        if out_key in step_outputs:
+            final_ctx[ctx_key] = step_outputs[out_key]
+    return final_ctx
+
+
+def _build_task_description(step: StepConfig, resolved_inputs: dict[str, Any]) -> str:
+    """Create an LLM task prompt payload for a workflow step."""
+    task_description = (
+        f"Step: {step.name}\n"
+        f"Description: {step.description}\n"
+        f"Inputs:\n{json.dumps(resolved_inputs, indent=2, default=str)}\n\n"
+        f"Please complete this task and return your result."
+    )
+    if step.outputs:
+        output_keys = list(step.outputs.keys())
+        task_description += (
+            f"\n\nReturn your result as JSON with these keys: {output_keys}"
+        )
+    return task_description
+
+
+def _extract_agent_response_text(agent_result: dict[str, Any]) -> str:
+    """Extract the final AIMessage text from an agent response payload."""
+    ai_messages = [
+        m for m in agent_result.get("messages", [])
+        if isinstance(m, AIMessage)
+    ]
+    if not ai_messages:
+        return ""
+    return _coerce_message_content_to_text(ai_messages[-1].content)
+
+
+def _coerce_message_content_to_text(content: Any) -> str:
+    """Normalize provider-specific message content into plain text."""
+    if content is None:
+        return ""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, (int, float, bool)):
+        return str(content)
+    if isinstance(content, list):
+        parts = [_coerce_message_content_to_text(item) for item in content]
+        return "\n".join(part for part in parts if part and part.strip())
+    if isinstance(content, dict):
+        # Common LangChain/OpenAI/Gemini message block shapes.
+        for key in ("text", "output_text", "content", "message"):
+            if key in content:
+                text = _coerce_message_content_to_text(content.get(key))
+                if text:
+                    return text
+        try:
+            return json.dumps(content, ensure_ascii=False, default=str)
+        except TypeError:
+            return str(content)
+    return str(content)
+
+
+def _parse_json_dict_from_text(text: str) -> dict[str, Any] | None:
+    """Best-effort JSON object extraction from model text output."""
+    raw = text.strip()
+    if not raw:
+        return None
+
+    try:
+        parsed = json.loads(raw)
+        if isinstance(parsed, dict):
+            return parsed
+    except Exception:
+        pass
+
+    fenced = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", raw, flags=re.DOTALL | re.IGNORECASE)
+    for candidate in fenced:
+        try:
+            parsed = json.loads(candidate)
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            continue
+
+    start = raw.find("{")
+    end = raw.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        try:
+            parsed = json.loads(raw[start : end + 1])
+            if isinstance(parsed, dict):
+                return parsed
+        except Exception:
+            pass
+
+    return None
+
+
+def _parse_step_outputs(response_text: Any) -> dict[str, Any]:
+    """Parse structured output from model response text when possible."""
+    normalized = _coerce_message_content_to_text(response_text)
+    step_outputs: dict[str, Any] = {"raw_response": normalized}
+    parsed = _parse_json_dict_from_text(normalized)
+    if isinstance(parsed, dict):
+        step_outputs.update(parsed)
+    return step_outputs
+
+
 # ---------------------------------------------------------------------------
 # Node factory
 # ---------------------------------------------------------------------------
@@ -111,10 +264,7 @@ def _make_step_node(
         deterministic_fn = _TIER0_REGISTRY.get(step.agent)
 
         def _tier0_node(state: WorkflowState) -> dict[str, Any]:
-            # Resolve inputs into context
-            ctx = dict(state.get("context", {}))
-            for key, expr in step.inputs.items():
-                ctx[key] = resolve_expression(expr, state)
+            ctx, _ = _resolve_inputs_into_context(step, state)
 
             updated = {**state, "context": ctx}
             if deterministic_fn:
@@ -127,14 +277,19 @@ def _make_step_node(
             step_outputs = (
                 result.get("steps", {}).get("__current__", {}).get("outputs", {})
             )
-            steps = dict(state.get("steps", {}))
-            steps[step.name] = {"status": "success", "outputs": step_outputs}
+            steps = _record_step_result(
+                state,
+                step.name,
+                "success",
+                step_outputs,
+            )
 
             # Map outputs to context
-            final_ctx = dict(result.get("context", ctx))
-            for out_key, ctx_key in step.outputs.items():
-                if out_key in step_outputs:
-                    final_ctx[ctx_key] = step_outputs[out_key]
+            final_ctx = _map_step_outputs_to_context(
+                step,
+                step_outputs,
+                dict(result.get("context", ctx)),
+            )
 
             return {
                 "context": final_ctx,
@@ -149,45 +304,28 @@ def _make_step_node(
         step.agent,
         tool_names=step.tools,
         prompt_file=step.prompt_file,
+        model_override=step.model_override,
     )
 
     def _llm_node(state: WorkflowState) -> dict[str, Any]:
-        # Build the user message from resolved inputs
-        ctx = dict(state.get("context", {}))
-        resolved_inputs: dict[str, Any] = {}
-        for key, expr in step.inputs.items():
-            resolved_inputs[key] = resolve_expression(expr, state)
-            ctx[key] = resolved_inputs[key]
-
-        task_description = (
-            f"Step: {step.name}\n"
-            f"Description: {step.description}\n"
-            f"Inputs:\n{json.dumps(resolved_inputs, indent=2, default=str)}\n\n"
-            f"Please complete this task and return your result."
-        )
-
-        # Expected output keys for structured output
-        if step.outputs:
-            output_keys = list(step.outputs.keys())
-            task_description += (
-                f"\n\nReturn your result as JSON with these keys: {output_keys}"
-            )
+        ctx, resolved_inputs = _resolve_inputs_into_context(step, state)
+        task_description = _build_task_description(step, resolved_inputs)
 
         # Invoke the react agent
         try:
             agent_result = agent.invoke(
                 {"messages": [HumanMessage(content=task_description)]}
             )
-            # Extract the last AI message
-            ai_messages = [
-                m for m in agent_result.get("messages", [])
-                if isinstance(m, AIMessage)
-            ]
-            response_text = ai_messages[-1].content if ai_messages else ""
+            response_text = _extract_agent_response_text(agent_result)
         except Exception as e:
             logger.error("Agent %s failed: %s", step.agent, e)
-            steps = dict(state.get("steps", {}))
-            steps[step.name] = {"status": "failed", "error": str(e), "outputs": {}}
+            steps = _record_step_result(
+                state,
+                step.name,
+                "failed",
+                {},
+                error=str(e),
+            )
             return {
                 "context": ctx,
                 "steps": steps,
@@ -195,23 +333,17 @@ def _make_step_node(
                 "errors": [f"Step {step.name} failed: {e}"],
             }
 
-        # Try to parse structured output
-        step_outputs: dict[str, Any] = {"raw_response": response_text}
-        try:
-            # Try JSON extraction
-            parsed = json.loads(response_text)
-            if isinstance(parsed, dict):
-                step_outputs.update(parsed)
-        except (json.JSONDecodeError, TypeError):
-            pass
+        step_outputs = _parse_step_outputs(response_text)
 
         # Map outputs to context
-        for out_key, ctx_key in step.outputs.items():
-            if out_key in step_outputs:
-                ctx[ctx_key] = step_outputs[out_key]
+        ctx = _map_step_outputs_to_context(step, step_outputs, ctx)
 
-        steps = dict(state.get("steps", {}))
-        steps[step.name] = {"status": "success", "outputs": step_outputs}
+        steps = _record_step_result(
+            state,
+            step.name,
+            "success",
+            step_outputs,
+        )
 
         return {
             "context": ctx,
@@ -228,7 +360,93 @@ def _make_step_node(
 # ---------------------------------------------------------------------------
 
 
-def compile_workflow(config: WorkflowConfig) -> Any:
+def _add_step_nodes(graph: StateGraph, config: WorkflowConfig) -> None:
+    """Add one graph node per configured workflow step."""
+    for step in config.steps:
+        graph.add_node(step.name, _make_step_node(step, config))
+
+
+def _add_start_edges(graph: StateGraph, root_steps: list[str]) -> None:
+    """Wire START to all root steps."""
+    if len(root_steps) == 1:
+        graph.add_edge(START, root_steps[0])
+        return
+    for root in root_steps:
+        graph.add_edge(START, root)
+
+
+def _validate_dependencies(config: WorkflowConfig, step_names: set[str]) -> None:
+    """Validate all depends_on references exist in workflow steps."""
+    for step in config.steps:
+        for dep in step.depends_on:
+            if dep not in step_names:
+                raise ValueError(
+                    f"Step '{step.name}' depends on unknown step '{dep}'"
+                )
+
+
+def _build_outgoing_map(config: WorkflowConfig) -> dict[str, list[StepConfig]]:
+    """Build mapping of source-step to dependents."""
+    outgoing: dict[str, list[StepConfig]] = defaultdict(list)
+    for step in config.steps:
+        for dep in step.depends_on:
+            outgoing[dep].append(step)
+    return outgoing
+
+
+def _wire_dependency_edges(
+    graph: StateGraph,
+    outgoing: dict[str, list[StepConfig]],
+) -> None:
+    """Wire dependency edges from the outgoing map."""
+    for source, dependents in outgoing.items():
+        unconditional = [s for s in dependents if not s.when]
+        conditional = [s for s in dependents if s.when]
+        if not conditional:
+            for step in unconditional:
+                graph.add_edge(source, step.name)
+            continue
+        _add_fan_out_edges(graph, source, unconditional, conditional)
+
+
+def _add_terminal_edges(graph: StateGraph, config: WorkflowConfig) -> None:
+    """Add END edges for terminal (non-loop) steps."""
+    has_dependents = set()
+    for step in config.steps:
+        has_dependents.update(step.depends_on)
+
+    step_by_name = {step.name: step for step in config.steps}
+    terminal_steps = [
+        step.name for step in config.steps if step.name not in has_dependents
+    ]
+    for step_name in terminal_steps:
+        step_cfg = step_by_name[step_name]
+        if not step_cfg.loop_until:
+            graph.add_edge(step_name, END)
+
+
+def _add_loop_edges(graph: StateGraph, config: WorkflowConfig) -> None:
+    """Add self-loop wiring for loop-enabled steps."""
+    for step in config.steps:
+        if step.loop_until:
+            _add_loop_edge(graph, step)
+
+
+def _compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
+    """Compile graph with optional checkpointer, with compatibility fallback."""
+    if checkpointer is None:
+        return graph.compile()
+    try:
+        return graph.compile(checkpointer=checkpointer)
+    except TypeError:
+        logger.warning(
+            "Graph.compile() does not accept checkpointer in this LangGraph "
+            "version; proceeding without checkpointing."
+        )
+        return graph.compile()
+
+
+def compile_workflow(config: WorkflowConfig, checkpointer: Any = None) -> Any:
     """Compile a ``WorkflowConfig`` into a runnable LangGraph.
 
     Parameters
@@ -244,89 +462,47 @@ def compile_workflow(config: WorkflowConfig) -> Any:
         raise ValueError(f"Workflow '{config.name}' has no steps.")
 
     graph = StateGraph(WorkflowState)
-
-    # Track which steps have dependents (for edge wiring)
     step_names = {s.name for s in config.steps}
-    steps_with_deps: dict[str, list[str]] = {
-        s.name: s.depends_on for s in config.steps
-    }
-
-    # Add nodes
-    for step in config.steps:
-        node_fn = _make_step_node(step, config)
-        graph.add_node(step.name, node_fn)
-
-    # Build a lookup for conditional steps
-    conditional_steps = {s.name: s for s in config.steps if s.when}
-
-    # Wire edges
     root_steps = [s.name for s in config.steps if not s.depends_on]
 
-    # START → root steps
-    if len(root_steps) == 1:
-        graph.add_edge(START, root_steps[0])
-    elif len(root_steps) > 1:
-        # Fan out to all root steps
-        for root in root_steps:
-            graph.add_edge(START, root)
+    _add_step_nodes(graph, config)
+    _add_start_edges(graph, root_steps)
+    _validate_dependencies(config, step_names)
+    _wire_dependency_edges(graph, _build_outgoing_map(config))
+    _add_terminal_edges(graph, config)
+    _add_loop_edges(graph, config)
 
-    # Dependency edges
-    for step in config.steps:
-        if not step.depends_on:
-            continue
-
-        for dep in step.depends_on:
-            if dep not in step_names:
-                raise ValueError(
-                    f"Step '{step.name}' depends on unknown step '{dep}'"
-                )
-
-            # If this step has a 'when' condition, use conditional edge
-            if step.when:
-                _add_conditional_edge(graph, dep, step, config)
-            else:
-                graph.add_edge(dep, step.name)
-
-    # Terminal steps (no one depends on them) → END
-    has_dependents = set()
-    for s in config.steps:
-        has_dependents.update(s.depends_on)
-
-    terminal_steps = [s.name for s in config.steps if s.name not in has_dependents]
-    for term in terminal_steps:
-        step_cfg = next(s for s in config.steps if s.name == term)
-        if not step_cfg.loop_until:
-            graph.add_edge(term, END)
-
-    # Loop edges (loop_until)
-    for step in config.steps:
-        if step.loop_until:
-            _add_loop_edge(graph, step)
-
-    return graph.compile()
+    return _compile_graph(graph, checkpointer)
 
 
-def _add_conditional_edge(
+def _add_fan_out_edges(
     graph: StateGraph,
     source: str,
-    target_step: StepConfig,
-    config: WorkflowConfig,
+    unconditional: list[StepConfig],
+    conditional: list[StepConfig],
 ) -> None:
-    """Add a conditional edge: source → target_step only if 'when' is True."""
-    # Find other steps that also depend on the same source
-    # to build a proper routing function
-    when_expr = target_step.when
+    """Wire fan-out edges from one source to multiple dependents.
 
-    def _route(state: WorkflowState) -> str:
-        if evaluate_condition(when_expr, state):
-            return target_step.name
-        return END
+    Unconditional targets always run; conditional targets gate on their ``when``
+    expression.  Returns a list so LangGraph fans out in parallel.
+    """
+    # Snapshot expressions for closures
+    cond_pairs = [(s.name, s.when) for s in conditional]
+    uncond_names = [s.name for s in unconditional]
 
-    graph.add_conditional_edges(
-        source,
-        _route,
-        {target_step.name: target_step.name, END: END},
-    )
+    path_map: dict[str, str] = {n: n for n in uncond_names}
+    for name, _ in cond_pairs:
+        path_map[name] = name
+    path_map[END] = END
+
+    def _route(state: WorkflowState) -> list[str]:
+        targets = list(uncond_names)
+        for name, when_expr in cond_pairs:
+            if evaluate_condition(when_expr, state):
+                targets.append(name)
+        return targets if targets else [END]
+
+    graph.add_conditional_edges(source, _route, path_map)
 
 
 def _add_loop_edge(graph: StateGraph, step: StepConfig) -> None:

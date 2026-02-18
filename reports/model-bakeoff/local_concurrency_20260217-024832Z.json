@@ -1,0 +1,130 @@
+{
+  "timestamp_utc": "2026-02-17T02:48:32.719067+00:00",
+  "summary": {
+    "cpu_model": "local:phi4-cpu",
+    "gpu_model": "local:phi4-gpu",
+    "rounds": 3,
+    "avg_parallel_wall_s": 0.004,
+    "avg_sequential_wall_s": 0.063,
+    "parallel_speedup_vs_sequential": 14.538
+  },
+  "records": [
+    {
+      "round": 1,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 0.181,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.008,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.003,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 0.005,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.002,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.004,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      }
+    },
+    {
+      "round": 2,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 0.004,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.002,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.002,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 0.004,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.002,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.003,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      }
+    },
+    {
+      "round": 3,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 0.004,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.001,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.002,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 0.004,
+        "cpu": {
+          "model": "local:phi4-cpu",
+          "ok": true,
+          "elapsed_s": 0.003,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        },
+        "gpu": {
+          "model": "local:phi4-gpu",
+          "ok": true,
+          "elapsed_s": 0.003,
+          "error": null,
+          "preview": "Local model error: onnxruntime-genai not installed. Install with:\n  pip install onnxruntime-genai\nOr for GPU support:\n  pip install onnxruntime-genai-cuda  # NVIDIA\n  pip install onnxruntime-genai-directml  # AMD/Intel on Windows"
+        }
+      }
+    }
+  ]
+}
