@@ -1,0 +1,545 @@
+name: deep_research
+description: Iterative deep research workflow with ToT planning, ReAct retrieval, CoVe verification, and RAG packaging
+version: "1.0"
+
+capabilities:
+  inputs: [topic, goal, domain, min_ci, max_rounds, min_recent_sources, recency_window_days, seed_urls]
+  outputs: [executive_summary, detailed_analysis, best_practices, references, confidence_report, limitations, next_search_actions, rag_manifest, rag_chunks, claim_graph]
+
+inputs:
+  topic:
+    type: string
+    description: High-level research topic to investigate
+    default: agentic AI for software engineers and architects
+    required: false
+  goal:
+    type: string
+    description: Optional detailed research objective (overrides topic when provided)
+    required: false
+  domain:
+    type: string
+    enum: [ai_software]
+    default: ai_software
+  min_ci:
+    type: number
+    description: Minimum confidence index to stop iterative research
+    default: 0.8
+  max_rounds:
+    type: number
+    description: Maximum bounded research rounds (1-4)
+    default: 4
+  min_recent_sources:
+    type: number
+    description: Minimum count of sources within the recency window
+    default: 10
+  recency_window_days:
+    type: number
+    description: Number of days considered recent
+    default: 183
+  seed_urls:
+    type: array
+    description: Optional URLs to seed retrieval
+    required: false
+    default: []
+
+steps:
+  - name: intake_scope
+    agent: tier3_planner
+    description: Clarify user objective, constraints, and success criteria for the research run
+    tools: [context_store]
+    inputs:
+      topic: ${inputs.topic}
+      goal: ${coalesce(inputs.goal, inputs.topic)}
+      domain: ${inputs.domain}
+      min_ci: ${inputs.min_ci}
+      min_recent_sources: ${inputs.min_recent_sources}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      scoped_goal: scoped_goal
+      research_objectives: research_objectives
+      constraints: research_constraints
+
+  - name: source_policy
+    agent: tier2_researcher
+    description: Establish trusted-source policy and inclusion/exclusion constraints
+    model_override: env:DEEP_RESEARCH_SMALL_MODEL|gemini:gemini-2.0-flash-lite
+    depends_on: [intake_scope]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      domain: ${inputs.domain}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      source_policy: source_policy
+      allowed_sources: allowed_sources
+      blocked_sources: blocked_sources
+
+  - name: hypothesis_tree_tot_round1
+    agent: tier3_reasoner
+    description: Build a Tree-of-Thought search plan with hypotheses and disconfirming paths (round 1)
+    depends_on: [source_policy]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+      objectives: ${steps.intake_scope.outputs.research_objectives}
+    outputs:
+      search_plan: search_plan_round1
+      hypotheses: hypotheses_round1
+      open_questions: open_questions_round1
+
+  - name: retrieval_react_round1
+    agent: tier2_researcher
+    description: Run ReAct retrieval loop to gather evidence and source metadata (round 1)
+    depends_on: [hypothesis_tree_tot_round1]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      search_plan: ${steps.hypothesis_tree_tot_round1.outputs.search_plan}
+      seed_urls: ${inputs.seed_urls}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      sources: sources_round1
+      evidence_bundle: evidence_round1
+      source_count: source_count_round1
+      recent_source_count: recent_source_count_round1
+
+  - name: analyst_ai_round1
+    agent: tier3_analyst
+    description: AI-focused specialist analysis over collected evidence (round 1)
+    depends_on: [retrieval_react_round1]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round1.outputs.evidence_bundle}
+    outputs:
+      ai_analysis: ai_analysis_round1
+      key_findings_ai: key_findings_ai_round1
+
+  - name: analyst_swe_round1
+    agent: tier3_analyst
+    description: Software-engineering specialist analysis over collected evidence (round 1)
+    depends_on: [retrieval_react_round1]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round1.outputs.evidence_bundle}
+    outputs:
+      swe_analysis: swe_analysis_round1
+      key_findings_swe: key_findings_swe_round1
+
+  - name: cove_verify_round1
+    agent: tier3_reviewer
+    description: Perform Chain-of-Verification checks against independent evidence (round 1)
+    depends_on: [analyst_ai_round1, analyst_swe_round1]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      ai_analysis: ${steps.analyst_ai_round1.outputs.ai_analysis}
+      swe_analysis: ${steps.analyst_swe_round1.outputs.swe_analysis}
+      evidence_bundle: ${steps.retrieval_react_round1.outputs.evidence_bundle}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+    outputs:
+      verified_claims: verified_claims_round1
+      contradictions: contradictions_round1
+      verification_score: verification_score_round1
+      unresolved_questions: unresolved_questions_round1
+
+  - name: coverage_confidence_audit_round1
+    agent: tier2_reviewer
+    description: Compute confidence dimensions and pass/fail gates (round 1)
+    depends_on: [cove_verify_round1]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      source_count: ${steps.retrieval_react_round1.outputs.source_count}
+      recent_source_count: ${steps.retrieval_react_round1.outputs.recent_source_count}
+      verified_claims: ${steps.cove_verify_round1.outputs.verified_claims}
+      contradictions: ${steps.cove_verify_round1.outputs.contradictions}
+      verification_score: ${steps.cove_verify_round1.outputs.verification_score}
+      min_ci: ${inputs.min_ci}
+      min_recent_sources: ${inputs.min_recent_sources}
+    outputs:
+      coverage_score: coverage_score_round1
+      source_quality_score: source_quality_score_round1
+      agreement_score: agreement_score_round1
+      verification_score: verification_score_round1
+      recency_score: recency_score_round1
+      ci_score: ci_score_round1
+      recent_source_count: recent_source_count_round1
+      critical_contradictions: critical_contradictions_round1
+
+  - name: hypothesis_tree_tot_round2
+    agent: tier3_reasoner
+    description: Refine thought tree and close evidence gaps (round 2)
+    depends_on: [coverage_confidence_audit_round1]
+    when: ${inputs.max_rounds >= 2 and (steps.coverage_confidence_audit_round1.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round1.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round1.outputs.critical_contradictions > 0)}
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      previous_plan: ${steps.hypothesis_tree_tot_round1.outputs.search_plan}
+      unresolved_questions: ${steps.cove_verify_round1.outputs.unresolved_questions}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+    outputs:
+      search_plan: search_plan_round2
+      hypotheses: hypotheses_round2
+      open_questions: open_questions_round2
+
+  - name: retrieval_react_round2
+    agent: tier2_researcher
+    description: Run ReAct retrieval loop to gather additional evidence (round 2)
+    depends_on: [hypothesis_tree_tot_round2]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      search_plan: ${steps.hypothesis_tree_tot_round2.outputs.search_plan}
+      prior_sources: ${steps.retrieval_react_round1.outputs.sources}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      sources: sources_round2
+      evidence_bundle: evidence_round2
+      source_count: source_count_round2
+      recent_source_count: recent_source_count_round2
+
+  - name: analyst_ai_round2
+    agent: tier3_analyst
+    description: AI-focused specialist analysis over collected evidence (round 2)
+    depends_on: [retrieval_react_round2]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round2.outputs.evidence_bundle}
+    outputs:
+      ai_analysis: ai_analysis_round2
+      key_findings_ai: key_findings_ai_round2
+
+  - name: analyst_swe_round2
+    agent: tier3_analyst
+    description: Software-engineering specialist analysis over collected evidence (round 2)
+    depends_on: [retrieval_react_round2]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round2.outputs.evidence_bundle}
+    outputs:
+      swe_analysis: swe_analysis_round2
+      key_findings_swe: key_findings_swe_round2
+
+  - name: cove_verify_round2
+    agent: tier3_reviewer
+    description: Perform Chain-of-Verification checks against independent evidence (round 2)
+    depends_on: [analyst_ai_round2, analyst_swe_round2]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      ai_analysis: ${steps.analyst_ai_round2.outputs.ai_analysis}
+      swe_analysis: ${steps.analyst_swe_round2.outputs.swe_analysis}
+      evidence_bundle: ${steps.retrieval_react_round2.outputs.evidence_bundle}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+    outputs:
+      verified_claims: verified_claims_round2
+      contradictions: contradictions_round2
+      verification_score: verification_score_round2
+      unresolved_questions: unresolved_questions_round2
+
+  - name: coverage_confidence_audit_round2
+    agent: tier2_reviewer
+    description: Compute confidence dimensions and pass/fail gates (round 2)
+    depends_on: [cove_verify_round2]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      source_count: ${steps.retrieval_react_round2.outputs.source_count}
+      recent_source_count: ${steps.retrieval_react_round2.outputs.recent_source_count}
+      verified_claims: ${steps.cove_verify_round2.outputs.verified_claims}
+      contradictions: ${steps.cove_verify_round2.outputs.contradictions}
+      verification_score: ${steps.cove_verify_round2.outputs.verification_score}
+      min_ci: ${inputs.min_ci}
+      min_recent_sources: ${inputs.min_recent_sources}
+    outputs:
+      coverage_score: coverage_score_round2
+      source_quality_score: source_quality_score_round2
+      agreement_score: agreement_score_round2
+      verification_score: verification_score_round2
+      recency_score: recency_score_round2
+      ci_score: ci_score_round2
+      recent_source_count: recent_source_count_round2
+      critical_contradictions: critical_contradictions_round2
+
+  - name: hypothesis_tree_tot_round3
+    agent: tier3_reasoner
+    description: Refine thought tree and close evidence gaps (round 3)
+    depends_on: [coverage_confidence_audit_round2]
+    when: ${inputs.max_rounds >= 3 and (steps.coverage_confidence_audit_round2.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round2.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round2.outputs.critical_contradictions > 0)}
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      previous_plan: ${steps.hypothesis_tree_tot_round2.outputs.search_plan}
+      unresolved_questions: ${steps.cove_verify_round2.outputs.unresolved_questions}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+    outputs:
+      search_plan: search_plan_round3
+      hypotheses: hypotheses_round3
+      open_questions: open_questions_round3
+
+  - name: retrieval_react_round3
+    agent: tier2_researcher
+    description: Run ReAct retrieval loop to gather additional evidence (round 3)
+    depends_on: [hypothesis_tree_tot_round3]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      search_plan: ${steps.hypothesis_tree_tot_round3.outputs.search_plan}
+      prior_sources: ${coalesce(steps.retrieval_react_round2.outputs.sources, steps.retrieval_react_round1.outputs.sources)}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      sources: sources_round3
+      evidence_bundle: evidence_round3
+      source_count: source_count_round3
+      recent_source_count: recent_source_count_round3
+
+  - name: analyst_ai_round3
+    agent: tier3_analyst
+    description: AI-focused specialist analysis over collected evidence (round 3)
+    depends_on: [retrieval_react_round3]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round3.outputs.evidence_bundle}
+    outputs:
+      ai_analysis: ai_analysis_round3
+      key_findings_ai: key_findings_ai_round3
+
+  - name: analyst_swe_round3
+    agent: tier3_analyst
+    description: Software-engineering specialist analysis over collected evidence (round 3)
+    depends_on: [retrieval_react_round3]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round3.outputs.evidence_bundle}
+    outputs:
+      swe_analysis: swe_analysis_round3
+      key_findings_swe: key_findings_swe_round3
+
+  - name: cove_verify_round3
+    agent: tier3_reviewer
+    description: Perform Chain-of-Verification checks against independent evidence (round 3)
+    depends_on: [analyst_ai_round3, analyst_swe_round3]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      ai_analysis: ${steps.analyst_ai_round3.outputs.ai_analysis}
+      swe_analysis: ${steps.analyst_swe_round3.outputs.swe_analysis}
+      evidence_bundle: ${steps.retrieval_react_round3.outputs.evidence_bundle}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+    outputs:
+      verified_claims: verified_claims_round3
+      contradictions: contradictions_round3
+      verification_score: verification_score_round3
+      unresolved_questions: unresolved_questions_round3
+
+  - name: coverage_confidence_audit_round3
+    agent: tier2_reviewer
+    description: Compute confidence dimensions and pass/fail gates (round 3)
+    depends_on: [cove_verify_round3]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      source_count: ${steps.retrieval_react_round3.outputs.source_count}
+      recent_source_count: ${steps.retrieval_react_round3.outputs.recent_source_count}
+      verified_claims: ${steps.cove_verify_round3.outputs.verified_claims}
+      contradictions: ${steps.cove_verify_round3.outputs.contradictions}
+      verification_score: ${steps.cove_verify_round3.outputs.verification_score}
+      min_ci: ${inputs.min_ci}
+      min_recent_sources: ${inputs.min_recent_sources}
+    outputs:
+      coverage_score: coverage_score_round3
+      source_quality_score: source_quality_score_round3
+      agreement_score: agreement_score_round3
+      verification_score: verification_score_round3
+      recency_score: recency_score_round3
+      ci_score: ci_score_round3
+      recent_source_count: recent_source_count_round3
+      critical_contradictions: critical_contradictions_round3
+
+  - name: hypothesis_tree_tot_round4
+    agent: tier3_reasoner
+    description: Refine thought tree and close evidence gaps (round 4)
+    depends_on: [coverage_confidence_audit_round3]
+    when: ${inputs.max_rounds >= 4 and (steps.coverage_confidence_audit_round3.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round3.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round3.outputs.critical_contradictions > 0)}
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      previous_plan: ${steps.hypothesis_tree_tot_round3.outputs.search_plan}
+      unresolved_questions: ${steps.cove_verify_round3.outputs.unresolved_questions}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+    outputs:
+      search_plan: search_plan_round4
+      hypotheses: hypotheses_round4
+      open_questions: open_questions_round4
+
+  - name: retrieval_react_round4
+    agent: tier2_researcher
+    description: Run ReAct retrieval loop to gather additional evidence (round 4)
+    depends_on: [hypothesis_tree_tot_round4]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      search_plan: ${steps.hypothesis_tree_tot_round4.outputs.search_plan}
+      prior_sources: ${coalesce(steps.retrieval_react_round3.outputs.sources, steps.retrieval_react_round2.outputs.sources, steps.retrieval_react_round1.outputs.sources)}
+      source_policy: ${steps.source_policy.outputs.source_policy}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+      recency_window_days: ${inputs.recency_window_days}
+    outputs:
+      sources: sources_round4
+      evidence_bundle: evidence_round4
+      source_count: source_count_round4
+      recent_source_count: recent_source_count_round4
+
+  - name: analyst_ai_round4
+    agent: tier3_analyst
+    description: AI-focused specialist analysis over collected evidence (round 4)
+    depends_on: [retrieval_react_round4]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round4.outputs.evidence_bundle}
+    outputs:
+      ai_analysis: ai_analysis_round4
+      key_findings_ai: key_findings_ai_round4
+
+  - name: analyst_swe_round4
+    agent: tier3_analyst
+    description: Software-engineering specialist analysis over collected evidence (round 4)
+    depends_on: [retrieval_react_round4]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${steps.retrieval_react_round4.outputs.evidence_bundle}
+    outputs:
+      swe_analysis: swe_analysis_round4
+      key_findings_swe: key_findings_swe_round4
+
+  - name: cove_verify_round4
+    agent: tier3_reviewer
+    description: Perform Chain-of-Verification checks against independent evidence (round 4)
+    depends_on: [analyst_ai_round4, analyst_swe_round4]
+    tools: [web_search, http_get, context_store]
+    inputs:
+      ai_analysis: ${steps.analyst_ai_round4.outputs.ai_analysis}
+      swe_analysis: ${steps.analyst_swe_round4.outputs.swe_analysis}
+      evidence_bundle: ${steps.retrieval_react_round4.outputs.evidence_bundle}
+      allowed_domains: ${steps.source_policy.outputs.allowed_sources}
+      blocked_domains: ${steps.source_policy.outputs.blocked_sources}
+    outputs:
+      verified_claims: verified_claims_round4
+      contradictions: contradictions_round4
+      verification_score: verification_score_round4
+      unresolved_questions: unresolved_questions_round4
+
+  - name: coverage_confidence_audit_round4
+    agent: tier2_reviewer
+    description: Compute confidence dimensions and pass/fail gates (round 4)
+    depends_on: [cove_verify_round4]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      source_count: ${steps.retrieval_react_round4.outputs.source_count}
+      recent_source_count: ${steps.retrieval_react_round4.outputs.recent_source_count}
+      verified_claims: ${steps.cove_verify_round4.outputs.verified_claims}
+      contradictions: ${steps.cove_verify_round4.outputs.contradictions}
+      verification_score: ${steps.cove_verify_round4.outputs.verification_score}
+      min_ci: ${inputs.min_ci}
+      min_recent_sources: ${inputs.min_recent_sources}
+    outputs:
+      coverage_score: coverage_score_round4
+      source_quality_score: source_quality_score_round4
+      agreement_score: agreement_score_round4
+      verification_score: verification_score_round4
+      recency_score: recency_score_round4
+      ci_score: ci_score_round4
+      recent_source_count: recent_source_count_round4
+      critical_contradictions: critical_contradictions_round4
+
+  - name: final_synthesis
+    agent: tier4_writer
+    description: Produce final report with citations, executive summary, and implementation guidance
+    model_override: env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash
+    depends_on: [coverage_confidence_audit_round1, coverage_confidence_audit_round2, coverage_confidence_audit_round3, coverage_confidence_audit_round4]
+    tools: [context_store]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      evidence_bundle: ${coalesce(steps.retrieval_react_round4.outputs.evidence_bundle, steps.retrieval_react_round3.outputs.evidence_bundle, steps.retrieval_react_round2.outputs.evidence_bundle, steps.retrieval_react_round1.outputs.evidence_bundle)}
+      ai_analysis: ${coalesce(steps.analyst_ai_round4.outputs.ai_analysis, steps.analyst_ai_round3.outputs.ai_analysis, steps.analyst_ai_round2.outputs.ai_analysis, steps.analyst_ai_round1.outputs.ai_analysis)}
+      swe_analysis: ${coalesce(steps.analyst_swe_round4.outputs.swe_analysis, steps.analyst_swe_round3.outputs.swe_analysis, steps.analyst_swe_round2.outputs.swe_analysis, steps.analyst_swe_round1.outputs.swe_analysis)}
+      verified_claims: ${coalesce(steps.cove_verify_round4.outputs.verified_claims, steps.cove_verify_round3.outputs.verified_claims, steps.cove_verify_round2.outputs.verified_claims, steps.cove_verify_round1.outputs.verified_claims)}
+      contradictions: ${coalesce(steps.cove_verify_round4.outputs.contradictions, steps.cove_verify_round3.outputs.contradictions, steps.cove_verify_round2.outputs.contradictions, steps.cove_verify_round1.outputs.contradictions)}
+      ci_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.ci_score, steps.coverage_confidence_audit_round3.outputs.ci_score, steps.coverage_confidence_audit_round2.outputs.ci_score, steps.coverage_confidence_audit_round1.outputs.ci_score)}
+      recent_source_count: ${coalesce(steps.coverage_confidence_audit_round4.outputs.recent_source_count, steps.coverage_confidence_audit_round3.outputs.recent_source_count, steps.coverage_confidence_audit_round2.outputs.recent_source_count, steps.coverage_confidence_audit_round1.outputs.recent_source_count)}
+    outputs:
+      executive_summary: executive_summary
+      detailed_analysis: detailed_analysis
+      best_practices: best_practices
+      references: references
+      limitations: limitations
+      next_search_actions: next_search_actions
+
+  - name: rag_package
+    agent: tier2_assembler
+    description: Build RAG-ready artifacts from final report and evidence graph
+    depends_on: [final_synthesis]
+    tools: [context_store, file_write]
+    inputs:
+      scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
+      executive_summary: ${steps.final_synthesis.outputs.executive_summary}
+      detailed_analysis: ${steps.final_synthesis.outputs.detailed_analysis}
+      references: ${steps.final_synthesis.outputs.references}
+      evidence_bundle: ${coalesce(steps.retrieval_react_round4.outputs.evidence_bundle, steps.retrieval_react_round3.outputs.evidence_bundle, steps.retrieval_react_round2.outputs.evidence_bundle, steps.retrieval_react_round1.outputs.evidence_bundle)}
+    outputs:
+      rag_manifest: rag_manifest
+      rag_chunks: rag_chunks
+      claim_graph: claim_graph
+
+outputs:
+  executive_summary:
+    from: ${steps.final_synthesis.outputs.executive_summary}
+  detailed_analysis:
+    from: ${steps.final_synthesis.outputs.detailed_analysis}
+  best_practices:
+    from: ${steps.final_synthesis.outputs.best_practices}
+    optional: true
+  references:
+    from: ${steps.final_synthesis.outputs.references}
+    optional: true
+  confidence_report:
+    from:
+      coverage_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.coverage_score, steps.coverage_confidence_audit_round3.outputs.coverage_score, steps.coverage_confidence_audit_round2.outputs.coverage_score, steps.coverage_confidence_audit_round1.outputs.coverage_score)}
+      source_quality_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.source_quality_score, steps.coverage_confidence_audit_round3.outputs.source_quality_score, steps.coverage_confidence_audit_round2.outputs.source_quality_score, steps.coverage_confidence_audit_round1.outputs.source_quality_score)}
+      agreement_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.agreement_score, steps.coverage_confidence_audit_round3.outputs.agreement_score, steps.coverage_confidence_audit_round2.outputs.agreement_score, steps.coverage_confidence_audit_round1.outputs.agreement_score)}
+      verification_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.verification_score, steps.coverage_confidence_audit_round3.outputs.verification_score, steps.coverage_confidence_audit_round2.outputs.verification_score, steps.coverage_confidence_audit_round1.outputs.verification_score)}
+      recency_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.recency_score, steps.coverage_confidence_audit_round3.outputs.recency_score, steps.coverage_confidence_audit_round2.outputs.recency_score, steps.coverage_confidence_audit_round1.outputs.recency_score)}
+      ci_score: ${coalesce(steps.coverage_confidence_audit_round4.outputs.ci_score, steps.coverage_confidence_audit_round3.outputs.ci_score, steps.coverage_confidence_audit_round2.outputs.ci_score, steps.coverage_confidence_audit_round1.outputs.ci_score)}
+      recent_source_count: ${coalesce(steps.coverage_confidence_audit_round4.outputs.recent_source_count, steps.coverage_confidence_audit_round3.outputs.recent_source_count, steps.coverage_confidence_audit_round2.outputs.recent_source_count, steps.coverage_confidence_audit_round1.outputs.recent_source_count)}
+      critical_contradictions: ${coalesce(steps.coverage_confidence_audit_round4.outputs.critical_contradictions, steps.coverage_confidence_audit_round3.outputs.critical_contradictions, steps.coverage_confidence_audit_round2.outputs.critical_contradictions, steps.coverage_confidence_audit_round1.outputs.critical_contradictions)}
+  limitations:
+    from: ${steps.final_synthesis.outputs.limitations}
+    optional: true
+  next_search_actions:
+    from: ${steps.final_synthesis.outputs.next_search_actions}
+    optional: true
+  rag_manifest:
+    from: ${steps.rag_package.outputs.rag_manifest}
+    optional: true
+  rag_chunks:
+    from: ${steps.rag_package.outputs.rag_chunks}
+    optional: true
+  claim_graph:
+    from: ${steps.rag_package.outputs.claim_graph}
+    optional: true

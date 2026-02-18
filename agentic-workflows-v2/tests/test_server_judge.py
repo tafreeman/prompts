@@ -118,8 +118,8 @@ def test_judge_logs_model_version():
 
     judge = LLMJudge(
         response_provider=_provider,
-        model="gh:openai/o3-mini",
-        model_version="o3-mini-2026-02-01",
+        model="gh:openai/gpt-4o",
+        model_version="gpt-4o-2026-02-01",
         prompt_version="judge-v1.2",
         temperature=0.1,
     )
@@ -129,7 +129,7 @@ def test_judge_logs_model_version():
         criteria=_criteria(),
     )
     payload = result.to_payload()
-    assert payload["model"] == "gh:openai/o3-mini"
-    assert payload["model_version"] == "o3-mini-2026-02-01"
+    assert payload["model"] == "gh:openai/gpt-4o"
+    assert payload["model_version"] == "gpt-4o-2026-02-01"
     assert payload["prompt_version"] == "judge-v1.2"
     assert payload["temperature"] == 0.1

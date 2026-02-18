@@ -13,6 +13,16 @@ from langchain_core.messages import BaseMessage
 from typing_extensions import TypedDict
 
 
+def _merge_dicts(a: dict, b: dict) -> dict:
+    """Merge two dicts; ``b`` keys overwrite ``a`` keys (shallow merge)."""
+    return {**a, **b}
+
+
+def _last_wins(a: str, b: str) -> str:
+    """For parallel nodes writing current_step, accept either value."""
+    return b or a
+
+
 class WorkflowState(TypedDict):
     """Central state for all LangGraph workflow executions.
 
@@ -22,7 +32,7 @@ class WorkflowState(TypedDict):
 
     context : dict[str, Any]
         Mutable key/value store shared across steps.
-        Last-writer-wins (overwrite merge).
+        Parallel nodes merge their updates (last-writer per key wins).
 
     inputs : dict[str, Any]
         Immutable workflow inputs (set once at start).
@@ -32,6 +42,7 @@ class WorkflowState(TypedDict):
 
     steps : dict[str, dict]
         Per-step status + output metadata for expression eval.
+        Parallel nodes merge their step entries.
 
     current_step : str
         Currently executing step name.
@@ -41,11 +52,11 @@ class WorkflowState(TypedDict):
     """
 
     messages: Annotated[Sequence[BaseMessage], operator.add]
-    context: dict[str, Any]
-    inputs: dict[str, Any]
-    outputs: dict[str, Any]
-    steps: dict[str, dict]
-    current_step: str
+    context: Annotated[dict[str, Any], _merge_dicts]
+    inputs: Annotated[dict[str, Any], _merge_dicts]
+    outputs: Annotated[dict[str, Any], _merge_dicts]
+    steps: Annotated[dict[str, dict], _merge_dicts]
+    current_step: Annotated[str, _last_wins]
     errors: Annotated[list[str], operator.add]
 
 

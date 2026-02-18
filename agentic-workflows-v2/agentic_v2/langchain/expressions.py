@@ -17,8 +17,11 @@ from typing import Any
 # ${...} extraction pattern
 _VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
 
+# coalesce(...) pattern inside an expression
+_COALESCE_PATTERN = re.compile(r"^coalesce\((.+)\)$", re.DOTALL)
 
-def evaluate_condition(expr: str, state: dict[str, Any]) -> bool:
+
+def evaluate_condition(expr: str | None, state: dict[str, Any]) -> bool:
     """Evaluate a YAML condition expression against workflow state.
 
     Supports:
@@ -51,20 +54,46 @@ def evaluate_condition(expr: str, state: dict[str, Any]) -> bool:
         return False
 
 
-def resolve_expression(expr: str, state: dict[str, Any]) -> Any:
-    """Resolve a single ``${...}`` expression to its value."""
+def resolve_expression(expr: Any, state: dict[str, Any]) -> Any:
+    """Resolve a ``${...}`` expression to its value.
+
+    Handles:
+    - Simple paths: ``${steps.x.outputs.y}``
+    - ``coalesce()``: ``${coalesce(a.b, c.d)}`` → first non-None
+    - Dicts: recursively resolves each leaf value
+    - Lists: recursively resolves each element
+    - Non-strings: returned as-is
+    """
+    if isinstance(expr, dict):
+        return {k: resolve_expression(v, state) for k, v in expr.items()}
+    if isinstance(expr, list):
+        return [resolve_expression(v, state) for v in expr]
     if not isinstance(expr, str):
         return expr
     expr = expr.strip()
     match = _VAR_PATTERN.fullmatch(expr)
     if match:
-        return _resolve_path(match.group(1).strip(), state)
+        inner = match.group(1).strip()
+        return _resolve_coalesce_or_path(inner, state)
     return expr
 
 
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------
+
+
+def _resolve_coalesce_or_path(inner: str, state: dict[str, Any]) -> Any:
+    """Resolve a coalesce(...) call or a simple dotted path."""
+    coal_match = _COALESCE_PATTERN.match(inner)
+    if coal_match:
+        args = [a.strip() for a in coal_match.group(1).split(",")]
+        for arg in args:
+            val = _resolve_path(arg, state)
+            if val is not None:
+                return val
+        return None
+    return _resolve_path(inner, state)
 
 
 def _resolve_path(path: str, state: dict[str, Any]) -> Any:

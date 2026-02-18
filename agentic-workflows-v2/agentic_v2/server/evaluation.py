@@ -760,8 +760,10 @@ def match_workflow_dataset(
         if _is_empty_value(value):
             missing_reasons.append(f"missing: {input_name}")
 
-    if workflow_def.capabilities.inputs:
-        for capability_input in workflow_def.capabilities.inputs:
+    caps = workflow_def.capabilities
+    capability_inputs = caps.get("inputs", []) if isinstance(caps, dict) else getattr(caps, "inputs", [])
+    if capability_inputs:
+        for capability_input in capability_inputs:
             input_def = workflow_def.inputs.get(capability_input)
             if input_def is not None and input_def.default not in (None, ""):
                 continue

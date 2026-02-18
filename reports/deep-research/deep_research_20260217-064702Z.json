@@ -1,0 +1,155 @@
+{
+  "run_id": "deep-research-57185b0e-b7ea-40aa-b8b4-bce3b40fbedd",
+  "timestamp_utc": "2026-02-17T06:47:02.673011+00:00",
+  "status": "success",
+  "errors": [],
+  "elapsed_seconds": 19.470376099998248,
+  "input": {
+    "goal": "Deep research into agentic AI for software engineers and architects, with workflow selection guidance and implementation architecture.",
+    "domain": "ai_software",
+    "min_ci": 0.8,
+    "max_rounds": 4,
+    "min_recent_sources": 10,
+    "recency_window_days": 183,
+    "seed_urls": []
+  },
+  "model_overrides": {
+    "DEEP_RESEARCH_SMALL_MODEL": "",
+    "DEEP_RESEARCH_HEAVY_MODEL": "",
+    "AGENTIC_MODEL_TIER_2": "",
+    "AGENTIC_MODEL_TIER_3": "",
+    "AGENTIC_MODEL_TIER_4": ""
+  },
+  "outputs": {
+    "confidence_report": {
+      "coverage_score": null,
+      "source_quality_score": null,
+      "agreement_score": null,
+      "verification_score": null,
+      "recency_score": null,
+      "ci_score": null,
+      "recent_source_count": null,
+      "critical_contradictions": null
+    }
+  },
+  "steps": {
+    "intake_scope": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"scoped_goal\": \"To provide comprehensive, high-confidence research on agentic AI, specifically tailored for software engineers and architects, including an analysis of relevant workflows, guidance for workflow selection, and detailed implementation architectures, all supported by recent and credible sources.\",\n  \"research_objectives\": [\n    \"Define agentic AI concepts and principles relevant to software engineering and architecture.\",\n    \"Identify and categorize current agentic AI workflows applicable to software development.\",\n    \"Evaluate the pros and cons of different agentic AI workflows for various software engineering use cases.\",\n    \"Develop a framework or set of criteria for selecting appropriate agentic AI workflows based on project requirements and architectural considerations.\",\n    \"Outline common and advanced implementation architectures for integrating agentic AI into existing and new software systems.\",\n    \"Identify key tools, frameworks, and best practices for developing and deploying agentic AI solutions.\"\n  ],\n  \"constraints\": [\n    \"Research findings must achieve a minimum confidence interval of 0.8.\",\n    \"A minimum of 10 recent sources must be utilized, where 'recent' is defined as published within the last 183 days.\",\n    \"The research must be specifically targeted at the needs and understanding of software engineers and architects.\",\n    \"The scope is limited to agentic AI within the broader AI software domain.\",\n    \"The output must include workflow selection guidance and implementation architecture details.\"\n  ]\n}\n```",
+            "extras": {
+              "signature": "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"
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "source_policy": {
+      "status": "success",
+      "outputs": {
+        "raw_response": "```json\n{\n  \"source_policy\": \"To ensure the reliability and relevance of information, this research will prioritize peer-reviewed publications, reputable industry reports, and official documentation from established AI software vendors. The recency window is set to 183 days to focus on the most current developments.\",\n  \"allowed_sources\": [\n    \"Peer-reviewed journal articles (e.g., ACM, IEEE, NeurIPS)\",\n    \"Industry reports from established firms (e.g., Gartner, Forrester)\",\n    \"Official documentation and publications from major AI software vendors (e.g., Google, Microsoft, Amazon)\",\n    \"Conference proceedings from relevant AI conferences\"\n  ],\n  \"blocked_sources\": [\n    \"Unverified online forums and blogs\",\n    \"Social media posts (unless from verified sources)\",\n    \"Press releases without supporting evidence\",\n    \"Sources with conflicts of interest\"\n  ]\n}\n```"
+      },
+      "loop_iteration": 1
+    },
+    "hypothesis_tree_tot_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "I cannot complete this task without more information. The `scoped_goal`, `source_policy`, and `objectives` inputs are all null, which means I don't have any context about the problem I need to solve.\n\nPlease provide details for the `scoped_goal`, `source_policy`, and `objectives` so I can generate a relevant Tree-of-Thought search plan, hypotheses, and open questions.",
+            "extras": {
+              "signature": "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"
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "retrieval_react_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": "```json\n{\n  \"sources\": [],\n  \"evidence_bundle\": {},\n  \"source_count\": 0,\n  \"recent_source_count\": 0\n}\n```"
+      },
+      "loop_iteration": 1
+    },
+    "analyst_ai_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"ai_analysis\": {\n    \"user_stories\": [],\n    \"data_entities\": [],\n    \"business_rules\": [],\n    \"edge_cases\": [],\n    \"non_functional\": {\n      \"performance\": \"N/A - Awaiting input\",\n      \"security\": \"N/A - Awaiting input\",\n      \"scalability\": \"N/A - Awaiting input\"\n    }\n  },\n  \"key_findings_ai\": \"No 'scoped_goal' or 'evidence_bundle' provided. Cannot perform AI-focused specialist analysis without these inputs. Please provide the business goal and relevant evidence (e.g., user interviews, existing system documentation, process flows) to proceed with requirements engineering.\"\n}\n```",
+            "extras": {
+              "signature": "CrcJAb4+9vs4jjslnQgH195ruFNKsg1jqt6ahA4lwHxuuE+gxhIORXcIY377vrVhiT9S1hz3lLT23LYhnB60gmgDDzeO1p2UbLLGQV41ZdE6ZeeA6vkeGcmkavvXbb7EjoMPNrjmy35kH/QUpZbjOjepDmek3NcD9ALHmIr7E1XxUOLk+NJ2gbKgp0z42Ih9J/rxtQyRrY4QIALBi3H3C2tuwbVwjI+q2FRDuyj29f0GgSBawTZHhjYUMOO8c9gNhIbB6s7bgwsXsWrHSI7XX3kk7smQoIf0mSDTZcm1u0E++A4HcmY1Qkbl+mPlxq/i9YHxxy/1GO88HzmNVY1B+N94mKV0mmdjJlFSru2jA54CXeA5EPfjw5PD3fX7YD8KMeAVkGg05zySzDRpzWxCQupew/TDB/DmCoitt/PLT3+CP+xz8c/RD3RckJr7qiXe8OJOu0DCvQ5V3WWbLmKfO6dt6C3oY3diB3/Esq8I0PZApfL6WPhMRa5nssS+o6GXKKMNs9GFb573UUrlbR64WVxsXPxOwRFcr2V+HvR41FkFnKGXL0+HyX8V7NFvqOS9o9kZsgUDDkptsOwJpeCFW9NUeI0hS/Yqy86Zpf4BLT0BcqfxUOBPeUUCyUNI84jrsqP68Flji3bvnm3zjletJBP/WB45jvJnK1wcygdmlgrKjAeQ6pnzTgAh1BjF3JNUTkSRXHJO+aAFhPZUy4V8h+4hYek7SK0n7tGv2Mxisnzjqr/k9L6WiKDcDOF70nVmKPBTeBqL9KFIfGDjTh/YrUQNnVFed4Zou5ReFZQn9KHoWxxw7s29PKGOL4N+5zZnz08aKfYpsY5unM1/IwCZAzh6Hd+ZYgwvm1GSMYhk8g2CYrXZkQzROwjhS4Mx0oD6R6QoaaYIL9F24DMxrX+KkER4pxupxSJPvlUSygwNeacySNSmmuTemQoAJWtJPMDZ79NtJAUWlrYQlFWfSTbNg6fGGYuT1pwLGeKNMuEJ56vQnV1CHSUtx5Qff85Zev3XgOTdcV+UDVE+KohQ3DVw8fDcDS7zYB+Freeql/4Xco9fok1KId3LxJs/ZFrWSQr85Qk6h19Yc0GOzxg+nAbiQp7OLTCrl/2bR9IxcQqXVoCloI/3UUvGFzLHGhLFTNqFolIoms7LK/b2BGrhvgd5500e0CvSoSH+9F9+pUaHC8QLpjOHTnPfkPUfPGoRzcPt4sKtabsxXmyQeI+hlX3NSmQQ3tFnGEAlb/GKFvkS/uthuGP9tAOdfpho0BkaokYS+RfXcwKjAuxhLFD1A4kmt1BThKg3Zv+tjyIxAL6TVZNN/FJ+MvPzMjCEoWTCmy33O/oCX72CBx+BlJD54mKqXQXApyH8wt4MwjnKPmqpZnbCLiBF5mDBJa89WFEK7KpUZrFk0l2QymSr5t+lq0d21hrF5SNMa1+o74UvkyzUrpZ+rDWUER7pnFKNdClk3B5VRvPiHT/xz+aqMhjZpo80kONGvd5mWHGR0m+jSa42zYmba41GnLUzKOeOLsqBXJi5/OiK/MlU597o0mGjzqRhdoDUQCU8S4DAKt3LBl7IoFMX8fm2aISdimEtZfAC8AZ86IoS3wjbM2tRUQ=="
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "analyst_swe_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"swe_analysis\": \"I cannot perform a software engineering specialist analysis without a defined `scoped_goal` and `evidence_bundle`. Please provide these inputs so I can proceed with generating user stories, data entities, business rules, edge cases, and non-functional requirements.\",\n  \"key_findings_swe\": \"Lack of input data prevents analysis. Requires `scoped_goal` and `evidence_bundle` to define project scope and gather requirements.\"\n}\n```",
+            "extras": {
+              "signature": "Cq8GAb4+9vtCQdV9L5GeuKEPfmnaRvxa1ps0jJVmEYfz88J9cR9zcHVbX02QZfeR4ZGxmxnYvLKVh+OmIsYX1pNHlFa3MWcY4Pdn5TRU/rVrujQwtjZtBQhTCEnruZGNorL40Mn750IyZVK2BpSJ87Xt9s1OuJyqBr5vzbdKvylrzWa/B+dqQ9VUF12u2BIsKrerw4xIvZzDZrrKMeES9w9ZSli+T3uLK7leRX7qZm0yh5z5oufZ8VkLEACAz4Oy/Tq6FEoOZB9iPCaVguo5xW2k71+3NCWu7duDmQd1QnTctUvcGqdqz9iNreo30gG164F0ySN0y+ZMDfchsJhAz7b+BiNZyuA+kk2eNXy0Dx8G63GNKu28w32DVost7k79fHKg6gO9hEyEQnCYc1+H0WRXIcNoaIke5RbBacomYRrQjgQjHaJQ1+lF39Kt7VlypvPsou8N3aUQEvyz/z1PYYe8z2j87uYy0SxB46+KDgR4MfJe1fpabYPaLOMh76v8Gwq90i7DYw2HNWH5PWaVeCX7lciO6ItZgytTUToFpFfGEgXyS2IQW8eU34++Yl30QS7pp8tRAtm6qZQ01X4ZNGbedbkIyeC5ZT9FMN46w8yxXqAyzvRrW3GBQYwBuGT2VyuSEYAe/7Nb8xDEXUulATl9nKtN7JFwNZeA4lKr9ZZe4h0YlTBF/5FR3pEXwRJzTbJK/KYT1o53EOkBYgHhJETDh2WlUaDXrp8i24ZuqgV8Sn/UaWN6NnAiOJ+TJi8/AuX8FhHZqneveCZfaVu3STX0P89w9kdAyuoWPxve77dAUtmraGBm5kP7B4My9CXwG7sDmjhusUvU8MMff9Kd1C5WTC6002F995/IBSpwPpjCHXBYA+mNTa8ZORy2Hc0bQf85wmkdDG7y/GsoFsxRQDuZgEPIcUUibXQdDVEds81waoZJ+1z8zAGofFPn7QWxzofJm0410tWgibZg6hpigrEhJGbsEncHTOejZ8gf1GlPzrBONtSmTgTa4Y4poM+rvcOvExMoT0luLXAVaDYgEHbjaOXFJ8ui51GUAWYxHLHTeRyx2V6UQFBN2FPe09FXta4="
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "cove_verify_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "```json\n{\n  \"verified_claims\": [],\n  \"contradictions\": [],\n  \"verification_score\": 0,\n  \"unresolved_questions\": [\n    \"No AI analysis, SWE analysis, or evidence bundle was provided for verification.\"\n  ]\n}\n```",
+            "extras": {
+              "signature": "CvIEAb4+9vvhOS5mwEFsuxpm42sUxL10qdZdWoqcMi0XjzFE5vh/dxGgtYM7sA6SifU20MdqhkoIbmtMGEEP/gk1qEYuEfX05ckwf9Rsz+ubafkLdZN5l8EKJZ9V0XUWKqs1oiArPS1EKJTepDw5U61yMIq5RrL/Y2DIGK+j5evql07AqaY7zIyGsamcQbFcCuPpMl8BNxorrUROpC1SINZxfXW80zsUhxN8362yX6gaF+DwBAOeSZZWjSKGpbYmkQpETVz+A638fSQDAigTbOALm/jGxq9LRUYGr6ZOOXk3Swb/GTJSDmArB+h7iCe0yRiV29CWdTWPrPzteajemYD5noYxI5DoBvwbtx6rNJ8BcPoLtN/lbdyZSDYVydxu/EjJS8UANXNWKEZM6pplWOABxbszavqsKRpgO04zw5qEzrbVq7CFVOx9W5CSysZWo8khM7M7L/Et7mhnjk/JmJHhDUDCzo9ytkyTONO6A2PMJSXuEaB20d11E56OQ07U61kFnN5e91lBL/EPlBIXYOQabbn+H80cXEis/zGMeFYV7M1JNNhKXW2ybCjDm/Vh1FAN6pX9PwDs0DGyzoVJFFo1+BrHlWvBpJuwDVPjguNJNuvayKT9ODqs5sMDLLbha0KmbN+JQwxR8nzmJGlxKObH5goqHgp8KoVfPCQdhWtLyQCuV/u2qrkSdP7RSTyrNPuqLRJmBsQKSDkQLahIYvPsy3BghwysgzuxzfQcsd5+dOiWn8HjwWsZsGHfzIjyed6iXtO2rHhvKeFj+aGDGIJZAzicQDXkKyQJM7uzjFkoUWQ/qe96/mD86wS2cE1h/ZGHxS8="
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "coverage_confidence_audit_round1": {
+      "status": "success",
+      "outputs": {
+        "raw_response": "```json\n{\n  \"coverage_score\": 0.0,\n  \"source_quality_score\": 0.0,\n  \"agreement_score\": 0.0,\n  \"verification_score\": 0.0,\n  \"recency_score\": 0.0,\n  \"ci_score\": 0.0,\n  \"recent_source_count\": 0,\n  \"critical_contradictions\": 0\n}\n```"
+      },
+      "loop_iteration": 1
+    },
+    "final_synthesis": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "I cannot produce a final report as all the necessary input fields (scoped_goal, evidence_bundle, ai_analysis, swe_analysis, verified_claims, contradictions, ci_score, recent_source_count) are null. Please provide the required information to generate the report.",
+            "extras": {
+              "signature": "CpQEAb4+9vtMCf0Igty15PJPZhmY42OZPIW57xqTBH9UvoVgFNl1FnEogQZcgzepRTfn0eR4oEVOx1faWBzlC/YR1gAWaKGld6n6L88xIKq7C3a+i1RT+GzX8JKIQ0/ODVuyEqvyM1o7Ph+XxDaUV+FLBfDG6KGrxw+gbJOJLbIx8lUJN6R1fS1Ev4PYWnPosA/LnwEh3OWPIhSxcRQybofcwz9nFMDca0Z2zEq2OArYy4EqGYJFZ9IVkfqlkX9PUuVZE/hxWxAYVMf33+tucqsUGT82g6rlUhj+7pZqi6tmdVd5blGn7MyLfvp6FLF/gSwbCbc78pfyAljPj3GOaTiWT2PbgM/pdKBNg+2xAWIXedIywtXLlNyVXYoNtxBXXxYXwPt82C67dZ3trcLoMjMn4/l3n0qqiVggI5YwIAvyi+YRaekj5RXbt/8A2h/sRpxckFCP+4GBs3nS7w/T2s0DXElB8qymS7l4210aMVVNp1z+cKCQOPSjidAeuQk4ffz1McJe8U5dlQNh35FDJoAX688t9KKJJkzxkuP3s9LWrV3m7buGM2OXuRRA5VENJhKp2nEIioLFWCryVLFLLxRigTA6li0yVZqUi70F6dbqbj+rqtWbGAEl4EPrMyMjqw9+ruvdidgk+kWdap+9ovnEB7kgKWDOIDau4tF1lWGZxDfYLNK2SI/bgQeV+v8yEIgfBvmjsA=="
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "rag_package": {
+      "status": "success",
+      "outputs": {
+        "raw_response": "Okay, I will assemble the RAG-ready artifacts based on the provided inputs. Since the inputs are all `null`, I will create placeholder files and a manifest that reflects this empty state.\n\n```json\n{\n  \"rag_manifest\": {\n    \"description\": \"RAG package manifest\",\n    \"files\": [\n      {\n        \"path\": \"docs/executive_summary.txt\",\n        \"purpose\": \"Executive summary for RAG\",\n        \"source\": \"executive_summary\"\n      },\n      {\n        \"path\": \"docs/detailed_analysis.txt\",\n        \"purpose\": \"Detailed analysis for RAG\",\n        \"source\": \"detailed_analysis\"\n      },\n      {\n        \"path\": \"docs/references.txt\",\n        \"purpose\": \"References for RAG\",\n        \"source\": \"references\"\n      },\n      {\n        \"path\": \"knowledge_graph/evidence_graph.json\",\n        \"purpose\": \"Evidence graph for RAG\",\n        \"source\": \"evidence_bundle\"\n      }\n    ],\n    \"handoff_notes\": \"No content was provided for the RAG package. Please populate the executive_summary, detailed_analysis, references, and evidence_bundle inputs to generate meaningful RAG artifacts.\"\n  },\n  \"rag_chunks\": [],\n  \"claim_graph\": {}\n}\n```"
+      },
+      "loop_iteration": 1
+    }
+  }
+}

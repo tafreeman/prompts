@@ -1562,6 +1562,23 @@ def main(argv: List[str]) -> int:
             pass
 
     if not models:
+        selected_provider_group = any(
+            [
+                args.all_github,
+                args.all_local,
+                args.all_azure,
+                args.all_ollama,
+                args.all_aitk,
+            ]
+        )
+        if selected_provider_group:
+            print("No models discovered for the selected provider flags.")
+            print(
+                "Check provider connectivity/configuration (e.g., OLLAMA_HOST, "
+                "gh auth, local model installation)."
+            )
+            return 1
+
         parser.print_help()
         return 1
 
