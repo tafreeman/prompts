@@ -1,0 +1,116 @@
+{
+  "run_id": "deep-research-c992e4f2-1154-4066-b488-43310656f8cb",
+  "timestamp_utc": "2026-02-17T03:08:35.062037+00:00",
+  "status": "partial",
+  "errors": [
+    "Step intake_scope failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step hypothesis_tree_tot_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step retrieval_react_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step analyst_ai_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step analyst_swe_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step cove_verify_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step coverage_confidence_audit_round1 failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}",
+    "Step rag_package failed: Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+  ],
+  "elapsed_seconds": 4.861711400008062,
+  "input": {
+    "goal": "Deep research into agentic AI for software engineers and architects: workflow patterns, architecture, guardrails, evaluation, and implementation guidance.",
+    "domain": "ai_software",
+    "min_ci": 0.85,
+    "max_rounds": 4,
+    "min_recent_sources": 12,
+    "recency_window_days": 183,
+    "seed_urls": []
+  },
+  "model_overrides": {
+    "DEEP_RESEARCH_SMALL_MODEL": "gemini:gemini-2.0-flash-lite",
+    "DEEP_RESEARCH_HEAVY_MODEL": "gemini:gemini-2.5-flash",
+    "AGENTIC_MODEL_TIER_2": "",
+    "AGENTIC_MODEL_TIER_3": "",
+    "AGENTIC_MODEL_TIER_4": ""
+  },
+  "outputs": {
+    "confidence_report": {
+      "coverage_score": null,
+      "source_quality_score": null,
+      "agreement_score": null,
+      "verification_score": null,
+      "recency_score": null,
+      "ci_score": null,
+      "recent_source_count": null,
+      "critical_contradictions": null
+    }
+  },
+  "steps": {
+    "intake_scope": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "source_policy": {
+      "status": "success",
+      "outputs": {
+        "raw_response": "```json\n{\n  \"source_policy\": \"To ensure the reliability and relevance of information, this research will prioritize peer-reviewed publications, reputable industry reports, and official documentation from established AI software vendors. The recency window is set to 183 days to capture the most current developments.\",\n  \"allowed_sources\": [\n    \"Peer-reviewed journal articles (e.g., ACM, IEEE)\",\n    \"Conference proceedings from major AI conferences (e.g., NeurIPS, ICML, ICLR)\",\n    \"Industry reports from established research firms (e.g., Gartner, Forrester)\",\n    \"Official documentation and white papers from major AI software vendors (e.g., Google, Microsoft, Amazon)\",\n    \"Government and regulatory agency publications related to AI software\"\n  ],\n  \"blocked_sources\": [\n    \"Unverified online forums and blogs\",\n    \"Social media posts\",\n    \"Press releases without supporting technical documentation\",\n    \"Sources lacking clear citations or verifiable methodology\",\n    \"Sources with conflicts of interest that are not explicitly stated\"\n  ]\n}\n```"
+      },
+      "loop_iteration": 1
+    },
+    "hypothesis_tree_tot_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "retrieval_react_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "analyst_ai_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "analyst_swe_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "cove_verify_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "coverage_confidence_audit_round1": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    },
+    "final_synthesis": {
+      "status": "success",
+      "outputs": {
+        "raw_response": [
+          {
+            "type": "text",
+            "text": "I cannot produce a final report as all the necessary input fields (scoped_goal, evidence_bundle, ai_analysis, swe_analysis, verified_claims, contradictions, ci_score, recent_source_count) are null. Please provide the required information to generate the report.",
+            "extras": {
+              "signature": "CpQEAb4+9vtXCyUqOMDH7vR/DIQqCZAE0ddkIsw32QNB3qmec61acJ0Pc4wvAoCdBO/t2rQeoPJClTJt+7jFb+Bg7YhTtHCpM1I/nCEHReWdwjPTS6hNR/8R/EduAteIipe/wK+THAydNZT4Nm22epT47khwLZVCjA1oiUYOEKCGsOzhjBYps9zRI6RWF9oYhc1FS9Gwy4ez1isoeC5oW8Lmt2cfUGB10AjcpIywEKtSi4S0D/lkDI38ddAdo1mLE50Dr0mtZZPDmySrFqRWWquOGgtJ4BuOWHRLb8g7L4i/dRcBtCN7+ncpqtt6iN4HKxALm0wqCfDK5qyg9ALekJSCS8+c77q5iui7GymEGm6UA8Ms/jqlZJrj+eGMt4jWZ+egnqkO00NcAP53+BdyFBqh0+613YnXwaRCIMKCNeXl5W1II5FJ/EhyTfH7uE3oBchk7xZNjLnvRsMcKCzE80e3S5X4nkosskej+dfUWEbVvn1igh4HaVCBkSLHLCDIVRcBjsdIKDvDAnqDNRDun2+AikTwwYvu7Ui3TeCvHoZyZd/uD//W4k3NxDnuWVV19QEQjgfTJyFGBVFcq2h6GxPIVl6VQl91rHg/wSXLE14/9evcaj/D2WmTs1TzhqImyRiCiacvATB6U0gC1d3fdoWh5Z1LvF24tlF9vGN7MoIsjhf+R+/P+/j3+tqZHOzxz9e2UZRcyA=="
+            }
+          }
+        ]
+      },
+      "loop_iteration": 1
+    },
+    "rag_package": {
+      "status": "failed",
+      "outputs": {},
+      "loop_iteration": 1,
+      "error": "Error code: 400 - {'error': {'code': 'unknown_model', 'message': 'Unknown model: openai/gpt-4.1', 'details': 'Unknown model: openai/gpt-4.1'}}"
+    }
+  }
+}

@@ -132,7 +132,7 @@ DEFAULT_CHAINS: dict[ModelTier, FallbackChain] = {
             "gemini:gemini-2.5-pro",
             "openai:gpt-4o",
             "anthropic:claude-opus-4-6",
-            "gh:openai/o3-mini",
+            "gh:openai/gpt-4o",
         ),
         "tier5-default",
     ),

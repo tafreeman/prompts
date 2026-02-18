@@ -252,6 +252,138 @@ def http_get(url: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Web search
+# ---------------------------------------------------------------------------
+
+
+@tool
+def web_search(
+    query: str,
+    max_results: int = 5,
+    allowed_domains: list[str] | None = None,
+    blocked_domains: list[str] | None = None,
+) -> str:
+    """Search the public web and return top result URLs/snippets.
+
+    Args:
+        query: Search query text.
+        max_results: Maximum number of results to return (1-10).
+        allowed_domains: Optional domain allowlist (exact or suffix match).
+        blocked_domains: Optional domain blocklist (exact or suffix match).
+    """
+    max_results = max(1, min(int(max_results), 10))
+    allowed = [
+        d.strip().lower().lstrip(".")
+        for d in (allowed_domains or [])
+        if isinstance(d, str) and d.strip()
+    ]
+    blocked = [
+        d.strip().lower().lstrip(".")
+        for d in (blocked_domains or [])
+        if isinstance(d, str) and d.strip()
+    ]
+
+    try:
+        import html
+        import httpx
+        import re
+
+        # DuckDuckGo HTML endpoint avoids API-key dependencies.
+        response = httpx.get(
+            "https://duckduckgo.com/html/",
+            params={"q": query},
+            timeout=20,
+            follow_redirects=True,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+                )
+            },
+        )
+        body = response.text
+
+        links = re.findall(
+            r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>',
+            body,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        snippets = re.findall(
+            r'<a[^>]+class="result__snippet"[^>]*>(.*?)</a>',
+            body,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+
+        from urllib.parse import urlparse
+
+        def _matches(hostname: str, patterns: list[str]) -> bool:
+            host = hostname.lower().lstrip(".")
+            if host.startswith("www."):
+                host = host[4:]
+            for pattern in patterns:
+                if host == pattern or host.endswith(f".{pattern}"):
+                    return True
+            return False
+
+        results: list[dict[str, str]] = []
+        for idx, (href, raw_title) in enumerate(links):
+            # DuckDuckGo wraps redirect links as /l/?uddg=... .
+            url = href
+            if "uddg=" in href:
+                try:
+                    from urllib.parse import parse_qs, unquote, urlparse
+
+                    parsed = urlparse(href)
+                    qs = parse_qs(parsed.query)
+                    if "uddg" in qs and qs["uddg"]:
+                        url = unquote(qs["uddg"][0])
+                except Exception:
+                    pass
+
+            parsed_url = urlparse(url)
+            hostname = parsed_url.netloc.lower()
+            if hostname.startswith("www."):
+                hostname = hostname[4:]
+
+            if blocked and _matches(hostname, blocked):
+                continue
+            if allowed and not _matches(hostname, allowed):
+                continue
+
+            title = html.unescape(re.sub(r"<[^>]+>", "", raw_title)).strip()
+            snippet = ""
+            if idx < len(snippets):
+                snippet = html.unescape(
+                    re.sub(r"<[^>]+>", "", snippets[idx])
+                ).strip()
+
+            results.append(
+                {
+                    "title": title,
+                    "url": url,
+                    "domain": hostname,
+                    "snippet": snippet,
+                }
+            )
+            if len(results) >= max_results:
+                break
+
+        return json.dumps(
+            {
+                "query": query,
+                "filters": {
+                    "allowed_domains": allowed,
+                    "blocked_domains": blocked,
+                },
+                "results": results,
+            },
+            indent=2,
+        )
+    except Exception as e:
+        return f"ERROR: {e}"
+
+
+# ---------------------------------------------------------------------------
 # Tool registry helper
 # ---------------------------------------------------------------------------
 
@@ -263,6 +395,7 @@ ALL_TOOLS = [
     code_analyze,
     shell_run,
     search_files,
+    web_search,
     context_store,
     http_get,
 ]
@@ -271,8 +404,17 @@ ALL_TOOLS = [
 TIER_TOOLS: dict[int, list] = {
     0: [file_read, file_list, code_analyze],
     1: [file_read, file_write, file_list, code_analyze, search_files],
-    2: [file_read, file_write, file_list, code_analyze, search_files,
-        shell_run, context_store],
+    2: [
+        file_read,
+        file_write,
+        file_list,
+        code_analyze,
+        search_files,
+        web_search,
+        shell_run,
+        context_store,
+        http_get,
+    ],
     3: ALL_TOOLS,
     4: ALL_TOOLS,
     5: ALL_TOOLS,

@@ -12,7 +12,7 @@ are replaced entirely with standard LangChain primitives.
 
 ## Architecture
 
-```
+```text
 agentic_v2/langchain/
 ├── __init__.py          # Package exports (WorkflowRunner, WorkflowConfig)
 ├── state.py             # WorkflowState TypedDict (LangGraph state schema)
@@ -26,24 +26,24 @@ agentic_v2/langchain/
 
 ### What's Standard LangChain
 
-| Component           | LangChain Primitive Used                     |
-|---------------------|----------------------------------------------|
-| State               | `TypedDict` with `Annotated` reducers        |
-| Tools               | `@tool` decorator from `langchain_core`      |
-| Agents              | `create_react_agent` from `langgraph.prebuilt`|
-| Models              | `ChatOpenAI` from `langchain_openai`         |
-| Graph               | `StateGraph` from `langgraph.graph`          |
-| Edges               | `add_edge`, `add_conditional_edges`          |
-| Checkpointing       | `MemorySaver` / `SqliteSaver` (ready)        |
+| Component     | LangChain Primitive Used                          |
+|:--------------|:--------------------------------------------------|
+| State         | `TypedDict` with `Annotated` reducers             |
+| Tools         | `@tool` decorator from `langchain_core`           |
+| Agents        | `create_react_agent` from `langgraph.prebuilt`    |
+| Models        | `ChatOpenAI` from `langchain_openai`              |
+| Graph         | `StateGraph` from `langgraph.graph`               |
+| Edges         | `add_edge`, `add_conditional_edges`               |
+| Checkpointing | `MemorySaver` / `SqliteSaver` (ready)             |
 
 ### What's Custom (Thin Layers)
 
-| Component           | Purpose                                      |
-|---------------------|----------------------------------------------|
-| `config.py`         | YAML parsing → dataclasses (no execution logic) |
-| `expressions.py`    | `${...}` expression evaluation on state dict |
-| `graph.py`          | Compiles YAML config into `StateGraph`       |
-| `runner.py`         | Orchestrates load/validate/compile/run       |
+| Component        | Purpose                                           |
+|:-----------------|:--------------------------------------------------|
+| `config.py`      | YAML parsing → dataclasses (no execution logic)   |
+| `expressions.py` | `${...}` expression evaluation on state dict      |
+| `graph.py`       | Compiles YAML config into `StateGraph`            |
+| `runner.py`      | Orchestrates load/validate/compile/run            |
 
 ---
 
@@ -118,18 +118,93 @@ result = await runner.run("code_review", code_file="main.py")
 
 ## Test Coverage
 
-**21 tests** (20 passed, 1 skipped without API key):
+**54 tests** (50 passed, 4 skipped in focused LangChain suite):
 
-| Suite               | Tests | Notes                          |
-|---------------------|-------|--------------------------------|
-| Config Loader       | 8     | YAML parsing, inputs, steps    |
-| Expressions         | 7     | Variables, conditions, `in`    |
-| State               | 2     | Initial state creation         |
-| Graph Compilation   | 4     | Compile, edge validation, run  |
+- Config Loader (8): YAML parsing, inputs, steps
+- Expressions (7): variables, conditions, `in`
+- State (2): initial state creation
+- Graph Compilation (4): compile, edge validation, run
+- Runner Integration (10+): checkpointer + thread config + stream + resume + tracing hooks
 
 ---
 
-## Phase 2: Remaining Work
+## Phase 2: Execution Plan (Detailed)
+
+This section is the concrete migration backlog and acceptance contract.
+
+### Phase 2a. Real LLM Execution Parity
+
+**Goal:** prove end-to-end production behavior with real model calls.
+
+- [ ] Add deterministic smoke harness for `code_review` with golden fixtures.
+- [ ] Add multi-step orchestration test with at least one tool call in each tier.
+- [ ] Add output-schema validation for each step output payload.
+
+#### Acceptance criteria (2a)
+
+- Tiered workflow runs complete on a real model without manual patching.
+- Step outputs parse as valid JSON for declared output keys.
+- Failures are captured in `errors` and surfaced in `WorkflowResult.status`.
+
+### Phase 2b. Persistence & Resume
+
+**Goal:** make checkpointing operational, not just declared in docs.
+
+- [x] Compile LangGraph with optional `checkpointer` when provided.
+- [x] Support `thread_id` via LangGraph `configurable.thread_id` in `invoke` / `run`.
+- [x] Add `stream` / `astream` APIs with the same thread-aware runtime config path.
+- [x] Add checkpoint state read/inspect helper methods (debug + recovery).
+- [x] Add `resume(...)` API for thread-based continuation.
+- [ ] Add interrupted-run resume tests using `MemorySaver` and `SqliteSaver`.
+
+#### Acceptance criteria (2b)
+
+- Same `thread_id` preserves execution thread state across invocations.
+- Streaming and non-streaming execution paths use identical checkpoint keys.
+- Persistence tests pass for in-memory and SQLite checkpointers.
+
+### Phase 2c. UI Rearchitecture
+
+**Goal:** bind dashboard/live views to `WorkflowResult` + graph events.
+
+- [ ] Define stable UI event contract for step start/complete/error.
+- [ ] Stream graph events into UI timeline.
+- [ ] Add graph visualization view backed by LangGraph topology.
+
+#### Acceptance criteria (2c)
+
+- UI can render full step timeline without old DAG runtime adapters.
+- Real-time run view works for both success and failure paths.
+
+### Phase 2d. Evaluation Rearchitecture
+
+**Goal:** move eval/tracing to the LangChain-native runner.
+
+- [ ] Port evaluation criteria resolution to consume new step output shape.
+- [x] Integrate LangSmith tracing adapter.
+- [ ] Add benchmark harness entrypoints using `WorkflowRunner`.
+
+#### Acceptance criteria (2d)
+
+- Existing rubric criteria can score LangChain runs without compatibility shims.
+- Traces are queryable per workflow + run/thread id.
+
+### Phase 2e. Custom/Multi-Agent Extensions
+
+**Goal:** keep flexibility where `create_react_agent` is insufficient.
+
+- [ ] Inventory agents needing custom wrappers.
+- [ ] Add supervisor/swarm reference patterns.
+- [ ] Add human-in-the-loop interrupt/resume examples.
+
+#### Acceptance criteria (2e)
+
+- Non-ReAct agents run through the same state + output contracts.
+- HITL flow can pause and resume in a persistent thread.
+
+---
+
+## Phase 2: Remaining Work (Legacy Checklist)
 
 ### 2a. Run with Real LLM (requires API key)
 
@@ -139,8 +214,9 @@ result = await runner.run("code_review", code_file="main.py")
 
 ### 2b. Persistence & Memory
 
-- [ ] Wire `MemorySaver` / `SqliteSaver` checkpointer
-- [ ] Resume interrupted workflows
+- [x] Wire `MemorySaver` / `SqliteSaver` checkpointer (compile + thread config plumbing)
+- [x] Add resume/checkpoint-inspection APIs on `WorkflowRunner`
+- [ ] Validate interrupted-run resume behavior with concrete `MemorySaver`/`SqliteSaver` integration tests
 - [ ] Cross-session memory
 
 ### 2c. UI Rearchitecture
@@ -152,7 +228,7 @@ result = await runner.run("code_review", code_file="main.py")
 ### 2d. Evaluation Rearchitecture
 
 - [ ] Port evaluation criteria resolution
-- [ ] LangSmith integration for tracing
+- [x] LangSmith integration for tracing
 - [ ] Benchmark harness using new runner
 
 ### 2e. Custom Agents

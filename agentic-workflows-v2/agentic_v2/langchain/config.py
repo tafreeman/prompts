@@ -34,6 +34,7 @@ class StepConfig:
     loop_max: int = 3
     tools: list[str] | None = None
     prompt_file: str | None = None
+    model_override: str | None = None
 
 
 @dataclass
@@ -168,16 +169,8 @@ def _parse(data: dict[str, Any], default_name: str) -> WorkflowConfig:
                 agent=raw.get("agent", ""),
                 description=raw.get("description", ""),
                 depends_on=raw.get("depends_on", []),
-                inputs={
-                    k: v
-                    for k, v in raw.get("inputs", {}).items()
-                    if isinstance(v, str)
-                },
-                outputs={
-                    k: v
-                    for k, v in raw.get("outputs", {}).items()
-                    if isinstance(v, str)
-                },
+                inputs=dict(raw.get("inputs", {})),
+                outputs=dict(raw.get("outputs", {})),
                 when=raw.get("when"),
                 loop_until=raw.get("loop_until"),
                 loop_max=max(1, int(raw.get("loop_max", 3))),
@@ -187,6 +180,11 @@ def _parse(data: dict[str, Any], default_name: str) -> WorkflowConfig:
                     else None
                 ),
                 prompt_file=raw.get("prompt_file"),
+                model_override=(
+                    raw.get("model_override")
+                    if isinstance(raw.get("model_override"), str)
+                    else raw.get("model")
+                ),
             )
         )
 
