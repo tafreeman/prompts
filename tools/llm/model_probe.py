@@ -55,6 +55,111 @@ if __name__ == "__main__":
 from tools.core.errors import ErrorCode, classify_error
 
 # =============================================================================
+# CONSTANTS - Path, Provider, Environment, URL, and Timeout Configuration
+# =============================================================================
+
+# Cache paths and configuration
+_CACHE_BASE_DIR = ".cache"
+_CACHE_APP_DIR = "prompts-eval"
+_CACHE_PROBES_DIR = "model-probes"
+_CACHE_FILE_NAME = "probe_cache.json"
+_CACHE_VERSION = "1.0.0"
+
+# AI Gallery and AI Toolkit paths
+_AI_GALLERY_CACHE_DIR = "aigallery"
+_AITK_HOME_DIR = ".aitk"
+_AITK_MODELS_DIR = "models"
+_AITK_MODELINFO_FILE = "foundry.modelinfo.json"
+_AITK_MODELS_TASK_TYPE = "chat-completion"
+
+# Model provider prefixes
+_PREFIX_LOCAL = "local:"
+_PREFIX_GITHUB = "gh:"
+_PREFIX_GITHUB_ALT = "github:"
+_PREFIX_OLLAMA = "ollama:"
+_PREFIX_OPENAI = "openai:"
+_PREFIX_GPT = "gpt"
+_PREFIX_AZURE_FOUNDRY = "azure-foundry:"
+_PREFIX_AZURE_OPENAI = "azure-openai:"
+_PREFIX_WINDOWS_AI = "windows-ai:"
+_PREFIX_AITK = "aitk:"
+_PREFIX_AITK_ALT = "ai-toolkit:"
+_PREFIX_GEMINI = "gemini:"
+_PREFIX_CLAUDE = "claude:"
+
+# Environment variable names
+_ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
+_ENV_GH_TOKEN = "GH_TOKEN"
+_ENV_OLLAMA_HOST = "OLLAMA_HOST"
+_ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+_ENV_AZURE_FOUNDRY_API_KEY = "AZURE_FOUNDRY_API_KEY"
+_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX = "AZURE_FOUNDRY_ENDPOINT"
+_ENV_AZURE_OPENAI_ENDPOINT = "AZURE_OPENAI_ENDPOINT"
+_ENV_AZURE_OPENAI_API_KEY = "AZURE_OPENAI_API_KEY"
+_ENV_AZURE_OPENAI_DEPLOYMENT = "AZURE_OPENAI_DEPLOYMENT"
+
+# URLs and API endpoints
+_OLLAMA_DEFAULT_HOST = "http://localhost:11434"
+_OLLAMA_API_TAGS_ENDPOINT = "/api/tags"
+
+# Windows AI bridge
+_WINDOWS_AI_BRIDGE_DIR = "windows_ai_bridge"
+_WINDOWS_AI_BRIDGE_PROJECT = "PhiSilicaBridge.csproj"
+
+# AI Toolkit model directories
+_AITK_MS_SUBDIR = "Microsoft"
+
+# Timeout values (seconds)
+_TIMEOUT_GH_AUTH = 10
+_TIMEOUT_GH_MODELS_LIST = 30
+_TIMEOUT_GH_MODELS_RUN = 30
+_TIMEOUT_WINDOWS_AI_BRIDGE = 60
+_TIMEOUT_OLLAMA_HTTP = 3
+
+# Cache key and string truncation lengths
+_CACHE_KEY_MD5_LENGTH = 12
+_GH_CLI_OUTPUT_MODELS_LIMIT = 5
+_ENDPOINT_TRUNCATION_LENGTH = 50
+_ERROR_BRIEF_LENGTH = 200
+_ERROR_STANDARD_LENGTH = 500
+_ERROR_DISPLAY_LENGTH = 60
+
+# GitHub CLI and model probing
+_GH_CLI_PROBE_TEST_MESSAGE = "Hi"
+_GH_CLI_PROBE_MAX_TOKENS = "1"
+_GH_CLI_ARG_MAX_TOKENS = "--max-tokens"
+
+# Windows AI and dotnet
+_DOTNET_CLI_ARG_PROJECT = "--project"
+_WINDOWS_AI_CLI_ARG_INFO = "--info"
+
+# Path separators and delimiters
+_PATH_SEPARATOR = "/"
+_TAB_SEPARATOR = "\t"
+_OLLAMA_MODEL_TAG_SUFFIX = ":latest"
+
+# AI Toolkit model name cleanup suffixes
+_AITK_SUFFIX_GENERIC_CPU = "-generic-cpu"
+_AITK_SUFFIX_GENERIC_GPU = "-generic-gpu"
+_AITK_SUFFIX_CPU = "-cpu"
+_AITK_SUFFIX_GPU = "-gpu"
+_AITK_TRAILING_CHARS = "0123456789-"
+
+# Azure deployment slot range
+_AZURE_SLOT_RANGE = 10
+
+# Exponential backoff configuration
+_BACKOFF_BASE = 2
+_JITTER_LOWER = 0.8
+_JITTER_RANGE = 0.4
+
+# Windows AI specific constants
+_WINDOWS_AI_MODEL_ID = "windows-ai:phi-silica"
+
+# Platform check
+_PLATFORM_WINDOWS = "win32"
+
+# =============================================================================
 # PROBE RESULT
 # =============================================================================
 
@@ -84,14 +189,16 @@ class ProbeResult:
 
 def get_cache_dir() -> Path:
     """Get the directory for probe cache files."""
-    cache_dir = Path.home() / ".cache" / "prompts-eval" / "model-probes"
+    cache_dir = (
+        Path.home() / _CACHE_BASE_DIR / _CACHE_APP_DIR / _CACHE_PROBES_DIR
+    )
     cache_dir.mkdir(parents=True, exist_ok=True)
     return cache_dir
 
 
 def get_cache_file() -> Path:
     """Get the main probe cache file."""
-    return get_cache_dir() / "probe_cache.json"
+    return get_cache_dir() / _CACHE_FILE_NAME
 
 
 def load_cache() -> Dict[str, Any]:
@@ -102,7 +209,7 @@ def load_cache() -> Dict[str, Any]:
             return json.loads(cache_file.read_text(encoding="utf-8"))
         except Exception:
             pass
-    return {"version": "1.0.0", "probes": {}, "last_updated": None}
+    return {"version": _CACHE_VERSION, "probes": {}, "last_updated": None}
 
 
 def save_cache(cache: Dict[str, Any]) -> None:
@@ -134,7 +241,7 @@ class ModelProbe:
     def __init__(self, use_cache: bool = True, verbose: bool = False):
         self.use_cache = use_cache
         self.verbose = verbose
-        self._cache = load_cache() if use_cache else {"version": "1.0.0", "probes": {}}
+        self._cache = load_cache() if use_cache else {"version": _CACHE_VERSION, "probes": {}}
         self._session_probes: Dict[str, ProbeResult] = {}
 
     def _log(self, msg: str) -> None:
@@ -143,31 +250,31 @@ class ModelProbe:
 
     def _get_provider(self, model: str) -> str:
         """Extract provider from model string."""
-        if model.startswith("local:"):
+        if model.startswith(_PREFIX_LOCAL):
             return "local"
-        if model.startswith("windows-ai:"):
+        if model.startswith(_PREFIX_WINDOWS_AI):
             return "windows_ai"
-        if model.startswith("gh:") or model.startswith("github:"):
+        if model.startswith(_PREFIX_GITHUB) or model.startswith(_PREFIX_GITHUB_ALT):
             return "github"
-        if model.startswith("openai:") or model.startswith("gpt"):
+        if model.startswith(_PREFIX_OPENAI) or model.startswith(_PREFIX_GPT):
             return "openai"
-        if model.startswith("azure-foundry:"):
+        if model.startswith(_PREFIX_AZURE_FOUNDRY):
             return "azure_foundry"
-        if model.startswith("azure-openai:"):
+        if model.startswith(_PREFIX_AZURE_OPENAI):
             return "azure_openai"
-        if model.startswith("ollama:"):
+        if model.startswith(_PREFIX_OLLAMA):
             return "ollama"
-        if model.startswith("gemini:"):
+        if model.startswith(_PREFIX_GEMINI):
             return "gemini"
-        if model.startswith("aitk:") or model.startswith("ai-toolkit:"):
+        if model.startswith(_PREFIX_AITK) or model.startswith(_PREFIX_AITK_ALT):
             return "ai_toolkit"
-        if model.startswith("claude:"):
+        if model.startswith(_PREFIX_CLAUDE):
             return "claude"
         return "unknown"
 
     def _cache_key(self, model: str) -> str:
         """Generate cache key for a model."""
-        return hashlib.md5(model.encode()).hexdigest()[:12]
+        return hashlib.md5(model.encode()).hexdigest()[:_CACHE_KEY_MD5_LENGTH]
 
     def _is_cache_valid(self, cached: Dict[str, Any]) -> bool:
         """Check if a cached probe result is still valid."""
@@ -197,11 +304,11 @@ class ModelProbe:
     def _probe_local(self, model: str) -> ProbeResult:
         """Probe a local ONNX model."""
         start = time.time()
-        model_key = model.replace("local:", "")
+        model_key = model.replace(_PREFIX_LOCAL, "")
 
         try:
             # Check if model exists in AI Gallery cache
-            ai_gallery = Path.home() / ".cache" / "aigallery"
+            ai_gallery = Path.home() / _CACHE_BASE_DIR / _AI_GALLERY_CACHE_DIR
 
             # Import LLMClient to get model paths
             from tools.llm.llm_client import LLMClient
@@ -219,7 +326,7 @@ class ModelProbe:
                 )
 
             # Check if the model directory exists
-            top_dir = str(model_path).split("/")[0]
+            top_dir = str(model_path).split(_PATH_SEPARATOR)[0]
             if not (ai_gallery / top_dir).exists():
                 return ProbeResult(
                     model=model,
@@ -255,7 +362,9 @@ class ModelProbe:
     def _probe_github(self, model: str) -> ProbeResult:
         """Probe a GitHub Models model with a lightweight test."""
         start = time.time()
-        model_id = model.replace("gh:", "").replace("github:", "")
+        model_id = (
+            model.replace(_PREFIX_GITHUB, "").replace(_PREFIX_GITHUB_ALT, "")
+        )
 
         # Check if gh CLI is available
         import shutil
@@ -272,7 +381,9 @@ class ModelProbe:
             )
 
         # Check for authentication (env var OR gh auth)
-        gh_authenticated = bool(os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN"))
+        gh_authenticated = bool(
+            os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN)
+        )
 
         if not gh_authenticated:
             # Check if logged in via gh auth
@@ -281,7 +392,7 @@ class ModelProbe:
                     ["gh", "auth", "status"],
                     capture_output=True,
                     text=True,
-                    timeout=10,
+                    timeout=_TIMEOUT_GH_AUTH,
                 )
                 gh_authenticated = auth_check.returncode == 0
             except Exception:
@@ -305,12 +416,12 @@ class ModelProbe:
                     ["gh", "models", "list"],
                     capture_output=True,
                     text=True,
-                    timeout=30,
+                    timeout=_TIMEOUT_GH_MODELS_LIST,
                 )
                 if result.returncode == 0:
                     for line in result.stdout.strip().split("\n"):
                         if line.strip():
-                            parts = line.split("\t")
+                            parts = line.split(_TAB_SEPARATOR)
                             if parts:
                                 full_id = parts[0].strip()
                                 # Check if model_id matches the short name
@@ -326,10 +437,18 @@ class ModelProbe:
         try:
             # Do a minimal probe - just ask for a single token response
             result = subprocess.run(
-                ["gh", "models", "run", model_id, "Hi", "--max-tokens", "1"],
+                [
+                    "gh",
+                    "models",
+                    "run",
+                    model_id,
+                    _GH_CLI_PROBE_TEST_MESSAGE,
+                    _GH_CLI_ARG_MAX_TOKENS,
+                    _GH_CLI_PROBE_MAX_TOKENS,
+                ],
                 capture_output=True,
                 text=True,
-                timeout=30,
+                timeout=_TIMEOUT_GH_MODELS_RUN,
             )
 
             duration_ms = int((time.time() - start) * 1000)
@@ -415,7 +534,7 @@ class ModelProbe:
         """Probe Windows AI (Phi Silica) via the .NET bridge --info."""
         start = time.time()
 
-        if sys.platform != "win32":
+        if sys.platform != _PLATFORM_WINDOWS:
             return ProbeResult(
                 model=model,
                 provider="windows_ai",
@@ -440,7 +559,9 @@ class ModelProbe:
             )
 
         bridge_proj = (
-            Path(__file__).parent / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
+            Path(__file__).parent
+            / _WINDOWS_AI_BRIDGE_DIR
+            / _WINDOWS_AI_BRIDGE_PROJECT
         )
         if not bridge_proj.exists():
             return ProbeResult(
@@ -455,10 +576,17 @@ class ModelProbe:
 
         try:
             r = subprocess.run(
-                ["dotnet", "run", "--project", str(bridge_proj), "--", "--info"],
+                [
+                    "dotnet",
+                    "run",
+                    _DOTNET_CLI_ARG_PROJECT,
+                    str(bridge_proj),
+                    "--",
+                    _WINDOWS_AI_CLI_ARG_INFO,
+                ],
                 capture_output=True,
                 text=True,
-                timeout=60,
+                timeout=_TIMEOUT_WINDOWS_AI_BRIDGE,
                 cwd=str(bridge_proj.parent),
             )
 
@@ -536,10 +664,10 @@ class ModelProbe:
     def _probe_azure_foundry(self, model: str) -> ProbeResult:
         """Probe an Azure Foundry model."""
         start = time.time()
-        _ = model.replace("azure-foundry:", "")
+        _ = model.replace(_PREFIX_AZURE_FOUNDRY, "")
 
         # Check for API key
-        api_key = os.getenv("AZURE_FOUNDRY_API_KEY")
+        api_key = os.getenv(_ENV_AZURE_FOUNDRY_API_KEY)
         if not api_key:
             return ProbeResult(
                 model=model,
@@ -554,7 +682,7 @@ class ModelProbe:
         # Check for endpoint
         endpoint = None
         for k, v in os.environ.items():
-            if k.startswith("AZURE_FOUNDRY_ENDPOINT") and v:
+            if k.startswith(_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX) and v:
                 endpoint = v
                 break
 
@@ -581,20 +709,23 @@ class ModelProbe:
     def _probe_azure_openai(self, model: str) -> ProbeResult:
         """Probe an Azure OpenAI model."""
         start = time.time()
-        _ = model.replace("azure-openai:", "")
+        _ = model.replace(_PREFIX_AZURE_OPENAI, "")
 
         # Check for endpoint and key (check slots 0-9)
         configured = False
-        for i in range(10):
-            ep = os.getenv(f"AZURE_OPENAI_ENDPOINT_{i}")
-            key = os.getenv(f"AZURE_OPENAI_API_KEY_{i}")
+        for i in range(_AZURE_SLOT_RANGE):
+            ep = os.getenv(f"{_ENV_AZURE_OPENAI_ENDPOINT}_{i}")
+            key = os.getenv(f"{_ENV_AZURE_OPENAI_API_KEY}_{i}")
             if ep and key:
                 configured = True
                 break
 
         if not configured:
             # Also check default (non-numbered) env vars
-            if os.getenv("AZURE_OPENAI_ENDPOINT") and os.getenv("AZURE_OPENAI_API_KEY"):
+            if (
+                os.getenv(_ENV_AZURE_OPENAI_ENDPOINT)
+                and os.getenv(_ENV_AZURE_OPENAI_API_KEY)
+            ):
                 configured = True
 
         if not configured:
@@ -622,17 +753,17 @@ class ModelProbe:
         import urllib.request
 
         start = time.time()
-        model_id = model.replace("ollama:", "")
+        model_id = model.replace(_PREFIX_OLLAMA, "")
 
-        ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+        ollama_host = os.getenv(_ENV_OLLAMA_HOST, _OLLAMA_DEFAULT_HOST)
 
         try:
             # Check if Ollama is running
             req = urllib.request.Request(
-                f"{ollama_host}/api/tags",
+                f"{ollama_host}{_OLLAMA_API_TAGS_ENDPOINT}",
                 headers={"Accept": "application/json"},
             )
-            with urllib.request.urlopen(req, timeout=3) as resp:
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 models = [m.get("name", "") for m in data.get("models", [])]
 
@@ -640,14 +771,14 @@ class ModelProbe:
                 if (
                     model_id
                     and model_id not in models
-                    and f"{model_id}:latest" not in models
+                    and f"{model_id}{_OLLAMA_MODEL_TAG_SUFFIX}" not in models
                 ):
                     return ProbeResult(
                         model=model,
                         provider="ollama",
                         usable=False,
                         error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-                        error_message=f"Model '{model_id}' not found. Available: {', '.join(models[:5])}",
+                        error_message=f"Model '{model_id}' not found. Available: {', '.join(models[:_GH_CLI_OUTPUT_MODELS_LIMIT])}",
                         probe_time=datetime.now().isoformat(),
                         duration_ms=int((time.time() - start) * 1000),
                     )
@@ -687,9 +818,9 @@ class ModelProbe:
     def _probe_openai(self, model: str) -> ProbeResult:
         """Probe an OpenAI model."""
         start = time.time()
-        _ = model.replace("openai:", "")
+        _ = model.replace(_PREFIX_OPENAI, "")
 
-        api_key = os.getenv("OPENAI_API_KEY")
+        api_key = os.getenv(_ENV_OPENAI_API_KEY)
         if not api_key:
             return ProbeResult(
                 model=model,
@@ -720,11 +851,11 @@ class ModelProbe:
         Examples: aitk:phi-4-mini, aitk:qwen2.5-coder-7b
         """
         start = time.time()
-        model_id = model.replace("aitk:", "").replace("ai-toolkit:", "")
+        model_id = model.replace(_PREFIX_AITK, "").replace(_PREFIX_AITK_ALT, "")
 
-        aitk_base = Path.home() / ".aitk"
-        models_dir = aitk_base / "models"
-        modelinfo_file = models_dir / "foundry.modelinfo.json"
+        aitk_base = Path.home() / _AITK_HOME_DIR
+        models_dir = aitk_base / _AITK_MODELS_DIR
+        modelinfo_file = models_dir / _AITK_MODELINFO_FILE
 
         # Check if AI Toolkit is installed
         if not aitk_base.exists():
@@ -758,7 +889,7 @@ class ModelProbe:
             try:
                 info = json.loads(modelinfo_file.read_text(encoding="utf-8"))
                 for m in info.get("models", []):
-                    if m.get("task") == "chat-completion":  # Only chat models
+                    if m.get("task") == _AITK_MODELS_TASK_TYPE:  # Only chat models
                         alias = m.get("alias", "")
                         name = m.get("name", "")
                         if alias:
@@ -772,10 +903,10 @@ class ModelProbe:
         downloaded = []
         if models_dir.exists():
             for subdir in models_dir.iterdir():
-                if subdir.is_dir() and subdir.name != "Microsoft":
+                if subdir.is_dir() and subdir.name != _AITK_MS_SUBDIR:
                     downloaded.append(subdir.name)
             # Also check Microsoft subdir
-            ms_dir = models_dir / "Microsoft"
+            ms_dir = models_dir / _AITK_MS_SUBDIR
             if ms_dir.exists():
                 for subdir in ms_dir.iterdir():
                     if subdir.is_dir():
@@ -818,7 +949,7 @@ class ModelProbe:
             provider="ai_toolkit",
             usable=False,
             error_code=ErrorCode.UNAVAILABLE_MODEL.value,
-            error_message=f"Model '{model_id}' not downloaded. Available: {', '.join(downloaded[:5])}",
+            error_message=f"Model '{model_id}' not downloaded. Available: {', '.join(downloaded[:_GH_CLI_OUTPUT_MODELS_LIMIT])}",
             probe_time=datetime.now().isoformat(),
             duration_ms=int((time.time() - start) * 1000),
         )
@@ -1049,7 +1180,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if verbose:
         print("[Discovery] Checking local ONNX models...")
 
-    ai_gallery = Path.home() / ".cache" / "aigallery"
+    ai_gallery = Path.home() / _CACHE_BASE_DIR / _AI_GALLERY_CACHE_DIR
     local_models = []
     local_missing = []
 
@@ -1057,11 +1188,11 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         from tools.llm.llm_client import LLMClient
 
         for key, model_path in LLMClient.LOCAL_MODELS.items():
-            top_dir = str(model_path).split("/")[0]
+            top_dir = str(model_path).split(_PATH_SEPARATOR)[0]
             if ai_gallery.exists() and (ai_gallery / top_dir).exists():
-                local_models.append(f"local:{key}")
+                local_models.append(f"{_PREFIX_LOCAL}{key}")
             else:
-                local_missing.append(f"local:{key}")
+                local_missing.append(f"{_PREFIX_LOCAL}{key}")
     except Exception as e:
         if verbose:
             print(f"  Error: {e}")
@@ -1089,7 +1220,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
                 ["gh", "auth", "status"],
                 capture_output=True,
                 text=True,
-                timeout=10,
+                timeout=_TIMEOUT_GH_AUTH,
             )
             gh_authenticated = auth_check.returncode == 0
         except Exception:
@@ -1097,7 +1228,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
 
         # Also accept env var token
         if not gh_authenticated:
-            gh_authenticated = bool(os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN"))
+            gh_authenticated = bool(os.getenv(_ENV_GITHUB_TOKEN) or os.getenv(_ENV_GH_TOKEN))
 
     if gh_authenticated:
         try:
@@ -1106,20 +1237,20 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
                 ["gh", "models", "list"],
                 capture_output=True,
                 text=True,
-                timeout=30,
+                timeout=_TIMEOUT_GH_MODELS_LIST,
             )
             if result.returncode == 0:
                 # Parse tab-separated output: "publisher/model<tab>Display Name"
                 for line in result.stdout.strip().split("\n"):
                     if line.strip():
                         # First column is the model ID (full format: publisher/model)
-                        parts = line.split("\t")
+                        parts = line.split(_TAB_SEPARATOR)
                         if parts:
                             model_id = parts[0].strip()
                             if model_id:
-                                gh_models.append(f"gh:{model_id}")
+                                gh_models.append(f"{_PREFIX_GITHUB}{model_id}")
             else:
-                gh_error = result.stderr[:200] if result.stderr else "Unknown error"
+                gh_error = result.stderr[:_ERROR_BRIEF_LENGTH] if result.stderr else "Unknown error"
         except Exception as e:
             gh_error = str(e)
     else:
@@ -1135,19 +1266,19 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if verbose:
         print("[Discovery] Checking Ollama models...")
 
-    ollama_host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+    ollama_host = os.getenv(_ENV_OLLAMA_HOST, _OLLAMA_DEFAULT_HOST)
     ollama_models = []
     ollama_error = None
 
     try:
         req = urllib.request.Request(
-            f"{ollama_host}/api/tags",
+            f"{ollama_host}{_OLLAMA_API_TAGS_ENDPOINT}",
             headers={"Accept": "application/json"},
         )
-        with urllib.request.urlopen(req, timeout=3) as resp:
+        with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             ollama_models = [
-                f"ollama:{m.get('name', '')}" for m in data.get("models", [])
+                f"{_PREFIX_OLLAMA}{m.get('name', '')}" for m in data.get("models", [])
             ]
     except Exception:
         ollama_error = f"Ollama not reachable at {ollama_host}"
@@ -1163,10 +1294,10 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if verbose:
         print("[Discovery] Checking Azure Foundry...")
 
-    foundry_configured = bool(os.getenv("AZURE_FOUNDRY_API_KEY"))
+    foundry_configured = bool(os.getenv(_ENV_AZURE_FOUNDRY_API_KEY))
     foundry_endpoints = []
     for k, v in os.environ.items():
-        if k.startswith("AZURE_FOUNDRY_ENDPOINT") and v:
+        if k.startswith(_ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX) and v:
             foundry_endpoints.append(v)
 
     discovered["providers"]["azure_foundry"] = {
@@ -1180,26 +1311,26 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         print("[Discovery] Checking Azure OpenAI...")
 
     azure_slots = []
-    for i in range(10):
-        ep = os.getenv(f"AZURE_OPENAI_ENDPOINT_{i}")
-        key = os.getenv(f"AZURE_OPENAI_API_KEY_{i}")
-        deployment = os.getenv(f"AZURE_OPENAI_DEPLOYMENT_{i}")
+    for i in range(_AZURE_SLOT_RANGE):
+        ep = os.getenv(f"{_ENV_AZURE_OPENAI_ENDPOINT}_{i}")
+        key = os.getenv(f"{_ENV_AZURE_OPENAI_API_KEY}_{i}")
+        deployment = os.getenv(f"{_ENV_AZURE_OPENAI_DEPLOYMENT}_{i}")
         if ep and key:
             azure_slots.append(
                 {
                     "slot": i,
-                    "endpoint": ep[:50] + "..." if len(ep) > 50 else ep,
+                    "endpoint": ep[:_ENDPOINT_TRUNCATION_LENGTH] + "..." if len(ep) > _ENDPOINT_TRUNCATION_LENGTH else ep,
                     "deployment": deployment,
                 }
             )
 
     # Also check default env vars
-    if os.getenv("AZURE_OPENAI_ENDPOINT") and os.getenv("AZURE_OPENAI_API_KEY"):
+    if os.getenv(_ENV_AZURE_OPENAI_ENDPOINT) and os.getenv(_ENV_AZURE_OPENAI_API_KEY):
         azure_slots.append(
             {
                 "slot": "default",
-                "endpoint": os.getenv("AZURE_OPENAI_ENDPOINT", "")[:50],
-                "deployment": os.getenv("AZURE_OPENAI_DEPLOYMENT"),
+                "endpoint": os.getenv(_ENV_AZURE_OPENAI_ENDPOINT, "")[:_ENDPOINT_TRUNCATION_LENGTH],
+                "deployment": os.getenv(_ENV_AZURE_OPENAI_DEPLOYMENT),
             }
         )
 
@@ -1213,19 +1344,19 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if verbose:
         print("[Discovery] Checking OpenAI API...")
 
-    openai_configured = bool(os.getenv("OPENAI_API_KEY"))
+    openai_configured = bool(os.getenv(_ENV_OPENAI_API_KEY))
     openai_models = []
 
     if openai_configured:
         try:
             from llm_client import LLMClient
 
-            openai_models = [f"openai:{m}" for m in LLMClient.list_openai_models()[:20]]
+            openai_models = [f"{_PREFIX_OPENAI}{m}" for m in LLMClient.list_openai_models()[:20]]
         except Exception:
             openai_models = [
-                "openai:gpt-4o",
-                "openai:gpt-4o-mini",
-                "openai:gpt-4-turbo",
+                f"{_PREFIX_OPENAI}gpt-4o",
+                f"{_PREFIX_OPENAI}gpt-4o-mini",
+                f"{_PREFIX_OPENAI}gpt-4-turbo",
             ]
 
     discovered["providers"]["openai"] = {
@@ -1242,17 +1373,26 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     windows_ai_error = None
     windows_ai_ready_state = None
 
-    if sys.platform == "win32" and shutil.which("dotnet"):
+    if sys.platform == _PLATFORM_WINDOWS and shutil.which("dotnet"):
         bridge_proj = (
-            Path(__file__).parent / "windows_ai_bridge" / "PhiSilicaBridge.csproj"
+            Path(__file__).parent
+            / _WINDOWS_AI_BRIDGE_DIR
+            / _WINDOWS_AI_BRIDGE_PROJECT
         )
         if bridge_proj.exists():
             try:
                 result = subprocess.run(
-                    ["dotnet", "run", "--project", str(bridge_proj), "--", "--info"],
+                    [
+                        "dotnet",
+                        "run",
+                        _DOTNET_CLI_ARG_PROJECT,
+                        str(bridge_proj),
+                        "--",
+                        _WINDOWS_AI_CLI_ARG_INFO,
+                    ],
                     capture_output=True,
                     text=True,
-                    timeout=60,
+                    timeout=_TIMEOUT_WINDOWS_AI_BRIDGE,
                     cwd=str(bridge_proj.parent),
                 )
                 stdout = (result.stdout or "").strip()
@@ -1282,7 +1422,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     discovered["providers"]["windows_ai"] = {
         "available": windows_ai_available,
         "readyState": windows_ai_ready_state,
-        "models": ["windows-ai:phi-silica"] if windows_ai_available else [],
+        "models": [_WINDOWS_AI_MODEL_ID] if windows_ai_available else [],
         "error": windows_ai_error,
     }
 
@@ -1290,9 +1430,9 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     if verbose:
         print("[Discovery] Checking AI Toolkit local models...")
 
-    aitk_base = Path.home() / ".aitk"
-    aitk_models_dir = aitk_base / "models"
-    aitk_modelinfo = aitk_models_dir / "foundry.modelinfo.json"
+    aitk_base = Path.home() / _AITK_HOME_DIR
+    aitk_models_dir = aitk_base / _AITK_MODELS_DIR
+    aitk_modelinfo = aitk_models_dir / _AITK_MODELINFO_FILE
 
     aitk_models = []
     aitk_catalog = []  # Available but not downloaded
@@ -1306,10 +1446,10 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         # Get downloaded models
         downloaded = []
         for subdir in aitk_models_dir.iterdir():
-            if subdir.is_dir() and subdir.name not in ("Microsoft",):
+            if subdir.is_dir() and subdir.name != _AITK_MS_SUBDIR:
                 downloaded.append(subdir.name)
         # Also check Microsoft subdir
-        ms_dir = aitk_models_dir / "Microsoft"
+        ms_dir = aitk_models_dir / _AITK_MS_SUBDIR
         if ms_dir.exists():
             for subdir in ms_dir.iterdir():
                 if subdir.is_dir():
@@ -1320,13 +1460,13 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
             # Simplify name for model ID
             simple_name = d.lower()
             # Remove version suffixes like "-generic-cpu-5"
-            for suffix in ["-generic-cpu", "-generic-gpu", "-cpu", "-gpu"]:
+            for suffix in [_AITK_SUFFIX_GENERIC_CPU, _AITK_SUFFIX_GENERIC_GPU, _AITK_SUFFIX_CPU, _AITK_SUFFIX_GPU]:
                 if suffix in simple_name:
                     simple_name = simple_name.split(suffix)[0]
             # Remove trailing version numbers like -1, -2, -3
             while simple_name and simple_name[-1].isdigit():
-                simple_name = simple_name.rstrip("0123456789-")
-            aitk_models.append(f"aitk:{simple_name}")
+                simple_name = simple_name.rstrip(_AITK_TRAILING_CHARS)
+            aitk_models.append(f"{_PREFIX_AITK}{simple_name}")
 
         # Deduplicate
         aitk_models = list(dict.fromkeys(aitk_models))
@@ -1336,10 +1476,10 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
             try:
                 info = json.loads(aitk_modelinfo.read_text(encoding="utf-8"))
                 for m in info.get("models", []):
-                    if m.get("task") == "chat-completion":
+                    if m.get("task") == _AITK_MODELS_TASK_TYPE:
                         alias = m.get("alias", "")
                         if alias:
-                            catalog_id = f"aitk:{alias}"
+                            catalog_id = f"{_PREFIX_AITK}{alias}"
                             if catalog_id not in aitk_models:
                                 aitk_catalog.append(catalog_id)
             except Exception:
@@ -1348,7 +1488,7 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
     discovered["providers"]["ai_toolkit"] = {
         "available": aitk_models,
         "count": len(aitk_models),
-        "catalog": aitk_catalog[:10],  # First 10 not-downloaded models
+        "catalog": aitk_catalog[:_GH_CLI_OUTPUT_MODELS_LIMIT],  # First N not-downloaded models
         "path": str(aitk_models_dir) if aitk_models_dir.exists() else None,
         "error": aitk_error,
         "notes": "FREE local ONNX models via VS Code AI Toolkit (NOT cloud/paid)",
