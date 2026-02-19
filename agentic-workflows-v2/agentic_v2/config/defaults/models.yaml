@@ -108,11 +108,6 @@ providers:
         capabilities: ["reasoning", "math"]
         cost_tier: "premium"
 
-      - id: "gh:openai/gpt-4o"
-        name: gpt-4o
-        capabilities: ["reasoning", "review"]
-        cost_tier: "premium"
-
       - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
