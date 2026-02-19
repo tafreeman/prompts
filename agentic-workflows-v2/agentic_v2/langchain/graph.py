@@ -17,7 +17,7 @@ import logging
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from langchain_core.messages import AIMessage, HumanMessage
 from langgraph.graph import END, START, StateGraph
@@ -26,6 +26,8 @@ from .agents import create_agent, parse_agent_tier
 from .config import StepConfig, WorkflowConfig
 from .expressions import evaluate_condition, resolve_expression
 from .state import WorkflowState
+from ..integrations.base import TraceAdapter
+from ..integrations.tracing import NullTraceAdapter
 
 logger = logging.getLogger(__name__)
 
@@ -251,6 +253,7 @@ def _parse_step_outputs(response_text: Any) -> dict[str, Any]:
 def _make_step_node(
     step: StepConfig,
     workflow: WorkflowConfig,
+    trace_adapter: Optional[TraceAdapter] = None,
 ):
     """Create a graph node function for a workflow step.
 
@@ -258,12 +261,16 @@ def _make_step_node(
     ``graph.add_node()``.
     """
     tier = parse_agent_tier(step.agent)
+    _trace = trace_adapter or NullTraceAdapter()
 
     # Tier 0: deterministic
     if tier == 0:
         deterministic_fn = _TIER0_REGISTRY.get(step.agent)
 
         def _tier0_node(state: WorkflowState) -> dict[str, Any]:
+            run_id = state.get("context", {}).get("workflow_run_id", "")
+            _trace.emit_step_start(step.name, run_id, {})
+
             ctx, _ = _resolve_inputs_into_context(step, state)
 
             updated = {**state, "context": ctx}
@@ -291,6 +298,8 @@ def _make_step_node(
                 dict(result.get("context", ctx)),
             )
 
+            _trace.emit_step_complete(step.name, run_id, "success", step_outputs)
+
             return {
                 "context": final_ctx,
                 "steps": steps,
@@ -308,7 +317,10 @@ def _make_step_node(
     )
 
     def _llm_node(state: WorkflowState) -> dict[str, Any]:
+        run_id = state.get("context", {}).get("workflow_run_id", "")
         ctx, resolved_inputs = _resolve_inputs_into_context(step, state)
+        _trace.emit_step_start(step.name, run_id, resolved_inputs)
+
         task_description = _build_task_description(step, resolved_inputs)
 
         # Invoke the react agent
@@ -326,6 +338,7 @@ def _make_step_node(
                 {},
                 error=str(e),
             )
+            _trace.emit_step_complete(step.name, run_id, "failed", {"error": str(e)})
             return {
                 "context": ctx,
                 "steps": steps,
@@ -345,6 +358,8 @@ def _make_step_node(
             step_outputs,
         )
 
+        _trace.emit_step_complete(step.name, run_id, "success", step_outputs)
+
         return {
             "context": ctx,
             "steps": steps,
@@ -360,10 +375,14 @@ def _make_step_node(
 # ---------------------------------------------------------------------------
 
 
-def _add_step_nodes(graph: StateGraph, config: WorkflowConfig) -> None:
+def _add_step_nodes(
+    graph: StateGraph,
+    config: WorkflowConfig,
+    trace_adapter: Optional[TraceAdapter] = None,
+) -> None:
     """Add one graph node per configured workflow step."""
     for step in config.steps:
-        graph.add_node(step.name, _make_step_node(step, config))
+        graph.add_node(step.name, _make_step_node(step, config, trace_adapter))
 
 
 def _add_start_edges(graph: StateGraph, root_steps: list[str]) -> None:
@@ -446,13 +465,21 @@ def _compile_graph(graph: StateGraph, checkpointer: Any = None) -> Any:
         return graph.compile()
 
 
-def compile_workflow(config: WorkflowConfig, checkpointer: Any = None) -> Any:
+def compile_workflow(
+    config: WorkflowConfig,
+    checkpointer: Any = None,
+    trace_adapter: Optional[TraceAdapter] = None,
+) -> Any:
     """Compile a ``WorkflowConfig`` into a runnable LangGraph.
 
     Parameters
     ----------
     config:
         Parsed workflow config from YAML.
+    checkpointer:
+        Optional LangGraph checkpointer for persistence.
+    trace_adapter:
+        Optional trace adapter for step-level observability.
 
     Returns
     -------
@@ -465,7 +492,7 @@ def compile_workflow(config: WorkflowConfig, checkpointer: Any = None) -> Any:
     step_names = {s.name for s in config.steps}
     root_steps = [s.name for s in config.steps if not s.depends_on]
 
-    _add_step_nodes(graph, config)
+    _add_step_nodes(graph, config, trace_adapter)
     _add_start_edges(graph, root_steps)
     _validate_dependencies(config, step_names)
     _wire_dependency_edges(graph, _build_outgoing_map(config))
@@ -513,7 +540,7 @@ def _add_loop_edge(graph: StateGraph, step: StepConfig) -> None:
     def _loop_route(state: WorkflowState) -> str:
         # Check iteration count
         step_data = state.get("steps", {}).get(step.name, {})
-        iteration = step_data.get("loop_iteration", 1)
+        iteration = step_data.get("loop_iteration", 0)
 
         if iteration >= max_iters:
             return END

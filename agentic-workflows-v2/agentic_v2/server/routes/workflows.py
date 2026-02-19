@@ -13,6 +13,7 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import StreamingResponse
 
 from ...contracts import StepStatus
+from ...integrations.otel import create_trace_adapter
 from ...langchain import WorkflowRunner as LangChainRunner
 from ...langchain import list_workflows as lc_list_workflows
 from ...langchain import load_workflow_config
@@ -39,7 +40,7 @@ from ..models import (
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
 # LangChain runner — primary execution engine for this branch
-lc_runner = LangChainRunner()
+lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
 run_logger = RunLogger()
 
 
@@ -446,9 +447,9 @@ async def _run_and_evaluate(
                 "type": "workflow_end",
                 "run_id": run_id,
                 "status": status,
-                "outputs": result.outputs,
-                "elapsed_seconds": result.elapsed_seconds,
-                "errors": result.errors,
+                "outputs": getattr(result, 'outputs', None) or getattr(result, 'final_output', {}),
+                "elapsed_seconds": getattr(result, 'elapsed_seconds', 0.0),
+                "errors": getattr(result, 'errors', []),
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
