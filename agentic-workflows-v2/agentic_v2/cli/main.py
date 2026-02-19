@@ -10,9 +10,22 @@ Commands:
 from __future__ import annotations
 
 import asyncio
+import atexit
 import json
 from pathlib import Path
 from typing import Optional
+
+# Load .env before anything reads os.environ
+try:
+    from dotenv import load_dotenv
+
+    for _parent in Path(__file__).resolve().parents:
+        _env_path = _parent / ".env"
+        if _env_path.is_file():
+            load_dotenv(_env_path, override=False)
+            break
+except ImportError:
+    pass
 
 import typer
 from rich.console import Console
@@ -21,6 +34,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn
 from rich.table import Table
 from rich.tree import Tree
 
+from ..integrations.otel import create_trace_adapter, shutdown_tracing
 from ..langchain import WorkflowRunner, list_workflows as lc_list_workflows
 from ..langchain import load_workflow_config
 from ..langchain.graph import compile_workflow
@@ -33,7 +47,13 @@ app = typer.Typer(
 )
 
 console = Console()
-_runner = WorkflowRunner()
+
+# Initialize tracing adapter (respects AGENTIC_TRACING env var)
+_trace_adapter = create_trace_adapter()
+_runner = WorkflowRunner(trace_adapter=_trace_adapter)
+
+# Register shutdown hook for tracing cleanup
+atexit.register(shutdown_tracing)
 
 
 @app.command()

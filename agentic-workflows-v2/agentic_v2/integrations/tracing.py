@@ -5,7 +5,7 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from .base import TraceAdapter, CanonicalEvent
 
@@ -116,6 +116,68 @@ class NullTraceAdapter(TraceAdapter):
     def emit(self, event: CanonicalEvent) -> None:
         """Discard event."""
         pass
+
+
+class OtelTraceAdapter(TraceAdapter):
+    """Trace adapter that emits workflow events as OpenTelemetry spans.
+
+    Tracks workflow and step lifecycles via explicit span management,
+    mapping run_id to workflow spans and run_id:step_name to step spans.
+    """
+
+    _SENSITIVE_KEYS = frozenset({"inputs", "outputs", "prompt", "response", "content"})
+
+    def __init__(self, tracer: Any, capture_sensitive: bool = False):
+        self._tracer = tracer
+        self._capture_sensitive = capture_sensitive
+        self._workflow_spans: dict[str, Any] = {}
+
+    def _sanitize_data(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Filter sensitive fields from event data when capture is disabled."""
+        if self._capture_sensitive:
+            return dict(data)
+        return {k: v for k, v in data.items() if k not in self._SENSITIVE_KEYS}
+
+    def emit(self, event: CanonicalEvent) -> None:
+        try:
+            self._emit_impl(event)
+        except Exception as exc:
+            logger.warning("OtelTraceAdapter emit failed for %s: %s", event.type, exc)
+
+    def _emit_impl(self, event: CanonicalEvent) -> None:
+        run_id = event.data.get("run_id")
+        sanitized = self._sanitize_data(event.data)
+
+        if event.type == "workflow_start":
+            span = self._tracer.start_span(event.type, attributes=sanitized)
+            if run_id:
+                self._workflow_spans[run_id] = span
+            return
+
+        if event.type == "workflow_end":
+            if run_id and run_id in self._workflow_spans:
+                span = self._workflow_spans.pop(run_id)
+                span.end()
+            return
+
+        if event.type == "step_start":
+            span = self._tracer.start_span(event.type, attributes=sanitized)
+            step_name = event.step_name or event.data.get("step_name")
+            if run_id and step_name:
+                self._workflow_spans[f"{run_id}:{step_name}"] = span
+            return
+
+        if event.type == "step_complete":
+            step_name = event.step_name or event.data.get("step_name")
+            key = f"{run_id}:{step_name}" if run_id and step_name else None
+            if key and key in self._workflow_spans:
+                span = self._workflow_spans.pop(key)
+                span.end()
+            return
+
+        # Generic event — fire-and-forget span
+        span = self._tracer.start_span(event.type, attributes=sanitized)
+        span.end()
 
 
 class LangSmithTraceAdapter(TraceAdapter):

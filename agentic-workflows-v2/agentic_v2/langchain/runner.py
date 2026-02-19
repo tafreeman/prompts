@@ -112,6 +112,8 @@ class WorkflowRunner:
         state = initial_state(workflow_inputs=validated)
         # Seed context with inputs so ${inputs.X} resolves
         state["context"]["inputs"] = validated
+        # Seed workflow_run_id for step tracing
+        state["context"]["workflow_run_id"] = run_id
 
         start = time.perf_counter()
         try:
@@ -508,12 +510,17 @@ class WorkflowRunner:
         cache_key = (
             config.name,
             id(self._checkpointer) if self._checkpointer is not None else None,
+            id(self._trace_adapter),
         )
 
         if use_cache and cache_key in self._graph_cache:
             return self._graph_cache[cache_key]
 
-        compiled = compile_workflow(config, checkpointer=self._checkpointer)
+        compiled = compile_workflow(
+            config,
+            checkpointer=self._checkpointer,
+            trace_adapter=self._trace_adapter,
+        )
         if use_cache:
             self._graph_cache[cache_key] = compiled
         return compiled
