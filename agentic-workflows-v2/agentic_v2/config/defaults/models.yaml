@@ -29,7 +29,7 @@ providers:
         context_length: 4096
         cost_tier: "free"
 
-      - id: "gh:openai/gpt-4o"
+      - id: "local:phi3.5-vision"
         name: Phi-3.5 Vision
         capabilities: ["vision", "text"]
         device: "npu"
@@ -103,11 +103,6 @@ providers:
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
-      - id: "gh:openai/gpt-4o"
-        name: gpt-4o
-        capabilities: ["reasoning", "math"]
-        cost_tier: "premium"
-
       - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
@@ -143,11 +138,6 @@ providers:
     available:
       - id: "gpt-4o"
         name: GPT-4o
-        capabilities: ["text", "reasoning", "code"]
-        cost_tier: "premium"
-
-      - id: "gpt-4o"
-        name: gpt-4o
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 

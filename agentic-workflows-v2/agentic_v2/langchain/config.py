@@ -122,19 +122,19 @@ def load_workflow_config(
     """
     base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
     base = base.resolve()
-    
+
     # Validate name to prevent path traversal
     if ".." in name or "/" in name or "\\" in name:
         raise ValueError(f"Invalid workflow name: {name}")
-    
-    path = base / f"{name}.yaml"
-    # Verify resolved path is within base directory
-    if not path.resolve().is_relative_to(base):
+
+    # Resolve immediately so all subsequent operations use the canonical path
+    path = (base / f"{name}.yaml").resolve()
+    if not path.is_relative_to(base):
         raise ValueError(f"Invalid workflow name: {name}")
-    
+
     if not path.exists():
-        path = base / f"{name}.yml"
-        if not path.resolve().is_relative_to(base):
+        path = (base / f"{name}.yml").resolve()
+        if not path.is_relative_to(base):
             raise ValueError(f"Invalid workflow name: {name}")
     
     if not path.exists():
