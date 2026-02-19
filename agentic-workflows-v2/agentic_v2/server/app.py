@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 
 from . import websocket
 from .routes import agents, health, workflows
+from ..integrations.otel import is_tracing_enabled, shutdown_tracing
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -67,10 +68,13 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     async def startup_event():
         logger.info("Starting Agentic Workflows V2 Server")
+        if is_tracing_enabled():
+            logger.info("OpenTelemetry tracing is enabled")
 
     @app.on_event("shutdown")
     async def shutdown_event():
         logger.info("Shutting down Agentic Workflows V2 Server")
+        shutdown_tracing()
 
     return app
 

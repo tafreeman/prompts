@@ -99,18 +99,13 @@ providers:
         cost_tier: "premium"
 
       - id: "gh:openai/gpt-4o-mini"
-        name: GPT-4o Mini
+        name: gpt-4o Mini
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
-      - id: "gh:openai/o3-mini"
-        name: o3-mini
+      - id: "gh:openai/gpt-4o"
+        name: gpt-4o
         capabilities: ["reasoning", "math"]
-        cost_tier: "premium"
-
-      - id: "gh:openai/o4-mini"
-        name: o4-mini
-        capabilities: ["reasoning", "review"]
         cost_tier: "premium"
 
       - id: "gh:deepseek/deepseek-r1"
@@ -151,8 +146,8 @@ providers:
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gpt-4.1"
-        name: GPT-4.1
+      - id: "gpt-4o"
+        name: gpt-4o
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
@@ -165,7 +160,7 @@ routing:
 
   # Complex reasoning tasks - use best reasoning models, fallback to local
   reasoning_complex:
-    preferred: ["gh:openai/gpt-5-mini", "gh:openai/o3-mini", "gh:deepseek/deepseek-r1-0528"]
+    preferred: ["gh:openai/gpt-5-mini", "gh:openai/gpt-4o", "gh:deepseek/deepseek-r1-0528"]
     fallback: ["ollama:deepseek-r1:14b", "ollama:phi4-reasoning:latest", "local:phi4"]
 
   # Premium code generation - GPT-5 mini + Codestral + DeepSeek, fallback to Ollama coders
@@ -175,22 +170,22 @@ routing:
 
   # Fast code generation - smaller efficient models with local fallbacks
   code_gen_fast:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:microsoft/phi-4-mini-instruct"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:microsoft/phi-4-mini-instruct"]
     fallback: ["ollama:qwen2.5-coder:14b", "local:phi4mini", "aitk:qwen2.5-coder-7b-instruct"]
 
   # Code Review - reasoning-focused models with local reasoning fallbacks
   code_review:
-    preferred: ["gh:openai/o4-mini", "gh:openai/gpt-5-mini", "gh:microsoft/phi-4-reasoning"]
+    preferred: ["gh:openai/gpt-4o", "gh:openai/gpt-5-mini", "gh:microsoft/phi-4-reasoning"]
     fallback: ["ollama:phi4-reasoning:latest", "ollama:deepseek-r1:14b", "local:phi4"]
 
   # Chat/Coordination - fast general models with local fallbacks
   coordination:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:mistral-ai/mistral-small-2503"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:mistral-ai/mistral-small-2503"]
     fallback: ["ollama:gemma3:4b", "local:phi4mini", "aitk:phi-4-mini-instruct"]
     
   # Documentation - balanced quality + speed with local fallbacks
   documentation:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:openai/gpt-5-mini"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:openai/gpt-5-mini"]
     fallback: ["ollama:qwen2.5-coder:14b", "ollama:qwen3:8b", "local:phi4"]
 
 # Fallback strategy

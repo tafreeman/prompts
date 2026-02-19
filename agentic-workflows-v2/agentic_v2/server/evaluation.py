@@ -760,8 +760,10 @@ def match_workflow_dataset(
         if _is_empty_value(value):
             missing_reasons.append(f"missing: {input_name}")
 
-    if workflow_def.capabilities.inputs:
-        for capability_input in workflow_def.capabilities.inputs:
+    caps = workflow_def.capabilities
+    capability_inputs = caps.get("inputs", []) if isinstance(caps, dict) else getattr(caps, "inputs", [])
+    if capability_inputs:
+        for capability_input in capability_inputs:
             input_def = workflow_def.inputs.get(capability_input)
             if input_def is not None and input_def.default not in (None, ""):
                 continue
@@ -801,10 +803,11 @@ def _extract_expected_text(sample: dict[str, Any]) -> str:
 
 
 def _output_text(result: WorkflowResult) -> str:
+    final = getattr(result, "final_output", None) or getattr(result, "outputs", {})
     try:
-        return json.dumps(result.final_output, default=str)
+        return json.dumps(final, default=str)
     except Exception:
-        return str(result.final_output)
+        return str(final)
 
 
 def _text_overlap_score(expected: str, generated: str) -> float:
@@ -821,24 +824,47 @@ def _compute_criterion_score(
     result: WorkflowResult,
     expected_text: str,
 ) -> float:
-    success_rate = float(result.success_rate)
-    total_steps = max(len(result.steps), 1)
-    failed_steps = len(result.failed_steps)
-    retries = result.total_retries
-    duration_ms = result.total_duration_ms or 0.0
+    # Support both contract WorkflowResult and langchain runner WorkflowResult
+    if hasattr(result, "success_rate"):
+        success_rate = float(result.success_rate)
+        total_steps = max(len(result.steps), 1)
+        failed_steps = len(result.failed_steps)
+        retries = result.total_retries
+        duration_ms = result.total_duration_ms or 0.0
+    else:
+        # langchain WorkflowResult: derive metrics from available fields
+        status = getattr(result, "status", "unknown")
+        success_rate = 100.0 if status == "success" else 0.0
+        steps = getattr(result, "steps", {})
+        total_steps = max(len(steps), 1)
+        errors = getattr(result, "errors", [])
+        failed_steps = len(errors)
+        retries = 0
+        elapsed = getattr(result, "elapsed_seconds", 0.0)
+        duration_ms = elapsed * 1000.0
     output_text = _output_text(result)
+
+    # Normalize status check across both result types
+    _overall = getattr(result, "overall_status", None)
+    if _overall is None:
+        _status_str = getattr(result, "status", "unknown")
+        is_failed = _status_str != "success"
+        is_success = _status_str == "success"
+    else:
+        is_failed = _overall == StepStatus.FAILED
+        is_success = _overall == StepStatus.SUCCESS
 
     if criterion == "correctness":
         overlap = _text_overlap_score(expected_text, output_text) if expected_text else success_rate
         blended = (success_rate * 0.7) + (overlap * 0.3)
-        if result.overall_status == StepStatus.FAILED:
+        if is_failed:
             blended *= 0.75
         return _clamp(blended)
 
     if criterion == "code_quality":
         failure_penalty = (failed_steps / total_steps) * 45.0
         retry_penalty = min(retries * 4.0, 20.0)
-        status_bonus = 8.0 if result.overall_status == StepStatus.SUCCESS else -12.0
+        status_bonus = 8.0 if is_success else -12.0
         score = 78.0 - failure_penalty - retry_penalty + status_bonus
         return _clamp(score)
 
@@ -853,10 +879,11 @@ def _compute_criterion_score(
         if not output_text:
             return 20.0
         chars = len(output_text)
-        key_count = len(result.final_output.keys()) if isinstance(result.final_output, dict) else 1
+        final_out = getattr(result, "final_output", None) or getattr(result, "outputs", {})
+        key_count = len(final_out.keys()) if isinstance(final_out, dict) else 1
         richness = min(chars / 120.0, 45.0) + min(key_count * 6.0, 30.0)
         base = 30.0 + richness
-        if result.overall_status == StepStatus.FAILED:
+        if is_failed:
             base -= 15.0
         return _clamp(base)
 

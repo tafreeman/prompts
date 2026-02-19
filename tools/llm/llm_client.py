@@ -543,23 +543,11 @@ class LLMClient:
 
         # Parse model key
         model_key = model_name.split(":", 1)[1] if ":" in model_name else "phi4mini"
+        if model_key.lower() not in LLMClient.LOCAL_MODELS:
+            return f"Local model error: Unknown local model key: {model_key}"
 
-        # Find model path
-        model_dir_name = LLMClient.LOCAL_MODELS.get(model_key.lower())
-        if model_dir_name:
-            ai_gallery = Path.home() / ".cache" / "aigallery" / model_dir_name
-            if ai_gallery.exists():
-                # Find the ONNX subdirectory
-                for subdir in ai_gallery.rglob("*cpu*"):
-                    if subdir.is_dir() and any(subdir.glob("*.onnx")):
-                        model_path = str(subdir)
-                        break
-                else:
-                    model_path = None
-            else:
-                model_path = None
-        else:
-            model_path = None
+        model_path_obj = LLMClient._resolve_local_model_path(model_key)
+        model_path = str(model_path_obj) if model_path_obj else None
 
         # Create a lock to indicate this local model is in use.
         # This helps parallel evaluation scripts avoid conflicts.
@@ -571,7 +559,7 @@ class LLMClient:
             pass
 
         try:
-            lm = LocalModel(model_path=model_path, verbose=False)
+            lm = LocalModel(model_path=model_path, model_key=model_key, verbose=False)
             full_prompt = prompt
             if system_instruction:
                 full_prompt = f"System: {system_instruction}\n\nUser: {prompt}"
@@ -580,6 +568,66 @@ class LLMClient:
             )
         except Exception as e:
             return f"Local model error: {str(e)}"
+
+    @staticmethod
+    def _resolve_local_model_path(model_key: str) -> Optional[Path]:
+        """Resolve local model key to the best ONNX directory.
+
+        Supports explicit variant keys (cpu/gpu/directml) and avoids silently
+        falling back to CPU-only paths when a GPU key is requested.
+        """
+        spec = LLMClient.LOCAL_MODELS.get(model_key.lower())
+        if not spec:
+            return None
+
+        ai_gallery_root = Path.home() / ".cache" / "aigallery"
+        spec_norm = str(spec).replace("\\", "/").strip("/")
+        direct_path = ai_gallery_root / spec_norm
+        if direct_path.is_dir():
+            try:
+                if any(direct_path.glob("*.onnx")):
+                    return direct_path
+            except OSError:
+                pass
+
+        top_dir_name = spec_norm.split("/", 1)[0]
+        top_dir = ai_gallery_root / top_dir_name
+        if not top_dir.exists():
+            return None
+
+        candidates: list[Path] = []
+        for subdir in top_dir.rglob("*"):
+            if not subdir.is_dir():
+                continue
+            try:
+                if any(subdir.glob("*.onnx")):
+                    candidates.append(subdir)
+            except OSError:
+                continue
+
+        if not candidates:
+            return None
+
+        candidates.sort(key=lambda p: str(p).lower())
+        variant_hint = model_key.lower()
+        preferred_tokens: list[str] = []
+        if any(token in variant_hint for token in ["gpu", "dml", "directml"]):
+            preferred_tokens = ["directml", "gpu"]
+        elif "cpu" in variant_hint:
+            preferred_tokens = ["cpu"]
+
+        for token in preferred_tokens:
+            for candidate in candidates:
+                if token in str(candidate).lower():
+                    return candidate
+
+        if "/" in spec_norm:
+            wanted_suffix = spec_norm.split("/", 1)[1].lower()
+            for candidate in candidates:
+                if str(candidate).replace("\\", "/").lower().endswith(wanted_suffix):
+                    return candidate
+
+        return candidates[0]
 
     @staticmethod
     def _call_windows_ai(
@@ -654,11 +702,6 @@ class LLMClient:
             "gpt-4.1-mini": "openai/gpt-4.1-mini",
             "gpt-5": "openai/gpt-5",
             "gpt-5-mini": "openai/gpt-5-mini",
-            "o1": "openai/o1",
-            "o1-mini": "openai/o1-mini",
-            "o3": "openai/o3",
-            "o3-mini": "openai/o3-mini",
-            "o4-mini": "openai/o4-mini",
             "llama-3.3-70b": "meta/llama-3.3-70b-instruct",
             "llama-4-scout": "meta/llama-4-scout-17b-16e-instruct",
             "llama-4-maverick": "meta/llama-4-maverick-17b-128e-instruct-fp8",

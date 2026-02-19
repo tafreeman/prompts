@@ -127,7 +127,7 @@ workflow:
       name: Task Planner
       role: Plan-to-Tasks Translator
       model_tier: 3
-      model: "gh:openai/o3-mini"
+      model: "gh:openai/gpt-4o"
       tools:
         - file_read
         - file_write
@@ -206,7 +206,7 @@ workflow:
       name: AI Expert Agent
       role: AI/ML Implementation Specialist
       model_tier: 3
-      model: "gh:openai/o3-mini"
+      model: "gh:openai/gpt-4o"
       tools:
         - file_read
         - file_write
@@ -288,7 +288,7 @@ workflow:
       name: Judge Agent
       role: Quality Arbiter & Decision Maker
       model_tier: 3  # Needs sophisticated reasoning
-      model: "gh:openai/o3-mini"
+      model: "gh:openai/gpt-4o"
       tools:
         - file_read
         - grep_search

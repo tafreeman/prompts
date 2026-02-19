@@ -255,6 +255,30 @@ class WorkflowRunner:
             await runtime.cleanup()
             raise
 
+        # Create trace-aware callback that emits step events and forwards to user callback
+        async def trace_on_update(event: dict[str, Any]) -> None:
+            event_type = event.get("type", "")
+            run_id = event.get("run_id", "")
+            step_name = event.get("step", "")
+
+            if event_type == "step_start":
+                self._trace_adapter.emit_step_start(
+                    step_name=step_name,
+                    run_id=run_id,
+                    inputs=event.get("inputs", {}),
+                )
+            elif event_type == "step_end":
+                self._trace_adapter.emit_step_complete(
+                    step_name=step_name,
+                    run_id=run_id,
+                    status=event.get("status", "unknown"),
+                    outputs=event.get("outputs", {}),
+                )
+
+            # Forward to user callback if provided
+            if on_update:
+                await on_update(event)
+
         executor = DAGExecutor(step_executor=self._step_executor)
         runtime_artifacts: dict[str, Any] = {}
         try:
@@ -262,7 +286,7 @@ class WorkflowRunner:
                 definition.dag,
                 ctx,
                 max_concurrency=self._max_concurrency,
-                on_update=on_update,
+                on_update=trace_on_update,
             )
         finally:
             try:
