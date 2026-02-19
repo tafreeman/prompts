@@ -8,6 +8,7 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
+import os
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import StreamingResponse
@@ -42,6 +43,27 @@ router = APIRouter(tags=["workflows"])
 # LangChain runner — primary execution engine for this branch
 lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
 run_logger = RunLogger()
+
+
+def _is_within_base(path, base_dir) -> bool:
+    """
+    Return True if ``path`` is within ``base_dir`` after resolution.
+
+    Uses pathlib's is_relative_to when available, with a safe fallback
+    for older Python versions.
+    """
+    from pathlib import Path
+
+    resolved_base = Path(base_dir).resolve()
+    resolved_path = Path(path).resolve()
+    try:
+        return resolved_path.is_relative_to(resolved_base)
+    except AttributeError:
+        base_str = os.fspath(resolved_base)
+        path_str = os.fspath(resolved_path)
+        if path_str == base_str:
+            return True
+        return path_str.startswith(base_str + os.sep)
 
 
 def _is_effectively_empty(value: Any) -> bool:
@@ -188,10 +210,16 @@ async def runs_summary(workflow: Optional[str] = None):
 @router.get("/runs/{filename}")
 async def get_run(filename: str):
     """Get full run detail including all step data."""
-    path = run_logger.runs_dir / filename
-    if not path.exists():
+    from pathlib import Path
+
+    base_dir = run_logger.runs_dir
+    candidate = (base_dir / filename).resolve()
+    if not _is_within_base(candidate, base_dir):
+        # Do not leak filesystem layout; treat as not found
         raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
-    return run_logger.load_run(path)
+    if not Path(candidate).exists():
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
+    return run_logger.load_run(candidate)
 
 
 @router.get("/runs/{run_id}/stream")

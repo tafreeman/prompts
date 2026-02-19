@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+import os
 
 import yaml
 
@@ -106,6 +107,50 @@ class WorkflowConfig:
 _DEFAULT_DEFINITIONS_DIR = Path(__file__).parent.parent / "workflows" / "definitions"
 
 
+def _is_within_base(path: Path, base: Path) -> bool:
+    """Return True if ``path`` is inside ``base`` after resolution."""
+    resolved_base = base.resolve()
+    resolved_path = path.resolve()
+    try:
+        # Python 3.9+
+        return resolved_path.is_relative_to(resolved_base)
+    except AttributeError:
+        base_str = os.fspath(resolved_base)
+        path_str = os.fspath(resolved_path)
+        if path_str == base_str:
+            return True
+        # Ensure we only match proper sub-paths, not common prefixes
+        return path_str.startswith(base_str + os.sep)
+
+
+def _safe_workflow_path(base: Path, name: str) -> Path:
+    """
+    Construct a safe workflow path under ``base`` from a workflow ``name``.
+
+    Rejects names containing path separators or traversal patterns and ensures
+    the final resolved path is within ``base``.
+    """
+    if not name or not isinstance(name, str):
+        raise ValueError("Workflow name must be a non-empty string")
+
+    # Disallow obvious traversal / absolute path patterns
+    if any(sep in name for sep in ("/", "\\", os.sep, os.pardir)):
+        raise ValueError(f"Invalid workflow name: {name}")
+
+    candidate = base / f"{name}.yaml"
+    if _is_within_base(candidate, base) and candidate.exists():
+        return candidate
+
+    candidate_yml = base / f"{name}.yml"
+    if _is_within_base(candidate_yml, base) and candidate_yml.exists():
+        return candidate_yml
+
+    available = list_workflows(base)
+    raise FileNotFoundError(
+        f"Workflow '{name}' not found in {base}. Available: {available}"
+    )
+
+
 def load_workflow_config(
     name: str,
     definitions_dir: Path | None = None,
@@ -120,28 +165,8 @@ def load_workflow_config(
         Directory containing YAML files.  Defaults to the package's
         built-in ``workflows/definitions/`` folder.
     """
-    base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
-    base = base.resolve()
-    
-    # Validate name to prevent path traversal
-    if ".." in name or "/" in name or "\\" in name:
-        raise ValueError(f"Invalid workflow name: {name}")
-    
-    path = base / f"{name}.yaml"
-    # Verify resolved path is within base directory
-    if not path.resolve().is_relative_to(base):
-        raise ValueError(f"Invalid workflow name: {name}")
-    
-    if not path.exists():
-        path = base / f"{name}.yml"
-        if not path.resolve().is_relative_to(base):
-            raise ValueError(f"Invalid workflow name: {name}")
-    
-    if not path.exists():
-        available = list_workflows(definitions_dir)
-        raise FileNotFoundError(
-            f"Workflow '{name}' not found in {base}. Available: {available}"
-        )
+    base = (definitions_dir or _DEFAULT_DEFINITIONS_DIR).resolve()
+    path = _safe_workflow_path(base, name)
     return _parse_file(path)
 
 
