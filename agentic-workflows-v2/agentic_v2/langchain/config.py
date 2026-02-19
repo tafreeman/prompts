@@ -127,21 +127,30 @@ def _safe_workflow_path(base: Path, name: str) -> Path:
     """
     Construct a safe workflow path under ``base`` from a workflow ``name``.
 
-    Rejects names containing path separators or traversal patterns and ensures
-    the final resolved path is within ``base``.
+    The workflow ``name`` is treated as a simple identifier (file stem) without
+    directory components or an extension. The resulting path is always
+    constructed under ``base`` and verified with ``_is_within_base``.
     """
     if not name or not isinstance(name, str):
         raise ValueError("Workflow name must be a non-empty string")
 
-    # Disallow obvious traversal / absolute path patterns
-    if any(sep in name for sep in ("/", "\\", os.sep, os.pardir)):
+    # Interpret name as a Path and ensure it is just a bare stem, not a path.
+    raw_path = Path(name)
+
+    # Reject absolute paths and any name that has directory components.
+    if raw_path.is_absolute() or raw_path.parent != Path("."):
         raise ValueError(f"Invalid workflow name: {name}")
 
-    candidate = base / f"{name}.yaml"
+    # We expect a bare name without an extension; derive the stem explicitly.
+    stem = raw_path.stem
+    if not stem or stem in (".", ".."):
+        raise ValueError(f"Invalid workflow name: {name}")
+
+    candidate = base / f"{stem}.yaml"
     if _is_within_base(candidate, base) and candidate.exists():
         return candidate
 
-    candidate_yml = base / f"{name}.yml"
+    candidate_yml = base / f"{stem}.yml"
     if _is_within_base(candidate_yml, base) and candidate_yml.exists():
         return candidate_yml
 
