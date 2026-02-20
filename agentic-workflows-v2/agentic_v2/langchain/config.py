@@ -11,6 +11,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+import re
 import yaml
 
 
@@ -122,21 +123,26 @@ def load_workflow_config(
     """
     base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
     base = base.resolve()
-    
-    # Validate name to prevent path traversal
-    if ".." in name or "/" in name or "\\" in name:
+
+    # Validate name strictly to prevent path traversal or absolute paths.
+    # Allow only word chars, dash, dot, and underscore (e.g. "my-workflow.v1").
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
         raise ValueError(f"Invalid workflow name: {name}")
-    
-    path = base / f"{name}.yaml"
-    # Verify resolved path is within base directory
-    if not path.resolve().is_relative_to(base):
-        raise ValueError(f"Invalid workflow name: {name}")
-    
-    if not path.exists():
-        path = base / f"{name}.yml"
-        if not path.resolve().is_relative_to(base):
+
+    # Helper to check that a candidate path is within the base directory
+    def _ensure_within_base(p: Path) -> Path:
+        resolved = p.resolve()
+        base_str = str(base)
+        resolved_str = str(resolved)
+        if not (resolved_str == base_str or resolved_str.startswith(base_str + str(Path.sep))):
             raise ValueError(f"Invalid workflow name: {name}")
-    
+        return resolved
+
+    # First try .yaml, then .yml
+    path = _ensure_within_base(base / f"{name}.yaml")
+    if not path.exists():
+        path = _ensure_within_base(base / f"{name}.yml")
+
     if not path.exists():
         available = list_workflows(definitions_dir)
         raise FileNotFoundError(
