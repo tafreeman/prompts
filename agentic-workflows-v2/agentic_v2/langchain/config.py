@@ -11,6 +11,7 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+import re
 
 import yaml
 
@@ -123,6 +124,20 @@ def _is_within_base(path: Path, base: Path) -> bool:
         return path_str.startswith(base_str + os.sep)
 
 
+def _validate_workflow_name(name: str) -> str:
+    """
+    Validate that the workflow name is a simple, safe identifier.
+
+    Only allow alphanumeric characters, underscores, and hyphens to avoid any
+    path separator or special-character tricks making it to the filesystem.
+    """
+    if not isinstance(name, str) or not name:
+        raise ValueError("Workflow name must be a non-empty string")
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", name):
+        raise ValueError(f"Invalid workflow name: {name!r}")
+    return name
+
+
 def _safe_workflow_path(base: Path, name: str) -> Path:
     """
     Construct a safe workflow path under ``base`` from a workflow ``name``.
@@ -131,8 +146,8 @@ def _safe_workflow_path(base: Path, name: str) -> Path:
     directory components or an extension. The resulting path is always
     constructed under ``base`` and verified with ``_is_within_base``.
     """
-    if not name or not isinstance(name, str):
-        raise ValueError("Workflow name must be a non-empty string")
+    # First, enforce that the name is a restricted identifier.
+    name = _validate_workflow_name(name)
 
     # Interpret name as a Path and ensure it is just a bare stem, not a path.
     raw_path = Path(name)
