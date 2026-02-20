@@ -29,7 +29,7 @@ providers:
         context_length: 4096
         cost_tier: "free"
 
-      - id: "gh:openai/gpt-4o"
+      - id: "local:phi3.5-vision"
         name: Phi-3.5 Vision
         capabilities: ["vision", "text"]
         device: "npu"
