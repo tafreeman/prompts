@@ -7,12 +7,11 @@ The graph compiler (``graph.py``) turns configs into runnable graphs.
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
-import re
 
+import re
 import yaml
 
 
@@ -108,73 +107,6 @@ class WorkflowConfig:
 _DEFAULT_DEFINITIONS_DIR = Path(__file__).parent.parent / "workflows" / "definitions"
 
 
-def _is_within_base(path: Path, base: Path) -> bool:
-    """Return True if ``path`` is inside ``base`` after resolution."""
-    resolved_base = base.resolve()
-    resolved_path = path.resolve()
-    try:
-        # Python 3.9+
-        return resolved_path.is_relative_to(resolved_base)
-    except AttributeError:
-        base_str = os.fspath(resolved_base)
-        path_str = os.fspath(resolved_path)
-        if path_str == base_str:
-            return True
-        # Ensure we only match proper sub-paths, not common prefixes
-        return path_str.startswith(base_str + os.sep)
-
-
-def _validate_workflow_name(name: str) -> str:
-    """
-    Validate that the workflow name is a simple, safe identifier.
-
-    Only allow alphanumeric characters, underscores, and hyphens to avoid any
-    path separator or special-character tricks making it to the filesystem.
-    """
-    if not isinstance(name, str) or not name:
-        raise ValueError("Workflow name must be a non-empty string")
-    if not re.fullmatch(r"[A-Za-z0-9_-]+", name):
-        raise ValueError(f"Invalid workflow name: {name!r}")
-    return name
-
-
-def _safe_workflow_path(base: Path, name: str) -> Path:
-    """
-    Construct a safe workflow path under ``base`` from a workflow ``name``.
-
-    The workflow ``name`` is treated as a simple identifier (file stem) without
-    directory components or an extension. The resulting path is always
-    constructed under ``base`` and verified with ``_is_within_base``.
-    """
-    # First, enforce that the name is a restricted identifier.
-    name = _validate_workflow_name(name)
-
-    # Interpret name as a Path and ensure it is just a bare stem, not a path.
-    raw_path = Path(name)
-
-    # Reject absolute paths and any name that has directory components.
-    if raw_path.is_absolute() or raw_path.parent != Path("."):
-        raise ValueError(f"Invalid workflow name: {name}")
-
-    # We expect a bare name without an extension; derive the stem explicitly.
-    stem = raw_path.stem
-    if not stem or stem in (".", ".."):
-        raise ValueError(f"Invalid workflow name: {name}")
-
-    candidate = base / f"{stem}.yaml"
-    if _is_within_base(candidate, base) and candidate.exists():
-        return candidate
-
-    candidate_yml = base / f"{stem}.yml"
-    if _is_within_base(candidate_yml, base) and candidate_yml.exists():
-        return candidate_yml
-
-    available = list_workflows(base)
-    raise FileNotFoundError(
-        f"Workflow '{name}' not found in {base}. Available: {available}"
-    )
-
-
 def load_workflow_config(
     name: str,
     definitions_dir: Path | None = None,
@@ -189,8 +121,33 @@ def load_workflow_config(
         Directory containing YAML files.  Defaults to the package's
         built-in ``workflows/definitions/`` folder.
     """
-    base = (definitions_dir or _DEFAULT_DEFINITIONS_DIR).resolve()
-    path = _safe_workflow_path(base, name)
+    base = definitions_dir or _DEFAULT_DEFINITIONS_DIR
+    base = base.resolve()
+
+    # Validate name strictly to prevent path traversal or absolute paths.
+    # Allow only word chars, dash, dot, and underscore (e.g. "my-workflow.v1").
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
+        raise ValueError(f"Invalid workflow name: {name}")
+
+    # Helper to check that a candidate path is within the base directory
+    def _ensure_within_base(p: Path) -> Path:
+        resolved = p.resolve()
+        base_str = str(base)
+        resolved_str = str(resolved)
+        if not (resolved_str == base_str or resolved_str.startswith(base_str + str(Path.sep))):
+            raise ValueError(f"Invalid workflow name: {name}")
+        return resolved
+
+    # First try .yaml, then .yml
+    path = _ensure_within_base(base / f"{name}.yaml")
+    if not path.exists():
+        path = _ensure_within_base(base / f"{name}.yml")
+
+    if not path.exists():
+        available = list_workflows(definitions_dir)
+        raise FileNotFoundError(
+            f"Workflow '{name}' not found in {base}. Available: {available}"
+        )
     return _parse_file(path)
 
 

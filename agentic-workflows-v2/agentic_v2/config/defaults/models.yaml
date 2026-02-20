@@ -103,6 +103,11 @@ providers:
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
+      - id: "gh:openai/gpt-4o"
+        name: gpt-4o
+        capabilities: ["reasoning", "math"]
+        cost_tier: "premium"
+
       - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
@@ -138,6 +143,11 @@ providers:
     available:
       - id: "gpt-4o"
         name: GPT-4o
+        capabilities: ["text", "reasoning", "code"]
+        cost_tier: "premium"
+
+      - id: "gpt-4o"
+        name: gpt-4o
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 

@@ -17,7 +17,6 @@ ClaudeSDKAgent(subagents=...) or any other consumer.
 
 from __future__ import annotations
 
-import os
 import re
 from pathlib import Path
 from typing import Any
@@ -41,12 +40,8 @@ _MODEL_MAP = {
 # Default directory containing .md agent definitions shipped with the project
 _DEFAULT_AGENTS_DIR = Path(__file__).parent / "definitions"
 
-# Optional external agents directory, configurable via EXTERNAL_AGENTS_DIR env var
-_EXTERNAL_AGENTS_DIR: Path | None = (
-    Path(os.environ["EXTERNAL_AGENTS_DIR"])
-    if "EXTERNAL_AGENTS_DIR" in os.environ
-    else None
-)
+# The directory from D:\source\everything-claude-code\agents
+_EXTERNAL_AGENTS_DIR = Path(r"D:\source\everything-claude-code\agents")
 
 _FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 
@@ -67,9 +62,8 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
 
     Args:
         directory: Path containing ``*.md`` agent files.  Defaults to the
-                   bundled definitions directory, falling back to the path
-                   set by the ``EXTERNAL_AGENTS_DIR`` environment variable
-                   (if configured).
+                   bundled definitions directory, falling back to the external
+                   ``D:\\source\\everything-claude-code\\agents`` location.
 
     Returns:
         Dict mapping agent ``name`` → :class:`AgentDefinition`.
@@ -77,8 +71,8 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
     if directory is not None:
         dirs = [Path(directory)]
     else:
-        # Prefer bundled definitions; fall back to external path if configured
-        dirs = [d for d in [_DEFAULT_AGENTS_DIR, _EXTERNAL_AGENTS_DIR] if d is not None]
+        # Prefer bundled definitions; fall back to external path
+        dirs = [_DEFAULT_AGENTS_DIR, _EXTERNAL_AGENTS_DIR]
 
     agents: dict[str, AgentDefinition] = {}
 
@@ -99,7 +93,7 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
                 import json
                 tools_raw = json.loads(tools_raw)
             model_short = meta.get("model", "sonnet")
-            _model_id = _MODEL_MAP.get(str(model_short).lower(), "claude-sonnet-4-6")
+            model_id = _MODEL_MAP.get(str(model_short).lower(), "claude-sonnet-4-6")
 
             agents[name] = AgentDefinition(
                 description=description,
