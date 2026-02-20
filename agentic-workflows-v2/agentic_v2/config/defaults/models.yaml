@@ -108,11 +108,8 @@ providers:
         capabilities: ["reasoning", "math"]
         cost_tier: "premium"
 
-      - id: "gh:openai/o4-mini"
-        name: o4-mini
-        capabilities: ["reasoning", "review"]
-        cost_tier: "premium"
-
+=========
+>>>>>>>>> Temporary merge branch 2
       - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
@@ -151,8 +148,9 @@ providers:
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gpt-4.1"
-        name: GPT-4.1
+<<<<<<<<< Temporary merge branch 1
+      - id: "gpt-4o"
+        name: gpt-4o
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 

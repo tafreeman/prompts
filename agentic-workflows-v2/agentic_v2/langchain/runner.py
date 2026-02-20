@@ -450,7 +450,7 @@ class WorkflowRunner:
             )
             return WorkflowResult(
                 workflow_name=workflow_name,
-                run_id=run_id,
+                run_id=thread_id,
                 status="failed",
                 errors=[str(e)],
                 elapsed_seconds=elapsed,

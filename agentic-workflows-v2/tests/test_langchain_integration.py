@@ -4,6 +4,7 @@ Tests end-to-end execution, checkpointing, and streaming behavior.
 """
 
 import asyncio
+import os
 from pathlib import Path
 
 import pytest
@@ -13,8 +14,12 @@ from agentic_v2.langchain import WorkflowRunner, load_workflow_config, compile_w
 from agentic_v2.langchain.state import initial_state
 
 
-# Mark all tests as requiring LLM integration by default; individual tests can override
-pytestmark = pytest.mark.skip(reason="Requires external LLM API credentials (GH_TOKEN or GOOGLE_API_KEY)")
+# Skip when neither set of API credentials is available in the environment
+_HAS_CREDENTIALS = bool(os.environ.get("GH_TOKEN") or os.environ.get("GOOGLE_API_KEY"))
+pytestmark = pytest.mark.skipif(
+    not _HAS_CREDENTIALS,
+    reason="Requires external LLM API credentials (GH_TOKEN or GOOGLE_API_KEY)",
+)
 
 
 class TestEndToEndExecution:
@@ -41,7 +46,7 @@ class TestEndToEndExecution:
 
         assert result.run_id
         assert result.status in ("success", "partial", "failed")
-        assert len(result.elapsed_seconds) >= 0 or result.elapsed_seconds >= 0
+        assert result.elapsed_seconds >= 0
 
     def test_workflow_with_errors(self):
         """Verify error handling in workflow execution."""
