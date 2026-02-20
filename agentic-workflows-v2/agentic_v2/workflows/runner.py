@@ -36,6 +36,7 @@ class WorkflowValidationError(ValueError):
     """Raised when workflow inputs fail validation."""
 
     def __init__(self, workflow: str, errors: list[str]):
+        """Initialize with the workflow name and list of validation errors."""
         msg = f"Validation failed for workflow '{workflow}': " + "; ".join(errors)
         super().__init__(msg)
         self.workflow = workflow
@@ -64,6 +65,18 @@ class WorkflowRunner:
         extract_artifacts: bool = True,
         artifacts_dir: Path | None = None,
     ):
+        """Initialize the workflow runner.
+
+        Args:
+            definitions_dir: Directory containing YAML workflow files.
+            step_executor: Custom step executor; a default is used if omitted.
+            max_concurrency: Maximum number of steps that may run in parallel.
+            run_logger: Run-log sink. ``True`` → auto-create, ``False``/``None`` → disabled.
+            execution_profile: Default execution settings applied to every step.
+            trace_adapter: Observability adapter; a no-op adapter is used if omitted.
+            extract_artifacts: Whether to extract artifacts from the final state.
+            artifacts_dir: Directory where artifacts are written.
+        """
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
         self._max_concurrency = max_concurrency
