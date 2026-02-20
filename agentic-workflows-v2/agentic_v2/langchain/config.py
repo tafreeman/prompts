@@ -125,11 +125,11 @@ def load_workflow_config(
     base = base.resolve()
 
     # Validate name strictly to prevent path traversal or absolute paths.
-    # Allow only letters, digits, dot, dash and underscore (e.g. "my-workflow.v1").
+    # Allow only word chars, dash, dot, and underscore (e.g. "my-workflow.v1").
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
         raise ValueError(f"Invalid workflow name: {name}")
 
-    # Helper to ensure that a candidate path is within the base directory.
+    # Helper to check that a candidate path is within the base directory
     def _ensure_within_base(p: Path) -> Path:
         resolved = p.resolve()
         base_str = str(base)
