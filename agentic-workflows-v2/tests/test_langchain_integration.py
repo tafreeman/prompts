@@ -46,7 +46,7 @@ class TestEndToEndExecution:
 
         assert result.run_id
         assert result.status in ("success", "partial", "failed")
-        assert len(result.elapsed_seconds) >= 0 or result.elapsed_seconds >= 0
+        assert result.elapsed_seconds >= 0
 
     def test_workflow_with_errors(self):
         """Verify error handling in workflow execution."""
