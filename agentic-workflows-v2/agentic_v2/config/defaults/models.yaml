@@ -103,6 +103,16 @@ providers:
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
+      - id: "gh:openai/o3-mini"
+        name: o3-mini
+        capabilities: ["reasoning", "math"]
+        cost_tier: "premium"
+
+      - id: "gh:openai/o4-mini"
+        name: o4-mini
+        capabilities: ["reasoning", "review"]
+        cost_tier: "premium"
+
       - id: "gh:deepseek/deepseek-r1"
         name: DeepSeek R1
         capabilities: ["reasoning", "code"]
@@ -138,6 +148,11 @@ providers:
     available:
       - id: "gpt-4o"
         name: GPT-4o
+        capabilities: ["text", "reasoning", "code"]
+        cost_tier: "premium"
+
+      - id: "gpt-4.1"
+        name: GPT-4.1
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
