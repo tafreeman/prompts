@@ -188,7 +188,17 @@ async def runs_summary(workflow: Optional[str] = None):
 @router.get("/runs/{filename}")
 async def get_run(filename: str):
     """Get full run detail including all step data."""
-    path = run_logger.runs_dir / filename
+    # Basic validation to prevent directory traversal
+    if ".." in filename or "/" in filename or "\\" in filename:
+        raise HTTPException(status_code=400, detail="Invalid run filename")
+
+    base = run_logger.runs_dir.resolve()
+    path = (base / filename).resolve()
+    base_str = str(base)
+    path_str = str(path)
+    if not (path_str == base_str or path_str.startswith(base_str + str(Path.sep))):
+        raise HTTPException(status_code=400, detail="Invalid run filename")
+
     if not path.exists():
         raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
     return run_logger.load_run(path)
