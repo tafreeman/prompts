@@ -24,16 +24,21 @@ def _estimate_tokens(text: str) -> int:
 
 
 class TokenEstimateTool(BaseTool):
+    """Heuristic token-count estimator for plain text strings."""
+
     @property
     def name(self) -> str:
+        """Return the tool name."""
         return "token_estimate"
 
     @property
     def description(self) -> str:
+        """Return a human-readable description of what the tool does."""
         return "Estimate token count for a text string (heuristic)."
 
     @property
     def parameters(self) -> dict[str, Any]:
+        """Return the JSON-schema parameter definition."""
         return {
             "text": {
                 "type": "string",
@@ -44,11 +49,12 @@ class TokenEstimateTool(BaseTool):
 
     @property
     def examples(self) -> list[str]:
+        """Return example invocation strings."""
         return ["token_estimate(text='hello world') → ~2"]
 
     async def execute(self, text: str) -> ToolResult:
+        """Estimate the token count for *text* and return the result."""
         try:
-            tokens = _estimate_tokens(text)
             return ToolResult(
                 success=True,
                 data={"tokens": tokens, "chars": len(text)},
@@ -58,16 +64,21 @@ class TokenEstimateTool(BaseTool):
 
 
 class ContextTrimTool(BaseTool):
+    """Trim long text to fit within a token budget, preserving head and tail."""
+
     @property
     def name(self) -> str:
+        """Return the tool name."""
         return "context_trim"
 
     @property
     def description(self) -> str:
+        """Return a human-readable description of what the tool does."""
         return "Trim long text to fit a token budget, preserving head and tail."
 
     @property
     def parameters(self) -> dict[str, Any]:
+        """Return the JSON-schema parameter definition."""
         return {
             "text": {"type": "string", "description": "Text to trim", "required": True},
             "max_tokens": {
@@ -94,6 +105,7 @@ class ContextTrimTool(BaseTool):
 
     @property
     def examples(self) -> list[str]:
+        """Return example invocation strings."""
         return [
             "context_trim(text=BIG, max_tokens=2000, head_tokens=200, tail_tokens=300)",
         ]
@@ -106,6 +118,7 @@ class ContextTrimTool(BaseTool):
         tail_tokens: int | None = None,
         marker: str = "\n\n[... truncated to fit token budget ...]\n\n",
     ) -> ToolResult:
+        """Trim *text* to fit *max_tokens*, preserving head and tail sections."""
         try:
             max_tokens = int(max_tokens)
             if max_tokens <= 0:
