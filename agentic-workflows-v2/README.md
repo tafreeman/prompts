@@ -10,11 +10,9 @@ Tier-based multi-model AI workflow orchestration.
 
 | Phase | Status | Details |
 |-------|--------|--------|
-| **Phase 1** | ✅ Complete | [IMPLEMENTATION_PLAN_V1_COMPLETE.md](docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md) |
-| **Phase 2** | ✅ Complete (2D) | [IMPLEMENTATION_PLAN_V2.md](docs/IMPLEMENTATION_PLAN_V2.md) |
 | **Eval Phase 0** | ✅ Complete | Scoring, hard gates, normalization, profiles, rubrics |
 
-**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics. See [consolidated plan](../docs/planning/workflow-eval-consolidated-plan.md) for the full roadmap.
+**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics.
 
 For active vs legacy module mapping, see [ACTIVE_VS_LEGACY_TOOLING_MAP.md](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md).
 
@@ -31,10 +29,14 @@ pip install -e .
 After installation, you can use the `agentic` CLI:
 
 ```bash
+agentic list workflows
 agentic list agents
 agentic list tools
-agentic orchestrate "Review the code in src/main.py" --verbose
+agentic validate code_review
+agentic run code_review --dry-run
 ```
+
+Note: `agentic orchestrate` is currently marked as not implemented.
 
 ### Python
 
@@ -66,7 +68,7 @@ Run the full app (FastAPI backend serving the built UI):
 
 ```bash
 cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 ```
 
 Open:
@@ -86,7 +88,7 @@ For hot-reload UI development:
 ```bash
 # terminal 1
 cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000 --app-dir src
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000
 
 # terminal 2
 cd agentic-workflows-v2/ui
@@ -127,6 +129,49 @@ If you want the built-in persistent memory tools to write to a specific file, se
 
 - `AGENTIC_MEMORY_PATH` (e.g., `C:\\temp\\agentic_memory.json`)
 
+## Tracing (OpenTelemetry / AI Toolkit)
+
+Agentic workflows supports OpenTelemetry tracing for workflow execution, LLM calls, and step-level events. Tracing is **opt-in** and sends spans to an OTLP collector (e.g., AI Toolkit).
+
+### Enable tracing
+
+```bash
+# Enable tracing (required)
+export AGENTIC_TRACING=1
+
+# Include sensitive content (prompts, outputs, tool args) in spans (optional, off by default)
+export AGENTIC_TRACE_SENSITIVE=1
+```
+
+### Configuration
+
+| Environment Variable | Default | Description |
+|---------------------|---------|-------------|
+| `AGENTIC_TRACING` | (unset) | Set to `1` to enable tracing |
+| `AGENTIC_TRACE_SENSITIVE` | (unset) | Set to `1` to include prompts/outputs in spans |
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4317` | OTLP collector endpoint |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | `grpc` | Protocol: `grpc` or `http/protobuf` |
+
+### Install tracing dependencies
+
+Tracing requires the `tracing` optional extra:
+
+```bash
+pip install -e ".[tracing]"
+```
+
+### What gets traced
+
+- **Workflow-level span**: `workflow.run` with `workflow_name`, `workflow_id`, `run_id`
+- **Step-level spans**: `workflow.step` for each step with `step_name`, `step_status`
+- **LLM call spans**: Model ID, token counts (`tokens.prompt`, `tokens.completion`)
+- **Tool calls**: Tool name, success/failure (args excluded by default)
+- **Errors**: Exception type and message on failed spans
+
+### Using with AI Toolkit
+
+AI Toolkit listens on `http://localhost:4317` by default. With tracing enabled, workflow runs will appear in the AI Toolkit trace viewer automatically.
+
 ## Documentation
 
 - API Reference: `docs/API_REFERENCE.md`
@@ -145,6 +190,7 @@ Install and enable locally:
 pip install pre-commit
 pre-commit install
 pre-commit run --all-files
+python scripts/check_docs_refs.py
 ```
 
 Recommended VS Code extensions: `ms-python.python`, `ms-python.vscode-pylance`, and `njpwerner.autodocstring`.
@@ -164,10 +210,18 @@ Backend (evaluation-specific):
 python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py tests/test_server_workflow_routes.py -v
 ```
 
+Backend coverage (deterministic command):
+
+```bash
+python -m pytest --cov=agentic_v2 --cov-report=term-missing --cov-report=xml
+./scripts/run_coverage.sh
+```
+
 UI:
 
 ```bash
 cd agentic-workflows-v2/ui
 npm test
 npm run build
+npm run test:coverage
 ```

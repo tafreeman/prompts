@@ -164,8 +164,18 @@ class EvaluationDatasetOption(BaseModel):
     sample_count: Optional[int] = None
 
 
+class EvaluationSetOption(BaseModel):
+    """Predefined evaluation set containing multiple datasets."""
+
+    id: str
+    name: str
+    description: str = ""
+    datasets: list[str] = []
+
+
 class ListEvaluationDatasetsResponse(BaseModel):
     """Repository and local dataset options."""
 
     repository: list[EvaluationDatasetOption] = []
     local: list[EvaluationDatasetOption] = []
+    eval_sets: list[EvaluationSetOption] = []

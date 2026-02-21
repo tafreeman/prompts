@@ -25,14 +25,14 @@ def test_run_endpoint_returns_422_when_repository_dataset_id_missing(monkeypatch
     app = create_app()
     client = TestClient(app)
 
-    # Keep loader deterministic and lightweight for this validation-path test.
+    # Mock load_workflow_config for this validation-path test
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(name=name, inputs={}, steps=[])
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
 
     response = client.post(
         "/api/run",
@@ -54,13 +54,13 @@ def test_run_endpoint_returns_422_when_local_dataset_ref_missing(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {}
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(name=name, inputs={}, steps=[])
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
 
     response = client.post(
         "/api/run",
@@ -82,17 +82,17 @@ def test_eval_datasets_filtered_by_workflow(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
-    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-        }
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={"code_file": config.InputConfig(name="code_file", type="string", required=True)},
+            steps=[],
+        )
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
         workflows,
         "list_local_datasets",
@@ -121,17 +121,17 @@ def test_run_rejects_incompatible_dataset_422(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
-    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-        }
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={"code_file": config.InputConfig(name="code_file", type="string", required=True)},
+            steps=[],
+        )
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
@@ -160,18 +160,20 @@ def test_reject_empty_required_adapted_input(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
-    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-            "notes": WorkflowInput(name="notes", type="string", required=False),
-        }
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={
+                "code_file": config.InputConfig(name="code_file", type="string", required=True),
+                "notes": config.InputConfig(name="notes", type="string", required=False),
+            },
+            steps=[],
+        )
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
@@ -205,18 +207,20 @@ def test_accept_empty_optional_adapted_input(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
-    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-            "notes": WorkflowInput(name="notes", type="string", required=False),
-        }
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={
+                "code_file": config.InputConfig(name="code_file", type="string", required=True),
+                "notes": config.InputConfig(name="notes", type="string", required=False),
+            },
+            steps=[],
+        )
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
@@ -249,18 +253,20 @@ def test_accept_full_adapted_inputs(monkeypatch):
     app = create_app()
     client = TestClient(app)
 
-    from agentic_v2.workflows.loader import WorkflowInput
+    from agentic_v2.langchain import config
     from agentic_v2.server.routes import workflows
 
-    class _DummyWorkflow:
-        name = "dummy_workflow"
-        inputs = {
-            "code_file": WorkflowInput(name="code_file", type="string", required=True),
-            "notes": WorkflowInput(name="notes", type="string", required=False),
-        }
-        capabilities = type("C", (), {"inputs": [], "outputs": []})()
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={
+                "code_file": config.InputConfig(name="code_file", type="string", required=True),
+                "notes": config.InputConfig(name="notes", type="string", required=False),
+            },
+            steps=[],
+        )
 
-    monkeypatch.setattr(workflows.loader, "load", lambda _name: _DummyWorkflow())
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
     monkeypatch.setattr(
         workflows,
         "load_local_dataset_sample",
@@ -285,3 +291,53 @@ def test_accept_full_adapted_inputs(monkeypatch):
     )
 
     assert response.status_code == 200
+
+
+def test_empty_request_input_does_not_override_dataset_adapted_value(monkeypatch):
+    app = create_app()
+    client = TestClient(app)
+
+    from agentic_v2.langchain import config
+    from agentic_v2.server.routes import workflows
+
+    def _mock_load_config(name, definitions_dir=None):
+        return config.WorkflowConfig(
+            name=name,
+            inputs={
+                "code_file": config.InputConfig(name="code_file", type="string", required=True),
+                "review_depth": config.InputConfig(name="review_depth", type="string", required=False),
+            },
+            steps=[],
+        )
+
+    monkeypatch.setattr(workflows, "load_workflow_config", _mock_load_config)
+    monkeypatch.setattr(
+        workflows,
+        "load_local_dataset_sample",
+        lambda _dataset_ref, sample_index=0: ({"prompt": "Review this code"}, {"source": "local"}),
+    )
+    monkeypatch.setattr(
+        workflows,
+        "adapt_sample_to_workflow_inputs",
+        lambda *_args, **_kwargs: {"code_file": "adapted/path.py", "review_depth": "deep"},
+    )
+
+    response = client.post(
+        "/api/run",
+        json={
+            "workflow": "dummy_workflow",
+            "input_data": {
+                "code_file": "",
+                "review_depth": "shallow",
+            },
+            "evaluation": {
+                "enabled": True,
+                "dataset_source": "local",
+                "dataset_id": "any.json",
+            },
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "pending"

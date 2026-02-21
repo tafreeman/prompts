@@ -29,7 +29,7 @@ providers:
         context_length: 4096
         cost_tier: "free"
 
-      - id: "gh:openai/gpt-4o"
+      - id: "local:phi3.5-vision"
         name: Phi-3.5 Vision
         capabilities: ["vision", "text"]
         device: "npu"
@@ -99,18 +99,13 @@ providers:
         cost_tier: "premium"
 
       - id: "gh:openai/gpt-4o-mini"
-        name: GPT-4o Mini
+        name: gpt-4o Mini
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
       - id: "gh:openai/o3-mini"
         name: o3-mini
         capabilities: ["reasoning", "math"]
-        cost_tier: "premium"
-
-      - id: "gh:openai/o4-mini"
-        name: o4-mini
-        capabilities: ["reasoning", "review"]
         cost_tier: "premium"
 
       - id: "gh:deepseek/deepseek-r1"
@@ -151,11 +146,6 @@ providers:
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gpt-4.1"
-        name: GPT-4.1
-        capabilities: ["text", "reasoning", "code"]
-        cost_tier: "premium"
-
 # Task-based routing rules
 routing:
   # Vision tasks require vision-capable models
@@ -165,32 +155,55 @@ routing:
 
   # Complex reasoning tasks - use best reasoning models, fallback to local
   reasoning_complex:
-    preferred: ["gh:openai/gpt-5-mini", "gh:openai/o3-mini", "gh:deepseek/deepseek-r1-0528"]
-    fallback: ["ollama:deepseek-r1:14b", "ollama:phi4-reasoning:latest", "local:phi4"]
+    preferred:
+      [
+        "gh:openai/gpt-5-mini",
+        "gh:openai/gpt-4o",
+        "gh:deepseek/deepseek-r1-0528",
+      ]
+    fallback:
+      ["ollama:deepseek-r1:14b", "ollama:phi4-reasoning:latest", "local:phi4"]
 
   # Premium code generation - GPT-5 mini + Codestral + DeepSeek, fallback to Ollama coders
   code_gen_premium:
-    preferred: ["gh:openai/gpt-5-mini", "gh:mistral-ai/codestral-2501", "gh:deepseek/deepseek-v3-0324"]
-    fallback: ["ollama:qwen3-coder:30b", "ollama:qwen2.5-coder:14b", "local:phi4"]
+    preferred:
+      [
+        "gh:openai/gpt-5-mini",
+        "gh:mistral-ai/codestral-2501",
+        "gh:deepseek/deepseek-v3-0324",
+      ]
+    fallback:
+      ["ollama:qwen3-coder:30b", "ollama:qwen2.5-coder:14b", "local:phi4"]
 
   # Fast code generation - smaller efficient models with local fallbacks
   code_gen_fast:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:microsoft/phi-4-mini-instruct"]
-    fallback: ["ollama:qwen2.5-coder:14b", "local:phi4mini", "aitk:qwen2.5-coder-7b-instruct"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:microsoft/phi-4-mini-instruct"]
+    fallback:
+      [
+        "ollama:qwen2.5-coder:14b",
+        "local:phi4mini",
+        "aitk:qwen2.5-coder-7b-instruct",
+      ]
 
   # Code Review - reasoning-focused models with local reasoning fallbacks
   code_review:
-    preferred: ["gh:openai/o4-mini", "gh:openai/gpt-5-mini", "gh:microsoft/phi-4-reasoning"]
-    fallback: ["ollama:phi4-reasoning:latest", "ollama:deepseek-r1:14b", "local:phi4"]
+    preferred:
+      [
+        "gh:openai/gpt-4o",
+        "gh:openai/gpt-5-mini",
+        "gh:microsoft/phi-4-reasoning",
+      ]
+    fallback:
+      ["ollama:phi4-reasoning:latest", "ollama:deepseek-r1:14b", "local:phi4"]
 
   # Chat/Coordination - fast general models with local fallbacks
   coordination:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:mistral-ai/mistral-small-2503"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:mistral-ai/mistral-small-2503"]
     fallback: ["ollama:gemma3:4b", "local:phi4mini", "aitk:phi-4-mini-instruct"]
-    
+
   # Documentation - balanced quality + speed with local fallbacks
   documentation:
-    preferred: ["gh:openai/gpt-4.1-mini", "gh:openai/gpt-5-mini"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:openai/gpt-5-mini"]
     fallback: ["ollama:qwen2.5-coder:14b", "ollama:qwen3:8b", "local:phi4"]
 
 # Fallback strategy
@@ -198,7 +211,7 @@ fallback:
   strategy: "cascade" # Try each in order until one works
   max_retries: 2
   retry_delay_ms: 500
-  on_rate_limit: "fallback"  # Immediately try fallback on rate limit (don't wait)
+  on_rate_limit: "fallback" # Immediately try fallback on rate limit (don't wait)
 
   # Global fallback chain (when task-specific routing fails) - prioritize local/Ollama
   chain:
@@ -207,7 +220,6 @@ fallback:
     - "local:phi4"
     - "local:phi4mini"
     - "aitk:phi-4-mini-instruct"
-
 
 # Default parameters
 defaults:

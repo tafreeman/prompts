@@ -38,6 +38,166 @@ class StepStatus(str, Enum):
     RETRYING = "retrying"
 
 
+class ReviewStatus(str, Enum):
+    """Canonical review outcome values.
+
+    All LLM-returned review statuses are normalized to one of
+    these values, eliminating the need for free-form string
+    comparisons in YAML when-conditions.
+    """
+
+    APPROVED = "APPROVED"       # Code is acceptable, no changes needed
+    NEEDS_FIXES = "NEEDS_FIXES" # Issues found, rework required
+    REJECTED = "REJECTED"       # Fundamental problems, major rework required
+
+    @classmethod
+    def normalize(cls, raw: str | None) -> "ReviewStatus":
+        """Map any LLM-returned status string to a canonical ReviewStatus.
+
+        Handles all known variants: APPROVED, PASS, pass, approved,
+        NEEDS_FIXES, NEEDS_REVISION, needs_work, REJECTED, etc.
+
+        Returns NEEDS_FIXES for unknown/None values (conservative default).
+        """
+        if raw is None:
+            return cls.NEEDS_FIXES
+
+        cleaned = raw.strip().upper().replace(" ", "_").replace("-", "_")
+
+        # Approved variants
+        if cleaned in {
+            "APPROVED", "PASS", "PASSED", "ACCEPT", "ACCEPTED",
+            "OK", "LGTM", "NO_ISSUES", "NO_CHANGES_NEEDED",
+        }:
+            return cls.APPROVED
+
+        # Rejected variants
+        if cleaned in {
+            "REJECTED", "REJECT", "FAIL", "FAILED",
+            "CRITICAL", "BLOCKED",
+        }:
+            return cls.REJECTED
+
+        # Everything else maps to needs_fixes (conservative)
+        return cls.NEEDS_FIXES
+
+
+class FindingSeverity(str, Enum):
+    """Severity level for a code review finding."""
+
+    CRITICAL = "critical"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+    @classmethod
+    def normalize(cls, raw: str | None) -> "FindingSeverity":
+        """Map any LLM-returned severity string to a canonical FindingSeverity."""
+        if raw is None:
+            return cls.MEDIUM
+        cleaned = raw.strip().upper()
+        mapping = {
+            "CRITICAL": cls.CRITICAL,
+            "HIGH": cls.HIGH,
+            "MEDIUM": cls.MEDIUM,
+            "MODERATE": cls.MEDIUM,
+            "LOW": cls.LOW,
+            "INFO": cls.LOW,
+            "INFORMATIONAL": cls.LOW,
+        }
+        return mapping.get(cleaned, cls.MEDIUM)
+
+
+class Finding(BaseModel):
+    """A single code-review finding with structured location and fix info.
+
+    Designed to be stable across LLM outputs: all fields except
+    ``finding_id`` and ``description`` are optional so partial responses
+    can still be stored and displayed.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    finding_id: str = Field(description="Unique identifier, e.g. 'F-001'")
+    severity: FindingSeverity = Field(description="Severity level")
+    category: str = Field(
+        default="quality",
+        description="Category: security | quality | performance",
+    )
+    title: str = Field(default="", description="Brief one-line title")
+    file: str = Field(default="", description="Affected file path")
+    line_range: Optional[tuple[int, int]] = Field(
+        default=None, description="(start_line, end_line) in the affected file"
+    )
+    description: str = Field(description="What is wrong")
+    impact: str = Field(default="", description="What could happen if unfixed")
+    suggested_fix: str = Field(default="", description="How to fix it")
+    code_before: str = Field(default="", description="Vulnerable/problematic snippet")
+    code_after: str = Field(default="", description="Fixed snippet")
+    references: list[str] = Field(
+        default_factory=list, description="CWE / OWASP references"
+    )
+
+    @field_validator("severity", mode="before")
+    @classmethod
+    def _normalize_severity(cls, v: Any) -> FindingSeverity:
+        if isinstance(v, FindingSeverity):
+            return v
+        return FindingSeverity.normalize(str(v) if v is not None else None)
+
+
+class ReviewReport(BaseModel):
+    """Structured output from a code-review step.
+
+    The ``overall_status`` field drives ``when:`` conditions in YAML;
+    ``findings`` carry the machine-readable detail.
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    overall_status: ReviewStatus = Field(
+        default=ReviewStatus.NEEDS_FIXES,
+        description="Canonical review outcome",
+    )
+    quality_score: Optional[float] = Field(
+        default=None,
+        description="0-10 quality score (10 = perfect)",
+        ge=0,
+        le=10,
+    )
+    findings: list[Finding] = Field(
+        default_factory=list,
+        description="Ordered list of findings (critical first)",
+    )
+    summary: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Counts by severity: {critical, high, medium, low, passed_checks}",
+    )
+    positive_observations: list[str] = Field(
+        default_factory=list,
+        description="Things done well",
+    )
+
+    @field_validator("overall_status", mode="before")
+    @classmethod
+    def _normalize_status(cls, v: Any) -> ReviewStatus:
+        if isinstance(v, ReviewStatus):
+            return v
+        return ReviewStatus.normalize(str(v) if v is not None else None)
+
+    @computed_field
+    @property
+    def needs_fixes(self) -> bool:
+        """True when at least one finding requires rework."""
+        return self.overall_status != ReviewStatus.APPROVED
+
+    @computed_field
+    @property
+    def critical_count(self) -> int:
+        """Number of critical findings."""
+        return sum(1 for f in self.findings if f.severity == FindingSeverity.CRITICAL)
+
+
 class AgentMessage(BaseModel):
     """Message exchanged between agents and orchestrator.
 

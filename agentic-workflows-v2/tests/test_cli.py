@@ -67,12 +67,13 @@ class TestCLIList:
         assert "fullstack_generation" in result.stdout
 
     def test_list_agents(self):
-        """List agents shows available agents."""
+        """List agents shows available tier-based agents."""
         result = runner.invoke(app, ["list", "agents"])
         assert result.exit_code == 0
-        assert "CoderAgent" in result.stdout
-        assert "ReviewerAgent" in result.stdout
-        assert "OrchestratorAgent" in result.stdout
+        assert "Tier 1" in result.stdout
+        assert "Tier 2" in result.stdout
+        assert "Tier 3" in result.stdout
+        assert "tier" in result.stdout.lower()
 
     def test_list_tools(self):
         """List tools shows message when no tools registered."""
@@ -177,7 +178,7 @@ class TestCLIOrchestrate:
         # This will likely fail without LLM configured, but should show the note
         result = runner.invoke(app, ["orchestrate", "Test task"])
         # Either succeeds or shows config message
-        assert "LLM" in result.stdout or "Dynamic Orchestration" in result.stdout
+        assert "LLM" in result.stdout or "orchestration" in result.stdout.lower()
 
 
 class TestServerApp:

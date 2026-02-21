@@ -10,6 +10,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from ._summary import calculate_summary
+
 # CSS styles for the HTML report
 DEFAULT_STYLES = """
 <style>
@@ -301,25 +303,7 @@ class HtmlReporter:
 
     def _calculate_summary(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Calculate summary statistics from results."""
-        if not results:
-            return {"count": 0}
-
-        summary: dict[str, Any] = {"count": len(results)}
-
-        numeric_keys: dict[str, list[float]] = {}
-
-        for result in results:
-            for key, value in result.items():
-                if isinstance(value, (int, float)):
-                    if key not in numeric_keys:
-                        numeric_keys[key] = []
-                    numeric_keys[key].append(float(value))
-
-        for key, values in numeric_keys.items():
-            if values:
-                summary[f"{key}_mean"] = sum(values) / len(values)
-
-        return summary
+        return calculate_summary(results, include_min_max=False)
 
 
 def generate_html_report(

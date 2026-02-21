@@ -357,11 +357,13 @@ class TestExpressionEvaluatorSafety:
     """Tests for safe eval restrictions."""
 
     def test_rejects_function_calls(self):
-        """Function calls are not allowed."""
+        """Arbitrary function calls (not whitelisted) are not allowed."""
         ctx = ExecutionContext()
         evaluator = ExpressionEvaluator(ctx)
 
-        with pytest.raises(ValueError, match="Unsupported"):
+        # ast.Call is allowed (for coalesce), but unknown functions like print
+        # are not in the eval environment so they raise NameError.
+        with pytest.raises((ValueError, NameError)):
             evaluator.evaluate("${print('hello')}")
 
     def test_rejects_import(self):
@@ -369,7 +371,8 @@ class TestExpressionEvaluatorSafety:
         ctx = ExecutionContext()
         evaluator = ExpressionEvaluator(ctx)
 
-        with pytest.raises((ValueError, SyntaxError)):
+        # __import__ is not in the eval environment (__builtins__ is {}).
+        with pytest.raises((ValueError, SyntaxError, NameError)):
             evaluator.evaluate("${__import__('os')}")
 
     def test_rejects_lambda(self):
@@ -419,3 +422,171 @@ class TestStepResultView:
         assert view.output == {"key": "value"}
         assert view.error is None
         assert view.completed_at == "2026-02-03T12:00:00Z"
+
+
+class TestNullSafeAndCoalesce:
+    """Tests for NullSafe sentinel, SafeNamespace, and coalesce()."""
+
+    def test_coalesce_returns_first_non_none(self):
+        """coalesce(None, None, 'x') should return 'x'."""
+        from agentic_v2.engine.expressions import _coalesce
+        assert _coalesce(None, None, "x") == "x"
+        assert _coalesce("a", "b") == "a"
+        assert _coalesce(None) is None
+
+    def test_coalesce_skips_nullsafe(self):
+        """coalesce(NullSafe, 'real') should return 'real'."""
+        from agentic_v2.engine.expressions import _coalesce, _NullSafe
+        ns = _NullSafe()
+        assert _coalesce(ns, "real_value") == "real_value"
+        assert _coalesce(ns, ns, None) is None
+
+    def test_nullsafe_attribute_chaining(self):
+        """Attribute access on NullSafe always returns another NullSafe."""
+        from agentic_v2.engine.expressions import _NullSafe
+        ns = _NullSafe()
+        assert isinstance(ns.foo, _NullSafe)
+        assert isinstance(ns.foo.bar.baz, _NullSafe)
+
+    def test_nullsafe_equality(self):
+        """NullSafe == None and NullSafe == NullSafe."""
+        from agentic_v2.engine.expressions import _NullSafe
+        ns = _NullSafe()
+        assert ns == None  # noqa: E711
+        assert ns != "APPROVED"
+        assert not ns  # bool is False
+
+    def test_nullsafe_not_in_list(self):
+        """NullSafe not in ['APPROVED'] should be True."""
+        from agentic_v2.engine.expressions import _NullSafe
+        ns = _NullSafe()
+        assert ns not in ["APPROVED"]
+        assert ns not in ["APPROVED", "NEEDS_FIXES"]
+
+    def test_coalesce_on_skipped_step_outputs(self):
+        """coalesce resolves through skipped step (empty outputs) to original."""
+        ctx = ExecutionContext()
+
+        # Simulate: generate_api succeeded with real code
+        original_code = "def api(): pass"
+        # Simulate: rework was skipped (empty outputs)
+        skipped_result = StepResult(step_name="rework_round1", status=StepStatus.SKIPPED)
+        success_result = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
+        success_result.output_data = {"api_code": original_code}
+
+        # Store in ctx
+        ctx.set_sync("steps", {
+            "rework_round1": {"status": "skipped", "outputs": {}},
+            "generate_api": {"status": "success", "outputs": {"api_code": original_code}},
+        })
+
+        evaluator = ExpressionEvaluator(ctx, {
+            "rework_round1": skipped_result,
+            "generate_api": success_result,
+        })
+
+        result = evaluator.resolve_variable(
+            "coalesce(steps.rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)"
+        )
+        assert result == original_code
+
+    def test_coalesce_prefers_reworked_code(self):
+        """When rework step ran, coalesce picks the reworked code."""
+        ctx = ExecutionContext()
+
+        reworked_code = "def api_v2(): pass  # fixed"
+        original_code = "def api(): pass"
+
+        rework_result = StepResult(step_name="rework_round1", status=StepStatus.SUCCESS)
+        rework_result.output_data = {"backend_code": reworked_code, "rework_report": {}}
+        gen_result = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
+        gen_result.output_data = {"api_code": original_code}
+
+        ctx.set_sync("steps", {
+            "rework_round1": {"status": "success", "outputs": rework_result.output_data},
+            "generate_api": {"status": "success", "outputs": gen_result.output_data},
+        })
+
+        evaluator = ExpressionEvaluator(ctx, {
+            "rework_round1": rework_result,
+            "generate_api": gen_result,
+        })
+
+        result = evaluator.resolve_variable(
+            "coalesce(steps.rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)"
+        )
+        assert result == reworked_code
+
+    def test_three_way_coalesce(self):
+        """Three-way coalesce picks the latest available code."""
+        ctx = ExecutionContext()
+
+        r2_code = "def api_v3(): pass  # final"
+        r1_code = "def api_v2(): pass"
+        original_code = "def api(): pass"
+
+        r2 = StepResult(step_name="rework2", status=StepStatus.SUCCESS)
+        r2.output_data = {"backend_code": r2_code}
+        r1 = StepResult(step_name="rework1", status=StepStatus.SKIPPED)
+        gen = StepResult(step_name="gen", status=StepStatus.SUCCESS)
+        gen.output_data = {"api_code": original_code}
+
+        ctx.set_sync("steps", {
+            "rework2": {"status": "success", "outputs": r2.output_data},
+            "rework1": {"status": "skipped", "outputs": {}},
+            "gen": {"status": "success", "outputs": gen.output_data},
+        })
+
+        evaluator = ExpressionEvaluator(ctx, {
+            "rework2": r2, "rework1": r1, "gen": gen,
+        })
+
+        result = evaluator.resolve_variable(
+            "coalesce(steps.rework2.outputs.backend_code, steps.rework1.outputs.backend_code, steps.gen.outputs.api_code)"
+        )
+        assert result == r2_code
+
+    def test_safe_namespace_missing_step(self):
+        """Accessing a step that never ran returns NullSafe → coalesce skips it."""
+        from agentic_v2.engine.expressions import _NullSafe
+        ctx = ExecutionContext()
+
+        gen = StepResult(step_name="generate_api", status=StepStatus.SUCCESS)
+        gen.output_data = {"api_code": "real code"}
+        ctx.set_sync("steps", {
+            "generate_api": {"status": "success", "outputs": gen.output_data},
+        })
+
+        evaluator = ExpressionEvaluator(ctx, {"generate_api": gen})
+
+        # rework_round1 never existed — should not crash
+        result = evaluator.resolve_variable(
+            "coalesce(steps.rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)"
+        )
+        assert result == "real code"
+
+    def test_resolve_variable_returns_plain_dict_not_namespace(self):
+        """resolve_variable must convert _SafeNamespace back to plain dicts."""
+        ctx = ExecutionContext()
+
+        gen = StepResult(step_name="gen", status=StepStatus.SUCCESS)
+        gen.output_data = {
+            "backend_code": {"main.py": "print('hi')", "utils.py": "pass"},
+            "config": {"db_url": "sqlite:///test.db"},
+        }
+        ctx.set_sync("steps", {
+            "gen": {"status": "success", "outputs": gen.output_data},
+        })
+        evaluator = ExpressionEvaluator(ctx, {"gen": gen})
+
+        result = evaluator.resolve_variable("steps.gen.outputs.backend_code")
+        # Must be a plain dict, not a SimpleNamespace / _SafeNamespace
+        assert isinstance(result, dict), f"Expected dict, got {type(result).__name__}"
+        assert result == {"main.py": "print('hi')", "utils.py": "pass"}
+
+    def test_resolve_variable_nullsafe_becomes_none(self):
+        """resolve_variable returns None (not _NullSafe) for missing paths."""
+        ctx = ExecutionContext()
+        evaluator = ExpressionEvaluator(ctx, {})
+        result = evaluator.resolve_variable("steps.missing.outputs.code")
+        assert result is None

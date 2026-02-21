@@ -22,6 +22,7 @@ const nodeTypes: NodeTypes = {
 
 interface StepLiveState {
   status: StepStatus;
+  startTime?: string;
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
@@ -32,6 +33,10 @@ interface Props {
   dagEdges: DAGEdge[];
   /** Live state overrides per step name. */
   stepStates?: Map<string, StepLiveState>;
+  /** Optional traversal counts keyed by "source->target". */
+  edgeCounts?: Map<string, number>;
+  /** Optional set of kickback/rework edges keyed by "source->target". */
+  kickbackEdges?: Set<string>;
   /** Callback when a node is clicked. */
   onNodeClick?: (stepName: string) => void;
   className?: string;
@@ -41,9 +46,11 @@ export default function WorkflowDAG({
   dagNodes,
   dagEdges,
   stepStates,
+  edgeCounts,
+  kickbackEdges,
   onNodeClick,
   className = "",
-}: Props) {
+}: Readonly<Props>) {
   const positions = useMemo(
     () => layoutDAG(dagNodes, dagEdges),
     [dagNodes, dagEdges]
@@ -60,6 +67,7 @@ export default function WorkflowDAG({
         description: dn.description,
         tier: dn.tier,
         status: live?.status ?? "pending",
+        startTime: live?.startTime,
         durationMs: live?.durationMs,
         modelUsed: live?.modelUsed,
         tokensUsed: live?.tokensUsed,
@@ -76,13 +84,18 @@ export default function WorkflowDAG({
 
   const edges: Edge[] = useMemo(() => {
     return dagEdges.map((de) => {
+      const edgeId = `${de.source}->${de.target}`;
       const sourceState = stepStates?.get(de.source);
       const targetState = stepStates?.get(de.target);
+      const traversalCount = edgeCounts?.get(edgeId) ?? 0;
+      const isKickback = kickbackEdges?.has(edgeId) ?? false;
 
       let strokeColor = "#374151"; // gray-700
       let animated = false;
 
-      if (sourceState?.status === "success" && targetState?.status === "running") {
+      if (isKickback && traversalCount > 0) {
+        strokeColor = "#a855f7"; // violet
+      } else if (sourceState?.status === "success" && targetState?.status === "running") {
         strokeColor = "#3b82f6"; // blue
         animated = true;
       } else if (sourceState?.status === "success") {
@@ -92,10 +105,22 @@ export default function WorkflowDAG({
       }
 
       return {
-        id: `${de.source}->${de.target}`,
+        id: edgeId,
         source: de.source,
         target: de.target,
         animated,
+        label: traversalCount > 0 ? String(traversalCount) : undefined,
+        labelStyle: {
+          fill: isKickback ? "#e9d5ff" : "#d1d5db",
+          fontSize: 11,
+          fontWeight: 600,
+        },
+        labelBgStyle: {
+          fill: isKickback ? "rgba(88, 28, 135, 0.75)" : "rgba(17, 24, 39, 0.75)",
+          fillOpacity: 1,
+        },
+        labelBgPadding: [6, 2],
+        labelBgBorderRadius: 4,
         style: { stroke: strokeColor, strokeWidth: 2 },
         markerEnd: {
           type: MarkerType.ArrowClosed,
@@ -105,7 +130,7 @@ export default function WorkflowDAG({
         },
       };
     });
-  }, [dagEdges, stepStates]);
+  }, [dagEdges, edgeCounts, kickbackEdges, stepStates]);
 
   const handleNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {

@@ -87,6 +87,11 @@ class DAGExecutor:
             completed.add(step_name)
             skipped.add(step_name)
             self._state_manager.set_state(step_name, StepState.SKIPPED)
+            # Mark as complete in ctx so downstream should_run() dependency
+            # checks pass.  Skipped steps are logically "done" — they just
+            # didn't produce output.
+            if step_name not in ctx.completed_steps:
+                ctx.completed_steps.append(step_name)
 
         def cascade_skip(start_step: str, reason: str) -> None:
             queue = deque([start_step])
@@ -138,6 +143,11 @@ class DAGExecutor:
                     self._state_manager.transition(step_name, StepState.SUCCESS)
                 elif step_result.status == StepStatus.SKIPPED:
                     self._state_manager.transition(step_name, StepState.SKIPPED)
+                    # Skipped via should_run() (condition not met).  Mark
+                    # complete in ctx so downstream dependencies can proceed.
+                    if step_name not in ctx.completed_steps:
+                        ctx.completed_steps.append(step_name)
+                    skipped.add(step_name)
                 else:
                     self._state_manager.transition(step_name, StepState.FAILED)
 

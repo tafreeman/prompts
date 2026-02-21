@@ -23,6 +23,9 @@ from ..engine.dag_executor import DAGExecutor
 from ..engine.expressions import ExpressionEvaluator
 from ..engine.runtime import IsolatedTaskRuntime, create_runtime
 from ..engine.step import StepExecutor
+from ..integrations.base import TraceAdapter
+from ..integrations.tracing import NullTraceAdapter
+from .artifact_extractor import extract_artifacts
 from .loader import WorkflowDefinition, WorkflowLoader
 from .run_logger import RunLogger
 
@@ -33,6 +36,7 @@ class WorkflowValidationError(ValueError):
     """Raised when workflow inputs fail validation."""
 
     def __init__(self, workflow: str, errors: list[str]):
+        """Initialize with the workflow name and list of validation errors."""
         msg = f"Validation failed for workflow '{workflow}': " + "; ".join(errors)
         super().__init__(msg)
         self.workflow = workflow
@@ -57,7 +61,22 @@ class WorkflowRunner:
         max_concurrency: int = 10,
         run_logger: RunLogger | bool | None = None,
         execution_profile: Mapping[str, Any] | None = None,
+        trace_adapter: TraceAdapter | None = None,
+        extract_artifacts: bool = True,
+        artifacts_dir: Path | None = None,
     ):
+        """Initialize the workflow runner.
+
+        Args:
+            definitions_dir: Directory containing YAML workflow files.
+            step_executor: Custom step executor; a default is used if omitted.
+            max_concurrency: Maximum number of steps that may run in parallel.
+            run_logger: Run-log sink. ``True`` → auto-create, ``False``/``None`` → disabled.
+            execution_profile: Default execution settings applied to every step.
+            trace_adapter: Observability adapter; a no-op adapter is used if omitted.
+            extract_artifacts: Whether to extract artifacts from the final state.
+            artifacts_dir: Directory where artifacts are written.
+        """
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
         self._max_concurrency = max_concurrency
@@ -69,6 +88,10 @@ class WorkflowRunner:
             self._run_logger = run_logger
         else:
             self._run_logger = None
+        # trace_adapter=None → use NullTraceAdapter (no-op)
+        self._trace_adapter = trace_adapter if trace_adapter is not None else NullTraceAdapter()
+        self._extract_artifacts = extract_artifacts
+        self._artifacts_dir = artifacts_dir
 
     # --------------------------------------------------------------------- #
     # Public API
@@ -100,7 +123,9 @@ class WorkflowRunner:
             WorkflowValidationError: If required inputs are missing.
         """
         # 1. Load
-        definition = self._loader.load(workflow_name)
+        # Always reload at execution time so recent YAML edits (e.g. when/outputs)
+        # are applied immediately and not masked by stale in-memory cache.
+        definition = self._loader.load(workflow_name, use_cache=False)
 
         # 2. Validate inputs
         validated = self._validate_inputs(definition, inputs)
@@ -109,30 +134,50 @@ class WorkflowRunner:
         if ctx is None:
             ctx = ExecutionContext(workflow_id=f"wf-{workflow_name}")
 
+        run_id = ctx.workflow_id
+
+        # Emit workflow_start trace event
+        self._trace_adapter.emit_workflow_start(workflow_name, run_id, validated)
+
         # Seed inputs into context under an "inputs" namespace
         for key, value in validated.items():
             ctx.set_sync(f"inputs.{key}", value)
         # Also store the flat dict for expression resolution
         ctx.set_sync("inputs", validated)
 
-        # 4. Execute DAG
-        result, runtime_profile, runtime_artifacts = await self._execute_definition(
-            definition,
-            ctx,
-            on_update=on_update,
-            execution_profile=execution_profile,
-        )
+        try:
+            # 4. Execute DAG
+            result, runtime_profile, runtime_artifacts = await self._execute_definition(
+                definition,
+                ctx,
+                on_update=on_update,
+                execution_profile=execution_profile,
+            )
 
-        # 5. Resolve outputs
-        result.final_output = self._resolve_outputs(definition, ctx, result)
-        result.workflow_name = definition.name
-        result.metadata["execution_profile"] = runtime_profile
-        result.metadata["runtime_artifacts"] = runtime_artifacts
+            # 5. Resolve outputs
+            result.final_output = self._resolve_outputs(definition, ctx, result)
+            result.workflow_name = definition.name
+            result.metadata["execution_profile"] = runtime_profile
+            result.metadata["runtime_artifacts"] = runtime_artifacts
 
-        # 6. Log run
-        self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
+            # 6. Extract artifacts to disk
+            self._do_extract_artifacts(result)
 
-        return result
+            # 7. Log run
+            self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
+
+            # Emit workflow_end trace event
+            self._trace_adapter.emit_workflow_end(
+                workflow_name, run_id, result.overall_status.value, result.final_output
+            )
+
+            return result
+        except Exception as e:
+            # Emit workflow_end with error status
+            self._trace_adapter.emit_workflow_end(
+                workflow_name, run_id, "error", {"error": str(e)}
+            )
+            raise
 
     async def run_definition(
         self,
@@ -165,12 +210,24 @@ class WorkflowRunner:
         result.metadata["execution_profile"] = runtime_profile
         result.metadata["runtime_artifacts"] = runtime_artifacts
 
+        self._do_extract_artifacts(result)
         self._log_run(result, dataset_meta=dataset_meta, workflow_inputs=validated)
         return result
 
     def list_workflows(self, include_experimental: bool = False) -> list[str]:
         """List available workflow names."""
         return self._loader.list_workflows(include_experimental=include_experimental)
+
+    def _do_extract_artifacts(self, result: WorkflowResult) -> None:
+        """Extract FILE blocks from step outputs to the artifacts directory."""
+        if not self._extract_artifacts:
+            return
+        try:
+            out_dir = extract_artifacts(result, artifacts_dir=self._artifacts_dir)
+            if out_dir:
+                result.metadata["artifacts_dir"] = str(out_dir)
+        except Exception:
+            logger.exception("Artifact extraction failed for run %s", result.workflow_id)
 
     def _log_run(
         self,
@@ -211,6 +268,30 @@ class WorkflowRunner:
             await runtime.cleanup()
             raise
 
+        # Create trace-aware callback that emits step events and forwards to user callback
+        async def trace_on_update(event: dict[str, Any]) -> None:
+            event_type = event.get("type", "")
+            run_id = event.get("run_id", "")
+            step_name = event.get("step", "")
+
+            if event_type == "step_start":
+                self._trace_adapter.emit_step_start(
+                    step_name=step_name,
+                    run_id=run_id,
+                    inputs=event.get("inputs", {}),
+                )
+            elif event_type == "step_end":
+                self._trace_adapter.emit_step_complete(
+                    step_name=step_name,
+                    run_id=run_id,
+                    status=event.get("status", "unknown"),
+                    outputs=event.get("outputs", {}),
+                )
+
+            # Forward to user callback if provided
+            if on_update:
+                await on_update(event)
+
         executor = DAGExecutor(step_executor=self._step_executor)
         runtime_artifacts: dict[str, Any] = {}
         try:
@@ -218,7 +299,7 @@ class WorkflowRunner:
                 definition.dag,
                 ctx,
                 max_concurrency=self._max_concurrency,
-                on_update=on_update,
+                on_update=trace_on_update,
             )
         finally:
             try:

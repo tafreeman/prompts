@@ -1,0 +1,134 @@
+{
+  "timestamp_utc": "2026-02-17T06:42:28.657020+00:00",
+  "summary": {
+    "cpu_model": "local:phi3-cpu",
+    "gpu_model": "local:phi3-dml",
+    "rounds": 3,
+    "avg_parallel_wall_s": 18.27,
+    "total_calls": 12,
+    "successful_calls": 6,
+    "failed_calls": 6,
+    "success_rate": 0.5,
+    "avg_sequential_wall_s": 22.416,
+    "parallel_speedup_vs_sequential": 1.227
+  },
+  "records": [
+    {
+      "round": 1,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 25.815,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 25.75,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.019,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 17.012,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 17.011,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.304,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      }
+    },
+    {
+      "round": 2,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 20.221,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 20.22,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.001,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 19.085,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 19.084,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.412,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      }
+    },
+    {
+      "round": 3,
+      "sequential": {
+        "mode": "sequential",
+        "wall_s": 21.213,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 21.212,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.001,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      },
+      "parallel": {
+        "mode": "parallel",
+        "wall_s": 18.714,
+        "cpu": {
+          "model": "local:phi3-cpu",
+          "ok": true,
+          "elapsed_s": 18.713,
+          "error": null,
+          "preview": "1. **ToT (Test-Then-Develop) Workflow:**\n\n   - Use ToT when:\n\n     - You need to validate requirements and design before coding.\n\n     - The project is in the early stages, and you want to ensure that the system behaves as expected.\n\n     - You're dealing with complex, safety-critical systems where verification is crucial.\n\n\n2. **ReAct (React-Then-Act) Workflow:**\n\n   - Use ReAct when:\n\n     - The"
+        },
+        "gpu": {
+          "model": "local:phi3-dml",
+          "ok": false,
+          "elapsed_s": 0.362,
+          "error": "Failed to load model: DML provider requested, but the installed GenAI has not been built with DML support",
+          "preview": ""
+        }
+      }
+    }
+  ]
+}

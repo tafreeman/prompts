@@ -25,7 +25,6 @@ try:
         SystemMessage,
     )
     from langchain_core.outputs import ChatGeneration, ChatResult
-    from langchain_core.runnables import RunnableConfig
     from langchain_core.tools import BaseTool as LangChainBaseTool
 
     LANGCHAIN_AVAILABLE = True
