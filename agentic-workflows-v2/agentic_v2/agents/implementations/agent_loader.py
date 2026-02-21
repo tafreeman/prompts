@@ -20,6 +20,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 from typing import Any
+import os
 
 import yaml
 
@@ -40,8 +41,13 @@ _MODEL_MAP = {
 # Default directory containing .md agent definitions shipped with the project
 _DEFAULT_AGENTS_DIR = Path(__file__).parent / "definitions"
 
-# The directory from D:\source\everything-claude-code\agents
-_EXTERNAL_AGENTS_DIR = Path(r"D:\source\everything-claude-code\agents")
+# Optional external directory for local agent packs.
+# Keep this configurable to avoid machine-specific absolute paths in source.
+_EXTERNAL_AGENTS_DIR = (
+    Path(os.environ["AGENTIC_EXTERNAL_AGENTS_DIR"])
+    if os.environ.get("AGENTIC_EXTERNAL_AGENTS_DIR")
+    else None
+)
 
 _FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 
@@ -71,8 +77,10 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
     if directory is not None:
         dirs = [Path(directory)]
     else:
-        # Prefer bundled definitions; fall back to external path
-        dirs = [_DEFAULT_AGENTS_DIR, _EXTERNAL_AGENTS_DIR]
+        # Prefer bundled definitions; then optional external path (if configured).
+        dirs = [_DEFAULT_AGENTS_DIR]
+        if _EXTERNAL_AGENTS_DIR is not None:
+            dirs.append(_EXTERNAL_AGENTS_DIR)
 
     agents: dict[str, AgentDefinition] = {}
 

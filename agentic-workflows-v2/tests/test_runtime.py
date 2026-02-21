@@ -27,15 +27,25 @@ async def test_subprocess_runtime_echo():
 
 @pytest.mark.asyncio
 async def test_subprocess_runtime_failure():
+    import tempfile
+    # Write a failing script to avoid shell quoting issues
+    script = tempfile.NamedTemporaryFile(
+        suffix=".py", delete=False, mode="w"
+    )
+    script.write("import sys\nsys.stderr.write('boom\\n')\nsys.exit(7)\n")
+    script.close()
+    # Use forward slashes for Windows cmd.exe compatibility
+    script_path = Path(script.name).as_posix()
     runtime = SubprocessRuntime()
     await runtime.setup()
     try:
         with pytest.raises(RuntimeExecutionError) as exc:
-            await runtime.execute("echo boom >&2; exit 7")
+            await runtime.execute(f"python {script_path}")
         assert exc.value.exit_code == 7
         assert "boom" in exc.value.stderr
     finally:
         await runtime.cleanup()
+        Path(script.name).unlink(missing_ok=True)
 
 
 @pytest.mark.asyncio

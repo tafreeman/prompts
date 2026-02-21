@@ -1,37 +1,132 @@
-## API Reference (auto-generated)
+# API Reference
 
-This project uses docstrings to generate API reference documentation. The recommended tooling is Sphinx (with autodoc) or MkDocs with mkdocstrings. Below are minimal setup notes so maintainers can generate docs.
+This document reflects the current public Python API exported by `agentic_v2.__all__`.
 
-Sphinx (recommended):
+## Import Pattern
 
-- Install: `pip install sphinx sphinx-autodoc-typehints myst-parser`
-- Quick init (from repo root):
-
-```bash
-python -m sphinx.cmd.quickstart docs/_build/sphinx -q -p "agentic_v2" -a "Team" --ext-autodoc --makefile
+```python
+from agentic_v2 import <symbol>
 ```
 
-- In `docs/conf.py` enable:
+## Public Exports
 
-  - `sphinx.ext.autodoc`
-  - `sphinx.ext.napoleon`
-  - `sphinx_autodoc_typehints`
-  - `myst_parser` for markdown support
+### Version
 
-- Add an `api` to `docs/index.rst` or `docs/index.md` that runs `.. automodule:: agentic_v2` or per-package modules.
+- `__version__`: Package version string.
 
-MkDocs alternative:
+### Tools
 
-- Install: `pip install mkdocs mkdocstrings mkdocs-material`
-- Configure `mkdocs.yml` with `plugins: - mkdocstrings.handlers.python` and point to the `agentic_v2` package.
+- `BaseTool`: Base class for tool implementations.
+- `ToolResult`: Standard tool execution result container.
+- `ToolSchema`: Tool input/output schema definition.
+- `ToolRegistry`: Runtime registry for tool discovery/lookup.
+- `get_registry`: Access the global tool registry instance.
 
-CI / Local invocation examples:
+### Message And Schema Contracts
 
-```bash
-# Build Sphinx
-sphinx-build -b html docs docs/_build/html
-# or build MkDocs
-mkdocs build -f mkdocs.yml -d site/
-```
+- `MessageType`
+- `StepStatus`
+- `AgentMessage`
+- `StepResult`
+- `WorkflowResult`
+- `Severity`
+- `IssueCategory`
+- `TestType`
+- `TaskInput`
+- `TaskOutput`
+- `CodeGenerationInput`
+- `CodeGenerationOutput`
+- `CodeIssue`
+- `CodeReviewInput`
+- `CodeReviewOutput`
+- `TestCase`
+- `TestGenerationInput`
+- `TestGenerationOutput`
 
-Include the generated HTML in release artifacts or publish via GitHub Pages.
+### Model Routing And Client
+
+- `CircuitState`
+- `ModelStats`
+- `ModelTier`
+- `FallbackChain`
+- `ModelRouter`
+- `SmartModelRouter`
+- `get_router`
+- `get_smart_router`
+- `LLMClientWrapper`
+- `TokenBudget`
+- `get_client`
+
+### Execution Context And Engine
+
+- `EventType`
+- `ServiceContainer`
+- `ExecutionContext`
+- `get_context`
+- `reset_context`
+- `RetryStrategy`
+- `RetryConfig`
+- `StepDefinition`
+- `StepExecutor`
+- `step`
+- `run_step`
+- `PipelineStatus`
+- `ParallelGroup`
+- `ConditionalBranch`
+- `Pipeline`
+- `PipelineBuilder`
+- `PipelineExecutor`
+- `run_pipeline`
+- `DAG`
+- `DAGExecutor`
+- `MissingDependencyError`
+- `CycleDetectedError`
+- `ExpressionEvaluator`
+- `StepState`
+- `StepStateManager`
+- `ExecutorEvent`
+- `ExecutionConfig`
+- `ExecutionHistory`
+- `WorkflowExecutor`
+- `get_executor`
+- `reset_executor`
+- `execute`
+- `run`
+
+### Agents And Capabilities
+
+- `AgentConfig`
+- `AgentEvent`
+- `AgentState`
+- `BaseAgent`
+- `ConversationMemory`
+- `ConversationMessage`
+- `agent_to_step`
+- `Capability`
+- `CapabilityMixin`
+- `CapabilitySet`
+- `CapabilityType`
+- `CodeGenerationMixin`
+- `CodeReviewMixin`
+- `OrchestrationMixin`
+- `TestGenerationMixin`
+- `get_agent_capabilities`
+- `requires_capabilities`
+- `CoderAgent`
+- `ReviewerAgent`
+- `OrchestratorAgent`
+- `OrchestratorInput`
+- `OrchestratorOutput`
+- `SubTask`
+
+## CLI Entry Point
+
+- Command: `agentic`
+- Module: `agentic_v2.cli.main`
+- Core commands: `run`, `validate`, `list`, `serve`.
+- `orchestrate` is currently marked as not implemented.
+
+## Notes
+
+- Private modules/functions (`_name`) are internal and may change without notice.
+- Server APIs are documented separately via FastAPI OpenAPI docs at runtime.

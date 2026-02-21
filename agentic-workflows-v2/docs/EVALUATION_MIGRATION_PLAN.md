@@ -1,11 +1,14 @@
 # Evaluation Migration & Consolidation Plan (Enhanced)
 
+> Historical planning document. Updated on 2026-02-20 to replace stale path
+> references with current repository paths.
+
 ## Objective
 
 Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 
-1. **Execution-Based Eval**: SWE-bench style sandbox execution (from `multiagent-workflows`).
-2. **LLM-Based Eval**: "Judge" patterns for quality, coherence, relevance (from `tools/prompteval`).
+1. **Execution-Based Eval**: SWE-bench style sandbox execution (legacy source: `multiagent-workflows`, now integrated under `agentic-v2-eval/src/agentic_v2_eval/sandbox/`).
+2. **LLM-Based Eval**: "Judge" patterns for quality, coherence, relevance (legacy source: `tools/prompteval`, now integrated under `agentic-v2-eval/src/agentic_v2_eval/evaluators/`).
 3. **Pattern Eval**: Structural compliance for ReAct/CoVe/etc. (from `unified_scorer.py`).
 4. **Code Static Analysis**: AST-based metrics (already in `agentic-v2-eval`).
 
@@ -17,7 +20,7 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
   * Define `Evaluator` abstract base class.
   * Implement `EvaluatorRegistry` for loading by name.
 * [x] **Create `agentic_v2_eval/evaluators/llm.py`**:
-  * Port `LLMEvaluator` class from `tools/prompteval/builtin_evaluators.py`.
+  * Port `LLMEvaluator` class from legacy prompt-eval logic.
   * Implement "Choice-based" scoring logic (robust parsing of 1-5 ratings).
   * **Note:** initial choice-matching implementation exists; expand robustness as part of Phase 3 tests.
 * [ ] **Create `agentic_v2_eval/evaluators/string.py`**:
@@ -25,7 +28,7 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 
 ### 1.2 Execution Sandbox (The "Runner")
 
-* [x] **Create `agentic_v2_eval/runners/sandbox.py`**:
+* [x] **Create sandbox runner interfaces**:
   * ~~Port `ExecutionScorer` logic from `multiagent_workflows`.~~
   * ~~Implement `DockerSandbox`.~~
   * **Done**: `LocalSubprocessSandbox` implemented in `sandbox/local.py` (cross-platform, safe-mode, timeout support).
@@ -37,8 +40,8 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 
 ### 2.1 Prompt Pattern Scoring (The "Unified Scorer")
 
-**Source**: `tools/prompteval/unified_scorer.py`
-**Destination**: `agentic_v2_eval/scorers/prompt.py`
+**Legacy source**: `tools/prompteval/unified_scorer.py` (retired)
+**Current destination**: `agentic-v2-eval/src/agentic_v2_eval/evaluators/pattern.py` and `agentic-v2-eval/src/agentic_v2_eval/evaluators/standard.py`
 
 * [ ] Port `score_prompt` (Standard 5-dim rubric: Clarity, Effectiveness, etc.).
 * [ ] Port `score_pattern` (Complex Pattern Eval: ReAct, CoVe, RAG).
@@ -47,8 +50,8 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 
 ### 2.2 Built-in LLM Evaluators
 
-**Source**: `tools/prompteval/builtin_evaluators.py`
-**Destination**: `agentic_v2_eval/evaluators/library.py`
+**Legacy source**: `tools/prompteval/builtin_evaluators.py` (retired)
+**Current destination**: `agentic-v2-eval/src/agentic_v2_eval/evaluators/`
 
 * [ ] Register standard evaluators:
   * `Coherence`
@@ -62,14 +65,14 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 * [ ] **Create `agentic_v2_eval/evaluators/swe.py`**:
   * Logic to parse SWE-bench task instances.
   * Logic to prepare git repos and apply patches.
-  * Integration with `sandbox.py` runner to execute verification.
+  * Integration with `sandbox/local.py` runner to execute verification.
 
 ## Phase 3: Validation & Testing
 
 * [ ] **Unit Tests**:
   * `test_llm_evaluator.py`: Mock model responses, verify choice parsing.
   * `test_pattern_scorer.py`: Verify ReAct state machine logic.
-  * `test_sandbox.py`: Verify Docker command construction.
+  * `test_sandbox.py`: Verify subprocess sandbox behavior and timeout handling.
 * [ ] **Integration Proof**:
   * Run a mock "Agent" generating a simple Python script.
   * Evaluate it using `swe.py` (execution correctness).
@@ -78,8 +81,8 @@ Consolidate all evaluation logic into `agentic-v2-eval`, merging the best of:
 ## Phase 4: Cleanup & Switchover
 
 * [ ] **Delete Old Code**:
-  * `d:\source\prompts\multiagent-workflows\src\multiagent_workflows\evaluation\`
-  * `d:\source\prompts\tools\prompteval\`
+  * Legacy evaluation forks that are no longer in active repo paths.
+  * Retired prompt-eval prototypes that are now represented in `agentic-v2-eval`.
 * [ ] **Update Consumers**:
   * Update `agentic-workflows-v2` to import from new locations.
   * Update `scripts/` to use new `agentic-v2-eval` CLI.

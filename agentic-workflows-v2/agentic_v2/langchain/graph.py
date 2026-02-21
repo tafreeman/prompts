@@ -254,6 +254,8 @@ def _make_step_node(
     step: StepConfig,
     workflow: WorkflowConfig,
     trace_adapter: Optional[TraceAdapter] = None,
+    *,
+    validate_only: bool = False,
 ):
     """Create a graph node function for a workflow step.
 
@@ -307,6 +309,24 @@ def _make_step_node(
             }
 
         return _tier0_node
+
+    # Validation mode: compile graph shape without requiring provider/model setup.
+    if validate_only:
+        def _validation_noop(state: WorkflowState) -> dict[str, Any]:
+            return {
+                "context": dict(state.get("context", {})),
+                "steps": {
+                    **state.get("steps", {}),
+                    step.name: {
+                        "status": "validation",
+                        "outputs": {},
+                        "loop_iteration": _next_iteration(state, step.name),
+                    },
+                },
+                "current_step": step.name,
+            }
+
+        return _validation_noop
 
     # Tier 1+: LLM-backed agent
     agent = create_agent(
@@ -379,10 +399,20 @@ def _add_step_nodes(
     graph: StateGraph,
     config: WorkflowConfig,
     trace_adapter: Optional[TraceAdapter] = None,
+    *,
+    validate_only: bool = False,
 ) -> None:
     """Add one graph node per configured workflow step."""
     for step in config.steps:
-        graph.add_node(step.name, _make_step_node(step, config, trace_adapter))
+        graph.add_node(
+            step.name,
+            _make_step_node(
+                step,
+                config,
+                trace_adapter,
+                validate_only=validate_only,
+            ),
+        )
 
 
 def _add_start_edges(graph: StateGraph, root_steps: list[str]) -> None:
@@ -469,6 +499,8 @@ def compile_workflow(
     config: WorkflowConfig,
     checkpointer: Any = None,
     trace_adapter: Optional[TraceAdapter] = None,
+    *,
+    validate_only: bool = False,
 ) -> Any:
     """Compile a ``WorkflowConfig`` into a runnable LangGraph.
 
@@ -480,6 +512,8 @@ def compile_workflow(
         Optional LangGraph checkpointer for persistence.
     trace_adapter:
         Optional trace adapter for step-level observability.
+    validate_only:
+        When True, compile graph topology without constructing live agents.
 
     Returns
     -------
@@ -492,7 +526,7 @@ def compile_workflow(
     step_names = {s.name for s in config.steps}
     root_steps = [s.name for s in config.steps if not s.depends_on]
 
-    _add_step_nodes(graph, config, trace_adapter)
+    _add_step_nodes(graph, config, trace_adapter, validate_only=validate_only)
     _add_start_edges(graph, root_steps)
     _validate_dependencies(config, step_names)
     _wire_dependency_edges(graph, _build_outgoing_map(config))

@@ -55,6 +55,8 @@ class TokenEstimateTool(BaseTool):
     async def execute(self, text: str) -> ToolResult:
         """Estimate the token count for *text* and return the result."""
         try:
+            # Heuristic: ~4 chars per token for English text
+            tokens = max(1, len(text) // 4)
             return ToolResult(
                 success=True,
                 data={"tokens": tokens, "chars": len(text)},
