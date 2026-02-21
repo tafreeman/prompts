@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
+import shlex
 import time
 from pathlib import Path
 from typing import Any
@@ -106,14 +108,27 @@ class BuildAppTool(BaseTool):
             "build_app(project_root='repo', run_smoke=True, smoke_command='python -m uvicorn app:app --help')",
         ]
 
+    # Shell metacharacters that require shell=True to work correctly
+    _SHELL_METACHARS = re.compile(r"[&|;<>(){}\$`]")
+
     async def _run_shell(self, command: str, cwd: Path, timeout: float) -> dict[str, Any]:
         started = time.perf_counter()
-        proc = await asyncio.create_subprocess_shell(
-            command,
-            cwd=str(cwd),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
+        needs_shell = bool(self._SHELL_METACHARS.search(command))
+        if needs_shell:
+            proc = await asyncio.create_subprocess_shell(
+                command,
+                cwd=str(cwd),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+        else:
+            args = shlex.split(command)
+            proc = await asyncio.create_subprocess_exec(
+                *args,
+                cwd=str(cwd),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
         try:
             stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=timeout)
             duration_ms = (time.perf_counter() - started) * 1000
@@ -126,8 +141,12 @@ class BuildAppTool(BaseTool):
                 "duration_ms": round(duration_ms, 2),
             }
         except asyncio.TimeoutError:
-            proc.kill()
-            await proc.wait()
+            proc.terminate()
+            try:
+                await asyncio.wait_for(proc.wait(), timeout=5.0)
+            except asyncio.TimeoutError:
+                proc.kill()
+                await proc.wait()
             duration_ms = (time.perf_counter() - started) * 1000
             return {
                 "command": command,
@@ -263,7 +282,7 @@ class BuildAppTool(BaseTool):
                     "command": cmd,
                     "skipped": True,
                     "reason": "dry_run" if cmd else "no_command",
-                    "success": cmd is not None,
+                    "success": True,
                 }
             ready = not missing_files and all(
                 phase_results[p]["success"] for p in phase_results

@@ -15,13 +15,20 @@ interface Props {
 function orderedStepNames(stepStates: Map<string, StepState>, stepOrder?: string[]): string[] {
   const known = new Set(stepStates.keys());
   const ordered: string[] = [];
+  const seen = new Set<string>();
 
   for (const name of stepOrder ?? []) {
-    if (known.has(name)) ordered.push(name);
+    if (known.has(name) && !seen.has(name)) {
+      ordered.push(name);
+      seen.add(name);
+    }
   }
 
   for (const name of stepStates.keys()) {
-    if (!ordered.includes(name)) ordered.push(name);
+    if (!seen.has(name)) {
+      ordered.push(name);
+      seen.add(name);
+    }
   }
 
   return ordered;
@@ -100,6 +107,7 @@ function StepPanel({
   return (
     <div className="overflow-hidden rounded-lg border border-white/5 bg-surface-1">
       <button
+        type="button"
         onClick={onToggle}
         className="flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-surface-2/30"
       >
@@ -141,6 +149,7 @@ function StepPanel({
             {(["output", "input"] as const).map((t) => (
               <button
                 key={t}
+                type="button"
                 onClick={() => setTab(t)}
                 className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
                   tab === t

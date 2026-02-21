@@ -113,6 +113,16 @@ function WorkflowDAGInner({
     }, 8000);
   }, []);
 
+  // Clear any pending interaction timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (interactionTimerRef.current) {
+        clearTimeout(interactionTimerRef.current);
+        interactionTimerRef.current = null;
+      }
+    };
+  }, []);
+
   const nodes = useMemo(() => {
     return dagNodes.map((dn) => {
       const pos = positions.find((p) => p.id === dn.id);

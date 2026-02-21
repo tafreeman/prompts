@@ -35,6 +35,8 @@ ENV/
 ui/node_modules/
 ui/dist/
 ui/.env*
+ui/coverage/
+**/*.tsbuildinfo
 ui/stats.html
 
 # IDEs

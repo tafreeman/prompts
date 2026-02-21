@@ -151,7 +151,7 @@ def compute_hard_gates(
 
     release_build_verified = True
     build_verify_step = next(
-        (step for step in result.steps if step.step_name in {"build_verify_release", "build_verify_release_round2"}),
+        (step for step in reversed(result.steps) if "build_verify_release" in step.step_name),
         None,
     )
     if build_verify_step is not None:
