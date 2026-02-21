@@ -6,7 +6,7 @@ version: "1.0.0"
 providers:
   local_onnx:
     description: Local ONNX models via onnxruntime-genai
-    base_path: "${AIGALLERY_CACHE:-~/.cache/aigallery}"
+    base_path: "${AIGALLERY_CACHE:-C:\\Users\\tandf\\.cache\\aigallery}"
     available:
       - id: "local:phi4"
         name: Phi-4
@@ -95,17 +95,17 @@ providers:
     available:
       - id: "gh:openai/gpt-4o"
         name: GPT-4o
-        capabilities: ["text", "reasoning", "code", "math"]
+        capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
       - id: "gh:openai/gpt-4o-mini"
-        name: GPT-4o Mini
+        name: gpt-4o Mini
         capabilities: ["text", "code"]
         cost_tier: "standard"
 
-      - id: "gh:openai/gpt-5-mini"
-        name: GPT-5 Mini
-        capabilities: ["text", "reasoning", "code"]
+      - id: "gh:openai/o3-mini"
+        name: o3-mini
+        capabilities: ["reasoning", "math"]
         cost_tier: "premium"
 
       - id: "gh:deepseek/deepseek-r1"
@@ -113,39 +113,9 @@ providers:
         capabilities: ["reasoning", "code"]
         cost_tier: "premium"
 
-      - id: "gh:deepseek/deepseek-r1-0528"
-        name: DeepSeek R1 0528
-        capabilities: ["reasoning", "code"]
-        cost_tier: "premium"
-
-      - id: "gh:deepseek/deepseek-v3-0324"
-        name: DeepSeek V3 0324
-        capabilities: ["code", "text"]
-        cost_tier: "premium"
-
       - id: "gh:mistralai/codestral-2501"
         name: Codestral 2501
         capabilities: ["code"]
-        cost_tier: "standard"
-
-      - id: "gh:mistralai/mistral-small-2503"
-        name: Mistral Small 2503
-        capabilities: ["text", "code"]
-        cost_tier: "standard"
-
-      - id: "gh:microsoft/phi-4-multimodal-instruct"
-        name: Phi-4 Multimodal Instruct
-        capabilities: ["vision", "text"]
-        cost_tier: "standard"
-
-      - id: "gh:microsoft/phi-4-mini-instruct"
-        name: Phi-4 Mini Instruct
-        capabilities: ["text", "code"]
-        cost_tier: "standard"
-
-      - id: "gh:microsoft/phi-4-reasoning"
-        name: Phi-4 Reasoning
-        capabilities: ["reasoning", "text"]
         cost_tier: "standard"
 
       - id: "gh:meta/llama-4-scout"
@@ -176,23 +146,6 @@ providers:
         capabilities: ["text", "reasoning", "code"]
         cost_tier: "premium"
 
-  aitk:
-    description: AI Toolkit local models (Windows AI)
-    available:
-      - id: "aitk:phi-4-mini-instruct"
-        name: Phi-4 Mini Instruct (AITK)
-        capabilities: ["text", "code"]
-        device: "npu"
-        context_length: 4096
-        cost_tier: "free"
-
-      - id: "aitk:qwen2.5-coder-7b-instruct"
-        name: Qwen 2.5 Coder 7B Instruct (AITK)
-        capabilities: ["code", "text"]
-        device: "npu"
-        context_length: 8192
-        cost_tier: "free"
-
 # Task-based routing rules
 routing:
   # Vision tasks require vision-capable models
@@ -216,7 +169,7 @@ routing:
     preferred:
       [
         "gh:openai/gpt-5-mini",
-        "gh:mistralai/codestral-2501",
+        "gh:mistral-ai/codestral-2501",
         "gh:deepseek/deepseek-v3-0324",
       ]
     fallback:
@@ -245,7 +198,7 @@ routing:
 
   # Chat/Coordination - fast general models with local fallbacks
   coordination:
-    preferred: ["gh:openai/gpt-4o-mini", "gh:mistralai/mistral-small-2503"]
+    preferred: ["gh:openai/gpt-4o-mini", "gh:mistral-ai/mistral-small-2503"]
     fallback: ["ollama:gemma3:4b", "local:phi4mini", "aitk:phi-4-mini-instruct"]
 
   # Documentation - balanced quality + speed with local fallbacks
