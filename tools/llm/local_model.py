@@ -190,8 +190,17 @@ class LocalModel:
         search_options = {
             "max_length": len(input_tokens) + max_tokens,
             "batch_size": 1,
+            "temperature": max(float(temperature), 0.0),
+            "top_p": min(max(float(top_p), 0.0), 1.0),
         }
-        params.set_search_options(**search_options)
+        try:
+            params.set_search_options(**search_options)
+        except TypeError:
+            # Older onnxruntime-genai versions may not support sampling args.
+            params.set_search_options(
+                max_length=search_options["max_length"],
+                batch_size=search_options["batch_size"],
+            )
 
         # Create generator and append input tokens
         generator = og.Generator(self.model, params)

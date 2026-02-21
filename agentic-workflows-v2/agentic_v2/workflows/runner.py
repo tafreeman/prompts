@@ -36,6 +36,7 @@ class WorkflowValidationError(ValueError):
     """Raised when workflow inputs fail validation."""
 
     def __init__(self, workflow: str, errors: list[str]):
+        """Initialize with the workflow name and list of validation errors."""
         msg = f"Validation failed for workflow '{workflow}': " + "; ".join(errors)
         super().__init__(msg)
         self.workflow = workflow
@@ -64,6 +65,18 @@ class WorkflowRunner:
         extract_artifacts: bool = True,
         artifacts_dir: Path | None = None,
     ):
+        """Initialize the workflow runner.
+
+        Args:
+            definitions_dir: Directory containing YAML workflow files.
+            step_executor: Custom step executor; a default is used if omitted.
+            max_concurrency: Maximum number of steps that may run in parallel.
+            run_logger: Run-log sink. ``True`` → auto-create, ``False``/``None`` → disabled.
+            execution_profile: Default execution settings applied to every step.
+            trace_adapter: Observability adapter; a no-op adapter is used if omitted.
+            extract_artifacts: Whether to extract artifacts from the final state.
+            artifacts_dir: Directory where artifacts are written.
+        """
         self._loader = WorkflowLoader(definitions_dir=definitions_dir)
         self._step_executor = step_executor
         self._max_concurrency = max_concurrency
@@ -255,6 +268,30 @@ class WorkflowRunner:
             await runtime.cleanup()
             raise
 
+        # Create trace-aware callback that emits step events and forwards to user callback
+        async def trace_on_update(event: dict[str, Any]) -> None:
+            event_type = event.get("type", "")
+            run_id = event.get("run_id", "")
+            step_name = event.get("step", "")
+
+            if event_type == "step_start":
+                self._trace_adapter.emit_step_start(
+                    step_name=step_name,
+                    run_id=run_id,
+                    inputs=event.get("inputs", {}),
+                )
+            elif event_type == "step_end":
+                self._trace_adapter.emit_step_complete(
+                    step_name=step_name,
+                    run_id=run_id,
+                    status=event.get("status", "unknown"),
+                    outputs=event.get("outputs", {}),
+                )
+
+            # Forward to user callback if provided
+            if on_update:
+                await on_update(event)
+
         executor = DAGExecutor(step_executor=self._step_executor)
         runtime_artifacts: dict[str, Any] = {}
         try:
@@ -262,7 +299,7 @@ class WorkflowRunner:
                 definition.dag,
                 ctx,
                 max_concurrency=self._max_concurrency,
-                on_update=on_update,
+                on_update=trace_on_update,
             )
         finally:
             try:

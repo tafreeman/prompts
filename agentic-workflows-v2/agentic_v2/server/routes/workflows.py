@@ -13,8 +13,11 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import StreamingResponse
 
 from ...contracts import StepStatus
-from ...engine import ExecutionContext
-from ...workflows import WorkflowLoader, WorkflowRunner
+from ...integrations.otel import create_trace_adapter
+from ...langchain import WorkflowRunner as LangChainRunner
+from ...langchain import list_workflows as lc_list_workflows
+from ...langchain import load_workflow_config
+from ...utils.path_safety import is_within_base
 from ...workflows.run_logger import RunLogger
 from ..evaluation import (
     adapt_sample_to_workflow_inputs,
@@ -37,9 +40,14 @@ from ..models import (
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["workflows"])
-loader = WorkflowLoader()
-runner = WorkflowRunner(run_logger=False)
+# LangChain runner — primary execution engine for this branch
+lc_runner = LangChainRunner(trace_adapter=create_trace_adapter())
 run_logger = RunLogger()
+
+
+def _is_within_base(path, base_dir) -> bool:
+    """Compatibility shim for tests importing this helper directly."""
+    return is_within_base(path, base_dir)
 
 
 def _is_effectively_empty(value: Any) -> bool:
@@ -74,7 +82,7 @@ def _merge_dataset_and_request_inputs(
 @router.get("/workflows", response_model=ListWorkflowsResponse)
 async def list_workflows():
     """List available workflows."""
-    workflows = loader.list_workflows()
+    workflows = lc_list_workflows()
     return ListWorkflowsResponse(workflows=workflows)
 
 
@@ -82,23 +90,22 @@ async def list_workflows():
 async def get_workflow_dag(name: str):
     """Return the DAG structure for visualization."""
     try:
-        wf = loader.load(name)
+        wf = load_workflow_config(name)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-    dag = wf.dag
     nodes = []
     edges = []
-    for step_name, step in dag.steps.items():
+    for step in wf.steps:
         nodes.append({
-            "id": step_name,
-            "agent": step.metadata.get("agent"),
+            "id": step.name,
+            "agent": step.agent,
             "description": step.description,
             "depends_on": list(step.depends_on),
-            "tier": step.tier.name if step.tier else None,
+            "tier": None,  # tier is embedded in agent name (e.g. tier2_reviewer)
         })
         for dep in step.depends_on:
-            edges.append({"source": dep, "target": step_name})
+            edges.append({"source": dep, "target": step.name})
 
     # Include input schema so the UI can render a proper form
     input_schema = []
@@ -125,16 +132,13 @@ async def get_workflow_dag(name: str):
 async def get_workflow_capabilities(name: str):
     """Return workflow capability declarations (inputs/outputs)."""
     try:
-        wf = loader.load(name)
+        wf = load_workflow_config(name)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
 
     return {
         "workflow": wf.name,
-        "capabilities": {
-            "inputs": list(wf.capabilities.inputs),
-            "outputs": list(wf.capabilities.outputs),
-        },
+        "capabilities": wf.capabilities,
     }
 
 
@@ -190,10 +194,16 @@ async def runs_summary(workflow: Optional[str] = None):
 @router.get("/runs/{filename}")
 async def get_run(filename: str):
     """Get full run detail including all step data."""
-    path = run_logger.runs_dir / filename
-    if not path.exists():
+    from pathlib import Path
+
+    base_dir = run_logger.runs_dir
+    candidate = (base_dir / filename).resolve()
+    if not _is_within_base(candidate, base_dir):
+        # Do not leak filesystem layout; treat as not found
         raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
-    return run_logger.load_run(path)
+    if not Path(candidate).exists():
+        raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
+    return run_logger.load_run(candidate)
 
 
 @router.get("/runs/{run_id}/stream")
@@ -227,7 +237,7 @@ async def list_evaluation_datasets(workflow: Optional[str] = None):
 
     if workflow:
         try:
-            workflow_def = loader.load(workflow)
+            workflow_def = load_workflow_config(workflow)
         except Exception as exc:
             raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -272,7 +282,7 @@ async def preview_dataset_inputs(
 ):
     """Preview how dataset sample fields will map to workflow inputs."""
     try:
-        workflow_def = loader.load(workflow_name)
+        workflow_def = load_workflow_config(workflow_name)
     except Exception as exc:
         raise HTTPException(status_code=404, detail=f"Workflow not found: {exc}") from exc
 
@@ -319,177 +329,211 @@ async def preview_dataset_inputs(
     }
 
 
+def _load_dataset_sample(evaluation: Any) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """Load a dataset sample based on evaluation config. Returns (sample, meta)."""
+    if evaluation.dataset_source == "repository":
+        if not evaluation.dataset_id:
+            raise HTTPException(
+                status_code=422,
+                detail="evaluation.dataset_id is required for repository datasets",
+            )
+        return load_repository_dataset_sample(
+            evaluation.dataset_id,
+            sample_index=evaluation.sample_index,
+        )
+    if evaluation.dataset_source == "local":
+        dataset_ref = evaluation.local_dataset_path or evaluation.dataset_id
+        if not dataset_ref:
+            raise HTTPException(
+                status_code=422,
+                detail=(
+                    "evaluation.dataset_id or evaluation.local_dataset_path is "
+                    "required for local datasets"
+                ),
+            )
+        return load_local_dataset_sample(dataset_ref, sample_index=evaluation.sample_index)
+    return None, None
+
+
+def _resolve_evaluation_inputs(
+    workflow_def: Any,
+    evaluation: Any,
+    run_id: str,
+    workflow_inputs: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any] | None, dict[str, Any] | None]:
+    """Load + adapt dataset sample; return (merged_inputs, dataset_sample, dataset_meta)."""
+    try:
+        dataset_sample, dataset_meta = _load_dataset_sample(evaluation)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    if not dataset_sample:
+        return workflow_inputs, dataset_sample, dataset_meta
+
+    compatible, reasons = match_workflow_dataset(workflow_def, dataset_sample)
+    if not compatible:
+        raise HTTPException(
+            status_code=422,
+            detail={"message": "Dataset sample is incompatible with workflow inputs", "reasons": reasons},
+        )
+
+    adapted = adapt_sample_to_workflow_inputs(
+        workflow_def.inputs,
+        dataset_sample,
+        run_id=run_id,
+        artifacts_dir=run_logger.runs_dir / "_inputs",
+    )
+    merged = _merge_dataset_and_request_inputs(adapted, workflow_inputs)
+    dataset_meta = {**(dataset_meta or {}), "dataset_workflow_compatible": True, "dataset_mismatch_reasons": []}
+
+    missing = validate_required_inputs_present(workflow_def.inputs, merged)
+    if missing:
+        raise HTTPException(
+            status_code=422,
+            detail={"message": "Missing required workflow inputs after dataset adaptation", "missing_inputs": missing},
+        )
+    return merged, dataset_sample, dataset_meta
+
+
+async def _stream_and_run(
+    workflow_name: str,
+    run_id: str,
+    workflow_inputs: dict[str, Any],
+) -> Any:
+    """Stream LangGraph node events to WebSocket, then return final WorkflowResult."""
+    import time
+
+    step_start_times: dict[str, float] = {}
+    try:
+        async for node_update in lc_runner.astream(workflow_name, thread_id=run_id, **workflow_inputs):
+            for step_name, step_state in node_update.items():
+                if not isinstance(step_state, dict):
+                    continue
+                step_data = step_state.get("steps", {}).get(step_name, {})
+                status = step_data.get("status", "running")
+                now = datetime.now(timezone.utc).isoformat()
+                if status == "running":
+                    step_start_times[step_name] = time.time()
+                    await websocket.manager.broadcast(
+                        run_id, {"type": "step_start", "run_id": run_id, "step": step_name, "timestamp": now}
+                    )
+                elif status in ("success", "failed"):
+                    duration_ms = int((time.time() - step_start_times.pop(step_name, time.time())) * 1000)
+                    await websocket.manager.broadcast(
+                        run_id,
+                        {
+                            "type": "step_complete" if status == "success" else "step_error",
+                            "run_id": run_id,
+                            "step": step_name,
+                            "status": status,
+                            "outputs": step_data.get("outputs", {}),
+                            "duration_ms": duration_ms,
+                            "timestamp": now,
+                        },
+                    )
+        return await lc_runner.run(workflow_name, use_cache=True, **workflow_inputs)
+    except Exception as stream_err:
+        logger.warning("Streaming failed (%s); falling back to invoke", stream_err)
+        return await lc_runner.run(workflow_name, **workflow_inputs)
+
+
+async def _run_and_evaluate(
+    workflow_name: str,
+    run_id: str,
+    workflow_inputs: dict[str, Any],
+    workflow_def: Any,
+    evaluation: Any,
+    dataset_sample: dict[str, Any] | None,
+    dataset_meta: dict[str, Any] | None,
+) -> None:
+    """Execute workflow, broadcast events, optionally evaluate, and log the run."""
+    try:
+        logger.info("Starting background execution for run_id=%s", run_id)
+        result = await _stream_and_run(workflow_name, run_id, workflow_inputs)
+
+        # Handle both new LangChain WorkflowResult (status) and legacy (overall_status)
+        status = getattr(result, 'status', None) or getattr(result, 'overall_status', 'unknown')
+        await websocket.manager.broadcast(
+            run_id,
+            {
+                "type": "workflow_end",
+                "run_id": run_id,
+                "status": status,
+                "outputs": getattr(result, 'outputs', None) or getattr(result, 'final_output', {}),
+                "elapsed_seconds": getattr(result, 'elapsed_seconds', 0.0),
+                "errors": getattr(result, 'errors', []),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
+        )
+
+        scored_evaluation: dict[str, Any] | None = None
+        if evaluation and evaluation.enabled:
+            await websocket.manager.broadcast(
+                run_id, {"type": "evaluation_start", "run_id": run_id, "timestamp": datetime.now(timezone.utc).isoformat()}
+            )
+            scored_evaluation = score_workflow_result(
+                result,
+                dataset_meta=dataset_meta,
+                dataset_sample=dataset_sample,
+                rubric=(evaluation.rubric_id or evaluation.rubric),
+                workflow_definition=workflow_def,
+                enforce_hard_gates=evaluation.enforce_hard_gates,
+            )
+            await websocket.manager.broadcast(
+                run_id,
+                {
+                    "type": "evaluation_complete",
+                    "run_id": run_id,
+                    **{k: scored_evaluation[k] for k in (
+                        "rubric", "rubric_id", "rubric_version", "weighted_score",
+                        "overall_score", "grade", "passed", "pass_threshold",
+                        "criteria", "hard_gates", "hard_gate_failures", "step_scores",
+                    )},
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+            )
+
+        run_logger.log(
+            result,
+            dataset_meta=dataset_meta,
+            workflow_inputs=workflow_inputs,
+            extra={
+                "evaluation_requested": bool(evaluation and evaluation.enabled),
+                "evaluation": scored_evaluation,
+            },
+        )
+        logger.info("Completed background execution for run_id=%s", run_id)
+    except Exception as e:
+        logger.error("Error in background execution for run_id=%s: %s", run_id, e, exc_info=True)
+        await websocket.manager.broadcast(run_id, {"type": "error", "run_id": run_id, "error": str(e)})
+
+
 @router.post("/run", response_model=WorkflowRunResponse)
 async def run_workflow(request: WorkflowRunRequest, background_tasks: BackgroundTasks):
     """Execute a workflow asynchronously."""
     try:
-        workflow_def = loader.load(request.workflow)
-
-        # Determine run_id
+        workflow_def = load_workflow_config(request.workflow)
         run_id = request.run_id or f"{workflow_def.name}-{uuid.uuid4().hex[:8]}"
         workflow_inputs = dict(request.input_data)
         evaluation = request.evaluation
-        execution_profile = (
-            request.execution_profile.model_dump(exclude_none=True)
-            if request.execution_profile
-            else None
-        )
         dataset_sample: dict[str, Any] | None = None
         dataset_meta: dict[str, Any] | None = None
 
         if evaluation and evaluation.enabled:
-            try:
-                if evaluation.dataset_source == "repository":
-                    if not evaluation.dataset_id:
-                        raise HTTPException(
-                            status_code=422,
-                            detail="evaluation.dataset_id is required for repository datasets",
-                        )
-                    dataset_sample, dataset_meta = load_repository_dataset_sample(
-                        evaluation.dataset_id,
-                        sample_index=evaluation.sample_index,
-                    )
-                elif evaluation.dataset_source == "local":
-                    dataset_ref = evaluation.local_dataset_path or evaluation.dataset_id
-                    if not dataset_ref:
-                        raise HTTPException(
-                            status_code=422,
-                            detail=(
-                                "evaluation.dataset_id or evaluation.local_dataset_path is "
-                                "required for local datasets"
-                            ),
-                        )
-                    dataset_sample, dataset_meta = load_local_dataset_sample(
-                        dataset_ref,
-                        sample_index=evaluation.sample_index,
-                    )
-            except ValueError as exc:
-                raise HTTPException(status_code=422, detail=str(exc)) from exc
+            workflow_inputs, dataset_sample, dataset_meta = _resolve_evaluation_inputs(
+                workflow_def, evaluation, run_id, workflow_inputs
+            )
 
-            if dataset_sample:
-                compatible, reasons = match_workflow_dataset(workflow_def, dataset_sample)
-                if not compatible:
-                    raise HTTPException(
-                        status_code=422,
-                        detail={
-                            "message": "Dataset sample is incompatible with workflow inputs",
-                            "reasons": reasons,
-                        },
-                    )
-
-                adapted_inputs = adapt_sample_to_workflow_inputs(
-                    workflow_def.inputs,
-                    dataset_sample,
-                    run_id=run_id,
-                    artifacts_dir=run_logger.runs_dir / "_inputs",
-                )
-                # Request input_data takes precedence over adapted dataset inputs,
-                # except empty request values do not override adapted values.
-                workflow_inputs = _merge_dataset_and_request_inputs(
-                    adapted_inputs,
-                    workflow_inputs,
-                )
-                dataset_meta = {
-                    **(dataset_meta or {}),
-                    "dataset_workflow_compatible": True,
-                    "dataset_mismatch_reasons": [],
-                }
-
-                missing_required = validate_required_inputs_present(
-                    workflow_def.inputs,
-                    workflow_inputs,
-                )
-                if missing_required:
-                    raise HTTPException(
-                        status_code=422,
-                        detail={
-                            "message": "Missing required workflow inputs after dataset adaptation",
-                            "missing_inputs": missing_required,
-                        },
-                    )
-
-        # Execute workflow — put inputs under "inputs" namespace
-        # so YAML ${inputs.code_file} expressions resolve correctly.
-        ctx = ExecutionContext(workflow_id=run_id)
-        ctx.set_sync("inputs", workflow_inputs)
-        # Also set top-level for backwards compat
-        for key, value in workflow_inputs.items():
-            ctx.set_sync(key, value)
-
-        async def event_callback(event: dict[str, Any]):
-            await websocket.manager.broadcast(run_id, event)
-
-        async def _run_workflow_task():
-            try:
-                logger.info(f"Starting background execution for run_id={run_id}")
-                result = await runner.run(
-                    request.workflow,
-                    ctx=ctx,
-                    on_update=event_callback,
-                    execution_profile=execution_profile,
-                    **workflow_inputs,
-                )
-
-                scored_evaluation: dict[str, Any] | None = None
-                if evaluation and evaluation.enabled:
-                    await websocket.manager.broadcast(
-                        run_id,
-                        {
-                            "type": "evaluation_start",
-                            "run_id": run_id,
-                            "timestamp": datetime.now(timezone.utc).isoformat(),
-                        },
-                    )
-                    scored_evaluation = score_workflow_result(
-                        result,
-                        dataset_meta=dataset_meta,
-                        dataset_sample=dataset_sample,
-                        rubric=(evaluation.rubric_id or evaluation.rubric),
-                        workflow_definition=workflow_def,
-                        enforce_hard_gates=evaluation.enforce_hard_gates,
-                    )
-                    await websocket.manager.broadcast(
-                        run_id,
-                        {
-                            "type": "evaluation_complete",
-                            "run_id": run_id,
-                            "rubric": scored_evaluation["rubric"],
-                            "rubric_id": scored_evaluation["rubric_id"],
-                            "rubric_version": scored_evaluation["rubric_version"],
-                            "weighted_score": scored_evaluation["weighted_score"],
-                            "overall_score": scored_evaluation["overall_score"],
-                            "grade": scored_evaluation["grade"],
-                            "passed": scored_evaluation["passed"],
-                            "pass_threshold": scored_evaluation["pass_threshold"],
-                            "criteria": scored_evaluation["criteria"],
-                            "hard_gates": scored_evaluation["hard_gates"],
-                            "hard_gate_failures": scored_evaluation["hard_gate_failures"],
-                            "step_scores": scored_evaluation["step_scores"],
-                            "timestamp": datetime.now(timezone.utc).isoformat(),
-                        },
-                    )
-
-                run_logger.log(
-                    result,
-                    dataset_meta=dataset_meta,
-                    workflow_inputs=workflow_inputs,
-                    extra={
-                        "evaluation_requested": bool(evaluation and evaluation.enabled),
-                        "evaluation": scored_evaluation,
-                    },
-                )
-                logger.info(f"Completed background execution for run_id={run_id}")
-            except Exception as e:
-                logger.error(
-                    f"Error in background execution for run_id={run_id}: {e}",
-                    exc_info=True,
-                )
-                await websocket.manager.broadcast(
-                    run_id, {"type": "error", "run_id": run_id, "error": str(e)}
-                )
-
-        background_tasks.add_task(_run_workflow_task)
-
+        background_tasks.add_task(
+            _run_and_evaluate,
+            request.workflow,
+            run_id,
+            workflow_inputs,
+            workflow_def,
+            evaluation,
+            dataset_sample,
+            dataset_meta,
+        )
         return WorkflowRunResponse(run_id=run_id, status=StepStatus.PENDING)
     except HTTPException:
         raise

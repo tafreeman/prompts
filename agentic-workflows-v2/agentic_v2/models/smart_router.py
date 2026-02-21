@@ -64,8 +64,6 @@ class SmartModelRouter(ModelRouter):
             "ollama:llama3.2:latest": 0.0,
             "gh:gpt-4o-mini": 0.15,
             "gh:gpt-4o": 2.5,
-            "gh:o1-mini": 3.0,
-            "gh:o1": 15.0,
         }
     )
 

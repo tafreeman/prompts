@@ -1,10 +1,10 @@
-import json
 import os
 import sys
-import urllib.error
-import urllib.request
 from pathlib import Path
 from typing import Optional
+
+from tools.llm.local_models import LOCAL_MODELS
+from tools.llm import provider_adapters
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX - Use shared module
@@ -58,63 +58,7 @@ class LLMClient:
       - gpt* -> OpenAI API
     """
 
-    # Available local models (from AI Gallery cache)
-    # Updated 2025-12-18 - Full model list from ~/.cache/aigallery
-    # Format: "key": ("base_dir", "subpath") or just "base_dir" for auto-detect
-    LOCAL_MODELS = {
-        # ═══════════════════════════════════════════════════════════════════
-        # PHI-4 (Latest - 3.8B params)
-        # ═══════════════════════════════════════════════════════════════════
-        "phi4": "microsoft--Phi-4-mini-instruct-onnx",
-        "phi4mini": "microsoft--Phi-4-mini-instruct-onnx",
-        "phi4-cpu": "microsoft--Phi-4-mini-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
-        "phi4-gpu": "microsoft--Phi-4-mini-instruct-onnx/main/gpu/gpu-int4-rtn-block-32",
-        # ═══════════════════════════════════════════════════════════════════
-        # PHI-3.5 (3.8B params)
-        # ═══════════════════════════════════════════════════════════════════
-        "phi3.5": "microsoft--Phi-3.5-mini-instruct-onnx",
-        "phi3.5-cpu": "microsoft--Phi-3.5-mini-instruct-onnx/main/cpu_and_mobile/cpu-int4-awq-block-128-acc-level-4",
-        "phi3.5-vision": "microsoft--Phi-3.5-vision-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
-        # ═══════════════════════════════════════════════════════════════════
-        # PHI-3 MINI (3.8B params)
-        # ═══════════════════════════════════════════════════════════════════
-        "phi3": "microsoft--Phi-3-mini-4k-instruct-onnx",
-        "phi3-cpu": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
-        "phi3-cpu-acc1": "microsoft--Phi-3-mini-4k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32",
-        "phi3-dml": "microsoft--Phi-3-mini-4k-instruct-onnx/main/directml/directml-int4-awq-block-128",
-        "phi3-vision": "microsoft--Phi-3-vision-128k-instruct-onnx/main/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4",
-        # ═══════════════════════════════════════════════════════════════════
-        # PHI-3 MEDIUM (14B params - larger, slower, more capable)
-        # ═══════════════════════════════════════════════════════════════════
-        "phi3-medium": "microsoft--Phi-3-medium-4k-instruct-onnx-cpu",
-        "phi3-medium-cpu": "microsoft--Phi-3-medium-4k-instruct-onnx-cpu/main/cpu-int4-rtn-block-32-acc-level-4",
-        "phi3-medium-dml": "microsoft--Phi-3-medium-4k-instruct-onnx-directml/main/directml-int4-awq-block-128",
-        # ═══════════════════════════════════════════════════════════════════
-        # MISTRAL 7B (7B params)
-        # ═══════════════════════════════════════════════════════════════════
-        "mistral": "microsoft--mistral-7b-instruct-v0.2-ONNX",
-        "mistral-7b": "microsoft--mistral-7b-instruct-v0.2-ONNX",
-        "mistral-cpu": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32-acc-level-4",
-        "mistral-cpu-acc1": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/cpu_and_mobile/mistral-7b-instruct-v0.2-cpu-int4-rtn-block-32",
-        "mistral-dml": "microsoft--mistral-7b-instruct-v0.2-ONNX/main/onnx/directml/mistralai_Mistral-7B-Instruct-v0.2",
-        # ═══════════════════════════════════════════════════════════════════
-        # EMBEDDING MODELS (for RAG, similarity search)
-        # ═══════════════════════════════════════════════════════════════════
-        "minilm-l6": "sentence-transformers--all-MiniLM-L6-v2",
-        "minilm-l12": "sentence-transformers--all-MiniLM-L12-v2",
-        # ═══════════════════════════════════════════════════════════════════
-        # WHISPER (Speech-to-Text)
-        # ═══════════════════════════════════════════════════════════════════
-        "whisper-tiny": "khmyznikov--whisper-int8-cpu-ort.onnx",
-        "whisper-small": "khmyznikov--whisper-int8-cpu-ort.onnx",
-        "whisper-medium": "khmyznikov--whisper-int8-cpu-ort.onnx",
-        "whisper": "khmyznikov--whisper-int8-cpu-ort.onnx",
-        # ═══════════════════════════════════════════════════════════════════
-        # IMAGE MODELS
-        # ═══════════════════════════════════════════════════════════════════
-        "stable-diffusion": "CompVis--stable-diffusion-v1-4",
-        "esrgan": "microsoft--dml-ai-hub-models",
-    }
+    LOCAL_MODELS = dict(LOCAL_MODELS)
 
     @staticmethod
     def _pick_preferred_model(
@@ -364,56 +308,8 @@ class LLMClient:
     def _call_ollama(
         model_name: str, prompt: str, system_instruction: Optional[str]
     ) -> str:
-        """Call a local Ollama server using its REST API.
-
-        Model name format: ollama:<model>
-        Example: ollama:llama3
-
-        Environment variables:
-          - OLLAMA_HOST: URL of the Ollama server (default: http://localhost:11434)
-
-        Args:
-            model_name: Name of the model in Ollama.
-            prompt: User message.
-            system_instruction: System instructions to prepend.
-
-        Returns:
-            Generated text response.
-        """
-        host = os.getenv("OLLAMA_HOST", "http://localhost:11434").rstrip("/")
-        model = model_name.split(":", 1)[1] if ":" in model_name else "llama3"
-
-        full_prompt = prompt
-        if system_instruction:
-            full_prompt = f"System: {system_instruction}\n\nUser: {prompt}"
-
-        payload = json.dumps(
-            {
-                "model": model,
-                "prompt": full_prompt,
-                "stream": False,
-            }
-        ).encode("utf-8")
-
-        req = urllib.request.Request(
-            f"{host}/api/generate",
-            data=payload,
-            headers={"Content-Type": "application/json"},
-        )
-
-        # Default to a moderate timeout so workflows don't stall for 10 minutes per attempt.
-        # You can override locally if you want to allow very long generations.
-        timeout_s = int(os.getenv("OLLAMA_TIMEOUT_SECONDS", "180"))
-
-        try:
-            with urllib.request.urlopen(req, timeout=timeout_s) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                return data.get("response", "")
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8") if e.fp else str(e)
-            raise RuntimeError(f"Ollama API error ({e.code}): {error_body}")
-        except urllib.error.URLError as e:
-            raise RuntimeError(f"Ollama connection error: {e}")
+        """Call a local Ollama server using its REST API."""
+        return provider_adapters.call_ollama(model_name, prompt, system_instruction)
 
     @staticmethod
     def _call_azure_openai(
@@ -423,90 +319,14 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
-        """Call Azure OpenAI Service via the OpenAI Python SDK (deployment-
-        based).
-
-        Model name formats:
-          - azure-openai:<deployment>
-          - azure-openai:<slot>:<deployment> (uses slot-specific env vars)
-
-        Environment variables:
-          - AZURE_OPENAI_ENDPOINT: Main service endpoint.
-          - AZURE_OPENAI_API_KEY: Authentication key.
-          - AZURE_OPENAI_API_VERSION: API version (default: 2024-02-15-preview).
-
-        Args:
-            model_name: Deployment string including optional slot.
-            prompt: User message.
-            system_instruction: System prompt.
-            temperature: Sampling temperature.
-            max_tokens: Token limit.
-
-        Returns:
-            Generated text content.
-        """
-        parts = model_name.split(":")
-        # parts[0] == "azure-openai"
-        slot: Optional[int] = None
-        deployment: Optional[str] = None
-
-        if len(parts) == 2:
-            deployment = parts[1]
-        elif len(parts) >= 3:
-            # azure-openai:<slot>:<deployment...>
-            try:
-                slot = int(parts[1])
-                deployment = ":".join(parts[2:])
-            except ValueError:
-                # If slot isn't an int, treat everything after prefix as deployment
-                deployment = ":".join(parts[1:])
-
-        if not deployment:
-            raise ValueError(
-                "Azure OpenAI deployment name not provided (azure-openai:<deployment>)"
-            )
-
-        if slot is not None:
-            endpoint = os.getenv(f"AZURE_OPENAI_ENDPOINT_{slot}")
-            api_key = os.getenv(f"AZURE_OPENAI_API_KEY_{slot}")
-        else:
-            endpoint = os.getenv("AZURE_OPENAI_ENDPOINT") or os.getenv(
-                "AZURE_OPENAI_ENDPOINT_0"
-            )
-            api_key = os.getenv("AZURE_OPENAI_API_KEY") or os.getenv(
-                "AZURE_OPENAI_API_KEY_0"
-            )
-
-        if not endpoint:
-            raise ValueError("AZURE_OPENAI_ENDPOINT(_<n>) environment variable not set")
-        if not api_key:
-            raise ValueError("AZURE_OPENAI_API_KEY(_<n>) environment variable not set")
-
-        api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
-
-        try:
-            from openai import AzureOpenAI
-        except ImportError:
-            raise ImportError("openai package not installed. Run: pip install openai")
-
-        client = AzureOpenAI(
-            api_key=api_key,
-            azure_endpoint=endpoint,
-            api_version=api_version,
-        )
-
-        messages = []
-        if system_instruction:
-            messages.append({"role": "system", "content": system_instruction})
-        messages.append({"role": "user", "content": prompt})
-
-        response = client.chat.completions.create(
-            model=deployment,
-            messages=messages,
+        """Call Azure OpenAI Service via provider adapter."""
+        return provider_adapters.call_azure_openai(
+            model_name,
+            prompt,
+            system_instruction,
             temperature=temperature,
             max_tokens=max_tokens,
         )
-        return response.choices[0].message.content
 
     @staticmethod
     def _call_local(
@@ -516,70 +336,27 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 2000,
     ) -> str:
-        """Call a local ONNX model using the LocalModel class (onnxruntime-
-        genai).
-
-        Model name format: local:<model_key>
-        Supported keys are defined in LLMClient.LOCAL_MODELS.
-
-        Args:
-            model_name: Key for the local model.
-            prompt: User message.
-            system_instruction: System prompt.
-            temperature: Sampling temperature.
-            max_tokens: Token limit.
-
-        Returns:
-            Generated text from local inference.
-        """
-        # Import local_model module
+        """Call a local ONNX model via provider adapter."""
         try:
-            from tools.llm.local_model import LocalModel
-        except ImportError:
-            raise LLMClientError(
+            return provider_adapters.call_local(
                 model_name,
-                "local_model.py not found or onnxruntime-genai not installed",
+                prompt,
+                system_instruction,
+                local_models=LLMClient.LOCAL_MODELS,
+                resolve_model_path=LLMClient._resolve_local_model_path,
+                temperature=temperature,
+                max_tokens=max_tokens,
             )
+        except RuntimeError as exc:
+            raise LLMClientError(model_name, str(exc), original_error=exc) from exc
 
-        # Parse model key
-        model_key = model_name.split(":", 1)[1] if ":" in model_name else "phi4mini"
-
-        # Find model path
-        model_dir_name = LLMClient.LOCAL_MODELS.get(model_key.lower())
-        if model_dir_name:
-            ai_gallery = Path.home() / ".cache" / "aigallery" / model_dir_name
-            if ai_gallery.exists():
-                # Find the ONNX subdirectory
-                for subdir in ai_gallery.rglob("*cpu*"):
-                    if subdir.is_dir() and any(subdir.glob("*.onnx")):
-                        model_path = str(subdir)
-                        break
-                else:
-                    model_path = None
-            else:
-                model_path = None
-        else:
-            model_path = None
-
-        # Create a lock to indicate this local model is in use.
-        # This helps parallel evaluation scripts avoid conflicts.
-        try:
-            from tools.llm.model_locks import create_model_lock
-
-            create_model_lock(model_key)
-        except Exception:
-            pass
-
-        try:
-            lm = LocalModel(model_path=model_path, verbose=False)
-            full_prompt = prompt
-            if system_instruction:
-                full_prompt = f"System: {system_instruction}\n\nUser: {prompt}"
-            return lm.generate(
-                full_prompt, max_tokens=max_tokens, temperature=temperature
-            )
-        except Exception as e:
-            return f"Local model error: {str(e)}"
+    @staticmethod
+    def _resolve_local_model_path(model_key: str) -> Optional[Path]:
+        """Resolve local model key to the best ONNX directory."""
+        return provider_adapters.resolve_local_model_path(
+            model_key,
+            local_models=LLMClient.LOCAL_MODELS,
+        )
 
     @staticmethod
     def _call_windows_ai(
@@ -589,168 +366,27 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 2000,
     ) -> str:
-        """Call Windows AI APIs (Phi Silica via Windows Copilot Runtime).
-
-        Model name format: windows-ai:phi-silica
-
-        Requirements:
-          - Windows 11 with NPU (Copilot+ PC)
-          - Windows App SDK 1.7+
-          - pip install winrt-runtime
-
-        Reference:
-          https://learn.microsoft.com/en-us/windows/ai/apis/phi-silica
-        """
+        """Call Windows AI APIs (Phi Silica via Windows Copilot Runtime)."""
         try:
-            from windows_ai import WindowsAIModel
-
-            model = WindowsAIModel(verbose=False)
-            return model.generate(
+            return provider_adapters.call_windows_ai(
                 prompt,
-                system_instruction=system_instruction,
+                system_instruction,
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-
-        except ImportError:
-            raise LLMClientError(
-                "windows-ai",
-                "Windows AI integration not available. "
-                "Requires Windows 11 with NPU (Copilot+ PC), "
-                "Windows App SDK 1.7+, and pip install winrt-runtime",
-            )
-        except Exception as e:
-            raise LLMClientError("windows-ai", str(e), original_error=e) from e
+        except Exception as exc:
+            raise LLMClientError("windows-ai", str(exc), original_error=exc) from exc
 
     @staticmethod
     def _call_github_models(
         model_name: str, prompt: str, system_instruction: Optional[str]
     ) -> str:
-        """Call GitHub Models via gh CLI with rate limit handling.
-
-        Model name format: gh:<model_name>
-        Examples:
-          - gh:deepseek/deepseek-r1
-          - gh:meta/llama-3.3-70b-instruct
-          - gh:openai/gpt-4o-mini
-
-        Uses gh CLI authentication (gh auth login).
-        """
-        import subprocess
-        import time
-
-        # Parse model name (remove gh: prefix)
-        model = (
-            model_name.split(":", 1)[1]
-            if ":" in model_name
-            else "meta/llama-3.3-70b-instruct"
+        """Call GitHub Models via provider adapter."""
+        return provider_adapters.call_github_models(
+            model_name,
+            prompt,
+            system_instruction,
         )
-
-        # Map short names to full names
-        model_map = {
-            "gpt-4o-mini": "openai/gpt-4o-mini",
-            "gpt-4o": "openai/gpt-4o",
-            "gpt-4.1": "openai/gpt-4.1",
-            "gpt-4.1-mini": "openai/gpt-4.1-mini",
-            "gpt-5": "openai/gpt-5",
-            "gpt-5-mini": "openai/gpt-5-mini",
-            "o1": "openai/o1",
-            "o1-mini": "openai/o1-mini",
-            "o3": "openai/o3",
-            "o3-mini": "openai/o3-mini",
-            "o4-mini": "openai/o4-mini",
-            "llama-3.3-70b": "meta/llama-3.3-70b-instruct",
-            "llama-4-scout": "meta/llama-4-scout-17b-16e-instruct",
-            "llama-4-maverick": "meta/llama-4-maverick-17b-128e-instruct-fp8",
-            "mistral-small": "mistral-ai/mistral-small-2503",
-            "mistral-medium": "mistral-ai/mistral-medium-2505",
-            "codestral": "mistral-ai/codestral-2501",
-            "deepseek-r1": "deepseek/deepseek-r1",
-            "deepseek-v3": "deepseek/deepseek-v3-0324",
-            "phi-4": "microsoft/phi-4",
-            "phi-4-reasoning": "microsoft/phi-4-reasoning",
-            "grok-3": "xai/grok-3",
-            "grok-3-mini": "xai/grok-3-mini",
-        }
-        full_model = model_map.get(model, model)
-
-        # Build prompt with system instruction
-        if system_instruction:
-            full_prompt = f"System: {system_instruction}\n\nUser: {prompt}"
-        else:
-            full_prompt = prompt
-
-        # Retry / rate-limit strategy
-        # Default behavior is "fallback" (fail fast so callers can switch models).
-        # Set PROMPTS_GH_RATE_LIMIT_STRATEGY=wait to enable waiting retries.
-        def _get_int_env(name: str, default: int) -> int:
-            try:
-                v = int((os.getenv(name) or "").strip() or str(default))
-                return max(1, v)
-            except Exception:
-                return default
-
-        rate_limit_strategy = (
-            (os.getenv("PROMPTS_GH_RATE_LIMIT_STRATEGY") or "fallback").strip().lower()
-        )
-        max_retries = _get_int_env("PROMPTS_GH_MAX_RETRIES", 1)
-        base_delay = _get_int_env("PROMPTS_GH_BASE_DELAY_SECONDS", 2)
-
-        # Clean environment - remove GITHUB_TOKEN so gh CLI uses its own auth
-        clean_env = {k: v for k, v in os.environ.items() if k != "GITHUB_TOKEN"}
-
-        for attempt in range(max_retries):
-            try:
-                result = subprocess.run(
-                    ["gh", "models", "run", full_model],
-                    input=full_prompt,
-                    capture_output=True,
-                    text=True,
-                    timeout=300,
-                    encoding="utf-8",
-                    errors="replace",
-                    env=clean_env,
-                )
-                if result.returncode == 0:
-                    return result.stdout
-
-                error_msg = result.stderr.lower()
-
-                # Rate limiting
-                if any(
-                    x in error_msg
-                    for x in ["rate limit", "too many requests", "429", "quota"]
-                ):
-                    # Default: do not wait here; let callers rotate to another model/provider.
-                    if rate_limit_strategy == "wait" and attempt < max_retries - 1:
-                        wait_time = min(base_delay * (2**attempt), 60)
-                        print(
-                            f"  [gh] Rate limited, waiting {wait_time}s (attempt {attempt + 1}/{max_retries})..."
-                        )
-                        time.sleep(wait_time)
-                        continue
-                    return (
-                        f"gh models error: Rate limited after {attempt + 1} attempt(s)"
-                    )
-
-                # No access error
-                if "no_access" in error_msg or "no access" in error_msg:
-                    return f"gh models error: No access to model {full_model}"
-
-                return f"gh models error: {result.stderr}"
-
-            except FileNotFoundError:
-                return "gh models error: gh CLI not found. Install with: winget install GitHub.cli"
-            except subprocess.TimeoutExpired:
-                if attempt < max_retries - 1:
-                    print(
-                        f"  [gh] Timeout, retrying (attempt {attempt + 1}/{max_retries})..."
-                    )
-                    time.sleep(base_delay)
-                    continue
-                return "gh models error: request timed out"
-
-        return "gh models error: max retries exceeded"
 
     @staticmethod
     def _call_azure_foundry(
@@ -760,135 +396,26 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
-        """Call Azure Foundry API using Azure OpenAI-compatible REST endpoint.
-
-        Model name format: azure-foundry:<endpoint_key>
-        Examples:
-          - azure-foundry:1 -> Uses AZURE_FOUNDRY_ENDPOINT_1
-          - azure-foundry:2 -> Uses AZURE_FOUNDRY_ENDPOINT_2
-          - azure-foundry:phi4mini -> Uses AZURE_FOUNDRY_ENDPOINT_1 (default)
-          - azure-foundry:mistral -> Uses AZURE_FOUNDRY_ENDPOINT_2
-
-        Environment variables:
-          - AZURE_FOUNDRY_API_KEY: API key for authentication
-          - AZURE_FOUNDRY_ENDPOINT_1: First endpoint URL
-          - AZURE_FOUNDRY_ENDPOINT_2: Second endpoint URL
-        """
-        api_key = os.getenv("AZURE_FOUNDRY_API_KEY")
-        if not api_key:
-            raise ValueError("AZURE_FOUNDRY_API_KEY environment variable not set")
-
-        # Parse model name to determine endpoint
-        # Format: azure-foundry:<endpoint_id_or_name>
-        model_part = model_name.split(":", 1)[1] if ":" in model_name else "1"
-
-        # Map model part to endpoint
-        if model_part in ("1", "phi4mini", "phi4", "phi"):
-            endpoint = os.getenv("AZURE_FOUNDRY_ENDPOINT_1")
-        elif model_part in ("2", "mistral"):
-            endpoint = os.getenv("AZURE_FOUNDRY_ENDPOINT_2")
-        else:
-            # Try numbered endpoint first
-            endpoint = os.getenv(f"AZURE_FOUNDRY_ENDPOINT_{model_part}")
-            if not endpoint:
-                # Default to endpoint 1
-                endpoint = os.getenv("AZURE_FOUNDRY_ENDPOINT_1")
-
-        if not endpoint:
-            raise ValueError(
-                f"Azure Foundry endpoint not configured for '{model_part}'"
-            )
-
-        # Ensure endpoint ends with /chat/completions
-        if not endpoint.endswith("/chat/completions"):
-            endpoint = endpoint.rstrip("/") + "/chat/completions"
-
-        # Add API version if not present
-        if "api-version" not in endpoint:
-            endpoint += "?api-version=2024-02-15-preview"
-
-        # Build messages
-        messages = []
-        if system_instruction:
-            messages.append({"role": "system", "content": system_instruction})
-        messages.append({"role": "user", "content": prompt})
-
-        payload = json.dumps(
-            {"messages": messages, "temperature": temperature, "max_tokens": max_tokens}
-        ).encode("utf-8")
-
-        req = urllib.request.Request(
-            endpoint,
-            data=payload,
-            headers={"Content-Type": "application/json", "api-key": api_key},
+        """Call Azure Foundry API via provider adapter."""
+        return provider_adapters.call_azure_foundry(
+            model_name,
+            prompt,
+            system_instruction,
+            temperature=temperature,
+            max_tokens=max_tokens,
         )
-
-        try:
-            with urllib.request.urlopen(req, timeout=120) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                return data["choices"][0]["message"]["content"]
-        except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8") if e.fp else str(e)
-            raise RuntimeError(f"Azure Foundry API error ({e.code}): {error_body}")
-        except urllib.error.URLError as e:
-            raise RuntimeError(f"Azure Foundry connection error: {e}")
 
     @staticmethod
     def _call_gemini(
         model_name: str, prompt: str, system_instruction: Optional[str]
     ) -> str:
-        try:
-            import google.generativeai as genai
-
-            # Support either GOOGLE_API_KEY (legacy) or GEMINI_API_KEY (preferred in this repo's .env)
-            api_key = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-            if not api_key:
-                raise ValueError(
-                    "GOOGLE_API_KEY or GEMINI_API_KEY environment variable not set"
-                )
-
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel(model_name)
-
-            # Gemini handles system instructions differently (often in the prompt or config)
-            # For simplicity, we prepend it if provided
-            full_prompt = prompt
-            if system_instruction:
-                full_prompt = f"System Instruction: {system_instruction}\n\n{prompt}"
-
-            response = model.generate_content(full_prompt)
-            return response.text
-        except ImportError:
-            raise ImportError(
-                "google-generativeai package not installed. Run: pip install google-generativeai"
-            )
+        return provider_adapters.call_gemini(model_name, prompt, system_instruction)
 
     @staticmethod
     def _call_claude(
         model_name: str, prompt: str, system_instruction: Optional[str]
     ) -> str:
-        try:
-            from anthropic import Anthropic
-
-            api_key = os.getenv("ANTHROPIC_API_KEY") or os.getenv("CLAUDE_API_KEY")
-            if not api_key:
-                raise ValueError(
-                    "ANTHROPIC_API_KEY or CLAUDE_API_KEY environment variable not set"
-                )
-
-            client = Anthropic(api_key=api_key)
-
-            messages = [{"role": "user", "content": prompt}]
-            kwargs = {"model": model_name, "max_tokens": 4096, "messages": messages}
-            if system_instruction:
-                kwargs["system"] = system_instruction
-
-            response = client.messages.create(**kwargs)
-            return response.content[0].text
-        except ImportError:
-            raise ImportError(
-                "anthropic package not installed. Run: pip install anthropic"
-            )
+        return provider_adapters.call_claude(model_name, prompt, system_instruction)
 
     @staticmethod
     def _call_openai(
@@ -898,26 +425,10 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 4096,
     ) -> str:
-        try:
-            from openai import OpenAI
-
-            api_key = os.getenv("OPENAI_API_KEY")
-            if not api_key:
-                raise ValueError("OPENAI_API_KEY environment variable not set")
-
-            client = OpenAI(api_key=api_key)
-
-            messages = []
-            if system_instruction:
-                messages.append({"role": "system", "content": system_instruction})
-            messages.append({"role": "user", "content": prompt})
-
-            response = client.chat.completions.create(
-                model=model_name,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-            )
-            return response.choices[0].message.content
-        except ImportError:
-            raise ImportError("openai package not installed. Run: pip install openai")
+        return provider_adapters.call_openai(
+            model_name,
+            prompt,
+            system_instruction,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )

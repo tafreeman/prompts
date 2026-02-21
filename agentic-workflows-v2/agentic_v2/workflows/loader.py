@@ -289,7 +289,7 @@ class WorkflowLoader:
                     scale_map = {str(k): str(v) for k, v in scale.items()}
 
                     formula_id = str(criterion_raw.get("formula_id", "zero_one"))
-                    from ..server.normalization import is_registered_formula
+                    from ..evaluation.normalization import is_registered_formula
 
                     if not is_registered_formula(formula_id):
                         raise WorkflowLoadError(

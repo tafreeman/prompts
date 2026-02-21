@@ -96,6 +96,8 @@ YAML files defining scoring criteria with weights and descriptions.
 
 ```bash
 pytest tests/ -v
+pytest --cov=agentic_v2_eval --cov-report=term-missing --cov-report=xml
+./scripts/run_coverage.sh
 ```
 
 ## License

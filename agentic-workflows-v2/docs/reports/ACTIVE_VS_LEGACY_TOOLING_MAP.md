@@ -2,19 +2,22 @@
 
 > **Purpose:** Authoritative reference for which modules are active, deprecated, or superseded in `agentic-workflows-v2`.
 >
-> **Last updated:** 2026-02-08 (Phase 0 completion)
+> **Last updated:** 2026-02-20 (refactor alignment)
 
 ---
 
-## Active Modules (agentic-workflows-v2/src/agentic_v2/)
+## Active Modules (agentic-workflows-v2/agentic_v2/)
 
 ### Server
 
 | Module | Purpose | Status |
 |--------|---------|--------|
 | `server/app.py` | FastAPI app factory, CORS, route registration, SPA fallback | **Active** |
-| `server/evaluation.py` | Scoring engine: hard gates, normalization, rubric resolution, criterion floors, grading | **Active** |
-| `server/normalization.py` | Formula registry (binary, likert, lower-is-better, etc.) + Bayesian reliability adjustment | **Active** (Phase 0) |
+| `server/evaluation.py` | Backward-compatible orchestration surface for workflow scoring | **Active** |
+| `server/evaluation_scoring.py` | Scoring engine internals: hard gates, rubric resolution, criterion floors, grading | **Active** |
+| `server/datasets.py` | Dataset loading, adaptation, and compatibility matching | **Active** |
+| `evaluation/normalization.py` | Canonical formula registry (binary, likert, lower-is-better, etc.) + reliability adjustment | **Active** (Phase 0) |
+| `server/normalization.py` | Backward-compatible re-export of normalization functions | **Active** (compatibility shim) |
 | `server/scoring_profiles.py` | Workflow-family scoring profiles A-D with default weights and extra gates | **Active** (Phase 0) |
 | `server/models.py` | Pydantic request/response models for API | **Active** |
 | `server/websocket.py` | WebSocket connection manager with replay buffer and SSE listener | **Active** |
@@ -53,7 +56,7 @@
 | Module | Purpose | Status |
 |--------|---------|--------|
 | `integrations/langchain.py` | LangChain adapters (AgenticChatModel, AgenticTool, AgenticAgent) | **Active** (pre-contract; Phase 1 will normalize to base interfaces) |
-| `integrations/__init__.py` | Empty — `base.py` does not exist yet | **Placeholder** (Phase 1: P1-T001) |
+| `integrations/__init__.py` | Integration package exports and registration | **Active** |
 
 ### Contracts
 
@@ -81,10 +84,10 @@
 
 | Path | Status | Superseded By | Notes |
 |------|--------|---------------|-------|
-| `docs/EVALUATION_MIGRATION_PLAN.md` | **Superseded** | `docs/planning/workflow-eval-consolidated-plan.md` | Migration plan from earlier consolidation effort; many items checked but scope shifted to Phase 0 scoring architecture |
+| `docs/EVALUATION_MIGRATION_PLAN.md` | **Historical** | — | Migration planning record with legacy references annotated inline |
 | `docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md` | **Historical** | — | Phase 1 implementation record; kept for reference only |
 | `docs/IMPLEMENTATION_PLAN_V2.md` | **Historical** | — | Phase 2 implementation record; kept for reference only |
-| `scripts/add_module_docstrings.py` | **One-off utility** | — | Not part of regular workflow; can be removed |
+| scripts/add_module_docstrings.py | **Removed** | — | No longer present in repository |
 
 ### In the parent repo (d:\source\prompts\)
 
@@ -99,11 +102,8 @@
 
 | Planned Module | Ticket | Phase |
 |----------------|--------|-------|
-| `integrations/base.py` | P1-T001 | 1 |
-| `engine/runtime.py` | P1-T003 | 1 |
 | `engine/strategy.py` | P2-T001 | 2 |
 | `engine/iterative.py` | P2-T002 | 2 |
-| `server/judge.py` | P3-T001 | 3 |
 
 ---
 
