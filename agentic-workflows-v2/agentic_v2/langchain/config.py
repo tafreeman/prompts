@@ -14,6 +14,7 @@ from typing import Any
 import re
 import yaml
 
+from ..utils.path_safety import ensure_within_base
 
 # ---------------------------------------------------------------------------
 # Config dataclasses
@@ -129,19 +130,16 @@ def load_workflow_config(
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", name):
         raise ValueError(f"Invalid workflow name: {name}")
 
-    # Helper to check that a candidate path is within the base directory
-    def _ensure_within_base(p: Path) -> Path:
-        resolved = p.resolve()
-        base_str = str(base)
-        resolved_str = str(resolved)
-        if not (resolved_str == base_str or resolved_str.startswith(base_str + str(Path.sep))):
-            raise ValueError(f"Invalid workflow name: {name}")
-        return resolved
-
     # First try .yaml, then .yml
-    path = _ensure_within_base(base / f"{name}.yaml")
+    try:
+        path = ensure_within_base(base / f"{name}.yaml", base)
+    except ValueError as exc:
+        raise ValueError(f"Invalid workflow name: {name}") from exc
     if not path.exists():
-        path = _ensure_within_base(base / f"{name}.yml")
+        try:
+            path = ensure_within_base(base / f"{name}.yml", base)
+        except ValueError as exc:
+            raise ValueError(f"Invalid workflow name: {name}") from exc
 
     if not path.exists():
         available = list_workflows(definitions_dir)

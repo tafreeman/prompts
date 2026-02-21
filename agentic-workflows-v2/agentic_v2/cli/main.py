@@ -198,9 +198,12 @@ def orchestrate(
     Use 'agentic run <workflow>' to run a YAML-defined workflow.
     """
     console.print(
-        "[yellow]Dynamic orchestration is not yet implemented in the LangChain engine.[/yellow]"
+        "[yellow]Dynamic Orchestration is not yet implemented in the LangChain engine.[/yellow]"
     )
-    console.print("Use [bold]agentic run <workflow>[/bold] to run a YAML-defined workflow.")
+    console.print(
+        "Use [bold]agentic run <workflow>[/bold] to run a YAML-defined workflow "
+        "(no LLM configuration required for this command path)."
+    )
     raise typer.Exit(1)
 
 
@@ -269,8 +272,9 @@ def validate(
 
         workflow_def = load_workflow_config(workflow_name, definitions_dir)
 
-        # Compile through LangGraph to catch graph-level errors
-        compile_workflow(workflow_def)
+        # Compile through LangGraph to catch graph-level errors without
+        # requiring provider API keys during static validation.
+        compile_workflow(workflow_def, validate_only=True)
 
         console.print(
             f"\n[green]✓[/green] Workflow '[bold]{workflow_def.name}[/bold]' is valid!"
@@ -481,7 +485,7 @@ def serve(
 
     uvicorn.run(
         "agentic_v2.server.app:create_app",
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=port,
         reload=dev,
         factory=True,

@@ -8,7 +8,6 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
-import os
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import StreamingResponse
@@ -18,6 +17,7 @@ from ...integrations.otel import create_trace_adapter
 from ...langchain import WorkflowRunner as LangChainRunner
 from ...langchain import list_workflows as lc_list_workflows
 from ...langchain import load_workflow_config
+from ...utils.path_safety import is_within_base
 from ...workflows.run_logger import RunLogger
 from ..evaluation import (
     adapt_sample_to_workflow_inputs,
@@ -46,24 +46,8 @@ run_logger = RunLogger()
 
 
 def _is_within_base(path, base_dir) -> bool:
-    """
-    Return True if ``path`` is within ``base_dir`` after resolution.
-
-    Uses pathlib's is_relative_to when available, with a safe fallback
-    for older Python versions.
-    """
-    from pathlib import Path
-
-    resolved_base = Path(base_dir).resolve()
-    resolved_path = Path(path).resolve()
-    try:
-        return resolved_path.is_relative_to(resolved_base)
-    except AttributeError:
-        base_str = os.fspath(resolved_base)
-        path_str = os.fspath(resolved_path)
-        if path_str == base_str:
-            return True
-        return path_str.startswith(base_str + os.sep)
+    """Compatibility shim for tests importing this helper directly."""
+    return is_within_base(path, base_dir)
 
 
 def _is_effectively_empty(value: Any) -> bool:
