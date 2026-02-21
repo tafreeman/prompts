@@ -223,7 +223,6 @@ def transcribe_audio(
     # For now, use the transformers library for easier Whisper inference
     # The raw ONNX model requires more complex preprocessing
     try:
-        import torch
         from transformers import WhisperForConditionalGeneration, WhisperProcessor
 
         # Use HuggingFace Whisper as fallback (more reliable)

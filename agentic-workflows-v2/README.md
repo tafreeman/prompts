@@ -29,10 +29,14 @@ pip install -e .
 After installation, you can use the `agentic` CLI:
 
 ```bash
+agentic list workflows
 agentic list agents
 agentic list tools
-agentic orchestrate "Review the code in src/main.py" --verbose
+agentic validate code_review
+agentic run code_review --dry-run
 ```
+
+Note: `agentic orchestrate` is currently marked as not implemented.
 
 ### Python
 
@@ -64,7 +68,7 @@ Run the full app (FastAPI backend serving the built UI):
 
 ```bash
 cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010 --app-dir src
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 ```
 
 Open:
@@ -84,7 +88,7 @@ For hot-reload UI development:
 ```bash
 # terminal 1
 cd agentic-workflows-v2
-python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000 --app-dir src
+python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000
 
 # terminal 2
 cd agentic-workflows-v2/ui
@@ -186,6 +190,7 @@ Install and enable locally:
 pip install pre-commit
 pre-commit install
 pre-commit run --all-files
+python scripts/check_docs_refs.py
 ```
 
 Recommended VS Code extensions: `ms-python.python`, `ms-python.vscode-pylance`, and `njpwerner.autodocstring`.
@@ -205,10 +210,18 @@ Backend (evaluation-specific):
 python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py tests/test_server_workflow_routes.py -v
 ```
 
+Backend coverage (deterministic command):
+
+```bash
+python -m pytest --cov=agentic_v2 --cov-report=term-missing --cov-report=xml
+./scripts/run_coverage.sh
+```
+
 UI:
 
 ```bash
 cd agentic-workflows-v2/ui
 npm test
 npm run build
+npm run test:coverage
 ```

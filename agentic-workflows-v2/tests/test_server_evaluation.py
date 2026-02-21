@@ -23,6 +23,13 @@ from agentic_v2.server.models import WorkflowEvaluationRequest, WorkflowRunReque
 from agentic_v2.server.routes import workflows as workflow_routes
 from agentic_v2.langchain import load_workflow_config
 from agentic_v2.langchain.config import InputConfig, OutputConfig, WorkflowConfig
+from agentic_v2.workflows.loader import (
+    WorkflowCriterion,
+    WorkflowDefinition,
+    WorkflowEvaluation,
+    WorkflowInput,
+    WorkflowLoader,
+)
 
 
 def _build_result(status: StepStatus = StepStatus.SUCCESS) -> WorkflowResult:

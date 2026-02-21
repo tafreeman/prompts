@@ -404,7 +404,7 @@ class TestWorkflowRunner:
     def test_get_or_compile_passes_checkpointer(self):
         captured = {}
 
-        def _fake_compile(config, checkpointer=None):
+        def _fake_compile(config, checkpointer=None, **kwargs):
             captured["checkpointer"] = checkpointer
             return object()
 

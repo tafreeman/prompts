@@ -45,6 +45,7 @@ from pathlib import Path
 from typing import Any, Callable, List, Optional
 
 from tools.core.errors import ErrorCode, classify_error
+from tools.core.model_availability import is_model_available
 
 # =============================================================================
 # WINDOWS CONSOLE ENCODING FIX (Applied on import)
@@ -222,17 +223,9 @@ class ToolInit:
         Returns list of unavailable models.
         """
         unavailable = []
-        try:
-            # Import here to avoid circular dependency
-            from tools.llm.model_probe import is_model_usable
-
-            for model in required:
-                if not is_model_usable(model):
-                    unavailable.append(model)
-        except ImportError:
-            # model_probe not available, warn but don't fail
-            if self.verbose:
-                safe_print("[WARN] model_probe not available, skipping model check")
+        for model in required:
+            if not is_model_available(model):
+                unavailable.append(model)
         return unavailable
 
     def check_paths(self, required: List[Path]) -> List[Path]:
