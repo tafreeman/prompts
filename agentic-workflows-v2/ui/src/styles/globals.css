@@ -15,22 +15,24 @@
       BlinkMacSystemFont,
       "Segoe UI",
       sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Scrollbar styling */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #2a2a3a;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #444;
   }
 }
 
@@ -40,15 +42,15 @@
   }
 
   .card-hover {
-    @apply card transition-colors hover:border-white/10 hover:bg-surface-2;
+    @apply card transition-all duration-200 hover:border-white/10 hover:bg-surface-2;
   }
 
   .btn {
-    @apply inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue/50;
+    @apply inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-accent-blue/50;
   }
 
   .btn-primary {
-    @apply btn bg-accent-blue text-white hover:bg-accent-blue/80;
+    @apply btn bg-accent-blue text-white hover:bg-accent-blue/80 active:scale-[0.98];
   }
 
   .btn-ghost {
@@ -56,31 +58,52 @@
   }
 }
 
-/* React Flow overrides */
+/* ── React Flow overrides ── */
+
 .react-flow__background {
   background-color: #0a0a0f !important;
 }
 
 .react-flow__minimap {
-  background-color: #12121a !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  border-radius: 8px !important;
+  background-color: #0e0e16 !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 6px !important;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.react-flow__minimap:hover {
+  opacity: 1;
 }
 
 .react-flow__controls {
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
-  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-radius: 6px !important;
   overflow: hidden;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.react-flow__controls:hover {
+  opacity: 1;
 }
 
 .react-flow__controls-button {
-  background-color: #1a1a25 !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-  fill: #9ca3af !important;
+  background-color: #14141e !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  fill: #6b7280 !important;
+  width: 26px !important;
+  height: 26px !important;
 }
 
 .react-flow__controls-button:hover {
-  background-color: #222230 !important;
+  background-color: #1e1e2a !important;
+  fill: #9ca3af !important;
+}
+
+/* Smooth viewport transitions */
+.react-flow__viewport {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Animated edge for running steps */
@@ -92,4 +115,14 @@
 
 .animated-edge {
   animation: dash-flow 0.5s linear infinite;
+}
+
+/* Edge transitions */
+.react-flow__edge path {
+  transition: stroke 0.4s ease, stroke-opacity 0.4s ease;
+}
+
+/* Node transitions */
+.react-flow__node {
+  transition: opacity 0.3s ease;
 }

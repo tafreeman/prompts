@@ -11,6 +11,7 @@ import pytest
 import pytest_asyncio
 from agentic_v2.tools.builtin.code_analysis import (AstDumpTool,
                                                     CodeAnalysisTool)
+from agentic_v2.tools.builtin.build_ops import BuildAppTool
 from agentic_v2.tools.builtin.git_ops import (GitDiffTool, GitStatusTool,
                                               GitTool)
 from agentic_v2.tools.builtin.http_ops import (HttpGetTool, HttpPostTool,
@@ -18,6 +19,59 @@ from agentic_v2.tools.builtin.http_ops import (HttpGetTool, HttpPostTool,
 from agentic_v2.tools.builtin.search_ops import GrepTool, SearchTool
 from agentic_v2.tools.builtin.shell_ops import ShellExecTool, ShellTool
 from aiohttp import web
+
+# ============================================================================
+# Build Tool Tests
+# ============================================================================
+
+
+@pytest.mark.asyncio
+async def test_build_app_tool_missing_root():
+    """BuildAppTool should fail for a missing project root."""
+    tool = BuildAppTool()
+    result = await tool.execute(project_root="/definitely/not/a/real/path")
+
+    assert not result.success
+    assert "does not exist" in result.error.lower()
+
+
+@pytest.mark.asyncio
+async def test_build_app_tool_dry_run_python_detection(tmp_path: Path):
+    """BuildAppTool dry-run should detect python stack and plan phases."""
+    (tmp_path / "requirements.txt").write_text("pytest\n", encoding="utf-8")
+    (tmp_path / "tests").mkdir()
+
+    tool = BuildAppTool()
+    result = await tool.execute(project_root=str(tmp_path), dry_run=True)
+
+    assert result.success
+    assert result.data["detected_stack"] == "python"
+    assert result.data["phase_results"]["install"]["skipped"]
+    assert result.data["phase_results"]["install"]["reason"] == "dry_run"
+    assert result.data["ready_for_release"]
+
+
+@pytest.mark.asyncio
+async def test_build_app_tool_exec_with_explicit_commands(tmp_path: Path):
+    """BuildAppTool should execute explicit commands and report phase results."""
+    tool = BuildAppTool()
+
+    result = await tool.execute(
+        project_root=str(tmp_path),
+        stack_hint="unknown",
+        install_command='python -c "print(\'install-ok\')"',
+        build_command='python -c "print(\'build-ok\')"',
+        test_command='python -c "print(\'test-ok\')"',
+        run_smoke=True,
+        smoke_command='python -c "print(\'smoke-ok\')"',
+    )
+
+    assert result.success
+    assert result.data["ready_for_release"]
+    assert not result.data["failed_phases"]
+    assert result.data["phase_results"]["build"]["success"]
+    assert "build-ok" in result.data["phase_results"]["build"]["stdout"]
+
 
 # ============================================================================
 # Git Tools Tests

@@ -214,6 +214,39 @@ def test_hard_gate_dataset_incompatible():
     assert "dataset_workflow_compatible" in gates.failures
 
 
+def test_hard_gate_release_build_verification_failed():
+    result = _build_result(StepStatus.SUCCESS)
+    now = datetime.now(timezone.utc)
+    result.add_step(
+        StepResult(
+            step_name="build_verify_release",
+            status=StepStatus.SUCCESS,
+            input_data={},
+            output_data={"ready_for_release": False},
+            start_time=now,
+            end_time=now + timedelta(milliseconds=20),
+        )
+    )
+
+    gates = compute_hard_gates(
+        result,
+        workflow_outputs=_build_workflow_definition().outputs,
+        eval_payload={
+            "rubric_id": "r",
+            "rubric_version": "1",
+            "criteria": [],
+            "overall_score": 50.0,
+            "weighted_score": 50.0,
+            "grade": "F",
+            "passed": False,
+            "pass_threshold": 70.0,
+            "step_scores": [],
+        },
+    )
+    assert gates.release_build_verified is False
+    assert "release_build_verified" in gates.failures
+
+
 def test_hard_gate_all_pass_with_score():
     result = _build_result(StepStatus.SUCCESS)
     workflow_def = _build_workflow_definition()
@@ -545,6 +578,31 @@ def test_hybrid_hard_gates_still_override():
     assert evaluation["passed"] is False
     assert evaluation["grade"] == "F"
     assert "required_outputs_present" in evaluation["hard_gate_failures"]
+
+
+def test_hard_gate_release_build_verification_overrides_pass():
+    result = _build_result(StepStatus.SUCCESS)
+    now = datetime.now(timezone.utc)
+    result.add_step(
+        StepResult(
+            step_name="build_verify_release",
+            status=StepStatus.SUCCESS,
+            input_data={},
+            output_data={"ready_for_release": False},
+            start_time=now,
+            end_time=now + timedelta(milliseconds=10),
+        )
+    )
+
+    evaluation = score_workflow_result(
+        result,
+        dataset_meta={"source": "local"},
+        dataset_sample={"code_file": "x.py"},
+        workflow_definition=_build_workflow_definition(),
+    )
+    assert evaluation["passed"] is False
+    assert evaluation["hard_gates"]["release_build_verified"] is False
+    assert "release_build_verified" in evaluation["hard_gate_failures"]
 
 
 def test_hybrid_score_determinism():

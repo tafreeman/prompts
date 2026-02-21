@@ -17,7 +17,6 @@ export default function WorkflowDetailPage() {
   const { data: dag, isLoading: dagLoading } = useWorkflowDAG(name);
   const { data: runs, isLoading: runsLoading } = useRuns(name);
 
-  // Run config form values (inputs + runtime + rubric + evaluation)
   const configRef = useRef<RunConfigValues>({
     inputValues: {},
     executionProfile: { runtime: "subprocess" },
@@ -78,8 +77,6 @@ export default function WorkflowDetailPage() {
             rubric_id: rubricId || undefined,
           };
         }
-        // Evaluation enabled without a dataset should still run workflow-level
-        // scoring (rubric + output quality), so send an explicit request.
         return {
           enabled: true as const,
           dataset_source: "none" as const,
@@ -110,7 +107,6 @@ export default function WorkflowDetailPage() {
         });
       }
 
-      // Batch mode — fire all jobs sequentially and report progress
       setBatchProgress({ done: 0, total: jobs.length });
       for (let i = 0; i < jobs.length; i++) {
         await runWorkflow({
@@ -126,10 +122,8 @@ export default function WorkflowDetailPage() {
     onSuccess: (data) => {
       setBatchProgress(null);
       if (data) {
-        // Single run — go to live view
         navigate(`/live/${data.run_id}`);
       } else {
-        // Batch complete — stay on workflow page so run history refreshes
         navigate(`/workflows/${encodeURIComponent(name!)}`);
       }
     },
@@ -142,43 +136,45 @@ export default function WorkflowDetailPage() {
 
   return (
     <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="border-b border-white/5 px-6 py-4">
-        <div className="flex items-center gap-4">
+      {/* Header — compact with inline run button */}
+      <div className="border-b border-white/5 px-4 py-2.5">
+        <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={() => navigate("/workflows")}
             className="btn-ghost p-1"
             aria-label="Back to workflows"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <div className="flex-1">
-            <h1 className="text-lg font-semibold">{name}</h1>
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-sm font-semibold">{name}</h1>
             {dag?.description && (
-              <p className="text-sm text-gray-500">{dag.description}</p>
+              <p className="truncate text-xs text-gray-600">{dag.description}</p>
             )}
           </div>
           <button
+            type="button"
             onClick={() => runMutation.mutate()}
             disabled={runMutation.isPending}
-            className="btn-primary text-xs"
+            className="btn-primary text-xs py-1.5 px-3"
           >
             {runMutation.isPending
               ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
               : <Play className="h-3.5 w-3.5" />}
             {batchProgress
-              ? `Running ${batchProgress.done}/${batchProgress.total}…`
+              ? `${batchProgress.done}/${batchProgress.total}`
               : runMutation.isPending
-              ? "Starting…"
+              ? "Starting..."
               : configRef.current.evaluation.enabled
-              ? "Run + Evaluate"
-              : "Run Workflow"}
+              ? "Run + Eval"
+              : "Run"}
           </button>
         </div>
 
-        {/* Schema-driven run configuration form */}
+        {/* Config form — directly under header, compact */}
         {hasInputs && (
-          <div className="mt-4">
+          <div className="mt-2">
             <RunConfigForm
               inputs={dag.inputs!}
               workflowName={name!}
@@ -195,31 +191,31 @@ export default function WorkflowDetailPage() {
         {/* DAG Preview */}
         <div className="flex-1 border-r border-white/5">
           {dagLoading ? (
-            <div className="flex h-full items-center justify-center text-gray-600">
+            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
               Loading DAG...
             </div>
           ) : dag ? (
             <WorkflowDAG dagNodes={dag.nodes} dagEdges={dag.edges} />
           ) : (
-            <div className="flex h-full items-center justify-center text-gray-600">
+            <div className="flex h-full items-center justify-center text-gray-600 text-sm">
               Failed to load DAG
             </div>
           )}
         </div>
 
-        {/* Run history sidebar */}
-        <div className="w-[400px] overflow-y-auto p-4">
-          <h2 className="mb-3 text-sm font-medium text-gray-400">
-            Run History
+        {/* Run history sidebar — narrower */}
+        <div className="w-[320px] overflow-y-auto p-3">
+          <h2 className="mb-2 text-xs font-medium text-gray-500 uppercase tracking-wide">
+            History
           </h2>
           <RunList runs={runs} isLoading={runsLoading} />
         </div>
       </div>
 
-      {/* Error */}
+      {/* Error banner */}
       {runMutation.isError && (
-        <div className="border-t border-red-500/20 bg-red-500/10 px-6 py-3 text-sm text-red-400">
-          Failed to start workflow: {(runMutation.error as Error).message}
+        <div className="border-t border-red-500/20 bg-red-500/5 px-4 py-2 text-xs text-red-400">
+          Failed: {(runMutation.error as Error).message}
         </div>
       )}
     </div>
