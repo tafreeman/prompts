@@ -183,12 +183,20 @@ class LLMClientWrapper:
         self.budget = TokenBudget(max_tokens=max_tokens)
 
     def _cache_key(self, prompt: str, tier: ModelTier, **kwargs: Any) -> str:
-        """Generate cache key for request."""
+        """Generate cache key for request.
+
+        The key is a stable hash of the prompt, model tier, and sorted kwargs. 
+        This ensures that identical requests produce the same key regardless 
+        of dictionary ordering.
+        """
         key_data = f"{prompt}:{tier.value}:{sorted(kwargs.items())}"
         return hashlib.sha256(key_data.encode()).hexdigest()[:16]
 
     def _get_cached(self, key: str) -> Optional[CachedResponse]:
-        """Get cached response if valid."""
+        """Get cached response if valid.
+
+        Checks for presence and ensures the entry has not exceeded the TTL.
+        """
         if not self.enable_cache:
             return None
 
@@ -196,6 +204,7 @@ class LLMClientWrapper:
         if cached is None:
             return None
 
+        # Expiry check
         if cached.age_seconds > self.cache_ttl_seconds:
             del self.cache[key]
             return None
@@ -203,7 +212,12 @@ class LLMClientWrapper:
         return cached
 
     def _set_cached(self, key: str, response: str, model: str, tokens: int) -> None:
-        """Cache a response."""
+        """Cache a response.
+
+        Stores the model used and token count alongside the content to 
+        preserve metadata on cache hit. Includes LRU-style pruning if 
+        cache size exceeds 1000 entries.
+        """
         if not self.enable_cache:
             return
 
@@ -214,9 +228,9 @@ class LLMClientWrapper:
             tokens_used=tokens,
         )
 
-        # Prune old entries if cache too large
+        # Cache Pruning Policy:
+        # If cache too large, remove the oldest 100 entries (10%).
         if len(self.cache) > 1000:
-            # Remove oldest 10%
             sorted_keys = sorted(
                 self.cache.keys(), key=lambda k: self.cache[k].timestamp
             )

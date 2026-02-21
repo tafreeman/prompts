@@ -105,21 +105,31 @@ class DAGExecutor:
 
         tasks: set[asyncio.Task] = set()
 
+        # Phase 2: Execution Loop
+        # We continue until every step in the DAG is either completed or skipped.
         while len(completed) < len(dag.steps):
+            
+            # 1. Schedule all currently 'ready' steps (those with in-degree 0)
+            # obeying the max_concurrency limit.
             while ready and len(running) < max_concurrency:
                 step_name = ready.popleft()
                 if step_name in completed or step_name in skipped:
                     continue
+                    
                 running.add(step_name)
+                # Move state to READY before spawning task
                 self._state_manager.transition(step_name, StepState.READY)
                 tasks.add(asyncio.create_task(run_step(step_name)))
 
+            # 2. Deadlock detection
+            # If no tasks are running but we aren't done, some steps are unreachable.
             if not tasks:
                 remaining = set(dag.steps.keys()) - completed - skipped
                 for step_name in remaining:
                     mark_skipped(step_name, "unmet dependencies")
                 break
 
+            # 3. Wait for the next task to complete
             done, tasks = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
 
             for task in done:
@@ -129,6 +139,7 @@ class DAGExecutor:
                 result.add_step(step_result)
                 completed.add(step_name)
                 
+                # Signal step completion to external observers (e.g., UI/WebSockets)
                 if on_update:
                     await on_update({
                         "type": "step_end",
@@ -136,9 +147,16 @@ class DAGExecutor:
                         "step": step_name,
                         "status": step_result.status.value,
                         "duration_ms": step_result.duration_ms,
+                        "model_used": step_result.model_used,
+                        "tokens_used": step_result.metadata.get("tokens_used"),
+                        "tier": step_result.tier,
+                        "input": step_result.input_data,
+                        "output": step_result.output_data,
+                        "error": step_result.error,
                         "timestamp": datetime.now(timezone.utc).isoformat()
                     })
 
+                # 4. Handle step outcome
                 if step_result.status == StepStatus.SUCCESS:
                     self._state_manager.transition(step_name, StepState.SUCCESS)
                 elif step_result.status == StepStatus.SKIPPED:
@@ -151,11 +169,16 @@ class DAGExecutor:
                 else:
                     self._state_manager.transition(step_name, StepState.FAILED)
 
+                # 5. Failure propagation
+                # If a step fails, we must skip all steps that depend on it.
                 if step_result.is_failed:
                     result.overall_status = StepStatus.FAILED
                     cascade_skip(step_name, "dependency failed")
                     continue
 
+                # 6. Unlock downstream steps
+                # Decrement in-degree of all direct dependents.
+                # If a dependent's in-degree reaches 0, it is now 'ready'.
                 for dependent in adjacency.get(step_name, []):
                     if dependent in completed or dependent in skipped:
                         continue

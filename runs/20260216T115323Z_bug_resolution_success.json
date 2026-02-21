@@ -1,0 +1,343 @@
+{
+  "run_id": "bug_resolution-0438f738",
+  "workflow_name": "bug_resolution",
+  "status": "success",
+  "score": 96.55,
+  "success_rate": 100.0,
+  "total_duration_ms": 31195.778000000002,
+  "total_retries": 0,
+  "step_count": 5,
+  "failed_step_count": 0,
+  "start_time": "2026-02-16T11:52:52.358943+00:00",
+  "end_time": "2026-02-16T11:53:23.554721+00:00",
+  "dataset": {
+    "source": "local",
+    "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+    "sample_index": 2,
+    "task_id": "2",
+    "dataset_workflow_compatible": true,
+    "dataset_mismatch_reasons": []
+  },
+  "inputs": {
+    "bug_report": "Modeling's `separability_matrix` does not compute separability correctly for nested CompoundModels\nConsider the following model:\r\n\r\n```python\r\nfrom astropy.modeling import models as m\r\nfrom astropy.modeling.separable import separability_matrix\r\n\r\ncm = m.Linear1D(10) & m.Linear1D(5)\r\n```\r\n\r\nIt's separability matrix as you might expect is a diagonal:\r\n\r\n```python\r\n>>> separability_matrix(cm)\r\narray([[ True, False],\r\n       [False,  True]])\r\n```\r\n\r\nIf I make the model more complex:\r\n```python\r\n>>> separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5))\r\narray([[ True,  True, False, False],\r\n       [ True,  True, False, False],\r\n       [False, False,  True, False],\r\n       [False, False, False,  True]])\r\n```\r\n\r\nThe output matrix is again, as expected, the outputs and inputs to the linear models are separable and independent of each other.\r\n\r\nIf however, I nest these compound models:\r\n```python\r\n>>> separability_matrix(m.Pix2Sky_TAN() & cm)\r\narray([[ True,  True, False, False],\r\n       [ True,  True, False, False],\r\n       [False, False,  True,  True],\r\n       [False, False,  True,  True]])\r\n```\r\nSuddenly the inputs and outputs are no longer separable?\r\n\r\nThis feels like a bug to me, but I might be missing something?\n",
+    "code_file": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py",
+    "resolution_depth": "deep"
+  },
+  "steps": [
+    {
+      "step_name": "triage",
+      "status": "success",
+      "agent_role": null,
+      "tier": 0,
+      "model_used": null,
+      "duration_ms": 0.769,
+      "retry_count": 0,
+      "tokens_used": null,
+      "input": {
+        "bug_report": "Modeling's `separability_matrix` does not compute separability correctly for nested CompoundModels\nConsider the following model:\r\n\r\n```python\r\nfrom astropy.modeling import models as m\r\nfrom astropy.modeling.separable import separability_matrix\r\n\r\ncm = m.Linear1D(10) & m.Linear1D(5)\r\n```\r\n\r\nIt's separability matrix as you might expect is a diagonal:\r\n\r\n```python\r\n>>> separability_matrix(cm)\r\narray([[ True, False],\r\n       [False,  True]])\r\n```\r\n\r\nIf I make the model more complex:\r\n```python\r\n>>> separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5))\r\narray([[ True,  True, False, False],\r\n       [ True,  True, False, False],\r\n       [False, False,  True, False],\r\n       [False, False, False,  True]])\r\n```\r\n\r\nThe output matrix is again, as expected, the outputs and inputs to the linear models are separable and independent of each other.\r\n\r\nIf however, I nest these compound models:\r\n```python\r\n>>> separability_matrix(m.Pix2Sky_TAN() & cm)\r\narray([[ True,  True, False, False],\r\n       [ True,  True, False, False],\r\n       [False, False,  True,  True],\r\n       [False, False,  True,  True]])\r\n```\r\nSuddenly the inputs and outputs are no longer separable?\r\n\r\nThis feels like a bug to me, but I might be missing something?\n",
+        "file_path": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py"
+      },
+      "output": {
+        "parsed_ast": {
+          "raw_source": "diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\n     else:\n         cright = np.zeros((noutp, right.shape[1]))\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\n \n     return np.hstack([cleft, cright])\n \n",
+          "language": "unknown",
+          "parse_error": "Could not parse as Python"
+        },
+        "code_metrics": {
+          "lines": 12,
+          "chars": 470
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-16T11:52:52.359350+00:00",
+      "end_time": "2026-02-16T11:52:52.360119+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "root_cause_analysis",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 4900.964,
+      "retry_count": 0,
+      "tokens_used": 3696,
+      "input": {
+        "symptoms": null,
+        "affected_components": null
+      },
+      "output": {
+        "root_cause": {
+          "root_cause": "The bug is likely caused by the change in the `_cstack` function in `astropy/modeling/separable.py`. Specifically, the line `cright[-right.shape[0]:, -right.shape[1]:] = 1` was replaced with `cright[-right.shape[0]:, -right.shape[1]:] = right`. This change likely introduced the incorrect separability calculation for nested CompoundModel instances because it's assigning the actual model to the coordinate matrix instead of just indicating separability with a 1.",
+          "affected_file": "astropy/modeling/separable.py",
+          "affected_function": "_cstack",
+          "symptom": "Incorrect separability matrix calculation for nested CompoundModel instances.",
+          "reasoning": "The diff shows that a hardcoded '1' was replaced with the 'right' matrix itself. This is incorrect because the coordinate matrix should contain boolean values indicating separability, not the model data itself. This leads to incorrect propagation of separability information when dealing with nested models.",
+          "fix_suggestion": "Revert the change in `_cstack` to the original line: `cright[-right.shape[0]:, -right.shape[1]:] = 1`."
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-16T11:52:52.360374+00:00",
+      "end_time": "2026-02-16T11:52:57.261338+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_fix",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 3666.2400000000002,
+      "retry_count": 0,
+      "tokens_used": 4491,
+      "input": {
+        "root_cause": {
+          "root_cause": "The bug is likely caused by the change in the `_cstack` function in `astropy/modeling/separable.py`. Specifically, the line `cright[-right.shape[0]:, -right.shape[1]:] = 1` was replaced with `cright[-right.shape[0]:, -right.shape[1]:] = right`. This change likely introduced the incorrect separability calculation for nested CompoundModel instances because it's assigning the actual model to the coordinate matrix instead of just indicating separability with a 1.",
+          "affected_file": "astropy/modeling/separable.py",
+          "affected_function": "_cstack",
+          "symptom": "Incorrect separability matrix calculation for nested CompoundModel instances.",
+          "reasoning": "The diff shows that a hardcoded '1' was replaced with the 'right' matrix itself. This is incorrect because the coordinate matrix should contain boolean values indicating separability, not the model data itself. This leads to incorrect propagation of separability information when dealing with nested models.",
+          "fix_suggestion": "Revert the change in `_cstack` to the original line: `cright[-right.shape[0]:, -right.shape[1]:] = 1`."
+        },
+        "file_path": "D:\\source\\prompts\\runs\\_inputs\\preview_code_file.py"
+      },
+      "output": {
+        "review_report": {
+          "overall_status": "NEEDS_FIXES",
+          "quality_score": 8.0,
+          "summary": {
+            "critical": 0,
+            "high": 1,
+            "medium": 0,
+            "low": 0,
+            "passed_checks": []
+          },
+          "findings": [
+            {
+              "finding_id": "F-001",
+              "severity": "high",
+              "category": "quality",
+              "title": "Incorrect separability matrix calculation for nested CompoundModel instances",
+              "file": "astropy/modeling/separable.py",
+              "line_range": [
+                245,
+                245
+              ],
+              "description": "The line `cright[-right.shape[0]:, -right.shape[1]:] = right` in the `_cstack` function introduces incorrect separability calculation for nested CompoundModel instances. It assigns the model data to the coordinate matrix instead of just indicating separability with a 1.",
+              "impact": "Incorrect separability matrix calculations can lead to unexpected behavior and incorrect results when working with nested CompoundModel instances.",
+              "suggested_fix": "Revert the change in `_cstack` to the original line: `cright[-right.shape[0]:, -right.shape[1]:] = 1`.",
+              "code_before": "cright[-right.shape[0]:, -right.shape[1]:] = right",
+              "code_after": "cright[-right.shape[0]:, -right.shape[1]:] = 1",
+              "references": []
+            }
+          ],
+          "positive_observations": []
+        },
+        "fix": "FILE: astropy/modeling/separable.py\ndiff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\\n    else:\\n        cright = np.zeros((noutp, right.shape[1]))\\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\\n \\n    return np.hstack([cleft, cright])\\n \\n\nENDFILE",
+        "fix_files": {
+          "astropy/modeling/separable.py": "diff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\\n    else:\\n        cright = np.zeros((noutp, right.shape[1]))\\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\\n \\n    return np.hstack([cleft, cright])\\n \\n\n"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-16T11:52:57.261501+00:00",
+      "end_time": "2026-02-16T11:53:00.927741+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "regression_check",
+      "status": "success",
+      "agent_role": null,
+      "tier": 1,
+      "model_used": "gemini:gemini-2.0-flash-lite",
+      "duration_ms": 4679.605,
+      "retry_count": 0,
+      "tokens_used": 4896,
+      "input": {
+        "fix": "FILE: astropy/modeling/separable.py\ndiff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\\n    else:\\n        cright = np.zeros((noutp, right.shape[1]))\\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\\n \\n    return np.hstack([cleft, cright])\\n \\n\nENDFILE",
+        "affected_components": null
+      },
+      "output": {
+        "raw_response": "Okay, I will analyze the proposed fix for potential regressions, focusing on code quality metrics, complexity, and regression risk.\n\nThe fix involves a change in `astropy/modeling/separable.py`. The root cause analysis indicates that the change `cright[-right.shape[0]:, -right.shape[1]:] = right` in the `_cstack` function is likely the source of the bug. The proposed fix is essentially a revert of that change.\n\nHere's my analysis:\n\n1.  **Complexity Analysis:**\n\n    *   The change is localized to a single function, `_cstack`. The function itself isn't excessively complex. The original and proposed changes are small.\n\n2.  **Regression Risk Assessment:**\n\n    *   **Affected Code:** `astropy/modeling/separable.py`, specifically the `_cstack` function.\n    *   **Change Impact:** The change affects how separability matrices are constructed, and thus, how compound models are handled. This is a core part of the modeling module.\n    *   **Test Coverage:**  I will need to assess the test coverage to determine how well this change is covered. The bug report suggests that nested compound models are not correctly handled. Therefore, tests covering nested compound models are critical.  If the tests don't cover this, the regression risk is higher. I will use the `code_analysis` tool to determine if there are any tests that reference `_cstack`.\n\n    *   **Risk Score:**\n        *   Since the fix is a revert, there is a lower risk of introducing new issues. However, if the original change *was* intended, then reverting it could reintroduce the original bug.\n        *   The bug report's description indicates a functional issue. The fix touches core functionality.\n        *   The lack of tests covering the specific scenario (nested CompoundModels) increases the risk.\n\n3.  **Dependency Analysis:**\n\n    *   The change is self-contained.  No external dependencies are introduced or removed.\n\n4.  **Anti-patterns:**\n\n    *   Not applicable to this specific change.\n\n5.  **Performance Hotspots:**\n\n    *   Not directly applicable to this change.\n\nI will now use the `code_analysis` tool to determine if there are any tests that reference `_cstack` and assess the coverage.\n\n```tool_code\n# Use code_analysis to analyze the code and identify tests and dependencies.\nanalysis_result = code_analysis(file_path=\"astropy/modeling/separable.py\", method_name=\"_cstack\", search_term=\"_cstack\")\nprint(analysis_result)\n```"
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-16T11:53:00.927901+00:00",
+      "end_time": "2026-02-16T11:53:05.607506+00:00",
+      "metadata": null
+    },
+    {
+      "step_name": "generate_verification",
+      "status": "success",
+      "agent_role": null,
+      "tier": 2,
+      "model_used": "gemini:gemini-2.0-flash",
+      "duration_ms": 17947.001,
+      "retry_count": 0,
+      "tokens_used": 8066,
+      "input": {
+        "root_cause": {
+          "root_cause": "The bug is likely caused by the change in the `_cstack` function in `astropy/modeling/separable.py`. Specifically, the line `cright[-right.shape[0]:, -right.shape[1]:] = 1` was replaced with `cright[-right.shape[0]:, -right.shape[1]:] = right`. This change likely introduced the incorrect separability calculation for nested CompoundModel instances because it's assigning the actual model to the coordinate matrix instead of just indicating separability with a 1.",
+          "affected_file": "astropy/modeling/separable.py",
+          "affected_function": "_cstack",
+          "symptom": "Incorrect separability matrix calculation for nested CompoundModel instances.",
+          "reasoning": "The diff shows that a hardcoded '1' was replaced with the 'right' matrix itself. This is incorrect because the coordinate matrix should contain boolean values indicating separability, not the model data itself. This leads to incorrect propagation of separability information when dealing with nested models.",
+          "fix_suggestion": "Revert the change in `_cstack` to the original line: `cright[-right.shape[0]:, -right.shape[1]:] = 1`."
+        },
+        "fix": "FILE: astropy/modeling/separable.py\ndiff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\\n    else:\\n        cright = np.zeros((noutp, right.shape[1]))\\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\\n \\n    return np.hstack([cleft, cright])\\n \\n\nENDFILE",
+        "regression_risks": null
+      },
+      "output": {
+        "verification_report": "```text\n## Verification Report\n\n**Status:** NEEDS_WORK (Requires execution of test cases and analysis of results)\n\n**Fix:** Revert the change in `astropy/modeling/separable.py` in the `_cstack` function, changing the line `cright[-right.shape[0]:, -right.shape[1]:] = right` back to `cright[-right.shape[0]:, -right.shape[1]:] = 1`.\n\n**Goal:** Verify that the fix resolves the incorrect separability matrix calculation for nested `CompoundModel` instances, as reported in the bug report, and does not introduce any regressions.\n\n**Test Cases:**\n\n1.  **Nested CompoundModel Test (Reported Bug):**\n    *   Model: `m.Pix2Sky_TAN() & cm` where `cm = m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True,  True, False, False],\n         [ True,  True, False, False],\n         [False, False,  True, False],\n         [False, False, False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Pix2Sky_TAN() & cm)` should return the expected matrix.\n\n2.  **Simple CompoundModel Test:**\n    *   Model: `m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True, False],\n         [False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Linear1D(10) & m.Linear1D(5))` should return the expected matrix.\n\n3.  **Complex CompoundModel Test:**\n    *   Model: `m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True,  True, False, False],\n         [ True,  True, False, False],\n         [False, False,  True, False],\n         [False, False, False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5))` should return the expected matrix.\n\n4.  **Additional Regression Tests:** Run existing test suite to ensure no regressions were introduced.  Specifically pay attention to any tests exercising `CompoundModel` and `separability_matrix`.\n\n**Verification Steps:**\n\n1.  **Apply the fix:** Revert the specified line in `astropy/modeling/separable.py`.\n2.  **Implement the new test cases:** Add the test cases described above to the test suite (preferably in a new test file dedicated to `separability_matrix` testing).\n3.  **Run the test suite:** Execute the test suite, including the new test cases and existing tests.\n4.  **Analyze the results:**\n    *   Verify that the new test cases pass, confirming that the bug is resolved.\n    *   Verify that all existing tests pass, confirming that no regressions were introduced.\n    *   Manually inspect the output of `separability_matrix` for various model configurations to gain further confidence in the correctness of the fix.\n5.  **Document the results:** Record the test results, including any failures or unexpected behavior.\n\n**Definition of Done:**\n\n*   The fix has been applied.\n*   The new test cases have been implemented and pass.\n*   All existing tests pass.\n*   The separability matrices for the test cases match the expected output.\n*   The test results have been documented.\n```",
+        "test_code": "FILE: tests/test_separable.py\n```python\n# tests/test_separable.py\n\nimport numpy as np\nfrom astropy.modeling import models as m\nfrom astropy.modeling.separable import separability_matrix\nimport pytest\n\n\ndef test_nested_compound_model_separability():\n    \"\"\"\n    Test that separability_matrix computes correctly for nested CompoundModels.\n    This test addresses the bug reported in the issue.\n    \"\"\"\n    cm = m.Linear1D(10) & m.Linear1D(5)\n    model = m.Pix2Sky_TAN() & cm\n    expected_matrix = np.array([[True, True, False, False],\n                                [True, True, False, False],\n                                [False, False, True, False],\n                                [False, False, False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n\n\ndef test_simple_compound_model_separability():\n    \"\"\"\n    Test separability matrix for a simple compound model.\n    \"\"\"\n    model = m.Linear1D(10) & m.Linear1D(5)\n    expected_matrix = np.array([[True, False],\n                                [False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n\n\ndef test_complex_compound_model_separability():\n    \"\"\"\n    Test separability matrix for a more complex compound model.\n    \"\"\"\n    model = m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)\n    expected_matrix = np.array([[True, True, False, False],\n                                [True, True, False, False],\n                                [False, False, True, False],\n                                [False, False, False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n```\nENDFILE",
+        "test_code_files": {
+          "tests/test_separable.py": "```python\n# tests/test_separable.py\n\nimport numpy as np\nfrom astropy.modeling import models as m\nfrom astropy.modeling.separable import separability_matrix\nimport pytest\n\n\ndef test_nested_compound_model_separability():\n    \"\"\"\n    Test that separability_matrix computes correctly for nested CompoundModels.\n    This test addresses the bug reported in the issue.\n    \"\"\"\n    cm = m.Linear1D(10) & m.Linear1D(5)\n    model = m.Pix2Sky_TAN() & cm\n    expected_matrix = np.array([[True, True, False, False],\n                                [True, True, False, False],\n                                [False, False, True, False],\n                                [False, False, False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n\n\ndef test_simple_compound_model_separability():\n    \"\"\"\n    Test separability matrix for a simple compound model.\n    \"\"\"\n    model = m.Linear1D(10) & m.Linear1D(5)\n    expected_matrix = np.array([[True, False],\n                                [False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n\n\ndef test_complex_compound_model_separability():\n    \"\"\"\n    Test separability matrix for a more complex compound model.\n    \"\"\"\n    model = m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)\n    expected_matrix = np.array([[True, True, False, False],\n                                [True, True, False, False],\n                                [False, False, True, False],\n                                [False, False, False, True]])\n    matrix = separability_matrix(model)\n    assert np.all(matrix == expected_matrix)\n```\n"
+        }
+      },
+      "error": null,
+      "error_type": null,
+      "start_time": "2026-02-16T11:53:05.607634+00:00",
+      "end_time": "2026-02-16T11:53:23.554635+00:00",
+      "metadata": null
+    }
+  ],
+  "final_output": {
+    "root_cause": {
+      "root_cause": "The bug is likely caused by the change in the `_cstack` function in `astropy/modeling/separable.py`. Specifically, the line `cright[-right.shape[0]:, -right.shape[1]:] = 1` was replaced with `cright[-right.shape[0]:, -right.shape[1]:] = right`. This change likely introduced the incorrect separability calculation for nested CompoundModel instances because it's assigning the actual model to the coordinate matrix instead of just indicating separability with a 1.",
+      "affected_file": "astropy/modeling/separable.py",
+      "affected_function": "_cstack",
+      "symptom": "Incorrect separability matrix calculation for nested CompoundModel instances.",
+      "reasoning": "The diff shows that a hardcoded '1' was replaced with the 'right' matrix itself. This is incorrect because the coordinate matrix should contain boolean values indicating separability, not the model data itself. This leads to incorrect propagation of separability information when dealing with nested models.",
+      "fix_suggestion": "Revert the change in `_cstack` to the original line: `cright[-right.shape[0]:, -right.shape[1]:] = 1`."
+    },
+    "fix": "FILE: astropy/modeling/separable.py\ndiff --git a/astropy/modeling/separable.py b/astropy/modeling/separable.py\n--- a/astropy/modeling/separable.py\n+++ b/astropy/modeling/separable.py\n@@ -242,7 +242,7 @@ def _cstack(left, right):\n         cright = _coord_matrix(right, 'right', noutp)\\n    else:\\n        cright = np.zeros((noutp, right.shape[1]))\\n-        cright[-right.shape[0]:, -right.shape[1]:] = 1\\n+        cright[-right.shape[0]:, -right.shape[1]:] = right\\n \\n    return np.hstack([cleft, cright])\\n \\n\nENDFILE",
+    "verification_report": "```text\n## Verification Report\n\n**Status:** NEEDS_WORK (Requires execution of test cases and analysis of results)\n\n**Fix:** Revert the change in `astropy/modeling/separable.py` in the `_cstack` function, changing the line `cright[-right.shape[0]:, -right.shape[1]:] = right` back to `cright[-right.shape[0]:, -right.shape[1]:] = 1`.\n\n**Goal:** Verify that the fix resolves the incorrect separability matrix calculation for nested `CompoundModel` instances, as reported in the bug report, and does not introduce any regressions.\n\n**Test Cases:**\n\n1.  **Nested CompoundModel Test (Reported Bug):**\n    *   Model: `m.Pix2Sky_TAN() & cm` where `cm = m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True,  True, False, False],\n         [ True,  True, False, False],\n         [False, False,  True, False],\n         [False, False, False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Pix2Sky_TAN() & cm)` should return the expected matrix.\n\n2.  **Simple CompoundModel Test:**\n    *   Model: `m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True, False],\n         [False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Linear1D(10) & m.Linear1D(5))` should return the expected matrix.\n\n3.  **Complex CompoundModel Test:**\n    *   Model: `m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5)`\n    *   Expected separability matrix:\n        ```\n        [[ True,  True, False, False],\n         [ True,  True, False, False],\n         [False, False,  True, False],\n         [False, False, False,  True]]\n        ```\n    *   Assertion: `separability_matrix(m.Pix2Sky_TAN() & m.Linear1D(10) & m.Linear1D(5))` should return the expected matrix.\n\n4.  **Additional Regression Tests:** Run existing test suite to ensure no regressions were introduced.  Specifically pay attention to any tests exercising `CompoundModel` and `separability_matrix`.\n\n**Verification Steps:**\n\n1.  **Apply the fix:** Revert the specified line in `astropy/modeling/separable.py`.\n2.  **Implement the new test cases:** Add the test cases described above to the test suite (preferably in a new test file dedicated to `separability_matrix` testing).\n3.  **Run the test suite:** Execute the test suite, including the new test cases and existing tests.\n4.  **Analyze the results:**\n    *   Verify that the new test cases pass, confirming that the bug is resolved.\n    *   Verify that all existing tests pass, confirming that no regressions were introduced.\n    *   Manually inspect the output of `separability_matrix` for various model configurations to gain further confidence in the correctness of the fix.\n5.  **Document the results:** Record the test results, including any failures or unexpected behavior.\n\n**Definition of Done:**\n\n*   The fix has been applied.\n*   The new test cases have been implemented and pass.\n*   All existing tests pass.\n*   The separability matrices for the test cases match the expected output.\n*   The test results have been documented.\n```"
+  },
+  "extra": {
+    "evaluation_requested": true,
+    "evaluation": {
+      "enabled": true,
+      "rubric": "bug_resolution_v1",
+      "rubric_id": "bug_resolution_v1",
+      "rubric_version": "1.0.0",
+      "criteria": [
+        {
+          "criterion": "documentation",
+          "raw_score": 87.9583,
+          "normalized_score": 0.8796,
+          "adjusted_normalized_score": 0.5759,
+          "score": 87.96,
+          "weight": 0.1,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "root_cause_accuracy",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.35,
+          "formula_id": "zero_one",
+          "critical_floor": 0.7,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "fix_quality",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.35,
+          "formula_id": "zero_one",
+          "critical_floor": 0.75,
+          "floor_passed": true,
+          "max_score": 100.0
+        },
+        {
+          "criterion": "verification",
+          "raw_score": 100.0,
+          "normalized_score": 1.0,
+          "adjusted_normalized_score": 0.6,
+          "score": 100.0,
+          "weight": 0.2,
+          "formula_id": "zero_one",
+          "critical_floor": null,
+          "floor_passed": true,
+          "max_score": 100.0
+        }
+      ],
+      "overall_score": 96.99,
+      "weighted_score": 96.55,
+      "objective_weighted_score": 98.8,
+      "grade": "A",
+      "passed": true,
+      "pass_threshold": 70.0,
+      "step_scores": [
+        {
+          "step_name": "triage",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "root_cause_analysis",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_fix",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "regression_check",
+          "status": "success",
+          "score": 100.0
+        },
+        {
+          "step_name": "generate_verification",
+          "status": "success",
+          "score": 100.0
+        }
+      ],
+      "dataset": {
+        "source": "local",
+        "dataset_id": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "dataset_path": "agentic-workflows-v2/tests/fixtures/datasets/swe_bench_verified.json",
+        "sample_index": 2,
+        "task_id": "2",
+        "dataset_workflow_compatible": true,
+        "dataset_mismatch_reasons": []
+      },
+      "score_layers": {
+        "layer1_objective": 98.8,
+        "layer2_judge": null,
+        "layer3_similarity": 98.8,
+        "layer3_efficiency": 64.76,
+        "layer3_advisory": 87.57
+      },
+      "hybrid_weights": {
+        "objective": 0.6,
+        "advisory": 0.15
+      },
+      "judge": null,
+      "generated_at": "2026-02-16T11:53:23.587203+00:00",
+      "hard_gates": {
+        "required_outputs_present": true,
+        "overall_status_success": true,
+        "no_critical_step_failures": true,
+        "schema_contract_valid": true,
+        "dataset_workflow_compatible": true
+      },
+      "hard_gate_failures": [],
+      "floor_violations": [],
+      "grade_capped": false
+    }
+  }
+}

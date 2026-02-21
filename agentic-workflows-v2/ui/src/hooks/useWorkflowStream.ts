@@ -8,6 +8,10 @@ export interface StepState {
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
+  tier?: string | null;
+  input?: Record<string, unknown>;
+  output?: Record<string, unknown>;
+  error?: string | null;
 }
 
 export interface WorkflowStreamState {
@@ -54,8 +58,12 @@ export function useWorkflowStream(runId: string | null): WorkflowStreamState {
           next.set(event.step, {
             status: event.status,
             durationMs: event.duration_ms,
-            modelUsed: event.model_used,
-            tokensUsed: event.tokens_used,
+            modelUsed: event.model_used ?? undefined,
+            tokensUsed: event.tokens_used ?? undefined,
+            tier: event.tier,
+            input: event.input,
+            output: event.output,
+            error: event.error,
           });
           return next;
         });
