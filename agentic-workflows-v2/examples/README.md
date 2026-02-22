@@ -1,13 +1,20 @@
 # Examples
 
-This folder contains minimal runnable examples demonstrating how to use `agentic_v2`.
+Minimal runnable examples for `agentic_v2`.
 
-- `simple_agent.py` — minimal agent class and run example.
-- `workflow_run.py` — minimal workflow runner that expects `workflows/sample_pipeline.yaml`.
+## Files
 
-Run examples with:
+- `examples/simple_agent.py`: tiny async agent usage example
+- `examples/workflow_run.py`: loads a built-in workflow and executes a demo run
+
+## Run
 
 ```bash
 python examples/simple_agent.py
 python examples/workflow_run.py
 ```
+
+## Notes
+
+- `examples/workflow_run.py` creates a temporary file named dummy_code.py when running `code_review`.
+- The file is cleaned up automatically at the end of the run.

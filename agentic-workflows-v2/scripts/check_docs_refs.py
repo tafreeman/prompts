@@ -27,6 +27,20 @@ def is_local_path(token: str) -> bool:
 
 TARGET_FILES = (
     "README.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "examples/README.md",
+    "feature_package/README.md",
+    "feature_package/handoff.md",
+    "docs/README.md",
+    "docs/ARCHITECTURE.md",
+    "docs/WORKFLOWS.md",
+    "docs/SUBAGENTS.md",
+    "docs/DEVELOPMENT.md",
+    "docs/REPO_MAP.md",
+    "docs/DOCS_BEST_PRACTICES.md",
     "docs/API_REFERENCE.md",
     "docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md",
 )
@@ -36,9 +50,13 @@ def markdown_files(root: Path) -> list[Path]:
     return [root / rel for rel in TARGET_FILES if (root / rel).exists()]
 
 
-def candidate_paths(root: Path, token: str) -> list[Path]:
+def candidate_paths(root: Path, md_file: Path, token: str) -> list[Path]:
     workspace_root = root.parent
+    # Resolve links as written in each markdown file first. This matches how
+    # Markdown renderers resolve relative paths.
+    file_relative = (md_file.parent / token).resolve()
     candidates = [
+        file_relative,
         root / token,
         root / "agentic_v2" / token,
         root / "tests" / token,
@@ -60,7 +78,7 @@ def main() -> int:
                 continue
             if token in KNOWN_FUTURE_PATHS:
                 continue
-            if not any(candidate.exists() for candidate in candidate_paths(root, token)):
+            if not any(candidate.exists() for candidate in candidate_paths(root, md_file, token)):
                 missing.append((md_file.relative_to(root), token))
 
     if not missing:

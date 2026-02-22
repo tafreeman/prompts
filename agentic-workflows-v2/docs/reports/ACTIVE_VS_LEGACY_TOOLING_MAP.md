@@ -84,9 +84,9 @@
 
 | Path | Status | Superseded By | Notes |
 |------|--------|---------------|-------|
-| `docs/EVALUATION_MIGRATION_PLAN.md` | **Historical** | — | Migration planning record with legacy references annotated inline |
-| `docs/IMPLEMENTATION_PLAN_V1_COMPLETE.md` | **Historical** | — | Phase 1 implementation record; kept for reference only |
-| `docs/IMPLEMENTATION_PLAN_V2.md` | **Historical** | — | Phase 2 implementation record; kept for reference only |
+| Historical evaluation migration docs (removed) | **Historical** | — | Prior migration planning records were removed during cleanup |
+| Historical implementation plan v1 docs (removed) | **Historical** | — | Prior phase 1 implementation records were removed during cleanup |
+| Historical implementation plan v2 docs (removed) | **Historical** | — | Prior phase 2 implementation records were removed during cleanup |
 | scripts/add_module_docstrings.py | **Removed** | — | No longer present in repository |
 
 ### In the parent repo (d:\source\prompts\)

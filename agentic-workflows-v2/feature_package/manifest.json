@@ -1,0 +1,42 @@
+{
+  "files": {
+    "tests": [
+      "tests/__init__.py",
+      "tests/conftest.py",
+      "tests/test_agents.py",
+      "tests/test_agents_integration.py",
+      "tests/test_agents_orchestrator.py",
+      "tests/test_cli.py",
+      "tests/test_contracts.py",
+      "tests/test_dag.py",
+      "tests/test_dag_executor.py",
+      "tests/test_dataset_workflows.py",
+      "tests/test_engine.py",
+      "tests/test_evaluation_scoring.py",
+      "tests/test_expressions.py",
+      "tests/test_integrations_base.py",
+      "tests/test_langchain_engine.py",
+      "tests/test_langchain_integration.py",
+      "tests/test_memory_context_tools.py",
+      "tests/test_model_router.py",
+      "tests/test_new_agents.py",
+      "tests/test_normalization.py",
+      "tests/test_phase2d_tools.py",
+      "tests/test_provider_adapters.py",
+      "tests/test_registry.py",
+      "tests/test_run_logger.py",
+      "tests/test_runner_ui.py",
+      "tests/test_runtime.py",
+      "tests/test_scoring_profiles.py",
+      "tests/test_server_evaluation.py",
+      "tests/test_server_judge.py",
+      "tests/test_server_workflow_routes.py",
+      "tests/test_step_state.py",
+      "tests/test_tier0.py",
+      "tests/test_workflow_loader.py",
+      "tests/test_workflow_runner.py",
+      "tests/test_workflow_tracing.py"
+    ]
+  },
+  "dependencies": []
+}

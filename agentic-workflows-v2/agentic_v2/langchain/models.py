@@ -8,6 +8,8 @@ Supported providers:
 - Gemini                 (prefix ``gemini:``)
 - NotebookLM alias       (prefix ``notebooklm:``)    routes to Gemini model
 - Local ONNX             (prefix ``local:``)         via repo ``LLMClient``
+- LM Studio              (prefix ``lmstudio:``)      via OpenAI-compatible API
+- Local API              (prefix ``local-api:``)     via OpenAI-compatible API
 
 Environment variables
 ---------------------
@@ -67,6 +69,8 @@ _PROVIDER_ENV_KEYS: dict[str, list[str]] = {
     "gh": ["GITHUB_TOKEN"],
     "ollama": [],  # always available (local)
     "local": [],   # always available (ONNX)
+    "lmstudio": [], # always available (local server)
+    "local_api": [], # always available (local server)
 }
 
 # ---------------------------------------------------------------------------
@@ -297,6 +301,12 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
     if model_id.startswith("local:"):
         return _build_local_onnx_model(model_id[6:], temperature)
 
+    if model_id.startswith("lmstudio:"):
+        return _build_lmstudio_model(model_id[9:], temperature)
+
+    if model_id.startswith("local-api:"):
+        return _build_local_api_model(model_id[10:], temperature)
+
     # Bare name without prefix -- treat as Ollama local model
     if not any(
         model_id.startswith(p)
@@ -309,6 +319,8 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
             "claude:",
             "gemini:",
             "notebooklm:",
+            "lmstudio:",
+            "local-api:",
         )
     ):
         return _build_ollama_model(model_id, temperature)
@@ -316,7 +328,7 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
     raise ValueError(
         f"Unsupported model provider in '{model_id}'. "
         "Supported prefixes: gh:, ollama:, openai:, anthropic:/claude:, "
-        "gemini:, notebooklm:, local:."
+        "gemini:, notebooklm:, local:, lmstudio:, local-api:."
     )
 
 
@@ -648,6 +660,58 @@ def _build_ollama_model(model_name: str, temperature: float) -> Any:
     return ChatOllama(
         model=model_name,
         base_url=base_url,
+        temperature=temperature,
+    )
+
+
+def _build_lmstudio_model(model_name: str, temperature: float) -> Any:
+    """Build a ChatOpenAI instance for local LM Studio server."""
+    try:
+        from langchain_openai import ChatOpenAI
+    except ImportError as exc:
+        raise ImportError(
+            "langchain-openai is required for LM Studio models. "
+            "Install with: pip install langchain-openai"
+        ) from exc
+
+    base_url = os.environ.get("LMSTUDIO_HOST", "http://127.0.0.1:12340")
+    if not base_url.endswith("/v1"):
+        base_url = f"{base_url.rstrip('/')}/v1"
+
+    logger.debug("Using LM Studio: %s at %s", model_name, base_url)
+    return ChatOpenAI(
+        model=model_name,
+        base_url=base_url,
+        api_key="lm-studio",
+        temperature=temperature,
+    )
+
+
+def _build_local_api_model(model_name: str, temperature: float) -> Any:
+    """Build a ChatOpenAI instance for generic local OpenAI-compatible API."""
+    try:
+        from langchain_openai import ChatOpenAI
+    except ImportError as exc:
+        raise ImportError(
+            "langchain-openai is required for local API models. "
+            "Install with: pip install langchain-openai"
+        ) from exc
+
+    base_url = (
+        os.getenv("OPENAI_BASE_URL")
+        or os.getenv("OPENAI_API_BASE")
+        or os.getenv("LOCAL_AI_API_BASE_URL")
+        or os.getenv("LOCAL_OPENAI_BASE_URL")
+        or "http://localhost:1234/v1"
+    )
+    if not base_url.endswith("/v1"):
+        base_url = f"{base_url.rstrip('/')}/v1"
+
+    logger.debug("Using Local API: %s at %s", model_name, base_url)
+    return ChatOpenAI(
+        model=model_name,
+        base_url=base_url,
+        api_key="local-api",
         temperature=temperature,
     )
 

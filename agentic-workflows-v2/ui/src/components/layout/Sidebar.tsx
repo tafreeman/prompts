@@ -4,11 +4,15 @@ import {
   Workflow,
   Radio,
   Zap,
+  Database,
+  Trophy,
 } from "lucide-react";
 
 const links = [
   { to: "/", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/workflows", icon: Workflow, label: "Workflows" },
+  { to: "/datasets", icon: Database, label: "Datasets" },
+  { to: "/evaluations", icon: Trophy, label: "Evaluations" },
   { to: "/live/latest", icon: Radio, label: "Live" },
 ];
 

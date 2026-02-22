@@ -1970,7 +1970,11 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         "available": lmstudio_models,
         "count": len(lmstudio_models),
         "error": lmstudio_error,
-        "notes": "LM Studio serves OpenAI-compatible API. Set LMSTUDIO_HOST to override.",
+        "notes": (
+            "Queries OpenAI-compatible API (/v1/models) since native REST "
+            "(/api/v1/chat) lacks Custom Tool support. Override host with "
+            "LMSTUDIO_HOST."
+        ),
     }
 
     # 12. Generic OpenAI-compatible local servers (LocalAI, text-generation-webui, etc.)

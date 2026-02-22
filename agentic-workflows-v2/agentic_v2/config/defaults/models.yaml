@@ -88,6 +88,29 @@ providers:
         context_length: 16384
         cost_tier: "free"
 
+  lmstudio:
+    description: LM Studio local server
+    host: "${LMSTUDIO_HOST:-http://127.0.0.1:12340}"
+    notes: >
+      LM Studio provides two inference endpoints: `/v1` and `/api/v1`. 
+      We purposefully target the OpenAI-compatible `/v1/chat/completions` endpoint 
+      rather than the native v1 REST API (`/api/v1/chat`) because Agentic Workflows 
+      strictly require "Custom tools" support, which is currently NOT provided on the 
+      native `/api/v1/chat` endpoint. Note that as a tradeoff, Remote MCPs provided 
+      natively by LM Studio cannot be used when using this inference endpoint.
+    available:
+      - id: "lmstudio:qwen/qwen3-coder-next"
+        name: Qwen3 Coder Next
+        capabilities: ["code", "text"]
+        context_length: 262144
+        cost_tier: "free"
+
+      - id: "lmstudio:mistralai/devstral-small-2-2512"
+        name: Devstral Small 2 2512
+        capabilities: ["vision", "text", "reasoning"]
+        context_length: 393216
+        cost_tier: "free"
+
   github_models:
     description: GitHub Models API
     endpoint: "https://models.github.com/v1"
@@ -173,7 +196,12 @@ routing:
         "gh:deepseek/deepseek-v3-0324",
       ]
     fallback:
-      ["ollama:qwen3-coder:30b", "ollama:qwen2.5-coder:14b", "local:phi4"]
+      [
+        "lmstudio:qwen/qwen3-coder-next",
+        "ollama:qwen3-coder:30b",
+        "ollama:qwen2.5-coder:14b",
+        "local:phi4",
+      ]
 
   # Fast code generation - smaller efficient models with local fallbacks
   code_gen_fast:
@@ -215,6 +243,7 @@ fallback:
 
   # Global fallback chain (when task-specific routing fails) - prioritize local/Ollama
   chain:
+    - "lmstudio:qwen/qwen3-coder-next"
     - "ollama:qwen2.5-coder:14b"
     - "ollama:phi4-reasoning:latest"
     - "local:phi4"

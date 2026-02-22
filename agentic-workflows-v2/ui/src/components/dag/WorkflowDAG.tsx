@@ -30,6 +30,7 @@ interface StepLiveState {
   modelUsed?: string;
   tokensUsed?: number;
   modelInferred?: boolean;
+  error?: string | null;
 }
 
 interface Props {
@@ -56,9 +57,10 @@ function WorkflowDAGInner({
   onNodeClick,
   className = "",
 }: Readonly<Props>) {
-  const { fitView, setCenter } = useReactFlow();
-  const prevRunningRef = useRef<string | null>(null);
+  const { fitView } = useReactFlow();
+  const prevRunningStrRef = useRef<string | null>(null);
   const userInteractedRef = useRef(false);
+  const interactionCountRef = useRef(0);
   const interactionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const positions = useMemo(
@@ -66,52 +68,122 @@ function WorkflowDAGInner({
     [dagNodes, dagEdges]
   );
 
-  // Find the currently-running step
-  const runningStepId = useMemo(() => {
-    if (!stepStates) return null;
-    for (const [id, state] of stepStates) {
-      if (state.status === "running") return id;
+  const effectiveStepStates = useMemo(() => {
+    const eff = new Map<string, StepLiveState>();
+    if (!stepStates) return eff;
+    
+    // Start by copying all known states
+    for (const [id, st] of stepStates) {
+      eff.set(id, st);
     }
-    return null;
-  }, [stepStates]);
+    
+    const workflowStarted = stepStates.size > 0;
+    
+    // Check if we're technically all done with known states
+    let allDone = true;
+    for (const st of stepStates.values()) {
+      if (st.status === "pending" || st.status === "running") {
+        allDone = false;
+        break;
+      }
+    }
 
-  // Auto-pan to the running node when it changes
+    // Apply optimistic running status if workflow is running
+    if (workflowStarted && !allDone) {
+      for (const dn of dagNodes) {
+        const currentLive = stepStates.get(dn.id);
+        const currentStatus = currentLive?.status ?? "pending";
+        
+        if (currentStatus === "pending") {
+          const depsResolved = dn.depends_on.every(depId => {
+            const ds = stepStates.get(depId)?.status;
+            return ds === "success" || ds === "skipped";
+          });
+          
+          if (depsResolved) {
+            eff.set(dn.id, {
+              ...currentLive,
+              status: "running",
+            });
+          }
+        }
+      }
+    }
+    return eff;
+  }, [stepStates, dagNodes]);
+
+  // Find all currently-running steps
+  const runningStepIds = useMemo(() => {
+    const ids: string[] = [];
+    for (const [id, state] of effectiveStepStates) {
+      if (state.status === "running") ids.push(id);
+    }
+    return ids;
+  }, [effectiveStepStates]);
+
+  // Auto-pan / fitView to the running node(s) when changed
   useEffect(() => {
-    if (!runningStepId || runningStepId === prevRunningRef.current) return;
+    const runningStr = [...runningStepIds].sort().join(",");
+    if (!runningStr || runningStr === prevRunningStrRef.current) return;
     if (userInteractedRef.current) return; // respect manual navigation
 
-    prevRunningRef.current = runningStepId;
-    const pos = positions.find((p) => p.id === runningStepId);
-    if (!pos) return;
+    prevRunningStrRef.current = runningStr;
 
-    // Center on the running node with a smooth animation
-    setCenter(pos.x + 120, pos.y + 60, { zoom: 1.1, duration: 700 });
-  }, [runningStepId, positions, setCenter]);
+    // Small delay provides visual grace if multiple nodes start simultaneously
+    const timerId = setTimeout(() => {
+      if (userInteractedRef.current) return;
+      fitView({
+        nodes: runningStepIds.map((id) => ({ id })),
+        duration: 800,
+        padding: runningStepIds.length === 1 ? 0.35 : 0.2,
+        minZoom: 0.8,
+        maxZoom: 1.15,
+      });
+    }, 150);
+
+    return () => clearTimeout(timerId);
+  }, [runningStepIds, fitView]);
 
   // When workflow completes (no running step and we had one before), zoom to fit all
   const allDone = useMemo(() => {
-    if (!stepStates || stepStates.size === 0) return false;
-    for (const [, state] of stepStates) {
+    if (effectiveStepStates.size === 0) return false;
+    for (const [, state] of effectiveStepStates) {
       if (state.status === "running" || state.status === "pending") return false;
     }
     return true;
-  }, [stepStates]);
+  }, [effectiveStepStates]);
 
   useEffect(() => {
-    if (allDone && prevRunningRef.current) {
-      prevRunningRef.current = null;
+    if (allDone && prevRunningStrRef.current) {
+      prevRunningStrRef.current = null;
       userInteractedRef.current = false;
       fitView({ padding: 0.15, duration: 800 });
     }
   }, [allDone, fitView]);
 
-  // Track user interaction — pause auto-pan for 8s after manual move
-  const handleMoveEnd = useCallback(() => {
-    userInteractedRef.current = true;
+  // Track user interaction — pause auto-pan for 5s after multiple manual moves
+  const handleMoveEnd = useCallback((event: any) => {
+    // Only flag manual user interactions.
+    // Programmatic pans (via fitView/setCenter) send null/undefined events
+    if (!event) return;
+
+    interactionCountRef.current += 1;
+
+    // Require more than one interaction event within a short window to take over
+    if (interactionCountRef.current >= 2) {
+      userInteractedRef.current = true;
+    }
+
     if (interactionTimerRef.current) clearTimeout(interactionTimerRef.current);
+    
+    // If they successfully took over, pause auto-pan for 5s.
+    // If it was just an accidental single click/move, reset the counter after 2s.
+    const timeoutDuration = userInteractedRef.current ? 5000 : 2000;
+    
     interactionTimerRef.current = setTimeout(() => {
       userInteractedRef.current = false;
-    }, 8000);
+      interactionCountRef.current = 0;
+    }, timeoutDuration);
   }, []);
 
   // Clear any pending interaction timeout on unmount
@@ -127,8 +199,8 @@ function WorkflowDAGInner({
   const nodes = useMemo(() => {
     return dagNodes.map((dn) => {
       const pos = positions.find((p) => p.id === dn.id);
-      const live = stepStates?.get(dn.id);
-
+      const live = effectiveStepStates.get(dn.id);
+      
       const data: StepNodeData = {
         label: dn.id,
         agent: dn.agent,
@@ -140,6 +212,7 @@ function WorkflowDAGInner({
         modelUsed: live?.modelUsed,
         tokensUsed: live?.tokensUsed,
         modelInferred: live?.modelInferred,
+        error: live?.error,
       };
 
       return {
@@ -149,13 +222,13 @@ function WorkflowDAGInner({
         data: data as unknown as Record<string, unknown>,
       };
     });
-  }, [dagNodes, positions, stepStates]);
+  }, [dagNodes, positions, effectiveStepStates]);
 
   const edges: Edge[] = useMemo(() => {
     return dagEdges.map((de) => {
       const edgeId = `${de.source}->${de.target}`;
-      const sourceState = stepStates?.get(de.source);
-      const targetState = stepStates?.get(de.target);
+      const sourceState = effectiveStepStates.get(de.source);
+      const targetState = effectiveStepStates.get(de.target);
       const traversalCount = edgeCounts?.get(edgeId) ?? 0;
       const isKickback = kickbackEdges?.has(edgeId) ?? false;
 

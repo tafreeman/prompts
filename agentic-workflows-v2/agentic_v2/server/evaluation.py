@@ -288,6 +288,8 @@ def adapt_sample_to_workflow_inputs(
 
         adapted[name] = value
 
+    return adapted
+
 __all__ = [
     "CriterionFloorResult",
     "HardGateResult",

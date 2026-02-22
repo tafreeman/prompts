@@ -1,132 +1,133 @@
 # API Reference
 
-This document reflects the current public Python API exported by `agentic_v2.__all__`.
+This document covers:
+- Public Python exports from `agentic_v2`
+- CLI commands (`agentic`)
+- HTTP and streaming routes served by `agentic_v2.server`
 
-## Import Pattern
+## Python Package Exports
+
+Import pattern:
 
 ```python
 from agentic_v2 import <symbol>
 ```
 
-## Public Exports
-
-### Version
-
-- `__version__`: Package version string.
-
 ### Tools
 
-- `BaseTool`: Base class for tool implementations.
-- `ToolResult`: Standard tool execution result container.
-- `ToolSchema`: Tool input/output schema definition.
-- `ToolRegistry`: Runtime registry for tool discovery/lookup.
-- `get_registry`: Access the global tool registry instance.
+- `BaseTool`
+- `ToolResult`
+- `ToolSchema`
+- `ToolRegistry`
+- `get_registry`
 
-### Message And Schema Contracts
+### Contracts
 
-- `MessageType`
-- `StepStatus`
-- `AgentMessage`
-- `StepResult`
-- `WorkflowResult`
-- `Severity`
-- `IssueCategory`
-- `TestType`
-- `TaskInput`
-- `TaskOutput`
-- `CodeGenerationInput`
-- `CodeGenerationOutput`
-- `CodeIssue`
-- `CodeReviewInput`
-- `CodeReviewOutput`
-- `TestCase`
-- `TestGenerationInput`
-- `TestGenerationOutput`
+- `MessageType`, `StepStatus`, `AgentMessage`, `StepResult`, `WorkflowResult`
+- `TaskInput`, `TaskOutput`
+- `CodeGenerationInput`, `CodeGenerationOutput`
+- `CodeReviewInput`, `CodeReviewOutput`, `CodeIssue`
+- `TestGenerationInput`, `TestGenerationOutput`, `TestCase`
+- `Severity`, `IssueCategory`, `TestType`
 
-### Model Routing And Client
+### Engine and Execution
 
-- `CircuitState`
-- `ModelStats`
-- `ModelTier`
-- `FallbackChain`
-- `ModelRouter`
-- `SmartModelRouter`
-- `get_router`
-- `get_smart_router`
-- `LLMClientWrapper`
-- `TokenBudget`
-- `get_client`
-
-### Execution Context And Engine
-
-- `EventType`
-- `ServiceContainer`
-- `ExecutionContext`
-- `get_context`
-- `reset_context`
-- `RetryStrategy`
-- `RetryConfig`
-- `StepDefinition`
-- `StepExecutor`
-- `step`
-- `run_step`
-- `PipelineStatus`
-- `ParallelGroup`
-- `ConditionalBranch`
-- `Pipeline`
-- `PipelineBuilder`
-- `PipelineExecutor`
-- `run_pipeline`
-- `DAG`
-- `DAGExecutor`
-- `MissingDependencyError`
-- `CycleDetectedError`
+- `ExecutionContext`, `ServiceContainer`, `EventType`
+- `StepDefinition`, `StepExecutor`, `step`, `run_step`
+- `Pipeline`, `PipelineBuilder`, `PipelineExecutor`, `run_pipeline`
+- `DAG`, `DAGExecutor`
+- `WorkflowExecutor`, `execute`, `run`
 - `ExpressionEvaluator`
-- `StepState`
-- `StepStateManager`
-- `ExecutorEvent`
-- `ExecutionConfig`
-- `ExecutionHistory`
-- `WorkflowExecutor`
-- `get_executor`
-- `reset_executor`
-- `execute`
-- `run`
+- `StepState`, `StepStateManager`
 
-### Agents And Capabilities
+### Models and Routing
 
-- `AgentConfig`
-- `AgentEvent`
-- `AgentState`
-- `BaseAgent`
-- `ConversationMemory`
-- `ConversationMessage`
-- `agent_to_step`
-- `Capability`
-- `CapabilityMixin`
-- `CapabilitySet`
-- `CapabilityType`
-- `CodeGenerationMixin`
-- `CodeReviewMixin`
-- `OrchestrationMixin`
-- `TestGenerationMixin`
-- `get_agent_capabilities`
-- `requires_capabilities`
-- `CoderAgent`
-- `ReviewerAgent`
-- `OrchestratorAgent`
-- `OrchestratorInput`
-- `OrchestratorOutput`
-- `SubTask`
+- `ModelTier`, `FallbackChain`, `ModelRouter`, `SmartModelRouter`
+- `ModelStats`, `CircuitState`
+- `LLMClientWrapper`, `TokenBudget`
+- `get_router`, `get_smart_router`, `get_client`
 
-## CLI Entry Point
+### Agents
 
-- Command: `agentic`
-- Module: `agentic_v2.cli.main`
-- Core commands: `run`, `validate`, `list`, `serve`.
-- `orchestrate` is currently marked as not implemented.
+- `BaseAgent`, `AgentConfig`, `AgentState`, `AgentEvent`
+- `Capability`, `CapabilityType`, mixins, helpers
+- `CoderAgent`, `ReviewerAgent`, `OrchestratorAgent`
+- `OrchestratorInput`, `OrchestratorOutput`, `SubTask`
 
-## Notes
+## CLI Reference
 
-- Private modules/functions (`_name`) are internal and may change without notice.
-- Server APIs are documented separately via FastAPI OpenAPI docs at runtime.
+Entry point: `agentic`
+
+### `agentic run`
+
+Run a workflow by name or YAML path.
+
+```bash
+agentic run code_review --input input.json --output output.json
+```
+
+### `agentic validate`
+
+Validate workflow definition and graph compilation.
+
+```bash
+agentic validate code_review --verbose
+```
+
+### `agentic list workflows|agents|tools`
+
+List available workflows, tier patterns, or tools.
+
+### `agentic serve`
+
+Run FastAPI dashboard server.
+
+```bash
+agentic serve --port 8000 --dev
+```
+
+### `agentic version`
+
+Print package version.
+
+## HTTP API
+
+Base prefix: `/api`.
+
+### Health
+
+- `GET /api/health`
+
+### Agents
+
+- `GET /api/agents`
+
+### Workflows
+
+- `GET /api/workflows`
+- `GET /api/workflows/{name}/dag`
+- `GET /api/workflows/{name}/capabilities`
+- `GET /api/workflows/{workflow_name}/preview-dataset-inputs`
+
+### Runs
+
+- `POST /api/run`
+- `GET /api/runs`
+- `GET /api/runs/summary`
+- `GET /api/runs/{filename}`
+- `GET /api/runs/{run_id}/stream` (SSE)
+
+### Evaluation
+
+- `GET /api/eval/datasets`
+
+## Streaming
+
+- WebSocket endpoint: `WS /ws/execution/{run_id}`
+- SSE endpoint: `GET /api/runs/{run_id}/stream`
+
+## Auth and Security Notes
+
+- API key auth is opt-in with `AGENTIC_API_KEY`.
+- CORS allowlist is configurable with `AGENTIC_CORS_ORIGINS`.
+- See `../SECURITY.md` for vulnerability reporting policy.

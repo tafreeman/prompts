@@ -1,32 +1,57 @@
-# agentic-workflows-v2
+# Agentic Workflows v2
 
-Tier-based multi-model AI workflow orchestration.
+Tier-based, multi-model workflow orchestration for coding and research tasks.
 
-[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
-[![Status](https://img.shields.io/badge/status-Eval%20Phase%200%20Complete-blue)]()
+This package combines:
+- A typed Python workflow runtime (`agentic_v2`)
+- YAML-defined multi-step workflows (`agentic_v2/workflows/definitions`)
+- A CLI (`agentic`)
+- A FastAPI backend and React UI for live runs and evaluation
 
-## 📋 Implementation Status
+## What You Can Do
 
-| Phase | Status | Details |
-|-------|--------|--------|
-| **Eval Phase 0** | ✅ Complete | Scoring, hard gates, normalization, profiles, rubrics |
+- Run workflows from YAML with dependency-aware DAG execution.
+- Route steps to different model tiers (`tier0` to `tier3`).
+- Execute deterministic tool steps and model-backed agent steps in one graph.
+- Stream workflow events over SSE and WebSocket.
+- Run workflow-level evaluation with scoring profiles and rubric criteria.
 
-**Current:** Evaluation Phase 0 is complete — hard gates, normalization framework, scoring profiles, workflow-level rubrics.
+## Repository Map
 
-For active vs legacy module mapping, see [ACTIVE_VS_LEGACY_TOOLING_MAP.md](docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md).
+| Path | Purpose |
+| --- | --- |
+| `agentic_v2/` | Core runtime package (agents, engine, models, tools, workflows, server) |
+| `agentic_v2/workflows/definitions/` | Built-in workflow definitions |
+| `docs/` | Tutorials, architecture, API, and operations documentation |
+| `examples/` | Minimal runnable examples |
+| `tests/` | Backend test suite |
+| `ui/` | React + Vite frontend |
+| `scripts/` | Dev, evaluation, and docs helper scripts |
+| `feature_package/` | Example generated package + handoff artifacts |
 
-## Installation
-
-```bash
-pip install -e .
-```
+For a deeper map, see `docs/REPO_MAP.md`.
 
 ## Quick Start
 
-### CLI
+### 1) Install
 
-After installation, you can use the `agentic` CLI:
+From this directory:
+
+```bash
+pip install -e ".[dev,server,langchain]"
+```
+
+Optional extras:
+
+```bash
+# OpenTelemetry tracing support
+pip install -e ".[tracing]"
+
+# Claude SDK adapters
+pip install -e ".[claude]"
+```
+
+### 2) Explore CLI
 
 ```bash
 agentic list workflows
@@ -34,194 +59,136 @@ agentic list agents
 agentic list tools
 agentic validate code_review
 agentic run code_review --dry-run
+agentic version
 ```
 
-Note: `agentic orchestrate` is currently marked as not implemented.
-
-### Python
-
-Run a built-in agent directly:
-
-```python
-import asyncio
-
-from agentic_v2 import CodeGenerationInput, CoderAgent
-
-
-async def main() -> None:
-    agent = CoderAgent()
-    out = await agent.run(
-        CodeGenerationInput(
-            description="Write a small Python function that returns the string 'hello'.",
-            language="python",
-        )
-    )
-    print(out.code)
-
-
-asyncio.run(main())
-```
-
-## Run The App (API + UI)
-
-Run the full app (FastAPI backend serving the built UI):
+### 3) Run API + UI (single server path)
 
 ```bash
-cd agentic-workflows-v2
 python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8010
 ```
 
 Open:
-
-- App UI: `http://127.0.0.1:8010`
+- UI: `http://127.0.0.1:8010`
 - Health: `http://127.0.0.1:8010/api/health`
+- OpenAPI docs: `http://127.0.0.1:8010/docs`
 
-Notes:
-
-- Port `8000` may already be used on some machines. `8010` is a safe default.
-- The app serves `ui/dist` via SPA fallback from the backend.
-
-### Frontend dev mode (optional)
-
-For hot-reload UI development:
+### 4) Frontend Hot Reload (optional)
 
 ```bash
 # terminal 1
-cd agentic-workflows-v2
 python -m uvicorn agentic_v2.server.app:app --host 127.0.0.1 --port 8000
 
 # terminal 2
-cd agentic-workflows-v2/ui
+cd ui
+npm install
 npm run dev
 ```
 
-Vite runs on `http://127.0.0.1:5173` and proxies `/api` + `/ws` to `http://localhost:8000`.
+Vite serves `http://127.0.0.1:5173` and proxies `/api` and `/ws` to backend.
 
-## Workflow Evaluation UI
+## Built-In Workflows
 
-The UI supports running and scoring workflows in one pass:
+Current built-in definitions include:
+- `code_review`
+- `bug_resolution`
+- `deep_research`
+- `fullstack_generation`
+- `fullstack_generation_bounded_rereview`
+- `multi_agent_codegen_e2e`
+- `multi_agent_codegen_e2e_single_loop`
+- `tdd_codegen_e2e`
+- `test_deterministic`
+- `plan_implementation` (experimental and legacy-structured)
 
-1. Select a workflow.
-2. Enable evaluation.
-3. Choose dataset source (`repository` or `local`).
-4. Pick dataset + sample index.
-5. Run and monitor live workflow + evaluation events.
+See `docs/WORKFLOWS.md` for inputs/outputs and guidance.
 
-API endpoints used by this flow:
+## API Surfaces
 
-- `GET /api/eval/datasets`
-- `POST /api/run` (with optional `evaluation` payload)
-- `GET /api/runs`, `GET /api/runs/{filename}`
+Primary routes:
+- `GET /api/health`
+- `GET /api/agents`
+- `GET /api/workflows`
+- `GET /api/workflows/{name}/dag`
+- `GET /api/workflows/{name}/capabilities`
+- `POST /api/run`
+- `GET /api/runs`
+- `GET /api/runs/{filename}`
 - `GET /api/runs/{run_id}/stream` (SSE)
+- `GET /api/eval/datasets`
+- `GET /api/workflows/{workflow_name}/preview-dataset-inputs`
+- `WS /ws/execution/{run_id}`
 
-## Features
+## Sub-Agents
 
-- **Tier-based routing**: Route tasks to appropriate model sizes
-- **Smart fallback**: Automatic retry with different models
-- **Pydantic contracts**: Type-safe inputs/outputs
-- **Async-first**: Built for concurrent execution
-- **Token-aware memory**: `ConversationMemory` trims to a message + token budget
-- **Persistent memory tools**: File-backed CRUD via `AGENTIC_MEMORY_PATH`
+This project supports two related sub-agent patterns:
+- Workflow-tier agents in YAML (`tier0_parser`, `tier2_reviewer`, etc.).
+- Claude SDK sub-agents loaded from Markdown frontmatter definitions.
 
-### Persistent memory location
+See `docs/SUBAGENTS.md` for setup and examples.
 
-If you want the built-in persistent memory tools to write to a specific file, set:
+## Configuration
 
-- `AGENTIC_MEMORY_PATH` (e.g., `C:\\temp\\agentic_memory.json`)
-
-## Tracing (OpenTelemetry / AI Toolkit)
-
-Agentic workflows supports OpenTelemetry tracing for workflow execution, LLM calls, and step-level events. Tracing is **opt-in** and sends spans to an OTLP collector (e.g., AI Toolkit).
-
-### Enable tracing
-
-```bash
-# Enable tracing (required)
-export AGENTIC_TRACING=1
-
-# Include sensitive content (prompts, outputs, tool args) in spans (optional, off by default)
-export AGENTIC_TRACE_SENSITIVE=1
-```
-
-### Configuration
-
-| Environment Variable | Default | Description |
-|---------------------|---------|-------------|
-| `AGENTIC_TRACING` | (unset) | Set to `1` to enable tracing |
-| `AGENTIC_TRACE_SENSITIVE` | (unset) | Set to `1` to include prompts/outputs in spans |
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `AGENTIC_API_KEY` | unset | Enables API key auth for `/api/*` (except health/docs) |
+| `AGENTIC_CORS_ORIGINS` | local dev origins | Comma-separated CORS allowlist |
+| `AGENTIC_MEMORY_PATH` | unset | File path for persistent memory tools |
+| `AGENTIC_TRACING` | unset | Set `1/true/yes` to enable tracing |
+| `AGENTIC_TRACE_SENSITIVE` | unset | Include prompts/outputs in spans |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | `http://localhost:4317` | OTLP collector endpoint |
-| `OTEL_EXPORTER_OTLP_PROTOCOL` | `grpc` | Protocol: `grpc` or `http/protobuf` |
+| `OTEL_EXPORTER_OTLP_PROTOCOL` | `grpc` | `grpc` or `http/protobuf` |
+| `OTEL_SERVICE_NAME` | `agentic-workflows-v2` | Service name used in traces |
+| `AGENTIC_MODEL_TIER_1` | unset | Force tier 1 model |
+| `AGENTIC_MODEL_TIER_2` | unset | Force tier 2 model |
+| `AGENTIC_MODEL_TIER_3` | unset | Force tier 3 model |
+| `AGENTIC_EXTERNAL_AGENTS_DIR` | unset | Directory of external Markdown agent definitions |
 
-### Install tracing dependencies
+## Development
 
-Tracing requires the `tracing` optional extra:
-
-```bash
-pip install -e ".[tracing]"
-```
-
-### What gets traced
-
-- **Workflow-level span**: `workflow.run` with `workflow_name`, `workflow_id`, `run_id`
-- **Step-level spans**: `workflow.step` for each step with `step_name`, `step_status`
-- **LLM call spans**: Model ID, token counts (`tokens.prompt`, `tokens.completion`)
-- **Tool calls**: Tool name, success/failure (args excluded by default)
-- **Errors**: Exception type and message on failed spans
-
-### Using with AI Toolkit
-
-AI Toolkit listens on `http://localhost:4317` by default. With tracing enabled, workflow runs will appear in the AI Toolkit trace viewer automatically.
-
-## Documentation
-
-- API Reference: `docs/API_REFERENCE.md`
-- Tutorials: `docs/tutorials/`
-- Architecture decisions (ADRs): `docs/adr/`
-- Active vs Legacy Tooling: `docs/reports/ACTIVE_VS_LEGACY_TOOLING_MAP.md`
-- Examples: `examples/`
-
-## Developer tooling
-
-We enforce formatting and linting via `pre-commit`.
-
-Install and enable locally:
+Quality checks:
 
 ```bash
-pip install pre-commit
-pre-commit install
 pre-commit run --all-files
 python scripts/check_docs_refs.py
 ```
 
-Recommended VS Code extensions: `ms-python.python`, `ms-python.vscode-pylance`, and `njpwerner.autodocstring`.
-
-## Testing
-
-Backend (full suite):
+Backend tests:
 
 ```bash
-cd agentic-workflows-v2
-python -m pytest tests/ -v
-```
-
-Backend (evaluation-specific):
-
-```bash
-python -m pytest tests/test_server_evaluation.py tests/test_normalization.py tests/test_scoring_profiles.py tests/test_server_workflow_routes.py -v
-```
-
-Backend coverage (deterministic command):
-
-```bash
+python -m pytest tests -v
 python -m pytest --cov=agentic_v2 --cov-report=term-missing --cov-report=xml
-./scripts/run_coverage.sh
 ```
 
-UI:
+UI tests:
 
 ```bash
-cd agentic-workflows-v2/ui
+cd ui
 npm test
-npm run build
 npm run test:coverage
 ```
+
+More details: `docs/DEVELOPMENT.md`.
+
+## Documentation Index
+
+Start here:
+- `docs/README.md`
+- `docs/ARCHITECTURE.md`
+- `docs/WORKFLOWS.md`
+- `docs/API_REFERENCE.md`
+- `docs/tutorials/getting_started.md`
+- `docs/DOCS_BEST_PRACTICES.md`
+
+## Community Health Files
+
+- `CONTRIBUTING.md`
+- `CODE_OF_CONDUCT.md`
+- `SECURITY.md`
+- `SUPPORT.md`
+- `.github/ISSUE_TEMPLATE/`
+- `.github/PULL_REQUEST_TEMPLATE.md`
+
+## License
+
+MIT. See `LICENSE`.

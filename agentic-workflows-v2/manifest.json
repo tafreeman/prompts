@@ -1,0 +1,149 @@
+{
+  "files": {
+    "tests/test_agents.py": {
+      "purpose": "Unit tests for agents module",
+      "source": "Generated during test phase"
+    },
+    "tests/test_agents_integration.py": {
+      "purpose": "Integration tests for agents module",
+      "source": "Generated during test phase"
+    },
+    "tests/test_agents_orchestrator.py": {
+      "purpose": "Tests for agents orchestrator",
+      "source": "Generated during test phase"
+    },
+    "tests/test_cli.py": {
+      "purpose": "Tests for command line interface",
+      "source": "Generated during test phase"
+    },
+    "tests/test_contracts.py": {
+      "purpose": "Tests for contracts",
+      "source": "Generated during test phase"
+    },
+    "tests/test_dag.py": {
+      "purpose": "Tests for DAG functionality",
+      "source": "Generated during test phase"
+    },
+    "tests/test_dag_executor.py": {
+      "purpose": "Tests for DAG executor",
+      "source": "Generated during test phase"
+    },
+    "tests/test_dataset_workflows.py": {
+      "purpose": "Tests for dataset workflows",
+      "source": "Generated during test phase"
+    },
+    "tests/test_engine.py": {
+      "purpose": "Tests for engine module",
+      "source": "Generated during test phase"
+    },
+    "tests/test_evaluation_scoring.py": {
+      "purpose": "Tests for evaluation scoring",
+      "source": "Generated during test phase"
+    },
+    "tests/test_expressions.py": {
+      "purpose": "Tests for expressions",
+      "source": "Generated during test phase"
+    },
+    "tests/test_integrations_base.py": {
+      "purpose": "Tests for base integrations",
+      "source": "Generated during test phase"
+    },
+    "tests/test_langchain_engine.py": {
+      "purpose": "Tests for langchain engine",
+      "source": "Generated during test phase"
+    },
+    "tests/test_langchain_integration.py": {
+      "purpose": "Tests for langchain integration",
+      "source": "Generated during test phase"
+    },
+    "tests/test_memory_context_tools.py": {
+      "purpose": "Tests for memory context tools",
+      "source": "Generated during test phase"
+    },
+    "tests/test_model_router.py": {
+      "purpose": "Tests for model router",
+      "source": "Generated during test phase"
+    },
+    "tests/test_new_agents.py": {
+      "purpose": "Tests for new agents",
+      "source": "Generated during test phase"
+    },
+    "tests/test_normalization.py": {
+      "purpose": "Tests for normalization",
+      "source": "Generated during test phase"
+    },
+    "tests/test_phase2d_tools.py": {
+      "purpose": "Tests for phase2d tools",
+      "source": "Generated during test phase"
+    },
+    "tests/test_provider_adapters.py": {
+      "purpose": "Tests for provider adapters",
+      "source": "Generated during test phase"
+    },
+    "tests/test_registry.py": {
+      "purpose": "Tests for registry",
+      "source": "Generated during test phase"
+    },
+    "tests/test_run_logger.py": {
+      "purpose": "Tests for run logger",
+      "source": "Generated during test phase"
+    },
+    "tests/test_runner_ui.py": {
+      "purpose": "Tests for runner UI",
+      "source": "Generated during test phase"
+    },
+    "tests/test_runtime.py": {
+      "purpose": "Tests for runtime",
+      "source": "Generated during test phase"
+    },
+    "tests/test_scoring_profiles.py": {
+      "purpose": "Tests for scoring profiles",
+      "source": "Generated during test phase"
+    },
+    "tests/test_server_evaluation.py": {
+      "purpose": "Tests for server evaluation",
+      "source": "Generated during test phase"
+    },
+    "tests/test_server_judge.py": {
+      "purpose": "Tests for server judge",
+      "source": "Generated during test phase"
+    },
+    "tests/test_server_workflow_routes.py": {
+      "purpose": "Tests for server workflow routes",
+      "source": "Generated during test phase"
+    },
+    "tests/test_step_state.py": {
+      "purpose": "Tests for step state",
+      "source": "Generated during test phase"
+    },
+    "tests/test_tier0.py": {
+      "purpose": "Tests for tier0",
+      "source": "Generated during test phase"
+    },
+    "tests/test_workflow_loader.py": {
+      "purpose": "Tests for workflow loader",
+      "source": "Generated during test phase"
+    },
+    "tests/test_workflow_runner.py": {
+      "purpose": "Tests for workflow runner",
+      "source": "Generated during test phase"
+    },
+    "tests/test_workflow_tracing.py": {
+      "purpose": "Tests for workflow tracing",
+      "source": "Generated during test phase"
+    },
+    "tests/__init__.py": {
+      "purpose": "Test module initialization",
+      "source": "Generated during test phase"
+    },
+    "tests/conftest.py": {
+      "purpose": "Test configuration",
+      "source": "Generated during test phase"
+    }
+  },
+  "metadata": {
+    "backend": "empty",
+    "frontend": "not a directory",
+    "migrations": "not a directory"
+  }
+}

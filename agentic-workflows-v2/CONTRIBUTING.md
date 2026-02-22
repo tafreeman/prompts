@@ -1,45 +1,99 @@
 # Contributing to Agentic Workflows v2
 
-Thank you for your interest in contributing! We are building the next generation of multi-agent orchestration.
+Thanks for contributing. This project uses docs-as-code, typed contracts, and test-first changes.
 
-## 🛠️ Development Setup
+## Scope
 
-1. **Python Environment**: We recommend Python 3.11+.
+Contributions are welcome for:
+- Workflow runtime improvements (`agentic_v2/engine`, `agentic_v2/workflows`)
+- Agent/model/tool integrations
+- API/UI improvements
+- Tests and fixtures
+- Documentation and examples
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-   pip install -e ".[dev,server,langchain]"
-   ```
+## Prerequisites
 
-2. **Pre-commit Hooks**: We use `ruff` and `black` for formatting.
+- Python 3.11+
+- Node.js 20+ (for `ui/`)
+- `pip` and `npm`
 
-   ```bash
-   pip install pre-commit
-   pre-commit install
-   ```
+## Local Setup
 
-3. **Frontend Setup**:
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e ".[dev,server,langchain]"
+```
 
-   ```bash
-   cd ui
-   npm install
-   ```
+UI setup:
 
-## 🧪 Testing Policy
+```bash
+cd ui
+npm install
+cd ..
+```
 
-- **New Features**: Must include unit tests in the `tests/` directory.
-- **Bug Fixes**: Should include a regression test.
-- **Agents**: Should be tested with mock backends unless integration testing is explicitly required.
+## Development Workflow
 
-## 📝 Roadmap
+1. Create a branch for your change.
+2. Make the smallest coherent change set.
+3. Add or update tests.
+4. Update docs for behavior, API, config, or workflow changes.
+5. Run local checks before opening a PR.
 
-We are currently focused on:
+## Required Local Checks
 
-- Completing the **LangGraph Migration**.
-- Expanding **Tier 0 tools** for better local execution.
-- Improving **Evaluation scoring** for coding benchmarks.
+```bash
+# Python style + lint hooks
+pre-commit run --all-files
 
-## 🤝 Code of Conduct
+# Backend tests
+python -m pytest tests -v
 
-Please maintain a collaborative and professional tone in all issues and pull requests.
+# Docs link checks
+python scripts/check_docs_refs.py
+```
+
+UI checks (when frontend files changed):
+
+```bash
+cd ui
+npm run build
+npm test
+```
+
+## Pull Request Expectations
+
+Use `.github/PULL_REQUEST_TEMPLATE.md` and include:
+- Problem statement
+- What changed
+- Validation evidence (tests/screenshots/logs)
+- Risks and rollback notes
+- Documentation updates
+
+## Documentation Rules
+
+If your change affects users or contributors, update the docs in the same PR.
+
+Typical mappings:
+- New workflow: `docs/WORKFLOWS.md`
+- New environment variable: `README.md` and `docs/DEVELOPMENT.md`
+- New endpoint: `docs/API_REFERENCE.md`
+- New architecture pattern: `docs/ARCHITECTURE.md`
+
+## Code Style
+
+- Keep functions and classes focused.
+- Prefer explicit schemas/contracts over untyped dicts.
+- Keep workflow YAML declarative; avoid hidden runtime coupling.
+- Add concise comments only where behavior is non-obvious.
+
+## Security
+
+- Never commit secrets, keys, or production tokens.
+- Prefer environment variables for credentials.
+- Follow `SECURITY.md` for vulnerability reporting.
+
+## Need Help?
+
+Open a discussion or issue and use `SUPPORT.md` for support channels and expected response paths.

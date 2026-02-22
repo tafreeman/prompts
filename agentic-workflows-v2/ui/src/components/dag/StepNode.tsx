@@ -24,6 +24,7 @@ export interface StepNodeData {
   modelUsed?: string;
   tokensUsed?: number;
   modelInferred?: boolean;
+  error?: string | null;
 }
 
 const statusConfig: Record<
@@ -46,7 +47,7 @@ const statusConfig: Record<
     iconClass: "text-green-500",
   },
   failed: {
-    border: "border-red-500/40",
+    border: "border-red-500 bg-red-500/5 ring-2 ring-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.2)]",
     icon: XCircle,
     iconClass: "text-red-500",
   },
@@ -69,6 +70,7 @@ function StepNodeComponent({ data }: NodeProps) {
 
   let bgClass = "bg-white shadow-sm";
   if (nodeData.status === "pending") bgClass = "bg-gray-50/80";
+  if (nodeData.status === "failed") bgClass = "bg-[#1f0f0f] shadow-sm"; // Darker backdrop for error
 
   return (
     <>
@@ -76,23 +78,40 @@ function StepNodeComponent({ data }: NodeProps) {
 
       <div
         className={`
-          rounded-xl border ${cfg.border} ${bgClass}
+          relative rounded-xl border ${cfg.border} ${bgClass}
           px-4 py-3 min-w-[200px] max-w-[260px]
           transition-all duration-300 ease-out
-          ${nodeData.status === "running" ? "ring-1 ring-blue-500/20" : ""}
+          ${
+            nodeData.status === "running"
+              ? "ring-2 ring-blue-500/40 shadow-lg scale-105 z-10"
+              : "hover:scale-[1.02]"
+          }
         `}
       >
         {/* Header: status icon + name */}
-        <div className="flex items-center gap-2">
-          <Icon className={`h-4 w-4 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
-          <span className="truncate text-sm font-semibold text-gray-800 tracking-tight">
+        <div className="flex items-start gap-2">
+          <Icon className={`h-4 w-4 mt-0.5 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
+          <span className="text-sm font-semibold text-gray-800 tracking-tight break-words">
             {nodeData.label}
           </span>
         </div>
 
         {/* Agent name */}
         {nodeData.agent && (
-          <div className="mt-1 truncate text-xs font-medium text-gray-500">{nodeData.agent}</div>
+          <div className="mt-1 text-xs font-medium text-gray-500 break-words">{nodeData.agent}</div>
+        )}
+
+        {/* Micro-status / Error message */}
+        {nodeData.status === "running" && (
+          <div className="mt-2 text-[10px] text-blue-500/80 animate-pulse font-medium">
+            Processing...
+          </div>
+        )}
+        
+        {nodeData.status === "failed" && nodeData.error && (
+          <div className="mt-2 text-[10px] font-mono text-red-400 bg-red-500/10 p-1.5 rounded border border-red-500/20 max-h-[60px] overflow-y-auto w-full break-words">
+            {nodeData.error}
+          </div>
         )}
 
         {/* Metrics row — only show when there's data */}

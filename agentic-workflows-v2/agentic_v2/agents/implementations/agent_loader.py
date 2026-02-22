@@ -68,16 +68,19 @@ def load_agents(directory: Path | str | None = None) -> dict[str, AgentDefinitio
 
     Args:
         directory: Path containing ``*.md`` agent files.  Defaults to the
-                   bundled definitions directory, falling back to the external
-                   ``D:\\source\\everything-claude-code\\agents`` location.
+                   bundled definitions directory, with optional fallback to
+                   ``AGENTIC_EXTERNAL_AGENTS_DIR`` when configured.
 
     Returns:
         Dict mapping agent ``name`` → :class:`AgentDefinition`.
     """
     if directory is not None:
+        # Explicit directory always wins for callers that need deterministic
+        # loading behavior (for tests or custom runtime setups).
         dirs = [Path(directory)]
     else:
-        # Prefer bundled definitions; then optional external path (if configured).
+        # Default behavior: bundled definitions first, then optional external
+        # pack from env var for local overrides.
         dirs = [_DEFAULT_AGENTS_DIR]
         if _EXTERNAL_AGENTS_DIR is not None:
             dirs.append(_EXTERNAL_AGENTS_DIR)

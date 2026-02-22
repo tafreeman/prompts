@@ -1,5 +1,6 @@
+import { useId, useState } from "react";
 import type { ExecutionEvent } from "../../api/types";
-import { Clock } from "lucide-react";
+import { Clock, ChevronDown, ChevronRight } from "lucide-react";
 
 interface Props {
   events: ExecutionEvent[];
@@ -7,28 +8,41 @@ interface Props {
 }
 
 export default function StepLogPanel({ events, className = "" }: Props) {
+  const [expanded, setExpanded] = useState(true);
+  const panelId = useId();
+
   const displayEvents = events.filter(
     (e) => e.type !== "keepalive" && e.type !== "connection_established"
   );
 
   return (
     <div className={`rounded-lg border border-white/5 bg-surface-1 ${className}`}>
-      <div className="border-b border-white/5 px-4 py-2">
-        <h3 className="text-xs font-medium text-gray-500 uppercase">
+      <button
+        type="button"
+        aria-expanded={expanded}
+        aria-controls={panelId}
+        className="flex w-full items-center justify-between border-b border-white/5 px-4 py-2 text-left hover:bg-white/[0.02]"
+        onClick={() => setExpanded(!expanded)}
+      >
+        <span className="text-xs font-medium text-gray-500 uppercase flex items-center gap-1.5">
+          {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
           Event Log
-        </h3>
-      </div>
+        </span>
+        <span className="text-[10px] text-gray-500">{displayEvents.length} events</span>
+      </button>
 
-      <div className="max-h-64 overflow-y-auto p-2 font-mono text-xs">
-        {displayEvents.length === 0 && (
-          <div className="px-2 py-4 text-center text-gray-600">
-            Waiting for events...
-          </div>
-        )}
-        {displayEvents.map((event, i) => (
-          <EventLine key={i} event={event} />
-        ))}
-      </div>
+      {expanded && (
+        <div id={panelId} className="max-h-64 overflow-y-auto p-2 font-mono text-xs">
+          {displayEvents.length === 0 && (
+            <div className="px-2 py-4 text-center text-gray-600">
+              Waiting for events...
+            </div>
+          )}
+          {displayEvents.map((event, i) => (
+            <EventLine key={i} event={event} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

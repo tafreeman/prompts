@@ -42,6 +42,7 @@ class HardGateResult:
     no_critical_step_failures: bool
     schema_contract_valid: bool
     dataset_workflow_compatible: bool
+    release_build_verified: bool = True
 
     @property
     def all_passed(self) -> bool:
@@ -49,6 +50,7 @@ class HardGateResult:
             self.required_outputs_present
             and self.overall_status_success
             and self.no_critical_step_failures
+            and self.release_build_verified
             and self.schema_contract_valid
             and self.dataset_workflow_compatible
         )
@@ -62,6 +64,8 @@ class HardGateResult:
             failed.append("overall_status_success")
         if not self.no_critical_step_failures:
             failed.append("no_critical_step_failures")
+        if not self.release_build_verified:
+            failed.append("release_build_verified")
         if not self.schema_contract_valid:
             failed.append("schema_contract_valid")
         if not self.dataset_workflow_compatible:
@@ -289,6 +293,37 @@ def compute_hard_gates(
     no_critical_step_failures = all(
         step.status != StepStatus.FAILED for step in result.steps
     )
+    release_step_prefixes = ("build_verify_release", "release_build_verify")
+
+    def _is_true_like(value: Any) -> bool:
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.strip().lower() in {"true", "1", "yes", "y"}
+        if isinstance(value, (int, float)):
+            return value != 0
+        return False
+
+    release_steps = [
+        step
+        for step in result.steps
+        if any(step.step_name.startswith(prefix) for prefix in release_step_prefixes)
+    ]
+    release_build_verified = True
+    if release_steps:
+        for step in release_steps:
+            if step.status == StepStatus.FAILED:
+                release_build_verified = False
+                break
+            ready_flag = (
+                step.output_data.get("ready_for_release")
+                if isinstance(step.output_data, dict)
+                else None
+            )
+            if ready_flag is not None and not _is_true_like(ready_flag):
+                release_build_verified = False
+                break
+
     schema_contract_valid = True
     if eval_payload is not None:
         schema_contract_valid, _ = validate_evaluation_payload_schema(eval_payload)
@@ -297,6 +332,7 @@ def compute_hard_gates(
         required_outputs_present=required_outputs_present,
         overall_status_success=overall_status_success,
         no_critical_step_failures=no_critical_step_failures,
+        release_build_verified=release_build_verified,
         schema_contract_valid=schema_contract_valid,
         dataset_workflow_compatible=dataset_workflow_compatible,
     )
@@ -375,7 +411,14 @@ def _compute_criterion_score(
         is_failed = _overall == StepStatus.FAILED
         is_success = _overall == StepStatus.SUCCESS
 
-    if criterion == "correctness":
+    if criterion in (
+        "correctness",
+        "objective_tests",
+        "task_completion",
+        "correctness_rubric",
+        "faithfulness",
+        "relevance",
+    ):
         overlap = (
             _text_overlap_score(expected_text, output_text) if expected_text else success_rate
         )
@@ -384,21 +427,27 @@ def _compute_criterion_score(
             blended *= 0.75
         return _clamp(blended)
 
-    if criterion == "code_quality":
+    if criterion in (
+        "code_quality",
+        "safety_validation",
+        "validation",
+        "safety",
+        "tool_selection_accuracy",
+    ):
         failure_penalty = (failed_steps / total_steps) * 45.0
         retry_penalty = min(retries * 4.0, 20.0)
         status_bonus = 8.0 if is_success else -12.0
         score = 78.0 - failure_penalty - retry_penalty + status_bonus
         return _clamp(score)
 
-    if criterion == "efficiency":
+    if criterion in ("efficiency", "performance"):
         seconds = duration_ms / 1000.0
         duration_penalty = min(seconds * 1.5, 55.0)
         retry_penalty = min(retries * 5.0, 20.0)
         score = 100.0 - duration_penalty - retry_penalty
         return _clamp(score)
 
-    if criterion == "documentation":
+    if criterion in ("documentation", "citation_quality", "coherence"):
         if not output_text:
             return 20.0
         chars = len(output_text)
@@ -410,7 +459,12 @@ def _compute_criterion_score(
             base -= 15.0
         return _clamp(base)
 
-    return _clamp(success_rate)
+    # For unknown criteria, start at a baseline of 50.0 (neutral)
+    # so that the LLM Judge (which scores 1-5) can truly dictate the output score.
+    baseline = 50.0
+    if is_failed:
+        baseline -= 20.0
+    return _clamp(baseline)
 
 
 def _grade(score: float) -> str:
@@ -511,8 +565,8 @@ def _compose_hybrid_score(
     component_weights: dict[str, float] | None = None,
 ) -> tuple[float, dict[str, float]]:
     default_weights = {
-        "objective": 0.60,
-        "judge": 0.25,
+        "objective": 0.35,
+        "judge": 0.50,
         "advisory": 0.15,
     }
     weights = dict(default_weights)
@@ -744,6 +798,7 @@ def score_workflow_result_impl(
         "required_outputs_present": hard_gates.required_outputs_present,
         "overall_status_success": hard_gates.overall_status_success,
         "no_critical_step_failures": hard_gates.no_critical_step_failures,
+        "release_build_verified": hard_gates.release_build_verified,
         "schema_contract_valid": hard_gates.schema_contract_valid,
         "dataset_workflow_compatible": hard_gates.dataset_workflow_compatible,
     }

@@ -1,4 +1,7 @@
+# Subagent registry for planning/review/security helper roles.
+# Keep prompts and examples free of secrets or real PII.
 subagents:
+  # Planning-oriented role for breaking down large implementation tasks.
   - task_name: planner
     description: >
       Breaks a large implementation or bug into a clear, ordered plan with steps,
@@ -24,6 +27,7 @@ subagents:
         plan_path: {type: string}
     requires_secret_handling: false
 
+  # Architecture role for system decomposition and trade-off decisions.
   - task_name: architect
     description: >
       Designs system-level architecture choices: interfaces, data flow,
@@ -47,6 +51,7 @@ subagents:
         diagram_file: {type: string}
     requires_secret_handling: false
 
+  # Test-design role for test-first development guidance.
   - task_name: tdd-guide
     description: >
       Produces a test-first plan: unit/integration/e2e tests to validate a feature,
@@ -69,6 +74,7 @@ subagents:
         test_files: {type: array}
     requires_secret_handling: false
 
+  # Code quality role for prioritized review findings.
   - task_name: code-reviewer
     description: >
       Reviews code diffs for correctness, style, maintainability, and security,
@@ -91,6 +97,7 @@ subagents:
         findings: {type: array}
     requires_secret_handling: false
 
+  # Security-focused role for threat and secret-handling review.
   - task_name: security-reviewer
     description: >
       Performs threat modeling, secret leakage scans, dependency checks, and

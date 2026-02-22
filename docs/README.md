@@ -64,3 +64,4 @@ Start-Process docs\README.md
 - Maintainers: see repository CODEOWNERS and PR templates.
 - Canonical subagent list: `docs/subagents.yml`
 - Docs PR checklist: `docs/pr-checklists/docs-pr-checklist.md`
+- Runtime package docs: `agentic-workflows-v2/docs/README.md`
