@@ -243,7 +243,7 @@ steps:
     prompt_file: developer.md
     description: Integration dev repairs build blockers before tests can run
     depends_on: [build_verify_pretest]
-    when: ${steps.build_verify_pretest.outputs.ready_for_tests not in [True, 'true', 'True']}
+    when: ${steps.build_verify_pretest.outputs.ready_for_tests} not in [True, 'true', 'True']
     inputs:
       backend: ${steps.implement_backend.outputs.backend_code}
       frontend: ${steps.implement_frontend.outputs.frontend_code}
@@ -267,7 +267,7 @@ steps:
     prompt_file: validator.md
     description: Re-verify build after integration pretest rework
     depends_on: [integration_rework_pretest]
-    when: ${steps.integration_rework_pretest.status in ['success', 'SUCCESS']}
+    when: ${steps.integration_rework_pretest.status} in ['success', 'SUCCESS']
     tools: [build_app]
     inputs:
       backend: ${steps.integration_rework_pretest.outputs.backend_code}
@@ -287,8 +287,8 @@ steps:
     prompt_file: coder.md
     description: Execute tests, review evidence, and rework code in a bounded loop until approved
     depends_on: [build_verify_pretest, build_verify_pretest_after_rework]
-    when: ${coalesce(steps.build_verify_pretest_after_rework.outputs.ready_for_tests, steps.build_verify_pretest.outputs.ready_for_tests) in [True, 'true', 'True']}
-    loop_until: ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED'] and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
+    when: ${coalesce(steps.build_verify_pretest_after_rework.outputs.ready_for_tests, steps.build_verify_pretest.outputs.ready_for_tests)} in [True, 'true', 'True']
+    loop_until: ${steps.qa_rework_loop.outputs.review_report.overall_status} in ['APPROVED'] and ${steps.qa_rework_loop.outputs.overall_test_status} in ['PASS']
     loop_max: 2
     inputs:
       backend: ${coalesce(steps.integration_rework_pretest.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
@@ -314,13 +314,12 @@ steps:
       failing_tests: failing_tests_loop
       change_summary: loop_change_summary
 
-  # Phase 5: Release packaging and release build gate
+  # Phase 5: Release packaging and release build gate (always runs — assembles best available artifacts)
   - name: assemble_release_package
     agent: tier1_assembler
     prompt_file: assembler.md
     description: Build release package and manifest from loop-approved artifacts
     depends_on: [qa_rework_loop]
-    when: ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED'] and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
     inputs:
       backend: ${coalesce(steps.qa_rework_loop.outputs.backend_code, steps.integration_rework_pretest.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
       frontend: ${coalesce(steps.qa_rework_loop.outputs.frontend_code, steps.integration_rework_pretest.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
@@ -358,7 +357,7 @@ steps:
     prompt_file: developer.md
     description: Integration dev repairs package when release build verification fails
     depends_on: [build_verify_release]
-    when: ${steps.build_verify_release.outputs.ready_for_release not in [True, 'true', 'True']}
+    when: ${steps.build_verify_release.outputs.ready_for_release} not in [True, 'true', 'True']
     inputs:
       backend: ${coalesce(steps.qa_rework_loop.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
       frontend: ${coalesce(steps.qa_rework_loop.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
@@ -382,7 +381,7 @@ steps:
     prompt_file: assembler.md
     description: Re-assemble release package after release integration rework
     depends_on: [integration_rework_release]
-    when: ${steps.integration_rework_release.status in ['success', 'SUCCESS']}
+    when: ${steps.integration_rework_release.status} in ['success', 'SUCCESS']
     inputs:
       backend: ${steps.integration_rework_release.outputs.backend_code}
       frontend: ${steps.integration_rework_release.outputs.frontend_code}
@@ -403,7 +402,7 @@ steps:
     prompt_file: validator.md
     description: Re-verify release package after rework
     depends_on: [assemble_release_package_reworked]
-    when: ${steps.assemble_release_package_reworked.status in ['success', 'SUCCESS']}
+    when: ${steps.assemble_release_package_reworked.status} in ['success', 'SUCCESS']
     tools: [build_app]
     inputs:
       feature_package: ${steps.assemble_release_package_reworked.outputs.package}
@@ -421,7 +420,7 @@ steps:
     prompt_file: validator.md
     description: Final gate to confirm release quality and readiness
     depends_on: [build_verify_release, build_verify_release_reworked]
-    when: ${coalesce(steps.build_verify_release_reworked.outputs.ready_for_release, steps.build_verify_release.outputs.ready_for_release) in [True, 'true', 'True']}
+    when: ${coalesce(steps.build_verify_release_reworked.outputs.ready_for_release, steps.build_verify_release.outputs.ready_for_release)} in [True, 'true', 'True']
     inputs:
       package: ${coalesce(steps.assemble_release_package_reworked.outputs.package, steps.assemble_release_package.outputs.package)}
       release_manifest: ${coalesce(steps.assemble_release_package_reworked.outputs.manifest, steps.assemble_release_package.outputs.manifest)}

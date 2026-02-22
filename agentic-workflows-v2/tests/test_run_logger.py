@@ -1,9 +1,10 @@
 """Tests for workflow run logger record shaping."""
 
+import json
 import pytest
 
 from agentic_v2.contracts import StepStatus, WorkflowResult
-from agentic_v2.workflows.run_logger import build_run_record
+from agentic_v2.workflows.run_logger import RunLogger, build_run_record
 
 
 def _result() -> WorkflowResult:
@@ -34,3 +35,26 @@ def test_build_run_record_score_uses_evaluation_weighted_score():
     )
 
     assert record["score"] == pytest.approx(87.5)
+
+
+def test_summary_ignores_non_run_json_artifacts(tmp_path):
+    logger = RunLogger(runs_dir=tmp_path)
+
+    valid = build_run_record(_result())
+    (tmp_path / "20260222T120000Z_test_workflow_success.json").write_text(
+        json.dumps(valid),
+        encoding="utf-8",
+    )
+
+    # Utility artifact (not a run record) should not crash summary().
+    (tmp_path / "provider_limits.json").write_text(
+        json.dumps({"checked": {"openai": {"ok": True}}}),
+        encoding="utf-8",
+    )
+
+    summary = logger.summary()
+
+    assert summary["total_runs"] == 1
+    assert summary["success"] == 1
+    assert summary["failed"] == 0
+    assert summary["workflows"] == ["test_workflow"]

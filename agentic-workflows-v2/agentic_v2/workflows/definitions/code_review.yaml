@@ -116,7 +116,7 @@ steps:
     agent: tier2_summarizer
     description: Generate human-readable review summary
     depends_on: [review_code]
-    when: ${inputs.review_depth != 'quick'}
+    when: ${inputs.review_depth} != 'quick'
     inputs:
       review: ${steps.review_code.outputs.review}
     outputs:

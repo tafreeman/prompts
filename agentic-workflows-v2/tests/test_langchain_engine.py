@@ -109,7 +109,8 @@ class TestConfigLoader:
         config = load_workflow_config("deep_research")
         step = next(s for s in config.steps if s.name == "hypothesis_tree_tot_round2")
         assert step.when is not None
-        assert "inputs.max_rounds >= 2" in step.when
+        assert "inputs.max_rounds" in step.when
+        assert ">= 2" in step.when
         assert "steps.coverage_confidence_audit_round1.outputs.ci_score" in step.when
 
     def test_deep_research_outputs_include_rag(self):
@@ -124,6 +125,16 @@ class TestConfigLoader:
         final_synthesis = next(s for s in config.steps if s.name == "final_synthesis")
         assert source_policy.model_override == "env:DEEP_RESEARCH_SMALL_MODEL|gemini:gemini-2.0-flash-lite"
         assert final_synthesis.model_override == "env:DEEP_RESEARCH_HEAVY_MODEL|gemini:gemini-2.5-flash"
+
+    def test_compile_validate_only_all_runnable_workflows(self):
+        """All runnable workflow definitions should compile in validate_only mode."""
+        workflows = [name for name in list_workflows() if name != "plan_implementation"]
+        assert workflows, "Expected at least one runnable workflow definition"
+
+        for name in workflows:
+            config = load_workflow_config(name)
+            graph = compile_workflow(config, validate_only=True)
+            assert graph is not None
 
 
 class TestLangChainTooling:
@@ -854,6 +865,46 @@ class TestConditionalFanOut:
         result = g.invoke(state)
         assert "always" in result["steps"]
         assert "conditional" in result["steps"]
+
+    def test_self_skipped_conditional_allows_downstream_join(self):
+        """A self-skipped conditional node should still allow join dependents to run."""
+        from agentic_v2.langchain.config import InputConfig, StepConfig, WorkflowConfig
+
+        config = WorkflowConfig(
+            name="skip_propagation_join",
+            inputs={"flag": InputConfig(name="flag", default="no", required=False)},
+            steps=[
+                StepConfig(name="root", agent="tier0_parser", depends_on=[]),
+                StepConfig(name="always", agent="tier0_parser", depends_on=["root"]),
+                StepConfig(
+                    name="conditional",
+                    agent="tier0_parser",
+                    depends_on=["root"],
+                    when="${inputs.flag} == 'yes'",
+                ),
+                StepConfig(
+                    name="join_step",
+                    agent="tier0_parser",
+                    depends_on=["always", "conditional"],
+                ),
+            ],
+        )
+
+        graph = compile_workflow(config)
+        state = {
+            "inputs": {"flag": "no"},
+            "context": {"inputs": {"flag": "no"}},
+            "steps": {},
+            "messages": [],
+            "errors": [],
+            "outputs": {},
+            "current_step": "",
+        }
+        result = graph.invoke(state)
+
+        assert result["steps"]["conditional"]["status"] == "skipped"
+        assert "join_step" in result["steps"]
+        assert result["steps"]["join_step"]["status"] == "success"
 
 
 # ---------------------------------------------------------------------------

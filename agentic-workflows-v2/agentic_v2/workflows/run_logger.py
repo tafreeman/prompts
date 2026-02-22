@@ -189,14 +189,39 @@ class RunLogger:
         if not runs:
             return {"total_runs": 0}
 
-        records = [self.load_run(p) for p in runs]
-        statuses = [r["status"] for r in records]
-        durations = [r["total_duration_ms"] for r in records if r.get("total_duration_ms")]
+        records: list[dict[str, Any]] = []
+        for path in runs:
+            try:
+                record = self.load_run(path)
+            except Exception as exc:
+                logger.warning("Failed to load run %s: %s", path.name, exc)
+                continue
+
+            if not isinstance(record, dict):
+                continue
+
+            status = record.get("status")
+            workflow = record.get("workflow_name")
+            if not isinstance(status, str) or not isinstance(workflow, str):
+                # Skip non-run JSON artifacts (for example provider checks/ranking).
+                continue
+
+            records.append(record)
+
+        if not records:
+            return {"total_runs": 0}
+
+        statuses = [str(r.get("status", "")) for r in records]
+        durations = [
+            r.get("total_duration_ms")
+            for r in records
+            if isinstance(r.get("total_duration_ms"), (int, float))
+        ]
 
         return {
             "total_runs": len(records),
             "success": statuses.count("success"),
             "failed": statuses.count("failed"),
             "avg_duration_ms": sum(durations) / len(durations) if durations else None,
-            "workflows": list({r["workflow_name"] for r in records}),
+            "workflows": sorted({str(r.get("workflow_name")) for r in records}),
         }

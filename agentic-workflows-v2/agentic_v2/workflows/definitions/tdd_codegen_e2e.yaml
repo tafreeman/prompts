@@ -466,7 +466,7 @@ steps:
     description: Fix build failures before tests can run
     tools: [file_read, file_write, grep, code_analysis, execute_python, shell_exec, build_app, git_diff]
     depends_on: [build_verify]
-    when: ${steps.build_verify.outputs.ready_for_tests not in [True, 'true', 'True']}
+    when: ${steps.build_verify.outputs.ready_for_tests} not in [True, 'true', 'True']
     inputs:
       backend: ${steps.implement_backend.outputs.backend_code}
       frontend: ${steps.implement_frontend.outputs.frontend_code}
@@ -493,10 +493,10 @@ steps:
       in a bounded loop until tests pass and review approves.
     tools: [file_read, file_write, grep, code_analysis, ast_dump, execute_python, shell_exec, build_app, git_diff, json_load, json_dump, template_render]
     depends_on: [build_verify, build_rework]
-    when: ${coalesce(steps.build_rework.outputs.backend_code, steps.build_verify.outputs.ready_for_tests) != null}
+    when: ${coalesce(steps.build_rework.outputs.backend_code, steps.build_verify.outputs.ready_for_tests)} != null
     loop_until: >-
-      ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED']
-      and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
+      ${steps.qa_rework_loop.outputs.review_report.overall_status} in ['APPROVED']
+      and ${steps.qa_rework_loop.outputs.overall_test_status} in ['PASS']
     loop_max: 2
     inputs:
       backend: ${coalesce(steps.build_rework.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
@@ -528,12 +528,9 @@ steps:
   - name: assemble_release
     agent: tier1_assembler
     prompt_file: assembler.md
-    description: Build release package from QA-approved artifacts
+    description: Build release package from QA artifacts (always runs — assembles best available)
     tools: [file_read, file_write, file_copy, file_move, directory_create, json_dump, yaml_dump, template_render, config_merge, git, git_status]
     depends_on: [qa_rework_loop]
-    when: >-
-      ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED']
-      and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
     inputs:
       backend: ${coalesce(steps.qa_rework_loop.outputs.backend_code, steps.build_rework.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
       frontend: ${coalesce(steps.qa_rework_loop.outputs.frontend_code, steps.build_rework.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
@@ -569,13 +566,13 @@ steps:
     description: Final gate confirming release quality, traceability, and readiness
     tools: [file_read, grep, code_analysis, json_load, memory_upsert]
     depends_on: [release_build_verify]
-    when: ${steps.release_build_verify.outputs.ready_for_release in [True, 'true', 'True']}
+    when: ${steps.release_build_verify.outputs.ready_for_release} in [True, 'true', 'True']
     inputs:
       package: ${steps.assemble_release.outputs.package}
       release_manifest: ${steps.assemble_release.outputs.manifest}
       build_verification: ${steps.release_build_verify.outputs.build_verification}
       quality_bar: ${inputs.quality_bar}
-      review_report: ${steps.qa_rework_loop.outputs.qa_review_report}
+      review_report: ${steps.qa_rework_loop.outputs.review_report}
       test_report: ${steps.qa_rework_loop.outputs.test_execution_report}
       static_report: ${steps.static_checks.outputs.static_check_report}
       spec_review: ${steps.validate_spec.outputs.spec_review}
@@ -599,7 +596,7 @@ outputs:
     from:
       spec_review: ${steps.validate_spec.outputs.spec_review}
       arch_review: ${steps.review_architecture.outputs.arch_review}
-      qa_review: ${steps.qa_rework_loop.outputs.qa_review_report}
+      qa_review: ${steps.qa_rework_loop.outputs.review_report}
       qa_tests: ${steps.qa_rework_loop.outputs.test_execution_report}
       qa_status: ${steps.qa_rework_loop.outputs.overall_test_status}
       static_report: ${steps.static_checks.outputs.static_check_report}

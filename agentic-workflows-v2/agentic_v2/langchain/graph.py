@@ -532,6 +532,38 @@ def _make_step_node(
 # ---------------------------------------------------------------------------
 
 
+def _wrap_with_skip_check(step: StepConfig, node_fn: Any) -> Any:
+    """Wrap a node function with a self-skip check for conditional steps.
+
+    When the step's ``when`` condition evaluates to False, the node
+    returns immediately with ``status: "skipped"`` and empty outputs.
+    This ensures the node still "completes" in LangGraph, firing its
+    outgoing edges so downstream join-nodes are not orphaned.
+    """
+    when_expr = step.when
+
+    def _self_skip_node(state: WorkflowState) -> dict[str, Any]:
+        if not evaluate_condition(when_expr, dict(state)):
+            logger.info(
+                "Step '%s' self-skipped (when condition not met)", step.name
+            )
+            return {
+                "context": dict(state.get("context", {})),
+                "steps": {
+                    **state.get("steps", {}),
+                    step.name: {
+                        "status": "skipped",
+                        "outputs": {},
+                        "loop_iteration": 0,
+                    },
+                },
+                "current_step": step.name,
+            }
+        return node_fn(state)
+
+    return _self_skip_node
+
+
 def _add_step_nodes(
     graph: StateGraph,
     config: WorkflowConfig,
@@ -541,15 +573,15 @@ def _add_step_nodes(
 ) -> None:
     """Add one graph node per configured workflow step."""
     for step in config.steps:
-        graph.add_node(
-            step.name,
-            _make_step_node(
-                step,
-                config,
-                trace_adapter,
-                validate_only=validate_only,
-            ),
+        node_fn = _make_step_node(
+            step,
+            config,
+            trace_adapter,
+            validate_only=validate_only,
         )
+        if step.when:
+            node_fn = _wrap_with_skip_check(step, node_fn)
+        graph.add_node(step.name, node_fn)
 
 
 def _add_start_edges(graph: StateGraph, root_steps: list[str]) -> None:
@@ -681,24 +713,18 @@ def _add_fan_out_edges(
 ) -> None:
     """Wire fan-out edges from one source to multiple dependents.
 
-    Unconditional targets always run; conditional targets gate on their ``when``
-    expression.  Returns a list so LangGraph fans out in parallel.
+    All targets are always routed to.  Conditional targets self-skip
+    inside their node function (via ``_wrap_with_skip_check``) when
+    their ``when`` expression evaluates to False.  This ensures that
+    skipped nodes still fire their outgoing edges so downstream
+    join-nodes are never orphaned.
     """
-    # Snapshot expressions for closures
-    cond_pairs = [(s.name, s.when) for s in conditional]
-    uncond_names = [s.name for s in unconditional]
+    all_names = [s.name for s in unconditional] + [s.name for s in conditional]
 
-    path_map: dict[str, str] = {n: n for n in uncond_names}
-    for name, _ in cond_pairs:
-        path_map[name] = name
-    path_map[END] = END
+    path_map: dict[str, str] = {n: n for n in all_names}
 
-    def _route(state: WorkflowState) -> list[str]:
-        targets = list(uncond_names)
-        for name, when_expr in cond_pairs:
-            if evaluate_condition(when_expr, state):
-                targets.append(name)
-        return targets if targets else [END]
+    def _route(_state: WorkflowState) -> list[str]:
+        return list(all_names)
 
     graph.add_conditional_edges(source, _route, path_map)
 
@@ -709,17 +735,21 @@ def _add_loop_edge(graph: StateGraph, step: StepConfig) -> None:
     max_iters = step.loop_max
 
     def _loop_route(state: WorkflowState) -> str:
-        # Check iteration count
         step_data = state.get("steps", {}).get(step.name, {})
+
+        # If the step was self-skipped, don't loop — proceed to END
+        if step_data.get("status") == "skipped":
+            return END
+
+        # Check iteration count
         iteration = step_data.get("loop_iteration", 0)
 
         if iteration >= max_iters:
             return END
 
-        if evaluate_condition(loop_expr, state):
+        if evaluate_condition(loop_expr, dict(state)):
             return END  # Condition met, stop looping
 
-        # Update iteration count
         return step.name  # Loop back
 
     graph.add_conditional_edges(

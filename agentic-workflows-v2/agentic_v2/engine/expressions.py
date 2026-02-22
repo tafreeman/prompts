@@ -131,16 +131,27 @@ class ExpressionEvaluator:
             return bool(expr)
 
         expression = expr.strip()
+
+        # Case 1: whole expression is ${...} — extract the inner path/expression
         match = self.VARIABLE_PATTERN.fullmatch(expression)
         if match:
             expression = match.group(1).strip()
+        elif self.VARIABLE_PATTERN.search(expression):
+            # Case 2: hybrid format — ${var} op value — substitute each ${...}
+            # token with repr(resolved_value) so the result is valid Python.
+            # Example: "${inputs.review_depth} != 'quick'"
+            #       → "'standard' != 'quick'"
+            def _sub(m: re.Match) -> str:  # type: ignore[type-arg]
+                return repr(self.resolve_variable(m.group(1).strip()))
+
+            expression = self.VARIABLE_PATTERN.sub(_sub, expression)
 
         if expression.lower() in {"true", "false"}:
             return expression.lower() == "true"
 
         try:
             return bool(self._safe_eval(expression))
-        except AttributeError:
+        except (AttributeError, SyntaxError):
             # Missing attribute in a when-condition.  The correct result
             # depends on the expression semantics:
             #

@@ -3,7 +3,7 @@ Contracts module - Message and schema definitions.
 
 Exports:
 - Message types: AgentMessage, StepResult, WorkflowResult
-- Enums: MessageType, StepStatus
+- Enums: MessageType, StepStatus, ReviewStatus, TestGateStatus
 - Task schemas: TaskInput, TaskOutput, CodeGeneration*, CodeReview*, TestGeneration*
 - Issue types: CodeIssue, Severity, IssueCategory, TestType, TestCase
 """
@@ -17,6 +17,7 @@ from .messages import (
     ReviewStatus,
     StepResult,
     StepStatus,
+    TestGateStatus,
     WorkflowResult,
 )
 from .schemas import (  # Enums; Base classes; Code generation; Code review; Test generation
@@ -40,6 +41,7 @@ __all__ = [
     "MessageType",
     "StepStatus",
     "ReviewStatus",
+    "TestGateStatus",
     "AgentMessage",
     "StepResult",
     "WorkflowResult",

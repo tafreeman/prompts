@@ -148,7 +148,7 @@ steps:
     agent: tier2_coder
     description: Rework generated artifacts based on reviewer feedback
     depends_on: [review_code]
-    when: ${steps.review_code.outputs.review_report.overall_status != 'APPROVED'}
+    when: ${steps.review_code.outputs.overall_status} != 'APPROVED'
     inputs:
       backend: ${steps.generate_api.outputs.api_code}
       frontend: ${steps.generate_frontend.outputs.ui_code}
@@ -159,12 +159,11 @@ steps:
     outputs:
       rework_report: rework_report
 
-  # Phase 5: Final assembly (depends on review)
+  # Phase 5: Final assembly (always runs after review)
   - name: assemble_feature
     agent: tier1_assembler
     description: Assemble final feature package
     depends_on: [review_code]
-    when: ${steps.review_code.outputs.review_report.overall_status == 'APPROVED'}
     inputs:
       backend: ${steps.generate_api.outputs.api_code}
       frontend: ${steps.generate_frontend.outputs.ui_code}

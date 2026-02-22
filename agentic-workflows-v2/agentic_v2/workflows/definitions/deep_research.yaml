@@ -175,7 +175,7 @@ steps:
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 2)
     depends_on: [coverage_confidence_audit_round1]
-    when: ${inputs.max_rounds >= 2 and (steps.coverage_confidence_audit_round1.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round1.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round1.outputs.critical_contradictions > 0)}
+    when: ${inputs.max_rounds} >= 2 and (${steps.coverage_confidence_audit_round1.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round1.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round1.outputs.critical_contradictions} > 0)
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -274,7 +274,7 @@ steps:
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 3)
     depends_on: [coverage_confidence_audit_round2]
-    when: ${inputs.max_rounds >= 3 and (steps.coverage_confidence_audit_round2.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round2.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round2.outputs.critical_contradictions > 0)}
+    when: ${inputs.max_rounds} >= 3 and (${steps.coverage_confidence_audit_round2.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round2.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round2.outputs.critical_contradictions} > 0)
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}
@@ -373,7 +373,7 @@ steps:
     agent: tier3_reasoner
     description: Refine thought tree and close evidence gaps (round 4)
     depends_on: [coverage_confidence_audit_round3]
-    when: ${inputs.max_rounds >= 4 and (steps.coverage_confidence_audit_round3.outputs.ci_score < inputs.min_ci or steps.coverage_confidence_audit_round3.outputs.recent_source_count < inputs.min_recent_sources or steps.coverage_confidence_audit_round3.outputs.critical_contradictions > 0)}
+    when: ${inputs.max_rounds} >= 4 and (${steps.coverage_confidence_audit_round3.outputs.ci_score} < ${inputs.min_ci} or ${steps.coverage_confidence_audit_round3.outputs.recent_source_count} < ${inputs.min_recent_sources} or ${steps.coverage_confidence_audit_round3.outputs.critical_contradictions} > 0)
     tools: [context_store]
     inputs:
       scoped_goal: ${steps.intake_scope.outputs.scoped_goal}

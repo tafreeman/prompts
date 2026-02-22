@@ -44,18 +44,22 @@ class ReviewStatus(str, Enum):
     All LLM-returned review statuses are normalized to one of
     these values, eliminating the need for free-form string
     comparisons in YAML when-conditions.
+
+    Used in YAML conditions:
+        when: ${steps.review_code.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES']
     """
 
-    APPROVED = "APPROVED"       # Code is acceptable, no changes needed
-    NEEDS_FIXES = "NEEDS_FIXES" # Issues found, rework required
-    REJECTED = "REJECTED"       # Fundamental problems, major rework required
+    APPROVED = "APPROVED"                     # Code is acceptable, no changes needed
+    APPROVED_WITH_NOTES = "APPROVED_WITH_NOTES"  # Acceptable with minor non-blocking notes
+    NEEDS_FIXES = "NEEDS_FIXES"               # Issues found, rework required
+    REJECTED = "REJECTED"                     # Fundamental problems, major rework required
 
     @classmethod
     def normalize(cls, raw: str | None) -> "ReviewStatus":
         """Map any LLM-returned status string to a canonical ReviewStatus.
 
         Handles all known variants: APPROVED, PASS, pass, approved,
-        NEEDS_FIXES, NEEDS_REVISION, needs_work, REJECTED, etc.
+        APPROVED_WITH_NOTES, NEEDS_FIXES, NEEDS_REVISION, needs_work, REJECTED, etc.
 
         Returns NEEDS_FIXES for unknown/None values (conservative default).
         """
@@ -63,6 +67,13 @@ class ReviewStatus(str, Enum):
             return cls.NEEDS_FIXES
 
         cleaned = raw.strip().upper().replace(" ", "_").replace("-", "_")
+
+        # Approved-with-notes variants (check before plain APPROVED)
+        if cleaned in {
+            "APPROVED_WITH_NOTES", "APPROVED_WITH_COMMENTS",
+            "CONDITIONAL_APPROVAL", "APPROVED_CONDITIONALLY",
+        }:
+            return cls.APPROVED_WITH_NOTES
 
         # Approved variants
         if cleaned in {
@@ -80,6 +91,33 @@ class ReviewStatus(str, Enum):
 
         # Everything else maps to needs_fixes (conservative)
         return cls.NEEDS_FIXES
+
+
+class TestGateStatus(str, Enum):
+    """Pass/fail status returned by test-execution and validator agents.
+
+    Used in YAML conditions:
+        when: ${steps.execute_tests.outputs.overall_status} not in ['PASS']
+    """
+
+    PASS = "PASS"      # All tests passed
+    FAIL = "FAIL"      # One or more tests failed
+    ERROR = "ERROR"    # Execution error, tests could not run
+    SKIPPED = "SKIPPED"  # Tests were skipped
+
+    @classmethod
+    def normalize(cls, raw: str | None) -> "TestGateStatus":
+        """Map any LLM-returned test status string to a canonical TestGateStatus."""
+        if raw is None:
+            return cls.FAIL
+        cleaned = raw.strip().upper()
+        if cleaned in {"PASS", "PASSED", "SUCCESS", "GREEN", "OK"}:
+            return cls.PASS
+        if cleaned in {"SKIP", "SKIPPED", "NOT_RUN"}:
+            return cls.SKIPPED
+        if cleaned in {"ERROR", "EXCEPTION", "CRASH"}:
+            return cls.ERROR
+        return cls.FAIL
 
 
 class FindingSeverity(str, Enum):

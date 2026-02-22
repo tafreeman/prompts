@@ -117,8 +117,8 @@ if ($AutoTierFromProbe) {
     $limitsScript = Join-Path $repoRoot 'tools\llm\check_provider_limits.py'
     $rankScript = Join-Path $repoRoot 'tools\llm\rank_models.py'
     $probeOutput = Join-Path $repoRoot 'tools\llm\filename.json'
-    $limitsOutput = Join-Path $repoRoot 'runs\provider_limits.json'
-    $rankingOutput = Join-Path $repoRoot 'runs\model_ranking.json'
+    $limitsOutput = Join-Path $logsDir 'provider_limits.json'
+    $rankingOutput = Join-Path $logsDir 'model_ranking.json'
 
     New-Item -ItemType Directory -Path (Split-Path $limitsOutput -Parent) -Force | Out-Null
 
@@ -137,7 +137,12 @@ if ($AutoTierFromProbe) {
             Write-Warning "Provider limits check failed; continuing with probe discovery only."
         }
 
-        Invoke-PythonStep -Args @($rankScript) -StepName 'rank_models'
+        Invoke-PythonStep -Args @(
+            $rankScript,
+            '--probe-file', $probeOutput,
+            '--limits-file', $limitsOutput,
+            '--out', $rankingOutput
+        ) -StepName 'rank_models'
     } catch {
         Write-Warning "Dynamic tier routing refresh failed: $($_.Exception.Message)"
     } finally {

@@ -145,12 +145,11 @@ steps:
       migrations: reworked_migrations_r2
       integration_tests: reworked_tests_r2
 
-  # Phase 6: Final assembly if either review pass approves
+  # Phase 6: Final assembly (always runs — assembles best available artifacts)
   - name: assemble_feature
     agent: tier1_assembler
     description: Assemble final feature package
     depends_on: [review_code, review_code_round2, developer_rework_round2]
-    when: ${steps.review_code.outputs.overall_status} in ['APPROVED', 'APPROVED_WITH_NOTES'] or ${steps.review_code_round2.outputs.overall_status} in ['APPROVED', 'APPROVED_WITH_NOTES'] or ${steps.developer_rework_round2.status} in ['success', 'SUCCESS']
     inputs:
       backend: ${coalesce(steps.developer_rework_round2.outputs.backend_code, steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
       frontend: ${coalesce(steps.developer_rework_round2.outputs.frontend_code, steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
