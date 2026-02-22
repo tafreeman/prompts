@@ -1,7 +1,7 @@
 # Scout Report
 
-- Files identified: `74`
-- Research documents: `52`
+- Files identified: `65`
+- Research documents: `43`
 - Code references identified: `22`
 
 Primary discovery seeds:

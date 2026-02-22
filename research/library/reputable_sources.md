@@ -1,0 +1,97 @@
+# Reputable Sources (URL Level)
+
+These URLs were extracted from consolidated research artifacts.
+
+- Approved URLs: `88`
+- Caution URLs: `18`
+- Needs-review URLs: `116`
+
+## Approved URLs
+- `https://www.anthropic.com`
+- `https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents`
+- `https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills`
+- `https://www.anthropic.com/engineering/writing-tools-for-agents`
+- `https://www.anthropic.com/legal/consumer-terms`
+- `https://www.anthropic.com/legal/privacy`
+- `https://www.anthropic.com/news/claude-is-a-space-to-think`
+- `https://www.anthropic.com/news/updates-to-our-consumer-terms`
+- `https://arxiv.org/abs/1701.07088`
+- `https://arxiv.org/abs/1703.07331`
+- `https://arxiv.org/abs/2109.02933`
+- `https://arxiv.org/abs/2210.03629`
+- `https://arxiv.org/abs/2304.02344`
+- `https://arxiv.org/abs/2305.10601`
+- `https://arxiv.org/abs/2309.11495`
+- `https://arxiv.org/abs/2310.11511`
+- `https://arxiv.org/abs/2402.08397`
+- `https://arxiv.org/abs/2509.18661`
+- `https://arxiv.org/abs/2601.03328`
+- `https://arxiv.org/html/2504.01931v2`
+- `https://arxiv.org/pdf/2210.03629`
+- `https://aws.amazon.com/blogs/machine-learning/amazon-bedrock-announces-general-availability-of-multi-agent-collaboration/`
+- `https://canvas.myschool.edu`
+- `https://claude.ai`
+- `https://claude.ai/audio/voice/onboarding/`
+- `https://claude.ai/install.sh`
+- `https://claude.ai/settings/data-privacy-controls`
+- `https://claude.com`
+- `https://claude.com/download?open_in_browser=1`
+- `https://cloud.google.com/architecture/architecture-decision-records`
+- `https://developers.openai.com/api/docs/guides/agent-builder-safety`
+- `https://developers.openai.com/api/docs/guides/agent-evals`
+- `https://developers.openai.com/api/docs/guides/tools`
+- `https://developers.openai.com/api/docs/guides/tools-file-search`
+- `https://developers.openai.com/api/docs/guides/tools-web-search`
+- `https://dl.acm.org/doi/10.1145/3442188.3445922`
+- `https://dl.acm.org/doi/abs/10.1145/3488600.3497601`
+- `https://docs.anthropic.com/en/docs/agents/claude-code/introduction`
+- `https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/claude-4-best-practices`
+- `https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview`
+- `https://docs.aws.amazon.com/bedrock/latest/userguide/agents-multi-agent-collaboration.html`
+- `https://docs.aws.amazon.com/bedrock/latest/userguide/create-multi-agent-collaboration.html`
+- `https://docs.aws.amazon.com/prescriptive-guidance/latest/agentic-ai-serverless/grounding-and-rag.html`
+- `https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html`
+- `https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/best-practices.html`
+- `https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html`
+- `https://docs.claude.com`
+- `https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview`
+- `https://docs.cloud.google.com/architecture/multiagent-ai-system`
+- `https://docs.cloud.google.com/gemini/enterprise/docs/research-assistant`
+- `https://docs.cloud.google.com/vertex-ai/generative-ai/docs/grounding/grounding-with-google-search`
+- `https://docs.langchain.com/oss/python/langgraph/persistence`
+- `https://docs.langchain.com/oss/python/langgraph/workflows-agents`
+- `http://docs.python.org/library/functions.html#range`
+- `http://docs.python.org/tutorial/classes.html#generator-expressions`
+- `http://docs.python.org/tutorial/datastructures.html#list-comprehensions`
+- `https://github.com/adr`
+- `https://github.com/langchain-ai/langchain`
+- `https://github.com/langchain-ai/langgraph`
+- `https://hai.stanford.edu/news/ensuring-ai-safety-human-oversight`
+- `https://ieeexplore.ieee.org/document/9452356`
+- `https://langchain-ai.github.io/langgraphjs/reference/classes/langgraph.Pregel.html`
+- `https://learn.microsoft.com/en-us/answers/questions/5625878/azure-openai-responses-api-x-ratelimit-headers-val`
+- `https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/ai-agent-design-patterns`
+- `https://learn.microsoft.com/en-us/azure/architecture/patterns/bulkhead`
+- `https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ai-agents/single-agent-multiple-agents`
+- `https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record`
+- `https://lineapas.assmca.pr.gov/`
+- `https://www.microsoft.com/en-us/ai/responsible-ai`
+- `https://www.microsoft.com/en-us/research/publication/code-generation-with-large-language-models/`
+- `https://www.nist.gov/itl/ai-risk-management-framework/trustworthy-and-responsible-ai/evaluate-and-measure`
+- `https://openai.com/index/introducing-deep-research/`
+- `https://owasp.org/`
+- `https://owasp.org/www-project-top-ten-ai/`
+- `https://platform.claude.com`
+- `https://platform.claude.com/docs/en/build-with-claude/citations`
+- `https://pmc.ncbi.nlm.nih.gov/articles/PMC7970504/`
+- `https://pypi.org/project/langgraph-checkpoint/`
+- `https://support.anthropic.com`
+- `https://support.anthropic.com/`
+- `https://support.anthropic.com/en/articles/10574485-using-extended-thinking-on-claude-3-7-sonnet`
+- `https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on`
+- `https://support.claude.com`
+- `https://support.claude.com/en/articles/10280258-setting-up-single-sign-on-on-the-api-console#h_f74055b90d`
+- `https://support.claude.com/en/articles/12436559-understanding-sonnet-4-5-s-safety-filters`
+- `https://support.claude.com/en/articles/13641943-visual-and-interactive-content`
+- `https://support.claude.com/en/articles/13663666-visual-responses-for-team-and-enterprise-plans`
+- `http://www.w3.org/2000/svg`

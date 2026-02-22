@@ -1,8 +1,8 @@
 {
   "summary": {
-    "generated_at": "2026-02-22T21:41:42.169042+00:00",
-    "total_materials": 74,
-    "copied_documents": 52,
+    "generated_at": "2026-02-22T21:42:38.902881+00:00",
+    "total_materials": 65,
+    "copied_documents": 43,
     "referenced_documents": 0,
     "code_references": 22,
     "total_urls": 222,
@@ -129,7 +129,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -150,7 +149,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
@@ -163,7 +161,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/Architectural Decision Records for Agentic-Workflows-v2_ Dual Execution Engine, Circuit-Breaker Hardening, and Deep Research Supervisor Design.pdf",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
@@ -195,7 +192,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -205,7 +201,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -233,7 +228,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -320,7 +314,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -330,7 +323,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -342,7 +334,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -354,7 +345,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -364,7 +354,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -374,7 +363,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -433,7 +421,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -445,7 +432,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -455,7 +441,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -467,7 +452,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -477,7 +461,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -518,7 +501,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -530,7 +512,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -540,7 +521,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -595,7 +575,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -659,7 +638,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/research/SYSTEM_INSTRUCTIONS.md",
         "research/library/artifacts/system.md"
@@ -680,7 +658,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -690,7 +667,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -738,7 +714,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -777,7 +752,6 @@
       "status": "approved",
       "reason": "known reputable/official source",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -1140,7 +1114,6 @@
       "status": "review",
       "reason": "domain not yet in approved/caution lists",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -1150,7 +1123,6 @@
       "status": "review",
       "reason": "domain not yet in approved/caution lists",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },
@@ -1407,7 +1379,6 @@
       "status": "review",
       "reason": "domain not yet in approved/caution lists",
       "referenced_by": [
-        "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
         "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md"
       ]
     },

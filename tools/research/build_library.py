@@ -268,7 +268,7 @@ def _is_research_material(rel: Path) -> bool:
         return False
     if "site-packages" in rel.parts:
         return False
-    if rel.parts and rel.parts[0].startswith("."):
+    if any(part.startswith(".") for part in rel.parts):
         return False
     if _is_seed_match(rel):
         return True
@@ -479,6 +479,7 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
     manifest_path = library_root / "material_manifest.json"
     source_registry_path = library_root / "source_registry.json"
     approved_domains_path = library_root / "approved_domains.md"
+    reputable_sources_path = library_root / "reputable_sources.md"
     code_refs_path = library_root / "code_references.md"
     readme_path = research_root / "README.md"
     roles_path = subagents_root / "ROLE_DEFINITIONS.md"
@@ -546,6 +547,28 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
         encoding="utf-8",
     )
 
+    approved_urls = [u for u in url_records if u.status == "approved"]
+    caution_urls = [u for u in url_records if u.status == "caution"]
+    review_urls = [u for u in url_records if u.status == "review"]
+    reputable_sources_path.write_text(
+        "\n".join(
+            [
+                "# Reputable Sources (URL Level)",
+                "",
+                "These URLs were extracted from consolidated research artifacts.",
+                "",
+                f"- Approved URLs: `{len(approved_urls)}`",
+                f"- Caution URLs: `{len(caution_urls)}`",
+                f"- Needs-review URLs: `{len(review_urls)}`",
+                "",
+                "## Approved URLs",
+                *[f"- `{u.url}`" for u in approved_urls],
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
     code_lines = [
         "# Code References (Not Duplicated)",
         "",
@@ -578,6 +601,7 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
         "- `research/library/code_references.md`: code assets referenced for research.",
         "- `research/library/source_registry.json`: URL/domain registry with trust status.",
         "- `research/library/approved_domains.md`: suggested approved/caution/review domains.",
+        "- `research/library/reputable_sources.md`: approved URL-level source list.",
         "- `research/subagents/*.md`: per-role execution reports.",
         "",
         "## Current Snapshot",
@@ -593,6 +617,9 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
         "",
         "## Top Domains",
         *top_domain_lines,
+        "",
+        "## Regenerate",
+        "- `python tools/research/build_library.py`",
         "",
     ]
     readme_path.write_text("\n".join(readme_lines), encoding="utf-8")
@@ -673,6 +700,7 @@ def build_library(root: Path, max_copy_mb: int = 20) -> dict:
                 "- `research/library/code_references.md`",
                 "- `research/library/source_registry.json`",
                 "- `research/library/approved_domains.md`",
+                "- `research/library/reputable_sources.md`",
                 "",
                 "This structure is ready to evolve into a reusable research library.",
                 "",

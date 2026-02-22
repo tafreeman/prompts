@@ -1,8 +1,8 @@
 {
   "summary": {
-    "generated_at": "2026-02-22T21:41:42.169042+00:00",
-    "total_materials": 74,
-    "copied_documents": 52,
+    "generated_at": "2026-02-22T21:42:38.902881+00:00",
+    "total_materials": 65,
+    "copied_documents": 43,
     "referenced_documents": 0,
     "code_references": 22,
     "total_urls": 222,
@@ -205,7 +205,7 @@
       "category": "code",
       "action": "reference",
       "destination_path": null,
-      "size_bytes": 20492,
+      "size_bytes": 21627,
       "sha256": null,
       "reason": "code artifact referenced, not duplicated"
     },
@@ -225,69 +225,6 @@
       "destination_path": "research/library/artifacts/REVIEW.md",
       "size_bytes": 5809,
       "sha256": "83e72b5962048ddf70ba5f7321910f481eb3ffa80ee9c1d5a6ef28aea492f02a",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/README.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/README.md",
-      "size_bytes": 2365,
-      "sha256": "587719873b666094dfbb47e47750a08c8f8988ab506cdbbe5b4f1609a11a3a89",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-01-foundation-architecture.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-01-foundation-architecture.md",
-      "size_bytes": 1863,
-      "sha256": "14727639838f06729abcbfaae71509e9df26aae566ca7634ae82f641fee53e44",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-02-governance-and-confidence.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-02-governance-and-confidence.md",
-      "size_bytes": 2177,
-      "sha256": "8962bcc6923033580937381afa52df9b038584fe8f153d1171f3cd02329305ba",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-03-workflow-and-pseudocode.md",
-      "size_bytes": 2316,
-      "sha256": "129d7999cf868a2deff761447e321ad0b7311d0c820259b37f3df390d4384d3e",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-04-tests-and-adr-program.md",
-      "size_bytes": 2533,
-      "sha256": "6961a5065f743e532c7c057c21eab3a36438daf9f99e6231404ecdf065bde06a",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/iteration-05-llm-agnostic-execution-blueprint.md",
-      "size_bytes": 2801,
-      "sha256": "d925299e9ef96501c1563b5ff17a66aa7295e3b9e96b26bf8fd83be9270e807c",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-v2-eval/.gitignored/deep_research_plan_series/reference-map.md",
-      "size_bytes": 4578,
-      "sha256": "f541d40e5ce29497ae70533facb8674430cb7a88ddc929e6cb920da7bc65a967",
       "reason": "research document consolidated"
     },
     {
@@ -351,15 +288,6 @@
       "destination_path": "research/library/artifacts/agentic-v2-eval/docs/deep_research_plan_series/reference-map.md",
       "size_bytes": 4694,
       "sha256": "21a33b905631f989d04bb3d50c1d69962279148bd3ac9959b65935a169fffe54",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "agentic-workflows-v2/.github/ISSUE_TEMPLATE/bug_report.yml",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/agentic-workflows-v2/.github/ISSUE_TEMPLATE/bug_report.yml",
-      "size_bytes": 1098,
-      "sha256": "2e8fc04b3e7ef49e97e9ccb9f7bf213117a76b30b2eeaf61fbb68bd6005d2c7b",
       "reason": "research document consolidated"
     },
     {
@@ -657,15 +585,6 @@
       "destination_path": "research/library/artifacts/system.md",
       "size_bytes": 14965,
       "sha256": "f624112ebafc99bf048494d1edd3b1b0636139371e4c995b8951b56c609b0d57",
-      "reason": "research document consolidated"
-    },
-    {
-      "source_path": "tools/agents/benchmarks/.gitignore",
-      "category": "document",
-      "action": "copied",
-      "destination_path": "research/library/artifacts/tools/agents/benchmarks/.gitignore",
-      "size_bytes": 56,
-      "sha256": "8e4b9767c14b346bbff838b5359da454fe2803cdacc68cf79353cabfa030e932",
       "reason": "research document consolidated"
     },
     {
