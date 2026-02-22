@@ -1,0 +1,120 @@
+name: Docs verification
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'docs/subagents.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'docs/subagents.yml'
+
+jobs:
+  docs-verify:
+    name: Docs verify (links, spell, secrets, schema)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Node.js (for cspell)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install cspell
+        run: |
+          npm install -g cspell
+
+      - name: Link check (HTTP/S links in docs)
+        # Uses lycheeverse/lychee-action to check external links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          extra-args: '--verbose --no-progress'
+
+      - name: Spell-check docs with cspell
+        run: |
+          # scan Markdown under docs/ (exit non-zero on spelling errors)
+          cspell "docs/**/*.{md,mdx,txt}" --no-progress
+
+      - name: Secret scan with git-secrets
+        run: |
+          sudo apt-get update && sudo apt-get install -y git git-secrets
+          git secrets --register-aws --global || true
+          git secrets --scan -r || true
+        # Consider failing the job on a positive match by removing '|| true' above
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate subagents YAML
+        run: |
+          python tools/validate_subagents.py docs/subagents.yml
+name: Docs verification
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'docs/subagents.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'docs/subagents.yml'
+
+jobs:
+  docs-verify:
+    name: Docs verify (links, spell, secrets, schema)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Node.js (for cspell)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install cspell
+        run: |
+          npm install -g cspell
+
+      - name: Link check (HTTP/S links in docs)
+        # Uses lycheeverse/lychee-action to check external links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          extra-args: '--verbose --no-progress'
+
+      - name: Spell-check docs with cspell
+        run: |
+          # scan Markdown under docs/ (exit non-zero on spelling errors)
+          cspell "docs/**/*.{md,mdx,txt}" --no-progress
+
+      - name: Secret scan with git-secrets
+        run: |
+          sudo apt-get update && sudo apt-get install -y git git-secrets
+          git secrets --register-aws --global || true
+          git secrets --scan -r || true
+        # Consider failing the job on a positive match by removing '|| true' above
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate subagents YAML
+        run: |
+          python tools/validate_subagents.py docs/subagents.yml

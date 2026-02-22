@@ -76,7 +76,12 @@ function StepPanel({
             </span>
           )}
           {step.model_used && (
-            <span className="text-gray-600">{step.model_used}</span>
+            <span className="flex items-center gap-1 text-gray-600">
+              {step.model_used}
+              {step.metadata?.model_inferred === true && (
+                <span className="text-[10px] text-accent-amber/80 italic">(inferred)</span>
+              )}
+            </span>
           )}
         </div>
 

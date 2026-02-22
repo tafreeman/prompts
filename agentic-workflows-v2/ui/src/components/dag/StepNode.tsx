@@ -8,6 +8,8 @@ import {
   SkipForward,
   Timer,
   Cpu,
+  Bot,
+  Sparkles,
 } from "lucide-react";
 import type { StepStatus } from "../../api/types";
 
@@ -21,6 +23,7 @@ export interface StepNodeData {
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
+  modelInferred?: boolean;
 }
 
 const statusConfig: Record<
@@ -28,34 +31,34 @@ const statusConfig: Record<
   { border: string; icon: typeof Clock; iconClass: string }
 > = {
   pending: {
-    border: "border-gray-700/50",
+    border: "border-gray-200",
     icon: Clock,
-    iconClass: "text-gray-600",
+    iconClass: "text-gray-400",
   },
   running: {
-    border: "border-blue-500 shadow-blue-500/25 shadow-lg",
+    border: "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.15)]",
     icon: Loader2,
-    iconClass: "text-blue-400 animate-spin",
+    iconClass: "text-blue-500 animate-spin",
   },
   success: {
-    border: "border-green-500/50",
+    border: "border-green-500/40",
     icon: CheckCircle2,
-    iconClass: "text-green-400",
+    iconClass: "text-green-500",
   },
   failed: {
-    border: "border-red-500/50",
+    border: "border-red-500/40",
     icon: XCircle,
-    iconClass: "text-red-400",
+    iconClass: "text-red-500",
   },
   skipped: {
-    border: "border-amber-500/30",
+    border: "border-amber-500/40",
     icon: SkipForward,
-    iconClass: "text-amber-400/70",
+    iconClass: "text-amber-500",
   },
   cancelled: {
-    border: "border-gray-700/50",
+    border: "border-gray-300",
     icon: Clock,
-    iconClass: "text-gray-600",
+    iconClass: "text-gray-400",
   },
 };
 
@@ -64,45 +67,45 @@ function StepNodeComponent({ data }: NodeProps) {
   const cfg = statusConfig[nodeData.status] ?? statusConfig.pending;
   const Icon = cfg.icon;
 
-  let bgClass = "bg-surface-2";
-  if (nodeData.status === "pending") bgClass = "bg-surface-1/60";
+  let bgClass = "bg-white shadow-sm";
+  if (nodeData.status === "pending") bgClass = "bg-gray-50/80";
 
   return (
     <>
-      <Handle type="target" position={Position.Top} className="!bg-gray-600 !border-0 !w-2 !h-2" />
+      <Handle type="target" position={Position.Top} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
 
       <div
         className={`
-          rounded-lg border ${cfg.border} ${bgClass}
-          px-3 py-2.5 min-w-[180px] max-w-[240px]
-          transition-all duration-500 ease-out
+          rounded-xl border ${cfg.border} ${bgClass}
+          px-4 py-3 min-w-[200px] max-w-[260px]
+          transition-all duration-300 ease-out
           ${nodeData.status === "running" ? "ring-1 ring-blue-500/20" : ""}
         `}
       >
         {/* Header: status icon + name */}
-        <div className="flex items-center gap-1.5">
-          <Icon className={`h-3.5 w-3.5 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
-          <span className="truncate text-xs font-medium text-gray-200">
+        <div className="flex items-center gap-2">
+          <Icon className={`h-4 w-4 flex-shrink-0 ${cfg.iconClass} transition-colors duration-300`} />
+          <span className="truncate text-sm font-semibold text-gray-800 tracking-tight">
             {nodeData.label}
           </span>
         </div>
 
         {/* Agent name */}
         {nodeData.agent && (
-          <div className="mt-0.5 truncate text-[10px] text-gray-600">{nodeData.agent}</div>
+          <div className="mt-1 truncate text-xs font-medium text-gray-500">{nodeData.agent}</div>
         )}
 
         {/* Metrics row — only show when there's data */}
         {(nodeData.status === "running" || nodeData.durationMs != null || nodeData.tokensUsed != null) && (
-          <div className="mt-1.5 flex items-center gap-2 text-[10px] text-gray-500">
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
             <StepTimer
               status={nodeData.status}
               startTime={nodeData.startTime}
               durationMs={nodeData.durationMs}
             />
             {nodeData.tokensUsed != null && (
-              <span className="flex items-center gap-0.5">
-                <Cpu className="h-2.5 w-2.5" />
+              <span className="flex items-center gap-1 rounded-md bg-gray-50 border border-gray-200 px-2 py-0.5 font-medium text-gray-600 shadow-sm">
+                <Cpu className="h-3 w-3 text-blue-500/70" />
                 {nodeData.tokensUsed.toLocaleString()}
               </span>
             )}
@@ -111,14 +114,26 @@ function StepNodeComponent({ data }: NodeProps) {
 
         {/* Model + tier — compact single line */}
         {(nodeData.modelUsed || nodeData.tier) && (
-          <div className="mt-1 flex items-center gap-1.5">
+          <div className="mt-2.5 flex flex-wrap items-center gap-2">
             {nodeData.modelUsed && (
-              <span className="truncate text-[10px] text-gray-600">
-                {nodeData.modelUsed}
+              <span
+                className={`flex items-center gap-1 truncate text-[11px] px-2 py-0.5 rounded-md border shadow-sm font-medium ${
+                  nodeData.modelInferred
+                    ? "bg-amber-50 border-amber-200 text-amber-700 border-dashed"
+                    : "bg-gray-50 border-gray-200 text-gray-600"
+                }`}
+                title={nodeData.modelInferred ? "Model inferred from configuration" : "Model explicitly recorded"}
+              >
+                {nodeData.modelInferred ? (
+                  <Sparkles className="h-3 w-3 text-amber-500" />
+                ) : (
+                  <Bot className="h-3 w-3 text-gray-400" />
+                )}
+                <span className="truncate max-w-[130px]">{nodeData.modelUsed}</span>
               </span>
             )}
             {nodeData.tier && (
-              <span className="rounded bg-white/5 px-1 py-px text-[9px] text-gray-600 uppercase flex-shrink-0">
+              <span className="rounded-md bg-purple-50 border border-purple-200 px-1.5 py-0.5 text-[10px] text-purple-700 uppercase flex-shrink-0 tracking-wider font-bold shadow-sm">
                 {nodeData.tier}
               </span>
             )}
@@ -126,7 +141,7 @@ function StepNodeComponent({ data }: NodeProps) {
         )}
       </div>
 
-      <Handle type="source" position={Position.Bottom} className="!bg-gray-600 !border-0 !w-2 !h-2" />
+      <Handle type="source" position={Position.Bottom} className="!bg-gray-300 !border-white !border-2 !w-3 !h-3" />
     </>
   );
 }
@@ -162,8 +177,8 @@ function StepTimer({
   if (ms == null) return null;
 
   return (
-    <span className="flex items-center gap-0.5 tabular-nums">
-      <Timer className="h-2.5 w-2.5" />
+    <span className="flex items-center gap-1 rounded-md bg-gray-50 border border-gray-200 px-2 py-0.5 font-medium text-gray-600 shadow-sm tabular-nums">
+      <Timer className="h-3 w-3 text-gray-400" />
       {formatMs(ms)}
     </span>
   );

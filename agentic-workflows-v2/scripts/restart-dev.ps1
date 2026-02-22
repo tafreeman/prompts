@@ -6,6 +6,7 @@ param(
     [string]$FrontendHost = '127.0.0.1',
     [int]$FrontendPort = 5174,
     [string]$ApiProxyTarget = 'http://127.0.0.1:8012',
+    [switch]$AutoTierFromProbe,
     [int[]]$StopPorts = @(8012, 5174)
 )
 
@@ -30,6 +31,9 @@ $startParams = @{
 }
 if ($Reload) {
     $startParams.Reload = $true
+}
+if ($AutoTierFromProbe) {
+    $startParams.AutoTierFromProbe = $true
 }
 
 & $startScript @startParams

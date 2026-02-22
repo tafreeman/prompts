@@ -198,6 +198,8 @@ class WorkflowRunner:
 
         state = initial_state(workflow_inputs=validated)
         state["context"]["inputs"] = validated
+        # Ensure step-level trace events can be correlated to this run.
+        state["context"]["workflow_run_id"] = run_id
 
         start = time.perf_counter()
         try:
@@ -270,6 +272,8 @@ class WorkflowRunner:
 
         state = initial_state(workflow_inputs=validated)
         state["context"]["inputs"] = validated
+        # Ensure step-level trace events can be correlated to this run.
+        state["context"]["workflow_run_id"] = run_id
 
         self._trace_adapter.emit_workflow_start(workflow_name, run_id, validated)
 
@@ -318,6 +322,8 @@ class WorkflowRunner:
 
         state = initial_state(workflow_inputs=validated)
         state["context"]["inputs"] = validated
+        # Ensure step-level trace events can be correlated to this run.
+        state["context"]["workflow_run_id"] = run_id
 
         self._trace_adapter.emit_workflow_start(workflow_name, run_id, validated)
 

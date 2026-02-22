@@ -29,6 +29,7 @@ export default function RunDetailPage() {
             durationMs: s.duration_ms,
             modelUsed: s.model_used ?? undefined,
             tokensUsed: s.tokens_used ?? undefined,
+            modelInferred: s.metadata?.model_inferred === true,
           },
         ])
       ),

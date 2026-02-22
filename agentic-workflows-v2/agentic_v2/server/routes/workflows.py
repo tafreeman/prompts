@@ -5,14 +5,16 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import uuid
-from datetime import datetime, timezone
-from typing import Any, Optional
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from typing import Any, Mapping, Optional
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from fastapi.responses import StreamingResponse
 
-from ...contracts import StepStatus
+from ...contracts import StepResult, StepStatus, WorkflowResult
 from ...integrations.otel import create_trace_adapter
 from ...langchain import WorkflowRunner as LangChainRunner
 from ...langchain import list_workflows as lc_list_workflows
@@ -77,6 +79,232 @@ def _merge_dataset_and_request_inputs(
             continue
         merged[key] = value
     return merged
+
+
+def _as_dict(value: Any) -> dict[str, Any]:
+    """Normalize an arbitrary value into a JSON-object payload."""
+    if isinstance(value, dict):
+        return value
+    if value is None:
+        return {}
+    return {"value": value}
+
+
+def _coerce_step_status(value: Any) -> StepStatus:
+    """Map status-like values into StepStatus."""
+    if isinstance(value, StepStatus):
+        return value
+    normalized = str(value or "").strip().lower()
+    if normalized in {"success", "succeeded", "completed"}:
+        return StepStatus.SUCCESS
+    if normalized in {"skipped", "skip"}:
+        return StepStatus.SKIPPED
+    if normalized in {"pending", "queued"}:
+        return StepStatus.PENDING
+    if normalized in {"running", "in_progress"}:
+        return StepStatus.RUNNING
+    return StepStatus.FAILED
+
+
+def _extract_tokens(metadata: Mapping[str, Any]) -> int | None:
+    """Return total tokens from step metadata when available."""
+    direct = metadata.get("tokens_used")
+    if isinstance(direct, int):
+        return direct
+    input_tokens = metadata.get("input_tokens")
+    output_tokens = metadata.get("output_tokens")
+    if isinstance(input_tokens, int) or isinstance(output_tokens, int):
+        return int(input_tokens or 0) + int(output_tokens or 0)
+    return None
+
+
+def _build_step_results(
+    steps_map: Mapping[str, Any],
+    *,
+    token_counts: Mapping[str, Any] | None = None,
+    models_used: Mapping[str, Any] | None = None,
+) -> list[StepResult]:
+    """Convert LangGraph step mappings to contract StepResult objects."""
+    results: list[StepResult] = []
+    token_counts = token_counts or {}
+    models_used = models_used or {}
+
+    for step_name, step_data in steps_map.items():
+        if not isinstance(step_data, Mapping):
+            continue
+
+        metadata_raw = step_data.get("metadata")
+        metadata: dict[str, Any] = (
+            dict(metadata_raw) if isinstance(metadata_raw, Mapping) else {}
+        )
+
+        token_meta = token_counts.get(step_name)
+        if isinstance(token_meta, Mapping):
+            input_tokens = int(token_meta.get("input") or 0)
+            output_tokens = int(token_meta.get("output") or 0)
+            metadata.setdefault("input_tokens", input_tokens)
+            metadata.setdefault("output_tokens", output_tokens)
+            metadata.setdefault("tokens_used", input_tokens + output_tokens)
+
+        model_used = models_used.get(step_name)
+        if model_used is None:
+            model_used = step_data.get("model_used")
+        if not isinstance(model_used, str):
+            model_used = None
+
+        error_val = step_data.get("error")
+        error_text = str(error_val) if error_val else None
+
+        start_ts = step_data.get("start_time")
+        start_time = (
+            datetime.fromisoformat(start_ts)
+            if isinstance(start_ts, str)
+            else datetime.now(timezone.utc)
+        )
+
+        end_ts = step_data.get("end_time")
+        end_time = (
+            datetime.fromisoformat(end_ts)
+            if isinstance(end_ts, str)
+            else None
+        )
+
+        results.append(
+            StepResult(
+                step_name=str(step_name),
+                status=_coerce_step_status(step_data.get("status")),
+                agent_role=(
+                    str(step_data.get("agent_role"))
+                    if step_data.get("agent_role") is not None
+                    else None
+                ),
+                tier=(
+                    int(step_data["tier"])
+                    if isinstance(step_data.get("tier"), int)
+                    else None
+                ),
+                model_used=model_used,
+                input_data=_as_dict(step_data.get("inputs")),
+                output_data=_as_dict(step_data.get("outputs")),
+                error=error_text,
+                metadata=metadata,
+                start_time=start_time,
+                end_time=end_time,
+            )
+        )
+
+    return results
+
+
+def _normalize_workflow_result(
+    result: Any,
+    *,
+    workflow_name: str,
+    run_id: str,
+) -> WorkflowResult:
+    """Normalize either runner result shape into contracts.WorkflowResult."""
+    if isinstance(result, WorkflowResult):
+        return result
+
+    steps_map = getattr(result, "steps", {})
+    if not isinstance(steps_map, Mapping):
+        steps_map = {}
+
+    token_counts = getattr(result, "token_counts", {})
+    if not isinstance(token_counts, Mapping):
+        token_counts = {}
+    models_used = getattr(result, "models_used", {})
+    if not isinstance(models_used, Mapping):
+        models_used = {}
+
+    steps = _build_step_results(
+        steps_map,
+        token_counts=token_counts,
+        models_used=models_used,
+    )
+
+    raw_errors = getattr(result, "errors", [])
+    if isinstance(raw_errors, list):
+        errors = [str(e) for e in raw_errors if e]
+    elif raw_errors:
+        errors = [str(raw_errors)]
+    else:
+        errors = []
+
+    overall_source = getattr(result, "overall_status", None)
+    if overall_source is not None:
+        overall_status = _coerce_step_status(overall_source)
+    else:
+        status_text = str(getattr(result, "status", "")).lower()
+        overall_status = (
+            StepStatus.SUCCESS
+            if status_text == "success" and not errors
+            else StepStatus.FAILED
+        )
+
+    elapsed_seconds = getattr(result, "elapsed_seconds", 0.0)
+    try:
+        elapsed_seconds = float(elapsed_seconds)
+    except Exception:
+        elapsed_seconds = 0.0
+
+    end_time = datetime.now(timezone.utc)
+    start_time = end_time - timedelta(seconds=max(elapsed_seconds, 0.0))
+
+    final_output = _as_dict(
+        getattr(result, "final_output", None) or getattr(result, "outputs", None)
+    )
+    metadata: dict[str, Any] = {}
+    langgraph_run_id = getattr(result, "run_id", None)
+    if isinstance(langgraph_run_id, str) and langgraph_run_id:
+        metadata["langgraph_run_id"] = langgraph_run_id
+    if errors:
+        metadata["errors"] = errors
+
+    return WorkflowResult(
+        workflow_id=run_id,
+        workflow_name=workflow_name,
+        steps=steps,
+        overall_status=overall_status,
+        start_time=start_time,
+        end_time=end_time,
+        final_output=final_output,
+        metadata=metadata,
+    )
+
+
+def _merge_stream_state(aggregated: dict[str, Any], node_update: Mapping[str, Any]) -> None:
+    """Merge a streamed LangGraph update payload into an aggregate state."""
+    for payload in node_update.values():
+        if not isinstance(payload, Mapping):
+            continue
+
+        context = payload.get("context")
+        if isinstance(context, Mapping):
+            aggregated["context"].update(context)
+
+        outputs = payload.get("outputs")
+        if isinstance(outputs, Mapping):
+            aggregated["outputs"].update(outputs)
+
+        steps = payload.get("steps")
+        if isinstance(steps, Mapping):
+            for step_name, step_data in steps.items():
+                if not isinstance(step_data, Mapping):
+                    continue
+                existing = aggregated["steps"].get(step_name)
+                if isinstance(existing, dict):
+                    merged = dict(existing)
+                    merged.update(step_data)
+                    aggregated["steps"][step_name] = merged
+                else:
+                    aggregated["steps"][step_name] = dict(step_data)
+
+        errors = payload.get("errors")
+        if isinstance(errors, list):
+            for err in errors:
+                if err:
+                    aggregated["errors"].append(str(err))
 
 
 @router.get("/workflows", response_model=ListWorkflowsResponse)
@@ -194,8 +422,6 @@ async def runs_summary(workflow: Optional[str] = None):
 @router.get("/runs/{filename}")
 async def get_run(filename: str):
     """Get full run detail including all step data."""
-    from pathlib import Path
-
     base_dir = run_logger.runs_dir
     candidate = (base_dir / filename).resolve()
     if not _is_within_base(candidate, base_dir):
@@ -203,7 +429,52 @@ async def get_run(filename: str):
         raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
     if not Path(candidate).exists():
         raise HTTPException(status_code=404, detail=f"Run not found: {filename}")
-    return run_logger.load_run(candidate)
+    
+    run_data = run_logger.load_run(candidate)
+
+    # Best-effort retroactive model identification
+    # If model_used is missing in the run log, try to infer it from current workflow config
+    workflow_name = run_data.get("workflow_name")
+    if workflow_name:
+        try:
+            config = load_workflow_config(workflow_name)
+            steps_cfg = {s.name: s for s in config.steps}
+            
+            for step in run_data.get("steps", []):
+                # Skip if we already have a model
+                if step.get("model_used"):
+                    continue
+                
+                # Skip tier 0 (no model)
+                if step.get("tier") == 0:
+                    continue
+
+                s_name = step.get("step_name")
+                if s_name in steps_cfg:
+                    step_cfg = steps_cfg[s_name]
+                    
+                    # 1. Check specific model override
+                    if step_cfg.model_override:
+                        val = step_cfg.model_override
+                        # Handle "env:VAR|fallback"
+                        if val.startswith("env:"):
+                            parts = val.split("|", 1)
+                            if len(parts) > 1:
+                                env_key = parts[0][4:]
+                                val = os.environ.get(env_key, parts[1])
+                            else:
+                                env_key = val[4:]
+                                val = os.environ.get(env_key, val)
+                        
+                        step["model_used"] = val
+                        # Mark as inferred (optional, maybe distinct UI style?)
+                        step["metadata"] = step.get("metadata", {})
+                        step["metadata"]["model_inferred"] = True
+        except Exception:
+            # Workflow definition might have changed or been deleted; ignore errors
+            pass
+
+    return run_data
 
 
 @router.get("/runs/{run_id}/stream")
@@ -399,42 +670,156 @@ async def _stream_and_run(
     workflow_name: str,
     run_id: str,
     workflow_inputs: dict[str, Any],
-) -> Any:
+) -> WorkflowResult:
     """Stream LangGraph node events to WebSocket, then return final WorkflowResult."""
     import time
 
+    started_at = datetime.now(timezone.utc)
+    started_perf = time.perf_counter()
     step_start_times: dict[str, float] = {}
+    last_status_by_step: dict[str, str] = {}
+    aggregated_state: dict[str, Any] = {
+        "context": {},
+        "steps": {},
+        "outputs": {},
+        "errors": [],
+    }
+
     try:
-        async for node_update in lc_runner.astream(workflow_name, thread_id=run_id, **workflow_inputs):
-            for step_name, step_state in node_update.items():
-                if not isinstance(step_state, dict):
+        async for node_update in lc_runner.astream(
+            workflow_name,
+            thread_id=run_id,
+            **workflow_inputs,
+        ):
+            if not isinstance(node_update, Mapping):
+                continue
+
+            _merge_stream_state(aggregated_state, node_update)
+            now = datetime.now(timezone.utc).isoformat()
+
+            for step_state in node_update.values():
+                if not isinstance(step_state, Mapping):
                     continue
-                step_data = step_state.get("steps", {}).get(step_name, {})
-                status = step_data.get("status", "running")
-                now = datetime.now(timezone.utc).isoformat()
-                if status == "running":
-                    step_start_times[step_name] = time.time()
-                    await websocket.manager.broadcast(
-                        run_id, {"type": "step_start", "run_id": run_id, "step": step_name, "timestamp": now}
+                step_map = step_state.get("steps")
+                if not isinstance(step_map, Mapping):
+                    continue
+
+                for step_name, step_data in step_map.items():
+                    if not isinstance(step_data, Mapping):
+                        continue
+
+                    status = str(step_data.get("status", "running")).strip().lower()
+                    previous_status = last_status_by_step.get(str(step_name))
+
+                    if status in {"running", "pending"}:
+                        if previous_status == "running":
+                            continue
+                        last_status_by_step[str(step_name)] = "running"
+                        step_start_times.setdefault(str(step_name), time.time())
+                        await websocket.manager.broadcast(
+                            run_id,
+                            {
+                                "type": "step_start",
+                                "run_id": run_id,
+                                "step": str(step_name),
+                                "timestamp": now,
+                            },
+                        )
+                        continue
+
+                    if status not in {"success", "failed", "skipped"}:
+                        continue
+                    if previous_status == status:
+                        continue
+
+                    last_status_by_step[str(step_name)] = status
+                    duration_ms = int(
+                        (
+                            time.time()
+                            - step_start_times.pop(str(step_name), time.time())
+                        )
+                        * 1000
                     )
-                elif status in ("success", "failed"):
-                    duration_ms = int((time.time() - step_start_times.pop(step_name, time.time())) * 1000)
+
+                    metadata_raw = step_data.get("metadata")
+                    metadata = metadata_raw if isinstance(metadata_raw, Mapping) else {}
+                    model_used = metadata.get("model")
+                    if not isinstance(model_used, str):
+                        model_used = None
+                    tokens_used = _extract_tokens(metadata)
+                    error_val = step_data.get("error")
+
                     await websocket.manager.broadcast(
                         run_id,
                         {
-                            "type": "step_complete" if status == "success" else "step_error",
+                            "type": "step_end",
                             "run_id": run_id,
-                            "step": step_name,
+                            "step": str(step_name),
                             "status": status,
-                            "outputs": step_data.get("outputs", {}),
                             "duration_ms": duration_ms,
+                            "model_used": model_used,
+                            "tokens_used": tokens_used,
+                            "tier": step_data.get("tier"),
+                            "input": _as_dict(step_data.get("inputs")),
+                            "output": _as_dict(step_data.get("outputs")),
+                            # Backward-compatible alias for older UIs.
+                            "outputs": _as_dict(step_data.get("outputs")),
+                            "error": str(error_val) if error_val else None,
                             "timestamp": now,
                         },
                     )
-        return await lc_runner.run(workflow_name, use_cache=True, **workflow_inputs)
+
+        workflow_cfg = load_workflow_config(workflow_name)
+        resolved_outputs = lc_runner._resolve_outputs(workflow_cfg, aggregated_state)
+        if not isinstance(resolved_outputs, dict):
+            resolved_outputs = {}
+        if not resolved_outputs:
+            resolved_outputs = _as_dict(aggregated_state.get("outputs"))
+
+        token_counts, models_used = lc_runner._extract_metadata(aggregated_state)
+        step_results = _build_step_results(
+            aggregated_state.get("steps", {}),
+            token_counts=token_counts,
+            models_used=models_used,
+        )
+        errors = [
+            str(err)
+            for err in aggregated_state.get("errors", [])
+            if err
+        ]
+
+        overall_status = StepStatus.SUCCESS
+        if errors or any(step.status == StepStatus.FAILED for step in step_results):
+            overall_status = StepStatus.FAILED
+
+        ended_at = datetime.now(timezone.utc)
+        metadata: dict[str, Any] = {}
+        if errors:
+            metadata["errors"] = errors
+        metadata["elapsed_seconds"] = max(0.0, time.perf_counter() - started_perf)
+
+        return WorkflowResult(
+            workflow_id=run_id,
+            workflow_name=workflow_name,
+            steps=step_results,
+            overall_status=overall_status,
+            start_time=started_at,
+            end_time=ended_at,
+            final_output=resolved_outputs,
+            metadata=metadata,
+        )
     except Exception as stream_err:
         logger.warning("Streaming failed (%s); falling back to invoke", stream_err)
-        return await lc_runner.run(workflow_name, **workflow_inputs)
+        fallback = await lc_runner.run(
+            workflow_name,
+            thread_id=run_id,
+            **workflow_inputs,
+        )
+        return _normalize_workflow_result(
+            fallback,
+            workflow_name=workflow_name,
+            run_id=run_id,
+        )
 
 
 async def _run_and_evaluate(
@@ -449,19 +834,40 @@ async def _run_and_evaluate(
     """Execute workflow, broadcast events, optionally evaluate, and log the run."""
     try:
         logger.info("Starting background execution for run_id=%s", run_id)
+        await websocket.manager.broadcast(
+            run_id,
+            {
+                "type": "workflow_start",
+                "run_id": run_id,
+                "workflow_name": workflow_name,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            },
+        )
         result = await _stream_and_run(workflow_name, run_id, workflow_inputs)
 
-        # Handle both new LangChain WorkflowResult (status) and legacy (overall_status)
-        status = getattr(result, 'status', None) or getattr(result, 'overall_status', 'unknown')
+        status = result.overall_status.value
+        workflow_errors = [
+            step.error
+            for step in result.steps
+            if step.status == StepStatus.FAILED and step.error
+        ]
+        metadata_errors = result.metadata.get("errors")
+        if isinstance(metadata_errors, list):
+            workflow_errors.extend(str(err) for err in metadata_errors if err)
+
         await websocket.manager.broadcast(
             run_id,
             {
                 "type": "workflow_end",
                 "run_id": run_id,
                 "status": status,
-                "outputs": getattr(result, 'outputs', None) or getattr(result, 'final_output', {}),
-                "elapsed_seconds": getattr(result, 'elapsed_seconds', 0.0),
-                "errors": getattr(result, 'errors', []),
+                "outputs": result.final_output,
+                "elapsed_seconds": (
+                    (result.total_duration_ms or 0.0) / 1000.0
+                    if result.total_duration_ms is not None
+                    else 0.0
+                ),
+                "errors": workflow_errors,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
@@ -469,7 +875,12 @@ async def _run_and_evaluate(
         scored_evaluation: dict[str, Any] | None = None
         if evaluation and evaluation.enabled:
             await websocket.manager.broadcast(
-                run_id, {"type": "evaluation_start", "run_id": run_id, "timestamp": datetime.now(timezone.utc).isoformat()}
+                run_id,
+                {
+                    "type": "evaluation_start",
+                    "run_id": run_id,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
             )
             scored_evaluation = score_workflow_result(
                 result,
@@ -504,8 +915,16 @@ async def _run_and_evaluate(
         )
         logger.info("Completed background execution for run_id=%s", run_id)
     except Exception as e:
-        logger.error("Error in background execution for run_id=%s: %s", run_id, e, exc_info=True)
-        await websocket.manager.broadcast(run_id, {"type": "error", "run_id": run_id, "error": str(e)})
+        logger.error(
+            "Error in background execution for run_id=%s: %s",
+            run_id,
+            e,
+            exc_info=True,
+        )
+        await websocket.manager.broadcast(
+            run_id,
+            {"type": "error", "run_id": run_id, "error": str(e)},
+        )
 
 
 @router.post("/run", response_model=WorkflowRunResponse)

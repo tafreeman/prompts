@@ -1,0 +1,611 @@
+name: tdd_codegen_e2e
+description: >-
+  Test-driven multi-agent code generation with pre-development spec refinement,
+  architecture review, and test-first scaffolding before implementation.
+  Bounded QA loop (max 2 rounds) with build gates at every phase boundary.
+version: "1.0"
+
+capabilities:
+  inputs: [feature_spec, repo_context, constraints, quality_bar]
+  outputs: [feature_package, release_manifest, final_gate_report, all_code]
+
+# ===========================================================================
+# TOOLS CONFIGURATION
+# ===========================================================================
+tools:
+  # File operations (Tier 0 - no LLM)
+  file_read:
+    type: builtin
+    tier: 0
+  file_write:
+    type: builtin
+    tier: 0
+  file_delete:
+    type: builtin
+    tier: 0
+  file_copy:
+    type: builtin
+    tier: 0
+  file_move:
+    type: builtin
+    tier: 0
+  directory_create:
+    type: builtin
+    tier: 0
+
+  # Search and analysis
+  grep:
+    type: builtin
+    tier: 0
+  code_analysis:
+    type: builtin
+    tier: 1
+  ast_dump:
+    type: builtin
+    tier: 1
+
+  # Build and execution
+  build_app:
+    type: builtin
+    tier: 0
+  execute_python:
+    type: builtin
+    tier: 0
+  shell_exec:
+    type: builtin
+    tier: 0
+
+  # Git operations
+  git:
+    type: builtin
+    tier: 0
+  git_status:
+    type: builtin
+    tier: 0
+  git_diff:
+    type: builtin
+    tier: 0
+
+  # Data format handling
+  json_load:
+    type: builtin
+    tier: 0
+  json_dump:
+    type: builtin
+    tier: 0
+  yaml_load:
+    type: builtin
+    tier: 0
+  yaml_dump:
+    type: builtin
+    tier: 0
+  template_render:
+    type: builtin
+    tier: 0
+  config_merge:
+    type: builtin
+    tier: 0
+
+  # Context and memory
+  context_trim:
+    type: builtin
+    tier: 0
+  token_estimate:
+    type: builtin
+    tier: 0
+  memory_upsert:
+    type: builtin
+    tier: 0
+  memory_get:
+    type: builtin
+    tier: 0
+  memory_search:
+    type: builtin
+    tier: 0
+
+  # HTTP for external lookups
+  http_get:
+    type: builtin
+    tier: 0
+  http_post:
+    type: builtin
+    tier: 0
+
+evaluation:
+  rubric_id: tdd_codegen_e2e_v1
+  scoring_profile: A
+  criteria:
+    - name: spec_quality
+      definition: Completeness and clarity of refined specification before coding begins.
+      evidence_required:
+        - Refined spec document
+        - Acceptance criteria
+        - Edge cases identified
+      scale:
+        "1": Spec missing or vague
+        "2": Significant gaps in spec
+        "3": Adequate spec coverage
+        "4": Strong spec with clear boundaries
+        "5": Comprehensive spec with edge cases and constraints
+      weight: 0.15
+      critical_floor: 0.75
+      formula_id: zero_one
+    - name: architecture_soundness
+      definition: Architecture review quality and design decision justification.
+      evidence_required:
+        - Architecture blueprint
+        - Review findings
+        - Contract definitions
+      scale:
+        "1": Architecture fundamentally flawed
+        "2": Major design gaps
+        "3": Acceptable architecture
+        "4": Strong, well-justified design
+        "5": Excellent architecture with clear trade-off analysis
+      weight: 0.15
+      critical_floor: 0.75
+      formula_id: zero_one
+    - name: test_first_coverage
+      definition: Quality and coverage of test scaffolds written before implementation.
+      evidence_required:
+        - Test stubs covering acceptance criteria
+        - Edge case tests
+        - Integration test outlines
+      scale:
+        "1": No test scaffolds
+        "2": Minimal test coverage
+        "3": Adequate test scaffolds
+        "4": Strong test-first coverage
+        "5": Comprehensive test scaffolds with edge cases
+      weight: 0.15
+      critical_floor: 0.80
+      formula_id: zero_one
+    - name: objective_tests
+      definition: Objective correctness through static and dynamic test gates.
+      evidence_required:
+        - Static analysis report
+        - Executable test outcomes
+      scale:
+        "1": Tests fail broadly
+        "2": Major objective gaps
+        "3": Baseline objective pass
+        "4": Strong objective validation
+        "5": Excellent objective validation
+      weight: 0.30
+      critical_floor: 0.75
+      formula_id: zero_one
+    - name: review_quality
+      definition: Code review depth and issue resolution quality.
+      evidence_required:
+        - Structured review findings
+        - Rework evidence
+      scale:
+        "1": Superficial or incorrect review
+        "2": Weak coverage of issues
+        "3": Acceptable review quality
+        "4": Strong, actionable review
+        "5": Comprehensive and precise review
+      weight: 0.15
+      critical_floor: 0.80
+      formula_id: zero_one
+    - name: package_integrity
+      definition: Final artifact completeness and integration quality.
+      evidence_required:
+        - Package manifest
+        - Integrated backend/frontend/shared artifacts
+      scale:
+        "1": Package incomplete
+        "2": Significant integration defects
+        "3": Usable integrated package
+        "4": Strong package integrity
+        "5": Production-ready package quality
+      weight: 0.10
+      critical_floor: 0.75
+      formula_id: zero_one
+
+inputs:
+  feature_spec:
+    type: string
+    description: Natural language description of desired feature or product increment
+  repo_context:
+    type: object
+    description: Existing repository context, conventions, and constraints
+    default: {}
+  constraints:
+    type: object
+    description: Build/runtime/security constraints for generation
+    default:
+      target_runtime: python
+      package_type: fullstack
+      max_rework_rounds: 2
+      require_tests: true
+  quality_bar:
+    type: string
+    enum: [standard, strict]
+    default: standard
+    description: Strictness level for final release gate
+
+steps:
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 1: Spec Refinement — sharpen requirements before any design work
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: refine_spec
+    agent: tier3_planner
+    prompt_file: planner.md
+    description: >-
+      Analyze the raw feature spec and produce a refined specification with
+      scoped requirements, acceptance criteria, edge cases, constraints,
+      and a prioritized task breakdown.
+    tools: [file_read, grep, memory_search, context_trim]
+    inputs:
+      feature_spec: ${inputs.feature_spec}
+      repo_context: ${inputs.repo_context}
+      constraints: ${inputs.constraints}
+    outputs:
+      refined_spec: refined_spec
+      acceptance_criteria: acceptance_criteria
+      edge_cases: edge_cases
+      task_breakdown: task_breakdown
+      open_questions: open_questions
+
+  - name: validate_spec
+    agent: tier3_reviewer
+    prompt_file: reviewer.md
+    description: >-
+      Review the refined spec for completeness, ambiguity, missing edge cases,
+      and feasibility. Flag any gaps that would cause implementation churn.
+    tools: [file_read, grep, code_analysis, memory_search]
+    depends_on: [refine_spec]
+    inputs:
+      refined_spec: ${steps.refine_spec.outputs.refined_spec}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      edge_cases: ${steps.refine_spec.outputs.edge_cases}
+      constraints: ${inputs.constraints}
+      repo_context: ${inputs.repo_context}
+    outputs:
+      spec_review: spec_review_report
+      spec_status: spec_approval_status
+      spec_gaps: identified_gaps
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 2: Architecture — design with validated spec
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: design_architecture
+    agent: tier3_architect
+    prompt_file: architect.md
+    description: >-
+      Produce architecture blueprint, API contracts, data model, and package
+      layout from the validated spec. Incorporate any gaps flagged by spec review.
+    tools: [file_read, file_write, grep, code_analysis, ast_dump, json_dump, yaml_dump, template_render, memory_search]
+    depends_on: [validate_spec]
+    inputs:
+      refined_spec: ${steps.refine_spec.outputs.refined_spec}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      edge_cases: ${steps.refine_spec.outputs.edge_cases}
+      task_breakdown: ${steps.refine_spec.outputs.task_breakdown}
+      spec_review: ${steps.validate_spec.outputs.spec_review}
+      spec_gaps: ${steps.validate_spec.outputs.spec_gaps}
+      constraints: ${inputs.constraints}
+      repo_context: ${inputs.repo_context}
+    outputs:
+      architecture_blueprint: architecture_blueprint
+      api_contracts: api_contracts
+      data_model: data_model
+      package_layout: package_layout
+      design_decisions: design_decisions
+
+  - name: review_architecture
+    agent: tier3_reviewer
+    prompt_file: reviewer.md
+    description: >-
+      Review architecture for soundness, scalability, security, and alignment
+      with the spec. Validate API contracts and data model consistency.
+    tools: [file_read, grep, code_analysis, ast_dump, memory_search]
+    depends_on: [design_architecture]
+    inputs:
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      data_model: ${steps.design_architecture.outputs.data_model}
+      design_decisions: ${steps.design_architecture.outputs.design_decisions}
+      refined_spec: ${steps.refine_spec.outputs.refined_spec}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      constraints: ${inputs.constraints}
+    outputs:
+      arch_review: architecture_review_report
+      arch_status: architecture_approval_status
+      arch_concerns: architecture_concerns
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 3: Test-First Scaffolding — write tests BEFORE implementation
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: scaffold_unit_tests
+    agent: tier2_tester
+    prompt_file: tester.md
+    description: >-
+      Generate unit test stubs from the spec and architecture. Tests define
+      the expected behavior — implementation will target these tests.
+    tools: [file_read, file_write, grep, code_analysis, execute_python, template_render]
+    depends_on: [review_architecture]
+    inputs:
+      refined_spec: ${steps.refine_spec.outputs.refined_spec}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      edge_cases: ${steps.refine_spec.outputs.edge_cases}
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      data_model: ${steps.design_architecture.outputs.data_model}
+      constraints: ${inputs.constraints}
+    outputs:
+      backend_test_stubs: backend_test_stubs
+      frontend_test_stubs: frontend_test_stubs
+      shared_test_stubs: shared_test_stubs
+      test_plan: test_plan
+
+  - name: scaffold_integration_tests
+    agent: tier2_tester
+    prompt_file: tester.md
+    description: >-
+      Generate integration and e2e test outlines from spec and API contracts.
+      These verify cross-component behavior once implementation is complete.
+    tools: [file_read, file_write, grep, code_analysis, execute_python, template_render]
+    depends_on: [review_architecture]
+    inputs:
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      constraints: ${inputs.constraints}
+      quality_bar: ${inputs.quality_bar}
+    outputs:
+      integration_test_stubs: integration_test_stubs
+      e2e_test_stubs: e2e_test_stubs
+      quality_gates: quality_gates
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 4: Implementation — code to pass the test scaffolds
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: implement_backend
+    agent: tier2_coder
+    prompt_file: coder.md
+    description: >-
+      Implement backend services and API handlers to pass the test stubs.
+      Follow the architecture blueprint and API contracts exactly.
+    tools: [file_read, file_write, file_copy, directory_create, grep, code_analysis, ast_dump, execute_python, shell_exec, build_app, git_diff, json_load, json_dump, yaml_load, template_render, config_merge]
+    depends_on: [scaffold_unit_tests, scaffold_integration_tests]
+    inputs:
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      data_model: ${steps.design_architecture.outputs.data_model}
+      test_stubs: ${steps.scaffold_unit_tests.outputs.backend_test_stubs}
+      integration_test_stubs: ${steps.scaffold_integration_tests.outputs.integration_test_stubs}
+      constraints: ${inputs.constraints}
+    outputs:
+      backend_code: backend_code
+      backend_tests: backend_tests
+
+  - name: implement_frontend
+    agent: tier2_coder
+    prompt_file: coder.md
+    description: >-
+      Implement frontend components to pass the test stubs.
+      Follow the package layout and API contracts for data flow.
+    tools: [file_read, file_write, file_copy, directory_create, grep, code_analysis, execute_python, shell_exec, build_app, json_load, json_dump, template_render]
+    depends_on: [scaffold_unit_tests, scaffold_integration_tests]
+    inputs:
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      package_layout: ${steps.design_architecture.outputs.package_layout}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      test_stubs: ${steps.scaffold_unit_tests.outputs.frontend_test_stubs}
+      constraints: ${inputs.constraints}
+    outputs:
+      frontend_code: frontend_code
+      frontend_tests: frontend_tests
+
+  - name: implement_shared
+    agent: tier2_coder
+    prompt_file: developer.md
+    description: >-
+      Implement shared models, types, and utilities to pass the test stubs.
+    tools: [file_read, file_write, file_copy, directory_create, grep, code_analysis, ast_dump, execute_python, shell_exec, build_app, json_load, json_dump, yaml_load, template_render]
+    depends_on: [scaffold_unit_tests]
+    inputs:
+      data_model: ${steps.design_architecture.outputs.data_model}
+      api_contracts: ${steps.design_architecture.outputs.api_contracts}
+      package_layout: ${steps.design_architecture.outputs.package_layout}
+      test_stubs: ${steps.scaffold_unit_tests.outputs.shared_test_stubs}
+    outputs:
+      shared_code: shared_code
+      shared_tests: shared_tests
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 5: Pre-test Build Gate — verify everything compiles before tests
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: static_checks
+    agent: tier1_validator
+    prompt_file: validator.md
+    description: Run lint, type, and static checks on all implemented code
+    tools: [file_read, grep, code_analysis, ast_dump, execute_python, shell_exec]
+    depends_on: [implement_backend, implement_frontend, implement_shared]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      quality_gates: ${steps.scaffold_integration_tests.outputs.quality_gates}
+    outputs:
+      static_check_report: static_report
+      overall_status: static_status
+
+  - name: build_verify
+    agent: tier1_validator
+    prompt_file: validator.md
+    description: Verify all artifacts build successfully before test execution
+    tools: [build_app, file_read, shell_exec, execute_python, grep]
+    depends_on: [static_checks]
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      backend_tests: ${steps.implement_backend.outputs.backend_tests}
+      frontend_tests: ${steps.implement_frontend.outputs.frontend_tests}
+      shared_tests: ${steps.implement_shared.outputs.shared_tests}
+      integration_test_stubs: ${steps.scaffold_integration_tests.outputs.integration_test_stubs}
+      e2e_test_stubs: ${steps.scaffold_integration_tests.outputs.e2e_test_stubs}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+      constraints: ${inputs.constraints}
+    outputs:
+      build_verification: build_verification
+      ready_for_tests: ready_for_tests
+      failed_phases: failed_phases
+
+  - name: build_rework
+    agent: tier2_coder
+    prompt_file: developer.md
+    description: Fix build failures before tests can run
+    tools: [file_read, file_write, grep, code_analysis, execute_python, shell_exec, build_app, git_diff]
+    depends_on: [build_verify]
+    when: ${steps.build_verify.outputs.ready_for_tests not in [True, 'true', 'True']}
+    inputs:
+      backend: ${steps.implement_backend.outputs.backend_code}
+      frontend: ${steps.implement_frontend.outputs.frontend_code}
+      shared: ${steps.implement_shared.outputs.shared_code}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+      build_verification: ${steps.build_verify.outputs.build_verification}
+      failed_phases: ${steps.build_verify.outputs.failed_phases}
+      constraints: ${inputs.constraints}
+    outputs:
+      backend_code: reworked_backend
+      frontend_code: reworked_frontend
+      shared_code: reworked_shared
+      change_summary: build_rework_summary
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 6: Bounded QA Loop — test + review + rework (max 2 rounds)
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: qa_rework_loop
+    agent: tier2_coder
+    prompt_file: coder.md
+    description: >-
+      Execute tests against the scaffolds, review results, and rework code
+      in a bounded loop until tests pass and review approves.
+    tools: [file_read, file_write, grep, code_analysis, ast_dump, execute_python, shell_exec, build_app, git_diff, json_load, json_dump, template_render]
+    depends_on: [build_verify, build_rework]
+    when: ${coalesce(steps.build_rework.outputs.backend_code, steps.build_verify.outputs.ready_for_tests) != null}
+    loop_until: >-
+      ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED']
+      and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
+    loop_max: 2
+    inputs:
+      backend: ${coalesce(steps.build_rework.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.build_rework.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.build_rework.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      backend_tests: ${steps.implement_backend.outputs.backend_tests}
+      frontend_tests: ${steps.implement_frontend.outputs.frontend_tests}
+      shared_tests: ${steps.implement_shared.outputs.shared_tests}
+      integration_test_stubs: ${steps.scaffold_integration_tests.outputs.integration_test_stubs}
+      e2e_test_stubs: ${steps.scaffold_integration_tests.outputs.e2e_test_stubs}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      quality_gates: ${steps.scaffold_integration_tests.outputs.quality_gates}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+      test_plan: ${steps.scaffold_unit_tests.outputs.test_plan}
+    outputs:
+      backend_code: qa_backend
+      frontend_code: qa_frontend
+      shared_code: qa_shared
+      review_report: qa_review_report
+      test_execution_report: qa_test_report
+      overall_test_status: qa_test_status
+      failing_tests: qa_failing_tests
+      change_summary: qa_change_summary
+
+  # ═══════════════════════════════════════════════════════════════════════
+  # PHASE 7: Release Packaging + Final Gate
+  # ═══════════════════════════════════════════════════════════════════════
+
+  - name: assemble_release
+    agent: tier1_assembler
+    prompt_file: assembler.md
+    description: Build release package from QA-approved artifacts
+    tools: [file_read, file_write, file_copy, file_move, directory_create, json_dump, yaml_dump, template_render, config_merge, git, git_status]
+    depends_on: [qa_rework_loop]
+    when: >-
+      ${steps.qa_rework_loop.outputs.review_report.overall_status in ['APPROVED']
+      and steps.qa_rework_loop.outputs.overall_test_status in ['PASS']}
+    inputs:
+      backend: ${coalesce(steps.qa_rework_loop.outputs.backend_code, steps.build_rework.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.qa_rework_loop.outputs.frontend_code, steps.build_rework.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.qa_rework_loop.outputs.shared_code, steps.build_rework.outputs.shared_code, steps.implement_shared.outputs.shared_code)}
+      architecture: ${steps.design_architecture.outputs.architecture_blueprint}
+      acceptance_criteria: ${steps.refine_spec.outputs.acceptance_criteria}
+      test_report: ${steps.qa_rework_loop.outputs.test_execution_report}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+    outputs:
+      package: feature_package
+      manifest: release_manifest
+      handoff_notes: handoff_notes
+
+  - name: release_build_verify
+    agent: tier1_validator
+    prompt_file: validator.md
+    description: Verify release package builds and is deployable
+    tools: [build_app, file_read, shell_exec, execute_python, grep]
+    depends_on: [assemble_release]
+    inputs:
+      feature_package: ${steps.assemble_release.outputs.package}
+      release_manifest: ${steps.assemble_release.outputs.manifest}
+      constraints: ${inputs.constraints}
+      quality_bar: ${inputs.quality_bar}
+    outputs:
+      build_verification: release_build_verification
+      ready_for_release: ready_for_release
+      failed_phases: release_failed_phases
+
+  - name: final_quality_gate
+    agent: tier2_validator
+    prompt_file: validator.md
+    description: Final gate confirming release quality, traceability, and readiness
+    tools: [file_read, grep, code_analysis, json_load, memory_upsert]
+    depends_on: [release_build_verify]
+    when: ${steps.release_build_verify.outputs.ready_for_release in [True, 'true', 'True']}
+    inputs:
+      package: ${steps.assemble_release.outputs.package}
+      release_manifest: ${steps.assemble_release.outputs.manifest}
+      build_verification: ${steps.release_build_verify.outputs.build_verification}
+      quality_bar: ${inputs.quality_bar}
+      review_report: ${steps.qa_rework_loop.outputs.qa_review_report}
+      test_report: ${steps.qa_rework_loop.outputs.test_execution_report}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+      spec_review: ${steps.validate_spec.outputs.spec_review}
+      arch_review: ${steps.review_architecture.outputs.arch_review}
+      handoff_notes: ${steps.assemble_release.outputs.handoff_notes}
+    outputs:
+      gate_report: final_gate_report
+      release_decision: release_decision
+
+outputs:
+  feature_package:
+    from: ${steps.assemble_release.outputs.package}
+    optional: true
+  release_manifest:
+    from: ${steps.assemble_release.outputs.manifest}
+    optional: true
+  final_gate_report:
+    from: ${steps.final_quality_gate.outputs.gate_report}
+    optional: true
+  quality_summary:
+    from:
+      spec_review: ${steps.validate_spec.outputs.spec_review}
+      arch_review: ${steps.review_architecture.outputs.arch_review}
+      qa_review: ${steps.qa_rework_loop.outputs.qa_review_report}
+      qa_tests: ${steps.qa_rework_loop.outputs.test_execution_report}
+      qa_status: ${steps.qa_rework_loop.outputs.overall_test_status}
+      static_report: ${steps.static_checks.outputs.static_check_report}
+      build_verification: ${steps.release_build_verify.outputs.build_verification}
+  all_code:
+    from:
+      backend: ${coalesce(steps.qa_rework_loop.outputs.backend_code, steps.build_rework.outputs.backend_code, steps.implement_backend.outputs.backend_code)}
+      frontend: ${coalesce(steps.qa_rework_loop.outputs.frontend_code, steps.build_rework.outputs.frontend_code, steps.implement_frontend.outputs.frontend_code)}
+      shared: ${coalesce(steps.qa_rework_loop.outputs.shared_code, steps.build_rework.outputs.shared_code, steps.implement_shared.outputs.shared_code)}

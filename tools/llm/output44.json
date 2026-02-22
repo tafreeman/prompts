@@ -1,0 +1,142 @@
+{
+  "timestamp": "2026-02-21T13:35:57.414444",
+  "providers": {
+    "local_onnx": {
+      "available": [
+        "local:phi4",
+        "local:phi4mini",
+        "local:phi4-cpu",
+        "local:phi4-gpu",
+        "local:phi3.5",
+        "local:phi3.5-cpu",
+        "local:phi3.5-vision",
+        "local:phi3",
+        "local:phi3-cpu",
+        "local:phi3-cpu-acc1",
+        "local:phi3-dml",
+        "local:phi3-vision",
+        "local:phi3-medium",
+        "local:phi3-medium-cpu",
+        "local:mistral",
+        "local:mistral-7b",
+        "local:mistral-cpu",
+        "local:mistral-cpu-acc1",
+        "local:mistral-dml",
+        "local:minilm-l6",
+        "local:minilm-l12",
+        "local:whisper-tiny",
+        "local:whisper-small",
+        "local:whisper-medium",
+        "local:whisper",
+        "local:stable-diffusion",
+        "local:esrgan"
+      ],
+      "missing": [
+        "local:phi3-medium-dml"
+      ],
+      "count": 27,
+      "path": "C:\\Users\\tandf\\.cache\\aigallery"
+    },
+    "github_models": {
+      "available": [
+        "gh:ai21-labs/ai21-jamba-1.5-large",
+        "gh:cohere/cohere-command-a",
+        "gh:cohere/cohere-command-r-08-2024",
+        "gh:cohere/cohere-command-r-plus-08-2024",
+        "gh:deepseek/deepseek-r1",
+        "gh:deepseek/deepseek-r1-0528",
+        "gh:deepseek/deepseek-v3-0324",
+        "gh:meta/llama-3.2-11b-vision-instruct",
+        "gh:meta/llama-3.2-90b-vision-instruct",
+        "gh:meta/llama-3.3-70b-instruct",
+        "gh:meta/llama-4-maverick-17b-128e-instruct-fp8",
+        "gh:meta/llama-4-scout-17b-16e-instruct",
+        "gh:meta/meta-llama-3.1-405b-instruct",
+        "gh:meta/meta-llama-3.1-8b-instruct",
+        "gh:microsoft/mai-ds-r1",
+        "gh:microsoft/phi-4",
+        "gh:microsoft/phi-4-mini-instruct",
+        "gh:microsoft/phi-4-mini-reasoning",
+        "gh:microsoft/phi-4-multimodal-instruct",
+        "gh:microsoft/phi-4-reasoning",
+        "gh:mistral-ai/codestral-2501",
+        "gh:mistral-ai/ministral-3b",
+        "gh:mistral-ai/mistral-medium-2505",
+        "gh:mistral-ai/mistral-small-2503",
+        "gh:openai/gpt-4.1",
+        "gh:openai/gpt-4.1-mini",
+        "gh:openai/gpt-4.1-nano",
+        "gh:openai/gpt-4o",
+        "gh:openai/gpt-4o-mini",
+        "gh:openai/gpt-5",
+        "gh:openai/gpt-5-chat",
+        "gh:openai/gpt-5-mini",
+        "gh:openai/gpt-5-nano",
+        "gh:openai/o1",
+        "gh:openai/o1-mini",
+        "gh:openai/o1-preview",
+        "gh:openai/o3",
+        "gh:openai/o3-mini",
+        "gh:openai/o4-mini",
+        "gh:xai/grok-3",
+        "gh:xai/grok-3-mini"
+      ],
+      "count": 41,
+      "error": null
+    },
+    "ollama": {
+      "available": [],
+      "count": 0,
+      "host": "http://localhost:11434",
+      "error": null
+    },
+    "azure_foundry": {
+      "configured": false,
+      "endpoints": [],
+      "notes": "Azure Foundry models require explicit model IDs (azure-foundry:model-name)"
+    },
+    "azure_openai": {
+      "configured": false,
+      "slots": [],
+      "notes": "Use azure-openai:deployment-name to specify model"
+    },
+    "openai": {
+      "configured": false,
+      "available": [],
+      "count": 0
+    },
+    "windows_ai": {
+      "available": false,
+      "readyState": null,
+      "models": [],
+      "error": "Limited Access Feature - requires unlock token"
+    },
+    "ai_toolkit": {
+      "available": [
+        "aitk:gpt-oss-20b",
+        "aitk:mistral-7b-instruct-v0-2-vitis-npu",
+        "aitk:phi-3.5-mini-instruct",
+        "aitk:phi",
+        "aitk:phi-4-mini-instruct",
+        "aitk:phi-4-mini-reasoning",
+        "aitk:phi-4-reasoning-14.7b-qnn",
+        "aitk:qwen2.5-coder-7b-instruct"
+      ],
+      "count": 8,
+      "catalog": [
+        "aitk:phi-4",
+        "aitk:phi-4",
+        "aitk:phi-3.5-mini",
+        "aitk:phi-3.5-mini",
+        "aitk:phi-3-mini-128k"
+      ],
+      "path": "C:\\Users\\tandf\\.aitk\\models",
+      "error": null,
+      "notes": "FREE local ONNX models via VS Code AI Toolkit (NOT cloud/paid)"
+    }
+  },
+  "summary": {
+    "total_available": 76,
+    "providers_configured": 3
+  }
+}

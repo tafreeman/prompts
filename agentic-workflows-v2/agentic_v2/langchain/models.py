@@ -40,22 +40,204 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Tier defaults (used when agents.yaml has no match)
+# Load .env so API keys are available when invoked via uvicorn directly
+# (the CLI entry point already does this, but server startup may bypass it)
 # ---------------------------------------------------------------------------
 
-_DEFAULT_HIGH_TIER_MODEL = "gemini:gemini-2.5-flash"
+try:
+    from dotenv import load_dotenv as _load_dotenv
+
+    for _p in Path(__file__).resolve().parents:
+        _env = _p / ".env"
+        if _env.is_file():
+            _load_dotenv(_env, override=False)
+            break
+except ImportError:
+    pass
+
+# ---------------------------------------------------------------------------
+# Provider availability probe
+# ---------------------------------------------------------------------------
+
+# Env-var keys that gate each provider (any one present = provider available)
+_PROVIDER_ENV_KEYS: dict[str, list[str]] = {
+    "gemini": ["GOOGLE_API_KEY", "GEMINI_API_KEY"],
+    "anthropic": ["ANTHROPIC_API_KEY"],
+    "openai": ["OPENAI_API_KEY"],
+    "gh": ["GITHUB_TOKEN"],
+    "ollama": [],  # always available (local)
+    "local": [],   # always available (ONNX)
+}
+
+# ---------------------------------------------------------------------------
+# Tier defaults (updated dynamically by probe_and_update_tier_defaults)
+# ---------------------------------------------------------------------------
 
 _TIER_DEFAULTS: dict[int, str] = {
     1: "gemini:gemini-2.0-flash-lite",
     2: "gemini:gemini-2.0-flash",
-    3: _DEFAULT_HIGH_TIER_MODEL,
-    4: _DEFAULT_HIGH_TIER_MODEL,
-    5: _DEFAULT_HIGH_TIER_MODEL,
+    3: "gemini:gemini-2.5-flash",
+    4: "gemini:gemini-2.5-flash",
+    5: "gemini:gemini-2.5-flash",
+}
+
+# Models ranked by reasoning capability per tier.
+# First available provider wins during probe.
+_TIER_FALLBACK_CHAINS: dict[int, list[str]] = {
+    # Tier 1: fast / cheap -- summarisation, extraction, simple tasks
+    1: [
+        "gemini:gemini-2.0-flash-lite",
+        "gh:openai/gpt-4o-mini",
+        "openai:gpt-4o-mini",
+        "anthropic:claude-haiku-4-5-20251001",
+        "ollama:gemma3:4b",
+    ],
+    # Tier 2: balanced -- code review, moderate reasoning
+    2: [
+        "gemini:gemini-2.0-flash",
+        "gh:openai/gpt-4o",
+        "openai:gpt-4o",
+        "anthropic:claude-sonnet-4-6-20260219",
+        "ollama:qwen3:8b",
+    ],
+    # Tier 3: strong reasoning -- architecture, complex code gen
+    3: [
+        "gemini:gemini-2.5-flash",
+        "anthropic:claude-sonnet-4-6-20260219",
+        "openai:gpt-4o",
+        "gh:openai/gpt-4o",
+        "ollama:qwen3-coder:30b",
+    ],
+    # Tier 4: top-tier -- hard problems, multi-step planning
+    4: [
+        "gemini:gemini-2.5-flash",
+        "anthropic:claude-sonnet-4-6-20260219",
+        "openai:gpt-4o",
+        "gh:openai/gpt-4o",
+        "ollama:qwen3-coder:30b",
+    ],
+    # Tier 5: best available -- research, deep analysis
+    5: [
+        "gemini:gemini-2.5-flash",
+        "anthropic:claude-sonnet-4-6-20260219",
+        "openai:gpt-4o",
+        "gh:openai/gpt-4o",
+        "ollama:qwen3-coder:30b",
+    ],
 }
 
 # GitHub Models base URL
 _GH_BASE_URL = "https://models.inference.ai.azure.com"
+_TRANSIENT_HTTP_STATUS_CODES = {408, 409, 425, 429, 500, 502, 503, 504}
+_GH_BACKUP_MODELS: tuple[str, ...] = (
+    "gh:openai/gpt-4o-mini",
+    "gh:openai/gpt-4o",
+)
 
+
+def _provider_prefix(model_id: str) -> str:
+    """Extract the provider prefix from a model ID."""
+    return model_id.split(":")[0] if ":" in model_id else "ollama"
+
+
+def _is_provider_available(provider: str) -> bool:
+    """Check if a provider's required env vars are present."""
+    keys = _PROVIDER_ENV_KEYS.get(provider, [])
+    if not keys:
+        return True  # ollama / local -- no key required
+    return any(os.environ.get(k) for k in keys)
+
+
+def probe_available_providers() -> dict[str, bool]:
+    """Probe which LLM providers have credentials configured."""
+    return {prov: _is_provider_available(prov) for prov in _PROVIDER_ENV_KEYS}
+
+
+def probe_and_update_tier_defaults() -> dict[str, Any]:
+    """Probe providers and update ``_TIER_DEFAULTS`` to the best available model per tier.
+
+    Called on module import and can be re-called at server startup to pick up
+    env changes.  Also installs a health-checker on the native ``ModelRouter``
+    so both engines benefit from the same availability data.
+
+    Returns a summary dict with provider availability and resolved tier defaults.
+    """
+    availability = probe_available_providers()
+
+    available_providers = [p for p, ok in availability.items() if ok]
+    unavailable_providers = [p for p, ok in availability.items() if not ok]
+
+    resolved: dict[int, str] = {}
+    for tier, chain in _TIER_FALLBACK_CHAINS.items():
+        for model_id in chain:
+            provider = _provider_prefix(model_id)
+            if _is_provider_available(provider):
+                resolved[tier] = model_id
+                break
+        else:
+            resolved[tier] = _TIER_DEFAULTS.get(tier, chain[-1])
+
+    _TIER_DEFAULTS.update(resolved)
+
+    # Also configure the native engine router with the same env-var checker
+    _configure_native_router(availability)
+
+    summary = {
+        "available_providers": available_providers,
+        "unavailable_providers": unavailable_providers,
+        "tier_defaults": dict(_TIER_DEFAULTS),
+    }
+
+    logger.info(
+        "Model probe complete: available=%s, unavailable=%s",
+        available_providers,
+        unavailable_providers,
+    )
+    for tier, model_id in sorted(_TIER_DEFAULTS.items()):
+        logger.info("  Tier %d -> %s", tier, model_id)
+
+    return summary
+
+
+def _configure_native_router(availability: dict[str, bool]) -> None:
+    """Set a health-checker on the native ModelRouter so it skips unavailable providers."""
+    try:
+        from ..models.router import get_router
+    except ImportError:
+        return
+
+    router = get_router()
+
+    def _env_health_checker(model_id: str) -> bool:
+        provider = _provider_prefix(model_id)
+        return availability.get(provider, _is_provider_available(provider))
+
+    router.set_health_checker(_env_health_checker)
+
+    # Pre-mark unavailable models so the router doesn't try them
+    try:
+        from ..models.router import DEFAULT_CHAINS, ModelTier
+    except ImportError:
+        return
+
+    for provider, available in availability.items():
+        if not available:
+            for tier_enum in ModelTier:
+                if tier_enum == ModelTier.TIER_0:
+                    continue
+                chain = DEFAULT_CHAINS.get(tier_enum)
+                if chain:
+                    for m in chain:
+                        if _provider_prefix(m) == provider:
+                            router.mark_unavailable(m)
+
+    logger.debug("Native ModelRouter configured with env-var health checker")
+
+
+# NOTE: probe_and_update_tier_defaults() is intentionally NOT called here.
+# It is called once from the FastAPI lifespan handler in server/app.py so that
+# it runs at server startup only — not on every test import, which would mutate
+# global _TIER_DEFAULTS and cause test-order dependencies.
 
 # ---------------------------------------------------------------------------
 # Provider dispatch
@@ -115,7 +297,7 @@ def get_chat_model(model_id: str, temperature: float = 0.0) -> Any:
     if model_id.startswith("local:"):
         return _build_local_onnx_model(model_id[6:], temperature)
 
-    # Bare name without prefix — treat as Ollama local model
+    # Bare name without prefix -- treat as Ollama local model
     if not any(
         model_id.startswith(p)
         for p in (
@@ -144,18 +326,136 @@ def get_model_for_tier(tier: int, model_override: str | None = None) -> Any:
     Resolution order:
     1. ``model_override`` argument
     2. Env var ``AGENTIC_MODEL_TIER_{tier}``
-    3. Tier default from ``_TIER_DEFAULTS``
+    3. Tier default from ``_TIER_DEFAULTS`` (set by probe)
+    4. Walk the fallback chain trying each available provider
     """
+    chain = get_model_candidates_for_tier(
+        tier,
+        model_override,
+        include_unavailable=False,
+        include_gh_backup=True,
+    )
+    last_err: Exception | None = None
+    for model_id in chain:
+        try:
+            return get_chat_model(model_id)
+        except (ValueError, ImportError) as exc:
+            last_err = exc
+            logger.debug("Fallback %s failed: %s", model_id, exc)
+            continue
+
+    raise ValueError(
+        f"No available model for tier {tier}. "
+        f"Checked: {chain}. "
+        f"Last error: {last_err}"
+    )
+
+
+def get_model_candidates_for_tier(
+    tier: int,
+    model_override: str | None = None,
+    *,
+    include_unavailable: bool = False,
+    include_gh_backup: bool = True,
+) -> list[str]:
+    """Return ordered candidate model IDs for a tier, including fallbacks.
+
+    Resolution order:
+    1. Per-step ``model_override`` (resolved, supports ``env:VAR|fallback``)
+    2. Env var ``AGENTIC_MODEL_TIER_{tier}``
+    3. Probed tier default from ``_TIER_DEFAULTS``
+    4. Tier fallback chain from ``_TIER_FALLBACK_CHAINS``
+    5. GitHub backup models (when ``GITHUB_TOKEN`` is configured)
+    """
+    pinned: list[str] = []
+
     if model_override:
-        return get_chat_model(_resolve_model_override(model_override))
+        pinned.append(_resolve_model_override(model_override))
 
     env_key = f"AGENTIC_MODEL_TIER_{tier}"
-    env_val = os.environ.get(env_key)
+    env_val = (os.environ.get(env_key) or "").strip()
     if env_val:
-        return get_chat_model(env_val)
+        pinned.append(env_val)
 
-    default_id = _TIER_DEFAULTS.get(tier, _TIER_DEFAULTS[2])
-    return get_chat_model(default_id)
+    default_id = _TIER_DEFAULTS.get(tier, _TIER_DEFAULTS.get(2, "ollama:qwen3:8b"))
+    if default_id:
+        pinned.append(default_id)
+
+    fallback = list(_TIER_FALLBACK_CHAINS.get(tier, _TIER_FALLBACK_CHAINS.get(2, [])))
+
+    if include_gh_backup and os.environ.get("GITHUB_TOKEN"):
+        fallback.extend(_GH_BACKUP_MODELS)
+
+    ordered_pinned = _dedupe_keep_order(pinned)
+    ordered_fallback = _dedupe_keep_order(fallback)
+    if include_unavailable:
+        return _dedupe_keep_order(ordered_pinned + ordered_fallback)
+
+    filtered_fallback = [
+        m for m in ordered_fallback if _is_provider_available(_provider_prefix(m))
+    ]
+    return _dedupe_keep_order(ordered_pinned + filtered_fallback)
+
+
+def is_retryable_model_error(exc: Exception) -> bool:
+    """Heuristic classification for transient model/provider failures."""
+    status_code = getattr(exc, "status_code", None)
+    if status_code is None:
+        response = getattr(exc, "response", None)
+        status_code = getattr(response, "status_code", None)
+    try:
+        if int(status_code) in _TRANSIENT_HTTP_STATUS_CODES:
+            return True
+    except (TypeError, ValueError):
+        pass
+
+    cls = exc.__class__.__name__.lower()
+    msg = str(exc).lower()
+
+    if any(
+        token in cls
+        for token in (
+            "ratelimit",
+            "timeout",
+            "apiconnection",
+            "serviceunavailable",
+            "temporar",
+        )
+    ):
+        return True
+
+    return any(
+        token in msg
+        for token in (
+            "429",
+            "too many requests",
+            "rate limit",
+            "quota exceeded",
+            "resource exhausted",
+            "temporarily unavailable",
+            "service unavailable",
+            "overloaded",
+            "timeout",
+            "timed out",
+            "connection reset",
+            "connection error",
+            "upstream error",
+            "try again later",
+        )
+    )
+
+
+def _dedupe_keep_order(items: list[str]) -> list[str]:
+    """Return deduplicated list preserving first-seen order."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for item in items:
+        val = (item or "").strip()
+        if not val or val in seen:
+            continue
+        seen.add(val)
+        out.append(val)
+    return out
 
 
 def _resolve_model_override(model_override: str) -> str:
@@ -310,12 +610,7 @@ def _build_gemini_model(model_name: str, temperature: float) -> Any:
 
 
 def _build_notebooklm_model(model_name: str, temperature: float) -> Any:
-    """NotebookLM alias routed through Gemini models.
-
-    NotebookLM itself is a product surface, not a direct model API in this
-    runtime. We route to Gemini so users can keep a semantic ``notebooklm:``
-    selector in workflow configuration.
-    """
+    """NotebookLM alias routed through Gemini models."""
     resolved = _resolve_notebooklm_model_name(model_name)
     logger.debug("Using NotebookLM alias via Gemini model: %s", resolved)
     return _build_gemini_model(resolved, temperature)
@@ -335,7 +630,6 @@ def _resolve_notebooklm_model_name(model_name: str) -> str:
     if env_model:
         return env_model
 
-    # Default conservative fallback.
     return "gemini-2.5-pro"
 
 
@@ -359,11 +653,7 @@ def _build_ollama_model(model_name: str, temperature: float) -> Any:
 
 
 def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
-    """Build a minimal chat wrapper over repo-local ONNX via ``LLMClient``.
-
-    This wrapper is intended for prompt-only steps. It does not implement
-    provider-native tool-calling semantics.
-    """
+    """Build a minimal chat wrapper over repo-local ONNX via ``LLMClient``."""
     try:
         from langchain_core.language_models.chat_models import BaseChatModel
         from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
@@ -374,7 +664,7 @@ def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
             "Install with: pip install langchain-core"
         ) from exc
 
-    LLMClient = _import_repo_llm_client()
+    llm_client = _import_repo_llm_client()
     key = (model_name or "phi4mini").strip()
 
     class LocalOnnxChatModel(BaseChatModel):
@@ -386,7 +676,6 @@ def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
             return "local-onnx"
 
         def bind_tools(self, tools: Any, **kwargs: Any) -> Any:
-            # ReAct agent can still run, but local ONNX path is prompt-only.
             return self
 
         def _messages_to_prompt(
@@ -413,7 +702,7 @@ def _build_local_onnx_model(model_name: str, temperature: float) -> Any:
             **kwargs: Any,
         ) -> Any:
             prompt, system_text = self._messages_to_prompt(messages)
-            response = LLMClient.generate_text(
+            response = llm_client.generate_text(
                 model_name=f"local:{self.model_key}",
                 prompt=prompt,
                 system_instruction=system_text,

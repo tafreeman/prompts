@@ -85,6 +85,7 @@ export interface StepResult {
   input: Record<string, unknown>;
   output: Record<string, unknown>;
   error: string | null;
+  metadata?: Record<string, unknown> | null;
 }
 
 /** Aggregate stats (from GET /api/runs/summary). */
@@ -186,6 +187,36 @@ export type ExecutionEvent =
       tier?: string | null;
       input?: Record<string, unknown>;
       output?: Record<string, unknown>;
+      error?: string | null;
+      timestamp: string;
+    }
+  | {
+      type: "step_complete";
+      run_id: string;
+      step: string;
+      status: StepStatus;
+      duration_ms: number;
+      model_used?: string | null;
+      tokens_used?: number | null;
+      tier?: string | null;
+      input?: Record<string, unknown>;
+      output?: Record<string, unknown>;
+      outputs?: Record<string, unknown>;
+      error?: string | null;
+      timestamp: string;
+    }
+  | {
+      type: "step_error";
+      run_id: string;
+      step: string;
+      status?: StepStatus;
+      duration_ms: number;
+      model_used?: string | null;
+      tokens_used?: number | null;
+      tier?: string | null;
+      input?: Record<string, unknown>;
+      output?: Record<string, unknown>;
+      outputs?: Record<string, unknown>;
       error?: string | null;
       timestamp: string;
     }

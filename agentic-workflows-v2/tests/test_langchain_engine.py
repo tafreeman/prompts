@@ -988,6 +988,30 @@ class TestModelRegistry:
         )
         assert resolved == "ollama:deepseek-r1"
 
+    def test_model_candidates_keep_explicit_override(self, monkeypatch):
+        monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+        from agentic_v2.langchain.models import get_model_candidates_for_tier
+
+        candidates = get_model_candidates_for_tier(
+            2,
+            model_override="gh:openai/gpt-4o-mini",
+        )
+        assert candidates[0] == "gh:openai/gpt-4o-mini"
+        assert any(m.startswith("ollama:") for m in candidates)
+
+    def test_model_candidates_include_gh_backup_with_token(self, monkeypatch):
+        monkeypatch.setenv("GITHUB_TOKEN", "fake-token")
+        from agentic_v2.langchain.models import get_model_candidates_for_tier
+
+        candidates = get_model_candidates_for_tier(3)
+        assert "gh:openai/gpt-4o-mini" in candidates
+
+    def test_retryable_model_error_detects_rate_limits(self):
+        from agentic_v2.langchain.models import is_retryable_model_error
+
+        err = Exception("429 Too Many Requests: rate limit exceeded")
+        assert is_retryable_model_error(err) is True
+
 
 class TestGraphResponseParsing:
     """Regression tests for provider-specific response parsing."""
@@ -1062,3 +1086,61 @@ class TestGraphResponseParsing:
         assert (
             updated["steps"]["intake_scope"]["outputs"]["scoped_goal"] == "mapped"
         )
+
+    def test_llm_step_retries_with_fallback_model(self, monkeypatch):
+        from langchain_core.messages import AIMessage
+        from agentic_v2.langchain import graph as graph_module
+
+        created_models: list[str] = []
+
+        class _FailingAgent:
+            def invoke(self, payload):
+                raise Exception("429 Too Many Requests")
+
+        class _PassingAgent:
+            def invoke(self, payload):
+                return {"messages": [AIMessage(content='{"report":"ok"}')]}
+
+        def _fake_get_candidates(*args, **kwargs):
+            return ["gemini:primary", "gh:openai/gpt-4o-mini"]
+
+        def _fake_create_agent(
+            agent_name,
+            *,
+            tool_names=None,
+            prompt_file=None,
+            model_override=None,
+        ):
+            created_models.append(model_override or "")
+            if model_override == "gemini:primary":
+                return _FailingAgent()
+            return _PassingAgent()
+
+        monkeypatch.setattr(
+            graph_module,
+            "get_model_candidates_for_tier",
+            _fake_get_candidates,
+        )
+        monkeypatch.setattr(graph_module, "create_agent", _fake_create_agent)
+
+        step = StepConfig(
+            name="review_code",
+            agent="tier3_reviewer",
+            description="test fallback",
+            outputs={"report": "report_ctx"},
+        )
+        wf = WorkflowConfig(name="wf_failover", steps=[step])
+        node = graph_module._make_step_node(step, wf)
+
+        state = initial_state(workflow_inputs={})
+        state["context"]["inputs"] = {}
+        updated = node(state)
+
+        assert created_models == ["gemini:primary", "gh:openai/gpt-4o-mini"]
+        assert updated["context"]["report_ctx"] == "ok"
+        assert updated["steps"]["review_code"]["status"] == "success"
+        assert updated["metadata"]["attempted_models"] == [
+            "gemini:primary",
+            "gh:openai/gpt-4o-mini",
+        ]
+        assert updated["metadata"]["attempt_errors"][0]["retryable"] is True

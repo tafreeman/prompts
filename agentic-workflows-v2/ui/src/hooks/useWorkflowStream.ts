@@ -12,6 +12,7 @@ export interface StepState {
   input?: Record<string, unknown>;
   output?: Record<string, unknown>;
   error?: string | null;
+  modelInferred?: boolean;
 }
 
 export interface WorkflowStreamState {
@@ -64,6 +65,27 @@ export function useWorkflowStream(runId: string | null): WorkflowStreamState {
             input: event.input,
             output: event.output,
             error: event.error,
+          });
+          return next;
+        });
+        break;
+
+      case "step_complete":
+      case "step_error":
+        setStepStates((prev) => {
+          const next = new Map(prev);
+          next.set(event.step, {
+            status:
+              event.type === "step_error"
+                ? "failed"
+                : event.status ?? "success",
+            durationMs: event.duration_ms,
+            modelUsed: event.model_used ?? undefined,
+            tokensUsed: event.tokens_used ?? undefined,
+            tier: event.tier,
+            input: event.input,
+            output: event.output ?? event.outputs,
+            error: event.error ?? null,
           });
           return next;
         });

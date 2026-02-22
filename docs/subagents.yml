@@ -1,0 +1,120 @@
+subagents:
+  - task_name: planner
+    description: >
+      Breaks a large implementation or bug into a clear, ordered plan with steps,
+      dependencies, and estimated effort for engineering teams.
+    output_path: docs/planner/plan.md
+    acceptance_criteria:
+      - Produces a step-by-step plan with clear checkpoints
+      - Includes dependencies and risks
+      - Lists estimated effort per step or a rationale for missing estimates
+    sample_prompt: |
+      You are the planner agent. Given the following issue summary:
+      "Implement feature X that integrates Y and Z with backwards compatibility."
+      Produce a step-by-step implementation plan with dependencies, risk notes,
+      and a minimal test plan.
+    input_schema:
+      type: object
+      properties:
+        issue_summary: {type: string}
+    output_schema:
+      type: object
+      properties:
+        status: {type: string}
+        plan_path: {type: string}
+    requires_secret_handling: false
+
+  - task_name: architect
+    description: >
+      Designs system-level architecture choices: interfaces, data flow,
+      reliability and scaling considerations, and trade-offs.
+    output_path: docs/architect/architecture.md
+    acceptance_criteria:
+      - Diagrams or textual architecture overview
+      - Clear trade-offs and rationale
+      - Migration or compatibility notes if applicable
+    sample_prompt: |
+      You are the architect agent. Create a high-level architecture for
+      a service that ingests events from A, enriches with B, and exposes an API C.
+      Include components, dataflow, and failure modes.
+    input_schema:
+      type: object
+      properties:
+        requirements: {type: string}
+    output_schema:
+      type: object
+      properties:
+        diagram_file: {type: string}
+    requires_secret_handling: false
+
+  - task_name: tdd-guide
+    description: >
+      Produces a test-first plan: unit/integration/e2e tests to validate a feature,
+      with minimal examples and a test harness outline.
+    output_path: docs/tdd-guide/test-plan.md
+    acceptance_criteria:
+      - Tests cover edge cases and failure modes
+      - Commands to run tests locally
+      - Minimal example tests included
+    sample_prompt: |
+      You are the tdd-guide agent. For feature "user settings export", write failing
+      unit tests and one integration test that demonstrates expected behavior.
+    input_schema:
+      type: object
+      properties:
+        feature: {type: string}
+    output_schema:
+      type: object
+      properties:
+        test_files: {type: array}
+    requires_secret_handling: false
+
+  - task_name: code-reviewer
+    description: >
+      Reviews code diffs for correctness, style, maintainability, and security,
+      and produces a prioritized list of findings and suggested fixes.
+    output_path: docs/code-reviewer/review-report.md
+    acceptance_criteria:
+      - Identifies critical and high-priority issues
+      - Gives concrete remediation steps and code pointers
+      - Mentions files/lines for each finding
+    sample_prompt: |
+      Review the following diff for performance and security issues. Produce an
+      actionable review with code snippets to fix the highest-priority problems.
+    input_schema:
+      type: object
+      properties:
+        diff: {type: string}
+    output_schema:
+      type: object
+      properties:
+        findings: {type: array}
+    requires_secret_handling: false
+
+  - task_name: security-reviewer
+    description: >
+      Performs threat modeling, secret leakage scans, dependency checks, and
+      security recommendations for a change or design.
+    output_path: docs/security-reviewer/security-report.md
+    acceptance_criteria:
+      - Lists any detected secrets or high-risk patterns
+      - Provides suggested fixes and tests
+      - Confirms whether changes require key rotation or incident response
+    sample_prompt: |
+      You are the security-reviewer. Analyze this PR for secret leakage and
+      injection risks. Provide steps to remediate critical findings.
+    input_schema:
+      type: object
+      properties:
+        pr_diff: {type: string}
+    output_schema:
+      type: object
+      properties:
+        issues: {type: array}
+    requires_secret_handling: true
+
+# Global security policy (mandatory)
+security_policy: |
+  - do_not_include_secrets_or_pii: "Prompts and examples MUST NOT include real API keys, passwords, or PII. Use placeholders like [GITHUB_TOKEN]."
+  - secret_handling: "Subagents MUST acquire credentials via secure vaults/environment variables and MUST NOT print them in outputs or write them to logs."
+  - logging: "Mask or redact sensitive fields before any logging or telemetry export."

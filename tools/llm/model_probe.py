@@ -47,6 +47,63 @@ from typing import Any, Dict, List, Optional
 if __name__ == "__main__":
     sys.path.insert(0, str(Path(__file__).parents[2]))
 
+# ---------------------------------------------------------------------------
+# Load .env so provider API keys are available via os.getenv().
+# We search upward from this file to find the nearest .env, which covers both
+# the repo root (d:\source\prompts\.env) and any nested package roots.
+# ---------------------------------------------------------------------------
+def _load_dotenv() -> None:
+    """Load the nearest .env file into os.environ (idempotent)."""
+    try:
+        from dotenv import load_dotenv  # type: ignore[import-untyped]
+    except ImportError:
+        # python-dotenv not installed — fall back to manual parse
+        _load_dotenv_manual()
+        return
+
+    # Walk up from this file's directory to find .env
+    search = Path(__file__).resolve().parent
+    for _ in range(10):
+        candidate = search / ".env"
+        if candidate.is_file():
+            load_dotenv(candidate, override=False)
+            return
+        if search.parent == search:
+            break
+        search = search.parent
+
+
+def _load_dotenv_manual() -> None:
+    """Minimal .env loader when python-dotenv is not installed."""
+    search = Path(__file__).resolve().parent
+    for _ in range(10):
+        candidate = search / ".env"
+        if candidate.is_file():
+            for line in candidate.read_text(encoding="utf-8", errors="replace").splitlines():
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                key = key.strip()
+                value = value.strip()
+                if not key or key.startswith(" "):
+                    continue
+                # Only set if not already present (don't override real env)
+                if key not in os.environ:
+                    # Strip surrounding quotes (python-dotenv does this automatically)
+                    if len(value) >= 2 and value[0] == value[-1] and value[0] in ('"', "'"):
+                        value = value[1:-1]
+                    os.environ[key] = value
+            return
+        if search.parent == search:
+            break
+        search = search.parent
+
+
+_load_dotenv()
+
 
 # =============================================================================
 # ERROR CLASSIFICATION - Import from canonical source
@@ -86,21 +143,35 @@ _PREFIX_AITK = "aitk:"
 _PREFIX_AITK_ALT = "ai-toolkit:"
 _PREFIX_GEMINI = "gemini:"
 _PREFIX_CLAUDE = "claude:"
+_PREFIX_LMSTUDIO = "lmstudio:"
+_PREFIX_LMSTUDIO_ALT = "lm-studio:"
+_PREFIX_LOCAL_API = "local-api:"
 
 # Environment variable names
 _ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
 _ENV_GH_TOKEN = "GH_TOKEN"
 _ENV_OLLAMA_HOST = "OLLAMA_HOST"
+_ENV_OLLAMA_API_KEY = "OLLAMA_API_KEY"
 _ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+_ENV_OPENAI_BASE_URL = "OPENAI_BASE_URL"
+_ENV_OPENAI_API_BASE = "OPENAI_API_BASE"
 _ENV_AZURE_FOUNDRY_API_KEY = "AZURE_FOUNDRY_API_KEY"
 _ENV_AZURE_FOUNDRY_ENDPOINT_PREFIX = "AZURE_FOUNDRY_ENDPOINT"
 _ENV_AZURE_OPENAI_ENDPOINT = "AZURE_OPENAI_ENDPOINT"
 _ENV_AZURE_OPENAI_API_KEY = "AZURE_OPENAI_API_KEY"
 _ENV_AZURE_OPENAI_DEPLOYMENT = "AZURE_OPENAI_DEPLOYMENT"
+_ENV_GEMINI_API_KEY = "GEMINI_API_KEY"
+_ENV_GOOGLE_API_KEY = "GOOGLE_API_KEY"
+_ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
+_ENV_LMSTUDIO_HOST = "LMSTUDIO_HOST"
+_ENV_LOCAL_AI_API_BASE_URL = "LOCAL_AI_API_BASE_URL"
+_ENV_LOCAL_OPENAI_BASE_URL = "LOCAL_OPENAI_BASE_URL"
 
 # URLs and API endpoints
 _OLLAMA_DEFAULT_HOST = "http://localhost:11434"
 _OLLAMA_API_TAGS_ENDPOINT = "/api/tags"
+_LMSTUDIO_DEFAULT_HOST = "http://127.0.0.1:12340"
+_LOCAL_SERVER_COMMON_PORTS = [12340, 1234, 5000, 5001, 8080, 8081]
 
 # Windows AI bridge
 _WINDOWS_AI_BRIDGE_DIR = "windows_ai_bridge"
@@ -115,6 +186,7 @@ _TIMEOUT_GH_MODELS_LIST = 30
 _TIMEOUT_GH_MODELS_RUN = 30
 _TIMEOUT_WINDOWS_AI_BRIDGE = 60
 _TIMEOUT_OLLAMA_HTTP = 3
+_TIMEOUT_CLOUD_HTTP = 10  # Remote cloud APIs (Gemini, Anthropic) — higher latency
 
 # Cache key and string truncation lengths
 _CACHE_KEY_MD5_LENGTH = 12
@@ -270,6 +342,10 @@ class ModelProbe:
             return "ai_toolkit"
         if model.startswith(_PREFIX_CLAUDE):
             return "claude"
+        if model.startswith(_PREFIX_LMSTUDIO) or model.startswith(_PREFIX_LMSTUDIO_ALT):
+            return "lmstudio"
+        if model.startswith(_PREFIX_LOCAL_API):
+            return "local_api"
         return "unknown"
 
     def _cache_key(self, model: str) -> str:
@@ -517,15 +593,24 @@ class ModelProbe:
             return self._probe_ollama(model)
         elif provider == "openai":
             return self._probe_openai(model)
+        elif provider == "gemini":
+            return self._probe_gemini(model)
+        elif provider == "claude":
+            return self._probe_claude(model)
         elif provider == "ai_toolkit":
             return self._probe_ai_toolkit(model)
+        elif provider == "lmstudio":
+            return self._probe_lmstudio(model)
+        elif provider == "local_api":
+            return self._probe_local_api(model)
         else:
-            # For other providers, assume usable if configured
-            # (full probing would require actual API calls)
+            # Unknown provider — not usable without a probe method
             return ProbeResult(
                 model=model,
                 provider=provider,
-                usable=True,  # Optimistic - will fail at runtime if not
+                usable=False,
+                error_code=ErrorCode.INVALID_INPUT.value,
+                error_message=f"Unknown provider '{provider}' — no probe available",
                 probe_time=datetime.now().isoformat(),
                 duration_ms=0,
             )
@@ -836,6 +921,274 @@ class ModelProbe:
             model=model,
             provider="openai",
             usable=True,
+            probe_time=datetime.now().isoformat(),
+            duration_ms=int((time.time() - start) * 1000),
+        )
+
+    def _probe_gemini(self, model: str) -> ProbeResult:
+        """Probe a Google Gemini model.
+
+        Checks for GEMINI_API_KEY or GOOGLE_API_KEY, then optionally
+        hits the Gemini models.list endpoint to confirm reachability.
+        """
+        start = time.time()
+
+        api_key = os.getenv(_ENV_GEMINI_API_KEY) or os.getenv(_ENV_GOOGLE_API_KEY)
+        if not api_key:
+            return ProbeResult(
+                model=model,
+                provider="gemini",
+                usable=False,
+                error_code=ErrorCode.PERMISSION_DENIED.value,
+                error_message="No GEMINI_API_KEY or GOOGLE_API_KEY environment variable",
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+
+        # Lightweight connectivity check — list models endpoint
+        import urllib.error
+        import urllib.request
+
+        try:
+            url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=1"
+            req = urllib.request.Request(url, headers={"Accept": "application/json", "x-goog-api-key": api_key})
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                if data.get("models"):
+                    return ProbeResult(
+                        model=model,
+                        provider="gemini",
+                        usable=True,
+                        probe_time=datetime.now().isoformat(),
+                        duration_ms=int((time.time() - start) * 1000),
+                    )
+                return ProbeResult(
+                    model=model,
+                    provider="gemini",
+                    usable=False,
+                    error_code=ErrorCode.UNAVAILABLE_MODEL.value,
+                    error_message="Gemini API returned no models",
+                    probe_time=datetime.now().isoformat(),
+                    duration_ms=int((time.time() - start) * 1000),
+                )
+        except urllib.error.HTTPError as e:
+            code_val = ErrorCode.PERMISSION_DENIED.value if e.code in (401, 403) else ErrorCode.NETWORK_ERROR.value
+            return ProbeResult(
+                model=model,
+                provider="gemini",
+                usable=False,
+                error_code=code_val,
+                error_message=f"Gemini API HTTP {e.code}: {str(e.reason)[:200]}",
+                should_retry=e.code not in (401, 403),
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+        except Exception as e:
+            code, retry = classify_error(str(e))
+            return ProbeResult(
+                model=model,
+                provider="gemini",
+                usable=False,
+                error_code=code.value,
+                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
+                should_retry=retry,
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+
+    def _probe_claude(self, model: str) -> ProbeResult:
+        """Probe an Anthropic Claude model.
+
+        Checks for ANTHROPIC_API_KEY, then hits the Anthropic models
+        endpoint to confirm the key is valid and reachable.
+        """
+        start = time.time()
+
+        api_key = os.getenv(_ENV_ANTHROPIC_API_KEY)
+        if not api_key:
+            return ProbeResult(
+                model=model,
+                provider="claude",
+                usable=False,
+                error_code=ErrorCode.PERMISSION_DENIED.value,
+                error_message="No ANTHROPIC_API_KEY environment variable",
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+
+        # Lightweight connectivity check — list models endpoint
+        import urllib.error
+        import urllib.request
+
+        try:
+            url = "https://api.anthropic.com/v1/models?limit=1"
+            req = urllib.request.Request(url, headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "Accept": "application/json",
+            })
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                if data.get("data"):
+                    return ProbeResult(
+                        model=model,
+                        provider="claude",
+                        usable=True,
+                        probe_time=datetime.now().isoformat(),
+                        duration_ms=int((time.time() - start) * 1000),
+                    )
+                # Key accepted but no models listed — still usable
+                return ProbeResult(
+                    model=model,
+                    provider="claude",
+                    usable=True,
+                    probe_time=datetime.now().isoformat(),
+                    duration_ms=int((time.time() - start) * 1000),
+                )
+        except urllib.error.HTTPError as e:
+            code_val = ErrorCode.PERMISSION_DENIED.value if e.code in (401, 403) else ErrorCode.NETWORK_ERROR.value
+            return ProbeResult(
+                model=model,
+                provider="claude",
+                usable=False,
+                error_code=code_val,
+                error_message=f"Anthropic API HTTP {e.code}: {str(e.reason)[:200]}",
+                should_retry=e.code not in (401, 403),
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+        except Exception as e:
+            code, retry = classify_error(str(e))
+            return ProbeResult(
+                model=model,
+                provider="claude",
+                usable=False,
+                error_code=code.value,
+                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
+                should_retry=retry,
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+
+    def _probe_openai_compatible_endpoint(
+        self, base_url: str, model: str, provider: str
+    ) -> ProbeResult:
+        """Shared probe for any OpenAI-compatible server (LM Studio, LocalAI, etc.).
+
+        Hits GET /v1/models to list available models.
+        """
+        import urllib.error
+        import urllib.request
+
+        start = time.time()
+        base = base_url.rstrip("/")
+
+        try:
+            url = f"{base}/v1/models"
+            req = urllib.request.Request(url, headers={"Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_OLLAMA_HTTP) as resp:
+                raw = resp.read()
+                # Verify the response is a valid OpenAI-compatible model list,
+                # not a captive-portal or proxy HTML page
+                content_type = resp.headers.get("Content-Type", "")
+                if "json" not in content_type and not raw.lstrip().startswith(b"{"):
+                    return ProbeResult(
+                        model=model,
+                        provider=provider,
+                        usable=False,
+                        error_code=ErrorCode.UNAVAILABLE_MODEL.value,
+                        error_message=f"Unexpected response from {base}: not a JSON model list",
+                        probe_time=datetime.now().isoformat(),
+                        duration_ms=int((time.time() - start) * 1000),
+                    )
+                return ProbeResult(
+                    model=model,
+                    provider=provider,
+                    usable=True,
+                    probe_time=datetime.now().isoformat(),
+                    duration_ms=int((time.time() - start) * 1000),
+                )
+        except urllib.error.URLError:
+            return ProbeResult(
+                model=model,
+                provider=provider,
+                usable=False,
+                error_code=ErrorCode.NETWORK_ERROR.value,
+                error_message=f"Server not reachable at {base}",
+                should_retry=True,
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+        except Exception as e:
+            code, retry = classify_error(str(e))
+            return ProbeResult(
+                model=model,
+                provider=provider,
+                usable=False,
+                error_code=code.value,
+                error_message=str(e)[:_ERROR_STANDARD_LENGTH],
+                should_retry=retry,
+                probe_time=datetime.now().isoformat(),
+                duration_ms=int((time.time() - start) * 1000),
+            )
+
+    def _probe_lmstudio(self, model: str) -> ProbeResult:
+        """Probe LM Studio via its OpenAI-compatible API.
+
+        LM Studio serves on http://localhost:1234 by default.
+        Override with LMSTUDIO_HOST env var.
+        """
+        host = os.getenv(_ENV_LMSTUDIO_HOST, _LMSTUDIO_DEFAULT_HOST)
+        return self._probe_openai_compatible_endpoint(host, model, "lmstudio")
+
+    def _probe_local_api(self, model: str) -> ProbeResult:
+        """Probe a generic OpenAI-compatible local server.
+
+        Checks OPENAI_BASE_URL, OPENAI_API_BASE, LOCAL_AI_API_BASE_URL,
+        LOCAL_OPENAI_BASE_URL env vars for the endpoint.
+        If none set, scans common local ports (1234, 5000, 5001, 8080, 8081).
+        """
+        import urllib.request
+
+        base_url = (
+            os.getenv(_ENV_OPENAI_BASE_URL)
+            or os.getenv(_ENV_OPENAI_API_BASE)
+            or os.getenv(_ENV_LOCAL_AI_API_BASE_URL)
+            or os.getenv(_ENV_LOCAL_OPENAI_BASE_URL)
+        )
+
+        if base_url:
+            return self._probe_openai_compatible_endpoint(base_url, model, "local_api")
+
+        # No env var — scan common ports
+        start = time.time()
+        for port in _LOCAL_SERVER_COMMON_PORTS:
+            try:
+                url = f"http://localhost:{port}/v1/models"
+                req = urllib.request.Request(url, headers={"Accept": "application/json"})
+                with urllib.request.urlopen(req, timeout=1) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    if data.get("data"):
+                        self._log(f"Found local API server on port {port}")
+                        return ProbeResult(
+                            model=model,
+                            provider="local_api",
+                            usable=True,
+                            probe_time=datetime.now().isoformat(),
+                            duration_ms=int((time.time() - start) * 1000),
+                        )
+            except Exception:
+                continue
+
+        return ProbeResult(
+            model=model,
+            provider="local_api",
+            usable=False,
+            error_code=ErrorCode.NETWORK_ERROR.value,
+            error_message=(
+                "No local API server found. Set OPENAI_BASE_URL, LOCAL_AI_API_BASE_URL, "
+                f"or start a server on ports {_LOCAL_SERVER_COMMON_PORTS}"
+            ),
             probe_time=datetime.now().isoformat(),
             duration_ms=int((time.time() - start) * 1000),
         )
@@ -1365,7 +1718,101 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         "count": len(openai_models),
     }
 
-    # 7. Windows AI (Phi Silica)
+    # 7. Gemini
+    if verbose:
+        print("[Discovery] Checking Google Gemini...")
+
+    gemini_key = os.getenv(_ENV_GEMINI_API_KEY) or os.getenv(_ENV_GOOGLE_API_KEY)
+    gemini_configured = bool(gemini_key)
+    gemini_models: List[str] = []
+    gemini_error = None
+
+    if gemini_configured:
+        try:
+            url = "https://generativelanguage.googleapis.com/v1beta/models?pageSize=50"
+            req = urllib.request.Request(url, headers={"Accept": "application/json", "x-goog-api-key": gemini_key})
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                for m in data.get("models", []):
+                    name = m.get("name", "")  # e.g. "models/gemini-2.0-flash"
+                    if name.startswith("models/"):
+                        short = name.replace("models/", "")
+                        gemini_models.append(f"{_PREFIX_GEMINI}{short}")
+        except Exception as e:
+            gemini_error = str(e)[:_ERROR_BRIEF_LENGTH]
+            # Fall back to well-known models
+            gemini_models = [
+                f"{_PREFIX_GEMINI}gemini-2.5-flash",
+                f"{_PREFIX_GEMINI}gemini-2.0-flash",
+                f"{_PREFIX_GEMINI}gemini-2.0-flash-lite",
+            ]
+    else:
+        gemini_error = "No GEMINI_API_KEY or GOOGLE_API_KEY environment variable"
+
+    # Also collect rotation keys for reporting
+    gemini_keys_found = []
+    for i in range(10):
+        k = os.getenv(f"GEMINI_API_KEY_{i}")
+        if k:
+            gemini_keys_found.append(f"GEMINI_API_KEY_{i}")
+
+    discovered["providers"]["gemini"] = {
+        "configured": gemini_configured,
+        "available": gemini_models,
+        "count": len(gemini_models),
+        "rotation_keys": gemini_keys_found,
+        "error": gemini_error,
+    }
+
+    # 8. Anthropic Claude
+    if verbose:
+        print("[Discovery] Checking Anthropic Claude...")
+
+    anthropic_key = os.getenv(_ENV_ANTHROPIC_API_KEY)
+    anthropic_configured = bool(anthropic_key)
+    anthropic_models: List[str] = []
+    anthropic_error = None
+
+    if anthropic_configured:
+        try:
+            url = "https://api.anthropic.com/v1/models?limit=50"
+            req = urllib.request.Request(url, headers={
+                "x-api-key": anthropic_key,
+                "anthropic-version": "2023-06-01",
+                "Accept": "application/json",
+            })
+            with urllib.request.urlopen(req, timeout=_TIMEOUT_CLOUD_HTTP) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                for m in data.get("data", []):
+                    model_id = m.get("id", "")
+                    if model_id:
+                        anthropic_models.append(f"{_PREFIX_CLAUDE}{model_id}")
+        except Exception as e:
+            anthropic_error = str(e)[:_ERROR_BRIEF_LENGTH]
+            # Fall back to well-known models
+            anthropic_models = [
+                f"{_PREFIX_CLAUDE}claude-sonnet-4-20250514",
+                f"{_PREFIX_CLAUDE}claude-haiku-4-20250414",
+            ]
+    else:
+        anthropic_error = "No ANTHROPIC_API_KEY environment variable"
+
+    # Rotation keys
+    anthropic_keys_found = []
+    for i in range(10):
+        k = os.getenv(f"ANTHROPIC_API_KEY_{i}")
+        if k:
+            anthropic_keys_found.append(f"ANTHROPIC_API_KEY_{i}")
+
+    discovered["providers"]["anthropic"] = {
+        "configured": anthropic_configured,
+        "available": anthropic_models,
+        "count": len(anthropic_models),
+        "rotation_keys": anthropic_keys_found,
+        "error": anthropic_error,
+    }
+
+    # 9. Windows AI (Phi Silica)
     if verbose:
         print("[Discovery] Checking Windows AI / Phi Silica...")
 
@@ -1492,6 +1939,101 @@ def discover_all_models(verbose: bool = False) -> Dict[str, Any]:
         "path": str(aitk_models_dir) if aitk_models_dir.exists() else None,
         "error": aitk_error,
         "notes": "FREE local ONNX models via VS Code AI Toolkit (NOT cloud/paid)",
+    }
+
+    # 11. LM Studio (OpenAI-compatible local server)
+    if verbose:
+        print("[Discovery] Checking LM Studio...")
+
+    lmstudio_host = os.getenv(_ENV_LMSTUDIO_HOST, _LMSTUDIO_DEFAULT_HOST)
+    lmstudio_models: List[str] = []
+    lmstudio_error = None
+    lmstudio_reachable = False
+
+    try:
+        lm_url = f"{lmstudio_host.rstrip('/')}/v1/models"
+        req = urllib.request.Request(lm_url, headers={"Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            for m in data.get("data", []):
+                mid = m.get("id", "") if isinstance(m, dict) else ""
+                if mid:
+                    lmstudio_models.append(f"{_PREFIX_LMSTUDIO}{mid}")
+            lmstudio_reachable = True
+    except Exception as e:
+        lmstudio_error = f"LM Studio not reachable at {lmstudio_host}: {str(e)[:100]}"
+
+    discovered["providers"]["lmstudio"] = {
+        "configured": lmstudio_reachable,
+        "host": lmstudio_host,
+        "reachable": lmstudio_reachable,
+        "available": lmstudio_models,
+        "count": len(lmstudio_models),
+        "error": lmstudio_error,
+        "notes": "LM Studio serves OpenAI-compatible API. Set LMSTUDIO_HOST to override.",
+    }
+
+    # 12. Generic OpenAI-compatible local servers (LocalAI, text-generation-webui, etc.)
+    if verbose:
+        print("[Discovery] Checking local OpenAI-compatible servers...")
+
+    local_api_base = (
+        os.getenv(_ENV_OPENAI_BASE_URL)
+        or os.getenv(_ENV_OPENAI_API_BASE)
+        or os.getenv(_ENV_LOCAL_AI_API_BASE_URL)
+        or os.getenv(_ENV_LOCAL_OPENAI_BASE_URL)
+    )
+
+    local_api_models: List[str] = []
+    local_api_error = None
+    local_api_host = local_api_base
+    local_api_reachable = False
+
+    if local_api_base:
+        try:
+            la_url = f"{local_api_base.rstrip('/')}/v1/models"
+            req = urllib.request.Request(la_url, headers={"Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=3) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                for m in data.get("data", []):
+                    mid = m.get("id", "") if isinstance(m, dict) else ""
+                    if mid:
+                        local_api_models.append(f"{_PREFIX_LOCAL_API}{mid}")
+                local_api_reachable = True
+        except Exception as e:
+            local_api_error = f"Local API not reachable at {local_api_base}: {str(e)[:100]}"
+    else:
+        # Scan common ports for any OpenAI-compatible server
+        for port in _LOCAL_SERVER_COMMON_PORTS:
+            # Skip LM Studio port (already checked above)
+            if f":{port}" in lmstudio_host:
+                continue
+            try:
+                scan_url = f"http://localhost:{port}/v1/models"
+                req = urllib.request.Request(scan_url, headers={"Accept": "application/json"})
+                with urllib.request.urlopen(req, timeout=1) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    for m in data.get("data", []):
+                        mid = m.get("id", "") if isinstance(m, dict) else ""
+                        if mid:
+                            local_api_models.append(f"{_PREFIX_LOCAL_API}{mid}")
+                    if local_api_models:
+                        local_api_host = f"http://localhost:{port}"
+                        local_api_reachable = True
+                        break
+            except Exception:
+                continue
+        if not local_api_reachable:
+            local_api_error = "No local API server found (set OPENAI_BASE_URL or LOCAL_AI_API_BASE_URL)"
+
+    discovered["providers"]["local_openai_compatible"] = {
+        "configured": local_api_reachable,
+        "host": local_api_host,
+        "reachable": local_api_reachable,
+        "available": local_api_models,
+        "count": len(local_api_models),
+        "error": local_api_error,
+        "notes": "Any OpenAI-compatible local server (LocalAI, AMD ROCm, text-gen-webui, etc.)",
     }
 
     # Summary

@@ -93,13 +93,13 @@ steps:
     agent: tier2_coder
     description: Rework generated artifacts from review pass 1 feedback
     depends_on: [review_code]
-    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED']}
+    when: ${steps.review_code.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES']
     inputs:
       backend: ${steps.generate_api.outputs.api_code}
       frontend: ${steps.generate_frontend.outputs.ui_code}
       migrations: ${steps.generate_migrations.outputs.migrations}
       tests: ${steps.generate_integration_tests.outputs.integration_tests}
-      review_report: ${steps.review_code.outputs.review_report}
+      review_report: ${steps.review_code.outputs.raw_response}
       suggested_fixes: ${steps.review_code.outputs.suggested_fixes}
     outputs:
       rework_report: rework_round1
@@ -113,14 +113,14 @@ steps:
     agent: tier3_reviewer
     description: Re-review after rework (pass 2)
     depends_on: [developer_rework_round1]
-    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED']}
+    when: ${steps.review_code.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES']
     inputs:
       backend: ${coalesce(steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
       frontend: ${coalesce(steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
       migrations: ${coalesce(steps.developer_rework_round1.outputs.migrations, steps.generate_migrations.outputs.migrations)}
       tests: ${coalesce(steps.developer_rework_round1.outputs.integration_tests, steps.generate_integration_tests.outputs.integration_tests)}
       rework_report: ${steps.developer_rework_round1.outputs.rework_report}
-      previous_review_report: ${steps.review_code.outputs.review_report}
+      previous_review_report: ${steps.review_code.outputs.raw_response}
     outputs:
       review_report: code_review_round2
       suggested_fixes: fixes_round2
@@ -130,7 +130,7 @@ steps:
     agent: tier2_coder
     description: Final bounded rework from review pass 2 feedback (no further loop)
     depends_on: [review_code_round2]
-    when: ${steps.review_code.outputs.review_report.overall_status not in ['APPROVED'] and steps.review_code_round2.outputs.review_report.overall_status not in ['APPROVED']}
+    when: ${steps.review_code.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES'] and ${steps.review_code_round2.outputs.overall_status} not in ['APPROVED', 'APPROVED_WITH_NOTES']
     inputs:
       backend: ${coalesce(steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
       frontend: ${coalesce(steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
@@ -150,7 +150,7 @@ steps:
     agent: tier1_assembler
     description: Assemble final feature package
     depends_on: [review_code, review_code_round2, developer_rework_round2]
-    when: ${steps.review_code.outputs.review_report.overall_status in ['APPROVED'] or steps.review_code_round2.outputs.review_report.overall_status in ['APPROVED'] or steps.developer_rework_round2.status in ['success', 'SUCCESS']}
+    when: ${steps.review_code.outputs.overall_status} in ['APPROVED', 'APPROVED_WITH_NOTES'] or ${steps.review_code_round2.outputs.overall_status} in ['APPROVED', 'APPROVED_WITH_NOTES'] or ${steps.developer_rework_round2.status} in ['success', 'SUCCESS']
     inputs:
       backend: ${coalesce(steps.developer_rework_round2.outputs.backend_code, steps.developer_rework_round1.outputs.backend_code, steps.generate_api.outputs.api_code)}
       frontend: ${coalesce(steps.developer_rework_round2.outputs.frontend_code, steps.developer_rework_round1.outputs.frontend_code, steps.generate_frontend.outputs.ui_code)}
@@ -164,10 +164,13 @@ outputs:
     from: ${steps.assemble_feature.outputs.package}
     optional: true
   review_report:
-    from: ${steps.review_code_round2.outputs.review_report}
+    from: ${coalesce(steps.review_code_round2.outputs.raw_response, steps.review_code.outputs.raw_response)}
+    optional: true
+  review_status:
+    from: ${coalesce(steps.review_code_round2.outputs.overall_status, steps.review_code.outputs.overall_status)}
     optional: true
   review_report_round1:
-    from: ${steps.review_code.outputs.review_report}
+    from: ${steps.review_code.outputs.raw_response}
     optional: true
   all_code:
     from:

@@ -39,10 +39,16 @@ export default function LivePage() {
   );
 
   const workflowName = events.find((e) => e.type === "workflow_start");
+  const inferredName = useMemo(() => {
+    if (!runId) return undefined;
+    const lastDash = runId.lastIndexOf("-");
+    if (lastDash <= 0) return undefined;
+    return runId.slice(0, lastDash);
+  }, [runId]);
   const wfName =
     workflowName?.type === "workflow_start"
       ? workflowName.workflow_name
-      : undefined;
+      : inferredName;
   const { data: dag } = useWorkflowDAG(wfName);
 
   const edgeCounts = useMemo(() => {
@@ -58,7 +64,10 @@ export default function LivePage() {
 
     const completedSuccess = new Set<string>();
     for (const event of events) {
-      if (event.type === "step_end" && event.status === "success") {
+      if (
+        (event.type === "step_end" || event.type === "step_complete") &&
+        event.status === "success"
+      ) {
         completedSuccess.add(event.step);
       }
 

@@ -168,7 +168,14 @@ function StepPanel({
 
           <div className="mt-3 flex flex-wrap gap-3 text-xs text-gray-600">
             {step.tier && <span>Tier: {step.tier}</span>}
-            {step.modelUsed && <span>Model: {step.modelUsed}</span>}
+            {step.modelUsed && (
+              <span className="flex items-center gap-1">
+                Model: {step.modelUsed}
+                {step.modelInferred && (
+                  <span className="text-[10px] text-accent-amber/80 italic">(inferred)</span>
+                )}
+              </span>
+            )}
             {step.tokensUsed != null && <span>Tokens: {step.tokensUsed.toLocaleString()}</span>}
           </div>
         </div>

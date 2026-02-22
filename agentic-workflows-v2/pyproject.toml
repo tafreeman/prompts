@@ -38,18 +38,13 @@ server = [
     "python-multipart>=0.0.6",
 ]
 langchain = [
-    "langchain-core>=0.1.0",
-    "langgraph>=0.0.15",
-    "langchain-openai>=0.0.8",
-    "langsmith>=0.1.0",
-]
-langchain = [
     "langchain>=0.3",
     "langchain-openai>=0.2",
     "langchain-anthropic>=0.2",
     "langchain-google-genai>=2.0",
     "langchain-ollama>=0.2",
     "langgraph-checkpoint-sqlite>=2.0",
+    "langsmith>=0.1.0",
 ]
 tracing = [
     "opentelemetry-sdk>=1.20",

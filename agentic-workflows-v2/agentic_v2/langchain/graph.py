@@ -16,6 +16,7 @@ import json
 import logging
 import re
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -25,6 +26,7 @@ from langgraph.graph import END, START, StateGraph
 from .agents import create_agent, parse_agent_tier
 from .config import StepConfig, WorkflowConfig
 from .expressions import evaluate_condition, resolve_expression
+from .models import get_model_candidates_for_tier, is_retryable_model_error
 from .state import WorkflowState
 from ..integrations.base import TraceAdapter
 from ..integrations.tracing import NullTraceAdapter
@@ -121,6 +123,9 @@ def _record_step_result(
     outputs: dict[str, Any],
     *,
     error: str | None = None,
+    metadata: dict[str, Any] | None = None,
+    start_time: datetime | None = None,
+    end_time: datetime | None = None,
 ) -> dict[str, dict]:
     """Return updated steps dict for a completed/failed step."""
     steps = dict(state.get("steps", {}))
@@ -131,6 +136,14 @@ def _record_step_result(
     }
     if error:
         payload["error"] = error
+    if metadata:
+        payload["metadata"] = metadata
+    if start_time:
+        payload["start_time"] = start_time.isoformat()
+    if end_time:
+        payload["end_time"] = end_time.isoformat()
+        if start_time:
+            payload["duration_ms"] = (end_time - start_time).total_seconds() * 1000
     steps[step_name] = payload
     return steps
 
@@ -245,6 +258,56 @@ def _parse_step_outputs(response_text: Any) -> dict[str, Any]:
     return step_outputs
 
 
+def _extract_agent_metadata(agent_result: dict[str, Any]) -> dict[str, Any]:
+    """Extract token usage and model info from agent response."""
+    metadata: dict[str, Any] = {}
+
+    # Try to find the last AIMessage
+    messages = agent_result.get("messages", [])
+    if not messages:
+        return metadata
+
+    last_msg = messages[-1]
+    if not isinstance(last_msg, AIMessage):
+        # Look backwards for the last AIMessage
+        for msg in reversed(messages):
+            if isinstance(msg, AIMessage):
+                last_msg = msg
+                break
+        else:
+            return metadata
+
+    # 1. Token usage from usage_metadata (standard LangChain)
+    if hasattr(last_msg, "usage_metadata") and last_msg.usage_metadata:
+        usage = last_msg.usage_metadata
+        metadata["input_tokens"] = usage.get("input_tokens")
+        metadata["output_tokens"] = usage.get("output_tokens")
+        metadata["total_tokens"] = usage.get("total_tokens")
+
+    # 2. Token usage from response_metadata (provider specific)
+    elif hasattr(last_msg, "response_metadata"):
+        rm = last_msg.response_metadata
+        # OpenAI/Azure often put it in 'token_usage'
+        if "token_usage" in rm:
+            usage = rm["token_usage"]
+            metadata["input_tokens"] = usage.get("prompt_tokens")
+            metadata["output_tokens"] = usage.get("completion_tokens")
+            metadata["total_tokens"] = usage.get("total_tokens")
+        # Anthropic often puts it in 'usage'
+        elif "usage" in rm:
+            usage = rm["usage"]
+            metadata["input_tokens"] = usage.get("input_tokens")
+            metadata["output_tokens"] = usage.get("output_tokens")
+
+        # Model name
+        if "model_name" in rm:
+            metadata["model"] = rm["model_name"]
+        elif "model" in rm:
+            metadata["model"] = rm["model"]
+
+    return metadata
+
+
 # ---------------------------------------------------------------------------
 # Node factory
 # ---------------------------------------------------------------------------
@@ -271,6 +334,7 @@ def _make_step_node(
 
         def _tier0_node(state: WorkflowState) -> dict[str, Any]:
             run_id = state.get("context", {}).get("workflow_run_id", "")
+            start_time = datetime.now(timezone.utc)
             _trace.emit_step_start(step.name, run_id, {})
 
             ctx, _ = _resolve_inputs_into_context(step, state)
@@ -286,11 +350,14 @@ def _make_step_node(
             step_outputs = (
                 result.get("steps", {}).get("__current__", {}).get("outputs", {})
             )
+            end_time = datetime.now(timezone.utc)
             steps = _record_step_result(
                 state,
                 step.name,
                 "success",
                 step_outputs,
+                start_time=start_time,
+                end_time=end_time,
             )
 
             # Map outputs to context
@@ -328,54 +395,123 @@ def _make_step_node(
 
         return _validation_noop
 
-    # Tier 1+: LLM-backed agent
-    agent = create_agent(
-        step.agent,
-        tool_names=step.tools,
-        prompt_file=step.prompt_file,
-        model_override=step.model_override,
+    # Tier 1+: LLM-backed agent with runtime failover chain
+    model_candidates = get_model_candidates_for_tier(
+        tier,
+        step.model_override,
+        include_unavailable=False,
+        include_gh_backup=True,
     )
+    agent_cache: dict[str, Any] = {}
+
+    def _get_agent_for_model(model_id: str) -> Any:
+        cached = agent_cache.get(model_id)
+        if cached is not None:
+            return cached
+        agent = create_agent(
+            step.agent,
+            tool_names=step.tools,
+            prompt_file=step.prompt_file,
+            model_override=model_id,
+        )
+        agent_cache[model_id] = agent
+        return agent
 
     def _llm_node(state: WorkflowState) -> dict[str, Any]:
         run_id = state.get("context", {}).get("workflow_run_id", "")
+        start_time = datetime.now(timezone.utc)
         ctx, resolved_inputs = _resolve_inputs_into_context(step, state)
         _trace.emit_step_start(step.name, run_id, resolved_inputs)
 
         task_description = _build_task_description(step, resolved_inputs)
 
-        # Invoke the react agent
-        try:
-            agent_result = agent.invoke(
-                {"messages": [HumanMessage(content=task_description)]}
-            )
-            response_text = _extract_agent_response_text(agent_result)
-        except Exception as e:
-            logger.error("Agent %s failed: %s", step.agent, e)
+        attempt_errors: list[dict[str, Any]] = []
+        attempted_models: list[str] = []
+        agent_result: dict[str, Any] | None = None
+        response_text = ""
+        metadata: dict[str, Any] = {}
+
+        # Invoke the react agent with failover across candidate models.
+        for model_id in model_candidates:
+            attempted_models.append(model_id)
+            try:
+                agent = _get_agent_for_model(model_id)
+                agent_result = agent.invoke(
+                    {"messages": [HumanMessage(content=task_description)]}
+                )
+                response_text = _extract_agent_response_text(agent_result)
+                metadata = _extract_agent_metadata(agent_result)
+                metadata.setdefault("model", model_id)
+                break
+            except Exception as e:
+                retryable = is_retryable_model_error(e)
+                attempt_errors.append(
+                    {
+                        "model": model_id,
+                        "error": str(e),
+                        "retryable": retryable,
+                    }
+                )
+                logger.warning(
+                    "Step %s model attempt failed (%s, retryable=%s): %s",
+                    step.name,
+                    model_id,
+                    retryable,
+                    e,
+                )
+
+        if agent_result is None:
+            err_text = "All model attempts failed"
+            if attempt_errors:
+                last = attempt_errors[-1]
+                err_text = (
+                    f"{err_text} (last model={last.get('model')}: {last.get('error')})"
+                )
+            end_time = datetime.now(timezone.utc)
             steps = _record_step_result(
                 state,
                 step.name,
                 "failed",
                 {},
-                error=str(e),
+                error=err_text,
+                start_time=start_time,
+                end_time=end_time,
             )
-            _trace.emit_step_complete(step.name, run_id, "failed", {"error": str(e)})
+            _trace.emit_step_complete(
+                step.name,
+                run_id,
+                "failed",
+                {
+                    "error": err_text,
+                    "attempted_models": attempted_models,
+                    "attempt_errors": attempt_errors,
+                },
+            )
             return {
                 "context": ctx,
                 "steps": steps,
                 "current_step": step.name,
-                "errors": [f"Step {step.name} failed: {e}"],
+                "errors": [f"Step {step.name} failed: {err_text}"],
             }
+
+        if attempt_errors:
+            metadata["attempted_models"] = attempted_models
+            metadata["attempt_errors"] = attempt_errors
 
         step_outputs = _parse_step_outputs(response_text)
 
         # Map outputs to context
         ctx = _map_step_outputs_to_context(step, step_outputs, ctx)
 
+        end_time = datetime.now(timezone.utc)
         steps = _record_step_result(
             state,
             step.name,
             "success",
             step_outputs,
+            metadata=metadata,
+            start_time=start_time,
+            end_time=end_time,
         )
 
         _trace.emit_step_complete(step.name, run_id, "success", step_outputs)
@@ -385,6 +521,7 @@ def _make_step_node(
             "steps": steps,
             "current_step": step.name,
             "messages": [AIMessage(content=response_text)],
+            "metadata": metadata,
         }
 
     return _llm_node

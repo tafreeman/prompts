@@ -41,6 +41,16 @@ CORS_ORIGINS: list[str] = (
 async def lifespan(app: FastAPI):
     """Startup and shutdown lifecycle."""
     logger.info("Starting Agentic Workflows V2 Server")
+
+    # Probe available LLM providers and update tier defaults for both engines
+    from ..langchain.models import probe_and_update_tier_defaults
+    summary = probe_and_update_tier_defaults()
+    logger.info(
+        "LLM providers: available=%s, unavailable=%s",
+        summary["available_providers"],
+        summary["unavailable_providers"],
+    )
+
     if is_tracing_enabled():
         logger.info("OpenTelemetry tracing is enabled")
     yield

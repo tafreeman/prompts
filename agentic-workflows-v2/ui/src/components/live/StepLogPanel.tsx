@@ -47,13 +47,18 @@ function EventLine({ event }: { event: ExecutionEvent }) {
       message = `Step "${event.step}" started`;
       break;
     case "step_end":
-      color = event.status === "success" ? "text-green-400" : "text-red-400";
-      message = `Step "${event.step}" ${event.status} (${
+    case "step_complete":
+    case "step_error": {
+      const status =
+        event.type === "step_error" ? "failed" : event.status ?? "failed";
+      color = status === "success" ? "text-green-400" : "text-red-400";
+      message = `Step "${event.step}" ${status} (${
         event.duration_ms < 1000
           ? `${Math.round(event.duration_ms)}ms`
           : `${(event.duration_ms / 1000).toFixed(1)}s`
       })`;
       break;
+    }
     case "workflow_end":
       color = event.status === "success" ? "text-green-400" : "text-red-400";
       message = `Workflow ${event.status}`;

@@ -10,7 +10,12 @@ export default function TokenCounter({ events }: Props) {
   let models = new Set<string>();
 
   for (const e of events) {
-    if (e.type === "step_end" && e.tokens_used) {
+    if (
+      (e.type === "step_end" ||
+        e.type === "step_complete" ||
+        e.type === "step_error") &&
+      e.tokens_used
+    ) {
       totalTokens += e.tokens_used;
       if (e.model_used) models.add(e.model_used);
     }

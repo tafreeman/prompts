@@ -29,6 +29,7 @@ interface StepLiveState {
   durationMs?: number;
   modelUsed?: string;
   tokensUsed?: number;
+  modelInferred?: boolean;
 }
 
 interface Props {
@@ -138,6 +139,7 @@ function WorkflowDAGInner({
         durationMs: live?.durationMs,
         modelUsed: live?.modelUsed,
         tokensUsed: live?.tokensUsed,
+        modelInferred: live?.modelInferred,
       };
 
       return {
